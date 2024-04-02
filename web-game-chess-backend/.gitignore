@@ -1,0 +1,12 @@
+bin/
+obj/
+.vs/
+/packages/
+/_ReSharper.Caches/
+.idea
+volumes
+[Mm]igrations/
+riderModule.iml
+FodyWeavers.xml
+FodyWeavers.xsd
+
