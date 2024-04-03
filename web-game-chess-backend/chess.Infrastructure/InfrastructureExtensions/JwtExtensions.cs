@@ -31,7 +31,7 @@ public static class JwtExtensions {
             {
                 ValidIssuer = options.JwtIssuer,
                 ValidAudience = options.JwtIssuer,
-                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(options.JwtKey)),
+                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(options.JwtKey!)),
             };
         });
 

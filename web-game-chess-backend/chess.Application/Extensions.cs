@@ -12,13 +12,13 @@ public static class Extensions {
 
         services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
 
-        //services.AddAuthorization(options =>
-        //{
-         //   options.AddPolicy("IsVerified", builder => builder.AddRequirements(new IsVerifiedRequirement(true)));
-        //    options.AddPolicy("IsNotVerified", builder => builder.AddRequirements(new IsVerifiedRequirement(false)));
-        //});
+        services.AddAuthorization(options =>
+        {
+            options.AddPolicy("IsVerified", builder => builder.AddRequirements(new IsVerifiedRequirement(true)));
+            options.AddPolicy("IsNotVerified", builder => builder.AddRequirements(new IsVerifiedRequirement(false)));
+        });
 
-        //services.AddScoped<IAuthorizationHandler, IsVerifiedRequirementHandler>();
+        services.AddScoped<IAuthorizationHandler, IsVerifiedRequirementHandler>();
 
         return services;
     }
