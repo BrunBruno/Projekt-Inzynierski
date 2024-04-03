@@ -1,5 +1,4 @@
 ﻿
-
 using chess.Infrastructure.Options;
 using chess.Shared.Options;
 using Microsoft.Extensions.Configuration;
@@ -16,6 +15,7 @@ public static class JwtExtensions {
         var options = configuration.GetOptions<AuthenticationOptions>("Authentication");
 
         services.AddSingleton(options);
+
         services.AddAuthentication(option => {
 
             option.DefaultAuthenticateScheme = "Bearer";
@@ -26,7 +26,9 @@ public static class JwtExtensions {
 
             cfg.RequireHttpsMetadata = false;
             cfg.SaveToken = true;
-            cfg.TokenValidationParameters = new TokenValidationParameters {
+
+            cfg.TokenValidationParameters = new TokenValidationParameters 
+            {
                 ValidIssuer = options.JwtIssuer,
                 ValidAudience = options.JwtIssuer,
                 IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(options.JwtKey)),
