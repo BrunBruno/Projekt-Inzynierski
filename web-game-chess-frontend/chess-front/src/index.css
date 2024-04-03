@@ -1,5 +1,62 @@
+/*
+
+*/
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 62.5%;
+  scroll-behavior: smooth;
+  height: 100%;
+}
+
 :root {
 }
 
 body {
+  height: 100vh;
+  height: 100lvh;
+  overflow: hidden;
+  background-color: #242424;
+  color: #fff;
+}
+
+@media (max-width: 1400px) {
+  html {
+    font-size: 58%;
+  }
+}
+
+@media (max-width: 1300px) {
+  html {
+    font-size: 52%;
+  }
+}
+
+@media (max-width: 1150px) {
+  html {
+    font-size: 48%;
+  }
+}
+
+@media (max-width: 1000px) {
+  html {
+    font-size: 42%;
+  }
+}
+
+@media (max-width: 800px) {
+  html {
+    font-size: 36%;
+  }
+}
+
+@media (max-width: 600px) {
+  html {
+    font-size: 30%;
+  }
 }
