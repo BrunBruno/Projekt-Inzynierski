@@ -23,8 +23,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Configuration\" />
-    <Folder Include="Contexts\" />
     <Folder Include="Repositories\" />
     <Folder Include="Options\" />
     <Folder Include="Services\" />
