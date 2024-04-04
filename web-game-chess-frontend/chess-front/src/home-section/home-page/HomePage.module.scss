@@ -1,0 +1,14 @@
+@import "../../shared/styles/Variables.scss";
+
+.home-main{
+    height: 100%;
+    overflow: overlay;
+
+    &::-webkit-scrollbar{
+        background-color: #0000;
+
+        &-thumb{
+            background-color: $mcolor9;
+        }
+    }
+}
