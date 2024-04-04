@@ -12,6 +12,17 @@ $mcolor7: #7048e8;
 $mcolor8: #6741d9;
 $mcolor9: #5f3dc4;
 
+$mrgbcolor0: rgb(243, 240, 255);
+$mrgbcolor1: rgb(229, 219, 255);
+$mrgbcolor2: rgb(208, 191, 255);
+$mrgbcolor3: rgb(177, 151, 252);
+$mrgbcolor4: rgb(151, 117, 250);
+$mrgbcolor5: rgb(132, 94, 247);
+$mrgbcolor6: rgb(121, 80, 242);
+$mrgbcolor7: rgb(112, 72, 232);
+$mrgbcolor8: rgb(103, 65, 217);
+$mrgbcolor9: rgb(95, 61, 196);
+
 // grey colors
 $gcolor0: #f8f9fa;
 $gcolor1: #f1f3f5;
@@ -23,6 +34,40 @@ $gcolor6: #868e96;
 $gcolor7: #495057;
 $gcolor8: #343a40;
 $gcolor9: #212529;
+
+$grgbcolor0: rgb(248, 249, 250);
+$grgbcolor1: rgb(241, 243, 245);
+$grgbcolor2: rgb(233, 236, 239);
+$grgbcolor3: rgb(222, 226, 230);
+$grgbcolor4: rgb(206, 212, 218);
+$grgbcolor5: rgb(173, 181, 189);
+$grgbcolor6: rgb(134, 142, 150);
+$grgbcolor7: rgb(73, 80, 87);
+$grgbcolor8: rgb(52, 58, 64);
+$grgbcolor9: rgb(33, 37, 41);
+
+$colorMap: (
+  $gcolor0: $grgbcolor0,
+  $gcolor1: $grgbcolor1,
+  $gcolor2: $grgbcolor2,
+  $gcolor3: $grgbcolor3,
+  $gcolor4: $grgbcolor4,
+  $gcolor5: $grgbcolor5,
+  $gcolor6: $grgbcolor6,
+  $gcolor7: $grgbcolor7,
+  $gcolor8: $grgbcolor8,
+  $gcolor9: $grgbcolor9,
+  $mcolor0: $mrgbcolor0,
+  $mcolor1: $mrgbcolor1,
+  $mcolor2: $mrgbcolor2,
+  $mcolor3: $mrgbcolor3,
+  $mcolor4: $mrgbcolor4,
+  $mcolor5: $mrgbcolor5,
+  $mcolor6: $mrgbcolor6,
+  $mcolor7: $mrgbcolor7,
+  $mcolor8: $mrgbcolor8,
+  $mcolor9: $mrgbcolor9,
+);
 
 // other colors
 $danger-color-l: #ffa8a8;
@@ -40,3 +85,9 @@ $success-color-d: #2f9e44;
 $info-color-l: #a5d8ff;
 $info-color-m: #339af0;
 $info-color-d: #1864ab;
+
+// border radius
+$small_br: 2rem;
+$medium_br: 4rem;
+$big_br: 8rem;
+$large_br: 16rem;

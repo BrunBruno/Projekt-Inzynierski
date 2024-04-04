@@ -1,0 +1,62 @@
+@import './Variables.scss';
+
+@mixin main-scrollbar($bgcolor, $mainColor, $sideColor) {
+  $mainrgb: map-get($colorMap, $mainColor);
+  $sidergb: map-get($colorMap, $sideColor);
+
+  &::-webkit-scrollbar {
+    width: 1.2rem;
+
+    &-track {
+      background-color: $bgcolor;
+    }
+
+    &-thumb {
+      background-color: $mainColor;
+      border: solid 1px #0000;
+      background-clip: padding-box;
+
+      &:hover,
+      &:active {
+        background-color: $sideColor;
+      }
+    }
+
+    &-button:single-button {
+      display: block;
+      height: 1.2rem;
+      background-color: $bgcolor;
+      background-size: 0.8rem;
+      background-repeat: no-repeat;
+      background-position: center 0.4rem;
+
+      &:hover {
+        cursor: pointer;
+      }
+
+      &:vertical:decrement {
+        background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='100' height='100' fill='#{$mainrgb}'><polygon points='50,00 0,50 100,50'/></svg>");
+
+        &:hover {
+          background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='100' height='100' fill='#{$sidergb}'><polygon points='50,00 0,50 100,50'/></svg>");
+        }
+      }
+
+      &:vertical:increment {
+        background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='100' height='100' fill='#{$mainrgb}'><polygon points='0,0 100,0 50,50'/></svg>");
+
+        &:hover {
+          background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='100' height='100' fill='#{$sidergb}'><polygon points='0,0 100,0 50,50'/></svg>");
+        }
+      }
+    }
+  }
+}
+
+@mixin shadow {
+  position: absolute;
+  z-index: -1;
+  background-color: #111;
+  pointer-events: none;
+  filter: blur(0.5rem);
+}

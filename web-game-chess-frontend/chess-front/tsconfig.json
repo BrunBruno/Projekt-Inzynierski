@@ -18,8 +18,14 @@
     "strict": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
-    "noFallthroughCasesInSwitch": true
+    "noFallthroughCasesInSwitch": true,
+
+    "allowJs": false,
+    "esModuleInterop": false,
+    "allowSyntheticDefaultImports": true,
+    "forceConsistentCasingInFileNames": true,
+    "types": ["vitest/globals"]
   },
-  "include": ["src", ".eslintrc.cjs", "vite.config.ts"],
+  "include": [".eslintrc.cjs", "vite.config.ts", "src"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }

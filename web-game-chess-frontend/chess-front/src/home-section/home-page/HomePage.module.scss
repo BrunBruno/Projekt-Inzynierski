@@ -1,14 +1,9 @@
-@import "../../shared/styles/Variables.scss";
+@import '../../shared/styles/Components.scss';
 
-.home-main{
-    height: 100%;
-    overflow: overlay;
+.home-main {
+  height: 100%;
+  overflow-y: overlay;
+  overflow-y: scroll;
 
-    &::-webkit-scrollbar{
-        background-color: #0000;
-
-        &-thumb{
-            background-color: $mcolor9;
-        }
-    }
+  @include main-scrollbar(#000, $gcolor8, $gcolor7);
 }
