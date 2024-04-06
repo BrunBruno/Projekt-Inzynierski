@@ -1,0 +1,271 @@
+@import '../../../shared//styles/Components.scss';
+
+.header {
+  @include flexBlock(row, 0, space-between, center);
+
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 9;
+
+  width: 100%;
+
+  padding: 1.6rem 6.4rem;
+  padding-top: 4.8rem;
+
+  user-select: none;
+  transition: padding 0.5s;
+
+  &__background {
+    $width: calc(4rem * 2 + 4.8rem * 4 + 0.4rem * 6 + 8rem);
+    z-index: 8;
+
+    position: absolute;
+    top: 0;
+    left: 0;
+
+    width: 100%;
+    height: 2;
+    height: calc(8rem + 4.8rem - 1.6rem);
+
+    transition: height 0.5s;
+
+    &::after {
+      content: '';
+      position: absolute;
+      z-index: 1;
+      bottom: -2rem;
+      left: 50%;
+      transform: translateX(-50%);
+      box-sizing: border-box;
+
+      width: $width;
+      height: 2rem;
+
+      border-bottom-right-radius: $small_br;
+      border-bottom-left-radius: $small_br;
+      border: solid 0.7rem #0000;
+      border-top: none;
+
+      transition:
+        background-color 0.5s,
+        border-color 0.4s;
+    }
+
+    @mixin subClassFull {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+    }
+
+    &::before {
+      @include subClassFull;
+
+      background-image: repeating-linear-gradient(
+        45deg,
+        $mcolor5 0,
+        $mcolor7 15%,
+        $mcolor9 30%,
+        $mcolor9 70%,
+        $mcolor7 85%,
+        $mcolor5 100%
+      );
+
+      transition: opacity 0.5s;
+      opacity: 0;
+    }
+
+    p {
+      position: absolute;
+      z-index: 1;
+      bottom: -0.5rem;
+
+      width: calc((100% - $width) / 2 + 1px);
+      height: 0.5rem;
+
+      transition: background-color 0.5s;
+
+      &:nth-child(1) {
+        left: 0;
+
+        &::before {
+          @include subClassFull;
+          background-image: linear-gradient(45deg, $mcolor5 0, $mcolor7 60%);
+
+          transition: opacity 0.5s;
+          opacity: 0;
+        }
+      }
+      &:nth-child(2) {
+        right: 0;
+
+        &::before {
+          @include subClassFull;
+          background-image: linear-gradient(45deg, $mcolor7 60%, $mcolor5 100%);
+
+          transition: opacity 0.5s;
+          opacity: 0;
+        }
+      }
+    }
+  }
+
+  @mixin header_item($wdh) {
+    @include flexBlock(row, 0, space-between, center);
+
+    z-index: 10;
+    width: $wdh;
+
+    border-radius: 0.8rem;
+  }
+
+  &__logo {
+    @include header_item(24rem);
+
+    img {
+      object-fit: cover;
+      height: calc(8rem - 1.6rem * 2);
+      cursor: pointer;
+    }
+  }
+
+  &__navigation {
+    @include header_item(calc(4rem * 2 + 4.8rem * 4 + 0.4rem * 6));
+
+    position: relative;
+    padding: 0.8rem 4rem;
+    background-color: $gcolor9;
+    box-shadow: 0 0 0 0.3rem $gcolor8;
+
+    a {
+      @include flexBlock(column, 0, center, center);
+
+      position: relative;
+      width: 4.8rem;
+
+      color: $gcolor0;
+      text-align: center;
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 1.2rem;
+
+      span.text {
+        position: relative;
+        display: block;
+        line-height: 3.2rem;
+        opacity: 0;
+        // transition: 0.3s;
+        transform: translateY(-1.6rem);
+      }
+
+      span.icon {
+        @include flexBlock(row, 0, center, center);
+        position: absolute;
+        width: 4.8rem;
+        z-index: 1;
+
+        font-size: 2.4rem;
+        // transition: 0.3s;
+
+        svg.icon {
+          @include squareBlock(50%);
+        }
+      }
+
+      &.active span.text {
+        opacity: 1;
+        transform: translateY(-0.8rem);
+      }
+      &.active span.icon {
+        transform: translateY(2.8rem);
+      }
+
+      &:nth-child(1).active ~ .indicator {
+        transform: translateX((4.8rem + 0.8rem) * 0);
+      }
+      &:nth-child(2).active ~ .indicator {
+        transform: translateX((4.8rem + 0.8rem) * 1);
+      }
+      &:nth-child(3).active ~ .indicator {
+        transform: translateX((4.8rem + 0.8rem) * 2);
+      }
+      &:nth-child(4).active ~ .indicator {
+        transform: translateX((4.8rem + 0.8rem) * 3);
+      }
+    }
+
+    .indicator {
+      position: absolute;
+      bottom: -2.8rem;
+      width: 4.8rem;
+      height: 4.8rem;
+      box-sizing: border-box;
+
+      background-color: $mcolor9;
+      border-radius: 100%;
+      border: solid 0.6rem #000;
+      transition:
+        border 0.5s,
+        background-color 0.5s,
+        transform 0.3s;
+    }
+  }
+
+  &__form {
+    @include header_item(24rem);
+    padding: 0.8rem 1.6rem;
+    opacity: 0;
+
+    translate: opacity 0.5s;
+
+    &__mButton {
+      @include Button(1.6rem);
+      @include mainButton;
+    }
+
+    &__sButton {
+      @include Button(1.6rem);
+      @include seconadryButton;
+    }
+  }
+}
+
+.header-sticky {
+  padding-top: 1.6rem;
+
+  .indicator {
+    border-color: $mcolor9;
+    background-color: $gcolor9;
+  }
+
+  .header__background {
+    height: 8rem;
+    border-color: $mcolor7;
+
+    &::after {
+      background-color: $mcolor9;
+      border-color: $mcolor7;
+    }
+
+    &::before {
+      opacity: 1;
+    }
+
+    p {
+      background-color: $mcolor7;
+
+      &::before {
+        opacity: 1;
+      }
+    }
+  }
+
+  .header-form {
+    opacity: 1;
+    background-color: $gcolor9;
+    box-shadow: 0 0 0 0.3rem $gcolor8;
+  }
+}

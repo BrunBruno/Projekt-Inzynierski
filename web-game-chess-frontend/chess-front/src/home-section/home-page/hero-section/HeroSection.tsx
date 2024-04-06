@@ -1,34 +1,32 @@
-import classes from "./HeroSection.module.scss";
+import classes from './HeroSection.module.scss';
 
-const HeroSection = () => {
-  const makeGridBlock = () => {
-    const blocks = [];
+function HeroSection() {
+  const generateGrid = (): JSX.Element[] => {
+    const tiles: JSX.Element[] = [];
 
-    for (let i = 0; i < 25; i++) {
-      blocks.push(<p key={i} />);
+    const numberOfTiles = 25;
+    for (let i = 0; i < numberOfTiles; i++) {
+      tiles.push(<p key={i} />);
     }
 
-    return (
-      <div className={classes.hero__content__extra_bg__grid}>{blocks}</div>
-    );
+    return tiles;
   };
 
-  const generatePawns = () => {
-    const blocks = [];
+  const generatePawns = (): JSX.Element[] => {
+    const pawns: JSX.Element[] = [];
 
-    const numberOfPawns = 7;
-    for (let i = 0; i < numberOfPawns; i++) {
-      const leftPercentage = (i * 100) / (numberOfPawns - 1);
-      const topPercentage =
-        (1 / 200) * Math.pow(-(leftPercentage - 100 / 2), 2) - 8;
+    const numOfPawns = 7;
+    for (let i = 0; i < numOfPawns; i++) {
+      const leftP = (i * 100) / (numOfPawns - 1);
+      const topP = (1 / 200) * Math.pow(-(leftP - 100 / 2), 2) - 8;
 
-      const pawnClass = i % 2 === 0 ? "pawn-black" : "pawn-white";
+      const pawnClass = i % 2 === 0 ? 'pawn-black' : 'pawn-white';
 
-      blocks.push(
+      pawns.push(
         <div
           key={i}
-          className={`${classes["img-pawn-container"]} ${classes[pawnClass]}`}
-          style={{ top: `${topPercentage}%`, left: `${leftPercentage}%` }}
+          className={`${classes['img-pawn-container']} ${classes[pawnClass]}`}
+          style={{ left: `${leftP}%`, top: `${topP}%` }}
         >
           <div />
           <div />
@@ -40,7 +38,7 @@ const HeroSection = () => {
       );
     }
 
-    return blocks;
+    return pawns;
   };
 
   return (
@@ -56,15 +54,18 @@ const HeroSection = () => {
           </span>
         </div>
         <div className={classes.hero__content__extra_bg}>
-          {makeGridBlock()}
+          <div className={classes.hero__content__extra_bg__grid}>
+            {generateGrid()}
+          </div>
+
           {generatePawns()}
         </div>
         <div className={classes.hero__content__extra}>
-          <div className={classes["hero-register"]}>
+          <div className={classes['hero-register']}>
             <div
-              className={`${classes["signin-pawn"]} ${classes["pawn-container"]}`}
+              className={`${classes['signin-pawn']} ${classes['pawn-container']}`}
             >
-              <div className={classes["img-pawn-container"]}>
+              <div className={classes['img-pawn-container']}>
                 <div />
                 <div />
                 <div />
@@ -75,9 +76,9 @@ const HeroSection = () => {
               <p>Sign In</p>
             </div>
             <div
-              className={`${classes["signup-pawn"]} ${classes["pawn-container"]}`}
+              className={`${classes['signup-pawn']} ${classes['pawn-container']}`}
             >
-              <div className={classes["img-pawn-container"]}>
+              <div className={classes['img-pawn-container']}>
                 <div />
                 <div />
                 <div />
@@ -92,6 +93,6 @@ const HeroSection = () => {
       </div>
     </section>
   );
-};
+}
 
 export default HeroSection;

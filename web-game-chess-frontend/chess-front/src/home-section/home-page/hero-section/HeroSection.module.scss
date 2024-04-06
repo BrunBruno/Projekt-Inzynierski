@@ -1,18 +1,17 @@
-@import "../../../shared/styles/Components.scss";
+@import '../../../shared/styles/Components.scss';
 
 .hero {
   position: relative;
   width: 100%;
   height: 100vh;
   height: 100svh;
-  margin-bottom: 100rem;
 
   &__content {
     width: 100%;
     height: 90%;
     border-bottom-left-radius: $large_br;
     background-image: linear-gradient(#0000 0%, #000 100%),
-      url("images/hero-background.jpg");
+      url('images/hero-background.jpg');
     background-color: #000;
     background-size: contain;
     background-repeat: no-repeat;
@@ -36,7 +35,8 @@
         text-align: center;
         font-size: 3.2rem;
         border: 0.5rem solid #0000;
-        background: conic-gradient(
+        background:
+          conic-gradient(
               from 90deg at top 0.5rem left 0.5rem,
               #0000 90deg,
               $gcolor0 0
@@ -95,7 +95,7 @@
         border: solid 0.5rem $gcolor0;
 
         &::after {
-          content: "";
+          content: '';
           position: absolute;
           width: 100%;
           height: 100%;
@@ -226,7 +226,7 @@
           justify-content: center;
 
           &::after {
-            content: "";
+            content: '';
             position: absolute;
             left: 50%;
             top: calc(6rem + 10rem + 12rem - 5rem);
@@ -250,7 +250,9 @@
           &:hover > p {
             opacity: 1;
             height: 8rem;
-            transition: height 0.1s 0s, opacity 0.3s 0.1s;
+            transition:
+              height 0.1s 0s,
+              opacity 0.3s 0.1s;
           }
 
           .img-pawn-container {
@@ -324,7 +326,9 @@
             border-bottom-left-radius: $small_br;
             border-bottom-right-radius: $small_br;
 
-            transition: height 0.3s, opacity 0.1s;
+            transition:
+              height 0.3s,
+              opacity 0.1s;
           }
         }
 

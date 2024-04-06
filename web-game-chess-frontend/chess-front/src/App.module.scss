@@ -3,8 +3,10 @@
 body {
   height: 100vh;
   height: 100lvh;
-  overflow: hidden;
+  overflow-y: auto;
+  overflow-x: hidden;
   background-color: $gcolor9;
   color: $gcolor0;
 
+  @include main-scrollbar(#000, $gcolor8, $gcolor7);
 }

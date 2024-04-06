@@ -1,4 +1,5 @@
 @import './Variables.scss';
+@import './CommonStyles.scss';
 
 @mixin main-scrollbar($bgcolor, $mainColor, $sideColor) {
   $mainrgb: map-get($colorMap, $mainColor);
@@ -6,6 +7,7 @@
 
   &::-webkit-scrollbar {
     width: 1.2rem;
+    z-index: 999;
 
     &-track {
       background-color: $bgcolor;
@@ -13,7 +15,6 @@
 
     &-thumb {
       background-color: $mainColor;
-      border: solid 1px #0000;
       background-clip: padding-box;
 
       &:hover,
@@ -59,4 +60,78 @@
   background-color: #111;
   pointer-events: none;
   filter: blur(0.5rem);
+}
+
+@mixin Button($size) {
+  width: fit-content;
+  padding: calc($size / 4) $size;
+  font-size: $size;
+  font-weight: bold;
+  border: solid calc($size / 6) #0000;
+  outline: none;
+  border-radius: $size;
+  text-align: center;
+  user-select: none;
+  text-align: center;
+  white-space: nowrap;
+
+  transition: all 0.2s;
+
+  &:hover {
+    cursor: pointer;
+  }
+}
+
+@mixin mainButton {
+  color: $mcolor0;
+  background-color: $mcolor9;
+
+  &:hover {
+    border-color: $mcolor9;
+    background-color: $mcolor5;
+  }
+
+  &:focus {
+    border-color: $mcolor9;
+  }
+
+  &:active {
+    border-color: $mcolor9;
+  }
+}
+
+@mixin seconadryButton {
+  background-color: $mcolor0;
+  color: $mcolor9;
+
+  &:hover {
+    border-color: $mcolor0;
+    background-color: $mcolor3;
+    color: $mcolor0;
+  }
+
+  &:focus {
+    border-color: $mcolor9;
+  }
+
+  &:active {
+    border-color: $mcolor9;
+  }
+}
+
+@mixin mainInput($size) {
+  box-sizing: border-box;
+  padding: calc($size / 4) $size;
+  font-size: $size;
+  border: solid calc($size / 8) #0000;
+  outline: none;
+  border-radius: $size;
+  text-align: center;
+
+  background-color: $mcolor0;
+  color: $mcolor9;
+
+  &:focus {
+    border-color: $mcolor3;
+  }
 }

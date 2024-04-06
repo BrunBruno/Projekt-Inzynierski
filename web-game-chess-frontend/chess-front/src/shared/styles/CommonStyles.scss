@@ -1,0 +1,38 @@
+@mixin flexBlock($direction, $gap, $justify, $align) {
+  display: flex;
+  flex-direction: $direction;
+  gap: $gap;
+  justify-content: $justify;
+  align-items: $align;
+}
+
+@mixin absoluteCenter {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+@mixin roundedBlock($radius, $padding) {
+  border-radius: $radius;
+  padding: $padding;
+}
+
+@mixin squareBlock($width) {
+  width: $width;
+  aspect-ratio: 1 / 1;
+}
+
+@mixin circleBlock($width) {
+  width: $width;
+  aspect-ratio: 1 / 1;
+  border-radius: 100%;
+}
+
+@mixin longTextPrevent {
+  width: 1px;
+  min-width: 100%;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
