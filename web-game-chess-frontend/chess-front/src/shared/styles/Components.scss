@@ -91,12 +91,9 @@
     background-color: $mcolor5;
   }
 
-  &:focus {
-    border-color: $mcolor9;
-  }
-
+  &:focus,
   &:active {
-    border-color: $mcolor9;
+    box-shadow: 0 0 0.5rem 0.1rem $mcolor9;
   }
 }
 
@@ -110,12 +107,41 @@
     color: $mcolor0;
   }
 
-  &:focus {
-    border-color: $mcolor9;
+  &:focus,
+  &:active {
+    box-shadow: 0 0 0.5rem 0.1rem $mcolor0;
+  }
+}
+
+@mixin mainGButton {
+  color: $gcolor2;
+  background-color: $gcolor9;
+
+  &:hover {
+    background-color: $gcolor8;
+    color: $gcolor0;
+    border-color: $gcolor0;
   }
 
+  &:focus,
   &:active {
-    border-color: $mcolor9;
+    box-shadow: 0 0 0.5rem 0.1rem $gcolor2;
+  }
+}
+
+@mixin seconadryGButton {
+  background-color: $gcolor2;
+  color: $gcolor9;
+
+  &:hover {
+    background-color: $gcolor0;
+    border-color: $gcolor8;
+    color: $gcolor8;
+  }
+
+  &:focus,
+  &:active {
+    box-shadow: 0 0 0.5rem 0.1rem $gcolor8;
   }
 }
 

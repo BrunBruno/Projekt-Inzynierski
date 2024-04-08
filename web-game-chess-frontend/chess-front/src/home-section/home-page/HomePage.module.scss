@@ -2,5 +2,16 @@
 
 .home-main {
   height: 100%;
-  padding-bottom: 800rem;
+}
+
+.observe {
+  position: absolute;
+  z-index: -999;
+
+  width: 10px;
+  height: 10px;
+  background-color: red;
+
+  // set the observer to middle of section
+  transform: translateY(50vh);
 }

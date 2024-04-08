@@ -9,6 +9,7 @@
   &__content {
     width: 100%;
     height: 90%;
+
     border-bottom-left-radius: $large_br;
     background-image: linear-gradient(#0000 0%, #000 100%),
       url('images/hero-background.jpg');
@@ -23,10 +24,10 @@
       left: 30%;
       top: 50%;
       transform: translate(-50%, -50%);
-      width: 38%;
-      padding: 2rem;
+      width: 60rem;
+
+      @include roundedBlock(2rem, $small_br);
       background-color: rgba($gcolor9, 0.3);
-      border-radius: $small_br;
       text-shadow: 0.1rem 0.1rem #000;
 
       h1 {

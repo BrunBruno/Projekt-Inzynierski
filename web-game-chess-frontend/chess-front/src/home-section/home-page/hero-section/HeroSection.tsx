@@ -42,7 +42,7 @@ function HeroSection() {
   };
 
   return (
-    <section id="home" className={classes.hero}>
+    <section id="home-section" className={classes.hero}>
       <div className={classes.hero__content}>
         <div className={classes.hero__content__intro}>
           <h1>CHESS</h1>
