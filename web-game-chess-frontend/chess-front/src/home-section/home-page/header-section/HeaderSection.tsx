@@ -1,34 +1,29 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef } from "react";
 
-import classes from './HeaderSection.module.scss';
-import HeaderSectionIcons from './HeaderSectionIcons';
-
-const indicators = ['home', 'play', 'learn', 'faq'] as const;
+import classes from "./HeaderSection.module.scss";
+import HeaderSectionIcons from "./HeaderSectionIcons";
 
 type HeaderSectionProps = {
-  setIsNavigating: React.Dispatch<React.SetStateAction<boolean>>;
+  indicators: readonly ["home", "play", "learn", "faq"];
 };
 
-function HeaderSection({ setIsNavigating }: HeaderSectionProps) {
+function HeaderSection({ indicators }: HeaderSectionProps) {
   const headerRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
-    window.addEventListener('scroll', () => {
+    window.addEventListener("scroll", () => {
+      if (!headerRef.current) {
+        return;
+      }
+
+      let headerClasses: DOMTokenList = headerRef.current.classList;
       if (window.scrollY === 0) {
-        headerRef.current?.classList.remove(classes['header-sticky']);
+        headerClasses.remove(classes["header-sticky"]);
       } else {
-        headerRef.current?.classList.add(classes['header-sticky']);
+        headerClasses.add(classes["header-sticky"]);
       }
     });
   }, []);
-
-  const handleNavigation = () => {
-    setIsNavigating(true);
-
-    // setTimeout(() => {
-    //   setIsNavigating(false);
-    // }, 500);
-  };
 
   return (
     <header ref={headerRef} className={classes.header}>
@@ -43,10 +38,11 @@ function HeaderSection({ setIsNavigating }: HeaderSectionProps) {
       <nav className={classes.header__navigation}>
         {indicators.map((element, index) => (
           <a
-            href={'#' + element + '-section'}
+            href={"#" + element + "-section"}
             key={index}
-            className={`${index === 0 ? classes.active : ''} ${classes.nav_element}`}
-            onClick={() => handleNavigation()}
+            className={`${classes.nav_element} ${
+              index === 0 ? classes.active : ""
+            }`}
           >
             <span className={classes.text}>{element.toUpperCase()}</span>
             <span className={classes.icon}>
@@ -57,7 +53,7 @@ function HeaderSection({ setIsNavigating }: HeaderSectionProps) {
         <div className={classes.indicator}></div>
       </nav>
 
-      <div className={`${classes.header__form} ${classes['header-form']}`}>
+      <div className={`${classes.header__form} ${classes["header-form"]}`}>
         <button className={classes.header__form__sButton}>About</button>
         <button className={classes.header__form__sButton}>Sign Up</button>
         <button className={classes.header__form__mButton}>Sign In</button>

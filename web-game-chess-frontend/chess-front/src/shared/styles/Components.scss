@@ -1,5 +1,5 @@
-@import './Variables.scss';
-@import './CommonStyles.scss';
+@import "./Variables.scss";
+@import "./CommonStyles.scss";
 
 @mixin main-scrollbar($bgcolor, $mainColor, $sideColor) {
   $mainrgb: map-get($colorMap, $mainColor);
@@ -16,6 +16,7 @@
     &-thumb {
       background-color: $mainColor;
       background-clip: padding-box;
+      border-radius: 0.2rem;
 
       &:hover,
       &:active {
@@ -65,6 +66,7 @@
 @mixin Button($size) {
   width: fit-content;
   padding: calc($size / 4) $size;
+
   font-size: $size;
   font-weight: bold;
   border: solid calc($size / 6) #0000;
@@ -145,7 +147,7 @@
   }
 }
 
-@mixin mainInput($size) {
+@mixin Input($size) {
   box-sizing: border-box;
   padding: calc($size / 4) $size;
   font-size: $size;
@@ -153,11 +155,24 @@
   outline: none;
   border-radius: $size;
   text-align: center;
+}
 
+@mixin mainInput {
   background-color: $mcolor0;
   color: $mcolor9;
 
-  &:focus {
+  &:focus,
+  &:active {
     border-color: $mcolor3;
+  }
+}
+
+@mixin mainGInput {
+  background-color: $gcolor0;
+  color: $gcolor9;
+
+  &:focus,
+  &:active {
+    border-color: $gcolor3;
   }
 }
