@@ -1,5 +1,5 @@
-import classes from "./HeaderSection.module.scss";
-import { mainColor } from "../../../shared/styles/Variables";
+import classes from './NavSection.module.scss';
+import { mainColor } from '../../../shared/styles/Variables';
 
 type IconMap = {
   [key: string]: JSX.Element;
@@ -62,10 +62,10 @@ type HeaderSectionIconsProps = {
   iconName: string;
 };
 
-function HeaderSectionIcons({ iconName }: HeaderSectionIconsProps) {
+function NavSectionIcons({ iconName }: HeaderSectionIconsProps) {
   const icon = icons[iconName];
 
   return icon ? icon : <></>;
 }
 
-export default HeaderSectionIcons;
+export default NavSectionIcons;

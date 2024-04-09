@@ -54,10 +54,7 @@ function HeroSection() {
           </span>
         </div>
         <div className={classes.hero__content__extra_bg}>
-          <div className={classes.hero__content__extra_bg__grid}>
-            {generateGrid()}
-          </div>
-
+          <div className={classes['board-grid']}>{generateGrid()}</div>
           {generatePawns()}
         </div>
         <div className={classes.hero__content__extra}>

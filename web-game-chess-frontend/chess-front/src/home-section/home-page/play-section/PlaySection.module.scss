@@ -1,5 +1,6 @@
-@import "../HomePage.module.scss";
+@import '../HomePage.module.scss';
 
 .play {
   @include container;
+  position: relative;
 }

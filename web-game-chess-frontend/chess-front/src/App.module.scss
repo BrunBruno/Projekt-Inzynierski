@@ -5,7 +5,8 @@ body {
   height: 100lvh;
   overflow-y: auto;
   overflow-x: hidden;
-  background-color: $gcolor9;
+  // background-color: $gcolor9;
+  background-color: #111;
   color: $gcolor0;
 
   @include main-scrollbar(#000, $gcolor8, $gcolor7);

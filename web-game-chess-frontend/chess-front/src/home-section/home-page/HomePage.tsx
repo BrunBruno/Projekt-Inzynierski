@@ -1,13 +1,16 @@
-import { useEffect, useRef } from "react";
-import classes from "./HomePage.module.scss";
-import headerClasses from "./header-section/HeaderSection.module.scss";
-import HeaderSection from "./header-section/HeaderSection";
-import HeroSection from "./hero-section/HeroSection";
-import PlaySection from "./play-section/PlaySection";
-import LearnSection from "./learn-section/LearnSection";
-import FaqSection from "./faq-section/FaqSection";
+import { useEffect, useRef } from 'react';
 
-const indicators = ["home", "play", "learn", "faq"] as const;
+import classes from './HomePage.module.scss';
+import navClasses from './nav-section/NavSection.module.scss';
+
+// import HeaderSection from './nav-section/NavSection';
+import NavSection from './nav-section/NavSection';
+import HeroSection from './hero-section/HeroSection';
+import PlaySection from './play-section/PlaySection';
+import LearnSection from './learn-section/LearnSection';
+import FaqSection from './faq-section/FaqSection';
+
+const indicators = ['home', 'play', 'learn', 'faq'] as const;
 
 function HomePage() {
   const heroRef = useRef<HTMLDivElement>(null);
@@ -19,15 +22,14 @@ function HomePage() {
     const observer = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
-          let elements: HTMLCollectionOf<Element> = document.getElementsByClassName(
-            headerClasses.nav_element
-          );
+          let elements: HTMLCollectionOf<Element> =
+            document.getElementsByClassName(navClasses.nav_element);
 
           for (let i = 0; i < elements.length; i++) {
-            elements[i].classList.remove(headerClasses.active);
+            elements[i].classList.remove(navClasses.active);
 
             if (entry.target.id === `obs-${indicators[i]}`) {
-              elements[i].classList.add(headerClasses.active);
+              elements[i].classList.add(navClasses.active);
             }
           }
         }
@@ -41,8 +43,9 @@ function HomePage() {
   }, []);
 
   return (
-    <main className={classes["home-main"]}>
-      <HeaderSection indicators={indicators} />
+    <main className={classes['home-main']}>
+      {/* <HeaderSection indicators={indicators} /> */}
+      <NavSection indicators={indicators} />
 
       <div id="obs-home" ref={heroRef} className={classes.observe} />
       <HeroSection />
@@ -56,7 +59,7 @@ function HomePage() {
       <div id="obs-faq" ref={faqRef} className={classes.observe} />
       <FaqSection />
 
-      {/* <footer className={classes.footer}>Footer</footer> */}
+      <footer className={classes.footer}>Footer</footer>
     </main>
   );
 }

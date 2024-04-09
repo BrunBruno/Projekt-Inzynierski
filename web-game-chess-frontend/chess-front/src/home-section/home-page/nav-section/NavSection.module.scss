@@ -1,0 +1,116 @@
+@import '../../../shared//styles/Components.scss';
+
+.navigation {
+  @include flexBlock(row, 0, center, center);
+
+  position: fixed;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 9;
+
+  width: fit-content;
+  margin-top: 4.8rem;
+  user-select: none;
+
+  transition: margin-top 0.5s;
+
+  .nav {
+    @include flexBlock(row, 0, space-between, center);
+
+    position: relative;
+    z-index: 10;
+    width: calc(4rem * 2 + 4.8rem * 4 + 0.4rem * 6);
+
+    border-radius: 0.8rem;
+
+    padding: 0.8rem 4rem;
+    background-color: $gcolor9;
+    box-shadow: 0 0 0 0.3rem $gcolor8;
+
+    .nav_element {
+      @include flexBlock(column, 0, center, center);
+
+      position: relative;
+      width: 4.8rem;
+
+      color: $gcolor0;
+      text-align: center;
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 1.2rem;
+
+      span.text {
+        position: relative;
+        display: block;
+        line-height: 3.2rem;
+        max-width: 3.2rem;
+        opacity: 0;
+
+        color: $gcolor3;
+        overflow: hidden;
+        transition: all 0.3s;
+        transform: translateY(-1.6rem);
+      }
+
+      span.icon {
+        @include flexBlock(row, 0, center, center);
+        position: absolute;
+        width: fit-content;
+        z-index: 1;
+
+        font-size: 2.4rem;
+        transition: all 0.3s;
+
+        svg.icon {
+          @include squareBlock(50%);
+          stroke-width: 2;
+          transition: all 0.3s;
+        }
+      }
+
+      &.active span.text {
+        opacity: 1;
+        transform: translateY(-0.8rem);
+      }
+      &.active span.icon {
+        transform: translateY(2.8rem);
+
+        svg {
+          width: 40%;
+        }
+      }
+
+      @for $i from 1 through 4 {
+        &:nth-child(#{$i}).active ~ .indicator {
+          transform: translateX((4.8rem + 0.8rem) * ($i - 1));
+        }
+      }
+    }
+
+    .indicator {
+      position: absolute;
+      bottom: -2.8rem;
+      width: 4.8rem;
+      height: 4.8rem;
+      box-sizing: border-box;
+
+      background-color: $mcolor9;
+      border-radius: 100%;
+      border: solid 0.6rem #000;
+      transition: all 0.5s;
+    }
+  }
+}
+
+.nav-sticky {
+  margin-top: 1.6rem;
+
+  .nav {
+    .indicator {
+      border-color: $mcolor9;
+      background-color: $gcolor9;
+      box-shadow: 0 0 0.3rem 0.1rem $mcolor7;
+    }
+  }
+}
