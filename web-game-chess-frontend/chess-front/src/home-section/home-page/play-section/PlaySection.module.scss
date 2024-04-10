@@ -39,6 +39,7 @@
       }
 
       &__grid {
+        position: relative;
         border-radius: $medium_br;
         overflow: hidden;
 
@@ -58,12 +59,6 @@
           border-radius: $medium_br;
           overflow: hidden;
           box-shadow: inset 0 0 1rem 0.5rem $mcolor0;
-
-          &:not(:hover) {
-            .indicator {
-              opacity: 0;
-            }
-          }
 
           .indicator {
             z-index: -2;
@@ -115,6 +110,49 @@
                   background-color: rgba($mcolor9, 0.5);
                 }
               }
+            }
+          }
+        }
+
+        &__outer {
+          @include absoluteCenter;
+          height: 100%;
+          width: 100%;
+
+          display: grid;
+          grid-template-columns: repeat(8, 1fr);
+          grid-template-rows: repeat(8, 1fr);
+
+          border: solid 1rem #0000;
+
+          .pawn {
+            position: relative;
+
+            &:hover {
+              img {
+                top: 2rem;
+                filter: brightness(80%);
+              }
+            }
+
+            img {
+              @include absoluteCenter;
+              rotate: 5deg;
+              height: 5.4rem;
+              filter: brightness(60%);
+              transition: all 0.3s;
+            }
+
+            p {
+              @include absoluteCenter;
+              top: 5.8rem;
+              width: 5.4rem;
+              height: 1rem;
+              z-index: -1;
+              background-color: #000;
+              border-radius: 100%;
+              filter: blur(0.4rem);
+              rotate: 5deg;
             }
           }
         }
