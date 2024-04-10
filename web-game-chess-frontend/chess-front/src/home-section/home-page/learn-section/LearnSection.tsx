@@ -1,4 +1,4 @@
-import classes from './LearnSection.module.scss';
+import classes from "./LearnSection.module.scss";
 
 function LearnSection() {
   return <section id="learn-section" className={classes.learn}></section>;
