@@ -1,4 +1,4 @@
-import classes from "./HeroSection.module.scss";
+import classes from './HeroSection.module.scss';
 
 function HeroSection() {
   const generateGrid = (): JSX.Element[] => {
@@ -20,12 +20,12 @@ function HeroSection() {
       const leftP = (i * 100) / (numOfPawns - 1);
       const topP = (1 / 200) * Math.pow(-(leftP - 100 / 2), 2) - 8;
 
-      const pawnClass = i % 2 === 0 ? "pawn-black" : "pawn-white";
+      const pawnClass = i % 2 === 0 ? 'pawn-black' : 'pawn-white';
 
       pawns.push(
         <div
           key={i}
-          className={`${classes["img-pawn-container"]} ${classes[pawnClass]}`}
+          className={`${classes['img-pawn-container']} ${classes[pawnClass]}`}
           style={{ left: `${leftP}%`, top: `${topP}%` }}
         >
           <div />
@@ -44,25 +44,28 @@ function HeroSection() {
   return (
     <section id="home-section" className={classes.hero}>
       <div className={classes.hero__content}>
+        <div className={classes.hero__content__bg}></div>
+
         <div className={classes.hero__content__intro}>
-          <h1>CHESS</h1>
+          <h1>Welcome to BRN Chess</h1>
           <span>
-            Lorem, ipsum dolor sit amet consectetur adipisicing elit. Distinctio
-            ipsa quis doloribus. Assumenda eum quisquam, ab optio nemo voluptas
-            aperiam incidunt rem, harum eos reprehenderit, eaque fugit! Illum,
-            exercitationem minima.
+            Welcome to the fascinating world of chess! Chess is one of the most
+            popular and enduring games in the world, with millions of people
+            playing and enjoying it every day. It is a game of strategy, logic,
+            and skill, where players must use their wits and experience to
+            outmaneuver their opponents and claim victory on the board.
           </span>
         </div>
         <div className={classes.hero__content__extra_bg}>
-          <div className={classes["board-grid"]}>{generateGrid()}</div>
+          <div className={classes['board-grid']}>{generateGrid()}</div>
           {generatePawns()}
         </div>
         <div className={classes.hero__content__extra}>
-          <div className={classes["hero-actions"]}>
+          <div className={classes['hero-actions']}>
             <div
-              className={`${classes["signin-pawn"]} ${classes["pawn-container"]}`}
+              className={`${classes['signin-pawn']} ${classes['pawn-container']}`}
             >
-              <div className={classes["img-pawn-container"]}>
+              <div className={classes['img-pawn-container']}>
                 <div />
                 <div />
                 <div />
@@ -73,9 +76,9 @@ function HeroSection() {
               <p>Sign In</p>
             </div>
             <div
-              className={`${classes["signup-pawn"]} ${classes["pawn-container"]}`}
+              className={`${classes['signup-pawn']} ${classes['pawn-container']}`}
             >
-              <div className={classes["img-pawn-container"]}>
+              <div className={classes['img-pawn-container']}>
                 <div />
                 <div />
                 <div />

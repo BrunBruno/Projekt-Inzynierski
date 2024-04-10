@@ -1,4 +1,4 @@
-@import "../../../shared//styles/Components.scss";
+@import '../../../shared//styles/Components.scss';
 
 .navigation {
   @include flexBlock(row, 0, center, center);
@@ -12,17 +12,50 @@
   width: 100%;
   margin-top: 4.8rem;
   user-select: none;
+  pointer-events: none;
 
   transition: margin-top 0.5s;
+
+  // &::after {
+  //   content: '';
+  //   z-index: 99;
+  //   position: absolute;
+  //   top: -4.8rem;
+  //   left: 0;
+
+  //   width: 100%;
+  //   height: 200vh;
+  //   pointer-events: none;
+
+  //   background-color: rgba(#000, 0.9);
+  //   opacity: 1;
+  //   animation: beginHeader 1s ease-out 1s forwards;
+  // }
+
+  // @keyframes beginHeader {
+  //   from {
+  //     opacity: 1;
+  //   }
+  //   to {
+  //     opacity: 0;
+  //   }
+  // }
 
   .nav-logo {
     @include flexBlock(row, 2rem, center, center);
     position: absolute;
+    z-index: 100;
+    // top: calc(50vh - 4.8rem);
+    // left: 50%;
+    // transform: translate(-50%, -50%);
+
     top: 50%;
     left: 6.4rem;
-    transform: translateY(-50%);
+    transform: translate(0, -50%);
+    pointer-events: all;
 
     transition: all 0.5s;
+    // animation: beginLogo 1s ease-in 1.5s forwards;
 
     a {
       text-decoration: none;
@@ -34,17 +67,52 @@
       }
 
       svg {
+        // height: 16rem;
         height: 8rem;
         transition: height 0.5s;
+
+        // animation: beginLogoIcon 1s ease-in 1.5s forwards;
       }
     }
 
+    // @keyframes beginLogoIcon {
+    //   to {
+    //     height: 8rem;
+    //   }
+    // }
+
     p {
+      // font-size: 12rem;
       font-size: 6rem;
-      font-family: "Knewave";
+      font-family: 'Knewave';
+      // width: 0;
+      overflow: hidden;
       transition: opacity 0.5s;
+
+      animation:
+        beginLogoText 0.5s ease-in 0.5s forwards,
+        begin2LogoText 1s ease-in 1.5s forwards;
     }
+
+    // @keyframes beginLogoText {
+    //   to {
+    //     width: 32rem;
+    //   }
+    // }
+    // @keyframes begin2LogoText {
+    //   to {
+    //     font-size: 6rem;
+    //   }
+    // }
   }
+
+  // @keyframes beginLogo {
+  //   to {
+  //     top: 50%;
+  //     left: 6.4rem;
+  //     transform: translate(0, -50%);
+  //   }
+  // }
 
   .nav-actions {
     @include flexBlock(row, 0, center, center);
@@ -55,8 +123,13 @@
 
     padding: 0.6rem 1.2rem;
     border-bottom-left-radius: $small_br;
+    pointer-events: all;
 
-    transition: top 0.5s, right 0.5s, background-color 0s 0s, box-shadow 0s 0s;
+    transition:
+      top 0.5s,
+      right 0.5s,
+      background-color 0s 0s,
+      box-shadow 0s 0s;
 
     button {
       @include Button(1.6rem);
@@ -77,7 +150,7 @@
         transition: color 0.5s;
 
         &::after {
-          content: "";
+          content: '';
           margin-top: 0.3rem;
           display: block;
           height: 0.2rem;
@@ -110,6 +183,7 @@
     padding: 0.8rem 4rem;
     background-color: $gcolor9;
     box-shadow: 0 0 0 0.3rem $gcolor8;
+    pointer-events: all;
 
     .nav_element {
       @include flexBlock(column, 0, center, center);
@@ -124,7 +198,7 @@
       font-size: 1.2rem;
 
       &::after {
-        content: "";
+        content: '';
         z-index: -1;
         position: absolute;
         @include squareBlock(1em);
@@ -209,9 +283,13 @@
 .nav-sticky {
   margin-top: 1.6rem;
 
+  &::after {
+    display: none;
+  }
+
   .nav-logo {
-    top: -3.2rem;
-    left: 0.6rem;
+    top: -4rem;
+    left: 0rem;
     transform: translateY(0%);
     a {
       svg {
@@ -231,7 +309,10 @@
     background-color: $gcolor9;
     box-shadow: 0 0 0 0.3rem $gcolor8;
 
-    transition: top 0.5s, right 0.5s, background-color 0.3s 0.5s,
+    transition:
+      top 0.5s,
+      right 0.5s,
+      background-color 0.3s 0.5s,
       box-shadow 0.3s 0.5s;
 
     button {

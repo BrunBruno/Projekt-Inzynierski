@@ -1,4 +1,4 @@
-@import "../../../shared/styles/Components.scss";
+@import '../../../shared/styles/Components.scss';
 
 @mixin imagePawnStyles($mainColor, $sideColor, $shadowColor) {
   div {
@@ -76,12 +76,13 @@
   height: 100svh;
 
   &__content {
+    position: relative;
     width: 100%;
     height: 64rem;
 
     border-bottom-left-radius: $large_br;
     background-image: linear-gradient(#0000 0%, #000 100%),
-      url("images/hero-background.jpg");
+      url('images/hero-background.jpg');
     background-color: #000;
     background-size: contain;
     background-repeat: no-repeat;
@@ -89,7 +90,7 @@
     box-shadow: -2rem 2rem 0 0 rgb(67, 43, 137);
 
     @mixin subElement {
-      content: "";
+      content: '';
       position: absolute;
       @include squareBlock(10rem);
       border: solid 2rem rgb(67, 43, 137);
@@ -119,19 +120,27 @@
       left: 30%;
       top: 40rem;
       transform: translate(-50%, -50%);
-      width: 60rem;
+      width: 0;
+      height: 24rem;
+      overflow: hidden;
+      padding: 0;
+      border-radius: $small_br;
 
-      @include roundedBlock(2rem, $small_br);
+      @include flexBlock(column, 2rem, center, center);
       background-color: rgba($gcolor9, 0.3);
       text-shadow: 0.1rem 0.1rem #000;
 
+      animation: beginIntro 0.5s ease-in 2s forwards;
+
       h1 {
-        margin-bottom: 2rem;
         padding: 0.8rem 1.6rem;
         text-align: center;
         font-size: 3.2rem;
         border: 0.5rem solid #0000;
-        background: conic-gradient(
+        width: calc(64rem - 2 * 1.6rem - 2 * 0.5rem);
+
+        background:
+          conic-gradient(
               from 90deg at top 0.5rem left 0.5rem,
               #0000 90deg,
               $gcolor0 0
@@ -148,6 +157,30 @@
       span {
         display: block;
         font-size: 1.6rem;
+        color: $gcolor4;
+        opacity: 0;
+
+        animation: displaySpan 0.3s ease-in 2.5s forwards;
+      }
+
+      @keyframes displaySpan {
+        from {
+          opacity: 0;
+        }
+        to {
+          opacity: 1;
+        }
+      }
+    }
+
+    @keyframes beginIntro {
+      from {
+        width: 0rem;
+        padding: 0rem;
+      }
+      to {
+        width: 60rem;
+        padding: 2rem;
       }
     }
 
@@ -191,7 +224,7 @@
         transform: rotateX(70deg) rotateZ(45deg);
 
         &::after {
-          content: "";
+          content: '';
           position: absolute;
           width: 100%;
           height: 100%;
@@ -209,7 +242,7 @@
           border: solid 0.5rem $gcolor0;
 
           &::after {
-            content: "";
+            content: '';
             position: absolute;
             width: 200%;
             height: 30%;
@@ -270,7 +303,7 @@
           }
 
           &::after {
-            content: "";
+            content: '';
             position: absolute;
             left: 50%;
             top: calc(6rem + 10rem + 12rem - 5rem);
@@ -294,7 +327,9 @@
           &:hover > p {
             opacity: 1;
             height: 8rem;
-            transition: height 0.1s 0s, opacity 0.3s 0.1s;
+            transition:
+              height 0.1s 0s,
+              opacity 0.3s 0.1s;
           }
 
           .img-pawn-container {
@@ -322,7 +357,9 @@
             opacity: 0;
             text-align: center;
 
-            transition: height 0.3s, opacity 0.1s;
+            transition:
+              height 0.3s,
+              opacity 0.1s;
           }
         }
 
