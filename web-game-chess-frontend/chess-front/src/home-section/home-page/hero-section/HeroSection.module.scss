@@ -1,4 +1,4 @@
-@import '../../../shared/styles/Components.scss';
+@import "../../../shared/styles/Components.scss";
 
 @mixin imagePawnStyles($mainColor, $sideColor, $shadowColor) {
   div {
@@ -81,36 +81,35 @@
 
     border-bottom-left-radius: $large_br;
     background-image: linear-gradient(#0000 0%, #000 100%),
-      url('images/hero-background.jpg');
+      url("images/hero-background.jpg");
     background-color: #000;
     background-size: contain;
     background-repeat: no-repeat;
     background-position: left;
-    // box-shadow: -1rem 1rem 0 rgba($mcolor9, 0.5);
     box-shadow: -2rem 2rem 0 0 rgb(67, 43, 137);
 
-    &::after {
-      content: '';
+    @mixin subElement {
+      content: "";
       position: absolute;
-      top: 64rem;
-      left: calc(100% - 60rem - 12rem);
       @include squareBlock(10rem);
       border: solid 2rem rgb(67, 43, 137);
       border-left: none;
+    }
+
+    &::after {
+      @include subElement();
+      top: 64rem;
+      left: calc(100% - 60rem - 12rem);
       border-bottom: none;
       border-top-right-radius: $large_br;
       box-shadow: 4rem -4rem 0 1rem #000;
     }
 
     &::before {
-      content: '';
-      position: absolute;
+      @include subElement();
       z-index: 2;
       top: calc(64rem - 10rem);
       left: calc(100% - 60rem - 12rem);
-      @include squareBlock(10rem);
-      border: solid 2rem rgb(67, 43, 137);
-      border-left: none;
       border-top: none;
       border-bottom-right-radius: $large_br;
     }
@@ -118,7 +117,7 @@
     &__intro {
       position: absolute;
       left: 30%;
-      top: 30rem;
+      top: 40rem;
       transform: translate(-50%, -50%);
       width: 60rem;
 
@@ -132,8 +131,7 @@
         text-align: center;
         font-size: 3.2rem;
         border: 0.5rem solid #0000;
-        background:
-          conic-gradient(
+        background: conic-gradient(
               from 90deg at top 0.5rem left 0.5rem,
               #0000 90deg,
               $gcolor0 0
@@ -193,7 +191,7 @@
         transform: rotateX(70deg) rotateZ(45deg);
 
         &::after {
-          content: '';
+          content: "";
           position: absolute;
           width: 100%;
           height: 100%;
@@ -211,7 +209,7 @@
           border: solid 0.5rem $gcolor0;
 
           &::after {
-            content: '';
+            content: "";
             position: absolute;
             width: 200%;
             height: 30%;
@@ -251,7 +249,7 @@
       @include extra;
       padding: 6rem;
 
-      .hero-register {
+      .hero-actions {
         width: 100%;
         height: 100%;
         @include flexBlock(row, 0, center, start);
@@ -272,7 +270,7 @@
           }
 
           &::after {
-            content: '';
+            content: "";
             position: absolute;
             left: 50%;
             top: calc(6rem + 10rem + 12rem - 5rem);
@@ -296,9 +294,7 @@
           &:hover > p {
             opacity: 1;
             height: 8rem;
-            transition:
-              height 0.1s 0s,
-              opacity 0.3s 0.1s;
+            transition: height 0.1s 0s, opacity 0.3s 0.1s;
           }
 
           .img-pawn-container {
@@ -326,9 +322,7 @@
             opacity: 0;
             text-align: center;
 
-            transition:
-              height 0.3s,
-              opacity 0.1s;
+            transition: height 0.3s, opacity 0.1s;
           }
         }
 
