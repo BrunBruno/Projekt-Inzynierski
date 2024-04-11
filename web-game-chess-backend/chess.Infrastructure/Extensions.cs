@@ -26,6 +26,7 @@ public static class Extensions {
         });
 
         services.AddScoped<IJwtService, JwtService>();
+        //services.AddScoped<ISmtpService, SmtpService>();
         services.AddScoped<IUserContextService, UserContextService>();
 
         return services;
