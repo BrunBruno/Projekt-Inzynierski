@@ -1,4 +1,18 @@
+import { generateRandomId } from '../../../shared/functions/SharedFunctions';
+
 import classes from './HeroSection.module.scss';
+
+import LogoIconSvg from '../../../shared/svgs/LogoIconSvg';
+
+const defsIds = {
+  id0: generateRandomId(),
+  id1: generateRandomId(),
+  id2: generateRandomId(),
+  id3: generateRandomId(),
+  id4: generateRandomId(),
+  id5: generateRandomId(),
+  id6: generateRandomId(),
+};
 
 function HeroSection() {
   const generateGrid = (): JSX.Element[] => {
@@ -44,7 +58,12 @@ function HeroSection() {
   return (
     <section id="home-section" className={classes.hero}>
       <div className={classes.hero__content}>
-        <div className={classes.hero__content__bg}></div>
+        <div className={classes['nav-logo']}>
+          <a href="/">
+            <LogoIconSvg iconClass={classes['logo-svg']} defsIds={defsIds} />
+          </a>
+          <p>Chess</p>
+        </div>
 
         <div className={classes.hero__content__intro}>
           <h1>Welcome to BRN Chess</h1>

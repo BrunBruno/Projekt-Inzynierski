@@ -1,47 +1,46 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef } from 'react';
 
-import classes from "./NavSection.module.scss";
-import NavSectionIcons from "./NavSectionIcons";
-import LogoIconSvg from "../../../shared/svgs/LogoIconSvg";
+import classes from './NavSection.module.scss';
+import NavSectionIcons from './NavSectionIcons';
 
 type NavSectionProps = {
-  indicators: readonly ["home", "play", "learn", "faq"];
+  indicators: readonly ['home', 'play', 'learn', 'faq'];
 };
 
 function NavSection({ indicators }: NavSectionProps) {
   const navRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
-    window.addEventListener("scroll", () => {
+    window.addEventListener('scroll', () => {
       if (!navRef.current) {
         return;
       }
 
       let navRefClasses: DOMTokenList = navRef.current.classList;
       if (window.scrollY === 0) {
-        navRefClasses.remove(classes["nav-sticky"]);
+        navRefClasses.remove(classes['nav-sticky']);
       } else {
-        navRefClasses.add(classes["nav-sticky"]);
+        navRefClasses.add(classes['nav-sticky']);
       }
     });
   }, []);
 
   return (
     <header ref={navRef} className={classes.navigation}>
-      <div className={classes["nav-logo"]}>
+      {/* <div className={classes["nav-logo"]}>
         <a href="/">
-          <LogoIconSvg />
+          <LogoIconSvg iconClass={classes["logo-svg"]}/>
         </a>
         <p>Chess</p>
-      </div>
+      </div> */}
 
       <nav className={classes.nav}>
         {indicators.map((element, index) => (
           <a
-            href={"#" + element + "-section"}
+            href={'#' + element + '-section'}
             key={index}
             className={`${classes.nav_element} ${
-              index === 0 ? classes.active : ""
+              index === 0 ? classes.active : ''
             }`}
           >
             <span className={classes.text}>{element.toUpperCase()}</span>
@@ -53,7 +52,7 @@ function NavSection({ indicators }: NavSectionProps) {
         <div className={classes.indicator}></div>
       </nav>
 
-      <div className={classes["nav-actions"]}>
+      <div className={classes['nav-actions']}>
         <button>
           <span>About</span>
         </button>

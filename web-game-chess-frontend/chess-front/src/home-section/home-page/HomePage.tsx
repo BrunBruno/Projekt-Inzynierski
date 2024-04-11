@@ -1,16 +1,27 @@
 import { useEffect, useRef } from 'react';
+import { generateRandomId } from '../../shared/functions/SharedFunctions';
 
 import classes from './HomePage.module.scss';
 import navClasses from './nav-section/NavSection.module.scss';
 
-// import HeaderSection from './nav-section/NavSection';
 import NavSection from './nav-section/NavSection';
 import HeroSection from './hero-section/HeroSection';
 import PlaySection from './play-section/PlaySection';
 import LearnSection from './learn-section/LearnSection';
 import FaqSection from './faq-section/FaqSection';
+import LogoIconSvg from '../../shared/svgs/LogoIconSvg';
 
 const indicators = ['home', 'play', 'learn', 'faq'] as const;
+
+const defsIds = {
+  id0: generateRandomId(),
+  id1: generateRandomId(),
+  id2: generateRandomId(),
+  id3: generateRandomId(),
+  id4: generateRandomId(),
+  id5: generateRandomId(),
+  id6: generateRandomId(),
+};
 
 function HomePage() {
   const heroRef = useRef<HTMLDivElement>(null);
@@ -42,9 +53,40 @@ function HomePage() {
     if (faqRef.current !== null) observer.observe(faqRef.current);
   }, []);
 
+  const bgRef = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    const hasAnimationPlayed = sessionStorage.getItem('animationPlayed');
+    if (!hasAnimationPlayed) {
+      if (bgRef.current) {
+        bgRef.current.classList.remove(classes['intro-remove']);
+        bgRef.current.classList.add(classes['intro-begin']);
+      }
+
+      const timeoutId = setTimeout(() => {
+        if (bgRef.current) {
+          bgRef.current.classList.add(classes['intro-remove']);
+          sessionStorage.setItem('animationPlayed', 'true');
+        }
+      }, 2500);
+
+      return () => {
+        clearTimeout(timeoutId);
+      };
+    }
+  }, []);
+
   return (
     <main className={classes['home-main']}>
-      {/* <HeaderSection indicators={indicators} /> */}
+      <div
+        ref={bgRef}
+        className={`${classes['intro-background']} ${classes['intro-remove']}`}
+      >
+        <div className={classes['intro-logo']}>
+          <LogoIconSvg iconClass="" defsIds={defsIds} />
+          <p>Chess</p>
+        </div>
+      </div>
+
       <NavSection indicators={indicators} />
 
       <div id="obs-home" ref={heroRef} className={classes.observe} />

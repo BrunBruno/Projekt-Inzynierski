@@ -115,15 +115,45 @@
       border-bottom-right-radius: $large_br;
     }
 
+    .nav-logo {
+      @include flexBlock(row, 2rem, center, center);
+      position: absolute;
+      z-index: 100;
+      top: 3.2rem;
+      left: 6.4rem;
+      pointer-events: all;
+
+      a {
+        display: block !important;
+        text-decoration: none;
+        width: fit-content;
+        height: fit-content;
+
+        &:hover {
+          cursor: pointer;
+        }
+
+        svg.logo-svg {
+          height: 8rem;
+        }
+      }
+
+      p {
+        font-size: 6rem;
+        font-family: 'Knewave';
+        overflow: hidden;
+      }
+    }
+
     &__intro {
       position: absolute;
       left: 30%;
       top: 40rem;
-      transform: translate(-50%, -50%);
-      width: 0;
+      transform: translate(-50%, -50%) scale(0);
+      width: 60rem;
+      padding: 2rem;
       height: 24rem;
       overflow: hidden;
-      padding: 0;
       border-radius: $small_br;
 
       @include flexBlock(column, 2rem, center, center);
@@ -174,13 +204,8 @@
     }
 
     @keyframes beginIntro {
-      from {
-        width: 0rem;
-        padding: 0rem;
-      }
       to {
-        width: 60rem;
-        padding: 2rem;
+        transform: translate(-50%, -50%) scale(1);
       }
     }
 

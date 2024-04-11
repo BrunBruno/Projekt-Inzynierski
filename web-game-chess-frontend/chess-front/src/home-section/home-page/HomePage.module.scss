@@ -1,6 +1,7 @@
-@import "../../shared/styles/Components.scss";
+@import '../../shared/styles/Components.scss';
 
 .home-main {
+  position: relative;
   background-image: linear-gradient(45deg, rgba($gcolor9, 0.05) 25%, #0000 25%),
     linear-gradient(-45deg, rgba($gcolor9, 0.05) 25%, #0000 25%),
     linear-gradient(45deg, #0000 75%, rgba($gcolor9, 0.05) 75%),
@@ -13,15 +14,87 @@
       #0000 100%
     );
   background-size: 24rem 24rem;
+
+  .intro-background {
+    position: fixed;
+    z-index: 999;
+    width: 100%;
+    height: 100vh;
+    background-color: rgba(#000, 1);
+
+    .intro-logo {
+      @include absoluteCenter;
+      @include flexBlock(row, 2rem, center, center);
+      opacity: 0;
+
+      animation: introInit 1s forwards;
+
+      @keyframes introInit {
+        to {
+          opacity: 1;
+        }
+      }
+
+      svg {
+        height: 16rem;
+        scale: 0.2;
+        animation: svgInit 0.5s 0s forwards;
+      }
+
+      @keyframes svgInit {
+        to {
+          scale: 1;
+        }
+      }
+
+      p {
+        font-size: 12rem;
+        font-family: 'Knewave';
+        overflow: hidden;
+        width: 0;
+
+        animation: pInit 0.5s 0.5s forwards;
+
+        @keyframes pInit {
+          to {
+            width: 32rem;
+          }
+        }
+      }
+    }
+  }
+
+  .intro-begin {
+    animation: introBegin 0.5s ease-in 1.5s forwards;
+    @keyframes introBegin {
+      to {
+        background-color: rgba(#000, 0);
+      }
+    }
+
+    .intro-logo {
+      transform-origin: left;
+      opacity: 1;
+      scale: 1;
+
+      animation: logoDissapear 0.5s ease-in 1.5s forwards;
+      @keyframes logoDissapear {
+        to {
+          scale: 0;
+          opacity: 0;
+        }
+      }
+    }
+  }
+
+  .intro-remove {
+    display: none;
+  }
 }
 
 .observe {
   position: absolute;
   z-index: -999;
-
-  // width: 10px;
-  // height: 10px;
-  // background-color: red;
 
   // set the observer to middle of section
   transform: translateY(50vh);
@@ -30,6 +103,5 @@
 @mixin container {
   width: 100%;
   height: 100%;
-  // height: 100vh;
   padding: 4rem 0;
 }
