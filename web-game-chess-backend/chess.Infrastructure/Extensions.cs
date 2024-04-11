@@ -1,6 +1,8 @@
 ﻿
 using chess.Application.Services;
 using chess.Infrastructure.InfrastructureExtensions;
+using chess.Infrastructure.Options;
+using chess.Shared.Options;
 using chess.Infrastructure.Services;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -26,8 +28,13 @@ public static class Extensions {
         });
 
         services.AddScoped<IJwtService, JwtService>();
-        //services.AddScoped<ISmtpService, SmtpService>();
         services.AddScoped<IUserContextService, UserContextService>();
+
+        var options = configuration.GetOptions<SmtpOptions>("Smtp");
+        services.AddSingleton(options);
+
+        services.AddScoped<ISmtpService, SmtpService>();
+
 
         return services;
     }

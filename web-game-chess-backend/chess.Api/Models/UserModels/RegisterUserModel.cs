@@ -1,4 +1,5 @@
-﻿namespace chess.Api.Models.UserModels;
+﻿
+namespace chess.Api.Models.UserModels;
 
 public class RegisterUserModel {
     public required string Email { get; set; }

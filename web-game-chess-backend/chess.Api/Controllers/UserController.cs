@@ -1,7 +1,10 @@
-﻿using chess.Api.Models.UserModels;
+﻿
+using chess.Api.Models.UserModels;
 using chess.Application.Requests.UserRequests.LogIn;
 using chess.Application.Requests.UserRequests.Register;
+using chess.Application.Requests.UserRequests.VerifyEmail;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace chess.Api.Controllers;
@@ -15,6 +18,7 @@ public class UserController : ControllerBase {
     public UserController(IMediator mediator) {
         _mediator = mediator;
     }
+
 
     [HttpPost("sign-up")]
     public async Task<IActionResult> Register([FromBody] RegisterUserModel model) {
@@ -34,6 +38,7 @@ public class UserController : ControllerBase {
         return Ok();
     }
 
+
     [HttpPost("sign-in")]
     public async Task<IActionResult> LogIn([FromBody] LogInUserModel model) {
 
@@ -45,5 +50,19 @@ public class UserController : ControllerBase {
 
         var token = await _mediator.Send(request);
         return Ok(token);
+    }
+
+
+    [HttpPut("verify-email")]
+    [Authorize(Policy = "IsNotVerified")]
+    public async Task<IActionResult> VerifyEmail([FromBody] VerifyEmailModel model) {
+
+        var request = new VerifyEmailRequest()
+        {
+            Code = model.Code,
+        };
+
+        await _mediator.Send(request);
+        return Ok();
     }
 }
