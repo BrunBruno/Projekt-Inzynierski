@@ -1,5 +1,7 @@
 ﻿
+using AutoMapper;
 using chess.Application.Authorization.IsVerified;
+using chess.Application.MappingProfiles;
 using chess.Core.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -24,6 +26,8 @@ public static class Extensions {
         });
 
         services.AddScoped<IAuthorizationHandler, IsVerifiedRequirementHandler>();
+
+        services.AddAutoMapper(typeof(UserMappingProfile));
 
         return services;
     }
