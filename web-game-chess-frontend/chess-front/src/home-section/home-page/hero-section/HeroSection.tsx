@@ -3,6 +3,7 @@ import { generateRandomId } from '../../../shared/functions/SharedFunctions';
 import classes from './HeroSection.module.scss';
 
 import LogoIconSvg from '../../../shared/svgs/LogoIconSvg';
+import { useEffect, useRef } from 'react';
 
 const defsIds = {
   id0: generateRandomId(),
@@ -55,9 +56,57 @@ function HeroSection() {
     return pawns;
   };
 
+  const forwardVideoRef = useRef<HTMLVideoElement>(null);
+  const backwardVideoRef = useRef<HTMLVideoElement>(null);
+
+  useEffect(() => {
+    const forwardVideo = forwardVideoRef.current;
+    const backwardVideo = backwardVideoRef.current;
+
+    const handleForwardEnded = () => {
+      if (forwardVideo && backwardVideo) {
+        forwardVideo.style.display = 'none';
+        backwardVideo.style.display = 'block';
+        backwardVideo.play();
+      }
+    };
+
+    const handleBackwardEnded = () => {
+      if (forwardVideo && backwardVideo) {
+        forwardVideo.style.display = 'block';
+        backwardVideo.style.display = 'none';
+        forwardVideo.play();
+      }
+    };
+
+    if (forwardVideo && backwardVideo) {
+      forwardVideo.addEventListener('ended', handleForwardEnded);
+      backwardVideo.addEventListener('ended', handleBackwardEnded);
+    }
+
+    return () => {
+      if (forwardVideo && backwardVideo) {
+        forwardVideo.removeEventListener('ended', handleForwardEnded);
+        backwardVideo.removeEventListener('ended', handleBackwardEnded);
+      }
+    };
+  }, []);
+
   return (
     <section id="home-section" className={classes.hero}>
       <div className={classes.hero__content}>
+        <div className={classes.hero__content__background}>
+          <video ref={forwardVideoRef} autoPlay muted>
+            <source src="videos/hero-background-forward.mp4" type="video/mp4" />
+          </video>
+          <video ref={backwardVideoRef} style={{ display: 'none' }} muted>
+            <source
+              src="videos/hero-background-backward.mp4"
+              type="video/mp4"
+            />
+          </video>
+        </div>
+
         <div className={classes['nav-logo']}>
           <a href="/">
             <LogoIconSvg iconClass={classes['logo-svg']} defsIds={defsIds} />

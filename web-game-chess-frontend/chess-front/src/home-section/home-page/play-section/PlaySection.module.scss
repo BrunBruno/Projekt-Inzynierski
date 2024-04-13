@@ -1,9 +1,8 @@
-@import "../HomePage.module.scss";
+@import '../HomePage.module.scss';
 
 .play {
   @include container;
   position: relative;
-  // padding-top: 10rem;
 
   &__content {
     position: relative;
@@ -15,8 +14,15 @@
       @include absoluteCenter;
       @include squareBlock(60rem);
 
+      transform-origin: 0 0;
+      scale: 0.5;
+      opacity: 0;
+      transition:
+        scale 0.5s 0.5s,
+        opacity 0.5s 0.5s;
+
       @mixin subElement {
-        content: "";
+        content: '';
         z-index: -1;
         position: absolute;
         @include squareBlock(30rem);
@@ -157,6 +163,11 @@
           }
         }
       }
+    }
+
+    .show-board {
+      scale: 1;
+      opacity: 1;
     }
   }
 }

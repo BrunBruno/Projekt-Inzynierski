@@ -1,11 +1,26 @@
+import { useEffect, useRef } from 'react';
 import {
   streightChessboard,
   pieceImageMap,
-} from "../../../shared/options/ChessOptions";
+} from '../../../shared/options/ChessOptions';
 
-import classes from "./PlaySection.module.scss";
+import classes from './PlaySection.module.scss';
 
 function PlaySection() {
+  const boardRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add(classes['show-board']);
+        }
+      });
+    });
+
+    if (boardRef.current !== null) observer.observe(boardRef.current);
+  }, [boardRef]);
+
   const generateGrid = (): JSX.Element[] => {
     const rows: JSX.Element[] = [];
 
@@ -16,14 +31,14 @@ function PlaySection() {
 
         const numberOfTiles = 8;
         for (let j = 0; j < numberOfTiles; j++) {
-          tiles.push(<div key={i + "-" + j} className={classes.tile}></div>);
+          tiles.push(<div key={i + '-' + j} className={classes.tile}></div>);
         }
 
         return tiles;
       };
 
       rows.push(
-        <div key={i} className={classes["grid-row"]}>
+        <div key={i} className={classes['grid-row']}>
           {generateTiles()}
         </div>
       );
@@ -42,8 +57,8 @@ function PlaySection() {
 
       tiles.push(
         <div key={i} className={classes.pawn}>
-          {piece !== " " && <img src={`pieces/${imageUrl}`} alt={piece} />}
-          {piece !== " " && <p />}
+          {piece !== ' ' && <img src={`pieces/${imageUrl}`} alt={piece} />}
+          {piece !== ' ' && <p />}
         </div>
       );
     }
@@ -57,7 +72,7 @@ function PlaySection() {
     const parentRect = event.currentTarget.getBoundingClientRect();
     const offsetX = event.clientX - parentRect.left;
     const offsetY = event.clientY - parentRect.top;
-    const indicator = document.getElementById("indicator");
+    const indicator = document.getElementById('indicator');
     if (indicator) {
       indicator.style.left = `${offsetX}px`;
       indicator.style.top = `${offsetY}px`;
@@ -67,7 +82,7 @@ function PlaySection() {
   return (
     <section id="play-section" className={classes.play}>
       <div className={classes.play__content}>
-        <div className={classes.play__content__board}>
+        <div ref={boardRef} className={classes.play__content__board}>
           <div className={classes.play__content__board__grid}>
             <div className={classes.play__content__board__grid__inner}>
               <div id="indicator" className={classes.indicator}></div>
@@ -77,15 +92,15 @@ function PlaySection() {
               className={classes.play__content__board__grid__outer}
               onMouseMove={(event) => handleOnGridHover(event)}
               onMouseEnter={() => {
-                const indicator = document.getElementById("indicator");
+                const indicator = document.getElementById('indicator');
                 if (indicator) {
-                  indicator.style.opacity = "1";
+                  indicator.style.opacity = '1';
                 }
               }}
               onMouseLeave={() => {
-                const indicator = document.getElementById("indicator");
+                const indicator = document.getElementById('indicator');
                 if (indicator) {
-                  indicator.style.opacity = "0";
+                  indicator.style.opacity = '0';
                 }
               }}
             >

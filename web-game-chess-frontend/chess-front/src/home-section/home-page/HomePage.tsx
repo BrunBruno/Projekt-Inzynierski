@@ -51,7 +51,7 @@ function HomePage() {
     if (learnRef.current !== null) observer.observe(learnRef.current);
     if (playRef.current !== null) observer.observe(playRef.current);
     if (faqRef.current !== null) observer.observe(faqRef.current);
-  }, []);
+  }, [heroRef, learnRef, playRef, faqRef]);
 
   const bgRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
