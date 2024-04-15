@@ -8,17 +8,38 @@ import classes from './PlaySection.module.scss';
 
 function PlaySection() {
   const boardRef = useRef<HTMLDivElement>(null);
+  const innerBoardRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add(classes['show-board']);
-        }
-      });
-    });
+    const handleScroll = () => {
+      if (boardRef.current) {
+        const parentRect = boardRef.current.getBoundingClientRect();
+        const y = parentRect.top;
+        const h = window.innerHeight * 0.5;
 
-    if (boardRef.current !== null) observer.observe(boardRef.current);
+        if (innerBoardRef.current) {
+          if (y < h && y > -h) {
+            console.log('aaa');
+            innerBoardRef.current.classList.add(classes['board-intro']);
+          } else {
+            innerBoardRef.current.classList.remove(classes['board-intro']);
+          }
+        }
+
+        const scale: number = Math.pow(
+          Math.E,
+          -(1 / Math.pow(10, 6)) * Math.pow(y, 2)
+        );
+        const rotate: number = -(1 / 100) * y;
+        boardRef.current.style.transform = `scale(${scale}) rotateZ(${rotate}deg)`;
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
   }, [boardRef]);
 
   const generateGrid = (): JSX.Element[] => {
@@ -82,9 +103,16 @@ function PlaySection() {
   return (
     <section id="play-section" className={classes.play}>
       <div className={classes.play__content}>
+        <div className={classes.play__content__intro}>
+          <h2>LET'S GET </h2>
+          <h2>STARTED </h2>
+        </div>
         <div ref={boardRef} className={classes.play__content__board}>
           <div className={classes.play__content__board__grid}>
-            <div className={classes.play__content__board__grid__inner}>
+            <div
+              ref={innerBoardRef}
+              className={classes.play__content__board__grid__inner}
+            >
               <div id="indicator" className={classes.indicator}></div>
               {generateGrid()}
             </div>

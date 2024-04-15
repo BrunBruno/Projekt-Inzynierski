@@ -16,6 +16,31 @@ const defsIds = {
 };
 
 function HeroSection() {
+  const heroRef = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    const handleScroll = () => {
+      if (heroRef.current) {
+        const h = window.innerHeight * 0.7;
+        const y = window.scrollY;
+        const brightness = -100 / (1 + Math.pow(Math.E, -(y - h) / 100)) + 100;
+        heroRef.current.style.filter = `brightness(${brightness}%)`;
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, [heroRef]);
+
+  const videoRef = useRef<HTMLVideoElement>(null);
+  useEffect(() => {
+    if (videoRef.current) {
+      videoRef.current.playbackRate = 0.7;
+    }
+  }, [videoRef]);
+
   const generateGrid = (): JSX.Element[] => {
     const tiles: JSX.Element[] = [];
 
@@ -56,54 +81,12 @@ function HeroSection() {
     return pawns;
   };
 
-  const forwardVideoRef = useRef<HTMLVideoElement>(null);
-  const backwardVideoRef = useRef<HTMLVideoElement>(null);
-
-  useEffect(() => {
-    const forwardVideo = forwardVideoRef.current;
-    const backwardVideo = backwardVideoRef.current;
-
-    const handleForwardEnded = () => {
-      if (forwardVideo && backwardVideo) {
-        forwardVideo.style.display = 'none';
-        backwardVideo.style.display = 'block';
-        backwardVideo.play();
-      }
-    };
-
-    const handleBackwardEnded = () => {
-      if (forwardVideo && backwardVideo) {
-        forwardVideo.style.display = 'block';
-        backwardVideo.style.display = 'none';
-        forwardVideo.play();
-      }
-    };
-
-    if (forwardVideo && backwardVideo) {
-      forwardVideo.addEventListener('ended', handleForwardEnded);
-      backwardVideo.addEventListener('ended', handleBackwardEnded);
-    }
-
-    return () => {
-      if (forwardVideo && backwardVideo) {
-        forwardVideo.removeEventListener('ended', handleForwardEnded);
-        backwardVideo.removeEventListener('ended', handleBackwardEnded);
-      }
-    };
-  }, []);
-
   return (
     <section id="home-section" className={classes.hero}>
-      <div className={classes.hero__content}>
+      <div ref={heroRef} className={classes.hero__content}>
         <div className={classes.hero__content__background}>
-          <video ref={forwardVideoRef} autoPlay muted>
-            <source src="videos/hero-background-forward.mp4" type="video/mp4" />
-          </video>
-          <video ref={backwardVideoRef} style={{ display: 'none' }} muted>
-            <source
-              src="videos/hero-background-backward.mp4"
-              type="video/mp4"
-            />
+          <video ref={videoRef} autoPlay loop muted>
+            <source src="videos/hero-background.mp4" type="video/mp4" />
           </video>
         </div>
 
@@ -115,7 +98,9 @@ function HeroSection() {
         </div>
 
         <div className={classes.hero__content__intro}>
-          <h1>Welcome to BRN Chess</h1>
+          <h1>
+            Welcome to <br /> BRN Chess
+          </h1>
           <span>
             Welcome to the fascinating world of chess! Chess is one of the most
             popular and enduring games in the world, with millions of people

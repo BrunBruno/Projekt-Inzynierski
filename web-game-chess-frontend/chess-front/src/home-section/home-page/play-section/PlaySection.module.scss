@@ -3,23 +3,24 @@
 .play {
   @include container;
   position: relative;
+  margin-bottom: 1000px;
 
   &__content {
     position: relative;
-    width: 90rem;
-    height: 60rem;
+    padding: 0 16rem;
+
+    &__intro {
+      margin-bottom: 10rem;
+      h2 {
+        font-size: 12rem;
+        height: 10rem;
+        text-shadow: 0.55rem 0.2rem $mcolor9;
+      }
+    }
 
     &__board {
       position: relative;
-      @include absoluteCenter;
       @include squareBlock(60rem);
-
-      transform-origin: 0 0;
-      scale: 0.5;
-      opacity: 0;
-      transition:
-        scale 0.5s 0.5s,
-        opacity 0.5s 0.5s;
 
       @mixin subElement {
         content: '';
@@ -61,28 +62,24 @@
           grid-template-rows: repeat(8, 1fr);
           gap: 0.5rem;
 
-          border: solid 1rem $mcolor0;
           border-radius: $medium_br;
           overflow: hidden;
-          box-shadow: inset 0 0 1rem 0.5rem $mcolor0;
+          border: solid 1rem $gcolor8;
+          transition:
+            box-shadow 1s,
+            border-color 1s;
 
           .indicator {
             z-index: -2;
             position: absolute;
 
-            @include squareBlock(40rem);
+            @include squareBlock(20rem);
             border-radius: 100%;
 
             filter: blur(4rem);
             opacity: 1;
-            background-image: radial-gradient(
-              circle,
-              $gcolor0 30%,
-              $gcolor8 50%,
-              $gcolor9 100%
-            );
-            transform: translate(-55%, -55%);
-            transition: all 0.1s;
+            background-color: $gcolor0;
+            transform: translate(-60%, -60%);
           }
 
           .grid-row {
@@ -118,6 +115,11 @@
               }
             }
           }
+        }
+
+        .board-intro {
+          border-color: $gcolor0;
+          box-shadow: inset 0 0 1rem 0.5rem $gcolor0;
         }
 
         &__outer {
@@ -163,11 +165,6 @@
           }
         }
       }
-    }
-
-    .show-board {
-      scale: 1;
-      opacity: 1;
     }
   }
 }

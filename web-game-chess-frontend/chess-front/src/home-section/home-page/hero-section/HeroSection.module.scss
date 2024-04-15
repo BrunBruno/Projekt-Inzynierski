@@ -81,9 +81,8 @@
     height: 64rem;
 
     border-bottom-left-radius: $large_br;
-    // background-image: linear-gradient(#0000 0%, #000 100%);
-    // url('videos/6688632-uhd_3840_2160_25fps.mp4');
-    // url('images/hero-background.jpg');
+    background-image: linear-gradient(#0000 0%, #000 100%),
+      url('images/hero-background.jpg');
     background-color: #000;
     background-size: contain;
     background-repeat: no-repeat;
@@ -131,20 +130,7 @@
         z-index: 1;
         width: 100%;
         height: 100%;
-        // background-color: rgba(#000, 0.7);
-        // background: radial-gradient(
-        //   circle at 50% 50%,
-        //   rgba(#000, 0.5) 40%,
-        //   #000 41%,
-        //   #000 100%
-        // );
-        // background: radial-gradient(
-        //   circle at 30% 50%,
-        //   rgba(#000, 0.5) 0%,
-        //   rgba(#000, 0.5) 28%,
-        //   #000 40%,
-        //   #000 100%
-        // );
+        background-color: rgba(#000, 0.7);
       }
 
       video {
@@ -153,7 +139,6 @@
         height: 120%;
         object-fit: cover;
         filter: grayscale(100%);
-        // filter: invert(1);
       }
     }
 
@@ -176,40 +161,42 @@
         }
 
         svg.logo-svg {
-          height: 8rem;
+          height: 4rem;
         }
       }
 
       p {
-        font-size: 6rem;
+        font-size: 3rem;
         font-family: 'Knewave';
         overflow: hidden;
+        user-select: none;
       }
     }
 
     &__intro {
       position: absolute;
       left: 30%;
-      top: 40rem;
-      transform: translate(-50%, -50%) scale(0);
-      width: 60rem;
-      padding: 2rem;
-      height: 24rem;
+      top: 36rem;
+      transform: translate(-50%, -50%);
+      // transform: translate(-50%, -50%) scale(0);
+      width: 70rem;
+      padding: 2rem 6rem;
       overflow: hidden;
       border-radius: $small_br;
 
-      @include flexBlock(column, 2rem, center, center);
-      background-color: rgba($gcolor9, 0.3);
+      @include flexBlock(column, 3rem, center, center);
+      background-color: rgba($gcolor9, 0.2);
       text-shadow: 0.1rem 0.1rem #000;
 
-      animation: beginIntro 0.5s ease-in 2s forwards;
+      // animation: beginIntro 0.5s ease-in 2s forwards;
 
       h1 {
-        padding: 0.8rem 1.6rem;
+        padding: 0.8rem 6.4rem;
         text-align: center;
-        font-size: 3.2rem;
+        font-size: 6.4em;
         border: 0.5rem solid #0000;
-        width: calc(64rem - 2 * 1.6rem - 2 * 0.5rem);
+        text-shadow: 0.2rem 0.1rem $mcolor5;
+        user-select: none;
 
         background:
           conic-gradient(
@@ -228,28 +215,16 @@
 
       span {
         display: block;
-        font-size: 1.6rem;
-        color: $gcolor4;
-        opacity: 0;
-
-        animation: displaySpan 0.3s ease-in 2.5s forwards;
-      }
-
-      @keyframes displaySpan {
-        from {
-          opacity: 0;
-        }
-        to {
-          opacity: 1;
-        }
+        font-size: 1.8rem;
+        color: $gcolor5;
       }
     }
 
-    @keyframes beginIntro {
-      to {
-        transform: translate(-50%, -50%) scale(1);
-      }
-    }
+    // @keyframes beginIntro {
+    //   to {
+    //     transform: translate(-50%, -50%) scale(1);
+    //   }
+    // }
 
     @mixin extra {
       position: absolute;
@@ -285,10 +260,22 @@
         gap: 0;
 
         border: solid 0.5rem $gcolor0;
-        box-shadow: 0 0 4rem 2rem rgba($gcolor0, 0.5);
 
         transform-style: preserve-3d;
         transform: rotateX(70deg) rotateZ(45deg);
+        animation: boardHighlight 3s infinite;
+
+        @keyframes boardHighlight {
+          0% {
+            box-shadow: 0 0 4rem 2rem rgba($gcolor0, 0.5);
+          }
+          50% {
+            box-shadow: 0 0 4rem 3rem rgba($gcolor0, 0.5);
+          }
+          100% {
+            box-shadow: 0 0 4rem 2rem rgba($gcolor0, 0.5);
+          }
+        }
 
         &::after {
           content: '';
@@ -359,6 +346,7 @@
           width: 50%;
           height: calc(6rem + 10rem + 12rem);
           @include flexBlock(row, 0, center, start);
+          user-select: none;
 
           &:hover {
             cursor: pointer;
