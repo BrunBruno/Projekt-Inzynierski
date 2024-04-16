@@ -24,7 +24,7 @@ public class GetUserRequestHandler : IRequestHandler<GetUserRequest, GetUserDto>
         var userId = _userContext.GetUserId()!.Value;
 
         var user = await _userRepository.GetById(userId)
-            ?? throw new NotFoundException("User not found");
+            ?? throw new NotFoundException("User not found.");
 
         var userDto = new GetUserDto
         {

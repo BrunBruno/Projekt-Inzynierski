@@ -1,5 +1,6 @@
 ﻿
-namespace chess.Application.Requests.UserRequests.GetUser; 
+namespace chess.Application.Requests.UserRequests.GetUser;
+#pragma warning disable CS8618
 
 public class GetUserDto {
     public string Email { get; set; }

@@ -25,7 +25,7 @@ public class BanUserRequestHandler : IRequestHandler<BanUserRequest> {
             throw new BadRequestException("Duration not set.");
 
         if (request.IsForEver && request.Duration is not null)
-            throw new BadRequestException("Forever and duration set simultaneous.");
+            throw new BadRequestException("Forever and duration set simultaneously.");
 
         var bannedUser = new BannedUser()
         {

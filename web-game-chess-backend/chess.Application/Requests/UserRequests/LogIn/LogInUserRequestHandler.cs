@@ -32,7 +32,7 @@ public class LogInUserRequestHandler : IRequestHandler<LogInUserRequest, LogInUs
         var result = _passwordHasher.VerifyHashedPassword(user, user.PasswordHash, request.Password);
 
         if (result == PasswordVerificationResult.Failed)
-            throw new BadRequestException("Invalid email or password");
+            throw new BadRequestException("Invalid email or password.");
 
         var token = _jwtService.GetJwtToken(user);
 

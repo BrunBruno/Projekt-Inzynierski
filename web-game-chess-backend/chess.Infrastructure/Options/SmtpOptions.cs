@@ -1,5 +1,5 @@
 ﻿
-namespace chess.Infrastructure.Options; 
+namespace chess.Infrastructure.Options;
 
 public class SmtpOptions {
 

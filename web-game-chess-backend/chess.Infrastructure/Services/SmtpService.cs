@@ -6,6 +6,7 @@ using System.Net.Mime;
 using chess.Infrastructure.Options;
 
 namespace chess.Infrastructure.Services;
+
 public class SmtpService : ISmtpService {
 
     private readonly SmtpOptions _smtpOptions;
@@ -28,11 +29,10 @@ public class SmtpService : ISmtpService {
 
         mailMessage.To.Add(new MailAddress(email));
 
-        //mailMessage.AlternateViews.Add(GetEmbeddedImage("..\\public\\logo.png", string.Format(_smtpOptions.Body, message)));
-        mailMessage.AlternateViews.Add(GetEmbeddedImage("..\\logo.png", string.Format(_smtpOptions.Body, message)));
+        mailMessage.AlternateViews.Add(GetEmbeddedImage("../public/logo.png", string.Format(_smtpOptions.Body, message)));
 
-        using (var smtpClient = new SmtpClient(_smtpOptions.Host, _smtpOptions.Port))
-        {
+        using (var smtpClient = new SmtpClient(_smtpOptions.Host, _smtpOptions.Port)) {
+
             smtpClient.Credentials = new NetworkCredential(fromMail, fromPassword);
             smtpClient.EnableSsl = _smtpOptions.EnableSsl;
 

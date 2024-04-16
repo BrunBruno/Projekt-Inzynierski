@@ -8,9 +8,8 @@ public class IsVerifiedRequirementHandler : AuthorizationHandler<IsVerifiedRequi
 
         var isVerified = bool.Parse(context.User.FindFirst(c => c.Type == "IsVerified")!.Value);
 
-        if (isVerified == requirement.IsVerified) {
+        if (isVerified == requirement.IsVerified)
             context.Succeed(requirement);
-        }
 
         return Task.CompletedTask;
     }
