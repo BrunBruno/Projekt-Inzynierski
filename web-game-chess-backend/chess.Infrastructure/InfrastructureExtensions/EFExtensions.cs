@@ -20,6 +20,8 @@ public static class EFExtensions {
 
         services.AddScoped<IUserRepository, UserRepository>();
         services.AddScoped<IEmailVerificationCodeRepository, EmailVerificationCodeRepository>();
+        services.AddScoped<IPasswordConfigurationRepository, PasswordConfigurationRepository>();
+        services.AddScoped<IBannedUserRepository, BannedUserRepository>();
 
         return services;
     }

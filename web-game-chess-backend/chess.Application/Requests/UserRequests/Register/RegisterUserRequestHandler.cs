@@ -35,7 +35,7 @@ public class RegisterUserRequestHandler : IRequestHandler<RegisterUserRequest> {
         var emailAlreadyExists = await _userRepository.GetByEmail(request.Email.ToLower());
 
         if (emailAlreadyExists is not null)
-            throw new BadRequestException($"User with email: {request.Email} already exists.");
+            throw new BadRequestException("User already exists.");
 
         if (!request.Password.Equals(request.ConfirmPassword))
             throw new BadRequestException("Passwords don't match.");

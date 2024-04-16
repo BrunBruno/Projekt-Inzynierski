@@ -1,3 +1,4 @@
+using chess.Api.Maps;
 using chess.Application;
 using chess.Infrastructure;
 using chess.Shared;
@@ -12,6 +13,7 @@ builder.Services.AddShared();
 builder.Services.AddApplication();
 builder.Services.AddInfrastructure(builder.Configuration);
 builder.Services.AddControllers();
+builder.Services.AddMappingProfiles();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();

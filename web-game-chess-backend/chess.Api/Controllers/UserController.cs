@@ -1,6 +1,8 @@
 ﻿
 using AutoMapper;
 using chess.Api.Models.UserModels;
+using chess.Application.Requests.UserRequests.BanUser;
+using chess.Application.Requests.UserRequests.GetPasswordConfiguration;
 using chess.Application.Requests.UserRequests.GetUser;
 using chess.Application.Requests.UserRequests.IsEmailVerified;
 using chess.Application.Requests.UserRequests.LogIn;
@@ -25,30 +27,9 @@ public class UserController : ControllerBase {
         _mapper = mapper;
     }
 
-    [HttpGet]
-    [Authorize]
-    public async Task<IActionResult> GetUser() {
-
-        var request = new GetUserRequest();
-
-        var user = await _mediator.Send(request);
-        return Ok(user);
-    }
-
 
     [HttpPost("sign-up")]
     public async Task<IActionResult> Register([FromBody] RegisterUserModel model) {
-
-        /*var request = new RegisterUserRequest()
-        {
-            Email = model.Email,
-            Username = model.Username,
-            FirstName = model.FirstName,
-            LastName = model.LastName,
-            Password = model.Password,
-            ConfirmPassword = model.ConfirmPassword,
-            ImageUrl = model.ImageUrl,
-        };*/
 
         var request = _mapper.Map<RegisterUserRequest>(model);
 
@@ -60,11 +41,7 @@ public class UserController : ControllerBase {
     [HttpPost("sign-in")]
     public async Task<IActionResult> LogIn([FromBody] LogInUserModel model) {
 
-        var request = new LogInUserRequest()
-        {
-            Email = model.Email,
-            Password = model.Password,
-        };
+        var request = _mapper.Map<LogInUserRequest>(model);
 
         var token = await _mediator.Send(request);
         return Ok(token);
@@ -82,17 +59,36 @@ public class UserController : ControllerBase {
     }
 
 
+    [HttpPost("ban")]
+    [Authorize(Roles = "Admin")]
+    public async Task<IActionResult> BanUser([FromBody] BanUserModel model) {
+
+        var request = _mapper.Map<BanUserRequest>(model);
+
+        await _mediator.Send(request);
+        return Ok();
+    }
+
+
     [HttpPut("verify-email")]
     [Authorize(Policy = "IsNotVerified")]
     public async Task<IActionResult> VerifyEmail([FromBody] VerifyEmailModel model) {
 
-        var request = new VerifyEmailRequest()
-        {
-            Code = model.Code,
-        };
+        var request = _mapper.Map<VerifyEmailRequest>(model);
 
         await _mediator.Send(request);
         return Ok();
+    }
+
+
+    [HttpGet]
+    [Authorize]
+    public async Task<IActionResult> GetUser() {
+
+        var request = new GetUserRequest();
+
+        var user = await _mediator.Send(request);
+        return Ok(user);
     }
 
 
@@ -104,5 +100,15 @@ public class UserController : ControllerBase {
 
         var result = await _mediator.Send(request);
         return Ok(result);
+    }
+
+
+    [HttpGet("configuration")]
+    public async Task<IActionResult> GetPasswordConfiguration() {
+
+        var request = new GetPasswordConfigurationRequest();
+
+        var passwordConfiguration = await _mediator.Send(request);
+        return Ok(passwordConfiguration);
     }
 }
