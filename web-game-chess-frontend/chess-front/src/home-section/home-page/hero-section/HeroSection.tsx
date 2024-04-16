@@ -1,4 +1,4 @@
-import { generateRandomId } from '../../../shared/functions/SharedFunctions';
+import { generateRandomId } from '../../../shared/functions/Functions';
 
 import classes from './HeroSection.module.scss';
 
@@ -16,21 +16,30 @@ const defsIds = {
 };
 
 function HeroSection() {
+  const h = window.innerHeight * 0.7;
+  const pawnSectionNumber = 6;
+
   const heroRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
-    const handleScroll = () => {
-      if (heroRef.current) {
-        const h = window.innerHeight * 0.7;
+    const handleHeroOnScroll = () => {
+      const element = heroRef.current;
+
+      if (element) {
         const y = window.scrollY;
-        const brightness = -100 / (1 + Math.pow(Math.E, -(y - h) / 100)) + 100;
-        heroRef.current.style.filter = `brightness(${brightness}%)`;
+
+        if (y < element.clientHeight * 1.5) {
+          const brightness =
+            -100 / (1 + Math.pow(Math.E, -(y - h) / 100)) + 100;
+
+          element.style.filter = `brightness(${brightness}%)`;
+        }
       }
     };
 
-    window.addEventListener('scroll', handleScroll);
+    window.addEventListener('scroll', handleHeroOnScroll);
 
     return () => {
-      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener('scroll', handleHeroOnScroll);
     };
   }, [heroRef]);
 
@@ -68,12 +77,9 @@ function HeroSection() {
           className={`${classes['img-pawn-container']} ${classes[pawnClass]}`}
           style={{ left: `${leftP}%`, top: `${topP}%` }}
         >
-          <div />
-          <div />
-          <div />
-          <div />
-          <div />
-          <div />
+          {Array.from({ length: pawnSectionNumber }).map((_, index) => (
+            <div key={index} />
+          ))}
         </div>
       );
     }
@@ -119,12 +125,9 @@ function HeroSection() {
               className={`${classes['signin-pawn']} ${classes['pawn-container']}`}
             >
               <div className={classes['img-pawn-container']}>
-                <div />
-                <div />
-                <div />
-                <div />
-                <div />
-                <div />
+                {Array.from({ length: pawnSectionNumber }).map((_, index) => (
+                  <div key={index} />
+                ))}
               </div>
               <p>Sign In</p>
             </div>
@@ -132,12 +135,9 @@ function HeroSection() {
               className={`${classes['signup-pawn']} ${classes['pawn-container']}`}
             >
               <div className={classes['img-pawn-container']}>
-                <div />
-                <div />
-                <div />
-                <div />
-                <div />
-                <div />
+                {Array.from({ length: pawnSectionNumber }).map((_, index) => (
+                  <div key={index} />
+                ))}
               </div>
               <p>Sign Up</p>
             </div>

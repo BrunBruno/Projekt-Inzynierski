@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react';
-import { generateRandomId } from '../../shared/functions/SharedFunctions';
+import { generateRandomId } from '../../shared/functions/Functions';
 
 import classes from './HomePage.module.scss';
 import navClasses from './nav-section/NavSection.module.scss';

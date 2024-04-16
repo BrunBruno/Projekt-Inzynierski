@@ -1,26 +1,74 @@
 @import '../HomePage.module.scss';
 
 .play {
+  margin-bottom: 1000px;
+
   @include container;
   position: relative;
-  margin-bottom: 1000px;
+  display: grid;
+  grid-template-columns: auto 60rem;
+  padding-top: 10rem;
 
   &__content {
     position: relative;
-    padding: 0 16rem;
+    padding: 0 10rem;
 
     &__intro {
+      position: relative;
       margin-bottom: 10rem;
-      h2 {
-        font-size: 12rem;
+
+      background-color: $mcolor0;
+      background-clip: text;
+      -webkit-background-clip: text;
+      color: #0000;
+
+      &::after {
+        @include subElement;
+        bottom: -4rem;
+        width: 0;
+        height: 0.1rem;
+        box-shadow: 0 0 1rem 0.1rem $mcolor0;
+        background-color: $mcolor0;
+
+        transition: width 0.5s;
+      }
+
+      &::before {
+        @include subElement;
+        @include roundedBlock(100%, 0);
+        width: 10rem;
         height: 10rem;
-        text-shadow: 0.55rem 0.2rem $mcolor9;
+        left: 120rem;
+        bottom: calc(-4rem - 5rem);
+        scale: 0;
+        transform-origin: 0 50%;
+        border: solid 0.1rem $mcolor0;
+        box-shadow: 0 0 1rem 0.1rem $mcolor0;
+
+        transition: scale 0.2s 0.5s;
+      }
+
+      h2 {
+        font-size: 16rem;
+        line-height: 12rem;
+        letter-spacing: -1rem;
+      }
+    }
+
+    .open-intro {
+      &::after {
+        width: 120rem;
+      }
+      &::before {
+        scale: 1;
       }
     }
 
     &__board {
       position: relative;
       @include squareBlock(60rem);
+      margin: auto;
+      transform: scale(0.5);
 
       @mixin subElement {
         content: '';
@@ -65,6 +113,7 @@
           border-radius: $medium_br;
           overflow: hidden;
           border: solid 1rem $gcolor8;
+
           transition:
             box-shadow 1s,
             border-color 1s;
@@ -130,7 +179,6 @@
           display: grid;
           grid-template-columns: repeat(8, 1fr);
           grid-template-rows: repeat(8, 1fr);
-
           border: solid 1rem #0000;
 
           .pawn {
@@ -162,6 +210,64 @@
               filter: blur(0.4rem);
               rotate: 5deg;
             }
+          }
+        }
+      }
+    }
+  }
+
+  &__actions {
+    height: 100%;
+    @include flexBlock(column, 0, end, end);
+    padding: 0 8rem;
+    pointer-events: none;
+
+    &__buttons {
+      width: 100%;
+      height: 60rem;
+      @include flexBlock(column, 4rem, center, center);
+      pointer-events: all;
+
+      h3 {
+        font-size: 4rem;
+      }
+
+      h4 {
+        font-size: 2rem;
+        color: $gcolor4;
+        text-align: justify;
+      }
+
+      button {
+        @include Button(4rem);
+        @include flexBlock(row, 2rem, space-between, center);
+        // width: 100%;
+
+        svg {
+          height: 6rem;
+        }
+      }
+
+      .vs-player-button {
+        @include mainButton;
+        .vs-player-icon {
+          path {
+            fill: $mcolor0;
+          }
+        }
+      }
+      .vs-computer-button {
+        @include secondaryButton;
+        .vs-computer-icon {
+          path {
+            fill: $mcolor9;
+            transition: fill 0.3s;
+          }
+        }
+
+        &:hover {
+          path {
+            fill: $mcolor0;
           }
         }
       }

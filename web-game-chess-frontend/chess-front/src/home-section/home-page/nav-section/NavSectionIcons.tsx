@@ -1,9 +1,6 @@
 import classes from './NavSection.module.scss';
 import { mainColor } from '../../../shared/styles/Variables';
-
-type IconMap = {
-  [key: string]: JSX.Element;
-};
+import { IconMap } from '../../../shared/functions/Types';
 
 const icons: IconMap = {
   home: (
@@ -58,11 +55,11 @@ const icons: IconMap = {
   ),
 };
 
-type HeaderSectionIconsProps = {
+type NavSectionIconsProps = {
   iconName: string;
 };
 
-function NavSectionIcons({ iconName }: HeaderSectionIconsProps) {
+function NavSectionIcons({ iconName }: NavSectionIconsProps) {
   const icon = icons[iconName];
 
   return icon ? icon : <></>;
