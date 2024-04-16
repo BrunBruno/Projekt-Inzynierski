@@ -22,8 +22,4 @@
     <ProjectReference Include="..\chess.Shared\chess.Shared.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="InfrastructureExtensions\" />
-  </ItemGroup>
-
 </Project>
