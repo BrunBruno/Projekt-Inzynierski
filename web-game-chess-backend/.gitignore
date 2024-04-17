@@ -5,7 +5,6 @@ obj/
 /_ReSharper.Caches/
 .idea
 volumes
-[Mm]igrations/
 riderModule.iml
 FodyWeavers.xml
 FodyWeavers.xsd
