@@ -1,8 +1,6 @@
-@import '../HomePage.module.scss';
+@import "../HomePage.module.scss";
 
 .play {
-  margin-bottom: 1000px;
-
   @include container;
   position: relative;
   display: grid;
@@ -14,13 +12,10 @@
     padding: 0 10rem;
 
     &__intro {
+      @include textBg;
       position: relative;
       margin-bottom: 10rem;
-
       background-color: $mcolor0;
-      background-clip: text;
-      -webkit-background-clip: text;
-      color: #0000;
 
       &::after {
         @include subElement;
@@ -33,22 +28,8 @@
         transition: width 0.5s;
       }
 
-      &::before {
-        @include subElement;
-        @include roundedBlock(100%, 0);
-        width: 10rem;
-        height: 10rem;
-        left: 120rem;
-        bottom: calc(-4rem - 5rem);
-        scale: 0;
-        transform-origin: 0 50%;
-        border: solid 0.1rem $mcolor0;
-        box-shadow: 0 0 1rem 0.1rem $mcolor0;
-
-        transition: scale 0.2s 0.5s;
-      }
-
       h2 {
+        user-select: none;
         font-size: 16rem;
         line-height: 12rem;
         letter-spacing: -1rem;
@@ -57,47 +38,42 @@
 
     .open-intro {
       &::after {
-        width: 120rem;
-      }
-      &::before {
-        scale: 1;
+        width: 180%;
       }
     }
 
     &__board {
-      position: relative;
       @include squareBlock(60rem);
+      position: relative;
       margin: auto;
-      transform: scale(0.5);
+      // transform: scale(0.5);
 
-      @mixin subElement {
-        content: '';
+      @mixin boardSubElement {
+        @include subElement;
+        @include circleBlock(30rem);
         z-index: -1;
-        position: absolute;
-        @include squareBlock(30rem);
-        border-radius: 100%;
-        filter: blur(4rem);
         background-color: rgba($gcolor0, 0.2);
         box-shadow: 0 0 1rem 5rem rgba($gcolor0, 0.01);
+        filter: blur(4rem);
       }
 
       &::after {
-        @include subElement();
+        @include boardSubElement;
         top: 0;
         left: -5rem;
       }
 
       &::before {
-        @include subElement();
+        @include boardSubElement;
         bottom: -3rem;
         right: -3rem;
       }
 
       &__grid {
         position: relative;
-        border-radius: $medium_br;
         overflow: hidden;
 
+        border-radius: $medium_br;
         background-color: $gcolor9;
         box-shadow: -2rem 2rem 0 0 $gcolor9;
 
@@ -110,24 +86,21 @@
           grid-template-rows: repeat(8, 1fr);
           gap: 0.5rem;
 
-          border-radius: $medium_br;
           overflow: hidden;
+          border-radius: $medium_br;
           border: solid 1rem $gcolor8;
 
-          transition:
-            box-shadow 1s,
-            border-color 1s;
+          transition: box-shadow 1s, border-color 1s;
 
           .indicator {
+            @include circleBlock(20rem);
             z-index: -2;
             position: absolute;
 
-            @include squareBlock(20rem);
-            border-radius: 100%;
-
-            filter: blur(4rem);
             opacity: 1;
             background-color: $gcolor0;
+            filter: blur(4rem);
+
             transform: translate(-60%, -60%);
           }
 
@@ -173,8 +146,7 @@
 
         &__outer {
           @include absoluteCenter;
-          height: 100%;
-          width: 100%;
+          @include squareBlock(100%);
 
           display: grid;
           grid-template-columns: repeat(8, 1fr);
@@ -217,19 +189,20 @@
   }
 
   &__actions {
-    height: 100%;
     @include flexBlock(column, 0, end, end);
-    padding: 0 8rem;
+    height: 100%;
+    padding-right: 12rem;
     pointer-events: none;
 
     &__buttons {
+      @include flexBlock(column, 4rem, center, center);
       width: 100%;
       height: 60rem;
-      @include flexBlock(column, 4rem, center, center);
       pointer-events: all;
 
       h3 {
         font-size: 4rem;
+        text-shadow: 0.2rem 0.1rem $mcolor5;
       }
 
       h4 {
@@ -241,7 +214,6 @@
       button {
         @include Button(4rem);
         @include flexBlock(row, 2rem, space-between, center);
-        // width: 100%;
 
         svg {
           height: 6rem;

@@ -1,4 +1,8 @@
-export const mainColor = {
+type colorMap = {
+  [key: string]: string;
+};
+
+export const mainColor: colorMap = {
   c0: "#f3f0ff",
   c1: "#e5dbff",
   c2: "#d0bfff",

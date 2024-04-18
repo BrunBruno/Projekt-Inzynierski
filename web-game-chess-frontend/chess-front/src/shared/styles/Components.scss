@@ -1,5 +1,5 @@
-@import './Variables.scss';
-@import './CommonStyles.scss';
+@import "./Variables.scss";
+@import "./CommonStyles.scss";
 
 @mixin main-scrollbar($bgcolor, $mainColor, $sideColor) {
   $mainrgb: map-get($colorMap, $mainColor);
@@ -175,11 +175,4 @@
   &:active {
     border-color: $gcolor3;
   }
-}
-
-@mixin subElement {
-  content: '';
-  position: absolute;
-  width: 100%;
-  height: 100%;
 }
