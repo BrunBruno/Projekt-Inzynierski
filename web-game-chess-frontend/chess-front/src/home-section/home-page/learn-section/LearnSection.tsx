@@ -1,8 +1,8 @@
-import { forwardRef, useEffect, useImperativeHandle, useRef } from "react";
-import classes from "./LearnSection.module.scss";
-import { HandleOnScroll } from "../../../shared/functions/Types";
-import { getRandomColor } from "../../../shared/functions/Functions";
-import React from "react";
+import { forwardRef, useEffect, useImperativeHandle, useRef } from 'react';
+import classes from './LearnSection.module.scss';
+import { HandleOnScroll } from '../../../shared/functions/Types';
+import { getRandomColor } from '../../../shared/functions/Functions';
+import React from 'react';
 
 type LearnSectionProps = {};
 
@@ -17,8 +17,8 @@ const LearnSection = forwardRef<HandleOnScroll, LearnSectionProps>(
     useEffect(() => {
       const observerOptions = {
         root: null,
-        rootMargin: "0px",
-        threshold: 0.05,
+        rootMargin: '0px',
+        threshold: 0,
       };
 
       const observer = new IntersectionObserver(
@@ -28,9 +28,9 @@ const LearnSection = forwardRef<HandleOnScroll, LearnSectionProps>(
         ) => {
           entries.forEach((entry) => {
             if (entry.isIntersecting) {
-              entry.target.classList.add(classes["open-card"]);
+              entry.target.classList.add(classes['open-card']);
             } else {
-              entry.target.classList.remove(classes["open-card"]);
+              entry.target.classList.remove(classes['open-card']);
             }
           });
         },
@@ -59,9 +59,15 @@ const LearnSection = forwardRef<HandleOnScroll, LearnSectionProps>(
             ref={(ref) => (cardRefs.current[i] = ref!)}
             key={`card-${i}`}
             className={classes.learn__join__card}
-            style={{ top: `${i * 10}rem`, backgroundColor: randomColor }}
+            style={{
+              top: `${Math.floor(i / 2) * 30}rem`,
+              borderColor: randomColor,
+            }}
           >
-            <div className={classes.learn__join__card__inner} />
+            <div
+              className={classes.learn__join__card__inner}
+              style={{ backgroundImage: `url('images/learn-bg${i}.jpg')` }}
+            />
           </div>
         );
       }
@@ -125,7 +131,14 @@ const LearnSection = forwardRef<HandleOnScroll, LearnSectionProps>(
         <div className={classes.learn__join}>
           {generateCards()}
           <div className={classes.learn__join__button}>
-            <button>JOIN NOW !!!</button>
+            <h2>BRN CHESS</h2>
+            <h3>
+              In the heart of the chessboard, where kings reign and pawns dream,
+              we find ourselves in a realm where intellect meets strategy, where
+              every move is a step towards victory, where each decision carries
+              the weight of kingdoms.
+            </h3>
+            <button>JOIN NOW</button>
           </div>
         </div>
       </section>
