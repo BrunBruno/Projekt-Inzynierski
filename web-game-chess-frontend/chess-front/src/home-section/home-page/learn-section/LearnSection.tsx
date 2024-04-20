@@ -1,14 +1,22 @@
-import React from "react";
-import { forwardRef, useEffect, useImperativeHandle, useRef } from "react";
-import classes from "./LearnSection.module.scss";
-import { HandleOnScroll } from "../../../shared/functions/Types";
-import { getRandomColor } from "../../../shared/functions/Functions";
-import LearnSectionBlocks from "./LearnSectionBlocks";
+import React from 'react';
+import { forwardRef, useEffect, useImperativeHandle, useRef } from 'react';
+import classes from './LearnSection.module.scss';
+import { HandleOnScroll } from '../../../shared/functions/Types';
+import {
+  createOneTimeObserver,
+  getRandomColor,
+} from '../../../shared/functions/Functions';
+import LearnSectionBlocks from './LearnSectionBlocks';
 
-type LearnSectionProps = {};
+type LearnSectionProps = {
+  sectionRef: React.RefObject<HTMLElement>;
+};
 
 const LearnSection = forwardRef<HandleOnScroll, LearnSectionProps>(
-  ({}: LearnSectionProps, ref: React.ForwardedRef<HandleOnScroll>) => {
+  (
+    { sectionRef }: LearnSectionProps,
+    ref: React.ForwardedRef<HandleOnScroll>
+  ) => {
     const handleOnScroll = () => {};
     useImperativeHandle(ref, () => ({
       handleOnScroll,
@@ -16,33 +24,20 @@ const LearnSection = forwardRef<HandleOnScroll, LearnSectionProps>(
 
     const cardRefs = useRef<HTMLDivElement[]>([]);
     useEffect(() => {
-      const observerOptions = {
-        root: null,
-        rootMargin: "0px",
-        threshold: 0,
+      const observerAction = (entry: IntersectionObserverEntry): void => {
+        entry.target.classList.add(classes['open-card']);
       };
-
-      const observer = new IntersectionObserver((
-        entries: IntersectionObserverEntry[]
-        // observer: IntersectionObserver
-      ) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add(classes["open-card"]);
-          } else {
-            entry.target.classList.remove(classes["open-card"]);
-          }
-        });
-      }, observerOptions);
+      const observer: IntersectionObserver = createOneTimeObserver(
+        observerAction,
+        {}
+      );
 
       cardRefs.current.forEach((cardRef) => {
         observer.observe(cardRef);
       });
 
       return () => {
-        cardRefs.current.forEach((cardRef) => {
-          observer.unobserve(cardRef);
-        });
+        observer.disconnect();
       };
     }, []);
 
@@ -74,7 +69,7 @@ const LearnSection = forwardRef<HandleOnScroll, LearnSectionProps>(
     };
 
     return (
-      <section id="learn-section" className={classes.learn}>
+      <section id="learn-section" ref={sectionRef} className={classes.learn}>
         <LearnSectionBlocks />
         <div className={classes.learn__join}>
           {generateCards()}

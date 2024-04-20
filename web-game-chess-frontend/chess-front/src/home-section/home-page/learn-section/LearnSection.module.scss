@@ -1,7 +1,8 @@
-@import "../HomePage.module.scss";
+@import '../HomePage.module.scss';
 
 .learn {
   @include container;
+  margin-bottom: 40rem;
 
   &__z_pattern {
     display: grid;
@@ -33,17 +34,17 @@
         bottom: 0rem;
         width: 100%;
 
-        transform: scaleX(0);
-        transition: transform 0.5s 0.5s;
-
         svg {
           height: 3.8rem;
-          filter: drop-shadow(0 0 0.5rem $mcolor0);
+          filter: drop-shadow(0 0 0 $mcolor0) brightness(20%);
+          transition: filter 0.5s 0.5s;
         }
       }
 
       .active-line {
-        transform: scaleX(1);
+        svg {
+          filter: drop-shadow(0 0 0.5rem $mcolor0) brightness(100%);
+        }
       }
 
       &__icon {
@@ -94,7 +95,7 @@
           height: 16rem;
           background-color: #000;
           border: solid 0.4rem $gcolor5;
-          font-family: "Knewave";
+          font-family: 'Knewave';
           font-size: 10rem;
           user-select: none;
         }
@@ -197,7 +198,7 @@
 
       h2 {
         font-size: 4rem;
-        font-family: "Knewave";
+        font-family: 'Knewave';
         user-select: none;
         text-align: center;
         color: $mcolor5;

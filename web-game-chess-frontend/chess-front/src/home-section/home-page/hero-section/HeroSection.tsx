@@ -1,10 +1,15 @@
-import { forwardRef, useEffect, useImperativeHandle, useRef } from "react";
-import { generateRandomId } from "../../../shared/functions/Functions";
-import { HandleOnScroll } from "../../../shared/functions/Types";
+import React, {
+  forwardRef,
+  useEffect,
+  useImperativeHandle,
+  useRef,
+} from 'react';
+import { generateRandomId } from '../../../shared/functions/Functions';
+import { HandleOnScroll } from '../../../shared/functions/Types';
 
-import classes from "./HeroSection.module.scss";
+import classes from './HeroSection.module.scss';
 
-import LogoIconSvg from "../../../shared/svgs/LogoIconSvg";
+import LogoIconSvg from '../../../shared/svgs/LogoIconSvg';
 
 const defsIds = {
   id0: generateRandomId(),
@@ -16,10 +21,15 @@ const defsIds = {
   id6: generateRandomId(),
 };
 
-type HeroSectionProps = {};
+type HeroSectionProps = {
+  sectionRef: React.RefObject<HTMLElement>;
+};
 
 const HeroSection = forwardRef<HandleOnScroll, HeroSectionProps>(
-  ({}: HeroSectionProps, ref: React.ForwardedRef<HandleOnScroll>) => {
+  (
+    { sectionRef }: HeroSectionProps,
+    ref: React.ForwardedRef<HandleOnScroll>
+  ) => {
     const h = window.innerHeight * 0.7;
     const pawnSectionNumber = 6;
 
@@ -72,12 +82,12 @@ const HeroSection = forwardRef<HandleOnScroll, HeroSectionProps>(
         const leftP = (i * 100) / (numOfPawns - 1);
         const topP = (1 / 200) * Math.pow(-(leftP - 100 / 2), 2) - 8;
 
-        const pawnClass = i % 2 === 0 ? "pawn-black" : "pawn-white";
+        const pawnClass = i % 2 === 0 ? 'pawn-black' : 'pawn-white';
 
         pawns.push(
           <div
             key={i}
-            className={`${classes["img-pawn-container"]} ${classes[pawnClass]}`}
+            className={`${classes['img-pawn-container']} ${classes[pawnClass]}`}
             style={{ left: `${leftP}%`, top: `${topP}%` }}
           >
             {Array.from({ length: pawnSectionNumber }).map((_, index) => (
@@ -91,7 +101,7 @@ const HeroSection = forwardRef<HandleOnScroll, HeroSectionProps>(
     };
 
     return (
-      <section id="home-section" className={classes.hero}>
+      <section id="home-section" ref={sectionRef} className={classes.hero}>
         <div ref={heroRef} className={classes.hero__content}>
           <div className={classes.hero__content__background}>
             {/*<video ref={videoRef} autoPlay loop muted>
@@ -99,9 +109,9 @@ const HeroSection = forwardRef<HandleOnScroll, HeroSectionProps>(
           </video>*/}
           </div>
 
-          <div className={classes["nav-logo"]}>
+          <div className={classes['nav-logo']}>
             <a href="/">
-              <LogoIconSvg iconClass={classes["logo-svg"]} defsIds={defsIds} />
+              <LogoIconSvg iconClass={classes['logo-svg']} defsIds={defsIds} />
             </a>
             <p>Chess</p>
           </div>
@@ -120,15 +130,15 @@ const HeroSection = forwardRef<HandleOnScroll, HeroSectionProps>(
             </span>
           </div>
           <div className={classes.hero__content__extra_bg}>
-            <div className={classes["board-grid"]}>{generateGrid()}</div>
+            <div className={classes['board-grid']}>{generateGrid()}</div>
             {generatePawns()}
           </div>
           <div className={classes.hero__content__extra}>
-            <div className={classes["hero-actions"]}>
+            <div className={classes['hero-actions']}>
               <div
-                className={`${classes["signin-pawn"]} ${classes["pawn-container"]}`}
+                className={`${classes['signin-pawn']} ${classes['pawn-container']}`}
               >
-                <div className={classes["img-pawn-container"]}>
+                <div className={classes['img-pawn-container']}>
                   {Array.from({ length: pawnSectionNumber }).map((_, index) => (
                     <div key={index} />
                   ))}
@@ -136,9 +146,9 @@ const HeroSection = forwardRef<HandleOnScroll, HeroSectionProps>(
                 <p>Sign In</p>
               </div>
               <div
-                className={`${classes["signup-pawn"]} ${classes["pawn-container"]}`}
+                className={`${classes['signup-pawn']} ${classes['pawn-container']}`}
               >
-                <div className={classes["img-pawn-container"]}>
+                <div className={classes['img-pawn-container']}>
                   {Array.from({ length: pawnSectionNumber }).map((_, index) => (
                     <div key={index} />
                   ))}

@@ -1,19 +1,17 @@
-import React from "react";
-import { useEffect, useRef } from "react";
-import { generateRandomId } from "../../shared/functions/Functions";
-import { HandleOnScroll } from "../../shared/functions/Types";
+import React from 'react';
+import { useEffect, useRef } from 'react';
+import { generateRandomId } from '../../shared/functions/Functions';
+import { HandleOnScroll } from '../../shared/functions/Types';
+import classes from './HomePage.module.scss';
+import navClasses from './nav-section/NavSection.module.scss';
+import NavSection from './nav-section/NavSection';
+import HeroSection from './hero-section/HeroSection';
+import PlaySection from './play-section/PlaySection';
+import LearnSection from './learn-section/LearnSection';
+import FaqSection from './faq-section/FaqSection';
+import LogoIconSvg from '../../shared/svgs/LogoIconSvg';
 
-import classes from "./HomePage.module.scss";
-import navClasses from "./nav-section/NavSection.module.scss";
-
-import NavSection from "./nav-section/NavSection";
-import HeroSection from "./hero-section/HeroSection";
-import PlaySection from "./play-section/PlaySection";
-import LearnSection from "./learn-section/LearnSection";
-import FaqSection from "./faq-section/FaqSection";
-import LogoIconSvg from "../../shared/svgs/LogoIconSvg";
-
-const indicators = ["home", "play", "learn", "faq"] as const;
+const indicators = ['home', 'play', 'learn', 'faq'] as const;
 
 const defsIds = {
   id0: generateRandomId(),
@@ -25,30 +23,28 @@ const defsIds = {
   id6: generateRandomId(),
 };
 
+interface Section {
+  id: string;
+  indRef: React.MutableRefObject<HTMLDivElement | null>;
+  forRef: React.MutableRefObject<HandleOnScroll | null>;
+  sectionRef: React.MutableRefObject<HTMLElement | null>;
+}
+
 function HomePage() {
-  const sections = [
-    {
-      id: "home",
-      ref: useRef<HTMLDivElement>(null),
-      forRef: useRef<HandleOnScroll>(null),
-    },
-    {
-      id: "play",
-      ref: useRef<HTMLDivElement>(null),
-      forRef: useRef<HandleOnScroll>(null),
-    },
-    {
-      id: "learn",
-      ref: useRef<HTMLDivElement>(null),
-      forRef: useRef<HandleOnScroll>(null),
-    },
-    {
-      id: "faq",
-      ref: useRef<HTMLDivElement>(null),
-      forRef: useRef<HandleOnScroll>(null),
-    },
-  ];
+  const createSection = (sectionId: string): Section => ({
+    id: sectionId,
+    indRef: useRef<HTMLDivElement>(null),
+    forRef: useRef<HandleOnScroll>(null),
+    sectionRef: useRef<HTMLElement>(null),
+  });
+
   const navForRef = useRef<HandleOnScroll>(null);
+  const sections: Section[] = [
+    createSection('home'),
+    createSection('play'),
+    createSection('learn'),
+    createSection('faq'),
+  ];
 
   // scroll events
   const handleScroll = () => {
@@ -61,9 +57,9 @@ function HomePage() {
   };
 
   useEffect(() => {
-    window.addEventListener("scroll", handleScroll);
+    window.addEventListener('scroll', handleScroll);
     return () => {
-      window.removeEventListener("scroll", handleScroll);
+      window.removeEventListener('scroll', handleScroll);
     };
   }, []);
 
@@ -72,9 +68,8 @@ function HomePage() {
     const observer = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
-          let elements: HTMLCollectionOf<Element> = document.getElementsByClassName(
-            navClasses.nav_element
-          );
+          let elements: HTMLCollectionOf<Element> =
+            document.getElementsByClassName(navClasses.nav_element);
 
           for (let i = 0; i < elements.length; i++) {
             elements[i].classList.remove(navClasses.active);
@@ -88,8 +83,8 @@ function HomePage() {
     });
 
     sections.forEach((section) => {
-      if (section.ref.current) {
-        observer.observe(section.ref.current);
+      if (section.indRef.current) {
+        observer.observe(section.indRef.current);
       }
     });
 
@@ -101,21 +96,20 @@ function HomePage() {
   // intro animation
   const bgRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
-    const hasAnimationPlayed = sessionStorage.getItem("animationPlayed");
+    const hasAnimationPlayed = sessionStorage.getItem('animationPlayed');
     if (!hasAnimationPlayed) {
       const bgElement = bgRef.current;
       if (bgElement) {
-        bgElement.classList.remove(classes["intro-remove"]);
-        bgElement.classList.add(classes["intro-begin"]);
+        bgElement.classList.remove(classes['intro-remove']);
+        bgElement.classList.add(classes['intro-begin']);
       }
 
       const timeoutId = setTimeout(() => {
         if (bgElement) {
-          bgElement.classList.add(classes["intro-remove"]);
-          sessionStorage.setItem("animationPlayed", "true");
+          bgElement.classList.add(classes['intro-remove']);
+          sessionStorage.setItem('animationPlayed', 'true');
         }
-        //}, 2500);
-      }, 3500);
+      }, 2500);
 
       return () => {
         clearTimeout(timeoutId);
@@ -123,13 +117,29 @@ function HomePage() {
     }
   }, []);
 
+  // set indicators heights
+  useEffect(() => {
+    const wH = window.innerHeight;
+    for (let i = 0; i < sections.length; i++) {
+      const sectionElement = sections[i].sectionRef.current;
+      const sectionIndicator = sections[i].indRef.current;
+
+      if (sectionElement && sectionIndicator) {
+        const sH = sectionElement.offsetHeight;
+        const indH = sH - wH;
+
+        sectionIndicator.style.height = `${indH}px`;
+      }
+    }
+  }, [sections]);
+
   return (
-    <main className={classes["home-main"]}>
+    <main className={classes['home-main']}>
       <div
         ref={bgRef}
-        className={`${classes["intro-background"]} ${classes["intro-remove"]}`}
+        className={`${classes['intro-background']} ${classes['intro-remove']}`}
       >
-        <div className={classes["intro-logo"]}>
+        <div className={classes['intro-logo']}>
           <LogoIconSvg iconClass="" defsIds={defsIds} />
           <p>Chess</p>
         </div>
@@ -141,10 +151,10 @@ function HomePage() {
         <React.Fragment key={section.id}>
           <div
             id={`obs-${section.id}`}
-            ref={section.ref}
+            ref={section.indRef}
             className={classes.observe}
           />
-          {renderSection(section.id, section.forRef)}
+          {renderSection(section.id, section.forRef, section.sectionRef)}
         </React.Fragment>
       ))}
 
@@ -153,16 +163,20 @@ function HomePage() {
   );
 }
 
-function renderSection(id: string, forRef: React.RefObject<HandleOnScroll>) {
+function renderSection(
+  id: string,
+  forRef: React.RefObject<HandleOnScroll>,
+  sectionRef: React.RefObject<HTMLElement>
+) {
   switch (id) {
-    case "home":
-      return <HeroSection ref={forRef} />;
-    case "play":
-      return <PlaySection ref={forRef} />;
-    case "learn":
-      return <LearnSection ref={forRef} />;
-    case "faq":
-      return <FaqSection ref={forRef} />;
+    case 'home':
+      return <HeroSection ref={forRef} sectionRef={sectionRef} />;
+    case 'play':
+      return <PlaySection ref={forRef} sectionRef={sectionRef} />;
+    case 'learn':
+      return <LearnSection ref={forRef} sectionRef={sectionRef} />;
+    case 'faq':
+      return <FaqSection ref={forRef} sectionRef={sectionRef} />;
     default:
       return null;
   }

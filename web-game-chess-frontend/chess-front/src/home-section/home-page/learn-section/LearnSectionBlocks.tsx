@@ -1,7 +1,8 @@
-import classes from "./LearnSection.module.scss";
-import { useEffect, useRef, useState } from "react";
-import LearnSectionLineIcon from "./LearnSectionLineIcon";
-import { mainColor } from "../../../shared/styles/Variables";
+import classes from './LearnSection.module.scss';
+import { useEffect, useRef, useState } from 'react';
+import LearnSectionLineIcon from './LearnSectionLineIcon';
+import { mainColor } from '../../../shared/styles/Variables';
+import { createOneTimeObserver } from '../../../shared/functions/Functions';
 
 const LearnSectionBlocks = () => {
   const [wasActived, setWasActived] = useState(false);
@@ -9,37 +10,33 @@ const LearnSectionBlocks = () => {
 
   const SectionBlocks = [
     {
-      title: "Some Title Aaaa",
-      text:
-        "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quas voluptatem quaerat deserunt, animi aspernatur, nemo rem, earum eum nisi totam doloremque quos dolorum molestiae enim! Quos nesciunt ducimus iusto quaerat?",
-      iconName: "pieces-icon",
+      title: 'Some Title Aaaa',
+      text: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Quas voluptatem quaerat deserunt, animi aspernatur, nemo rem, earum eum nisi totam doloremque quos dolorum molestiae enim! Quos nesciunt ducimus iusto quaerat?',
+      iconName: 'pieces-icon',
       iconRef: useRef<HTMLDivElement>(null),
       textRef: useRef<HTMLDivElement>(null),
       lineRef: useRef<HTMLDivElement>(null),
     },
     {
-      title: "Some Title Aaaa",
-      text:
-        "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quas voluptatem quaerat deserunt, animi aspernatur, nemo rem, earum eum nisi totam doloremque quos dolorum molestiae enim! Quos nesciunt ducimus iusto quaerat?",
-      iconName: "counter-icon",
+      title: 'Some Title Aaaa',
+      text: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Quas voluptatem quaerat deserunt, animi aspernatur, nemo rem, earum eum nisi totam doloremque quos dolorum molestiae enim! Quos nesciunt ducimus iusto quaerat?',
+      iconName: 'counter-icon',
       iconRef: useRef<HTMLDivElement>(null),
       textRef: useRef<HTMLDivElement>(null),
       lineRef: useRef<HTMLDivElement>(null),
     },
     {
-      title: "Some Title Aaaa",
-      text:
-        "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quas voluptatem quaerat deserunt, animi aspernatur, nemo rem, earum eum nisi totam doloremque quos dolorum molestiae enim! Quos nesciunt ducimus iusto quaerat?",
-      iconName: "icon3",
+      title: 'Some Title Aaaa',
+      text: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Quas voluptatem quaerat deserunt, animi aspernatur, nemo rem, earum eum nisi totam doloremque quos dolorum molestiae enim! Quos nesciunt ducimus iusto quaerat?',
+      iconName: 'icon3',
       iconRef: useRef<HTMLDivElement>(null),
       textRef: useRef<HTMLDivElement>(null),
       lineRef: useRef<HTMLDivElement>(null),
     },
     {
-      title: "Some Title Aaaa",
-      text:
-        "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quas voluptatem quaerat deserunt, animi aspernatur, nemo rem, earum eum nisi totam doloremque quos dolorum molestiae enim! Quos nesciunt ducimus iusto quaerat?",
-      iconId: "icon4",
+      title: 'Some Title Aaaa',
+      text: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Quas voluptatem quaerat deserunt, animi aspernatur, nemo rem, earum eum nisi totam doloremque quos dolorum molestiae enim! Quos nesciunt ducimus iusto quaerat?',
+      iconId: 'icon4',
       iconRef: useRef<HTMLDivElement>(null),
       textRef: useRef<HTMLDivElement>(null),
       lineRef: useRef<HTMLDivElement>(null),
@@ -48,22 +45,27 @@ const LearnSectionBlocks = () => {
 
   const createIcon = (iconName: string): JSX.Element => {
     switch (iconName) {
-      case "pieces-icon":
+      case 'pieces-icon':
         const links = [
-          "white-rook",
-          "black-queen",
-          "white-pawn",
-          "black-bishop",
-          "white-king",
+          'white-rook',
+          'black-queen',
+          'white-pawn',
+          'black-bishop',
+          'white-king',
         ] as const;
 
         const images = links.map((link) => (
-          <img key={link} src={`pieces/${link}.png`} alt={link} />
+          <img
+            key={link}
+            src={`pieces/${link}.png`}
+            alt={link}
+            draggable={false}
+          />
         ));
 
         return <>{images}</>;
 
-      case "counter-icon":
+      case 'counter-icon':
         const elements = Array.from({ length: 4 }).map((_, i) => {
           const value = Math.floor(count / Math.pow(3, -(i - 3)))
             .toString()
@@ -71,16 +73,16 @@ const LearnSectionBlocks = () => {
           return (
             <div
               key={i}
-              style={{ color: value === "3" ? mainColor.c5 : mainColor.c0 }}
+              style={{ color: value === '3' ? mainColor.c5 : mainColor.c0 }}
             >
               {value}
             </div>
           );
         });
         return <>{elements}</>;
-      case "icon3":
+      case 'icon3':
         return <></>;
-      case "icon4":
+      case 'icon4':
         return <></>;
       default:
         return <></>;
@@ -88,54 +90,54 @@ const LearnSectionBlocks = () => {
   };
 
   useEffect(() => {
-    const observeText = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add(classes["active-text"]);
-        }
-      });
-    }, {});
+    const textObserverAction = (entry: IntersectionObserverEntry): void => {
+      entry.target.classList.add(classes['active-text']);
+    };
+    const textObserver: IntersectionObserver = createOneTimeObserver(
+      textObserverAction,
+      {}
+    );
 
-    const observeIcon = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add(classes["active-icon"]);
+    const iconObserverAction = (entry: IntersectionObserverEntry): void => {
+      entry.target.classList.add(classes['active-icon']);
 
-          if (
-            !wasActived &&
-            entry.target.classList.contains(classes["counter-icon"])
-          ) {
-            setWasActived(true);
-            setTimeout(() => incrementCount(0), 1000);
-          }
-        }
-      });
-    }, {});
+      if (
+        !wasActived &&
+        entry.target.classList.contains(classes['counter-icon'])
+      ) {
+        setWasActived(true);
+        setTimeout(() => incrementCount(0), 1000);
+      }
+    };
+    const iconObserver: IntersectionObserver = createOneTimeObserver(
+      iconObserverAction,
+      {}
+    );
 
-    const observeLine = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add(classes["active-line"]);
-        }
-      });
-    }, {});
+    const lineObserverAction = (entry: IntersectionObserverEntry): void => {
+      entry.target.classList.add(classes['active-line']);
+    };
+    const lineObserver: IntersectionObserver = createOneTimeObserver(
+      lineObserverAction,
+      {}
+    );
 
     SectionBlocks.forEach((block) => {
       if (block.textRef.current) {
-        observeText.observe(block.textRef.current);
+        textObserver.observe(block.textRef.current);
       }
       if (block.iconRef.current) {
-        observeIcon.observe(block.iconRef.current);
+        iconObserver.observe(block.iconRef.current);
       }
       if (block.lineRef.current) {
-        observeLine.observe(block.lineRef.current);
+        lineObserver.observe(block.lineRef.current);
       }
     });
 
     return () => {
-      observeText.disconnect();
-      observeIcon.disconnect();
-      observeLine.disconnect();
+      textObserver.disconnect();
+      iconObserver.disconnect();
+      lineObserver.disconnect();
     };
   }, [SectionBlocks]);
 
@@ -168,7 +170,7 @@ const LearnSectionBlocks = () => {
             >
               {createIcon(block.iconName!)}
             </div>
-            <div ref={block.lineRef} className={classes["row-line-icon"]}>
+            <div ref={block.lineRef} className={classes['row-line-icon']}>
               <LearnSectionLineIcon />
             </div>
           </div>
@@ -190,7 +192,7 @@ const LearnSectionBlocks = () => {
               <p>{block.text}</p>
             </div>
 
-            <div ref={block.lineRef} className={classes["row-line-icon"]}>
+            <div ref={block.lineRef} className={classes['row-line-icon']}>
               <LearnSectionLineIcon />
             </div>
           </div>

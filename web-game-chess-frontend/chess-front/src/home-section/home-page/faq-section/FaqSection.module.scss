@@ -1,5 +1,85 @@
-@import "../HomePage.module.scss";
+@import '../HomePage.module.scss';
 
 .faq {
   @include container;
+  padding-top: 10rem;
+  background-color: #000;
+
+  &__intro {
+    width: 100%;
+    padding-left: 4rem;
+
+    h2 {
+      font-size: 6rem;
+      color: $mcolor5;
+    }
+  }
+
+  &__content {
+    @include flexBlock(row, 4rem, space-evenly, center);
+    overflow-x: scroll;
+    overflow-y: hidden;
+    padding: 4rem;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+
+    &__block {
+      @include flexBlock(column, 2rem, center, start);
+      @include roundedBlock($small_br, $small_br);
+      position: relative;
+      width: 50rem;
+      aspect-ratio: 16/9;
+      flex-shrink: 0;
+
+      border-top: solid 0.4rem $mcolor7;
+      border-bottom: solid 0.4rem #0000;
+
+      transform: scale(0.8);
+
+      transition: all 0.3s;
+
+      h5 {
+        font-size: 3rem;
+        width: calc(100% - 4rem);
+      }
+
+      .text {
+        font-size: 1.6rem;
+        opacity: 0;
+        color: $gcolor3;
+
+        transform-origin: 50% 0;
+        transform: scaleY(0);
+        transition: all 0.3s;
+      }
+
+      .see {
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+        bottom: 2rem;
+        width: 80%;
+
+        font-size: 3rem;
+        color: $gcolor3;
+        text-align: right;
+      }
+
+      &:hover {
+        transform: scale(1.1);
+        border-bottom-color: $mcolor7;
+
+        .text {
+          opacity: 1;
+          transform: scaleY(1);
+        }
+
+        .see {
+          opacity: 0;
+        }
+      }
+    }
+  }
 }

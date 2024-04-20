@@ -3,21 +3,26 @@ import React, {
   useImperativeHandle,
   useRef,
   useState,
-} from "react";
-import { mainColor } from "../../../shared/styles/Variables";
+} from 'react';
+import { mainColor } from '../../../shared/styles/Variables';
 import {
   streightChessboard,
   pieceImageMap,
-} from "../../../shared/options/ChessOptions";
-import { HandleOnScroll } from "../../../shared/functions/Types";
+} from '../../../shared/options/ChessOptions';
+import { HandleOnScroll } from '../../../shared/functions/Types';
 
-import classes from "./PlaySection.module.scss";
-import PlaySectionIcons from "./PlaySectionIcons";
+import classes from './PlaySection.module.scss';
+import PlaySectionIcons from './PlaySectionIcons';
 
-type PlaySectionProps = {};
+type PlaySectionProps = {
+  sectionRef: React.RefObject<HTMLElement>;
+};
 
 const PlaySection = forwardRef<HandleOnScroll, PlaySectionProps>(
-  ({}: PlaySectionProps, ref: React.ForwardedRef<HandleOnScroll>) => {
+  (
+    { sectionRef }: PlaySectionProps,
+    ref: React.ForwardedRef<HandleOnScroll>
+  ) => {
     const wh = window.innerHeight;
     const stripSize = 40;
     const h = window.innerHeight * 0.5;
@@ -38,9 +43,9 @@ const PlaySection = forwardRef<HandleOnScroll, PlaySectionProps>(
           const innerElement = innerBoardRef.current;
           if (innerElement) {
             if (y < wh * 0.5 && y > -wh * 0.5) {
-              innerElement.classList.add(classes["board-intro"]);
+              innerElement.classList.add(classes['board-intro']);
             } else {
-              innerElement.classList.remove(classes["board-intro"]);
+              innerElement.classList.remove(classes['board-intro']);
             }
           }
 
@@ -107,7 +112,7 @@ const PlaySection = forwardRef<HandleOnScroll, PlaySectionProps>(
         };
 
         rows.push(
-          <div key={i} className={classes["grid-row"]}>
+          <div key={i} className={classes['grid-row']}>
             {generateTiles()}
           </div>
         );
@@ -119,9 +124,9 @@ const PlaySection = forwardRef<HandleOnScroll, PlaySectionProps>(
     const time = 30;
     const done: string[] = [];
     const makeWave = (key: string): void => {
-      let [row, col]: [number, number] = key.split("-").map(Number) as [
+      let [row, col]: [number, number] = key.split('-').map(Number) as [
         number,
-        number
+        number,
       ];
       if (row === 0 || row === 9 || col === 0 || col === 9) {
         return;
@@ -136,9 +141,9 @@ const PlaySection = forwardRef<HandleOnScroll, PlaySectionProps>(
 
       const neighborElement = elementRefs[key];
       if (neighborElement && neighborElement.current) {
-        neighborElement.current.style.filter = "brightness(200%)";
+        neighborElement.current.style.filter = 'brightness(200%)';
         setTimeout(() => {
-          neighborElement.current!.style.filter = "brightness(50%)";
+          neighborElement.current!.style.filter = 'brightness(50%)';
         }, time);
       }
 
@@ -186,7 +191,7 @@ const PlaySection = forwardRef<HandleOnScroll, PlaySectionProps>(
       const parentRect = event.currentTarget.getBoundingClientRect();
       const offsetX = event.clientX - parentRect.left;
       const offsetY = event.clientY - parentRect.top;
-      const indicator = document.getElementById("indicator");
+      const indicator = document.getElementById('indicator');
       if (indicator) {
         indicator.style.left = `${offsetX}px`;
         indicator.style.top = `${offsetY}px`;
@@ -194,12 +199,12 @@ const PlaySection = forwardRef<HandleOnScroll, PlaySectionProps>(
     };
 
     return (
-      <section id="play-section" className={classes.play}>
+      <section id="play-section" ref={sectionRef} className={classes.play}>
         <div className={classes.play__content}>
           <div
             ref={boardIntroRef}
             className={`${classes.play__content__intro} 
-          ${isIntroOpen ? classes["open-intro"] : ""}`}
+          ${isIntroOpen ? classes['open-intro'] : ''}`}
           >
             <h2>LET'S GET </h2>
             <h2>STARTED </h2>
@@ -209,7 +214,7 @@ const PlaySection = forwardRef<HandleOnScroll, PlaySectionProps>(
               <div
                 ref={innerBoardRef}
                 className={classes.play__content__board__grid__inner}
-                onClick={() => console.log("aaaa")}
+                onClick={() => console.log('aaaa')}
               >
                 <div id="indicator" className={classes.indicator} />
                 {generateGrid()}
@@ -218,15 +223,15 @@ const PlaySection = forwardRef<HandleOnScroll, PlaySectionProps>(
                 className={classes.play__content__board__grid__outer}
                 onMouseMove={(event) => handleOnGridHover(event)}
                 onMouseEnter={() => {
-                  const indicator = document.getElementById("indicator");
+                  const indicator = document.getElementById('indicator');
                   if (indicator) {
-                    indicator.style.opacity = "1";
+                    indicator.style.opacity = '1';
                   }
                 }}
                 onMouseLeave={() => {
-                  const indicator = document.getElementById("indicator");
+                  const indicator = document.getElementById('indicator');
                   if (indicator) {
-                    indicator.style.opacity = "0";
+                    indicator.style.opacity = '0';
                   }
                 }}
               >
@@ -242,11 +247,11 @@ const PlaySection = forwardRef<HandleOnScroll, PlaySectionProps>(
               Join our community and start playing users at your level or simply
               join random game and enjoy chess.
             </h4>
-            <button className={classes["vs-player-button"]}>
+            <button className={classes['vs-player-button']}>
               <PlaySectionIcons iconName="online" />
               <span>PLAY ONLINE</span>
             </button>
-            <button className={classes["vs-computer-button"]}>
+            <button className={classes['vs-computer-button']}>
               <PlaySectionIcons iconName="offline" />
               <span>PLAY OFFLINE</span>
             </button>
