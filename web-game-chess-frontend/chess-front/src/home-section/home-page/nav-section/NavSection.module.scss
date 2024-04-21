@@ -1,106 +1,51 @@
-@import '../../../shared//styles/Components.scss';
+@import '../../../shared/styles/shared';
 
-.navigation {
-  @include flexBlock(row, 0, center, center);
+.header {
+  @include flex(row, center, center, 0);
+
   position: fixed;
   top: 0;
-  left: 50%;
   z-index: 100;
   width: 100%;
-  margin-top: 4.8rem;
   max-width: 160rem;
+  margin-top: 4.8rem;
 
   user-select: none;
   pointer-events: none;
 
-  transform: translateX(-50%);
   transition: margin-top 0.5s;
 
-  .nav-actions {
-    @include flexBlock(row, 0, center, center);
-    position: absolute;
-    top: 50%;
-    right: 6.4rem;
-    pointer-events: all;
-    padding: 0.6rem 1.2rem;
-    border-bottom-left-radius: $small_br;
-
-    transform: translateY(-50%);
-    transition:
-      top 0.5s,
-      right 0.5s,
-      background-color 0s 0s,
-      box-shadow 0s 0s;
-
-    button {
-      @include Button(1.6rem);
-      background-color: #0000;
-
-      transition: all 0.5s;
-
-      &:hover {
-        span {
-          &::after {
-            width: 100%;
-          }
-        }
-      }
-
-      span {
-        color: $gcolor3;
-        transition: color 0.5s;
-
-        &::after {
-          content: '';
-          margin-top: 0.3rem;
-          display: block;
-          height: 0.2rem;
-          width: 0;
-          background-color: $gcolor3;
-          transition: all 0.3s;
-        }
-      }
-
-      &:nth-last-child(1) {
-        span {
-          color: $mcolor3;
-          &::after {
-            background-color: $mcolor3;
-          }
-        }
-      }
-    }
-  }
-
-  .nav {
-    @include flexBlock(row, 0, space-between, center);
-    @include roundedBlock(0.8rem, 0.8rem 4rem);
+  // navbar
+  .nav-bar {
+    @include flex(row, space-between, center, 0);
 
     position: relative;
     z-index: 10;
     width: calc(4rem * 2 + 4.8rem * 4 + 0.4rem * 6);
+    padding: 0.8rem 4rem;
 
-    background-color: $gcolor9;
-    box-shadow: 0 0 0 0.3rem $gcolor8;
+    border-radius: 0.8rem;
+    background-color: $gc9;
+    box-shadow: 0 0 0 0.3rem $gc8;
     pointer-events: all;
 
-    .nav_element {
-      @include flexBlock(column, 0, center, center);
+    .nav-element {
+      @include flex(column, center, center, 0);
 
       position: relative;
       width: 4.8rem;
 
-      color: $gcolor0;
+      color: $gc0;
       text-align: center;
       text-decoration: none;
       font-weight: 500;
       font-size: 1.2rem;
 
       &::after {
-        @include subElement;
-        @include circleBlock(1em);
-        z-index: -1;
+        @include subCl(1rem, 1rem);
+        @include circle(1em);
 
+        z-index: -1;
         filter: blur(1rem);
         transition: all 0.3s;
       }
@@ -108,8 +53,8 @@
       &:hover {
         &:not(.active) {
           &::after {
-            background-color: rgba($mcolor0, 0.5);
-            box-shadow: 0 0 0 0.3rem rgba($mcolor0, 0.5);
+            background-color: rgba($mc0, 0.5);
+            box-shadow: 0 0 0 0.3rem rgba($mc0, 0.5);
           }
         }
       }
@@ -121,14 +66,14 @@
         max-width: 3.2rem;
         opacity: 0;
 
-        color: $gcolor3;
+        color: $gc3;
         overflow: hidden;
         transition: all 0.3s;
         transform: translateY(-1.6rem);
       }
 
       span.icon {
-        @include flexBlock(row, 0, center, center);
+        @include flex(row, center, center, 0);
         position: absolute;
         width: fit-content;
         z-index: 1;
@@ -137,7 +82,7 @@
         transition: all 0.3s;
 
         svg.icon {
-          @include squareBlock(50%);
+          @include square(50%);
           stroke-width: 2;
           transition: all 0.3s;
         }
@@ -163,16 +108,79 @@
     }
 
     .indicator {
-      @include circleBlock(4.8rem);
+      @include circle(4.8rem);
+
       position: absolute;
       bottom: -2.8rem;
       box-sizing: border-box;
 
-      background-color: $mcolor9;
+      background-color: $mc9;
       border: solid 0.6rem #000;
       transition: all 0.5s;
     }
   }
+  // end navbar
+
+  // side bar
+  .nav-actions {
+    @include flex(row, center, center, 0);
+
+    position: absolute;
+    top: 50%;
+    right: 6.4rem;
+
+    padding: 0.6rem 1.2rem;
+    border-bottom-left-radius: $sm-br;
+
+    pointer-events: all;
+
+    transform: translateY(-50%);
+    transition:
+      top 0.5s,
+      right 0.5s,
+      background-color 0s 0s,
+      box-shadow 0s 0s;
+
+    .nav-button {
+      @include button(1.6rem);
+      background-color: #0000;
+
+      transition: all 0.5s;
+
+      &:hover {
+        span {
+          &::after {
+            width: 100%;
+          }
+        }
+      }
+
+      span {
+        color: $gc3;
+        transition: color 0.5s;
+
+        &::after {
+          @include subCl(0, 0.2rem);
+
+          position: unset;
+          display: block;
+          margin-top: 0.3rem;
+          background-color: $gc3;
+          transition: all 0.3s;
+        }
+      }
+
+      &:nth-last-child(1) {
+        span {
+          color: $mc3;
+          &::after {
+            background-color: $mc3;
+          }
+        }
+      }
+    }
+  }
+  // end side bar
 }
 
 .nav-sticky {
@@ -186,8 +194,8 @@
     top: 0.6rem;
     right: 0;
 
-    background-color: $gcolor9;
-    box-shadow: 0 0 0 0.3rem $gcolor8;
+    background-color: $gc9;
+    box-shadow: 0 0 0 0.3rem $gc8;
 
     transition:
       top 0.5s,
@@ -206,9 +214,9 @@
 
   .nav {
     .indicator {
-      border-color: $mcolor9;
-      background-color: $gcolor9;
-      box-shadow: 0 0 0.3rem 0.1rem $mcolor7;
+      border-color: $mc9;
+      background-color: $gc9;
+      box-shadow: 0 0 0.3rem 0.1rem $mc7;
     }
   }
 }

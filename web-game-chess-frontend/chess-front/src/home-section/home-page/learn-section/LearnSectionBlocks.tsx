@@ -1,8 +1,8 @@
 import classes from './LearnSection.module.scss';
 import { useEffect, useRef, useState } from 'react';
 import LearnSectionLineIcon from './LearnSectionLineIcon';
-import { mainColor } from '../../../shared/styles/Variables';
-import { createOneTimeObserver } from '../../../shared/functions/Functions';
+import { createOneTimeObserver } from '../../../shared/utils/functions/createOneTimeObserver';
+import { mainColor } from '../../../shared/utils/enums/colorMaps';
 
 const LearnSectionBlocks = () => {
   const [wasActived, setWasActived] = useState(false);
@@ -43,6 +43,7 @@ const LearnSectionBlocks = () => {
     },
   ];
 
+  // create learn section icons
   const createIcon = (iconName: string): JSX.Element => {
     switch (iconName) {
       case 'pieces-icon':
@@ -88,7 +89,9 @@ const LearnSectionBlocks = () => {
         return <></>;
     }
   };
+  // end create learn section icons
 
+  // observer block
   useEffect(() => {
     const textObserverAction = (entry: IntersectionObserverEntry): void => {
       entry.target.classList.add(classes['active-text']);
@@ -149,6 +152,7 @@ const LearnSectionBlocks = () => {
       }, 10);
     }
   };
+  // end observe block
 
   return (
     <div className={classes.learn__z_pattern}>

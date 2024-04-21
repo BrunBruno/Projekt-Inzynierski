@@ -7,16 +7,17 @@
 
   &__intro {
     width: 100%;
-    padding-left: 4rem;
+    padding-left: 8rem;
 
     h2 {
       font-size: 6rem;
-      color: $mcolor5;
+      color: $mc5;
     }
   }
 
   &__content {
-    @include flexBlock(row, 4rem, space-evenly, center);
+    @include flex(row, space-evenly, center, 4rem);
+
     overflow-x: scroll;
     overflow-y: hidden;
     padding: 4rem;
@@ -26,18 +27,18 @@
     }
 
     &__block {
-      @include flexBlock(column, 2rem, center, start);
-      @include roundedBlock($small_br, $small_br);
+      @include flex(column, center, start, 2rem);
+      @include rounded($sm-br);
+
       position: relative;
       width: 50rem;
       aspect-ratio: 16/9;
       flex-shrink: 0;
 
-      border-top: solid 0.4rem $mcolor7;
+      border-top: solid 0.4rem $mc7;
       border-bottom: solid 0.4rem #0000;
 
       transform: scale(0.8);
-
       transition: all 0.3s;
 
       h5 {
@@ -48,7 +49,7 @@
       .text {
         font-size: 1.6rem;
         opacity: 0;
-        color: $gcolor3;
+        color: $gc3;
 
         transform-origin: 50% 0;
         transform: scaleY(0);
@@ -56,20 +57,20 @@
       }
 
       .see {
-        position: absolute;
-        left: 50%;
-        transform: translateX(-50%);
+        @include absCenter;
+
+        top: unset;
         bottom: 2rem;
         width: 80%;
 
         font-size: 3rem;
-        color: $gcolor3;
+        color: $gc3;
         text-align: right;
       }
 
       &:hover {
+        border-bottom-color: $mc7;
         transform: scale(1.1);
-        border-bottom-color: $mcolor7;
 
         .text {
           opacity: 1;

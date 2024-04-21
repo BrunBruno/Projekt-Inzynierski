@@ -29,44 +29,47 @@
       }
 
       .row-line-icon {
-        @include flexBlock(row, 0, center, center);
+        @include flex(row, center, center, 0);
+
         position: absolute;
         bottom: 0rem;
         width: 100%;
 
         svg {
           height: 3.8rem;
-          filter: drop-shadow(0 0 0 $mcolor0) brightness(20%);
+          filter: drop-shadow(0 0 0 $mc0) brightness(20%);
           transition: filter 0.5s 0.5s;
         }
       }
 
       .active-line {
         svg {
-          filter: drop-shadow(0 0 0.5rem $mcolor0) brightness(100%);
+          filter: drop-shadow(0 0 0.5rem $mc0) brightness(100%);
         }
       }
 
       &__icon {
-        @include flexBlock(column, 0, center, center);
-        @include squareBlock(1005);
+        @include flex(column, center, center, 0);
+        @include square(100%);
+
         position: relative;
       }
 
       .pieces-icon {
         &::after {
-          @include subElement;
-          @include absoluteCenter;
-          @include circleBlock(60%);
+          @include subCl(0, 0);
+          @include absCenter;
+          @include circle(60%);
+
           z-index: -1;
-          background-color: rgba($gcolor0, 0.2);
+          background-color: rgba($mc0, 0.2);
           filter: blur(4rem);
         }
 
         img {
           position: absolute;
           height: 40%;
-          filter: drop-shadow(0 0 1rem $mcolor4);
+          filter: drop-shadow(0 0 1rem $mc4);
           transform: rotate(0) translateX(0) translateY(0);
           transition: transform 1s 1s;
         }
@@ -90,11 +93,12 @@
         gap: 0.5rem;
 
         div {
-          @include roundedBlock(1rem, 1rem);
-          @include flexBlock(row, 0, start, center);
+          @include rounded(1rem);
+          @include flex(row, start, center, 0);
+
           height: 16rem;
           background-color: #000;
-          border: solid 0.4rem $gcolor5;
+          border: solid 0.4rem $mc5;
           font-family: 'Knewave';
           font-size: 10rem;
           user-select: none;
@@ -102,10 +106,10 @@
       }
 
       &__text {
-        @include flexBlock(column, 0, center, start);
-        transform: translateY(5rem);
-        opacity: 0;
+        @include flex(column, center, start, 0);
 
+        opacity: 0;
+        transform: translateY(5rem);
         transition: all 1s 0.5s;
 
         h3 {
@@ -138,7 +142,7 @@
       position: absolute;
       width: 80rem;
       aspect-ratio: 7/5;
-      border-radius: $medium_br;
+      border-radius: $md-br;
       border: dashed 1rem;
       background-color: #000;
       overflow: hidden;
@@ -189,8 +193,9 @@
     }
 
     &__button {
-      @include absoluteCenter;
-      @include flexBlock(column, 4rem, center, center);
+      @include absCenter;
+      @include flex(column, center, center, 4rem);
+
       z-index: -1;
       width: 50rem;
       padding-top: 10rem;
@@ -201,28 +206,30 @@
         font-family: 'Knewave';
         user-select: none;
         text-align: center;
-        color: $mcolor5;
+        color: $mc5;
       }
       h3 {
         font-size: 2.4rem;
-        color: $gcolor3;
+        color: $mc3;
         text-align: center;
         user-select: none;
       }
 
       button {
-        @include Button(4rem);
-        @include secondaryButton;
+        @include button(4rem);
+        @include secMButton;
+
         position: relative;
         margin-top: 4rem;
 
         &::after {
-          @include subElement;
-          @include absoluteCenter;
-          @include circleBlock(40rem);
-          filter: blur(4rem) brightness(80%);
-          background-color: rgba($mcolor0, 0.1);
+          @include subCl(0, 0);
+          @include absCenter;
+          @include circle(40rem);
+
           z-index: -1;
+          background-color: rgba($mc0, 0.1);
+          filter: blur(4rem) brightness(80%);
         }
 
         &:hover {

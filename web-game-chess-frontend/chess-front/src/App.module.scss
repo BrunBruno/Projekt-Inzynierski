@@ -1,16 +1,14 @@
-@import "./shared/styles/Components.scss";
+@import './shared/styles/shared.scss';
 
 body {
   width: 100%;
-  // height: 100%;
   height: 100vh;
   height: 100lvh;
 
   overflow-y: auto;
   overflow-x: hidden;
-  // background-color: $gcolor9;
   background-color: #111;
-  color: $gcolor0;
+  color: $gc0;
 
-  @include main-scrollbar(#000, $gcolor8, $gcolor7);
+  @include mainScrollbar(#000, $gc8, $gc7);
 }

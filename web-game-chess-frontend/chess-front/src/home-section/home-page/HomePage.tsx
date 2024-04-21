@@ -1,7 +1,5 @@
 import React from 'react';
 import { useEffect, useRef } from 'react';
-import { generateRandomId } from '../../shared/functions/Functions';
-import { HandleOnScroll } from '../../shared/functions/Types';
 import classes from './HomePage.module.scss';
 import navClasses from './nav-section/NavSection.module.scss';
 import NavSection from './nav-section/NavSection';
@@ -10,18 +8,10 @@ import PlaySection from './play-section/PlaySection';
 import LearnSection from './learn-section/LearnSection';
 import FaqSection from './faq-section/FaqSection';
 import LogoIconSvg from '../../shared/svgs/LogoIconSvg';
+import { HandleOnScroll } from '../../shared/utils/types/handleOnScroll';
 
+// sections indicators
 const indicators = ['home', 'play', 'learn', 'faq'] as const;
-
-const defsIds = {
-  id0: generateRandomId(),
-  id1: generateRandomId(),
-  id2: generateRandomId(),
-  id3: generateRandomId(),
-  id4: generateRandomId(),
-  id5: generateRandomId(),
-  id6: generateRandomId(),
-};
 
 interface Section {
   id: string;
@@ -31,14 +21,13 @@ interface Section {
 }
 
 function HomePage() {
+  // create section map
   const createSection = (sectionId: string): Section => ({
     id: sectionId,
     indRef: useRef<HTMLDivElement>(null),
     forRef: useRef<HandleOnScroll>(null),
     sectionRef: useRef<HTMLElement>(null),
   });
-
-  const navForRef = useRef<HandleOnScroll>(null);
   const sections: Section[] = [
     createSection('home'),
     createSection('play'),
@@ -46,9 +35,13 @@ function HomePage() {
     createSection('faq'),
   ];
 
+  // navbar ref
+  const navForRef = useRef<HandleOnScroll>(null);
+
   // scroll events
   const handleScroll = () => {
     if (navForRef.current) navForRef.current.handleOnScroll();
+
     sections.forEach((section) => {
       if (section.forRef.current) {
         section.forRef.current.handleOnScroll();
@@ -65,22 +58,24 @@ function HomePage() {
 
   // navbar funnctionality
   useEffect(() => {
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          let elements: HTMLCollectionOf<Element> =
-            document.getElementsByClassName(navClasses.nav_element);
+    const observer = new IntersectionObserver(
+      (entries: IntersectionObserverEntry[]) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            let elements: HTMLCollectionOf<Element> =
+              document.getElementsByClassName(navClasses.nav_element);
 
-          for (let i = 0; i < elements.length; i++) {
-            elements[i].classList.remove(navClasses.active);
+            for (let i = 0; i < elements.length; i++) {
+              elements[i].classList.remove(navClasses.active);
 
-            if (entry.target.id === `obs-${indicators[i]}`) {
-              elements[i].classList.add(navClasses.active);
+              if (entry.target.id === `obs-${indicators[i]}`) {
+                elements[i].classList.add(navClasses.active);
+              }
             }
           }
-        }
-      });
-    });
+        });
+      }
+    );
 
     sections.forEach((section) => {
       if (section.indRef.current) {
@@ -97,6 +92,7 @@ function HomePage() {
   const bgRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
     const hasAnimationPlayed = sessionStorage.getItem('animationPlayed');
+
     if (!hasAnimationPlayed) {
       const bgElement = bgRef.current;
       if (bgElement) {
@@ -107,6 +103,7 @@ function HomePage() {
       const timeoutId = setTimeout(() => {
         if (bgElement) {
           bgElement.classList.add(classes['intro-remove']);
+
           sessionStorage.setItem('animationPlayed', 'true');
         }
       }, 2500);
@@ -120,6 +117,7 @@ function HomePage() {
   // set indicators heights
   useEffect(() => {
     const wH = window.innerHeight;
+
     for (let i = 0; i < sections.length; i++) {
       const sectionElement = sections[i].sectionRef.current;
       const sectionIndicator = sections[i].indRef.current;
@@ -128,6 +126,7 @@ function HomePage() {
         const sH = sectionElement.offsetHeight;
         const indH = sH - wH;
 
+        // set indicators heights to sections height - 100vh
         sectionIndicator.style.height = `${indH}px`;
       }
     }
@@ -140,8 +139,8 @@ function HomePage() {
         className={`${classes['intro-background']} ${classes['intro-remove']}`}
       >
         <div className={classes['intro-logo']}>
-          <LogoIconSvg iconClass="" defsIds={defsIds} />
-          <p>Chess</p>
+          <LogoIconSvg iconClass={classes['intro-svg']} />
+          <p className={classes['intro-text']}>Chess</p>
         </div>
       </div>
 

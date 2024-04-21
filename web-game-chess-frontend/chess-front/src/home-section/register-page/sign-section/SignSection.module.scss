@@ -1,13 +1,13 @@
 @import '../RegisterPage.module.scss';
 
-.signin-form {
-  @include flexBlock(column, 2rem, center, center);
-  @include squareBlock(100%);
+.sign-form {
+  @include flex(column, center, center, 2rem);
+  @include square(100%);
 
   position: relative;
   animation: formAnimation 0.5s;
 
-  svg {
+  .bg-svg {
     position: absolute;
     bottom: 4rem;
     right: 4rem;
@@ -24,9 +24,11 @@
   .change-form {
     font-size: 1.2rem;
     margin-bottom: 2rem;
+
     span {
-      color: $mcolor5;
+      color: $mc5;
       text-decoration: underline;
+      user-select: none;
       cursor: pointer;
     }
   }
@@ -37,9 +39,16 @@
     }
   }
 
+  .error {
+    span {
+      font-size: 1.4rem;
+      color: $danger-color-m;
+    }
+  }
+
   button {
-    @include Button(2.2rem);
-    @include mainButton;
+    @include button(2.2rem);
+    @include mainMButton;
 
     margin: 2rem;
   }

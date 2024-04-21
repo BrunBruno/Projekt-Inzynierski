@@ -1,0 +1,15 @@
+// preventing long texts
+@mixin longText {
+  width: 1px;
+  min-width: 100%;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+@mixin secFont($size) {
+  font-size: $size;
+  font-family: 'Knewave';
+  user-select: none;
+  overflow: hidden;
+}

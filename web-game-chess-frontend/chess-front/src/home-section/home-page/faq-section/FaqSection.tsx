@@ -1,6 +1,6 @@
 import React, { forwardRef, useImperativeHandle } from 'react';
 import classes from './FaqSection.module.scss';
-import { HandleOnScroll } from '../../../shared/functions/Types';
+import { HandleOnScroll } from '../../../shared/utils/types/handleOnScroll';
 
 type FaqSectionProps = {
   sectionRef: React.RefObject<HTMLElement>;
@@ -11,15 +11,20 @@ const FaqSection = forwardRef<HandleOnScroll, FaqSectionProps>(
     { sectionRef }: FaqSectionProps,
     ref: React.ForwardedRef<HandleOnScroll>
   ) => {
+    // handle faq onscroll
     const handleOnScroll = () => {};
     useImperativeHandle(ref, () => ({
       handleOnScroll,
     }));
+    // end handle faq onscroll
+
     return (
       <section id="faq-section" ref={sectionRef} className={classes.faq}>
         <div className={classes.faq__intro}>
           <h2>Most Asked Questions</h2>
         </div>
+
+        {/* question sections */}
         <div className={classes.faq__content}>
           {Array.from({ length: 16 }).map((_, i) => (
             <div key={i} className={classes.faq__content__block}>
@@ -47,6 +52,7 @@ const FaqSection = forwardRef<HandleOnScroll, FaqSectionProps>(
             </div>
           ))}
         </div>
+        {/* end question sections */}
       </section>
     );
   }

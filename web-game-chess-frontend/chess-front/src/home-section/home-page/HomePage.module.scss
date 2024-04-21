@@ -1,7 +1,7 @@
-@import '../../shared/styles/Components.scss';
+@import '../../shared/styles/shared.scss';
 
 .home-main {
-  @include gridBg;
+  @include gridBg(24rem, $gc9, $gc8);
   width: 100vw;
   max-width: 160rem;
   margin: auto;
@@ -16,8 +16,9 @@
     background-color: rgba(#000, 1);
 
     .intro-logo {
-      @include absoluteCenter;
-      @include flexBlock(row, 2rem, center, center);
+      @include absCenter;
+      @include flex(row, center, center, 2rem);
+
       opacity: 0;
 
       animation: introInit 1s forwards;
@@ -28,7 +29,7 @@
         }
       }
 
-      svg {
+      .intro-svg {
         height: 16rem;
         scale: 0.2;
         animation: svgInit 0.5s 0s forwards;
@@ -40,15 +41,15 @@
         }
       }
 
-      p {
+      .intro-text {
         font-size: 12rem;
         font-family: 'Knewave';
         overflow: hidden;
         width: 0;
 
-        animation: pInit 0.5s 0.5s forwards;
+        animation: textInit 0.5s 0.5s forwards;
 
-        @keyframes pInit {
+        @keyframes textInit {
           to {
             width: 32rem;
           }
@@ -59,6 +60,7 @@
 
   .intro-begin {
     animation: introBegin 0.5s ease-in 1.5s forwards;
+
     @keyframes introBegin {
       to {
         background-color: rgba(#000, 0);
@@ -71,6 +73,7 @@
       scale: 1;
 
       animation: logoDissapear 0.5s ease-in 1.5s forwards;
+
       @keyframes logoDissapear {
         to {
           scale: 0;

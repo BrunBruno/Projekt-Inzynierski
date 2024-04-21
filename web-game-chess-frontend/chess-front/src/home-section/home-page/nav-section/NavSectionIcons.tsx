@@ -1,6 +1,6 @@
+import { mainColor } from '../../../shared/utils/enums/colorMaps';
+import { IconMap } from '../../../shared/utils/types/iconMap';
 import classes from './NavSection.module.scss';
-import { mainColor } from '../../../shared/styles/Variables';
-import { IconMap } from '../../../shared/functions/Types';
 
 const icons: IconMap = {
   home: (
@@ -62,7 +62,7 @@ type NavSectionIconsProps = {
 function NavSectionIcons({ iconName }: NavSectionIconsProps) {
   const icon = icons[iconName];
 
-  return icon ? icon : <></>;
+  return icon ? icon : <>i</>;
 }
 
 export default NavSectionIcons;

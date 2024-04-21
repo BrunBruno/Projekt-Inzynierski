@@ -1,4 +1,4 @@
-import { mainColor } from "../../../shared/styles/Variables";
+import { mainColor } from '../../../shared/utils/enums/colorMaps';
 
 function LearnSectionLineIcon() {
   return (

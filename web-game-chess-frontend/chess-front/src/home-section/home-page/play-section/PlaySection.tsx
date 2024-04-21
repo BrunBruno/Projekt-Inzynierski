@@ -4,15 +4,10 @@ import React, {
   useRef,
   useState,
 } from 'react';
-import { mainColor } from '../../../shared/styles/Variables';
-import {
-  streightChessboard,
-  pieceImageMap,
-} from '../../../shared/options/ChessOptions';
-import { HandleOnScroll } from '../../../shared/functions/Types';
-
 import classes from './PlaySection.module.scss';
 import PlaySectionIcons from './PlaySectionIcons';
+import { HandleOnScroll } from '../../../shared/utils/types/handleOnScroll';
+import { mainColor } from '../../../shared/utils/enums/colorMaps';
 
 type PlaySectionProps = {
   sectionRef: React.RefObject<HTMLElement>;
@@ -167,18 +162,13 @@ const PlaySection = forwardRef<HandleOnScroll, PlaySectionProps>(
 
       const numberOfTiles = 64;
       for (let i = 0; i < numberOfTiles; i++) {
-        const piece = streightChessboard[i];
-        const imageUrl = pieceImageMap[piece];
         const innerKey = `${Math.floor(i / 8) + 1}-${(i % 8) + 1}`;
         tiles.push(
           <div
             key={i}
             className={classes.pawn}
             onClick={() => makeWave(innerKey)}
-          >
-            {/* {piece !== ' ' && <img src={`pieces/${imageUrl}`} alt={piece} />}
-          {piece !== ' ' && <p />} */}
-          </div>
+          />
         );
       }
 

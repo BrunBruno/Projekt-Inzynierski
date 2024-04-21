@@ -1,12 +1,11 @@
 import React from 'react';
 import { forwardRef, useEffect, useImperativeHandle, useRef } from 'react';
 import classes from './LearnSection.module.scss';
-import { HandleOnScroll } from '../../../shared/functions/Types';
-import {
-  createOneTimeObserver,
-  getRandomColor,
-} from '../../../shared/functions/Functions';
 import LearnSectionBlocks from './LearnSectionBlocks';
+import { HandleOnScroll } from '../../../shared/utils/types/handleOnScroll';
+import { createOneTimeObserver } from '../../../shared/utils/functions/createOneTimeObserver';
+import { mainColor } from '../../../shared/utils/enums/colorMaps';
+import { generateRandomColor } from '../../../shared/utils/functions/generateRandomColor';
 
 type LearnSectionProps = {
   sectionRef: React.RefObject<HTMLElement>;
@@ -46,7 +45,7 @@ const LearnSection = forwardRef<HandleOnScroll, LearnSectionProps>(
 
       const numberOfCards = 6;
       for (let i = 0; i < numberOfCards; i++) {
-        const randomColor = getRandomColor();
+        const randomColor = generateRandomColor(mainColor);
         crads.push(
           <div
             ref={(ref) => (cardRefs.current[i] = ref!)}

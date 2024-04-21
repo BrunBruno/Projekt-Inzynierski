@@ -1,4 +1,4 @@
-import { IconMap } from '../../../shared/functions/Types';
+import { IconMap } from '../../../shared/utils/types/iconMap';
 import classes from './PlaySection.module.scss';
 
 const icons: IconMap = {
