@@ -1,5 +1,5 @@
-@import "./Variables.scss";
-@import "./CommonStyles.scss";
+@import './Variables.scss';
+@import './CommonStyles.scss';
 
 @mixin main-scrollbar($bgcolor, $mainColor, $sideColor) {
   $mainrgb: map-get($colorMap, $mainColor);
@@ -174,5 +174,31 @@
   &:focus,
   &:active {
     border-color: $gcolor3;
+  }
+}
+
+@mixin tInput($size) {
+  box-sizing: border-box;
+  padding: calc($size / 4);
+  font-size: $size;
+  border: none;
+  border-bottom: solid calc($size / 8) $gcolor6;
+  outline: none;
+  text-align: start;
+
+  background-color: #0000;
+  color: $gcolor4;
+
+  &:focus,
+  &:active {
+    color: $gcolor0;
+    border-color: $gcolor0;
+    &::placeholder {
+      color: $gcolor7;
+    }
+  }
+
+  &::placeholder {
+    color: $gcolor6;
   }
 }
