@@ -1,5 +1,5 @@
 // preventing long texts
-@mixin longText {
+@mixin longText() {
   width: 1px;
   min-width: 100%;
   overflow: hidden;

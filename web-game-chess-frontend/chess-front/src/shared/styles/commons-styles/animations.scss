@@ -1,0 +1,10 @@
+@mixin emergeAni($duration: 0.3s, $delay: 0s) {
+  animation: emergeAnimation $duration ease-in $delay forwards;
+
+  @keyframes emergeAnimation {
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+}

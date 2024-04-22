@@ -1,7 +1,7 @@
 @import '../../shared/styles/shared.scss';
 
 .home-main {
-  @include gridBg(24rem, $gc9, $gc8);
+  @include gridBg();
   width: 100vw;
   max-width: 160rem;
   margin: auto;
@@ -16,8 +16,8 @@
     background-color: rgba(#000, 1);
 
     .intro-logo {
-      @include absCenter;
-      @include flex(row, center, center, 2rem);
+      @include absCenter();
+      @include flex($gap: 2rem);
 
       opacity: 0;
 
@@ -42,11 +42,9 @@
       }
 
       .intro-text {
-        font-size: 12rem;
-        font-family: 'Knewave';
-        overflow: hidden;
-        width: 0;
+        @include secFont(12rem);
 
+        width: 0;
         animation: textInit 0.5s 0.5s forwards;
 
         @keyframes textInit {
@@ -91,15 +89,14 @@
 .observe {
   position: absolute;
   z-index: -999;
+  width: 0;
   // background-color: red;
-  // width: 1rem;
 
   // set the observer to middle of section
   transform: translateY(50vh);
 }
 
 @mixin container {
-  width: 100%;
-  height: 100%;
+  @include wh100();
   padding: 4rem 0;
 }

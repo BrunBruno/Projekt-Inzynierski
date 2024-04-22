@@ -1,7 +1,7 @@
 @import '../variables/color.scss';
 
 // setting for default inputs
-@mixin cInput($size, $mColor, $sColor) {
+@mixin cInput($size: 2rem, $mColor: $mc9, $sColor: $mc0) {
   box-sizing: border-box;
   padding: calc($size / 4) $size;
   border: solid calc($size / 8) #0000;
@@ -20,7 +20,7 @@
 }
 
 // setting for transparent input
-@mixin tInput($size) {
+@mixin tInput($size: 2rem) {
   box-sizing: border-box;
   padding: calc($size / 4);
   border: none;

@@ -1,6 +1,6 @@
 @import '../../styles/shared.scss';
 
-@mixin actionButton($size) {
+@mixin actionButton($size: 2rem) {
   width: fit-content;
   height: fit-content;
 

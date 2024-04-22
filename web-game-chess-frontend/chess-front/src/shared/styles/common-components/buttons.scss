@@ -1,6 +1,6 @@
 @import '../variables/color.scss';
 
-@mixin button($size) {
+@mixin button($size: 2rem) {
   width: fit-content;
   padding: calc($size / 4) $size;
 
@@ -21,7 +21,7 @@
   }
 }
 
-@mixin mainMButton {
+@mixin mainMButton() {
   color: $mc0;
   background-color: $mc9;
 
@@ -36,7 +36,7 @@
   }
 }
 
-@mixin secMButton {
+@mixin secMButton() {
   background-color: $mc0;
   color: $mc9;
 
@@ -52,7 +52,7 @@
   }
 }
 
-@mixin mainGButton {
+@mixin mainGButton() {
   color: $gc2;
   background-color: $gc9;
 
@@ -68,7 +68,7 @@
   }
 }
 
-@mixin secGButton {
+@mixin secGButton() {
   background-color: $gc2;
   color: $gc9;
 

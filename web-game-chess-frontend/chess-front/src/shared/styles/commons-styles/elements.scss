@@ -1,5 +1,5 @@
 // display flex implementation
-@mixin flex($direction, $justify, $align, $gap) {
+@mixin flex($direction: row, $justify: center, $align: center, $gap: 0) {
   display: flex;
   flex-direction: $direction;
   justify-content: $justify;
@@ -16,7 +16,7 @@
 }
 
 // styles for sub class after and before
-@mixin subCl($w, $h) {
+@mixin subCl($w: 100%, $h: 100%) {
   content: '';
   position: absolute;
   width: $w;

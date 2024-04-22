@@ -8,7 +8,6 @@ import classes from './HeroSection.module.scss';
 import LogoIconSvg from '../../../shared/svgs/LogoIconSvg';
 import { useNavigate } from 'react-router-dom';
 import { HandleOnScroll } from '../../../shared/utils/types/handleOnScroll';
-import { registrationActionEnum } from '../../../shared/utils/enums/registrationAction';
 import HeroActions from './hero-actions/HeroActions';
 
 type HeroSectionProps = {

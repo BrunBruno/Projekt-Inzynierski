@@ -63,7 +63,7 @@ function HomePage() {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
             let elements: HTMLCollectionOf<Element> =
-              document.getElementsByClassName(navClasses.nav_element);
+              document.getElementsByClassName(navClasses['nav-element']);
 
             for (let i = 0; i < elements.length; i++) {
               elements[i].classList.remove(navClasses.active);

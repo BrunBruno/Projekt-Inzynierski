@@ -1,13 +1,9 @@
-import React, {
-  forwardRef,
-  useImperativeHandle,
-  useRef,
-  useState,
-} from 'react';
+import React, { forwardRef, useEffect, useRef } from 'react';
 import classes from './PlaySection.module.scss';
 import PlaySectionIcons from './PlaySectionIcons';
 import { HandleOnScroll } from '../../../shared/utils/types/handleOnScroll';
-import { mainColor } from '../../../shared/utils/enums/colorMaps';
+import PlayBoard from './play-board/PlayBoard';
+import { createOneTimeObserver } from '../../../shared/utils/functions/createOneTimeObserver';
 
 type PlaySectionProps = {
   sectionRef: React.RefObject<HTMLElement>;
@@ -18,234 +14,103 @@ const PlaySection = forwardRef<HandleOnScroll, PlaySectionProps>(
     { sectionRef }: PlaySectionProps,
     ref: React.ForwardedRef<HandleOnScroll>
   ) => {
-    const wh = window.innerHeight;
-    const stripSize = 40;
-    const h = window.innerHeight * 0.5;
+    // refs
+    // section title ref
+    const introRef = useRef<HTMLDivElement>(null);
+    const actionRefs: React.RefObject<HTMLDivElement>[] = [];
+    for (let i = 0; i < 4; i++) {
+      actionRefs[i] = useRef<HTMLDivElement>(null);
+    }
 
-    const boardRef = useRef<HTMLDivElement>(null);
-    const innerBoardRef = useRef<HTMLDivElement>(null);
-    const boardIntroRef = useRef<HTMLDivElement>(null);
+    useEffect(() => {
+      const introObserverAction = (entry: IntersectionObserverEntry): void => {
+        entry.target.classList.remove(classes['active-intro']);
+      };
+      const introObserver: IntersectionObserver = createOneTimeObserver(
+        introObserverAction,
+        {}
+      );
 
-    const [isIntroOpen, setIsIntroOpen] = useState<boolean>(false);
+      if (introRef.current) {
+        introObserver.observe(introRef.current);
+      }
 
-    const handleBoardOnScroll = (): void => {
-      const element = boardRef.current;
-      if (element) {
-        const parentRect = element.getBoundingClientRect();
-        const y = parentRect.top;
+      return () => {
+        introObserver.disconnect();
+      };
+    }, [introRef]);
 
-        if (y > -wh && y < wh) {
-          const innerElement = innerBoardRef.current;
-          if (innerElement) {
-            if (y < wh * 0.5 && y > -wh * 0.5) {
-              innerElement.classList.add(classes['board-intro']);
-            } else {
-              innerElement.classList.remove(classes['board-intro']);
-            }
-          }
+    useEffect(() => {
+      const actionsObserverAction = (
+        entry: IntersectionObserverEntry
+      ): void => {
+        entry.target.classList.add(classes['show']);
+      };
+      const actionsObserver: IntersectionObserver = createOneTimeObserver(
+        actionsObserverAction,
+        {}
+      );
 
-          const scale: number = Math.pow(
-            Math.E,
-            -(1 / Math.pow(10, 6)) * Math.pow(y, 2)
-          );
-          const rotate: number = -(1 / 100) * y;
-
-          element.style.transform = `scale(${scale}) rotateZ(${rotate}deg)`;
+      actionRefs.forEach((element) => {
+        if (element.current) {
+          actionsObserver.observe(element.current);
         }
-      }
-    };
+      });
 
-    const handleIntroOnScroll = (): void => {
-      const element = boardIntroRef.current;
-      if (element) {
-        const introRect = element.getBoundingClientRect();
-        const y = introRect.top;
-        const p1 = -(y - h) / 10;
-        const p2 = p1 + stripSize;
-
-        if (p1 >= -stripSize && p1 <= 100 && p2 >= 0 && p2 <= 100 + stripSize) {
-          element.style.backgroundImage = `linear-gradient(60deg, ${mainColor.c0} ${p1}%, ${mainColor.c4} ${p1}%, ${mainColor.c4} ${p2}%, ${mainColor.c0} ${p2}%)`;
-        }
-
-        if (!isIntroOpen && y < 100) {
-          setIsIntroOpen(true);
-        }
-      }
-    };
-
-    const handleOnScroll = (): void => {
-      handleIntroOnScroll();
-      handleBoardOnScroll();
-    };
-
-    useImperativeHandle(ref, () => ({
-      handleOnScroll,
-    }));
-
-    const elementRefs: { [key: string]: React.RefObject<HTMLDivElement> } = {};
-    const generateGrid = (): JSX.Element[] => {
-      const rows: JSX.Element[] = [];
-
-      const numberOfRows = 8;
-      for (let i = 0; i < numberOfRows; i++) {
-        const generateTiles = (): JSX.Element[] => {
-          const tiles: JSX.Element[] = [];
-
-          const numberOfTiles = 8;
-          for (let j = 0; j < numberOfTiles; j++) {
-            const key = `${i + 1}-${j + 1}`;
-            if (!elementRefs[key]) {
-              elementRefs[key] = React.createRef<HTMLDivElement>();
-            }
-
-            tiles.push(
-              <div ref={elementRefs[key]} key={key} className={classes.tile} />
-            );
-          }
-
-          return tiles;
-        };
-
-        rows.push(
-          <div key={i} className={classes['grid-row']}>
-            {generateTiles()}
-          </div>
-        );
-      }
-
-      return rows;
-    };
-
-    const time = 30;
-    const done: string[] = [];
-    const makeWave = (key: string): void => {
-      let [row, col]: [number, number] = key.split('-').map(Number) as [
-        number,
-        number,
-      ];
-      if (row === 0 || row === 9 || col === 0 || col === 9) {
-        return;
-      }
-
-      let neighborKey: string = `${row}-${col}`;
-
-      if (done.includes(neighborKey)) {
-        return;
-      }
-      done.push(neighborKey);
-
-      const neighborElement = elementRefs[key];
-      if (neighborElement && neighborElement.current) {
-        neighborElement.current.style.filter = 'brightness(200%)';
-        setTimeout(() => {
-          neighborElement.current!.style.filter = 'brightness(50%)';
-        }, time);
-      }
-
-      if (done.length < 64) {
-        if (row > 0 && row < 9 && col > 0 && col < 9) {
-          setTimeout(() => {}, 1000);
-          setTimeout(() => makeWave(`${row - 1}-${col}`), time);
-          setTimeout(() => makeWave(`${row + 1}-${col}`), time);
-          setTimeout(() => makeWave(`${row}-${col - 1}`), time);
-          setTimeout(() => makeWave(`${row}-${col + 1}`), time);
-        }
-      } else {
-        setTimeout(() => {
-          done.length = 0;
-        }, time);
-      }
-    };
-
-    const generatePawns = (): JSX.Element[] => {
-      const tiles: JSX.Element[] = [];
-
-      const numberOfTiles = 64;
-      for (let i = 0; i < numberOfTiles; i++) {
-        const innerKey = `${Math.floor(i / 8) + 1}-${(i % 8) + 1}`;
-        tiles.push(
-          <div
-            key={i}
-            className={classes.pawn}
-            onClick={() => makeWave(innerKey)}
-          />
-        );
-      }
-
-      return tiles;
-    };
-
-    const handleOnGridHover = (
-      event: React.MouseEvent<HTMLDivElement, MouseEvent>
-    ) => {
-      const parentRect = event.currentTarget.getBoundingClientRect();
-      const offsetX = event.clientX - parentRect.left;
-      const offsetY = event.clientY - parentRect.top;
-      const indicator = document.getElementById('indicator');
-      if (indicator) {
-        indicator.style.left = `${offsetX}px`;
-        indicator.style.top = `${offsetY}px`;
-      }
-    };
+      return () => {
+        actionsObserver.disconnect();
+      };
+    }, [actionRefs]);
 
     return (
       <section id="play-section" ref={sectionRef} className={classes.play}>
+        {/* intro */}
+        <div
+          ref={introRef}
+          className={`${classes.play__intro} ${classes['active-intro']}`}
+        >
+          <h2 className={`${classes['intro-h2']} ${classes['active-h2']}`}>
+            <span>LET'S GET</span>
+          </h2>
+          <h2 className={`${classes['intro-h2']} ${classes['active-h2']}`}>
+            <span>STARTED</span>
+          </h2>
+        </div>
+        {/* end intro */}
+
         <div className={classes.play__content}>
-          <div
-            ref={boardIntroRef}
-            className={`${classes.play__content__intro} 
-          ${isIntroOpen ? classes['open-intro'] : ''}`}
-          >
-            <h2>LET'S GET </h2>
-            <h2>STARTED </h2>
+          {/* board */}
+          <div className={classes.play__content__board}>
+            <PlayBoard ref={ref} />
           </div>
-          <div ref={boardRef} className={classes.play__content__board}>
-            <div className={classes.play__content__board__grid}>
-              <div
-                ref={innerBoardRef}
-                className={classes.play__content__board__grid__inner}
-                onClick={() => console.log('aaaa')}
-              >
-                <div id="indicator" className={classes.indicator} />
-                {generateGrid()}
+
+          {/* actions */}
+          <div className={classes.play__content__actions}>
+            <div className={classes.play__content__actions__buttons}>
+              <div ref={actionRefs[0]} className={classes['actions-row']}>
+                <h3 className={classes['buttons-title']}>Start playing now!</h3>
               </div>
-              <div
-                className={classes.play__content__board__grid__outer}
-                onMouseMove={(event) => handleOnGridHover(event)}
-                onMouseEnter={() => {
-                  const indicator = document.getElementById('indicator');
-                  if (indicator) {
-                    indicator.style.opacity = '1';
-                  }
-                }}
-                onMouseLeave={() => {
-                  const indicator = document.getElementById('indicator');
-                  if (indicator) {
-                    indicator.style.opacity = '0';
-                  }
-                }}
-              >
-                {generatePawns()}
+              <div ref={actionRefs[1]} className={classes['actions-row']}>
+                <h4 className={classes['buttons-text']}>
+                  Join our community and start playing users at your level or
+                  simply join random game and enjoy chess.
+                </h4>
+              </div>
+              <div ref={actionRefs[2]} className={classes['actions-row']}>
+                <button className={classes['vs-player-button']}>
+                  <PlaySectionIcons iconName="online" />
+                  <span>PLAY ONLINE</span>
+                </button>
+              </div>
+              <div ref={actionRefs[3]} className={classes['actions-row']}>
+                <button className={classes['vs-computer-button']}>
+                  <PlaySectionIcons iconName="offline" />
+                  <span>PLAY OFFLINE</span>
+                </button>
               </div>
             </div>
           </div>
-        </div>
-        <div className={classes.play__actions}>
-          <div className={classes.play__actions__buttons}>
-            <h3>Start playing now!</h3>
-            <h4>
-              Join our community and start playing users at your level or simply
-              join random game and enjoy chess.
-            </h4>
-            <button className={classes['vs-player-button']}>
-              <PlaySectionIcons iconName="online" />
-              <span>PLAY ONLINE</span>
-            </button>
-            <button className={classes['vs-computer-button']}>
-              <PlaySectionIcons iconName="offline" />
-              <span>PLAY OFFLINE</span>
-            </button>
-          </div>
+          {/* end actions */}
         </div>
       </section>
     );

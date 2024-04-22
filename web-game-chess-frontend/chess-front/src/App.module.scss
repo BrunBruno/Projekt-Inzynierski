@@ -10,5 +10,5 @@ body {
   background-color: #111;
   color: $gc0;
 
-  @include mainScrollbar(#000, $gc8, $gc7);
+  @include mainScrollbar();
 }
