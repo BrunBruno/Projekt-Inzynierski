@@ -1,9 +1,9 @@
-import React, { forwardRef, useEffect, useRef } from 'react';
-import classes from './PlaySection.module.scss';
-import PlaySectionIcons from './PlaySectionIcons';
-import { HandleOnScroll } from '../../../shared/utils/types/handleOnScroll';
-import PlayBoard from './play-board/PlayBoard';
-import { createOneTimeObserver } from '../../../shared/utils/functions/createOneTimeObserver';
+import React, { forwardRef, useEffect, useRef } from "react";
+import classes from "./PlaySection.module.scss";
+import PlaySectionIcons from "./play-components/PlaySectionIcons";
+import { HandleOnScroll } from "../../../shared/utils/types/handleOnScroll";
+import PlayBoard from "./play-components/PlayBoard";
+import { createOneTimeObserver } from "../../../shared/utils/functions/createOneTimeObserver";
 
 type PlaySectionProps = {
   sectionRef: React.RefObject<HTMLElement>;
@@ -24,7 +24,7 @@ const PlaySection = forwardRef<HandleOnScroll, PlaySectionProps>(
 
     useEffect(() => {
       const introObserverAction = (entry: IntersectionObserverEntry): void => {
-        entry.target.classList.remove(classes['active-intro']);
+        entry.target.classList.remove(classes["active-intro"]);
       };
       const introObserver: IntersectionObserver = createOneTimeObserver(
         introObserverAction,
@@ -44,7 +44,7 @@ const PlaySection = forwardRef<HandleOnScroll, PlaySectionProps>(
       const actionsObserverAction = (
         entry: IntersectionObserverEntry
       ): void => {
-        entry.target.classList.add(classes['show']);
+        entry.target.classList.add(classes["show"]);
       };
       const actionsObserver: IntersectionObserver = createOneTimeObserver(
         actionsObserverAction,
@@ -67,12 +67,12 @@ const PlaySection = forwardRef<HandleOnScroll, PlaySectionProps>(
         {/* intro */}
         <div
           ref={introRef}
-          className={`${classes.play__intro} ${classes['active-intro']}`}
+          className={`${classes.play__intro} ${classes["active-intro"]}`}
         >
-          <h2 className={`${classes['intro-h2']} ${classes['active-h2']}`}>
+          <h2 className={`${classes["intro-h2"]} ${classes["active-h2"]}`}>
             <span>LET'S GET</span>
           </h2>
-          <h2 className={`${classes['intro-h2']} ${classes['active-h2']}`}>
+          <h2 className={`${classes["intro-h2"]} ${classes["active-h2"]}`}>
             <span>STARTED</span>
           </h2>
         </div>
@@ -87,23 +87,23 @@ const PlaySection = forwardRef<HandleOnScroll, PlaySectionProps>(
           {/* actions */}
           <div className={classes.play__content__actions}>
             <div className={classes.play__content__actions__buttons}>
-              <div ref={actionRefs[0]} className={classes['actions-row']}>
-                <h3 className={classes['buttons-title']}>Start playing now!</h3>
+              <div ref={actionRefs[0]} className={classes["actions-row"]}>
+                <h3 className={classes["buttons-title"]}>Start playing now!</h3>
               </div>
-              <div ref={actionRefs[1]} className={classes['actions-row']}>
-                <h4 className={classes['buttons-text']}>
+              <div ref={actionRefs[1]} className={classes["actions-row"]}>
+                <h4 className={classes["buttons-text"]}>
                   Join our community and start playing users at your level or
                   simply join random game and enjoy chess.
                 </h4>
               </div>
-              <div ref={actionRefs[2]} className={classes['actions-row']}>
-                <button className={classes['vs-player-button']}>
+              <div ref={actionRefs[2]} className={classes["actions-row"]}>
+                <button className={classes["vs-player-button"]}>
                   <PlaySectionIcons iconName="online" />
                   <span>PLAY ONLINE</span>
                 </button>
               </div>
-              <div ref={actionRefs[3]} className={classes['actions-row']}>
-                <button className={classes['vs-computer-button']}>
+              <div ref={actionRefs[3]} className={classes["actions-row"]}>
+                <button className={classes["vs-computer-button"]}>
                   <PlaySectionIcons iconName="offline" />
                   <span>PLAY OFFLINE</span>
                 </button>

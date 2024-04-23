@@ -17,7 +17,7 @@
 
 // styles for sub class after and before
 @mixin subCl($w: 100%, $h: 100%) {
-  content: '';
+  content: "";
   position: absolute;
   width: $w;
   height: $h;

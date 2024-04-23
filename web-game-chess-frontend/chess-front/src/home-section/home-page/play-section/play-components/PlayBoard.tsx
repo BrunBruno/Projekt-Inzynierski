@@ -1,7 +1,7 @@
-import React, { forwardRef, useImperativeHandle, useRef } from 'react';
-import classes from './PlayBoard.module.scss';
-import { HandleOnScroll } from '../../../../shared/utils/types/handleOnScroll';
-import LogoIconSvg from '../../../../shared/svgs/LogoIconSvg';
+import React, { forwardRef, useImperativeHandle, useRef } from "react";
+import classes from "./PlayBoard.module.scss";
+import { HandleOnScroll } from "../../../../shared/utils/types/handleOnScroll";
+import LogoIconSvg from "../../../../shared/svgs/LogoIconSvg";
 
 type PlayBoardProps = {};
 
@@ -17,6 +17,8 @@ const PlayBoard = forwardRef<HandleOnScroll, PlayBoardProps>(
     // for handling on intersection event
     const innerBoardRef = useRef<HTMLDivElement>(null);
     const outerBoardRef = useRef<HTMLDivElement>(null);
+    // ref for each tile in board
+    const elementRefs: { [key: string]: React.RefObject<HTMLDivElement> } = {};
 
     // hadnle board on scroll
     const handleOnScroll = (): void => {
@@ -26,15 +28,16 @@ const PlayBoard = forwardRef<HandleOnScroll, PlayBoardProps>(
         const y = parentRect.top;
 
         if (y > -wh && y < wh) {
+          // lighting up board
           const innerElement = innerBoardRef.current;
           const outerElement = outerBoardRef.current;
           if (innerElement && outerElement) {
             if (y < wh * 0.5 && y > -wh * 0.5) {
-              innerElement.classList.add(classes['visible-inner']);
-              outerElement.classList.add(classes['visible-outer']);
+              innerElement.classList.add(classes["visible-inner"]);
+              outerElement.classList.add(classes["visible-outer"]);
             } else {
-              innerElement.classList.remove(classes['visible-inner']);
-              outerElement.classList.remove(classes['visible-outer']);
+              innerElement.classList.remove(classes["visible-inner"]);
+              outerElement.classList.remove(classes["visible-outer"]);
             }
           }
 
@@ -44,6 +47,7 @@ const PlayBoard = forwardRef<HandleOnScroll, PlayBoardProps>(
           );
           const rotate: number = -(1 / 100) * y;
 
+          // roate board based on user position
           element.style.transform = `scale(${scale}) rotateZ(${rotate}deg)`;
         }
       }
@@ -55,38 +59,37 @@ const PlayBoard = forwardRef<HandleOnScroll, PlayBoardProps>(
     // end hadnle board on scroll
 
     // genrate board
-    const elementRefs: { [key: string]: React.RefObject<HTMLDivElement> } = {};
     const generateGrid = (): JSX.Element[] => {
-      const rows: JSX.Element[] = [];
+      const boardRows: JSX.Element[] = [];
 
-      const numberOfRows = 8;
-      for (let i = 0; i < numberOfRows; i++) {
+      const nRows = 8;
+      for (let i = 0; i < nRows; i++) {
         const generateTiles = (): JSX.Element[] => {
-          const tiles: JSX.Element[] = [];
+          const rowTiles: JSX.Element[] = [];
 
-          const numberOfTiles = 8;
-          for (let j = 0; j < numberOfTiles; j++) {
+          const nCols = 8;
+          for (let j = 0; j < nCols; j++) {
             const key = `${j + 1}-${i + 1}`;
             if (!elementRefs[key]) {
               elementRefs[key] = React.createRef<HTMLDivElement>();
             }
 
-            tiles.push(
+            rowTiles.push(
               <div ref={elementRefs[key]} key={key} className={classes.tile} />
             );
           }
 
-          return tiles;
+          return rowTiles;
         };
 
-        rows.push(
-          <div key={i} className={classes['grid-row']}>
+        boardRows.push(
+          <div key={i} className={classes["grid-row"]}>
             {generateTiles()}
           </div>
         );
       }
 
-      return rows;
+      return boardRows;
     };
     // end generate board
 
@@ -94,6 +97,7 @@ const PlayBoard = forwardRef<HandleOnScroll, PlayBoardProps>(
     const handleBoardOnClick = (
       event: React.MouseEvent<HTMLDivElement, MouseEvent>
     ): string => {
+      // get cor of tiles based on cursor position
       const getPosition = (
         cpos: number,
         ppos: number,
@@ -101,6 +105,7 @@ const PlayBoard = forwardRef<HandleOnScroll, PlayBoardProps>(
       ): number => {
         return Math.floor((cpos - ppos) / (psize / 8)) + 1;
       };
+
       const parentRect = event.currentTarget.getBoundingClientRect();
 
       const x: number = getPosition(
@@ -122,9 +127,9 @@ const PlayBoard = forwardRef<HandleOnScroll, PlayBoardProps>(
     const time = 30;
     const done: string[] = [];
     const makeWave = (key: string): void => {
-      let [row, col]: [number, number] = key.split('-').map(Number) as [
+      let [row, col]: [number, number] = key.split("-").map(Number) as [
         number,
-        number,
+        number
       ];
 
       let neighborKey: string = `${row}-${col}`;
@@ -142,10 +147,10 @@ const PlayBoard = forwardRef<HandleOnScroll, PlayBoardProps>(
 
       const neighborElement = elementRefs[key];
       if (neighborElement && neighborElement.current) {
-        neighborElement.current.style.filter = 'brightness(200%)';
+        neighborElement.current.style.filter = "brightness(200%)";
         setTimeout(() => {
           if (neighborElement.current) {
-            neighborElement.current.style.filter = 'brightness(50%)';
+            neighborElement.current.style.filter = "brightness(50%)";
           }
         }, time);
       }
@@ -174,7 +179,7 @@ const PlayBoard = forwardRef<HandleOnScroll, PlayBoardProps>(
       const offsetX = event.clientX - parentRect.left;
       const offsetY = event.clientY - parentRect.top;
 
-      const indicator = document.getElementById('indicator');
+      const indicator = document.getElementById("indicator");
       if (indicator) {
         indicator.style.left = `${offsetX}px`;
         indicator.style.top = `${offsetY}px`;
@@ -185,31 +190,34 @@ const PlayBoard = forwardRef<HandleOnScroll, PlayBoardProps>(
     return (
       <div ref={boardRef} className={classes.board}>
         <div className={classes.board__grid}>
+          {/* inner */}
           <div ref={innerBoardRef} className={classes.board__grid__inner}>
             <div id="indicator" className={classes.indicator} />
             {generateGrid()}
           </div>
+
+          {/* outer */}
           <div
             ref={outerBoardRef}
             className={classes.board__grid__outer}
             onMouseMove={(event) => handleOnGridHover(event)}
             onMouseEnter={() => {
-              const indicator = document.getElementById('indicator');
+              const indicator = document.getElementById("indicator");
               if (indicator) {
-                indicator.style.opacity = '1';
+                indicator.style.opacity = "1";
               }
             }}
             onMouseLeave={() => {
-              const indicator = document.getElementById('indicator');
+              const indicator = document.getElementById("indicator");
               if (indicator) {
-                indicator.style.opacity = '0';
+                indicator.style.opacity = "0";
               }
             }}
             onClick={(event) => {
               makeWave(handleBoardOnClick(event));
             }}
           >
-            <LogoIconSvg iconClass={classes['board-svg']} />
+            <LogoIconSvg iconClass={classes["board-svg"]} />
           </div>
         </div>
       </div>

@@ -1,4 +1,4 @@
-@import '../../../../shared/styles/shared.scss';
+@import "../../../../shared/styles/shared.scss";
 
 // board
 .board {
@@ -47,6 +47,7 @@
     &__inner {
       position: relative;
       display: grid;
+      grid-template-columns: auto;
       grid-template-rows: repeat(8, 1fr);
       gap: 0.5rem;
 
@@ -54,9 +55,7 @@
       border-radius: $md-br;
       border: solid 1rem $gc8;
 
-      transition:
-        box-shadow 1s,
-        border-color 1s;
+      transition: box-shadow 1s, border-color 1s;
 
       .indicator {
         @include circle(20rem);

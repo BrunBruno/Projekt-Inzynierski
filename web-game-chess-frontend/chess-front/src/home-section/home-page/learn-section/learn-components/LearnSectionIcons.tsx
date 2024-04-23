@@ -1,7 +1,9 @@
-import { mainColor } from '../../../shared/utils/enums/colorMaps';
+import { mainColor } from "../../../../shared/utils/enums/colorMaps";
+import { IconMap } from "../../../../shared/utils/types/iconMap";
+import classes from "../LearnSection.module.scss";
 
-function LearnSectionLineIcon() {
-  return (
+const icons: IconMap = {
+  pawnLine: (
     <svg viewBox="0 0 3364 96" fill="none" xmlns="http://www.w3.org/2000/svg">
       <rect y="91" width="3000" height="5" rx="2.5" fill={mainColor.c0} />
       <rect
@@ -33,7 +35,56 @@ function LearnSectionLineIcon() {
         fill={mainColor.c0}
       />
     </svg>
-  );
+  ),
+  engine: (
+    <svg
+      version="1.1"
+      id="Icons"
+      xmlns="http://www.w3.org/2000/svg"
+      xmlnsXlink="http://www.w3.org/1999/xlink"
+      viewBox="0 0 32 32"
+      xmlSpace="preserve"
+    >
+      {/* <style type="text/css">
+   .st0{fill:none;stroke:#000000;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;}
+   .st1{fill:none;stroke:#000000;stroke-width:2;stroke-linejoin:round;stroke-miterlimit:10;}
+</style> */}
+      <path
+        className={classes.st0}
+        d="M23,25H9c-1.1,0-2-0.9-2-2V9c0-1.1,0.9-2,2-2h14c1.1,0,2,0.9,2,2v14C25,24.1,24.1,25,23,25z"
+      />
+      <path
+        className={classes.st0}
+        d="M19,21h-6c-1.1,0-2-0.9-2-2v-6c0-1.1,0.9-2,2-2h6c1.1,0,2,0.9,2,2v6C21,20.1,20.1,21,19,21z"
+      />
+      <line className={classes.st0} x1="14" y1="3" x2="14" y2="7" />
+      <line className={classes.st0} x1="10" y1="3" x2="10" y2="7" />
+      <line className={classes.st0} x1="22" y1="3" x2="22" y2="7" />
+      <line className={classes.st0} x1="18" y1="3" x2="18" y2="7" />
+      <line className={classes.st0} x1="14" y1="25" x2="14" y2="29" />
+      <line className={classes.st0} x1="10" y1="25" x2="10" y2="29" />
+      <line className={classes.st0} x1="22" y1="25" x2="22" y2="29" />
+      <line className={classes.st0} x1="18" y1="25" x2="18" y2="29" />
+      <line className={classes.st0} x1="25" y1="18" x2="29" y2="18" />
+      <line className={classes.st0} x1="25" y1="22" x2="29" y2="22" />
+      <line className={classes.st0} x1="25" y1="10" x2="29" y2="10" />
+      <line className={classes.st0} x1="25" y1="14" x2="29" y2="14" />
+      <line className={classes.st0} x1="3" y1="18" x2="7" y2="18" />
+      <line className={classes.st0} x1="3" y1="22" x2="7" y2="22" />
+      <line className={classes.st0} x1="3" y1="10" x2="7" y2="10" />
+      <line className={classes.st0} x1="3" y1="14" x2="7" y2="14" />
+    </svg>
+  ),
+};
+
+type LearnSectionIconsProps = {
+  iconName: string;
+};
+
+function LearnSectionIcons({ iconName }: LearnSectionIconsProps) {
+  const icon = icons[iconName];
+
+  return icon ? icon : <></>;
 }
 
-export default LearnSectionLineIcon;
+export default LearnSectionIcons;

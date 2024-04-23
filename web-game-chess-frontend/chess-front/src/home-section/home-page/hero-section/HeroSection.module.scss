@@ -1,4 +1,4 @@
-@import '../HomePage.module.scss';
+@import "../HomePage.module.scss";
 
 .hero {
   position: relative;
@@ -14,7 +14,7 @@
 
     border-bottom-left-radius: $xl-br;
     background-image: linear-gradient(#0000 0%, #000 100%),
-      url('images/hero-background.jpg');
+      url("images/hero-background.jpg");
     background-color: #000;
     background-size: contain;
     background-repeat: no-repeat;
@@ -112,7 +112,7 @@
 
     // hero intro
     &__intro {
-      @include absCenter;
+      @include absCenter();
       @include flex(column, center, center, 3rem);
 
       left: 30%;
@@ -123,6 +123,17 @@
       overflow: hidden;
       border-radius: $sm-br;
       background-color: rgba($gc9, 0.2);
+      background-image: linear-gradient(
+        60deg,
+        #0000 18%,
+        rgba($gc9, 0.1) 20%,
+        rgba($gc9, 0.1) 28%,
+        rgba($gc8, 0.1) 30%,
+        rgba($gc8, 0.1) 32%,
+        rgba($gc9, 0.1) 34%,
+        rgba($gc9, 0.1) 50%,
+        #0000 52%
+      );
       text-shadow: 0.1rem 0.1rem #000;
 
       &__h1 {
@@ -132,23 +143,22 @@
         text-align: center;
         user-select: none;
 
-        background:
-          conic-gradient(
-              from 90deg at top 0.5rem left 0.5rem,
+        background: conic-gradient(
+              from 90deg at top 0.6rem left 0.6rem,
               #0000 90deg,
               $gc0 0
             )
-            0 0 / 3rem 3rem border-box no-repeat,
+            0 0 / 4rem 4rem border-box no-repeat,
           conic-gradient(
-              from -90deg at bottom 0.5rem right 0.5rem,
+              from -90deg at bottom 0.6rem right 0.6rem,
               #0000 90deg,
               $gc0 0
             )
-            100% 100% / 3rem 3rem border-box no-repeat;
+            100% 100% / 4rem 4rem border-box no-repeat;
 
         span {
           font-size: 6.4rem;
-          text-shadow: 0.2rem 0.1rem $mc5;
+          text-shadow: -1rem 0.5rem #000;
         }
       }
 

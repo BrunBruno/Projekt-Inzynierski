@@ -1,4 +1,4 @@
-@import '../../HomePage.module.scss';
+@import "../../HomePage.module.scss";
 
 // pawns images
 @mixin imagePawnStyles($mainColor, $sideColor, $shadowColor) {
@@ -71,57 +71,62 @@
 // end pawns images
 
 .actions {
+  position: absolute;
+  z-index: 9;
+  top: 24rem;
+  right: 60rem;
+
   // extra hero content
   @mixin actions {
     @include square(60rem);
-
+    position: relative;
     position: absolute;
     z-index: 9;
-    top: 24rem;
-    right: 0;
   }
 
   // extra bg
   &__background {
-    @include actions;
+    @include actions();
 
+    overflow: hidden;
     border-bottom-left-radius: $md-br;
     border-top-left-radius: $md-br;
     box-shadow: 0 0 0 2rem rgb(67, 43, 137);
-    overflow: hidden;
     background-image: linear-gradient(#000, #000, $mc7);
 
     .board-grid {
+      @include square(200%);
+
       position: absolute;
       z-index: -1;
       top: -80%;
       left: -50%;
-      width: 200%;
-      aspect-ratio: 1/1;
       display: grid;
       grid-template-columns: repeat(5, 1fr);
       grid-template-rows: repeat(5, 1fr);
       gap: 0;
+
       border: solid 0.5rem $gc0;
+      box-shadow: 0 0 4rem 2rem rgba($gc0, 0.5);
 
       transform-style: preserve-3d;
       transform: rotateX(70deg) rotateZ(45deg);
-      animation: boardHighlight 3s infinite;
+      // animation: boardHighlight 3s infinite;
 
-      @keyframes boardHighlight {
-        0% {
-          box-shadow: 0 0 4rem 2rem rgba($gc0, 0.5);
-        }
-        50% {
-          box-shadow: 0 0 4rem 3rem rgba($gc0, 0.5);
-        }
-        100% {
-          box-shadow: 0 0 4rem 2rem rgba($gc0, 0.5);
-        }
-      }
+      // @keyframes boardHighlight {
+      //   0% {
+      //     box-shadow: 0 0 4rem 2rem rgba($gc0, 0.5);
+      //   }
+      //   50% {
+      //     box-shadow: 0 0 4rem 3rem rgba($gc0, 0.5);
+      //   }
+      //   100% {
+      //     box-shadow: 0 0 4rem 2rem rgba($gc0, 0.5);
+      //   }
+      // }
 
       &::after {
-        @include subCl(100%, 100%);
+        @include subCl();
 
         background-image: linear-gradient(
           to top left,
@@ -130,7 +135,7 @@
         );
       }
 
-      p {
+      .p-tile {
         position: relative;
         overflow: hidden;
         border: solid 0.5rem $gc0;
@@ -173,12 +178,12 @@
 
   // extra actions
   &__content {
-    @include actions;
+    @include actions();
 
     padding: 6rem;
 
     .actions-pawns {
-      @include wh100;
+      @include wh100();
       @include flex(row, center, start, 0);
 
       // pawn settings
@@ -222,9 +227,7 @@
         &:hover > p {
           opacity: 1;
           height: 8rem;
-          transition:
-            height 0.1s 0s,
-            opacity 0.3s 0.1s;
+          transition: height 0.1s 0s, opacity 0.3s 0.1s;
         }
 
         .img-pawn-container {
@@ -236,7 +239,7 @@
           height: calc(6rem + 10rem + 12rem);
         }
 
-        p {
+        .img-pawn-text {
           position: absolute;
           z-index: 2;
           top: calc(6rem + 10rem + 12rem - 10rem - 4rem);
@@ -252,9 +255,7 @@
           opacity: 0;
           text-align: center;
 
-          transition:
-            height 0.3s,
-            opacity 0.1s;
+          transition: height 0.3s, opacity 0.1s;
         }
       }
       // end pawn settings
@@ -287,5 +288,5 @@
     }
   }
   // extra actions
-  // end extra hero content
 }
+// end extra hero content

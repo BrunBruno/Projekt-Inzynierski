@@ -3,12 +3,11 @@ import React, {
   useEffect,
   useImperativeHandle,
   useRef,
-} from 'react';
-import classes from './HeroSection.module.scss';
-import LogoIconSvg from '../../../shared/svgs/LogoIconSvg';
-import { useNavigate } from 'react-router-dom';
-import { HandleOnScroll } from '../../../shared/utils/types/handleOnScroll';
-import HeroActions from './hero-actions/HeroActions';
+} from "react";
+import classes from "./HeroSection.module.scss";
+import LogoIconSvg from "../../../shared/svgs/LogoIconSvg";
+import { HandleOnScroll } from "../../../shared/utils/types/handleOnScroll";
+import HeroActions from "./hero-components/HeroActions";
 
 type HeroSectionProps = {
   sectionRef: React.RefObject<HTMLElement>;
@@ -19,8 +18,6 @@ const HeroSection = forwardRef<HandleOnScroll, HeroSectionProps>(
     { sectionRef }: HeroSectionProps,
     ref: React.ForwardedRef<HandleOnScroll>
   ) => {
-    const navigate = useNavigate();
-
     const h = window.innerHeight * 0.7;
 
     // handle hero on scroll
@@ -65,9 +62,9 @@ const HeroSection = forwardRef<HandleOnScroll, HeroSectionProps>(
           </div>
 
           {/* Logo */}
-          <div className={classes['nav-logo']}>
+          <div className={classes["nav-logo"]}>
             <a href="/">
-              <LogoIconSvg iconClass={classes['logo-svg']} />
+              <LogoIconSvg iconClass={classes["logo-svg"]} />
             </a>
             <p>Chess</p>
           </div>

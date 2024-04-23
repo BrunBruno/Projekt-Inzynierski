@@ -1,42 +1,46 @@
-import classes from './LearnSection.module.scss';
-import { useEffect, useRef, useState } from 'react';
-import LearnSectionLineIcon from './LearnSectionLineIcon';
-import { createOneTimeObserver } from '../../../shared/utils/functions/createOneTimeObserver';
-import { mainColor } from '../../../shared/utils/enums/colorMaps';
+import classes from "./LearnBlocks.module.scss";
+import { useEffect, useRef, useState } from "react";
+import { createOneTimeObserver } from "../../../../shared/utils/functions/createOneTimeObserver";
+import { mainColor } from "../../../../shared/utils/enums/colorMaps";
+import LearnSectionIcons from "./LearnSectionIcons";
 
-const LearnSectionBlocks = () => {
+const LearnBlocks = () => {
   const [wasActived, setWasActived] = useState(false);
   const [count, setCount] = useState<number>(0);
 
   const SectionBlocks = [
     {
-      title: 'Some Title Aaaa',
-      text: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Quas voluptatem quaerat deserunt, animi aspernatur, nemo rem, earum eum nisi totam doloremque quos dolorum molestiae enim! Quos nesciunt ducimus iusto quaerat?',
-      iconName: 'pieces-icon',
+      title: "Some Title Aaaa",
+      text:
+        "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quas voluptatem quaerat deserunt, animi aspernatur, nemo rem, earum eum nisi totam doloremque quos dolorum molestiae enim! Quos nesciunt ducimus iusto quaerat?",
+      iconName: "pieces-icon",
       iconRef: useRef<HTMLDivElement>(null),
       textRef: useRef<HTMLDivElement>(null),
       lineRef: useRef<HTMLDivElement>(null),
     },
     {
-      title: 'Some Title Aaaa',
-      text: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Quas voluptatem quaerat deserunt, animi aspernatur, nemo rem, earum eum nisi totam doloremque quos dolorum molestiae enim! Quos nesciunt ducimus iusto quaerat?',
-      iconName: 'counter-icon',
+      title: "Some Title Aaaa",
+      text:
+        "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quas voluptatem quaerat deserunt, animi aspernatur, nemo rem, earum eum nisi totam doloremque quos dolorum molestiae enim! Quos nesciunt ducimus iusto quaerat?",
+      iconName: "counter-icon",
       iconRef: useRef<HTMLDivElement>(null),
       textRef: useRef<HTMLDivElement>(null),
       lineRef: useRef<HTMLDivElement>(null),
     },
     {
-      title: 'Some Title Aaaa',
-      text: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Quas voluptatem quaerat deserunt, animi aspernatur, nemo rem, earum eum nisi totam doloremque quos dolorum molestiae enim! Quos nesciunt ducimus iusto quaerat?',
-      iconName: 'icon3',
+      title: "Some Title Aaaa",
+      text:
+        "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quas voluptatem quaerat deserunt, animi aspernatur, nemo rem, earum eum nisi totam doloremque quos dolorum molestiae enim! Quos nesciunt ducimus iusto quaerat?",
+      iconName: "icon3",
       iconRef: useRef<HTMLDivElement>(null),
       textRef: useRef<HTMLDivElement>(null),
       lineRef: useRef<HTMLDivElement>(null),
     },
     {
-      title: 'Some Title Aaaa',
-      text: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Quas voluptatem quaerat deserunt, animi aspernatur, nemo rem, earum eum nisi totam doloremque quos dolorum molestiae enim! Quos nesciunt ducimus iusto quaerat?',
-      iconId: 'icon4',
+      title: "Some Title Aaaa",
+      text:
+        "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quas voluptatem quaerat deserunt, animi aspernatur, nemo rem, earum eum nisi totam doloremque quos dolorum molestiae enim! Quos nesciunt ducimus iusto quaerat?",
+      iconId: "icon4",
       iconRef: useRef<HTMLDivElement>(null),
       textRef: useRef<HTMLDivElement>(null),
       lineRef: useRef<HTMLDivElement>(null),
@@ -46,13 +50,13 @@ const LearnSectionBlocks = () => {
   // create learn section icons
   const createIcon = (iconName: string): JSX.Element => {
     switch (iconName) {
-      case 'pieces-icon':
+      case "pieces-icon":
         const links = [
-          'white-rook',
-          'black-queen',
-          'white-pawn',
-          'black-bishop',
-          'white-king',
+          "white-rook",
+          "black-queen",
+          "white-pawn",
+          "black-bishop",
+          "white-king",
         ] as const;
 
         const images = links.map((link) => (
@@ -66,7 +70,7 @@ const LearnSectionBlocks = () => {
 
         return <>{images}</>;
 
-      case 'counter-icon':
+      case "counter-icon":
         const elements = Array.from({ length: 4 }).map((_, i) => {
           const value = Math.floor(count / Math.pow(3, -(i - 3)))
             .toString()
@@ -74,16 +78,20 @@ const LearnSectionBlocks = () => {
           return (
             <div
               key={i}
-              style={{ color: value === '3' ? mainColor.c5 : mainColor.c0 }}
+              style={{ color: value === "3" ? mainColor.c5 : mainColor.c0 }}
             >
               {value}
             </div>
           );
         });
         return <>{elements}</>;
-      case 'icon3':
-        return <></>;
-      case 'icon4':
+      case "engine-icon":
+        return (
+          <div>
+            <LearnSectionIcons iconName="engin" />
+          </div>
+        );
+      case "icon4":
         return <></>;
       default:
         return <></>;
@@ -94,7 +102,7 @@ const LearnSectionBlocks = () => {
   // observer block
   useEffect(() => {
     const textObserverAction = (entry: IntersectionObserverEntry): void => {
-      entry.target.classList.add(classes['active-text']);
+      entry.target.classList.add(classes["active-text"]);
     };
     const textObserver: IntersectionObserver = createOneTimeObserver(
       textObserverAction,
@@ -102,11 +110,11 @@ const LearnSectionBlocks = () => {
     );
 
     const iconObserverAction = (entry: IntersectionObserverEntry): void => {
-      entry.target.classList.add(classes['active-icon']);
+      entry.target.classList.add(classes["active-icon"]);
 
       if (
         !wasActived &&
-        entry.target.classList.contains(classes['counter-icon'])
+        entry.target.classList.contains(classes["counter-icon"])
       ) {
         setWasActived(true);
         setTimeout(() => incrementCount(0), 1000);
@@ -118,7 +126,7 @@ const LearnSectionBlocks = () => {
     );
 
     const lineObserverAction = (entry: IntersectionObserverEntry): void => {
-      entry.target.classList.add(classes['active-line']);
+      entry.target.classList.add(classes["active-line"]);
     };
     const lineObserver: IntersectionObserver = createOneTimeObserver(
       lineObserverAction,
@@ -155,49 +163,43 @@ const LearnSectionBlocks = () => {
   // end observe block
 
   return (
-    <div className={classes.learn__z_pattern}>
+    <div className={classes.zpattern}>
       {SectionBlocks.map((block, index) =>
         index % 2 !== 0 ? (
-          <div className={classes.learn__z_pattern__row} key={index}>
-            <div
-              ref={block.textRef}
-              className={classes.learn__z_pattern__row__text}
-            >
+          <div className={classes.zpattern__row} key={index}>
+            <div ref={block.textRef} className={classes.zpattern__row__text}>
               <h3>{block.title}</h3>
               <p>{block.text}</p>
             </div>
             <div
               ref={block.iconRef}
-              className={`${classes.learn__z_pattern__row__icon} ${
+              className={`${classes.zpattern__row__icon} ${
                 classes[block.iconName!]
               }`}
             >
               {createIcon(block.iconName!)}
             </div>
-            <div ref={block.lineRef} className={classes['row-line-icon']}>
-              <LearnSectionLineIcon />
+            <div ref={block.lineRef} className={classes["row-line-icon"]}>
+              <LearnSectionIcons iconName="pawnLine" />
             </div>
           </div>
         ) : (
-          <div className={classes.learn__z_pattern__row} key={index}>
+          <div className={classes.zpattern__row} key={index}>
             <div
               ref={block.iconRef}
-              className={`${classes.learn__z_pattern__row__icon} ${
+              className={`${classes.zpattern__row__icon} ${
                 classes[block.iconName!]
               }`}
             >
               {createIcon(block.iconName!)}
             </div>
-            <div
-              ref={block.textRef}
-              className={classes.learn__z_pattern__row__text}
-            >
+            <div ref={block.textRef} className={classes.zpattern__row__text}>
               <h3>{block.title}</h3>
               <p>{block.text}</p>
             </div>
 
-            <div ref={block.lineRef} className={classes['row-line-icon']}>
-              <LearnSectionLineIcon />
+            <div ref={block.lineRef} className={classes["row-line-icon"]}>
+              <LearnSectionIcons iconName="pawnLine" />
             </div>
           </div>
         )
@@ -206,4 +208,4 @@ const LearnSectionBlocks = () => {
   );
 };
 
-export default LearnSectionBlocks;
+export default LearnBlocks;
