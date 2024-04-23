@@ -1,4 +1,4 @@
-@import "../../../../shared/styles/shared.scss";
+@import '../../../../shared/styles/shared.scss';
 
 .zpattern {
   display: grid;
@@ -28,6 +28,7 @@
       @include flex(row, center, center, 0);
 
       position: absolute;
+      z-index: 1;
       bottom: 0rem;
       width: 100%;
 
@@ -49,18 +50,29 @@
       @include square(100%);
 
       position: relative;
-    }
+      z-index: 1;
 
-    .pieces-icon {
       &::after {
         @include subCl(0, 0);
         @include absCenter;
         @include circle(60%);
 
         z-index: -1;
-        background-color: rgba($mc0, 0.2);
+        background-color: rgba($mc0, 0.1);
         filter: blur(4rem);
       }
+    }
+
+    .pieces-icon {
+      // &::after {
+      //   @include subCl(0, 0);
+      //   @include absCenter;
+      //   @include circle(60%);
+
+      //   z-index: -1;
+      //   background-color: rgba($mc0, 0.2);
+      //   filter: blur(4rem);
+      // }
 
       img {
         position: absolute;
@@ -94,26 +106,92 @@
 
         height: 16rem;
         background-color: #000;
-        border: solid 0.4rem $mc5;
-        font-family: "Knewave";
+        border-top: solid 0.4rem $mc9;
+        border-right: solid 0.4rem $mc9;
+        font-family: 'Knewave';
         font-size: 10rem;
         user-select: none;
+        box-shadow: 0 0 2rem 0 $mc9;
+      }
+    }
+
+    .engine-con {
+      @include wh100();
+      @include flex();
+
+      .enigne-icon {
+        height: 60%;
+
+        .st0 {
+          fill: none;
+          stroke: $mc1;
+          stroke-width: 2;
+          stroke-linecap: round;
+          stroke-linejoin: round;
+          stroke-miterlimit: 10;
+
+          animation: moveLine 1s forwards;
+        }
+
+        @keyframes moveLine {
+          from {
+            /* Starting position */
+            x1: 1;
+          }
+          to {
+            /* Ending position */
+            x1: 7;
+          }
+        }
+      }
+    }
+
+    .message-con {
+      @include wh100();
+      position: relative;
+
+      .message-icon {
+        position: absolute;
+        height: 32%;
+
+        transform: translateY(-50%) rotateY(180deg);
+
+        &:nth-child(1) {
+          top: 35%;
+          left: 6rem;
+          transform: translateY(-50%) rotateY(180deg);
+        }
+        &:nth-child(2) {
+          top: 50%;
+          right: 6rem;
+          transform: translateY(-50%) rotateY(0);
+        }
+        &:nth-child(3) {
+          top: 65%;
+          left: 6rem;
+          transform: translateY(-50%) rotateY(180deg);
+        }
       }
     }
 
     &__text {
-      @include flex(column, center, start, 0);
+      @include flex(column, center, start, 1rem);
 
+      z-index: 1;
       opacity: 0;
       transform: translateY(5rem);
       transition: all 1s 0.5s;
 
-      h3 {
-        font-size: 4rem;
+      .row-h3 {
+        font-size: $xl-tx;
+        margin-left: 4rem;
+        border-bottom: dashed 0.2rem $mc0;
+        filter: drop-shadow(0 0 1rem $gc6);
       }
 
-      p {
-        font-size: 2rem;
+      .row-p {
+        font-size: $md-tx;
+        color: $gc4;
       }
     }
 

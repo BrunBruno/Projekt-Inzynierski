@@ -1,9 +1,25 @@
-@import '../HomePage.module.scss';
+@import '../../../shared/styles/shared.scss';
 
 .faq {
-  @include container;
+  @include wh100();
+
+  position: relative;
   padding-top: 10rem;
   background-color: #000;
+  border-top-right-radius: $xl-br;
+  box-shadow: 2rem -2rem 0 0 rgb(67, 43, 137);
+
+  &::before {
+    @include subCl($xl-br, $xl-br);
+    top: calc(-2rem - $xl-br);
+    left: -2rem;
+
+    border: solid 2rem rgb(67, 43, 137);
+    border-top: none;
+    border-right: none;
+    border-bottom-left-radius: $xl-br;
+    box-shadow: 0rem 10rem 0 #000;
+  }
 
   &__intro {
     width: 100%;

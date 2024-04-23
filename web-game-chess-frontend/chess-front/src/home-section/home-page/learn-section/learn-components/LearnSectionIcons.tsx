@@ -1,6 +1,6 @@
-import { mainColor } from "../../../../shared/utils/enums/colorMaps";
-import { IconMap } from "../../../../shared/utils/types/iconMap";
-import classes from "../LearnSection.module.scss";
+import { mainColor } from '../../../../shared/utils/enums/colorMaps';
+import { IconMap } from '../../../../shared/utils/types/iconMap';
+import classes from './LearnBlocks.module.scss';
 
 const icons: IconMap = {
   pawnLine: (
@@ -39,16 +39,12 @@ const icons: IconMap = {
   engine: (
     <svg
       version="1.1"
-      id="Icons"
       xmlns="http://www.w3.org/2000/svg"
       xmlnsXlink="http://www.w3.org/1999/xlink"
       viewBox="0 0 32 32"
       xmlSpace="preserve"
+      className={classes['enigne-icon']}
     >
-      {/* <style type="text/css">
-   .st0{fill:none;stroke:#000000;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;}
-   .st1{fill:none;stroke:#000000;stroke-width:2;stroke-linejoin:round;stroke-miterlimit:10;}
-</style> */}
       <path
         className={classes.st0}
         d="M23,25H9c-1.1,0-2-0.9-2-2V9c0-1.1,0.9-2,2-2h14c1.1,0,2,0.9,2,2v14C25,24.1,24.1,25,23,25z"
@@ -57,7 +53,7 @@ const icons: IconMap = {
         className={classes.st0}
         d="M19,21h-6c-1.1,0-2-0.9-2-2v-6c0-1.1,0.9-2,2-2h6c1.1,0,2,0.9,2,2v6C21,20.1,20.1,21,19,21z"
       />
-      <line className={classes.st0} x1="14" y1="3" x2="14" y2="7" />
+      {/* <line className={classes.st0} x1="14" y1="3" x2="14" y2="7" />
       <line className={classes.st0} x1="10" y1="3" x2="10" y2="7" />
       <line className={classes.st0} x1="22" y1="3" x2="22" y2="7" />
       <line className={classes.st0} x1="18" y1="3" x2="18" y2="7" />
@@ -72,10 +68,57 @@ const icons: IconMap = {
       <line className={classes.st0} x1="3" y1="18" x2="7" y2="18" />
       <line className={classes.st0} x1="3" y1="22" x2="7" y2="22" />
       <line className={classes.st0} x1="3" y1="10" x2="7" y2="10" />
+      <line className={classes.st0} x1="3" y1="14" x2="7" y2="14" /> */}
+
+      {/* top y1=3 */}
+      <line className={classes.st0} x1="14" y1="1" x2="14" y2="7" />
+      <line className={classes.st0} x1="10" y1="5" x2="10" y2="7" />
+      <line className={classes.st0} x1="22" y1="3" x2="22" y2="7" />
+      <line className={classes.st0} x1="18" y1="4" x2="18" y2="7" />
+
+      {/* bottom y2=29 */}
+      <line className={classes.st0} x1="14" y1="25" x2="14" y2="27" />
+      <line className={classes.st0} x1="10" y1="25" x2="10" y2="31" />
+      <line className={classes.st0} x1="22" y1="25" x2="22" y2="30" />
+      <line className={classes.st0} x1="18" y1="25" x2="18" y2="29" />
+
+      {/* x2=29 */}
+      <line className={classes.st0} x1="25" y1="18" x2="27" y2="18" />
+      <line className={classes.st0} x1="25" y1="22" x2="28" y2="22" />
+      <line className={classes.st0} x1="25" y1="10" x2="28" y2="10" />
+      <line className={classes.st0} x1="25" y1="14" x2="29" y2="14" />
+
+      {/* x1=7 */}
+      <line className={classes.st0} x1="2" y1="18" x2="7" y2="18" />
+      <line className={classes.st0} x1="3" y1="22" x2="7" y2="22" />
+      <line className={classes.st0} x1="4" y1="10" x2="7" y2="10" />
       <line className={classes.st0} x1="3" y1="14" x2="7" y2="14" />
     </svg>
   ),
+  message: (
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      className={classes['message-icon']}
+    >
+      <path
+        d="M7 9H17M7 13H17M21 20L17.6757 18.3378C17.4237 18.2118 17.2977 18.1488 17.1656 18.1044C17.0484 18.065 16.9277 18.0365 16.8052 18.0193C16.6672 18 16.5263 18 16.2446 18H6.2C5.07989 18 4.51984 18 4.09202 17.782C3.71569 17.5903 3.40973 17.2843 3.21799 16.908C3 16.4802 3 15.9201 3 14.8V7.2C3 6.07989 3 5.51984 3.21799 5.09202C3.40973 4.71569 3.71569 4.40973 4.09202 4.21799C4.51984 4 5.0799 4 6.2 4H17.8C18.9201 4 19.4802 4 19.908 4.21799C20.2843 4.40973 20.5903 4.71569 20.782 5.09202C21 5.51984 21 6.0799 21 7.2V20Z"
+        stroke={mainColor.c0}
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  ),
 };
+
+// {
+//   /* <style type="text/css">
+//    .st0{fill:none;stroke:#000000;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;}
+//    .st1{fill:none;stroke:#000000;stroke-width:2;stroke-linejoin:round;stroke-miterlimit:10;}
+// </style> */
+// }
 
 type LearnSectionIconsProps = {
   iconName: string;

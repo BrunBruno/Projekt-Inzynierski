@@ -1,8 +1,8 @@
-@import "../../../shared/styles/shared.scss";
+@import '../../../shared/styles/shared.scss';
 
 .learn {
   @include wh100();
-  margin-bottom: 40rem;
+  margin-bottom: 30rem;
 
   &__join {
     position: relative;
@@ -90,7 +90,7 @@
 
       h2 {
         font-size: 4rem;
-        font-family: "Knewave";
+        font-family: 'Knewave';
         user-select: none;
         text-align: center;
         color: $mc5;

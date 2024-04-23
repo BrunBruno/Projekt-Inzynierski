@@ -9,6 +9,7 @@ import LearnSection from './learn-section/LearnSection';
 import FaqSection from './faq-section/FaqSection';
 import LogoIconSvg from '../../shared/svgs/LogoIconSvg';
 import { HandleOnScroll } from '../../shared/utils/types/handleOnScroll';
+import FooterSection from './footer-section/FooterSection';
 
 // sections indicators
 const indicators = ['home', 'play', 'learn', 'faq'] as const;
@@ -157,7 +158,7 @@ function HomePage() {
         </React.Fragment>
       ))}
 
-      <footer className={classes.footer}>Footer</footer>
+      <FooterSection />
     </main>
   );
 }
