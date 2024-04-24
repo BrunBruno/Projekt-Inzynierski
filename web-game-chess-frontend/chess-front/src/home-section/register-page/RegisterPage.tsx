@@ -1,12 +1,13 @@
-import { useEffect, useState } from 'react';
-import classes from './RegisterPage.module.scss';
-import SignUpSection from './sign-section/SignUpSection';
-import SignInSection from './sign-section/SignInSection';
-import PasswordIconSvg from '../../shared/svgs/PasswordIconSvg';
-import { useLocation, useNavigate } from 'react-router-dom';
-import { registrationActionEnum } from '../../shared/utils/enums/registrationAction';
-import { mainColor } from '../../shared/utils/enums/colorMaps';
-import ActionButton from '../../shared/components/action-button/ActionButton';
+import { useEffect, useState } from "react";
+import classes from "./RegisterPage.module.scss";
+import SignUpSection from "./sign-section/SignUpSection";
+import SignInSection from "./sign-section/SignInSection";
+import PasswordIconSvg from "../../shared/svgs/PasswordIconSvg";
+import { useLocation, useNavigate } from "react-router-dom";
+import { registrationActionEnum } from "../../shared/utils/enums/registrationAction";
+import { mainColor } from "../../shared/utils/enums/colorMaps";
+import ActionButton from "../../shared/components/action-button/ActionButton";
+import VerifySection from "./sign-section/VerifySection";
 
 function RegisterPage() {
   const location = useLocation();
@@ -29,7 +30,7 @@ function RegisterPage() {
       case registrationActionEnum.signUp:
         return <SignUpSection setModal={setModal} />;
       case registrationActionEnum.verify:
-        return <></>;
+        return <VerifySection />;
       default:
         return <></>;
     }
@@ -38,13 +39,13 @@ function RegisterPage() {
   const getFromClass = (): string => {
     switch (modal) {
       case registrationActionEnum.signIn:
-        return classes['left-side-form'];
+        return classes["left-side-form"];
       case registrationActionEnum.signUp:
-        return classes['right-side-form'];
+        return classes["right-side-form"];
       case registrationActionEnum.verify:
-        return classes['right-side-form'];
+        return classes["right-side-form"];
       default:
-        return '';
+        return "";
     }
   };
 
@@ -53,7 +54,7 @@ function RegisterPage() {
       <div className={classes.register__content}>
         {modal === registrationActionEnum.signIn ? (
           <div
-            className={`${classes.register__content__split} ${classes['left-side-content']}`}
+            className={`${classes.register__content__split} ${classes["left-side-content"]}`}
           >
             <div className={classes.form}></div>
             <div className={classes.intro}>
@@ -65,9 +66,9 @@ function RegisterPage() {
                 quisquam quibusdam, vero architecto similique repellendus culpa.
               </p>
               <div
-                className={classes['action-button']}
+                className={classes["action-button"]}
                 onClick={() => {
-                  navigate('/');
+                  navigate("/");
                 }}
               >
                 <ActionButton text="Home Page" />
@@ -76,7 +77,7 @@ function RegisterPage() {
           </div>
         ) : (
           <div
-            className={`${classes.register__content__split} ${classes['right-side-content']}`}
+            className={`${classes.register__content__split} ${classes["right-side-content"]}`}
           >
             <div className={classes.intro}>
               <h1>Get on Board</h1>
@@ -87,9 +88,9 @@ function RegisterPage() {
                 quisquam quibusdam, vero architecto similique repellendus culpa.
               </p>
               <div
-                className={classes['action-button']}
+                className={classes["action-button"]}
                 onClick={() => {
-                  navigate('/');
+                  navigate("/");
                 }}
               >
                 <ActionButton text="Home Page" />
@@ -102,7 +103,7 @@ function RegisterPage() {
         <div className={`${classes.register__content__form} ${getFromClass()}`}>
           <PasswordIconSvg
             color={mainColor.c7}
-            iconClass={classes['lock-svg']}
+            iconClass={classes["lock-svg"]}
           />
           {renderModal()}
         </div>

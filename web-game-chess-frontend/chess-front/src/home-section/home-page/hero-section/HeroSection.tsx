@@ -1,38 +1,25 @@
-import React, {
-  forwardRef,
-  useEffect,
-  useImperativeHandle,
-  useRef,
-} from "react";
+import { forwardRef, useImperativeHandle, useRef } from "react";
 import classes from "./HeroSection.module.scss";
-import LogoIconSvg from "../../../shared/svgs/LogoIconSvg";
 import { HandleOnScroll } from "../../../shared/utils/types/handleOnScroll";
-import HeroActions from "./hero-components/HeroActions";
 
-type HeroSectionProps = {
-  sectionRef: React.RefObject<HTMLElement>;
-};
+type HeroSectionProps = {};
 
 const HeroSection = forwardRef<HandleOnScroll, HeroSectionProps>(
-  (
-    { sectionRef }: HeroSectionProps,
-    ref: React.ForwardedRef<HandleOnScroll>
-  ) => {
-    const h = window.innerHeight * 0.7;
-
-    // handle hero on scroll
-    const heroRef = useRef<HTMLDivElement>(null);
+  ({}: HeroSectionProps, ref: React.ForwardedRef<HandleOnScroll>) => {
+    const heroBgRef = useRef<HTMLDivElement>(null);
     const handleOnScroll = () => {
-      const heroElement = heroRef.current;
+      const bgElement = heroBgRef.current;
 
-      if (heroElement) {
-        const y = window.scrollY;
+      if (bgElement) {
+        const y = 0.8 * 100 - (window.scrollY / window.innerHeight) * 100;
+        console.log(y);
 
-        if (y < heroElement.clientHeight * 1.5) {
-          const brightness =
-            -100 / (1 + Math.pow(Math.E, -(y - h) / 100)) + 100;
+        if (y < 100) {
+          console.log(y);
 
-          heroElement.style.filter = `brightness(${brightness}%)`;
+          bgElement.style.backgroundImage = `radial-gradient(circle at 50% 50%, #0000 ${y}%, #000 ${
+            y + 5
+          }%, #000 100%)`;
         }
       }
     };
@@ -40,54 +27,16 @@ const HeroSection = forwardRef<HandleOnScroll, HeroSectionProps>(
     useImperativeHandle(ref, () => ({
       handleOnScroll,
     }));
-    // end handle hero on scoll
-
-    //set video play rate
-    const videoRef = useRef<HTMLVideoElement>(null);
-    useEffect(() => {
-      if (videoRef.current) {
-        videoRef.current.playbackRate = 0.7;
-      }
-    }, [videoRef]);
-    // end set video play rate
 
     return (
-      <section id="home-section" ref={sectionRef} className={classes.hero}>
-        <div ref={heroRef} className={classes.hero__content}>
-          {/* hero background */}
-          <div className={classes.hero__content__background}>
-            {/* <video ref={videoRef} autoPlay loop muted>
-              <source src="videos/hero-background.mp4" type="video/mp4" />
-            </video> */}
-          </div>
+      <section className={classes.hero}>
+        <div className={classes.hero__container}>
+          <div ref={heroBgRef} className={classes.hero__container__bg}></div>
+          <video className={classes.hero__conatiner__video} autoPlay loop muted>
+            <source src="videos/hero-background.mp4" type="video/mp4" />
+          </video>
 
-          {/* Logo */}
-          <div className={classes["nav-logo"]}>
-            <a href="/">
-              <LogoIconSvg iconClass={classes["logo-svg"]} />
-            </a>
-            <p>Chess</p>
-          </div>
-
-          {/* intro senction */}
-          <div className={classes.hero__content__intro}>
-            <h1 className={classes.hero__content__intro__h1}>
-              <span>Welcome to</span>
-              <br />
-              <span>BRN Chess</span>
-            </h1>
-            <span className={classes.hero__content__intro__text}>
-              Welcome to the fascinating world of chess! Chess is one of the
-              most popular and enduring games in the world, with millions of
-              people playing and enjoying it every day. It is a game of
-              strategy, logic, and skill, where players must use their wits and
-              experience to outmaneuver their opponents and claim victory on the
-              board.
-            </span>
-          </div>
-          {/* end intro senction */}
-
-          <HeroActions />
+          <div className={classes.hero__container__content}>aaa</div>
         </div>
       </section>
     );

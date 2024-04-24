@@ -1,8 +1,8 @@
 import { useNavigate } from "react-router-dom";
-import classes from "./HeroActions.module.scss";
+import classes from "./HomeActions.module.scss";
 import { registrationActionEnum } from "../../../../shared/utils/enums/registrationAction";
 
-function HeroActions() {
+function HomeActions() {
   const partOfPawn = 6;
 
   const navigate = useNavigate();
@@ -96,4 +96,4 @@ function HeroActions() {
   );
 }
 
-export default HeroActions;
+export default HomeActions;

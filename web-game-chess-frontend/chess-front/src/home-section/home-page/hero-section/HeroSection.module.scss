@@ -1,173 +1,38 @@
-@import "../HomePage.module.scss";
+@import "../../../shared/styles/shared.scss";
 
 .hero {
   position: relative;
   width: 100%;
   height: 100vh;
   height: 100svh;
-  max-height: 80rem;
+  overflow: hidden;
+  background-color: #000;
 
-  &__content {
+  &__container {
+    @include wh100();
+
     position: relative;
-    width: 100%;
-    height: 64rem;
 
-    border-bottom-left-radius: $xl-br;
-    background-image: linear-gradient(#0000 0%, #000 100%),
-      url("images/hero-background.jpg");
-    background-color: #000;
-    background-size: contain;
-    background-repeat: no-repeat;
-    background-position: left;
-    box-shadow: -2rem 2rem 0 0 rgb(67, 43, 137);
-
-    // sub elements
-    @mixin subElement {
-      @include subCl(10rem, 10rem);
-
-      border: solid 2rem rgb(67, 43, 137);
-      border-left: none;
-    }
-
-    &::after {
-      @include subElement;
-
-      z-index: 1;
-      top: 64rem;
-      left: calc(100% - 60rem - 12rem);
-
-      border-bottom: none;
-      border-top-right-radius: $xl-br;
-      box-shadow: 4rem -4rem 0 1rem #000;
-    }
-
-    &::before {
-      @include subElement;
-
-      z-index: 2;
-      top: calc(64rem - 10rem);
-      left: calc(100% - 60rem - 12rem);
-
-      border-top: none;
-      border-bottom-right-radius: $xl-br;
-    }
-    // end sub elements
-
-    // background
-    &__background {
-      @include wh100;
-
-      z-index: 0;
-      position: absolute;
-
-      border-bottom-left-radius: $xl-br;
-      overflow: hidden;
-
-      &::after {
-        @include subCl(100%, 100%);
-        z-index: 1;
-        background-color: rgba(#000, 0.7);
-      }
-
-      video {
-        position: absolute;
-        z-index: -1;
-        height: 120%;
-        object-fit: cover;
-        filter: grayscale(100%);
-      }
-    }
-    // end background
-
-    // logo
-    .nav-logo {
-      @include flex(row, center, center, 2rem);
-
-      position: absolute;
-      z-index: 100;
-      top: 3.2rem;
-      left: 6.4rem;
-      pointer-events: all;
-
-      a {
-        display: block !important;
-        text-decoration: none;
-        width: fit-content;
-        height: fit-content;
-
-        &:hover {
-          cursor: pointer;
-        }
-
-        svg.logo-svg {
-          height: 4rem;
-        }
-      }
-
-      p {
-        @include secFont(3rem);
-      }
-    }
-    // end logo
-
-    // hero intro
-    &__intro {
+    &__bg {
       @include absCenter();
-      @include flex(column, center, center, 3rem);
-
-      left: 30%;
-      top: 36rem;
-      width: 70rem;
-      padding: 2rem 6rem;
-
-      overflow: hidden;
-      border-radius: $sm-br;
-      background-color: rgba($gc9, 0.2);
-      background-image: linear-gradient(
-        60deg,
-        #0000 18%,
-        rgba($gc9, 0.1) 20%,
-        rgba($gc9, 0.1) 28%,
-        rgba($gc8, 0.1) 30%,
-        rgba($gc8, 0.1) 32%,
-        rgba($gc9, 0.1) 34%,
-        rgba($gc9, 0.1) 50%,
-        #0000 52%
-      );
-      text-shadow: 0.1rem 0.1rem #000;
-
-      &__h1 {
-        padding: 0.8rem 6.4rem;
-        border: 0.5rem solid #0000;
-
-        text-align: center;
-        user-select: none;
-
-        background: conic-gradient(
-              from 90deg at top 0.6rem left 0.6rem,
-              #0000 90deg,
-              $gc0 0
-            )
-            0 0 / 4rem 4rem border-box no-repeat,
-          conic-gradient(
-              from -90deg at bottom 0.6rem right 0.6rem,
-              #0000 90deg,
-              $gc0 0
-            )
-            100% 100% / 4rem 4rem border-box no-repeat;
-
-        span {
-          font-size: 6.4rem;
-          text-shadow: -1rem 0.5rem #000;
-        }
-      }
-
-      &__text {
-        display: block;
-        font-size: 1.8rem;
-        color: $gc5;
-      }
+      @include wh100();
+      z-index: 1;
     }
-    // end hero intro
+
+    &__video {
+      position: absolute;
+      z-index: 0;
+      object-fit: contain;
+      filter: grayscale(100%);
+    }
+
+    &__content {
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: 2;
+      height: 100%;
+      aspect-ratio: 16/10;
+    }
   }
 }

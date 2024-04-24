@@ -150,6 +150,8 @@ function SignUpSection({ setModal }: SignUpSectionProps) {
       const response = await axios.post(`${baseUrl}/user/sign-in`, logUserData);
 
       localStorage.setItem("token", response.data.token);
+
+      setModal(registrationActionEnum.verify);
     } catch (err) {
       if (err instanceof AxiosError) {
         if (err.response && err.response.data) {

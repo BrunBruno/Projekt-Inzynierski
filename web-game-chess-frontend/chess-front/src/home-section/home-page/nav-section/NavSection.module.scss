@@ -1,6 +1,6 @@
-@import '../../../shared/styles/shared';
+@import "../../../shared/styles/shared";
 
-.header {
+.nav {
   @include flex(row, center, center, 0);
 
   position: fixed;
@@ -120,67 +120,6 @@
     }
   }
   // end navbar
-
-  // side bar
-  .nav-actions {
-    @include flex(row, center, center, 0);
-
-    position: absolute;
-    top: 50%;
-    right: 6.4rem;
-
-    padding: 0.6rem 1.2rem;
-    border-bottom-left-radius: $sm-br;
-
-    pointer-events: all;
-
-    transform: translateY(-50%);
-    transition:
-      top 0.5s,
-      right 0.5s,
-      background-color 0s 0s,
-      box-shadow 0s 0s;
-
-    .nav-button {
-      @include button(1.6rem);
-      background-color: #0000;
-
-      transition: all 0.5s;
-
-      &:hover {
-        span {
-          &::after {
-            width: 100%;
-          }
-        }
-      }
-
-      span {
-        color: $gc3;
-        transition: color 0.5s;
-
-        &::after {
-          @include subCl(0, 0.2rem);
-
-          position: unset;
-          display: block;
-          margin-top: 0.3rem;
-          background-color: $gc3;
-          transition: all 0.3s;
-        }
-      }
-
-      &:nth-last-child(1) {
-        span {
-          color: $mc3;
-          &::after {
-            background-color: $mc3;
-          }
-        }
-      }
-    }
-  }
-  // end side bar
 }
 
 .nav-sticky {
@@ -197,10 +136,7 @@
     background-color: $gc9;
     box-shadow: 0 0 0 0.3rem $gc8;
 
-    transition:
-      top 0.5s,
-      right 0.5s,
-      background-color 0.3s 0.5s,
+    transition: top 0.5s, right 0.5s, background-color 0.3s 0.5s,
       box-shadow 0.3s 0.5s;
 
     button {
