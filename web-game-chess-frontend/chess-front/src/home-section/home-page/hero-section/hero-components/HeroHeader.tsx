@@ -1,33 +1,33 @@
-import { useNavigate } from "react-router-dom";
-import classes from "./HomeHeader.module.scss";
-import { registrationActionEnum } from "../../../../shared/utils/enums/registrationAction";
-import LogoIconSvg from "../../../../shared/svgs/LogoIconSvg";
+import { useNavigate } from 'react-router-dom';
+import classes from './HeroHeader.module.scss';
+import { registrationActionEnum } from '../../../../shared/utils/enums/registrationAction';
+import LogoIconSvg from '../../../../shared/svgs/LogoIconSvg';
 
-function HomeHeader() {
+function HeroHeader() {
   const navigate = useNavigate();
 
   return (
     <header className={classes.header}>
-      <div className={classes["nav-logo"]}>
+      <div className={classes['hero-logo']}>
         <a href="/">
-          <LogoIconSvg iconClass={classes["logo-svg"]} />
+          <LogoIconSvg iconClass={classes['logo-svg']} />
         </a>
         <p>Chess</p>
       </div>
 
-      <div className={classes["nav-actions"]}>
+      <div className={classes['hero-actions']}>
         <button
-          className={classes["nav-button"]}
+          className={classes['hero-button']}
           onClick={() => {
-            navigate("/about");
+            navigate('/about');
           }}
         >
           <span>About</span>
         </button>
         <button
-          className={classes["nav-button"]}
+          className={classes['hero-button']}
           onClick={() => {
-            navigate("/registration", {
+            navigate('/registration', {
               state: { regOption: registrationActionEnum.signIn },
             });
           }}
@@ -35,9 +35,9 @@ function HomeHeader() {
           <span>Sign In</span>
         </button>
         <button
-          className={classes["nav-button"]}
+          className={classes['hero-button']}
           onClick={() => {
-            navigate("/registration", {
+            navigate('/registration', {
               state: { regOption: registrationActionEnum.signUp },
             });
           }}
@@ -49,4 +49,4 @@ function HomeHeader() {
   );
 }
 
-export default HomeHeader;
+export default HeroHeader;

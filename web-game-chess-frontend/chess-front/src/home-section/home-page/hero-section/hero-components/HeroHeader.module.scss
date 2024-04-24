@@ -1,17 +1,18 @@
-@import "../../../../shared/styles/shared.scss";
+@import '../../../../shared/styles/shared.scss';
 
 // side bar
 .header {
   @include flex(row, space-between, center, 0);
+  @include absCenter();
 
-  position: relative;
+  top: 6rem;
   z-index: 100;
-  width: 100%;
+  width: calc(100% - 2 * 10rem);
   height: 8rem;
-  padding: 6rem 8rem;
+  border-bottom: solid 0.1rem $mc0;
 
   // logo
-  .nav-logo {
+  .hero-logo {
     @include flex(row, center, center, 2rem);
 
     pointer-events: all;
@@ -28,6 +29,7 @@
 
       svg.logo-svg {
         height: 4rem;
+        filter: grayscale(60%);
       }
     }
 
@@ -37,7 +39,7 @@
   }
   // end logo
 
-  .nav-actions {
+  .hero-actions {
     @include flex(row, center, center, 0);
 
     height: 100%;
@@ -45,9 +47,13 @@
 
     pointer-events: all;
 
-    transition: top 0.5s, right 0.5s, background-color 0s 0s, box-shadow 0s 0s;
+    transition:
+      top 0.5s,
+      right 0.5s,
+      background-color 0s 0s,
+      box-shadow 0s 0s;
 
-    .nav-button {
+    .hero-button {
       @include button(1.6rem);
       background-color: #0000;
 
