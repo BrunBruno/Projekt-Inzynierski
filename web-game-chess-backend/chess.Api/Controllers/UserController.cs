@@ -2,7 +2,7 @@
 using AutoMapper;
 using chess.Api.Models.UserModels;
 using chess.Application.Requests.UserRequests.BanUser;
-using chess.Application.Requests.UserRequests.GetPasswordConfiguration;
+using chess.Application.Requests.UserRequests.GetDataConfiguration;
 using chess.Application.Requests.UserRequests.GetUser;
 using chess.Application.Requests.UserRequests.IsEmailVerified;
 using chess.Application.Requests.UserRequests.LogIn;
@@ -103,10 +103,13 @@ public class UserController : ControllerBase {
     }
 
 
-    [HttpGet("configuration")]
-    public async Task<IActionResult> GetPasswordConfiguration() {
+    [HttpGet("configuration/{configurationId}")]
+    public async Task<IActionResult> GetDataConfiguration([FromRoute] int configurationId) {
 
-        var request = new GetPasswordConfigurationRequest();
+        var request = new GetDataConfigurationRequest()
+        {
+            ConfigurationId = configurationId,
+        };
 
         var passwordConfiguration = await _mediator.Send(request);
         return Ok(passwordConfiguration);

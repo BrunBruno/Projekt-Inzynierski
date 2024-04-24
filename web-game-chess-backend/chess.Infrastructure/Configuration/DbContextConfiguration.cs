@@ -10,7 +10,7 @@ public class DbContextConfiguration :
     IEntityTypeConfiguration<User>,
     IEntityTypeConfiguration<Role>,
     IEntityTypeConfiguration<EmailVerificationCode>,
-    IEntityTypeConfiguration<PasswordConfiguration>,
+    IEntityTypeConfiguration<DataConfiguration>,
     IEntityTypeConfiguration<BannedUser>
 {
 
@@ -39,7 +39,7 @@ public class DbContextConfiguration :
             .HasForeignKey<EmailVerificationCode>(x => x.UserId);
     }
 
-    public void Configure(EntityTypeBuilder<PasswordConfiguration> builder) {
+    public void Configure(EntityTypeBuilder<DataConfiguration> builder) {
         builder
             .HasKey(x => x.Id);
         builder
@@ -75,19 +75,29 @@ public class DbContextConfiguration :
         return roles;
     }
 
-    private IEnumerable<PasswordConfiguration> GetConfiguration() {
-        var configurations = new List<PasswordConfiguration>
+    private IEnumerable<DataConfiguration> GetConfiguration() {
+        var configurations = new List<DataConfiguration>
         {
             new()
             {
-                Id = (int)PasswordConfigurations.User,
+                Id = (int)DataConfigurations.UserPassword,
                 MinLength = 5,
                 MaxLength = null,
                 RequireUppercase = false,
                 RequireLowercase = false,
                 RequireDigit = true,
                 RequireSpecialChar = false,
-            }
+            },
+            new()
+            {
+                Id = (int)DataConfigurations.UserName,
+                MinLength = 5,
+                MaxLength = 30,
+                RequireUppercase = false,
+                RequireLowercase = false,
+                RequireDigit = false,
+                RequireSpecialChar = false,
+            },
         };
 
         return configurations;

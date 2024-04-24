@@ -26,7 +26,7 @@ public static class Extensions {
 
         services.AddScoped<IUserRepository, UserRepository>();
         services.AddScoped<IEmailVerificationCodeRepository, EmailVerificationCodeRepository>();
-        services.AddScoped<IPasswordConfigurationRepository, PasswordConfigurationRepository>();
+        services.AddScoped<IDataConfigurationRepository, DataConfigurationRepository>();
         services.AddScoped<IBannedUserRepository, BannedUserRepository>();
 
         var authenticationOptions = configuration.GetOptions<AuthenticationOptions>("Authentication");

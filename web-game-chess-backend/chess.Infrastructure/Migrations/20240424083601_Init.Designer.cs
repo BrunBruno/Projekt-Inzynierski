@@ -12,8 +12,8 @@ using chess.Infrastructure.Contexts;
 namespace chess.Infrastructure.Migrations
 {
     [DbContext(typeof(ChessAppDbContext))]
-    [Migration("20240416083657_FixPasswordConfiguration")]
-    partial class FixPasswordConfiguration
+    [Migration("20240424083601_Init")]
+    partial class Init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -52,31 +52,7 @@ namespace chess.Infrastructure.Migrations
                     b.ToTable("BannedUsers");
                 });
 
-            modelBuilder.Entity("chess.Core.Entities.EmailVerificationCode", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
-
-                    b.Property<string>("CodeHash")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<DateTime>("ExpirationDate")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("uuid");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("UserId")
-                        .IsUnique();
-
-                    b.ToTable("EmailVerificationCodes");
-                });
-
-            modelBuilder.Entity("chess.Core.Entities.PasswordConfiguration", b =>
+            modelBuilder.Entity("chess.Core.Entities.DataConfiguration", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -104,7 +80,7 @@ namespace chess.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("PasswordConfigurations");
+                    b.ToTable("DataConfigurations");
 
                     b.HasData(
                         new
@@ -115,7 +91,41 @@ namespace chess.Infrastructure.Migrations
                             RequireLowercase = false,
                             RequireSpecialChar = false,
                             RequireUppercase = false
+                        },
+                        new
+                        {
+                            Id = 2,
+                            MaxLength = 30,
+                            MinLength = 5,
+                            RequireDigit = false,
+                            RequireLowercase = false,
+                            RequireSpecialChar = false,
+                            RequireUppercase = false
                         });
+                });
+
+            modelBuilder.Entity("chess.Core.Entities.EmailVerificationCode", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("CodeHash")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("ExpirationDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId")
+                        .IsUnique();
+
+                    b.ToTable("EmailVerificationCodes");
                 });
 
             modelBuilder.Entity("chess.Core.Entities.Role", b =>

@@ -5,16 +5,16 @@ using chess.Infrastructure.Contexts;
 using Microsoft.EntityFrameworkCore;
 
 namespace chess.Infrastructure.Repositories;
-public class PasswordConfigurationRepository : IPasswordConfigurationRepository {
+public class DataConfigurationRepository : IDataConfigurationRepository {
 
     private readonly ChessAppDbContext _dbContext;
 
-    public PasswordConfigurationRepository(ChessAppDbContext dbContext) {
+    public DataConfigurationRepository(ChessAppDbContext dbContext) {
         _dbContext = dbContext;
     }
 
-    public async Task<PasswordConfiguration?> GetById(int id) 
-        => await _dbContext.PasswordConfigurations
+    public async Task<DataConfiguration?> GetById(int id) 
+        => await _dbContext.DataConfigurations
             .FirstAsync(x => x.Id == id);
 
 }

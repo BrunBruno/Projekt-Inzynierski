@@ -1,4 +1,4 @@
-@import '../RegisterPage.module.scss';
+@import "../RegisterPage.module.scss";
 
 .sign-form {
   @include flex(column, center, center, 2rem);
@@ -34,8 +34,40 @@
   }
 
   .form-row {
+    position: relative;
+
     input {
       @include tInput(2rem);
+
+      &:focus ~ .reg-pass-ind {
+        opacity: 1;
+      }
+      &:focus ~ .arrow {
+        opacity: 1;
+      }
+    }
+
+    .err {
+      &::placeholder {
+        color: $danger-color-m;
+      }
+    }
+
+    .arrow {
+      position: absolute;
+      height: 1.6rem;
+      top: 50%;
+      left: -2rem;
+      transform: translateY(-50%) rotateY(180deg);
+      opacity: 0;
+    }
+
+    .reg-pass-ind {
+      @include circle(2rem);
+
+      position: absolute;
+      right: 0;
+      opacity: 0;
     }
   }
 

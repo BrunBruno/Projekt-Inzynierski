@@ -1,7 +1,7 @@
 ﻿
-namespace chess.Application.Requests.UserRequests.GetPasswordConfiguration;
+namespace chess.Application.Requests.UserRequests.GetDataConfiguration;
 
-public class GetPasswordConfigurationDto {
+public class GetDataConfigurationDto {
     public int? MinLength { get; set; }
     public int? MaxLength { get; set; }
     public bool RequireUppercase { get; set; }

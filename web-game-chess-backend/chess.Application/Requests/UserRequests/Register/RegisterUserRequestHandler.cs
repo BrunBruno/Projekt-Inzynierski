@@ -45,7 +45,6 @@ public class RegisterUserRequestHandler : IRequestHandler<RegisterUserRequest> {
             Id = Guid.NewGuid(),
             Email = request.Email.ToLower(),
             Username = request.Username,
-            ImageUrl = request.ImageUrl
         };
 
         var hashedPassword = _passwordHasher.HashPassword(user, request.Password);
@@ -70,7 +69,5 @@ public class RegisterUserRequestHandler : IRequestHandler<RegisterUserRequest> {
         await _codeRepository.Add(code);
 
         await _smtpService.SendMessage(request.Email.ToLower(), "Hello " + request.Username, codeValue);
-
-        await _userRepository.Delete(user);
     }
 }

@@ -13,7 +13,7 @@ public class ChessAppDbContext : DbContext {
 
     public DbSet<EmailVerificationCode> EmailVerificationCodes { get; set; }
 
-    public DbSet<PasswordConfiguration> PasswordConfigurations { get; set; }
+    public DbSet<DataConfiguration> DataConfigurations { get; set; }
 
     public DbSet<BannedUser> BannedUsers { get; set; }
 
@@ -25,7 +25,7 @@ public class ChessAppDbContext : DbContext {
         builder.ApplyConfiguration<User>(configuration);
         builder.ApplyConfiguration<Role>(configuration);
         builder.ApplyConfiguration<EmailVerificationCode>(configuration);
-        builder.ApplyConfiguration<PasswordConfiguration>(configuration);
+        builder.ApplyConfiguration<DataConfiguration>(configuration);
         builder.ApplyConfiguration<BannedUser>(configuration);
     }
 }
