@@ -1,4 +1,4 @@
-@import '../../../../shared/styles/shared.scss';
+@import "../../../../shared/styles/shared.scss";
 
 .zpattern {
   display: grid;
@@ -64,17 +64,18 @@
     }
 
     .pieces-icon {
-      // &::after {
-      //   @include subCl(0, 0);
-      //   @include absCenter;
-      //   @include circle(60%);
+      .board-svg {
+        @include absCenter();
 
-      //   z-index: -1;
-      //   background-color: rgba($mc0, 0.2);
-      //   filter: blur(4rem);
-      // }
+        height: 100%;
+        z-index: -1;
+        opacity: 0.2;
+        border-radius: 100%;
+        transform: translate(-50%, -40%) rotateX(60deg) rotateZ(45deg);
+        filter: blur(0.4rem);
+      }
 
-      img {
+      .piece-img {
         position: absolute;
         height: 40%;
         filter: drop-shadow(0 0 1rem $mc4);
@@ -83,7 +84,7 @@
       }
 
       &.active-icon {
-        img {
+        .piece-img {
           @for $i from 1 through 5 {
             &:nth-child(#{$i}) {
               transform: rotate(calc(($i - 3) * 20deg))
@@ -96,31 +97,56 @@
     }
 
     .counter-icon {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 0.5rem;
+      .trophy-svg {
+        @include absCenter();
 
-      div {
-        @include rounded(1rem);
-        @include flex(row, start, center, 0);
+        height: 60%;
+        z-index: -1;
+        opacity: 0.2;
+        filter: blur(0.4rem);
+      }
 
-        height: 16rem;
-        background-color: #000;
-        border-top: solid 0.4rem $mc9;
-        border-right: solid 0.4rem $mc9;
-        font-family: 'Knewave';
-        font-size: 10rem;
-        user-select: none;
-        box-shadow: 0 0 2rem 0 $mc9;
+      .screen {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 0.5rem;
+
+        div {
+          @include rounded(1rem);
+          @include flex(row, start, center, 0);
+
+          width: 9rem;
+          height: 14rem;
+          background-color: #000;
+          border-top: solid 0.4rem $mc9;
+          border-right: solid 0.4rem $mc9;
+          font-family: "Knewave";
+          font-size: 10rem;
+          user-select: none;
+          box-shadow: 0 0 2rem 0 $mc9;
+        }
       }
     }
 
-    .engine-con {
+    .engine-icon {
       @include wh100();
       @include flex();
 
-      .enigne-icon {
-        height: 60%;
+      &::before {
+        @include subCl();
+
+        background-image: url("images/motherboard.png");
+        background-size: contain;
+        background-position: 1.5rem;
+        background-repeat: no-repeat;
+        opacity: 0.5;
+        filter: invert(1) blur(0.4rem);
+      }
+
+      .enigne-svg {
+        height: 80%;
+        transform: rotate(0);
+        transition: transform 1s 1s;
 
         .st0 {
           fill: none;
@@ -129,47 +155,108 @@
           stroke-linecap: round;
           stroke-linejoin: round;
           stroke-miterlimit: 10;
-
-          animation: moveLine 1s forwards;
         }
 
-        @keyframes moveLine {
-          from {
-            /* Starting position */
-            x1: 1;
+        path {
+          &:nth-child(2) {
+            stroke: $mc7;
           }
-          to {
-            /* Ending position */
-            x1: 7;
+        }
+
+        line {
+          &:nth-child(odd) {
+            stroke: $mc7;
+          }
+          &:nth-child(even) {
+            stroke: $mc0;
+          }
+        }
+      }
+
+      &.active-icon {
+        .enigne-svg {
+          animation: engineAni 2s linear 1s forwards;
+
+          @keyframes engineAni {
+            0% {
+              transform: rotate(0deg) scale(1);
+            }
+            25% {
+              transform: rotate(100deg) scale(0.8);
+            }
+            50% {
+              transform: rotate(200deg) scale(1.1);
+            }
+            75% {
+              transform: rotate(100deg) scale(0.8);
+            }
+            100% {
+              transform: rotate(0deg) scale(1);
+            }
           }
         }
       }
     }
 
-    .message-con {
+    .message-icon {
       @include wh100();
       position: relative;
 
-      .message-icon {
+      .community-svg {
+        @include absCenter();
+
+        height: 80%;
+        z-index: -1;
+        opacity: 0.2;
+        filter: blur(0.4rem);
+      }
+
+      .message-svg {
         position: absolute;
         height: 32%;
+        opacity: 0;
 
         transform: translateY(-50%) rotateY(180deg);
 
         &:nth-child(1) {
           top: 35%;
           left: 6rem;
-          transform: translateY(-50%) rotateY(180deg);
+          transform: translate(-4rem, 0) rotateY(180deg) rotateZ(-20deg);
+          transition: all 1s 0.5s;
         }
         &:nth-child(2) {
           top: 50%;
           right: 6rem;
-          transform: translateY(-50%) rotateY(0);
+          transform: translate(4rem, 0) rotateY(0) rotateZ(-20deg);
+          transition: all 1s 1s;
         }
         &:nth-child(3) {
           top: 65%;
           left: 6rem;
-          transform: translateY(-50%) rotateY(180deg);
+          transform: translate(-4rem, 0) rotateY(180deg) rotateZ(-20deg);
+          transition: all 1s 1.5s;
+        }
+      }
+
+      &.active-icon {
+        .message-svg {
+          opacity: 1;
+
+          &:nth-child(1) {
+            top: 35%;
+            left: 6rem;
+            transform: translate(0, -50%) rotateY(180deg);
+          }
+          &:nth-child(2) {
+            top: 50%;
+            right: 6rem;
+            transform: translate(0, -50%) rotateY(0);
+          }
+          &:nth-child(3) {
+            top: 65%;
+            left: 6rem;
+            transform: translate(0, -50%) rotateY(180deg);
+          }
         }
       }
     }

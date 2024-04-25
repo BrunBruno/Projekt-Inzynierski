@@ -1,9 +1,18 @@
-import React, { forwardRef, useImperativeHandle, useRef } from 'react';
-import classes from './FaqSection.module.scss';
-import { HandleOnScroll } from '../../../shared/utils/types/handleOnScroll';
-import ArrowLeftSvg from '../../../shared/svgs/ArrowLeftSvg';
-import { mainColor } from '../../../shared/utils/enums/colorMaps';
-import ArrowRightSvg from '../../../shared/svgs/ArrowRightSvg';
+import React, {
+  forwardRef,
+  useImperativeHandle,
+  useRef,
+  useState,
+} from "react";
+import classes from "./FaqSection.module.scss";
+import { HandleOnScroll } from "../../../shared/utils/types/handleOnScroll";
+import ArrowLeftSvg from "../../../shared/svgs/ArrowLeftSvg";
+import { mainColor } from "../../../shared/utils/enums/colorMaps";
+import ArrowRightSvg from "../../../shared/svgs/ArrowRightSvg";
+import {
+  accountAndUserProfileFAQs,
+  gameplayAndFeaturesFAQs,
+} from "./faq-components/FaqQuestions";
 
 type FaqSectionProps = {
   sectionRef: React.RefObject<HTMLElement>;
@@ -18,24 +27,71 @@ const FaqSection = forwardRef<HandleOnScroll, FaqSectionProps>(
     const row1Ref = useRef<HTMLDivElement>(null);
     const row2Ref = useRef<HTMLDivElement>(null);
 
+    const [arrR1A1, setArrR1A1] = useState<boolean>(false);
+    const [arrR1A2, setArrR1A2] = useState<boolean>(true);
+    const [arrR2A1, setArrR2A1] = useState<boolean>(false);
+    const [arrR2A2, setArrR2A2] = useState<boolean>(true);
+
     // handle faq onscroll
+    const handleScrollOnClick = (
+      containerRow: number,
+      scrollAmount: number
+    ) => {
+      let element;
+      if (containerRow === 1) {
+        element = row1Ref.current;
+        if (element) {
+          element.scrollBy({
+            left: scrollAmount,
+            behavior: "smooth",
+          });
+
+          const scrollPos = element.scrollLeft + scrollAmount;
+          const scrollMax = element.scrollWidth - element.clientWidth;
+
+          if (scrollPos <= 0) {
+            setArrR1A1(false);
+          } else {
+            setArrR1A1(true);
+          }
+
+          if (scrollPos >= scrollMax) {
+            setArrR1A2(false);
+          } else {
+            setArrR1A2(true);
+          }
+        }
+      } else if (containerRow === 2) {
+        element = row2Ref.current;
+        if (element) {
+          element.scrollBy({
+            left: scrollAmount,
+            behavior: "smooth",
+          });
+
+          const scrollPos = element.scrollLeft + scrollAmount;
+          const scrollMax = element.scrollWidth - element.clientWidth;
+
+          if (scrollPos <= 0) {
+            setArrR2A1(false);
+          } else {
+            setArrR2A1(true);
+          }
+
+          if (scrollPos >= scrollMax) {
+            setArrR2A2(false);
+          } else {
+            setArrR2A2(true);
+          }
+        }
+      }
+    };
+
     const handleOnScroll = () => {};
     useImperativeHandle(ref, () => ({
       handleOnScroll,
     }));
     // end handle faq onscroll
-
-    const handleScrollOnClick = (
-      containerRef: React.RefObject<HTMLDivElement>,
-      scrollAmount: number
-    ) => {
-      if (containerRef.current) {
-        containerRef.current.scrollBy({
-          left: scrollAmount,
-          behavior: 'smooth',
-        });
-      }
-    };
 
     return (
       <section id="faq-section" ref={sectionRef} className={classes.faq}>
@@ -44,25 +100,26 @@ const FaqSection = forwardRef<HandleOnScroll, FaqSectionProps>(
         </div>
 
         <div className={classes.faq__content}>
+          <div className={classes.faq__content__cathegory}>
+            Account and User Profile FAQs
+          </div>
           {/* question sections */}
           <div
             className={classes.faq__content__arrow}
             onClick={() => {
-              handleScrollOnClick(row1Ref, -scrollSize);
+              handleScrollOnClick(1, -scrollSize);
             }}
           >
-            <ArrowLeftSvg iconClass="" color={mainColor.c0} />
+            {arrR1A1 && <ArrowLeftSvg iconClass="" color={mainColor.c0} />}
           </div>
           <div ref={row1Ref} className={classes.faq__content__row}>
-            {Array.from({ length: 16 }).map((_, i) => (
+            {accountAndUserProfileFAQs.map((faq, i) => (
               <div key={i} className={classes.faq__content__row__block}>
-                <h5>How many teaspoons in a tablespoon?</h5>
-                <p className={classes.text}>
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                  Facere reiciendis voluptas autem enim, exercitationem, ut
-                  laboriosam id quae totam eius quis veniam temporibus aut non
-                  numquam cupiditate delectus quo est?
-                </p>
+                <h5>
+                  <span>#{i + 1} </span>
+                  {faq.question}
+                </h5>
+                <p className={classes.text}>{faq.answer}</p>
                 <p className={classes.see}>Check the Answer</p>
               </div>
             ))}
@@ -70,41 +127,43 @@ const FaqSection = forwardRef<HandleOnScroll, FaqSectionProps>(
           <div
             className={classes.faq__content__arrow}
             onClick={() => {
-              handleScrollOnClick(row1Ref, scrollSize);
+              handleScrollOnClick(1, scrollSize);
             }}
           >
-            <ArrowRightSvg iconClass="" color={mainColor.c0} />
+            {arrR1A2 && <ArrowRightSvg iconClass="" color={mainColor.c0} />}
+          </div>
+          <div className={classes.faq__content__cathegory}>
+            Gameplay and Features FAQs
           </div>
           <div
             className={classes.faq__content__arrow}
             onClick={() => {
-              handleScrollOnClick(row2Ref, -scrollSize);
+              handleScrollOnClick(2, -scrollSize);
             }}
           >
-            <ArrowLeftSvg iconClass="" color={mainColor.c0} />
+            {arrR2A1 && <ArrowLeftSvg iconClass="" color={mainColor.c0} />}
           </div>
           <div ref={row2Ref} className={classes.faq__content__row}>
-            {Array.from({ length: 16 }).map((_, i) => (
+            {gameplayAndFeaturesFAQs.map((faq, i) => (
               <div key={i} className={classes.faq__content__row__block}>
-                <h5>How many teaspoons in a tablespoon?</h5>
-                <p className={classes.text}>
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                  Facere reiciendis voluptas autem enim, exercitationem, ut
-                  laboriosam id quae totam eius quis veniam temporibus aut non
-                  numquam cupiditate delectus quo est?
-                </p>
+                <h5>
+                  <span>#{i + 1} </span>
+                  {faq.question}
+                </h5>
+                <p className={classes.text}>{faq.answer}</p>
+                <p className={classes.see}>Check the Answer</p>
               </div>
             ))}
           </div>
           <div
             className={classes.faq__content__arrow}
             onClick={() => {
-              handleScrollOnClick(row2Ref, scrollSize);
+              handleScrollOnClick(2, scrollSize);
             }}
           >
-            <ArrowRightSvg iconClass="" color={mainColor.c0} />
+            {arrR2A2 && <ArrowRightSvg iconClass="" color={mainColor.c0} />}
           </div>
-          {/* end question sections */}{' '}
+          {/* end question sections */}{" "}
         </div>
       </section>
     );

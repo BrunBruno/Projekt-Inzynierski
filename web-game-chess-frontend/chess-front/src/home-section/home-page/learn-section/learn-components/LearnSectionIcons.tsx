@@ -1,6 +1,6 @@
-import { mainColor } from '../../../../shared/utils/enums/colorMaps';
-import { IconMap } from '../../../../shared/utils/types/iconMap';
-import classes from './LearnBlocks.module.scss';
+import { greyColor, mainColor } from "../../../../shared/utils/enums/colorMaps";
+import { IconMap } from "../../../../shared/utils/types/iconMap";
+import classes from "./LearnBlocks.module.scss";
 
 const icons: IconMap = {
   pawnLine: (
@@ -43,7 +43,7 @@ const icons: IconMap = {
       xmlnsXlink="http://www.w3.org/1999/xlink"
       viewBox="0 0 32 32"
       xmlSpace="preserve"
-      className={classes['enigne-icon']}
+      className={classes["enigne-svg"]}
     >
       <path
         className={classes.st0}
@@ -78,8 +78,8 @@ const icons: IconMap = {
 
       {/* bottom y2=29 */}
       <line className={classes.st0} x1="14" y1="25" x2="14" y2="27" />
-      <line className={classes.st0} x1="10" y1="25" x2="10" y2="31" />
-      <line className={classes.st0} x1="22" y1="25" x2="22" y2="30" />
+      <line className={classes.st0} x1="10" y1="25" x2="10" y2="30" />
+      <line className={classes.st0} x1="22" y1="25" x2="22" y2="28" />
       <line className={classes.st0} x1="18" y1="25" x2="18" y2="29" />
 
       {/* x2=29 */}
@@ -98,9 +98,9 @@ const icons: IconMap = {
   message: (
     <svg
       viewBox="0 0 24 24"
-      fill="none"
+      fill={mainColor.c7}
       xmlns="http://www.w3.org/2000/svg"
-      className={classes['message-icon']}
+      className={classes["message-svg"]}
     >
       <path
         d="M7 9H17M7 13H17M21 20L17.6757 18.3378C17.4237 18.2118 17.2977 18.1488 17.1656 18.1044C17.0484 18.065 16.9277 18.0365 16.8052 18.0193C16.6672 18 16.5263 18 16.2446 18H6.2C5.07989 18 4.51984 18 4.09202 17.782C3.71569 17.5903 3.40973 17.2843 3.21799 16.908C3 16.4802 3 15.9201 3 14.8V7.2C3 6.07989 3 5.51984 3.21799 5.09202C3.40973 4.71569 3.71569 4.40973 4.09202 4.21799C4.51984 4 5.0799 4 6.2 4H17.8C18.9201 4 19.4802 4 19.908 4.21799C20.2843 4.40973 20.5903 4.71569 20.782 5.09202C21 5.51984 21 6.0799 21 7.2V20Z"
@@ -111,14 +111,96 @@ const icons: IconMap = {
       />
     </svg>
   ),
-};
+  trophy: (
+    <svg
+      fill={mainColor.c0}
+      viewBox="0 0 32 32"
+      version="1.1"
+      xmlns="http://www.w3.org/2000/svg"
+      className={classes["trophy-svg"]}
+    >
+      <path d="M22.994 28.996h-14.060c-0.553 0-1 0.448-1 1s0.447 1 1 1h14.060c0.552 0 1-0.448 1-1s-0.447-1-1-1zM31.791 3.801c-0.095-0.465-0.505-0.799-0.979-0.799h-4.895v-0.998c0-0.552-0.448-1-1-1h-17.985c-0.553 0-1 0.448-1 1v0.998h-4.743c-0.474 0-0.885 0.334-0.98 0.799-0.029 0.144-0.7 3.648 1.247 6.036 1.12 1.373 2.831 2.091 5.078 2.155 1.281 3.786 4.502 6.59 8.381 7.008v6.966h-2.993c-0.553 0-1 0.448-1 1s0.447 1 1 1h8.084c0.552 0 1-0.448 1-1s-0.448-1-1-1h-3.091v-6.965c3.886-0.41 7.114-3.213 8.398-7.003 2.323-0.034 4.085-0.758 5.231-2.162 1.947-2.388 1.276-5.891 1.247-6.036zM3.013 8.58c-0.885-1.078-0.975-2.669-0.929-3.578h3.849v3.376c0 0.54 0.050 1.068 0.123 1.587-1.365-0.127-2.389-0.588-3.042-1.385zM23.917 8.378c0 4.784-3.585 8.677-7.991 8.677-4.408 0-7.994-3.893-7.994-8.677v-5.374h15.986v5.374h-0zM28.988 8.58c-0.677 0.826-1.751 1.296-3.196 1.402 0.075-0.524 0.125-1.057 0.125-1.604v-3.376h4c0.045 0.91-0.044 2.5-0.93 3.578z"></path>
+    </svg>
+  ),
+  community: (
+    <svg
+      version="1.1"
+      xmlns="http://www.w3.org/2000/svg"
+      xmlnsXlink="http://www.w3.org/1999/xlink"
+      viewBox="0 0 502.648 502.648"
+      xmlSpace="preserve"
+      className={classes["community-svg"]}
+    >
+      <g>
+        <g>
+          <g>
+            <circle fill={mainColor.c0} cx="250.399" cy="91.549" r="58.694" />
+            <path
+              fill={mainColor.c0}
+              d="M455.861,253.028l-54.703-11.411c-18.637-3.904-37.037,4.638-46.765,19.824
+				c-9.448-4.853-19.608-9.038-30.415-12.511v-32.529c0.022-24.612-20.126-44.738-44.651-44.738h-55.933
+				c-24.655,0-44.716,20.126-44.716,44.738v32.701c-10.699,3.408-20.751,7.593-30.264,12.468
+				c-9.728-15.251-28.15-23.857-46.809-19.953l-54.747,11.411c-24.03,5.026-39.626,28.862-34.6,52.978l13.741,65.64
+				c4.983,24.051,28.84,39.647,52.892,34.621l17.321-3.624c8.671,12.813,20.665,24.569,36.023,34.621
+				c31.989,20.967,74.247,32.529,119.092,32.529c68.617,0,127.721-27.589,154.943-67.215l17.602,3.689
+				c24.03,5.004,47.887-10.57,52.87-34.621l13.762-65.64C495.508,281.89,479.912,258.054,455.861,253.028z M251.305,447.381
+				c-40.51,0-78.475-10.203-106.797-28.862c-9.707-6.342-17.753-13.395-24.202-20.945l13.266-2.783
+				c24.073-5.004,39.669-28.84,34.643-52.913l-12.317-59.018c7.183-3.861,14.733-7.248,22.757-10.138v10.764
+				c0,24.569,20.104,44.695,44.716,44.695h55.933c24.548,0,44.652-20.147,44.652-44.695v-11.325
+				c8.175,2.912,15.854,6.256,22.973,10.052L334.439,341.9c-4.983,24.073,10.591,47.909,34.664,52.913l13.395,2.804
+				C357.52,427.191,308.101,447.381,251.305,447.381z"
+            />
+            <circle fill={mainColor.c0} cx="443.954" cy="168.708" r="58.694" />
+            <path
+              fill={mainColor.c0}
+              d="M70.736,226.172c31.752-6.644,52.029-37.77,45.471-69.501
+				c-6.687-31.709-37.749-52.072-69.523-45.428c-31.709,6.622-52.072,37.727-45.428,69.458
+				C7.879,212.453,38.984,232.795,70.736,226.172z"
+            />
+          </g>
+        </g>
+        <g></g>
+        <g></g>
+        <g></g>
+        <g></g>
+        <g></g>
+        <g></g>
+        <g></g>
+        <g></g>
+        <g></g>
+        <g></g>
+        <g></g>
+        <g></g>
+        <g></g>
+        <g></g>
+        <g></g>
+      </g>
+    </svg>
+  ),
 
-// {
-//   /* <style type="text/css">
-//    .st0{fill:none;stroke:#000000;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;}
-//    .st1{fill:none;stroke:#000000;stroke-width:2;stroke-linejoin:round;stroke-miterlimit:10;}
-// </style> */
-// }
+  board: (
+    <svg
+      version="1.1"
+      xmlns="http://www.w3.org/2000/svg"
+      xmlnsXlink="http://www.w3.org/1999/xlink"
+      viewBox="0 0 54 54"
+      xmlSpace="preserve"
+      className={classes["board-svg"]}
+    >
+      <g>
+        <rect x="0" y="0" fill={greyColor.c9} width="18" height="18" />
+        <rect x="36" y="0" fill={greyColor.c9} width="18" height="18" />
+        <rect x="0" y="18" fill={greyColor.c0} width="18" height="18" />
+        <rect x="18" y="18" fill={greyColor.c9} width="18" height="18" />
+        <rect x="36" y="18" fill={greyColor.c0} width="18" height="18" />
+        <rect x="0" y="36" fill={greyColor.c9} width="18" height="18" />
+        <rect x="36" y="36" fill={greyColor.c9} width="18" height="18" />
+        <rect x="18" y="36" fill={greyColor.c0} width="18" height="18" />
+        <rect x="18" y="0" fill={greyColor.c0} width="18" height="18" />
+      </g>
+    </svg>
+  ),
+};
 
 type LearnSectionIconsProps = {
   iconName: string;

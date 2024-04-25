@@ -1,32 +1,125 @@
-import LogoIconSvg from '../../../shared/svgs/LogoIconSvg';
-import classes from './FooterSection.module.scss';
+import LogoIconSvg from "../../../shared/svgs/LogoIconSvg";
+import RoundArrowSvg from "../../../shared/svgs/RoundArrowSvg";
+import { mainColor } from "../../../shared/utils/enums/colorMaps";
+import classes from "./FooterSection.module.scss";
+import FooterIcons from "./footer-components/FooterIcons";
 function FooterSection() {
   return (
     <footer className={classes.footer}>
       <div className={classes.footer__intro}>
-        <h2 className={classes['footer-title']}>
-          <LogoIconSvg iconClass={classes['footer-logo']} />
+        <h2 className={classes["footer-title"]}>
+          <LogoIconSvg iconClass={classes["footer-logo"]} />
           <span>BRN CHESS</span>
         </h2>
       </div>
       <div className={classes.footer__grid}>
         <div className={classes.footer__grid__col}>
           <h3>Reach Us</h3>
-          <p>+48 000 000 000</p>
-          <p>chess8rn@gmail.com</p>
+          <div className={classes.contact}>
+            <p>+48 000 000 000</p>
+            <FooterIcons iconName="flag" />
+          </div>
+          <div className={classes.contact}>
+            <p>chess8rn@gmail.com</p>
+          </div>
         </div>
         <div className={classes.footer__grid__col}>
           <h3>Socials</h3>
-          <p>Facebook</p>
-          <p>Instagram</p>
-          <p>Twitter</p>
-          <p>TikTok</p>
-          <p>YouTube</p>
+
+          <a
+            href="https://www.facebook.com/"
+            target="blank"
+            className={classes.link}
+          >
+            <div className={classes.element}>
+              <FooterIcons iconName="facebook" />
+              <p>Facebook</p>
+              <RoundArrowSvg
+                color={mainColor.c0}
+                iconClass={classes["r-arr"]}
+              />
+            </div>
+          </a>
+          <a
+            href="https://www.instagram.com/"
+            target="blank"
+            className={classes.link}
+          >
+            <div className={classes.element}>
+              <FooterIcons iconName="instagram" />
+              <p>Instagram</p>
+              <RoundArrowSvg
+                color={mainColor.c0}
+                iconClass={classes["r-arr"]}
+              />
+            </div>
+          </a>
+          <a
+            href="https://twitter.com/"
+            target="blank"
+            className={classes.link}
+          >
+            <div className={classes.element}>
+              <FooterIcons iconName="twitter" />
+              <p>X (Twitter)</p>
+              <RoundArrowSvg
+                color={mainColor.c0}
+                iconClass={classes["r-arr"]}
+              />
+            </div>
+          </a>
+          <a
+            href="https://www.tiktok.com/"
+            target="blank"
+            className={classes.link}
+          >
+            <div className={classes.element}>
+              <FooterIcons iconName="tiktok" />
+              <p>TikTok</p>
+              <RoundArrowSvg
+                color={mainColor.c0}
+                iconClass={classes["r-arr"]}
+              />
+            </div>
+          </a>
+          <a
+            href="https://www.youtube.com/"
+            target="blank"
+            className={classes.link}
+          >
+            <div className={classes.element}>
+              <FooterIcons iconName="youtube" />
+              <p>YouTube</p>
+              <RoundArrowSvg
+                color={mainColor.c0}
+                iconClass={classes["r-arr"]}
+              />
+            </div>
+          </a>
         </div>
         <div className={classes.footer__grid__col}>
           <h3>Legal</h3>
-          <p>Privacy Policy</p>
-          <p>Terms & Conditions</p>
+
+          <a href="" target="blank" className={classes.link}>
+            <div className={classes.element}>
+              <FooterIcons iconName="privacy" />
+              <p>Privacy Policy</p>
+              <RoundArrowSvg
+                color={mainColor.c0}
+                iconClass={classes["r-arr"]}
+              />
+            </div>
+          </a>
+          <a href="" target="blank" className={classes.link}>
+            <div className={classes.element}>
+              <FooterIcons iconName="terms" />
+              <p>Terms & Conditions</p>
+              <RoundArrowSvg
+                color={mainColor.c0}
+                iconClass={classes["r-arr"]}
+              />
+            </div>
+          </a>
         </div>
       </div>
       <div className={classes.footer__outro}>2024</div>
