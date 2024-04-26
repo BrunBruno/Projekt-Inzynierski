@@ -1,7 +1,7 @@
 ﻿
 using Microsoft.AspNetCore.Authorization;
 
-namespace chess.Application.Authorization.IsVerified;
+namespace chess.Api.Authorization.IsVerified;
 
 public class IsVerifiedRequirement : IAuthorizationRequirement {
 

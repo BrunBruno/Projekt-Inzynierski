@@ -1,7 +1,7 @@
 ﻿
 using Microsoft.AspNetCore.Authorization;
 
-namespace chess.Application.Authorization.IsVerified;
+namespace chess.Api.Authorization.IsVerified;
 
 public class IsVerifiedRequirementHandler : AuthorizationHandler<IsVerifiedRequirement> {
     protected override Task HandleRequirementAsync(AuthorizationHandlerContext context, IsVerifiedRequirement requirement) {

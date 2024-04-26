@@ -1,0 +1,7 @@
+@import '../../shared/styles/shared.scss';
+
+.main {
+  @include gridBg();
+
+  position: relative;
+}

@@ -53,7 +53,7 @@ public class RegisterUserRequestHandler : IRequestHandler<RegisterUserRequest> {
         await _userRepository.Add(user);
 
         
-        var codeValue = new Random().Next(10000, 99999).ToString();
+        var codeValue = new Random().Next(100000, 999999).ToString();
 
         var code = new EmailVerificationCode()
         {

@@ -39,7 +39,7 @@ public class RegenerateCodeRequestHandler : IRequestHandler<RegenerateCodeReques
 
         await _emailVerificationCodeRepository.RemoveByUserId(userId);
 
-        var codeValue = new Random().Next(10000, 99999).ToString();
+        var codeValue = new Random().Next(100000, 999999).ToString();
 
         var code = new EmailVerificationCode()
         {

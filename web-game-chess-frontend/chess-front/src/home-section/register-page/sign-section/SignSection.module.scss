@@ -1,6 +1,7 @@
-@import "../RegisterPage.module.scss";
+@import '../RegisterPage.module.scss';
 
-.sign-form {
+// form css
+.registration-form {
   @include flex(column, center, center, 2rem);
   @include square(100%);
 
@@ -42,7 +43,7 @@
   .form-row {
     position: relative;
 
-    input {
+    .form-input {
       @include tInput(2rem);
 
       &:focus ~ .reg-pass-ind {
@@ -77,13 +78,6 @@
     }
   }
 
-  .error {
-    span {
-      font-size: 1.4rem;
-      color: $danger-color-m;
-    }
-  }
-
   .verify-text {
     font-size: 1.6rem;
     text-align: center;
@@ -103,8 +97,8 @@
       @include cInput(2.4rem, $gc0, $mc9);
       width: 16rem;
     }
-    input[type="number"]::-webkit-inner-spin-button,
-    input[type="number"]::-webkit-outer-spin-button {
+    input[type='number']::-webkit-inner-spin-button,
+    input[type='number']::-webkit-outer-spin-button {
       -webkit-appearance: none;
     }
 
@@ -120,10 +114,18 @@
     }
   }
 
-  button {
+  .error {
+    span {
+      font-size: 1.4rem;
+      color: $danger-color-m;
+    }
+  }
+
+  .registration-button {
     @include button(2.2rem);
     @include mainMButton;
 
     margin: 2rem;
   }
 }
+// end form
