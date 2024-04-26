@@ -6,9 +6,11 @@
 
   position: relative;
   animation: formAnimation 0.5s;
+  padding: 0 6rem;
 
   .bg-svg {
     position: absolute;
+    z-index: -1;
     bottom: 4rem;
     right: 4rem;
     height: 30rem;
@@ -29,7 +31,11 @@
       color: $mc5;
       text-decoration: underline;
       user-select: none;
-      cursor: pointer;
+
+      &:hover {
+        cursor: pointer;
+        color: $mc4;
+      }
     }
   }
 
@@ -75,6 +81,42 @@
     span {
       font-size: 1.4rem;
       color: $danger-color-m;
+    }
+  }
+
+  .verify-text {
+    font-size: 1.6rem;
+    text-align: center;
+  }
+
+  .verify {
+    @include flex(column, start, center, 1rem);
+
+    margin: 2rem;
+
+    span {
+      font-size: 2rem;
+      user-select: none;
+    }
+
+    .verify-input {
+      @include cInput(2.4rem, $gc0, $mc9);
+      width: 16rem;
+    }
+    input[type="number"]::-webkit-inner-spin-button,
+    input[type="number"]::-webkit-outer-spin-button {
+      -webkit-appearance: none;
+    }
+
+    .resend {
+      font-size: 1.4rem;
+      color: $mc5;
+      text-decoration: underline;
+
+      &:hover {
+        cursor: pointer;
+        color: $mc4;
+      }
     }
   }
 

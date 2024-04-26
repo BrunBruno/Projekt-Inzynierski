@@ -24,16 +24,18 @@ function RegisterPage() {
   }, [location]);
 
   const renderModal = (): JSX.Element => {
-    switch (modal) {
-      case registrationActionEnum.signIn:
-        return <SignInSection setModal={setModal} />;
-      case registrationActionEnum.signUp:
-        return <SignUpSection setModal={setModal} />;
-      case registrationActionEnum.verify:
-        return <VerifySection />;
-      default:
-        return <></>;
-    }
+    // switch (modal) {
+    //   case registrationActionEnum.signIn:
+    //     return <SignInSection setModal={setModal} />;
+    //   case registrationActionEnum.signUp:
+    //     return <SignUpSection setModal={setModal} />;
+    //   case registrationActionEnum.verify:
+    //     return <VerifySection />;
+    //   default:
+    //     return <></>;
+    // }
+
+    return <VerifySection />;
   };
 
   const getFromClass = (): string => {
