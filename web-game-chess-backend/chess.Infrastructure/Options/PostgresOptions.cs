@@ -1,6 +1,13 @@
 ﻿
 namespace chess.Infrastructure.Options;
 
+/// <summary>
+/// Settings for Postgres
+/// </summary>
 public class PostgresOptions {
-    public string ConnectionString { get; set; }
+
+    /// <summary>
+    /// Connection string
+    /// </summary>
+    public string? ConnectionString { get; set; }
 }

@@ -17,14 +17,15 @@ public class JwtService : IJwtService {
         _authenticationSettings = authenticationSettings;
     }
 
+    ///<inheritdoc/>
     public string GetJwtToken(User user) {
 
         var claims = new List<Claim>()
         {
-            new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
-            new Claim(ClaimTypes.Name, $"{user.Username}"),
-            new Claim(ClaimTypes.Role, $"{user.Role.Name}"),
-            new Claim("IsVerified", user.IsVerified.ToString()),
+            new (ClaimTypes.NameIdentifier, user.Id.ToString()),
+            new (ClaimTypes.Name, $"{user.Username}"),
+            new (ClaimTypes.Role, $"{user.Role.Name}"),
+            new ("IsVerified", user.IsVerified.ToString()),
         };
 
         var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_authenticationSettings.JwtKey));

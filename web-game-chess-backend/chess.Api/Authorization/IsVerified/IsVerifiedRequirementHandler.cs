@@ -6,10 +6,14 @@ namespace chess.Api.Authorization.IsVerified;
 public class IsVerifiedRequirementHandler : AuthorizationHandler<IsVerifiedRequirement> {
     protected override Task HandleRequirementAsync(AuthorizationHandlerContext context, IsVerifiedRequirement requirement) {
 
-        var isVerified = bool.Parse(context.User.FindFirst(c => c.Type == "IsVerified").Value);
+        var isVerifiedClaim = context.User?.FindFirst(c => c.Type == "IsVerified");
 
-        if (isVerified == requirement.IsVerified) {
-            context.Succeed(requirement);
+        if (isVerifiedClaim != null) {
+            var isVerified = bool.Parse(isVerifiedClaim.Value);
+
+            if (isVerified == requirement.IsVerified) {
+                context.Succeed(requirement);
+            }
         }
 
         return Task.CompletedTask;

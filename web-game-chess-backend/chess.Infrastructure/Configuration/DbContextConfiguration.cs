@@ -6,6 +6,9 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace chess.Infrastructure.Configuration;
 
+/// <summary>
+/// Configurations for DbContext.
+/// </summary>
 public class DbContextConfiguration : 
     IEntityTypeConfiguration<User>,
     IEntityTypeConfiguration<Role>,
@@ -55,7 +58,7 @@ public class DbContextConfiguration :
             .HasForeignKey<BannedUser>(x => x.UserId);
     }
 
-    private IEnumerable<Role> GetRoles() {
+    private static IEnumerable<Role> GetRoles() {
 
         var roles = new List<Role> 
         {
@@ -75,7 +78,7 @@ public class DbContextConfiguration :
         return roles;
     }
 
-    private IEnumerable<DataConfiguration> GetConfiguration() {
+    private static IEnumerable<DataConfiguration> GetConfiguration() {
         var configurations = new List<DataConfiguration>
         {
             new()

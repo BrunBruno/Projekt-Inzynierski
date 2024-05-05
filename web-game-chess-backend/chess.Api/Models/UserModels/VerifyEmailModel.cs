@@ -1,6 +1,9 @@
 ﻿
 namespace chess.Api.Models.UserModels;
 
+/// <summary>
+/// PUT verify-email model
+/// </summary>
 public class VerifyEmailModel {
-    public string Code { get; set; }
+    public  required string Code { get; set; }
 }

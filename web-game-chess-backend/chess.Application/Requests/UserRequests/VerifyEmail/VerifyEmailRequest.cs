@@ -2,9 +2,15 @@
 using MediatR;
 
 namespace chess.Application.Requests.UserRequests.VerifyEmail;
-#pragma warning disable CS8618
 
+/// <summary>
+/// Request for email verification
+/// </summary>
 public class VerifyEmailRequest : IRequest {
-    public string Code { get; set; }
+
+    /// <summary>
+    /// Verification code
+    /// </summary>
+    public required string Code { get; set; }
 }
 

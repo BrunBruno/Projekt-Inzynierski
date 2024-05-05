@@ -1,5 +1,6 @@
 ﻿
 using chess.Application.Services;
+using chess.Shared.Exceptions;
 using Microsoft.AspNetCore.Http;
 using System.Security.Claims;
 
@@ -13,9 +14,18 @@ public class UserContextService : IUserContextService {
         _httpContextAccessor = httpContextAccessor;
     }
 
+    ///<inheritdoc/>
     public ClaimsPrincipal User 
-        => _httpContextAccessor.HttpContext?.User;
+        => _httpContextAccessor.HttpContext!.User;
 
-    public Guid? GetUserId() =>
-        User is null ? null : Guid.Parse(User.FindFirst(c => c.Type == ClaimTypes.NameIdentifier).Value);
+    ///<inheritdoc/>
+    public Guid GetUserId() {
+        if (User is null)
+            throw new NotFoundException("User context not found.");
+
+        var nameIdentifierClaim = User.FindFirst(c => c.Type == ClaimTypes.NameIdentifier) 
+            ?? throw new Exception("NameIdentifier claim not found in user context.");
+
+        return Guid.Parse(nameIdentifierClaim.Value);
+    }
 }

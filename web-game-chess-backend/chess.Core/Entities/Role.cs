@@ -1,6 +1,10 @@
 ﻿
 namespace chess.Core.Entities;
+#pragma warning disable CS8618
 
+/// <summary>
+/// User role entity
+/// </summary>
 public class Role {
     /// <summary>
     /// Role identifier.

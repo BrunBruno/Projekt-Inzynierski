@@ -1,11 +1,21 @@
 import { useEffect, useRef, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 
-const usePopup = (className) => {
+type PopupHookReturnType = [
+  React.RefObject<HTMLDivElement>,
+  string,
+  React.Dispatch<React.SetStateAction<string>>,
+];
+
+type PopupHookProps = {
+  className: string;
+};
+
+const usePopup = ({ className }: PopupHookProps): PopupHookReturnType => {
   const location = useLocation();
 
-  const ref = useRef(null);
-  const [content, setContent] = useState('');
+  const ref = useRef<HTMLDivElement>(null);
+  const [content, setContent] = useState<string>('');
 
   useEffect(() => {
     if (location.state && location.state.popup) {

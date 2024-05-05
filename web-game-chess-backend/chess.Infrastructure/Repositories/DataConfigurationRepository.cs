@@ -5,6 +5,7 @@ using chess.Infrastructure.Contexts;
 using Microsoft.EntityFrameworkCore;
 
 namespace chess.Infrastructure.Repositories;
+
 public class DataConfigurationRepository : IDataConfigurationRepository {
 
     private readonly ChessAppDbContext _dbContext;
@@ -13,6 +14,7 @@ public class DataConfigurationRepository : IDataConfigurationRepository {
         _dbContext = dbContext;
     }
 
+    ///<inheritdoc/>
     public async Task<DataConfiguration?> GetById(int id) 
         => await _dbContext.DataConfigurations
             .FirstAsync(x => x.Id == id);

@@ -15,10 +15,14 @@ public class SmtpService : ISmtpService {
         _smtpOptions = smtpOptions;
     }
 
-    public async Task SendMessage(string email, string subject, string message) {
+
+    ///<inheritdoc/>
+    public async Task SendVerificationCode(string email, string recipientName, string code) {
 
         string fromMail = _smtpOptions.FromMail;
         string fromPassword = _smtpOptions.FromPassword;
+
+        string subject = "Hello " + recipientName;
 
         var mailMessage = new MailMessage
         {
@@ -29,7 +33,7 @@ public class SmtpService : ISmtpService {
 
         mailMessage.To.Add(new MailAddress(email));
 
-        mailMessage.AlternateViews.Add(GetEmbeddedImage("../public/logo.png", string.Format(_smtpOptions.Body, message)));
+        mailMessage.AlternateViews.Add(GetMailBody("../public/logo.png", string.Format(_smtpOptions.Body, code)));
 
         using (var smtpClient = new SmtpClient(_smtpOptions.Host, _smtpOptions.Port)) {
 
@@ -40,7 +44,7 @@ public class SmtpService : ISmtpService {
         }
     }
 
-    private AlternateView GetEmbeddedImage(string imagePath, string emailBody) {
+    private static AlternateView GetMailBody(string imagePath, string code) {
 
         var imageResource = new LinkedResource(imagePath)
         {
@@ -59,7 +63,7 @@ public class SmtpService : ISmtpService {
                 <p>Thank you for joining in our platform. We're excited to have you on board!</p>
                 <p>To complete your account setup, please find below your verification code:</p>
                 <h3>Your verification code:</h3>
-                <p style='color: #da77f2; background-color: #333; padding: 10px; border-radius: 5px; margin-left: 1rem; font-size: 2rem; width: fit-content;'>{emailBody}</p>
+                <p style='color: #da77f2; background-color: #333; padding: 10px; border-radius: 5px; margin-left: 1rem; font-size: 2rem; width: fit-content;'>{code}</p>
             </body>
             </html>";
 

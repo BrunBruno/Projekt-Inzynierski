@@ -50,6 +50,7 @@ public class RegisterUserRequestHandler : IRequestHandler<RegisterUserRequest> {
         var hashedPassword = _passwordHasher.HashPassword(user, request.Password);
         user.PasswordHash = hashedPassword;
 
+
         await _userRepository.Add(user);
 
         
@@ -68,6 +69,6 @@ public class RegisterUserRequestHandler : IRequestHandler<RegisterUserRequest> {
 
         await _codeRepository.Add(code);
 
-        await _smtpService.SendMessage(request.Email.ToLower(), "Hello " + request.Username, codeValue);
+        await _smtpService.SendVerificationCode(request.Email.ToLower(), request.Username, codeValue);
     }
 }

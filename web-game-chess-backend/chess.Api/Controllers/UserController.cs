@@ -29,6 +29,11 @@ public class UserController : ControllerBase {
     }
 
 
+    /// <summary>
+    /// Registers user and sends email verification code.
+    /// </summary>
+    /// <param name="model"></param>
+    /// <returns></returns>
     [HttpPost("sign-up")]
     public async Task<IActionResult> Register([FromBody] RegisterUserModel model) {
 
@@ -39,6 +44,11 @@ public class UserController : ControllerBase {
     }
 
 
+    /// <summary>
+    /// Creates Jwt token
+    /// </summary>
+    /// <param name="model"></param>
+    /// <returns></returns>
     [HttpPost("sign-in")]
     public async Task<IActionResult> LogIn([FromBody] LogInUserModel model) {
 
@@ -49,6 +59,11 @@ public class UserController : ControllerBase {
     }
 
 
+    /// <summary>
+    /// Removes old code and sends new one
+    /// </summary>
+    /// <param name="model"></param>
+    /// <returns></returns>
     [HttpPost("regenerate-code")]
     [Authorize(Policy = "IsNotVerified")]
     public async Task<IActionResult> RegenerateCode([FromBody] RegenerateCodeModel model) {
@@ -60,6 +75,11 @@ public class UserController : ControllerBase {
     }
 
 
+    /// <summary>
+    /// Adds user to black list
+    /// </summary>
+    /// <param name="model"></param>
+    /// <returns></returns>
     [HttpPost("ban")]
     [Authorize(Roles = "Admin")]
     public async Task<IActionResult> BanUser([FromBody] BanUserModel model) {
@@ -71,6 +91,11 @@ public class UserController : ControllerBase {
     }
 
 
+    /// <summary>
+    /// Verifies email
+    /// </summary>
+    /// <param name="model"></param>
+    /// <returns></returns>
     [HttpPut("verify-email")]
     [Authorize(Policy = "IsNotVerified")]
     public async Task<IActionResult> VerifyEmail([FromBody] VerifyEmailModel model) {
@@ -82,6 +107,10 @@ public class UserController : ControllerBase {
     }
 
 
+    /// <summary>
+    /// Gets user info
+    /// </summary>
+    /// <returns></returns>
     [HttpGet]
     [Authorize]
     public async Task<IActionResult> GetUser() {
@@ -93,22 +122,28 @@ public class UserController : ControllerBase {
     }
 
 
+    /// <summary>
+    /// Checks if user email is verified
+    /// only for already existing accounts
+    /// </summary>
+    /// <returns></returns>
     [HttpGet("is-verified")]
     [Authorize]
     public async Task<IActionResult> IsEmailVerified() {
 
-        var authorizationHeader = Request.Headers["Authorization"].ToString();
-
-        if (authorizationHeader == null)
-        { }
 
         var request = new IsEmailVerifiedRequest();
 
         var result = await _mediator.Send(request);
-        return Ok();
+        return Ok(result);
     }
 
 
+    /// <summary>
+    /// Gets registration configurations
+    /// </summary>
+    /// <param name="configurationId"></param>
+    /// <returns></returns>
     [HttpGet("configuration/{configurationId}")]
     public async Task<IActionResult> GetDataConfiguration([FromRoute] int configurationId) {
 

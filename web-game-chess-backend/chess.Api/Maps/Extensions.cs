@@ -2,11 +2,9 @@
 
 namespace chess.Api.Maps;
 
-public static class Extensions
-{
+public static class Extensions {
 
-    public static IServiceCollection AddMappingProfiles(this IServiceCollection services)
-    {
+    public static IServiceCollection AddMappingProfiles(this IServiceCollection services) {
 
         services.AddAutoMapper(typeof(UserMappingProfile));
 
