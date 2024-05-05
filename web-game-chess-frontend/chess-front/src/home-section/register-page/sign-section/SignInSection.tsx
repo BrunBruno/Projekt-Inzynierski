@@ -71,23 +71,23 @@ function SignInSection({ setModal }: SignInSectionProps) {
       // set token
       localStorage.setItem('token', signInResponse.data.token);
 
-      console.log(getAuthorization());
-
       // users email verification check
       const isVerifiedResponse = await axios.get(
         `${baseUrl}/user/is-verified`,
         getAuthorization()
       );
 
+      console.log(isVerifiedResponse);
+
       // check if user email is verified
-      const isVerified = isVerifiedResponse.data.isEmalVerified;
-      if (!isVerified) {
-        // go to email verification
-        setModal(registrationActionEnum.verify);
-      } else {
-        // navigate to main page
-        navigate('/main');
-      }
+      // const isVerified = isVerifiedResponse.data.isEmalVerified;
+      // if (!isVerified) {
+      //   // go to email verification
+      //   setModal(registrationActionEnum.verify);
+      // } else {
+      //   // navigate to main page
+      //   navigate('/main');
+      // }
     } catch (err) {
       // display backend erros
       if (err instanceof AxiosError) {

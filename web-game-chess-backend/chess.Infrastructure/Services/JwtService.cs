@@ -11,9 +11,9 @@ namespace chess.Infrastructure.Services;
 
 public class JwtService : IJwtService {
 
-    private readonly AuthenticationOptions _authenticationSettings;
+    private readonly AuthenticationSettings _authenticationSettings;
 
-    public JwtService(AuthenticationOptions authenticationSettings) {
+    public JwtService(AuthenticationSettings authenticationSettings) {
         _authenticationSettings = authenticationSettings;
     }
 
@@ -21,9 +21,10 @@ public class JwtService : IJwtService {
 
         var claims = new List<Claim>()
         {
-            new (ClaimTypes.NameIdentifier, user.Id.ToString()),
-            new (ClaimTypes.Email, $"{user.Email}"),
-            new (ClaimTypes.Role, $"{user.Role.Name}"),
+            new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
+            new Claim(ClaimTypes.Name, $"{user.Username}"),
+            new Claim(ClaimTypes.Role, $"{user.Role.Name}"),
+            new Claim("IsVerified", user.IsVerified.ToString()),
         };
 
         var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_authenticationSettings.JwtKey));

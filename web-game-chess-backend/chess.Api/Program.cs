@@ -34,9 +34,11 @@ if (app.Environment.IsDevelopment()) {
 
 app.UseCors("FrontEndClient");
 
+//app.UseHttpsRedirection();
+
+
 app.UseShared();
 
-//app.UseHttpsRedirection();
 
 app.UseAuthorization();
 

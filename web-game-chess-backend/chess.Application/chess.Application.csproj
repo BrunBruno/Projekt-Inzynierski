@@ -1,26 +1,24 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net8.0</TargetFramework>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
+	<TargetFramework>net7.0</TargetFramework>
+	<ImplicitUsings>enable</ImplicitUsings>
+	<Nullable>enable</Nullable>
   </PropertyGroup>
-
+  
   <ItemGroup>
-    <PackageReference Include="AutoMapper" Version="13.0.1" />
-    <PackageReference Include="MediatR" Version="12.2.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Cors" Version="2.2.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Identity" Version="2.2.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.2.5" />
-    <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="8.0.3" />
-    <PackageReference Include="Microsoft.AspNetCore.SignalR.Common" Version="8.0.4" />
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="8.0.0" />
-    <PackageReference Include="Microsoft.IdentityModel.Tokens" Version="7.5.0" />
+	<PackageReference Include="AutoMapper" Version="13.0.1" />
+	<PackageReference Include="MediatR" Version="12.0.1" />
+	<PackageReference Include="Microsoft.AspNetCore.Cors" Version="2.2.0" />
+	<PackageReference Include="Microsoft.AspNetCore.Identity" Version="2.2.0" />
+	<PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.2.5" />
+	<PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="7.0.0" />
+	<PackageReference Include="Microsoft.IdentityModel.Tokens" Version="6.15.1" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\chess.Core\chess.Core.csproj" />
-    <ProjectReference Include="..\chess.Shared\chess.Shared.csproj" />
+	<ProjectReference Include="..\chess.Core\chess.Core.csproj" />
+	<ProjectReference Include="..\chess.Shared\chess.Shared.csproj" />
   </ItemGroup>
 
 </Project>

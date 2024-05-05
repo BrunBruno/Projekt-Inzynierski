@@ -47,6 +47,7 @@ function VerifySection({}: VerifySectionProps) {
 
     try {
       // verify user email
+      console.log(verificationCode);
       await axios.put(
         `${baseUrl}/user/verify-email`,
         verificationCode,

@@ -15,8 +15,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace chess.Api.Controllers;
 
-[Route("api/user")]
+
 [ApiController]
+[Route("api/user")]
 public class UserController : ControllerBase {
 
     private readonly IMediator _mediator;
@@ -96,10 +97,15 @@ public class UserController : ControllerBase {
     [Authorize]
     public async Task<IActionResult> IsEmailVerified() {
 
+        var authorizationHeader = Request.Headers["Authorization"].ToString();
+
+        if (authorizationHeader == null)
+        { }
+
         var request = new IsEmailVerifiedRequest();
 
         var result = await _mediator.Send(request);
-        return Ok(result);
+        return Ok();
     }
 
 

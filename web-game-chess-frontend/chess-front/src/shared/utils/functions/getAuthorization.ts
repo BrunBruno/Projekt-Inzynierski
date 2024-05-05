@@ -11,7 +11,7 @@ type headers = {
 // get authorization token for api calls
 export const getAuthorization = (): headers => {
   const token = localStorage.getItem('token');
-  console.log(token);
+
   return token
     ? {
         headers: {

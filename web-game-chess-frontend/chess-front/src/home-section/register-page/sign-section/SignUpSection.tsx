@@ -96,6 +96,7 @@ function SignUpSection({ setModal }: SignUpSectionProps) {
       userName: form.userName.value.trim(),
       password: form.password.value,
       confirmPassword: form.confirmPassword.value,
+      imageUrl: '',
     };
 
     // Check for email format
@@ -150,6 +151,7 @@ function SignUpSection({ setModal }: SignUpSectionProps) {
 
     try {
       // create account
+      // await axios.post(`${baseUrl}/user/sign-up`, userData);
       await axios.post(`${baseUrl}/user/sign-up`, userData);
 
       const logUserData = {
