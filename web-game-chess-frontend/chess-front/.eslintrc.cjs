@@ -4,20 +4,24 @@ module.exports = {
     es2021: true,
   },
   extends: [
-    "eslint:recommended",
+    "airbnb",
+    "airbnb-typescript",
+    "airbnb/hooks",
+    // "eslint:recommended",
     "plugin:react/recommended",
     "plugin:@typescript-eslint/recommended",
+    "plugin:prettier/recommended",
   ],
   overrides: [
-    {
-      env: {
-        node: true,
-      },
-      files: [".eslintrc.{js,cjs}"],
-      parserOptions: {
-        sourceType: "script",
-      },
-    },
+    // {
+    //   env: {
+    //     node: true,
+    //   },
+    //   files: [".eslintrc.{js,cjs}"],
+    //   parserOptions: {
+    //     sourceType: "script",
+    //   },
+    // },
   ],
   parser: "@typescript-eslint/parser",
   parserOptions: {
@@ -25,7 +29,7 @@ module.exports = {
     sourceType: "module",
     project: "./tsconfig.json",
   },
-  plugins: ["@typescript-eslint", "react"],
+  plugins: ["react", "@typescript-eslint", "prettier"],
   rules: {
     "react/react-in-jsx-scope": 0,
   },

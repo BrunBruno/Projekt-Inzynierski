@@ -1,0 +1,98 @@
+/* colors */
+
+// main colors
+$mc0: #f3f0ff;
+$mc1: #e5dbff;
+$mc2: #d0bfff;
+$mc3: #b197fc;
+$mc4: #9775fa;
+$mc5: #845ef7;
+$mc6: #7950f2;
+$mc7: #7048e8;
+$mc8: #6741d9;
+$mc9: #5f3dc4;
+
+$mcrgb0: rgb(243, 240, 255);
+$mcrgb1: rgb(229, 219, 255);
+$mcrgb2: rgb(208, 191, 255);
+$mcrgb3: rgb(177, 151, 252);
+$mcrgb4: rgb(151, 117, 250);
+$mcrgb5: rgb(132, 94, 247);
+$mcrgb6: rgb(121, 80, 242);
+$mcrgb7: rgb(112, 72, 232);
+$mcrgb8: rgb(103, 65, 217);
+$mcrgb9: rgb(95, 61, 196);
+
+// grey colors
+$gc0: #f8f9fa;
+$gc1: #f1f3f5;
+$gc2: #e9ecef;
+$gc3: #dee2e6;
+$gc4: #ced4da;
+$gc5: #adb5bd;
+$gc6: #868e96;
+$gc7: #495057;
+$gc8: #343a40;
+$gc9: #212529;
+
+$gcrgb0: rgb(248, 249, 250);
+$gcrgb1: rgb(241, 243, 245);
+$gcrgb2: rgb(233, 236, 239);
+$gcrgb3: rgb(222, 226, 230);
+$gcrgb4: rgb(206, 212, 218);
+$gcrgb5: rgb(173, 181, 189);
+$gcrgb6: rgb(134, 142, 150);
+$gcrgb7: rgb(73, 80, 87);
+$gcrgb8: rgb(52, 58, 64);
+$gcrgb9: rgb(33, 37, 41);
+
+// other colors
+
+$danger-color-l: #ffa8a8;
+$danger-color-m: #f03e3e;
+$danger-color-d: #c92a2a;
+
+$warning-color-l: #ffe066;
+$warning-color-m: #fcc419;
+$warning-color-d: #f59f00;
+
+$success-color-l: #8ce99a;
+$success-color-m: #51cf66;
+$success-color-d: #2f9e44;
+
+$info-color-l: #a5d8ff;
+$info-color-m: #339af0;
+$info-color-d: #1864ab;
+
+$colorMap: (
+  $gc0: $gcrgb0,
+  $gc1: $gcrgb1,
+  $gc2: $gcrgb2,
+  $gc3: $gcrgb3,
+  $gc4: $gcrgb4,
+  $gc5: $gcrgb5,
+  $gc6: $gcrgb6,
+  $gc7: $gcrgb7,
+  $gc8: $gcrgb8,
+  $gc9: $gcrgb9,
+  $mc0: $mcrgb0,
+  $mc1: $mcrgb1,
+  $mc2: $mcrgb2,
+  $mc3: $mcrgb3,
+  $mc4: $mcrgb4,
+  $mc5: $mcrgb5,
+  $mc6: $mcrgb6,
+  $mc7: $mcrgb7,
+  $mc8: $mcrgb8,
+  $mc9: $mcrgb9,
+);
+
+// hex to rgb color map
+// $colorMap: ();
+
+// @for $i from 0 through 9 {
+//   $colorMap: map-merge(
+//     $colorMap,
+//     ($gc#{$i}: $grgbc#{$i}, $mc#{$i}: $mrgbc#{$i})
+//   );
+// }

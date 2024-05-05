@@ -29,7 +29,7 @@ public class VerifyEmailRequestHandler : IRequestHandler<VerifyEmailRequest> {
 
     public async Task Handle(VerifyEmailRequest request, CancellationToken cancellationToken) {
 
-        var userId = _userContext.GetUserId()!.Value;
+        var userId = _userContext.GetUserId();
 
         var verificationCode = await _codeRepository.GetByUserId(userId)
             ?? throw new NotFoundException("Code not found.");

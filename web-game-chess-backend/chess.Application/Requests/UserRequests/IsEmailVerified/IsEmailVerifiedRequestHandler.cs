@@ -21,7 +21,7 @@ public class IsEmailVerifiedRequestHandler : IRequestHandler<IsEmailVerifiedRequ
 
     public async Task<IsEmailVerifiedDto> Handle(IsEmailVerifiedRequest request, CancellationToken cancellationToken) {
 
-        var userId = _userContextService.GetUserId()!.Value;
+        var userId = _userContextService.GetUserId();
 
         var user = await _userRepository.GetById(userId)
             ?? throw new NotFoundException("User was not found.");

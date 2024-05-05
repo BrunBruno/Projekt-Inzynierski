@@ -32,14 +32,14 @@ public class RegenerateCodeRequestHandler : IRequestHandler<RegenerateCodeReques
 
     public async Task Handle(RegenerateCodeRequest request, CancellationToken cancellationToken) {
 
-        var userId = _userContextService.GetUserId()!.Value;
+        var userId = _userContextService.GetUserId();
 
         var user = await _userRepository.GetById(userId)
             ?? throw new NotFoundException("User not found.");
 
         await _emailVerificationCodeRepository.RemoveByUserId(userId);
 
-        var codeValue = new Random().Next(10000, 99999).ToString();
+        var codeValue = new Random().Next(100000, 999999).ToString();
 
         var code = new EmailVerificationCode()
         {
@@ -54,6 +54,6 @@ public class RegenerateCodeRequestHandler : IRequestHandler<RegenerateCodeReques
 
         await _emailVerificationCodeRepository.Add(code);
 
-        await _smtpService.SendMessage(user.Email, "Hello " + user.Username, codeValue);
+        await _smtpService.SendVerificationCode(user.Email, user.Username, codeValue);
     }
 }

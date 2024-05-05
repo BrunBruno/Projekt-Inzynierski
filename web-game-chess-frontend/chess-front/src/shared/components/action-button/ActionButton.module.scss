@@ -1,0 +1,46 @@
+@import '../../styles/shared.scss';
+
+@mixin actionButton($size: 2rem) {
+  width: fit-content;
+  height: fit-content;
+
+  button {
+    @include flex(row, center, center, $size);
+
+    background: #0000;
+    overflow: hidden;
+    outline: none;
+    border: solid calc($size / 6) $gc0;
+    padding: calc($size / 2) $size;
+    border-radius: calc(3 * $size);
+
+    font-weight: bold;
+    font-size: $size;
+    text-decoration: none;
+    user-select: none;
+    color: $gc0;
+
+    transition: border 0.5s ease 0s;
+
+    &:hover {
+      cursor: pointer;
+      border: solid calc($size / 6) $gc6;
+      span {
+        transform: translateX($size);
+      }
+      svg {
+        transform: translateX(calc(2 * $size));
+      }
+    }
+
+    span {
+      white-space: nowrap;
+      transition: transform 0.3s;
+    }
+
+    svg {
+      height: $size;
+      transition: transform 0.3s;
+    }
+  }
+}

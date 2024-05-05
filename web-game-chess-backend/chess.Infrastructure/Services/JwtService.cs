@@ -11,22 +11,24 @@ namespace chess.Infrastructure.Services;
 
 public class JwtService : IJwtService {
 
-    private readonly AuthenticationOptions _authenticationSettings;
+    private readonly AuthenticationSettings _authenticationSettings;
 
-    public JwtService(AuthenticationOptions authenticationSettings) {
+    public JwtService(AuthenticationSettings authenticationSettings) {
         _authenticationSettings = authenticationSettings;
     }
 
+    ///<inheritdoc/>
     public string GetJwtToken(User user) {
 
         var claims = new List<Claim>()
         {
             new (ClaimTypes.NameIdentifier, user.Id.ToString()),
-            new (ClaimTypes.Email, $"{user.Email}"),
+            new (ClaimTypes.Name, $"{user.Username}"),
             new (ClaimTypes.Role, $"{user.Role.Name}"),
+            new ("IsVerified", user.IsVerified.ToString()),
         };
 
-        var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_authenticationSettings.JwtKey!));
+        var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_authenticationSettings.JwtKey));
         var cred = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
         var expires = DateTime.Now.AddDays(_authenticationSettings.JwtExpireDays);
 

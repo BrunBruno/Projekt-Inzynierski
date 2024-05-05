@@ -14,26 +14,31 @@ public class UserRepository : IUserRepository {
         _dbContext = dbContext;
     }
 
+    ///<inheritdoc/>
     public async Task<User?> GetById(Guid id)
         => await _dbContext.Users
             .Include(x => x.Role)
             .FirstOrDefaultAsync(x => x.Id == id);
 
+    ///<inheritdoc/>
     public async Task<User?> GetByEmail(string email)
         => await _dbContext.Users
             .Include(x => x.Role)
             .FirstOrDefaultAsync(x => x.Email == email);
 
+    ///<inheritdoc/>
     public async Task Add(User user) {
         await _dbContext.Users.AddAsync(user);
         await _dbContext.SaveChangesAsync();
     }
 
+    ///<inheritdoc/>
     public async Task Update(User user) {
         _dbContext.Users.Update(user);
         await _dbContext.SaveChangesAsync();
     }
 
+    ///<inheritdoc/>
     public async Task Delete(User user) {
         _dbContext.Users.Remove(user);
         await _dbContext.SaveChangesAsync();

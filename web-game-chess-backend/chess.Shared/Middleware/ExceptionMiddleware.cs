@@ -3,6 +3,10 @@ using Microsoft.AspNetCore.Http;
 using chess.Shared.Exceptions;
 
 namespace chess.Shared.Middleware;
+
+/// <summary>
+/// Exceptions middleware
+/// </summary>
 public class ExceptionMiddleware : IMiddleware {
     public async Task InvokeAsync(HttpContext context, RequestDelegate next) {
         try {

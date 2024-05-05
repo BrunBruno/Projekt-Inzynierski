@@ -13,6 +13,7 @@ public class BannedUserRepository : IBannedUserRepository {
         _dbContext = dbContext;
     }
 
+    ///<inheritdoc/>
     public async Task Create(BannedUser bannedUser) {
         await _dbContext.BannedUsers.AddAsync(bannedUser);
         await _dbContext.SaveChangesAsync();

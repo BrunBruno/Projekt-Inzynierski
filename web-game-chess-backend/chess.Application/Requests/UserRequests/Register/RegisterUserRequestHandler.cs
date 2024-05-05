@@ -45,16 +45,16 @@ public class RegisterUserRequestHandler : IRequestHandler<RegisterUserRequest> {
             Id = Guid.NewGuid(),
             Email = request.Email.ToLower(),
             Username = request.Username,
-            ImageUrl = request.ImageUrl
         };
 
         var hashedPassword = _passwordHasher.HashPassword(user, request.Password);
         user.PasswordHash = hashedPassword;
 
+
         await _userRepository.Add(user);
 
         
-        var codeValue = new Random().Next(10000, 99999).ToString();
+        var codeValue = new Random().Next(100000, 999999).ToString();
 
         var code = new EmailVerificationCode()
         {
@@ -69,8 +69,6 @@ public class RegisterUserRequestHandler : IRequestHandler<RegisterUserRequest> {
 
         await _codeRepository.Add(code);
 
-        await _smtpService.SendMessage(request.Email.ToLower(), "Hello " + request.Username, codeValue);
-
-        await _userRepository.Delete(user);
+        await _smtpService.SendVerificationCode(request.Email.ToLower(), request.Username, codeValue);
     }
 }

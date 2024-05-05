@@ -18,41 +18,14 @@ public static class Extensions {
 
     public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration) {
 
+        var smtpOptions = configuration.GetOptions<SmtpOptions>("Smtp");
+        services.AddSingleton(smtpOptions);
+
         services.AddHttpContextAccessor();
 
-        var postgresOptions = configuration.GetOptions<PostgresOptions>("Postgres");
+        services.AddPostgres(configuration);
 
-        services.AddDbContext<ChessAppDbContext>(ctx => ctx.UseNpgsql(postgresOptions.ConnectionString));
-
-        services.AddScoped<IUserRepository, UserRepository>();
-        services.AddScoped<IEmailVerificationCodeRepository, EmailVerificationCodeRepository>();
-        services.AddScoped<IPasswordConfigurationRepository, PasswordConfigurationRepository>();
-        services.AddScoped<IBannedUserRepository, BannedUserRepository>();
-
-        var authenticationOptions = configuration.GetOptions<AuthenticationOptions>("Authentication");
-
-        services.AddSingleton(authenticationOptions);
-
-        services.AddAuthentication(option => {
-
-            option.DefaultAuthenticateScheme = "Bearer";
-            option.DefaultScheme = "Bearer";
-            option.DefaultChallengeScheme = "Bearer";
-
-        }).AddJwtBearer(cfg => {
-
-            cfg.RequireHttpsMetadata = false;
-            cfg.SaveToken = true;
-
-            cfg.TokenValidationParameters = new TokenValidationParameters
-            {
-                ValidIssuer = authenticationOptions.JwtIssuer,
-                ValidAudience = authenticationOptions.JwtIssuer,
-                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(authenticationOptions.JwtKey!)),
-            };
-        });
-
-        services.AddScoped<IJwtService, JwtService>();
+        services.AddJwt(configuration);
 
         services.AddCors(options => {
             options.AddPolicy("FrontEndClient", builder => {
@@ -62,13 +35,51 @@ public static class Extensions {
             });
         });
 
+        services.AddScoped<IJwtService, JwtService>();
+        services.AddScoped<ISmtpService, SmtpService>();
         services.AddScoped<IUserContextService, UserContextService>();
 
-        var smtpOptions = configuration.GetOptions<SmtpOptions>("Smtp");
-        services.AddSingleton(smtpOptions);
+        return services;
+    }
 
-        services.AddScoped<ISmtpService, SmtpService>();
+    private static IServiceCollection AddJwt(this IServiceCollection services, IConfiguration configuration) {
 
+        var options = configuration.GetOptions<AuthenticationSettings>("Authentication");
+
+        services.AddSingleton(options);
+
+        services.AddAuthentication(option =>
+        {
+            option.DefaultAuthenticateScheme = "Bearer";
+            option.DefaultScheme = "Bearer";
+            option.DefaultChallengeScheme = "Bearer";
+        }).AddJwtBearer(cfg =>
+        {
+            cfg.RequireHttpsMetadata = false;
+            cfg.SaveToken = true;
+            cfg.TokenValidationParameters = new TokenValidationParameters
+            {
+                ValidIssuer = options.JwtIssuer,
+                ValidAudience = options.JwtIssuer,
+                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(options.JwtKey!)),
+
+            };
+        });
+
+        return services;
+    }
+
+    private static IServiceCollection AddPostgres(this IServiceCollection services, IConfiguration configuration) {
+
+        var options = configuration.GetOptions<PostgresOptions>("Postgres");
+
+        services.AddDbContext<ChessAppDbContext>(ctx
+            => ctx.UseNpgsql(options.ConnectionString));
+
+        services.AddScoped<IUserRepository, UserRepository>();
+        services.AddScoped<IEmailVerificationCodeRepository, EmailVerificationCodeRepository>();
+        services.AddScoped<IDataConfigurationRepository, DataConfigurationRepository>();
+        services.AddScoped<IBannedUserRepository, BannedUserRepository>();
 
         return services;
     }

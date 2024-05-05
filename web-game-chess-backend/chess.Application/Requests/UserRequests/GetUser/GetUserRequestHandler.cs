@@ -21,7 +21,7 @@ public class GetUserRequestHandler : IRequestHandler<GetUserRequest, GetUserDto>
 
     public async Task<GetUserDto> Handle(GetUserRequest request, CancellationToken cancellationToken) {
 
-        var userId = _userContext.GetUserId()!.Value;
+        var userId = _userContext.GetUserId();
 
         var user = await _userRepository.GetById(userId)
             ?? throw new NotFoundException("User not found.");
@@ -30,6 +30,7 @@ public class GetUserRequestHandler : IRequestHandler<GetUserRequest, GetUserDto>
         {
             Email = user.Email,
             UserName = user.Username,
+            FullName = user.Name,
             ImageUrl = user.ImageUrl,
         };
 

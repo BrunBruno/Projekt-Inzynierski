@@ -2,7 +2,11 @@
 using chess.Core.Enums;
 
 namespace chess.Core.Entities;
+#pragma warning disable CS8618
 
+/// <summary>
+/// User entity
+/// </summary>
 public class User {
     /// <summary>
     /// Id
@@ -45,7 +49,7 @@ public class User {
     public int RoleId { get; set; } = (int)Roles.User;
 
     /// <summary>
-    /// User role.
+    /// User role
     /// </summary>
     public Role Role { get; set; }
 

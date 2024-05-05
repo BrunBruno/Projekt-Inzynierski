@@ -1,0 +1,47 @@
+@import '../variables/color.scss';
+
+// setting for default inputs
+@mixin cInput($size: 2rem, $mColor: $mc9, $sColor: $mc0) {
+  box-sizing: border-box;
+  padding: calc($size / 4) $size;
+  border: solid calc($size / 8) #0000;
+  outline: none;
+  border-radius: $size;
+
+  font-size: $size;
+  text-align: center;
+  color: $sColor;
+  background-color: $mColor;
+
+  &:focus,
+  &:active {
+    border-color: $gc3;
+  }
+}
+
+// setting for transparent input
+@mixin tInput($size: 2rem) {
+  box-sizing: border-box;
+  padding: calc($size / 4);
+  border: none;
+  border-bottom: solid calc($size / 8) $gc6;
+  outline: none;
+
+  font-size: $size;
+  text-align: start;
+  color: $gc4;
+  background-color: #0000;
+
+  &:focus,
+  &:active {
+    color: $gc6;
+    border-color: $gc0;
+    &::placeholder {
+      color: $gc7;
+    }
+  }
+
+  &::placeholder {
+    color: $gc6;
+  }
+}

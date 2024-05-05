@@ -1,0 +1,22 @@
+// creates grid backgound with given size and colors
+@mixin gridBg($size: 24rem, $bgColor: #212529, $extraColor: #343a40) {
+  background-size: $size $size;
+  background-image: repeating-linear-gradient(
+      -45deg,
+      rgba($extraColor, 0.05) 24%,
+      rgba($extraColor, 0.05) 25%,
+      #0000 25%,
+      #0000 100%
+    ),
+    linear-gradient(45deg, rgba($bgColor, 0.05) 25%, #0000 25%),
+    linear-gradient(-45deg, rgba($bgColor, 0.05) 25%, #0000 25%),
+    linear-gradient(45deg, #0000 75%, rgba($bgColor, 0.05) 75%),
+    linear-gradient(-45deg, #0000 75%, rgba($bgColor, 0.05) 75%);
+}
+
+// default setting for background fitting text
+@mixin textBg() {
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: #0000;
+}
