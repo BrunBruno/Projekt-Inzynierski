@@ -1,9 +1,9 @@
 using chess.Api.Authorization;
+using chess.Api.Hubs;
 using chess.Api.Maps;
 using chess.Application;
 using chess.Infrastructure;
 using chess.Shared;
-
 
 
 
@@ -31,6 +31,8 @@ if (app.Environment.IsDevelopment()) {
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.MapHub<GameHub>("/game-hub");
 
 app.UseCors("FrontEndClient");
 

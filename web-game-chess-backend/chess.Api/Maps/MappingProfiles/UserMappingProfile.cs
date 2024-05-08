@@ -8,6 +8,9 @@ using chess.Application.Requests.UserRequests.VerifyEmail;
 
 namespace chess.Api.Maps.MappingProfiles;
 
+/// <summary>
+/// User controller models to requests maps
+/// </summary>
 public class UserMappingProfile : Profile {
     public UserMappingProfile() {
 

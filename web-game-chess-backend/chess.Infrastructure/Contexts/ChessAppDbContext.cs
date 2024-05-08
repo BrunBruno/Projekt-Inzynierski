@@ -35,6 +35,9 @@ public class ChessAppDbContext : DbContext {
     /// </summary>
     public DbSet<BannedUser> BannedUsers { get; set; }
 
+    public DbSet<Game> Games { get; set; }
+    public DbSet<Player> Players { get; set; }
+
 
 
     public ChessAppDbContext(DbContextOptions<ChessAppDbContext> options) : base(options) { }
@@ -47,5 +50,8 @@ public class ChessAppDbContext : DbContext {
         builder.ApplyConfiguration<EmailVerificationCode>(configuration);
         builder.ApplyConfiguration<DataConfiguration>(configuration);
         builder.ApplyConfiguration<BannedUser>(configuration);
+
+        builder.ApplyConfiguration<Game>(configuration);
+        builder.ApplyConfiguration<Player>(configuration);
     }
 }

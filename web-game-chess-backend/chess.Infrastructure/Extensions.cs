@@ -80,6 +80,8 @@ public static class Extensions {
         services.AddScoped<IEmailVerificationCodeRepository, EmailVerificationCodeRepository>();
         services.AddScoped<IDataConfigurationRepository, DataConfigurationRepository>();
         services.AddScoped<IBannedUserRepository, BannedUserRepository>();
+        services.AddScoped<IGameRepository, GameRepository>();
+        services.AddScoped<IPlayerRepository, PlayerRepository>();
 
         return services;
     }

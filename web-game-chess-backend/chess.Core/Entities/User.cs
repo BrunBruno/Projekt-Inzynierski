@@ -43,6 +43,8 @@ public class User {
     /// </summary>
     public bool IsVerified { get; set; } = false;
 
+    public int Elo { get; set; }
+
     /// <summary>
     /// Role id
     /// </summary>
@@ -52,5 +54,10 @@ public class User {
     /// User role
     /// </summary>
     public Role Role { get; set; }
+
+    /// <summary>
+    /// Players for each game that user played
+    /// </summary>
+    public List<Player> Players { get; set; }
 
 }

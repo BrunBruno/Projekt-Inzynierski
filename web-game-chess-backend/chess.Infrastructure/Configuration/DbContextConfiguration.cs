@@ -14,7 +14,9 @@ public class DbContextConfiguration :
     IEntityTypeConfiguration<Role>,
     IEntityTypeConfiguration<EmailVerificationCode>,
     IEntityTypeConfiguration<DataConfiguration>,
-    IEntityTypeConfiguration<BannedUser>
+    IEntityTypeConfiguration<BannedUser>,
+    IEntityTypeConfiguration<Game>,
+    IEntityTypeConfiguration<Player>
 {
 
     public void Configure(EntityTypeBuilder<User> builder) {
@@ -56,6 +58,28 @@ public class DbContextConfiguration :
             .HasOne(x => x.User)
             .WithOne()
             .HasForeignKey<BannedUser>(x => x.UserId);
+    }
+
+    public void Configure(EntityTypeBuilder<Game> builder) {
+        builder
+            .HasKey(x => x.Id);
+        builder
+            .HasOne(x => x.WhitePlayer)
+            .WithOne(x => x.WhiteGame)
+            .HasForeignKey<Game>(x => x.WhitePlayerId);
+        builder
+            .HasOne(x => x.BlackPlayer)
+            .WithOne(x => x.BlackGame)
+            .HasForeignKey<Game>(x => x.BlackPlayerId);
+    }
+
+    public void Configure(EntityTypeBuilder<Player> builder) {
+        builder
+            .HasKey(x => x.Id);
+        builder
+            .HasOne(x => x.User)
+            .WithMany(x => x.Players)
+            .HasForeignKey(x => x.UserId);
     }
 
     private static IEnumerable<Role> GetRoles() {
