@@ -27,7 +27,7 @@ public class GameController : ControllerBase {
     /// <param name="model"></param>
     /// <returns></returns>
     [HttpPost("search-game")]
-    [Authorize(Policy = "IsVerfied")]
+    [Authorize(Policy = "IsVerified")]
     public async Task<IActionResult> StartSearch([FromBody] SearchGameModel model) {
 
         var request = _mapper.Map<SearchGameRequest>(model);
@@ -43,7 +43,7 @@ public class GameController : ControllerBase {
     /// <param name="playerId"></param>
     /// <returns></returns>
     [HttpDelete("abort-search/{playerId}")]
-    [Authorize(Policy = "IsVerfied")]
+    [Authorize(Policy = "IsVerified")]
     public async Task<IActionResult> AbortSearch([FromRoute] Guid playerId) {
 
         var request = new AbortSearchRequest()

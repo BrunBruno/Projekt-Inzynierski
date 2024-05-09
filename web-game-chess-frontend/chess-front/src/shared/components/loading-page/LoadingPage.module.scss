@@ -1,4 +1,4 @@
-@import '../../styles/shared.scss';
+@import "../../styles/shared.scss";
 
 .loading {
   @include wh100();
@@ -7,8 +7,10 @@
 
   &__inner {
     @include absCenter();
-    @include circle(20%);
 
+    width: 20%;
+    aspect-ratio: 1/1;
+    border-radius: 100%;
     border: solid 2rem $mc8;
     border-bottom: solid 2rem #0000;
 
@@ -17,8 +19,10 @@
 
   &__outer {
     @include absCenter();
-    @include circle(10%);
 
+    width: 10%;
+    aspect-ratio: 1/1;
+    border-radius: 100%;
     border: solid 2rem $mc4;
     border-top: solid 2rem #0000;
 

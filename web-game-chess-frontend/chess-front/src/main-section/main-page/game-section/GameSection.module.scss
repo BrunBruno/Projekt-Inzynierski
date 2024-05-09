@@ -1,0 +1,35 @@
+@import "../MainPage.module.scss";
+
+.game {
+  @include wh100();
+
+  &__content {
+    height: 100%;
+    display: grid;
+    grid-template-columns: 75% auto;
+    // background-color: $gc8;
+
+    &__col {
+      height: 100%;
+
+      .game-interface {
+      }
+      .game-buttons {
+        @include flex(column, start, center, 0.6rem);
+
+        height: 100%;
+        padding: 2rem;
+        background-color: $gc9;
+
+        button {
+          @include button(2.4rem);
+          @include mainGButton();
+
+          width: 100%;
+          padding: 2rem;
+          //   background-color: #0000;
+        }
+      }
+    }
+  }
+}

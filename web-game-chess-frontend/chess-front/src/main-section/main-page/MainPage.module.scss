@@ -1,7 +1,9 @@
-@import '../../shared/styles/shared.scss';
+@import "../../shared/styles/shared.scss";
 
 .main {
   @include gridBg();
 
   position: relative;
+  height: 100%;
+  padding-right: 6rem;
 }
