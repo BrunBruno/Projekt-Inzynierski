@@ -74,8 +74,8 @@ public class DbContextConfiguration :
             .HasForeignKey<Game>(x => x.BlackPlayerId);
         builder
             .HasOne(x => x.GameTiming)
-            .WithMany()
-            .HasForeignKey(x => x.TimingId);
+            .WithMany(x => x.Games)
+            .HasForeignKey(x => x.GameTimingId);
     }
 
     public void Configure(EntityTypeBuilder<GameTiming> builder) {

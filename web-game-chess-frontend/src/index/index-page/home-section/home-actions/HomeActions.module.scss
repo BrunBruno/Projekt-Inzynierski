@@ -1,0 +1,296 @@
+@import '../../../Index.scss';
+
+// pawns images
+@mixin imagePawnStyles($mainColor, $sideColor, $shadowColor) {
+  .pb {
+    &:nth-child(odd) {
+      background-color: $mainColor;
+      background-image: linear-gradient(
+        to top,
+        $sideColor 30%,
+        $mainColor 100%
+      );
+    }
+
+    &:nth-child(even) {
+      background-color: $shadowColor;
+      box-shadow: 0 0 0rem 1rem $shadowColor;
+      z-index: -1;
+    }
+  }
+}
+
+@mixin imagePawn($div) {
+  @include flex(column, start, center, 0);
+
+  position: absolute;
+  transform-style: preserve-3d;
+  transition: top 0.3s;
+
+  .pb {
+    position: absolute;
+
+    &:nth-child(even) {
+      z-index: -1;
+    }
+
+    &:nth-child(1),
+    &:nth-child(2) {
+      width: calc(6rem / $div);
+      aspect-ratio: 1/1;
+      border-radius: 100%;
+      top: 0;
+    }
+
+    &:nth-child(3),
+    &:nth-child(4) {
+      width: calc(10rem / $div);
+      aspect-ratio: 1/1;
+      border-radius: 100%;
+      top: calc((8rem - 3rem) / $div);
+    }
+    &:nth-child(5),
+    &:nth-child(6) {
+      width: calc(16rem / $div);
+      height: calc(12rem / $div);
+      border-radius: 50% 50% 50% 50% / 90% 90% 10% 10%;
+      top: calc((8rem - 3rem + 12rem - 4rem) / $div);
+    }
+
+    &:nth-child(1) {
+      z-index: 9;
+    }
+    &:nth-child(3) {
+      z-index: 8;
+    }
+    &:nth-child(5) {
+      z-index: 7;
+    }
+  }
+}
+// end pawns images
+
+.actions {
+  position: absolute;
+  z-index: 9;
+  top: 24rem;
+  right: 60rem;
+
+  // extra hero content
+  @mixin actions {
+    @include square(60rem);
+    position: relative;
+    position: absolute;
+    z-index: 9;
+  }
+
+  // extra bg
+  &__background {
+    @include actions();
+
+    overflow: hidden;
+    border-bottom-left-radius: $md-br;
+    border-top-left-radius: $md-br;
+    box-shadow: 0 0 0 2rem rgb(67, 43, 137);
+    background-image: linear-gradient(#000, #000, $mc7);
+
+    .board-grid {
+      @include square(200%);
+
+      position: absolute;
+      z-index: -1;
+      top: -80%;
+      left: -50%;
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      grid-template-rows: repeat(5, 1fr);
+      gap: 0;
+
+      border: solid 0.5rem $gc0;
+      box-shadow: 0 0 4rem 2rem rgba($gc0, 0.5);
+
+      transform-style: preserve-3d;
+      transform: rotateX(70deg) rotateZ(45deg);
+      // animation: boardHighlight 3s infinite;
+
+      // @keyframes boardHighlight {
+      //   0% {
+      //     box-shadow: 0 0 4rem 2rem rgba($gc0, 0.5);
+      //   }
+      //   50% {
+      //     box-shadow: 0 0 4rem 3rem rgba($gc0, 0.5);
+      //   }
+      //   100% {
+      //     box-shadow: 0 0 4rem 2rem rgba($gc0, 0.5);
+      //   }
+      // }
+
+      &::after {
+        @include subCl();
+
+        background-image: linear-gradient(
+          to top left,
+          #0000 0%,
+          rgba($mc7, 0.95) 60%
+        );
+      }
+
+      .p-tile {
+        position: relative;
+        overflow: hidden;
+        border: solid 0.5rem $gc0;
+
+        &::after {
+          @include subCl(200%, 30%);
+          rotate: 15deg;
+        }
+
+        &:nth-child(odd) {
+          background-color: rgba(#000, 0.4);
+          &::after {
+            background-image: linear-gradient(rgba($mc0, 0.3), #0000);
+          }
+        }
+        &:nth-child(even) {
+          background-color: rgba(#fff, 0.4);
+          &::after {
+            background-image: linear-gradient(rgba($mc9, 0.3), #0000);
+          }
+        }
+      }
+    }
+
+    .img-pawn-container {
+      @include imagePawn(2);
+
+      filter: blur(0.3rem) brightness(70%);
+    }
+
+    .pawn-white {
+      @include imagePawnStyles($mc2, $mc3, #111);
+    }
+
+    .pawn-black {
+      @include imagePawnStyles($gc9, #000, $mc2);
+    }
+  }
+  // end extra bg
+
+  // extra actions
+  &__content {
+    @include actions();
+
+    padding: 6rem;
+
+    .actions-pawns {
+      @include wh100();
+      @include flex(row, center, start, 0);
+
+      // pawn settings
+      .pawn-container {
+        @include flex(row, center, start, 0);
+
+        position: relative;
+        width: 50%;
+        height: calc(6rem + 10rem + 12rem);
+        user-select: none;
+
+        &:hover {
+          cursor: pointer;
+
+          &::after {
+            width: 23rem;
+            opacity: 0.7;
+          }
+        }
+
+        &::after {
+          @include subCl(22rem, 4rem);
+
+          z-index: -1;
+          left: 50%;
+          top: calc(6rem + 10rem + 12rem - 5rem);
+
+          border-radius: 100%;
+          opacity: 0.9;
+          background-color: #000;
+          filter: blur(4px);
+
+          transform: translateZ(-1px) translateX(-50%);
+          transition: all 0.3s;
+        }
+
+        &:hover > .img-pawn-container {
+          top: -10rem;
+        }
+
+        &:hover > p {
+          opacity: 1;
+          height: 8rem;
+          transition:
+            height 0.1s 0s,
+            opacity 0.3s 0.1s;
+        }
+
+        .img-pawn-container {
+          @include imagePawn(1);
+
+          z-index: 3;
+          top: 0rem;
+          width: 100%;
+          height: calc(6rem + 10rem + 12rem);
+        }
+
+        .img-pawn-text {
+          position: absolute;
+          z-index: 2;
+          top: calc(6rem + 10rem + 12rem - 10rem - 4rem);
+          height: 0;
+          width: 18rem;
+
+          padding: 2rem;
+          border-bottom-left-radius: $sm-br;
+          border-bottom-right-radius: $sm-br;
+
+          font-size: 3rem;
+          font-weight: 600;
+          opacity: 0;
+          text-align: center;
+
+          transition:
+            height 0.3s,
+            opacity 0.1s;
+        }
+      }
+      // end pawn settings
+
+      .signin-pawn {
+        left: 0;
+
+        .img-pawn-container {
+          @include imagePawnStyles($mc2, $mc3, #111);
+        }
+
+        p {
+          background-color: #111;
+          color: $mc2;
+        }
+      }
+
+      .signup-pawn {
+        right: 0;
+
+        .img-pawn-container {
+          @include imagePawnStyles($gc9, #000, $mc2);
+        }
+
+        p {
+          background-color: $mc2;
+          color: #111;
+        }
+      }
+    }
+  }
+  // extra actions
+}
+// end extra hero content

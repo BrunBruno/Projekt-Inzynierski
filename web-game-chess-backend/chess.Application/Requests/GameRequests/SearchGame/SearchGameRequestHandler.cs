@@ -28,6 +28,9 @@ public class SearchGameRequestHandler : IRequestHandler<SearchGameRequest, Searc
 
     public async Task<SearchGameDto> Handle(SearchGameRequest request, CancellationToken cancellationToken) {
 
+        if (request.Minutes == 0)
+            throw new BadRequestException("Incorrect value.");
+
         var existingGameTiming = await _gameTimingRepository.FindTiming(request.Type, request.Minutes, request.Increment);
 
         Guid timingId;

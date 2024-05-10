@@ -45,7 +45,7 @@ public class RegisterUserRequestHandler : IRequestHandler<RegisterUserRequest> {
             Id = Guid.NewGuid(),
             Email = request.Email.ToLower(),
             Username = request.Username,
-            JoinDate = DateTime.Now,
+            JoinDate = DateTime.UtcNow,
             Elo = 1000,
         };
 
