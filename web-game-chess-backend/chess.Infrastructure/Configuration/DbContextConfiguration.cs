@@ -16,6 +16,7 @@ public class DbContextConfiguration :
     IEntityTypeConfiguration<DataConfiguration>,
     IEntityTypeConfiguration<BannedUser>,
     IEntityTypeConfiguration<Game>,
+    IEntityTypeConfiguration<GameTiming>,
     IEntityTypeConfiguration<Player>
 {
 
@@ -71,6 +72,15 @@ public class DbContextConfiguration :
             .HasOne(x => x.BlackPlayer)
             .WithOne(x => x.BlackGame)
             .HasForeignKey<Game>(x => x.BlackPlayerId);
+        builder
+            .HasOne(x => x.GameTiming)
+            .WithMany()
+            .HasForeignKey(x => x.TimingId);
+    }
+
+    public void Configure(EntityTypeBuilder<GameTiming> builder) {
+        builder
+            .HasKey(x => x.Id);
     }
 
     public void Configure(EntityTypeBuilder<Player> builder) {

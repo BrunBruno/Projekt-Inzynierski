@@ -1,5 +1,4 @@
 ﻿
-
 using chess.Application.Repositories;
 using chess.Core.Entities;
 using chess.Core.Enums;
@@ -22,7 +21,7 @@ public class StartGamesRequestHandler : IRequestHandler<StartGamesRequest> {
 
     public async Task Handle(StartGamesRequest request, CancellationToken cancellationToken) {
 
-        var players = await _playerRepository.GetAllAvailablePlayers();
+        var players = await _playerRepository.GetAllAvailablePlayersForTiming(request.TimingId);
 
         var matchedPlayers = new List<Player>();
         var random = new Random();
@@ -31,8 +30,8 @@ public class StartGamesRequestHandler : IRequestHandler<StartGamesRequest> {
             if (matchedPlayers.Contains(player))
                 continue;
 
-            var closePlayers = players.Where(p => p != player && Math.Abs(p.Elo - player.Elo) <= 200); // 200 ??
-            var closestPlayer = closePlayers.OrderBy(p => Math.Abs(p.Elo - player.Elo)).FirstOrDefault();
+            var possiblePlayers = players.Where(p => p.UserId != player.UserId && Math.Abs(p.Elo - player.Elo) <= 200).Except(matchedPlayers); // 200 ??
+            var closestPlayer = possiblePlayers.OrderBy(pp => Math.Abs(pp.Elo - player.Elo)).FirstOrDefault();
 
             if (closestPlayer is not null) {
                 matchedPlayers.Add(player);
@@ -42,6 +41,7 @@ public class StartGamesRequestHandler : IRequestHandler<StartGamesRequest> {
                 {
                     Id = Guid.NewGuid(),
                     CreatedAt = DateTime.Now,
+                    TimingId = request.TimingId
                 };
 
                 player.IsPlaying = true;

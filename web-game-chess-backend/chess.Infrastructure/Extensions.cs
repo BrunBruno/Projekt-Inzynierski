@@ -82,6 +82,7 @@ public static class Extensions {
         services.AddScoped<IBannedUserRepository, BannedUserRepository>();
         services.AddScoped<IGameRepository, GameRepository>();
         services.AddScoped<IPlayerRepository, PlayerRepository>();
+        services.AddScoped<IGameTimingRepository, GameTimingRepository>();
 
         return services;
     }

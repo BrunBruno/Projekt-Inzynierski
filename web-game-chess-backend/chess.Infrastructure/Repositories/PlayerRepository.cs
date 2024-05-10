@@ -15,9 +15,9 @@ public class PlayerRepository : IPlayerRepository {
     }
 
 
-    public async Task<List<Player>> GetAllAvailablePlayers()
+    public async Task<List<Player>> GetAllAvailablePlayersForTiming(Guid timingId)
         => await _dbContext.Players
-                    .Where(x => x.IsPlaying == false)
+                    .Where(p => (p.IsPlaying == false && p.TimingId == timingId))
                     .ToListAsync();
 
     public async Task<Player?> GetById(Guid id)

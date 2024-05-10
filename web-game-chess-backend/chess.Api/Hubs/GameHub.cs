@@ -14,19 +14,22 @@ public class GameHub : Hub<IGameHub> {
     }
 
     ///<inheritdoc/>
-    public async Task PlayerJoined() {
+    public async Task PlayerJoined(Guid typeId) {
 
-        await Groups.AddToGroupAsync(Context.ConnectionId, "queue");
+        await Groups.AddToGroupAsync(Context.ConnectionId, $"queue-{typeId}");
 
-        var request = new StartGamesRequest();
+        var request = new StartGamesRequest() 
+        { 
+            TimingId = typeId,
+        };
 
         await _mediator.Send(request);
 
-        await Clients.Groups("queue").GamesChanged();
+        await Clients.Groups($"queue-{typeId}").GamesChanged();
     }
 
     ///<inheritdoc/>
-    public async Task PlayerLeaved() {
-        await Groups.RemoveFromGroupAsync(Context.ConnectionId, "queue");
+    public async Task PlayerLeaved(Guid typeId) {
+        await Groups.RemoveFromGroupAsync(Context.ConnectionId, $"queue-{typeId}");
     }
 }

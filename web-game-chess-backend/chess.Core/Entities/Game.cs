@@ -14,4 +14,7 @@ public class Game {
     public Guid BlackPlayerId { get; set; }
     public Player BlackPlayer { get; set; }
 
+    public Guid TimingId { get; set; }
+    public GameTiming GameTiming { get; set; }
+
 }

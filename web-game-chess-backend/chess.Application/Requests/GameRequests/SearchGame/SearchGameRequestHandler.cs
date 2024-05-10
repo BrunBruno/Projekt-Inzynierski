@@ -7,23 +7,51 @@ using MediatR;
 
 namespace chess.Application.Requests.GameRequests.SearchGame;
 
-public class SearchGameRequestHandler : IRequestHandler<SearchGameRequest> {
+public class SearchGameRequestHandler : IRequestHandler<SearchGameRequest, SearchGameDto> {
 
     private readonly IPlayerRepository _playerRepository;
     private readonly IUserContextService _userContextService;
     private readonly IUserRepository _userRepository;
+    private readonly IGameTimingRepository _gameTimingRepository;
 
     public SearchGameRequestHandler(
         IPlayerRepository playerRepository,
         IUserContextService userContextService,
-        IUserRepository userRepository
+        IUserRepository userRepository,
+        IGameTimingRepository gameTimingRepository
     ) { 
         _playerRepository = playerRepository;
         _userContextService = userContextService;
         _userRepository = userRepository;
+        _gameTimingRepository = gameTimingRepository;
     }
 
-    public async Task Handle(SearchGameRequest request, CancellationToken cancellationToken) {
+    public async Task<SearchGameDto> Handle(SearchGameRequest request, CancellationToken cancellationToken) {
+
+        var existingGameTiming = await _gameTimingRepository.FindTiming(request.Type, request.Minutes, request.Increment);
+
+        Guid timingId;
+
+        if (existingGameTiming is null) {
+            var gameTiming = new GameTiming()
+            {
+                Id = Guid.NewGuid(),
+                Type = request.Type,
+                Minutes = request.Minutes,
+                Increment = request.Increment,
+            };
+
+            await _gameTimingRepository.Create(gameTiming);
+
+            timingId = gameTiming.Id;
+
+        } else {
+
+            timingId = existingGameTiming.Id;
+            
+        }
+
+
 
         var userId = _userContextService.GetUserId();
 
@@ -36,8 +64,17 @@ public class SearchGameRequestHandler : IRequestHandler<SearchGameRequest> {
             Name = user.Username,
             Elo = user.Elo,
             UserId = userId,
+            TimingId = timingId,
         };
 
         await _playerRepository.Create(player);
+
+        var timingDto = new SearchGameDto()
+        {
+            TimingId = timingId,
+            PlayerId = player.Id,
+        };
+
+        return timingDto;
     }
 }

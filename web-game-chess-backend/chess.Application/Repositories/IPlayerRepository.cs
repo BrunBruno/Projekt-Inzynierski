@@ -5,7 +5,7 @@ namespace chess.Application.Repositories;
 
 public interface IPlayerRepository {
 
-    Task<List<Player>> GetAllAvailablePlayers();
+    Task<List<Player>> GetAllAvailablePlayersForTiming(Guid timingId);
     Task<Player?> GetById(Guid id);
     Task Create(Player player);
     Task Update(Player player);

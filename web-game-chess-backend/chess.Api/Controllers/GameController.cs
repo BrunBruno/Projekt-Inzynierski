@@ -5,6 +5,8 @@ using chess.Application.Requests.GameRequests.AbortSearch;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using chess.Application.Requests.GameRequests.CheckIfInGame;
+using chess.Application.Requests.GameRequests.GetGame;
 
 namespace chess.Api.Controllers;
 
@@ -25,15 +27,54 @@ public class GameController : ControllerBase {
     /// Creates player
     /// </summary>
     /// <param name="model"></param>
-    /// <returns></returns>
+    /// <returns>{ timingId and playerId }</returns>
     [HttpPost("search-game")]
     [Authorize(Policy = "IsVerified")]
     public async Task<IActionResult> StartSearch([FromBody] SearchGameModel model) {
 
         var request = _mapper.Map<SearchGameRequest>(model);
 
-        await _mediator.Send(request);
-        return Ok();
+        var ids = await _mediator.Send(request);
+
+        return Ok(ids);
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="playerId"></param>
+    /// <returns></returns>
+    [HttpGet("check/{playerId}")]
+    [Authorize(Policy = "IsVerified")]
+    public async Task<IActionResult> CheckIfInGame([FromRoute] Guid playerId) {
+
+        var request = new CheckIfInGameRequest()
+        {
+            PlayerId = playerId,
+        };
+
+        var isInGameDto = await _mediator.Send(request);
+
+        return Ok(isInGameDto);
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="gameId"></param>
+    /// <returns></returns>
+    [HttpGet("{gameId}")]
+    [Authorize(Policy = "IsVerified")]
+    public async Task<IActionResult> GetGame([FromRoute] Guid gameId) {
+
+        var request = new GetGameRequest()
+        {
+            GameId = gameId,
+        };
+
+        var gameDto = await _mediator.Send(request);
+
+        return Ok(gameDto);
     }
 
 
@@ -52,7 +93,9 @@ public class GameController : ControllerBase {
         };
 
         await _mediator.Send(request);
+
         return Ok();
     }
 
+    
 }
