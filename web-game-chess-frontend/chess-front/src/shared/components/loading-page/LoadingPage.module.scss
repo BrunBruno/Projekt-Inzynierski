@@ -8,13 +8,22 @@
   &__inner {
     @include absCenter();
 
-    width: 20%;
+    width: 16%;
     aspect-ratio: 1/1;
     border-radius: 100%;
-    border: solid 2rem $mc8;
-    border-bottom: solid 2rem #0000;
+    border: solid 1em $mc8;
+    border-bottom: solid 1em #0000;
 
-    animation: loading 2s linear infinite;
+    animation: innerLoading 3s linear infinite;
+  }
+
+  @keyframes innerLoading {
+    from {
+      transform: translate(-50%, -50%) rotate(0deg);
+    }
+    to {
+      transform: translate(-50%, -50%) rotate(360deg);
+    }
   }
 
   &__outer {
@@ -23,16 +32,17 @@
     width: 10%;
     aspect-ratio: 1/1;
     border-radius: 100%;
-    border: solid 2rem $mc4;
-    border-top: solid 2rem #0000;
+    border: solid 1em $mc4;
+    border-top: solid 1em #0000;
 
-    animation: loading 1s linear infinite reverse;
+    animation: outerLoading 1s linear infinite reverse;
   }
 
-  @keyframes loading {
+  @keyframes outerLoading {
     from {
       transform: translate(-50%, -50%) rotate(0deg);
     }
+
     to {
       transform: translate(-50%, -50%) rotate(360deg);
     }

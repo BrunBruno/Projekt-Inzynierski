@@ -13,7 +13,10 @@
       height: 100%;
 
       .game-interface {
+        height: 100%;
+        padding: 8rem;
       }
+
       .game-buttons {
         @include flex(column, start, center, 0.6rem);
 

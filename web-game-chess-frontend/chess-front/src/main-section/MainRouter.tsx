@@ -35,7 +35,7 @@ function MainRouter() {
 
         setAuthorize(true);
       } catch (err) {
-        navigate("/");
+        // navigate("/");
       }
     };
 

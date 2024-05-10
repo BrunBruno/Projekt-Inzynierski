@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { gameHubUrl } from "../../../shared/utils/functions/signalROptions";
 import classes from "./GameSection.module.scss";
 import * as signalR from "@microsoft/signalr";
@@ -7,9 +7,12 @@ import {
   baseUrl,
   getAuthorization,
 } from "../../../shared/utils/functions/getAuthorization";
+import VsPlayerSearch from "./game-components/VsPlayerSearch";
 
 function GameSection() {
   const connectionRef = useRef<signalR.HubConnection | null>(null);
+
+  const [interfaceContent, setInterfaceContent] = useState<JSX.Element>(<></>);
 
   const connectionInit = async () => {
     const builder = new signalR.HubConnectionBuilder().withUrl(gameHubUrl, {
@@ -45,13 +48,13 @@ function GameSection() {
     <section className={classes.game}>
       <div className={classes.game__content}>
         <div className={classes.game__content__col}>
-          <div className={classes["game-interface"]}></div>
+          <div className={classes["game-interface"]}>{interfaceContent}</div>
         </div>
         <div className={classes.game__content__col}>
           <div className={classes["game-buttons"]}>
             <button
               onClick={() => {
-                searchGame();
+                setInterfaceContent(<VsPlayerSearch />);
               }}
             >
               Play vs Player

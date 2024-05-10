@@ -1,13 +1,15 @@
-import { useState } from 'react';
-import DetailPawnIconSvg from '../../../shared/svgs/DetailPawnIconSvg';
-import { mainColor } from '../../../shared/utils/enums/colorMaps';
-import classes from './SignSection.module.scss';
-import axios, { AxiosError } from 'axios';
+import { useState } from "react";
+import DetailPawnIconSvg from "../../../shared/svgs/DetailPawnIconSvg";
+import { mainColor } from "../../../shared/utils/enums/colorMaps";
+import classes from "./SignSection.module.scss";
+import axios from "axios";
 import {
   baseUrl,
   getAuthorization,
-} from '../../../shared/utils/functions/getAuthorization';
-import { useNavigate } from 'react-router-dom';
+} from "../../../shared/utils/functions/getAuthorization";
+import { useNavigate } from "react-router-dom";
+import { errorDisplay } from "../../../shared/utils/functions/errorDisplay";
+import LoadingPage from "../../../shared/components/loading-page/LoadingPage";
 
 type VerifySectionProps = {};
 
@@ -15,9 +17,11 @@ function VerifySection({}: VerifySectionProps) {
   const navigate = useNavigate();
 
   // error message content
-  const [errorMess, setErrorMess] = useState<string>('');
+  const [errorMess, setErrorMess] = useState<string>("");
   // code input value
-  const [codeValue, setcodeValue] = useState<string>('');
+  const [codeValue, setcodeValue] = useState<string>("");
+  // state if something is processing
+  const [processing, setProcessing] = useState<boolean>(false);
 
   // api call
   // verify user email
@@ -28,8 +32,8 @@ function VerifySection({}: VerifySectionProps) {
     event.preventDefault();
 
     // check if user signed in
-    if (!localStorage.getItem('logUserTemp')) {
-      setErrorMess('Please sign in first.');
+    if (!localStorage.getItem("logUserTemp")) {
+      setErrorMess("Please sign in first.");
       return;
     }
 
@@ -41,11 +45,13 @@ function VerifySection({}: VerifySectionProps) {
 
     // check if user inserted code
     if (verificationCode.code.length === 0) {
-      setErrorMess('Please enter the code.');
+      setErrorMess("Please enter the code.");
       return;
     }
 
     try {
+      setProcessing(true);
+
       // verify user email
       console.log(verificationCode);
       await axios.put(
@@ -57,24 +63,24 @@ function VerifySection({}: VerifySectionProps) {
       //sign in user after sucessful veryfication
       const response = await axios.post(
         `${baseUrl}/user/sign-in`,
-        JSON.parse(localStorage.getItem('logUserTemp')!)
+        JSON.parse(localStorage.getItem("logUserTemp")!)
       );
 
       // remove user temp
-      localStorage.removeItem('logUserTemp');
+      localStorage.removeItem("logUserTemp");
 
       // set token to local storage
-      localStorage.setItem('token', response.data.token);
+      localStorage.setItem("token", response.data.token);
+
+      setProcessing(false);
 
       // navigae to main page
-      navigate('main/');
+      navigate("/main");
     } catch (err) {
       // display backend erros
-      if (err instanceof AxiosError) {
-        if (err.response && err.response.data) {
-          setErrorMess(err.response.data);
-        }
-      }
+      errorDisplay(err, setErrorMess);
+
+      setProcessing(false);
 
       console.log(err);
     }
@@ -92,11 +98,7 @@ function VerifySection({}: VerifySectionProps) {
       );
     } catch (err) {
       // display backend erros
-      if (err instanceof AxiosError) {
-        if (err.response && err.response.data) {
-          setErrorMess(err.response.data);
-        }
-      }
+      errorDisplay(err, setErrorMess);
 
       console.log(err);
     }
@@ -112,17 +114,21 @@ function VerifySection({}: VerifySectionProps) {
     }
   };
 
+  if (processing) {
+    return <LoadingPage />;
+  }
+
   return (
     <form
-      className={classes['registration-form']}
+      className={classes["registration-form"]}
       onSubmit={(event) => verifyUser(event)}
     >
       {/* bg */}
-      <DetailPawnIconSvg color={mainColor.c0} iconClass={classes['bg-svg']} />
+      <DetailPawnIconSvg color={mainColor.c0} iconClass={classes["bg-svg"]} />
 
       {/* header */}
       <h2>Verify Email Adress</h2>
-      <p className={classes['verify-text']}>
+      <p className={classes["verify-text"]}>
         We sent you verification code to your email. Please enter the code to
         verify your accout.
       </p>
@@ -137,7 +143,7 @@ function VerifySection({}: VerifySectionProps) {
           placeholder="000000"
           autoComplete="off"
           value={codeValue}
-          className={classes['verify-input']}
+          className={classes["verify-input"]}
           onChange={(event) => {
             handleCodeInputChange(event);
           }}
@@ -159,7 +165,7 @@ function VerifySection({}: VerifySectionProps) {
       </div>
 
       {/* button */}
-      <button type="submit" className={classes['registration-button']}>
+      <button type="submit" className={classes["registration-button"]}>
         <span>Verify</span>
       </button>
     </form>

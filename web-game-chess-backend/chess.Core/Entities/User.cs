@@ -34,6 +34,11 @@ public class User {
     public string PasswordHash { get; set; }
 
     /// <summary>
+    /// Day on which user joied
+    /// </summary>
+    public DateTime JoinDate { get; set; }
+
+    /// <summary>
     /// Url with user image.
     /// </summary>
     public string? ImageUrl { get; set; }
@@ -43,6 +48,9 @@ public class User {
     /// </summary>
     public bool IsVerified { get; set; } = false;
 
+    /// <summary>
+    /// Score of user
+    /// </summary>
     public int Elo { get; set; }
 
     /// <summary>

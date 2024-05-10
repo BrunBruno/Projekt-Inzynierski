@@ -1,6 +1,8 @@
-import classes from './LoadingPage.module.scss';
+import classes from "./LoadingPage.module.scss";
 
-function LoadingPage() {
+type LoadingPageProps = {};
+
+function LoadingPage({}: LoadingPageProps) {
   return (
     <div className={classes.loading}>
       <div className={classes.loading__inner} />

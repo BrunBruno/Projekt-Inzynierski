@@ -1,14 +1,16 @@
-import { useRef, useState } from 'react';
-import DetailPawnIconSvg from '../../../shared/svgs/DetailPawnIconSvg';
-import { mainColor } from '../../../shared/utils/enums/colorMaps';
-import { registrationActionEnum } from '../../../shared/utils/enums/registrationAction';
-import classes from './SignSection.module.scss';
-import axios, { AxiosError } from 'axios';
+import { useRef, useState } from "react";
+import DetailPawnIconSvg from "../../../shared/svgs/DetailPawnIconSvg";
+import { mainColor } from "../../../shared/utils/enums/colorMaps";
+import { registrationActionEnum } from "../../../shared/utils/enums/registrationAction";
+import classes from "./SignSection.module.scss";
+import axios, { AxiosError } from "axios";
 import {
   baseUrl,
   getAuthorization,
-} from '../../../shared/utils/functions/getAuthorization';
-import { useNavigate } from 'react-router-dom';
+} from "../../../shared/utils/functions/getAuthorization";
+import { useNavigate } from "react-router-dom";
+import LoadingPage from "../../../shared/components/loading-page/LoadingPage";
+import { errorDisplay } from "../../../shared/utils/functions/errorDisplay";
 
 type SignInSectionProps = {
   // change displayed modal
@@ -23,7 +25,10 @@ function SignInSection({ setModal }: SignInSectionProps) {
   const passwordInputRef = useRef<HTMLInputElement>(null);
 
   // error message content
-  const [errorMess, setErrorMess] = useState<string>('');
+  const [errorMess, setErrorMess] = useState<string>("");
+
+  // state if something is processing
+  const [processing, setProcessing] = useState<boolean>(false);
 
   // api call
   // sign in user
@@ -35,7 +40,7 @@ function SignInSection({ setModal }: SignInSectionProps) {
     event.preventDefault();
 
     if (!emailInputRef.current || !passwordInputRef.current) {
-      setErrorMess('Something went wrong.');
+      setErrorMess("Something went wrong.");
       return;
     }
 
@@ -50,18 +55,20 @@ function SignInSection({ setModal }: SignInSectionProps) {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(userData.email)) {
       emailInputRef.current.classList.add(classes.err);
-      setErrorMess('Email is not valid.');
+      setErrorMess("Email is not valid.");
       return;
     }
 
     // check for empty password
     if (userData.password.length === 0) {
       passwordInputRef.current.classList.add(classes.err);
-      setErrorMess('Password can not be empty.');
+      setErrorMess("Password can not be empty.");
       return;
     }
 
     try {
+      setProcessing(true);
+
       // Log in user
       const signInResponse = await axios.post(
         `${baseUrl}/user/sign-in`,
@@ -69,7 +76,7 @@ function SignInSection({ setModal }: SignInSectionProps) {
       );
 
       // set token
-      localStorage.setItem('token', signInResponse.data.token);
+      localStorage.setItem("token", signInResponse.data.token);
 
       // users email verification check
       const isVerifiedResponse = await axios.get(
@@ -77,7 +84,7 @@ function SignInSection({ setModal }: SignInSectionProps) {
         getAuthorization()
       );
 
-      console.log(isVerifiedResponse);
+      setProcessing(false);
 
       // check if user email is verified
       const isVerified = isVerifiedResponse.data.isEmailVerified;
@@ -86,16 +93,13 @@ function SignInSection({ setModal }: SignInSectionProps) {
         setModal(registrationActionEnum.verify);
       } else {
         // navigate to main page
-        navigate('/main');
+        navigate("/main");
       }
     } catch (err) {
       // display backend erros
-      if (err instanceof AxiosError) {
-        if (err.response && err.response.data) {
-          setErrorMess(err.response.data);
-        }
-      }
+      errorDisplay(err, setErrorMess);
 
+      setProcessing(false);
       console.log(err);
     }
   };
@@ -109,18 +113,22 @@ function SignInSection({ setModal }: SignInSectionProps) {
     }
   };
 
+  if (processing) {
+    return <LoadingPage />;
+  }
+
   return (
     <form
-      className={classes['registration-form']}
+      className={classes["registration-form"]}
       onSubmit={(event) => signInUser(event)}
     >
       {/* bg */}
-      <DetailPawnIconSvg color={mainColor.c0} iconClass={classes['bg-svg']} />
+      <DetailPawnIconSvg color={mainColor.c0} iconClass={classes["bg-svg"]} />
 
       {/* header */}
       <h2>Login Now</h2>
-      <div className={classes['change-form']}>
-        Don't have an accout?{' '}
+      <div className={classes["change-form"]}>
+        Don't have an accout?{" "}
         <span onClick={() => setModal(registrationActionEnum.signUp)}>
           Sing Up
         </span>
@@ -128,7 +136,7 @@ function SignInSection({ setModal }: SignInSectionProps) {
 
       {/* inpus */}
       <div
-        className={classes['form-row']}
+        className={classes["form-row"]}
         onClick={() => {
           focusOnClick(emailInputRef);
         }}
@@ -139,12 +147,12 @@ function SignInSection({ setModal }: SignInSectionProps) {
           type="text"
           placeholder="E-mail"
           autoComplete="off"
-          className={classes['form-input']}
+          className={classes["form-input"]}
         />
       </div>
 
       <div
-        className={classes['form-row']}
+        className={classes["form-row"]}
         onClick={() => {
           focusOnClick(passwordInputRef);
         }}
@@ -155,7 +163,7 @@ function SignInSection({ setModal }: SignInSectionProps) {
           type="password"
           placeholder="Passworrd"
           autoComplete="off"
-          className={classes['form-input']}
+          className={classes["form-input"]}
         />
       </div>
       {/* end inputs */}
@@ -166,7 +174,7 @@ function SignInSection({ setModal }: SignInSectionProps) {
       </div>
 
       {/* button */}
-      <button type="submit" className={classes['registration-button']}>
+      <button type="submit" className={classes["registration-button"]}>
         <span>Sign In</span>
       </button>
     </form>
