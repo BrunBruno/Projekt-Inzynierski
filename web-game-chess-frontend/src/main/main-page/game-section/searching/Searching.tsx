@@ -1,10 +1,29 @@
 import { useEffect, useState } from "react";
 import classes from "./Searching.module.scss";
 import SearchingPawn from "./SearchingPawn";
+import axios from "axios";
+import {
+    gameControllerPaths,
+    getAuthorization,
+} from "../../../../shared/utils/functions/apiFunctions";
+import { SearchGameDto } from "../../../../shared/utils/types/gameDtos";
+import { gameSearchInterface } from "../../../../shared/utils/enums/gameSeachEnum";
 
 const numOfPawns = 8;
 
-function Searching() {
+type SearchingProps = {
+    connection: signalR.HubConnection | null;
+    setInterfaceById: (interfaceId: number) => void;
+    searchIds: SearchGameDto | null;
+    setSearchIds: React.Dispatch<React.SetStateAction<SearchGameDto | null>>;
+};
+
+function Searching({
+    connection,
+    setInterfaceById,
+    searchIds,
+    setSearchIds,
+}: SearchingProps) {
     const [activeIndex, setActiveIndex] = useState<number>(0);
     const [pause, setPause] = useState<boolean>(false);
 
@@ -40,6 +59,34 @@ function Searching() {
         };
     }, []);
 
+    useEffect(() => {
+        return () => {
+            // add here onCancelSearch when not strick mode
+            // onCancelSearch();
+        };
+    }, []);
+
+    const onCancelSearch = async () => {
+        if (!searchIds || !connection) {
+            return;
+        }
+
+        try {
+            await axios.delete(
+                gameControllerPaths.abortSearch(searchIds.playerId),
+                getAuthorization()
+            );
+
+            connection.invoke("PlayerLeaved", searchIds.timingId);
+
+            setSearchIds(null);
+
+            setInterfaceById(gameSearchInterface.vsPlayer);
+        } catch (err) {
+            console.log(err);
+        }
+    };
+
     return (
         <div className={classes.searching}>
             <div className={classes.searching__content}>
@@ -54,6 +101,14 @@ function Searching() {
                         />
                     ))}
                 </div>
+                <button
+                    className={classes.cancel}
+                    onClick={() => {
+                        onCancelSearch();
+                    }}
+                >
+                    Cancel
+                </button>
             </div>
         </div>
     );

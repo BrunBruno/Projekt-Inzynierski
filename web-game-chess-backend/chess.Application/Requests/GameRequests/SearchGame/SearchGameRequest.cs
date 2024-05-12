@@ -8,7 +8,19 @@ namespace chess.Application.Requests.GameRequests.SearchGame;
 ///
 /// </summary>
 public class SearchGameRequest : IRequest<SearchGameDto> {
+
+    /// <summary>
+    /// 
+    /// </summary>
     public TimingTypes Type { get; set; }
+
+    /// <summary>
+    /// 
+    /// </summary>
     public int Minutes {  get; set; }
+
+    /// <summary>
+    /// 
+    /// </summary>
     public int Increment {  get; set; }
 }

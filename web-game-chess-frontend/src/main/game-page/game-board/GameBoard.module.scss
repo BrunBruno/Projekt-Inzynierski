@@ -1,0 +1,33 @@
+@import "../../Main.scss";
+
+.board {
+    @include square(64rem);
+
+    &__grid {
+        @include wh100();
+
+        display: grid;
+        grid-template-columns: repeat(8, 1fr) 0;
+        grid-template-rows: repeat(8, 1fr);
+
+        .field {
+            @include flex();
+
+            &:nth-child(odd) {
+                background-color: $mc0;
+            }
+            &:nth-child(even) {
+                background-color: $mc9;
+            }
+
+            img {
+                height: calc((64rem / 8) * 0.9);
+                filter: drop-shadow(0 0 1rem #000);
+            }
+        }
+
+        .placeholder {
+            width: 0;
+        }
+    }
+}

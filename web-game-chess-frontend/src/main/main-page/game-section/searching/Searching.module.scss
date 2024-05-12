@@ -35,5 +35,10 @@
                 }
             }
         }
+
+        button.cancel {
+            @include button();
+            @include mainMButton();
+        }
     }
 }

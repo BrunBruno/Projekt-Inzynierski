@@ -17,7 +17,7 @@ public class EmailVerificationCodeRepository : IEmailVerificationCodeRepository 
     ///<inheritdoc/>
     public async Task<EmailVerificationCode?> GetByUserId(Guid userId)
         => await _dbContext.EmailVerificationCodes
-            .FirstOrDefaultAsync(x => x.UserId == userId);
+                    .FirstOrDefaultAsync(c => c.UserId == userId);
 
     ///<inheritdoc/>
     public async Task Add(EmailVerificationCode code) {
@@ -28,7 +28,7 @@ public class EmailVerificationCodeRepository : IEmailVerificationCodeRepository 
     ///<inheritdoc/>
     public async Task RemoveByUserId(Guid userId) {
         var code = await GetByUserId(userId)
-            ?? throw new NotFoundException("Code was not found.");
+            ?? throw new NotFoundException("Code not found.");
 
         _dbContext.EmailVerificationCodes.Remove(code);
         await _dbContext.SaveChangesAsync();

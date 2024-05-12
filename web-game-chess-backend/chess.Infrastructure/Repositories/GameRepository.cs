@@ -14,6 +14,7 @@ public class GameRepository : IGameRepository {
         _dbContext = dbContext;
     }
 
+    ///<inheritdoc/>
     public async Task<Game?> GetGameForPlayer(Guid playerId)
         => await _dbContext.Games
                     .Include(g => g.GameTiming)
@@ -21,10 +22,15 @@ public class GameRepository : IGameRepository {
                     .Include(g => g.BlackPlayer)
                     .FirstOrDefaultAsync(g => g.WhitePlayerId == playerId || g.BlackPlayerId == playerId);
 
+    ///<inheritdoc/>
     public async Task<Game?> GetById(Guid id)
         => await _dbContext.Games
+                    .Include(g => g.GameTiming)
+                    .Include(g => g.WhitePlayer)
+                    .Include(g => g.BlackPlayer)
                     .FirstOrDefaultAsync(g => g.Id == id);
 
+    ///<inheritdoc/>
     public async Task Create(Game game) {
         await _dbContext.Games.AddAsync(game);
         await _dbContext.SaveChangesAsync();

@@ -14,30 +14,33 @@ public class PlayerRepository : IPlayerRepository {
         _dbContext = dbContext;
     }
 
-
+    ///<inheritdoc/>
     public async Task<List<Player>> GetAllAvailablePlayersForTiming(Guid timingId)
         => await _dbContext.Players
-                    .Where(p => (p.IsPlaying == false && p.TimingId == timingId))
+                    .Where(p => p.IsPlaying == false && p.TimingId == timingId)
+                    .OrderByDescending(p => p.CreatedAt)
                     .ToListAsync();
 
+    ///<inheritdoc/>
     public async Task<Player?> GetById(Guid id)
         => await _dbContext.Players
                     .FirstOrDefaultAsync(p => p.Id == id);
 
+    ///<inheritdoc/>
     public async Task Create(Player player) {
         await _dbContext.Players.AddAsync(player);
         await _dbContext.SaveChangesAsync();
     }
 
+    ///<inheritdoc/>
     public async Task Update(Player player) {
         _dbContext.Players.Update(player);
         await _dbContext.SaveChangesAsync();
     }
 
+    ///<inheritdoc/>
     public async Task Delete(Player player) {
         _dbContext.Players.Remove(player);
         await _dbContext.SaveChangesAsync();
     }
-
-  
 }

@@ -1,0 +1,9 @@
+@import "../Main.scss";
+
+.game-main {
+    @include flex(row, space-between, center, 0);
+
+    position: relative;
+    height: 100vh;
+    height: 100svh;
+}

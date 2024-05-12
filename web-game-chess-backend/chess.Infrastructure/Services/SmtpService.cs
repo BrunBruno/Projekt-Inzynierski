@@ -19,8 +19,8 @@ public class SmtpService : ISmtpService {
     ///<inheritdoc/>
     public async Task SendVerificationCode(string email, string recipientName, string code) {
 
-        string fromMail = _smtpOptions.FromMail;
-        string fromPassword = _smtpOptions.FromPassword;
+        string fromMail = _smtpOptions.FromMail!;
+        string fromPassword = _smtpOptions.FromPassword!;
 
         string subject = "Hello " + recipientName;
 
@@ -33,7 +33,7 @@ public class SmtpService : ISmtpService {
 
         mailMessage.To.Add(new MailAddress(email));
 
-        mailMessage.AlternateViews.Add(GetMailBody("../public/logo.png", string.Format(_smtpOptions.Body, code)));
+        mailMessage.AlternateViews.Add(GetMailBody("../public/logo.png", string.Format(_smtpOptions.Body!, code)));
 
         using (var smtpClient = new SmtpClient(_smtpOptions.Host, _smtpOptions.Port)) {
 

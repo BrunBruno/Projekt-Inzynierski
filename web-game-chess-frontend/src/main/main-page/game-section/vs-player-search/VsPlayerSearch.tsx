@@ -5,45 +5,17 @@ import {
     getAuthorization,
 } from "../../../../shared/utils/functions/apiFunctions";
 import { timingTypes } from "../../../../shared/utils/enums/gameTimingEnum";
-import { useEffect, useRef, useState } from "react";
-import * as signalR from "@microsoft/signalr";
-import { gameHubUrl } from "../../../../shared/utils/functions/signalRFunctions";
 import { defaultTimeControls } from "./VsPlayerSearchObjects";
 import { SearchGameDto } from "../../../../shared/utils/types/gameDtos";
 import VsPlayerSearchIcons from "./VsPlayerSearchIcons";
-import Searching from "../searching/Searching";
 
 type VsPlayerSearchProps = {
-    setInterfaceContent: React.Dispatch<React.SetStateAction<JSX.Element>>;
+    connection: signalR.HubConnection | null;
+    setSearchIds: React.Dispatch<React.SetStateAction<SearchGameDto | null>>;
 };
 
-function VsPlayerSearch({ setInterfaceContent }: VsPlayerSearchProps) {
-    const connectionRef = useRef<signalR.HubConnection | null>(null);
-
-    const [searchIds, setSearchIds] = useState<SearchGameDto | null>(null);
-
-    const [] = useState();
-
-    const connectionInit = async () => {
-        const builder = new signalR.HubConnectionBuilder().withUrl(gameHubUrl, {
-            skipNegotiation: true,
-            transport: signalR.HttpTransportType.WebSockets,
-        });
-
-        const connection = builder.build();
-
-        connectionRef.current = connection;
-
-        await connection.start();
-    };
-
-    useEffect(() => {
-        connectionInit();
-    }, []);
-
+function VsPlayerSearch({ connection, setSearchIds }: VsPlayerSearchProps) {
     const onSearchForGame = async (header: string, values: number[]) => {
-        setInterfaceContent(<Searching />);
-
         const typeValue = timingTypes[header];
 
         const gameType = {
@@ -61,8 +33,8 @@ function VsPlayerSearch({ setInterfaceContent }: VsPlayerSearchProps) {
 
             setSearchIds(searchGameResponse.data);
 
-            if (connectionRef.current) {
-                connectionRef.current.invoke(
+            if (connection) {
+                connection.invoke(
                     "PlayerJoined",
                     searchGameResponse.data.timingId
                 );
