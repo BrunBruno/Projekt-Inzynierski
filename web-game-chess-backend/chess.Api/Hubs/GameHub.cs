@@ -1,7 +1,9 @@
 ﻿using chess.Application.Hubs;
+using chess.Application.Requests.GameRequests.MakeMove;
 using chess.Application.Requests.GameRequests.StartGames;
 using MediatR;
 using Microsoft.AspNetCore.SignalR;
+using System;
 
 namespace chess.Api.Hubs;
 
@@ -31,5 +33,25 @@ public class GameHub : Hub<IGameHub> {
     ///<inheritdoc/>
     public async Task PlayerLeaved(Guid typeId) {
         await Groups.RemoveFromGroupAsync(Context.ConnectionId, $"queue-{typeId}");
+    }
+
+    ///<inheritdoc/>
+    public async Task GameStarted(Guid gameId) {
+        await Groups.AddToGroupAsync(Context.ConnectionId, $"game-{gameId}");
+    }
+
+    ///<inheritdoc/>
+    public async Task MakeMove(Guid gameId, string position) {
+
+        var request = new MakeMoveRequest()
+        {
+            GameId = gameId,
+            Position = position,
+        };
+
+        await _mediator.Send(request);
+
+
+        await Clients.Groups($"game-{gameId}").GameChanged();
     }
 }

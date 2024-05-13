@@ -76,15 +76,11 @@ function GameSection() {
 
     useEffect(() => {
         const handleGamesChanged = async () => {
-            console.log("GamesChanged");
-
             if (searchIds !== null) {
                 const isInGameResponse = await axios.get<CheckIfInGameDto>(
                     gameControllerPaths.checkIfInGame(searchIds.playerId),
                     getAuthorization()
                 );
-
-                console.log(isInGameResponse.data);
 
                 if (isInGameResponse.data.isInGame) {
                     navigate(`game/${isInGameResponse.data.gameId}`);

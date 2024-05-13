@@ -10,14 +10,14 @@ export type CheckIfInGameDto = {
 
 export type GetGameDto = {
     position: string;
+    turn: number;
     createdAt: Date;
     duration: number;
     increment: number;
-    whitePlayer: GetGamePlayerDto;
-    blackPlayer: GetGamePlayerDto;
 };
 
-export type GetGamePlayerDto = {
+export type GetPlayerDto = {
     name: string;
     elo: number;
+    color: number | null;
 };

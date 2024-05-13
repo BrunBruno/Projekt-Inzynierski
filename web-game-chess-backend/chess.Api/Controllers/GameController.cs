@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using chess.Application.Requests.GameRequests.CheckIfInGame;
 using chess.Application.Requests.GameRequests.GetGame;
+using chess.Application.Requests.GameRequests.GetPlayer;
 
 namespace chess.Api.Controllers;
 
@@ -28,7 +29,7 @@ public class GameController : ControllerBase {
     /// </summary>
     /// <param name="model"></param>
     /// <returns>{ timingId and playerId }</returns>
-    [HttpPost("search-game")]
+    [HttpPost("search")]
     [Authorize(Policy = "IsVerified")]
     public async Task<IActionResult> StartSearch([FromBody] SearchGameModel model) {
 
@@ -77,13 +78,31 @@ public class GameController : ControllerBase {
         return Ok(gameDto);
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="gameId"></param>
+    /// <returns></returns>
+    [HttpGet("{gameId}/player")]
+    [Authorize(Policy = "IsVerified")]
+    public async Task<IActionResult> GetPlayer([FromRoute] Guid gameId) {
+
+        var request = new GetPlayerRequest()
+        {
+            GameId = gameId,
+        };
+
+        var playerDto = await _mediator.Send(request);
+
+        return Ok(playerDto);
+    }
 
     /// <summary>
     /// Removes player
     /// </summary>
     /// <param name="playerId"></param>
     /// <returns></returns>
-    [HttpDelete("abort-search/{playerId}")]
+    [HttpDelete("abort/{playerId}")]
     [Authorize(Policy = "IsVerified")]
     public async Task<IActionResult> AbortSearch([FromRoute] Guid playerId) {
 

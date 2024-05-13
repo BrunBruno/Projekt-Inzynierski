@@ -21,21 +21,10 @@ public class GetGameRequestHandler : IRequestHandler<GetGameRequest, GetGameDto>
         var gameDto = new GetGameDto()
         {
             Position = game.Position,
+            Turn = game.Turn,
             CreatedAt = game.CreatedAt,
             Duration = game.GameTiming.Minutes,
             Increment = game.GameTiming.Increment,
-
-            WhitePlayer = new GetGamePlayerDto()
-            {
-                Name = game.WhitePlayer.Name,
-                Elo = game.WhitePlayer.Elo,
-            },
-
-            BlackPlayer = new GetGamePlayerDto()
-            {
-                Name = game.BlackPlayer.Name,
-                Elo = game.BlackPlayer.Elo,
-            },
         };
 
         return gameDto;

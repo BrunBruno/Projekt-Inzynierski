@@ -40,7 +40,6 @@ public class StartGamesRequestHandler : IRequestHandler<StartGamesRequest> {
                 var game = new Game()
                 {
                     Id = Guid.NewGuid(),
-                    CreatedAt = DateTime.UtcNow,
                     GameTimingId = request.TimingId
                 };
 

@@ -24,17 +24,17 @@ public class Player {
     /// <summary>
     /// 
     /// </summary>
-    public Colors? Color { get; set; }
+    public Colors? Color { get; set; } = null;
 
     /// <summary>
     /// 
     /// </summary>
-    public bool IsPlaying { get; set; }
+    public bool IsPlaying { get; set; } = false;
 
     /// <summary>
     /// 
     /// </summary>
-    public DateTime CreatedAt { get; set; }
+    public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 
     /// <summary>
     /// 

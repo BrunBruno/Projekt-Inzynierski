@@ -18,6 +18,14 @@ public interface IPlayerRepository {
     /// <summary>
     /// 
     /// </summary>
+    /// <param name="userId"></param>
+    /// <param name="gameId"></param>
+    /// <returns></returns>
+    Task<Player?> GetByUserIdandGameId(Guid userId, Guid gameId);
+
+    /// <summary>
+    /// 
+    /// </summary>
     /// <param name="id"></param>
     /// <returns></returns>
     Task<Player?> GetById(Guid id);

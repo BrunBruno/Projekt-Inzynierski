@@ -36,7 +36,7 @@ public class User {
     /// <summary>
     /// Day on which user joied
     /// </summary>
-    public DateTime JoinDate { get; set; }
+    public DateTime JoinDate { get; set; } = DateTime.UtcNow;
 
     /// <summary>
     /// Url with user image.
@@ -51,7 +51,7 @@ public class User {
     /// <summary>
     /// Score of user
     /// </summary>
-    public int Elo { get; set; }
+    public int Elo { get; set; } = 1000;
 
     /// <summary>
     /// Role id

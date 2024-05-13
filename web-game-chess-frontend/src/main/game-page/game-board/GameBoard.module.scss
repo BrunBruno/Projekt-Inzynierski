@@ -2,32 +2,146 @@
 
 .board {
     @include square(64rem);
+    @include rounded(2rem);
+
+    position: relative;
+    background-color: #000;
+
+    @mixin filesIndicators() {
+        position: absolute;
+        display: grid;
+        background-color: #000;
+
+        div {
+            @include flex();
+
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+    }
+
+    .white-indicators {
+        transform: rotate(0deg);
+        div {
+            transform: rotate(0deg);
+        }
+    }
+    .black-indicators {
+        transform: rotate(180deg);
+        div {
+            transform: rotate(180deg);
+        }
+    }
+
+    &__rows {
+        @include filesIndicators();
+
+        top: 2rem;
+        left: 0;
+        width: 2rem;
+        height: calc(100% - 2 * 2rem);
+        grid-template-rows: repeat(8, 1fr);
+    }
+
+    &__columns {
+        @include filesIndicators();
+
+        bottom: 0;
+        left: 2rem;
+        width: calc(100% - 2 * 2rem);
+        height: 2rem;
+        grid-template-columns: repeat(8, 1fr);
+    }
 
     &__grid {
         @include wh100();
 
+        aspect-ratio: 1/1;
         display: grid;
         grid-template-columns: repeat(8, 1fr) 0;
         grid-template-rows: repeat(8, 1fr);
+        border-radius: 1rem;
+        overflow: hidden;
+
+        background-image: url("/icons/wood.png");
+        background-size: 12.5% 12.5%;
 
         .field {
             @include flex();
 
+            aspect-ratio: 1/1;
+
             &:nth-child(odd) {
-                background-color: $mc0;
+                background-color: rgba($mc0, 0.96);
             }
             &:nth-child(even) {
-                background-color: $mc9;
+                background-color: rgba($mc9, 0.96);
             }
 
-            img {
-                height: calc((64rem / 8) * 0.9);
-                filter: drop-shadow(0 0 1rem #000);
+            .piece {
+                @include square(100%);
+                @include flex();
+
+                transform-style: preserve-3d;
+                user-select: none;
+
+                img {
+                    height: calc(((64rem - 2rem) / 8) * 0.8);
+                    transform: translateZ(-1px);
+                    filter: drop-shadow(0 0 1rem #000);
+                }
+            }
+
+            p {
+                position: absolute;
+                @include circle(2rem);
+            }
+        }
+
+        .tip {
+            background-image: radial-gradient(
+                circle at 50% 50%,
+                rgba(#000, 0.5) 30%,
+                #0000 40%
+            );
+
+            &:not(.selected-piece) {
+                &:has(.piece) {
+                    background-image: radial-gradient(
+                        circle at 50% 50%,
+                        rgba($danger-color-m, 0.5) 30%,
+                        #0000 40%
+                    );
+                }
+            }
+        }
+
+        .selected-piece {
+            .piece {
+                img {
+                    filter: drop-shadow(0 0 1rem #000) brightness(60%);
+                }
             }
         }
 
         .placeholder {
             width: 0;
+        }
+    }
+
+    .white-board {
+        transform: rotate(0deg);
+
+        .field {
+            transform: rotate(0deg);
+        }
+    }
+
+    .black-board {
+        transform: rotate(180deg);
+
+        .field {
+            transform: rotate(180deg);
         }
     }
 }

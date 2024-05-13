@@ -2,6 +2,7 @@
 using chess.Core.Enums;
 
 namespace chess.Core.Entities;
+#pragma warning disable CS8618
 
 public class GameTiming {
 

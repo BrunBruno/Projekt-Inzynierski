@@ -1,6 +1,7 @@
 @import "../Main.scss";
 
 .game-main {
+    @include gridBg();
     @include flex(row, space-between, center, 0);
 
     position: relative;

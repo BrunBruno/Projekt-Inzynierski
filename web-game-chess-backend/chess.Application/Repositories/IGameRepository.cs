@@ -28,4 +28,11 @@ public interface IGameRepository {
     /// <param name="game"></param>
     /// <returns></returns>
     Task Create(Game game);
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="game"></param>
+    /// <returns></returns>
+    Task Update(Game game);
 }

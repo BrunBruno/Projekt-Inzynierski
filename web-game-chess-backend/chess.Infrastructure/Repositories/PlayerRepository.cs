@@ -22,6 +22,11 @@ public class PlayerRepository : IPlayerRepository {
                     .ToListAsync();
 
     ///<inheritdoc/>
+    public async Task<Player?> GetByUserIdandGameId(Guid userId, Guid gameId) 
+        => await _dbContext.Players
+                    .FirstOrDefaultAsync(p => p.UserId == userId && p.GameId == gameId);
+
+    ///<inheritdoc/>
     public async Task<Player?> GetById(Guid id)
         => await _dbContext.Players
                     .FirstOrDefaultAsync(p => p.Id == id);
@@ -43,4 +48,6 @@ public class PlayerRepository : IPlayerRepository {
         _dbContext.Players.Remove(player);
         await _dbContext.SaveChangesAsync();
     }
+
+
 }

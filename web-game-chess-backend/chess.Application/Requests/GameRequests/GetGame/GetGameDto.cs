@@ -15,6 +15,11 @@ public class GetGameDto {
     /// <summary>
     /// 
     /// </summary>
+    public int Turn { get; set; }
+
+    /// <summary>
+    /// 
+    /// </summary>
     public DateTime CreatedAt { get; set; }
 
     /// <summary>
@@ -27,29 +32,5 @@ public class GetGameDto {
     /// </summary>
     public int Increment { get; set; }
 
-    /// <summary>
-    /// 
-    /// </summary>
-    public GetGamePlayerDto WhitePlayer { get; set; }
-
-    /// <summary>
-    /// 
-    /// </summary>
-    public GetGamePlayerDto BlackPlayer { get; set; }
 }
 
-/// <summary>
-/// 
-/// </summary>
-public class GetGamePlayerDto {
-
-    /// <summary>
-    /// 
-    /// </summary>
-    public string Name { get; set; }
-
-    /// <summary>
-    /// 
-    /// </summary>
-    public int Elo { get; set; }
-}
