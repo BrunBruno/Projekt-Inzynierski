@@ -83,6 +83,7 @@ public static class Extensions {
         services.AddScoped<IGameRepository, GameRepository>();
         services.AddScoped<IPlayerRepository, PlayerRepository>();
         services.AddScoped<IGameTimingRepository, GameTimingRepository>();
+        services.AddScoped<IMoveRepository, MoveRepository>();
 
         return services;
     }

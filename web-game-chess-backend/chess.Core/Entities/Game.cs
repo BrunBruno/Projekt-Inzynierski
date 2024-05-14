@@ -18,4 +18,6 @@ public class Game {
     public Guid GameTimingId { get; set; }
     public GameTiming GameTiming { get; set; }
 
+    public List<Move> Moves { get; set; }
+
 }
