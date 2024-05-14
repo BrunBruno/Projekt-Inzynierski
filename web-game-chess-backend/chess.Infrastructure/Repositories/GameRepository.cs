@@ -22,9 +22,9 @@ public class GameRepository : IGameRepository {
     ///<inheritdoc/>
     public async Task<Game?> GetById(Guid id)
         => await _dbContext.Games
-                    .Include(g => g.GameTiming)
                     .Include(g => g.WhitePlayer)
                     .Include(g => g.BlackPlayer)
+                    .Include(g => g.GameTiming)
                     .FirstOrDefaultAsync(g => g.Id == id);
 
     ///<inheritdoc/>

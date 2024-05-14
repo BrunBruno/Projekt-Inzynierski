@@ -1,5 +1,6 @@
 ﻿
 namespace chess.Core.Entities;
+#pragma warning disable CS8618
 
 public class Move {
     public Guid Id { get; set; }

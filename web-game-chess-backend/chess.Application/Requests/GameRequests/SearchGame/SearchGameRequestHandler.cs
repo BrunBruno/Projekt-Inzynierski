@@ -66,6 +66,7 @@ public class SearchGameRequestHandler : IRequestHandler<SearchGameRequest, Searc
             Id = Guid.NewGuid(),
             Name = user.Username,
             Elo = user.Elo,
+            TimeLeft = request.Minutes,
             UserId = userId,
             TimingId = timingId,
         };

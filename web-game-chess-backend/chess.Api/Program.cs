@@ -18,8 +18,12 @@ builder.Services.AddCustomAuthorization();
 builder.Services.AddMappingProfiles();
 
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
 builder.Services.AddSignalR();
+
+builder.Services.AddSwaggerGen(options => {
+    options.AddSignalRSwaggerGen();
+});
+
 
 
 

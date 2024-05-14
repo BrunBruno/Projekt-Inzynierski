@@ -8,13 +8,14 @@ import { timingTypes } from "../../../../shared/utils/enums/gameTimingEnum";
 import { defaultTimeControls } from "./VsPlayerSearchObjects";
 import { SearchGameDto } from "../../../../shared/utils/types/gameDtos";
 import VsPlayerSearchIcons from "./VsPlayerSearchIcons";
+import GameHubService from "../../../../shared/utils/services/GameHubService";
 
 type VsPlayerSearchProps = {
-    connection: signalR.HubConnection | null;
     setSearchIds: React.Dispatch<React.SetStateAction<SearchGameDto | null>>;
 };
 
-function VsPlayerSearch({ connection, setSearchIds }: VsPlayerSearchProps) {
+function VsPlayerSearch({ setSearchIds }: VsPlayerSearchProps) {
+    // API call search for game
     const onSearchForGame = async (header: string, values: number[]) => {
         const typeValue = timingTypes[header];
 
@@ -33,17 +34,13 @@ function VsPlayerSearch({ connection, setSearchIds }: VsPlayerSearchProps) {
 
             setSearchIds(searchGameResponse.data);
 
-            if (connection) {
-                connection.invoke(
-                    "PlayerJoined",
-                    searchGameResponse.data.timingId
-                );
-            }
+            GameHubService.PlayerJoined(searchGameResponse.data.timingId);
         } catch (err) {
             console.log(err);
         }
     };
 
+    // display time controlls buttons
     const transformTag = (tag: string): JSX.Element => {
         const transformedTag: JSX.Element[] = [];
 

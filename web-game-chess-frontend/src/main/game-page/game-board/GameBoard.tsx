@@ -6,48 +6,45 @@ import {
 } from "../../../shared/utils/enums/piecesMaps";
 import { GetGameDto, GetPlayerDto } from "../../../shared/utils/types/gameDtos";
 import classes from "./GameBoard.module.scss";
-import { showTip } from "./GameBoardShowTip";
 import {
   checkCoordinatesEquality,
   checkIfPlayerTurn,
 } from "./GameBoardFunctions";
-import { makeMove } from "./GameBoardMakeMove";
 import {
   generateControlledAreas,
   checkChecks,
 } from "./GameBoardControlledAreas";
+import MakeMove from "./GameBoardMakeMove";
+import ShowTip from "./GameBoardShowTip";
 
 type GameBoardProps = {
   gameId: string;
   gameData: GetGameDto;
   playerData: GetPlayerDto;
-  connection: signalR.HubConnection | null;
 };
 
-function GameBoard({
-  gameId,
-  gameData,
-  playerData,
-  connection,
-}: GameBoardProps) {
+function GameBoard({ gameId, gameData, playerData }: GameBoardProps) {
   const [board, setBoard] = useState<JSX.Element>(<></>);
   const [boardMatrix, setBaordMatrix] = useState<string[][]>([]);
   const [tipFields, setTipFields] = useState<number[][]>([]);
 
+  // controlled areas
   const [whiteControlledAreas, setWhiteControlledAreas] = useState<number[][]>(
     []
   );
   const [blackControlledAreas, setBlackControlledAreas] = useState<number[][]>(
     []
   );
+  // checked areas
   const [whiteCheckedAreas, setWhiteCheckedAreas] = useState<number[][]>([]);
   const [blackCheckedAreas, setBlackCheckedAreas] = useState<number[][]>([]);
 
+  // selected piece
   const [selectedPiece, setSelectedPiece] = useState<string>("");
   const [selectedCoor, setselectedCoor] = useState<number[]>([]);
 
-  // set game matrix
   useEffect(() => {
+    // set game matrix
     const setMatrix = (position: string): string[][] => {
       const matrix: string[][] = [[]];
       let row: number = 0;
@@ -76,65 +73,56 @@ function GameBoard({
 
     setBaordMatrix(matrix);
 
-    const [
-      whiteControlledAreas,
-      blackControlledAreas,
-    ] = generateControlledAreas(matrix);
+    // set controlled areas
+    const [wControlled, bControlled] = generateControlledAreas(matrix);
+    setWhiteControlledAreas(wControlled);
+    setBlackControlledAreas(bControlled);
 
-    setWhiteControlledAreas(whiteControlledAreas);
-    setBlackControlledAreas(blackControlledAreas);
+    // set checked areas
+    const [wChecked, bChecked] = checkChecks(matrix);
+    setWhiteCheckedAreas(wChecked);
+    setBlackCheckedAreas(bChecked);
 
-    const [whiteCheckAreas, blackCheckAreas] = checkChecks(matrix);
+    // update board when game changed (move was made)
+    setBoard(mapFromGamePosition(gameData.position));
 
-    setWhiteCheckedAreas(whiteCheckAreas);
-    setBlackCheckedAreas(blackCheckAreas);
+    // clear selected piece and tips
+    chosePiece("", []);
+    setTipFields([]);
   }, [gameData]);
+
+  useEffect(() => {
+    // update board when tips changed (user selected different piece)
+    setBoard(mapFromGamePosition(gameData.position));
+  }, [tipFields]);
 
   // create field based on position
   const displayField = (
     fields: JSX.Element[],
-    fieldCoor: number,
+    coor: number,
     char: string | null
   ): number => {
-    const coordinates = [(fieldCoor % 8) + 1, 8 - Math.floor(fieldCoor / 8)];
+    const coordinates = [(coor % 8) + 1, 8 - Math.floor(coor / 8)];
 
+    // to check if clicked on tip fields
     const isInTipFields = tipFields.some(
       (coordinate) => JSON.stringify(coordinate) === JSON.stringify(coordinates)
     );
 
-    const isInWhite = whiteControlledAreas.some(
-      (coordinate) => JSON.stringify(coordinate) === JSON.stringify(coordinates)
-    );
-    const isInBlack = blackControlledAreas.some(
-      (coordinate) => JSON.stringify(coordinate) === JSON.stringify(coordinates)
-    );
-
-    const style = {
-      backgroundColor:
-        isInWhite && isInBlack
-          ? "rgba(0, 0, 0, 0.5)"
-          : isInWhite
-          ? "rgba(0, 255, 255, 0.5)"
-          : isInBlack
-          ? "rgba(255, 0, 0, 0.5)"
-          : "",
-    };
-
-    let isWhiteInCheck = false;
-    if (char === pieceTagMap.white.king) {
-      isWhiteInCheck = blackControlledAreas.some(
-        (area) => area[0] === coordinates[0] && area[1] === coordinates[1]
-      );
-    }
-
-    let isBlackInCheck = false;
-    if (char === pieceTagMap.black.king) {
-      isBlackInCheck = whiteControlledAreas.some(
-        (area) => area[0] === coordinates[0] && area[1] === coordinates[1]
-      );
-    }
-
+    // to check if selected piece was selected again
     const sameCoor = checkCoordinatesEquality(coordinates, selectedCoor);
+
+    // to check if kings are in check
+    const isWhiteInCheck =
+      char === pieceTagMap.white.king &&
+      blackControlledAreas.some((area) =>
+        checkCoordinatesEquality(area, coordinates)
+      );
+    const isBlackInCheck =
+      char === pieceTagMap.black.king &&
+      whiteControlledAreas.some((area) =>
+        checkCoordinatesEquality(area, coordinates)
+      );
     const isInCheck = isWhiteInCheck || isBlackInCheck;
 
     fields.push(
@@ -152,12 +140,11 @@ function GameBoard({
             <img src={`/pieces/${pieceImageMap[char]}`} draggable={false} />
           </div>
         )}
-        <p style={style} />
       </div>
     );
 
-    fieldCoor++;
-    return fieldCoor;
+    coor++;
+    return coor;
   };
 
   // create board from game position
@@ -195,20 +182,6 @@ function GameBoard({
     );
   };
 
-  useEffect(() => {
-    // update board when tips changed (user selected different piece)
-    setBoard(mapFromGamePosition(gameData.position));
-  }, [tipFields]);
-
-  useEffect(() => {
-    // update board when game changed (move was made)
-    setBoard(mapFromGamePosition(gameData.position));
-
-    // clear selected piece and tips
-    chosePiece("", []);
-    setTipFields([]);
-  }, [gameData]);
-
   const onSelectField = (
     piece: string | null,
     coordinates: number[],
@@ -229,8 +202,7 @@ function GameBoard({
       } else {
         if (isInTipFields) {
           // make move
-          makeMove(
-            connection,
+          MakeMove.makeMove(
             gameId,
             boardMatrix,
             selectedPiece,
@@ -244,8 +216,7 @@ function GameBoard({
     } else {
       if (isInTipFields) {
         // make move
-        makeMove(
-          connection,
+        MakeMove.makeMove(
           gameId,
           boardMatrix,
           selectedPiece,
@@ -258,6 +229,7 @@ function GameBoard({
     }
   };
 
+  // set selected piece and coordinates
   const chosePiece = (piece: string, coordinates: number[]) => {
     if (checkIfPlayerTurn(gameData.turn, playerData.color)) {
       setSelectedPiece(piece);
@@ -268,7 +240,7 @@ function GameBoard({
   useEffect(() => {
     // set tip fields each time user choses different filed
     setTipFields(
-      showTip(
+      ShowTip.showTip(
         playerData,
         boardMatrix,
         whiteControlledAreas,

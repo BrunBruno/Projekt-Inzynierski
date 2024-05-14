@@ -8,18 +8,17 @@ import {
 } from "../../../../shared/utils/functions/apiFunctions";
 import { SearchGameDto } from "../../../../shared/utils/types/gameDtos";
 import { gameSearchInterface } from "../../../../shared/utils/enums/gameSeachEnum";
+import GameHubService from "../../../../shared/utils/services/GameHubService";
 
 const numOfPawns = 8;
 
 type SearchingProps = {
-    connection: signalR.HubConnection | null;
     setInterfaceById: (interfaceId: number) => void;
     searchIds: SearchGameDto | null;
     setSearchIds: React.Dispatch<React.SetStateAction<SearchGameDto | null>>;
 };
 
 function Searching({
-    connection,
     setInterfaceById,
     searchIds,
     setSearchIds,
@@ -27,6 +26,7 @@ function Searching({
     const [activeIndex, setActiveIndex] = useState<number>(0);
     const [pause, setPause] = useState<boolean>(false);
 
+    // searching animation
     useEffect(() => {
         const delay = 100;
         const firstintervalId = setInterval(() => {
@@ -56,18 +56,15 @@ function Searching({
         return () => {
             clearInterval(firstintervalId);
             clearInterval(intervalId);
-        };
-    }, []);
 
-    useEffect(() => {
-        return () => {
             // add here onCancelSearch when not strick mode
             // onCancelSearch();
         };
     }, []);
 
+    // game search abort
     const onCancelSearch = async () => {
-        if (!searchIds || !connection) {
+        if (!searchIds) {
             return;
         }
 
@@ -77,7 +74,7 @@ function Searching({
                 getAuthorization()
             );
 
-            connection.invoke("PlayerLeaved", searchIds.timingId);
+            GameHubService.PlayerLeaved(searchIds.timingId);
 
             setSearchIds(null);
 

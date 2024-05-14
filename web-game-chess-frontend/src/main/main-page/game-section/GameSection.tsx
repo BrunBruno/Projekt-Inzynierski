@@ -1,10 +1,8 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import classes from "./GameSection.module.scss";
 import VsPlayerSearch from "./vs-player-search/VsPlayerSearch";
 import RoundArrowSvg from "../../../shared/svgs/RoundArrowSvg";
 import { greyColor } from "../../../shared/utils/enums/colorMaps";
-import * as signalR from "@microsoft/signalr";
-import { gameHubUrl } from "../../../shared/utils/functions/signalRFunctions";
 import axios from "axios";
 import {
     gameControllerPaths,
@@ -17,42 +15,22 @@ import {
 } from "../../../shared/utils/types/gameDtos";
 import Searching from "./searching/Searching";
 import { useNavigate } from "react-router-dom";
+import GameHubService from "../../../shared/utils/services/GameHubService";
 
 function GameSection() {
     const navigate = useNavigate();
-
-    const connectionRef = useRef<signalR.HubConnection | null>(null);
 
     const [interfaceContent, setInterfaceContent] = useState<JSX.Element>(
         <></>
     );
     const [searchIds, setSearchIds] = useState<SearchGameDto | null>(null);
 
-    const connectionInit = async () => {
-        const builder = new signalR.HubConnectionBuilder().withUrl(gameHubUrl, {
-            skipNegotiation: true,
-            transport: signalR.HttpTransportType.WebSockets,
-        });
-
-        const connection = builder.build();
-
-        connectionRef.current = connection;
-
-        await connection.start();
-    };
-
-    useEffect(() => {
-        connectionInit();
-    }, []);
-
+    // set game section content
     const setInterfaceById = (interfaceId: number) => {
         switch (interfaceId) {
             case gameSearchInterface.vsPlayer:
                 setInterfaceContent(
-                    <VsPlayerSearch
-                        connection={connectionRef.current}
-                        setSearchIds={setSearchIds}
-                    />
+                    <VsPlayerSearch setSearchIds={setSearchIds} />
                 );
                 break;
             case gameSearchInterface.vsComputer:
@@ -64,7 +42,6 @@ function GameSection() {
             case gameSearchInterface.searching:
                 setInterfaceContent(
                     <Searching
-                        connection={connectionRef.current}
                         setInterfaceById={setInterfaceById}
                         searchIds={searchIds}
                         setSearchIds={setSearchIds}
@@ -74,32 +51,34 @@ function GameSection() {
         }
     };
 
-    useEffect(() => {
-        const handleGamesChanged = async () => {
-            if (searchIds !== null) {
-                const isInGameResponse = await axios.get<CheckIfInGameDto>(
-                    gameControllerPaths.checkIfInGame(searchIds.playerId),
-                    getAuthorization()
-                );
+    // handle new ids
+    const handleGamesChanged = async () => {
+        console.log("Handling", searchIds);
 
-                if (isInGameResponse.data.isInGame) {
-                    navigate(`game/${isInGameResponse.data.gameId}`);
-                }
+        if (searchIds !== null) {
+            const isInGameResponse = await axios.get<CheckIfInGameDto>(
+                gameControllerPaths.checkIfInGame(searchIds.playerId),
+                getAuthorization()
+            );
+
+            if (isInGameResponse.data.isInGame) {
+                navigate(`game/${isInGameResponse.data.gameId}`);
             }
-        };
+        }
+    };
 
+    useEffect(() => {
         if (searchIds !== null) {
             setInterfaceById(gameSearchInterface.searching);
         }
 
-        if (connectionRef.current) {
-            connectionRef.current.on("GamesChanged", handleGamesChanged);
-        }
+        console.log("onGamesChanged");
+
+        GameHubService.connection.on("GamesChanged", handleGamesChanged);
 
         return () => {
-            if (connectionRef.current) {
-                connectionRef.current.off("GamesChanged", handleGamesChanged);
-            }
+            console.log("offGamesChanged");
+            GameHubService.connection.off("GamesChanged", handleGamesChanged);
         };
     }, [searchIds]);
 

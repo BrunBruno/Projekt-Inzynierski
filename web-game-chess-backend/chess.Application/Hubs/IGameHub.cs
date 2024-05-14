@@ -41,5 +41,5 @@ public interface IGameHub {
     /// 
     /// </summary>
     /// <returns></returns>
-    Task GameChanged();
+    Task GameUpdated();
 }

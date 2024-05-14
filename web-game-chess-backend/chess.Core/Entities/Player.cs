@@ -39,6 +39,11 @@ public class Player {
     /// <summary>
     /// 
     /// </summary>
+    public double TimeLeft { get; set; }
+
+    /// <summary>
+    /// 
+    /// </summary>
     public Guid UserId { get; set; }
 
     /// <summary>

@@ -1,6 +1,6 @@
 import { useParams } from "react-router-dom";
 import classes from "./GamePage.module.scss";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 import { GetGameDto, GetPlayerDto } from "../../shared/utils/types/gameDtos";
 import {
@@ -9,35 +9,13 @@ import {
 } from "../../shared/utils/functions/apiFunctions";
 import LoadingPage from "../../shared/components/loading-page/LoadingPage";
 import GameBoard from "./game-board/GameBoard";
-import * as signalR from "@microsoft/signalr";
-import { gameHubUrl } from "../../shared/utils/functions/signalRFunctions";
+import GameHubService from "../../shared/utils/services/GameHubService";
 
 function GamePage() {
     const { gameId } = useParams();
 
-    const connectionRef = useRef<signalR.HubConnection | null>(null);
-
     const [gameData, setGameData] = useState<GetGameDto | null>(null);
     const [playerData, setPlayerData] = useState<GetPlayerDto | null>(null);
-
-    const connectionInit = async () => {
-        const builder = new signalR.HubConnectionBuilder().withUrl(gameHubUrl, {
-            skipNegotiation: true,
-            transport: signalR.HttpTransportType.WebSockets,
-        });
-
-        const connection = builder.build();
-
-        connectionRef.current = connection;
-
-        await connection.start();
-
-        connection.invoke("GameStarted", gameId);
-
-        connection.on("GameChanged", () => {
-            getGame();
-        });
-    };
 
     const getGame = async () => {
         try {
@@ -70,10 +48,14 @@ function GamePage() {
     };
 
     useEffect(() => {
-        connectionInit();
-        getGame();
-        getPlayer();
-    }, []);
+        if (gameId) {
+            GameHubService.GameStarted(gameId);
+            GameHubService.connection.on("GameUpdated", getGame);
+
+            getGame();
+            getPlayer();
+        }
+    }, [gameId]);
 
     if (!gameId || !gameData || !playerData) {
         return <LoadingPage />;
@@ -86,7 +68,6 @@ function GamePage() {
                 gameId={gameId}
                 gameData={gameData}
                 playerData={playerData}
-                connection={connectionRef.current}
             />
             <div>{gameData.position}</div>
         </main>
