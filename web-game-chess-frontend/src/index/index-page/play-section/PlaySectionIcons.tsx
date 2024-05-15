@@ -1,13 +1,13 @@
 import {
   IconMap,
   IconsMapProps,
-} from '../../../shared/utils/types/commonTypes';
-import classes from './PlaySection.module.scss';
+} from "../../../shared/utils/types/commonTypes";
+import classes from "./PlaySection.module.scss";
 
 const icons: IconMap = {
   online: (
     <svg
-      className={classes['vs-player-icon']}
+      className={classes["vs-player-icon"]}
       viewBox="0 0 24 24"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
@@ -22,7 +22,7 @@ const icons: IconMap = {
 
   offline: (
     <svg
-      className={classes['vs-computer-icon']}
+      className={classes["vs-computer-icon"]}
       viewBox="0 0 24 24"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"

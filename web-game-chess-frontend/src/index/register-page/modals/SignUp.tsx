@@ -1,25 +1,25 @@
-import { useEffect, useRef, useState } from 'react';
-import DetailPawnIconSvg from '../../../shared/svgs/DetailPawnIconSvg';
+import { useEffect, useRef, useState } from "react";
+import DetailPawnIconSvg from "../../../shared/svgs/DetailPawnIconSvg";
 import {
   mainColor,
   strengthColor,
-} from '../../../shared/utils/enums/colorMaps';
-import { registrationActions } from '../../../shared/utils/enums/registrationEnum';
-import classes from './Sign.module.scss';
-import axios from 'axios';
-import { dataConfigurations } from '../../../shared/utils/enums/dataConfigurationEnum';
+} from "../../../shared/utils/enums/colorMaps";
+import classes from "./Sign.module.scss";
+import axios from "axios";
 import {
   ValidationResult,
   checkFromConfiguration,
-} from '../../../shared/utils/functions/checkFromConfiguration';
-import SignArrowSvg from './SignArrow';
-import LoadingPage from '../../../shared/components/loading-page/LoadingPage';
-import { errorDisplay } from '../../../shared/utils/functions/errorDisplay';
-import { userControllerPaths } from '../../../shared/utils/functions/apiFunctions';
+} from "../../../shared/utils/functions/checkFromConfiguration";
+import SignArrowSvg from "./SignArrow";
+import LoadingPage from "../../../shared/components/loading-page/LoadingPage";
+import { errorDisplay } from "../../../shared/utils/functions/displayError";
+import { userControllerPaths } from "../../../shared/utils/functions/apiFunctions";
 import {
   ConfigurationDto,
   LogInUserDto,
-} from '../../../shared/utils/types/userDtos';
+} from "../../../shared/utils/types/userDtos";
+import { dataConfigurations } from "../../../shared/utils/enums/entitiesEnums";
+import { registrationInterface } from "../../../shared/utils/enums/interfacesEnums";
 
 type SignUpProps = {
   // change displayed modal
@@ -36,7 +36,7 @@ function SignUp({ setModal }: SignUpProps) {
   const indRef = useRef<HTMLSpanElement>(null);
 
   // error message content
-  const [errorMess, setErrorMess] = useState<string>('');
+  const [errorMess, setErrorMess] = useState<string>("");
   // user name configuration
   const [userNameConf, setUserNameConf] = useState<ConfigurationDto | null>(
     null
@@ -93,7 +93,7 @@ function SignUp({ setModal }: SignUpProps) {
       !passwordInputRef.current ||
       !confPassInputRef.current
     ) {
-      setErrorMess('Something went wrong.');
+      setErrorMess("Something went wrong.");
       return;
     }
 
@@ -104,20 +104,20 @@ function SignUp({ setModal }: SignUpProps) {
       userName: form.userName.value.trim(),
       password: form.password.value,
       confirmPassword: form.confirmPassword.value,
-      imageUrl: '',
+      imageUrl: "",
     };
 
     // Check for email format
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(userData.email)) {
       emailInputRef.current.classList.add(classes.err);
-      setErrorMess('Email is not valid.');
+      setErrorMess("Email is not valid.");
       return;
     }
 
     // check username with configuration
     const checkUserName: ValidationResult = checkFromConfiguration(
-      'UserName',
+      "UserName",
       userData.userName,
       userNameConf
     );
@@ -130,7 +130,7 @@ function SignUp({ setModal }: SignUpProps) {
     }
 
     // check for white spaces in password
-    if (userData.password.indexOf(' ') >= 0) {
+    if (userData.password.indexOf(" ") >= 0) {
       passwordInputRef.current.classList.add(classes.err);
       setErrorMess("Password can't contain whitespaces.");
       return;
@@ -138,7 +138,7 @@ function SignUp({ setModal }: SignUpProps) {
 
     // check password with configuration
     const checkUserPass: ValidationResult = checkFromConfiguration(
-      'Password',
+      "Password",
       userData.password,
       userPassConf
     );
@@ -169,7 +169,7 @@ function SignUp({ setModal }: SignUpProps) {
       };
 
       // set temporarly user data
-      localStorage.setItem('logUserTemp', JSON.stringify(logUserData));
+      localStorage.setItem("logUserTemp", JSON.stringify(logUserData));
 
       // login user, get unverified token
       const logInResponse = await axios.post<LogInUserDto>(
@@ -178,12 +178,12 @@ function SignUp({ setModal }: SignUpProps) {
       );
 
       // set unverified token
-      localStorage.setItem('token', logInResponse.data.token);
+      localStorage.setItem("token", logInResponse.data.token);
 
       setProcessing(false);
 
       // change modal to email verification
-      setModal(registrationActions.verify);
+      setModal(registrationInterface.verify);
     } catch (err) {
       // display backend erros
       errorDisplay(err, setErrorMess);
@@ -235,24 +235,24 @@ function SignUp({ setModal }: SignUpProps) {
 
   return (
     <form
-      className={classes['registration-form']}
+      className={classes["registration-form"]}
       onSubmit={(event) => signUpUser(event)}
     >
       {/* bg */}
-      <DetailPawnIconSvg color={mainColor.c0} iconClass={classes['bg-svg']} />
+      <DetailPawnIconSvg color={mainColor.c0} iconClass={classes["bg-svg"]} />
 
       {/* header */}
       <h2>Create Account</h2>
-      <div className={classes['change-form']}>
-        Already have an account?{' '}
-        <span onClick={() => setModal(registrationActions.signIn)}>
+      <div className={classes["change-form"]}>
+        Already have an account?{" "}
+        <span onClick={() => setModal(registrationInterface.signIn)}>
           Sing In
         </span>
       </div>
 
       {/* inputs */}
       <div
-        className={classes['form-row']}
+        className={classes["form-row"]}
         onClick={() => {
           focusOnClick(emailInputRef);
         }}
@@ -263,13 +263,13 @@ function SignUp({ setModal }: SignUpProps) {
           type="text"
           placeholder="E-mail"
           autoComplete="off"
-          className={classes['form-input']}
+          className={classes["form-input"]}
         />
         <SignArrowSvg iconClass={classes.arrow} />
       </div>
 
       <div
-        className={classes['form-row']}
+        className={classes["form-row"]}
         onClick={() => {
           focusOnClick(usernameInputRef);
         }}
@@ -280,13 +280,13 @@ function SignUp({ setModal }: SignUpProps) {
           type="text"
           placeholder="UserName"
           autoComplete="off"
-          className={classes['form-input']}
+          className={classes["form-input"]}
         />
         <SignArrowSvg iconClass={classes.arrow} />
       </div>
 
       <div
-        className={classes['form-row']}
+        className={classes["form-row"]}
         onClick={() => {
           focusOnClick(passwordInputRef);
         }}
@@ -297,17 +297,17 @@ function SignUp({ setModal }: SignUpProps) {
           type="password"
           placeholder="Passworrd"
           autoComplete="off"
-          className={classes['form-input']}
+          className={classes["form-input"]}
           onChange={(event) => {
             changePassInd(event);
           }}
         />
         <SignArrowSvg iconClass={classes.arrow} />
-        <span ref={indRef} className={classes['reg-pass-ind']} />
+        <span ref={indRef} className={classes["reg-pass-ind"]} />
       </div>
 
       <div
-        className={classes['form-row']}
+        className={classes["form-row"]}
         onClick={() => {
           focusOnClick(confPassInputRef);
         }}
@@ -318,7 +318,7 @@ function SignUp({ setModal }: SignUpProps) {
           type="password"
           placeholder="Confirm Password"
           autoComplete="off"
-          className={classes['form-input']}
+          className={classes["form-input"]}
         />
         <SignArrowSvg iconClass={classes.arrow} />
       </div>
@@ -330,7 +330,7 @@ function SignUp({ setModal }: SignUpProps) {
       </div>
 
       {/* button */}
-      <button type="submit" className={classes['registration-button']}>
+      <button type="submit" className={classes["registration-button"]}>
         <span>Sign Up</span>
       </button>
     </form>

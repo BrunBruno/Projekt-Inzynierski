@@ -1,6 +1,6 @@
-import { Route, Routes } from 'react-router-dom';
-import IndexPage from './index-page/IndexPage';
-import RegisterPage from './register-page/RegisterPage';
+import { Route, Routes } from "react-router-dom";
+import IndexPage from "./index-page/IndexPage";
+import RegisterPage from "./register-page/RegisterPage";
 
 function IndexRouter() {
   return (

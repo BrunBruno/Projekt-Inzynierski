@@ -1,4 +1,4 @@
-import { greyColor } from '../../../shared/utils/enums/colorMaps';
+import { greyColor } from "../../../shared/utils/enums/colorMaps";
 
 type SignArrowSvgProps = {
   iconClass: string;

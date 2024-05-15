@@ -4,8 +4,8 @@ import classes from "./LearnSection.module.scss";
 import LearnBlocks from "./learn-blocks/LearnBlocks";
 import { createOneTimeObserver } from "../../../shared/utils/functions/createOneTimeObserver";
 import { mainColor } from "../../../shared/utils/enums/colorMaps";
-import { generateRandomColor } from "../../../shared/utils/functions/generateRandomColor";
 import { HandleOnScroll } from "../../../shared/utils/types/commonTypes";
+import { generateRandomColor } from "../../../shared/utils/functions/generateRandom";
 
 type LearnSectionProps = {
   sectionRef: React.RefObject<HTMLElement>;

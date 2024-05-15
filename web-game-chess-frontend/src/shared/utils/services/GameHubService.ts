@@ -1,5 +1,6 @@
 import * as signalR from "@microsoft/signalr";
 
+// singalR hub service map from GameHub
 class GameHub {
   private gameHubUrl: string = "http://localhost:5125/game-hub";
   public connection: signalR.HubConnection;

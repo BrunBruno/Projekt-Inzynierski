@@ -1,5 +1,5 @@
-import { useEffect, useRef, useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useEffect, useRef, useState } from "react";
+import { useLocation } from "react-router-dom";
 
 type PopupHookReturnType = [
   React.RefObject<HTMLDivElement>,
@@ -15,7 +15,7 @@ const usePopup = ({ className }: PopupHookProps): PopupHookReturnType => {
   const location = useLocation();
 
   const ref = useRef<HTMLDivElement>(null);
-  const [content, setContent] = useState<string>('');
+  const [content, setContent] = useState<string>("");
 
   useEffect(() => {
     if (location.state && location.state.popup) {
@@ -23,12 +23,12 @@ const usePopup = ({ className }: PopupHookProps): PopupHookReturnType => {
 
       delete location.state.popup;
 
-      window.history.replaceState(location.state, '', location.pathname);
+      window.history.replaceState(location.state, "", location.pathname);
     }
   }, [location.state]);
 
   useEffect(() => {
-    if (content !== '' && ref.current) {
+    if (content !== "" && ref.current) {
       ref.current.classList.remove(className);
 
       setTimeout(() => {
@@ -37,7 +37,7 @@ const usePopup = ({ className }: PopupHookProps): PopupHookReturnType => {
         }
         setTimeout(() => {
           if (ref.current) {
-            setContent('');
+            setContent("");
           }
         }, 2000);
       }, 3000);

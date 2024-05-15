@@ -1,4 +1,4 @@
-import { pieceColor } from "../../../shared/utils/enums/pieceColorEnum";
+import { pieceColor } from "../../../shared/utils/enums/entitiesEnums";
 import { pieceTagMap } from "../../../shared/utils/enums/piecesMaps";
 import { movementMap } from "../../../shared/utils/enums/piecesMovementMap";
 

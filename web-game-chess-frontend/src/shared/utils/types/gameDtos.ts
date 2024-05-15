@@ -1,3 +1,5 @@
+// game controller dtos
+
 export type SearchGameDto = {
   playerId: string;
   timingId: string;
@@ -21,6 +23,7 @@ export type GetGameDto = {
 
 export type GetGamePlayerDto = {
   name: string;
+  imageUrl: string | null;
   elo: number;
 };
 

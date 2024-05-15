@@ -1,9 +1,9 @@
-import { greyColor, mainColor } from '../../../../shared/utils/enums/colorMaps';
+import { greyColor, mainColor } from "../../../../shared/utils/enums/colorMaps";
 import {
   IconMap,
   IconsMapProps,
-} from '../../../../shared/utils/types/commonTypes';
-import classes from './LearnBlocks.module.scss';
+} from "../../../../shared/utils/types/commonTypes";
+import classes from "./LearnBlocks.module.scss";
 
 const icons: IconMap = {
   pawnLine: (
@@ -47,7 +47,7 @@ const icons: IconMap = {
       xmlnsXlink="http://www.w3.org/1999/xlink"
       viewBox="0 0 32 32"
       xmlSpace="preserve"
-      className={classes['enigne-svg']}
+      className={classes["enigne-svg"]}
     >
       <path
         className={classes.st0}
@@ -89,7 +89,7 @@ const icons: IconMap = {
       viewBox="0 0 24 24"
       fill={mainColor.c7}
       xmlns="http://www.w3.org/2000/svg"
-      className={classes['message-svg']}
+      className={classes["message-svg"]}
     >
       <path
         d="M7 9H17M7 13H17M21 20L17.6757 18.3378C17.4237 18.2118 17.2977 18.1488 17.1656 18.1044C17.0484 18.065 16.9277 18.0365 16.8052 18.0193C16.6672 18 16.5263 18 16.2446 18H6.2C5.07989 18 4.51984 18 4.09202 17.782C3.71569 17.5903 3.40973 17.2843 3.21799 16.908C3 16.4802 3 15.9201 3 14.8V7.2C3 6.07989 3 5.51984 3.21799 5.09202C3.40973 4.71569 3.71569 4.40973 4.09202 4.21799C4.51984 4 5.0799 4 6.2 4H17.8C18.9201 4 19.4802 4 19.908 4.21799C20.2843 4.40973 20.5903 4.71569 20.782 5.09202C21 5.51984 21 6.0799 21 7.2V20Z"
@@ -107,7 +107,7 @@ const icons: IconMap = {
       viewBox="0 0 32 32"
       version="1.1"
       xmlns="http://www.w3.org/2000/svg"
-      className={classes['trophy-svg']}
+      className={classes["trophy-svg"]}
     >
       <path d="M22.994 28.996h-14.060c-0.553 0-1 0.448-1 1s0.447 1 1 1h14.060c0.552 0 1-0.448 1-1s-0.447-1-1-1zM31.791 3.801c-0.095-0.465-0.505-0.799-0.979-0.799h-4.895v-0.998c0-0.552-0.448-1-1-1h-17.985c-0.553 0-1 0.448-1 1v0.998h-4.743c-0.474 0-0.885 0.334-0.98 0.799-0.029 0.144-0.7 3.648 1.247 6.036 1.12 1.373 2.831 2.091 5.078 2.155 1.281 3.786 4.502 6.59 8.381 7.008v6.966h-2.993c-0.553 0-1 0.448-1 1s0.447 1 1 1h8.084c0.552 0 1-0.448 1-1s-0.448-1-1-1h-3.091v-6.965c3.886-0.41 7.114-3.213 8.398-7.003 2.323-0.034 4.085-0.758 5.231-2.162 1.947-2.388 1.276-5.891 1.247-6.036zM3.013 8.58c-0.885-1.078-0.975-2.669-0.929-3.578h3.849v3.376c0 0.54 0.050 1.068 0.123 1.587-1.365-0.127-2.389-0.588-3.042-1.385zM23.917 8.378c0 4.784-3.585 8.677-7.991 8.677-4.408 0-7.994-3.893-7.994-8.677v-5.374h15.986v5.374h-0zM28.988 8.58c-0.677 0.826-1.751 1.296-3.196 1.402 0.075-0.524 0.125-1.057 0.125-1.604v-3.376h4c0.045 0.91-0.044 2.5-0.93 3.578z"></path>
     </svg>
@@ -120,7 +120,7 @@ const icons: IconMap = {
       xmlnsXlink="http://www.w3.org/1999/xlink"
       viewBox="0 0 502.648 502.648"
       xmlSpace="preserve"
-      className={classes['community-svg']}
+      className={classes["community-svg"]}
     >
       <g>
         <g>
@@ -176,7 +176,7 @@ const icons: IconMap = {
       xmlnsXlink="http://www.w3.org/1999/xlink"
       viewBox="0 0 54 54"
       xmlSpace="preserve"
-      className={classes['board-svg']}
+      className={classes["board-svg"]}
     >
       <g>
         <rect x="0" y="0" fill={greyColor.c9} width="18" height="18" />

@@ -19,26 +19,23 @@ function GamePage() {
   const [gameData, setGameData] = useState<GetGameDto | null>(null);
   const [playerData, setPlayerData] = useState<GetPlayerDto | null>(null);
 
+  // get game data
   const getGame = async () => {
     try {
       if (gameId) {
-        const startTime = performance.now();
-
         const getGameResponse = await axios.get<GetGameDto>(
           gameControllerPaths.getGame(gameId),
           getAuthorization()
         );
 
         setGameData(getGameResponse.data);
-
-        const endTime = performance.now();
-        console.log("get game", endTime - startTime, "ms");
       }
     } catch (err) {
       console.log(err);
     }
   };
 
+  // get player data
   const getPlayer = async () => {
     try {
       if (gameId) {
@@ -54,6 +51,7 @@ function GamePage() {
     }
   };
 
+  // first feach for game data
   useEffect(() => {
     if (gameId) {
       GameHubService.GameStarted(gameId);
@@ -72,7 +70,7 @@ function GamePage() {
     <main className={classes["game-main"]}>
       <LeftSideBar />
       <GameBoard gameId={gameId} gameData={gameData} playerData={playerData} />
-      <RightSideBar gameData={gameData} playerData={playerData} />
+      <RightSideBar gameData={gameData} />
     </main>
   );
 }

@@ -1,5 +1,5 @@
-import ArrowRightSvg from '../../svgs/ArrowRightSvg';
-import { greyColor } from '../../utils/enums/colorMaps';
+import ArrowRightSvg from "../../svgs/ArrowRightSvg";
+import { greyColor } from "../../utils/enums/colorMaps";
 
 type ActionButtonProps = {
   text: string;

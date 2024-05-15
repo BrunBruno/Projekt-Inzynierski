@@ -1,9 +1,9 @@
-import { mainColor } from '../../../shared/utils/enums/colorMaps';
+import { mainColor } from "../../../shared/utils/enums/colorMaps";
 import {
   IconMap,
   IconsMapProps,
-} from '../../../shared/utils/types/commonTypes';
-import classes from './FooterSection.module.scss';
+} from "../../../shared/utils/types/commonTypes";
+import classes from "./FooterSection.module.scss";
 
 const icons: IconMap = {
   facebook: (
@@ -11,7 +11,7 @@ const icons: IconMap = {
       fill={mainColor.c0}
       viewBox="0 0 24 24"
       xmlns="http://www.w3.org/2000/svg"
-      className={classes['p-logo']}
+      className={classes["p-logo"]}
     >
       <path d="M22,3V21a1,1,0,0,1-1,1H15.8V14.255h2.6l.39-3.018H15.8V9.309c0-.874.242-1.469,1.5-1.469h1.6V5.14a21.311,21.311,0,0,0-2.329-.119A3.636,3.636,0,0,0,12.683,9.01v2.227H10.076v3.018h2.607V22H3a1,1,0,0,1-1-1V3A1,1,0,0,1,3,2H21A1,1,0,0,1,22,3Z" />
     </svg>
@@ -23,7 +23,7 @@ const icons: IconMap = {
       version="1.1"
       xmlns="http://www.w3.org/2000/svg"
       xmlnsXlink="http://www.w3.org/1999/xlink"
-      className={classes['p-logo']}
+      className={classes["p-logo"]}
     >
       <g stroke="none" strokeWidth="1" fill="none" fillRule="evenodd">
         <g transform="translate(-340.000000, -7439.000000)" fill={mainColor.c0}>
@@ -41,7 +41,7 @@ const icons: IconMap = {
       viewBox="0 0 32 32"
       version="1.1"
       xmlns="http://www.w3.org/2000/svg"
-      className={classes['p-logo']}
+      className={classes["p-logo"]}
     >
       <path d="M16.656 1.029c1.637-0.025 3.262-0.012 4.886-0.025 0.054 2.031 0.878 3.859 2.189 5.213l-0.002-0.002c1.411 1.271 3.247 2.095 5.271 2.235l0.028 0.002v5.036c-1.912-0.048-3.71-0.489-5.331-1.247l0.082 0.034c-0.784-0.377-1.447-0.764-2.077-1.196l0.052 0.034c-0.012 3.649 0.012 7.298-0.025 10.934-0.103 1.853-0.719 3.543-1.707 4.954l0.020-0.031c-1.652 2.366-4.328 3.919-7.371 4.011l-0.014 0c-0.123 0.006-0.268 0.009-0.414 0.009-1.73 0-3.347-0.482-4.725-1.319l0.040 0.023c-2.508-1.509-4.238-4.091-4.558-7.094l-0.004-0.041c-0.025-0.625-0.037-1.25-0.012-1.862 0.49-4.779 4.494-8.476 9.361-8.476 0.547 0 1.083 0.047 1.604 0.136l-0.056-0.008c0.025 1.849-0.050 3.699-0.050 5.548-0.423-0.153-0.911-0.242-1.42-0.242-1.868 0-3.457 1.194-4.045 2.861l-0.009 0.030c-0.133 0.427-0.21 0.918-0.21 1.426 0 0.206 0.013 0.41 0.037 0.61l-0.002-0.024c0.332 2.046 2.086 3.59 4.201 3.59 0.061 0 0.121-0.001 0.181-0.004l-0.009 0c1.463-0.044 2.733-0.831 3.451-1.994l0.010-0.018c0.267-0.372 0.45-0.822 0.511-1.311l0.001-0.014c0.125-2.237 0.075-4.461 0.087-6.698 0.012-5.036-0.012-10.060 0.025-15.083z"></path>
     </svg>
@@ -53,7 +53,7 @@ const icons: IconMap = {
       version="1.1"
       xmlns="http://www.w3.org/2000/svg"
       xmlnsXlink="http://www.w3.org/1999/xlink"
-      className={classes['p-logo']}
+      className={classes["p-logo"]}
     >
       <g stroke="none" strokeWidth="1" fill="none" fillRule="evenodd">
         <g transform="translate(-300.000000, -7442.000000)" fill={mainColor.c0}>
@@ -70,7 +70,7 @@ const icons: IconMap = {
       viewBox="0 0 150 150"
       version="1.1"
       xmlns="http://www.w3.org/2000/svg"
-      className={classes['p-logo']}
+      className={classes["p-logo"]}
     >
       <path
         d="M67 .55C40.648 3.3 17.102 20.649 6.398 45.2-.5 61.05-1.648 79.3 3.25 96.101c6.05 20.949 21.7 38.648 41.95 47.5 15.85 6.898 34.1 8.046 50.902 3.148 25.148-7.25 44.949-27.898 51.449-53.55C157.699 53 132.8 11.897 92.5 2.3 83.648.2 75.852-.351 67 .55ZM68 47c6.398 8.5 11.8 15.5 12 15.5.2 0 6.852-7 14.7-15.5l14.35-15.5h8.15l-1.75 1.852c-1 1.046-7.5 8.097-14.45 15.648-6.95 7.55-13.75 14.898-15.102 16.25L83.5 67.8l18.75 24.95c10.3 13.75 18.75 25.148 18.75 25.352 0 .25-6.148.398-13.602.398l-13.648-.05-12.7-17C72.3 89.7 68.2 84.647 67.8 84.95c-.3.25-7.402 7.902-15.8 17L36.75 118.5h-3.852c-2.148 0-3.898-.102-3.898-.25 0-.148 7.95-8.852 17.648-19.3 9.653-10.45 17.653-19.2 17.75-19.348C64.45 79.398 56.5 68.55 46.75 55.5 37 42.5 29 31.75 29 31.648c0-.097 6.148-.148 13.7-.148h13.698Zm0 0"
@@ -91,7 +91,7 @@ const icons: IconMap = {
     <svg
       viewBox="0 0 192 192"
       xmlns="http://www.w3.org/2000/svg"
-      className={classes['p-logo']}
+      className={classes["p-logo"]}
     >
       <g fill="none" stroke={mainColor.c0} strokeWidth="12">
         <path
@@ -109,7 +109,7 @@ const icons: IconMap = {
       viewBox="0 0 24 24"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
-      className={classes['p-logo']}
+      className={classes["p-logo"]}
     >
       <path
         d="M8.5 12.5L10.5 14.5L15.5 9.5"

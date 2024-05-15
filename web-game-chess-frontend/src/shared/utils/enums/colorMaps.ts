@@ -1,7 +1,10 @@
+// different colors maps
+
 type colorMap = {
   [key: string]: string;
 };
 
+// main color list
 export const mainColor: colorMap = {
   c0: "#f3f0ff",
   c1: "#e5dbff",
@@ -15,6 +18,7 @@ export const mainColor: colorMap = {
   c9: "#5f3dc4",
 };
 
+// grey color list
 export const greyColor: colorMap = {
   c0: "#f8f9fa",
   c1: "#f1f3f5",
@@ -28,6 +32,7 @@ export const greyColor: colorMap = {
   c9: "#212529",
 };
 
+// password strenght colors map
 export const strengthColor: colorMap = {
   c0: "#f03e3e",
   c1: "#ffa8a8",

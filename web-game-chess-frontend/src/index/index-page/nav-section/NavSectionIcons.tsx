@@ -1,9 +1,9 @@
-import { mainColor } from '../../../shared/utils/enums/colorMaps';
+import { mainColor } from "../../../shared/utils/enums/colorMaps";
 import {
   IconMap,
   IconsMapProps,
-} from '../../../shared/utils/types/commonTypes';
-import classes from './NavSection.module.scss';
+} from "../../../shared/utils/types/commonTypes";
+import classes from "./NavSection.module.scss";
 
 const icons: IconMap = {
   home: (

@@ -1,13 +1,13 @@
-import { useEffect, useState } from 'react';
-import classes from './RegisterPage.module.scss';
-import SignUp from './modals/SignUp';
-import SignIn from './modals/SignIn';
-import PasswordIconSvg from '../../shared/svgs/PasswordIconSvg';
-import { useLocation, useNavigate } from 'react-router-dom';
-import { mainColor } from '../../shared/utils/enums/colorMaps';
-import ActionButton from '../../shared/components/action-button/ActionButton';
-import VerifyEmail from './modals/VerifyEmail';
-import { registrationActions } from '../../shared/utils/enums/registrationEnum';
+import { useEffect, useState } from "react";
+import classes from "./RegisterPage.module.scss";
+import SignUp from "./modals/SignUp";
+import SignIn from "./modals/SignIn";
+import PasswordIconSvg from "../../shared/svgs/PasswordIconSvg";
+import { useLocation, useNavigate } from "react-router-dom";
+import { mainColor } from "../../shared/utils/enums/colorMaps";
+import ActionButton from "../../shared/components/action-button/ActionButton";
+import VerifyEmail from "./modals/VerifyEmail";
+import { registrationInterface } from "../../shared/utils/enums/interfacesEnums";
 
 function RegisterPage() {
   const location = useLocation();
@@ -19,18 +19,18 @@ function RegisterPage() {
     if (location.state && location.state.regOption) {
       setModal(location.state.regOption);
     } else {
-      setModal(registrationActions.signIn);
+      setModal(registrationInterface.signIn);
     }
   }, [location]);
 
   // set form modal
   const renderModal = (): JSX.Element => {
     switch (modal) {
-      case registrationActions.signIn:
+      case registrationInterface.signIn:
         return <SignIn setModal={setModal} />;
-      case registrationActions.signUp:
+      case registrationInterface.signUp:
         return <SignUp setModal={setModal} />;
-      case registrationActions.verify:
+      case registrationInterface.verify:
         return <VerifyEmail />;
       default:
         return <></>;
@@ -40,23 +40,23 @@ function RegisterPage() {
   // get form class
   const getFormClass = (): string => {
     switch (modal) {
-      case registrationActions.signIn:
-        return classes['left-side-form'];
-      case registrationActions.signUp:
-        return classes['right-side-form'];
-      case registrationActions.verify:
-        return classes['right-side-form'];
+      case registrationInterface.signIn:
+        return classes["left-side-form"];
+      case registrationInterface.signUp:
+        return classes["right-side-form"];
+      case registrationInterface.verify:
+        return classes["right-side-form"];
       default:
-        return '';
+        return "";
     }
   };
 
   return (
     <main className={classes.register}>
       <div className={classes.register__content}>
-        {modal === registrationActions.signIn ? (
+        {modal === registrationInterface.signIn ? (
           <div
-            className={`${classes.register__content__split} ${classes['left-side-content']}`}
+            className={`${classes.register__content__split} ${classes["left-side-content"]}`}
           >
             <div className={classes.form}></div>
             <div className={classes.intro}>
@@ -68,9 +68,9 @@ function RegisterPage() {
                 quisquam quibusdam, vero architecto similique repellendus culpa.
               </p>
               <div
-                className={classes['action-button']}
+                className={classes["action-button"]}
                 onClick={() => {
-                  navigate('/');
+                  navigate("/");
                 }}
               >
                 <ActionButton text="Home Page" />
@@ -79,7 +79,7 @@ function RegisterPage() {
           </div>
         ) : (
           <div
-            className={`${classes.register__content__split} ${classes['right-side-content']}`}
+            className={`${classes.register__content__split} ${classes["right-side-content"]}`}
           >
             <div className={classes.intro}>
               <h1>Get on Board</h1>
@@ -90,9 +90,9 @@ function RegisterPage() {
                 quisquam quibusdam, vero architecto similique repellendus culpa.
               </p>
               <div
-                className={classes['action-button']}
+                className={classes["action-button"]}
                 onClick={() => {
-                  navigate('/');
+                  navigate("/");
                 }}
               >
                 <ActionButton text="Home Page" />
@@ -105,7 +105,7 @@ function RegisterPage() {
         <div className={`${classes.register__content__form} ${getFormClass()}`}>
           <PasswordIconSvg
             color={mainColor.c7}
-            iconClass={classes['lock-svg']}
+            iconClass={classes["lock-svg"]}
           />
           {renderModal()}
         </div>

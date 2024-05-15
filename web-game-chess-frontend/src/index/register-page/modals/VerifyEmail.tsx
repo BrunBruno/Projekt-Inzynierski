@@ -1,16 +1,16 @@
-import { useState } from 'react';
-import DetailPawnIconSvg from '../../../shared/svgs/DetailPawnIconSvg';
-import { mainColor } from '../../../shared/utils/enums/colorMaps';
-import classes from './Sign.module.scss';
-import axios from 'axios';
+import { useState } from "react";
+import DetailPawnIconSvg from "../../../shared/svgs/DetailPawnIconSvg";
+import { mainColor } from "../../../shared/utils/enums/colorMaps";
+import classes from "./Sign.module.scss";
+import axios from "axios";
 import {
   getAuthorization,
   userControllerPaths,
-} from '../../../shared/utils/functions/apiFunctions';
-import { useNavigate } from 'react-router-dom';
-import { errorDisplay } from '../../../shared/utils/functions/errorDisplay';
-import LoadingPage from '../../../shared/components/loading-page/LoadingPage';
-import { LogInUserDto } from '../../../shared/utils/types/userDtos';
+} from "../../../shared/utils/functions/apiFunctions";
+import { useNavigate } from "react-router-dom";
+import { errorDisplay } from "../../../shared/utils/functions/displayError";
+import LoadingPage from "../../../shared/components/loading-page/LoadingPage";
+import { LogInUserDto } from "../../../shared/utils/types/userDtos";
 
 type VerifyEmailProps = {};
 
@@ -18,9 +18,9 @@ function VerifyEmail({}: VerifyEmailProps) {
   const navigate = useNavigate();
 
   // error message content
-  const [errorMess, setErrorMess] = useState<string>('');
+  const [errorMess, setErrorMess] = useState<string>("");
   // code input value
-  const [codeValue, setcodeValue] = useState<string>('');
+  const [codeValue, setcodeValue] = useState<string>("");
   // state if something is processing
   const [processing, setProcessing] = useState<boolean>(false);
 
@@ -33,8 +33,8 @@ function VerifyEmail({}: VerifyEmailProps) {
     event.preventDefault();
 
     // check if user signed in
-    if (!localStorage.getItem('logUserTemp')) {
-      setErrorMess('Please sign in first.');
+    if (!localStorage.getItem("logUserTemp")) {
+      setErrorMess("Please sign in first.");
       return;
     }
 
@@ -46,7 +46,7 @@ function VerifyEmail({}: VerifyEmailProps) {
 
     // check if user inserted code
     if (verificationCode.code.length === 0) {
-      setErrorMess('Please enter the code.');
+      setErrorMess("Please enter the code.");
       return;
     }
 
@@ -63,19 +63,19 @@ function VerifyEmail({}: VerifyEmailProps) {
       //sign in user after sucessful veryfication
       const logInResponse = await axios.post<LogInUserDto>(
         userControllerPaths.logIn,
-        JSON.parse(localStorage.getItem('logUserTemp')!)
+        JSON.parse(localStorage.getItem("logUserTemp")!)
       );
 
       // remove user temp
-      localStorage.removeItem('logUserTemp');
+      localStorage.removeItem("logUserTemp");
 
       // set token to local storage
-      localStorage.setItem('token', logInResponse.data.token);
+      localStorage.setItem("token", logInResponse.data.token);
 
       setProcessing(false);
 
       // navigae to main page
-      navigate('/main');
+      navigate("/main");
     } catch (err) {
       // display backend erros
       errorDisplay(err, setErrorMess);
@@ -120,15 +120,15 @@ function VerifyEmail({}: VerifyEmailProps) {
 
   return (
     <form
-      className={classes['registration-form']}
+      className={classes["registration-form"]}
       onSubmit={(event) => verifyUser(event)}
     >
       {/* bg */}
-      <DetailPawnIconSvg color={mainColor.c0} iconClass={classes['bg-svg']} />
+      <DetailPawnIconSvg color={mainColor.c0} iconClass={classes["bg-svg"]} />
 
       {/* header */}
       <h2>Verify Email Adress</h2>
-      <p className={classes['verify-text']}>
+      <p className={classes["verify-text"]}>
         We sent you verification code to your email. Please enter the code to
         verify your accout.
       </p>
@@ -143,7 +143,7 @@ function VerifyEmail({}: VerifyEmailProps) {
           placeholder="000000"
           autoComplete="off"
           value={codeValue}
-          className={classes['verify-input']}
+          className={classes["verify-input"]}
           onChange={(event) => {
             handleCodeInputChange(event);
           }}
@@ -165,7 +165,7 @@ function VerifyEmail({}: VerifyEmailProps) {
       </div>
 
       {/* button */}
-      <button type="submit" className={classes['registration-button']}>
+      <button type="submit" className={classes["registration-button"]}>
         <span>Verify</span>
       </button>
     </form>

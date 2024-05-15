@@ -86,13 +86,3 @@ $colorMap: (
   $mc8: $mcrgb8,
   $mc9: $mcrgb9,
 );
-
-// hex to rgb color map
-// $colorMap: ();
-
-// @for $i from 0 through 9 {
-//   $colorMap: map-merge(
-//     $colorMap,
-//     ($gc#{$i}: $grgbc#{$i}, $mc#{$i}: $mrgbc#{$i})
-//   );
-// }

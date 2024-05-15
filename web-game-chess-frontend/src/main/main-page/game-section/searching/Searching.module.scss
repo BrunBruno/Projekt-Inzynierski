@@ -1,44 +1,44 @@
 @import "../../../Main.scss";
 
 .searching {
-    @include wh100();
+  @include wh100();
 
-    &__content {
-        @include flex($direction: column, $gap: 3rem);
-        @include rounded(2rem);
+  &__content {
+    @include flex($direction: column, $gap: 3rem);
+    @include rounded(2rem);
 
-        height: 100%;
-        background-color: rgba($gc9, 0.3);
+    height: 100%;
+    background-color: rgba($gc9, 0.3);
 
-        &__text {
-            font-size: 2.6rem;
-        }
-
-        &__indicator {
-            @include flex($gap: 0.5rem);
-
-            .pawn {
-                height: 3rem;
-                transition: transform 0.3s;
-
-                path {
-                    fill: $mc0;
-                    transition: fill 2s;
-                }
-            }
-
-            .active {
-                transform: translateY(-2rem) scale(1.2);
-                path {
-                    fill: $mc9;
-                    transition: fill 0.1s;
-                }
-            }
-        }
-
-        button.cancel {
-            @include button();
-            @include mainMButton();
-        }
+    &__text {
+      font-size: 2.6rem;
     }
+
+    &__indicator {
+      @include flex($gap: 0.5rem);
+
+      .pawn {
+        height: 3rem;
+        transition: transform 0.3s;
+
+        path {
+          fill: $mc0;
+          transition: fill 2s;
+        }
+      }
+
+      .active {
+        transform: translateY(-2rem) scale(1.2);
+        path {
+          fill: $mc9;
+          transition: fill 0.1s;
+        }
+      }
+    }
+
+    button.cancel {
+      @include button();
+      @include mainMButton();
+    }
+  }
 }

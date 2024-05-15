@@ -19,6 +19,11 @@ public class Player {
     /// <summary>
     /// 
     /// </summary>
+    public string? ImageUrl { get; set; }
+
+    /// <summary>
+    /// 
+    /// </summary>
     public int Elo { get; set;  }
 
     /// <summary>

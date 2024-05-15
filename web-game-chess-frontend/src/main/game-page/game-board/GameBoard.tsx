@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { pieceColor } from "../../../shared/utils/enums/pieceColorEnum";
 import {
   pieceImageMap,
   pieceTagMap,
@@ -8,6 +7,7 @@ import { GetGameDto, GetPlayerDto } from "../../../shared/utils/types/gameDtos";
 import classes from "./GameBoard.module.scss";
 import {
   checkCoordinatesEquality,
+  checkIfOwnPiece,
   checkIfPlayerTurn,
 } from "./GameBoardFunctions";
 import {
@@ -16,6 +16,7 @@ import {
 } from "./GameBoardControlledAreas";
 import MakeMove from "./GameBoardMakeMove";
 import ShowTip from "./GameBoardShowTip";
+import { pieceColor } from "../../../shared/utils/enums/entitiesEnums";
 
 type GameBoardProps = {
   gameId: string;
@@ -69,8 +70,6 @@ function GameBoard({ gameId, gameData, playerData }: GameBoardProps) {
       return matrix.reverse();
     };
 
-    const startTime = performance.now();
-
     const matrix = setMatrix(gameData.position);
 
     setBaordMatrix(matrix);
@@ -91,15 +90,14 @@ function GameBoard({ gameId, gameData, playerData }: GameBoardProps) {
     // clear selected piece and tips
     chosePiece("", []);
     setTipFields([]);
-
-    const endTime = performance.now();
-    console.log("board setters", endTime - startTime, "ms");
   }, [gameData]);
 
   useEffect(() => {
     // update board when tips changed (user selected different piece)
     setBoard(mapFromGamePosition(gameData.position));
   }, [tipFields]);
+
+  const [isDragging, setIsDragging] = useState<boolean>(false);
 
   // create field based on position
   const displayField = (
@@ -130,24 +128,39 @@ function GameBoard({ gameId, gameData, playerData }: GameBoardProps) {
       );
     const isInCheck = isWhiteInCheck || isBlackInCheck;
 
+    // to not display dragging piece
+    const shouldDisplay = !(
+      isDragging && checkCoordinatesEquality(selectedCoor, coordinates)
+    );
+
+    // add field
     fields.push(
       <div
         key={`${coordinates[0]}-${coordinates[1]}`}
         className={`${classes.field} ${isInTipFields ? classes.tip : ""} ${
           sameCoor ? classes.selected : ""
         } ${isInCheck ? classes.check : ""}`}
-        onMouseDown={() => {
-          onSelectField(char, coordinates, isInTipFields);
+        onClick={() => {
+          setIsDragging(false);
+          onSelectField(char, coordinates, isInTipFields, sameCoor);
+        }}
+        onDragStart={() => {
+          setIsDragging(true);
+          onDragPiece(char, coordinates);
         }}
         onDragOver={(event) => {
           event.preventDefault();
         }}
         onDrop={() => {
-          onSelectField(char, coordinates, isInTipFields);
+          setIsDragging(false);
+          onDropPiece(coordinates, isInTipFields, sameCoor);
         }}
       >
-        {char && (
-          <div className={classes.piece} draggable={true}>
+        {char && shouldDisplay && (
+          <div
+            className={classes.piece}
+            draggable={checkIfOwnPiece(char, playerData)}
+          >
             <img src={`/pieces/${pieceImageMap[char]}`} draggable={false} />
           </div>
         )}
@@ -193,54 +206,77 @@ function GameBoard({ gameId, gameData, playerData }: GameBoardProps) {
     );
   };
 
+  // click handler
   const onSelectField = (
     piece: string | null,
     coordinates: number[],
-    isInTipFields: boolean
-  ) => {
+    isInTipFields: boolean,
+    samePiece: boolean
+  ): void => {
+    // unselect piece when clicked on same piece
+    if (samePiece) {
+      chosePiece("", []);
+      return;
+    }
+    // make move if is in tips
+    if (isInTipFields) {
+      MakeMove.makeMove(
+        gameId,
+        boardMatrix,
+        selectedPiece,
+        selectedCoor,
+        coordinates
+      );
+      return;
+    }
+
+    // if no tips, select piece
     if (piece) {
-      const colorIndex = playerData.color === 0 ? "white" : "black";
-      const piecesForColor = pieceTagMap[colorIndex];
+      chosePiece(piece, coordinates);
+      return;
+    }
 
-      const isOwnPiece = Object.values(piecesForColor).includes(piece);
+    // when clicked on empty field, while tips are set
+    chosePiece("", []);
+  };
 
-      if (isOwnPiece) {
-        if (checkCoordinatesEquality(coordinates, selectedCoor)) {
-          chosePiece("", []);
-        } else {
-          chosePiece(piece, coordinates);
-        }
-      } else {
-        if (isInTipFields) {
-          // make move
-          MakeMove.makeMove(
-            gameId,
-            boardMatrix,
-            selectedPiece,
-            selectedCoor,
-            coordinates
-          );
-        } else {
-          chosePiece("", []);
-        }
-      }
+  // drag & drop handlers
+  const onDragPiece = (piece: string | null, coordinates: number[]): void => {
+    // do not select if empty
+    if (!piece) {
+      return;
+    }
+
+    // set chosen piece
+    chosePiece(piece, coordinates);
+  };
+
+  const onDropPiece = (
+    coordinates: number[],
+    isInTipFields: boolean,
+    samePiece: boolean
+  ): void => {
+    // unselect piece when back on same field
+    if (samePiece) {
+      chosePiece("", []);
+      return;
+    }
+
+    // if put on one of tip fields make move else clear piece
+    if (isInTipFields) {
+      MakeMove.makeMove(
+        gameId,
+        boardMatrix,
+        selectedPiece,
+        selectedCoor,
+        coordinates
+      );
     } else {
-      if (isInTipFields) {
-        // make move
-        MakeMove.makeMove(
-          gameId,
-          boardMatrix,
-          selectedPiece,
-          selectedCoor,
-          coordinates
-        );
-      } else {
-        chosePiece("", []);
-      }
+      chosePiece("", []);
     }
   };
 
-  // set selected piece and coordinates
+  // set selected piece and corresponding coordinates
   const chosePiece = (piece: string, coordinates: number[]) => {
     if (checkIfPlayerTurn(gameData.turn, playerData.color)) {
       setSelectedPiece(piece);
@@ -248,8 +284,8 @@ function GameBoard({ gameId, gameData, playerData }: GameBoardProps) {
     }
   };
 
+  // set tip fields each time user choses different filed
   useEffect(() => {
-    // set tip fields each time user choses different filed
     setTipFields(
       ShowTip.showTip(
         playerData,

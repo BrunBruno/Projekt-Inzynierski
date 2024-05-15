@@ -1,3 +1,5 @@
+// user controller dtos
+
 export type ConfigurationDto = {
   minLength: number | null;
   maxLength: number | null;

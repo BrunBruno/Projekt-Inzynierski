@@ -7,9 +7,10 @@
   text-overflow: ellipsis;
 }
 
+// use second font
 @mixin secFont($size) {
   font-size: $size;
-  font-family: 'Knewave';
+  font-family: "Knewave";
   user-select: none;
   overflow: hidden;
 }

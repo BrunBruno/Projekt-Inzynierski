@@ -1,13 +1,13 @@
-import { pieceImageMap } from "../../../shared/utils/enums/piecesMaps";
-import { GetGameDto, GetPlayerDto } from "../../../shared/utils/types/gameDtos";
+import AvatarSvg from "../../../shared/svgs/AvatarSvg";
+import PiecesSvgs from "../../../shared/svgs/PiecesSvgs";
+import { GetGameDto } from "../../../shared/utils/types/gameDtos";
 import classes from "./RightSideBar.module.scss";
 
 type RightSideBarProps = {
   gameData: GetGameDto;
-  playerData: GetPlayerDto;
 };
 
-function RightSideBar({ gameData, playerData }: RightSideBarProps) {
+function RightSideBar({ gameData }: RightSideBarProps) {
   return (
     <section className={classes.bar}>
       <div className={classes.bar__content}>
@@ -16,7 +16,15 @@ function RightSideBar({ gameData, playerData }: RightSideBarProps) {
             className={`${classes.bar__content__header__player} ${classes["white-player"]}`}
           >
             <div className={classes["white-player-img"]}>
-              <img className={classes["player-img"]} src="/images/avatar.jpg" />
+              {gameData.whitePlayer.imageUrl ? (
+                <img
+                  className={classes["player-img"]}
+                  src={gameData.whitePlayer.imageUrl}
+                  alt="white-player-avatar"
+                />
+              ) : (
+                <AvatarSvg iconClass={classes.avatar} />
+              )}
             </div>
             <div className={classes["player-data"]}>
               <span>{gameData.whitePlayer.name}</span>
@@ -28,7 +36,15 @@ function RightSideBar({ gameData, playerData }: RightSideBarProps) {
             className={`${classes.bar__content__header__player} ${classes["black-player"]}`}
           >
             <div className={classes["black-player-img"]}>
-              <img className={classes["player-img"]} src="/images/avatar.jpg" />
+              {gameData.blackPlayer.imageUrl ? (
+                <img
+                  className={classes["player-img"]}
+                  src={gameData.blackPlayer.imageUrl}
+                  alt="black-player-avatar"
+                />
+              ) : (
+                <AvatarSvg iconClass={classes.avatar} />
+              )}
             </div>
             <div className={classes["player-data"]}>
               <span>{gameData.blackPlayer.name}</span>
@@ -52,7 +68,10 @@ function RightSideBar({ gameData, playerData }: RightSideBarProps) {
                     <p className={classes.sep}>:</p>
                   )}
                   <p className={classes.move}>
-                    <img src={`/pieces/${pieceImageMap[move.move[0]]}`} />
+                    <PiecesSvgs
+                      iconName={move.move[0].toLowerCase()}
+                      color={i % 2 === 0}
+                    />
                     <span>
                       {move.move.charAt(0).toUpperCase() +
                         move.move.slice(1).toLowerCase()}

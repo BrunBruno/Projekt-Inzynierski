@@ -29,13 +29,15 @@ public class GetGameRequestHandler : IRequestHandler<GetGameRequest, GetGameDto>
             WhitePlayer = new GetGamePlayerDto()
             {
                 Name = game.WhitePlayer.Name,
-                Elo = game.BlackPlayer.Elo
+                ImageUrl = game.WhitePlayer.ImageUrl,
+                Elo = game.BlackPlayer.Elo,
             },
 
             BlackPlayer = new GetGamePlayerDto()
             {
                 Name = game.BlackPlayer.Name,
-                Elo = game.BlackPlayer.Elo
+                ImageUrl = game.BlackPlayer.ImageUrl,
+                Elo = game.BlackPlayer.Elo,
             },
 
             Moves = game.Moves.Select(move => new GetGameMoveDto

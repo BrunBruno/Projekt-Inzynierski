@@ -1,4 +1,4 @@
-import { IconSvgProps } from '../utils/types/commonTypes';
+import { IconSvgProps } from "../utils/types/commonTypes";
 
 function RoundArrowSvg({ color, iconClass }: IconSvgProps) {
   return (

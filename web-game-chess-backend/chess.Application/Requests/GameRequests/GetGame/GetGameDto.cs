@@ -41,6 +41,7 @@ public class GetGameDto {
 
 public class GetGamePlayerDto {
     public string Name { get; set; }
+    public string? ImageUrl { get; set; }
     public int Elo { get; set; }
 }
 

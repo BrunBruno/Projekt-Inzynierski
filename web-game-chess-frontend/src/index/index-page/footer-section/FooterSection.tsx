@@ -1,8 +1,8 @@
-import LogoIconSvg from '../../../shared/svgs/LogoIconSvg';
-import RoundArrowSvg from '../../../shared/svgs/RoundArrowSvg';
-import { mainColor } from '../../../shared/utils/enums/colorMaps';
-import classes from './FooterSection.module.scss';
-import FooterSectionIcons from './FooterSectionIcons';
+import LogoIconSvg from "../../../shared/svgs/LogoIconSvg";
+import RoundArrowSvg from "../../../shared/svgs/RoundArrowSvg";
+import { mainColor } from "../../../shared/utils/enums/colorMaps";
+import classes from "./FooterSection.module.scss";
+import FooterSectionIcons from "./FooterSectionIcons";
 
 type FooterSectionProps = {};
 
@@ -10,8 +10,8 @@ function FooterSection({}: FooterSectionProps) {
   return (
     <footer className={classes.footer}>
       <div className={classes.footer__intro}>
-        <h2 className={classes['footer-title']}>
-          <LogoIconSvg iconClass={classes['footer-logo']} />
+        <h2 className={classes["footer-title"]}>
+          <LogoIconSvg iconClass={classes["footer-logo"]} />
           <span>BRN CHESS</span>
         </h2>
       </div>
@@ -39,7 +39,7 @@ function FooterSection({}: FooterSectionProps) {
               <p>Facebook</p>
               <RoundArrowSvg
                 color={mainColor.c0}
-                iconClass={classes['r-arr']}
+                iconClass={classes["r-arr"]}
               />
             </div>
           </a>
@@ -53,7 +53,7 @@ function FooterSection({}: FooterSectionProps) {
               <p>Instagram</p>
               <RoundArrowSvg
                 color={mainColor.c0}
-                iconClass={classes['r-arr']}
+                iconClass={classes["r-arr"]}
               />
             </div>
           </a>
@@ -67,7 +67,7 @@ function FooterSection({}: FooterSectionProps) {
               <p>X (Twitter)</p>
               <RoundArrowSvg
                 color={mainColor.c0}
-                iconClass={classes['r-arr']}
+                iconClass={classes["r-arr"]}
               />
             </div>
           </a>
@@ -81,7 +81,7 @@ function FooterSection({}: FooterSectionProps) {
               <p>TikTok</p>
               <RoundArrowSvg
                 color={mainColor.c0}
-                iconClass={classes['r-arr']}
+                iconClass={classes["r-arr"]}
               />
             </div>
           </a>
@@ -95,7 +95,7 @@ function FooterSection({}: FooterSectionProps) {
               <p>YouTube</p>
               <RoundArrowSvg
                 color={mainColor.c0}
-                iconClass={classes['r-arr']}
+                iconClass={classes["r-arr"]}
               />
             </div>
           </a>
@@ -109,7 +109,7 @@ function FooterSection({}: FooterSectionProps) {
               <p>Privacy Policy</p>
               <RoundArrowSvg
                 color={mainColor.c0}
-                iconClass={classes['r-arr']}
+                iconClass={classes["r-arr"]}
               />
             </div>
           </a>
@@ -119,7 +119,7 @@ function FooterSection({}: FooterSectionProps) {
               <p>Terms & Conditions</p>
               <RoundArrowSvg
                 color={mainColor.c0}
-                iconClass={classes['r-arr']}
+                iconClass={classes["r-arr"]}
               />
             </div>
           </a>

@@ -1,7 +1,7 @@
 import React, { forwardRef, useImperativeHandle, useRef } from "react";
 import classes from "./PlayBoard.module.scss";
-import { HandleOnScroll } from "../../../../shared/utils/types/handleOnScroll";
 import LogoIconSvg from "../../../../shared/svgs/LogoIconSvg";
+import { HandleOnScroll } from "../../../../shared/utils/types/commonTypes";
 
 type PlayBoardProps = {};
 
@@ -129,7 +129,7 @@ const PlayBoard = forwardRef<HandleOnScroll, PlayBoardProps>(
     const makeWave = (key: string): void => {
       let [row, col]: [number, number] = key.split("-").map(Number) as [
         number,
-        number
+        number,
       ];
 
       let neighborKey: string = `${row}-${col}`;

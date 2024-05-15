@@ -1,4 +1,4 @@
-import { generateRandomId } from '../utils/functions/generateRandomId';
+import { generateRandomId } from "../utils/functions/generateRandom";
 
 type LogoIconSvgProps = {
   iconClass: string;
@@ -6,6 +6,7 @@ type LogoIconSvgProps = {
 
 function LogoIconSvg({ iconClass }: LogoIconSvgProps) {
   const defsIds: Record<string, string> = {};
+
   for (let i = 0; i < 7; i++) {
     defsIds[`id${i}`] = generateRandomId(36);
   }

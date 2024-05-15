@@ -1,4 +1,4 @@
-@import '../../Index.scss';
+@import "../../Index.scss";
 
 // modal css
 .registration-form {
@@ -97,8 +97,8 @@
       @include cInput(2.4rem, $gc0, $mc9);
       width: 16rem;
     }
-    input[type='number']::-webkit-inner-spin-button,
-    input[type='number']::-webkit-outer-spin-button {
+    input[type="number"]::-webkit-inner-spin-button,
+    input[type="number"]::-webkit-outer-spin-button {
       -webkit-appearance: none;
     }
 

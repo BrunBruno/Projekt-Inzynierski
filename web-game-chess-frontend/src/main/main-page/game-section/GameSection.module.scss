@@ -1,48 +1,48 @@
 @import "../../Main.scss";
 
 .game {
-    @include wh100();
+  @include wh100();
 
-    &__content {
+  &__content {
+    height: 100%;
+    display: grid;
+    grid-template-columns: 75% auto;
+
+    &__col {
+      height: 100%;
+
+      .game-interface {
         height: 100%;
-        display: grid;
-        grid-template-columns: 75% auto;
+        padding: 12rem 16rem; //?
+      }
 
-        &__col {
-            height: 100%;
+      .game-buttons {
+        @include flex(column, start, center, 0.6rem);
 
-            .game-interface {
-                height: 100%;
-                padding: 12rem 16rem; //?
-            }
+        height: 100%;
+        padding: 2rem;
+        background-color: $gc9;
 
-            .game-buttons {
-                @include flex(column, start, center, 0.6rem);
+        button {
+          @include button(2.4rem);
+          @include mainGButton();
+          @include flex($gap: 1.2rem);
 
-                height: 100%;
-                padding: 2rem;
-                background-color: $gc9;
+          width: 100%;
+          padding: 2rem;
+          background-color: rgba($gc8, 0.3);
+          border-radius: 1rem;
+          border-width: 0.2rem;
 
-                button {
-                    @include button(2.4rem);
-                    @include mainGButton();
-                    @include flex($gap: 1.2rem);
+          .button-icon {
+            height: 2.4rem;
+          }
 
-                    width: 100%;
-                    padding: 2rem;
-                    background-color: rgba($gc8, 0.3);
-                    border-radius: 1rem;
-                    border-width: 0.2rem;
-
-                    .button-icon {
-                        height: 2.4rem;
-                    }
-
-                    &:focus {
-                        box-shadow: none;
-                    }
-                }
-            }
+          &:focus {
+            box-shadow: none;
+          }
         }
+      }
     }
+  }
 }

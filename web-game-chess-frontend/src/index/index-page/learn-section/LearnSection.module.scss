@@ -1,4 +1,4 @@
-@import '../../Index.scss';
+@import "../../Index.scss";
 
 .learn {
   @include wh100();
@@ -11,7 +11,6 @@
     max-height: 120rem;
     aspect-ratio: 7/5;
     margin-top: 20rem;
-    // pointer-events: none;
 
     &__card {
       position: absolute;
@@ -90,7 +89,7 @@
 
       h2 {
         font-size: 4rem;
-        font-family: 'Knewave';
+        font-family: "Knewave";
         user-select: none;
         text-align: center;
         color: $mc5;

@@ -1,17 +1,18 @@
-import { ConfigurationDto } from '../types/userDtos';
+import { ConfigurationDto } from "../types/userDtos";
 
 export type ValidationResult = {
   isValid: boolean;
   message: string;
 };
 
+// to check user input with db configuration record
 export const checkFromConfiguration = (
   field: string,
   data: string,
   configuration: ConfigurationDto
 ): ValidationResult => {
   let isValid = true;
-  let message = '';
+  let message = "";
 
   if (configuration.minLength && data.length < configuration.minLength) {
     message = `${field} must be longer than ${configuration.minLength} characters.`;

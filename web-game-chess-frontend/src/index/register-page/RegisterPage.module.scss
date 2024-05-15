@@ -1,5 +1,5 @@
-@import '../Index.scss';
-@import '../../shared/components/action-button/ActionButton.module.scss';
+@import "../Index.scss";
+@import "../../shared/components/action-button/ActionButton.module.scss";
 
 .register {
   @include gridBg();
@@ -46,7 +46,7 @@
       border-radius: $md-br;
 
       background-image: linear-gradient(rgba(#000, 0.8), rgba(#000, 0.8)),
-        url('images/register-bg.jpg');
+        url("images/register-bg.jpg");
 
       background-size: cover;
       background-repeat: no-repeat;

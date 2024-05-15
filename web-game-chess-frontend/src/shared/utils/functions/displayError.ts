@@ -1,5 +1,6 @@
 import { AxiosError } from "axios";
 
+// back-end error displaying
 export const errorDisplay = (
   error: any,
   action: (value: React.SetStateAction<string>) => void
@@ -9,6 +10,10 @@ export const errorDisplay = (
       action(error.response.data);
     } else if (error.message) {
       action(error.message);
+    } else {
+      action("Something went wrong.");
     }
+  } else {
+    action("Something went wrong.");
   }
 };
