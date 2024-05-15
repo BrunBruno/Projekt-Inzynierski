@@ -25,6 +25,24 @@ public class GetGameRequestHandler : IRequestHandler<GetGameRequest, GetGameDto>
             CreatedAt = game.CreatedAt,
             Duration = game.GameTiming.Minutes,
             Increment = game.GameTiming.Increment,
+
+            WhitePlayer = new GetGamePlayerDto()
+            {
+                Name = game.WhitePlayer.Name,
+                Elo = game.BlackPlayer.Elo
+            },
+
+            BlackPlayer = new GetGamePlayerDto()
+            {
+                Name = game.BlackPlayer.Name,
+                Elo = game.BlackPlayer.Elo
+            },
+
+            Moves = game.Moves.Select(move => new GetGameMoveDto
+            {
+                Move = move.DoneMove,
+                Turn = move.Turn,
+            }).ToList(),
         };
 
         return gameDto;

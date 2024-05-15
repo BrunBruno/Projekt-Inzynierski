@@ -32,5 +32,20 @@ public class GetGameDto {
     /// </summary>
     public int Increment { get; set; }
 
+    public GetGamePlayerDto WhitePlayer { get; set; }
+    public GetGamePlayerDto BlackPlayer { get; set; }
+
+    public List<GetGameMoveDto> Moves { get; set; }
+
+}
+
+public class GetGamePlayerDto {
+    public string Name { get; set; }
+    public int Elo { get; set; }
+}
+
+public class GetGameMoveDto {
+    public string Move { get; set; }
+    public int Turn { get; set; }
 }
 

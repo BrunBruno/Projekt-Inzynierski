@@ -1,11 +1,11 @@
-import React from 'react';
-import { forwardRef, useEffect, useImperativeHandle, useRef } from 'react';
-import classes from './LearnSection.module.scss';
-import LearnBlocks from './learn-blocks/LearnBlocks';
-import { HandleOnScroll } from '../../../shared/utils/types/handleOnScroll';
-import { createOneTimeObserver } from '../../../shared/utils/functions/createOneTimeObserver';
-import { mainColor } from '../../../shared/utils/enums/colorMaps';
-import { generateRandomColor } from '../../../shared/utils/functions/generateRandomColor';
+import React from "react";
+import { forwardRef, useEffect, useImperativeHandle, useRef } from "react";
+import classes from "./LearnSection.module.scss";
+import LearnBlocks from "./learn-blocks/LearnBlocks";
+import { createOneTimeObserver } from "../../../shared/utils/functions/createOneTimeObserver";
+import { mainColor } from "../../../shared/utils/enums/colorMaps";
+import { generateRandomColor } from "../../../shared/utils/functions/generateRandomColor";
+import { HandleOnScroll } from "../../../shared/utils/types/commonTypes";
 
 type LearnSectionProps = {
   sectionRef: React.RefObject<HTMLElement>;
@@ -24,7 +24,7 @@ const LearnSection = forwardRef<HandleOnScroll, LearnSectionProps>(
     const cardRefs = useRef<HTMLDivElement[]>([]);
     useEffect(() => {
       const observerAction = (entry: IntersectionObserverEntry): void => {
-        entry.target.classList.add(classes['open-card']);
+        entry.target.classList.add(classes["open-card"]);
       };
       const observer: IntersectionObserver = createOneTimeObserver(
         observerAction,

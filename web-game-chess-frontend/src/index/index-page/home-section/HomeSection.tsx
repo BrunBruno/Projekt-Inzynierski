@@ -3,11 +3,11 @@ import React, {
   useEffect,
   useImperativeHandle,
   useRef,
-} from 'react';
-import classes from './HomeSection.module.scss';
-import { HandleOnScroll } from '../../../shared/utils/types/handleOnScroll';
-import HomeActions from './home-actions/HomeActions';
-import { createOneTimeObserver } from '../../../shared/utils/functions/createOneTimeObserver';
+} from "react";
+import classes from "./HomeSection.module.scss";
+import HomeActions from "./home-actions/HomeActions";
+import { createOneTimeObserver } from "../../../shared/utils/functions/createOneTimeObserver";
+import { HandleOnScroll } from "../../../shared/utils/types/commonTypes";
 
 type HomeSectionProps = {
   sectionRef: React.RefObject<HTMLElement>;
@@ -46,7 +46,7 @@ const HomeSection = forwardRef<HandleOnScroll, HomeSectionProps>(
 
     useEffect(() => {
       const introObserverAction = (entry: IntersectionObserverEntry): void => {
-        entry.target.classList.add(classes['show']);
+        entry.target.classList.add(classes["show"]);
       };
       const introObserver: IntersectionObserver = createOneTimeObserver(
         introObserverAction,

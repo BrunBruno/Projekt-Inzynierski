@@ -3,16 +3,16 @@ import React, {
   useImperativeHandle,
   useRef,
   useState,
-} from 'react';
-import classes from './FaqSection.module.scss';
-import { HandleOnScroll } from '../../../shared/utils/types/handleOnScroll';
-import ArrowLeftSvg from '../../../shared/svgs/ArrowLeftSvg';
-import { mainColor } from '../../../shared/utils/enums/colorMaps';
-import ArrowRightSvg from '../../../shared/svgs/ArrowRightSvg';
+} from "react";
+import classes from "./FaqSection.module.scss";
+import ArrowLeftSvg from "../../../shared/svgs/ArrowLeftSvg";
+import { mainColor } from "../../../shared/utils/enums/colorMaps";
+import ArrowRightSvg from "../../../shared/svgs/ArrowRightSvg";
 import {
   accountAndUserProfileFAQs,
   gameplayAndFeaturesFAQs,
-} from './FaqSectionQuestions';
+} from "./FaqSectionQuestions";
+import { HandleOnScroll } from "../../../shared/utils/types/commonTypes";
 
 type FaqSectionProps = {
   sectionRef: React.RefObject<HTMLElement>;
@@ -43,7 +43,7 @@ const FaqSection = forwardRef<HandleOnScroll, FaqSectionProps>(
         if (element) {
           element.scrollBy({
             left: scrollAmount,
-            behavior: 'smooth',
+            behavior: "smooth",
           });
 
           const scrollPos = element.scrollLeft + scrollAmount;
@@ -66,7 +66,7 @@ const FaqSection = forwardRef<HandleOnScroll, FaqSectionProps>(
         if (element) {
           element.scrollBy({
             left: scrollAmount,
-            behavior: 'smooth',
+            behavior: "smooth",
           });
 
           const scrollPos = element.scrollLeft + scrollAmount;

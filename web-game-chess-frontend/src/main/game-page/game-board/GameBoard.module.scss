@@ -1,157 +1,187 @@
 @import "../../Main.scss";
 
-.board {
-  @include square(64rem);
-  @include rounded(2rem);
+.board-container {
+  @include wh100();
+  @include flex();
 
   position: relative;
-  background-color: #000;
+  z-index: 0;
+  border-radius: $lg-br;
+  box-shadow: inset 2rem 0 2rem -1rem rgba($mc5, 0.3),
+    inset -2rem 0 2rem -1rem rgba($mc5, 0.3),
+    inset 0 1rem 2rem -1rem rgba($mc5, 0.3),
+    inset 0 -1rem 2rem -1rem rgba($mc5, 0.3);
 
-  @mixin filesIndicators() {
-    position: absolute;
-    display: grid;
+  .board {
+    @include square(64rem);
+    @include rounded(2rem);
+
+    position: inherit;
+    z-index: 10;
     background-color: #000;
 
-    div {
-      @include flex();
+    // files indicators
+    @mixin filesIndicators() {
+      position: absolute;
+      display: grid;
+      background-color: #000;
 
-      font-size: 1.2rem;
-      font-weight: bold;
-    }
-  }
-
-  .white-indicators {
-    transform: rotate(0deg);
-    div {
-      transform: rotate(0deg);
-    }
-  }
-  .black-indicators {
-    transform: rotate(180deg);
-    div {
-      transform: rotate(180deg);
-    }
-  }
-
-  &__rows {
-    @include filesIndicators();
-
-    top: 2rem;
-    left: 0;
-    width: 2rem;
-    height: calc(100% - 2 * 2rem);
-    grid-template-rows: repeat(8, 1fr);
-  }
-
-  &__columns {
-    @include filesIndicators();
-
-    bottom: 0;
-    left: 2rem;
-    width: calc(100% - 2 * 2rem);
-    height: 2rem;
-    grid-template-columns: repeat(8, 1fr);
-  }
-
-  &__grid {
-    @include wh100();
-
-    aspect-ratio: 1/1;
-    display: grid;
-    grid-template-columns: repeat(8, 1fr) 0;
-    grid-template-rows: repeat(8, 1fr);
-    border-radius: 1rem;
-    overflow: hidden;
-
-    background-image: url("/icons/wood.png");
-    background-size: 12.5% 12.5%;
-
-    .field {
-      @include flex();
-
-      aspect-ratio: 1/1;
-
-      &:nth-child(odd) {
-        background-color: rgba($mc0, 0.96);
-      }
-      &:nth-child(even) {
-        background-color: rgba($mc9, 0.96);
-      }
-
-      .piece {
-        @include square(100%);
+      div {
         @include flex();
 
-        transform-style: preserve-3d;
-        user-select: none;
-
-        img {
-          height: calc(((64rem - 2rem) / 8) * 0.8);
-          transform: translateZ(-1px);
-          filter: drop-shadow(0 0 1rem #000);
-        }
-      }
-
-      p {
-        position: absolute;
-        @include circle(2rem);
+        font-size: 1.2rem;
+        font-weight: bold;
+        color: $gc5;
       }
     }
 
-    .tip {
-      background-image: radial-gradient(
-        circle at 50% 50%,
-        rgba(#000, 0.5) 30%,
-        #0000 40%
-      );
-
-      &:not(.selected) {
-        &:has(.piece) {
-          background-image: radial-gradient(
-            circle at 50% 50%,
-            rgba($danger-color-m, 0.5) 30%,
-            #0000 40%
-          );
-        }
-      }
-    }
-
-    .selected {
-      .piece {
-        img {
-          filter: drop-shadow(0 0 1rem #000) brightness(60%);
-        }
-      }
-    }
-
-    .check {
-      background-image: radial-gradient(
-        circle at 50% 50%,
-        $danger-color-d 30%,
-        $danger-color-m 50%,
-        $danger-color-l 70%,
-        #0000 100%
-      );
-    }
-
-    .placeholder {
-      width: 0;
-    }
-  }
-
-  .white-board {
-    transform: rotate(0deg);
-
-    .field {
+    .white-indicators {
       transform: rotate(0deg);
+      div {
+        transform: rotate(0deg);
+      }
     }
-  }
 
-  .black-board {
-    transform: rotate(180deg);
-
-    .field {
+    .black-indicators {
       transform: rotate(180deg);
+      div {
+        transform: rotate(180deg);
+      }
     }
+
+    &__rows {
+      @include filesIndicators();
+
+      top: 2rem;
+      left: 0;
+      width: 2rem;
+      height: calc(100% - 2 * 2rem);
+      grid-template-rows: repeat(8, 1fr);
+    }
+
+    &__columns {
+      @include filesIndicators();
+
+      bottom: 0;
+      left: 2rem;
+      width: calc(100% - 2 * 2rem);
+      height: 2rem;
+      grid-template-columns: repeat(8, 1fr);
+    }
+    // end files indicators
+
+    // grid board
+    &__grid {
+      @include wh100();
+
+      aspect-ratio: 1/1;
+      display: grid;
+      grid-template-columns: repeat(8, 1fr) 0;
+      grid-template-rows: repeat(8, 1fr);
+      border-radius: 1rem;
+      overflow: hidden;
+
+      background-image: url("/icons/wood.png");
+      background-size: 12.5% 12.5%;
+
+      .field {
+        @include flex();
+
+        aspect-ratio: 1/1;
+
+        &:hover {
+          filter: brightness(90%);
+        }
+
+        &:nth-child(odd) {
+          background-color: rgba($mc0, 0.96);
+        }
+        &:nth-child(even) {
+          background-color: rgba($mc9, 0.96);
+        }
+
+        .piece {
+          @include square(100%);
+          @include flex();
+
+          cursor: grab;
+          transform-style: preserve-3d;
+          user-select: none;
+
+          img {
+            height: calc(((64rem - 2rem) / 8) * 0.8);
+            transform: translateZ(-1px);
+            filter: drop-shadow(0 0 1rem #000);
+          }
+
+          &:active {
+            cursor: grabbing;
+          }
+        }
+
+        p {
+          position: absolute;
+          @include circle(2rem);
+        }
+      }
+
+      .tip {
+        cursor: pointer;
+        background-image: radial-gradient(
+          circle at 50% 50%,
+          rgba(#000, 0.5) 30%,
+          #0000 40%
+        );
+
+        &:not(.selected) {
+          &:has(.piece) {
+            background-image: radial-gradient(
+              circle at 50% 50%,
+              rgba($danger-color-m, 0.5) 30%,
+              #0000 40%
+            );
+          }
+        }
+      }
+
+      .selected {
+        .piece {
+          img {
+            filter: drop-shadow(0 0 1rem #000) brightness(60%);
+          }
+        }
+      }
+
+      .check {
+        background-image: radial-gradient(
+          circle at 50% 50%,
+          $danger-color-d 30%,
+          $danger-color-m 50%,
+          $danger-color-l 70%,
+          #0000 100%
+        );
+      }
+
+      .placeholder {
+        width: 0;
+      }
+    }
+
+    .white-board {
+      transform: rotate(0deg);
+
+      .field {
+        transform: rotate(0deg);
+      }
+    }
+
+    .black-board {
+      transform: rotate(180deg);
+
+      .field {
+        transform: rotate(180deg);
+      }
+    }
+    // end grid board
   }
 }

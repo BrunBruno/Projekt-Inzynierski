@@ -1,7 +1,7 @@
-import { forwardRef, useImperativeHandle, useRef } from 'react';
-import classes from './HeroSection.module.scss';
-import { HandleOnScroll } from '../../../shared/utils/types/handleOnScroll';
-import HeroHeader from './hero-header/HeroHeader';
+import { forwardRef, useImperativeHandle, useRef } from "react";
+import classes from "./HeroSection.module.scss";
+import HeroHeader from "./hero-header/HeroHeader";
+import { HandleOnScroll } from "../../../shared/utils/types/commonTypes";
 
 type HeroSectionProps = {};
 
@@ -36,14 +36,14 @@ const HeroSection = forwardRef<HandleOnScroll, HeroSectionProps>(
             <div></div>
             <h1>
               <span>
-                <span className={classes['span-n']}>Enter the</span>{' '}
-                <span className={classes['span-f']}>realm</span>
+                <span className={classes["span-n"]}>Enter the</span>{" "}
+                <span className={classes["span-f"]}>realm</span>
               </span>
               <br />
               <span>
-                <span className={classes['span-n']}>where every</span>{' '}
-                <span className={classes['span-f']}>move</span>{' '}
-                <span className={classes['span-n']}> shapes destiny</span>
+                <span className={classes["span-n"]}>where every</span>{" "}
+                <span className={classes["span-f"]}>move</span>{" "}
+                <span className={classes["span-n"]}> shapes destiny</span>
               </span>
             </h1>
 

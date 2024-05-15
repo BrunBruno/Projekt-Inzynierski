@@ -69,6 +69,8 @@ function GameBoard({ gameId, gameData, playerData }: GameBoardProps) {
       return matrix.reverse();
     };
 
+    const startTime = performance.now();
+
     const matrix = setMatrix(gameData.position);
 
     setBaordMatrix(matrix);
@@ -89,6 +91,9 @@ function GameBoard({ gameId, gameData, playerData }: GameBoardProps) {
     // clear selected piece and tips
     chosePiece("", []);
     setTipFields([]);
+
+    const endTime = performance.now();
+    console.log("board setters", endTime - startTime, "ms");
   }, [gameData]);
 
   useEffect(() => {
@@ -131,12 +136,18 @@ function GameBoard({ gameId, gameData, playerData }: GameBoardProps) {
         className={`${classes.field} ${isInTipFields ? classes.tip : ""} ${
           sameCoor ? classes.selected : ""
         } ${isInCheck ? classes.check : ""}`}
-        onClick={() => {
+        onMouseDown={() => {
+          onSelectField(char, coordinates, isInTipFields);
+        }}
+        onDragOver={(event) => {
+          event.preventDefault();
+        }}
+        onDrop={() => {
           onSelectField(char, coordinates, isInTipFields);
         }}
       >
         {char && (
-          <div className={classes.piece}>
+          <div className={classes.piece} draggable={true}>
             <img src={`/pieces/${pieceImageMap[char]}`} draggable={false} />
           </div>
         )}
@@ -254,37 +265,39 @@ function GameBoard({ gameId, gameData, playerData }: GameBoardProps) {
   }, [selectedCoor]);
 
   return (
-    <div className={classes.board}>
-      <div
-        className={`${classes.board__rows} ${
-          playerData.color === pieceColor.black
-            ? classes["black-indicators"]
-            : classes["white-indicators"]
-        }`}
-      >
-        {Array.from({ length: 8 }, (_, i) => i + 1)
-          .reverse()
-          .map((row, i) => (
-            <div key={`row${i}`}>{row}</div>
-          ))}
-      </div>
-      <div
-        className={`${classes.board__columns} ${
-          playerData.color === pieceColor.black
-            ? classes["black-indicators"]
-            : classes["white-indicators"]
-        }`}
-      >
-        {Array.from({ length: 8 }, (_, i) => String.fromCharCode(65 + i)).map(
-          (row, i) => (
-            <div key={`col${i}`}>{row}</div>
-          )
-        )}
-      </div>
-      {board}
+    <section className={classes["board-container"]}>
+      <div className={classes.board}>
+        <div
+          className={`${classes.board__rows} ${
+            playerData.color === pieceColor.black
+              ? classes["black-indicators"]
+              : classes["white-indicators"]
+          }`}
+        >
+          {Array.from({ length: 8 }, (_, i) => i + 1)
+            .reverse()
+            .map((row, i) => (
+              <div key={`row${i}`}>{row}</div>
+            ))}
+        </div>
+        <div
+          className={`${classes.board__columns} ${
+            playerData.color === pieceColor.black
+              ? classes["black-indicators"]
+              : classes["white-indicators"]
+          }`}
+        >
+          {Array.from({ length: 8 }, (_, i) => String.fromCharCode(65 + i)).map(
+            (row, i) => (
+              <div key={`col${i}`}>{row}</div>
+            )
+          )}
+        </div>
+        {board}
 
-      {playerData.color}
-    </div>
+        {playerData.color}
+      </div>
+    </section>
   );
 }
 

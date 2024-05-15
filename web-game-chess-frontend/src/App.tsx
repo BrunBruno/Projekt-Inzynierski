@@ -1,7 +1,7 @@
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import './App.scss';
-import IndexRouter from './index/IndexRouter';
-import MainRouter from './main/MainRouter';
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import "./App.scss";
+import IndexRouter from "./index/IndexRouter";
+import MainRouter from "./main/MainRouter";
 
 function App() {
   return (

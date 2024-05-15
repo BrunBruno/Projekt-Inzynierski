@@ -1,10 +1,12 @@
 @import "../Main.scss";
 
 .game-main {
-    @include gridBg();
-    @include flex(row, space-between, center, 0);
+  @include gridBg();
 
-    position: relative;
-    height: 100vh;
-    height: 100svh;
+  position: relative;
+  height: 100vh;
+  height: 100svh;
+  display: grid;
+  grid-template-columns: 20rem auto 40rem;
+  overflow: hidden;
 }

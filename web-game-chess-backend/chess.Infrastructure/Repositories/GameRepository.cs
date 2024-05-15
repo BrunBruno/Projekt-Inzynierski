@@ -22,6 +22,7 @@ public class GameRepository : IGameRepository {
     ///<inheritdoc/>
     public async Task<Game?> GetById(Guid id)
         => await _dbContext.Games
+                    .Include(g => g.Moves)
                     .Include(g => g.WhitePlayer)
                     .Include(g => g.BlackPlayer)
                     .Include(g => g.GameTiming)
