@@ -27,9 +27,18 @@ public class MakeMoveRequestHandler : IRequestHandler<MakeMoveRequest> {
         }
 
         game.Position = request.Position;
+        game.Round = (game.Turn / 2) + 1;
         game.Turn += 1;
 
-        
+        game.GameState.EnPassant = request.EnPassant;
+        game.GameState.CanWhiteKingCastle = !request.WhiteKingMoved;
+        game.GameState.CanWhiteShortRookCastle = !request.WhiteShortRookMoved;
+        game.GameState.CanWhiteLongRookCastle = !request.WhiteLongRookMoved;
+        game.GameState.CanBlackKingCastle = !request.BlackKingMoved;
+        game.GameState.CanBlackShortRookCastle = !request.BlackShortRookMoved;
+        game.GameState.CanBlackLongRookCastle = !request.BlackLongRookMoved;
+
+
 
         await _gameRepository.Update(game);
 

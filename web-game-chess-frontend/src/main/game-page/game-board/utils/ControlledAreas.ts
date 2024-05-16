@@ -1,6 +1,6 @@
-import { pieceColor } from "../../../shared/utils/enums/entitiesEnums";
-import { pieceTagMap } from "../../../shared/utils/enums/piecesMaps";
-import { movementMap } from "../../../shared/utils/enums/piecesMovementMap";
+import { pieceColor } from "../../../../shared/utils/enums/entitiesEnums";
+import { pieceTagMap } from "../../../../shared/utils/enums/piecesMaps";
+import { movementMap } from "../../../../shared/utils/enums/piecesMovementMap";
 
 let boardMatrix: string[][] = [];
 
@@ -145,18 +145,18 @@ const checkPawnControlledAreas = (
   if (color === pieceTagMap.white) {
     let x: number;
     let y: number;
-    let [isValid, isEmpy]: boolean[] = [];
+    let isValid: boolean;
 
     x = xCoor + 1;
     y = yCoor + 1;
-    [isValid, isEmpy] = isValidAndIsEmptyField(x, y);
+    isValid = isValidAndIsEmptyField(x, y)[0];
     if (isValid) {
       areas.push([x, y]);
     }
 
     x = xCoor - 1;
     y = yCoor + 1;
-    [isValid, isEmpy] = isValidAndIsEmptyField(x, y);
+    isValid = isValidAndIsEmptyField(x, y)[0];
     if (isValid) {
       areas.push([x, y]);
     }
@@ -165,18 +165,18 @@ const checkPawnControlledAreas = (
   if (color === pieceTagMap.black) {
     let x: number;
     let y: number;
-    let [isValid, isEmpy]: boolean[] = [];
+    let isValid: boolean;
 
     x = xCoor + 1;
     y = yCoor - 1;
-    [isValid, isEmpy] = isValidAndIsEmptyField(x, y);
+    isValid = isValidAndIsEmptyField(x, y)[0];
     if (isValid) {
       areas.push([x, y]);
     }
 
     x = xCoor - 1;
     y = yCoor - 1;
-    [isValid, isEmpy] = isValidAndIsEmptyField(x, y);
+    isValid = isValidAndIsEmptyField(x, y)[0];
     if (isValid) {
       areas.push([x, y]);
     }
@@ -191,12 +191,13 @@ const checkKnightControlledAreas = (
   yCoor: number
 ): number[][] => {
   const areas: number[][] = [];
+  let isValid: boolean;
 
   for (const [dx, dy] of movementMap.knightMoves) {
     const x = xCoor + dx;
     const y = yCoor + dy;
 
-    const [isValid, isEmpty] = isValidAndIsEmptyField(x, y);
+    isValid = isValidAndIsEmptyField(x, y)[0];
     if (isValid) {
       areas.push([x, y]);
     }
@@ -217,8 +218,9 @@ const checkPiecesControlledAreas = (
   for (const [dx, dy] of pieceMoves) {
     let x = xCoor + dx;
     let y = yCoor + dy;
+    let [isValid, isEmpty]: boolean[] = [];
 
-    let [isValid, isEmpty] = isValidAndIsEmptyField(x, y);
+    [isValid, isEmpty] = isValidAndIsEmptyField(x, y);
     while (isValid) {
       areas.push([x, y]);
 
@@ -230,6 +232,7 @@ const checkPiecesControlledAreas = (
       ) {
         kingFound = true;
       }
+
       if (!isEmpty && !kingFound) {
         break;
       }
@@ -247,12 +250,13 @@ const checkPiecesControlledAreas = (
 // controlled areas with kings
 const checkKingControlledAreas = (xCoor: number, yCoor: number): number[][] => {
   const areas: number[][] = [];
+  let isValid: boolean;
 
   for (const [dx, dy] of movementMap.kingMoves) {
     const x = xCoor + dx;
     const y = yCoor + dy;
 
-    const [isValid, isEmpty] = isValidAndIsEmptyField(x, y);
+    isValid = isValidAndIsEmptyField(x, y)[0];
     if (isValid) {
       areas.push([x, y]);
     }
@@ -319,7 +323,7 @@ export const checkChecks = (matrix: string[][]): [number[][], number[][]] => {
           wx,
           wy,
           movementMap.bishopMoves,
-          pieceColor.white
+          pieceColor.black
         ),
         pieceTagMap.black.bishop,
         true
@@ -335,7 +339,7 @@ export const checkChecks = (matrix: string[][]): [number[][], number[][]] => {
           wx,
           wy,
           movementMap.rookMoves,
-          pieceColor.white
+          pieceColor.black
         ),
         pieceTagMap.black.rook,
         true
@@ -351,7 +355,7 @@ export const checkChecks = (matrix: string[][]): [number[][], number[][]] => {
           wx,
           wy,
           movementMap.queenMoves,
-          pieceColor.white
+          pieceColor.black
         ),
         pieceTagMap.black.queen,
         true
@@ -385,7 +389,7 @@ export const checkChecks = (matrix: string[][]): [number[][], number[][]] => {
           bx,
           by,
           movementMap.bishopMoves,
-          pieceColor.black
+          pieceColor.white
         ),
         pieceTagMap.white.bishop,
         true
@@ -401,7 +405,7 @@ export const checkChecks = (matrix: string[][]): [number[][], number[][]] => {
           bx,
           by,
           movementMap.rookMoves,
-          pieceColor.black
+          pieceColor.white
         ),
         pieceTagMap.white.rook,
         true
@@ -417,7 +421,7 @@ export const checkChecks = (matrix: string[][]): [number[][], number[][]] => {
           bx,
           by,
           movementMap.queenMoves,
-          pieceColor.black
+          pieceColor.white
         ),
         pieceTagMap.white.queen,
         true

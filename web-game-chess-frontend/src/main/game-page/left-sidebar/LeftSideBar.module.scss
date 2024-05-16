@@ -28,13 +28,9 @@
       @include flex(row, start, center, 1rem);
       padding: 2rem;
 
-      a {
-        width: fit-content;
-        height: fit-content;
-
-        .logo-svg {
-          height: 3rem;
-        }
+      .logo-svg {
+        height: 3rem;
+        cursor: pointer;
       }
 
       p {

@@ -3,7 +3,6 @@ using chess.Application.Hubs;
 using chess.Application.Requests.GameRequests.MakeMove;
 using chess.Application.Requests.GameRequests.StartGames;
 using MediatR;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.SignalR;
 using SignalRSwaggerGen.Attributes;
 using SignalRSwaggerGen.Enums;
@@ -19,7 +18,6 @@ public class GameHub : Hub<IGameHub> {
         _mediator = mediator;
     }
 
-    ///<inheritdoc/>
     [SignalRMethod("PlayerJoined", Operation.Post)]
     public async Task PlayerJoined(Guid typeId) {
 
@@ -35,27 +33,31 @@ public class GameHub : Hub<IGameHub> {
         await Clients.Groups($"queue-{typeId}").GamesChanged();
     }
 
-    ///<inheritdoc/>
     [SignalRMethod("PlayerLeaved", Operation.Delete)]
     public async Task PlayerLeaved(Guid typeId) {
         await Groups.RemoveFromGroupAsync(Context.ConnectionId, $"queue-{typeId}");
     }
 
-    ///<inheritdoc/>
     [SignalRMethod("GameStarted", Operation.Patch)]
     public async Task GameStarted(Guid gameId) {
         await Groups.AddToGroupAsync(Context.ConnectionId, $"game-{gameId}");
     }
 
-    ///<inheritdoc/>
     [SignalRMethod("MakeMove", Operation.Post)]
-    public async Task MakeMove(Guid gameId, string position, string move) {
+    public async Task MakeMove(Guid gameId, string position, string move, string? enPassant, bool wkm, bool wsrm, bool wlrm, bool bkm, bool bsrm, bool blrm) {
 
         var request = new MakeMoveRequest()
         {
             GameId = gameId,
             Position = position,
             DoneMove = move,
+            EnPassant = enPassant,
+            WhiteKingMoved = wkm,
+            WhiteShortRookMoved = wsrm,
+            WhiteLongRookMoved = wlrm,
+            BlackKingMoved = bkm,
+            BlackShortRookMoved = bsrm,
+            BlackLongRookMoved = blrm,
         };
 
         await _mediator.Send(request);

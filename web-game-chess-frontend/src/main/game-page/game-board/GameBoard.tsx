@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import {
   pieceImageMap,
+  piecePromotionMap,
   pieceTagMap,
 } from "../../../shared/utils/enums/piecesMaps";
 import { GetGameDto, GetPlayerDto } from "../../../shared/utils/types/gameDtos";
@@ -9,14 +10,13 @@ import {
   checkCoordinatesEquality,
   checkIfOwnPiece,
   checkIfPlayerTurn,
-} from "./GameBoardFunctions";
-import {
-  generateControlledAreas,
-  checkChecks,
-} from "./GameBoardControlledAreas";
-import MakeMove from "./GameBoardMakeMove";
-import ShowTip from "./GameBoardShowTip";
+  intToChar,
+} from "./utils/ExtraFunctions";
+import { generateControlledAreas, checkChecks } from "./utils/ControlledAreas";
+import MakeMove from "./utils/MakeMove";
+import ShowTip from "./utils/ShowTip";
 import { pieceColor } from "../../../shared/utils/enums/entitiesEnums";
+import { CastleOptions } from "../../../shared/utils/types/commonTypes";
 
 type GameBoardProps = {
   gameId: string;
@@ -43,6 +43,15 @@ function GameBoard({ gameId, gameData, playerData }: GameBoardProps) {
   // selected piece
   const [selectedPiece, setSelectedPiece] = useState<string>("");
   const [selectedCoor, setselectedCoor] = useState<number[]>([]);
+  const [isDragging, setIsDragging] = useState<boolean>(false);
+
+  // special moves options
+  const [castleOptions, setCastleOptions] = useState<CastleOptions | null>(
+    null
+  );
+  const [promotionCoordinates, setPromotionCoordinates] = useState<
+    number[] | null
+  >(null);
 
   useEffect(() => {
     // set game matrix
@@ -87,6 +96,16 @@ function GameBoard({ gameId, gameData, playerData }: GameBoardProps) {
     // update board when game changed (move was made)
     setBoard(mapFromGamePosition(gameData.position));
 
+    // set castling optios
+    setCastleOptions({
+      cwkc: gameData.canWhiteKingCastle,
+      cwsrc: gameData.canWhiteShortRookCastle,
+      cwlrc: gameData.canWhiteLongRookCastle,
+      cbkc: gameData.canBlackKingCastle,
+      cbsrc: gameData.canBlackShortRookCastle,
+      cblrc: gameData.canBlackLongRookCastle,
+    });
+
     // clear selected piece and tips
     chosePiece("", []);
     setTipFields([]);
@@ -96,8 +115,6 @@ function GameBoard({ gameId, gameData, playerData }: GameBoardProps) {
     // update board when tips changed (user selected different piece)
     setBoard(mapFromGamePosition(gameData.position));
   }, [tipFields]);
-
-  const [isDragging, setIsDragging] = useState<boolean>(false);
 
   // create field based on position
   const displayField = (
@@ -218,6 +235,16 @@ function GameBoard({ gameId, gameData, playerData }: GameBoardProps) {
       chosePiece("", []);
       return;
     }
+
+    if (
+      isInTipFields &&
+      ((selectedPiece === pieceTagMap.white.pawn && coordinates[1] === 8) ||
+        (selectedPiece === pieceTagMap.black.pawn && coordinates[1] === 1))
+    ) {
+      setPromotionCoordinates(coordinates);
+      return;
+    }
+
     // make move if is in tips
     if (isInTipFields) {
       MakeMove.makeMove(
@@ -225,13 +252,15 @@ function GameBoard({ gameId, gameData, playerData }: GameBoardProps) {
         boardMatrix,
         selectedPiece,
         selectedCoor,
-        coordinates
+        coordinates,
+        gameData.enPassant,
+        castleOptions
       );
       return;
     }
 
     // if no tips, select piece
-    if (piece) {
+    if (piece && checkIfOwnPiece(piece, playerData)) {
       chosePiece(piece, coordinates);
       return;
     }
@@ -262,6 +291,15 @@ function GameBoard({ gameId, gameData, playerData }: GameBoardProps) {
       return;
     }
 
+    if (
+      isInTipFields &&
+      ((selectedPiece === pieceTagMap.white.pawn && coordinates[1] === 8) ||
+        (selectedPiece === pieceTagMap.black.pawn && coordinates[1] === 1))
+    ) {
+      setPromotionCoordinates(coordinates);
+      return;
+    }
+
     // if put on one of tip fields make move else clear piece
     if (isInTipFields) {
       MakeMove.makeMove(
@@ -269,7 +307,9 @@ function GameBoard({ gameId, gameData, playerData }: GameBoardProps) {
         boardMatrix,
         selectedPiece,
         selectedCoor,
-        coordinates
+        coordinates,
+        gameData.enPassant,
+        castleOptions
       );
     } else {
       chosePiece("", []);
@@ -295,10 +335,28 @@ function GameBoard({ gameId, gameData, playerData }: GameBoardProps) {
         selectedCoor,
         selectedPiece,
         whiteCheckedAreas,
-        blackCheckedAreas
+        blackCheckedAreas,
+        gameData.enPassant,
+        castleOptions
       )
     );
   }, [selectedCoor]);
+
+  const onPerformPromotion = (promotedPiece: string) => {
+    if (promotionCoordinates) {
+      MakeMove.makeMove(
+        gameId,
+        boardMatrix,
+        promotedPiece,
+        selectedCoor,
+        promotionCoordinates,
+        gameData.enPassant,
+        castleOptions
+      );
+    }
+
+    setPromotionCoordinates(null);
+  };
 
   return (
     <section className={classes["board-container"]}>
@@ -323,15 +381,42 @@ function GameBoard({ gameId, gameData, playerData }: GameBoardProps) {
               : classes["white-indicators"]
           }`}
         >
-          {Array.from({ length: 8 }, (_, i) => String.fromCharCode(65 + i)).map(
+          {Array.from({ length: 8 }, (_, i) => intToChar(i + 1)).map(
             (row, i) => (
               <div key={`col${i}`}>{row}</div>
             )
           )}
         </div>
         {board}
-
-        {playerData.color}
+        {promotionCoordinates && (
+          <div className={classes.board__promotion}>
+            <div className={classes.board__promotion__pieces}>
+              {playerData.color === pieceColor.white
+                ? piecePromotionMap.white.map((p, i) => (
+                    <div
+                      key={`promotion-${i}`}
+                      className={classes.piece}
+                      onClick={() => {
+                        onPerformPromotion(p);
+                      }}
+                    >
+                      <img src={`/pieces/${pieceImageMap[p]}`} />
+                    </div>
+                  ))
+                : piecePromotionMap.black.map((p, i) => (
+                    <div
+                      key={`promotion-${i}`}
+                      className={classes.piece}
+                      onClick={() => {
+                        onPerformPromotion(p);
+                      }}
+                    >
+                      <img src={`/pieces/${pieceImageMap[p]}`} />
+                    </div>
+                  ))}
+            </div>
+          </div>
+        )}
       </div>
     </section>
   );

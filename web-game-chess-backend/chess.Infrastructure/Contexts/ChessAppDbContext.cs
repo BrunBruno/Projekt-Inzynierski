@@ -48,13 +48,17 @@ public class ChessAppDbContext : DbContext {
     /// <summary>
     /// 
     /// </summary>
+    public DbSet<GameState> GameStates { get; set; }
+
+    /// <summary>
+    /// 
+    /// </summary>
     public DbSet<Player> Players { get; set; }
 
     /// <summary>
     /// 
     /// </summary>
     public DbSet<Move> Moves { get; set; }
-
 
 
     public ChessAppDbContext(DbContextOptions<ChessAppDbContext> options) : base(options) { }
@@ -69,6 +73,7 @@ public class ChessAppDbContext : DbContext {
         builder.ApplyConfiguration<BannedUser>(configuration);
         builder.ApplyConfiguration<Game>(configuration);
         builder.ApplyConfiguration<GameTiming>(configuration);
+        builder.ApplyConfiguration<GameState>(configuration);
         builder.ApplyConfiguration<Player>(configuration);
         builder.ApplyConfiguration<Move>(configuration);
     }

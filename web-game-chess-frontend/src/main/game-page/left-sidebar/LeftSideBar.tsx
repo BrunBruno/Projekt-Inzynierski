@@ -5,10 +5,13 @@ function LeftSideBar() {
   return (
     <section className={classes.bar}>
       <div className={classes.bar__content}>
-        <div className={classes.bar__content__logo}>
-          <a href="/">
-            <LogoIconSvg iconClass={classes["logo-svg"]} />
-          </a>
+        <div
+          className={classes.bar__content__logo}
+          onClick={() => {
+            location.reload();
+          }}
+        >
+          <LogoIconSvg iconClass={classes["logo-svg"]} />
           <p>Chess</p>
         </div>
         <ul className={classes.bar__content__list}>

@@ -23,3 +23,12 @@ export type IconsMapProps = {
 export type HandleOnScroll = {
   handleOnScroll: () => void;
 };
+
+export type CastleOptions = {
+  cwkc: boolean;
+  cwsrc: boolean;
+  cwlrc: boolean;
+  cbkc: boolean;
+  cbsrc: boolean;
+  cblrc: boolean;
+};

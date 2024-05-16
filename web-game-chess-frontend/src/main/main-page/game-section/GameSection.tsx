@@ -49,8 +49,6 @@ function GameSection() {
 
   // handle new ids
   const handleGamesChanged = async () => {
-    console.log("Handling", searchIds);
-
     if (searchIds !== null) {
       const isInGameResponse = await axios.get<CheckIfInGameDto>(
         gameControllerPaths.checkIfInGame(searchIds.playerId),
@@ -68,12 +66,9 @@ function GameSection() {
       setInterfaceById(gameSearchInterface.searching);
     }
 
-    console.log("onGamesChanged");
-
     GameHubService.connection.on("GamesChanged", handleGamesChanged);
 
     return () => {
-      console.log("offGamesChanged");
       GameHubService.connection.off("GamesChanged", handleGamesChanged);
     };
   }, [searchIds]);

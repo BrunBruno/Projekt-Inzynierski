@@ -28,7 +28,9 @@ function RightSideBar({ gameData }: RightSideBarProps) {
             </div>
             <div className={classes["player-data"]}>
               <span>{gameData.whitePlayer.name}</span>
-              <span>({gameData.whitePlayer.elo})</span>
+              <span>
+                (<span>{gameData.whitePlayer.elo}</span>)
+              </span>
             </div>
           </div>
           <p>vs</p>
@@ -48,7 +50,9 @@ function RightSideBar({ gameData }: RightSideBarProps) {
             </div>
             <div className={classes["player-data"]}>
               <span>{gameData.blackPlayer.name}</span>
-              <span>({gameData.blackPlayer.elo})</span>
+              <span>
+                (<span>{gameData.blackPlayer.elo}</span>)
+              </span>
             </div>
           </div>
         </div>

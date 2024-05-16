@@ -2,35 +2,24 @@
 namespace chess.Application.Requests.GameRequests.GetGame;
 #pragma warning disable CS8618
 
-/// <summary>
-/// 
-/// </summary>
 public class GetGameDto {
 
-    /// <summary>
-    /// 
-    /// </summary>
     public string Position { get; set; }
-
-    /// <summary>
-    /// 
-    /// </summary>
     public int Turn { get; set; }
-
-    /// <summary>
-    /// 
-    /// </summary>
     public DateTime CreatedAt { get; set; }
 
-    /// <summary>
-    /// 
-    /// </summary>
+    // from game timing
     public int Duration { get; set; }
-
-    /// <summary>
-    /// 
-    /// </summary>
     public int Increment { get; set; }
+
+    // from game state
+    public string? EnPassant { get; set; }
+    public bool CanWhiteKingCastle { get; set; } 
+    public bool CanWhiteShortRookCastle { get; set; } 
+    public bool CanWhiteLongRookCastle { get; set; } 
+    public bool CanBlackKingCastle { get; set; } 
+    public bool CanBlackShortRookCastle { get; set; } 
+    public bool CanBlackLongRookCastle { get; set; } 
 
     public GetGamePlayerDto WhitePlayer { get; set; }
     public GetGamePlayerDto BlackPlayer { get; set; }

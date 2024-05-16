@@ -1,7 +1,9 @@
-import { pieceColor } from "../../../shared/utils/enums/entitiesEnums";
-import { pieceTagMap } from "../../../shared/utils/enums/piecesMaps";
-import { movementMap } from "../../../shared/utils/enums/piecesMovementMap";
-import { GetPlayerDto } from "../../../shared/utils/types/gameDtos";
+import { pieceColor } from "../../../../shared/utils/enums/entitiesEnums";
+import { pieceTagMap } from "../../../../shared/utils/enums/piecesMaps";
+import { movementMap } from "../../../../shared/utils/enums/piecesMovementMap";
+import { CastleOptions } from "../../../../shared/utils/types/commonTypes";
+import { GetPlayerDto } from "../../../../shared/utils/types/gameDtos";
+import { checkCoordinatesEquality } from "./ExtraFunctions";
 
 class ShowTip {
   private readonly directions = {
@@ -13,6 +15,8 @@ class ShowTip {
 
   private playerColor: { [key: string]: string } = {};
   private matrix: string[][] = [];
+  private enPassant: string | null = null;
+  private castleOptions: CastleOptions | null = null;
 
   // generate areas when pieces can move to
   public showTip = (
@@ -23,9 +27,13 @@ class ShowTip {
     field: number[],
     pieceTag: string,
     whiteChecks: number[][],
-    blackChecks: number[][]
+    blackChecks: number[][],
+    enPassant: string | null,
+    castleOptions: CastleOptions | null
   ): number[][] => {
     this.matrix = matrix;
+    this.enPassant = enPassant;
+    this.castleOptions = castleOptions;
 
     let tipFields: number[][] = [field];
     const color: number | null = player.color;
@@ -151,6 +159,11 @@ class ShowTip {
       dir = directions[0][0] * directions[0][1];
     }
 
+    let enPassantCoor: number[] | null = null;
+    if (this.enPassant) {
+      enPassantCoor = this.enPassant.split(",").map(Number);
+    }
+
     if (this.playerColor === pieceTagMap.white) {
       let firstIsValid: boolean = false;
 
@@ -166,14 +179,24 @@ class ShowTip {
       x = xCoor + 1;
       y = yCoor + 1;
       [isValid, isEmpy] = this.isValidAndIsEmptyField(x, y);
-      if (isValid && !isEmpy && (dir === null || dir > 0)) {
+      if (
+        isValid &&
+        (!isEmpy ||
+          (enPassantCoor && checkCoordinatesEquality(enPassantCoor, [x, y]))) &&
+        (dir === null || dir > 0)
+      ) {
         tipFields.push([x, y]);
       }
 
       x = xCoor - 1;
       y = yCoor + 1;
       [isValid, isEmpy] = this.isValidAndIsEmptyField(x, y);
-      if (isValid && !isEmpy && (dir === null || dir < 0)) {
+      if (
+        isValid &&
+        (!isEmpy ||
+          (enPassantCoor && checkCoordinatesEquality(enPassantCoor, [x, y]))) &&
+        (dir === null || dir < 0)
+      ) {
         tipFields.push([x, y]);
       }
 
@@ -203,14 +226,24 @@ class ShowTip {
       x = xCoor + 1;
       y = yCoor - 1;
       [isValid, isEmpy] = this.isValidAndIsEmptyField(x, y);
-      if (isValid && !isEmpy && (dir === null || dir < 0)) {
+      if (
+        isValid &&
+        (!isEmpy ||
+          (enPassantCoor && checkCoordinatesEquality(enPassantCoor, [x, y]))) &&
+        (dir === null || dir < 0)
+      ) {
         tipFields.push([x, y]);
       }
 
       x = xCoor - 1;
       y = yCoor - 1;
       [isValid, isEmpy] = this.isValidAndIsEmptyField(x, y);
-      if (isValid && !isEmpy && (dir === null || dir > 0)) {
+      if (
+        isValid &&
+        (!isEmpy ||
+          (enPassantCoor && checkCoordinatesEquality(enPassantCoor, [x, y]))) &&
+        (dir === null || dir > 0)
+      ) {
         tipFields.push([x, y]);
       }
 
@@ -230,12 +263,13 @@ class ShowTip {
 
   private checkKnightMoves = (xCoor: number, yCoor: number): number[][] => {
     const tipFields: number[][] = [];
+    let isValid: boolean;
 
     for (const [dx, dy] of movementMap.knightMoves) {
       const x = xCoor + dx;
       const y = yCoor + dy;
 
-      const [isValid, isEmpty] = this.isValidAndIsEmptyField(x, y);
+      isValid = this.isValidAndIsEmptyField(x, y)[0];
       if (isValid) {
         tipFields.push([x, y]);
       }
@@ -258,12 +292,13 @@ class ShowTip {
     }
 
     const tipFields: number[][] = [];
+    let [isValid, isEmpty]: boolean[] = [];
 
     for (const [dx, dy] of moves) {
       let x = xCoor + dx;
       let y = yCoor + dy;
 
-      let [isValid, isEmpty] = this.isValidAndIsEmptyField(x, y);
+      [isValid, isEmpty] = this.isValidAndIsEmptyField(x, y);
       while (isValid) {
         tipFields.push([x, y]);
 
@@ -287,17 +322,58 @@ class ShowTip {
     areas: number[][]
   ): number[][] => {
     const tipFields: number[][] = [];
+    let isValid: boolean;
 
     for (const [dx, dy] of movementMap.kingMoves) {
       const x = xCoor + dx;
       const y = yCoor + dy;
 
-      const [isValid, isEmpty] = this.isValidAndIsEmptyField(x, y);
+      isValid = this.isValidAndIsEmptyField(x, y)[0];
 
       const isInArea = areas.some((coord) => coord[0] === x && coord[1] === y);
 
       if (isValid && !isInArea) {
         tipFields.push([x, y]);
+      }
+    }
+
+    // check castlings
+    if (this.castleOptions) {
+      // short castle possible and king not in check
+      if (
+        !areas.some((coord) => coord[0] === xCoor && coord[1] === yCoor) &&
+        ((this.castleOptions.cwkc && this.castleOptions.cwsrc) ||
+          (this.castleOptions.cbkc && this.castleOptions.cbsrc))
+      ) {
+        // if areas where king is passing are empty and not in enemies controll
+        if (
+          this.matrix[yCoor - 1][xCoor - 1 + 1] === "" &&
+          !areas.some(
+            (coord) => coord[0] === xCoor + 1 && coord[1] === yCoor
+          ) &&
+          this.matrix[yCoor - 1][xCoor - 1 + 2] === "" &&
+          !areas.some((coord) => coord[0] === xCoor + 2 && coord[1] === yCoor)
+        ) {
+          tipFields.push([xCoor + 2, yCoor]);
+        }
+      }
+      // long castle possible and king not in check
+      if (
+        !areas.some((coord) => coord[0] === xCoor && coord[1] === yCoor) &&
+        ((this.castleOptions.cwkc && this.castleOptions.cwlrc) ||
+          (this.castleOptions.cbkc && this.castleOptions.cblrc))
+      ) {
+        // if areas where king is passing are empty and not in enemies controll
+        if (
+          this.matrix[yCoor - 1][xCoor - 1 - 1] === "" &&
+          !areas.some(
+            (coord) => coord[0] === xCoor - 1 && coord[1] === yCoor
+          ) &&
+          this.matrix[yCoor - 1][xCoor - 1 - 2] === "" &&
+          !areas.some((coord) => coord[0] === xCoor - 2 && coord[1] === yCoor)
+        ) {
+          tipFields.push([xCoor - 2, yCoor]);
+        }
       }
     }
 

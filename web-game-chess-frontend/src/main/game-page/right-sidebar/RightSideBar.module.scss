@@ -37,12 +37,15 @@
         @include flex($direction: column, $gap: 0.5rem);
 
         @mixin playerImg() {
-          @include rounded(0.5rem);
+          @include flex();
           @include square(5rem);
+
+          padding: 0.6rem;
+          border-radius: 100%;
 
           .player-img {
             @include wh100();
-            border-radius: 0.5rem;
+            border-radius: 100%;
           }
         }
 
@@ -61,6 +64,9 @@
 
           span {
             font-size: 1.2rem;
+            span {
+              color: $mc3;
+            }
           }
         }
       }
@@ -106,6 +112,7 @@
             width: 100%;
             padding-bottom: 0.2rem;
             border-bottom: solid 0.1rem $gc8;
+            height: 2rem;
 
             svg {
               height: 1.4rem;
@@ -124,6 +131,7 @@
 
           .sep {
             width: fit-content;
+            height: 2rem;
             color: $gc6;
             border-bottom: solid 0.1rem $gc8;
           }

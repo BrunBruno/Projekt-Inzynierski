@@ -26,6 +26,7 @@ public class GameRepository : IGameRepository {
                     .Include(g => g.WhitePlayer)
                     .Include(g => g.BlackPlayer)
                     .Include(g => g.GameTiming)
+                    .Include(g => g.GameState)
                     .FirstOrDefaultAsync(g => g.Id == id);
 
     ///<inheritdoc/>

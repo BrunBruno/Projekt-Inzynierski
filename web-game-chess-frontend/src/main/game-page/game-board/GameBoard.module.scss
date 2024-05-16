@@ -7,8 +7,7 @@
   position: relative;
   z-index: 0;
   border-radius: $lg-br;
-  box-shadow:
-    inset 2rem 0 2rem -1rem rgba($mc5, 0.3),
+  box-shadow: inset 2rem 0 2rem -1rem rgba($mc5, 0.3),
     inset -2rem 0 2rem -1rem rgba($mc5, 0.3),
     inset 0 1rem 2rem -1rem rgba($mc5, 0.3),
     inset 0 -1rem 2rem -1rem rgba($mc5, 0.3);
@@ -20,6 +19,7 @@
     position: inherit;
     z-index: 10;
     background-color: #000;
+    overflow: hidden;
 
     // files indicators
     @mixin filesIndicators() {
@@ -136,11 +136,9 @@
 
         &:not(.selected) {
           &:has(.piece) {
-            background-image: radial-gradient(
-              circle at 50% 50%,
-              rgba($danger-color-m, 0.5) 30%,
-              #0000 40%
-            );
+            img {
+              filter: drop-shadow(0 0 1rem $danger-color-m);
+            }
           }
         }
       }
@@ -184,5 +182,33 @@
       }
     }
     // end grid board
+
+    &__promotion {
+      @include absCenter();
+      @include wh100();
+      background-color: rgba(#000, 0.7);
+
+      &__pieces {
+        @include absCenter();
+        @include flex();
+        @include rounded(1rem);
+
+        background-color: $gc9;
+        border: solid 0.5rem $gc8;
+
+        .piece {
+          @include rounded(1rem);
+
+          &:hover {
+            cursor: pointer;
+            background-color: rgba(#000, 0.5);
+          }
+
+          img {
+            height: 6rem;
+          }
+        }
+      }
+    }
   }
 }

@@ -10,13 +10,16 @@ public class StartGamesRequestHandler : IRequestHandler<StartGamesRequest> {
 
     private readonly IGameRepository _gameRepository;
     private readonly IPlayerRepository _playerRepository;
+    private readonly IGameStateRepository _gameStateRepository;
 
     public StartGamesRequestHandler(
         IGameRepository gameRepository,
-        IPlayerRepository playerRepository
+        IPlayerRepository playerRepository,
+        IGameStateRepository gameStateRepository
     ) {
         _gameRepository = gameRepository;
         _playerRepository = playerRepository;
+        _gameStateRepository = gameStateRepository;
     }
 
     public async Task Handle(StartGamesRequest request, CancellationToken cancellationToken) {
@@ -37,10 +40,18 @@ public class StartGamesRequestHandler : IRequestHandler<StartGamesRequest> {
                 matchedPlayers.Add(player);
                 matchedPlayers.Add(closestPlayer);
 
+                var gameState = new GameState()
+                {
+                    Id = Guid.NewGuid(),
+                };
+
+                await _gameStateRepository.Create(gameState);
+
                 var game = new Game()
                 {
                     Id = Guid.NewGuid(),
-                    GameTimingId = request.TimingId
+                    GameTimingId = request.TimingId,
+                    GameStateId = gameState.Id,
                 };
 
                 player.IsPlaying = true;
@@ -57,7 +68,6 @@ public class StartGamesRequestHandler : IRequestHandler<StartGamesRequest> {
                 closestPlayer.Color = randomChoice ? Colors.Black : Colors.White;
 
                 await _gameRepository.Create(game);
-
             }
         }
     }

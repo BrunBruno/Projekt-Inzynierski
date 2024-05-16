@@ -25,6 +25,13 @@ public class GetGameRequestHandler : IRequestHandler<GetGameRequest, GetGameDto>
             CreatedAt = game.CreatedAt,
             Duration = game.GameTiming.Minutes,
             Increment = game.GameTiming.Increment,
+            EnPassant = game.GameState.EnPassant,
+            CanWhiteKingCastle = game.GameState.CanWhiteKingCastle,
+            CanWhiteShortRookCastle = game.GameState.CanWhiteShortRookCastle,
+            CanWhiteLongRookCastle = game.GameState.CanWhiteLongRookCastle,
+            CanBlackKingCastle = game.GameState.CanBlackKingCastle,
+            CanBlackShortRookCastle = game.GameState.CanBlackShortRookCastle,
+            CanBlackLongRookCastle = game.GameState.CanBlackLongRookCastle,
 
             WhitePlayer = new GetGamePlayerDto()
             {

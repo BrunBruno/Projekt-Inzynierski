@@ -20,13 +20,13 @@ export const pieceImageMap: PiecesImageMap = {
   p: "black-pawn.png",
 };
 
-type PieceType = "pawn" | "knight" | "bishop" | "rook" | "queen" | "king";
+type PieceTagType = "pawn" | "knight" | "bishop" | "rook" | "queen" | "king";
 export type PieceTagMap = {
   white: {
-    [key in PieceType]: string;
+    [key in PieceTagType]: string;
   };
   black: {
-    [key in PieceType]: string;
+    [key in PieceTagType]: string;
   };
 };
 
@@ -48,4 +48,13 @@ export const pieceTagMap: PieceTagMap = {
     queen: "q",
     king: "k",
   },
+};
+
+export type PiecePromotionMap = {
+  white: string[];
+  black: string[];
+};
+export const piecePromotionMap: PiecePromotionMap = {
+  white: ["N", "B", "R", "Q"],
+  black: ["n", "b", "r", "q"],
 };

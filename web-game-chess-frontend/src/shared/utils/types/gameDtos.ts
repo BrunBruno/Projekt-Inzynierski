@@ -16,6 +16,13 @@ export type GetGameDto = {
   createdAt: Date;
   duration: number;
   increment: number;
+  enPassant: string | null;
+  canWhiteKingCastle: boolean;
+  canWhiteShortRookCastle: boolean;
+  canWhiteLongRookCastle: boolean;
+  canBlackKingCastle: boolean;
+  canBlackShortRookCastle: boolean;
+  canBlackLongRookCastle: boolean;
   whitePlayer: GetGamePlayerDto;
   blackPlayer: GetGamePlayerDto;
   moves: GetGameMoveDto[];
