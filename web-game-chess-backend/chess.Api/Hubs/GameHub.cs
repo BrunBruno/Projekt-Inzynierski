@@ -44,13 +44,15 @@ public class GameHub : Hub<IGameHub> {
     }
 
     [SignalRMethod("MakeMove", Operation.Post)]
-    public async Task MakeMove(Guid gameId, string position, string move, string? enPassant, bool wkm, bool wsrm, bool wlrm, bool bkm, bool bsrm, bool blrm) {
+    public async Task MakeMove(Guid gameId, string position, string move, string newCoor, string oldCoor, string? enPassant, bool wkm, bool wsrm, bool wlrm, bool bkm, bool bsrm, bool blrm) {
 
         var request = new MakeMoveRequest()
         {
             GameId = gameId,
             Position = position,
             DoneMove = move,
+            OldCoor = oldCoor,
+            NewCoor = newCoor,
             EnPassant = enPassant,
             WhiteKingMoved = wkm,
             WhiteShortRookMoved = wsrm,

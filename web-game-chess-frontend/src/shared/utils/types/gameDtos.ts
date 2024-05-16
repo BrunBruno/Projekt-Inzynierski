@@ -37,6 +37,8 @@ export type GetGamePlayerDto = {
 export type GetGameMoveDto = {
   move: string;
   turn: number;
+  oldCoor: string;
+  newCoor: string;
 };
 
 export type GetPlayerDto = {

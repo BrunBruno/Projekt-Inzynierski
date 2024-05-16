@@ -296,10 +296,15 @@ export const checkChecks = (matrix: string[][]): [number[][], number[][]] => {
     const [wx, wy] = whiteKingPosition;
     const [bx, by] = blackKingPosition;
 
-    if (matrix[wy - 1 + 1][wx - 1 + 1] === pieceTagMap.black.pawn) {
+    let isValid: boolean;
+
+    isValid = isValidAndIsEmptyField(wx - 1 + 1, wy - 1 + 1)[0];
+    if (isValid && matrix[wy - 1 + 1][wx - 1 + 1] === pieceTagMap.black.pawn) {
       blackCheckAreas.push([wx + 1, wy + 1]);
     }
-    if (matrix[wy - 1 + 1][wx - 1 - 1] === pieceTagMap.black.pawn) {
+
+    isValid = isValidAndIsEmptyField(wx - 1 - 1, wy - 1 + 1)[0];
+    if (isValid && matrix[wy - 1 + 1][wx - 1 - 1] === pieceTagMap.black.pawn) {
       blackCheckAreas.push([wx - 1, wy + 1]);
     }
 
@@ -362,10 +367,13 @@ export const checkChecks = (matrix: string[][]): [number[][], number[][]] => {
       )
     );
 
-    if (matrix[by - 1 - 1][bx - 1 + 1] === pieceTagMap.white.pawn) {
+    isValid = isValidAndIsEmptyField(bx - 1 + 1, by - 1 - 1)[0];
+    if (isValid && matrix[by - 1 - 1][bx - 1 + 1] === pieceTagMap.white.pawn) {
       whiteCheckAreas.push([bx + 1, by - 1]);
     }
-    if (matrix[by - 1 - 1][bx - 1 - 1] === pieceTagMap.white.pawn) {
+
+    isValid = isValidAndIsEmptyField(bx - 1 - 1, by - 1 - 1)[0];
+    if (isValid && matrix[by - 1 - 1][bx - 1 - 1] === pieceTagMap.white.pawn) {
       whiteCheckAreas.push([bx - 1, by - 1]);
     }
 

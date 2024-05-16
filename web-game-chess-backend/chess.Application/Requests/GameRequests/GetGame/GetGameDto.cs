@@ -37,5 +37,7 @@ public class GetGamePlayerDto {
 public class GetGameMoveDto {
     public string Move { get; set; }
     public int Turn { get; set; }
+    public string OldCoor { get; set; }
+    public string NewCoor { get; set; }
 }
 

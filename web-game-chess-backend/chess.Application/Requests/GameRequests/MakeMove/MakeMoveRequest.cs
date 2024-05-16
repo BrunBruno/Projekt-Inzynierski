@@ -7,6 +7,8 @@ public class MakeMoveRequest : IRequest {
     public Guid GameId { get; set; }
     public required string Position { get; set; }
     public required string DoneMove { get; set; }
+    public required string OldCoor { get; set; }
+    public required string NewCoor { get; set; }
     public string? EnPassant { get; set; }
     public bool WhiteKingMoved { get; set; }
     public bool WhiteShortRookMoved { get; set; }

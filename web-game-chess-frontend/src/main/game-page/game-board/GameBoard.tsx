@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   pieceImageMap,
   piecePromotionMap,
@@ -10,13 +10,19 @@ import {
   checkCoordinatesEquality,
   checkIfOwnPiece,
   checkIfPlayerTurn,
+  fromPositionToListIndex,
   intToChar,
+  onClearHighlights,
+  onHighlightFile,
+  performMoveAnimation,
 } from "./utils/ExtraFunctions";
 import { generateControlledAreas, checkChecks } from "./utils/ControlledAreas";
 import MakeMove from "./utils/MakeMove";
 import ShowTip from "./utils/ShowTip";
 import { pieceColor } from "../../../shared/utils/enums/entitiesEnums";
 import { CastleOptions } from "../../../shared/utils/types/commonTypes";
+import XSvg from "../../../shared/svgs/XSvg";
+import { generateRandomId } from "../../../shared/utils/functions/generateRandom";
 
 type GameBoardProps = {
   gameId: string;
@@ -25,7 +31,10 @@ type GameBoardProps = {
 };
 
 function GameBoard({ gameId, gameData, playerData }: GameBoardProps) {
+  const boardRef = useRef<HTMLDivElement>(null);
+
   const [board, setBoard] = useState<JSX.Element>(<></>);
+  const [innerBoard, setInnerBoard] = useState(<></>);
   const [boardMatrix, setBaordMatrix] = useState<string[][]>([]);
   const [tipFields, setTipFields] = useState<number[][]>([]);
 
@@ -43,6 +52,9 @@ function GameBoard({ gameId, gameData, playerData }: GameBoardProps) {
   // selected piece
   const [selectedPiece, setSelectedPiece] = useState<string>("");
   const [selectedCoor, setselectedCoor] = useState<number[]>([]);
+  const [selectedTarget, setSelectedTarget] = useState<HTMLElement | null>(
+    null
+  );
   const [isDragging, setIsDragging] = useState<boolean>(false);
 
   // special moves options
@@ -52,6 +64,48 @@ function GameBoard({ gameId, gameData, playerData }: GameBoardProps) {
   const [promotionCoordinates, setPromotionCoordinates] = useState<
     number[] | null
   >(null);
+
+  // display done move
+  const [oldCoordinates, setOldCoordinates] = useState<number[]>([]);
+  const [newCoordinates, setNewCoordinates] = useState<number[]>([]);
+  const [wasCapture, setWasCapture] = useState<boolean>(false);
+
+  useEffect(() => {
+    const lastMoveIndex = gameData.moves.length - 1;
+    if (lastMoveIndex >= 0) {
+      const lastMove = gameData.moves[lastMoveIndex];
+
+      const oldCoor = lastMove.oldCoor.split(",").map(Number);
+      setOldCoordinates(oldCoor);
+
+      const newCoor = lastMove.newCoor.split(",").map(Number);
+      setNewCoordinates(newCoor);
+
+      const wasCap = lastMove.move[1] === "x";
+      setWasCapture(wasCap);
+
+      if (boardRef.current) {
+        const fieldNodes = boardRef.current.querySelectorAll(
+          `.${classes.field}`
+        );
+
+        const pieceParent = fieldNodes[
+          fromPositionToListIndex(oldCoor)
+        ] as HTMLElement;
+        if (pieceParent) {
+          const movedPiece = pieceParent.firstElementChild as HTMLElement;
+
+          performMoveAnimation(
+            boardRef.current,
+            movedPiece,
+            playerData,
+            oldCoor,
+            newCoor
+          );
+        }
+      }
+    }
+  }, [gameData]);
 
   useEffect(() => {
     // set game matrix
@@ -79,41 +133,48 @@ function GameBoard({ gameId, gameData, playerData }: GameBoardProps) {
       return matrix.reverse();
     };
 
-    const matrix = setMatrix(gameData.position);
+    setTimeout(() => {
+      const matrix = setMatrix(gameData.position);
 
-    setBaordMatrix(matrix);
+      setBaordMatrix(matrix);
 
-    // set controlled areas
-    const [wControlled, bControlled] = generateControlledAreas(matrix);
-    setWhiteControlledAreas(wControlled);
-    setBlackControlledAreas(bControlled);
+      // set controlled areas
+      const [wControlled, bControlled] = generateControlledAreas(matrix);
+      setWhiteControlledAreas(wControlled);
+      setBlackControlledAreas(bControlled);
 
-    // set checked areas
-    const [wChecked, bChecked] = checkChecks(matrix);
-    setWhiteCheckedAreas(wChecked);
-    setBlackCheckedAreas(bChecked);
+      // set checked areas
+      const [wChecked, bChecked] = checkChecks(matrix);
+      setWhiteCheckedAreas(wChecked);
+      setBlackCheckedAreas(bChecked);
 
-    // update board when game changed (move was made)
-    setBoard(mapFromGamePosition(gameData.position));
+      // set castling optios
+      setCastleOptions({
+        cwkc: gameData.canWhiteKingCastle,
+        cwsrc: gameData.canWhiteShortRookCastle,
+        cwlrc: gameData.canWhiteLongRookCastle,
+        cbkc: gameData.canBlackKingCastle,
+        cbsrc: gameData.canBlackShortRookCastle,
+        cblrc: gameData.canBlackLongRookCastle,
+      });
 
-    // set castling optios
-    setCastleOptions({
-      cwkc: gameData.canWhiteKingCastle,
-      cwsrc: gameData.canWhiteShortRookCastle,
-      cwlrc: gameData.canWhiteLongRookCastle,
-      cbkc: gameData.canBlackKingCastle,
-      cbsrc: gameData.canBlackShortRookCastle,
-      cblrc: gameData.canBlackLongRookCastle,
-    });
+      // update board when game changed (move was made)
+      const [oBoard, iBoard] = mapFromGamePosition(gameData.position);
+      setBoard(oBoard);
+      setInnerBoard(iBoard);
 
-    // clear selected piece and tips
-    chosePiece("", []);
-    setTipFields([]);
+      // clear selected piece and tips
+      chosePiece("", []);
+      setTipFields([]);
+    }, 100);
   }, [gameData]);
 
   useEffect(() => {
     // update board when tips changed (user selected different piece)
-    setBoard(mapFromGamePosition(gameData.position));
+
+    const [oBoard, iBoard] = mapFromGamePosition(gameData.position);
+    setBoard(oBoard);
+    setInnerBoard(iBoard);
   }, [tipFields]);
 
   // create field based on position
@@ -150,16 +211,36 @@ function GameBoard({ gameId, gameData, playerData }: GameBoardProps) {
       isDragging && checkCoordinatesEquality(selectedCoor, coordinates)
     );
 
+    // to display done move
+    const isOldFiled = checkCoordinatesEquality(coordinates, oldCoordinates);
+    const isNewField = checkCoordinatesEquality(coordinates, newCoordinates);
+    const showCapture = wasCapture && isNewField;
+
     // add field
     fields.push(
       <div
         key={`${coordinates[0]}-${coordinates[1]}`}
-        className={`${classes.field} ${isInTipFields ? classes.tip : ""} ${
-          sameCoor ? classes.selected : ""
-        } ${isInCheck ? classes.check : ""}`}
-        onClick={() => {
+        className={`
+          ${classes.field} ${isInTipFields ? classes.tip : ""}
+          ${sameCoor ? classes.selected : ""}
+          ${isInCheck ? classes.check : ""} 
+          ${isOldFiled ? classes.old : ""} 
+          ${isNewField ? classes.new : ""}
+        `}
+        onMouseDown={(event) => {
+          if (event.button === 0) {
+            onClearHighlights(classes.highlight);
+          }
+        }}
+        onClick={(event) => {
+          const target = event.target as HTMLElement;
+          if (char) setSelectedTarget(target);
+
           setIsDragging(false);
           onSelectField(char, coordinates, isInTipFields, sameCoor);
+        }}
+        onContextMenu={(event) => {
+          onHighlightFile(event, classes.field, classes.highlight);
         }}
         onDragStart={() => {
           setIsDragging(true);
@@ -179,6 +260,7 @@ function GameBoard({ gameId, gameData, playerData }: GameBoardProps) {
             draggable={checkIfOwnPiece(char, playerData)}
           >
             <img src={`/pieces/${pieceImageMap[char]}`} draggable={false} />
+            {showCapture && <XSvg iconClass={classes.x} />}
           </div>
         )}
       </div>
@@ -189,38 +271,53 @@ function GameBoard({ gameId, gameData, playerData }: GameBoardProps) {
   };
 
   // create board from game position
-  const mapFromGamePosition = (position: string): JSX.Element => {
+  const mapFromGamePosition = (position: string): JSX.Element[] => {
     const fields: JSX.Element[] = [];
+    const innerFields: JSX.Element[] = [];
     let fieldCoor: number = 0;
 
     for (let i = 0; i < position.length; i++) {
       const char = position[i];
 
       if (char == "/") {
-        fields.push(<div key={`${i}`} className={classes.placeholder} />);
+        innerFields.push(<div key={`${i}`} className={classes.placeholder} />);
         continue;
       }
 
       if (!isNaN(parseInt(char))) {
         for (let j = 0; j < parseInt(char); j++) {
           fieldCoor = displayField(fields, fieldCoor, null);
+          innerFields.push(
+            <div
+              key={`filed-${generateRandomId(10)}`}
+              className={classes["inner-field"]}
+            />
+          );
         }
       } else {
         fieldCoor = displayField(fields, fieldCoor, char);
+        innerFields.push(
+          <div
+            key={`filed-${generateRandomId(10)}`}
+            className={classes["inner-field"]}
+          />
+        );
       }
     }
 
-    return (
+    return [
       <div
-        className={`${classes.board__grid} ${
+        ref={boardRef}
+        className={`${classes.board__content__grid} ${
           playerData.color === pieceColor.black
             ? classes["black-board"]
             : classes["white-board"]
         }`}
       >
         {fields}
-      </div>
-    );
+      </div>,
+      <div className={`${classes.board__content__inner}`}>{innerFields}</div>,
+    ];
   };
 
   // click handler
@@ -247,15 +344,26 @@ function GameBoard({ gameId, gameData, playerData }: GameBoardProps) {
 
     // make move if is in tips
     if (isInTipFields) {
-      MakeMove.makeMove(
-        gameId,
-        boardMatrix,
-        selectedPiece,
+      performMoveAnimation(
+        boardRef.current,
+        selectedTarget,
+        playerData,
         selectedCoor,
-        coordinates,
-        gameData.enPassant,
-        castleOptions
+        coordinates
       );
+
+      setTimeout(() => {
+        MakeMove.makeMove(
+          gameId,
+          boardMatrix,
+          selectedPiece,
+          selectedCoor,
+          coordinates,
+          gameData.enPassant,
+          castleOptions
+        );
+      }, 100);
+
       return;
     }
 
@@ -342,6 +450,7 @@ function GameBoard({ gameId, gameData, playerData }: GameBoardProps) {
     );
   }, [selectedCoor]);
 
+  // promote pawn to choosen piece
   const onPerformPromotion = (promotedPiece: string) => {
     if (promotionCoordinates) {
       MakeMove.makeMove(
@@ -387,7 +496,10 @@ function GameBoard({ gameId, gameData, playerData }: GameBoardProps) {
             )
           )}
         </div>
-        {board}
+        <div className={classes.board__content}>
+          {innerBoard}
+          {board}
+        </div>
         {promotionCoordinates && (
           <div className={classes.board__promotion}>
             <div className={classes.board__promotion__pieces}>

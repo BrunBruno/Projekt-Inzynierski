@@ -51,6 +51,8 @@ public class GetGameRequestHandler : IRequestHandler<GetGameRequest, GetGameDto>
             {
                 Move = move.DoneMove,
                 Turn = move.Turn,
+                OldCoor = move.OldCoordinates,
+                NewCoor = move.NewCoordinates,
             }).ToList(),
         };
 

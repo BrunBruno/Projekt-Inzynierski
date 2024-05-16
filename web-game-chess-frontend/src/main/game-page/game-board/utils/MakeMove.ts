@@ -20,9 +20,11 @@ class MakeMove {
 
     const newX = newCoordinates[0];
     const newY = newCoordinates[1];
+    const newCoor = newX + "," + newY;
 
     const oldX = oldCoordinates[0];
     const oldY = oldCoordinates[1];
+    const oldCoor = oldX + "," + oldY;
 
     const capture = matrix[newY - 1][newX - 1] === "" ? "" : "x";
     matrix[oldY - 1][oldX - 1] = "";
@@ -72,7 +74,7 @@ class MakeMove {
 
     const newPosition = this.makeNewPosition();
 
-    const donrMove = piece + capture + intToChar(newX) + newY;
+    const move = piece + capture + intToChar(newX) + newY;
 
     // check for en passant possibility
     let newEnPassant: string | null = null;
@@ -93,7 +95,9 @@ class MakeMove {
     GameHubService.MakeMove(
       gameId,
       newPosition,
-      donrMove,
+      move,
+      oldCoor,
+      newCoor,
       newEnPassant,
       wkm,
       wsrm,

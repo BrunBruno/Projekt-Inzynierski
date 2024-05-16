@@ -5,6 +5,8 @@ namespace chess.Core.Entities;
 public class Move {
     public Guid Id { get; set; }
     public string DoneMove { get; set; }
+    public string OldCoordinates { get; set; }
+    public string NewCoordinates { get; set; }
     public string Position { get; set; }
     public int Turn { get; set; }
     public double WhiteTime { get; set; }

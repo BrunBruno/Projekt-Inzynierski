@@ -31,12 +31,18 @@ public class MakeMoveRequestHandler : IRequestHandler<MakeMoveRequest> {
         game.Turn += 1;
 
         game.GameState.EnPassant = request.EnPassant;
-        game.GameState.CanWhiteKingCastle = !request.WhiteKingMoved;
-        game.GameState.CanWhiteShortRookCastle = !request.WhiteShortRookMoved;
-        game.GameState.CanWhiteLongRookCastle = !request.WhiteLongRookMoved;
-        game.GameState.CanBlackKingCastle = !request.BlackKingMoved;
-        game.GameState.CanBlackShortRookCastle = !request.BlackShortRookMoved;
-        game.GameState.CanBlackLongRookCastle = !request.BlackLongRookMoved;
+        if (game.GameState.CanWhiteKingCastle) 
+            game.GameState.CanWhiteKingCastle = !request.WhiteKingMoved;
+        if (game.GameState.CanWhiteShortRookCastle)
+            game.GameState.CanWhiteShortRookCastle = !request.WhiteShortRookMoved;
+        if (game.GameState.CanWhiteLongRookCastle)
+            game.GameState.CanWhiteLongRookCastle = !request.WhiteLongRookMoved;
+        if (game.GameState.CanBlackKingCastle)
+            game.GameState.CanBlackKingCastle = !request.BlackKingMoved;
+        if (game.GameState.CanBlackShortRookCastle)
+            game.GameState.CanBlackShortRookCastle = !request.BlackShortRookMoved;
+        if (game.GameState.CanBlackLongRookCastle)
+            game.GameState.CanBlackLongRookCastle = !request.BlackLongRookMoved;
 
 
 
@@ -46,6 +52,8 @@ public class MakeMoveRequestHandler : IRequestHandler<MakeMoveRequest> {
         {
             Id = Guid.NewGuid(),
             DoneMove = request.DoneMove,
+            OldCoordinates = request.NewCoor,
+            NewCoordinates = request.OldCoor,
             Position = game.Position,
             Turn = game.Turn,
             WhiteTime = game.WhitePlayer.TimeLeft,
