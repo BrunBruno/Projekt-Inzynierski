@@ -2,7 +2,11 @@ import { useParams } from "react-router-dom";
 import classes from "./GamePage.module.scss";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { GetGameDto, GetPlayerDto } from "../../shared/utils/types/gameDtos";
+import {
+  EndGameDto,
+  GetGameDto,
+  GetPlayerDto,
+} from "../../shared/utils/types/gameDtos";
 import {
   gameControllerPaths,
   getAuthorization,
@@ -18,6 +22,7 @@ function GamePage() {
 
   const [gameData, setGameData] = useState<GetGameDto | null>(null);
   const [playerData, setPlayerData] = useState<GetPlayerDto | null>(null);
+  const [winner, setWinner] = useState<EndGameDto | null>(null);
 
   // get game data
   const getGame = async () => {
@@ -51,15 +56,27 @@ function GamePage() {
     }
   };
 
+  const endGame = (endGameData: EndGameDto) => {
+    setWinner(endGameData);
+
+    GameHubService.connection.off("GameUpdated", getGame);
+  };
+
   // first feach for game data
   useEffect(() => {
     if (gameId) {
       GameHubService.GameStarted(gameId);
       GameHubService.connection.on("GameUpdated", getGame);
+      GameHubService.connection.on("GameEnded", endGame);
 
       getGame();
       getPlayer();
     }
+
+    return () => {
+      GameHubService.connection.off("GameUpdated", getGame);
+      GameHubService.connection.off("GameEnded", endGame);
+    };
   }, [gameId]);
 
   if (!gameId || !gameData || !playerData) {
@@ -69,7 +86,12 @@ function GamePage() {
   return (
     <main className={classes["game-main"]}>
       <LeftSideBar />
-      <GameBoard gameId={gameId} gameData={gameData} playerData={playerData} />
+      <GameBoard
+        gameId={gameId}
+        gameData={gameData}
+        playerData={playerData}
+        winner={winner}
+      />
       <RightSideBar gameData={gameData} />
     </main>
   );

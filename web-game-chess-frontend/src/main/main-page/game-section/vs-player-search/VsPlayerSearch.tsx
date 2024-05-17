@@ -9,6 +9,7 @@ import { SearchGameDto } from "../../../../shared/utils/types/gameDtos";
 import VsPlayerSearchIcons from "./VsPlayerSearchIcons";
 import GameHubService from "../../../../shared/utils/services/GameHubService";
 import { timingTypes } from "../../../../shared/utils/enums/entitiesEnums";
+import { SearchGameModel } from "../../../../shared/utils/types/gameModels";
 
 type VsPlayerSearchProps = {
   setSearchIds: React.Dispatch<React.SetStateAction<SearchGameDto | null>>;
@@ -19,7 +20,7 @@ function VsPlayerSearch({ setSearchIds }: VsPlayerSearchProps) {
   const onSearchForGame = async (header: string, values: number[]) => {
     const typeValue = timingTypes[header];
 
-    const gameType = {
+    const gameType: SearchGameModel = {
       type: typeValue,
       minutes: values[0],
       increment: values[1],

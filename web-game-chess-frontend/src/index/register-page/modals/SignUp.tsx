@@ -20,6 +20,10 @@ import {
 } from "../../../shared/utils/types/userDtos";
 import { dataConfigurations } from "../../../shared/utils/enums/entitiesEnums";
 import { registrationInterface } from "../../../shared/utils/enums/interfacesEnums";
+import {
+  LogInUserModel,
+  RegisterUserModel,
+} from "../../../shared/utils/types/userModels";
 
 type SignUpProps = {
   // change displayed modal
@@ -99,12 +103,11 @@ function SignUp({ setModal }: SignUpProps) {
 
     // user data
     const form = event.target as HTMLFormElement;
-    const userData = {
+    const userData: RegisterUserModel = {
       email: form.email.value.trim(),
-      userName: form.userName.value.trim(),
+      username: form.userName.value.trim(),
       password: form.password.value,
       confirmPassword: form.confirmPassword.value,
-      imageUrl: "",
     };
 
     // Check for email format
@@ -118,7 +121,7 @@ function SignUp({ setModal }: SignUpProps) {
     // check username with configuration
     const checkUserName: ValidationResult = checkFromConfiguration(
       "UserName",
-      userData.userName,
+      userData.username,
       userNameConf
     );
 
@@ -163,7 +166,7 @@ function SignUp({ setModal }: SignUpProps) {
       // await axios.post(`${baseUrl}/user/sign-up`, userData);
       await axios.post(userControllerPaths.register, userData);
 
-      const logUserData = {
+      const logUserData: LogInUserModel = {
         email: form.email.value.trim(),
         password: form.password.value,
       };

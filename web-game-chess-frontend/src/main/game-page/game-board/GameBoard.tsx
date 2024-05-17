@@ -4,7 +4,11 @@ import {
   piecePromotionMap,
   pieceTagMap,
 } from "../../../shared/utils/enums/piecesMaps";
-import { GetGameDto, GetPlayerDto } from "../../../shared/utils/types/gameDtos";
+import {
+  EndGameDto,
+  GetGameDto,
+  GetPlayerDto,
+} from "../../../shared/utils/types/gameDtos";
 import classes from "./GameBoard.module.scss";
 import {
   checkCoordinatesEquality,
@@ -23,19 +27,24 @@ import { pieceColor } from "../../../shared/utils/enums/entitiesEnums";
 import { CastleOptions } from "../../../shared/utils/types/commonTypes";
 import XSvg from "../../../shared/svgs/XSvg";
 import { generateRandomId } from "../../../shared/utils/functions/generateRandom";
+import { checkCheckMate } from "./utils/CheckCheckMate";
+import { EndGameModel } from "../../../shared/utils/types/gameModels";
+import GameHubService from "../../../shared/utils/services/GameHubService";
 
 type GameBoardProps = {
   gameId: string;
   gameData: GetGameDto;
   playerData: GetPlayerDto;
+  winner: EndGameDto | null;
 };
 
-function GameBoard({ gameId, gameData, playerData }: GameBoardProps) {
-  const boardRef = useRef<HTMLDivElement>(null);
+function GameBoard({ gameId, gameData, playerData, winner }: GameBoardProps) {
+  const innerBoardRef = useRef<HTMLDivElement>(null);
+  const outerBoardRef = useRef<HTMLDivElement>(null);
 
   const [board, setBoard] = useState<JSX.Element>(<></>);
   const [innerBoard, setInnerBoard] = useState(<></>);
-  const [boardMatrix, setBaordMatrix] = useState<string[][]>([]);
+  const [boardMatrix, setBoardMatrix] = useState<string[][]>([]);
   const [tipFields, setTipFields] = useState<number[][]>([]);
 
   // controlled areas
@@ -69,6 +78,7 @@ function GameBoard({ gameId, gameData, playerData }: GameBoardProps) {
   const [oldCoordinates, setOldCoordinates] = useState<number[]>([]);
   const [newCoordinates, setNewCoordinates] = useState<number[]>([]);
   const [wasCapture, setWasCapture] = useState<boolean>(false);
+  const [capturedPiece, settCapturedPiece] = useState<string>("");
 
   useEffect(() => {
     const lastMoveIndex = gameData.moves.length - 1;
@@ -84,31 +94,37 @@ function GameBoard({ gameId, gameData, playerData }: GameBoardProps) {
       const wasCap = lastMove.move[1] === "x";
       setWasCapture(wasCap);
 
-      if (boardRef.current) {
-        const fieldNodes = boardRef.current.querySelectorAll(
-          `.${classes.field}`
-        );
+      settCapturedPiece(lastMove.capturedPiece);
 
-        const pieceParent = fieldNodes[
-          fromPositionToListIndex(oldCoor)
-        ] as HTMLElement;
-        if (pieceParent) {
-          const movedPiece = pieceParent.firstElementChild as HTMLElement;
+      // animation after opponents move
+      // if (
+      //   boardRef.current &&
+      //   ((playerData.color === pieceColor.white && gameData.turn % 2 === 1) ||
+      //     (playerData.color === pieceColor.black && gameData.turn % 2 === 0))
+      // ) {
+      //   const fieldNodes = boardRef.current.querySelectorAll(
+      //     `.${classes.field}`
+      //   );
 
-          performMoveAnimation(
-            boardRef.current,
-            movedPiece,
-            playerData,
-            oldCoor,
-            newCoor
-          );
-        }
-      }
+      //   const pieceParent = fieldNodes[
+      //     fromPositionToListIndex(oldCoor)
+      //   ] as HTMLElement;
+      //   if (pieceParent) {
+      //     const movedPiece = pieceParent.firstElementChild as HTMLElement;
+
+      //     performMoveAnimation(
+      //       boardRef.current,
+      //       movedPiece,
+      //       playerData,
+      //       oldCoor,
+      //       newCoor
+      //     );
+      //   }
+      // }
     }
   }, [gameData]);
 
-  useEffect(() => {
-    // set game matrix
+  const updateStates = () => {
     const setMatrix = (position: string): string[][] => {
       const matrix: string[][] = [[]];
       let row: number = 0;
@@ -133,41 +149,72 @@ function GameBoard({ gameId, gameData, playerData }: GameBoardProps) {
       return matrix.reverse();
     };
 
-    setTimeout(() => {
-      const matrix = setMatrix(gameData.position);
+    const matrix = setMatrix(gameData.position);
 
-      setBaordMatrix(matrix);
+    setBoardMatrix(matrix);
 
-      // set controlled areas
-      const [wControlled, bControlled] = generateControlledAreas(matrix);
-      setWhiteControlledAreas(wControlled);
-      setBlackControlledAreas(bControlled);
+    // set controlled areas
+    const [wControlled, bControlled] = generateControlledAreas(matrix);
+    setWhiteControlledAreas(wControlled);
+    setBlackControlledAreas(bControlled);
 
-      // set checked areas
-      const [wChecked, bChecked] = checkChecks(matrix);
-      setWhiteCheckedAreas(wChecked);
-      setBlackCheckedAreas(bChecked);
+    // set checked areas
+    const [wChecked, bChecked] = checkChecks(matrix);
+    setWhiteCheckedAreas(wChecked);
+    setBlackCheckedAreas(bChecked);
 
-      // set castling optios
-      setCastleOptions({
-        cwkc: gameData.canWhiteKingCastle,
-        cwsrc: gameData.canWhiteShortRookCastle,
-        cwlrc: gameData.canWhiteLongRookCastle,
-        cbkc: gameData.canBlackKingCastle,
-        cbsrc: gameData.canBlackShortRookCastle,
-        cblrc: gameData.canBlackLongRookCastle,
-      });
+    // set castling optios
+    setCastleOptions({
+      cwkc: gameData.canWhiteKingCastle,
+      cwsrc: gameData.canWhiteShortRookCastle,
+      cwlrc: gameData.canWhiteLongRookCastle,
+      cbkc: gameData.canBlackKingCastle,
+      cbsrc: gameData.canBlackShortRookCastle,
+      cblrc: gameData.canBlackLongRookCastle,
+    });
 
-      // update board when game changed (move was made)
-      const [oBoard, iBoard] = mapFromGamePosition(gameData.position);
-      setBoard(oBoard);
-      setInnerBoard(iBoard);
+    // clear selected piece and tips (clear beform mapping board)
+    chosePiece("", []);
+    setTipFields([]);
+  };
 
-      // clear selected piece and tips
-      chosePiece("", []);
-      setTipFields([]);
-    }, 100);
+  useEffect(() => {
+    // set game matrix
+
+    // setTimeout(() => {
+    // updateStates()
+    // }, 100);
+
+    updateStates();
   }, [gameData]);
+
+  useEffect(() => {
+    const endGame = async () => {
+      if (!playerData.color) return;
+
+      const loserPlayer: EndGameModel = {
+        gameId: gameId,
+        loserColor: playerData.color,
+      };
+
+      GameHubService.EndGame(loserPlayer);
+    };
+
+    const isCheckMate = checkCheckMate(
+      playerData,
+      boardMatrix,
+      whiteControlledAreas,
+      blackControlledAreas,
+      whiteCheckedAreas,
+      blackCheckedAreas,
+      gameData.enPassant,
+      castleOptions
+    );
+
+    if (isCheckMate) {
+      endGame();
+    }
+  }, [boardMatrix]);
 
   useEffect(() => {
     // update board when tips changed (user selected different piece)
@@ -179,7 +226,8 @@ function GameBoard({ gameId, gameData, playerData }: GameBoardProps) {
 
   // create field based on position
   const displayField = (
-    fields: JSX.Element[],
+    outerFields: JSX.Element[],
+    innerFields: JSX.Element[],
     coor: number,
     char: string | null
   ): number => {
@@ -217,20 +265,16 @@ function GameBoard({ gameId, gameData, playerData }: GameBoardProps) {
     const showCapture = wasCapture && isNewField;
 
     // add field
-    fields.push(
+    outerFields.push(
       <div
         key={`${coordinates[0]}-${coordinates[1]}`}
         className={`
-          ${classes.field} ${isInTipFields ? classes.tip : ""}
+          ${classes.field}
+          ${isInTipFields ? classes.tip : ""}
           ${sameCoor ? classes.selected : ""}
-          ${isInCheck ? classes.check : ""} 
-          ${isOldFiled ? classes.old : ""} 
-          ${isNewField ? classes.new : ""}
         `}
         onMouseDown={(event) => {
-          if (event.button === 0) {
-            onClearHighlights(classes.highlight);
-          }
+          if (event.button === 0) onClearHighlights(classes.highlight);
         }}
         onClick={(event) => {
           const target = event.target as HTMLElement;
@@ -240,7 +284,13 @@ function GameBoard({ gameId, gameData, playerData }: GameBoardProps) {
           onSelectField(char, coordinates, isInTipFields, sameCoor);
         }}
         onContextMenu={(event) => {
-          onHighlightFile(event, classes.field, classes.highlight);
+          event.preventDefault();
+          onHighlightFile(
+            innerBoardRef,
+            coordinates,
+            classes.highlight,
+            classes.field
+          );
         }}
         onDragStart={() => {
           setIsDragging(true);
@@ -256,14 +306,41 @@ function GameBoard({ gameId, gameData, playerData }: GameBoardProps) {
       >
         {char && shouldDisplay && (
           <div
-            className={classes.piece}
+            className={`
+              ${classes.piece}
+              ${checkIfOwnPiece(char, playerData) ? classes.own : ""}
+            `}
             draggable={checkIfOwnPiece(char, playerData)}
           >
-            <img src={`/pieces/${pieceImageMap[char]}`} draggable={false} />
-            {showCapture && <XSvg iconClass={classes.x} />}
+            <img
+              src={`/pieces/${pieceImageMap[char]}`}
+              draggable={false}
+              alt={`piece-${char}`}
+            />
+            {showCapture && (
+              <div className={classes.capture}>
+                <XSvg iconClass={classes.x} />
+                <img
+                  src={`/pieces/${pieceImageMap[capturedPiece]}`}
+                  alt={`captured-piece-${capturedPiece}`}
+                />
+              </div>
+            )}
           </div>
         )}
       </div>
+    );
+
+    innerFields.push(
+      <div
+        key={`filed-${generateRandomId(10)}`}
+        className={`
+        ${classes.field}
+        ${isInCheck ? classes.check : ""} 
+        ${isOldFiled ? classes.old : ""} 
+        ${isNewField ? classes.new : ""}
+      `}
+      />
     );
 
     coor++;
@@ -272,13 +349,14 @@ function GameBoard({ gameId, gameData, playerData }: GameBoardProps) {
 
   // create board from game position
   const mapFromGamePosition = (position: string): JSX.Element[] => {
-    const fields: JSX.Element[] = [];
+    const outerFields: JSX.Element[] = [];
     const innerFields: JSX.Element[] = [];
     let fieldCoor: number = 0;
 
     for (let i = 0; i < position.length; i++) {
       const char = position[i];
 
+      // push placeholder when separator
       if (char == "/") {
         innerFields.push(<div key={`${i}`} className={classes.placeholder} />);
         continue;
@@ -286,37 +364,40 @@ function GameBoard({ gameId, gameData, playerData }: GameBoardProps) {
 
       if (!isNaN(parseInt(char))) {
         for (let j = 0; j < parseInt(char); j++) {
-          fieldCoor = displayField(fields, fieldCoor, null);
-          innerFields.push(
-            <div
-              key={`filed-${generateRandomId(10)}`}
-              className={classes["inner-field"]}
-            />
-          );
+          fieldCoor = displayField(outerFields, innerFields, fieldCoor, null);
         }
       } else {
-        fieldCoor = displayField(fields, fieldCoor, char);
-        innerFields.push(
-          <div
-            key={`filed-${generateRandomId(10)}`}
-            className={classes["inner-field"]}
-          />
-        );
+        fieldCoor = displayField(outerFields, innerFields, fieldCoor, char);
       }
     }
 
     return [
       <div
-        ref={boardRef}
-        className={`${classes.board__content__grid} ${
-          playerData.color === pieceColor.black
-            ? classes["black-board"]
-            : classes["white-board"]
-        }`}
+        ref={outerBoardRef}
+        className={`
+          ${classes.board__content__outer} 
+          ${
+            playerData.color === pieceColor.black
+              ? classes["black-board"]
+              : classes["white-board"]
+          }
+        `}
       >
-        {fields}
+        {outerFields}
       </div>,
-      <div className={`${classes.board__content__inner}`}>{innerFields}</div>,
+      <div
+        ref={innerBoardRef}
+        className={`
+          ${classes.board__content__inner} 
+          ${
+            playerData.color === pieceColor.black
+              ? classes["black-board"]
+              : classes["white-board"]
+          }
+        `}
+      >
+        {innerFields}
+      </div>,
     ];
   };
 
@@ -345,7 +426,7 @@ function GameBoard({ gameId, gameData, playerData }: GameBoardProps) {
     // make move if is in tips
     if (isInTipFields) {
       performMoveAnimation(
-        boardRef.current,
+        outerBoardRef.current,
         selectedTarget,
         playerData,
         selectedCoor,
@@ -362,7 +443,7 @@ function GameBoard({ gameId, gameData, playerData }: GameBoardProps) {
           gameData.enPassant,
           castleOptions
         );
-      }, 100);
+      }, 0);
 
       return;
     }
@@ -500,6 +581,7 @@ function GameBoard({ gameId, gameData, playerData }: GameBoardProps) {
           {innerBoard}
           {board}
         </div>
+        {/* promotion box */}
         {promotionCoordinates && (
           <div className={classes.board__promotion}>
             <div className={classes.board__promotion__pieces}>
@@ -526,6 +608,35 @@ function GameBoard({ gameId, gameData, playerData }: GameBoardProps) {
                       <img src={`/pieces/${pieceImageMap[p]}`} />
                     </div>
                   ))}
+            </div>
+          </div>
+        )}
+        {/* end game info*/}
+        {winner && (
+          <div className={classes.board__end}>
+            <div className={classes.board__end__content}>
+              <h2
+                className={`
+                ${classes.title}
+                ${
+                  winner.winner === pieceColor.white
+                    ? classes["white-winner"]
+                    : ""
+                }
+                ${
+                  winner.winner === pieceColor.black
+                    ? classes["black-winner"]
+                    : ""
+                }
+              `}
+              >
+                {winner.winner === pieceColor.white && <span>White</span>}
+                {winner.winner === pieceColor.black && <span>Black</span>}
+                <span> Wins</span>
+                <span></span>
+                <span></span>
+              </h2>
+              <div className={classes.players}>xxxx</div>
             </div>
           </div>
         )}

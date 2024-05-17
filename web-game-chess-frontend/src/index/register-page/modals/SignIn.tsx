@@ -15,6 +15,7 @@ import {
   LogInUserDto,
 } from "../../../shared/utils/types/userDtos";
 import { registrationInterface } from "../../../shared/utils/enums/interfacesEnums";
+import { LogInUserModel } from "../../../shared/utils/types/userModels";
 
 type SignInProps = {
   // change displayed modal
@@ -50,7 +51,7 @@ function SignIn({ setModal }: SignInProps) {
 
     // user data
     const form = event.target as HTMLFormElement;
-    const userData = {
+    const userData: LogInUserModel = {
       email: form.email.value.trim(),
       password: form.password.value,
     };

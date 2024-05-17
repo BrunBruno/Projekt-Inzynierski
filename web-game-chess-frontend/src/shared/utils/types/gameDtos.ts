@@ -11,6 +11,7 @@ export type CheckIfInGameDto = {
 };
 
 export type GetGameDto = {
+  hasEnded: boolean;
   position: string;
   turn: number;
   createdAt: Date;
@@ -39,10 +40,15 @@ export type GetGameMoveDto = {
   turn: number;
   oldCoor: string;
   newCoor: string;
+  capturedPiece: string;
 };
 
 export type GetPlayerDto = {
   name: string;
   elo: number;
   color: number | null;
+};
+
+export type EndGameDto = {
+  winner: number | null;
 };

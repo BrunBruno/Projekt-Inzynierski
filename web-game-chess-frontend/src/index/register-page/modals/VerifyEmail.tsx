@@ -11,6 +11,10 @@ import { useNavigate } from "react-router-dom";
 import { errorDisplay } from "../../../shared/utils/functions/displayError";
 import LoadingPage from "../../../shared/components/loading-page/LoadingPage";
 import { LogInUserDto } from "../../../shared/utils/types/userDtos";
+import {
+  LogInUserModel,
+  VerifyEmailModel,
+} from "../../../shared/utils/types/userModels";
 
 type VerifyEmailProps = {};
 
@@ -40,7 +44,7 @@ function VerifyEmail({}: VerifyEmailProps) {
 
     // code data
     const form = event.target as HTMLFormElement;
-    const verificationCode = {
+    const verificationCode: VerifyEmailModel = {
       code: form.code.value,
     };
 
@@ -60,10 +64,14 @@ function VerifyEmail({}: VerifyEmailProps) {
         getAuthorization()
       );
 
+      const tempUser: LogInUserModel = JSON.parse(
+        localStorage.getItem("logUserTemp")!
+      );
+
       //sign in user after sucessful veryfication
       const logInResponse = await axios.post<LogInUserDto>(
         userControllerPaths.logIn,
-        JSON.parse(localStorage.getItem("logUserTemp")!)
+        tempUser
       );
 
       // remove user temp

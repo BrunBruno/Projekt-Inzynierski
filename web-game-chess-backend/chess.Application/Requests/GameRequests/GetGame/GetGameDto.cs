@@ -4,6 +4,7 @@ namespace chess.Application.Requests.GameRequests.GetGame;
 
 public class GetGameDto {
 
+    public bool HasEnded { get; set; }
     public string Position { get; set; }
     public int Turn { get; set; }
     public DateTime CreatedAt { get; set; }
@@ -39,5 +40,6 @@ public class GetGameMoveDto {
     public int Turn { get; set; }
     public string OldCoor { get; set; }
     public string NewCoor { get; set; }
+    public string? CapturedPiece { get; set; }
 }
 

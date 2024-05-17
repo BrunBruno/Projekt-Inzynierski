@@ -1,4 +1,5 @@
 import * as signalR from "@microsoft/signalr";
+import { EndGameModel, MakeMoveModel } from "../types/gameModels";
 
 // singalR hub service map from GameHub
 class GameHub {
@@ -55,36 +56,25 @@ class GameHub {
   }
 
   // update game | add move
-  public async MakeMove(
-    gameId: string,
-    position: string,
-    move: string,
-    oldCoor: string,
-    newCoor: string,
-    enPassant: string | null,
-    wkm: boolean,
-    wsrm: boolean,
-    wlrm: boolean,
-    bkm: boolean,
-    bsrm: boolean,
-    blrm: boolean
-  ) {
+  public async MakeMove(makeMoveModel: MakeMoveModel) {
     try {
-      await this.connection.invoke(
-        "MakeMove",
-        gameId,
-        position,
-        move,
-        oldCoor,
-        newCoor,
-        enPassant,
-        wkm,
-        wsrm,
-        wlrm,
-        bkm,
-        bsrm,
-        blrm
-      );
+      await this.connection.invoke("MakeMove", makeMoveModel);
+    } catch (err) {
+      console.error(err);
+    }
+  }
+
+  public async EndGame(elsendGameModel: EndGameModel) {
+    try {
+      await this.connection.invoke("EndGame", elsendGameModel);
+    } catch (err) {
+      console.error(err);
+    }
+  }
+
+  public async LeaveGame(gameId: string) {
+    try {
+      await this.connection.invoke("LeaveGame", gameId);
     } catch (err) {
       console.error(err);
     }

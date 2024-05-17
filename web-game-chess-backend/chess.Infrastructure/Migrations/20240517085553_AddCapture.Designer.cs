@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using chess.Infrastructure.Contexts;
@@ -11,9 +12,11 @@ using chess.Infrastructure.Contexts;
 namespace chess.Infrastructure.Migrations
 {
     [DbContext(typeof(ChessAppDbContext))]
-    partial class ChessAppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240517085553_AddCapture")]
+    partial class AddCapture
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -158,9 +161,6 @@ namespace chess.Infrastructure.Migrations
 
                     b.Property<Guid>("WhitePlayerId")
                         .HasColumnType("uuid");
-
-                    b.Property<int?>("WinnerColor")
-                        .HasColumnType("integer");
 
                     b.HasKey("Id");
 

@@ -20,6 +20,7 @@ public class GetGameRequestHandler : IRequestHandler<GetGameRequest, GetGameDto>
 
         var gameDto = new GetGameDto()
         {
+            HasEnded = game.HasEnded,
             Position = game.Position,
             Turn = game.Turn,
             CreatedAt = game.CreatedAt,
@@ -53,6 +54,7 @@ public class GetGameRequestHandler : IRequestHandler<GetGameRequest, GetGameDto>
                 Turn = move.Turn,
                 OldCoor = move.OldCoordinates,
                 NewCoor = move.NewCoordinates,
+                CapturedPiece = move.CapturedPiece,
             }).ToList(),
         };
 

@@ -9,6 +9,7 @@ public class Move {
     public string NewCoordinates { get; set; }
     public string Position { get; set; }
     public int Turn { get; set; }
+    public string? CapturedPiece { get; set; }
     public double WhiteTime { get; set; }
     public double BlackTime {  get; set; }
     public Guid GameId { get; set; }

@@ -1,6 +1,7 @@
 import { pieceTagMap } from "../../../../shared/utils/enums/piecesMaps";
 import GameHubService from "../../../../shared/utils/services/GameHubService";
 import { CastleOptions } from "../../../../shared/utils/types/commonTypes";
+import { MakeMoveModel } from "../../../../shared/utils/types/gameModels";
 import { checkCoordinatesEquality, intToChar } from "./ExtraFunctions";
 
 class MakeMove {
@@ -26,7 +27,8 @@ class MakeMove {
     const oldY = oldCoordinates[1];
     const oldCoor = oldX + "," + oldY;
 
-    const capture = matrix[newY - 1][newX - 1] === "" ? "" : "x";
+    const capturePiece = matrix[newY - 1][newX - 1];
+    const capture = capturePiece === "" ? "" : "x";
     matrix[oldY - 1][oldX - 1] = "";
     matrix[newY - 1][newX - 1] = piece;
 
@@ -87,25 +89,28 @@ class MakeMove {
     // check for casteling possibility
     const wkm = piece === pieceTagMap.white.king;
     const wsrm = piece === pieceTagMap.white.rook && oldX === 8 && oldY === 1;
-    const wlsr = piece === pieceTagMap.white.rook && oldX === 1 && oldY === 1;
+    const wlrm = piece === pieceTagMap.white.rook && oldX === 1 && oldY === 1;
     const bkm = piece === pieceTagMap.black.king;
     const bsrm = piece === pieceTagMap.black.rook && oldX === 8 && oldY === 8;
-    const blsr = piece === pieceTagMap.black.rook && oldX === 1 && oldY === 8;
+    const blrm = piece === pieceTagMap.black.rook && oldX === 1 && oldY === 8;
 
-    GameHubService.MakeMove(
-      gameId,
-      newPosition,
-      move,
-      oldCoor,
-      newCoor,
-      newEnPassant,
-      wkm,
-      wsrm,
-      wlsr,
-      bkm,
-      bsrm,
-      blsr
-    );
+    const makeMoveModel: MakeMoveModel = {
+      gameId: gameId,
+      position: newPosition,
+      move: move,
+      oldCoor: oldCoor,
+      newCoor: newCoor,
+      capturedPiece: capturePiece,
+      enPassant: newEnPassant,
+      wkm: wkm,
+      wsrm: wsrm,
+      wlrm: wlrm,
+      bkm: bkm,
+      bsrm: bsrm,
+      blrm: blrm,
+    };
+
+    GameHubService.MakeMove(makeMoveModel);
   };
 
   // update string positio after move was dane

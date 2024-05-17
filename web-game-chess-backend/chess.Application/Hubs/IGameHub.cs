@@ -1,4 +1,7 @@
 ﻿
+using chess.Application.Requests.GameRequests.EndGame;
+using chess.Core.Enums;
+
 namespace chess.Application.Hubs; 
 
 /// <summary>
@@ -17,4 +20,6 @@ public interface IGameHub {
     /// </summary>
     /// <returns></returns>
     Task GameUpdated();
+
+    Task GameEnded(EndGameDto endGameDto);
 }

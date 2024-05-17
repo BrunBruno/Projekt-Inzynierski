@@ -54,33 +54,20 @@ export const intToChar = (i: number): string => {
 };
 
 export const onHighlightFile = (
-  event: React.MouseEvent<HTMLDivElement, MouseEvent>,
-  filedClass: string,
-  highlightClass: string
+  ref: React.RefObject<HTMLDivElement>,
+  coordinates: number[],
+  highlightClass: string,
+  filedClass: string
 ) => {
-  event.preventDefault();
+  if (ref.current) {
+    const index = fromPositionToListIndex(coordinates);
+    const element = ref.current.querySelectorAll(`.${filedClass}`)[index];
 
-  const addHighlight = (element: HTMLElement) => {
     if (element.classList.contains(highlightClass)) {
       element.classList.remove(highlightClass);
     } else {
       element.classList.add(highlightClass);
     }
-  };
-
-  const element = event.target as HTMLElement;
-  if (!element.classList.contains(filedClass)) {
-    const parent = element.parentElement as HTMLElement;
-    if (parent.classList.contains(filedClass)) {
-      addHighlight(parent);
-    } else {
-      const secParent = parent.parentElement as HTMLElement;
-      if (secParent.classList.contains(filedClass)) {
-        addHighlight(secParent);
-      }
-    }
-  } else {
-    addHighlight(element);
   }
 };
 
