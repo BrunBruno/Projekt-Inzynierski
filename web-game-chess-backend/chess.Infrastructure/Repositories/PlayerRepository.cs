@@ -14,6 +14,19 @@ public class PlayerRepository : IPlayerRepository {
         _dbContext = dbContext;
     }
 
+
+    ///<inheritdoc/>
+    public async Task<List<Player>> GetAllForUser(Guid userId) 
+        => await _dbContext.Players
+                    .Include(p => p.WhiteGame)
+                        .ThenInclude(g => g.BlackPlayer)
+                    .Include(p => p.BlackGame)
+                        .ThenInclude(g => g.WhitePlayer)
+                    //.Where(p => p.UserId == userId && p.IsPlaying == false)
+                    .Where(p => p.UserId == userId)
+                    .OrderByDescending(p => p.CreatedAt)
+                    .ToListAsync();
+
     ///<inheritdoc/>
     public async Task<List<Player>> GetAllAvailablePlayersForTiming(Guid timingId)
         => await _dbContext.Players
@@ -48,6 +61,4 @@ public class PlayerRepository : IPlayerRepository {
         _dbContext.Players.Remove(player);
         await _dbContext.SaveChangesAsync();
     }
-
-
 }

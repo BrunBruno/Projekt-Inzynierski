@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using chess.Application.Requests.GameRequests.CheckIfInGame;
 using chess.Application.Requests.GameRequests.GetGame;
 using chess.Application.Requests.GameRequests.GetPlayer;
+using chess.Application.Requests.GameRequests.GetFinishedGames;
 
 namespace chess.Api.Controllers;
 
@@ -116,5 +117,19 @@ public class GameController : ControllerBase {
         return Ok();
     }
 
-    
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="model"></param>
+    /// <returns></returns>
+    [HttpGet("finished")]
+    [Authorize(Policy = "IsVerified")]
+    public async Task<IActionResult> GetFinishedGames([FromQuery] GetFinishedGamesModel model) {
+
+        var request = _mapper.Map<GetFinishedGamesRequest>(model);
+
+        var games = await _mediator.Send(request);
+
+        return Ok(games);
+    }
 }

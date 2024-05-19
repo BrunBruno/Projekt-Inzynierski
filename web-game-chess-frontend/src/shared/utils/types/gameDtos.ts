@@ -52,3 +52,19 @@ export type GetPlayerDto = {
 export type EndGameDto = {
   winnerColor: number | null;
 };
+
+export type GetFinishedGamesDto = {
+  position: string;
+  turn: number;
+  createdAt: Date;
+  winnerColor: number | null;
+  whitePlayer: GetFinishedGamesPlayerDto;
+  blackPlayer: GetFinishedGamesPlayerDto;
+};
+
+export type GetFinishedGamesPlayerDto = {
+  name: string;
+  imageurl: string | null;
+  elo: number;
+  color: number | null;
+};

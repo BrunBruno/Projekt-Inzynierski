@@ -10,6 +10,7 @@ export const gameSearchInterface: EnumType = {
   vsComputer: 1,
   vsFriend: 2,
   searching: 3,
+  userGames: 4,
 };
 
 // to distinguish registration modals

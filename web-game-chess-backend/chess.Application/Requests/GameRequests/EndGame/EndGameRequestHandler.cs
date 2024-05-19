@@ -27,6 +27,9 @@ public class EndGameRequestHandler : IRequestHandler<EndGameRequest, EndGameDto>
             game.WinnerColor = game.WhitePlayer.Color;
         }
 
+        game.WhitePlayer.IsPlaying = false;
+        game.BlackPlayer.IsPlaying = false;
+
         await _gameRepository.Update(game);
 
         var endGameDto = new EndGameDto()

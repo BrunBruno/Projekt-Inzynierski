@@ -16,6 +16,7 @@ import Searching from "./searching/Searching";
 import { useNavigate } from "react-router-dom";
 import GameHubService from "../../../shared/utils/services/GameHubService";
 import { gameSearchInterface } from "../../../shared/utils/enums/interfacesEnums";
+import UserGames from "./user-games/UserGames";
 
 function GameSection() {
   const navigate = useNavigate();
@@ -43,6 +44,9 @@ function GameSection() {
             setSearchIds={setSearchIds}
           />
         );
+        break;
+      case gameSearchInterface.userGames:
+        setInterfaceContent(<UserGames />);
         break;
     }
   };
@@ -113,6 +117,17 @@ function GameSection() {
                 iconClass={classes["button-icon"]}
               />
               <span>Play vs Friend</span>
+            </button>
+            <button
+              onClick={() => {
+                setInterfaceById(gameSearchInterface.userGames);
+              }}
+            >
+              <RoundArrowSvg
+                color={greyColor.c0}
+                iconClass={classes["button-icon"]}
+              />
+              <span>My Games</span>
             </button>
           </div>
         </div>

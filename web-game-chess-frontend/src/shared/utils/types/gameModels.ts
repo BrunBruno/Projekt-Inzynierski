@@ -24,3 +24,8 @@ export type EndGameModel = {
   gameId: string;
   loserColor: number | null;
 };
+
+export type GetFinishedGamesModel = {
+  pageNumber: number;
+  pageSize: number;
+};

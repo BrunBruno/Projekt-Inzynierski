@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using chess.Api.Models.GameModels;
 using chess.Application.Requests.GameRequests.EndGame;
+using chess.Application.Requests.GameRequests.GetFinishedGames;
 using chess.Application.Requests.GameRequests.MakeMove;
 using chess.Application.Requests.GameRequests.SearchGame;
 
@@ -15,6 +16,7 @@ public class GameMappingProfiles : Profile {
         CreateMap<SearchGameModel, SearchGameRequest>();
         CreateMap<MakeMoveModel, MakeMoveRequest>();
         CreateMap<EndGameModel, EndGameRequest>();
+        CreateMap<GetFinishedGamesModel, GetFinishedGamesRequest>();
         
     }
 }

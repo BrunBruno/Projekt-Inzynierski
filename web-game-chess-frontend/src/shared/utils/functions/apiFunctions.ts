@@ -1,3 +1,5 @@
+import { GetFinishedGamesModel } from "../types/gameModels";
+
 // api paths and function
 const baseUrl: string = "http://localhost:5125/api";
 
@@ -35,6 +37,7 @@ interface GameControllerPaths {
   getGame: (gameId: string) => string;
   getPlayer: (gameId: string) => string;
   abortSearch: (playerId: string) => string;
+  getFinishedGame: (getFinishedGameModel: GetFinishedGamesModel) => string;
 }
 
 // paths in game controller
@@ -44,6 +47,8 @@ export const gameControllerPaths: GameControllerPaths = {
   getGame: (gameId: string) => `${gameBaseUrl}/${gameId}`,
   getPlayer: (gameId: string) => `${gameBaseUrl}/${gameId}/player`,
   abortSearch: (playerId: string) => `${gameBaseUrl}/abort/${playerId}`,
+  getFinishedGame: (getFinishedGameModel: GetFinishedGamesModel) =>
+    `${gameBaseUrl}/finished?q=${getFinishedGameModel}`,
 };
 
 type headers = {
