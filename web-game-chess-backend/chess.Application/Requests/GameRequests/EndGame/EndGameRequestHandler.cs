@@ -23,8 +23,7 @@ public class EndGameRequestHandler : IRequestHandler<EndGameRequest, EndGameDto>
 
         if(game.WhitePlayer.Color == request.LoserColor) {
             game.WinnerColor = game.BlackPlayer.Color;
-        }
-        if(game.BlackPlayer.Color == request.LoserColor) {
+        } else if(game.BlackPlayer.Color == request.LoserColor) {
             game.WinnerColor = game.WhitePlayer.Color;
         }
 

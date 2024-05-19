@@ -1,57 +1,6 @@
-import { pieceColor } from "../../../../shared/utils/enums/entitiesEnums";
-import {
-  PieceTagMap,
-  pieceTagMap,
-} from "../../../../shared/utils/enums/piecesMaps";
-import { GetPlayerDto } from "../../../../shared/utils/types/gameDtos";
-
-// check if player can move
-export const checkIfPlayerTurn = (
-  turn: number,
-  color: number | null
-): boolean => {
-  if (
-    (turn % 2 === 0 && color === pieceColor.white) ||
-    (turn % 2 === 1 && color === pieceColor.black)
-  ) {
-    return true;
-  }
-  return false;
-};
-
-// check if coordinates are the same
-export const checkCoordinatesEquality = (
-  coor: number[],
-  selectedCoor: number[]
-): boolean => {
-  if (coor[0] === selectedCoor[0] && coor[1] === selectedCoor[1]) {
-    return true;
-  }
-
-  return false;
-};
-
-// to check if clicked piece is own or opponents piece
-export const checkIfOwnPiece = (
-  char: string,
-  playerData: GetPlayerDto
-): boolean => {
-  for (const color in pieceTagMap) {
-    const pieces = pieceTagMap[color as keyof PieceTagMap];
-
-    if (Object.values(pieces).includes(char)) {
-      if (playerData.color === pieceColor[color]) {
-        return true;
-      }
-    }
-  }
-
-  return false;
-};
-
-export const intToChar = (i: number): string => {
-  return String.fromCharCode(65 + (i - 1));
-};
+import { pieceColor } from "../enums/entitiesEnums";
+import { PosToIndex } from "../functions/gameRelated";
+import { GetPlayerDto } from "../types/gameDtos";
 
 export const onHighlightFile = (
   ref: React.RefObject<HTMLDivElement>,
@@ -60,7 +9,7 @@ export const onHighlightFile = (
   filedClass: string
 ) => {
   if (ref.current) {
-    const index = fromPositionToListIndex(coordinates);
+    const index = PosToIndex(coordinates);
     const element = ref.current.querySelectorAll(`.${filedClass}`)[index];
 
     if (element.classList.contains(highlightClass)) {
@@ -100,10 +49,4 @@ export const performMoveAnimation = (
       selectedTarget.style.transform = `translateX(${translateX}px) translateY(${translateY}px)`;
     }
   }
-};
-
-export const fromPositionToListIndex = (coor: number[]): number => {
-  const x = coor[0] - 1;
-  const y = Math.abs(coor[1] - 1 - 7);
-  return y * 8 + x;
 };

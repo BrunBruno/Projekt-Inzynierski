@@ -51,3 +51,48 @@ export const movementMap: MovementMap = {
     [-1, -1],
   ],
 };
+
+type RankType = {
+  pawnStartRank: number;
+  pawnDoublePushRank: number;
+  enPassantRank: number;
+  promotionRank: number;
+
+  backRank: number;
+  kingShortFile: number;
+  kingLongFile: number;
+  shortRookFile: number;
+  longtRookFile: number;
+};
+
+type RankMap = {
+  white: RankType;
+  black: RankType;
+};
+
+export const rankMap: RankMap = {
+  white: {
+    pawnStartRank: 2,
+    pawnDoublePushRank: 4,
+    enPassantRank: 3,
+    promotionRank: 0,
+
+    backRank: 1,
+    kingShortFile: 7,
+    kingLongFile: 3,
+    shortRookFile: 8,
+    longtRookFile: 1,
+  },
+  black: {
+    pawnStartRank: 7,
+    pawnDoublePushRank: 5,
+    enPassantRank: 6,
+    promotionRank: 0,
+
+    backRank: 8,
+    kingShortFile: 7,
+    kingLongFile: 3,
+    shortRookFile: 8,
+    longtRookFile: 1,
+  },
+};

@@ -1,0 +1,30 @@
+@import "../../../Main.scss";
+
+.promotion {
+  @include absCenter();
+  @include wh100();
+  z-index: 100;
+  background-color: rgba(#000, 0.7);
+
+  &__pieces {
+    @include absCenter();
+    @include flex();
+    @include rounded(1rem);
+
+    background-color: $gc9;
+    border: solid 0.5rem $gc8;
+
+    .piece {
+      @include rounded(1rem);
+
+      &:hover {
+        cursor: pointer;
+        background-color: rgba(#000, 0.5);
+      }
+
+      img {
+        height: 6rem;
+      }
+    }
+  }
+}

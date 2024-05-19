@@ -1,0 +1,57 @@
+@import "../../../Main.scss";
+
+.coordinates {
+  @include wh100();
+
+  position: relative;
+
+  // files indicators
+  @mixin filesIndicators() {
+    position: absolute;
+    display: grid;
+    background-color: #000;
+
+    div {
+      @include flex();
+
+      font-size: 1.2rem;
+      font-weight: bold;
+      color: $gc5;
+    }
+  }
+
+  &__rows {
+    @include filesIndicators();
+
+    top: 2rem;
+    left: 0;
+    width: 2rem;
+    height: calc(100% - 2 * 2rem);
+    grid-template-rows: repeat(8, 1fr);
+  }
+
+  &__columns {
+    @include filesIndicators();
+
+    bottom: 0;
+    left: 2rem;
+    width: calc(100% - 2 * 2rem);
+    height: 2rem;
+    grid-template-columns: repeat(8, 1fr);
+  }
+
+  .white-indicators {
+    transform: rotate(0deg);
+    div {
+      transform: rotate(0deg);
+    }
+  }
+
+  .black-indicators {
+    transform: rotate(180deg);
+    div {
+      transform: rotate(180deg);
+    }
+  }
+  // end files indicators
+}

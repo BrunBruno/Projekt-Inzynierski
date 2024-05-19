@@ -1,0 +1,75 @@
+@import "../../../Main.scss";
+
+.winner {
+  @include absCenter();
+  @include wh100();
+  z-index: 100;
+  background-color: rgba(#000, 0.7);
+
+  &__content {
+    @include absCenter();
+
+    background-color: $gc9;
+    border-radius: 4rem;
+    overflow: hidden;
+
+    .title {
+      position: relative;
+      font-size: 3rem;
+      color: $mc5;
+      white-space: nowrap;
+      padding: 2rem 8rem;
+      font-weight: bold;
+      text-decoration: underline;
+
+      @mixin subEle() {
+        @include subCl(2rem);
+
+        width: 4rem;
+        height: 8rem;
+        bottom: -8rem;
+      }
+
+      &::after {
+        @include subEle();
+
+        left: 0;
+        border-top-left-radius: 4rem;
+      }
+      &::before {
+        @include subEle();
+
+        right: 0;
+        border-top-right-radius: 4rem;
+      }
+
+      &.white-winner {
+        background-color: #fff;
+        &::after {
+          box-shadow: -0.1rem -4rem 0 0 #fff;
+        }
+        &::before {
+          box-shadow: 0.1rem -4rem 0 0 #fff;
+        }
+      }
+      &.black-winner {
+        background-color: #000;
+        &::after {
+          box-shadow: -0.1rem -4rem 0 0 #000;
+        }
+        &::before {
+          box-shadow: 0.1rem -4rem 0 0 #000;
+        }
+      }
+    }
+
+    .players {
+      @include flex();
+      height: 12rem;
+
+      border-radius: 4rem;
+      border: 0.3rem solid $gc8;
+      border-top: 0.6rem solid $gc8;
+    }
+  }
+}

@@ -50,5 +50,5 @@ export type GetPlayerDto = {
 };
 
 export type EndGameDto = {
-  winner: number | null;
+  winnerColor: number | null;
 };

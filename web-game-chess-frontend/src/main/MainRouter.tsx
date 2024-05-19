@@ -15,6 +15,7 @@ function MainRouter() {
 
   const [authorize, setAuthorize] = useState<boolean>(false);
 
+  // authorize user
   useEffect(() => {
     const verifyUsersToken = async () => {
       try {
@@ -24,9 +25,7 @@ function MainRouter() {
         );
 
         const isVerified = isVerifiedResponse.data.isEmailVerified;
-        if (!isVerified) {
-          navigate("/");
-        }
+        if (!isVerified) navigate("/");
 
         const userInfoResponse = await axios.get<GetUserDto>(
           userControllerPaths.getUser,
