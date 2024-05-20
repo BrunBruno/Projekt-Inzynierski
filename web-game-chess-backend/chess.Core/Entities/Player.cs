@@ -39,6 +39,11 @@ public class Player {
     /// <summary>
     /// 
     /// </summary>
+    public bool FinishedGame { get; set; } = false;
+
+    /// <summary>
+    /// 
+    /// </summary>
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 
     /// <summary>

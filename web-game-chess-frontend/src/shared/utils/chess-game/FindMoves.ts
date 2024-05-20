@@ -34,8 +34,8 @@ class FindMoves {
 
   private gameState: GameStates | null = null;
   private selectionState: SelectionStates | null = null;
-  private checkedPiece: string = "";
-  private checkedCoor: number[] = [];
+  private checkedPiece: string | null = null;
+  private checkedCoor: number[] | null = null;
 
   // generate areas when pieces can move to
   public find = (
@@ -53,10 +53,13 @@ class FindMoves {
       ? checkedCoor
       : this.selectionState.coordinates;
 
+    if (this.checkedPiece === "" && this.checkedCoor.length === 0) return [];
+    if (!this.gameState.playerData) return [];
+
     // add selected coordinates
     let availableMoves: number[][] = [this.checkedCoor];
 
-    const color: number | null = this.gameState.playerData!.color;
+    const color: number | null = this.gameState.playerData.color;
     const [xCoor, yCoor] = availableMoves[0];
 
     // check for pins
@@ -121,22 +124,20 @@ class FindMoves {
       case pieceTagMap.white.king:
         foundTips = this.checkKingMoves(
           [xCoor, yCoor],
-          this.gameState.checkAreas.black,
+          this.gameState.controlledAreas.black,
           pieceTagMap.white.king
         );
         break;
       case pieceTagMap.black.king:
         foundTips = this.checkKingMoves(
           [xCoor, yCoor],
-          this.gameState.checkAreas.white,
+          this.gameState.controlledAreas.white,
           pieceTagMap.black.king
         );
         break;
       default:
         break;
     }
-
-    availableMoves.push(...foundTips);
 
     // if check exist then limit pieces moves to stop check
     if (
@@ -149,7 +150,8 @@ class FindMoves {
         this.gameState.checkAreas.black.length > 0
       ) {
         // filter for those that eliminates check
-        availableMoves = availableMoves.filter((tip) =>
+
+        foundTips = foundTips.filter((tip) =>
           this.gameState!.checkAreas.black.some((check) =>
             areCoorEqual(check, tip)
           )
@@ -162,19 +164,25 @@ class FindMoves {
         this.gameState.checkAreas.white.length > 0
       ) {
         // filter for those that eliminates check
-        availableMoves = availableMoves.filter((tip) =>
-          this.gameState!.checkAreas.black.some((check) =>
+
+        foundTips = foundTips.filter((tip) =>
+          this.gameState!.checkAreas.white.some((check) =>
             areCoorEqual(check, tip)
           )
         );
       }
     }
 
+    availableMoves.push(...foundTips);
+
     return availableMoves;
   };
 
   // isValid | isEmpty
   private isValidField = ([x, y]: [number, number]): boolean[] => {
+    if (!this.gameState || !this.checkedPiece || !this.gameState.playerData)
+      return [false, false];
+
     let isValid: boolean = false;
     let isEmpty: boolean = false;
 
@@ -184,13 +192,11 @@ class FindMoves {
       y >= rankMap.white.backRank &&
       y <= rankMap.black.backRank
     ) {
-      const piece = this.gameState!.matrix[y - 1][x - 1];
+      const piece = this.gameState.matrix[y - 1][x - 1];
       isEmpty = piece === "";
+      if (isEmpty) return [true, true];
 
-      const isOwnPiece = checkIfOwnPiece(
-        this.selectionState!.piece,
-        this.gameState!.playerData!
-      );
+      const isOwnPiece = checkIfOwnPiece(piece, this.gameState.playerData);
 
       isValid = !isOwnPiece;
     }

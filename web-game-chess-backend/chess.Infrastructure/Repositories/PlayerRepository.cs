@@ -21,9 +21,9 @@ public class PlayerRepository : IPlayerRepository {
                     .Include(p => p.WhiteGame)
                         .ThenInclude(g => g.BlackPlayer)
                     .Include(p => p.BlackGame)
+
                         .ThenInclude(g => g.WhitePlayer)
-                    //.Where(p => p.UserId == userId && p.IsPlaying == false)
-                    .Where(p => p.UserId == userId)
+                    .Where(p => p.UserId == userId && p.FinishedGame == true)
                     .OrderByDescending(p => p.CreatedAt)
                     .ToListAsync();
 

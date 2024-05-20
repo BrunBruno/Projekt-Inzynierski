@@ -10,12 +10,14 @@ export const makeMove = (
   gameState: GameStates,
   selectionState: SelectionStates,
   moveToCoordinates: number[],
-  promotedPiece: string | null
+  promotedPiece: string | null = null
 ): void => {
-  const [newX, newY] = selectionState.coordinates;
+  if (!gameState.gameData) return;
+
+  const [newX, newY] = moveToCoordinates;
   const newCoor = newX + "," + newY;
 
-  const [oldX, oldY] = moveToCoordinates;
+  const [oldX, oldY] = selectionState.coordinates;
   const oldCoor = oldX + "," + oldY;
 
   const capturedPiece = gameState.matrix[newY - 1][newX - 1];
@@ -42,11 +44,10 @@ export const makeMove = (
       }
     }
   }
-
   // perform white castling
   if (
     selectionState.piece === pieceTagMap.white.king &&
-    gameState.gameData?.canWhiteKingCastle
+    gameState.gameData.canWhiteKingCastle
   ) {
     // short castling
     if (newX === rankMap.white.kingShortFile) {
@@ -54,7 +55,7 @@ export const makeMove = (
         rankMap.white.shortRookFile - 1
       ] = "";
       gameState.matrix[rankMap.white.backRank - 1][
-        rankMap.white.kingShortFile + 1 - 1
+        rankMap.white.kingShortFile - 1 - 1
       ] = pieceTagMap.white.rook;
     }
     // long castling
@@ -63,7 +64,7 @@ export const makeMove = (
         rankMap.white.longtRookFile - 1
       ] = "";
       gameState.matrix[rankMap.white.backRank - 1][
-        rankMap.white.kingLongFile - 1 - 1
+        rankMap.white.kingLongFile + 1 - 1
       ] = pieceTagMap.white.rook;
     }
   }
@@ -71,7 +72,7 @@ export const makeMove = (
   // perform black castling
   if (
     selectionState.piece === pieceTagMap.black.king &&
-    gameState.gameData?.canBlackKingCastle
+    gameState.gameData.canBlackKingCastle
   ) {
     // short castling
     if (newX === rankMap.black.kingShortFile) {
@@ -79,7 +80,7 @@ export const makeMove = (
         rankMap.black.shortRookFile - 1
       ] = "";
       gameState.matrix[rankMap.black.backRank - 1][
-        rankMap.black.kingShortFile + 1 - 1
+        rankMap.black.kingShortFile - 1 - 1
       ] = pieceTagMap.black.rook;
     }
     // long castling
@@ -88,11 +89,12 @@ export const makeMove = (
         rankMap.black.longtRookFile - 1
       ] = "";
       gameState.matrix[rankMap.black.backRank - 1][
-        rankMap.black.kingLongFile - 1 - 1
+        rankMap.black.kingLongFile + 1 - 1
       ] = pieceTagMap.black.rook;
     }
   }
 
+  console.log(gameState.matrix);
   const newPosition = makeNewPosition(gameState.matrix);
 
   const move = selectionState.piece + capture + intToChar(newX) + newY;

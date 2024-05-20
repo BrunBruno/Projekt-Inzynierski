@@ -15,6 +15,10 @@ internal class GameTimingRepository : IGameTimingRepository {
         _dbContext = dbContext;
     }
 
+    public async Task<GameTiming?> GetById(Guid timigId) 
+        => await _dbContext.GameTimings
+                    .FirstOrDefaultAsync(t => t.Id == timigId);   
+
     ///<inheritdoc/>
     public async Task<GameTiming?> FindTiming(TimingTypes type, int minutes, int increment)
         => await _dbContext.GameTimings
@@ -25,6 +29,4 @@ internal class GameTimingRepository : IGameTimingRepository {
         await _dbContext.GameTimings.AddAsync(gameTiming);
         await _dbContext.SaveChangesAsync();
     }
-
-    
 }

@@ -2,35 +2,177 @@
 
 .games {
   @include wh100();
+  padding: 4rem 8rem;
+
+  @include showAni();
+
+  &__header {
+    padding: 1rem;
+    height: 6rem;
+
+    h2 {
+      font-size: 3rem;
+    }
+  }
 
   &__list {
     @include flex(column, start, center, 1rem);
 
     height: 100%;
-    background-color: $gc9;
+    max-height: calc(100vh - 2 * 4rem - 6rem);
+    padding: 0.5rem;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+
+    &::-webkit-scrollbar {
+      width: 1rem;
+      background-color: #0000;
+
+      &-thumb {
+        background-color: $gc9;
+        border-radius: 1rem;
+      }
+    }
 
     &__record {
-      @include flex();
+      @include flex(column, start, center, 0);
 
-      .mini-grid {
-        @include square(12rem);
+      position: relative;
+      height: 36rem;
+      overflow: hidden;
+      background-color: rgba($gc9, 0.6);
+      border-radius: 1rem;
+      border-bottom: solid 0.3rem $mc7;
+      user-select: none;
 
-        display: grid;
-        grid-template-columns: repeat(8, 1fr);
-        grid-template-rows: repeat(8, 1fr);
+      transform: scale(1);
+      transition: transform 0.3s;
 
-        @mixin field() {
-          background-size: contain;
+      &:hover {
+        cursor: pointer;
+        transform: scale(0.95);
+      }
+
+      .game-data {
+        @include flex(row, space-evenly, center, 0);
+
+        width: 100%;
+        padding: 2rem;
+
+        .timing-type {
+          svg {
+            height: 3rem;
+          }
         }
 
-        .light-f {
-          @include field();
-          background-color: $mc0;
+        .is-winner {
+          svg {
+            height: 3.8rem;
+          }
         }
-        .dark-f {
-          @include field();
-          background-color: $mc9;
+
+        .moves {
+          @include flex();
+          @include circle(3rem);
+
+          font-weight: bold;
+          font-size: 1.6rem;
+          border: solid 0.3rem $mc0;
         }
+
+        .win-type {
+          position: relative;
+
+          p {
+            @include secFont(2rem);
+            padding-right: 0.2rem;
+          }
+        }
+      }
+    }
+
+    .mini-grid {
+      width: 100%;
+      aspect-ratio: 1/1;
+
+      position: relative;
+      display: grid;
+      grid-template-columns: repeat(8, 1fr);
+      grid-template-rows: repeat(8, 1fr);
+      border-radius: 1rem;
+      overflow: hidden;
+
+      @mixin field($bgc) {
+        background-size: contain;
+        background-repeat: no-repeat;
+        background-color: $bgc;
+        opacity: 0.1;
+      }
+
+      .light-f {
+        @include field($mc0);
+      }
+      .dark-f {
+        @include field($mc9);
+      }
+
+      .players {
+        @include absCenter();
+        @include flex($gap: 2rem);
+
+        .player {
+          @include flex($direction: column, $gap: 0.5rem);
+
+          @mixin playerImg() {
+            @include flex();
+            @include square(6rem);
+
+            padding: 0.6rem;
+            border-radius: 100%;
+
+            .player-img {
+              @include wh100();
+              border-radius: 100%;
+            }
+          }
+
+          .white-player-img {
+            @include playerImg();
+            background-color: #fff;
+          }
+
+          .black-player-img {
+            @include playerImg();
+            background-color: #000;
+          }
+
+          .player-data {
+            @include flex($direction: column);
+
+            span {
+              font-size: 1.6rem;
+              span {
+                color: $mc3;
+              }
+            }
+          }
+        }
+
+        p {
+          font-size: 3rem;
+          font-weight: bold;
+        }
+      }
+
+      .date {
+        position: absolute;
+        top: 0;
+        right: 0;
+        padding: 1rem;
+        color: $gc5;
       }
     }
   }

@@ -104,6 +104,10 @@
         grid-template-columns: repeat(8, 1fr);
 
         .field {
+          p {
+            @include absCenter();
+            @include circle(2rem);
+          }
           @include flex();
 
           position: relative;

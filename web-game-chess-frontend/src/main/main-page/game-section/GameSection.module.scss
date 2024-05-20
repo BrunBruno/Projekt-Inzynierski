@@ -13,7 +13,8 @@
 
       .game-interface {
         height: 100%;
-        padding: 12rem 16rem; //?
+        max-height: 100vh;
+        // padding: 12rem 16rem;
       }
 
       .game-buttons {

@@ -24,3 +24,14 @@ export const timingTypes: EnumType = {
   Classic: 3,
   Daily: 4,
 };
+
+export const endGameTypes: EnumType = {
+  checkMate: 1,
+  outOfTime: 2,
+  resignation: 3,
+  staleMate: 4,
+  threefold: 5,
+  agreement: 6,
+  fiftyMovesRule: 7,
+  insufficientMaterial: 8,
+};

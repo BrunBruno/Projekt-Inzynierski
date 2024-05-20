@@ -23,6 +23,7 @@ export type MakeMoveModel = {
 export type EndGameModel = {
   gameId: string;
   loserColor: number | null;
+  endGameType: number;
 };
 
 export type GetFinishedGamesModel = {

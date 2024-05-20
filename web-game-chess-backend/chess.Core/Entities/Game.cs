@@ -12,6 +12,8 @@ public class Game {
     public int Turn { get; set; } = 0;
     public int Round { get; set; } = 1;
     public Colors? WinnerColor { get; set; }  = null;
+    public TimingTypes TimingType { get; set; }
+    public EndGameTypes EndGameType { get; set; } = 0;
 
     public Guid WhitePlayerId { get; set; }
     public Player WhitePlayer { get; set; }

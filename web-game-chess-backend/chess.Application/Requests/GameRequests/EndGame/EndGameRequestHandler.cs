@@ -17,9 +17,10 @@ public class EndGameRequestHandler : IRequestHandler<EndGameRequest, EndGameDto>
     public async Task<EndGameDto> Handle(EndGameRequest request, CancellationToken cancellationToken) {
 
         var game = await _gameRepository.GetById(request.GameId) 
-            ?? throw new NotFoundException("Game not found");
+            ?? throw new NotFoundException("Game not found.");
 
         game.HasEnded = true;
+        game.EndGameType = request.EndGameType;
 
         if(game.WhitePlayer.Color == request.LoserColor) {
             game.WinnerColor = game.BlackPlayer.Color;
@@ -27,14 +28,14 @@ public class EndGameRequestHandler : IRequestHandler<EndGameRequest, EndGameDto>
             game.WinnerColor = game.WhitePlayer.Color;
         }
 
-        game.WhitePlayer.IsPlaying = false;
-        game.BlackPlayer.IsPlaying = false;
+        game.WhitePlayer.FinishedGame = true;
+        game.BlackPlayer.FinishedGame = true;
 
         await _gameRepository.Update(game);
 
         var endGameDto = new EndGameDto()
         {
-            Winner = game.WinnerColor,
+            WinnerColor = game.WinnerColor,
         };
 
         return endGameDto;

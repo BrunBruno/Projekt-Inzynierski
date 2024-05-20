@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import {
   EndGameDto,
+  GetEndedGameDto,
   GetGameDto,
   GetPlayerDto,
 } from "../../shared/utils/types/gameDtos";
@@ -22,7 +23,9 @@ function GamePage() {
 
   const [gameData, setGameData] = useState<GetGameDto | null>(null);
   const [playerData, setPlayerData] = useState<GetPlayerDto | null>(null);
-  const [winner, setWinner] = useState<EndGameDto | null>(null);
+  const [winner, setWinner] = useState<EndGameDto | GetEndedGameDto | null>(
+    null
+  );
 
   // get game data
   const getGame = async () => {
@@ -78,6 +81,27 @@ function GamePage() {
       GameHubService.connection.off("GameEnded", endGame);
     };
   }, [gameId]);
+
+  useEffect(() => {
+    const getWinner = async () => {
+      if (!gameId) return;
+
+      try {
+        const winnerResponse = await axios.get<GetEndedGameDto>(
+          gameControllerPaths.getEndedGame(gameId),
+          getAuthorization()
+        );
+
+        setWinner(winnerResponse.data);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+
+    if (gameId && gameData && gameData.hasEnded) {
+      getWinner();
+    }
+  }, [gameData]);
 
   if (!gameId || !gameData || !playerData) {
     return <LoadingPage />;

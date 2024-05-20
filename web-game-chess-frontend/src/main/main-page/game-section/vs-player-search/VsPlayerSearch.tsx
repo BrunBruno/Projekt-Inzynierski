@@ -6,10 +6,10 @@ import {
 } from "../../../../shared/utils/functions/apiFunctions";
 import { defaultTimeControls } from "./VsPlayerSearchObjects";
 import { SearchGameDto } from "../../../../shared/utils/types/gameDtos";
-import VsPlayerSearchIcons from "./VsPlayerSearchIcons";
 import GameHubService from "../../../../shared/utils/services/GameHubService";
 import { timingTypes } from "../../../../shared/utils/enums/entitiesEnums";
 import { SearchGameModel } from "../../../../shared/utils/types/gameModels";
+import TimingTypesIcons from "../../../../shared/svgs/TimingTypesIcons";
 
 type VsPlayerSearchProps = {
   setSearchIds: React.Dispatch<React.SetStateAction<SearchGameDto | null>>;
@@ -80,8 +80,9 @@ function VsPlayerSearch({ setSearchIds }: VsPlayerSearchProps) {
         {defaultTimeControls.map((control, index) => (
           <div key={index} className={classes.search__grid__row}>
             <div className={classes.search__grid__row__header}>
-              <VsPlayerSearchIcons
+              <TimingTypesIcons
                 iconName={control.header.toLocaleLowerCase()}
+                iconClass={classes["header-icon"]}
               />
               {control.header}
             </div>

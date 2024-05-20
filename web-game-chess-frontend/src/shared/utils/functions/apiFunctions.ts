@@ -38,6 +38,7 @@ interface GameControllerPaths {
   getPlayer: (gameId: string) => string;
   abortSearch: (playerId: string) => string;
   getFinishedGame: (getFinishedGameModel: GetFinishedGamesModel) => string;
+  getEndedGame: (gameId: string) => string;
 }
 
 // paths in game controller
@@ -47,8 +48,10 @@ export const gameControllerPaths: GameControllerPaths = {
   getGame: (gameId: string) => `${gameBaseUrl}/${gameId}`,
   getPlayer: (gameId: string) => `${gameBaseUrl}/${gameId}/player`,
   abortSearch: (playerId: string) => `${gameBaseUrl}/abort/${playerId}`,
-  getFinishedGame: (getFinishedGameModel: GetFinishedGamesModel) =>
-    `${gameBaseUrl}/finished?q=${getFinishedGameModel}`,
+  getFinishedGame: (getFinishedGameModel: GetFinishedGamesModel) => {
+    return `${gameBaseUrl}/finished?${stringifyModel(getFinishedGameModel)}`;
+  },
+  getEndedGame: (gameId: string) => `${gameBaseUrl}/${gameId}/ended`,
 };
 
 type headers = {
@@ -72,4 +75,14 @@ export const getAuthorization = (): headers => {
           Authorization: ``,
         },
       };
+};
+
+const stringifyModel = (model: Object) => {
+  const stringifiedModel = Object.fromEntries(
+    Object.entries(model).map(([key, value]) => [key, String(value)])
+  );
+
+  const queryString = new URLSearchParams(stringifiedModel).toString();
+
+  return queryString;
 };

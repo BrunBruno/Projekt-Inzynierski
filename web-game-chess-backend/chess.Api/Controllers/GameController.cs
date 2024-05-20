@@ -9,6 +9,7 @@ using chess.Application.Requests.GameRequests.CheckIfInGame;
 using chess.Application.Requests.GameRequests.GetGame;
 using chess.Application.Requests.GameRequests.GetPlayer;
 using chess.Application.Requests.GameRequests.GetFinishedGames;
+using chess.Application.Requests.GameRequests.GetEndedGame;
 
 namespace chess.Api.Controllers;
 
@@ -115,6 +116,20 @@ public class GameController : ControllerBase {
         await _mediator.Send(request);
 
         return Ok();
+    }
+
+    [HttpGet("{gameId}/ended")]
+    [Authorize(Policy = "IsVerified")]
+    public async Task<IActionResult> GetEndedGame(Guid gameId) {
+
+        var request = new GetEndedGameRequest()
+        {
+            GameId = gameId,
+        };
+
+        var gameDto = await _mediator.Send(request);
+
+        return Ok(gameDto);
     }
 
     /// <summary>

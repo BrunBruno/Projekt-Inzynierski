@@ -80,7 +80,7 @@ public class DbContextConfiguration :
             .HasForeignKey(x => x.GameTimingId);
         builder
             .HasOne(x => x.GameState)
-            .WithOne()
+            .WithOne(x => x.Game)
             .HasForeignKey<Game>(x => x.GameStateId);
     }
 

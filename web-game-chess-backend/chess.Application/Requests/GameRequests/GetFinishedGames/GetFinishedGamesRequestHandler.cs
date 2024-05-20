@@ -2,6 +2,7 @@
 using chess.Application.Pagination;
 using chess.Application.Repositories;
 using chess.Application.Services;
+using chess.Core.Enums;
 using chess.Shared.Exceptions;
 using MediatR;
 
@@ -39,14 +40,19 @@ public class GetFinishedGamesRequestHandler : IRequestHandler<GetFinishedGamesRe
                 {
                     Position = player.WhiteGame.Position,
                     Turn = player.WhiteGame.Turn,
+                    Moves = player.WhiteGame.Round,
+                    IsWinner = player.WhiteGame.WinnerColor != null ? player.WhiteGame.WinnerColor == Colors.White : null,
                     CreatedAt = player.WhiteGame.CreatedAt,
-                    WinnerColor = player.WhiteGame.WinnerColor,
+
+                    TimingType = player.WhiteGame.TimingType,
+                    EndGameType = player.WhiteGame.EndGameType,
+
+
                     WhitePlayer = new GetFinishedGamesPlayerDto()
                     { 
                         Name = player.WhiteGame.WhitePlayer.Name,
                         ImageUrl = player.WhiteGame.WhitePlayer.ImageUrl,
                         Elo = player.WhiteGame.WhitePlayer.Elo,
-                        Color = player.WhiteGame.WhitePlayer.Color,
 
                     },
                     BlackPlayer = new GetFinishedGamesPlayerDto()
@@ -54,7 +60,6 @@ public class GetFinishedGamesRequestHandler : IRequestHandler<GetFinishedGamesRe
                         Name = player.WhiteGame.BlackPlayer.Name,
                         ImageUrl = player.WhiteGame.BlackPlayer.ImageUrl,
                         Elo = player.WhiteGame.BlackPlayer.Elo,
-                        Color = player.WhiteGame.BlackPlayer.Color,
                     }
                     
                 });
@@ -68,21 +73,25 @@ public class GetFinishedGamesRequestHandler : IRequestHandler<GetFinishedGamesRe
                 {
                     Position = player.BlackGame.Position,
                     Turn = player.BlackGame.Turn,
+                    Moves = player.BlackGame.Round,
+                    IsWinner = player.BlackGame.WinnerColor != null ? player.BlackGame.WinnerColor == Colors.Black : null,
                     CreatedAt = player.BlackGame.CreatedAt,
-                    WinnerColor = player.BlackGame.WinnerColor,
+
+                    TimingType = player.BlackGame.TimingType,
+                    EndGameType = player.BlackGame.EndGameType,
+
+
                     WhitePlayer = new GetFinishedGamesPlayerDto()
                     {
                         Name = player.BlackGame.WhitePlayer.Name,
                         ImageUrl = player.BlackGame.WhitePlayer.ImageUrl,
                         Elo = player.BlackGame.WhitePlayer.Elo,
-                        Color = player.BlackGame.WhitePlayer.Color,
                     },
                     BlackPlayer = new GetFinishedGamesPlayerDto()
                     {
                         Name = player.BlackGame.BlackPlayer.Name,
                         ImageUrl = player.BlackGame.BlackPlayer.ImageUrl,
                         Elo = player.BlackGame.BlackPlayer.Elo,
-                        Color = player.BlackGame.BlackPlayer.Color,
                     }
                 });
             }

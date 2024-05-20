@@ -18,7 +18,10 @@ import {
   generateControlledAreas,
   checkChecks,
 } from "../../../shared/utils/chess-game/ControlledAreas";
-import { pieceColor } from "../../../shared/utils/enums/entitiesEnums";
+import {
+  endGameTypes,
+  pieceColor,
+} from "../../../shared/utils/enums/entitiesEnums";
 import XSvg from "../../../shared/svgs/XSvg";
 import { generateRandomId } from "../../../shared/utils/functions/generateRandom";
 import { checkIfAnyMoveExists } from "../../../shared/utils/chess-game/CheckIfAnyMoveExists";
@@ -194,16 +197,18 @@ function GameBoard({ gameId, gameData, playerData, winner }: GameBoardProps) {
   }, [gameData]);
 
   useEffect(() => {
-    const endGame = async (loserColor: number | null) => {
+    const endGame = async (loserColor: number | null, endGameType: number) => {
       const loserPlayer: EndGameModel = {
         gameId: gameId,
         loserColor: loserColor,
+        endGameType: endGameType,
       };
 
       GameHubService.EndGame(loserPlayer);
     };
 
-    if (gameStates.matrix.length > 0) {
+    // end game if it has not been eneded yet
+    if (!gameData.hasEnded && gameStates.matrix.length > 0) {
       const noMove = checkIfAnyMoveExists(gameStates, selectionStates);
 
       if (noMove) {
@@ -211,14 +216,17 @@ function GameBoard({ gameId, gameData, playerData, winner }: GameBoardProps) {
           playerData.color === pieceColor.white &&
           gameStates.checkAreas.black.length !== 0
         ) {
-          endGame(playerData.color);
+          // white has been check mated
+          endGame(playerData.color, endGameTypes.checkMate);
         } else if (
           playerData.color === pieceColor.black &&
           gameStates.checkAreas.white.length !== 0
         ) {
-          endGame(playerData.color);
+          // black has been check mated
+          endGame(playerData.color, endGameTypes.checkMate);
         } else {
-          endGame(null);
+          // draw
+          endGame(null, endGameTypes.staleMate);
         }
       }
     }
@@ -272,6 +280,13 @@ function GameBoard({ gameId, gameData, playerData, winner }: GameBoardProps) {
     const isNewField = areCoorEqual(coordinates, newCoordinates);
     const showCapture = wasCapture && isNewField;
 
+    const bCon = gameStates.controlledAreas.black.some((coor) =>
+      areCoorEqual(coor, coordinates)
+    );
+    const wCon = gameStates.controlledAreas.white.some((coor) =>
+      areCoorEqual(coor, coordinates)
+    );
+
     // add field
     outerFields.push(
       <div
@@ -286,7 +301,6 @@ function GameBoard({ gameId, gameData, playerData, winner }: GameBoardProps) {
         }}
         onClick={(event) => {
           const target = event.target as HTMLElement;
-          // if (char) setSelectedTarget(target);
           if (char) setSelectionStates({ type: "SET_TARGET", payload: target });
 
           onSelectField(char, coordinates, isInTipFields, sameCoor);
@@ -334,6 +348,9 @@ function GameBoard({ gameId, gameData, playerData, winner }: GameBoardProps) {
             )}
           </div>
         )}
+        {/* {wCon && <p style={{ backgroundColor: "red" }}></p>}
+        {bCon && <p style={{ backgroundColor: "blue" }}></p>}
+        {wCon && bCon && <p style={{ backgroundColor: "orange" }}></p>} */}
       </div>
     );
 
@@ -414,9 +431,8 @@ function GameBoard({ gameId, gameData, playerData, winner }: GameBoardProps) {
     isInTipFields: boolean,
     samePiece: boolean
   ): void => {
-    setSelectionStates({ type: "SET_IS_DRAGGING", payload: true });
-
     // unselect piece when clicked on same piece
+
     if (samePiece) {
       chosePiece("", []);
       return;
@@ -446,7 +462,6 @@ function GameBoard({ gameId, gameData, playerData, winner }: GameBoardProps) {
       // setTimeout(() => {
       // makeMove(gameStates, selectionStates);
       // }, 100);
-
       makeMove(gameStates, selectionStates, coordinates, null);
 
       return;
@@ -480,7 +495,7 @@ function GameBoard({ gameId, gameData, playerData, winner }: GameBoardProps) {
     isInTipFields: boolean,
     samePiece: boolean
   ): void => {
-    setSelectionStates({ type: "SET_IS_DRAGGING", payload: true });
+    setSelectionStates({ type: "SET_IS_DRAGGING", payload: false });
 
     // unselect piece when back on same field
     if (samePiece) {
@@ -502,7 +517,7 @@ function GameBoard({ gameId, gameData, playerData, winner }: GameBoardProps) {
 
     // if put on one of tip fields make move else clear piece
     if (isInTipFields) {
-      makeMove(gameStates, selectionStates, coordinates, null);
+      makeMove(gameStates, selectionStates, coordinates);
     } else {
       chosePiece("", []);
     }
@@ -518,14 +533,13 @@ function GameBoard({ gameId, gameData, playerData, winner }: GameBoardProps) {
 
   // set available fields each time user choses different filed
   useEffect(() => {
-    // const availableFields = ShowTip.showTip(gameStates, selectionStates);
     const availableFields = FindMoves.find(gameStates, selectionStates);
 
     setSelectionStates({
       type: "SET_AVAILABLE_FIELDS",
       payload: availableFields,
     });
-  }, [selectionStates.availableFelds]);
+  }, [selectionStates.coordinates]);
 
   // promote pawn to choosen piece
   const onPerformPromotion = (promotedPiece: string): void => {
@@ -553,7 +567,7 @@ function GameBoard({ gameId, gameData, playerData, winner }: GameBoardProps) {
         </div>
 
         {/* promotion box */}
-        {selectionStates.promotionCoor && (
+        {selectionStates.promotionCoor.length > 0 && (
           <GameBoardPromotion
             playerData={playerData}
             onPerformPromotion={onPerformPromotion}
@@ -561,7 +575,7 @@ function GameBoard({ gameId, gameData, playerData, winner }: GameBoardProps) {
         )}
 
         {/* end game info*/}
-        {winner && <GameBoardWinner winner={winner} />}
+        {winner && <GameBoardWinner gameData={gameData} winner={winner} />}
       </div>
     </section>
   );

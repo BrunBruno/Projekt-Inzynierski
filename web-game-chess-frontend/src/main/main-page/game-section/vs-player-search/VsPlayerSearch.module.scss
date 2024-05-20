@@ -3,6 +3,8 @@
 .search {
   @include wh100();
 
+  padding: 12rem 16rem;
+
   &__grid {
     @include rounded(2rem);
     @include showAni();

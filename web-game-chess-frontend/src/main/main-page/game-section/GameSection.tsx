@@ -21,7 +21,9 @@ import UserGames from "./user-games/UserGames";
 function GameSection() {
   const navigate = useNavigate();
 
-  const [interfaceContent, setInterfaceContent] = useState<JSX.Element>(<></>);
+  const [interfaceContent, setInterfaceContent] = useState<JSX.Element>(
+    <UserGames />
+  );
   const [searchIds, setSearchIds] = useState<SearchGameDto | null>(null);
 
   // set game section content

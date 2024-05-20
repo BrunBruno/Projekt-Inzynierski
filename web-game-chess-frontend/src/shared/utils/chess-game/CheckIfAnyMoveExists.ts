@@ -7,6 +7,8 @@ export const checkIfAnyMoveExists = (
   gameState: GameStates,
   selectionState: SelectionStates
 ): boolean => {
+  if (!gameState.playerData) return false;
+
   let moveNotExists: boolean = true;
 
   // go through all pieces in board to check if checkmate or stalemate
@@ -14,9 +16,12 @@ export const checkIfAnyMoveExists = (
     for (let col in gameState.matrix[row]) {
       const piece = gameState.matrix[row][col];
 
-      if (checkIfOwnPiece(piece, gameState.playerData!)) {
+      if (piece === "") continue;
+
+      if (checkIfOwnPiece(piece, gameState.playerData)) {
         const coor = [parseInt(col) + 1, parseInt(row) + 1];
 
+        // check if any posible move exists
         const availableAreas = FindMoves.find(
           gameState,
           selectionState,
@@ -24,6 +29,7 @@ export const checkIfAnyMoveExists = (
           coor
         );
 
+        // more then 1 to not include piece itself
         if (availableAreas.length > 1) {
           moveNotExists = false;
           break;
@@ -38,3 +44,13 @@ export const checkIfAnyMoveExists = (
 
   return moveNotExists;
 };
+
+// const getColorFromTag = (tag: string) => {
+//   if (Object.values(pieceTagMap["white"]).includes(tag)) {
+//     return "white";
+//   }
+//   if (Object.values(pieceTagMap["black"]).includes(tag)) {
+//     return "black";
+//   }
+//   return null;
+// };

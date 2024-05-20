@@ -12,6 +12,13 @@ public interface IGameTimingRepository {
     /// <summary>
     /// 
     /// </summary>
+    /// <param name="timigId"></param>
+    /// <returns></returns>
+    Task<GameTiming?> GetById(Guid timigId);
+
+    /// <summary>
+    /// 
+    /// </summary>
     /// <param name="type"></param>
     /// <param name="minutes"></param>
     /// <param name="increment"></param>

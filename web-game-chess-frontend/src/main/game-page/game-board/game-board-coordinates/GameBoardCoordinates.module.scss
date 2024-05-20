@@ -1,9 +1,8 @@
 @import "../../../Main.scss";
 
 .coordinates {
+  @include absCenter();
   @include wh100();
-
-  position: relative;
 
   // files indicators
   @mixin filesIndicators() {

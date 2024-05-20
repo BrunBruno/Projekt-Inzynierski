@@ -7,7 +7,7 @@ export const checkIfPlayerTurn = (
   turn: number,
   color: number | null
 ): boolean => {
-  if (!color) return false;
+  if (color === null) return false;
 
   return (
     (turn % 2 === 0 && color === pieceColor.white) ||

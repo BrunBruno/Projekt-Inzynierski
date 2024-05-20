@@ -2,6 +2,7 @@
 using chess.Application.Repositories;
 using chess.Core.Entities;
 using chess.Core.Enums;
+using chess.Shared.Exceptions;
 using MediatR;
 
 namespace chess.Application.Requests.GameRequests.StartGames;
@@ -11,18 +12,25 @@ public class StartGamesRequestHandler : IRequestHandler<StartGamesRequest> {
     private readonly IGameRepository _gameRepository;
     private readonly IPlayerRepository _playerRepository;
     private readonly IGameStateRepository _gameStateRepository;
+    private readonly IGameTimingRepository _gameTimingRepository;
 
     public StartGamesRequestHandler(
         IGameRepository gameRepository,
         IPlayerRepository playerRepository,
-        IGameStateRepository gameStateRepository
+        IGameStateRepository gameStateRepository,
+        IGameTimingRepository gameTimingRepository
     ) {
         _gameRepository = gameRepository;
         _playerRepository = playerRepository;
         _gameStateRepository = gameStateRepository;
+        _gameTimingRepository = gameTimingRepository;
     }
 
     public async Task Handle(StartGamesRequest request, CancellationToken cancellationToken) {
+
+        var timing = await _gameTimingRepository.GetById(request.TimingId) 
+            ?? throw new NotFoundException("Timing not found.");
+
 
         var players = await _playerRepository.GetAllAvailablePlayersForTiming(request.TimingId);
 
@@ -40,6 +48,7 @@ public class StartGamesRequestHandler : IRequestHandler<StartGamesRequest> {
                 matchedPlayers.Add(player);
                 matchedPlayers.Add(closestPlayer);
 
+
                 var gameState = new GameState()
                 {
                     Id = Guid.NewGuid(),
@@ -50,6 +59,7 @@ public class StartGamesRequestHandler : IRequestHandler<StartGamesRequest> {
                 var game = new Game()
                 {
                     Id = Guid.NewGuid(),
+                    TimingType = timing.Type,
                     GameTimingId = request.TimingId,
                     GameStateId = gameState.Id,
                 };

@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using chess.Infrastructure.Contexts;
@@ -11,9 +12,11 @@ using chess.Infrastructure.Contexts;
 namespace chess.Infrastructure.Migrations
 {
     [DbContext(typeof(ChessAppDbContext))]
-    partial class ChessAppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240520145907_AddEndGameType")]
+    partial class AddEndGameType
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -295,9 +298,6 @@ namespace chess.Infrastructure.Migrations
                     b.Property<int>("Elo")
                         .HasColumnType("integer");
 
-                    b.Property<bool>("FinishedGame")
-                        .HasColumnType("boolean");
-
                     b.Property<Guid>("GameId")
                         .HasColumnType("uuid");
 
@@ -430,7 +430,7 @@ namespace chess.Infrastructure.Migrations
                         .IsRequired();
 
                     b.HasOne("chess.Core.Entities.GameState", "GameState")
-                        .WithOne("Game")
+                        .WithOne()
                         .HasForeignKey("chess.Core.Entities.Game", "GameStateId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -492,12 +492,6 @@ namespace chess.Infrastructure.Migrations
             modelBuilder.Entity("chess.Core.Entities.Game", b =>
                 {
                     b.Navigation("Moves");
-                });
-
-            modelBuilder.Entity("chess.Core.Entities.GameState", b =>
-                {
-                    b.Navigation("Game")
-                        .IsRequired();
                 });
 
             modelBuilder.Entity("chess.Core.Entities.GameTiming", b =>
