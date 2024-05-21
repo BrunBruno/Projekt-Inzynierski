@@ -1,8 +1,6 @@
 import { useEffect, useState } from "react";
 import classes from "./GameSection.module.scss";
 import VsPlayerSearch from "./vs-player-search/VsPlayerSearch";
-import RoundArrowSvg from "../../../shared/svgs/RoundArrowSvg";
-import { greyColor } from "../../../shared/utils/enums/colorMaps";
 import axios from "axios";
 import {
   gameControllerPaths,
@@ -17,6 +15,7 @@ import { useNavigate } from "react-router-dom";
 import GameHubService from "../../../shared/utils/services/GameHubService";
 import { gameSearchInterface } from "../../../shared/utils/enums/interfacesEnums";
 import UserGames from "./user-games/UserGames";
+import GameSectionIcons from "./GameSectionIcons";
 
 function GameSection() {
   const navigate = useNavigate();
@@ -88,47 +87,39 @@ function GameSection() {
         <div className={classes.game__content__col}>
           <div className={classes["game-buttons"]}>
             <button
+              className={classes["interface-button"]}
               onClick={() => {
                 setInterfaceById(gameSearchInterface.vsPlayer);
               }}
             >
-              <RoundArrowSvg
-                color={greyColor.c0}
-                iconClass={classes["button-icon"]}
-              />
+              <GameSectionIcons iconName="vsPlayer" />
               <span>Play vs Player</span>
             </button>
             <button
+              className={classes["interface-button"]}
               onClick={() => {
                 setInterfaceById(gameSearchInterface.vsComputer);
               }}
             >
-              <RoundArrowSvg
-                color={greyColor.c0}
-                iconClass={classes["button-icon"]}
-              />
+              <GameSectionIcons iconName="vsComputer" />
               <span>Play vs Computer</span>
             </button>
             <button
+              className={classes["interface-button"]}
               onClick={() => {
                 setInterfaceById(gameSearchInterface.vsFriend);
               }}
             >
-              <RoundArrowSvg
-                color={greyColor.c0}
-                iconClass={classes["button-icon"]}
-              />
+              <GameSectionIcons iconName="vsFriend" />
               <span>Play vs Friend</span>
             </button>
             <button
+              className={classes["interface-button"]}
               onClick={() => {
                 setInterfaceById(gameSearchInterface.userGames);
               }}
             >
-              <RoundArrowSvg
-                color={greyColor.c0}
-                iconClass={classes["button-icon"]}
-              />
+              <GameSectionIcons iconName="userGames" />
               <span>My Games</span>
             </button>
           </div>

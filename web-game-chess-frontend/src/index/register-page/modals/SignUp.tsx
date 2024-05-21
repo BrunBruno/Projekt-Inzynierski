@@ -254,76 +254,78 @@ function SignUp({ setModal }: SignUpProps) {
       </div>
 
       {/* inputs */}
-      <div
-        className={classes["form-row"]}
-        onClick={() => {
-          focusOnClick(emailInputRef);
-        }}
-      >
-        <input
-          ref={emailInputRef}
-          name="email"
-          type="text"
-          placeholder="E-mail"
-          autoComplete="off"
-          className={classes["form-input"]}
-        />
-        <SignArrowSvg iconClass={classes.arrow} />
-      </div>
-
-      <div
-        className={classes["form-row"]}
-        onClick={() => {
-          focusOnClick(usernameInputRef);
-        }}
-      >
-        <input
-          ref={usernameInputRef}
-          name="userName"
-          type="text"
-          placeholder="UserName"
-          autoComplete="off"
-          className={classes["form-input"]}
-        />
-        <SignArrowSvg iconClass={classes.arrow} />
-      </div>
-
-      <div
-        className={classes["form-row"]}
-        onClick={() => {
-          focusOnClick(passwordInputRef);
-        }}
-      >
-        <input
-          ref={passwordInputRef}
-          name="password"
-          type="password"
-          placeholder="Passworrd"
-          autoComplete="off"
-          className={classes["form-input"]}
-          onChange={(event) => {
-            changePassInd(event);
+      <div className={classes.inputs}>
+        <div
+          className={classes["form-row"]}
+          onClick={() => {
+            focusOnClick(emailInputRef);
           }}
-        />
-        <SignArrowSvg iconClass={classes.arrow} />
-        <span ref={indRef} className={classes["reg-pass-ind"]} />
-      </div>
+        >
+          <input
+            ref={emailInputRef}
+            name="email"
+            type="text"
+            placeholder="E-mail"
+            autoComplete="off"
+            className={classes["form-input"]}
+          />
+          <SignArrowSvg iconClass={classes.arrow} />
+        </div>
 
-      <div
-        className={classes["form-row"]}
-        onClick={() => {
-          focusOnClick(confPassInputRef);
-        }}
-      >
-        <input
-          ref={confPassInputRef}
-          name="confirmPassword"
-          type="password"
-          placeholder="Confirm Password"
-          autoComplete="off"
-          className={classes["form-input"]}
-        />
-        <SignArrowSvg iconClass={classes.arrow} />
+        <div
+          className={classes["form-row"]}
+          onClick={() => {
+            focusOnClick(usernameInputRef);
+          }}
+        >
+          <input
+            ref={usernameInputRef}
+            name="userName"
+            type="text"
+            placeholder="UserName"
+            autoComplete="off"
+            className={classes["form-input"]}
+          />
+          <SignArrowSvg iconClass={classes.arrow} />
+        </div>
+
+        <div
+          className={classes["form-row"]}
+          onClick={() => {
+            focusOnClick(passwordInputRef);
+          }}
+        >
+          <input
+            ref={passwordInputRef}
+            name="password"
+            type="password"
+            placeholder="Passworrd"
+            autoComplete="off"
+            className={classes["form-input"]}
+            onChange={(event) => {
+              changePassInd(event);
+            }}
+          />
+          <SignArrowSvg iconClass={classes.arrow} />
+          <span ref={indRef} className={classes["reg-pass-ind"]} />
+        </div>
+
+        <div
+          className={classes["form-row"]}
+          onClick={() => {
+            focusOnClick(confPassInputRef);
+          }}
+        >
+          <input
+            ref={confPassInputRef}
+            name="confirmPassword"
+            type="password"
+            placeholder="Confirm Password"
+            autoComplete="off"
+            className={classes["form-input"]}
+          />
+          <SignArrowSvg iconClass={classes.arrow} />
+        </div>
       </div>
       {/* end inputs */}
 

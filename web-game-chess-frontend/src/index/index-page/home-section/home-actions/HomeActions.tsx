@@ -9,14 +9,13 @@ function HomeActions({}: HomeActionsProps) {
 
   const navigate = useNavigate();
 
-  // generate elements
+  // generate background elements
   const generateGrid = (): JSX.Element[] => {
     const tiles: JSX.Element[] = [];
 
     const numberOfTiles = 25;
-    for (let i = 0; i < numberOfTiles; i++) {
+    for (let i = 0; i < numberOfTiles; i++)
       tiles.push(<p key={i} className={classes["p-tile"]} />);
-    }
 
     return tiles;
   };

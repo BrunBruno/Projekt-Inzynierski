@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import classes from "./Searching.module.scss";
-import SearchingPawn from "./SearchingPawn";
 import axios from "axios";
 import {
   gameControllerPaths,
@@ -9,6 +8,7 @@ import {
 import { SearchGameDto } from "../../../../shared/utils/types/gameDtos";
 import GameHubService from "../../../../shared/utils/services/GameHubService";
 import { gameSearchInterface } from "../../../../shared/utils/enums/interfacesEnums";
+import SearchingIcons from "./SearchingIcons";
 
 const numOfPawns = 8;
 
@@ -39,19 +39,16 @@ function Searching({
       clearInterval(firstintervalId);
     }, delay * numOfPawns);
 
-    const intervalId = setInterval(
-      () => {
-        setPause(false);
-        const innerintervalId = setInterval(() => {
-          setActiveIndex((prevIndex) => (prevIndex + 1) % numOfPawns);
-        }, delay);
-        setTimeout(() => {
-          setPause(true);
-          clearInterval(innerintervalId);
-        }, delay * numOfPawns);
-      },
-      1000 + delay * numOfPawns
-    );
+    const intervalId = setInterval(() => {
+      setPause(false);
+      const innerintervalId = setInterval(() => {
+        setActiveIndex((prevIndex) => (prevIndex + 1) % numOfPawns);
+      }, delay);
+      setTimeout(() => {
+        setPause(true);
+        clearInterval(innerintervalId);
+      }, delay * numOfPawns);
+    }, 1000 + delay * numOfPawns);
 
     return () => {
       clearInterval(firstintervalId);
@@ -87,13 +84,17 @@ function Searching({
   return (
     <div className={classes.searching}>
       <div className={classes.searching__content}>
+        <div className={classes.searching__content__background}>
+          <SearchingIcons iconName="globe" active={activeIndex !== 0} />
+        </div>
         <div className={classes.searching__content__text}>
           <h1>Searching for Game</h1>
         </div>
         <div className={classes.searching__content__indicator}>
           {Array.from({ length: numOfPawns }).map((_, index) => (
-            <SearchingPawn
+            <SearchingIcons
               key={index}
+              iconName="pawn"
               active={index === activeIndex && !pause}
             />
           ))}

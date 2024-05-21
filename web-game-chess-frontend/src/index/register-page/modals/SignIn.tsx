@@ -140,36 +140,38 @@ function SignIn({ setModal }: SignInProps) {
       </div>
 
       {/* inpus */}
-      <div
-        className={classes["form-row"]}
-        onClick={() => {
-          focusOnClick(emailInputRef);
-        }}
-      >
-        <input
-          ref={emailInputRef}
-          name="email"
-          type="text"
-          placeholder="E-mail"
-          autoComplete="off"
-          className={classes["form-input"]}
-        />
-      </div>
+      <div className={classes.inputs}>
+        <div
+          className={classes["form-row"]}
+          onClick={() => {
+            focusOnClick(emailInputRef);
+          }}
+        >
+          <input
+            ref={emailInputRef}
+            name="email"
+            type="text"
+            placeholder="E-mail"
+            autoComplete="off"
+            className={classes["form-input"]}
+          />
+        </div>
 
-      <div
-        className={classes["form-row"]}
-        onClick={() => {
-          focusOnClick(passwordInputRef);
-        }}
-      >
-        <input
-          ref={passwordInputRef}
-          name="password"
-          type="password"
-          placeholder="Passworrd"
-          autoComplete="off"
-          className={classes["form-input"]}
-        />
+        <div
+          className={classes["form-row"]}
+          onClick={() => {
+            focusOnClick(passwordInputRef);
+          }}
+        >
+          <input
+            ref={passwordInputRef}
+            name="password"
+            type="password"
+            placeholder="Passworrd"
+            autoComplete="off"
+            className={classes["form-input"]}
+          />
+        </div>
       </div>
       {/* end inputs */}
 

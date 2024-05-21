@@ -23,7 +23,7 @@
     box-shadow: -2rem 2rem 0 0 rgb(67, 43, 137);
 
     // sub elements
-    @mixin subElement {
+    @mixin subElement() {
       @include subCl(10rem, 10rem);
 
       border: solid 2rem rgb(67, 43, 137);
@@ -31,7 +31,7 @@
     }
 
     &::after {
-      @include subElement;
+      @include subElement();
 
       z-index: 1;
       top: 64rem;
@@ -43,7 +43,7 @@
     }
 
     &::before {
-      @include subElement;
+      @include subElement();
 
       z-index: 2;
       top: calc(64rem - 10rem);
@@ -53,32 +53,6 @@
       border-bottom-right-radius: $xl-br;
     }
     // end sub elements
-
-    // background
-    &__background {
-      @include wh100();
-
-      z-index: 0;
-      position: absolute;
-
-      border-bottom-left-radius: $xl-br;
-      overflow: hidden;
-
-      &::after {
-        @include subCl(100%, 100%);
-        z-index: 1;
-        background-color: rgba(#000, 0.7);
-      }
-
-      video {
-        position: absolute;
-        z-index: -1;
-        height: 120%;
-        object-fit: cover;
-        filter: grayscale(100%);
-      }
-    }
-    // end background
 
     // home intro
     &__intro {
@@ -118,8 +92,7 @@
         text-align: center;
         user-select: none;
 
-        background:
-          conic-gradient(
+        background: conic-gradient(
               from 90deg at top 0.6rem left 0.6rem,
               #0000 90deg,
               $gc0 0

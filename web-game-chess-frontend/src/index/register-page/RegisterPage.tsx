@@ -60,12 +60,11 @@ function RegisterPage() {
           >
             <div className={classes.form}></div>
             <div className={classes.intro}>
-              <h1>Welcome Back</h1>
-              <p>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                Voluptatibus mollitia, pariatur maxime deleniti, quos nesciunt
-                consequuntur et asperiores totam maiores adipisci itaque eaque
-                quisquam quibusdam, vero architecto similique repellendus culpa.
+              <h1 className={classes.title}>Welcome Back</h1>
+              <p className={classes.text}>
+                We're thrilled to see you again! Sign in to access your
+                personalized dashboard, manage your preferences, and stay
+                updated with the latest features and updates.
               </p>
               <div
                 className={classes["action-button"]}
@@ -82,12 +81,11 @@ function RegisterPage() {
             className={`${classes.register__content__split} ${classes["right-side-content"]}`}
           >
             <div className={classes.intro}>
-              <h1>Get on Board</h1>
-              <p>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                Voluptatibus mollitia, pariatur maxime deleniti, quos nesciunt
-                consequuntur et asperiores totam maiores adipisci itaque eaque
-                quisquam quibusdam, vero architecto similique repellendus culpa.
+              <h1 className={classes.title}>Get on Board</h1>
+              <p className={classes.text}>
+                Join us today to unlock a world of benefits! Create an account
+                to access exclusive content, connect with a vibrant community,
+                and get personalized recommendations.
               </p>
               <div
                 className={classes["action-button"]}

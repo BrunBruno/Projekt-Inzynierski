@@ -57,19 +57,20 @@
       }
 
       .intro {
-        @include flex(column, start, center, 4rem);
+        @include flex(column, space-evenly, center, 4rem);
 
         padding: 12rem 4rem;
         text-align: center;
 
-        h1 {
+        h1.title {
           font-size: 4rem;
+          font-weight: bold;
           filter: drop-shadow(0 0 1rem $mc8);
         }
 
-        p {
-          color: $gc5;
-          font-size: 1.5rem;
+        p.text {
+          color: $gc4;
+          font-size: 1.6rem;
         }
 
         .action-button {
@@ -78,6 +79,7 @@
       }
     }
 
+    // form container
     &__form {
       @include rounded($md-br);
       @include square(60rem);
@@ -85,15 +87,18 @@
       position: absolute;
       top: 0;
       left: 50%;
-      transform: translateX(-50%);
 
       background-color: $gc9;
-      border: solid 0.3rem $gc8;
+      border: solid 0.5rem $gc8;
       box-shadow: inset 0 0 1rem 0.5rem $gc8;
+      background-image: repeating-conic-gradient(
+        from 0deg at 25% 75%,
+        #0000 20%,
+        rgba($mc6, 0.1) 35%
+      );
 
-      transition:
-        transform 0.5s,
-        left 0.5s;
+      transform: translateX(-50%);
+      transition: transform 0.5s, left 0.5s;
 
       &::after {
         @include subCl(8rem, 8rem);
@@ -101,11 +106,11 @@
         position: absolute;
         top: 0;
         left: 50%;
-        transform: translate(-50%, calc(-50% - 0.2rem)) rotate(45deg);
+        transform: translate(-50%, calc(-50% - 0.4rem)) rotate(45deg);
 
         background-color: $gc9;
         border-radius: 100%;
-        border: solid 0.3rem #0000;
+        border: solid 0.5rem #0000;
         border-bottom-color: $gc8;
         border-right-color: $gc8;
         box-shadow: 0.5rem 0.5rem 1rem $gc8;
@@ -130,6 +135,7 @@
       left: 100%;
       transform: translateX(-100%);
     }
+    // end form container
   }
 }
 

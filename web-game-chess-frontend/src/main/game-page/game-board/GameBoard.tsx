@@ -237,7 +237,7 @@ function GameBoard({ gameId, gameData, playerData, winner }: GameBoardProps) {
     const [oBoard, iBoard] = mapFromGamePosition(gameData.position);
     setBoard(oBoard);
     setInnerBoard(iBoard);
-  }, [selectionStates.availableFelds]);
+  }, [selectionStates.availableFelds, selectionStates.isDragging]);
 
   // create field based on position
   const displayField = (
@@ -304,6 +304,7 @@ function GameBoard({ gameId, gameData, playerData, winner }: GameBoardProps) {
           if (char) setSelectionStates({ type: "SET_TARGET", payload: target });
 
           onSelectField(char, coordinates, isInTipFields, sameCoor);
+          console.log("clicked");
         }}
         onContextMenu={(event) => {
           event.preventDefault();
@@ -314,14 +315,17 @@ function GameBoard({ gameId, gameData, playerData, winner }: GameBoardProps) {
             classes.field
           );
         }}
-        onDragStart={() => {
+        onDragStartCapture={() => {
           onDragPiece(char, coordinates);
+          console.log("started");
         }}
         onDragOver={(event) => {
           event.preventDefault();
         }}
-        onDrop={() => {
+        onDrop={(event) => {
+          event.preventDefault();
           onDropPiece(coordinates, isInTipFields, sameCoor);
+          console.log("dropped");
         }}
       >
         {char && shouldDisplay && (
@@ -348,6 +352,7 @@ function GameBoard({ gameId, gameData, playerData, winner }: GameBoardProps) {
             )}
           </div>
         )}
+
         {/* {wCon && <p style={{ backgroundColor: "red" }}></p>}
         {bCon && <p style={{ backgroundColor: "blue" }}></p>}
         {wCon && bCon && <p style={{ backgroundColor: "orange" }}></p>} */}
@@ -480,9 +485,7 @@ function GameBoard({ gameId, gameData, playerData, winner }: GameBoardProps) {
   // drag & drop handlers
   const onDragPiece = (piece: string | null, coordinates: number[]): void => {
     // do not select if empty
-    if (!piece) {
-      return;
-    }
+    if (!piece) return;
 
     setSelectionStates({ type: "SET_IS_DRAGGING", payload: true });
 
@@ -552,7 +555,6 @@ function GameBoard({ gameId, gameData, playerData, winner }: GameBoardProps) {
       );
     }
 
-    // setPromotionCoordinates(null);
     setSelectionStates({ type: "SET_PROMOTION_COOR", payload: [] });
   };
 

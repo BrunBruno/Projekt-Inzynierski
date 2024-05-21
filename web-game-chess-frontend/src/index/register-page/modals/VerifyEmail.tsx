@@ -15,6 +15,7 @@ import {
   LogInUserModel,
   VerifyEmailModel,
 } from "../../../shared/utils/types/userModels";
+import PasteIconSvg from "../../../shared/svgs/PasteIconSvg";
 
 type VerifyEmailProps = {};
 
@@ -24,7 +25,7 @@ function VerifyEmail({}: VerifyEmailProps) {
   // error message content
   const [errorMess, setErrorMess] = useState<string>("");
   // code input value
-  const [codeValue, setcodeValue] = useState<string>("");
+  const [codeValue, setCodeValue] = useState<string>("");
   // state if something is processing
   const [processing, setProcessing] = useState<boolean>(false);
 
@@ -118,8 +119,18 @@ function VerifyEmail({}: VerifyEmailProps) {
   ): void => {
     const inputValue = event.target.value;
     if (/^\d{0,6}$/.test(inputValue)) {
-      setcodeValue(inputValue);
+      setCodeValue(inputValue);
     }
+  };
+
+  const onPasteCode = async () => {
+    try {
+      const code = await navigator.clipboard.readText();
+
+      if (/^\d{0,6}$/.test(code)) {
+        setCodeValue(code);
+      }
+    } catch (err) {}
   };
 
   if (processing) {
@@ -135,7 +146,7 @@ function VerifyEmail({}: VerifyEmailProps) {
       <DetailPawnIconSvg color={mainColor.c0} iconClass={classes["bg-svg"]} />
 
       {/* header */}
-      <h2>Verify Email Adress</h2>
+      <h2>Verify Email</h2>
       <p className={classes["verify-text"]}>
         We sent you verification code to your email. Please enter the code to
         verify your accout.
@@ -144,18 +155,31 @@ function VerifyEmail({}: VerifyEmailProps) {
       {/* input */}
       <div className={classes.verify}>
         <span>Enter code</span>
-        <input
-          name="code"
-          type="number"
-          max={999999}
-          placeholder="000000"
-          autoComplete="off"
-          value={codeValue}
-          className={classes["verify-input"]}
-          onChange={(event) => {
-            handleCodeInputChange(event);
-          }}
-        />
+        <div className={classes["verify-con"]}>
+          <input
+            name="code"
+            type="number"
+            max={999999}
+            placeholder="000000"
+            autoComplete="off"
+            value={codeValue}
+            className={classes["verify-input"]}
+            onChange={(event) => {
+              handleCodeInputChange(event);
+            }}
+          />
+          <p
+            className={classes.paste}
+            onClick={() => {
+              onPasteCode();
+            }}
+          >
+            <PasteIconSvg
+              color={mainColor.c5}
+              iconClass={classes["paste-svg"]}
+            />
+          </p>
+        </div>
         <p
           className={classes.resend}
           onClick={() => {
