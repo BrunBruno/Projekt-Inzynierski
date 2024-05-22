@@ -68,4 +68,7 @@ public class User {
     /// </summary>
     public List<Player> Players { get; set; }
 
+    public List<Friendship> RequestedFriendships { get; set; }
+    public List<Friendship> ReceivedFriendships { get; set; }
+
 }

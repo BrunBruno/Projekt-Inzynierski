@@ -19,97 +19,123 @@ public class DbContextConfiguration :
     IEntityTypeConfiguration<GameTiming>,
     IEntityTypeConfiguration<GameState>,
     IEntityTypeConfiguration<Player>,
-    IEntityTypeConfiguration<Move>
+    IEntityTypeConfiguration<Move>,
+    IEntityTypeConfiguration<Friendship>
 {
 
     public void Configure(EntityTypeBuilder<User> builder) {
         builder
-            .HasKey(x => x.Id);
+            .HasKey(u => u.Id);
+
         builder
-            .HasOne(x => x.Role)
+            .HasOne(u => u.Role)
             .WithMany()
-            .HasForeignKey(x => x.RoleId);
+            .HasForeignKey(u => u.RoleId);
     }
 
     public void Configure(EntityTypeBuilder<Role> builder) {
         builder
-            .HasKey(x => x.Id);
+            .HasKey(r => r.Id);
+
         builder
             .HasData(GetRoles());
     }
 
     public void Configure(EntityTypeBuilder<EmailVerificationCode> builder) {
         builder
-            .HasKey(x => x.Id);
+            .HasKey(evc => evc.Id);
+
         builder
-            .HasOne(x => x.User)
+            .HasOne(evc => evc.User)
             .WithOne()
-            .HasForeignKey<EmailVerificationCode>(x => x.UserId);
+            .HasForeignKey<EmailVerificationCode>(evc => evc.UserId);
     }
 
     public void Configure(EntityTypeBuilder<DataConfiguration> builder) {
         builder
-            .HasKey(x => x.Id);
+            .HasKey(dc => dc.Id);
+
         builder
             .HasData(GetConfiguration());
     }
 
     public void Configure(EntityTypeBuilder<BannedUser> builder) {
         builder
-            .HasKey(x => x.Id);
+            .HasKey(bu => bu.Id);
+
         builder
-            .HasOne(x => x.User)
+            .HasOne(bu => bu.User)
             .WithOne()
-            .HasForeignKey<BannedUser>(x => x.UserId);
+            .HasForeignKey<BannedUser>(bu => bu.UserId);
     }
 
     public void Configure(EntityTypeBuilder<Game> builder) {
         builder
-            .HasKey(x => x.Id);
+            .HasKey(g => g.Id);
+
         builder
-            .HasOne(x => x.WhitePlayer)
-            .WithOne(x => x.WhiteGame)
-            .HasForeignKey<Game>(x => x.WhitePlayerId);
+            .HasOne(g => g.WhitePlayer)
+            .WithOne(p => p.WhiteGame)
+            .HasForeignKey<Game>(g => g.WhitePlayerId);
+
         builder
-            .HasOne(x => x.BlackPlayer)
-            .WithOne(x => x.BlackGame)
-            .HasForeignKey<Game>(x => x.BlackPlayerId);
+            .HasOne(g => g.BlackPlayer)
+            .WithOne(p => p.BlackGame)
+            .HasForeignKey<Game>(g => g.BlackPlayerId);
+
         builder
-            .HasOne(x => x.GameTiming)
-            .WithMany(x => x.Games)
-            .HasForeignKey(x => x.GameTimingId);
+            .HasOne(g => g.GameTiming)
+            .WithMany(gt => gt.Games)
+            .HasForeignKey(g => g.GameTimingId);
+
         builder
-            .HasOne(x => x.GameState)
-            .WithOne(x => x.Game)
-            .HasForeignKey<Game>(x => x.GameStateId);
+            .HasOne(g => g.GameState)
+            .WithOne(gs => gs.Game)
+            .HasForeignKey<Game>(g => g.GameStateId);
     }
 
     public void Configure(EntityTypeBuilder<GameTiming> builder) {
         builder
-            .HasKey(x => x.Id);
+            .HasKey(gt => gt.Id);
     }
 
     public void Configure(EntityTypeBuilder<GameState> builder) {
         builder
-            .HasKey(x => x.Id);
+            .HasKey(gs => gs.Id);
     }
 
     public void Configure(EntityTypeBuilder<Player> builder) {
         builder
-            .HasKey(x => x.Id);
+            .HasKey(p => p.Id);
         builder
-            .HasOne(x => x.User)
-            .WithMany(x => x.Players)
-            .HasForeignKey(x => x.UserId);
+            .HasOne(p => p.User)
+            .WithMany(u => u.Players)
+            .HasForeignKey(p => p.UserId);
     }
 
     public void Configure(EntityTypeBuilder<Move> builder) {
         builder
-            .HasKey(x => x.Id);
+            .HasKey(m => m.Id);
+
         builder
-            .HasOne(x => x.Game)
-            .WithMany(x => x.Moves)
-            .HasForeignKey(x => x.GameId);
+            .HasOne(m => m.Game)
+            .WithMany(g => g.Moves)
+            .HasForeignKey(m => m.GameId);
+    }
+
+    public void Configure(EntityTypeBuilder<Friendship> builder) {
+        builder
+            .HasKey(f => f.Id);
+
+        builder
+            .HasOne(f => f.Requestor)
+            .WithMany(u => u.RequestedFriendships)
+            .HasForeignKey(f => f.RequestorId);
+
+        builder
+           .HasOne(f => f.Receiver)
+           .WithMany(u => u.ReceivedFriendships)
+           .HasForeignKey(f => f.ReceiverId);
     }
 
     private static IEnumerable<Role> GetRoles() {

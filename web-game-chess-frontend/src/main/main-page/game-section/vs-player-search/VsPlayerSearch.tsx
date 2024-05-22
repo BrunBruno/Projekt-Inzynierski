@@ -28,7 +28,7 @@ function VsPlayerSearch({ setSearchIds }: VsPlayerSearchProps) {
 
     try {
       const searchGameResponse = await axios.post<SearchGameDto>(
-        gameControllerPaths.startSearch,
+        gameControllerPaths.startSearch(),
         gameType,
         getAuthorization()
       );

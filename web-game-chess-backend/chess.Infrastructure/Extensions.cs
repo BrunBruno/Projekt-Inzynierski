@@ -53,6 +53,7 @@ public static class Extensions {
             option.DefaultAuthenticateScheme = "Bearer";
             option.DefaultScheme = "Bearer";
             option.DefaultChallengeScheme = "Bearer";
+
         }).AddJwtBearer(cfg =>
         {
             cfg.RequireHttpsMetadata = false;
@@ -85,6 +86,7 @@ public static class Extensions {
         services.AddScoped<IGameStateRepository, GameStateRepository>();
         services.AddScoped<IPlayerRepository, PlayerRepository>();
         services.AddScoped<IMoveRepository, MoveRepository>();
+        services.AddScoped<IFriendshipRepository, FriendshipRepository>();
 
         return services;
     }

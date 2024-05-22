@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿
+using AutoMapper;
 using chess.Api.Models.GameModels;
 using chess.Application.Requests.GameRequests.SearchGame;
 using chess.Application.Requests.GameRequests.AbortSearch;
@@ -26,12 +27,8 @@ public class GameController : ControllerBase {
     }
 
 
-    /// <summary>
-    /// Creates player
-    /// </summary>
-    /// <param name="model"></param>
-    /// <returns>{ timingId and playerId }</returns>
-    [HttpPost("search")]
+
+    [HttpPost("start-search")]
     [Authorize(Policy = "IsVerified")]
     public async Task<IActionResult> StartSearch([FromBody] SearchGameModel model) {
 
@@ -42,12 +39,8 @@ public class GameController : ControllerBase {
         return Ok(ids);
     }
 
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <param name="playerId"></param>
-    /// <returns></returns>
-    [HttpGet("check/{playerId}")]
+
+    [HttpGet("check-if-in-game/{playerId}")]
     [Authorize(Policy = "IsVerified")]
     public async Task<IActionResult> CheckIfInGame([FromRoute] Guid playerId) {
 
@@ -56,16 +49,12 @@ public class GameController : ControllerBase {
             PlayerId = playerId,
         };
 
-        var isInGameDto = await _mediator.Send(request);
+        var isInGame = await _mediator.Send(request);
 
-        return Ok(isInGameDto);
+        return Ok(isInGame);
     }
 
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <param name="gameId"></param>
-    /// <returns></returns>
+
     [HttpGet("{gameId}")]
     [Authorize(Policy = "IsVerified")]
     public async Task<IActionResult> GetGame([FromRoute] Guid gameId) {
@@ -75,16 +64,12 @@ public class GameController : ControllerBase {
             GameId = gameId,
         };
 
-        var gameDto = await _mediator.Send(request);
+        var game = await _mediator.Send(request);
 
-        return Ok(gameDto);
+        return Ok(game);
     }
 
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <param name="gameId"></param>
-    /// <returns></returns>
+
     [HttpGet("{gameId}/player")]
     [Authorize(Policy = "IsVerified")]
     public async Task<IActionResult> GetPlayer([FromRoute] Guid gameId) {
@@ -94,16 +79,37 @@ public class GameController : ControllerBase {
             GameId = gameId,
         };
 
-        var playerDto = await _mediator.Send(request);
+        var player = await _mediator.Send(request);
 
-        return Ok(playerDto);
+        return Ok(player);
     }
 
-    /// <summary>
-    /// Removes player
-    /// </summary>
-    /// <param name="playerId"></param>
-    /// <returns></returns>
+    [HttpGet("{gameId}/ended")]
+    [Authorize(Policy = "IsVerified")]
+    public async Task<IActionResult> GetEndedGame(Guid gameId) {
+
+        var request = new GetEndedGameRequest()
+        {
+            GameId = gameId,
+        };
+
+        var game = await _mediator.Send(request);
+
+        return Ok(game);
+    }
+
+
+    [HttpGet("all-finished")]
+    [Authorize(Policy = "IsVerified")]
+    public async Task<IActionResult> GetFinishedGames([FromQuery] GetFinishedGamesModel model) {
+
+        var request = _mapper.Map<GetFinishedGamesRequest>(model);
+
+        var games = await _mediator.Send(request);
+
+        return Ok(games);
+    }
+
     [HttpDelete("abort/{playerId}")]
     [Authorize(Policy = "IsVerified")]
     public async Task<IActionResult> AbortSearch([FromRoute] Guid playerId) {
@@ -116,35 +122,5 @@ public class GameController : ControllerBase {
         await _mediator.Send(request);
 
         return Ok();
-    }
-
-    [HttpGet("{gameId}/ended")]
-    [Authorize(Policy = "IsVerified")]
-    public async Task<IActionResult> GetEndedGame(Guid gameId) {
-
-        var request = new GetEndedGameRequest()
-        {
-            GameId = gameId,
-        };
-
-        var gameDto = await _mediator.Send(request);
-
-        return Ok(gameDto);
-    }
-
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <param name="model"></param>
-    /// <returns></returns>
-    [HttpGet("finished")]
-    [Authorize(Policy = "IsVerified")]
-    public async Task<IActionResult> GetFinishedGames([FromQuery] GetFinishedGamesModel model) {
-
-        var request = _mapper.Map<GetFinishedGamesRequest>(model);
-
-        var games = await _mediator.Send(request);
-
-        return Ok(games);
     }
 }

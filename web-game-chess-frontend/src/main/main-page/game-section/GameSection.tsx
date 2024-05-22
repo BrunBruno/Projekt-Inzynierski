@@ -16,6 +16,7 @@ import GameHubService from "../../../shared/utils/services/GameHubService";
 import { gameSearchInterface } from "../../../shared/utils/enums/interfacesEnums";
 import UserGames from "./user-games/UserGames";
 import GameSectionIcons from "./GameSectionIcons";
+import VsFriendSearch from "./vs-friend-search/VsFriendSearch";
 
 function GameSection() {
   const navigate = useNavigate();
@@ -35,7 +36,7 @@ function GameSection() {
         setInterfaceContent(<></>);
         break;
       case gameSearchInterface.vsFriend:
-        setInterfaceContent(<></>);
+        setInterfaceContent(<VsFriendSearch />);
         break;
       case gameSearchInterface.searching:
         setInterfaceContent(

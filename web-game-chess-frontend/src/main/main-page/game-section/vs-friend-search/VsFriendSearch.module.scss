@@ -1,0 +1,75 @@
+@import "../../../Main.scss";
+
+.search {
+  @include wh100();
+
+  padding: 12rem 16rem;
+
+  &__split {
+    @include rounded(2rem);
+    @include showAni();
+
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 100%;
+
+    height: 100%;
+
+    background-color: rgba($gc9, 0.3);
+
+    &__bar {
+      @include flex(column, start, center, 1rem);
+
+      h2 {
+        font-size: 3rem;
+      }
+
+      input {
+        @include cInput();
+      }
+    }
+
+    &__list {
+      @include flex(column, start, center, 1rem);
+
+      padding-left: 2rem;
+      border-left: solid 0.3rem $gc9;
+      overflow-y: scroll;
+
+      &::-webkit-scrollbar {
+        display: none;
+      }
+
+      &__element {
+        @include rounded(1rem);
+
+        width: 100%;
+        display: grid;
+        grid-template-columns: 6rem auto 8rem;
+        gap: 2rem;
+        background-color: $gc9;
+        .avatar {
+          .user-avatar {
+            height: 6rem;
+          }
+        }
+
+        .data {
+          h3 {
+            @include longText();
+            font-size: 2rem;
+          }
+        }
+
+        .invite {
+          @include flex(column, end, center, 0);
+
+          button {
+            @include button(1.6rem);
+            @include mainMButton();
+          }
+        }
+      }
+    }
+  }
+}

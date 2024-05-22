@@ -60,6 +60,8 @@ public class ChessAppDbContext : DbContext {
     /// </summary>
     public DbSet<Move> Moves { get; set; }
 
+    public DbSet<Friendship> Friendships { get; set; }
+
 
     public ChessAppDbContext(DbContextOptions<ChessAppDbContext> options) : base(options) { }
 
@@ -76,5 +78,6 @@ public class ChessAppDbContext : DbContext {
         builder.ApplyConfiguration<GameState>(configuration);
         builder.ApplyConfiguration<Player>(configuration);
         builder.ApplyConfiguration<Move>(configuration);
+        builder.ApplyConfiguration<Friendship>(configuration);
     }
 }

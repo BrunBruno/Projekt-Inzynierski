@@ -17,7 +17,7 @@ namespace chess.Api.Controllers;
 
 
 [ApiController]
-[Route("api/user")]
+[Route("api/[controller]")]
 public class UserController : ControllerBase {
 
     private readonly IMediator _mediator;
@@ -69,22 +69,6 @@ public class UserController : ControllerBase {
     public async Task<IActionResult> RegenerateCode([FromBody] RegenerateCodeModel model) {
 
         var request = new RegenerateCodeRequest();
-
-        await _mediator.Send(request);
-        return Ok();
-    }
-
-
-    /// <summary>
-    /// Adds user to black list
-    /// </summary>
-    /// <param name="model"></param>
-    /// <returns></returns>
-    [HttpPost("ban")]
-    [Authorize(Roles = "Admin")]
-    public async Task<IActionResult> BanUser([FromBody] BanUserModel model) {
-
-        var request = _mapper.Map<BanUserRequest>(model);
 
         await _mediator.Send(request);
         return Ok();
@@ -145,7 +129,7 @@ public class UserController : ControllerBase {
     /// <param name="configurationId"></param>
     /// <returns></returns>
     [HttpGet("configuration/{configurationId}")]
-    public async Task<IActionResult> GetDataConfiguration([FromRoute] int configurationId) {
+    public async Task<IActionResult> GetRegisterConf([FromRoute] int configurationId) {
 
         var request = new GetDataConfigurationRequest()
         {
