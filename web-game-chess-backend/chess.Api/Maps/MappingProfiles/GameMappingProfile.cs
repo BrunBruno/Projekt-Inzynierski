@@ -10,8 +10,9 @@ namespace chess.Api.Maps.MappingProfiles;
 /// <summary>
 /// Game controller models to requests maps
 /// </summary>
-public class GameMappingProfiles : Profile {
-    public GameMappingProfiles() {
+public class GameMappingProfile : Profile {
+
+    public GameMappingProfile() {
 
         CreateMap<SearchGameModel, SearchGameRequest>();
         CreateMap<MakeMoveModel, MakeMoveRequest>();

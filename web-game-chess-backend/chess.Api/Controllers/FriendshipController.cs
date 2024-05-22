@@ -1,6 +1,9 @@
 ﻿
 using AutoMapper;
 using chess.Api.Models.FriendshipModels;
+using chess.Application.Requests.FriendshipRequests.GetAllFriendsByStatus;
+using chess.Application.Requests.FriendshipRequests.InviteFriend;
+using chess.Application.Requests.FriendshipRequests.RespondToFriendRequest;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -21,31 +24,45 @@ public class FriendshipController : ControllerBase {
 
     [HttpPost("invite")]
     [Authorize(Policy = "IsVerified")]
-    public async Task<IActionResult> Invite([FromBody] InviteFriendModel model) {
+    public async Task<IActionResult> InviteFriend([FromBody] InviteFriendModel model) {
+
+        var request = _mapper.Map<InviteFriendRequest>(model);
+
+        await _mediator.Send(request);
+
         return Ok();
     }
 
-    [HttpPut("accept")]
+    [HttpPut("respond")]
     [Authorize(Policy = "IsVerified")]
-    public async Task<IActionResult> Accept([FromBody] AcceptFriendModel model) {
+    public async Task<IActionResult> RespondToFriendRequest([FromBody] RespondToFriendRequestModel model) {
+
+        var request = _mapper.Map<RespondToFriendRequestRequest>(model);
+
+        await _mediator.Send(request);
+
         return Ok();
     }
 
-    [HttpGet("all-pending")]
+    [HttpGet("all-by-status")]
     [Authorize(Policy = "IsVerified")]
-    public async Task<IActionResult> GetAllPending() {
-        return Ok();
+    public async Task<IActionResult> GetAllFriendsByStatus([FromQuery] GetAllFriendsByStatusModel model) {
+
+        var request = _mapper.Map<GetAllFriendsByStatusRequest>(model);
+
+        var friends = await _mediator.Send(request);
+
+        return Ok(friends);
     }
 
-    [HttpGet("all-accepted")]
+    [HttpGet("all-non-friends")]
     [Authorize(Policy = "IsVerified")]
-    public async Task<IActionResult> GetAllAccepted() {
-        return Ok();
-    }
+    public async Task<IActionResult> GetAllNonFriends() {
 
-    [HttpDelete("reject/{friendshipId}")]
-    [Authorize(Policy = "IsVerified")]
-    public async Task<IActionResult> Reject([FromRoute] Guid friendshipId) {
-        return Ok();
+        var request = _mapper.Map<GetAllFriendsByStatusRequest>(model);
+
+        var friends = await _mediator.Send(request);
+
+        return Ok(friends);
     }
 }

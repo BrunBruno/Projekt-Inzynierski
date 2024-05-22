@@ -8,6 +8,8 @@ namespace chess.Application.Repositories;
 /// </summary>
 public interface IUserRepository {
 
+    Task<List<User>> GetAllNonFriends(List<Guid> ids);
+
     /// <summary>
     /// Get user by id
     /// </summary>
