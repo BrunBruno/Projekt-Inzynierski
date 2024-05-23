@@ -13,6 +13,7 @@ public class MoveRepository : IMoveRepository {
         _dbContext = dbContext;
     }
 
+    ///<inheritdoc/>
     public async Task Create(Move move) {
         await _dbContext.Moves.AddAsync(move);
         await _dbContext.SaveChangesAsync();

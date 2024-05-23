@@ -42,6 +42,7 @@ public static class Extensions {
         return services;
     }
 
+
     private static IServiceCollection AddJwt(this IServiceCollection services, IConfiguration configuration) {
 
         var options = configuration.GetOptions<AuthenticationSettings>("Authentication");
@@ -69,6 +70,7 @@ public static class Extensions {
 
         return services;
     }
+
 
     private static IServiceCollection AddPostgres(this IServiceCollection services, IConfiguration configuration) {
 

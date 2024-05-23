@@ -1,6 +1,9 @@
 ﻿
 namespace chess.Core.Enums;
 
+/// <summary>
+/// Reasones types why game has eneded
+/// </summary>
 public enum EndGameTypes {
     CheckMate = 1,
     OutOfTime = 2,

@@ -68,7 +68,14 @@ public class User {
     /// </summary>
     public List<Player> Players { get; set; }
 
+    /// <summary>
+    /// List of friendships that user requested
+    /// </summary>
     public List<Friendship> RequestedFriendships { get; set; }
+
+    /// <summary>
+    /// List of friendships that user received
+    /// </summary>
     public List<Friendship> ReceivedFriendships { get; set; }
 
 }

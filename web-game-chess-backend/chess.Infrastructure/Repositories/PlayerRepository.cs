@@ -14,14 +14,12 @@ public class PlayerRepository : IPlayerRepository {
         _dbContext = dbContext;
     }
 
-
     ///<inheritdoc/>
     public async Task<List<Player>> GetAllForUser(Guid userId) 
         => await _dbContext.Players
                     .Include(p => p.WhiteGame)
                         .ThenInclude(g => g.BlackPlayer)
                     .Include(p => p.BlackGame)
-
                         .ThenInclude(g => g.WhitePlayer)
                     .Where(p => p.UserId == userId && p.FinishedGame == true)
                     .OrderByDescending(p => p.CreatedAt)
@@ -38,6 +36,11 @@ public class PlayerRepository : IPlayerRepository {
     public async Task<Player?> GetByUserIdandGameId(Guid userId, Guid gameId) 
         => await _dbContext.Players
                     .FirstOrDefaultAsync(p => p.UserId == userId && p.GameId == gameId);
+
+    ///<inheritdoc/>
+    public async Task<Player?> GetAwaitingPlayer(Guid userId, Guid timingId)
+        => await _dbContext.Players
+                    .FirstOrDefaultAsync(p => p.UserId == userId && p.TimingId == timingId && p.IsPlaying == false);
 
     ///<inheritdoc/>
     public async Task<Player?> GetById(Guid id)

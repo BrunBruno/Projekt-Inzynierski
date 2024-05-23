@@ -3,10 +3,11 @@ using chess.Api.Authorization.IsVerified;
 using Microsoft.AspNetCore.Authorization;
 
 namespace chess.Api.Authorization;
+
 public static class Extensions {
     public static IServiceCollection AddCustomAuthorization(this IServiceCollection services) {
 
-        services.AddAuthorization(options =>
+        services.AddAuthorization(options => 
         {
             options.AddPolicy("IsVerified", builder => builder.AddRequirements(new IsVerifiedRequirement(true)));
             options.AddPolicy("IsNotVerified", builder => builder.AddRequirements(new IsVerifiedRequirement(false)));

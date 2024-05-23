@@ -1,8 +1,9 @@
 ﻿
 using AutoMapper;
 using chess.Api.Models.UserModels;
-using chess.Application.Requests.UserRequests.BanUser;
+using chess.Application.Requests.UserRequests.GetRegisterConf;
 using chess.Application.Requests.UserRequests.LogIn;
+using chess.Application.Requests.UserRequests.RegenerateCode;
 using chess.Application.Requests.UserRequests.Register;
 using chess.Application.Requests.UserRequests.VerifyEmail;
 
@@ -17,6 +18,8 @@ public class UserMappingProfile : Profile {
         CreateMap<RegisterUserModel, RegisterUserRequest>();
         CreateMap<LogInUserModel, LogInUserRequest>();
         CreateMap<VerifyEmailModel, VerifyEmailRequest>();
-        CreateMap<BanUserModel, BanUserRequest>();
+        CreateMap<GetRegisterConfModel, GetRegisterConfRequest>();
+        CreateMap<RegenerateCodeModel, RegenerateCodeRequest>();
+
     }
 }

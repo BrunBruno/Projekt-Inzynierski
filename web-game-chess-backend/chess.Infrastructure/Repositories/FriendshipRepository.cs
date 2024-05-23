@@ -15,30 +15,31 @@ public class FriendshipRepository : IFriendshipRepository {
         _dbContext = dbContext;
     }
 
+    ///<inheritdoc/>
     public async Task<List<Friendship>> GetAllForUserByStatus(Guid userId, FriendshipStatus status)
         => await _dbContext.Friendships
                     .Where(f => (f.RequestorId == userId || f.ReceiverId == userId) && f.Status == status)
                     .ToListAsync();
 
+    ///<inheritdoc/>
     public async Task<List<Guid>> GetAllFriendIds(Guid userId) 
         => await _dbContext.Friendships
                     .Where(f => f.RequestorId == userId || f.ReceiverId == userId)
                     .Select(f => f.RequestorId == userId ? f.ReceiverId : f.RequestorId)
                     .ToListAsync();
 
+    ///<inheritdoc/>
     public async Task<Friendship?> GetById(Guid friendshipId)
         => await _dbContext.Friendships
                     .FirstOrDefaultAsync(f => f.Id == friendshipId);
 
-
-
+    ///<inheritdoc/>
     public async Task Create(Friendship friendship) {
         await _dbContext.Friendships.AddAsync(friendship);
         await _dbContext.SaveChangesAsync();
     }
 
-
-
+    ///<inheritdoc/>
     public async Task Update(Friendship friendship) {
         _dbContext.Friendships.Update(friendship);
         await _dbContext.SaveChangesAsync();

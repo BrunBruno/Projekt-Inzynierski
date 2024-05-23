@@ -15,6 +15,7 @@ internal class GameTimingRepository : IGameTimingRepository {
         _dbContext = dbContext;
     }
 
+    ///<inheritdoc/>
     public async Task<GameTiming?> GetById(Guid timigId) 
         => await _dbContext.GameTimings
                     .FirstOrDefaultAsync(t => t.Id == timigId);   

@@ -26,14 +26,13 @@ public class GetFinishedGamesRequestHandler : IRequestHandler<GetFinishedGamesRe
         var players = await _playerRepository.GetAllForUser(userId) 
             ?? throw new NotFoundException("Players not found.");
 
-        var x = players;
-
         var finishedGames = new List<GetFinishedGamesDto>();
 
-        foreach(var player in players) { 
-            if(player.WhiteGame != null &&
-                player.WhiteGame.WhitePlayer != null &&
-                player.WhiteGame.BlackPlayer != null &&
+        foreach(var player in players) {
+
+            if(player.WhiteGame is not null &&
+                player.WhiteGame.WhitePlayer is not null &&
+                player.WhiteGame.BlackPlayer is not null &&
                 player.WhiteGame.HasEnded
             ){
                 finishedGames.Add(new GetFinishedGamesDto()
@@ -64,9 +63,10 @@ public class GetFinishedGamesRequestHandler : IRequestHandler<GetFinishedGamesRe
                     
                 });
             }
-            if (player.BlackGame != null &&
-                player.BlackGame.WhitePlayer != null &&
-                player.BlackGame.BlackPlayer != null &&
+
+            if (player.BlackGame is not null &&
+                player.BlackGame.WhitePlayer is not null &&
+                player.BlackGame.BlackPlayer is not null &&
                 player.BlackGame.HasEnded
             ) {
                 finishedGames.Add(new GetFinishedGamesDto()

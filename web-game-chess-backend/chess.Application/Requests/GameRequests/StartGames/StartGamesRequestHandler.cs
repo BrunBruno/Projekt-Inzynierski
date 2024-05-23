@@ -45,6 +45,7 @@ public class StartGamesRequestHandler : IRequestHandler<StartGamesRequest> {
             var closestPlayer = possiblePlayers.OrderBy(pp => Math.Abs(pp.Elo - player.Elo)).FirstOrDefault();
 
             if (closestPlayer is not null) {
+
                 matchedPlayers.Add(player);
                 matchedPlayers.Add(closestPlayer);
 
@@ -54,7 +55,9 @@ public class StartGamesRequestHandler : IRequestHandler<StartGamesRequest> {
                     Id = Guid.NewGuid(),
                 };
 
+
                 await _gameStateRepository.Create(gameState);
+
 
                 var game = new Game()
                 {
@@ -77,7 +80,10 @@ public class StartGamesRequestHandler : IRequestHandler<StartGamesRequest> {
                 player.Color = randomChoice ? Colors.White : Colors.Black;
                 closestPlayer.Color = randomChoice ? Colors.Black : Colors.White;
 
+
                 await _gameRepository.Create(game);
+
+                // break ???
             }
         }
     }

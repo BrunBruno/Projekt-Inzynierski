@@ -1,24 +1,40 @@
 ﻿
 using chess.Application.Repositories;
+using chess.Application.Services;
 using chess.Core.Entities;
 using chess.Shared.Exceptions;
 using MediatR;
 
 namespace chess.Application.Requests.GameRequests.MakeMove;
+
 public class MakeMoveRequestHandler : IRequestHandler<MakeMoveRequest> {
 
     private readonly IGameRepository _gameRepository;
     private readonly IMoveRepository _moveRepository;
+    private readonly IUserContextService _userContextService;
 
-    public MakeMoveRequestHandler(IGameRepository gameRepository, IMoveRepository moveRepository) {
+    public MakeMoveRequestHandler(
+        IGameRepository gameRepository,
+        IMoveRepository moveRepository,
+        IUserContextService userContextService
+    ) {
         _gameRepository = gameRepository;
         _moveRepository = moveRepository;
+        _userContextService = userContextService;
     }
 
     public async Task Handle(MakeMoveRequest request, CancellationToken cancellationToken) {
 
+        var userId = _userContextService.GetUserId();
+
         var game = await _gameRepository.GetById(request.GameId) 
             ?? throw new NotFoundException("Game not found.");
+
+        if (game.WhitePlayer.UserId != userId || game.BlackPlayer.UserId != userId)
+            throw new UnauthorizedException("This is not user game.");
+
+        if (game.HasEnded)
+            throw new BadRequestException("Can not make move in finished game");
 
         if (game.Turn % 2 == 0) {
             game.WhitePlayer.TimeLeft += game.GameTiming.Increment / 60;
@@ -45,8 +61,8 @@ public class MakeMoveRequestHandler : IRequestHandler<MakeMoveRequest> {
             game.GameState.CanBlackLongRookCastle = !request.Blrm;
 
 
-
         await _gameRepository.Update(game);
+
 
         var move = new Move()
         {
@@ -61,6 +77,7 @@ public class MakeMoveRequestHandler : IRequestHandler<MakeMoveRequest> {
             BlackTime = game.BlackPlayer.TimeLeft,
             GameId = game.Id,
         };
+
 
         await _moveRepository.Create(move);
     }

@@ -27,8 +27,13 @@ public class GameController : ControllerBase {
     }
 
 
-
-    [HttpPost("start-search")]
+    /// <summary>
+    /// Creates player if player not exists
+    /// Creates game timing if not exist
+    /// </summary>
+    /// <param name="model"></param>
+    /// <returns></returns>
+    [HttpPost("search")]
     [Authorize(Policy = "IsVerified")]
     public async Task<IActionResult> StartSearch([FromBody] SearchGameModel model) {
 
@@ -40,14 +45,16 @@ public class GameController : ControllerBase {
     }
 
 
-    [HttpGet("check-if-in-game/{playerId}")]
+    /// <summary>
+    /// Check if player was matched and the game has started
+    /// </summary>
+    /// <param name="model"></param>
+    /// <returns></returns>
+    [HttpGet("check-if-in-game")]
     [Authorize(Policy = "IsVerified")]
-    public async Task<IActionResult> CheckIfInGame([FromRoute] Guid playerId) {
+    public async Task<IActionResult> CheckIfInGame([FromQuery] CheckIfInGameModel model) {
 
-        var request = new CheckIfInGameRequest()
-        {
-            PlayerId = playerId,
-        };
+        var request = _mapper.Map<CheckIfInGameRequest>(model);
 
         var isInGame = await _mediator.Send(request);
 
@@ -55,6 +62,11 @@ public class GameController : ControllerBase {
     }
 
 
+    /// <summary>
+    /// Gets all data for one game
+    /// </summary>
+    /// <param name="gameId"></param>
+    /// <returns></returns>
     [HttpGet("{gameId}")]
     [Authorize(Policy = "IsVerified")]
     public async Task<IActionResult> GetGame([FromRoute] Guid gameId) {
@@ -70,6 +82,11 @@ public class GameController : ControllerBase {
     }
 
 
+    /// <summary>
+    /// Gets all data of player
+    /// </summary>
+    /// <param name="gameId"></param>
+    /// <returns></returns>
     [HttpGet("{gameId}/player")]
     [Authorize(Policy = "IsVerified")]
     public async Task<IActionResult> GetPlayer([FromRoute] Guid gameId) {
@@ -84,6 +101,12 @@ public class GameController : ControllerBase {
         return Ok(player);
     }
 
+
+    /// <summary>
+    /// Gets ended game info
+    /// </summary>
+    /// <param name="gameId"></param>
+    /// <returns></returns>
     [HttpGet("{gameId}/ended")]
     [Authorize(Policy = "IsVerified")]
     public async Task<IActionResult> GetEndedGame(Guid gameId) {
@@ -99,6 +122,11 @@ public class GameController : ControllerBase {
     }
 
 
+    /// <summary>
+    /// Gets all finished games for user
+    /// </summary>
+    /// <param name="model"></param>
+    /// <returns></returns>
     [HttpGet("all-finished")]
     [Authorize(Policy = "IsVerified")]
     public async Task<IActionResult> GetFinishedGames([FromQuery] GetFinishedGamesModel model) {
@@ -110,14 +138,17 @@ public class GameController : ControllerBase {
         return Ok(games);
     }
 
-    [HttpDelete("abort/{playerId}")]
-    [Authorize(Policy = "IsVerified")]
-    public async Task<IActionResult> AbortSearch([FromRoute] Guid playerId) {
 
-        var request = new AbortSearchRequest()
-        {
-            PlayerId = playerId,
-        };
+    /// <summary>
+    /// Removes player
+    /// </summary>
+    /// <param name="model"></param>
+    /// <returns></returns>
+    [HttpDelete("abort")]
+    [Authorize(Policy = "IsVerified")]
+    public async Task<IActionResult> AbortSearch([FromQuery] AbortSearchModel model) {
+
+        var request = _mapper.Map<AbortSearchRequest>(model);
 
         await _mediator.Send(request);
 

@@ -4,17 +4,17 @@ using chess.Core.Enums;
 using MediatR;
 using chess.Shared.Exceptions;
 
-namespace chess.Application.Requests.UserRequests.GetDataConfiguration;
+namespace chess.Application.Requests.UserRequests.GetRegisterConf;
 
-public class GetDataConfigurationRequestHandler : IRequestHandler<GetDataConfigurationRequest, GetDataConfigurationDto> {
+public class GetRegisterConfRequestHandler : IRequestHandler<GetRegisterConfRequest, GetRegisterConfDto> {
 
     private readonly IDataConfigurationRepository _dataConfigurationRepository;
 
-    public GetDataConfigurationRequestHandler(IDataConfigurationRepository dataConfigurationRepository) {
+    public GetRegisterConfRequestHandler(IDataConfigurationRepository dataConfigurationRepository) {
         _dataConfigurationRepository = dataConfigurationRepository;
     }
 
-    public async Task<GetDataConfigurationDto> Handle(GetDataConfigurationRequest request, CancellationToken cancellationToken) {
+    public async Task<GetRegisterConfDto> Handle(GetRegisterConfRequest request, CancellationToken cancellationToken) {
 
         if (!Enum.IsDefined(typeof(DataConfigurations), request.ConfigurationId))
             throw new BadRequestException("Incorrect configuration id.");
@@ -22,7 +22,7 @@ public class GetDataConfigurationRequestHandler : IRequestHandler<GetDataConfigu
         var dataConfiguration = await _dataConfigurationRepository.GetById(request.ConfigurationId) 
             ?? throw new NotFoundException("Configuration not found.");
 
-        var dataConfigurationDto = new GetDataConfigurationDto()
+        var registerConfDto = new GetRegisterConfDto()
         {
             MinLength = dataConfiguration.MinLength,
             MaxLength = dataConfiguration.MaxLength,
@@ -32,6 +32,6 @@ public class GetDataConfigurationRequestHandler : IRequestHandler<GetDataConfigu
             RequireSpecialChar = dataConfiguration.RequireSpecialChar,
         };
 
-        return dataConfigurationDto;
+        return registerConfDto;
     }
 }

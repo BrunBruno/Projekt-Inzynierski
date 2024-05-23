@@ -1,10 +1,10 @@
 ﻿
-namespace chess.Application.Requests.UserRequests.GetDataConfiguration;
+namespace chess.Application.Requests.UserRequests.GetRegisterConf;
 
 /// <summary>
 /// DTO for registration configurations
 /// </summary>
-public class GetDataConfigurationDto {
+public class GetRegisterConfDto {
 
     /// <summary>
     /// Minimal length of field

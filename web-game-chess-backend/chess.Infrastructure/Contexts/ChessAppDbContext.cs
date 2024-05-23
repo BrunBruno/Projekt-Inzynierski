@@ -36,31 +36,35 @@ public class ChessAppDbContext : DbContext {
     public DbSet<BannedUser> BannedUsers { get; set; }
 
     /// <summary>
-    /// 
+    /// Games dbset
     /// </summary>
     public DbSet<Game> Games { get; set; }
 
     /// <summary>
-    /// 
+    /// Game timing dbset
     /// </summary>
     public DbSet<GameTiming> GameTimings { get; set; }
 
     /// <summary>
-    /// 
+    /// Game states  dbset
     /// </summary>
     public DbSet<GameState> GameStates { get; set; }
 
     /// <summary>
-    /// 
+    /// plaers dbset
     /// </summary>
     public DbSet<Player> Players { get; set; }
 
     /// <summary>
-    /// 
+    /// moves dbset
     /// </summary>
     public DbSet<Move> Moves { get; set; }
 
+    /// <summary>
+    /// Friendships dbset
+    /// </summary>
     public DbSet<Friendship> Friendships { get; set; }
+
 
 
     public ChessAppDbContext(DbContextOptions<ChessAppDbContext> options) : base(options) { }

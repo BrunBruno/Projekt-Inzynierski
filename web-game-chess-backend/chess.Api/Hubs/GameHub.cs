@@ -9,7 +9,6 @@ using MediatR;
 using Microsoft.AspNetCore.SignalR;
 using SignalRSwaggerGen.Attributes;
 using SignalRSwaggerGen.Enums;
-using System;
 
 namespace chess.Api.Hubs;
 
@@ -25,6 +24,13 @@ public class GameHub : Hub<IGameHub> {
     }
 
 
+    /// <summary>
+    /// Adds user to queue for each timing
+    /// Starts all games, that meet requiriment for start
+    /// Calls to all grups, to check if awaiting players are not in game.
+    /// </summary>
+    /// <param name="typeId"> Game timing id </param>
+    /// <returns></returns>
     [SignalRMethod("PlayerJoined", Operation.Post)]
     public async Task PlayerJoined(Guid typeId) {
 
@@ -41,18 +47,12 @@ public class GameHub : Hub<IGameHub> {
     }
 
 
-    [SignalRMethod("PlayerLeaved", Operation.Delete)]
-    public async Task PlayerLeaved(Guid typeId) {
-        await Groups.RemoveFromGroupAsync(Context.ConnectionId, $"queue-{typeId}");
-    }
-
-
-    [SignalRMethod("GameStarted", Operation.Patch)]
-    public async Task GameStarted(Guid gameId) {
-        await Groups.AddToGroupAsync(Context.ConnectionId, $"game-{gameId}");
-    }
-
-    
+    /// <summary>
+    /// Creats moves
+    /// Updates game state
+    /// </summary>
+    /// <param name="model"></param>
+    /// <returns></returns>
     [SignalRMethod("MakeMove", Operation.Post)]
     public async Task MakeMove(MakeMoveModel model) {
 
@@ -64,7 +64,12 @@ public class GameHub : Hub<IGameHub> {
     }
 
 
-    [SignalRMethod("EndGame", Operation.Post)]
+    /// <summary>
+    /// Changels all necessary parameters to end the game
+    /// </summary>
+    /// <param name="model"></param>
+    /// <returns></returns>
+    [SignalRMethod("EndGame", Operation.Put)]
     public async Task EndGame(EndGameModel model) {
 
         var request = _mapper.Map<EndGameRequest>(model);
@@ -75,8 +80,39 @@ public class GameHub : Hub<IGameHub> {
     }
 
 
+    /// <summary>
+    /// Adds user to 2-user grups to perform game
+    /// </summary>
+    /// <param name="gameId"></param>
+    /// <returns></returns>
+    [SignalRMethod("GameStarted", Operation.Put)]
+    public async Task GameStarted(Guid gameId) {
+
+        await Groups.AddToGroupAsync(Context.ConnectionId, $"game-{gameId}");
+    }
+
+
+    /// <summary>
+    /// Removes player from queue.
+    /// Should start also with 'abort' in game controller.
+    /// </summary>
+    /// <param name="typeId"> Game timing id </param>
+    /// <returns></returns>
+    [SignalRMethod("PlayerLeaved", Operation.Delete)]
+    public async Task PlayerLeaved(Guid typeId) {
+
+        await Groups.RemoveFromGroupAsync(Context.ConnectionId, $"queue-{typeId}");
+    }
+
+
+    /// <summary>
+    /// Removes user from game connection
+    /// </summary>
+    /// <param name="gameId"> Game id </param>
+    /// <returns></returns>
     [SignalRMethod("LeaveGame", Operation.Delete)]
     public async Task LeaveGame(Guid gameId) {
+
         await Groups.RemoveFromGroupAsync(Context.ConnectionId, $"game-{gameId}");
     }
 }

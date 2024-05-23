@@ -15,7 +15,6 @@ public class SmtpService : ISmtpService {
         _smtpOptions = smtpOptions;
     }
 
-
     ///<inheritdoc/>
     public async Task SendVerificationCode(string email, string recipientName, string code) {
 
@@ -43,6 +42,7 @@ public class SmtpService : ISmtpService {
             await smtpClient.SendMailAsync(mailMessage);
         }
     }
+
 
     private static AlternateView GetMailBody(string imagePath, string code) {
 

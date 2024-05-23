@@ -13,6 +13,7 @@ public class GameStateRepository : IGameStateRepository {
         _dbContext = dbContext;
     }
 
+    ///<inheritdoc/>
     public async Task Create(GameState gameState) {
         await _dbContext.GameStates.AddAsync(gameState);
         await _dbContext.SaveChangesAsync();

@@ -4,7 +4,7 @@ using chess.Core.Entities;
 namespace chess.Application.Repositories;
 
 /// <summary>
-/// User interface
+/// User repository
 /// </summary>
 public interface IUserRepository {
 

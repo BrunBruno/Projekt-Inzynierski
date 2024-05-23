@@ -22,6 +22,12 @@ public class FriendshipController : ControllerBase {
         _mapper = mapper;
     }
 
+
+    /// <summary>
+    /// Creates new frendship, with pending status
+    /// </summary>
+    /// <param name="model"></param>
+    /// <returns></returns>
     [HttpPost("invite")]
     [Authorize(Policy = "IsVerified")]
     public async Task<IActionResult> InviteFriend([FromBody] InviteFriendModel model) {
@@ -33,6 +39,12 @@ public class FriendshipController : ControllerBase {
         return Ok();
     }
 
+
+    /// <summary>
+    /// Changes status of pending friendship
+    /// </summary>
+    /// <param name="model"></param>
+    /// <returns></returns>
     [HttpPut("respond")]
     [Authorize(Policy = "IsVerified")]
     public async Task<IActionResult> RespondToFriendRequest([FromBody] RespondToFriendRequestModel model) {
@@ -44,6 +56,12 @@ public class FriendshipController : ControllerBase {
         return Ok();
     }
 
+
+    /// <summary>
+    /// Gets all users with choosen relation to user
+    /// </summary>
+    /// <param name="model"></param>
+    /// <returns></returns>
     [HttpGet("all-by-status")]
     [Authorize(Policy = "IsVerified")]
     public async Task<IActionResult> GetAllFriendsByStatus([FromQuery] GetAllFriendsByStatusModel model) {
@@ -55,9 +73,15 @@ public class FriendshipController : ControllerBase {
         return Ok(friends);
     }
 
+
+    /// <summary>
+    /// Gets all users that are not in relation with user
+    /// </summary>
+    /// <param name="model"></param>
+    /// <returns></returns>
     [HttpGet("all-non-friends")]
     [Authorize(Policy = "IsVerified")]
-    public async Task<IActionResult> GetAllNonFriends() {
+    public async Task<IActionResult> GetAllNonFriends([FromQuery] GetAllNonFriendsModel model) {
 
         var request = _mapper.Map<GetAllFriendsByStatusRequest>(model);
 

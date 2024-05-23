@@ -28,14 +28,19 @@ public class SearchGameRequestHandler : IRequestHandler<SearchGameRequest, Searc
 
     public async Task<SearchGameDto> Handle(SearchGameRequest request, CancellationToken cancellationToken) {
 
+        var userId = _userContextService.GetUserId();
+
+        var user = await _userRepository.GetById(userId)
+            ?? throw new NotFoundException("User not found.");
+
         if (request.Minutes == 0)
-            throw new BadRequestException("Incorrect value.");
+            throw new BadRequestException("Incorrect minutes value.");
 
         var existingGameTiming = await _gameTimingRepository.FindTiming(request.Type, request.Minutes, request.Increment);
 
         Guid timingId;
-
         if (existingGameTiming is null) {
+
             var gameTiming = new GameTiming()
             {
                 Id = Guid.NewGuid(),
@@ -51,33 +56,39 @@ public class SearchGameRequestHandler : IRequestHandler<SearchGameRequest, Searc
         } else {
 
             timingId = existingGameTiming.Id;
-            
         }
 
+        var alreadyAwaitingPlayer = await _playerRepository.GetAwaitingPlayer(userId, timingId);
+
+        Guid playerId;
+        if (alreadyAwaitingPlayer is null) {
+
+            var player = new Player()
+            {
+                Id = Guid.NewGuid(),
+                Name = user.Username,
+                ImageUrl = user.ImageUrl,
+                Elo = user.Elo,
+                TimeLeft = request.Minutes,
+                UserId = userId,
+                TimingId = timingId,
+            };
 
 
-        var userId = _userContextService.GetUserId();
+            await _playerRepository.Create(player);
 
-        var user = await _userRepository.GetById(userId)
-            ?? throw new NotFoundException("User not found.");
+            playerId = player.Id;
 
-        var player = new Player()
-        {
-            Id = Guid.NewGuid(),
-            Name = user.Username,
-            ImageUrl = user.ImageUrl,
-            Elo = user.Elo,
-            TimeLeft = request.Minutes,
-            UserId = userId,
-            TimingId = timingId,
-        };
+        } else {
 
-        await _playerRepository.Create(player);
+            playerId = alreadyAwaitingPlayer.Id;
+        }
+
 
         var timingDto = new SearchGameDto()
         {
             TimingId = timingId,
-            PlayerId = player.Id,
+            PlayerId = playerId,
         };
 
         return timingDto;

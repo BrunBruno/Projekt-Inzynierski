@@ -21,11 +21,8 @@ public class PagedResult<T> where T : class {
             .ToList();
 
         TotalItemsCount = totalCount;
-
         ItemsFrom = pageSize * (pageNumber - 1) + 1;
-
         ItemsTo = pageSize * (pageNumber - 1) + pageSize;
-
         TotalPages = (int)Math.Ceiling(totalCount / (double)pageSize);
     }
 }

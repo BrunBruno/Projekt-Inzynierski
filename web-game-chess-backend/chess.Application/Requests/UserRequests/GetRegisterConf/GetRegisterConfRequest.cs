@@ -1,12 +1,12 @@
 ﻿
 using MediatR;
 
-namespace chess.Application.Requests.UserRequests.GetDataConfiguration;
+namespace chess.Application.Requests.UserRequests.GetRegisterConf;
 
 /// <summary>
 /// Request for getting register configuuration
 /// </summary>
-public class GetDataConfigurationRequest : IRequest<GetDataConfigurationDto> {
+public class GetRegisterConfRequest : IRequest<GetRegisterConfDto> {
 
     /// <summary>
     /// Id of configuration

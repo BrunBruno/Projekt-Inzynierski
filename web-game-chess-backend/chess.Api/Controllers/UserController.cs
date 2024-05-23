@@ -1,8 +1,7 @@
 ﻿
 using AutoMapper;
 using chess.Api.Models.UserModels;
-using chess.Application.Requests.UserRequests.BanUser;
-using chess.Application.Requests.UserRequests.GetDataConfiguration;
+using chess.Application.Requests.UserRequests.GetRegisterConf;
 using chess.Application.Requests.UserRequests.GetUser;
 using chess.Application.Requests.UserRequests.IsEmailVerified;
 using chess.Application.Requests.UserRequests.LogIn;
@@ -40,6 +39,7 @@ public class UserController : ControllerBase {
         var request = _mapper.Map<RegisterUserRequest>(model);
 
         await _mediator.Send(request);
+
         return Ok();
     }
 
@@ -55,6 +55,7 @@ public class UserController : ControllerBase {
         var request = _mapper.Map<LogInUserRequest>(model);
 
         var token = await _mediator.Send(request);
+
         return Ok(token);
     }
 
@@ -102,6 +103,7 @@ public class UserController : ControllerBase {
         var request = new GetUserRequest();
 
         var user = await _mediator.Send(request);
+
         return Ok(user);
     }
 
@@ -119,24 +121,22 @@ public class UserController : ControllerBase {
         var request = new IsEmailVerifiedRequest();
 
         var result = await _mediator.Send(request);
+
         return Ok(result);
     }
-
 
     /// <summary>
     /// Gets registration configurations
     /// </summary>
-    /// <param name="configurationId"></param>
+    /// <param name="model"></param>
     /// <returns></returns>
-    [HttpGet("configuration/{configurationId}")]
-    public async Task<IActionResult> GetRegisterConf([FromRoute] int configurationId) {
+    [HttpGet("configuration")]
+    public async Task<IActionResult> GetRegisterConf([FromQuery] GetRegisterConfModel model) {
 
-        var request = new GetDataConfigurationRequest()
-        {
-            ConfigurationId = configurationId,
-        };
+        var request = _mapper.Map<GetRegisterConfRequest>(model);
 
         var passwordConfiguration = await _mediator.Send(request);
+
         return Ok(passwordConfiguration);
     }
 }

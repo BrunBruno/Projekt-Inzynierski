@@ -69,7 +69,9 @@ public class RegisterUserRequestHandler : IRequestHandler<RegisterUserRequest> {
 
         code.CodeHash = codeHash;
 
+
         await _codeRepository.Add(code);
+
 
         await _smtpService.SendVerificationCode(request.Email.ToLower(), request.Username, codeValue);
     }

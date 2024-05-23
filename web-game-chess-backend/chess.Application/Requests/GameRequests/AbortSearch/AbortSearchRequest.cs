@@ -5,7 +5,7 @@ namespace chess.Application.Requests.GameRequests.AbortSearch;
 
 /// <summary>
 /// Request when user stops searching for a game
-/// Removes Player
+/// Removes Player, only if player is not already playing
 /// </summary>
 public class AbortSearchRequest : IRequest {
 

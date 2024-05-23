@@ -11,7 +11,6 @@ namespace chess.Api.Maps.MappingProfiles;
 /// Friendship controller models to requests maps
 /// </summary>
 public class FriendshipMappingProfile : Profile {
-
     public FriendshipMappingProfile() {
 
         CreateMap<InviteFriendModel, InviteFriendRequest>();
