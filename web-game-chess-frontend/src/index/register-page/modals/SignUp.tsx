@@ -21,6 +21,7 @@ import {
 import { dataConfigurations } from "../../../shared/utils/enums/entitiesEnums";
 import { registrationInterface } from "../../../shared/utils/enums/interfacesEnums";
 import {
+  GetRegisterConfModel,
   LogInUserModel,
   RegisterUserModel,
 } from "../../../shared/utils/types/userModels";
@@ -53,22 +54,27 @@ function SignUp({ setModal }: SignUpProps) {
   const [processing, setProcessing] = useState<boolean>(true);
 
   useEffect(() => {
-    // api call
     // gets configuractions
     const getDataConfigurations = async (): Promise<void> => {
       try {
+        const userRegisterConf: GetRegisterConfModel = {
+          configurationId: dataConfigurations.userName,
+        };
+
         // get username configuration
         const userNameConfResp = await axios.get<ConfigurationDto>(
-          userControllerPaths.getDataConfiguration(dataConfigurations.userName)
+          userControllerPaths.getRegisterConf(userRegisterConf)
         );
 
         setUserNameConf(userNameConfResp.data);
 
+        const passwordRegisterConf: GetRegisterConfModel = {
+          configurationId: dataConfigurations.userPassword,
+        };
+
         // get password configuration
         const userPassConfResp = await axios.get<ConfigurationDto>(
-          userControllerPaths.getDataConfiguration(
-            dataConfigurations.userPassword
-          )
+          userControllerPaths.getRegisterConf(passwordRegisterConf)
         );
 
         setUserPassConf(userPassConfResp.data);
@@ -82,7 +88,6 @@ function SignUp({ setModal }: SignUpProps) {
     getDataConfigurations();
   }, []);
 
-  // api call
   // creates user account
   const signUpUser = async (
     event: React.FormEvent<HTMLFormElement>
@@ -163,8 +168,7 @@ function SignUp({ setModal }: SignUpProps) {
     try {
       setProcessing(true);
       // create account
-      // await axios.post(`${baseUrl}/user/sign-up`, userData);
-      await axios.post(userControllerPaths.register, userData);
+      await axios.post(userControllerPaths.register(), userData);
 
       const logUserData: LogInUserModel = {
         email: form.email.value.trim(),
@@ -176,7 +180,7 @@ function SignUp({ setModal }: SignUpProps) {
 
       // login user, get unverified token
       const logInResponse = await axios.post<LogInUserDto>(
-        userControllerPaths.logIn,
+        userControllerPaths.logIn(),
         logUserData
       );
 

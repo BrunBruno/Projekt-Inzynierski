@@ -6,7 +6,7 @@ type MovementMap = {
   kingMoves: number[][];
 };
 
-// pieces movement directions lists
+// pieces movement directions vectors lists
 export const movementMap: MovementMap = {
   knightMoves: [
     [1, 2],
@@ -70,6 +70,7 @@ type RankMap = {
   black: RankType;
 };
 
+// all special ranks and files
 export const rankMap: RankMap = {
   white: {
     pawnStartRank: 2,

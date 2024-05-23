@@ -20,7 +20,7 @@ function MainRouter() {
     const verifyUsersToken = async () => {
       try {
         const isVerifiedResponse = await axios.get<IsEmailVerifiedDto>(
-          userControllerPaths.isEmailVerified,
+          userControllerPaths.isVerified(),
           getAuthorization()
         );
 
@@ -28,7 +28,7 @@ function MainRouter() {
         if (!isVerified) navigate("/");
 
         const userInfoResponse = await axios.get<GetUserDto>(
-          userControllerPaths.getUser,
+          userControllerPaths.getUser(),
           getAuthorization()
         );
 

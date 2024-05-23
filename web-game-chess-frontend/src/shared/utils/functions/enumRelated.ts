@@ -1,6 +1,7 @@
 import { EnumType } from "../types/commonTypes";
 
-export const getTimingTypeByNumber = (
+// gets enu type by its value
+export const getEnumTypeByNumber = (
   enumElements: EnumType,
   typeN: number
 ): string => {

@@ -35,7 +35,6 @@ function SignIn({ setModal }: SignInProps) {
   // state if something is processing
   const [processing, setProcessing] = useState<boolean>(false);
 
-  // api call
   // sign in user
   // set validation token
   // redirect to main
@@ -76,7 +75,7 @@ function SignIn({ setModal }: SignInProps) {
 
       // Log in user
       const signInResponse = await axios.post<LogInUserDto>(
-        userControllerPaths.logIn,
+        userControllerPaths.logIn(),
         userData
       );
 
@@ -85,7 +84,7 @@ function SignIn({ setModal }: SignInProps) {
 
       // users email verification check
       const isVerifiedResponse = await axios.get<IsEmailVerifiedDto>(
-        userControllerPaths.isEmailVerified,
+        userControllerPaths.isVerified(),
         getAuthorization()
       );
 

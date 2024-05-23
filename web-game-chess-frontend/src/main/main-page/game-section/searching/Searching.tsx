@@ -9,6 +9,7 @@ import { SearchGameDto } from "../../../../shared/utils/types/gameDtos";
 import GameHubService from "../../../../shared/utils/services/GameHubService";
 import { gameSearchInterface } from "../../../../shared/utils/enums/interfacesEnums";
 import SearchingIcons from "./SearchingIcons";
+import { AbortSearchModel } from "../../../../shared/utils/types/gameModels";
 
 const numOfPawns = 8;
 
@@ -66,8 +67,12 @@ function Searching({
     }
 
     try {
+      const abortSearchModel: AbortSearchModel = {
+        playerId: searchIds.playerId,
+      };
+
       await axios.delete(
-        gameControllerPaths.abortSearch(searchIds.playerId),
+        gameControllerPaths.abortSearch(abortSearchModel),
         getAuthorization()
       );
 

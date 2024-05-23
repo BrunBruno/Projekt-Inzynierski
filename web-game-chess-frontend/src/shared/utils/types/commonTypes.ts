@@ -1,4 +1,4 @@
-// type from enums s to n
+// type from enums string to number
 export type EnumType = {
   [key: string]: number;
 };
@@ -19,7 +19,16 @@ export type IconsMapProps = {
   iconName: string;
 };
 
-//
+// handle on scoll function type
 export type HandleOnScroll = {
   handleOnScroll: () => void;
+};
+
+// pagination result type
+export type PagedResult<T> = {
+  items: T[];
+  totalPages: number;
+  itemsFrom: number;
+  itemsTo: number;
+  totalItemsCount: number;
 };

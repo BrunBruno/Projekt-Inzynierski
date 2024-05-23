@@ -25,6 +25,7 @@ export const timingTypes: EnumType = {
   Daily: 4,
 };
 
+// from back-end reasons why game has eneded
 export const endGameTypes: EnumType = {
   checkMate: 1,
   outOfTime: 2,

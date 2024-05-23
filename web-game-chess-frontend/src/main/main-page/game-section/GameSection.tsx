@@ -17,13 +17,12 @@ import { gameSearchInterface } from "../../../shared/utils/enums/interfacesEnums
 import UserGames from "./user-games/UserGames";
 import GameSectionIcons from "./GameSectionIcons";
 import VsFriendSearch from "./vs-friend-search/VsFriendSearch";
+import { CheckIfInGameModel } from "../../../shared/utils/types/gameModels";
 
 function GameSection() {
   const navigate = useNavigate();
 
-  const [interfaceContent, setInterfaceContent] = useState<JSX.Element>(
-    <UserGames />
-  );
+  const [interfaceContent, setInterfaceContent] = useState<JSX.Element>(<></>);
   const [searchIds, setSearchIds] = useState<SearchGameDto | null>(null);
 
   // set game section content
@@ -56,8 +55,12 @@ function GameSection() {
   // handle new ids
   const handleGamesChanged = async () => {
     if (searchIds !== null) {
+      const isInGameModel: CheckIfInGameModel = {
+        playerId: searchIds.playerId,
+      };
+
       const isInGameResponse = await axios.get<CheckIfInGameDto>(
-        gameControllerPaths.checkIfInGame(searchIds.playerId),
+        gameControllerPaths.checkIfInGame(isInGameModel),
         getAuthorization()
       );
 

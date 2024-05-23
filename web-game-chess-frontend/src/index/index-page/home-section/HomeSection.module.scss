@@ -56,7 +56,6 @@
 
     // home intro
     &__intro {
-      // @include absCenter();
       @include flex(column, center, center, 3rem);
 
       position: absolute;

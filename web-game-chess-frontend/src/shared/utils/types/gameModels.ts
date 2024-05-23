@@ -1,7 +1,22 @@
-export type SearchGameModel = {
-  type: number;
-  minutes: number;
-  increment: number;
+// game controller models to requests
+
+export type AbortSearchModel = {
+  playerId: string;
+};
+
+export type CheckIfInGameModel = {
+  playerId: string;
+};
+
+export type EndGameModel = {
+  gameId: string;
+  loserColor: number | null;
+  endGameType: number;
+};
+
+export type GetFinishedGamesModel = {
+  pageNumber: number;
+  pageSize: number;
 };
 
 export type MakeMoveModel = {
@@ -20,13 +35,8 @@ export type MakeMoveModel = {
   blrm: boolean;
 };
 
-export type EndGameModel = {
-  gameId: string;
-  loserColor: number | null;
-  endGameType: number;
-};
-
-export type GetFinishedGamesModel = {
-  pageNumber: number;
-  pageSize: number;
+export type SearchGameModel = {
+  type: number;
+  minutes: number;
+  increment: number;
 };

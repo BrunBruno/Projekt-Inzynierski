@@ -55,9 +55,7 @@
       border-radius: $md-br;
       border: solid 1rem $gc8;
 
-      transition:
-        box-shadow 1s,
-        border-color 1s;
+      transition: box-shadow 1s, border-color 1s;
 
       .indicator {
         @include circle(20rem);
@@ -139,19 +137,19 @@
     .visible-outer {
       .board-svg {
         filter: brightness(80%) drop-shadow(0 0 1rem $mc0);
-        // animation: svgAni 3s infinite linear 1s;
+        animation: svgAni 3s infinite linear 1s;
 
-        // @keyframes svgAni {
-        //   0% {
-        //     filter: brightness(80%) drop-shadow(0 0 1rem $mc0);
-        //   }
-        //   50% {
-        //     filter: brightness(80%) drop-shadow(0 0 2rem $mc0);
-        //   }
-        //   100% {
-        //     filter: brightness(80%) drop-shadow(0 0 1rem $mc0);
-        //   }
-        // }
+        @keyframes svgAni {
+          0% {
+            filter: brightness(80%) drop-shadow(0 0 1rem $mc0);
+          }
+          50% {
+            filter: brightness(80%) drop-shadow(0 0 2rem $mc0);
+          }
+          100% {
+            filter: brightness(80%) drop-shadow(0 0 1rem $mc0);
+          }
+        }
       }
     }
     // end outer

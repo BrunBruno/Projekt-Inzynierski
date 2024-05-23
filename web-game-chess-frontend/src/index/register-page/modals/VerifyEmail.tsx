@@ -13,6 +13,7 @@ import LoadingPage from "../../../shared/components/loading-page/LoadingPage";
 import { LogInUserDto } from "../../../shared/utils/types/userDtos";
 import {
   LogInUserModel,
+  RegenerateCodeModel,
   VerifyEmailModel,
 } from "../../../shared/utils/types/userModels";
 import PasteIconSvg from "../../../shared/svgs/PasteIconSvg";
@@ -29,7 +30,6 @@ function VerifyEmail({}: VerifyEmailProps) {
   // state if something is processing
   const [processing, setProcessing] = useState<boolean>(false);
 
-  // api call
   // verify user email
   // login user after sucessful veryfication
   const verifyUser = async (
@@ -60,7 +60,7 @@ function VerifyEmail({}: VerifyEmailProps) {
 
       // verify user email
       await axios.put(
-        userControllerPaths.verifyEmail,
+        userControllerPaths.verifyEmail(),
         verificationCode,
         getAuthorization()
       );
@@ -71,7 +71,7 @@ function VerifyEmail({}: VerifyEmailProps) {
 
       //sign in user after sucessful veryfication
       const logInResponse = await axios.post<LogInUserDto>(
-        userControllerPaths.logIn,
+        userControllerPaths.logIn(),
         tempUser
       );
 
@@ -95,14 +95,15 @@ function VerifyEmail({}: VerifyEmailProps) {
     }
   };
 
-  // api call
   // regenerates verification code
   const regenerateCode = async (): Promise<void> => {
     try {
+      const regenerateCode: RegenerateCodeModel = {};
+
       // generate new code and delete previous
       await axios.post(
-        userControllerPaths.regenerateCode,
-        {},
+        userControllerPaths.regenerateCode(),
+        regenerateCode,
         getAuthorization()
       );
     } catch (err) {

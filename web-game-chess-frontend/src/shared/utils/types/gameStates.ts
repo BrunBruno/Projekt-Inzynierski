@@ -1,13 +1,13 @@
 import { GetGameDto, GetPlayerDto } from "./gameDtos";
 
-export type CastleOptions = {
-  cwkc: boolean;
-  cwsrc: boolean;
-  cwlrc: boolean;
-  cbkc: boolean;
-  cbsrc: boolean;
-  cblrc: boolean;
-};
+// export type CastleOptions = {
+//   cwkc: boolean;
+//   cwsrc: boolean;
+//   cwlrc: boolean;
+//   cbkc: boolean;
+//   cbsrc: boolean;
+//   cblrc: boolean;
+// };
 
 export type GameStates = {
   gameId: string;

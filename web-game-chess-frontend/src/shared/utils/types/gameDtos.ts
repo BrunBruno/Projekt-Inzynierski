@@ -1,13 +1,34 @@
 // game controller dtos
 
-export type SearchGameDto = {
-  playerId: string;
-  timingId: string;
-};
-
 export type CheckIfInGameDto = {
   isInGame: boolean;
   gameId: string | null;
+};
+
+export type EndGameDto = {
+  winnerColor: number | null;
+};
+
+export type GetEndedGameDto = {
+  winnerColor: number | null;
+};
+
+export type GetFinishedGamesDto = {
+  position: string;
+  turn: number;
+  moves: number;
+  isWinner: boolean | null;
+  createdAt: Date;
+  timingType: number;
+  endGameType: number;
+  whitePlayer: GetFinishedGamesPlayerDto;
+  blackPlayer: GetFinishedGamesPlayerDto;
+};
+
+export type GetFinishedGamesPlayerDto = {
+  name: string;
+  imageUrl: string | null;
+  elo: number;
 };
 
 export type GetGameDto = {
@@ -46,30 +67,10 @@ export type GetGameMoveDto = {
 export type GetPlayerDto = {
   name: string;
   elo: number;
-  color: number | null;
+  color: number;
 };
 
-export type EndGameDto = {
-  winnerColor: number | null;
-};
-export type GetEndedGameDto = {
-  winnerColor: number | null;
-};
-
-export type GetFinishedGamesDto = {
-  position: string;
-  turn: number;
-  moves: number;
-  isWinner: boolean | null;
-  createdAt: Date;
-  timingType: number;
-  endGameType: number;
-  whitePlayer: GetFinishedGamesPlayerDto;
-  blackPlayer: GetFinishedGamesPlayerDto;
-};
-
-export type GetFinishedGamesPlayerDto = {
-  name: string;
-  imageUrl: string | null;
-  elo: number;
+export type SearchGameDto = {
+  playerId: string;
+  timingId: string;
 };

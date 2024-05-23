@@ -19,12 +19,28 @@ function NavSection() {
           <NavSectionIcons iconName="account" />
           <span className={classes.ind}>Account</span>
         </div>
-        {Array.from({ length: 8 }).map((_, i) => (
+
+        <div className={classes.element}>
+          <NavSectionIcons iconName="addFriend" />
+          <span className={classes.ind}>Add friend</span>
+        </div>
+
+        {Array.from({ length: 6 }).map((_, i) => (
           <div key={i} className={classes.element}>
             <p>i</p>
             <span className={classes.ind}>ind</span>
           </div>
         ))}
+
+        <div
+          className={classes.element}
+          onClick={() => {
+            navigate("/");
+          }}
+        >
+          <NavSectionIcons iconName="home" />
+          <span className={classes.ind}>Home</span>
+        </div>
 
         <div
           className={classes.element}

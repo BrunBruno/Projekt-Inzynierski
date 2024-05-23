@@ -2,6 +2,7 @@ import { pieceColor } from "../enums/entitiesEnums";
 import { PosToIndex } from "../functions/gameRelated";
 import { GetPlayerDto } from "../types/gameDtos";
 
+// to highling selected file
 export const onHighlightFile = (
   ref: React.RefObject<HTMLDivElement>,
   coordinates: number[],
@@ -20,6 +21,7 @@ export const onHighlightFile = (
   }
 };
 
+// to clear all highlights
 export const onClearHighlights = (highlightClass: string): void => {
   const highlightedElements = document.querySelectorAll(`.${highlightClass}`);
   highlightedElements.forEach((element) => {
@@ -27,6 +29,7 @@ export const onClearHighlights = (highlightClass: string): void => {
   });
 };
 
+// to show movement animation
 export const performMoveAnimation = (
   boardRef: HTMLDivElement | null,
   selectedTarget: HTMLElement | null,

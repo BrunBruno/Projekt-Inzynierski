@@ -12,12 +12,13 @@ import { pieceImageMap } from "../../../../shared/utils/enums/piecesMaps";
 import AvatarSvg from "../../../../shared/svgs/AvatarSvg";
 import UserGamesIcons from "./user-game-icons/UserGamesIcons";
 import TimingTypesIcons from "../../../../shared/svgs/TimingTypesIcons";
-import { getTimingTypeByNumber } from "../../../../shared/utils/functions/enumRelated";
+import { getEnumTypeByNumber } from "../../../../shared/utils/functions/enumRelated";
 import {
   endGameTypes,
   timingTypes,
 } from "../../../../shared/utils/enums/entitiesEnums";
 import WinTypesIocns from "./user-game-icons/WinTypesIcons";
+import { PagedResult } from "../../../../shared/utils/types/commonTypes";
 
 type UserGamesProps = {};
 
@@ -30,6 +31,7 @@ function UserGames({}: UserGamesProps) {
 
   const [pageSize, setPageSize] = useState<number>(6);
 
+  // get all finished games
   const getGames = async () => {
     const getGamesOptions: GetFinishedGamesModel = {
       pageNumber: 1,
@@ -37,18 +39,20 @@ function UserGames({}: UserGamesProps) {
     };
 
     try {
-      const gamesRespones = await axios.get(
-        gameControllerPaths.getFinishedGame(getGamesOptions),
+      const gamesRespones = await axios.get<PagedResult<GetFinishedGamesDto>>(
+        gameControllerPaths.getFinishedGames(getGamesOptions),
         getAuthorization()
       );
 
       setGames(gamesRespones.data.items);
 
       setTotalItemsCount(gamesRespones.data.totalItemsCount);
+
       const count =
         gamesRespones.data.itemsTo < gamesRespones.data.totalItemsCount
           ? gamesRespones.data.itemsTo
           : gamesRespones.data.totalItemsCount;
+
       setItemsCount(count);
     } catch (err) {
       console.log(err);
@@ -59,6 +63,7 @@ function UserGames({}: UserGamesProps) {
     getGames();
   }, [pageSize]);
 
+  // icrease page size on scroll
   const handleListOnScroll = () => {
     const listElement = listRef.current;
     if (listElement) {
@@ -91,7 +96,9 @@ function UserGames({}: UserGamesProps) {
           fields.push(
             <div
               key={ind}
-              className={`${ind % 2 === 0 ? classes["light-f"] : classes["dark-f"]}`}
+              className={`${
+                ind % 2 === 0 ? classes["light-f"] : classes["dark-f"]
+              }`}
             ></div>
           );
 
@@ -101,7 +108,9 @@ function UserGames({}: UserGamesProps) {
         fields.push(
           <div
             key={ind}
-            className={`${ind % 2 === 0 ? classes["light-f"] : classes["dark-f"]}`}
+            className={`${
+              ind % 2 === 0 ? classes["light-f"] : classes["dark-f"]
+            }`}
             style={{ backgroundImage: `url("/pieces/${pieceImageMap[char]}")` }}
           ></div>
         );
@@ -112,6 +121,7 @@ function UserGames({}: UserGamesProps) {
     return fields;
   };
 
+  // display players based on user player color
   const displayPlayer = (game: GetFinishedGamesDto): JSX.Element => {
     const userInfo = localStorage.getItem("userInfo");
 
@@ -245,7 +255,7 @@ function UserGames({}: UserGamesProps) {
             <div key={`game-${i}`} className={classes["game-data"]}>
               <div className={classes["timing-type"]}>
                 <TimingTypesIcons
-                  iconName={getTimingTypeByNumber(timingTypes, game.timingType)}
+                  iconName={getEnumTypeByNumber(timingTypes, game.timingType)}
                   iconClass=""
                 />
               </div>
@@ -262,10 +272,7 @@ function UserGames({}: UserGamesProps) {
               <div className={classes.moves}>{game.moves}</div>
               <div className={classes["win-type"]}>
                 <WinTypesIocns
-                  iconName={getTimingTypeByNumber(
-                    endGameTypes,
-                    game.endGameType
-                  )}
+                  iconName={getEnumTypeByNumber(endGameTypes, game.endGameType)}
                 />
               </div>
             </div>

@@ -54,6 +54,8 @@ export type PiecePromotionMap = {
   white: string[];
   black: string[];
 };
+
+// piece promotion tag maps
 export const piecePromotionMap: PiecePromotionMap = {
   white: ["N", "B", "R", "Q"],
   black: ["n", "b", "r", "q"],
