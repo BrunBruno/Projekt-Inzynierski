@@ -7,6 +7,7 @@ export type GetAllFriendsByStatusModel = {
 };
 
 export type GetAllNonFriendsModel = {
+  username: string | null;
   pageNumber: number;
   pageSize: number;
 };

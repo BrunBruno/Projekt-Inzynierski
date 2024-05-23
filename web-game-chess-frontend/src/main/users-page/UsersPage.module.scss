@@ -1,0 +1,11 @@
+@import "../Main.scss";
+
+.users-main {
+  @include wh100();
+  @include gridBg();
+
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 10rem auto;
+  padding: 0 20rem;
+}

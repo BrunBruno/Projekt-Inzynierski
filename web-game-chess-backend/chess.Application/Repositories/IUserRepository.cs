@@ -8,40 +8,45 @@ namespace chess.Application.Repositories;
 /// </summary>
 public interface IUserRepository {
 
-    Task<List<User>> GetAllNonFriends(List<Guid> ids);
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="ids"></param>
+    /// <returns></returns>
+    Task<List<User>> GetAllNonFriends(List<Guid> ids, Guid userId);
 
     /// <summary>
     /// Get user by id
     /// </summary>
-    /// <param name="id"> user id </param>
-    /// <returns> User or null </returns>
+    /// <param name="id"></param>
+    /// <returns></returns>
     Task<User?> GetById(Guid id);
 
     /// <summary>
     /// Gets user by email
     /// </summary>
-    /// <param name="email"> user email </param>
-    /// <returns> User or null </returns>
+    /// <param name="email"></param>
+    /// <returns></returns>
     Task<User?> GetByEmail(string email);
 
     /// <summary>
     /// Creates user
     /// </summary>
-    /// <param name="user"> User </param>
+    /// <param name="user"></param>
     /// <returns></returns>
     Task Add(User user);
 
     /// <summary>
     /// Updates user data
     /// </summary>
-    /// <param name="user"> User </param>
+    /// <param name="user"></param>
     /// <returns></returns>
     Task Update(User user);
 
     /// <summary>
     /// Deletes user
     /// </summary>
-    /// <param name="user"> User </param>
+    /// <param name="user"></param>
     /// <returns></returns>
     Task Delete(User user);
 

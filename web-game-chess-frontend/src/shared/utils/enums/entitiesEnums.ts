@@ -36,3 +36,10 @@ export const endGameTypes: EnumType = {
   fiftyMovesRule: 7,
   insufficientMaterial: 8,
 };
+
+export const friendshipStatus: EnumType = {
+  all: -1,
+  pending: 0,
+  accepted: 1,
+  rejected: 2,
+};

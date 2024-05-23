@@ -50,7 +50,7 @@ public class InviteFriendRequestHandler : IRequestHandler<InviteFriendRequest> {
             throw new BadRequestException("Friend request is still pending.");
 
 
-        var usersBloeckedFriends = await _friendshipRepository.GetAllForUserByStatus(userId, FriendshipStatus.Blocked);
+        var usersBloeckedFriends = await _friendshipRepository.GetAllForUserByStatus(userId, FriendshipStatus.Rejected);
 
         var blockedFriendIds = usersBloeckedFriends
             .Select(f => f.RequestorId == userId ? f.ReceiverId : f.RequestorId)

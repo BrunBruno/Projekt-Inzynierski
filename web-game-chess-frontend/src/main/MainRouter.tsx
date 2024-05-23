@@ -9,6 +9,7 @@ import {
 import LoadingPage from "../shared/components/loading-page/LoadingPage";
 import { GetUserDto, IsEmailVerifiedDto } from "../shared/utils/types/userDtos";
 import GamePage from "./game-page/GamePage";
+import UsersPage from "./users-page/UsersPage";
 
 function MainRouter() {
   const navigate = useNavigate();
@@ -51,6 +52,7 @@ function MainRouter() {
     <Routes>
       <Route path="/" element={<MainPage />} />
       <Route path="/game/:gameId" element={<GamePage />} />
+      <Route path="/users" element={<UsersPage />} />
     </Routes>
   );
 }

@@ -2,6 +2,7 @@
 using AutoMapper;
 using chess.Api.Models.FriendshipModels;
 using chess.Application.Requests.FriendshipRequests.GetAllFriendsByStatus;
+using chess.Application.Requests.FriendshipRequests.GetAllNonFriends;
 using chess.Application.Requests.FriendshipRequests.InviteFriend;
 using chess.Application.Requests.FriendshipRequests.RespondToFriendRequest;
 
@@ -16,6 +17,7 @@ public class FriendshipMappingProfile : Profile {
         CreateMap<InviteFriendModel, InviteFriendRequest>();
         CreateMap<RespondToFriendRequestModel, RespondToFriendRequestRequest>();
         CreateMap<GetAllFriendsByStatusModel, GetAllFriendsByStatusRequest>();
+        CreateMap<GetAllNonFriendsModel, GetAllNonFriendsRequest>();
 
     }
 }

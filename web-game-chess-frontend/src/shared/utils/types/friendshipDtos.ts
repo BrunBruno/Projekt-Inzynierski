@@ -8,6 +8,7 @@ export type GetAllFriendsByStatusDto = {
 };
 
 export type GetAllNonFriendsDto = {
+  userId: string;
   username: string;
   name: string | null;
   imageUrl: string | null;

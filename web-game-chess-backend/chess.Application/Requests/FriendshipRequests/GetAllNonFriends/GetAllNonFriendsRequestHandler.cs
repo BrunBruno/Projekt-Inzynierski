@@ -28,10 +28,19 @@ public class GetAllNonFriendsRequestHandler : IRequestHandler<GetAllNonFriendsRe
 
         var friendsIds = await _friendshipRepository.GetAllFriendIds(userId);
 
-        var nonFriends = await _userRepository.GetAllNonFriends(friendsIds);
+        var nonFriends = await _userRepository.GetAllNonFriends(friendsIds, userId);
+
+        if(request.Username is not null) {
+            nonFriends = nonFriends.Where(nf => 
+                nf.Username.ToLower().Contains(request.Username) ||
+                nf.Email.ToLower().Contains(request.Username) ||
+                (nf.Name != null && nf.Name.ToLower().Contains(request.Username))
+            ).ToList();
+        }
 
         var nonFriendsDtos = nonFriends.Select(nf => new GetAllNonFriendsDto()
         {
+            UserId = nf.Id,
             Username = nf.Username,
             Name = nf.Name,
             ImageUrl = nf.ImageUrl,

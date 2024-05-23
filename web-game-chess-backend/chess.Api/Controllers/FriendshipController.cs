@@ -2,6 +2,7 @@
 using AutoMapper;
 using chess.Api.Models.FriendshipModels;
 using chess.Application.Requests.FriendshipRequests.GetAllFriendsByStatus;
+using chess.Application.Requests.FriendshipRequests.GetAllNonFriends;
 using chess.Application.Requests.FriendshipRequests.InviteFriend;
 using chess.Application.Requests.FriendshipRequests.RespondToFriendRequest;
 using MediatR;
@@ -83,7 +84,7 @@ public class FriendshipController : ControllerBase {
     [Authorize(Policy = "IsVerified")]
     public async Task<IActionResult> GetAllNonFriends([FromQuery] GetAllNonFriendsModel model) {
 
-        var request = _mapper.Map<GetAllFriendsByStatusRequest>(model);
+        var request = _mapper.Map<GetAllNonFriendsRequest>(model);
 
         var friends = await _mediator.Send(request);
 

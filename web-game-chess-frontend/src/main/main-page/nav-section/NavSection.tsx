@@ -20,7 +20,12 @@ function NavSection() {
           <span className={classes.ind}>Account</span>
         </div>
 
-        <div className={classes.element}>
+        <div
+          className={classes.element}
+          onClick={() => {
+            navigate("/main/users");
+          }}
+        >
           <NavSectionIcons iconName="addFriend" />
           <span className={classes.ind}>Add friend</span>
         </div>
