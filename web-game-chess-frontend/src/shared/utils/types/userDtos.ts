@@ -14,6 +14,7 @@ export type LogInUserDto = {
 };
 
 export type GetUserDto = {
+  userId: string;
   email: string;
   name: string;
   fullName: string | null;

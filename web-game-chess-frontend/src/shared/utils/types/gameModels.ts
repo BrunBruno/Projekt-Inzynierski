@@ -8,6 +8,13 @@ export type CheckIfInGameModel = {
   playerId: string;
 };
 
+export type CreatePrivateGameModel = {
+  friendshipId: string;
+  type: number;
+  minutes: number;
+  increment: number;
+};
+
 export type EndGameModel = {
   gameId: string;
   loserColor: number | null;

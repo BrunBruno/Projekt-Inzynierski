@@ -5,6 +5,7 @@ using chess.Application.Hubs;
 using chess.Application.Requests.GameRequests.EndGame;
 using chess.Application.Requests.GameRequests.MakeMove;
 using chess.Application.Requests.GameRequests.StartGames;
+using chess.Application.Requests.UserRequests.GetUser;
 using MediatR;
 using Microsoft.AspNetCore.SignalR;
 using SignalRSwaggerGen.Attributes;
@@ -25,13 +26,26 @@ public class GameHub : Hub<IGameHub> {
 
 
     /// <summary>
+    /// To be able to get notification from user friends
+    /// </summary>
+    /// <returns></returns>
+    //[HubMethodName("add-self-notification")]
+    [SignalRMethod("add-self-notification", Operation.Post)]
+    public async Task AddSelfNotification(Guid userId) {
+
+        await Groups.AddToGroupAsync(Context.ConnectionId, $"user-{userId}");
+    }
+
+
+    /// <summary>
     /// Adds user to queue for each timing
     /// Starts all games, that meet requiriment for start
     /// Calls to all grups, to check if awaiting players are not in game.
     /// </summary>
     /// <param name="typeId"> Game timing id </param>
     /// <returns></returns>
-    [SignalRMethod("PlayerJoined", Operation.Post)]
+    //[HubMethodName("player-joined")]
+    [SignalRMethod("player-joined", Operation.Post)]
     public async Task PlayerJoined(Guid typeId) {
 
         await Groups.AddToGroupAsync(Context.ConnectionId, $"queue-{typeId}");
@@ -53,7 +67,8 @@ public class GameHub : Hub<IGameHub> {
     /// </summary>
     /// <param name="model"></param>
     /// <returns></returns>
-    [SignalRMethod("MakeMove", Operation.Post)]
+    //[HubMethodName("make-move")]
+    [SignalRMethod("make-move", Operation.Post)]
     public async Task MakeMove(MakeMoveModel model) {
 
         var request = _mapper.Map<MakeMoveRequest>(model);
@@ -69,7 +84,8 @@ public class GameHub : Hub<IGameHub> {
     /// </summary>
     /// <param name="model"></param>
     /// <returns></returns>
-    [SignalRMethod("EndGame", Operation.Put)]
+    //[HubMethodName("end-game")]
+    [SignalRMethod("end-game", Operation.Put)]
     public async Task EndGame(EndGameModel model) {
 
         var request = _mapper.Map<EndGameRequest>(model);
@@ -85,10 +101,25 @@ public class GameHub : Hub<IGameHub> {
     /// </summary>
     /// <param name="gameId"></param>
     /// <returns></returns>
-    [SignalRMethod("GameStarted", Operation.Put)]
+    //[HubMethodName("game-started")]
+    [SignalRMethod("game-started", Operation.Put)]
     public async Task GameStarted(Guid gameId) {
 
         await Groups.AddToGroupAsync(Context.ConnectionId, $"game-{gameId}");
+    }
+
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="userId"></param>
+    /// <param name="gameId"></param>
+    /// <returns></returns>
+    //[HubMethodName("notify-user")]
+    [SignalRMethod("notify-user", Operation.Get)]
+    public async Task NotifyUser(Guid userId, Guid gameId) {
+
+        await Clients.Groups($"user-{userId}").InvitededToGame(gameId);
     }
 
 
@@ -98,7 +129,8 @@ public class GameHub : Hub<IGameHub> {
     /// </summary>
     /// <param name="typeId"> Game timing id </param>
     /// <returns></returns>
-    [SignalRMethod("PlayerLeaved", Operation.Delete)]
+    //[HubMethodName("player-leaved")]
+    [SignalRMethod("player-leaved", Operation.Delete)]
     public async Task PlayerLeaved(Guid typeId) {
 
         await Groups.RemoveFromGroupAsync(Context.ConnectionId, $"queue-{typeId}");
@@ -110,7 +142,8 @@ public class GameHub : Hub<IGameHub> {
     /// </summary>
     /// <param name="gameId"> Game id </param>
     /// <returns></returns>
-    [SignalRMethod("LeaveGame", Operation.Delete)]
+    //[HubMethodName("leave-game")]
+    [SignalRMethod("leave-game", Operation.Delete)]
     public async Task LeaveGame(Guid gameId) {
 
         await Groups.RemoveFromGroupAsync(Context.ConnectionId, $"game-{gameId}");

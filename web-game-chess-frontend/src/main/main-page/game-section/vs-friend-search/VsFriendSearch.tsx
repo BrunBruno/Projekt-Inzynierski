@@ -1,9 +1,88 @@
-import AvatarSvg from "../../../../shared/svgs/AvatarSvg";
+import { useEffect, useState } from "react";
 import classes from "./VsFriendSearch.module.scss";
+import { GetAllFriendsByStatusModel } from "../../../../shared/utils/types/friendshipModels";
+import {
+  friendshipStatus,
+  timingTypes,
+} from "../../../../shared/utils/enums/entitiesEnums";
+import axios from "axios";
+import { PagedResult } from "../../../../shared/utils/types/commonTypes";
+import { GetAllFriendsByStatusDto } from "../../../../shared/utils/types/friendshipDtos";
+import {
+  friendshipControllerPaths,
+  gameControllerPaths,
+  getAuthorization,
+} from "../../../../shared/utils/functions/apiFunctions";
+import { CreatePrivateGameModel } from "../../../../shared/utils/types/gameModels";
+import { CreatePrivateGameDto } from "../../../../shared/utils/types/gameDtos";
+import GameHubService from "../../../../shared/utils/services/GameHubService";
+import TimeSelection from "./time-selection/TimeSelection";
+import FriendList from "./friends-list/FriendList";
 
 type VsFriendSearchProps = {};
 
 function VsFriendSearch({}: VsFriendSearchProps) {
+  const [friends, setFriends] = useState<GetAllFriendsByStatusDto[]>([]);
+  const [
+    selectedFriend,
+    setSelectedFriend,
+  ] = useState<GetAllFriendsByStatusDto | null>(null);
+
+  const getFriends = async () => {
+    try {
+      const getFriendsModel: GetAllFriendsByStatusModel = {
+        status: friendshipStatus.accepted,
+        pageSize: 10,
+        pageNumber: 1,
+      };
+
+      const friendsResponse = await axios.get<
+        PagedResult<GetAllFriendsByStatusDto>
+      >(
+        friendshipControllerPaths.getAllFriendsByStatus(getFriendsModel),
+        getAuthorization()
+      );
+
+      setFriends(friendsResponse.data.items);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const onInviteFriendToGame = async (
+    friendshipId: string,
+    header: string,
+    values: number[]
+  ) => {
+    try {
+      const typeValue = timingTypes[header];
+
+      const privateGameModel: CreatePrivateGameModel = {
+        friendshipId: friendshipId,
+        type: typeValue,
+        minutes: values[0],
+        increment: values[1],
+      };
+
+      const privateGameResponse = await axios.post<CreatePrivateGameDto>(
+        gameControllerPaths.createPrivateGame(),
+        privateGameModel,
+        getAuthorization()
+      );
+
+      GameHubService.NotifyUser(
+        privateGameResponse.data.friendId,
+        privateGameResponse.data.gameId
+      );
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  useEffect(() => {
+    getFriends();
+  }, []);
+
   const handleCopyOnClick = async (
     event: React.MouseEvent<HTMLParagraphElement, MouseEvent>
   ) => {
@@ -38,21 +117,16 @@ function VsFriendSearch({}: VsFriendSearchProps) {
             <span>copy</span>
           </p>
         </div>
-        <div className={classes.search__split__list}>
-          {Array.from({ length: 8 }).map((_, i) => (
-            <div key={i} className={classes.search__split__list__element}>
-              <div className={classes.avatar}>
-                <AvatarSvg iconClass={classes["user-avatar"]} />
-              </div>
-              <div className={classes.data}>
-                <h3>UsernameUsernameUsernameUsername</h3>
-              </div>
-              <div className={classes.invite}>
-                <button>Invite</button>
-              </div>
-            </div>
-          ))}
-        </div>
+
+        {selectedFriend ? (
+          <TimeSelection
+            selectedFriend={selectedFriend}
+            setSelectedFriend={setSelectedFriend}
+            onInviteFriendToGame={onInviteFriendToGame}
+          />
+        ) : (
+          <FriendList friends={friends} setSelectedFriend={setSelectedFriend} />
+        )}
       </div>
     </div>
   );

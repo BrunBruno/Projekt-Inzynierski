@@ -3,6 +3,7 @@ import {
   GetAllFriendsByStatusModel,
   GetAllNonFriendsModel,
   InviteFriendModel,
+  RespondToFriendRequestModel,
 } from "../../../shared/utils/types/friendshipModels";
 import classes from "./ListSection.module.scss";
 import { PagedResult } from "../../../shared/utils/types/commonTypes";
@@ -16,7 +17,8 @@ import {
 } from "../../../shared/utils/functions/apiFunctions";
 import { useEffect, useRef, useState } from "react";
 import { friendshipStatus } from "../../../shared/utils/enums/entitiesEnums";
-import UserCards from "./user-cards/UserCards";
+import UserCards from "./cards/UserCards";
+import FriendCard from "./cards/FriendCard";
 
 type ListSectionProps = {
   selectedUsername: string;
@@ -104,6 +106,38 @@ function ListSection({ selectedUsername, selectedList }: ListSectionProps) {
     }
   };
 
+  const onRespondToRequest = async (friendshipId: string, accept: boolean) => {
+    try {
+      const respondModel: RespondToFriendRequestModel = {
+        friendshipId: friendshipId,
+        isAccepted: accept,
+      };
+
+      await axios.put(
+        friendshipControllerPaths.respondToFriendRequest(),
+        respondModel,
+        getAuthorization()
+      );
+
+      getAllUsers();
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const onRemoveFriend = async (friendshipId: string) => {
+    try {
+      await axios.delete(
+        friendshipControllerPaths.removeFriend(friendshipId),
+        getAuthorization()
+      );
+
+      getAllUsers();
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   return (
     <section ref={listRef} className={classes.list}>
       <div className={classes["bg-corner"]} />
@@ -116,24 +150,18 @@ function ListSection({ selectedUsername, selectedList }: ListSectionProps) {
       ) : users.length > 0 ? (
         <div className={classes.list__grid}>
           {users.map((user, i) => (
-            <UserCards
-              key={i}
-              selectedList={selectedList}
-              user={user}
-              friend={null}
-              onInviteFriend={onInviteFriend}
-            />
+            <UserCards key={i} user={user} onInviteFriend={onInviteFriend} />
           ))}
         </div>
       ) : (
         <div className={classes.list__grid}>
           {friends.map((friend, i) => (
-            <UserCards
+            <FriendCard
               key={i}
               selectedList={selectedList}
-              user={null}
               friend={friend}
-              onInviteFriend={onInviteFriend}
+              onRespondToRequest={onRespondToRequest}
+              onRemoveFriend={onRemoveFriend}
             />
           ))}
         </div>

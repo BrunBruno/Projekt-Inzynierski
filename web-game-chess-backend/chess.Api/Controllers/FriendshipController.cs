@@ -4,6 +4,7 @@ using chess.Api.Models.FriendshipModels;
 using chess.Application.Requests.FriendshipRequests.GetAllFriendsByStatus;
 using chess.Application.Requests.FriendshipRequests.GetAllNonFriends;
 using chess.Application.Requests.FriendshipRequests.InviteFriend;
+using chess.Application.Requests.FriendshipRequests.RemoveFriend;
 using chess.Application.Requests.FriendshipRequests.RespondToFriendRequest;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -89,5 +90,25 @@ public class FriendshipController : ControllerBase {
         var friends = await _mediator.Send(request);
 
         return Ok(friends);
+    }
+
+
+    /// <summary>
+    /// Removes rejected friendship record
+    /// </summary>
+    /// <param name="model"></param>
+    /// <returns></returns>
+    [HttpDelete("{friendshipId}")]
+    [Authorize(Policy = "IsVerified")]
+    public async Task<IActionResult> UnblockFriend([FromRoute] Guid friendshipId) {
+
+        var request = new RemoveFriendRequest()
+        {
+            FriendshipId = friendshipId,
+        };
+
+        await _mediator.Send(request);
+
+        return Ok();
     }
 }

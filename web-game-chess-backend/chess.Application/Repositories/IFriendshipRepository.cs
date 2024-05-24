@@ -45,4 +45,11 @@ public interface IFriendshipRepository {
     /// <returns></returns>
     Task Update(Friendship friendship);
 
+    /// <summary>
+    /// Removes friendship
+    /// </summary>
+    /// <param name="friendship"></param>
+    /// <returns></returns>
+    Task Delete(Friendship friendship);
+
 }

@@ -5,6 +5,11 @@ export type CheckIfInGameDto = {
   gameId: string | null;
 };
 
+export type CreatePrivateGameDto = {
+  gameId: string;
+  friendId: string;
+};
+
 export type EndGameDto = {
   winnerColor: number | null;
 };

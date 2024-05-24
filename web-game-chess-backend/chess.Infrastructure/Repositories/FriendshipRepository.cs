@@ -44,4 +44,9 @@ public class FriendshipRepository : IFriendshipRepository {
         _dbContext.Friendships.Update(friendship);
         await _dbContext.SaveChangesAsync();
     }
+
+    public async Task Delete(Friendship friendship) {
+        _dbContext.Friendships.Remove(friendship);
+        await _dbContext.SaveChangesAsync();
+    }
 }

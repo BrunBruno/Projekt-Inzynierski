@@ -28,28 +28,19 @@ class GameHub {
     }
   }
 
+  // add user to self gropu
+  public async AddSelfNotification(userId: string) {
+    try {
+      await this.connection.invoke("AddSelfNotification", userId);
+    } catch (err) {
+      console.error(err);
+    }
+  }
+
   // add player to queue | create game
   public async PlayerJoined(typeId: string) {
     try {
       await this.connection.invoke("PlayerJoined", typeId);
-    } catch (err) {
-      console.error(err);
-    }
-  }
-
-  // remove from queue
-  public async PlayerLeaved(typeId: string) {
-    try {
-      await this.connection.invoke("PlayerLeaved", typeId);
-    } catch (err) {
-      console.error(err);
-    }
-  }
-
-  // add to group with game id
-  public async GameStarted(gameId: string) {
-    try {
-      await this.connection.invoke("GameStarted", gameId);
     } catch (err) {
       console.error(err);
     }
@@ -64,6 +55,7 @@ class GameHub {
     }
   }
 
+  // change game to finished
   public async EndGame(elsendGameModel: EndGameModel) {
     try {
       await this.connection.invoke("EndGame", elsendGameModel);
@@ -72,6 +64,34 @@ class GameHub {
     }
   }
 
+  // add to group with game id
+  public async GameStarted(gameId: string) {
+    try {
+      await this.connection.invoke("GameStarted", gameId);
+    } catch (err) {
+      console.error(err);
+    }
+  }
+
+  //
+  public async NotifyUser(userId: string, gameId: string) {
+    try {
+      await this.connection.invoke("NotifyUser", userId, gameId);
+    } catch (err) {
+      console.error(err);
+    }
+  }
+
+  // remove from queue
+  public async PlayerLeaved(typeId: string) {
+    try {
+      await this.connection.invoke("PlayerLeaved", typeId);
+    } catch (err) {
+      console.error(err);
+    }
+  }
+
+  // remove user from game group
   public async LeaveGame(gameId: string) {
     try {
       await this.connection.invoke("LeaveGame", gameId);

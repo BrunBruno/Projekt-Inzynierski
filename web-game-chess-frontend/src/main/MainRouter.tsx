@@ -10,6 +10,7 @@ import LoadingPage from "../shared/components/loading-page/LoadingPage";
 import { GetUserDto, IsEmailVerifiedDto } from "../shared/utils/types/userDtos";
 import GamePage from "./game-page/GamePage";
 import UsersPage from "./users-page/UsersPage";
+import GameHubService from "../shared/utils/services/GameHubService";
 
 function MainRouter() {
   const navigate = useNavigate();
@@ -35,6 +36,8 @@ function MainRouter() {
 
         localStorage.setItem("userInfo", JSON.stringify(userInfoResponse.data));
 
+        GameHubService.AddSelfNotification(userInfoResponse.data.userId);
+
         setAuthorize(true);
       } catch (err) {
         navigate("/");
@@ -51,8 +54,8 @@ function MainRouter() {
   return (
     <Routes>
       <Route path="/" element={<MainPage />} />
-      <Route path="/game/:gameId" element={<GamePage />} />
       <Route path="/users" element={<UsersPage />} />
+      <Route path="/game/:gameId" element={<GamePage />} />
     </Routes>
   );
 }

@@ -26,4 +26,6 @@ public interface IGameHub {
     /// <param name="endGameDto"></param>
     /// <returns></returns>
     Task GameEnded(EndGameDto endGameDto);
+
+    Task InvitededToGame(Guid gameId);
 }

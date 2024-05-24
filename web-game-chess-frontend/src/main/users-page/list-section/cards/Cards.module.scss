@@ -79,13 +79,21 @@
           @include button(1.6rem);
         }
 
-        .invite {
+        button.main-button {
           @include mainMButton();
         }
 
-        .profile {
+        button.sec-button {
           @include secMButton();
         }
+      }
+
+      .info {
+        align-self: flex-end;
+        padding: 1rem;
+        padding-top: 2rem;
+        font-size: 1.6rem;
+        color: $gc4;
       }
     }
   }

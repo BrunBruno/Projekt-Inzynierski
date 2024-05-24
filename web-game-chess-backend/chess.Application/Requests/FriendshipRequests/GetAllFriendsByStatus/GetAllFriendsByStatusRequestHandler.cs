@@ -32,7 +32,8 @@ public class GetAllFriendsByStatusRequestHandler : IRequestHandler<GetAllFriends
 
         foreach (var friendship in friendships) {
 
-            var friendId = friendship.RequestorId == userId ? friendship.ReceiverId : friendship.RequestorId;
+            bool isRequestor = friendship.RequestorId == userId;
+            var friendId = isRequestor ? friendship.ReceiverId : friendship.RequestorId;
 
             var friend = await _userRepository.GetById(friendId);
 
@@ -40,10 +41,12 @@ public class GetAllFriendsByStatusRequestHandler : IRequestHandler<GetAllFriends
 
                 var friendDto = new GetAllFriendsByStatusDto()
                 {
+                    FreindshpId = friendship.Id,
                     Username = friend.Username,
                     Name = friend.Name,
                     ImageUrl = friend.ImageUrl,
                     Elo = friend.Elo,
+                    IsRequestor = isRequestor,
                 };
 
                 friends.Add(friendDto);

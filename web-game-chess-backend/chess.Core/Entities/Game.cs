@@ -22,6 +22,11 @@ public class Game {
     public bool HasEnded { get; set; } = false;
 
     /// <summary>
+    /// Determines if game is public or private
+    /// </summary>
+    public bool IsPrivate { get; set; } = false;
+
+    /// <summary>
     /// Date of creation
     /// </summary>
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;

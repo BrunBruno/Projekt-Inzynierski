@@ -11,6 +11,7 @@ using chess.Application.Requests.GameRequests.GetGame;
 using chess.Application.Requests.GameRequests.GetPlayer;
 using chess.Application.Requests.GameRequests.GetFinishedGames;
 using chess.Application.Requests.GameRequests.GetEndedGame;
+using chess.Application.Requests.GameRequests.CreatePrivateGame;
 
 namespace chess.Api.Controllers;
 
@@ -42,6 +43,24 @@ public class GameController : ControllerBase {
         var ids = await _mediator.Send(request);
 
         return Ok(ids);
+    }
+
+
+    /// <summary>
+    /// Creates private game
+    /// Return created game id
+    /// </summary>
+    /// <param name="model"></param>
+    /// <returns></returns>
+    [HttpPost("private")]
+    [Authorize(Policy = "IsVerified")]
+    public async Task<IActionResult> CreatePrivateGame([FromBody] CreatePrivateGameModel model) {
+
+        var request = _mapper.Map<CreatePrivateGameRequest>(model);
+
+        var gameId = await _mediator.Send(request);
+
+        return Ok(gameId);
     }
 
 

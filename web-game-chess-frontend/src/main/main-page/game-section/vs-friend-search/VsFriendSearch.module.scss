@@ -21,6 +21,7 @@
       @include flex(column, space-evenly, center, 0);
 
       padding: 2rem 4rem;
+      border-right: solid 0.3rem $gc9;
 
       h2 {
         font-size: 3.2rem;
@@ -68,49 +69,6 @@
           display: none;
           color: $gc0;
           background-color: $gc9;
-        }
-      }
-    }
-
-    &__list {
-      @include flex(column, start, center, 1rem);
-
-      padding-left: 2rem;
-      border-left: solid 0.3rem $gc9;
-      overflow-y: scroll;
-
-      &::-webkit-scrollbar {
-        display: none;
-      }
-
-      &__element {
-        @include rounded(1rem);
-
-        width: 100%;
-        display: grid;
-        grid-template-columns: 6rem auto 8rem;
-        gap: 2rem;
-        background-color: $gc9;
-        .avatar {
-          .user-avatar {
-            height: 6rem;
-          }
-        }
-
-        .data {
-          h3 {
-            @include longText();
-            font-size: 2rem;
-          }
-        }
-
-        .invite {
-          @include flex(column, end, center, 0);
-
-          button {
-            @include button(1.6rem);
-            @include mainMButton();
-          }
         }
       }
     }

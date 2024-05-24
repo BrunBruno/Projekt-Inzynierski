@@ -3,6 +3,7 @@ using AutoMapper;
 using chess.Api.Models.GameModels;
 using chess.Application.Requests.GameRequests.AbortSearch;
 using chess.Application.Requests.GameRequests.CheckIfInGame;
+using chess.Application.Requests.GameRequests.CreatePrivateGame;
 using chess.Application.Requests.GameRequests.EndGame;
 using chess.Application.Requests.GameRequests.GetFinishedGames;
 using chess.Application.Requests.GameRequests.MakeMove;
@@ -22,6 +23,7 @@ public class GameMappingProfile : Profile {
         CreateMap<GetFinishedGamesModel, GetFinishedGamesRequest>();
         CreateMap<CheckIfInGameModel, CheckIfInGameRequest>();
         CreateMap<AbortSearchModel, AbortSearchRequest>();
+        CreateMap<CreatePrivateGameModel, CreatePrivateGameRequest>();
 
     }
 }

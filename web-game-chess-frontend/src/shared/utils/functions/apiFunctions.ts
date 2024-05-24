@@ -51,6 +51,7 @@ const gameBaseUrl: string = baseUrl + "/game";
 interface GameControllerPaths {
   //POST
   startSearch: () => string;
+  createPrivateGame: () => string;
   //PUT
   //GET
   checkIfInGame: (model: CheckIfInGameModel) => string;
@@ -64,21 +65,23 @@ interface GameControllerPaths {
 
 // paths in game controller
 export const gameControllerPaths: GameControllerPaths = {
-  startSearch: () => `${gameBaseUrl}/search`,
+  startSearch: (): string => `${gameBaseUrl}/search`,
 
-  checkIfInGame: (model: CheckIfInGameModel) =>
+  createPrivateGame: (): string => `${gameBaseUrl}/private`,
+
+  checkIfInGame: (model: CheckIfInGameModel): string =>
     `${gameBaseUrl}/check-if-in-game/?${stringifyModel(model)}`,
 
-  getGame: (gameId: string) => `${gameBaseUrl}/${gameId}`,
+  getGame: (gameId: string): string => `${gameBaseUrl}/${gameId}`,
 
-  getPlayer: (gameId: string) => `${gameBaseUrl}/${gameId}/player`,
+  getPlayer: (gameId: string): string => `${gameBaseUrl}/${gameId}/player`,
 
-  getEndedGame: (gameId: string) => `${gameBaseUrl}/${gameId}/ended`,
+  getEndedGame: (gameId: string): string => `${gameBaseUrl}/${gameId}/ended`,
 
-  getFinishedGames: (model: GetFinishedGamesModel) =>
+  getFinishedGames: (model: GetFinishedGamesModel): string =>
     `${gameBaseUrl}/all-finished?${stringifyModel(model)}`,
 
-  abortSearch: (model: AbortSearchModel) =>
+  abortSearch: (model: AbortSearchModel): string =>
     `${gameBaseUrl}/abort/?${stringifyModel(model)}`,
 };
 
@@ -93,6 +96,7 @@ interface FriendshipControllerPaths {
   getAllFriendsByStatus: (model: GetAllFriendsByStatusModel) => string;
   getAllNonFriends: (model: GetAllNonFriendsModel) => string;
   //DELETE
+  removeFriend: (friendshipId: string) => string;
 }
 
 export const friendshipControllerPaths: FriendshipControllerPaths = {
@@ -105,6 +109,9 @@ export const friendshipControllerPaths: FriendshipControllerPaths = {
 
   getAllNonFriends: (model: GetAllNonFriendsModel): string =>
     `${friendshipBaseUrl}/all-non-friends/?${stringifyModel(model)}`,
+
+  removeFriend: (friendshipId: string): string =>
+    `${friendshipBaseUrl}/${friendshipId}`,
 };
 
 type Headers = {

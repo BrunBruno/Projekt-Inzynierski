@@ -7,6 +7,11 @@ namespace chess.Application.Requests.UserRequests.GetUser;
 public class GetUserDto {
 
     /// <summary>
+    /// Id of user
+    /// </summary>
+    public Guid UserId { get; set; }
+
+    /// <summary>
     /// User email
     /// </summary>
     public required string Email { get; set; }
