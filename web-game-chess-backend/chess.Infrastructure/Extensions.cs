@@ -11,6 +11,7 @@ using chess.Application.Repositories;
 using chess.Infrastructure.Contexts;
 using chess.Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 namespace chess.Infrastructure;
 
@@ -65,6 +66,21 @@ public static class Extensions {
                 ValidAudience = options.JwtIssuer,
                 IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(options.JwtKey!)),
 
+            };
+
+            cfg.Events = new JwtBearerEvents
+            {
+                OnMessageReceived = context => {
+
+                    var accesToken = context.Request.Query["access_token"];
+                    var path = context.HttpContext.Request.Path;
+
+                    if (!string.IsNullOrEmpty(accesToken) && (path.StartsWithSegments("/game-hub"))) {
+                        context.Token = accesToken;
+                    }
+
+                    return Task.CompletedTask;
+                }
             };
         });
 

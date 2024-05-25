@@ -6,8 +6,9 @@ export type CheckIfInGameDto = {
 };
 
 export type CreatePrivateGameDto = {
-  gameId: string;
   friendId: string;
+  gameId: string;
+  inviter: string;
 };
 
 export type EndGameDto = {

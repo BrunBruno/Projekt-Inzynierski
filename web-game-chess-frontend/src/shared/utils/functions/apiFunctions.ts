@@ -30,19 +30,19 @@ interface UserControllerPaths {
 
 // paths in user controller
 export const userControllerPaths: UserControllerPaths = {
-  register: () => `${userBaseUrl}/sign-up`,
+  register: (): string => `${userBaseUrl}/sign-up`,
 
-  logIn: () => `${userBaseUrl}/sign-in`,
+  logIn: (): string => `${userBaseUrl}/sign-in`,
 
-  regenerateCode: () => `${userBaseUrl}/regenerate-code`,
+  regenerateCode: (): string => `${userBaseUrl}/regenerate-code`,
 
-  verifyEmail: () => `${userBaseUrl}/verify-email`,
+  verifyEmail: (): string => `${userBaseUrl}/verify-email`,
 
-  getUser: () => `${userBaseUrl}`,
+  getUser: (): string => `${userBaseUrl}`,
 
-  isVerified: () => `${userBaseUrl}/is-verified`,
+  isVerified: (): string => `${userBaseUrl}/is-verified`,
 
-  getRegisterConf: (model: GetRegisterConfModel) =>
+  getRegisterConf: (model: GetRegisterConfModel): string =>
     `${userBaseUrl}/configuration/?${stringifyModel(model)}`,
 };
 
@@ -137,7 +137,7 @@ export const getAuthorization = (): Headers => {
       };
 };
 
-const stringifyModel = (model: Object) => {
+const stringifyModel = (model: Object): string => {
   const stringifiedModel = Object.fromEntries(
     Object.entries(model).map(([key, value]) => [key, String(value)])
   );

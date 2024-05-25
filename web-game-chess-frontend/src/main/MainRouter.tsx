@@ -27,7 +27,10 @@ function MainRouter() {
         );
 
         const isVerified = isVerifiedResponse.data.isEmailVerified;
-        if (!isVerified) navigate("/");
+        if (!isVerified) {
+          navigate("/");
+          return;
+        }
 
         const userInfoResponse = await axios.get<GetUserDto>(
           userControllerPaths.getUser(),
@@ -36,7 +39,17 @@ function MainRouter() {
 
         localStorage.setItem("userInfo", JSON.stringify(userInfoResponse.data));
 
-        GameHubService.AddSelfNotification(userInfoResponse.data.userId);
+        const token = localStorage.getItem("token");
+        if (token === null) {
+          navigate("/");
+          return;
+        }
+
+        GameHubService.startConnectionWithToken(token);
+
+        setTimeout(() => {
+          GameHubService.AddSelfNotification();
+        }, 1000);
 
         setAuthorize(true);
       } catch (err) {

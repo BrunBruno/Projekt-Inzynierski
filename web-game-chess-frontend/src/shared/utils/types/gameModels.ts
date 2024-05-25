@@ -42,6 +42,12 @@ export type MakeMoveModel = {
   blrm: boolean;
 };
 
+export type NotifyUserModel = {
+  friendId: string;
+  gameId: string;
+  inviter: string;
+};
+
 export type SearchGameModel = {
   type: number;
   minutes: number;

@@ -13,7 +13,10 @@ import {
   gameControllerPaths,
   getAuthorization,
 } from "../../../../shared/utils/functions/apiFunctions";
-import { CreatePrivateGameModel } from "../../../../shared/utils/types/gameModels";
+import {
+  CreatePrivateGameModel,
+  NotifyUserModel,
+} from "../../../../shared/utils/types/gameModels";
 import { CreatePrivateGameDto } from "../../../../shared/utils/types/gameDtos";
 import GameHubService from "../../../../shared/utils/services/GameHubService";
 import TimeSelection from "./time-selection/TimeSelection";
@@ -23,10 +26,8 @@ type VsFriendSearchProps = {};
 
 function VsFriendSearch({}: VsFriendSearchProps) {
   const [friends, setFriends] = useState<GetAllFriendsByStatusDto[]>([]);
-  const [
-    selectedFriend,
-    setSelectedFriend,
-  ] = useState<GetAllFriendsByStatusDto | null>(null);
+  const [selectedFriend, setSelectedFriend] =
+    useState<GetAllFriendsByStatusDto | null>(null);
 
   const getFriends = async () => {
     try {
@@ -70,10 +71,13 @@ function VsFriendSearch({}: VsFriendSearchProps) {
         getAuthorization()
       );
 
-      GameHubService.NotifyUser(
-        privateGameResponse.data.friendId,
-        privateGameResponse.data.gameId
-      );
+      const notifyModel: NotifyUserModel = {
+        friendId: privateGameResponse.data.friendId,
+        gameId: privateGameResponse.data.gameId,
+        inviter: privateGameResponse.data.inviter,
+      };
+
+      GameHubService.NotifyUser(notifyModel);
     } catch (err) {
       console.log(err);
     }

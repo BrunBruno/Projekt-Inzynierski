@@ -27,5 +27,11 @@ public interface IGameHub {
     /// <returns></returns>
     Task GameEnded(EndGameDto endGameDto);
 
-    Task InvitededToGame(Guid gameId);
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="gameId"></param>
+    /// <param name="username"></param>
+    /// <returns></returns>
+    Task InvitededToGame(Guid gameId, string username);
 }

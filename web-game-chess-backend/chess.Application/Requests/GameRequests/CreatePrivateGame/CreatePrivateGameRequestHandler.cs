@@ -139,6 +139,7 @@ public class CreatePrivateGameRequestHandler : IRequestHandler<CreatePrivateGame
         {
             FriendId = friendId,
             GameId = game.Id,
+            Inviter = user.Username,
         };
 
         return privateGameDto;

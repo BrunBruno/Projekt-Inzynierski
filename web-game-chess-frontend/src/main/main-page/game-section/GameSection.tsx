@@ -18,6 +18,7 @@ import UserGames from "./user-games/UserGames";
 import GameSectionIcons from "./GameSectionIcons";
 import VsFriendSearch from "./vs-friend-search/VsFriendSearch";
 import { CheckIfInGameModel } from "../../../shared/utils/types/gameModels";
+import NotificationPopUp from "./notification-popup/NotificationPopUp";
 
 function GameSection() {
   const navigate = useNavigate();
@@ -75,10 +76,10 @@ function GameSection() {
       setInterfaceById(gameSearchInterface.searching);
     }
 
-    GameHubService.connection.on("GamesChanged", handleGamesChanged);
+    GameHubService.connection?.on("GamesChanged", handleGamesChanged);
 
     return () => {
-      GameHubService.connection.off("GamesChanged", handleGamesChanged);
+      GameHubService.connection?.off("GamesChanged", handleGamesChanged);
     };
   }, [searchIds]);
 
@@ -128,6 +129,8 @@ function GameSection() {
             </button>
           </div>
         </div>
+
+        <NotificationPopUp />
       </div>
     </section>
   );
