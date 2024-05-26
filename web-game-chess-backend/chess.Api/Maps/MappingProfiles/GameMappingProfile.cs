@@ -2,6 +2,7 @@
 using AutoMapper;
 using chess.Api.Models.GameModels;
 using chess.Application.Requests.GameRequests.AbortSearch;
+using chess.Application.Requests.GameRequests.AcceptInvitation;
 using chess.Application.Requests.GameRequests.CheckIfInGame;
 using chess.Application.Requests.GameRequests.CreatePrivateGame;
 using chess.Application.Requests.GameRequests.EndGame;
@@ -24,6 +25,7 @@ public class GameMappingProfile : Profile {
         CreateMap<CheckIfInGameModel, CheckIfInGameRequest>();
         CreateMap<AbortSearchModel, AbortSearchRequest>();
         CreateMap<CreatePrivateGameModel, CreatePrivateGameRequest>();
+        CreateMap<AcceptInvitationModel, AcceptInvitationRequest>();
 
     }
 }

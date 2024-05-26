@@ -1,6 +1,7 @@
 // friendship controller models to requests
 
 export type GetAllFriendsByStatusModel = {
+  username: string | null;
   status: number;
   pageNumber: number;
   pageSize: number;

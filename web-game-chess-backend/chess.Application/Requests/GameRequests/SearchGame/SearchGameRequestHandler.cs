@@ -2,6 +2,7 @@
 using chess.Application.Repositories;
 using chess.Application.Services;
 using chess.Core.Entities;
+using chess.Core.Extensions;
 using chess.Shared.Exceptions;
 using MediatR;
 
@@ -58,6 +59,8 @@ public class SearchGameRequestHandler : IRequestHandler<SearchGameRequest, Searc
             timingId = existingGameTiming.Id;
         }
 
+        int playerElo = user.Elo.GetElo(request.Type);
+
         var alreadyAwaitingPlayer = await _playerRepository.GetAwaitingPlayer(userId, timingId);
 
         Guid playerId;
@@ -68,7 +71,7 @@ public class SearchGameRequestHandler : IRequestHandler<SearchGameRequest, Searc
                 Id = Guid.NewGuid(),
                 Name = user.Username,
                 ImageUrl = user.ImageUrl,
-                Elo = user.Elo,
+                Elo = playerElo,
                 TimeLeft = request.Minutes,
                 UserId = userId,
                 TimingId = timingId,

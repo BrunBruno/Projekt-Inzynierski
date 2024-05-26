@@ -3,6 +3,7 @@ import ActionButton from "../../../shared/components/action-button/ActionButton"
 import classes from "./BarSection.module.scss";
 import BarSectionIcons from "./BarSectionIcons";
 import { friendshipStatus } from "../../../shared/utils/enums/entitiesEnums";
+import { delayAction } from "../../../shared/utils/functions/eventsRelated";
 
 type BarSectionProps = {
   setSelectedUsername: React.Dispatch<React.SetStateAction<string>>;
@@ -10,7 +11,6 @@ type BarSectionProps = {
   setSelectedList: React.Dispatch<React.SetStateAction<number>>;
 };
 
-let timeOut: number;
 function BarSection({
   setSelectedUsername,
   selectedList,
@@ -22,11 +22,6 @@ function BarSection({
     const target = event.target as HTMLInputElement;
     const username = target.value.toLocaleLowerCase();
     setSelectedUsername(username);
-  };
-
-  const delayAction = (func: () => void, delay: number) => {
-    clearTimeout(timeOut);
-    timeOut = setTimeout(func, delay);
   };
 
   const onSelectList = (listType: number) => {

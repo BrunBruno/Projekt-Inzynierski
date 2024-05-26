@@ -5,6 +5,7 @@ using chess.Core.Entities;
 using chess.Core.Enums;
 using chess.Shared.Exceptions;
 using MediatR;
+using chess.Core.Extensions;
 
 namespace chess.Application.Requests.GameRequests.CreatePrivateGame;
 
@@ -73,12 +74,13 @@ public class CreatePrivateGameRequestHandler : IRequestHandler<CreatePrivateGame
 
         }
 
+        int userElo = user.Elo.GetElo(request.Type);
         var userPlayer = new Player()
         {
             Id = Guid.NewGuid(),
             Name = user.Username,
             ImageUrl = user.ImageUrl,
-            Elo = user.Elo,
+            Elo = userElo,
             TimeLeft = request.Minutes,
             UserId = userId,
             TimingId = timing!.Id,
@@ -87,13 +89,13 @@ public class CreatePrivateGameRequestHandler : IRequestHandler<CreatePrivateGame
 
         await _playerRepository.Create(userPlayer);
 
-
+        int friendElo = friend.Elo.GetElo(request.Type);
         var friendPlayer = new Player()
         {
             Id = Guid.NewGuid(),
             Name = friend.Username,
             ImageUrl = friend.ImageUrl,
-            Elo = friend.Elo,
+            Elo = friendElo,
             TimeLeft = request.Minutes,
             UserId = friend.Id,
             TimingId = timing!.Id,

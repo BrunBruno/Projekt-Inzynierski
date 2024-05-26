@@ -76,6 +76,13 @@ export type GetPlayerDto = {
   color: number;
 };
 
+export type InvitedToGameDto = {
+  gameId: string;
+  inviteeId: string;
+  inviterId: string;
+  inviter: string;
+};
+
 export type SearchGameDto = {
   playerId: string;
   timingId: string;

@@ -20,7 +20,8 @@ public class DbContextConfiguration :
     IEntityTypeConfiguration<GameState>,
     IEntityTypeConfiguration<Player>,
     IEntityTypeConfiguration<Move>,
-    IEntityTypeConfiguration<Friendship>
+    IEntityTypeConfiguration<Friendship>,
+    IEntityTypeConfiguration<Elo>
 {
 
     public void Configure(EntityTypeBuilder<User> builder) {
@@ -136,6 +137,16 @@ public class DbContextConfiguration :
            .HasOne(f => f.Receiver)
            .WithMany(u => u.ReceivedFriendships)
            .HasForeignKey(f => f.ReceiverId);
+    }
+
+    public void Configure(EntityTypeBuilder<Elo> builder) {
+        builder
+          .HasKey(e => e.Id);
+
+        builder
+            .HasOne(e => e.User)
+            .WithOne(u => u.Elo)
+            .HasForeignKey<Elo>(e => e.UserId);
     }
 
     private static IEnumerable<Role> GetRoles() {

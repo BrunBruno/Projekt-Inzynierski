@@ -18,7 +18,7 @@
     background-color: rgba($gc9, 0.3);
 
     &__bar {
-      @include flex(column, space-evenly, center, 0);
+      @include flex(column, start, center, 2rem);
 
       padding: 2rem 4rem;
       border-right: solid 0.3rem $gc9;
@@ -31,45 +31,9 @@
         @include cInput();
       }
 
-      .sep {
-        font-size: 1.6rem;
-        color: $gc5;
-      }
-
       .text {
         font-size: 1.8rem;
         text-align: center;
-      }
-
-      .link {
-        @include rounded(1rem);
-
-        position: relative;
-        font-size: 2rem;
-        color: $mc5;
-        background-color: $gc9;
-        border: solid 0.2rem $gc8;
-        text-decoration: underline;
-        user-select: none;
-
-        &:hover {
-          cursor: pointer;
-          background-color: $gc7;
-          color: $mc3;
-
-          span {
-            display: block;
-          }
-        }
-
-        span {
-          @include absCenter();
-          @include rounded(0.5rem);
-
-          display: none;
-          color: $gc0;
-          background-color: $gc9;
-        }
       }
     }
   }

@@ -4,6 +4,12 @@ export type AbortSearchModel = {
   playerId: string;
 };
 
+export type AcceptInvitationModel = {
+  gameId: string;
+  invitorId: string;
+  inviteeId: string;
+};
+
 export type CheckIfInGameModel = {
   playerId: string;
 };

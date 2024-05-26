@@ -19,12 +19,37 @@ import GameSectionIcons from "./GameSectionIcons";
 import VsFriendSearch from "./vs-friend-search/VsFriendSearch";
 import { CheckIfInGameModel } from "../../../shared/utils/types/gameModels";
 import NotificationPopUp from "./notification-popup/NotificationPopUp";
+import { HubConnectionState } from "@microsoft/signalr";
 
 function GameSection() {
   const navigate = useNavigate();
 
   const [interfaceContent, setInterfaceContent] = useState<JSX.Element>(<></>);
   const [searchIds, setSearchIds] = useState<SearchGameDto | null>(null);
+  const [allowNotification, setAllowNotification] = useState<boolean>(false);
+
+  useEffect(() => {
+    if (
+      GameHubService.connection &&
+      GameHubService.connection.state === HubConnectionState.Connected
+    ) {
+      console.log("in section added");
+
+      GameHubService.connection.on("GamesChanged", handleGamesChanged);
+      GameHubService.connection.on("GameAccepted", handleGameAccepted);
+
+      setAllowNotification(true);
+    }
+
+    return () => {
+      if (GameHubService.connection) {
+        console.log("in section removed");
+
+        GameHubService.connection.off("GamesChanged", handleGamesChanged);
+        GameHubService.connection.off("GameAccepted", handleGameAccepted);
+      }
+    };
+  }, []);
 
   // set game section content
   const setInterfaceById = (interfaceId: number) => {
@@ -71,16 +96,14 @@ function GameSection() {
     }
   };
 
+  const handleGameAccepted = (gameId: string) => {
+    navigate(`game/${gameId}`);
+  };
+
   useEffect(() => {
     if (searchIds !== null) {
       setInterfaceById(gameSearchInterface.searching);
     }
-
-    GameHubService.connection?.on("GamesChanged", handleGamesChanged);
-
-    return () => {
-      GameHubService.connection?.off("GamesChanged", handleGamesChanged);
-    };
   }, [searchIds]);
 
   return (
@@ -130,7 +153,7 @@ function GameSection() {
           </div>
         </div>
 
-        <NotificationPopUp />
+        <NotificationPopUp allowNotification={allowNotification} />
       </div>
     </section>
   );

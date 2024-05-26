@@ -2,6 +2,7 @@
 using chess.Application.Pagination;
 using chess.Application.Repositories;
 using chess.Application.Services;
+using chess.Core.Dtos;
 using MediatR;
 
 namespace chess.Application.Requests.FriendshipRequests.GetAllNonFriends;
@@ -44,7 +45,14 @@ public class GetAllNonFriendsRequestHandler : IRequestHandler<GetAllNonFriendsRe
             Username = nf.Username,
             Name = nf.Name,
             ImageUrl = nf.ImageUrl,
-            Elo = nf.Elo,
+            Elo = new EloDto()
+            {
+                Bullet = nf.Elo.Bullet,
+                Blitz = nf.Elo.Blitz,
+                Rapid = nf.Elo.Rapid,
+                Classic = nf.Elo.Classic,
+                Daily = nf.Elo.Daily,
+            },
         }).ToList();
 
         var pagedResult = new PagedResult<GetAllNonFriendsDto>(nonFriendsDtos, nonFriendsDtos.Count, request.PageSize, request.PageNumber);

@@ -2,6 +2,8 @@
 using chess.Application.Pagination;
 using chess.Application.Repositories;
 using chess.Application.Services;
+using chess.Core.Dtos;
+using chess.Core.Extensions;
 using MediatR;
 
 namespace chess.Application.Requests.FriendshipRequests.GetAllFriendsByStatus;
@@ -38,18 +40,28 @@ public class GetAllFriendsByStatusRequestHandler : IRequestHandler<GetAllFriends
             var friend = await _userRepository.GetById(friendId);
 
             if (friend is not null) {
+                if (request.Username is null || friend.Username.Contains(request.Username) ||
+                   (friend.Name is not null && friend.Name.Contains(request.Username))) {
 
-                var friendDto = new GetAllFriendsByStatusDto()
-                {
-                    FreindshpId = friendship.Id,
-                    Username = friend.Username,
-                    Name = friend.Name,
-                    ImageUrl = friend.ImageUrl,
-                    Elo = friend.Elo,
-                    IsRequestor = isRequestor,
-                };
+                    var friendDto = new GetAllFriendsByStatusDto()
+                    {
+                        FreindshpId = friendship.Id,
+                        Username = friend.Username,
+                        Name = friend.Name,
+                        ImageUrl = friend.ImageUrl,
+                        IsRequestor = isRequestor,
+                        Elo = new EloDto()
+                        {
+                            Bullet = friend.Elo.Bullet,
+                            Blitz = friend.Elo.Blitz,
+                            Rapid = friend.Elo.Rapid,
+                            Classic = friend.Elo.Classic,
+                            Daily = friend.Elo.Daily,
+                        },
+                    };
 
-                friends.Add(friendDto);
+                    friends.Add(friendDto);
+                }
             }
         }
 

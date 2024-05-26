@@ -46,7 +46,7 @@ public class RegisterUserRequestHandler : IRequestHandler<RegisterUserRequest> {
             Email = request.Email.ToLower(),
             Username = request.Username,
             JoinDate = DateTime.UtcNow,
-            Elo = 1000,
+            Elo = new Elo(),
         };
 
         var hashedPassword = _passwordHasher.HashPassword(user, request.Password);

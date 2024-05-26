@@ -1,5 +1,6 @@
 import * as signalR from "@microsoft/signalr";
 import {
+  AcceptInvitationModel,
   EndGameModel,
   MakeMoveModel,
   NotifyUserModel,
@@ -26,16 +27,15 @@ class GameHub {
         transport: signalR.HttpTransportType.WebSockets,
         accessTokenFactory: () => token,
       })
-      .configureLogging(signalR.LogLevel.Information)
+      .configureLogging(signalR.LogLevel.None)
       .build();
-
-    this.startConnection();
   }
 
   // method to start connection when token is available
-  public startConnectionWithToken(token: string): void {
+  public async startConnectionWithToken(token: string): Promise<void> {
     this.token = token;
     this.initializeConnection(token);
+    return this.startConnection();
   }
 
   // to start try to start connection
@@ -44,6 +44,7 @@ class GameHub {
 
     try {
       await this.connection.start();
+      console.log("SignalR Connected");
     } catch (err) {
       console.error(err);
       // setTimeout(() => this.startConnection(), 5000);
@@ -81,6 +82,15 @@ class GameHub {
   public async EndGame(elsendGameModel: EndGameModel): Promise<void> {
     try {
       await this.connection?.invoke("end-game", elsendGameModel);
+    } catch (err) {
+      console.error(err);
+    }
+  }
+
+  //
+  public async AcceptInvitation(model: AcceptInvitationModel) {
+    try {
+      await this.connection?.invoke("accept-invitation", model);
     } catch (err) {
       console.error(err);
     }

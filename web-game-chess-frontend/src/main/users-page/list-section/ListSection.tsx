@@ -27,9 +27,13 @@ type ListSectionProps = {
 
 function ListSection({ selectedUsername, selectedList }: ListSectionProps) {
   const listRef = useRef<HTMLDivElement>(null);
+  const scrollRef = useRef<HTMLDivElement>(null);
 
   const [users, setUsers] = useState<GetAllNonFriendsDto[]>([]);
   const [friends, setFriends] = useState<GetAllFriendsByStatusDto[]>([]);
+
+  const [pageSize, setPageSize] = useState<number>(100);
+  const [totalItemsCount, setTotalItemsCount] = useState<number>(0);
 
   const getAllUsers = async () => {
     try {
@@ -37,7 +41,7 @@ function ListSection({ selectedUsername, selectedList }: ListSectionProps) {
         const getAllNonFriendsModel: GetAllNonFriendsModel = {
           username: selectedUsername,
           pageNumber: 1,
-          pageSize: 100,
+          pageSize: pageSize,
         };
 
         const friendsResponse = await axios.get<
@@ -49,10 +53,12 @@ function ListSection({ selectedUsername, selectedList }: ListSectionProps) {
 
         setFriends([]);
         setUsers(friendsResponse.data.items);
+        setTotalItemsCount(friendsResponse.data.totalItemsCount);
       } else {
         const getAllFriendsByStatus: GetAllFriendsByStatusModel = {
+          username: selectedUsername,
           pageNumber: 1,
-          pageSize: 100,
+          pageSize: pageSize,
           status: selectedList,
         };
 
@@ -67,6 +73,7 @@ function ListSection({ selectedUsername, selectedList }: ListSectionProps) {
 
         setUsers([]);
         setFriends(friendsResponse.data.items);
+        setTotalItemsCount(friendsResponse.data.totalItemsCount);
       }
     } catch (err) {
       console.log(err);
@@ -138,6 +145,20 @@ function ListSection({ selectedUsername, selectedList }: ListSectionProps) {
     }
   };
 
+  const handleListOnScroll = () => {
+    const scrollingElement = scrollRef.current;
+    if (scrollingElement) {
+      if (
+        scrollingElement.scrollHeight - 1.1 * scrollingElement.scrollTop <=
+        scrollingElement.clientHeight
+      ) {
+        if (pageSize < totalItemsCount) {
+          setPageSize((prevPageSize) => prevPageSize + 6);
+        }
+      }
+    }
+  };
+
   return (
     <section ref={listRef} className={classes.list}>
       <div className={classes["bg-corner"]} />
@@ -148,13 +169,25 @@ function ListSection({ selectedUsername, selectedList }: ListSectionProps) {
           <span>found</span>
         </div>
       ) : users.length > 0 ? (
-        <div className={classes.list__grid}>
+        <div
+          ref={scrollRef}
+          className={classes.list__grid}
+          onWheel={() => {
+            handleListOnScroll();
+          }}
+        >
           {users.map((user, i) => (
             <UserCards key={i} user={user} onInviteFriend={onInviteFriend} />
           ))}
         </div>
       ) : (
-        <div className={classes.list__grid}>
+        <div
+          ref={scrollRef}
+          className={classes.list__grid}
+          onWheel={() => {
+            handleListOnScroll();
+          }}
+        >
           {friends.map((friend, i) => (
             <FriendCard
               key={i}

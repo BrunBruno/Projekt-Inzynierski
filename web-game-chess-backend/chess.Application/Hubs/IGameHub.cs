@@ -1,4 +1,5 @@
 ﻿
+using chess.Application.Hubs.GameHubDtos;
 using chess.Application.Requests.GameRequests.EndGame;
 
 namespace chess.Application.Hubs; 
@@ -28,10 +29,16 @@ public interface IGameHub {
     Task GameEnded(EndGameDto endGameDto);
 
     /// <summary>
-    /// 
+    /// To get game invitation
     /// </summary>
     /// <param name="gameId"></param>
     /// <param name="username"></param>
     /// <returns></returns>
-    Task InvitededToGame(Guid gameId, string username);
+    Task InvitedToGame(InvitedToGameDto dto);
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <returns></returns>
+    Task GameAccepted(Guid gameId);
 }

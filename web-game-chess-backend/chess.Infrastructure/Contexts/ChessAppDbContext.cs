@@ -16,12 +16,12 @@ public class ChessAppDbContext : DbContext {
     public DbSet<User> Users { get; set; }
 
     /// <summary>
-    /// Roles dbset
+    /// Roles dbset (one to many users)
     /// </summary>
     public DbSet<Role> Roles { get; set; }
 
     /// <summary>
-    /// EmailVerificationCode dbset
+    /// EmailVerificationCode dbset (one to one user)
     /// </summary>
     public DbSet<EmailVerificationCode> EmailVerificationCodes { get; set; }
 
@@ -41,22 +41,22 @@ public class ChessAppDbContext : DbContext {
     public DbSet<Game> Games { get; set; }
 
     /// <summary>
-    /// Game timing dbset
+    /// Game timing dbset (one to many games)
     /// </summary>
     public DbSet<GameTiming> GameTimings { get; set; }
 
     /// <summary>
-    /// Game states  dbset
+    /// Game states  dbset (one to one game)
     /// </summary>
     public DbSet<GameState> GameStates { get; set; }
 
     /// <summary>
-    /// plaers dbset
+    /// plaers dbset (two to one game)
     /// </summary>
     public DbSet<Player> Players { get; set; }
 
     /// <summary>
-    /// moves dbset
+    /// moves dbset (many to one game)
     /// </summary>
     public DbSet<Move> Moves { get; set; }
 
@@ -64,6 +64,11 @@ public class ChessAppDbContext : DbContext {
     /// Friendships dbset
     /// </summary>
     public DbSet<Friendship> Friendships { get; set; }
+
+    /// <summary>
+    /// Elos db set (one to one user)
+    /// </summary>
+    public DbSet<Elo> Elos { get; set; }
 
 
 
@@ -83,5 +88,6 @@ public class ChessAppDbContext : DbContext {
         builder.ApplyConfiguration<Player>(configuration);
         builder.ApplyConfiguration<Move>(configuration);
         builder.ApplyConfiguration<Friendship>(configuration);
+        builder.ApplyConfiguration<Elo>(configuration);
     }
 }

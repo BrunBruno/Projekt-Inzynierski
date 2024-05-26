@@ -62,23 +62,23 @@ function GamePage() {
   const endGame = (endGameData: EndGameDto) => {
     setWinner(endGameData);
 
-    GameHubService.connection.off("GameUpdated", getGame);
+    GameHubService.connection?.off("GameUpdated", getGame);
   };
 
   // first feach for game data
   useEffect(() => {
     if (gameId) {
       GameHubService.GameStarted(gameId);
-      GameHubService.connection.on("GameUpdated", getGame);
-      GameHubService.connection.on("GameEnded", endGame);
+      GameHubService.connection?.on("GameUpdated", getGame);
+      GameHubService.connection?.on("GameEnded", endGame);
 
       getGame();
       getPlayer();
     }
 
     return () => {
-      GameHubService.connection.off("GameUpdated", getGame);
-      GameHubService.connection.off("GameEnded", endGame);
+      GameHubService.connection?.off("GameUpdated", getGame);
+      GameHubService.connection?.off("GameEnded", endGame);
     };
   }, [gameId]);
 

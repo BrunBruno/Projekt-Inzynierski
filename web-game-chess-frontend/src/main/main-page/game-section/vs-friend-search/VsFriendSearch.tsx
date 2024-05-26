@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import classes from "./VsFriendSearch.module.scss";
 import { GetAllFriendsByStatusModel } from "../../../../shared/utils/types/friendshipModels";
 import {
@@ -21,21 +21,30 @@ import { CreatePrivateGameDto } from "../../../../shared/utils/types/gameDtos";
 import GameHubService from "../../../../shared/utils/services/GameHubService";
 import TimeSelection from "./time-selection/TimeSelection";
 import FriendList from "./friends-list/FriendList";
+import { delayAction } from "../../../../shared/utils/functions/eventsRelated";
 
 type VsFriendSearchProps = {};
 
 function VsFriendSearch({}: VsFriendSearchProps) {
   const [friends, setFriends] = useState<GetAllFriendsByStatusDto[]>([]);
+  const [totalItemsCount, setTotalItemsCount] = useState<number>(0);
+
+  const [pageSize, setPageSize] = useState<number>(10);
+  const [selectedUsername, setSelectedUsername] = useState<string>("");
+
   const [selectedFriend, setSelectedFriend] =
     useState<GetAllFriendsByStatusDto | null>(null);
 
   const getFriends = async () => {
     try {
       const getFriendsModel: GetAllFriendsByStatusModel = {
+        username: selectedUsername,
         status: friendshipStatus.accepted,
-        pageSize: 10,
+        pageSize: pageSize,
         pageNumber: 1,
       };
+
+      console.log(selectedUsername);
 
       const friendsResponse = await axios.get<
         PagedResult<GetAllFriendsByStatusDto>
@@ -45,10 +54,15 @@ function VsFriendSearch({}: VsFriendSearchProps) {
       );
 
       setFriends(friendsResponse.data.items);
+      setTotalItemsCount(friendsResponse.data.totalItemsCount);
     } catch (err) {
       console.log(err);
     }
   };
+
+  useEffect(() => {
+    getFriends();
+  }, [selectedUsername, pageSize]);
 
   const onInviteFriendToGame = async (
     friendshipId: string,
@@ -83,21 +97,10 @@ function VsFriendSearch({}: VsFriendSearchProps) {
     }
   };
 
-  useEffect(() => {
-    getFriends();
-  }, []);
-
-  const handleCopyOnClick = async (
-    event: React.MouseEvent<HTMLParagraphElement, MouseEvent>
-  ) => {
-    try {
-      const target = event.target as HTMLElement;
-      const linkToCopy = target.innerText;
-
-      await navigator.clipboard.writeText(linkToCopy);
-    } catch (err) {
-      console.error(err);
-    }
+  const onSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const target = event.target as HTMLInputElement;
+    const username = target.value.toLocaleLowerCase();
+    setSelectedUsername(username);
   };
 
   return (
@@ -107,19 +110,14 @@ function VsFriendSearch({}: VsFriendSearchProps) {
           <h2>Invate to play</h2>
 
           <p className={classes.text}>Search among friends:</p>
-          <input placeholder="username" />
-
-          <p className={classes.sep}>or</p>
-          <p className={classes.text}>Send this link to friend:</p>
-          <p
-            className={classes.link}
-            onClick={(event) => {
-              handleCopyOnClick(event);
+          <input
+            placeholder="username"
+            onChange={(event) => {
+              delayAction(() => {
+                onSearch(event);
+              }, 200);
             }}
-          >
-            https://some/link
-            <span>copy</span>
-          </p>
+          />
         </div>
 
         {selectedFriend ? (
@@ -129,7 +127,13 @@ function VsFriendSearch({}: VsFriendSearchProps) {
             onInviteFriendToGame={onInviteFriendToGame}
           />
         ) : (
-          <FriendList friends={friends} setSelectedFriend={setSelectedFriend} />
+          <FriendList
+            friends={friends}
+            setSelectedFriend={setSelectedFriend}
+            pageSize={pageSize}
+            setPageSize={setPageSize}
+            totalItemsCount={totalItemsCount}
+          />
         )}
       </div>
     </div>

@@ -2,10 +2,13 @@
 using AutoMapper;
 using chess.Api.Models.GameModels;
 using chess.Application.Hubs;
+using chess.Application.Hubs.GameHubDtos;
+using chess.Application.Requests.GameRequests.AcceptInvitation;
 using chess.Application.Requests.GameRequests.EndGame;
 using chess.Application.Requests.GameRequests.MakeMove;
 using chess.Application.Requests.GameRequests.StartGames;
 using chess.Application.Services;
+using chess.Core.Entities;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.SignalR;
@@ -122,6 +125,27 @@ public class GameHub : Hub<IGameHub> {
     /// <summary>
     /// 
     /// </summary>
+    /// <param name="model"></param>
+    /// <returns></returns>
+    [HubMethodName("accept-invitation")]
+    [Authorize(Policy = "IsVerified")]
+    [SignalRMethod("AcceptInvitation", Operation.Put)]
+
+    public async Task AcceptInvitation(AcceptInvitationModel model) {
+
+        var request = _mapper.Map<AcceptInvitationRequest>(model);
+
+        await _mediator.Send(request);
+
+        await Clients.Groups($"user-{model.InvitorId}").GameAccepted(model.GameId);
+        await Clients.Groups($"user-{model.InviteeId}").GameAccepted(model.GameId);
+
+    }
+
+
+    /// <summary>
+    /// 
+    /// </summary>
     /// <param name="userId"></param>
     /// <param name="gameId"></param>
     /// <returns></returns>
@@ -130,7 +154,17 @@ public class GameHub : Hub<IGameHub> {
     [SignalRMethod("NotifyUser", Operation.Get)]
     public async Task NotifyUser(NotifyUserModel model) {
 
-        await Clients.Groups($"user-{model.FriendId}").InvitededToGame(model.GameId, model.Inviter);
+        var inviterId = _userContextService.GetUserId();
+
+        var invitationDto = new InvitedToGameDto()
+        {
+            GameId = model.GameId,
+            InviteeId = model.FriendId,
+            InviterId = inviterId,
+            Inviter = model.Inviter,
+        };
+
+        await Clients.Groups($"user-{model.FriendId}").InvitedToGame(invitationDto);
     }
 
 

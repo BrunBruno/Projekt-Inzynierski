@@ -24,6 +24,7 @@ public class UserRepository : IUserRepository {
     public async Task<User?> GetById(Guid id)
         => await _dbContext.Users
                     .Include(u => u.Role)
+                    .Include(u => u.Elo)
                     .FirstOrDefaultAsync(u => u.Id == id);
 
     ///<inheritdoc/>

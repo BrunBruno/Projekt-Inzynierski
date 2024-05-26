@@ -11,6 +11,7 @@ import { GetUserDto, IsEmailVerifiedDto } from "../shared/utils/types/userDtos";
 import GamePage from "./game-page/GamePage";
 import UsersPage from "./users-page/UsersPage";
 import GameHubService from "../shared/utils/services/GameHubService";
+import { HubConnectionState } from "@microsoft/signalr";
 
 function MainRouter() {
   const navigate = useNavigate();
@@ -45,13 +46,13 @@ function MainRouter() {
           return;
         }
 
-        GameHubService.startConnectionWithToken(token);
+        await GameHubService.startConnectionWithToken(token);
 
-        setTimeout(() => {
-          GameHubService.AddSelfNotification();
-        }, 1000);
+        if (GameHubService.connection?.state === HubConnectionState.Connected) {
+          await GameHubService.AddSelfNotification();
 
-        setAuthorize(true);
+          setAuthorize(true);
+        }
       } catch (err) {
         navigate("/");
       }
