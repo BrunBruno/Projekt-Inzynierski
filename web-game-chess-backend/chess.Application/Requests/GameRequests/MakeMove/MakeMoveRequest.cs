@@ -53,4 +53,10 @@ public class MakeMoveRequest : IRequest {
     public bool Bkm { get; set; }
     public bool Bsrm { get; set; }
     public bool Blrm { get; set; }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    public int WhiteSeconds { get; set; }
+    public int BlackSeconds { get; set; }
 }

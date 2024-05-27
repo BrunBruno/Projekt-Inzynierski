@@ -15,4 +15,6 @@ public class MakeMoveModel {
     public bool Bkm { get; set; }
     public bool Bsrm { get; set; }
     public bool Blrm { get; set; }
+    public int WhiteSeconds { get; set; }
+    public int BlackSeconds { get; set; }
 }

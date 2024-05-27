@@ -17,9 +17,9 @@ public class GameTiming {
     public TimingTypes Type { get; set; }
 
     /// <summary>
-    /// Duretion of the game (in minutes)
+    /// Duretion of the game
     /// </summary>
-    public int Minutes { get; set; }
+    public int Seconds { get; set; }
 
     /// <summary>
     /// Time increment (in seconds)

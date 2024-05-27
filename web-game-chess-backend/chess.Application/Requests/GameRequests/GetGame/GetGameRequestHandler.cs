@@ -31,8 +31,6 @@ public class GetGameRequestHandler : IRequestHandler<GetGameRequest, GetGameDto>
             HasEnded = game.HasEnded,
             Position = game.Position,
             Turn = game.Turn,
-            Duration = game.GameTiming.Minutes,
-            Increment = game.GameTiming.Increment,
             EnPassant = game.GameState.EnPassant,
             CanWhiteKingCastle = game.GameState.CanWhiteKingCastle,
             CanWhiteShortRookCastle = game.GameState.CanWhiteShortRookCastle,
@@ -45,7 +43,8 @@ public class GetGameRequestHandler : IRequestHandler<GetGameRequest, GetGameDto>
             {
                 Name = game.WhitePlayer.Name,
                 ImageUrl = game.WhitePlayer.ImageUrl,
-                Elo = game.BlackPlayer.Elo,
+                Elo = game.WhitePlayer.Elo,
+                TimeLeft = game.WhitePlayer.TimeLeft,
             },
 
             BlackPlayer = new GetGamePlayerDto()
@@ -53,6 +52,7 @@ public class GetGameRequestHandler : IRequestHandler<GetGameRequest, GetGameDto>
                 Name = game.BlackPlayer.Name,
                 ImageUrl = game.BlackPlayer.ImageUrl,
                 Elo = game.BlackPlayer.Elo,
+                TimeLeft = game.BlackPlayer.TimeLeft,
             },
 
             Moves = game.Moves.Select(move => new GetGameMoveDto

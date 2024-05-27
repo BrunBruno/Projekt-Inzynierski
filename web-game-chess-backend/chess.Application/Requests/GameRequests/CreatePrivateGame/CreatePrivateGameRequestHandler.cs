@@ -64,7 +64,7 @@ public class CreatePrivateGameRequestHandler : IRequestHandler<CreatePrivateGame
             {
                 Id = Guid.NewGuid(),
                 Type = request.Type,
-                Minutes = request.Minutes,
+                Seconds = request.Minutes * 60,
                 Increment = request.Increment,
             };
 
@@ -81,7 +81,7 @@ public class CreatePrivateGameRequestHandler : IRequestHandler<CreatePrivateGame
             Name = user.Username,
             ImageUrl = user.ImageUrl,
             Elo = userElo,
-            TimeLeft = request.Minutes,
+            TimeLeft = request.Minutes * 60,
             UserId = userId,
             TimingId = timing!.Id,
         };
@@ -96,7 +96,7 @@ public class CreatePrivateGameRequestHandler : IRequestHandler<CreatePrivateGame
             Name = friend.Username,
             ImageUrl = friend.ImageUrl,
             Elo = friendElo,
-            TimeLeft = request.Minutes,
+            TimeLeft = request.Minutes * 60,
             UserId = friend.Id,
             TimingId = timing!.Id,
         };

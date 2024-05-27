@@ -27,6 +27,9 @@ function GamePage() {
     null
   );
 
+  const [whitePlayerSeconds, setWhitePlayerSeconds] = useState<number>(0);
+  const [blackPlayerSeconds, setBlackPlayerSeconds] = useState<number>(0);
+
   // get game data
   const getGame = async () => {
     try {
@@ -83,9 +86,9 @@ function GamePage() {
   }, [gameId]);
 
   useEffect(() => {
-    const getWinner = async () => {
-      if (!gameId) return;
+    if (!gameId || gameData === null) return;
 
+    const getWinner = async () => {
       try {
         const winnerResponse = await axios.get<GetEndedGameDto>(
           gameControllerPaths.getEndedGame(gameId),
@@ -98,9 +101,12 @@ function GamePage() {
       }
     };
 
-    if (gameId && gameData && gameData.hasEnded) {
+    if (gameData.hasEnded) {
       getWinner();
     }
+
+    setWhitePlayerSeconds(gameData.whitePlayer.timeLeft * 60);
+    setBlackPlayerSeconds(gameData.blackPlayer.timeLeft * 60);
   }, [gameData]);
 
   if (!gameId || !gameData || !playerData) {
@@ -115,8 +121,16 @@ function GamePage() {
         gameData={gameData}
         playerData={playerData}
         winner={winner}
+        whitePlayerSeconds={whitePlayerSeconds}
+        blackPlayerSeconds={blackPlayerSeconds}
       />
-      <RightSideBar gameData={gameData} />
+      <RightSideBar
+        gameData={gameData}
+        whitePlayerSeconds={whitePlayerSeconds}
+        blackPlayerSeconds={blackPlayerSeconds}
+        setWhitePlayerSeconds={setWhitePlayerSeconds}
+        setBlackPlayerSeconds={setBlackPlayerSeconds}
+      />
     </main>
   );
 }

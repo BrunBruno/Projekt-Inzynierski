@@ -60,6 +60,7 @@ export type GetGamePlayerDto = {
   name: string;
   imageUrl: string | null;
   elo: number;
+  timeLeft: number;
 };
 
 export type GetGameMoveDto = {

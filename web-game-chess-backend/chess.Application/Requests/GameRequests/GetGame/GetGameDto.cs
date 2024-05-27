@@ -22,17 +22,6 @@ public class GetGameDto {
     /// </summary>
     public int Turn { get; set; }
 
-    // from game timing
-    /// <summary>
-    ///  ???
-    /// </summary>
-    public int Duration { get; set; }
-    /// <summary>
-    ///  ???
-    /// </summary>
-    public int Increment { get; set; }
-
-    // from game state
     /// <summary>
     /// En passant coordinates if enpassant is possible in form x,y
     /// </summary>
@@ -84,6 +73,8 @@ public class GetGamePlayerDto {
     /// Elo points
     /// </summary>
     public int Elo { get; set; }
+
+    public double TimeLeft { get; set; }
 }
 
 /// <summary>

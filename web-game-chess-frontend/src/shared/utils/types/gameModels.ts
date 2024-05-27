@@ -46,6 +46,8 @@ export type MakeMoveModel = {
   bkm: boolean;
   bsrm: boolean;
   blrm: boolean;
+  whiteSeconds: number;
+  blackSeconds: number;
 };
 
 export type NotifyUserModel = {

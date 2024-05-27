@@ -27,7 +27,7 @@
     background-color: $gc9;
     display: grid;
     grid-template-columns: 1fr;
-    grid-template-rows: 12rem auto 24rem;
+    grid-template-rows: 8rem 4rem auto 24rem;
     gap: 2rem;
 
     &__header {
@@ -74,6 +74,36 @@
       p {
         font-size: 2rem;
         font-weight: bold;
+      }
+    }
+
+    .time-control {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+      padding: 0 2rem;
+
+      .time {
+        @include flex();
+        @include rounded(1rem);
+
+        font-size: 2rem;
+        font-weight: 600;
+
+        &:nth-child(1) {
+          color: #000;
+          background-color: #fff;
+        }
+        &:nth-child(2) {
+          color: #fff;
+          background-color: #000;
+        }
+
+        span {
+          margin: 0.1rem;
+          color: $gc5;
+          font-size: 1.4rem;
+        }
       }
     }
 

@@ -37,9 +37,9 @@ public class MakeMoveRequestHandler : IRequestHandler<MakeMoveRequest> {
             throw new BadRequestException("Can not make move in finished game");
 
         if (game.Turn % 2 == 0) {
-            game.WhitePlayer.TimeLeft += game.GameTiming.Increment / 60;
+            game.WhitePlayer.TimeLeft = (request.WhiteSeconds / 60) + (game.GameTiming.Increment / 60);
         } else {
-            game.BlackPlayer.TimeLeft += game.GameTiming.Increment / 60;
+            game.BlackPlayer.TimeLeft = (request.BlackSeconds / 60) + (game.GameTiming.Increment / 60);
         }
 
         game.Position = request.Position;
