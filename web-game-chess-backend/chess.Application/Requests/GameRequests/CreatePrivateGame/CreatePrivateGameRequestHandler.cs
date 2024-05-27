@@ -105,22 +105,12 @@ public class CreatePrivateGameRequestHandler : IRequestHandler<CreatePrivateGame
         await _playerRepository.Create(friendPlayer);
 
 
-        var gameState = new GameState()
-        {
-            Id = Guid.NewGuid(),
-        };
-
-
-        await _gameStateRepository.Create(gameState);
-
-
         var game = new Game()
         {
             Id = Guid.NewGuid(),
             IsPrivate = true,
             TimingType = timing.Type,
             GameTimingId = timing!.Id,
-            GameStateId = gameState.Id,
         };
 
         userPlayer.GameId = game.Id;
@@ -136,6 +126,15 @@ public class CreatePrivateGameRequestHandler : IRequestHandler<CreatePrivateGame
 
 
         await _gameRepository.Create(game);
+
+        var gameState = new GameState()
+        {
+            Id = Guid.NewGuid(),
+            GameId = game.Id,
+        };
+
+
+        await _gameStateRepository.Create(gameState);
 
         var privateGameDto = new CreatePrivateGameDto()
         {

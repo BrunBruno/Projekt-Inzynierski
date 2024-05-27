@@ -270,7 +270,7 @@ function SignUp({ setModal }: SignUpProps) {
             name="email"
             type="text"
             placeholder="E-mail"
-            autoComplete="off"
+            autoComplete="e-mail"
             className={classes["form-input"]}
           />
           <SignArrowSvg iconClass={classes.arrow} />
@@ -287,7 +287,7 @@ function SignUp({ setModal }: SignUpProps) {
             name="userName"
             type="text"
             placeholder="UserName"
-            autoComplete="off"
+            autoComplete="username"
             className={classes["form-input"]}
           />
           <SignArrowSvg iconClass={classes.arrow} />

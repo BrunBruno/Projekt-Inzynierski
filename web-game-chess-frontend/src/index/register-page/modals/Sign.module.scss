@@ -22,6 +22,7 @@
     right: 4rem;
     height: 40rem;
     opacity: 0.02;
+    pointer-events: none;
 
     transform: rotate(-10deg);
   }
@@ -180,9 +181,20 @@
     @include mainMButton;
 
     position: relative;
-    margin: 2rem;
+    margin: 1rem;
     z-index: 1;
     padding: 1rem 6rem;
+  }
+
+  .cancel {
+    font-size: 1.4rem;
+    color: $danger-color-m;
+    text-decoration: underline;
+
+    &:hover {
+      cursor: pointer;
+      color: $danger-color-l;
+    }
   }
 }
 // end form

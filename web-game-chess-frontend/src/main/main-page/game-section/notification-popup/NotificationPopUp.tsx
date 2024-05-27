@@ -14,14 +14,11 @@ function NotificationPopUp({ allowNotification }: NotificationPopUpProps) {
   );
 
   const handleNotificationChange = (invitationDto: InvitedToGameDto): void => {
-    console.log("invited");
     setNotification(invitationDto);
   };
 
   useEffect(() => {
     if (allowNotification && GameHubService.connection) {
-      console.log("in notification added");
-
       GameHubService.connection.on("InvitedToGame", handleNotificationChange);
     }
 

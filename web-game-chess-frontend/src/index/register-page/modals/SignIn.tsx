@@ -151,7 +151,7 @@ function SignIn({ setModal }: SignInProps) {
             name="email"
             type="text"
             placeholder="E-mail"
-            autoComplete="off"
+            autoComplete="e-mail"
             className={classes["form-input"]}
           />
         </div>

@@ -1,6 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import classes from "./NavSection.module.scss";
 import NavSectionIcons from "./NavSectionIcons";
+import LogoIconSvg from "../../../shared/svgs/LogoIconSvg";
 
 function NavSection() {
   const navigate = useNavigate();
@@ -15,6 +16,15 @@ function NavSection() {
   return (
     <nav className={classes.nav}>
       <div className={classes.nav__elements}>
+        <div
+          className={classes.element}
+          onClick={() => {
+            location.reload();
+          }}
+        >
+          <LogoIconSvg iconClass={classes["nav-icon"]} />
+        </div>
+
         <div className={classes.element}>
           <NavSectionIcons iconName="account" />
           <span className={classes.ind}>Account</span>
@@ -36,16 +46,6 @@ function NavSection() {
             <span className={classes.ind}>ind</span>
           </div>
         ))}
-
-        <div
-          className={classes.element}
-          onClick={() => {
-            navigate("/");
-          }}
-        >
-          <NavSectionIcons iconName="home" />
-          <span className={classes.ind}>Home</span>
-        </div>
 
         <div
           className={classes.element}

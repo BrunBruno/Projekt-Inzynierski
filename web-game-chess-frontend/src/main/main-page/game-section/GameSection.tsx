@@ -20,21 +20,51 @@ import VsFriendSearch from "./vs-friend-search/VsFriendSearch";
 import { CheckIfInGameModel } from "../../../shared/utils/types/gameModels";
 import NotificationPopUp from "./notification-popup/NotificationPopUp";
 import { HubConnectionState } from "@microsoft/signalr";
+import DefaultView from "./default-view/DefaultView";
 
 function GameSection() {
   const navigate = useNavigate();
 
-  const [interfaceContent, setInterfaceContent] = useState<JSX.Element>(<></>);
+  const [interfaceContent, setInterfaceContent] = useState<JSX.Element>(
+    <DefaultView />
+  );
   const [searchIds, setSearchIds] = useState<SearchGameDto | null>(null);
   const [allowNotification, setAllowNotification] = useState<boolean>(false);
 
+  const handleGamesChanged = async () => {
+    if (searchIds !== null) {
+      try {
+        const isInGameModel: CheckIfInGameModel = {
+          playerId: searchIds.playerId,
+        };
+
+        const isInGameResponse = await axios.get<CheckIfInGameDto>(
+          gameControllerPaths.checkIfInGame(isInGameModel),
+          getAuthorization()
+        );
+
+        if (isInGameResponse.data.isInGame) {
+          navigate(`game/${isInGameResponse.data.gameId}`);
+        }
+      } catch (err) {
+        console.log(err);
+      }
+    }
+  };
+
+  const handleGameAccepted = (gameId: string) => {
+    navigate(`game/${gameId}`);
+  };
+
   useEffect(() => {
+    if (searchIds !== null) {
+      setInterfaceById(gameSearchInterface.searching);
+    }
+
     if (
       GameHubService.connection &&
       GameHubService.connection.state === HubConnectionState.Connected
     ) {
-      console.log("in section added");
-
       GameHubService.connection.on("GamesChanged", handleGamesChanged);
       GameHubService.connection.on("GameAccepted", handleGameAccepted);
 
@@ -43,13 +73,11 @@ function GameSection() {
 
     return () => {
       if (GameHubService.connection) {
-        console.log("in section removed");
-
         GameHubService.connection.off("GamesChanged", handleGamesChanged);
         GameHubService.connection.off("GameAccepted", handleGameAccepted);
       }
     };
-  }, []);
+  }, [searchIds]);
 
   // set game section content
   const setInterfaceById = (interfaceId: number) => {
@@ -77,34 +105,6 @@ function GameSection() {
         break;
     }
   };
-
-  // handle new ids
-  const handleGamesChanged = async () => {
-    if (searchIds !== null) {
-      const isInGameModel: CheckIfInGameModel = {
-        playerId: searchIds.playerId,
-      };
-
-      const isInGameResponse = await axios.get<CheckIfInGameDto>(
-        gameControllerPaths.checkIfInGame(isInGameModel),
-        getAuthorization()
-      );
-
-      if (isInGameResponse.data.isInGame) {
-        navigate(`game/${isInGameResponse.data.gameId}`);
-      }
-    }
-  };
-
-  const handleGameAccepted = (gameId: string) => {
-    navigate(`game/${gameId}`);
-  };
-
-  useEffect(() => {
-    if (searchIds !== null) {
-      setInterfaceById(gameSearchInterface.searching);
-    }
-  }, [searchIds]);
 
   return (
     <section className={classes.game}>

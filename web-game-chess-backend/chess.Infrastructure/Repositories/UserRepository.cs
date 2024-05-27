@@ -17,6 +17,7 @@ public class UserRepository : IUserRepository {
     ///<inheritdoc/>
     public async Task<List<User>> GetAllNonFriends(List<Guid> ids, Guid userId) 
         => await _dbContext.Users
+                    .Include(u => u.Elo)
                     .Where(u => !ids.Contains(u.Id) && u.IsVerified && u.Id != userId)
                     .ToListAsync();
 

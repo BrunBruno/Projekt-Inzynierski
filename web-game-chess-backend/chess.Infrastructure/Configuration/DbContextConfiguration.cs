@@ -88,11 +88,6 @@ public class DbContextConfiguration :
             .HasOne(g => g.GameTiming)
             .WithMany(gt => gt.Games)
             .HasForeignKey(g => g.GameTimingId);
-
-        builder
-            .HasOne(g => g.GameState)
-            .WithOne(gs => gs.Game)
-            .HasForeignKey<Game>(g => g.GameStateId);
     }
 
     public void Configure(EntityTypeBuilder<GameTiming> builder) {
@@ -103,11 +98,17 @@ public class DbContextConfiguration :
     public void Configure(EntityTypeBuilder<GameState> builder) {
         builder
             .HasKey(gs => gs.Id);
+
+        builder
+            .HasOne(gs => gs.Game)
+            .WithOne(g => g.GameState)
+            .HasForeignKey<GameState>(g => g.GameId);
     }
 
     public void Configure(EntityTypeBuilder<Player> builder) {
         builder
             .HasKey(p => p.Id);
+
         builder
             .HasOne(p => p.User)
             .WithMany(u => u.Players)
@@ -179,7 +180,7 @@ public class DbContextConfiguration :
                 MaxLength = null,
                 RequireUppercase = false,
                 RequireLowercase = false,
-                RequireDigit = true,
+                RequireDigit = false,
                 RequireSpecialChar = false,
             },
             new()

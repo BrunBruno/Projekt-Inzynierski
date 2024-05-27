@@ -94,7 +94,6 @@ export const makeMove = (
     }
   }
 
-  console.log(gameState.matrix);
   const newPosition = makeNewPosition(gameState.matrix);
 
   const move = selectionState.piece + capture + intToChar(newX) + newY;

@@ -31,7 +31,7 @@ function RegisterPage() {
       case registrationInterface.signUp:
         return <SignUp setModal={setModal} />;
       case registrationInterface.verify:
-        return <VerifyEmail />;
+        return <VerifyEmail setModal={setModal} />;
       default:
         return <></>;
     }

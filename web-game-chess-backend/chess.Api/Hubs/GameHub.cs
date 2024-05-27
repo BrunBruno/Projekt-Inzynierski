@@ -8,7 +8,6 @@ using chess.Application.Requests.GameRequests.EndGame;
 using chess.Application.Requests.GameRequests.MakeMove;
 using chess.Application.Requests.GameRequests.StartGames;
 using chess.Application.Services;
-using chess.Core.Entities;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.SignalR;

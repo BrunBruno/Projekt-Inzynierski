@@ -280,12 +280,12 @@ function GameBoard({ gameId, gameData, playerData, winner }: GameBoardProps) {
     const isNewField = areCoorEqual(coordinates, newCoordinates);
     const showCapture = wasCapture && isNewField;
 
-    const bCon = gameStates.controlledAreas.black.some((coor) =>
-      areCoorEqual(coor, coordinates)
-    );
-    const wCon = gameStates.controlledAreas.white.some((coor) =>
-      areCoorEqual(coor, coordinates)
-    );
+    // const bCon = gameStates.controlledAreas.black.some((coor) =>
+    //   areCoorEqual(coor, coordinates)
+    // );
+    // const wCon = gameStates.controlledAreas.white.some((coor) =>
+    //   areCoorEqual(coor, coordinates)
+    // );
 
     // add field
     outerFields.push(
@@ -304,7 +304,6 @@ function GameBoard({ gameId, gameData, playerData, winner }: GameBoardProps) {
           if (char) setSelectionStates({ type: "SET_TARGET", payload: target });
 
           onSelectField(char, coordinates, isInTipFields, sameCoor);
-          console.log("clicked");
         }}
         onContextMenu={(event) => {
           event.preventDefault();
@@ -317,7 +316,6 @@ function GameBoard({ gameId, gameData, playerData, winner }: GameBoardProps) {
         }}
         onDragStartCapture={() => {
           onDragPiece(char, coordinates);
-          console.log("started");
         }}
         onDragOver={(event) => {
           event.preventDefault();
@@ -325,7 +323,6 @@ function GameBoard({ gameId, gameData, playerData, winner }: GameBoardProps) {
         onDrop={(event) => {
           event.preventDefault();
           onDropPiece(coordinates, isInTipFields, sameCoor);
-          console.log("dropped");
         }}
       >
         {char && shouldDisplay && (

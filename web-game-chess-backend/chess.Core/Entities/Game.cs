@@ -54,7 +54,7 @@ public class Game {
     /// <summary>
     /// Reason why game has ended
     /// </summary>
-    public EndGameTypes EndGameType { get; set; } = 0;
+    public EndGameTypes? EndGameType { get; set; } = null;
 
     /// <summary>
     /// Id of player playing as white
@@ -85,11 +85,6 @@ public class Game {
     /// Time and increment that each player have for moves
     /// </summary>
     public GameTiming GameTiming { get; set; }
-
-    /// <summary>
-    /// Game state id
-    /// </summary>
-    public Guid GameStateId { get; set; }
 
     /// <summary>
     /// States related to game

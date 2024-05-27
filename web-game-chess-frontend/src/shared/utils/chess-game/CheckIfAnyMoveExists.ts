@@ -44,13 +44,3 @@ export const checkIfAnyMoveExists = (
 
   return moveNotExists;
 };
-
-// const getColorFromTag = (tag: string) => {
-//   if (Object.values(pieceTagMap["white"]).includes(tag)) {
-//     return "white";
-//   }
-//   if (Object.values(pieceTagMap["black"]).includes(tag)) {
-//     return "black";
-//   }
-//   return null;
-// };

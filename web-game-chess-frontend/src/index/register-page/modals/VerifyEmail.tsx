@@ -17,10 +17,13 @@ import {
   VerifyEmailModel,
 } from "../../../shared/utils/types/userModels";
 import PasteIconSvg from "../../../shared/svgs/PasteIconSvg";
+import { registrationInterface } from "../../../shared/utils/enums/interfacesEnums";
 
-type VerifyEmailProps = {};
+type VerifyEmailProps = {
+  setModal: React.Dispatch<React.SetStateAction<number>>;
+};
 
-function VerifyEmail({}: VerifyEmailProps) {
+function VerifyEmail({ setModal }: VerifyEmailProps) {
   const navigate = useNavigate();
 
   // error message content
@@ -201,6 +204,15 @@ function VerifyEmail({}: VerifyEmailProps) {
       <button type="submit" className={classes["registration-button"]}>
         <span>Verify</span>
       </button>
+
+      <p
+        className={classes.cancel}
+        onClick={() => {
+          setModal(registrationInterface.signUp);
+        }}
+      >
+        Cancel
+      </p>
     </form>
   );
 }

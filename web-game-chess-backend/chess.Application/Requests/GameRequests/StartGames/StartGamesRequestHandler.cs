@@ -50,21 +50,11 @@ public class StartGamesRequestHandler : IRequestHandler<StartGamesRequest> {
                 matchedPlayers.Add(closestPlayer);
 
 
-                var gameState = new GameState()
-                {
-                    Id = Guid.NewGuid(),
-                };
-
-
-                await _gameStateRepository.Create(gameState);
-
-
                 var game = new Game()
                 {
                     Id = Guid.NewGuid(),
                     TimingType = timing.Type,
                     GameTimingId = request.TimingId,
-                    GameStateId = gameState.Id,
                 };
 
                 player.IsPlaying = true;
@@ -82,6 +72,15 @@ public class StartGamesRequestHandler : IRequestHandler<StartGamesRequest> {
 
 
                 await _gameRepository.Create(game);
+
+                var gameState = new GameState()
+                {
+                    Id = Guid.NewGuid(),
+                    GameId = game.Id,
+                };
+
+
+                await _gameStateRepository.Create(gameState);
 
                 // break ???
             }

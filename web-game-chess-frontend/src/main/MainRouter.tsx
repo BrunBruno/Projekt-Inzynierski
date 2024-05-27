@@ -29,7 +29,7 @@ function MainRouter() {
 
         const isVerified = isVerifiedResponse.data.isEmailVerified;
         if (!isVerified) {
-          navigate("/");
+          navigate("/registration");
           return;
         }
 
@@ -42,7 +42,7 @@ function MainRouter() {
 
         const token = localStorage.getItem("token");
         if (token === null) {
-          navigate("/");
+          navigate("/registration");
           return;
         }
 

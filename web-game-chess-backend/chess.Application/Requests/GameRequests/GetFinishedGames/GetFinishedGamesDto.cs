@@ -41,7 +41,7 @@ public class GetFinishedGamesDto {
     /// <summary>
     /// Reason why game has ended
     /// </summary>
-    public EndGameTypes EndGameType { get; set; }  
+    public EndGameTypes? EndGameType { get; set; }  
 
     /// <summary>
     /// White player data

@@ -48,6 +48,11 @@ public class GameState {
     public bool CanBlackLongRookCastle { get; set; } = true;
 
     /// <summary>
+    /// Game id
+    /// </summary>
+    public Guid GameId { get; set; }
+
+    /// <summary>
     /// Game for which states belong to
     /// </summary>
     public Game Game { get; set; }
