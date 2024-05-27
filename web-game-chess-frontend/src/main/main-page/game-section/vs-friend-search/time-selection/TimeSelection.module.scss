@@ -1,0 +1,50 @@
+@import "../../../../Main.scss";
+@import "../../../../../shared/components/action-button/ActionButton.module.scss";
+
+.time {
+  @include flex(column, space-evenly, center, 0);
+
+  height: 100%;
+  user-select: none;
+  padding-left: 2rem;
+
+  &__row {
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: 2rem 1fr;
+    gap: 1rem;
+
+    &__header {
+      grid-column: span 3;
+      border-bottom: solid 0.1rem $gc8;
+      font-size: 1.2rem;
+    }
+
+    &__block {
+      @include rounded(0.5rem);
+      @include flex();
+
+      position: relative;
+      overflow: hidden;
+      font-size: 1.8rem;
+
+      &:hover {
+        cursor: pointer;
+        background-color: $mc0;
+        color: $mc9;
+      }
+
+      &:active {
+        border-top: solid 0.3rem #0000;
+        border-bottom: none;
+      }
+    }
+  }
+
+  &__cancel {
+    @include actionButton(1.4rem);
+
+    margin-top: 2rem;
+  }
+}

@@ -13,16 +13,6 @@ public class EmailVerificationCode {
     public Guid Id { get; set; }
 
     /// <summary>
-    /// User id
-    /// </summary>
-    public Guid UserId { get; set; }
-
-    /// <summary>
-    /// User
-    /// </summary>
-    public User User { get; set; }
-
-    /// <summary>
     /// Hashed code used for verifying user email
     /// </summary>
     public string CodeHash { get; set; }
@@ -31,4 +21,14 @@ public class EmailVerificationCode {
     /// Date when code expires
     /// </summary>
     public DateTime ExpirationDate { get; set; }
+
+    /// <summary>
+    /// User id
+    /// </summary>
+    public Guid UserId { get; set; }
+
+    /// <summary>
+    /// User
+    /// </summary>
+    public User User { get; set; }
 }

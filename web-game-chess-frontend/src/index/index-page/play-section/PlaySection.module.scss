@@ -1,0 +1,145 @@
+@import "../../Index.scss";
+
+.play {
+  @include wh100();
+  position: relative;
+
+  &__intro {
+    @include textBg();
+
+    position: relative;
+    width: 100%;
+    margin: 10rem 0;
+
+    background-image: linear-gradient(
+      -60deg,
+      $mc1 60%,
+      $mc3 60%,
+      $mc3 80%,
+      $mc1 80%
+    );
+    background-attachment: fixed;
+    opacity: 1;
+    filter: drop-shadow(0 0 0.4rem $mc0);
+
+    transition: all 1s 0.3s;
+
+    .intro-h2 {
+      transition: margin-left 1s 0.3s;
+
+      &:nth-child(1) {
+        margin-left: 12rem;
+      }
+      &:nth-child(2) {
+        margin-left: 18rem;
+      }
+
+      span {
+        user-select: none;
+        font-size: 16rem;
+        line-height: 12rem;
+        letter-spacing: -1rem;
+      }
+    }
+  }
+
+  .active-intro {
+    opacity: 0;
+    filter: drop-shadow(0 0 0 $mc1);
+
+    .intro-h2 {
+      &:nth-child(1) {
+        margin-left: -40rem;
+      }
+      &:nth-child(2) {
+        margin-left: 40rem;
+      }
+    }
+  }
+
+  // board content
+  &__content {
+    position: relative;
+    display: grid;
+    grid-template-columns: auto 60rem;
+
+    // board
+    &__board {
+      position: relative;
+      padding-left: 12rem;
+    }
+    // end board
+
+    // play actions
+    &__actions {
+      @include flex(column, end, end, 0);
+
+      height: 100%;
+      padding-right: 12rem;
+      pointer-events: none;
+
+      &__buttons {
+        @include flex($direction: column, $gap: 4rem);
+
+        width: 100%;
+        height: 60rem;
+        pointer-events: all;
+
+        .actions-row {
+          opacity: 0;
+          transform: translateY(6rem);
+
+          h3 {
+            font-size: 4.4rem;
+            text-shadow: 0.2rem 0.1rem $mc5;
+          }
+
+          h4 {
+            font-size: 2.2rem;
+            color: $gc4;
+            text-align: center;
+          }
+
+          button {
+            @include button(4rem);
+            @include flex(row, space-between, center, 2rem);
+
+            svg {
+              height: 6rem;
+            }
+          }
+
+          .vs-player-button {
+            @include mainMButton;
+            .vs-player-icon {
+              path {
+                fill: $mc0;
+              }
+            }
+          }
+          .vs-computer-button {
+            @include secMButton;
+            .vs-computer-icon {
+              path {
+                fill: $mc9;
+                transition: fill 0.3s;
+              }
+            }
+
+            &:hover {
+              path {
+                fill: $mc0;
+              }
+            }
+          }
+        }
+
+        .show {
+          @include emergeAni(1s, 0s);
+        }
+      }
+    }
+    // end actions
+  }
+  // end board content
+}

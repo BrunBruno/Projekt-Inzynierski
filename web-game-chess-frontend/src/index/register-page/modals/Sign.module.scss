@@ -1,0 +1,200 @@
+@import "../../Index.scss";
+
+// modal css
+.registration-form {
+  @include flex(column, center, center, 1rem);
+
+  position: relative;
+  height: 100%;
+  padding: 0 6rem;
+  margin: 0 4rem;
+
+  border-radius: $md-br;
+  border: solid 1rem rgba($mc4, 0.5);
+  background-color: $gc9;
+
+  animation: formAnimation 0.5s;
+
+  .bg-svg {
+    position: absolute;
+    z-index: 0;
+    bottom: 4rem;
+    right: 4rem;
+    height: 40rem;
+    opacity: 0.02;
+    pointer-events: none;
+
+    transform: rotate(-10deg);
+  }
+
+  h2 {
+    font-size: 3.2rem;
+  }
+
+  .change-form {
+    position: relative;
+    z-index: 1;
+    font-size: 1.2rem;
+    margin-bottom: 2rem;
+
+    span {
+      color: $mc5;
+      text-decoration: underline;
+      user-select: none;
+
+      &:hover {
+        cursor: pointer;
+        color: $mc4;
+      }
+    }
+  }
+
+  .inputs {
+    @include flex(column, start, center, 1.6rem);
+
+    .form-row {
+      position: relative;
+      z-index: 1;
+
+      .form-input {
+        @include tInput(2rem);
+
+        &:focus ~ .reg-pass-ind {
+          opacity: 1;
+        }
+        &:focus ~ .arrow {
+          opacity: 1;
+        }
+      }
+
+      .err {
+        &::placeholder {
+          color: $danger-color-m;
+        }
+      }
+
+      .arrow {
+        position: absolute;
+        height: 1.6rem;
+        top: 50%;
+        left: -2rem;
+        transform: translateY(-50%) rotateY(180deg);
+        opacity: 0;
+      }
+
+      .reg-pass-ind {
+        @include circle(2rem);
+
+        position: absolute;
+        right: 0;
+        opacity: 0;
+      }
+    }
+  }
+
+  .verify-text {
+    font-size: 1.6rem;
+    font-weight: 500;
+    text-align: center;
+  }
+
+  .verify {
+    @include flex(column, start, center, 1rem);
+
+    position: relative;
+    z-index: 1;
+    margin: 2rem;
+
+    span {
+      font-size: 2rem;
+      user-select: none;
+    }
+
+    .verify-con {
+      position: relative;
+
+      .verify-input {
+        @include cInput(2.4rem, $gc0, $mc9);
+        width: 18rem;
+        text-align: start;
+        letter-spacing: 0.5rem;
+      }
+      input[type="number"]::-webkit-inner-spin-button,
+      input[type="number"]::-webkit-outer-spin-button {
+        -webkit-appearance: none;
+      }
+
+      .paste {
+        @include circle(4.5rem);
+        @include flex();
+
+        position: absolute;
+        top: 0;
+        right: 0;
+
+        &:hover {
+          cursor: pointer;
+          &::after {
+            display: block;
+          }
+        }
+
+        &::after {
+          @include rounded(0.2rem);
+          @include subCl(fit-content, fit-content);
+
+          display: none;
+          content: "Paste";
+          left: 120%;
+          color: $gc9;
+          background-color: $gc1;
+          font-size: 1.2rem;
+        }
+
+        svg.paste-svg {
+          height: 60%;
+        }
+      }
+    }
+
+    .resend {
+      font-size: 1.4rem;
+      color: $mc5;
+      text-decoration: underline;
+
+      &:hover {
+        cursor: pointer;
+        color: $mc4;
+      }
+    }
+  }
+
+  .error {
+    span {
+      font-size: 1.4rem;
+      color: $danger-color-m;
+    }
+  }
+
+  .registration-button {
+    @include button(2rem);
+    @include mainMButton;
+
+    position: relative;
+    margin: 1rem;
+    z-index: 1;
+    padding: 1rem 6rem;
+  }
+
+  .cancel {
+    font-size: 1.4rem;
+    color: $danger-color-m;
+    text-decoration: underline;
+
+    &:hover {
+      cursor: pointer;
+      color: $danger-color-l;
+    }
+  }
+}
+// end form

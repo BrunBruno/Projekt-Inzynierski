@@ -15,16 +15,24 @@ public class UserRepository : IUserRepository {
     }
 
     ///<inheritdoc/>
+    public async Task<List<User>> GetAllNonFriends(List<Guid> ids, Guid userId) 
+        => await _dbContext.Users
+                    .Include(u => u.Elo)
+                    .Where(u => !ids.Contains(u.Id) && u.IsVerified && u.Id != userId)
+                    .ToListAsync();
+
+    ///<inheritdoc/>
     public async Task<User?> GetById(Guid id)
         => await _dbContext.Users
-            .Include(x => x.Role)
-            .FirstOrDefaultAsync(x => x.Id == id);
+                    .Include(u => u.Role)
+                    .Include(u => u.Elo)
+                    .FirstOrDefaultAsync(u => u.Id == id);
 
     ///<inheritdoc/>
     public async Task<User?> GetByEmail(string email)
         => await _dbContext.Users
-            .Include(x => x.Role)
-            .FirstOrDefaultAsync(x => x.Email == email);
+                    .Include(u => u.Role)
+                    .FirstOrDefaultAsync(u => u.Email == email);
 
     ///<inheritdoc/>
     public async Task Add(User user) {

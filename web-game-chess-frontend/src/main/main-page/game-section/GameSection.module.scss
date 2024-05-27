@@ -1,0 +1,104 @@
+@import "../../Main.scss";
+
+.game {
+  @include wh100();
+
+  &__content {
+    position: relative;
+    height: 100%;
+    display: grid;
+    grid-template-columns: 75% auto;
+
+    &__col {
+      height: 100%;
+      max-height: 100vh;
+
+      .game-interface {
+        position: relative;
+        height: 100%;
+      }
+
+      .game-buttons {
+        @include flex(column, start, center, 0.6rem);
+
+        position: relative;
+        height: 100%;
+        padding: 2rem;
+        background-color: rgba($gc9, 0.3);
+
+        &::before {
+          @include subCl(0.1rem, 100%);
+          top: 0;
+          left: -0.1rem;
+
+          background-color: $mc0;
+          box-shadow: 0 0 1rem 0.1rem $mc0;
+        }
+
+        button.interface-button {
+          @include button(2.4rem);
+          @include mainGButton();
+          @include flex(row, start, center, 2rem);
+
+          width: 100%;
+          padding: 2rem;
+          background-color: rgba($gc8, 0.1);
+          border-radius: 1rem;
+          border: none;
+
+          &:hover {
+            .vs-player-icon {
+              fill: $mc0;
+            }
+            .vs-computer-icon {
+              fill: $mc0;
+            }
+            .vs-friend-icon {
+              path {
+                fill: $mc0;
+              }
+            }
+            .user-games-icon {
+              path {
+                &:nth-child(1),
+                &:nth-child(2) {
+                  stroke: $mc0;
+                }
+
+                &:not(:nth-child(1)):not(:nth-child(2)) {
+                  fill: $mc0;
+                }
+              }
+            }
+          }
+
+          @mixin buttonIcon() {
+            height: 4rem;
+            transition: all 0.3s;
+
+            path {
+              transition: all 0.3s;
+            }
+          }
+
+          .vs-player-icon {
+            @include buttonIcon();
+          }
+          .vs-computer-icon {
+            @include buttonIcon();
+          }
+          .vs-friend-icon {
+            @include buttonIcon();
+          }
+          .user-games-icon {
+            @include buttonIcon();
+          }
+
+          &:focus {
+            box-shadow: none;
+          }
+        }
+      }
+    }
+  }
+}

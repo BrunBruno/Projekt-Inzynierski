@@ -37,7 +37,9 @@ public class RegenerateCodeRequestHandler : IRequestHandler<RegenerateCodeReques
         var user = await _userRepository.GetById(userId)
             ?? throw new NotFoundException("User not found.");
 
+
         await _emailVerificationCodeRepository.RemoveByUserId(userId);
+
 
         var codeValue = new Random().Next(100000, 999999).ToString();
 
@@ -52,7 +54,9 @@ public class RegenerateCodeRequestHandler : IRequestHandler<RegenerateCodeReques
 
         code.CodeHash = codeHash;
 
+
         await _emailVerificationCodeRepository.Add(code);
+
 
         await _smtpService.SendVerificationCode(user.Email, user.Username, codeValue);
     }

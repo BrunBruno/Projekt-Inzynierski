@@ -28,6 +28,7 @@ public class GetUserRequestHandler : IRequestHandler<GetUserRequest, GetUserDto>
 
         var userDto = new GetUserDto
         {
+            UserId = userId,
             Email = user.Email,
             UserName = user.Username,
             FullName = user.Name,

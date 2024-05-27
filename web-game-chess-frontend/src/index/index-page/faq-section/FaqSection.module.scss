@@ -1,0 +1,153 @@
+@import "../../Index.scss";
+
+.faq {
+  @include wh100();
+
+  position: relative;
+  padding-top: 10rem;
+  background-color: #000;
+  border-top-right-radius: $xl-br;
+  box-shadow: 2rem -2rem 0 0 rgb(67, 43, 137);
+
+  &::before {
+    @include subCl($xl-br, $xl-br);
+    top: calc(-2rem - $xl-br);
+    left: -2rem;
+
+    border: solid 2rem rgb(67, 43, 137);
+    border-top: none;
+    border-right: none;
+    border-bottom-left-radius: $xl-br;
+    box-shadow: 0rem 10rem 0 #000;
+  }
+
+  &__intro {
+    width: 100%;
+    padding-left: 8rem;
+    margin-bottom: 8rem;
+
+    h2 {
+      font-size: 6rem;
+      color: $mc5;
+      user-select: none;
+    }
+  }
+
+  &__content {
+    display: grid;
+    grid-template-columns: 10rem auto 10rem;
+    grid-template-rows: 2rem 1fr 2rem 1fr;
+    padding-bottom: 6rem;
+
+    &__cathegory {
+      grid-column: 1 / -1;
+      padding-left: 8rem;
+
+      color: $mc2;
+      font-size: 4rem;
+      user-select: none;
+    }
+
+    &__arrow {
+      @include flex();
+
+      filter: brightness(60%);
+
+      svg {
+        height: 4rem;
+        transition: all 0.3s;
+      }
+
+      &:hover {
+        filter: brightness(100%);
+
+        svg {
+          cursor: pointer;
+          height: 6rem;
+        }
+      }
+    }
+
+    &__row {
+      @include flex(row, space-evenly, center, 4rem);
+
+      overflow-x: scroll;
+      overflow-y: hidden;
+      padding: 6rem 4rem;
+
+      &::-webkit-scrollbar {
+        display: none;
+      }
+
+      &__block {
+        @include flex(column, center, start, 2rem);
+        @include rounded($sm-br);
+
+        position: relative;
+        width: 50rem;
+        aspect-ratio: 16/9;
+        flex-shrink: 0;
+
+        border-top: solid 0.4rem $mc7;
+        border-bottom: solid 0.4rem #0000;
+        background-image: conic-gradient(
+          from 70deg at 30% 120%,
+          rgba($mc7, 0.1),
+          #0000
+        );
+
+        transform: scale(0.8);
+        transition: all 0.3s;
+
+        h5 {
+          font-size: 3rem;
+          width: calc(100% - 4rem);
+
+          span {
+            color: $mc5;
+          }
+        }
+
+        .text {
+          font-size: 1.6rem;
+          opacity: 0;
+          color: $gc3;
+
+          transform-origin: 50% 0;
+          transform: scaleY(0);
+          transition: all 0.3s;
+        }
+
+        .see {
+          @include absCenter;
+
+          top: unset;
+          bottom: 2rem;
+          width: 80%;
+
+          font-size: 3rem;
+          color: $gc3;
+          text-align: right;
+        }
+
+        &:hover {
+          border-bottom-color: $mc7;
+          transform: scale(1.1);
+
+          h5 {
+            font-size: 2rem;
+          }
+
+          .text {
+            opacity: 1;
+            transform: scaleY(1);
+          }
+
+          .see {
+            opacity: 0;
+          }
+        }
+      }
+    }
+  }
+}

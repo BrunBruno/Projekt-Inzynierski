@@ -1,0 +1,121 @@
+@import "../../MainPage.module.scss";
+
+.search {
+  @include wh100();
+
+  padding: 12rem 16rem;
+
+  &__grid {
+    @include rounded(2rem);
+    @include showAni();
+
+    height: 100%;
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: auto repeat(5, 1fr);
+    gap: 1rem;
+    user-select: none;
+    background-color: rgba($gc9, 0.3);
+
+    &__header {
+      height: 4rem;
+      padding-left: 16rem;
+      text-align: center;
+
+      span {
+        font-size: 3rem;
+        font-weight: bold;
+        color: $mc3;
+      }
+    }
+
+    &__row {
+      height: 100%;
+      display: grid;
+      grid-template-columns: 16rem repeat(3, 1fr);
+      grid-template-rows: 1fr;
+      gap: 1rem;
+
+      &__header {
+        @include flex(row, start, center, 2rem);
+        font-size: 2.4rem;
+
+        .header-icon {
+          height: 4rem;
+        }
+      }
+
+      &__block {
+        @include flex();
+
+        position: relative;
+        border-bottom: solid 0.3rem $mc9;
+        border-radius: 1rem;
+        overflow: hidden;
+
+        &:hover {
+          cursor: pointer;
+
+          .timing-tag {
+            color: $mc9;
+
+            &::after {
+              background-color: $mc0;
+            }
+          }
+        }
+
+        &:active {
+          border-top: solid 0.3rem #0000;
+          border-bottom: none;
+        }
+
+        .timing-tag {
+          @include flex();
+          @include wh100();
+
+          height: 3.2rem;
+
+          &::after {
+            @include subCl();
+
+            z-index: 0;
+            background-color: $gc9;
+            box-shadow: inset 0 0 1rem 0.2rem $gc8;
+          }
+
+          .num {
+            z-index: 1;
+            height: 100%;
+            font-size: 3rem;
+
+            &:nth-child(2) {
+              margin-right: 0.6rem;
+            }
+            &:nth-child(6) {
+              margin-right: 0.6rem;
+            }
+          }
+
+          .char {
+            z-index: 1;
+            display: flex;
+            align-items: end;
+            height: 100%;
+            font-size: 2rem;
+
+            &:nth-child(2) {
+              margin-left: 0.6rem;
+            }
+          }
+
+          .sep {
+            z-index: 1;
+            font-size: 2rem;
+            margin: 0.5rem;
+          }
+        }
+      }
+    }
+  }
+}

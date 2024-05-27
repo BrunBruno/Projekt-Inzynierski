@@ -1,0 +1,85 @@
+@import "../variables/color.scss";
+
+@mixin button($size: 2rem) {
+  width: fit-content;
+  padding: calc($size / 4) $size;
+
+  font-size: $size;
+  font-weight: bold;
+  border: solid calc($size / 6) #0000;
+  outline: none;
+  border-radius: $size;
+  text-align: center;
+  user-select: none;
+  text-align: center;
+  white-space: nowrap;
+
+  transition: all 0.2s;
+
+  &:hover {
+    cursor: pointer;
+  }
+}
+
+@mixin mainMButton() {
+  color: $mc0;
+  background-color: $mc9;
+
+  &:hover {
+    border-color: $mc9;
+    background-color: $mc5;
+  }
+
+  &:focus,
+  &:active {
+    box-shadow: 0 0 0.5rem 0.1rem $mc9;
+  }
+}
+
+@mixin secMButton() {
+  background-color: $mc0;
+  color: $mc9;
+
+  &:hover {
+    border-color: $mc0;
+    background-color: $mc3;
+    color: $mc0;
+  }
+
+  &:focus,
+  &:active {
+    box-shadow: 0 0 0.5rem 0.1rem $mc0;
+  }
+}
+
+@mixin mainGButton() {
+  color: $gc2;
+  background-color: $gc9;
+
+  &:hover {
+    background-color: $gc8;
+    color: $gc0;
+    border-color: $gc0;
+  }
+
+  &:focus,
+  &:active {
+    box-shadow: 0 0 0.5rem 0.1rem $gc2;
+  }
+}
+
+@mixin secGButton() {
+  background-color: $gc2;
+  color: $gc9;
+
+  &:hover {
+    background-color: $gc0;
+    border-color: $gc8;
+    color: $gc8;
+  }
+
+  &:focus,
+  &:active {
+    box-shadow: 0 0 0.5rem 0.1rem $gc8;
+  }
+}

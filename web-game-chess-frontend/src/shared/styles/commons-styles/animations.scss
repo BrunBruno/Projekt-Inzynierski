@@ -1,0 +1,33 @@
+@mixin emergeAni($duration: 0.3s, $delay: 0s) {
+  animation: emergeAnimation $duration ease-in $delay forwards;
+
+  @keyframes emergeAnimation {
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+}
+
+@mixin openAni($duration: 0.2s, $delay: 0s) {
+  transform-origin: center 0;
+  transform: scaleY(0);
+  animation: openAnimation $duration ease-in $delay forwards;
+
+  @keyframes openAnimation {
+    to {
+      transform: scaleY(1);
+    }
+  }
+}
+
+@mixin showAni($duration: 0.2s, $delay: 0s) {
+  opacity: 0;
+  animation: showAnimation $duration ease-in $delay forwards;
+
+  @keyframes showAnimation {
+    to {
+      opacity: 1;
+    }
+  }
+}

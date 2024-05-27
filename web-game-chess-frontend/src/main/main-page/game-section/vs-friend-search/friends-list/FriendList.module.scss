@@ -1,0 +1,71 @@
+@import "../../../../Main.scss";
+
+.list {
+  @include flex(column, start, center, 1rem);
+
+  padding-left: 2rem;
+  overflow-y: scroll;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+
+  &__element {
+    @include rounded(1rem);
+
+    width: 100%;
+    display: grid;
+    grid-template-columns: 6rem auto 8rem;
+    gap: 2rem;
+    background-color: $gc9;
+    background-image: linear-gradient(60deg, #0000 60%, rgba($mc9, 0.1) 0%);
+
+    .avatar {
+      .user-avatar {
+        height: 6rem;
+      }
+    }
+
+    .data {
+      @include flex(column, start, start, 0.2rem);
+
+      h3 {
+        @include longText();
+        font-size: 2rem;
+      }
+
+      p {
+        font-size: 1.2rem;
+      }
+
+      p.elo {
+        span {
+          color: $mc3;
+        }
+      }
+
+      .previous-games {
+        span {
+          &:nth-child(1) {
+            color: $success-color-m;
+          }
+          &:nth-child(2) {
+            color: $gc5;
+          }
+          &:nth-child(3) {
+            color: $danger-color-m;
+          }
+        }
+      }
+    }
+
+    .invite {
+      @include flex(column, end, center, 0);
+
+      button {
+        @include button(1.6rem);
+        @include mainMButton();
+      }
+    }
+  }
+}

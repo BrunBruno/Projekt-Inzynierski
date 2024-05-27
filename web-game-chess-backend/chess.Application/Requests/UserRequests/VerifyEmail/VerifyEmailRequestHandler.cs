@@ -47,6 +47,7 @@ public class VerifyEmailRequestHandler : IRequestHandler<VerifyEmailRequest> {
 
         user.IsVerified = true;
 
+
         await _userRepository.Update(user);
     }
 }

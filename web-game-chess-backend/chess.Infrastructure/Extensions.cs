@@ -11,6 +11,7 @@ using chess.Application.Repositories;
 using chess.Infrastructure.Contexts;
 using chess.Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 namespace chess.Infrastructure;
 
@@ -42,6 +43,7 @@ public static class Extensions {
         return services;
     }
 
+
     private static IServiceCollection AddJwt(this IServiceCollection services, IConfiguration configuration) {
 
         var options = configuration.GetOptions<AuthenticationSettings>("Authentication");
@@ -53,6 +55,7 @@ public static class Extensions {
             option.DefaultAuthenticateScheme = "Bearer";
             option.DefaultScheme = "Bearer";
             option.DefaultChallengeScheme = "Bearer";
+
         }).AddJwtBearer(cfg =>
         {
             cfg.RequireHttpsMetadata = false;
@@ -64,10 +67,26 @@ public static class Extensions {
                 IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(options.JwtKey!)),
 
             };
+
+            cfg.Events = new JwtBearerEvents
+            {
+                OnMessageReceived = context => {
+
+                    var accesToken = context.Request.Query["access_token"];
+                    var path = context.HttpContext.Request.Path;
+
+                    if (!string.IsNullOrEmpty(accesToken) && (path.StartsWithSegments("/game-hub"))) {
+                        context.Token = accesToken;
+                    }
+
+                    return Task.CompletedTask;
+                }
+            };
         });
 
         return services;
     }
+
 
     private static IServiceCollection AddPostgres(this IServiceCollection services, IConfiguration configuration) {
 
@@ -80,6 +99,13 @@ public static class Extensions {
         services.AddScoped<IEmailVerificationCodeRepository, EmailVerificationCodeRepository>();
         services.AddScoped<IDataConfigurationRepository, DataConfigurationRepository>();
         services.AddScoped<IBannedUserRepository, BannedUserRepository>();
+        services.AddScoped<IGameRepository, GameRepository>();
+        services.AddScoped<IGameTimingRepository, GameTimingRepository>();
+        services.AddScoped<IGameStateRepository, GameStateRepository>();
+        services.AddScoped<IPlayerRepository, PlayerRepository>();
+        services.AddScoped<IMoveRepository, MoveRepository>();
+        services.AddScoped<IFriendshipRepository, FriendshipRepository>();
+        services.AddScoped<IEloRepository, EloRepository>();
 
         return services;
     }

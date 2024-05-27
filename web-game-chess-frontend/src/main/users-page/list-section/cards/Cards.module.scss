@@ -1,0 +1,100 @@
+@import "../../../Main.scss";
+
+.card {
+  @include rounded(1rem);
+
+  position: relative;
+  height: fit-content;
+  min-height: 12rem;
+  overflow: hidden;
+  background-color: $gc9;
+
+  &::after {
+    @include subCl(60rem, 60rem);
+    @include absCenter();
+    @include gridBg(10rem, $mc7, $mc0, 0.05);
+
+    z-index: 0;
+    transform: translate(-50%, -50%) rotateX(70deg) rotateZ(170deg);
+  }
+
+  &::before {
+    @include subCl();
+    @include absCenter();
+
+    top: 5%;
+    z-index: 1;
+
+    background-color: rgba($mc9, 0.1);
+  }
+
+  .header {
+    @include flex(row, start, start, 2rem);
+
+    position: inherit;
+    z-index: 2;
+    height: 100%;
+
+    .avatar-svg {
+      height: 8rem;
+      opacity: 0.8;
+      border: solid 0.5rem $mc9;
+      box-shadow: 0 1.2rem 2rem -1rem $mc0;
+    }
+
+    .user-info {
+      @include flex(column, space-between, start, 1rem);
+      @include wh100();
+
+      .user-name {
+        @include flex(column, start, start, 0.5rem);
+
+        min-width: 60%;
+        max-width: 100%;
+
+        p {
+          @include longText();
+
+          padding: 0.2rem;
+          border-bottom: solid 0.2rem rgba($mc5, 0.2);
+
+          &:nth-child(1) {
+            font-size: 2rem;
+          }
+          &:nth-child(2) {
+            font-size: 1.4rem;
+            color: $gc5;
+          }
+        }
+      }
+
+      .actions {
+        @include flex($gap: 1rem);
+
+        align-self: flex-end;
+        padding: 1rem;
+        padding-top: 2rem;
+
+        button {
+          @include button(1.6rem);
+        }
+
+        button.main-button {
+          @include mainMButton();
+        }
+
+        button.sec-button {
+          @include secMButton();
+        }
+      }
+
+      .info {
+        align-self: flex-end;
+        padding: 1rem;
+        padding-top: 2rem;
+        font-size: 1.6rem;
+        color: $gc4;
+      }
+    }
+  }
+}

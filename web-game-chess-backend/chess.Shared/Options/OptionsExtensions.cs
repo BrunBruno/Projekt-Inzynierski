@@ -8,9 +8,9 @@ public static class OptionsExtensions {
     /// <summary>
     /// Gets data from appsettings
     /// </summary>
-    /// <param name="configuration"> Configuration </param>
-    /// <param name="sectionName"> Name of section </param>
-    /// <returns> Data from appsettings </returns>
+    /// <param name="configuration"> </param>
+    /// <param name="sectionName"></param>
+    /// <returns></returns>
     public static TOptions GetOptions<TOptions>(this IConfiguration configuration, string sectionName) where TOptions : new() {
 
         var options = new TOptions();

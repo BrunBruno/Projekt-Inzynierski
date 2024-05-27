@@ -1,0 +1,145 @@
+@import "../../Index.scss";
+
+.footer {
+  position: relative;
+  background-color: #000;
+  padding: 8rem;
+  padding-bottom: 0;
+  box-shadow: -2rem -2rem 0 0 rgb(67, 43, 137);
+
+  &::before {
+    @include subCl($xl-br, $xl-br);
+    top: calc(-2rem - $xl-br);
+    right: -2rem;
+
+    border: solid 2rem rgb(67, 43, 137);
+    border-top: none;
+    border-left: none;
+    border-bottom-right-radius: $xl-br;
+    box-shadow: 0rem 10rem 0 #000;
+  }
+
+  &__intro {
+    padding-bottom: 8rem;
+    .footer-title {
+      @include flex(row, start, center, 2rem);
+      @include secFont(6rem);
+
+      font-size: 6rem;
+      color: $mc5;
+      font-weight: 600;
+
+      .footer-logo {
+        height: 6rem;
+      }
+    }
+  }
+
+  &__grid {
+    display: grid;
+    grid-template-columns: 50rem 1fr 1fr;
+    padding-bottom: 8rem;
+
+    &__col {
+      @include flex(column, start, start, 2rem);
+
+      h3 {
+        font-size: 4rem;
+        margin-bottom: 2rem;
+        border-bottom: dashed 0.1rem $mc0;
+        padding: 0 1rem;
+      }
+
+      .contact {
+        @include flex(row, start, center, 2rem);
+
+        position: relative;
+
+        p {
+          font-size: 2.4rem;
+        }
+
+        .flag {
+          height: 2rem;
+        }
+      }
+
+      .link {
+        color: $gc0;
+        text-decoration: none;
+
+        &:visited {
+          color: $gc5;
+        }
+
+        .element {
+          @include flex(row, start, center, 2rem);
+
+          position: relative;
+
+          &:hover {
+            cursor: pointer;
+
+            p {
+              &::after {
+                width: 100%;
+              }
+            }
+
+            .r-arr {
+              transform: translateX(0);
+              opacity: 1;
+
+              circle {
+                fill: $mc0;
+              }
+              rect {
+                fill: #000;
+              }
+            }
+          }
+
+          p {
+            font-size: 2rem;
+
+            &::after {
+              @include subCl(0, 0.2rem);
+
+              position: unset;
+              display: block;
+              margin-top: 0.3rem;
+              background-color: $gc3;
+              transition: all 0.3s;
+            }
+          }
+
+          .p-logo {
+            height: 2rem;
+            width: 2rem;
+          }
+
+          .r-arr {
+            height: 2rem;
+            opacity: 0;
+            transform: translateX(-2rem);
+            transition: all 0.3s;
+
+            circle {
+              fill: #000;
+              transition: all 0.3s;
+            }
+            rect {
+              fill: $mc0;
+              transition: all 0.3s;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  &__outro {
+    text-align: center;
+    padding: 1rem;
+  }
+}

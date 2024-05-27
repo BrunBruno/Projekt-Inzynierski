@@ -1,0 +1,66 @@
+@import "../../Main.scss";
+
+.bar {
+  @include wh100();
+
+  position: relative;
+
+  &::after {
+    @include subCl();
+    z-index: 1;
+    top: 0;
+    left: 100%;
+
+    border-top-left-radius: $lg-br;
+    border-bottom-left-radius: $lg-br;
+    box-shadow: -10rem 0 0 10rem $gc9;
+    border-left: solid 1rem $gc8;
+    pointer-events: none;
+  }
+
+  &__content {
+    position: inherit;
+    z-index: 2;
+    height: 100%;
+    background-color: $gc9;
+
+    &__logo {
+      @include flex(row, start, center, 1rem);
+      padding: 2rem;
+
+      .logo-svg {
+        height: 3rem;
+        cursor: pointer;
+      }
+
+      p {
+        @include secFont(2rem);
+      }
+    }
+
+    &__list {
+      @include flex(column, start, center, 1rem);
+
+      padding: 1rem;
+      list-style-type: none;
+
+      &__element {
+        @include rounded(1rem);
+
+        width: 100%;
+        font-size: 2rem;
+        color: $gc5;
+        border-bottom: solid 0.3rem $gc8;
+        border-left: solid 0.3rem $gc8;
+        border-bottom-right-radius: 0;
+        border-top-left-radius: 0;
+
+        &:hover {
+          cursor: pointer;
+          background-color: $gc8;
+          border-color: $gc7;
+        }
+      }
+    }
+  }
+}

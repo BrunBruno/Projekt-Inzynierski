@@ -1,0 +1,155 @@
+@import "../../../Main.scss";
+
+.winner {
+  @include absCenter();
+  @include wh100();
+  z-index: 100;
+  background-color: rgba(#000, 0.7);
+
+  &__content {
+    @include absCenter();
+
+    background-color: $gc9;
+    border-radius: 4rem;
+    overflow: hidden;
+
+    .title {
+      position: relative;
+      font-size: 3rem;
+      color: $mc5;
+      white-space: nowrap;
+      padding: 2rem 8rem;
+      font-weight: bold;
+      text-align: center;
+
+      @mixin subEle() {
+        @include subCl(2rem);
+
+        width: 4rem;
+        height: 8rem;
+        bottom: -8rem;
+      }
+
+      &::after {
+        @include subEle();
+
+        left: 0;
+        border-top-left-radius: 4rem;
+      }
+      &::before {
+        @include subEle();
+
+        right: 0;
+        border-top-right-radius: 4rem;
+      }
+
+      &.white-winner {
+        background-color: #fff;
+        &::after {
+          box-shadow: -0.1rem -4rem 0 0 #fff;
+        }
+        &::before {
+          box-shadow: 0.1rem -4rem 0 0 #fff;
+        }
+      }
+      &.black-winner {
+        background-color: #000;
+        &::after {
+          box-shadow: -0.1rem -4rem 0 0 #000;
+        }
+        &::before {
+          box-shadow: 0.1rem -4rem 0 0 #000;
+        }
+      }
+    }
+
+    &__info {
+      @include flex($direction: column);
+
+      border-radius: 4rem;
+      border: 0.3rem solid $gc8;
+      border-top: 0.6rem solid $gc8;
+      overflow: hidden;
+
+      &__players {
+        @include flex($gap: 2rem);
+
+        width: 100%;
+        padding: 2rem;
+
+        .player {
+          @include flex($direction: column, $gap: 0.5rem);
+
+          @mixin playerImg() {
+            @include flex();
+            @include square(5rem);
+
+            padding: 0.6rem;
+            border-radius: 100%;
+
+            .player-img {
+              @include wh100();
+              border-radius: 100%;
+            }
+          }
+
+          .white-player-img {
+            @include playerImg();
+            background-color: #fff;
+          }
+
+          .black-player-img {
+            @include playerImg();
+            background-color: #000;
+          }
+
+          .player-data {
+            @include flex($direction: column, $gap: 0.2rem);
+
+            span {
+              font-size: 1.6rem;
+              span {
+                color: $mc3;
+              }
+            }
+          }
+        }
+
+        p {
+          font-size: 3rem;
+          font-weight: bold;
+        }
+      }
+
+      &__buttons {
+        @include flex();
+
+        width: 100%;
+        padding: 2rem;
+
+        @mixin gameActionButton() {
+          @include button(2.4rem);
+          border-radius: 0;
+          width: 50%;
+          padding: 1rem 4rem;
+        }
+
+        .new-game {
+          @include gameActionButton();
+          @include mainMButton();
+
+          border-top-left-radius: 1rem;
+          border-bottom-left-radius: 1rem;
+        }
+
+        .re-game {
+          @include gameActionButton();
+          @include secMButton();
+
+          border-top-right-radius: 1rem;
+          border-bottom-right-radius: 1rem;
+        }
+      }
+    }
+  }
+}

@@ -11,7 +11,7 @@ public interface IDataConfigurationRepository {
     /// <summary>
     /// Gets configuration by id
     /// </summary>
-    /// <param name="id"> conf id</param>
-    /// <returns> Data configuration </returns>
+    /// <param name="id"></param>
+    /// <returns></returns>
     Task<DataConfiguration?> GetById(int id);
 }
