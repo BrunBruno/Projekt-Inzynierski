@@ -4,6 +4,7 @@ import {
   EndGameModel,
   MakeMoveModel,
   NotifyUserModel,
+  SendMessageModel,
 } from "../types/gameModels";
 
 // singalR hub service map from GameHub
@@ -70,9 +71,18 @@ class GameHub {
   }
 
   // update game | add move
-  public async MakeMove(makeMoveModel: MakeMoveModel): Promise<void> {
+  public async MakeMove(model: MakeMoveModel): Promise<void> {
     try {
-      await this.connection?.invoke("make-move", makeMoveModel);
+      await this.connection?.invoke("make-move", model);
+    } catch (err) {
+      console.error(err);
+    }
+  }
+
+  //
+  public async SendMessage(model: SendMessageModel) {
+    try {
+      await this.connection?.invoke("send-message", model);
     } catch (err) {
       console.error(err);
     }

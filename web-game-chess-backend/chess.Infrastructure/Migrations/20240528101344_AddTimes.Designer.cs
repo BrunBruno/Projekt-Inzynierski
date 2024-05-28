@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using chess.Infrastructure.Contexts;
@@ -11,9 +12,11 @@ using chess.Infrastructure.Contexts;
 namespace chess.Infrastructure.Migrations
 {
     [DbContext(typeof(ChessAppDbContext))]
-    partial class ChessAppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240528101344_AddTimes")]
+    partial class AddTimes
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -304,29 +307,6 @@ namespace chess.Infrastructure.Migrations
                     b.ToTable("GameTimings");
                 });
 
-            modelBuilder.Entity("chess.Core.Entities.Message", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
-
-                    b.Property<string>("Content")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<Guid>("PlayerId")
-                        .HasColumnType("uuid");
-
-                    b.Property<DateTime>("SentAt")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("PlayerId");
-
-                    b.ToTable("Messages");
-                });
-
             modelBuilder.Entity("chess.Core.Entities.Move", b =>
                 {
                     b.Property<Guid>("Id")
@@ -580,17 +560,6 @@ namespace chess.Infrastructure.Migrations
                     b.Navigation("Game");
                 });
 
-            modelBuilder.Entity("chess.Core.Entities.Message", b =>
-                {
-                    b.HasOne("chess.Core.Entities.Player", "Player")
-                        .WithMany("Messages")
-                        .HasForeignKey("PlayerId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Player");
-                });
-
             modelBuilder.Entity("chess.Core.Entities.Move", b =>
                 {
                     b.HasOne("chess.Core.Entities.Game", "Game")
@@ -641,8 +610,6 @@ namespace chess.Infrastructure.Migrations
                 {
                     b.Navigation("BlackGame")
                         .IsRequired();
-
-                    b.Navigation("Messages");
 
                     b.Navigation("WhiteGame")
                         .IsRequired();

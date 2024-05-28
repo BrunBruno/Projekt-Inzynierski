@@ -70,6 +70,11 @@ public class ChessAppDbContext : DbContext {
     /// </summary>
     public DbSet<Elo> Elos { get; set; }
 
+    /// <summary>
+    /// Messages db set (many to one player)
+    /// </summary>
+    public DbSet<Message> Messages { get; set; }
+
 
 
     public ChessAppDbContext(DbContextOptions<ChessAppDbContext> options) : base(options) { }
@@ -89,5 +94,6 @@ public class ChessAppDbContext : DbContext {
         builder.ApplyConfiguration<Move>(configuration);
         builder.ApplyConfiguration<Friendship>(configuration);
         builder.ApplyConfiguration<Elo>(configuration);
+        builder.ApplyConfiguration<Message>(configuration);
     }
 }

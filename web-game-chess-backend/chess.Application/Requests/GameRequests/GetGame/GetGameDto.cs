@@ -74,7 +74,6 @@ public class GetGamePlayerDto {
     /// </summary>
     public int Elo { get; set; }
 
-    public double TimeLeft { get; set; }
 }
 
 /// <summary>

@@ -12,6 +12,7 @@ using chess.Application.Requests.GameRequests.GetPlayer;
 using chess.Application.Requests.GameRequests.GetFinishedGames;
 using chess.Application.Requests.GameRequests.GetEndedGame;
 using chess.Application.Requests.GameRequests.CreatePrivateGame;
+using chess.Application.Requests.GameRequests.FetchTime;
 
 namespace chess.Api.Controllers;
 
@@ -118,6 +119,26 @@ public class GameController : ControllerBase {
         var player = await _mediator.Send(request);
 
         return Ok(player);
+    }
+
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="gameId"></param>
+    /// <returns></returns>
+    [HttpGet("{gameId}/time")]
+    [Authorize(Policy = "IsVerified")]
+    public async Task<IActionResult> FetchTime([FromRoute] Guid gameId) {
+
+        var request = new FetchTimeRequest()
+        {
+            GameId = gameId,
+        };
+
+        var time = await _mediator.Send(request);
+
+        return Ok(time);
     }
 
 

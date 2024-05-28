@@ -1,19 +1,28 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import AvatarSvg from "../../../shared/svgs/AvatarSvg";
 import PiecesSvgs from "../../../shared/svgs/PiecesSvgs";
 import { makeTimeFromMinutes } from "../../../shared/utils/functions/dateTimeRelated";
 import { GetGameDto } from "../../../shared/utils/types/gameDtos";
 import classes from "./RightSideBar.module.scss";
+import { EndGameModel } from "../../../shared/utils/types/gameModels";
+import GameHubService from "../../../shared/utils/services/GameHubService";
+import {
+  endGameTypes,
+  pieceColor,
+} from "../../../shared/utils/enums/entitiesEnums";
+import LoadingPage from "../../../shared/components/loading-page/LoadingPage";
 
 type RightSideBarProps = {
+  gameId: string;
   gameData: GetGameDto;
-  whitePlayerSeconds: number;
-  blackPlayerSeconds: number;
-  setWhitePlayerSeconds: React.Dispatch<React.SetStateAction<number>>;
-  setBlackPlayerSeconds: React.Dispatch<React.SetStateAction<number>>;
+  whitePlayerSeconds: number | null;
+  blackPlayerSeconds: number | null;
+  setWhitePlayerSeconds: React.Dispatch<React.SetStateAction<number | null>>;
+  setBlackPlayerSeconds: React.Dispatch<React.SetStateAction<number | null>>;
 };
 
 function RightSideBar({
+  gameId,
   gameData,
   whitePlayerSeconds,
   blackPlayerSeconds,
@@ -21,14 +30,16 @@ function RightSideBar({
   setBlackPlayerSeconds,
 }: RightSideBarProps) {
   useEffect(() => {
+    if (whitePlayerSeconds === null || blackPlayerSeconds === null) return;
+
     const whiteTick = () => {
       setWhitePlayerSeconds((prevSeconds) =>
-        prevSeconds > 0 ? prevSeconds - 1 : 0
+        prevSeconds! > 0 ? prevSeconds! - 1 : 0
       );
     };
     const blackTick = () => {
       setBlackPlayerSeconds((prevSeconds) =>
-        prevSeconds > 0 ? prevSeconds - 1 : 0
+        prevSeconds! > 0 ? prevSeconds! - 1 : 0
       );
     };
 
@@ -42,7 +53,28 @@ function RightSideBar({
     return () => {
       clearInterval(interval);
     };
-  }, [gameData]);
+  }, [gameData, whitePlayerSeconds, blackPlayerSeconds]);
+
+  const endGame = async (loserColor: number | null, endGameType: number) => {
+    const loserPlayer: EndGameModel = {
+      gameId: gameId,
+      loserColor: loserColor,
+      endGameType: endGameType,
+    };
+
+    GameHubService.EndGame(loserPlayer);
+  };
+
+  useEffect(() => {
+    if (whitePlayerSeconds !== null && whitePlayerSeconds <= 0) {
+      endGame(pieceColor.white, endGameTypes.outOfTime);
+    }
+  }, [whitePlayerSeconds]);
+  useEffect(() => {
+    if (blackPlayerSeconds !== null && blackPlayerSeconds <= 0) {
+      endGame(pieceColor.black, endGameTypes.outOfTime);
+    }
+  }, [blackPlayerSeconds]);
 
   const showTime = (seconds: number): (string | JSX.Element)[] => {
     const minutes = seconds / 60;
@@ -59,6 +91,10 @@ function RightSideBar({
 
     return elements;
   };
+
+  if (whitePlayerSeconds === null || blackPlayerSeconds === null) {
+    return <LoadingPage />;
+  }
 
   return (
     <section className={classes.bar}>
@@ -110,8 +146,22 @@ function RightSideBar({
         </div>
 
         <div className={classes["time-control"]}>
-          <div className={classes.time}>{showTime(whitePlayerSeconds)}</div>
-          <div className={classes.time}>{showTime(blackPlayerSeconds)}</div>
+          <div
+            className={`
+              ${classes.time} 
+              ${gameData.turn % 2 === 0 ? classes.active : ""}
+            `}
+          >
+            {showTime(whitePlayerSeconds)}
+          </div>
+          <div
+            className={`
+              ${classes.time} 
+              ${gameData.turn % 2 === 1 ? classes.active : ""}
+            `}
+          >
+            {showTime(blackPlayerSeconds)}
+          </div>
         </div>
 
         <div className={classes.bar__content__history}>

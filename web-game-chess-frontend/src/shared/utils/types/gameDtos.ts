@@ -15,6 +15,11 @@ export type EndGameDto = {
   winnerColor: number | null;
 };
 
+export type FetchTimeDto = {
+  whiteTimeLeft: number;
+  blackTimeLeft: number;
+};
+
 export type GetEndedGameDto = {
   winnerColor: number | null;
 };
@@ -60,7 +65,6 @@ export type GetGamePlayerDto = {
   name: string;
   imageUrl: string | null;
   elo: number;
-  timeLeft: number;
 };
 
 export type GetGameMoveDto = {

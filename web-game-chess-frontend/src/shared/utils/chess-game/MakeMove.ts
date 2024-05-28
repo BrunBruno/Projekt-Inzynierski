@@ -10,9 +10,7 @@ export const makeMove = (
   gameState: GameStates,
   selectionState: SelectionStates,
   moveToCoordinates: number[],
-  promotedPiece: string | null = null,
-  whiteSeconds: number,
-  blackSeconds: number
+  promotedPiece: string | null = null
 ): void => {
   if (!gameState.gameData) return;
 
@@ -162,8 +160,6 @@ export const makeMove = (
     bkm: bkm,
     bsrm: bsrm,
     blrm: blrm,
-    whiteSeconds: whiteSeconds,
-    blackSeconds: blackSeconds,
   };
 
   GameHubService.MakeMove(makeMoveModel);

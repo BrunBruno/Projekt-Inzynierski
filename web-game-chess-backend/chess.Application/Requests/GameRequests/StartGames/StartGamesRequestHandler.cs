@@ -40,7 +40,7 @@ public class StartGamesRequestHandler : IRequestHandler<StartGamesRequest> {
         foreach (var player in players) {
             if (matchedPlayers.Contains(player))
                 continue;
-
+         
             var possiblePlayers = players.Where(p => p.UserId != player.UserId && Math.Abs(p.Elo - player.Elo) <= 200).Except(matchedPlayers); // 200 ??
             var closestPlayer = possiblePlayers.OrderBy(pp => Math.Abs(pp.Elo - player.Elo)).FirstOrDefault();
 

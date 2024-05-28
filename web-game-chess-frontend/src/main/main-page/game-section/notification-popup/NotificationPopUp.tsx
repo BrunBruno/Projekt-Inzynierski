@@ -24,8 +24,6 @@ function NotificationPopUp({ allowNotification }: NotificationPopUpProps) {
 
     return () => {
       if (allowNotification && GameHubService.connection) {
-        console.log("in notification removed");
-
         GameHubService.connection.off(
           "InvitededToGame",
           handleNotificationChange

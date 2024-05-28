@@ -59,9 +59,7 @@ function FriendList({
           </div>
           <div className={classes.data}>
             <h3>{friend.username}</h3>
-            <p className={classes.elo}>
-              (<span>{friend.elo}</span>)
-            </p>
+            <p className={classes.elo}>{/* (<span>{friend.elo}</span>) */}</p>
             <p className={classes["previous-games"]}>
               <span>10W</span> <span>1D</span> <span>9L</span>
             </p>

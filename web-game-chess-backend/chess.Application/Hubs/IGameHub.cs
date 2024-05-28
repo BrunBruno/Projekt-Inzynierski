@@ -1,8 +1,7 @@
-﻿
-using chess.Application.Hubs.GameHubDtos;
-using chess.Application.Requests.GameRequests.EndGame;
+﻿using chess.Application.Requests.GameRequests.EndGame;
+using chess.Application.Requests.GameRequests.InvitedToGame;
 
-namespace chess.Application.Hubs; 
+namespace chess.Application.Hubs;
 
 /// <summary>
 /// SignalR game related actions
@@ -41,4 +40,10 @@ public interface IGameHub {
     /// </summary>
     /// <returns></returns>
     Task GameAccepted(Guid gameId);
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <returns></returns>
+    Task MessagesUpdated();
 }

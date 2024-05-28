@@ -34,8 +34,15 @@ public class EndGameRequestHandler : IRequestHandler<EndGameRequest, EndGameDto>
         if (game.WhitePlayer.UserId != userId && game.BlackPlayer.UserId != userId)
             throw new UnauthorizedException("This is not user game.");
 
-        if (game.HasEnded == true)
-            throw new BadRequestException("Can not end already finished game.");
+        if (game.HasEnded == true) {
+            var finishedGameDto = new EndGameDto()
+            {
+                WinnerColor = game.WinnerColor,
+            };
+
+            return finishedGameDto;
+        }
+            //throw new BadRequestException("Can not end already finished game.");
 
         var whiteUser = await _userRepository.GetById(game.WhitePlayer.UserId) 
             ?? throw new NotFoundException("User not found");

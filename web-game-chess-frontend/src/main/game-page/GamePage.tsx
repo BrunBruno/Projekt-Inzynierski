@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import {
   EndGameDto,
+  FetchTimeDto,
   GetEndedGameDto,
   GetGameDto,
   GetPlayerDto,
@@ -27,8 +28,12 @@ function GamePage() {
     null
   );
 
-  const [whitePlayerSeconds, setWhitePlayerSeconds] = useState<number>(0);
-  const [blackPlayerSeconds, setBlackPlayerSeconds] = useState<number>(0);
+  const [whitePlayerSeconds, setWhitePlayerSeconds] = useState<number | null>(
+    null
+  );
+  const [blackPlayerSeconds, setBlackPlayerSeconds] = useState<number | null>(
+    null
+  );
 
   // get game data
   const getGame = async () => {
@@ -70,20 +75,36 @@ function GamePage() {
 
   // first feach for game data
   useEffect(() => {
-    if (gameId) {
-      GameHubService.GameStarted(gameId);
-      GameHubService.connection?.on("GameUpdated", getGame);
-      GameHubService.connection?.on("GameEnded", endGame);
+    if (!gameId) return;
 
-      getGame();
-      getPlayer();
-    }
+    GameHubService.GameStarted(gameId);
+    GameHubService.connection?.on("GameUpdated", getGame);
+    GameHubService.connection?.on("GameEnded", endGame);
+
+    getGame();
+    getPlayer();
 
     return () => {
       GameHubService.connection?.off("GameUpdated", getGame);
       GameHubService.connection?.off("GameEnded", endGame);
     };
   }, [gameId]);
+
+  const fetchTime = async () => {
+    if (!gameId) return;
+
+    try {
+      const timeResponse = await axios.get<FetchTimeDto>(
+        gameControllerPaths.fetchTime(gameId),
+        getAuthorization()
+      );
+
+      setWhitePlayerSeconds(timeResponse.data.whiteTimeLeft);
+      setBlackPlayerSeconds(timeResponse.data.blackTimeLeft);
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   useEffect(() => {
     if (!gameId || gameData === null) return;
@@ -105,8 +126,7 @@ function GamePage() {
       getWinner();
     }
 
-    setWhitePlayerSeconds(gameData.whitePlayer.timeLeft * 60);
-    setBlackPlayerSeconds(gameData.blackPlayer.timeLeft * 60);
+    fetchTime();
   }, [gameData]);
 
   if (!gameId || !gameData || !playerData) {
@@ -115,16 +135,19 @@ function GamePage() {
 
   return (
     <main className={classes["game-main"]}>
-      <LeftSideBar />
+      <LeftSideBar
+        gameId={gameId}
+        playerData={playerData}
+        gameData={gameData}
+      />
       <GameBoard
         gameId={gameId}
         gameData={gameData}
         playerData={playerData}
         winner={winner}
-        whitePlayerSeconds={whitePlayerSeconds}
-        blackPlayerSeconds={blackPlayerSeconds}
       />
       <RightSideBar
+        gameId={gameId}
         gameData={gameData}
         whitePlayerSeconds={whitePlayerSeconds}
         blackPlayerSeconds={blackPlayerSeconds}

@@ -9,6 +9,7 @@ using chess.Application.Requests.GameRequests.EndGame;
 using chess.Application.Requests.GameRequests.GetFinishedGames;
 using chess.Application.Requests.GameRequests.MakeMove;
 using chess.Application.Requests.GameRequests.SearchGame;
+using chess.Application.Requests.GameRequests.SendMessage;
 
 namespace chess.Api.Maps.MappingProfiles;
 
@@ -26,6 +27,7 @@ public class GameMappingProfile : Profile {
         CreateMap<AbortSearchModel, AbortSearchRequest>();
         CreateMap<CreatePrivateGameModel, CreatePrivateGameRequest>();
         CreateMap<AcceptInvitationModel, AcceptInvitationRequest>();
+        CreateMap<SendMessageModel, SendMessageRequest>();
 
     }
 }

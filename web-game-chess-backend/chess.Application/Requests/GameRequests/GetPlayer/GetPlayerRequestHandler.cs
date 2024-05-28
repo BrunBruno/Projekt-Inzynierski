@@ -30,8 +30,8 @@ public class GetPlayerRequestHandler : IRequestHandler<GetPlayerRequest, GetPlay
         if (player.Color is null || !player.IsPlaying)
             throw new BadRequestException("Player has not been asigned to game yet.");
 
-        if (player.FinishedGame)
-            throw new BadRequestException("Game for player has been already finishd.");
+        //if (player.FinishedGame)
+        //    throw new BadRequestException("Game for player has been already finishd.");
 
         var playerDto = new GetPlayerDto()
         {

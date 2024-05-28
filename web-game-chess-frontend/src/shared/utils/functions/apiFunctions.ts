@@ -57,6 +57,7 @@ interface GameControllerPaths {
   checkIfInGame: (model: CheckIfInGameModel) => string;
   getGame: (gameId: string) => string;
   getPlayer: (gameId: string) => string;
+  fetchTime: (gameId: string) => string;
   getEndedGame: (gameId: string) => string;
   getFinishedGames: (model: GetFinishedGamesModel) => string;
   //DELETE
@@ -75,6 +76,8 @@ export const gameControllerPaths: GameControllerPaths = {
   getGame: (gameId: string): string => `${gameBaseUrl}/${gameId}`,
 
   getPlayer: (gameId: string): string => `${gameBaseUrl}/${gameId}/player`,
+
+  fetchTime: (gameId: string): string => `${gameBaseUrl}/${gameId}/time`,
 
   getEndedGame: (gameId: string): string => `${gameBaseUrl}/${gameId}/ended`,
 

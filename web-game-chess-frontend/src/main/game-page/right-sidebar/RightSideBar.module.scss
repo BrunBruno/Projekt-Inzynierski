@@ -89,6 +89,7 @@
 
         font-size: 2rem;
         font-weight: 600;
+        opacity: 0.5;
 
         &:nth-child(1) {
           color: #000;
@@ -97,6 +98,10 @@
         &:nth-child(2) {
           color: #fff;
           background-color: #000;
+        }
+
+        &.active {
+          opacity: 1;
         }
 
         span {

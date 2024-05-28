@@ -31,6 +31,8 @@ public class Game {
     /// </summary>
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 
+    public DateTime? StartedAt { get; set; } = null;
+
     /// <summary>
     /// Turn of game
     /// </summary>

@@ -46,8 +46,6 @@ export type MakeMoveModel = {
   bkm: boolean;
   bsrm: boolean;
   blrm: boolean;
-  whiteSeconds: number;
-  blackSeconds: number;
 };
 
 export type NotifyUserModel = {
@@ -60,4 +58,10 @@ export type SearchGameModel = {
   type: number;
   minutes: number;
   increment: number;
+};
+
+export type SendMessageModel = {
+  gameId: string;
+  playerId: string;
+  message: string;
 };

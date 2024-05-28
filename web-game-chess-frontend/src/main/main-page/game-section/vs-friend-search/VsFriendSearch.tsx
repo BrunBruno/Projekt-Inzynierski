@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import classes from "./VsFriendSearch.module.scss";
 import { GetAllFriendsByStatusModel } from "../../../../shared/utils/types/friendshipModels";
 import {
@@ -32,8 +32,10 @@ function VsFriendSearch({}: VsFriendSearchProps) {
   const [pageSize, setPageSize] = useState<number>(10);
   const [selectedUsername, setSelectedUsername] = useState<string>("");
 
-  const [selectedFriend, setSelectedFriend] =
-    useState<GetAllFriendsByStatusDto | null>(null);
+  const [
+    selectedFriend,
+    setSelectedFriend,
+  ] = useState<GetAllFriendsByStatusDto | null>(null);
 
   const getFriends = async () => {
     try {

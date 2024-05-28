@@ -55,7 +55,7 @@ public class CreatePrivateGameRequestHandler : IRequestHandler<CreatePrivateGame
         if (request.Minutes == 0)
             throw new BadRequestException("Incorrect minutes value.");
 
-        var existingGameTiming = await _gameTimingRepository.FindTiming(request.Type, request.Minutes, request.Increment);
+        var existingGameTiming = await _gameTimingRepository.FindTiming(request.Type, request.Minutes * 60, request.Increment);
 
         var timing = existingGameTiming;
         if (existingGameTiming is null) {

@@ -88,4 +88,6 @@ public class Player {
     /// Timing id, to get duration and increment for all moves
     /// </summary>
     public Guid TimingId { get; set; }
+
+    public List<Message> Messages { get; set; }
 }

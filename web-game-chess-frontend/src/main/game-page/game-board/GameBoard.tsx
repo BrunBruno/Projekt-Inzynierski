@@ -48,18 +48,9 @@ type GameBoardProps = {
   gameData: GetGameDto;
   playerData: GetPlayerDto;
   winner: EndGameDto | null;
-  whitePlayerSeconds: number;
-  blackPlayerSeconds: number;
 };
 
-function GameBoard({
-  gameId,
-  gameData,
-  playerData,
-  winner,
-  whitePlayerSeconds,
-  blackPlayerSeconds,
-}: GameBoardProps) {
+function GameBoard({ gameId, gameData, playerData, winner }: GameBoardProps) {
   const innerBoardRef = useRef<HTMLDivElement>(null);
   const outerBoardRef = useRef<HTMLDivElement>(null);
 
@@ -473,14 +464,7 @@ function GameBoard({
       // setTimeout(() => {
       // makeMove(gameStates, selectionStates);
       // }, 100);
-      makeMove(
-        gameStates,
-        selectionStates,
-        coordinates,
-        null,
-        whitePlayerSeconds,
-        blackPlayerSeconds
-      );
+      makeMove(gameStates, selectionStates, coordinates, null);
 
       return;
     }
@@ -533,14 +517,7 @@ function GameBoard({
 
     // if put on one of tip fields make move else clear piece
     if (isInTipFields) {
-      makeMove(
-        gameStates,
-        selectionStates,
-        coordinates,
-        null,
-        whitePlayerSeconds,
-        blackPlayerSeconds
-      );
+      makeMove(gameStates, selectionStates, coordinates, null);
     } else {
       chosePiece("", []);
     }
@@ -571,9 +548,7 @@ function GameBoard({
         gameStates,
         selectionStates,
         selectionStates.promotionCoor,
-        promotedPiece,
-        whitePlayerSeconds,
-        blackPlayerSeconds
+        promotedPiece
       );
     }
 

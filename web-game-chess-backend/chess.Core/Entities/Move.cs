@@ -54,6 +54,11 @@ public class Move {
     public double BlackTime {  get; set; }
 
     /// <summary>
+    /// 
+    /// </summary>
+    public DateTime DoneAt { get; set; } = DateTime.UtcNow;
+
+    /// <summary>
     /// game id
     /// </summary>
     public Guid GameId { get; set; }

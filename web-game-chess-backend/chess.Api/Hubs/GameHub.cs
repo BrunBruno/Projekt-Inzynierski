@@ -2,10 +2,11 @@
 using AutoMapper;
 using chess.Api.Models.GameModels;
 using chess.Application.Hubs;
-using chess.Application.Hubs.GameHubDtos;
 using chess.Application.Requests.GameRequests.AcceptInvitation;
 using chess.Application.Requests.GameRequests.EndGame;
+using chess.Application.Requests.GameRequests.InvitedToGame;
 using chess.Application.Requests.GameRequests.MakeMove;
+using chess.Application.Requests.GameRequests.SendMessage;
 using chess.Application.Requests.GameRequests.StartGames;
 using chess.Application.Services;
 using MediatR;
@@ -86,6 +87,24 @@ public class GameHub : Hub<IGameHub> {
         await _mediator.Send(request);
 
         await Clients.Groups($"game-{model.GameId}").GameUpdated();
+    }
+
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="model"></param>
+    /// <returns></returns>
+    [HubMethodName("send-message")]
+    [Authorize(Policy = "IsVerified")]
+    [SignalRMethod("SendMessage", Operation.Post)]
+    public async Task SendMessage(SendMessageModel model) {
+
+        var request = _mapper.Map<SendMessageRequest>(model);
+
+        await _mediator.Send(request);
+
+        await Clients.Groups($"game-{model.GameId}").MessagesUpdated();
     }
 
 
