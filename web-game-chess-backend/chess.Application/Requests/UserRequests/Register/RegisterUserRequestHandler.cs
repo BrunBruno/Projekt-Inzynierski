@@ -47,6 +47,7 @@ public class RegisterUserRequestHandler : IRequestHandler<RegisterUserRequest> {
             Username = request.Username,
             JoinDate = DateTime.UtcNow,
             Elo = new Elo(),
+            Stats = new UserStats(),
         };
 
         var hashedPassword = _passwordHasher.HashPassword(user, request.Password);

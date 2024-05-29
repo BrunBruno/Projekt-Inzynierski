@@ -49,6 +49,13 @@ public class User {
     public bool IsVerified { get; set; } = false;
 
     /// <summary>
+    /// 
+    /// </summary>
+    public int GamesPlayed { get; set; } = 0;
+
+    public int Wins { get; set; }
+
+    /// <summary>
     /// Role id
     /// </summary>
     public int RoleId { get; set; } = (int)Roles.User;
@@ -62,6 +69,11 @@ public class User {
     /// Score poitns of player for different types
     /// </summary>
     public Elo Elo { get; set; }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    public UserStats Stats { get; set; }
 
     /// <summary>
     /// Players for each game that user played

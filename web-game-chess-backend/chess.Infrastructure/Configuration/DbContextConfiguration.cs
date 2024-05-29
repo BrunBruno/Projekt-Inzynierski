@@ -22,7 +22,8 @@ public class DbContextConfiguration :
     IEntityTypeConfiguration<Move>,
     IEntityTypeConfiguration<Friendship>,
     IEntityTypeConfiguration<Elo>,
-    IEntityTypeConfiguration<Message>
+    IEntityTypeConfiguration<Message>,
+    IEntityTypeConfiguration<UserStats>
 {
 
     public void Configure(EntityTypeBuilder<User> builder) {
@@ -159,6 +160,16 @@ public class DbContextConfiguration :
             .HasOne(m => m.Player)
             .WithMany(p => p.Messages)
             .HasForeignKey(m => m.PlayerId);
+    }
+
+    public void Configure(EntityTypeBuilder<UserStats> builder) {
+        builder
+            .HasKey(us => us.Id);
+
+        builder
+            .HasOne(us => us.User)
+            .WithOne(u => u.Stats)
+            .HasForeignKey<UserStats>(us => us.UserId);
     }
 
     private static IEnumerable<Role> GetRoles() {

@@ -12,16 +12,18 @@ public class EndGameRequestHandler : IRequestHandler<EndGameRequest, EndGameDto>
     private readonly IGameRepository _gameRepository;
     private readonly IUserContextService _userContextService;
     private readonly IUserRepository _userRepository;
-    
+    private readonly IFriendshipRepository _friendshipRepository;
 
     public EndGameRequestHandler(
         IGameRepository gameRepository,
         IUserContextService userContextService,
-        IUserRepository userRepository
+        IUserRepository userRepository,
+        IFriendshipRepository friendshipRepository
     ) {
         _gameRepository = gameRepository;
         _userContextService = userContextService;
         _userRepository = userRepository;
+        _friendshipRepository = friendshipRepository;
     }   
 
     public async Task<EndGameDto> Handle(EndGameRequest request, CancellationToken cancellationToken) {
@@ -42,7 +44,6 @@ public class EndGameRequestHandler : IRequestHandler<EndGameRequest, EndGameDto>
 
             return finishedGameDto;
         }
-            //throw new BadRequestException("Can not end already finished game.");
 
         var whiteUser = await _userRepository.GetById(game.WhitePlayer.UserId) 
             ?? throw new NotFoundException("User not found");
@@ -74,6 +75,9 @@ public class EndGameRequestHandler : IRequestHandler<EndGameRequest, EndGameDto>
 
 
         await _gameRepository.Update(game);
+
+        whiteUser.GamesPlayed += 1;
+        blackUser.GamesPlayed += 1;
 
         await _userRepository.Update(whiteUser);
         await _userRepository.Update(blackUser);
