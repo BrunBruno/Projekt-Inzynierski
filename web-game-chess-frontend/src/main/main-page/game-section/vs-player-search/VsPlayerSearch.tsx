@@ -13,9 +13,15 @@ import TimingTypesIcons from "../../../../shared/svgs/TimingTypesIcons";
 
 type VsPlayerSearchProps = {
   setSearchIds: React.Dispatch<React.SetStateAction<SearchGameDto | null>>;
+  setChoosenTiming: React.Dispatch<
+    React.SetStateAction<SearchGameModel | null>
+  >;
 };
 
-function VsPlayerSearch({ setSearchIds }: VsPlayerSearchProps) {
+function VsPlayerSearch({
+  setSearchIds,
+  setChoosenTiming,
+}: VsPlayerSearchProps) {
   // API call search for game
   const onSearchForGame = async (header: string, values: number[]) => {
     const typeValue = timingTypes[header];
@@ -32,6 +38,8 @@ function VsPlayerSearch({ setSearchIds }: VsPlayerSearchProps) {
         gameType,
         getAuthorization()
       );
+
+      setChoosenTiming(gameType);
 
       setSearchIds(searchGameResponse.data);
 

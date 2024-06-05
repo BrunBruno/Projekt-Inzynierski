@@ -17,7 +17,10 @@ import { gameSearchInterface } from "../../../shared/utils/enums/interfacesEnums
 import UserGames from "./user-games/UserGames";
 import GameSectionIcons from "./GameSectionIcons";
 import VsFriendSearch from "./vs-friend-search/VsFriendSearch";
-import { CheckIfInGameModel } from "../../../shared/utils/types/gameModels";
+import {
+  CheckIfInGameModel,
+  SearchGameModel,
+} from "../../../shared/utils/types/gameModels";
 import NotificationPopUp from "./notification-popup/NotificationPopUp";
 import { HubConnectionState } from "@microsoft/signalr";
 import DefaultView from "./default-view/DefaultView";
@@ -30,6 +33,10 @@ function GameSection() {
   );
   const [searchIds, setSearchIds] = useState<SearchGameDto | null>(null);
   const [allowNotification, setAllowNotification] = useState<boolean>(false);
+
+  const [choosenTiming, setChoosenTiming] = useState<SearchGameModel | null>(
+    null
+  );
 
   const handleGamesChanged = async () => {
     if (searchIds !== null) {
@@ -44,7 +51,9 @@ function GameSection() {
         );
 
         if (isInGameResponse.data.isInGame) {
-          navigate(`game/${isInGameResponse.data.gameId}`);
+          navigate(`game/${isInGameResponse.data.gameId}`, {
+            state: { timing: choosenTiming },
+          });
         }
       } catch (err) {
         console.log(err);
@@ -53,7 +62,7 @@ function GameSection() {
   };
 
   const handleGameAccepted = (gameId: string) => {
-    navigate(`game/${gameId}`);
+    navigate(`game/${gameId}`, { state: { timing: choosenTiming } });
   };
 
   useEffect(() => {
@@ -83,13 +92,20 @@ function GameSection() {
   const setInterfaceById = (interfaceId: number) => {
     switch (interfaceId) {
       case gameSearchInterface.vsPlayer:
-        setInterfaceContent(<VsPlayerSearch setSearchIds={setSearchIds} />);
+        setInterfaceContent(
+          <VsPlayerSearch
+            setSearchIds={setSearchIds}
+            setChoosenTiming={setChoosenTiming}
+          />
+        );
         break;
       case gameSearchInterface.vsComputer:
         setInterfaceContent(<></>);
         break;
       case gameSearchInterface.vsFriend:
-        setInterfaceContent(<VsFriendSearch />);
+        setInterfaceContent(
+          <VsFriendSearch setChoosenTiming={setChoosenTiming} />
+        );
         break;
       case gameSearchInterface.searching:
         setInterfaceContent(

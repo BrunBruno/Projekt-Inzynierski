@@ -7,6 +7,7 @@ import {
   EndGameDto,
   GetGameDto,
   GetPlayerDto,
+  SearchGameDto,
 } from "../../../shared/utils/types/gameDtos";
 import classes from "./GameBoard.module.scss";
 import {
@@ -25,7 +26,10 @@ import {
 import XSvg from "../../../shared/svgs/XSvg";
 import { generateRandomId } from "../../../shared/utils/functions/generateRandom";
 import { checkIfAnyMoveExists } from "../../../shared/utils/chess-game/CheckIfAnyMoveExists";
-import { EndGameModel } from "../../../shared/utils/types/gameModels";
+import {
+  EndGameModel,
+  SearchGameModel,
+} from "../../../shared/utils/types/gameModels";
 import GameHubService from "../../../shared/utils/services/GameHubService";
 import GameBoardWinner from "./game-board-winner/GameBoardWinner";
 import GameBoardPromotion from "./game-board-promotion/GameBoardPromotion";
@@ -42,15 +46,27 @@ import {
   onClearHighlights,
   onHighlightFile,
 } from "../../../shared/utils/chess-game/BoardVisualization";
+import GameBoardSearching from "./game-board-searching/GameBoardSearching";
 
 type GameBoardProps = {
   gameId: string;
   gameData: GetGameDto;
   playerData: GetPlayerDto;
   winner: EndGameDto | null;
+  searchIds: SearchGameDto | null;
+  setSearchIds: React.Dispatch<React.SetStateAction<SearchGameDto | null>>;
+  selectedTiming: SearchGameModel | null;
 };
 
-function GameBoard({ gameId, gameData, playerData, winner }: GameBoardProps) {
+function GameBoard({
+  gameId,
+  gameData,
+  playerData,
+  winner,
+  searchIds,
+  setSearchIds,
+  selectedTiming,
+}: GameBoardProps) {
   const innerBoardRef = useRef<HTMLDivElement>(null);
   const outerBoardRef = useRef<HTMLDivElement>(null);
 
@@ -574,7 +590,21 @@ function GameBoard({ gameId, gameData, playerData, winner }: GameBoardProps) {
         )}
 
         {/* end game info*/}
-        {winner && <GameBoardWinner gameData={gameData} winner={winner} />}
+        {winner && !searchIds && (
+          <GameBoardWinner
+            gameData={gameData}
+            winner={winner}
+            setSearchIds={setSearchIds}
+            selectedTiming={selectedTiming}
+          />
+        )}
+
+        {winner && searchIds && (
+          <GameBoardSearching
+            searchIds={searchIds}
+            setSearchIds={setSearchIds}
+          />
+        )}
       </div>
     </section>
   );

@@ -16,6 +16,7 @@ import {
 import {
   CreatePrivateGameModel,
   NotifyUserModel,
+  SearchGameModel,
 } from "../../../../shared/utils/types/gameModels";
 import { CreatePrivateGameDto } from "../../../../shared/utils/types/gameDtos";
 import GameHubService from "../../../../shared/utils/services/GameHubService";
@@ -23,9 +24,13 @@ import TimeSelection from "./time-selection/TimeSelection";
 import FriendList from "./friends-list/FriendList";
 import { delayAction } from "../../../../shared/utils/functions/eventsRelated";
 
-type VsFriendSearchProps = {};
+type VsFriendSearchProps = {
+  setChoosenTiming: React.Dispatch<
+    React.SetStateAction<SearchGameModel | null>
+  >;
+};
 
-function VsFriendSearch({}: VsFriendSearchProps) {
+function VsFriendSearch({ setChoosenTiming }: VsFriendSearchProps) {
   const [friends, setFriends] = useState<GetAllFriendsByStatusDto[]>([]);
   const [totalItemsCount, setTotalItemsCount] = useState<number>(0);
 
@@ -73,6 +78,14 @@ function VsFriendSearch({}: VsFriendSearchProps) {
   ) => {
     try {
       const typeValue = timingTypes[header];
+
+      const gameType: SearchGameModel = {
+        type: typeValue,
+        minutes: values[0],
+        increment: values[1],
+      };
+
+      setChoosenTiming(gameType);
 
       const privateGameModel: CreatePrivateGameModel = {
         friendshipId: friendshipId,

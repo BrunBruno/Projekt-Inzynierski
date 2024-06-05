@@ -1,13 +1,15 @@
-import { useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import classes from "./GamePage.module.scss";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import {
+  CheckIfInGameDto,
   EndGameDto,
   FetchTimeDto,
   GetEndedGameDto,
   GetGameDto,
   GetPlayerDto,
+  SearchGameDto,
 } from "../../shared/utils/types/gameDtos";
 import {
   gameControllerPaths,
@@ -18,9 +20,16 @@ import GameBoard from "./game-board/GameBoard";
 import GameHubService from "../../shared/utils/services/GameHubService";
 import LeftSideBar from "./left-sidebar/LeftSideBar";
 import RightSideBar from "./right-sidebar/RightSideBar";
+import { HubConnectionState } from "@microsoft/signalr";
+import {
+  CheckIfInGameModel,
+  SearchGameModel,
+} from "../../shared/utils/types/gameModels";
 
 function GamePage() {
   const { gameId } = useParams();
+  const location = useLocation();
+  const navigate = useNavigate();
 
   const [gameData, setGameData] = useState<GetGameDto | null>(null);
   const [playerData, setPlayerData] = useState<GetPlayerDto | null>(null);
@@ -34,6 +43,19 @@ function GamePage() {
   const [blackPlayerSeconds, setBlackPlayerSeconds] = useState<number | null>(
     null
   );
+
+  const [selectedTiming, setSelectedTiming] = useState<SearchGameModel | null>(
+    null
+  );
+  const [searchIds, setSearchIds] = useState<SearchGameDto | null>(null);
+
+  useEffect(() => {
+    if (location.state.timing !== null) {
+      setSelectedTiming(location.state.timing);
+    } else {
+      navigate("/main");
+    }
+  }, [location.state]);
 
   // get game data
   const getGame = async () => {
@@ -90,6 +112,7 @@ function GamePage() {
     };
   }, [gameId]);
 
+  // get players remining times
   const fetchTime = async () => {
     if (!gameId) return;
 
@@ -129,6 +152,47 @@ function GamePage() {
     fetchTime();
   }, [gameData]);
 
+  //
+  const handleGamesChanged = async () => {
+    if (searchIds !== null) {
+      try {
+        const isInGameModel: CheckIfInGameModel = {
+          playerId: searchIds.playerId,
+        };
+
+        const isInGameResponse = await axios.get<CheckIfInGameDto>(
+          gameControllerPaths.checkIfInGame(isInGameModel),
+          getAuthorization()
+        );
+
+        if (isInGameResponse.data.isInGame) {
+          navigate(`/main/game/${isInGameResponse.data.gameId}`, {
+            state: { timing: selectedTiming },
+          });
+
+          window.location.reload();
+        }
+      } catch (err) {
+        console.log(err);
+      }
+    }
+  };
+
+  useEffect(() => {
+    if (
+      GameHubService.connection &&
+      GameHubService.connection.state === HubConnectionState.Connected
+    ) {
+      GameHubService.connection.on("GamesChanged", handleGamesChanged);
+    }
+
+    return () => {
+      if (GameHubService.connection) {
+        GameHubService.connection.off("GamesChanged", handleGamesChanged);
+      }
+    };
+  }, [searchIds]);
+
   if (!gameId || !gameData || !playerData) {
     return <LoadingPage />;
   }
@@ -145,6 +209,9 @@ function GamePage() {
         gameData={gameData}
         playerData={playerData}
         winner={winner}
+        searchIds={searchIds}
+        setSearchIds={setSearchIds}
+        selectedTiming={selectedTiming}
       />
       <RightSideBar
         gameId={gameId}

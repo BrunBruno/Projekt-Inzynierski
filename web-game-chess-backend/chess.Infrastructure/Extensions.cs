@@ -107,6 +107,7 @@ public static class Extensions {
         services.AddScoped<IFriendshipRepository, FriendshipRepository>();
         services.AddScoped<IEloRepository, EloRepository>();
         services.AddScoped<IMessageRepository, MessageRepository>();
+        services.AddScoped<IUserStatsRepository, UserStatsRepository>();
 
         return services;
     }
