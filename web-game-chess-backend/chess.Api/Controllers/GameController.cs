@@ -13,6 +13,8 @@ using chess.Application.Requests.GameRequests.GetFinishedGames;
 using chess.Application.Requests.GameRequests.GetEndedGame;
 using chess.Application.Requests.GameRequests.CreatePrivateGame;
 using chess.Application.Requests.GameRequests.FetchTime;
+using chess.Application.Requests.GameRequests.GetOpponent;
+using chess.Application.Requests.GameRequests.CreateRematchGame;
 
 namespace chess.Api.Controllers;
 
@@ -41,9 +43,9 @@ public class GameController : ControllerBase {
 
         var request = _mapper.Map<SearchGameRequest>(model);
 
-        var ids = await _mediator.Send(request);
+        var gameData = await _mediator.Send(request);
 
-        return Ok(ids);
+        return Ok(gameData);
     }
 
 
@@ -59,9 +61,21 @@ public class GameController : ControllerBase {
 
         var request = _mapper.Map<CreatePrivateGameRequest>(model);
 
-        var gameId = await _mediator.Send(request);
+        var gameData = await _mediator.Send(request);
 
-        return Ok(gameId);
+        return Ok(gameData);
+    }
+
+
+    [HttpPost("rematch")]
+    [Authorize(Policy = "IsVerified")]
+    public async Task<IActionResult> CreateRematchGame([FromBody] CreateRematchGameModel model) {
+
+        var request = _mapper.Map<CreateRematchGameRequest>(model);
+
+        var gameData = await _mediator.Send(request);
+
+        return Ok(gameData);
     }
 
 
@@ -139,6 +153,22 @@ public class GameController : ControllerBase {
         var time = await _mediator.Send(request);
 
         return Ok(time);
+    }
+
+
+
+    [HttpGet("{gameId}/opponent")]
+    [Authorize(Policy = "IsVerified")]
+    public async Task<IActionResult> GetOpponent([FromRoute] Guid gameId) {
+
+        var request = new GetOpponentRequest()
+        {
+            GameId = gameId,
+        };
+
+        var opponent = await _mediator.Send(request);
+
+        return Ok(opponent);
     }
 
 
