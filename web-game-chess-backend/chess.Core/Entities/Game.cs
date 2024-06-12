@@ -59,6 +59,11 @@ public class Game {
     public EndGameTypes? EndGameType { get; set; } = null;
 
     /// <summary>
+    /// 
+    /// </summary>
+    public int EloGain { get; set; }
+
+    /// <summary>
     /// Id of player playing as white
     /// </summary>
     public Guid WhitePlayerId { get; set; }

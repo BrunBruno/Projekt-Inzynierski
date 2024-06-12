@@ -48,12 +48,6 @@ public class User {
     /// </summary>
     public bool IsVerified { get; set; } = false;
 
-    /// <summary>
-    /// 
-    /// </summary>
-    public int GamesPlayed { get; set; } = 0;
-
-    public int Wins { get; set; }
 
     /// <summary>
     /// Role id

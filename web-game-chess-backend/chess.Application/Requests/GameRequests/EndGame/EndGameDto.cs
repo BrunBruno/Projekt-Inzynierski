@@ -12,4 +12,9 @@ public class EndGameDto {
     /// Winner color
     /// </summary>
     public Colors? WinnerColor { get; set; }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    public int EloGain { get; set; }
 }
