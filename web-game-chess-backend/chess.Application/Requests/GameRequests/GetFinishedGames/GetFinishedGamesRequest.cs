@@ -1,5 +1,6 @@
 ﻿
 using chess.Application.Pagination;
+using chess.Core.Enums;
 using MediatR;
 
 namespace chess.Application.Requests.GameRequests.GetFinishedGames;
@@ -18,4 +19,9 @@ public class GetFinishedGamesRequest : IRequest<PagedResult<GetFinishedGamesDto>
     /// Page size for pagination
     /// </summary>
     public int PageSize { get; set; }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    public List<TimingTypes?> TimingTypeFilters { get; set; }
 }

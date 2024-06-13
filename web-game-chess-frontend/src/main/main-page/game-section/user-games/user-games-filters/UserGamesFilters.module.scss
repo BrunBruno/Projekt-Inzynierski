@@ -1,0 +1,49 @@
+@import "../../../../Main.scss";
+
+.filters {
+  @include rounded(3rem);
+  @include flex(column, center, center, 2rem);
+
+  position: absolute;
+  top: 14rem;
+  right: 8rem;
+  background-color: $gc9;
+  border: solid 0.5rem $gc8;
+
+  &::after {
+    @include subCl(6rem, 6rem);
+    background-color: $gc9;
+
+    z-index: 1;
+    top: calc(-3rem - 0.5rem);
+    right: 6rem;
+    transform: rotate(45deg);
+    border-left: solid 0.5rem $gc8;
+    border-top: solid 0.5rem $gc8;
+    border-top-left-radius: 2rem;
+  }
+
+  &__row {
+    @include flex(row, space-evenly, center, 2rem);
+
+    z-index: 2;
+
+    p {
+      @include rounded(1rem);
+      padding: 1rem 2.5rem;
+      background-color: $gc8;
+      font-size: 2rem;
+      font-weight: 600;
+      user-select: none;
+
+      &:hover {
+        cursor: pointer;
+        filter: brightness(80%);
+      }
+    }
+
+    p.active {
+      background-color: $mc7;
+    }
+  }
+}

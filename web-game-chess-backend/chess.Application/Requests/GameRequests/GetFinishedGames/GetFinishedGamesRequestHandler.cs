@@ -33,7 +33,8 @@ public class GetFinishedGamesRequestHandler : IRequestHandler<GetFinishedGamesRe
             if(player.WhiteGame is not null &&
                 player.WhiteGame.WhitePlayer is not null &&
                 player.WhiteGame.BlackPlayer is not null &&
-                player.WhiteGame.HasEnded
+                player.WhiteGame.HasEnded &&
+                (request.TimingTypeFilters == null || request.TimingTypeFilters.Contains(player.WhiteGame.TimingType))
             ){
                 finishedGames.Add(new GetFinishedGamesDto()
                 {
@@ -41,6 +42,7 @@ public class GetFinishedGamesRequestHandler : IRequestHandler<GetFinishedGamesRe
                     Turn = player.WhiteGame.Turn,
                     Moves = player.WhiteGame.Round,
                     IsWinner = player.WhiteGame.WinnerColor != null ? player.WhiteGame.WinnerColor == Colors.White : null,
+                    EloGained = player.WhiteGame.EloGain,
                     CreatedAt = player.WhiteGame.CreatedAt,
 
                     TimingType = player.WhiteGame.TimingType,
@@ -67,7 +69,8 @@ public class GetFinishedGamesRequestHandler : IRequestHandler<GetFinishedGamesRe
             if (player.BlackGame is not null &&
                 player.BlackGame.WhitePlayer is not null &&
                 player.BlackGame.BlackPlayer is not null &&
-                player.BlackGame.HasEnded
+                player.BlackGame.HasEnded &&
+                (request.TimingTypeFilters == null || request.TimingTypeFilters.Contains(player.BlackGame.TimingType))
             ) {
                 finishedGames.Add(new GetFinishedGamesDto()
                 {
@@ -75,6 +78,7 @@ public class GetFinishedGamesRequestHandler : IRequestHandler<GetFinishedGamesRe
                     Turn = player.BlackGame.Turn,
                     Moves = player.BlackGame.Round,
                     IsWinner = player.BlackGame.WinnerColor != null ? player.BlackGame.WinnerColor == Colors.Black : null,
+                    EloGained = player.BlackGame.EloGain,
                     CreatedAt = player.BlackGame.CreatedAt,
 
                     TimingType = player.BlackGame.TimingType,

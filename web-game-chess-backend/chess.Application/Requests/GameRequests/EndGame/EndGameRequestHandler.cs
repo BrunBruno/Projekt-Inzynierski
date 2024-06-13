@@ -59,10 +59,11 @@ public class EndGameRequestHandler : IRequestHandler<EndGameRequest, EndGameDto>
         int whiteElo = whiteUser.Elo.GetElo(game.TimingType);
         int blackElo = blackUser.Elo.GetElo(game.TimingType);
 
+        int eloDiff = Math.Abs(whiteElo - blackElo);
         int eloToUpdate;
-        int eloDiff = Math.Abs(whiteUser.Elo.GetElo(game.TimingType) - blackUser.Elo.GetElo(game.TimingType));
 
-        if(game.WhitePlayer.Color == request.LoserColor) {
+
+        if (game.WhitePlayer.Color == request.LoserColor) {
             game.WinnerColor = game.BlackPlayer.Color;
 
             blackUser.Stats.Wins += 1;
@@ -70,14 +71,14 @@ public class EndGameRequestHandler : IRequestHandler<EndGameRequest, EndGameDto>
 
             if (whiteElo > blackElo) {
 
-                eloToUpdate = (int)(0.1 * eloDiff + 10);
+                eloToUpdate = (int)Math.Ceiling(0.1 * eloDiff + 10);
 
                 whiteUser.Elo.UpdateElo(game.TimingType, -eloToUpdate);
                 blackUser.Elo.UpdateElo(game.TimingType, eloToUpdate);
 
             } else {
 
-                eloToUpdate = (int)(100 / (0.1 * eloDiff + 10));
+                eloToUpdate = (int)Math.Ceiling(100 / (0.1 * eloDiff + 10));
 
                 whiteUser.Elo.UpdateElo(game.TimingType, -eloToUpdate);
                 blackUser.Elo.UpdateElo(game.TimingType, eloToUpdate);
@@ -113,14 +114,14 @@ public class EndGameRequestHandler : IRequestHandler<EndGameRequest, EndGameDto>
 
             if (blackElo > whiteElo) {
 
-                eloToUpdate = (int)(0.1 * eloDiff + 10);
+                eloToUpdate = (int)Math.Ceiling(0.1 * eloDiff + 10);
 
                 whiteUser.Elo.UpdateElo(game.TimingType, eloToUpdate);
                 blackUser.Elo.UpdateElo(game.TimingType, -eloToUpdate);
 
             } else {
 
-                eloToUpdate = (int)(100 / (0.1 * eloDiff + 10));
+                eloToUpdate = (int)Math.Ceiling(100 / (0.1 * eloDiff + 10));
 
                 whiteUser.Elo.UpdateElo(game.TimingType, eloToUpdate);
                 blackUser.Elo.UpdateElo(game.TimingType, -eloToUpdate);
@@ -155,7 +156,7 @@ public class EndGameRequestHandler : IRequestHandler<EndGameRequest, EndGameDto>
             blackUser.Stats.Draws += 1;
 
 
-            eloToUpdate = (int)(0.05 * eloDiff);
+            eloToUpdate = (int)Math.Ceiling(0.05 * eloDiff);
             if (whiteElo > blackElo) {
 
                 whiteUser.Elo.UpdateElo(game.TimingType, -eloToUpdate);

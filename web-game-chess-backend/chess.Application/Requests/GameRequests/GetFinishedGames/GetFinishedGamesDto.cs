@@ -29,6 +29,11 @@ public class GetFinishedGamesDto {
     public bool? IsWinner { get; set; }
 
     /// <summary>
+    /// 
+    /// </summary>
+    public int EloGained { get; set; }
+
+    /// <summary>
     /// When game was created / played
     /// </summary>
     public DateTime CreatedAt { get; set; }

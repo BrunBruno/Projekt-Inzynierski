@@ -19,6 +19,7 @@ import {
 } from "../../../../shared/utils/enums/entitiesEnums";
 import WinTypesIocns from "./user-game-icons/WinTypesIcons";
 import { PagedResult } from "../../../../shared/utils/types/commonTypes";
+import UserGamesFilters from "./user-games-filters/UserGamesFilters";
 
 type UserGamesProps = {};
 
@@ -30,12 +31,21 @@ function UserGames({}: UserGamesProps) {
   const [totalItemsCount, setTotalItemsCount] = useState<number>(0);
 
   const [pageSize, setPageSize] = useState<number>(6);
+  const [timingTypeFilters, setTimingTypeFilters] = useState<number[]>([
+    0,
+    1,
+    2,
+    3,
+  ]);
+
+  const [showFilters, setShowFilters] = useState<boolean>(false);
 
   // get all finished games
   const getGames = async () => {
     const getGamesOptions: GetFinishedGamesModel = {
       pageNumber: 1,
       pageSize: pageSize,
+      timingTypeFilters: [0, 1],
     };
 
     try {
@@ -61,7 +71,7 @@ function UserGames({}: UserGamesProps) {
 
   useEffect(() => {
     getGames();
-  }, [pageSize]);
+  }, [pageSize, timingTypeFilters]);
 
   // icrease page size on scroll
   const handleListOnScroll = () => {
@@ -129,93 +139,102 @@ function UserGames({}: UserGamesProps) {
 
     const userInfoObject = JSON.parse(userInfo);
 
+    const renderPlayer = (player: any, isWhite: boolean, eloGained: number) => (
+      <div className={classes.player}>
+        <div
+          className={
+            isWhite ? classes["white-player-img"] : classes["black-player-img"]
+          }
+        >
+          {player.imageUrl ? (
+            <img
+              className={classes["player-img"]}
+              src={player.imageUrl}
+              alt={`${isWhite ? "white" : "black"}-player-avatar`}
+            />
+          ) : (
+            <AvatarSvg iconClass={classes.avatar} />
+          )}
+        </div>
+        <div className={classes["player-data"]}>
+          <span>{player.name}</span>
+          <span>
+            (<span>{player.elo + eloGained}</span>)
+          </span>
+        </div>
+      </div>
+    );
+
     if (userInfoObject.userName === game.whitePlayer.name) {
+      const betterOpp =
+        game.whitePlayer.elo === game.blackPlayer.elo
+          ? null
+          : game.whitePlayer.elo < game.blackPlayer.elo;
+
+      const sign =
+        game.isWinner === null
+          ? betterOpp === null
+            ? ""
+            : betterOpp
+            ? "+"
+            : "-"
+          : game.isWinner
+          ? "+"
+          : "-";
+
+      const eloGained = parseInt(sign + game.eloGained);
+
       return (
         <div className={classes.players}>
-          <div className={classes.player}>
-            <div className={classes["white-player-img"]}>
-              {game.whitePlayer.imageUrl ? (
-                <img
-                  className={classes["player-img"]}
-                  src={game.whitePlayer.imageUrl}
-                  alt="white-player-avatar"
-                />
-              ) : (
-                <AvatarSvg iconClass={classes.avatar} />
-              )}
-            </div>
-            <div className={classes["player-data"]}>
-              <span>{game.whitePlayer.name}</span>
-              <span>
-                (<span>{game.whitePlayer.elo}</span>)
+          {renderPlayer(game.whitePlayer, true, eloGained)}
+          <div className={classes.players__sep}>
+            <span>vs</span>
+
+            <span>
+              <span className={sign === "+" ? classes.p : classes.m}>
+                {sign}
               </span>
-            </div>
+              {game.eloGained}
+            </span>
           </div>
-          <p>vs</p>
-          <div className={classes.player}>
-            <div className={classes["black-player-img"]}>
-              {game.blackPlayer.imageUrl ? (
-                <img
-                  className={classes["player-img"]}
-                  src={game.blackPlayer.imageUrl}
-                  alt="black-player-avatar"
-                />
-              ) : (
-                <AvatarSvg iconClass={classes.avatar} />
-              )}
-            </div>
-            <div className={classes["player-data"]}>
-              <span>{game.blackPlayer.name}</span>
-              <span>
-                (<span>{game.blackPlayer.elo}</span>)
-              </span>
-            </div>
-          </div>
+          {renderPlayer(game.blackPlayer, false, -eloGained)}
         </div>
       );
     }
+
     if (userInfoObject.userName === game.blackPlayer.name) {
+      const betterOpp =
+        game.whitePlayer.elo === game.blackPlayer.elo
+          ? null
+          : game.blackPlayer.elo < game.whitePlayer.elo;
+
+      const sign =
+        game.isWinner === null
+          ? betterOpp === null
+            ? ""
+            : betterOpp
+            ? "+"
+            : "-"
+          : game.isWinner
+          ? "+"
+          : "-";
+
+      const eloGained = parseInt(sign + game.eloGained);
+
       return (
         <div className={classes.players}>
-          <div className={classes.player}>
-            <div className={classes["black-player-img"]}>
-              {game.blackPlayer.imageUrl ? (
-                <img
-                  className={classes["player-img"]}
-                  src={game.blackPlayer.imageUrl}
-                  alt="black-player-avatar"
-                />
-              ) : (
-                <AvatarSvg iconClass={classes.avatar} />
-              )}
-            </div>
-            <div className={classes["player-data"]}>
-              <span>{game.blackPlayer.name}</span>
-              <span>
-                (<span>{game.blackPlayer.elo}</span>)
+          {renderPlayer(game.blackPlayer, false, eloGained)}
+          <div className={classes.players__sep}>
+            <span>vs</span>
+
+            <span>
+              <span className={sign === "+" ? classes.p : classes.m}>
+                {sign}
               </span>
-            </div>
+              {game.eloGained}
+            </span>
           </div>
-          <p>vs</p>
-          <div className={classes.player}>
-            <div className={classes["white-player-img"]}>
-              {game.whitePlayer.imageUrl ? (
-                <img
-                  className={classes["player-img"]}
-                  src={game.whitePlayer.imageUrl}
-                  alt="white-player-avatar"
-                />
-              ) : (
-                <AvatarSvg iconClass={classes.avatar} />
-              )}
-            </div>
-            <div className={classes["player-data"]}>
-              <span>{game.whitePlayer.name}</span>
-              <span>
-                (<span>{game.whitePlayer.elo}</span>)
-              </span>
-            </div>
-          </div>
+          {renderPlayer(game.whitePlayer, true, -eloGained)}
         </div>
       );
     }
@@ -234,6 +253,15 @@ function UserGames({}: UserGamesProps) {
             ({itemsCount}/{totalItemsCount})
           </span>
         </h2>
+        <div className={classes.filters}>
+          <button
+            onClick={() => {
+              setShowFilters((prev) => !prev);
+            }}
+          >
+            Filters
+          </button>
+        </div>
       </div>
       <div
         ref={listRef}
@@ -279,6 +307,10 @@ function UserGames({}: UserGamesProps) {
           </div>
         ))}
       </div>
+
+      {showFilters && (
+        <UserGamesFilters setTimingTypeFilters={setTimingTypeFilters} />
+      )}
     </div>
   );
 }

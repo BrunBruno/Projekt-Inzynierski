@@ -26,6 +26,7 @@ public class UserRepository : IUserRepository {
         => await _dbContext.Users
                     .Include(u => u.Role)
                     .Include(u => u.Elo)
+                    .Include(u => u.Stats)
                     .FirstOrDefaultAsync(u => u.Id == id);
 
     ///<inheritdoc/>

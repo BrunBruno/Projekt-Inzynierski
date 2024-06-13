@@ -13,6 +13,7 @@ export type CreatePrivateGameDto = {
 
 export type EndGameDto = {
   winnerColor: number | null;
+  eloGained: number;
 };
 
 export type FetchTimeDto = {
@@ -29,6 +30,7 @@ export type GetFinishedGamesDto = {
   turn: number;
   moves: number;
   isWinner: boolean | null;
+  eloGained: number;
   createdAt: Date;
   timingType: number;
   endGameType: number;
