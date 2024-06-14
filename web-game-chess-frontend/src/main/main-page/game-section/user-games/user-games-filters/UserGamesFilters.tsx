@@ -1,26 +1,41 @@
-import { MouseEvent } from "react";
+import TimingTypesIcons from "../../../../../shared/svgs/TimingTypesIcons";
+import { mainColor } from "../../../../../shared/utils/enums/colorMaps";
+import UserGamesIcons from "../user-game-icons/UserGamesIcons";
 import classes from "./UserGamesFilters.module.scss";
-import { gameResultList, timingTypesList } from "./UserGamesFiltersObects";
+import { resultList, timingTypesList } from "./UserGamesFiltersObects";
 
 type UserGamesFiltersProps = {
+  timingTypeFilters: number[];
   setTimingTypeFilters: React.Dispatch<React.SetStateAction<number[]>>;
+  resultFilters: (boolean | null)[];
+  setResultFilters: React.Dispatch<React.SetStateAction<(boolean | null)[]>>;
 };
 
-function UserGamesFilters({ setTimingTypeFilters }: UserGamesFiltersProps) {
-  const activateFilter = (
-    event: MouseEvent<HTMLParagraphElement, globalThis.MouseEvent>,
-    value: number
-  ) => {
-    const target = event.target as HTMLElement;
-
+function UserGamesFilters({
+  timingTypeFilters,
+  setTimingTypeFilters,
+  resultFilters,
+  setResultFilters,
+}: UserGamesFiltersProps) {
+  const activateTimingTypeFilter = (value: number) => {
     setTimingTypeFilters((prevTypes) => {
       const newTypes = [...prevTypes];
       if (newTypes.includes(value)) {
         newTypes.splice(newTypes.indexOf(value), 1);
-        target.classList.remove(classes.active);
       } else {
         newTypes.push(value);
-        target.classList.add(classes.active);
+      }
+      return newTypes;
+    });
+  };
+
+  const activateResultFilter = (value: boolean | null) => {
+    setResultFilters((prevTypes) => {
+      const newTypes = [...prevTypes];
+      if (newTypes.includes(value)) {
+        newTypes.splice(newTypes.indexOf(value), 1);
+      } else {
+        newTypes.push(value);
       }
       return newTypes;
     });
@@ -32,25 +47,41 @@ function UserGamesFilters({ setTimingTypeFilters }: UserGamesFiltersProps) {
         {timingTypesList.map((element, i) => (
           <p
             key={`type-${i}`}
-            className={classes.active}
-            onClick={(event) => {
-              activateFilter(event, element.value);
+            className={
+              timingTypeFilters.includes(element.value) ? classes.active : ""
+            }
+            onClick={() => {
+              activateTimingTypeFilter(element.value);
             }}
           >
             {element.label}
+            <TimingTypesIcons
+              iconClass={classes["filter-svg"]}
+              iconName={element.label.toLocaleLowerCase()}
+              color={mainColor.c0}
+            />
           </p>
         ))}
       </div>
+
       <div className={classes.filters__row}>
-        {gameResultList.map((element, i) => (
+        <div />
+        {resultList.map((element, i) => (
           <p
             key={`result-${i}`}
-            className={classes.active}
-            onClick={(event) => {
-              // activateFilter(event,  element.value);
+            className={
+              resultFilters.includes(element.value) ? classes.active : ""
+            }
+            onClick={() => {
+              activateResultFilter(element.value);
             }}
           >
-            {element}
+            {element.label}
+            <UserGamesIcons
+              iconName={element.label
+                .toLocaleLowerCase()
+                .substring(0, element.label.length - 1)}
+            />
           </p>
         ))}
       </div>

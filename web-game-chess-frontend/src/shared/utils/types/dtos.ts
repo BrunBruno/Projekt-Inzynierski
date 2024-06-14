@@ -3,5 +3,5 @@ export type EloDto = {
   blitz: number;
   rapid: number;
   classic: number;
-  daily: number;
+  dayli: number;
 };

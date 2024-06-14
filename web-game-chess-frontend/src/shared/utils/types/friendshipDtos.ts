@@ -9,6 +9,10 @@ export type GetAllFriendsByStatusDto = {
   imageUrl: string | null;
   elo: EloDto;
   isRequestor: boolean;
+  gamesPlayed: number;
+  wins: number;
+  loses: number;
+  draws: number;
 };
 
 export type GetAllNonFriendsDto = {

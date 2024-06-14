@@ -141,9 +141,12 @@ export const getAuthorization = (): Headers => {
 };
 
 const stringifyModel = (model: Object): string => {
-  const stringifiedModel = Object.fromEntries(
-    Object.entries(model).map(([key, value]) => [key, String(value)])
-  );
+  const stringifiedModel = Object.entries(model).flatMap(([key, value]) => {
+    if (Array.isArray(value)) {
+      return value.map((element) => [key, String(element)]);
+    }
+    return [[key, String(value)]];
+  });
 
   const queryString = new URLSearchParams(stringifiedModel).toString();
 

@@ -31,6 +31,7 @@ export type GetFinishedGamesModel = {
   pageNumber: number;
   pageSize: number;
   timingTypeFilters: number[];
+  resultFilters: (boolean | null)[];
 };
 
 export type MakeMoveModel = {

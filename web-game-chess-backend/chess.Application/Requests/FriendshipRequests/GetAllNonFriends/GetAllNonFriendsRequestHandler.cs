@@ -51,7 +51,7 @@ public class GetAllNonFriendsRequestHandler : IRequestHandler<GetAllNonFriendsRe
                 Blitz = nf.Elo.Blitz,
                 Rapid = nf.Elo.Rapid,
                 Classic = nf.Elo.Classic,
-                Daily = nf.Elo.Daily,
+                Dayli = nf.Elo.Dayli,
             },
         }).ToList();
 

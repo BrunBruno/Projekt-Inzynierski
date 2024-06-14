@@ -29,9 +29,24 @@ public class Friendship {
     /// </summary>
     public DateTime? RequestRespondedAt { get; set; } = null;
 
+    /// <summary>
+    /// 
+    /// </summary>
     public int RequestorWins { get; set; } = 0;
+
+    /// <summary>
+    /// 
+    /// </summary>
     public int RequestorLoses { get; set; } = 0;
+
+    /// <summary>
+    /// 
+    /// </summary>
     public int RequestorDraws { get; set; } = 0;
+
+    /// <summary>
+    /// 
+    /// </summary>
     public int GamesPlayed => RequestorWins + RequestorLoses + RequestorDraws;
 
     /// <summary>

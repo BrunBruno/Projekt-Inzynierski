@@ -31,12 +31,8 @@ function UserGames({}: UserGamesProps) {
   const [totalItemsCount, setTotalItemsCount] = useState<number>(0);
 
   const [pageSize, setPageSize] = useState<number>(6);
-  const [timingTypeFilters, setTimingTypeFilters] = useState<number[]>([
-    0,
-    1,
-    2,
-    3,
-  ]);
+  const [timingTypeFilters, setTimingTypeFilters] = useState<number[]>([]);
+  const [resultFilters, setResultFilters] = useState<(boolean | null)[]>([]);
 
   const [showFilters, setShowFilters] = useState<boolean>(false);
 
@@ -45,7 +41,8 @@ function UserGames({}: UserGamesProps) {
     const getGamesOptions: GetFinishedGamesModel = {
       pageNumber: 1,
       pageSize: pageSize,
-      timingTypeFilters: [0, 1],
+      timingTypeFilters: timingTypeFilters,
+      resultFilters: resultFilters,
     };
 
     try {
@@ -71,7 +68,7 @@ function UserGames({}: UserGamesProps) {
 
   useEffect(() => {
     getGames();
-  }, [pageSize, timingTypeFilters]);
+  }, [pageSize, timingTypeFilters, resultFilters]);
 
   // icrease page size on scroll
   const handleListOnScroll = () => {
@@ -309,7 +306,12 @@ function UserGames({}: UserGamesProps) {
       </div>
 
       {showFilters && (
-        <UserGamesFilters setTimingTypeFilters={setTimingTypeFilters} />
+        <UserGamesFilters
+          timingTypeFilters={timingTypeFilters}
+          setTimingTypeFilters={setTimingTypeFilters}
+          resultFilters={resultFilters}
+          setResultFilters={setResultFilters}
+        />
       )}
     </div>
   );

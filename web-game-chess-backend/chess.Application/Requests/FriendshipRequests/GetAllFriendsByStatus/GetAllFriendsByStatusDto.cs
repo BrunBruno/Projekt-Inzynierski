@@ -10,6 +10,12 @@ public class GetAllFriendsByStatusDto {
     public string? ImageUrl { get; set; }
     public bool IsRequestor { get; set; }
     public required EloDto Elo { get; set; }
+
+    public int GamesPlayed { get; set; }
+    public int Wins { get; set; }
+    public int Loses { get; set; }
+    public int Draws { get; set; }
+
 }
 
 

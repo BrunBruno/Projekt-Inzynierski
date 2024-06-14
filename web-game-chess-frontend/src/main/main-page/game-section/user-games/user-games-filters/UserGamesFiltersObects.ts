@@ -6,4 +6,8 @@ export const timingTypesList = [
   { value: 4, label: "Dayli" },
 ];
 
-export const gameResultList = ["Wins ", "Losoes", "Draws"];
+export const resultList = [
+  { value: true, label: "Wins" },
+  { value: false, label: "Loses" },
+  { value: null, label: "Draws" },
+];

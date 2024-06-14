@@ -23,5 +23,10 @@ public class GetFinishedGamesRequest : IRequest<PagedResult<GetFinishedGamesDto>
     /// <summary>
     /// 
     /// </summary>
-    public List<TimingTypes?> TimingTypeFilters { get; set; }
+    public List<TimingTypes>? TimingTypeFilters { get; set; }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    public List <bool?>? ResultFilters { get; set; } 
 }

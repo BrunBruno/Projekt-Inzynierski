@@ -1,4 +1,5 @@
 using chess.Api.Authorization;
+using chess.Api.Binders;
 using chess.Api.Hubs;
 using chess.Api.Maps;
 using chess.Application;
@@ -15,6 +16,7 @@ builder.Services.AddApplication();
 builder.Services.AddInfrastructure(builder.Configuration);
 builder.Services.AddControllers();
 builder.Services.AddCustomAuthorization();
+builder.Services.AddCustomContollers();
 builder.Services.AddMappingProfiles();
 
 builder.Services.AddEndpointsApiExplorer();

@@ -62,6 +62,8 @@ function VsFriendSearch({ setChoosenTiming }: VsFriendSearchProps) {
 
       setFriends(friendsResponse.data.items);
       setTotalItemsCount(friendsResponse.data.totalItemsCount);
+
+      console.log(friendsResponse.data.items);
     } catch (err) {
       console.log(err);
     }

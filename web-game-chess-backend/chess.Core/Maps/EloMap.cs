@@ -25,7 +25,7 @@ public static class EloMap {
         },
         {
             TimingTypes.Dayli,
-            (elo => elo.Daily, (elo, value) => elo.Daily = value, (elo, change) => elo.Daily += change)
+            (elo => elo.Dayli, (elo, value) => elo.Dayli = value, (elo, change) => elo.Dayli += change)
         }
     };
 }

@@ -13,7 +13,7 @@ public class Elo {
 
     public int Classic { get; set; } = 1000;
 
-    public int Daily { get; set; } = 1000;
+    public int Dayli { get; set; } = 1000;
 
     public Guid UserId { get; set; }
     public User User { get; set; }
