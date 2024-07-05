@@ -98,10 +98,10 @@ function FriendList({
                 <span>
                   <TimingTypesIcons
                     iconClass={classes.icon}
-                    iconName="dayli"
+                    iconName="daily"
                     color={mainColor.c0}
                   />
-                  {friend.elo.dayli}
+                  {friend.elo.daily}
                 </span>
               </p>
               <p className={classes["previous-games"]}>

@@ -1,13 +1,12 @@
 ﻿
 using chess.Api.Binders.NullableBooleanList;
+using chess.Application.Pagination;
 using chess.Core.Enums;
 using Microsoft.AspNetCore.Mvc;
 
 namespace chess.Api.Models.GameModels;
 
-public class GetFinishedGamesModel {
-    public int PageNumber { get; set; }
-    public int PageSize { get; set; }
+public class GetFinishedGamesModel : PagedRequest {
     public List<TimingTypes>? TimingTypeFilters { get; set; }
 
     [ModelBinder(BinderType = typeof(NullableBooleanListBinder))]

@@ -1,0 +1,9 @@
+@import "../Main.scss";
+
+.account-main {
+  @include wh100();
+  @include gridBg();
+
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}

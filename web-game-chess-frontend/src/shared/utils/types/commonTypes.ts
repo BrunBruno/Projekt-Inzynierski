@@ -33,6 +33,11 @@ export type PagedResult<T> = {
   totalItemsCount: number;
 };
 
+export type PagedRequest = {
+  pageNumber: number;
+  pageSize: number;
+};
+
 export type MousePosition = {
   x: number;
   y: number;

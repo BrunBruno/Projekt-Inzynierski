@@ -73,7 +73,7 @@ const icons: TimingTypeMap = {
     </svg>
   ),
 
-  dayli: (iconClass: string, color: string): JSX.Element => (
+  daily: (iconClass: string, color: string): JSX.Element => (
     <svg
       viewBox="0 0 24 24"
       fill="none"

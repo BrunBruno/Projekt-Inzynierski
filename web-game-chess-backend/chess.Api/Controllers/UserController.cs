@@ -1,6 +1,7 @@
 ﻿
 using AutoMapper;
 using chess.Api.Models.UserModels;
+using chess.Application.Requests.UserRequests.GetElo;
 using chess.Application.Requests.UserRequests.GetRegisterConf;
 using chess.Application.Requests.UserRequests.GetUser;
 using chess.Application.Requests.UserRequests.IsEmailVerified;
@@ -105,6 +106,22 @@ public class UserController : ControllerBase {
         var user = await _mediator.Send(request);
 
         return Ok(user);
+    }
+
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <returns></returns>
+    [HttpGet("elo")]
+    [Authorize(Policy = "IsVerified")]
+    public async Task<IActionResult> GetElo() {
+
+        var request = new GetEloRequest();
+
+        var elo = await _mediator.Send(request);
+
+        return Ok(elo);
     }
 
 

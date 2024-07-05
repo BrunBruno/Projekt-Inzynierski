@@ -42,7 +42,7 @@ export const defaultTimeControls: TimeControl[] = [
     ],
   },
   {
-    header: "Dayli",
+    header: "Daily",
     tags: ["1day", "2days", "7days"],
     values: [
       [1440, 0],

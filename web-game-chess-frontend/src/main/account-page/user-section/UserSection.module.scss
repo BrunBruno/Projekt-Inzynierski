@@ -1,0 +1,57 @@
+@import "../../Main.scss";
+
+.user {
+  background-color: $gc9;
+  box-shadow: 0.1rem 0 1rem 0 $gc0;
+
+  &__profile {
+    @include flex(row, space-evenly, center, 0);
+
+    padding: 4rem;
+
+    &__avatar {
+      @include flex(column, center, center, 1rem);
+
+      .avatar-svg {
+        width: 20rem;
+      }
+
+      .user-name {
+        @include flex($direction: column);
+
+        p {
+          &:nth-child(1) {
+            font-size: 3rem;
+          }
+          &:nth-child(2) {
+            font-size: 2rem;
+            color: $gc5;
+          }
+        }
+      }
+    }
+
+    &__elo {
+      @include flex(column, center, center, 0);
+
+      &__type {
+        @include rounded(1rem);
+
+        width: 100%;
+        display: grid;
+        grid-template-columns: 4rem auto;
+        gap: 2rem;
+        font-size: 3rem;
+
+        &:hover {
+          cursor: pointer;
+          background-color: $gc8;
+        }
+
+        .elo-icon {
+          height: 4rem;
+        }
+      }
+    }
+  }
+}

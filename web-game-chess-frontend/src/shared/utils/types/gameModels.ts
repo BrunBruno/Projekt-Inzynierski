@@ -1,5 +1,7 @@
 // game controller models to requests
 
+import { PagedRequest } from "./commonTypes";
+
 export type AbortSearchModel = {
   playerId: string;
 };
@@ -27,11 +29,13 @@ export type EndGameModel = {
   endGameType: number;
 };
 
-export type GetFinishedGamesModel = {
-  pageNumber: number;
-  pageSize: number;
+export type GetFinishedGamesModel = PagedRequest & {
   timingTypeFilters: number[];
   resultFilters: (boolean | null)[];
+};
+
+export type GetTypeHistiryModel = PagedRequest & {
+  type: number;
 };
 
 export type MakeMoveModel = {

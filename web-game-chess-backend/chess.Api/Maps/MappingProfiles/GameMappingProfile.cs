@@ -8,7 +8,7 @@ using chess.Application.Requests.GameRequests.CreatePrivateGame;
 using chess.Application.Requests.GameRequests.CreateRematchGame;
 using chess.Application.Requests.GameRequests.EndGame;
 using chess.Application.Requests.GameRequests.GetFinishedGames;
-using chess.Application.Requests.GameRequests.GetOpponent;
+using chess.Application.Requests.GameRequests.GetTypeHistory;
 using chess.Application.Requests.GameRequests.MakeMove;
 using chess.Application.Requests.GameRequests.SearchGame;
 using chess.Application.Requests.GameRequests.SendMessage;
@@ -31,6 +31,6 @@ public class GameMappingProfile : Profile {
         CreateMap<AcceptInvitationModel, AcceptInvitationRequest>();
         CreateMap<SendMessageModel, SendMessageRequest>();
         CreateMap<CreateRematchGameModel, CreateRematchGameRequest>();
-
+        CreateMap<GetTypeHistoryModel, GetTypeHistoryRequest>();
     }
 }

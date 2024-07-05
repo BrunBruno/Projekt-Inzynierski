@@ -6,5 +6,5 @@ public class EloDto {
     public int Blitz { get; set; } 
     public int Rapid { get; set; } 
     public int Classic { get; set; }
-    public int Dayli { get; set; } 
+    public int Daily { get; set; } 
 }

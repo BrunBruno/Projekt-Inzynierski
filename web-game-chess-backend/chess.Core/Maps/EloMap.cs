@@ -24,8 +24,8 @@ public static class EloMap {
             (elo => elo.Classic, (elo, value) => elo.Classic = value, (elo, change) => elo.Classic += change)
         },
         {
-            TimingTypes.Dayli,
-            (elo => elo.Dayli, (elo, value) => elo.Dayli = value, (elo, change) => elo.Dayli += change)
+            TimingTypes.Daily,
+            (elo => elo.Daily, (elo, value) => elo.Daily = value, (elo, change) => elo.Daily += change)
         }
     };
 }

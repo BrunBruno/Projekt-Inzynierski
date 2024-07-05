@@ -56,7 +56,7 @@ public class GetAllFriendsByStatusRequestHandler : IRequestHandler<GetAllFriends
                             Blitz = friend.Elo.Blitz,
                             Rapid = friend.Elo.Rapid,
                             Classic = friend.Elo.Classic,
-                            Dayli = friend.Elo.Dayli,
+                            Daily = friend.Elo.Daily,
                         },
 
                         GamesPlayed = friendship.GamesPlayed,

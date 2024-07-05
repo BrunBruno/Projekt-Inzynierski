@@ -25,7 +25,12 @@ function NavSection() {
           <LogoIconSvg iconClass={classes["nav-icon"]} />
         </div>
 
-        <div className={classes.element}>
+        <div
+          className={classes.element}
+          onClick={() => {
+            navigate("/main/account");
+          }}
+        >
           <NavSectionIcons iconName="account" />
           <span className={classes.ind}>Account</span>
         </div>

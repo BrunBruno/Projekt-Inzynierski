@@ -3,7 +3,7 @@ export const timingTypesList = [
   { value: 1, label: "Blitz" },
   { value: 2, label: "Rapid" },
   { value: 3, label: "Classic" },
-  { value: 4, label: "Dayli" },
+  { value: 4, label: "Daily" },
 ];
 
 export const resultList = [

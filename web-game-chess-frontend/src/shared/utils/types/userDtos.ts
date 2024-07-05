@@ -16,11 +16,19 @@ export type LogInUserDto = {
 export type GetUserDto = {
   userId: string;
   email: string;
-  name: string;
+  userName: string;
   fullName: string | null;
   imageUrl: string | null;
 };
 
 export type IsEmailVerifiedDto = {
   isEmailVerified: boolean;
+};
+
+export type GetEloDto = {
+  bullet: number;
+  blitz: number;
+  rapid: number;
+  classic: number;
+  daily: number;
 };

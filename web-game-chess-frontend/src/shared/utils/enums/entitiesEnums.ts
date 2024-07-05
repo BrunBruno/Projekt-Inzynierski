@@ -18,11 +18,11 @@ export const pieceColor: EnumType = {
 
 // from back-end game timining type enum
 export const timingTypes: EnumType = {
-  Bullet: 0,
-  Blitz: 1,
-  Rapid: 2,
-  Classic: 3,
-  Daily: 4,
+  bullet: 0,
+  blitz: 1,
+  rapid: 2,
+  classic: 3,
+  daily: 4,
 };
 
 // from back-end reasons why game has eneded

@@ -83,6 +83,13 @@ export type GetPlayerDto = {
   color: number;
 };
 
+export type GetTypeHistoryDto = {
+  moves: number;
+  isWinner: boolean | null;
+  eloGained: number;
+  createdAt: Date;
+};
+
 export type InvitedToGameDto = {
   gameId: string;
   inviteeId: string;

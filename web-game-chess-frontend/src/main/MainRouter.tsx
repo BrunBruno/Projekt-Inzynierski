@@ -12,6 +12,7 @@ import GamePage from "./game-page/GamePage";
 import UsersPage from "./users-page/UsersPage";
 import GameHubService from "../shared/utils/services/GameHubService";
 import { HubConnectionState } from "@microsoft/signalr";
+import AccountPage from "./account-page/AccountPage";
 
 function MainRouter() {
   const navigate = useNavigate();
@@ -70,6 +71,7 @@ function MainRouter() {
       <Route path="/" element={<MainPage />} />
       <Route path="/users" element={<UsersPage />} />
       <Route path="/game/:gameId" element={<GamePage />} />
+      <Route path="/account" element={<AccountPage />} />
     </Routes>
   );
 }

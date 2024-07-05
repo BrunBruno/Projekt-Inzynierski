@@ -6,6 +6,7 @@ import {
   AbortSearchModel,
   CheckIfInGameModel,
   GetFinishedGamesModel,
+  GetTypeHistiryModel,
 } from "../types/gameModels";
 import { GetRegisterConfModel } from "../types/userModels";
 
@@ -23,6 +24,7 @@ interface UserControllerPaths {
   verifyEmail: () => string;
   //GET
   getUser: () => string;
+  getElo: () => string;
   isVerified: () => string;
   getRegisterConf: (model: GetRegisterConfModel) => string;
   //DELETE
@@ -39,6 +41,8 @@ export const userControllerPaths: UserControllerPaths = {
   verifyEmail: (): string => `${userBaseUrl}/verify-email`,
 
   getUser: (): string => `${userBaseUrl}`,
+
+  getElo: (): string => `${userBaseUrl}/elo`,
 
   isVerified: (): string => `${userBaseUrl}/is-verified`,
 
@@ -60,6 +64,7 @@ interface GameControllerPaths {
   fetchTime: (gameId: string) => string;
   getEndedGame: (gameId: string) => string;
   getFinishedGames: (model: GetFinishedGamesModel) => string;
+  getTypeHistory: (model: GetTypeHistiryModel) => string;
   //DELETE
   abortSearch: (model: AbortSearchModel) => string;
 }
@@ -83,6 +88,9 @@ export const gameControllerPaths: GameControllerPaths = {
 
   getFinishedGames: (model: GetFinishedGamesModel): string =>
     `${gameBaseUrl}/all-finished?${stringifyModel(model)}`,
+
+  getTypeHistory: (model: GetTypeHistiryModel): string =>
+    `${gameBaseUrl}/type-history?${stringifyModel(model)}`,
 
   abortSearch: (model: AbortSearchModel): string =>
     `${gameBaseUrl}/abort/?${stringifyModel(model)}`,

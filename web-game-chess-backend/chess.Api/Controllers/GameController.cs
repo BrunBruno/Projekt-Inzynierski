@@ -15,6 +15,7 @@ using chess.Application.Requests.GameRequests.CreatePrivateGame;
 using chess.Application.Requests.GameRequests.FetchTime;
 using chess.Application.Requests.GameRequests.GetOpponent;
 using chess.Application.Requests.GameRequests.CreateRematchGame;
+using chess.Application.Requests.GameRequests.GetTypeHistory;
 
 namespace chess.Api.Controllers;
 
@@ -202,6 +203,23 @@ public class GameController : ControllerBase {
     public async Task<IActionResult> GetFinishedGames([FromQuery] GetFinishedGamesModel model) {
 
         var request = _mapper.Map<GetFinishedGamesRequest>(model);
+
+        var games = await _mediator.Send(request);
+
+        return Ok(games);
+    }
+
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="model"></param>
+    /// <returns></returns>
+    [HttpGet("type-history")]
+    [Authorize(Policy = "IsVerified")]
+    public async Task<IActionResult> GetTypeHitory([FromQuery] GetTypeHistoryModel model) {
+
+        var request = _mapper.Map<GetTypeHistoryRequest>(model);
 
         var games = await _mediator.Send(request);
 
