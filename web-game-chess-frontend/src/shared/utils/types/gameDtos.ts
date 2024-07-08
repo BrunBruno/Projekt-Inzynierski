@@ -84,10 +84,12 @@ export type GetPlayerDto = {
 };
 
 export type GetTypeHistoryDto = {
+  whitePlayer: string;
+  blackPlayer: string;
   moves: number;
   isWinner: boolean | null;
-  eloGained: number;
-  createdAt: Date;
+  prevElo: number;
+  createdAt: string;
 };
 
 export type InvitedToGameDto = {

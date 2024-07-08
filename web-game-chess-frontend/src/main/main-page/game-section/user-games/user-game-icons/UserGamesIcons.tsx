@@ -84,7 +84,6 @@ const icons: IconMap = {
 };
 
 function UserGamesIcons({ iconName }: IconsMapProps) {
-  console.log(iconName);
   const icon = icons[iconName];
 
   return icon ? icon : <></>;

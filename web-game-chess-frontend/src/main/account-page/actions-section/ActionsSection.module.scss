@@ -1,0 +1,51 @@
+@import "../../Main.scss";
+
+.actions {
+  max-height: 100vh;
+  height: 100%;
+  display: grid;
+  grid-template-rows: 1fr 1fr;
+  padding-bottom: 2rem;
+
+  &__chart {
+    padding: 0 2rem;
+    overflow: hidden;
+
+    svg {
+      height: 10rem;
+    }
+  }
+
+  &__items {
+    @include flex(column, start, center, 1rem);
+
+    padding: 0 8rem;
+    overflow-y: scroll;
+    padding-bottom: 2rem;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+
+    &__record {
+      @include rounded(0.5rem);
+
+      width: 100%;
+      background-color: rgba($gc9, 0.5);
+      display: grid;
+      grid-template-columns: 50% 10% 10% 30%;
+
+      &.win {
+        background-color: rgba($success-color-m, 0.5);
+      }
+      &.lose {
+        background-color: rgba($danger-color-m, 0.5);
+      }
+
+      span {
+        padding-left: 2rem;
+        font-size: 1.6rem;
+      }
+    }
+  }
+}

@@ -17,7 +17,6 @@ function AccountPage() {
   > | null>(null);
 
   const getTypeHistory = async (type: number) => {
-    console.log(type);
     try {
       const model: GetTypeHistiryModel = {
         pageNumber: 1,

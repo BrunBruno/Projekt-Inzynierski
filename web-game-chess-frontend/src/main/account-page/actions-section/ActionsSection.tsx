@@ -1,36 +1,9 @@
 import { PagedResult } from "../../../shared/utils/types/commonTypes";
 import { GetTypeHistoryDto } from "../../../shared/utils/types/gameDtos";
 import classes from "./ActionsSection.module.scss";
-import {
-  Chart as ChartJS,
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  Title,
-  Tooltip,
-  Legend,
-  TimeScale,
-  TimeSeriesScale,
-  ChartOptions,
-  Filler,
-} from "chart.js";
-import "chartjs-adapter-date-fns"; // Ensure date adapter is imported
-import { Line } from "react-chartjs-2";
-
-// Register necessary components with ChartJS
-ChartJS.register(
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  Title,
-  Tooltip,
-  Legend,
-  TimeScale,
-  TimeSeriesScale,
-  Filler
-);
+import { LineChart } from "@mui/x-charts";
+import { ThemeProvider, createTheme } from "@mui/material/styles";
+import { mainColor } from "../../../shared/utils/enums/colorMaps";
 
 type ActionsSectionProps = {
   typeHistory: PagedResult<GetTypeHistoryDto> | null;
@@ -38,56 +11,82 @@ type ActionsSectionProps = {
 
 function ActionsSection({ typeHistory }: ActionsSectionProps) {
   if (typeHistory !== null && typeHistory.items.length > 0) {
-    const createChart = (dataPoints: GetTypeHistoryDto[]) => {
-      const chartData = {
-        labels: dataPoints.map((item) =>
-          new Date(item.createdAt).toLocaleDateString()
-        ),
-        datasets: [
-          {
-            label: "Line",
-            data: dataPoints.map((item) => item.eloGained),
-            borderColor: "rgba(75,192,192,1)",
-            backgroundColor: "rgba(75,192,192,0.2)",
-            fill: true,
-          },
-        ],
-      };
+    const theme = createTheme({
+      palette: {
+        mode: "dark",
+      },
+    });
 
-      console.log(chartData);
-
-      const options: ChartOptions<"line"> = {
-        scales: {
-          x: {
-            type: "time",
-            time: {
-              unit: "day",
-            },
-            title: {
-              display: true,
-              text: "Date",
-            },
-          },
-          y: {
-            title: {
-              display: true,
-              text: "Points",
-            },
-          },
+    const createChart = (history: GetTypeHistoryDto[]) => {
+      type GroupedByCreatedAt = Record<string, GetTypeHistoryDto[]>;
+      const groupedByCreatedAt: GroupedByCreatedAt = history.reduce(
+        (acc, currentItem) => {
+          const key = currentItem.createdAt.split("T")[1];
+          if (!acc[key]) {
+            acc[key] = [];
+          }
+          acc[key].push(currentItem);
+          return acc;
         },
-      };
+        {} as GroupedByCreatedAt
+      );
 
-      return <Line data={chartData} options={options} />;
+      const dates: string[] = Object.keys(groupedByCreatedAt);
+      const labels: number[] = dates.map((_, i) => i);
+      const values: number[] = dates
+        .map((date) => {
+          const group = groupedByCreatedAt[date];
+          const sum = group.reduce((acc, item) => acc + item.prevElo, 0);
+          return Math.round(sum / group.length);
+        })
+        .reverse();
+
+      return (
+        <ThemeProvider theme={theme}>
+          <LineChart
+            xAxis={[{ data: labels }]}
+            series={[{ data: values, color: mainColor.c5 }]}
+            grid={{ vertical: true, horizontal: true }}
+          />
+        </ThemeProvider>
+      );
     };
 
     return (
       <div className={classes.actions}>
-        {createChart(typeHistory.items)} {/* Render the chart */}
+        <div className={classes.actions__chart}>
+          {createChart(typeHistory.items)}
+        </div>
+
+        <div className={classes.actions__items}>
+          {typeHistory.items.map((item, index) => (
+            <div
+              key={index}
+              className={`
+              ${classes.actions__items__record}
+              ${
+                item.isWinner === null
+                  ? ""
+                  : item.isWinner === true
+                  ? classes.win
+                  : classes.lose
+              }
+              `}
+            >
+              <span>
+                {item.whitePlayer} vs {item.blackPlayer}
+              </span>
+              <span>{item.moves}</span>
+              <span>{item.prevElo}</span>
+              <span>{new Date(item.createdAt).toDateString()}</span>
+            </div>
+          ))}
+        </div>
       </div>
     );
   }
 
-  return <div className={classes.actions}></div>; // Render an empty div if no data or null
+  return <div className={classes.actions}></div>;
 }
 
 export default ActionsSection;

@@ -44,7 +44,7 @@ public class GetFinishedGamesRequestHandler : IRequestHandler<GetFinishedGamesRe
                     continue;
 
 
-                bool? isWinner = player.WhiteGame.WinnerColor != null ? player.WhiteGame.WinnerColor == Colors.Black : null;
+                bool? isWinner = player.WhiteGame.WinnerColor != null ? player.WhiteGame.WinnerColor == Colors.White : null;
 
                 if (request.ResultFilters is not null &&
                     !request.ResultFilters.IsNullOrEmpty() &&

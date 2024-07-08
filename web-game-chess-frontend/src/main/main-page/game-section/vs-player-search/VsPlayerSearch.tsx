@@ -24,7 +24,7 @@ function VsPlayerSearch({
 }: VsPlayerSearchProps) {
   // API call search for game
   const onSearchForGame = async (header: string, values: number[]) => {
-    const typeValue = timingTypes[header];
+    const typeValue = timingTypes[header.toLocaleLowerCase()];
 
     const gameType: SearchGameModel = {
       type: typeValue,

@@ -13,11 +13,17 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
+    "@emotion/react": "^11.11.4",
+    "@emotion/styled": "^11.11.5",
     "@microsoft/signalr": "^8.0.0",
+    "@mui/material": "^5.16.0",
+    "@mui/styled-engine-sc": "^6.0.0-alpha.18",
+    "@mui/x-charts": "^7.9.0",
     "@types/chart.js": "^2.9.41",
     "axios": "^1.6.8",
     "chart.js": "^4.4.3",
     "chartjs-adapter-date-fns": "^3.0.0",
+    "date-fns": "^3.6.0",
     "jsonwebtoken": "^9.0.2",
     "jwt-decode": "^4.0.0",
     "react": "^18.2.0",
@@ -25,7 +31,8 @@
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.22.3",
     "sass": "^1.74.1",
-    "scss": "^0.2.4"
+    "scss": "^0.2.4",
+    "styled-components": "^6.1.11"
   },
   "devDependencies": {
     "@testing-library/jest-dom": "^6.4.2",

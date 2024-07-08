@@ -51,8 +51,6 @@ function VsFriendSearch({ setChoosenTiming }: VsFriendSearchProps) {
         pageNumber: 1,
       };
 
-      console.log(selectedUsername);
-
       const friendsResponse = await axios.get<
         PagedResult<GetAllFriendsByStatusDto>
       >(
@@ -62,8 +60,6 @@ function VsFriendSearch({ setChoosenTiming }: VsFriendSearchProps) {
 
       setFriends(friendsResponse.data.items);
       setTotalItemsCount(friendsResponse.data.totalItemsCount);
-
-      console.log(friendsResponse.data.items);
     } catch (err) {
       console.log(err);
     }

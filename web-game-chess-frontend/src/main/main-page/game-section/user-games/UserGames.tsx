@@ -1,6 +1,9 @@
 import axios from "axios";
 import classes from "./UserGame.module.scss";
-import { GetFinishedGamesDto } from "../../../../shared/utils/types/gameDtos";
+import {
+  GetFinishedGamesDto,
+  GetFinishedGamesPlayerDto,
+} from "../../../../shared/utils/types/gameDtos";
 import {
   gameControllerPaths,
   getAuthorization,
@@ -136,7 +139,11 @@ function UserGames({}: UserGamesProps) {
 
     const userInfoObject = JSON.parse(userInfo);
 
-    const renderPlayer = (player: any, isWhite: boolean, eloGained: number) => (
+    const renderPlayer = (
+      player: GetFinishedGamesPlayerDto,
+      isWhite: boolean,
+      eloGained: number
+    ) => (
       <div className={classes.player}>
         <div
           className={
