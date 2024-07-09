@@ -5,6 +5,7 @@ using chess.Application.Requests.UserRequests.GetRegisterConf;
 using chess.Application.Requests.UserRequests.LogIn;
 using chess.Application.Requests.UserRequests.RegenerateCode;
 using chess.Application.Requests.UserRequests.Register;
+using chess.Application.Requests.UserRequests.UpdateProfile;
 using chess.Application.Requests.UserRequests.VerifyEmail;
 
 namespace chess.Api.Maps.MappingProfiles;
@@ -20,6 +21,6 @@ public class UserMappingProfile : Profile {
         CreateMap<VerifyEmailModel, VerifyEmailRequest>();
         CreateMap<GetRegisterConfModel, GetRegisterConfRequest>();
         CreateMap<RegenerateCodeModel, RegenerateCodeRequest>();
-
+        CreateMap<UpdateProfileModel, UpdateProfileRequest>();
     }
 }

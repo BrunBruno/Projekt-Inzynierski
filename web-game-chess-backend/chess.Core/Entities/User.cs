@@ -48,6 +48,15 @@ public class User {
     /// </summary>
     public bool IsVerified { get; set; } = false;
 
+    /// <summary>
+    /// 
+    /// </summary>
+    public string Country { get; set; } = "";
+
+    /// <summary>
+    /// 
+    /// </summary>
+    public string? Bio { get; set; }
 
     /// <summary>
     /// Role id

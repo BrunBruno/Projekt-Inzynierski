@@ -16,8 +16,15 @@ export type RegisterUserModel = {
   username: string;
   password: string;
   confirmPassword: string;
+  country: string;
 };
 
 export type VerifyEmailModel = {
   code: string;
+};
+
+export type UpdateProfileModel = {
+  name: string | null;
+  bio: string | null;
+  imageUrl: string | null;
 };

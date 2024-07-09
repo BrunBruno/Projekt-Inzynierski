@@ -2,12 +2,14 @@
 using AutoMapper;
 using chess.Api.Models.UserModels;
 using chess.Application.Requests.UserRequests.GetElo;
+using chess.Application.Requests.UserRequests.GetFullUser;
 using chess.Application.Requests.UserRequests.GetRegisterConf;
 using chess.Application.Requests.UserRequests.GetUser;
 using chess.Application.Requests.UserRequests.IsEmailVerified;
 using chess.Application.Requests.UserRequests.LogIn;
 using chess.Application.Requests.UserRequests.RegenerateCode;
 using chess.Application.Requests.UserRequests.Register;
+using chess.Application.Requests.UserRequests.UpdateProfile;
 using chess.Application.Requests.UserRequests.VerifyEmail;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -92,6 +94,16 @@ public class UserController : ControllerBase {
         return Ok();
     }
 
+    [HttpPut("profile")]
+    [Authorize(Policy = "IsVerified")]
+    public async Task<IActionResult> UpdateProfile([FromBody] UpdateProfileModel model) {
+
+        var request = _mapper.Map<UpdateProfileRequest>(model);
+
+        await _mediator.Send(request);
+        return Ok();
+    }
+
 
     /// <summary>
     /// Gets user info
@@ -102,6 +114,21 @@ public class UserController : ControllerBase {
     public async Task<IActionResult> GetUser() {
 
         var request = new GetUserRequest();
+
+        var user = await _mediator.Send(request);
+
+        return Ok(user);
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <returns></returns>
+    [HttpGet("full")]
+    [Authorize]
+    public async Task<IActionResult> GetFullUser() {
+
+        var request = new GetFullUserRequest();
 
         var user = await _mediator.Send(request);
 

@@ -1,9 +1,6 @@
-import { greyColor } from "../../../shared/utils/enums/colorMaps";
-import {
-  IconMap,
-  IconsMapProps,
-} from "../../../shared/utils/types/commonTypes";
-import classes from "./NavSection.module.scss";
+import { greyColor } from "../../utils/enums/colorMaps";
+import { IconMap, IconsMapProps } from "../../utils/types/commonTypes";
+import classes from "./MainNav.module.scss";
 
 const icons: IconMap = {
   account: (
@@ -89,10 +86,10 @@ const icons: IconMap = {
   ),
 };
 
-function NavSectionIcons({ iconName }: IconsMapProps) {
+function MainNavIcons({ iconName }: IconsMapProps) {
   const icon = icons[iconName];
 
   return icon ? icon : <></>;
 }
 
-export default NavSectionIcons;
+export default MainNavIcons;

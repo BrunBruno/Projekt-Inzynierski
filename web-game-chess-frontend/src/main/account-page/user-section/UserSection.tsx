@@ -1,6 +1,9 @@
 import { useEffect, useState } from "react";
 import classes from "./UserSection.module.scss";
-import { GetEloDto, GetUserDto } from "../../../shared/utils/types/userDtos";
+import {
+  GetEloDto,
+  GetFullUserDto,
+} from "../../../shared/utils/types/userDtos";
 import LoadingPage from "../../../shared/components/loading-page/LoadingPage";
 import AvatarSvg from "../../../shared/svgs/AvatarSvg";
 import axios from "axios";
@@ -10,25 +13,26 @@ import {
 } from "../../../shared/utils/functions/apiFunctions";
 import TimingTypesIcons from "../../../shared/svgs/TimingTypesIcons";
 import { timingTypes } from "../../../shared/utils/enums/entitiesEnums";
+import UserSectionIocns from "./UserSectionIcons";
 
 type UserSectionProps = {
   getTypeHistory: (type: number) => void;
 };
 
 function UserSection({ getTypeHistory }: UserSectionProps) {
-  const [user, setUser] = useState<GetUserDto | null>(null);
+  const [user, setUser] = useState<GetFullUserDto | null>(null);
   const [elo, setElo] = useState<GetEloDto | null>(null);
 
-  const getUser = () => {
-    const userInfo = localStorage.getItem("userInfo");
+  const getUser = async () => {
+    try {
+      const userResponse = await axios.get<GetFullUserDto>(
+        userControllerPaths.getFullUser(),
+        getAuthorization()
+      );
 
-    if (userInfo) {
-      try {
-        const parsedUserInfo: GetUserDto = JSON.parse(userInfo);
-        setUser(parsedUserInfo);
-      } catch (err) {
-        setUser(null);
-      }
+      setUser(userResponse.data);
+    } catch (err) {
+      console.log(err);
     }
   };
 
@@ -51,7 +55,7 @@ function UserSection({ getTypeHistory }: UserSectionProps) {
   }, []);
 
   if (!user || !elo) {
-    return <LoadingPage />;
+    return <LoadingPage text="Loading data" />;
   }
 
   return (
@@ -59,19 +63,68 @@ function UserSection({ getTypeHistory }: UserSectionProps) {
       <div className={classes.user__profile}>
         <div className={classes.user__profile__avatar}>
           {user.imageUrl === null ? (
-            <AvatarSvg iconClass={classes["avatar-svg"]} />
+            <AvatarSvg iconClass={classes["avatar-img"]} />
           ) : (
-            <img src={user.imageUrl} />
+            <img src={user.imageUrl} className={classes["avatar-img"]} />
           )}
 
-          <div className={classes["user-name"]}>
-            <p>{user.userName}</p>
-            <p>{user.fullName === null ? "----- -----" : user.fullName}</p>
+          <div className={classes["set-img"]}>
+            <UserSectionIocns iconName="image" />
           </div>
         </div>
-        <div className={classes.user__profile__elo}>
+
+        <div className={classes.user__profile__info}>
+          <p className={classes["user-name"]}>{user.username}</p>
+
+          <input
+            type="text"
+            className={classes["name"]}
+            placeholder="Enter your name..."
+            // value={user.name === null ? "" : user.name}
+          />
+
+          <textarea
+            className={classes["bio"]}
+            placeholder="Enter your bio..."
+          ></textarea>
+        </div>
+
+        <div className={classes.user__profile__icons}>
+          <div className={`${classes.icon} ${classes["country"]}`}>
+            <img src={`https://flagsapi.com/${user.country}/flat/64.png`} />
+          </div>
+          <div className={`${classes.icon} ${classes["settings"]}`}>
+            <UserSectionIocns iconName="settings" />
+          </div>
+        </div>
+      </div>
+      <div className={classes.user__data}>
+        <div className={classes.user__data__stats}>
+          <div className={classes.user__data__stats__header}>
+            <span>Total games plaed: {user.gamesPlayed}</span>
+          </div>
+          <div className={classes.user__data__stats__row}>
+            <h4>Games</h4>
+            <p>{user.wins}</p>
+            <p>{user.draws}</p>
+            <p>{user.loses}</p>
+          </div>
+          <div className={classes.user__data__stats__row}>
+            <h4>Wins</h4>
+            <p>{user.winsByCheckMate}</p>
+            <p>{user.winsByResignation}</p>
+            <p>{user.winsByTimeout}</p>
+          </div>
+          <div className={classes.user__data__stats__row}>
+            <h4>Loses</h4>
+            <p>{user.losesByCheckMate}</p>
+            <p>{user.losesByResignation}</p>
+            <p>{user.losesByTimeout}</p>
+          </div>
+        </div>
+        <div className={classes.user__data__elo}>
           <div
-            className={classes.user__profile__elo__type}
+            className={classes.user__data__elo__type}
             onClick={() => {
               getTypeHistory(timingTypes.bullet);
             }}
@@ -83,7 +136,7 @@ function UserSection({ getTypeHistory }: UserSectionProps) {
             {elo.bullet}
           </div>
           <div
-            className={classes.user__profile__elo__type}
+            className={classes.user__data__elo__type}
             onClick={() => {
               getTypeHistory(timingTypes.blitz);
             }}
@@ -95,7 +148,7 @@ function UserSection({ getTypeHistory }: UserSectionProps) {
             {elo.blitz}
           </div>
           <div
-            className={classes.user__profile__elo__type}
+            className={classes.user__data__elo__type}
             onClick={() => {
               getTypeHistory(timingTypes.rapid);
             }}
@@ -107,7 +160,7 @@ function UserSection({ getTypeHistory }: UserSectionProps) {
             {elo.rapid}
           </div>
           <div
-            className={classes.user__profile__elo__type}
+            className={classes.user__data__elo__type}
             onClick={() => {
               getTypeHistory(timingTypes.classic);
             }}
@@ -119,7 +172,7 @@ function UserSection({ getTypeHistory }: UserSectionProps) {
             {elo.classic}
           </div>
           <div
-            className={classes.user__profile__elo__type}
+            className={classes.user__data__elo__type}
             onClick={() => {
               getTypeHistory(timingTypes.daily);
             }}

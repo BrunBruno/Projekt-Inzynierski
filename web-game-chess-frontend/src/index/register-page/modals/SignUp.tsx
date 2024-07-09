@@ -88,6 +88,17 @@ function SignUp({ setModal }: SignUpProps) {
     getDataConfigurations();
   }, []);
 
+  const getCountry = async (): Promise<string> => {
+    try {
+      const response = await axios.get("https://ipinfo.io");
+      return response.data.countr;
+    } catch (err) {
+      console.log(err);
+    }
+
+    return "";
+  };
+
   // creates user account
   const signUpUser = async (
     event: React.FormEvent<HTMLFormElement>
@@ -106,6 +117,8 @@ function SignUp({ setModal }: SignUpProps) {
       return;
     }
 
+    const country = await getCountry();
+
     // user data
     const form = event.target as HTMLFormElement;
     const userData: RegisterUserModel = {
@@ -113,6 +126,7 @@ function SignUp({ setModal }: SignUpProps) {
       username: form.userName.value.trim(),
       password: form.password.value,
       confirmPassword: form.confirmPassword.value,
+      country: country,
     };
 
     // Check for email format
@@ -237,7 +251,7 @@ function SignUp({ setModal }: SignUpProps) {
   };
 
   if (processing) {
-    return <LoadingPage />;
+    return <LoadingPage text="Loading data" />;
   }
 
   return (

@@ -10,6 +10,7 @@ import {
 } from "../../shared/utils/functions/apiFunctions";
 import { useState } from "react";
 import { GetTypeHistoryDto } from "../../shared/utils/types/gameDtos";
+import MainNav from "../../shared/components/main-nav/MainNav";
 
 function AccountPage() {
   const [typeHistory, setTypeHistory] = useState<PagedResult<
@@ -36,6 +37,7 @@ function AccountPage() {
 
   return (
     <main className={classes["account-main"]}>
+      <MainNav />
       <UserSection getTypeHistory={getTypeHistory} />
       <ActionsSection typeHistory={typeHistory} />
     </main>

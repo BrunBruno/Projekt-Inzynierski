@@ -2,10 +2,10 @@
 
 .main {
   @include gridBg();
+  @include forNav();
 
   position: relative;
   height: 100%;
-  padding-right: 6rem;
 
   overflow: hidden; //
 }

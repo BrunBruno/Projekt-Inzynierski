@@ -24,6 +24,7 @@ interface UserControllerPaths {
   verifyEmail: () => string;
   //GET
   getUser: () => string;
+  getFullUser: () => string;
   getElo: () => string;
   isVerified: () => string;
   getRegisterConf: (model: GetRegisterConfModel) => string;
@@ -41,6 +42,8 @@ export const userControllerPaths: UserControllerPaths = {
   verifyEmail: (): string => `${userBaseUrl}/verify-email`,
 
   getUser: (): string => `${userBaseUrl}`,
+
+  getFullUser: (): string => `${userBaseUrl}/full`,
 
   getElo: (): string => `${userBaseUrl}/elo`,
 

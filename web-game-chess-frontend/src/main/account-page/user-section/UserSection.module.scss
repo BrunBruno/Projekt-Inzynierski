@@ -1,35 +1,140 @@
 @import "../../Main.scss";
 
 .user {
-  background-color: $gc9;
+  background-color: rgba($gc9, 0.5);
   box-shadow: 0.1rem 0 1rem 0 $gc0;
 
   &__profile {
-    @include flex(row, space-evenly, center, 0);
+    @include flex(row, start, center, 2rem);
 
+    position: relative;
     padding: 4rem;
+    background-color: $gc9;
+    border-bottom: solid 0.5rem $gc8;
+
+    &::before {
+      @include subCl();
+      @include absCenter();
+
+      z-index: 0;
+      background-image: radial-gradient(
+          circle at 00%,
+          rgba($gc9, 0.5) 0%,
+          $gc9 60%
+        ),
+        url("/images/account-bg.jpg");
+      background-size: contain;
+      background-repeat: no-repeat;
+    }
 
     &__avatar {
-      @include flex(column, center, center, 1rem);
+      position: relative;
+      z-index: 1;
+      border-radius: 100%;
 
-      .avatar-svg {
+      .avatar-img {
         width: 20rem;
+        border: solid 1rem $mc9;
       }
 
-      .user-name {
-        @include flex($direction: column);
+      .set-img {
+        @include circle(5rem);
+        @include flex();
 
-        p {
-          &:nth-child(1) {
-            font-size: 3rem;
-          }
-          &:nth-child(2) {
-            font-size: 2rem;
-            color: $gc5;
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        background-color: $mc9;
+        padding: 1rem;
+
+        &:hover {
+          cursor: pointer;
+          svg {
+            filter: brightness(80%);
           }
         }
       }
     }
+
+    &__info {
+      @include flex(column, start, start, 0rem);
+
+      z-index: 1;
+      height: 20rem;
+      width: 100%;
+
+      .user-name {
+        font-size: 4rem;
+      }
+
+      input.name {
+        @include tInput();
+
+        border: none;
+        font-size: 2rem;
+        color: $gc3;
+
+        &::placeholder {
+          color: $gc5;
+          &:active,
+          :focus {
+            color: $gc6;
+          }
+        }
+
+        &:focus,
+        :active {
+          color: $gc2;
+        }
+      }
+
+      textarea.bio {
+        @include tInput();
+
+        &::placeholder {
+          color: $gc5;
+        }
+
+        &:focus,
+        &:active {
+          color: $gc2;
+        }
+
+        width: 80%;
+        height: 100%;
+        font-size: 1.4rem;
+        resize: none;
+      }
+    }
+
+    &__icons {
+      @include flex($gap: 0.5rem);
+      position: absolute;
+      top: 0;
+      right: 0;
+      padding: 2rem;
+      z-index: 2;
+
+      .icon {
+        @include circle(4rem);
+        @include flex();
+
+        overflow: hidden;
+
+        &.settings {
+          &:hover {
+            cursor: pointer;
+            filter: brightness(80%);
+          }
+        }
+      }
+    }
+  }
+
+  &__data {
+    display: grid;
+    grid-template-columns: 60% 40%;
+    padding: 2rem;
 
     &__elo {
       @include flex(column, center, center, 0);

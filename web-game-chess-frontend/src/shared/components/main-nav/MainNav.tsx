@@ -1,9 +1,9 @@
 import { useNavigate } from "react-router-dom";
-import classes from "./NavSection.module.scss";
-import NavSectionIcons from "./NavSectionIcons";
-import LogoIconSvg from "../../../shared/svgs/LogoIconSvg";
+import classes from "./MainNav.module.scss";
+import MainNavIcons from "./MainNavIcons";
+import LogoIconSvg from "../../svgs/LogoIconSvg";
 
-function NavSection() {
+function MainNav() {
   const navigate = useNavigate();
 
   const onLogOut = () => {
@@ -19,7 +19,7 @@ function NavSection() {
         <div
           className={classes.element}
           onClick={() => {
-            location.reload();
+            navigate("/main");
           }}
         >
           <LogoIconSvg iconClass={classes["nav-icon"]} />
@@ -31,7 +31,7 @@ function NavSection() {
             navigate("/main/account");
           }}
         >
-          <NavSectionIcons iconName="account" />
+          <MainNavIcons iconName="account" />
           <span className={classes.ind}>Account</span>
         </div>
 
@@ -41,7 +41,7 @@ function NavSection() {
             navigate("/main/users");
           }}
         >
-          <NavSectionIcons iconName="addFriend" />
+          <MainNavIcons iconName="addFriend" />
           <span className={classes.ind}>Add friend</span>
         </div>
 
@@ -58,7 +58,7 @@ function NavSection() {
             onLogOut();
           }}
         >
-          <NavSectionIcons iconName="logOut" />
+          <MainNavIcons iconName="logOut" />
           <span className={classes.ind}>Log out</span>
         </div>
       </div>
@@ -66,4 +66,4 @@ function NavSection() {
   );
 }
 
-export default NavSection;
+export default MainNav;

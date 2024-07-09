@@ -32,3 +32,22 @@ export type GetEloDto = {
   classic: number;
   daily: number;
 };
+
+export type GetFullUserDto = {
+  email: string;
+  username: string;
+  name: string | null;
+  joinDate: Date;
+  imageUrl: string | null;
+  country: string;
+  wins: number;
+  loses: number;
+  draws: number;
+  gamesPlayed: number;
+  winsByCheckMate: number;
+  winsByTimeout: number;
+  winsByResignation: number;
+  losesByCheckMate: number;
+  losesByTimeout: number;
+  losesByResignation: number;
+};

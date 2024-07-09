@@ -46,6 +46,7 @@ public class RegisterUserRequestHandler : IRequestHandler<RegisterUserRequest> {
             Email = request.Email.ToLower(),
             Username = request.Username,
             JoinDate = DateTime.UtcNow,
+            Country = request.Country,
             Elo = new Elo(),
             Stats = new UserStats(),
         };
