@@ -13,3 +13,15 @@ export const makeTimeFromMinutes = (minutes: number): string => {
 
   return `${formattedDays}${formattedHours}${formattedMinutes}${formattedSeconds}`.trim();
 };
+
+export const formatDate = (date: Date): string => {
+  const add0 = (value: string): string => {
+    return value.length === 1 ? "0" + value : value;
+  };
+
+  return (
+    add0(date.getDate().toString()) +
+    "." +
+    add0((date.getMonth() + 1).toString())
+  );
+};

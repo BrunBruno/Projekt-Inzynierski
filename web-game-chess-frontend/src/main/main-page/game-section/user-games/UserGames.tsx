@@ -13,16 +13,16 @@ import { useEffect, useRef, useState } from "react";
 import LoadingPage from "../../../../shared/components/loading-page/LoadingPage";
 import { pieceImageMap } from "../../../../shared/utils/enums/piecesMaps";
 import AvatarSvg from "../../../../shared/svgs/AvatarSvg";
-import UserGamesIcons from "./user-game-icons/UserGamesIcons";
 import TimingTypesIcons from "../../../../shared/svgs/TimingTypesIcons";
 import { getEnumTypeByNumber } from "../../../../shared/utils/functions/enumRelated";
 import {
   endGameTypes,
   timingTypes,
 } from "../../../../shared/utils/enums/entitiesEnums";
-import WinTypesIocns from "./user-game-icons/WinTypesIcons";
 import { PagedResult } from "../../../../shared/utils/types/commonTypes";
 import UserGamesFilters from "./user-games-filters/UserGamesFilters";
+import WinLoseIcons from "../../../../shared/svgs/WinLoseIcons";
+import WinTypesIcons from "../../../../shared/svgs/WinTypesIcons";
 
 type UserGamesProps = {};
 
@@ -246,7 +246,7 @@ function UserGames({}: UserGamesProps) {
     return <></>;
   };
 
-  if (!games) return <LoadingPage />;
+  if (!games) return <LoadingPage text="Loading games" />;
 
   return (
     <div className={classes.games}>
@@ -293,17 +293,17 @@ function UserGames({}: UserGamesProps) {
               </div>
               <div className={classes["is-winner"]}>
                 {game.isWinner === null ? (
-                  <UserGamesIcons iconName="draw" />
+                  <WinLoseIcons iconName="draw" />
                 ) : game.isWinner === true ? (
-                  <UserGamesIcons iconName="win" />
+                  <WinLoseIcons iconName="win" />
                 ) : (
-                  <UserGamesIcons iconName="lose" />
+                  <WinLoseIcons iconName="lose" />
                 )}
               </div>
 
               <div className={classes.moves}>{game.moves}</div>
               <div className={classes["win-type"]}>
-                <WinTypesIocns
+                <WinTypesIcons
                   iconName={getEnumTypeByNumber(endGameTypes, game.endGameType)}
                 />
               </div>

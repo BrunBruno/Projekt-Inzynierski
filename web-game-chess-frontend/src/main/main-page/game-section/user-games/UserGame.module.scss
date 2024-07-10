@@ -87,6 +87,7 @@
         .moves {
           @include flex();
           @include circle(3rem);
+          // @include secFont(1.6rem);
 
           font-weight: bold;
           font-size: 1.6rem;
@@ -99,6 +100,10 @@
           p {
             @include secFont(3rem);
             padding-right: 0.2rem;
+          }
+
+          svg {
+            height: 3rem;
           }
         }
       }

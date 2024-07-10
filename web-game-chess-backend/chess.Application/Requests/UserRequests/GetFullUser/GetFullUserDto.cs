@@ -8,6 +8,7 @@ public class GetFullUserDto {
     public DateTime JoinDate { get; set; }
     public string? ImageUrl { get; set; }
     public required string Country { get; set; }
+    public string? Bio { get; set; }
 
     public int Wins { get; set; } 
     public int Loses { get; set; } 

@@ -4,16 +4,24 @@
   max-height: 100vh;
   height: 100%;
   display: grid;
-  grid-template-rows: 1fr 1fr;
+  grid-template-rows: 2rem 1fr 1fr;
+  padding-top: 2rem;
   padding-bottom: 2rem;
+
+  h2 {
+    @include flex($gap: 1rem);
+
+    width: 100%;
+    font-size: 4rem;
+
+    .type-icon {
+      height: 4rem;
+    }
+  }
 
   &__chart {
     padding: 0 2rem;
     overflow: hidden;
-
-    svg {
-      height: 10rem;
-    }
   }
 
   &__items {
@@ -33,7 +41,7 @@
       width: 100%;
       background-color: rgba($gc9, 0.5);
       display: grid;
-      grid-template-columns: 50% 10% 10% 30%;
+      grid-template-columns: 45% 15% 10% 30%;
 
       &.win {
         background-color: rgba($success-color-m, 0.5);
@@ -45,6 +53,11 @@
       span {
         padding-left: 2rem;
         font-size: 1.6rem;
+        border-right: solid 0.2rem $gc0;
+
+        &:last-child {
+          border: none;
+        }
       }
     }
   }

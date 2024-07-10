@@ -1,6 +1,7 @@
 @import "../../Main.scss";
 
 .user {
+  height: 100%;
   background-color: rgba($gc9, 0.5);
   box-shadow: 0.1rem 0 1rem 0 $gc0;
 
@@ -8,7 +9,7 @@
     @include flex(row, start, center, 2rem);
 
     position: relative;
-    padding: 4rem;
+    padding: 2rem 4rem;
     background-color: $gc9;
     border-bottom: solid 0.5rem $gc8;
 
@@ -20,7 +21,8 @@
       background-image: radial-gradient(
           circle at 00%,
           rgba($gc9, 0.5) 0%,
-          $gc9 60%
+          $gc9 40%,
+          #111 100%
         ),
         url("/images/account-bg.jpg");
       background-size: contain;
@@ -115,17 +117,37 @@
       padding: 2rem;
       z-index: 2;
 
-      .icon {
-        @include circle(4rem);
+      .iocn-con {
         @include flex();
+        position: relative;
 
-        overflow: hidden;
-
-        &.settings {
-          &:hover {
-            cursor: pointer;
-            filter: brightness(80%);
+        &:hover {
+          span {
+            display: block;
           }
+        }
+
+        .icon {
+          @include circle(4rem);
+          @include flex();
+
+          overflow: hidden;
+
+          &:not(.country) {
+            &:hover {
+              cursor: pointer;
+              filter: brightness(80%);
+            }
+          }
+        }
+
+        span {
+          @include rounded(0.5rem);
+
+          position: absolute;
+          bottom: -2rem;
+          background-color: $gc9;
+          display: none;
         }
       }
     }
@@ -136,8 +158,80 @@
     grid-template-columns: 60% 40%;
     padding: 2rem;
 
+    &__stats {
+      @include wh100();
+      @include flex(column, start, start, 0.5rem);
+
+      position: relative;
+      border-right: solid 0.3rem $gc1;
+
+      &__header {
+        font-size: 2.8rem;
+        font-weight: 600;
+        padding: 0.5rem;
+
+        span {
+          color: $mc5;
+        }
+      }
+
+      &__row {
+        width: 100%;
+
+        h4 {
+          @include rounded(0.5rem);
+          width: calc(3 * 8rem + 4rem);
+          font-size: 2rem;
+          font-weight: bold;
+          color: $gc3;
+          padding-left: 2rem;
+          background-color: rgba($gc8, 0.5);
+        }
+
+        .data-row {
+          display: grid;
+          grid-template-columns: repeat(3, 8rem);
+          gap: 1rem;
+          margin-top: 0.8rem;
+          margin-bottom: 0.4rem;
+
+          .games {
+            @include flex($direction: column);
+
+            span {
+              &:nth-child(1) {
+                @include flex($gap: 0.3rem);
+                font-size: 1.6rem;
+                color: $gc5;
+              }
+              &:nth-child(2) {
+                font-size: 3.2rem;
+              }
+
+              svg {
+                height: 1.6rem;
+              }
+            }
+          }
+        }
+      }
+    }
+
     &__elo {
-      @include flex(column, center, center, 0);
+      @include flex(column, start, center, 0);
+
+      padding: 0 2rem;
+
+      &__header {
+        @include rounded(1rem);
+
+        font-size: 2.2rem;
+        font-weight: 600;
+
+        color: $gc4;
+        background-color: rgba($gc8, 0.5);
+        margin-bottom: 1rem;
+      }
 
       &__type {
         @include rounded(1rem);
@@ -147,6 +241,7 @@
         grid-template-columns: 4rem auto;
         gap: 2rem;
         font-size: 3rem;
+        padding-left: 2rem;
 
         &:hover {
           cursor: pointer;

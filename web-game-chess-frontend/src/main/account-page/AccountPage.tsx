@@ -1,6 +1,6 @@
 import axios from "axios";
 import classes from "./AccountPage.module.scss";
-import ActionsSection from "./actions-section/ActionsSection";
+import HistorySection from "./history-section/HistorySection";
 import UserSection from "./user-section/UserSection";
 import { PagedResult } from "../../shared/utils/types/commonTypes";
 import { GetTypeHistiryModel } from "../../shared/utils/types/gameModels";
@@ -12,10 +12,10 @@ import { useState } from "react";
 import { GetTypeHistoryDto } from "../../shared/utils/types/gameDtos";
 import MainNav from "../../shared/components/main-nav/MainNav";
 
+const types = ["Bullet", "Blitz", "Rapid", "Classic", "Daily"];
+
 function AccountPage() {
-  const [typeHistory, setTypeHistory] = useState<PagedResult<
-    GetTypeHistoryDto
-  > | null>(null);
+  const [content, setContent] = useState<JSX.Element>(<></>);
 
   const getTypeHistory = async (type: number) => {
     try {
@@ -29,7 +29,12 @@ function AccountPage() {
         PagedResult<GetTypeHistoryDto>
       >(gameControllerPaths.getTypeHistory(model), getAuthorization());
 
-      setTypeHistory(typeHistoryResponse.data);
+      setContent(
+        <HistorySection
+          selectedType={types[type]}
+          typeHistory={typeHistoryResponse.data}
+        />
+      );
     } catch (err) {
       console.log(err);
     }
@@ -39,7 +44,7 @@ function AccountPage() {
     <main className={classes["account-main"]}>
       <MainNav />
       <UserSection getTypeHistory={getTypeHistory} />
-      <ActionsSection typeHistory={typeHistory} />
+      {content}
     </main>
   );
 }

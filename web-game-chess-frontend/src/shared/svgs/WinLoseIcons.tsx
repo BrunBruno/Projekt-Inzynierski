@@ -1,8 +1,5 @@
-import { greyColor } from "../../../../../shared/utils/enums/colorMaps";
-import {
-  IconMap,
-  IconsMapProps,
-} from "../../../../../shared/utils/types/commonTypes";
+import { greyColor } from "../utils/enums/colorMaps";
+import { IconMap, IconsMapProps } from "../utils/types/commonTypes";
 
 const icons: IconMap = {
   win: (
@@ -83,10 +80,10 @@ const icons: IconMap = {
   ),
 };
 
-function UserGamesIcons({ iconName }: IconsMapProps) {
+function WinLoseIcons({ iconName }: IconsMapProps) {
   const icon = icons[iconName];
 
   return icon ? icon : <></>;
 }
 
-export default UserGamesIcons;
+export default WinLoseIcons;

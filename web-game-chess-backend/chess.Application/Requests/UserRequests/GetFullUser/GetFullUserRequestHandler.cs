@@ -31,6 +31,7 @@ public class GetFullUserRequestHandler : IRequestHandler<GetFullUserRequest, Get
             JoinDate = user.JoinDate,
             ImageUrl = user.ImageUrl,
             Country = user.Country,
+            Bio = user.Bio,
             Wins = user.Stats.Wins,
             Loses = user.Stats.Loses,
             Draws = user.Stats.Draws,

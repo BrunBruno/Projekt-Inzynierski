@@ -14,6 +14,9 @@ import {
 import TimingTypesIcons from "../../../shared/svgs/TimingTypesIcons";
 import { timingTypes } from "../../../shared/utils/enums/entitiesEnums";
 import UserSectionIocns from "./UserSectionIcons";
+import WinLoseIcons from "../../../shared/svgs/WinLoseIcons";
+import WinTypesIcons from "../../../shared/svgs/WinTypesIcons";
+import { UpdateProfileModel } from "../../../shared/utils/types/userModels";
 
 type UserSectionProps = {
   getTypeHistory: (type: number) => void;
@@ -23,6 +26,9 @@ function UserSection({ getTypeHistory }: UserSectionProps) {
   const [user, setUser] = useState<GetFullUserDto | null>(null);
   const [elo, setElo] = useState<GetEloDto | null>(null);
 
+  const [name, setName] = useState<string>("");
+  const [bio, setBio] = useState<string>("");
+
   const getUser = async () => {
     try {
       const userResponse = await axios.get<GetFullUserDto>(
@@ -31,6 +37,13 @@ function UserSection({ getTypeHistory }: UserSectionProps) {
       );
 
       setUser(userResponse.data);
+
+      if (userResponse.data.name !== null) {
+        setName(userResponse.data.name);
+      }
+      if (userResponse.data.bio !== null) {
+        setBio(userResponse.data.bio);
+      }
     } catch (err) {
       console.log(err);
     }
@@ -49,10 +62,34 @@ function UserSection({ getTypeHistory }: UserSectionProps) {
     }
   };
 
-  useEffect(() => {
+  const fetchData = () => {
     getUser();
     getElo();
+  };
+
+  useEffect(() => {
+    fetchData();
   }, []);
+
+  const updateUser = async () => {
+    const profileModel: UpdateProfileModel = {
+      name: name === "" ? null : name,
+      bio: bio === "" ? null : bio,
+      imageUrl: null,
+    };
+
+    try {
+      await axios.put(
+        userControllerPaths.updateProfile(),
+        profileModel,
+        getAuthorization()
+      );
+
+      fetchData();
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   if (!user || !elo) {
     return <LoadingPage text="Loading data" />;
@@ -80,49 +117,129 @@ function UserSection({ getTypeHistory }: UserSectionProps) {
             type="text"
             className={classes["name"]}
             placeholder="Enter your name..."
-            // value={user.name === null ? "" : user.name}
+            value={name}
+            onChange={(event) => {
+              setName(event.target.value);
+            }}
+            onBlur={() => {
+              updateUser();
+            }}
           />
 
           <textarea
             className={classes["bio"]}
             placeholder="Enter your bio..."
+            value={bio}
+            onChange={(event) => {
+              setBio(event.target.value);
+            }}
+            onBlur={() => {
+              updateUser();
+            }}
           ></textarea>
         </div>
 
         <div className={classes.user__profile__icons}>
-          <div className={`${classes.icon} ${classes["country"]}`}>
-            <img src={`https://flagsapi.com/${user.country}/flat/64.png`} />
+          <div className={classes["iocn-con"]}>
+            <div className={`${classes.icon} ${classes["country"]}`}>
+              <img src={`https://flagsapi.com/${user.country}/flat/64.png`} />
+            </div>
+            <span>{user.country}</span>
           </div>
-          <div className={`${classes.icon} ${classes["settings"]}`}>
-            <UserSectionIocns iconName="settings" />
+          <div className={classes["iocn-con"]}>
+            <div className={`${classes.icon} ${classes["friends"]}`}>
+              <UserSectionIocns iconName="friends" />
+            </div>
+            <span>Friends</span>
+          </div>
+          <div className={classes["iocn-con"]}>
+            <div className={`${classes.icon} ${classes["settings"]}`}>
+              <UserSectionIocns iconName="settings" />
+            </div>
+            <span>Settings</span>
           </div>
         </div>
       </div>
       <div className={classes.user__data}>
         <div className={classes.user__data__stats}>
           <div className={classes.user__data__stats__header}>
-            <span>Total games plaed: {user.gamesPlayed}</span>
+            Total games played: <span>{user.gamesPlayed}</span>
           </div>
           <div className={classes.user__data__stats__row}>
-            <h4>Games</h4>
-            <p>{user.wins}</p>
-            <p>{user.draws}</p>
-            <p>{user.loses}</p>
+            <h4 className={classes.cat}>Games:</h4>
+
+            <div className={classes["data-row"]}>
+              <div className={classes["games"]}>
+                <span>
+                  Wins <WinLoseIcons iconName="win" />
+                </span>
+                <span>{user.wins}</span>
+              </div>
+              <div className={classes["games"]}>
+                <span>
+                  Draws <WinLoseIcons iconName="draw" />
+                </span>
+                <span>{user.draws}</span>
+              </div>
+              <div className={classes["games"]}>
+                <span>
+                  Loses <WinLoseIcons iconName="lose" />
+                </span>
+                <span>{user.loses}</span>
+              </div>
+            </div>
           </div>
           <div className={classes.user__data__stats__row}>
-            <h4>Wins</h4>
-            <p>{user.winsByCheckMate}</p>
-            <p>{user.winsByResignation}</p>
-            <p>{user.winsByTimeout}</p>
+            <h4>Wins by:</h4>
+
+            <div className={classes["data-row"]}>
+              <div className={classes["games"]}>
+                <span>
+                  Mate <WinTypesIcons iconName="checkmate" />
+                </span>
+                <span>{user.winsByCheckMate}</span>
+              </div>
+              <div className={classes["games"]}>
+                <span>
+                  Resign <WinTypesIcons iconName="resignation" />
+                </span>
+                <span>{user.winsByResignation}</span>
+              </div>
+              <div className={classes["games"]}>
+                <span>
+                  Timeout <WinTypesIcons iconName="outoftime" />
+                </span>
+                <span>{user.winsByTimeout}</span>
+              </div>
+            </div>
           </div>
           <div className={classes.user__data__stats__row}>
-            <h4>Loses</h4>
-            <p>{user.losesByCheckMate}</p>
-            <p>{user.losesByResignation}</p>
-            <p>{user.losesByTimeout}</p>
+            <h4>Loses by:</h4>
+
+            <div className={classes["data-row"]}>
+              <div className={classes["games"]}>
+                <span>
+                  Mate <WinTypesIcons iconName="checkmate" />
+                </span>
+                <span>{user.losesByCheckMate}</span>
+              </div>
+              <div className={classes["games"]}>
+                <span>
+                  Resign <WinTypesIcons iconName="resignation" />
+                </span>
+                <span>{user.losesByResignation}</span>
+              </div>
+              <div className={classes["games"]}>
+                <span>
+                  Timeout <WinTypesIcons iconName="outoftime" />
+                </span>
+                <span>{user.losesByTimeout}</span>
+              </div>
+            </div>
           </div>
         </div>
         <div className={classes.user__data__elo}>
+          <div className={classes.user__data__elo__header}>Check history</div>
           <div
             className={classes.user__data__elo__type}
             onClick={() => {

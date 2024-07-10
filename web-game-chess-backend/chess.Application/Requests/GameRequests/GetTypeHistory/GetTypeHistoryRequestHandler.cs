@@ -78,7 +78,9 @@ public class GetTypeHistoryRequestHandler : IRequestHandler<GetTypeHistoryReques
 
         }
 
-        var pagedResult = new PagedResult<GetTypeHistoryDto>(typeHistory, typeHistory.Count, request.PageSize, request.PageNumber);
+        var sortedHistory = typeHistory.OrderByDescending(h => h.CreatedAt).ToList();
+
+        var pagedResult = new PagedResult<GetTypeHistoryDto>(sortedHistory, typeHistory.Count, request.PageSize, request.PageNumber);
 
         return pagedResult;
     }

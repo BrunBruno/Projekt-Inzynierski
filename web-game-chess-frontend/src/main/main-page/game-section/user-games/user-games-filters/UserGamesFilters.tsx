@@ -1,6 +1,6 @@
 import TimingTypesIcons from "../../../../../shared/svgs/TimingTypesIcons";
+import WinLoseIcons from "../../../../../shared/svgs/WinLoseIcons";
 import { mainColor } from "../../../../../shared/utils/enums/colorMaps";
-import UserGamesIcons from "../user-game-icons/UserGamesIcons";
 import classes from "./UserGamesFilters.module.scss";
 import { resultList, timingTypesList } from "./UserGamesFiltersObects";
 
@@ -77,7 +77,7 @@ function UserGamesFilters({
             }}
           >
             {element.label}
-            <UserGamesIcons
+            <WinLoseIcons
               iconName={element.label
                 .toLocaleLowerCase()
                 .substring(0, element.label.length - 1)}

@@ -22,6 +22,7 @@ interface UserControllerPaths {
   regenerateCode: () => string;
   //PUT
   verifyEmail: () => string;
+  updateProfile: () => string;
   //GET
   getUser: () => string;
   getFullUser: () => string;
@@ -40,6 +41,8 @@ export const userControllerPaths: UserControllerPaths = {
   regenerateCode: (): string => `${userBaseUrl}/regenerate-code`,
 
   verifyEmail: (): string => `${userBaseUrl}/verify-email`,
+
+  updateProfile: (): string => `${userBaseUrl}/profile`,
 
   getUser: (): string => `${userBaseUrl}`,
 

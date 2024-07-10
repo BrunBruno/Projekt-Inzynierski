@@ -40,6 +40,7 @@ export type GetFullUserDto = {
   joinDate: Date;
   imageUrl: string | null;
   country: string;
+  bio: string | null;
   wins: number;
   loses: number;
   draws: number;
