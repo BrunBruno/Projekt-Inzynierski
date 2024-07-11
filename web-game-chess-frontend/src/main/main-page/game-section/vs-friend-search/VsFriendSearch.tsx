@@ -131,6 +131,11 @@ function VsFriendSearch({ setChoosenTiming }: VsFriendSearchProps) {
               }, 200);
             }}
           />
+
+          <p className={classes.text}>Invite using email:</p>
+          <input placeholder="email" />
+
+          {/* game by url */}
         </div>
 
         {selectedFriend ? (

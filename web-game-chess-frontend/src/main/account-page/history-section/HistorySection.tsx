@@ -6,7 +6,6 @@ import { ThemeProvider, createTheme } from "@mui/material/styles";
 import { mainColor } from "../../../shared/utils/enums/colorMaps";
 import { formatDate } from "../../../shared/utils/functions/dateTimeRelated";
 import TimingTypesIcons from "../../../shared/svgs/TimingTypesIcons";
-import LoadingPage from "../../../shared/components/loading-page/LoadingPage";
 
 type HistorySectionProps = {
   selectedType: string | null;
@@ -36,13 +35,11 @@ function HistorySection({ selectedType, typeHistory }: HistorySectionProps) {
 
     const dates: string[] = Object.keys(groupedByCreatedAt);
     const labels: Date[] = dates.map((date) => new Date(date));
-    const values: number[] = dates
-      .map((date) => {
-        const group = groupedByCreatedAt[date];
-        const sum = group.reduce((acc, item) => acc + item.prevElo, 0);
-        return Math.round(sum / group.length);
-      })
-      .reverse();
+    const values: number[] = dates.map((date) => {
+      const group = groupedByCreatedAt[date];
+      const sum = group.reduce((acc, item) => acc + item.prevElo, 0);
+      return Math.round(sum / group.length);
+    });
 
     return (
       <ThemeProvider theme={theme}>
@@ -54,8 +51,21 @@ function HistorySection({ selectedType, typeHistory }: HistorySectionProps) {
               valueFormatter: (date: Date) => formatDate(date),
             },
           ]}
-          series={[{ data: values, color: mainColor.c5 }]}
-          grid={{ vertical: true, horizontal: true }}
+          series={[
+            {
+              data: values,
+              color: mainColor.c5,
+              connectNulls: true,
+              label: `${selectedType} elo:`,
+              showMark: false,
+            },
+          ]}
+          grid={{ vertical: false, horizontal: true }}
+          slotProps={{
+            legend: {
+              hidden: true,
+            },
+          }}
         />
       </ThemeProvider>
     );
@@ -66,7 +76,11 @@ function HistorySection({ selectedType, typeHistory }: HistorySectionProps) {
     selectedType === null ||
     typeHistory.items.length === 0
   ) {
-    return <LoadingPage text="Loading data" />;
+    return (
+      <div className={classes.empty}>
+        <span>No games were found.</span> <span>Start playing now!</span>
+      </div>
+    );
   }
 
   return (
@@ -84,7 +98,7 @@ function HistorySection({ selectedType, typeHistory }: HistorySectionProps) {
       </div>
 
       <div className={classes.actions__items}>
-        {typeHistory.items.map((item, index) => (
+        {typeHistory.items.reverse().map((item, index) => (
           <div
             key={index}
             className={`

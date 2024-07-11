@@ -91,7 +91,7 @@ function SignUp({ setModal }: SignUpProps) {
   const getCountry = async (): Promise<string> => {
     try {
       const response = await axios.get("https://ipinfo.io");
-      return response.data.countr;
+      return response.data.country;
     } catch (err) {
       console.log(err);
     }
@@ -126,7 +126,7 @@ function SignUp({ setModal }: SignUpProps) {
       username: form.userName.value.trim(),
       password: form.password.value,
       confirmPassword: form.confirmPassword.value,
-      country: country,
+      country: country === undefined ? "" : country,
     };
 
     // Check for email format

@@ -11,11 +11,17 @@ import {
 import { useState } from "react";
 import { GetTypeHistoryDto } from "../../shared/utils/types/gameDtos";
 import MainNav from "../../shared/components/main-nav/MainNav";
+import LoadingPage from "../../shared/components/loading-page/LoadingPage";
+import FriendsSection from "./friends-section/FriendsSection";
 
 const types = ["Bullet", "Blitz", "Rapid", "Classic", "Daily"];
 
 function AccountPage() {
-  const [content, setContent] = useState<JSX.Element>(<></>);
+  const [content, setContent] = useState<JSX.Element>(<FriendsSection />);
+
+  const setFriendSection = () => {
+    setContent(<FriendsSection />);
+  };
 
   const getTypeHistory = async (type: number) => {
     try {
@@ -29,12 +35,16 @@ function AccountPage() {
         PagedResult<GetTypeHistoryDto>
       >(gameControllerPaths.getTypeHistory(model), getAuthorization());
 
-      setContent(
-        <HistorySection
-          selectedType={types[type]}
-          typeHistory={typeHistoryResponse.data}
-        />
-      );
+      setContent(<LoadingPage text="Loading data" />);
+
+      setTimeout(() => {
+        setContent(
+          <HistorySection
+            selectedType={types[type]}
+            typeHistory={typeHistoryResponse.data}
+          />
+        );
+      }, 100);
     } catch (err) {
       console.log(err);
     }
@@ -43,7 +53,10 @@ function AccountPage() {
   return (
     <main className={classes["account-main"]}>
       <MainNav />
-      <UserSection getTypeHistory={getTypeHistory} />
+      <UserSection
+        getTypeHistory={getTypeHistory}
+        setFriendSection={setFriendSection}
+      />
       {content}
     </main>
   );

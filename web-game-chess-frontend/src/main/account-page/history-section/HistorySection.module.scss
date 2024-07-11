@@ -62,3 +62,17 @@
     }
   }
 }
+
+.empty {
+  @include flex($direction: column, $gap: 1rem);
+
+  span {
+    font-size: 4rem;
+    text-align: center;
+
+    &:last-child {
+      color: $mc5;
+      font-weight: 600;
+    }
+  }
+}

@@ -17,12 +17,14 @@ import UserSectionIocns from "./UserSectionIcons";
 import WinLoseIcons from "../../../shared/svgs/WinLoseIcons";
 import WinTypesIcons from "../../../shared/svgs/WinTypesIcons";
 import { UpdateProfileModel } from "../../../shared/utils/types/userModels";
+import { PieChart } from "@mui/x-charts";
 
 type UserSectionProps = {
   getTypeHistory: (type: number) => void;
+  setFriendSection: () => void;
 };
 
-function UserSection({ getTypeHistory }: UserSectionProps) {
+function UserSection({ getTypeHistory, setFriendSection }: UserSectionProps) {
   const [user, setUser] = useState<GetFullUserDto | null>(null);
   const [elo, setElo] = useState<GetEloDto | null>(null);
 
@@ -147,7 +149,12 @@ function UserSection({ getTypeHistory }: UserSectionProps) {
             <span>{user.country}</span>
           </div>
           <div className={classes["iocn-con"]}>
-            <div className={`${classes.icon} ${classes["friends"]}`}>
+            <div
+              className={`${classes.icon} ${classes["friends"]}`}
+              onClick={() => {
+                setFriendSection();
+              }}
+            >
               <UserSectionIocns iconName="friends" />
             </div>
             <span>Friends</span>
@@ -167,7 +174,6 @@ function UserSection({ getTypeHistory }: UserSectionProps) {
           </div>
           <div className={classes.user__data__stats__row}>
             <h4 className={classes.cat}>Games:</h4>
-
             <div className={classes["data-row"]}>
               <div className={classes["games"]}>
                 <span>
@@ -187,6 +193,26 @@ function UserSection({ getTypeHistory }: UserSectionProps) {
                 </span>
                 <span>{user.loses}</span>
               </div>
+            </div>
+
+            <div className={classes.chart}>
+              <PieChart
+                series={[
+                  {
+                    data: [
+                      { id: 0, value: user.wins, label: "Win" },
+                      { id: 1, value: user.draws, label: "Draw" },
+                      { id: 2, value: user.loses, label: "Lose" },
+                    ],
+                  },
+                ]}
+                colors={["#51cf66", "#868e96", "#f03e3e"]}
+                slotProps={{
+                  legend: {
+                    hidden: true,
+                  },
+                }}
+              />
             </div>
           </div>
           <div className={classes.user__data__stats__row}>
@@ -212,6 +238,26 @@ function UserSection({ getTypeHistory }: UserSectionProps) {
                 <span>{user.winsByTimeout}</span>
               </div>
             </div>
+
+            <div className={classes.chart}>
+              <PieChart
+                series={[
+                  {
+                    data: [
+                      { id: 0, value: user.winsByCheckMate, label: "Mate" },
+                      { id: 1, value: user.winsByResignation, label: "Resign" },
+                      { id: 2, value: user.winsByTimeout, label: "Timeout" },
+                    ],
+                  },
+                ]}
+                colors={["#845ef7", "#7048e8", "#5f3dc4"]}
+                slotProps={{
+                  legend: {
+                    hidden: true,
+                  },
+                }}
+              />
+            </div>
           </div>
           <div className={classes.user__data__stats__row}>
             <h4>Loses by:</h4>
@@ -235,6 +281,30 @@ function UserSection({ getTypeHistory }: UserSectionProps) {
                 </span>
                 <span>{user.losesByTimeout}</span>
               </div>
+            </div>
+
+            <div className={classes.chart}>
+              <PieChart
+                series={[
+                  {
+                    data: [
+                      { id: 0, value: user.losesByCheckMate, label: "Mate" },
+                      {
+                        id: 1,
+                        value: user.losesByResignation,
+                        label: "Resign",
+                      },
+                      { id: 2, value: user.losesByTimeout, label: "Timeout" },
+                    ],
+                  },
+                ]}
+                colors={["#845ef7", "#7048e8", "#5f3dc4"]}
+                slotProps={{
+                  legend: {
+                    hidden: true,
+                  },
+                }}
+              />
             </div>
           </div>
         </div>

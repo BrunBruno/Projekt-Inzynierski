@@ -49,6 +49,7 @@ public class GetAllFriendsByStatusRequestHandler : IRequestHandler<GetAllFriends
                         Username = friend.Username,
                         Name = friend.Name,
                         ImageUrl = friend.ImageUrl,
+                        Country = friend.Country,
                         IsRequestor = isRequestor,
                         Elo = new EloDto()
                         {

@@ -22,6 +22,8 @@ export const formatDate = (date: Date): string => {
   return (
     add0(date.getDate().toString()) +
     "." +
-    add0((date.getMonth() + 1).toString())
+    add0((date.getMonth() + 1).toString()) +
+    "." +
+    date.getFullYear()
   );
 };

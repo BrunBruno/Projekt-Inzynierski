@@ -8,6 +8,7 @@ public class GetAllFriendsByStatusDto {
     public required string Username { get; set; }
     public string? Name { get; set; }
     public string? ImageUrl { get; set; }
+    public required string Country { get; set; }
     public bool IsRequestor { get; set; }
     public required EloDto Elo { get; set; }
 

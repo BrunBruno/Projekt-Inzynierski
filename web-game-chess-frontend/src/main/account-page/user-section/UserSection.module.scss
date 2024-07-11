@@ -6,12 +6,14 @@
   box-shadow: 0.1rem 0 1rem 0 $gc0;
 
   &__profile {
-    @include flex(row, start, center, 2rem);
+    // @include flex(row, start, center, 2rem);
 
     position: relative;
     padding: 2rem 4rem;
     background-color: $gc9;
     border-bottom: solid 0.5rem $gc8;
+    display: grid;
+    grid-template-columns: 22rem 44rem;
 
     &::before {
       @include subCl();
@@ -33,6 +35,7 @@
       position: relative;
       z-index: 1;
       border-radius: 100%;
+      width: 100%;
 
       .avatar-img {
         width: 20rem;
@@ -59,14 +62,17 @@
     }
 
     &__info {
-      @include flex(column, start, start, 0rem);
-
       z-index: 1;
       height: 20rem;
       width: 100%;
+      overflow: hidden;
 
       .user-name {
+        width: 70%;
         font-size: 4rem;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        user-select: none;
       }
 
       input.name {
@@ -93,6 +99,15 @@
       textarea.bio {
         @include tInput();
 
+        width: 80%;
+        height: 12rem;
+        font-size: 1.4rem;
+        resize: none;
+
+        &::-webkit-scrollbar {
+          display: none;
+        }
+
         &::placeholder {
           color: $gc5;
         }
@@ -101,11 +116,6 @@
         &:active {
           color: $gc2;
         }
-
-        width: 80%;
-        height: 100%;
-        font-size: 1.4rem;
-        resize: none;
       }
     }
 
@@ -176,6 +186,7 @@
       }
 
       &__row {
+        position: relative;
         width: 100%;
 
         h4 {
@@ -214,6 +225,24 @@
             }
           }
         }
+
+        .chart {
+          @include circle(18rem);
+
+          position: absolute;
+          top: -5rem;
+          right: -8rem;
+          pointer-events: none;
+
+          svg {
+            @include absCenter();
+            pointer-events: all;
+
+            &:hover {
+              z-index: 1;
+            }
+          }
+        }
       }
     }
 
@@ -221,6 +250,7 @@
       @include flex(column, start, center, 0);
 
       padding: 0 2rem;
+      z-index: 2;
 
       &__header {
         @include rounded(1rem);
