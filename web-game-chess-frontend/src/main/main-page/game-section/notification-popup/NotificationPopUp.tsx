@@ -2,18 +2,35 @@ import { useEffect, useState } from "react";
 import classes from "./NotificationPopUp.module.scss";
 import GameHubService from "../../../../shared/utils/services/GameHubService";
 import { InvitedToGameDto } from "../../../../shared/utils/types/gameDtos";
-import { AcceptInvitationModel } from "../../../../shared/utils/types/gameModels";
+import {
+  AcceptInvitationModel,
+  SearchGameModel,
+} from "../../../../shared/utils/types/gameModels";
 
 type NotificationPopUpProps = {
   allowNotification: boolean;
+  setChoosenTiming: React.Dispatch<
+    React.SetStateAction<SearchGameModel | null>
+  >;
 };
 
-function NotificationPopUp({ allowNotification }: NotificationPopUpProps) {
+function NotificationPopUp({
+  allowNotification,
+  setChoosenTiming,
+}: NotificationPopUpProps) {
   const [notification, setNotification] = useState<InvitedToGameDto | null>(
     null
   );
 
   const handleNotificationChange = (invitationDto: InvitedToGameDto): void => {
+    const timing: SearchGameModel = {
+      type: invitationDto.type,
+      minutes: invitationDto.minutes,
+      increment: invitationDto.increment,
+    };
+
+    setChoosenTiming(timing);
+
     setNotification(invitationDto);
   };
 

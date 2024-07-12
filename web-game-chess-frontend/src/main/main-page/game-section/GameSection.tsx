@@ -86,7 +86,7 @@ function GameSection() {
         GameHubService.connection.off("GameAccepted", handleGameAccepted);
       }
     };
-  }, [searchIds]);
+  }, [searchIds, choosenTiming]);
 
   // set game section content
   const setInterfaceById = (interfaceId: number) => {
@@ -118,6 +118,9 @@ function GameSection() {
         break;
       case gameSearchInterface.userGames:
         setInterfaceContent(<UserGames />);
+        break;
+      case gameSearchInterface.invitations:
+        setInterfaceContent(<></>);
         break;
     }
   };
@@ -166,10 +169,22 @@ function GameSection() {
               <GameSectionIcons iconName="userGames" />
               <span>My Games</span>
             </button>
+            <button
+              className={classes["interface-button"]}
+              onClick={() => {
+                setInterfaceById(gameSearchInterface.invitations);
+              }}
+            >
+              <GameSectionIcons iconName="invitations" />
+              <span>Invitations</span>
+            </button>
           </div>
         </div>
 
-        <NotificationPopUp allowNotification={allowNotification} />
+        <NotificationPopUp
+          allowNotification={allowNotification}
+          setChoosenTiming={setChoosenTiming}
+        />
       </div>
     </section>
   );

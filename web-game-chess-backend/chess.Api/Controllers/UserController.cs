@@ -1,6 +1,7 @@
 ﻿
 using AutoMapper;
 using chess.Api.Models.UserModels;
+using chess.Application.Requests.UserRequests.CheckIfEmailExists;
 using chess.Application.Requests.UserRequests.GetElo;
 using chess.Application.Requests.UserRequests.GetFullUser;
 using chess.Application.Requests.UserRequests.GetRegisterConf;
@@ -161,12 +162,28 @@ public class UserController : ControllerBase {
     [Authorize]
     public async Task<IActionResult> IsEmailVerified() {
 
-
         var request = new IsEmailVerifiedRequest();
 
         var result = await _mediator.Send(request);
 
         return Ok(result);
+    }
+
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="model"></param>
+    /// <returns></returns>
+    [HttpGet("by-email")]
+    [Authorize(Policy = "IsVerified")]
+    public async Task<IActionResult> GetByEmail([FromQuery] GetByEmailModel model) {
+
+        var request = _mapper.Map<GetByEmailRequest>(model);
+
+        var user = await _mediator.Send(request);
+
+        return Ok(user);
     }
 
     /// <summary>

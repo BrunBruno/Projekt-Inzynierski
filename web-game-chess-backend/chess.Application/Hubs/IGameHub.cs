@@ -23,9 +23,9 @@ public interface IGameHub {
     /// <summary>
     /// Returns to all users in game group end game dto
     /// </summary>
-    /// <param name="endGameDto"></param>
+    /// <param name="dto"></param>
     /// <returns></returns>
-    Task GameEnded(EndGameDto endGameDto);
+    Task GameEnded(EndGameDto dto);
 
     /// <summary>
     /// To get game invitation

@@ -157,7 +157,6 @@ public class GameHub : Hub<IGameHub> {
 
         await Clients.Groups($"user-{model.InvitorId}").GameAccepted(model.GameId);
         await Clients.Groups($"user-{model.InviteeId}").GameAccepted(model.GameId);
-
     }
 
 
@@ -180,6 +179,9 @@ public class GameHub : Hub<IGameHub> {
             InviteeId = model.FriendId,
             InviterId = inviterId,
             Inviter = model.Inviter,
+            Type = model.Type,
+            Minutes = model.Minutes,
+            Increment = model.Increment,
         };
 
         await Clients.Groups($"user-{model.FriendId}").InvitedToGame(invitationDto);

@@ -58,6 +58,9 @@ export type NotifyUserModel = {
   friendId: string;
   gameId: string;
   inviter: string;
+  type: number;
+  minutes: number;
+  increment: number;
 };
 
 export type SearchGameModel = {
@@ -70,4 +73,15 @@ export type SendMessageModel = {
   gameId: string;
   playerId: string;
   message: string;
+};
+
+export type CreateGameByEmailModel = {
+  email: string;
+  type: number;
+  minutes: number;
+  increment: number;
+};
+
+export type DeclineInvitationModel = {
+  gameId: string;
 };

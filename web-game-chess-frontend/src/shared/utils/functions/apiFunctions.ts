@@ -8,7 +8,10 @@ import {
   GetFinishedGamesModel,
   GetTypeHistiryModel,
 } from "../types/gameModels";
-import { GetRegisterConfModel } from "../types/userModels";
+import {
+  CheckIfEmailExistsModel,
+  GetRegisterConfModel,
+} from "../types/userModels";
 
 // api paths and function
 const baseUrl: string = "http://localhost:5125/api";
@@ -28,6 +31,7 @@ interface UserControllerPaths {
   getFullUser: () => string;
   getElo: () => string;
   isVerified: () => string;
+  getByEmail: (model: CheckIfEmailExistsModel) => string;
   getRegisterConf: (model: GetRegisterConfModel) => string;
   //DELETE
 }
@@ -52,6 +56,9 @@ export const userControllerPaths: UserControllerPaths = {
 
   isVerified: (): string => `${userBaseUrl}/is-verified`,
 
+  getByEmail: (model: CheckIfEmailExistsModel): string =>
+    `${userBaseUrl}/by-email/?${stringifyModel(model)}`,
+
   getRegisterConf: (model: GetRegisterConfModel): string =>
     `${userBaseUrl}/configuration/?${stringifyModel(model)}`,
 };
@@ -62,6 +69,7 @@ interface GameControllerPaths {
   //POST
   startSearch: () => string;
   createPrivateGame: () => string;
+  createGameByEmail: () => string;
   //PUT
   //GET
   checkIfInGame: (model: CheckIfInGameModel) => string;
@@ -80,6 +88,8 @@ export const gameControllerPaths: GameControllerPaths = {
   startSearch: (): string => `${gameBaseUrl}/search`,
 
   createPrivateGame: (): string => `${gameBaseUrl}/private`,
+
+  createGameByEmail: (): string => `${gameBaseUrl}/by-email`,
 
   checkIfInGame: (model: CheckIfInGameModel): string =>
     `${gameBaseUrl}/check-if-in-game/?${stringifyModel(model)}`,

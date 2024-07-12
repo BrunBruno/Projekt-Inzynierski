@@ -27,8 +27,15 @@
 
         overflow: hidden;
         border-radius: $md-br;
-        border: solid 1rem $gc0;
-        box-shadow: inset 0 0 1rem 0.5rem $gc0;
+        border: solid 1rem #0000;
+        box-shadow: inset 0 0 1rem 0.5rem #0000;
+        transition: box-shadow 1s, border-color 1s;
+
+        &.active {
+          box-shadow: inset 0 0 1rem 0.5rem $gc0;
+          border-color: $gc0;
+          transition: box-shadow 0.3s, border-color 0.3s;
+        }
 
         .grid-row {
           display: grid;

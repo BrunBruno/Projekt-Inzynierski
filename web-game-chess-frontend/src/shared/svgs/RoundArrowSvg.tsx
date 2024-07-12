@@ -1,6 +1,14 @@
 import { IconSvgProps } from "../utils/types/commonTypes";
 
-function RoundArrowSvg({ color, iconClass }: IconSvgProps) {
+type RoundArrowSvgProps = IconSvgProps & {
+  secColor?: string;
+};
+
+function RoundArrowSvg({
+  color,
+  secColor = "#000",
+  iconClass,
+}: RoundArrowSvgProps) {
   return (
     <svg
       viewBox="0 0 500 500"
@@ -9,7 +17,7 @@ function RoundArrowSvg({ color, iconClass }: IconSvgProps) {
       className={iconClass}
     >
       <circle cx="250" cy="250" r="250" fill={color} />
-      <rect x="92" y="235" width="300" height="30" rx="15" fill="#000" />
+      <rect x="92" y="235" width="300" height="30" rx="15" fill={secColor} />
       <rect
         x="288.213"
         y="139"
@@ -17,7 +25,7 @@ function RoundArrowSvg({ color, iconClass }: IconSvgProps) {
         height="30"
         rx="15"
         transform="rotate(45 288.213 139)"
-        fill="#000"
+        fill={secColor}
       />
       <rect
         x="271"
@@ -26,7 +34,7 @@ function RoundArrowSvg({ color, iconClass }: IconSvgProps) {
         height="30"
         rx="15"
         transform="rotate(-45 271 335.066)"
-        fill="#000"
+        fill={secColor}
       />
     </svg>
   );

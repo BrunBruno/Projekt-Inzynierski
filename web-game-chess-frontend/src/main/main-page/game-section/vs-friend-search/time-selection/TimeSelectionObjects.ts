@@ -1,4 +1,4 @@
-type TimeControl = {
+export type TimeControl = {
   header: string;
   tags: string[];
   values: number[][];

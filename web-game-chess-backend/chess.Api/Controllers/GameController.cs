@@ -16,6 +16,8 @@ using chess.Application.Requests.GameRequests.FetchTime;
 using chess.Application.Requests.GameRequests.GetOpponent;
 using chess.Application.Requests.GameRequests.CreateRematchGame;
 using chess.Application.Requests.GameRequests.GetTypeHistory;
+using chess.Application.Requests.GameRequests.CreateGameByEmail;
+using chess.Application.Requests.GameRequests.DeclineInvitation;
 
 namespace chess.Api.Controllers;
 
@@ -68,6 +70,28 @@ public class GameController : ControllerBase {
     }
 
 
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="model"></param>
+    /// <returns></returns>
+    [HttpPost("by-email")]
+    [Authorize(Policy = "IsVerified")]
+    public async Task<IActionResult> CreateGameByEmail([FromBody] CreateGameByEmailModel model) {
+
+        var request = _mapper.Map<CreateGameByEmailRequest>(model);
+
+        var gameData = await _mediator.Send(request);
+
+        return Ok(gameData);
+    }
+
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="model"></param>
+    /// <returns></returns>
     [HttpPost("rematch")]
     [Authorize(Policy = "IsVerified")]
     public async Task<IActionResult> CreateRematchGame([FromBody] CreateRematchGameModel model) {
@@ -237,6 +261,23 @@ public class GameController : ControllerBase {
     public async Task<IActionResult> AbortSearch([FromQuery] AbortSearchModel model) {
 
         var request = _mapper.Map<AbortSearchRequest>(model);
+
+        await _mediator.Send(request);
+
+        return Ok();
+    }
+
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="model"></param>
+    /// <returns></returns>
+    [HttpDelete("decline")]
+    [Authorize(Policy = "IsVerified")]
+    public async Task<IActionResult> DeclineInvitation([FromQuery] DeclineInvitationModel model) {
+
+        var request = _mapper.Map<DeclineInvitationRequest>(model);
 
         await _mediator.Send(request);
 

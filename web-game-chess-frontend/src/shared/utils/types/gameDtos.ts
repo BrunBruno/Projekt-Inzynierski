@@ -97,9 +97,18 @@ export type InvitedToGameDto = {
   inviteeId: string;
   inviterId: string;
   inviter: string;
+  type: number;
+  minutes: number;
+  increment: number;
 };
 
 export type SearchGameDto = {
   playerId: string;
   timingId: string;
+};
+
+export type CreateGameByEmailDto = {
+  friendId: string;
+  gameId: string;
+  inviter: string;
 };

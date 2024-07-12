@@ -1,6 +1,7 @@
 ﻿
 using AutoMapper;
 using chess.Api.Models.UserModels;
+using chess.Application.Requests.UserRequests.CheckIfEmailExists;
 using chess.Application.Requests.UserRequests.GetRegisterConf;
 using chess.Application.Requests.UserRequests.LogIn;
 using chess.Application.Requests.UserRequests.RegenerateCode;
@@ -22,5 +23,6 @@ public class UserMappingProfile : Profile {
         CreateMap<GetRegisterConfModel, GetRegisterConfRequest>();
         CreateMap<RegenerateCodeModel, RegenerateCodeRequest>();
         CreateMap<UpdateProfileModel, UpdateProfileRequest>();
+        CreateMap<GetByEmailModel, GetByEmailRequest>();
     }
 }

@@ -70,15 +70,13 @@
                 }
               }
             }
+            .invitations-icon {
+              fill: $mc0;
+            }
           }
 
           @mixin buttonIcon() {
             height: 4rem;
-            transition: all 0.3s;
-
-            path {
-              transition: all 0.3s;
-            }
           }
 
           .vs-player-icon {
@@ -91,6 +89,9 @@
             @include buttonIcon();
           }
           .user-games-icon {
+            @include buttonIcon();
+          }
+          .invitations-icon {
             @include buttonIcon();
           }
 

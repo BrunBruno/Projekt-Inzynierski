@@ -28,3 +28,7 @@ export type UpdateProfileModel = {
   bio: string | null;
   imageUrl: string | null;
 };
+
+export type CheckIfEmailExistsModel = {
+  email: string | null;
+};

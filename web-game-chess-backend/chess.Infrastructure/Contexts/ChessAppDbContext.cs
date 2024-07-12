@@ -80,6 +80,11 @@ public class ChessAppDbContext : DbContext {
     /// </summary>
     public DbSet<UserStats> UserStats { get; set; }
 
+    /// <summary>
+    /// 
+    /// </summary>
+    public DbSet<Invitation> Invitations { get; set; }
+
 
 
     public ChessAppDbContext(DbContextOptions<ChessAppDbContext> options) : base(options) { }
@@ -101,5 +106,6 @@ public class ChessAppDbContext : DbContext {
         builder.ApplyConfiguration<Elo>(configuration);
         builder.ApplyConfiguration<Message>(configuration);
         builder.ApplyConfiguration<UserStats>(configuration);
+        builder.ApplyConfiguration<Invitation>(configuration);
     }
 }

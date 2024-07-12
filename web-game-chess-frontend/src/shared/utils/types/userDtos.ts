@@ -52,3 +52,8 @@ export type GetFullUserDto = {
   losesByTimeout: number;
   losesByResignation: number;
 };
+
+export type GetByEmailDto = {
+  email: string;
+  userName: string;
+};

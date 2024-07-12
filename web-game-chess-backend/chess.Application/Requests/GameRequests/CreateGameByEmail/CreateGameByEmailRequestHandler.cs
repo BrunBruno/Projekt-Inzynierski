@@ -3,13 +3,13 @@ using chess.Application.Repositories;
 using chess.Application.Services;
 using chess.Core.Entities;
 using chess.Core.Enums;
+using chess.Core.Extensions;
 using chess.Shared.Exceptions;
 using MediatR;
-using chess.Core.Extensions;
 
-namespace chess.Application.Requests.GameRequests.CreatePrivateGame;
+namespace chess.Application.Requests.GameRequests.CreateGameByEmail;
 
-public class CreatePrivateGameRequestHandler : IRequestHandler<CreatePrivateGameRequest, CreatePrivateGameDto> {
+public class CreateGameByEmailRequestHandler : IRequestHandler<CreateGameByEmailRequest, CreateGameByEmailDto> {
 
     private readonly IUserContextService _userContextService;
     private readonly IUserRepository _userRepository;
@@ -17,17 +17,15 @@ public class CreatePrivateGameRequestHandler : IRequestHandler<CreatePrivateGame
     private readonly IGameTimingRepository _gameTimingRepository;
     private readonly IGameStateRepository _gameStateRepository;
     private readonly IPlayerRepository _playerRepository;
-    private readonly IFriendshipRepository _friendshipRepository;
     private readonly IInvitationRepository _invitationRepository;
 
-    public CreatePrivateGameRequestHandler(
+    public CreateGameByEmailRequestHandler(
         IUserContextService userContextService,
         IUserRepository userRepository,
         IGameRepository gameRepository,
         IGameTimingRepository gameTimingRepository,
         IGameStateRepository gameStateRepository,
         IPlayerRepository playerRepository,
-        IFriendshipRepository friendshipRepository,
         IInvitationRepository invitationRepository
     ) {
         _userContextService = userContextService;
@@ -36,23 +34,17 @@ public class CreatePrivateGameRequestHandler : IRequestHandler<CreatePrivateGame
         _gameTimingRepository = gameTimingRepository;
         _gameStateRepository = gameStateRepository;
         _playerRepository = playerRepository;
-        _friendshipRepository = friendshipRepository;
         _invitationRepository = invitationRepository;
     }
 
-    public async Task<CreatePrivateGameDto> Handle(CreatePrivateGameRequest request, CancellationToken cancellationToken) {
+    public async Task<CreateGameByEmailDto> Handle(CreateGameByEmailRequest request, CancellationToken cancellationToken) {
 
         var userId = _userContextService.GetUserId();
 
         var user = await _userRepository.GetById(userId)
             ?? throw new NotFoundException("User not found.");
 
-        var firendship = await _friendshipRepository.GetById(request.FriendshipId)
-               ?? throw new NotFoundException("Friendship not found.");
-
-        var friendId = userId == firendship.RequestorId ? firendship.ReceiverId : firendship.RequestorId;
-
-        var friend = await _userRepository.GetById(friendId)
+        var friend = await _userRepository.GetByEmail(request.Email)
              ?? throw new NotFoundException("Friend not found.");
 
         if (request.Minutes == 0)
@@ -155,9 +147,9 @@ public class CreatePrivateGameRequestHandler : IRequestHandler<CreatePrivateGame
         await _invitationRepository.Create(invitation);
 
 
-        var privateGameDto = new CreatePrivateGameDto()
+        var privateGameDto = new CreateGameByEmailDto()
         {
-            FriendId = friendId,
+            FriendId = friend.Id,
             GameId = game.Id,
             Inviter = user.Username,
         };

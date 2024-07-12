@@ -3,7 +3,7 @@
 .search {
   @include wh100();
 
-  padding: 12rem 16rem;
+  padding: 8rem 14rem;
 
   &__split {
     @include rounded(2rem);
@@ -27,8 +27,29 @@
         font-size: 3.2rem;
       }
 
-      input {
-        @include cInput();
+      .input-holder {
+        @include flex();
+        position: relative;
+
+        input {
+          @include cInput();
+        }
+
+        .send-icon {
+          @include circle(4rem);
+
+          position: absolute;
+          right: -0.2rem;
+
+          &:hover {
+            cursor: pointer;
+            filter: brightness(80%);
+          }
+
+          svg.arrow-svg {
+            height: 100%;
+          }
+        }
       }
 
       .text {

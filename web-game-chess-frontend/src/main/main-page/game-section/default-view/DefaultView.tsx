@@ -2,8 +2,11 @@ import { useEffect, useRef, useState } from "react";
 import classes from "./DefaultView.module.scss";
 import { MousePosition } from "../../../../shared/utils/types/commonTypes";
 
+let timer: number;
+
 function DefaultView() {
   const boardRef = useRef<HTMLDivElement>(null);
+  const innerRef = useRef<HTMLDivElement>(null);
 
   const [mousePosition, setMousePosition] = useState<MousePosition>({
     x: 0,
@@ -19,11 +22,20 @@ function DefaultView() {
       const newX = (maxDeg / ww05) * event.clientX - maxDeg;
       const newY = -(maxDeg / wh05) * event.clientY + maxDeg;
       setMousePosition({ x: newX, y: newY });
+
+      const innerBoard = innerRef.current;
+      if (innerBoard) {
+        innerBoard.classList.add(classes.active);
+        clearTimeout(timer);
+
+        timer = setTimeout(() => {
+          innerBoard.classList.remove(classes.active);
+        }, 100);
+      }
     };
 
     window.addEventListener("mousemove", handleMouseMove);
 
-    // Cleanup the event listener on component unmount
     return () => {
       window.removeEventListener("mousemove", handleMouseMove);
     };
@@ -68,7 +80,9 @@ function DefaultView() {
             transform: `rotateY(${mousePosition.x}deg) rotateX(${mousePosition.y}deg)`,
           }}
         >
-          <div className={classes.board__grid__inner}>{generateGrid()}</div>
+          <div ref={innerRef} className={classes.board__grid__inner}>
+            {generateGrid()}
+          </div>
           <div
             className={classes.board__grid__outer}
             style={{

@@ -4,9 +4,10 @@ import { GetAllFriendsByStatusDto } from "../../../../../shared/utils/types/frie
 import classes from "./FriendList.module.scss";
 import TimingTypesIcons from "../../../../../shared/svgs/TimingTypesIcons";
 import { mainColor } from "../../../../../shared/utils/enums/colorMaps";
+import LoadingPage from "../../../../../shared/components/loading-page/LoadingPage";
 
 type FriendListProps = {
-  friends: GetAllFriendsByStatusDto[];
+  friends: GetAllFriendsByStatusDto[] | null;
   setSelectedFriend: React.Dispatch<
     React.SetStateAction<GetAllFriendsByStatusDto | null>
   >;
@@ -38,6 +39,10 @@ function FriendList({
     }
   };
 
+  if (!friends) {
+    return <LoadingPage text="Loading data" />;
+  }
+
   return (
     <div
       ref={scrollRef}
@@ -62,7 +67,7 @@ function FriendList({
             </div>
             <div className={classes.data}>
               <h3>{friend.username}</h3>
-              <p className={classes.elo}>
+              <div className={classes.elo}>
                 <span>
                   <TimingTypesIcons
                     iconClass={classes.icon}
@@ -103,12 +108,12 @@ function FriendList({
                   />
                   {friend.elo.daily}
                 </span>
-              </p>
-              <p className={classes["previous-games"]}>
+              </div>
+              <div className={classes["previous-games"]}>
                 <p>{friend.gamesPlayed} games played </p>
                 <span>{friend.wins}W</span> <span>{friend.draws}D</span>{" "}
                 <span>{friend.loses}L</span>
-              </p>
+              </div>
             </div>
             <div className={classes.invite}>
               <button
