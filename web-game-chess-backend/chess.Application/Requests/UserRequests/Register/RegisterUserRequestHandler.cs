@@ -76,5 +76,6 @@ public class RegisterUserRequestHandler : IRequestHandler<RegisterUserRequest> {
 
 
         await _smtpService.SendVerificationCode(request.Email.ToLower(), request.Username, codeValue);
+
     }
 }

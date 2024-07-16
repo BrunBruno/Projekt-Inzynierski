@@ -89,13 +89,15 @@ function VsFriendSearch({ setChoosenTiming }: VsFriendSearchProps) {
     values: number[]
   ) => {
     try {
-      const typeValue = timingTypes[header];
+      const typeValue = timingTypes[header.toLowerCase()];
 
       const gameType: SearchGameModel = {
         type: typeValue,
         minutes: values[0],
         increment: values[1],
       };
+
+      console.log(typeValue);
 
       setChoosenTiming(gameType);
 
@@ -133,7 +135,8 @@ function VsFriendSearch({ setChoosenTiming }: VsFriendSearchProps) {
     values: number[]
   ) => {
     try {
-      const typeValue = timingTypes[header];
+      const typeValue = timingTypes[header.toLowerCase()];
+
       const gameType: SearchGameModel = {
         type: typeValue,
         minutes: values[0],
@@ -214,6 +217,7 @@ function VsFriendSearch({ setChoosenTiming }: VsFriendSearchProps) {
           <p className={classes.text}>Search among friends:</p>
           <div className={classes["input-holder"]}>
             <input
+              className={classes["input-search"]}
               placeholder="username"
               onChange={(event) => {
                 delayAction(() => {
@@ -226,6 +230,7 @@ function VsFriendSearch({ setChoosenTiming }: VsFriendSearchProps) {
           <p className={classes.text}>Invite using email:</p>
           <div className={classes["input-holder"]}>
             <input
+              className={classes["input-mail"]}
               name="email"
               placeholder="email"
               value={selectedEmail}

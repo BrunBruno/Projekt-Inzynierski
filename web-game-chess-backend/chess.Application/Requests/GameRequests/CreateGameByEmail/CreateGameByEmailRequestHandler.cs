@@ -18,6 +18,7 @@ public class CreateGameByEmailRequestHandler : IRequestHandler<CreateGameByEmail
     private readonly IGameStateRepository _gameStateRepository;
     private readonly IPlayerRepository _playerRepository;
     private readonly IInvitationRepository _invitationRepository;
+    private readonly ISmtpService _smtpService;
 
     public CreateGameByEmailRequestHandler(
         IUserContextService userContextService,
@@ -26,7 +27,8 @@ public class CreateGameByEmailRequestHandler : IRequestHandler<CreateGameByEmail
         IGameTimingRepository gameTimingRepository,
         IGameStateRepository gameStateRepository,
         IPlayerRepository playerRepository,
-        IInvitationRepository invitationRepository
+        IInvitationRepository invitationRepository,
+        ISmtpService smtpService
     ) {
         _userContextService = userContextService;
         _userRepository = userRepository;
@@ -35,6 +37,7 @@ public class CreateGameByEmailRequestHandler : IRequestHandler<CreateGameByEmail
         _gameStateRepository = gameStateRepository;
         _playerRepository = playerRepository;
         _invitationRepository = invitationRepository;
+        _smtpService = smtpService;
     }
 
     public async Task<CreateGameByEmailDto> Handle(CreateGameByEmailRequest request, CancellationToken cancellationToken) {
@@ -153,6 +156,10 @@ public class CreateGameByEmailRequestHandler : IRequestHandler<CreateGameByEmail
             GameId = game.Id,
             Inviter = user.Username,
         };
+
+
+        await _smtpService.SendGameInvitation(request.Email.ToLower(), friend.Username, user.Username);
+
 
         return privateGameDto;
     }

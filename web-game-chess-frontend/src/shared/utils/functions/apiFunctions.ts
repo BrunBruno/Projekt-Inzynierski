@@ -5,6 +5,8 @@ import {
 import {
   AbortSearchModel,
   CheckIfInGameModel,
+  DeclineInvitationModel,
+  GetAllInvitationsModel,
   GetFinishedGamesModel,
   GetTypeHistiryModel,
 } from "../types/gameModels";
@@ -77,10 +79,13 @@ interface GameControllerPaths {
   getPlayer: (gameId: string) => string;
   fetchTime: (gameId: string) => string;
   getEndedGame: (gameId: string) => string;
+  getGameTiming: (gameId: string) => string;
   getFinishedGames: (model: GetFinishedGamesModel) => string;
   getTypeHistory: (model: GetTypeHistiryModel) => string;
+  getAllInvitations: (model: GetAllInvitationsModel) => string;
   //DELETE
   abortSearch: (model: AbortSearchModel) => string;
+  declineInvitation: (model: DeclineInvitationModel) => string;
 }
 
 // paths in game controller
@@ -102,14 +107,22 @@ export const gameControllerPaths: GameControllerPaths = {
 
   getEndedGame: (gameId: string): string => `${gameBaseUrl}/${gameId}/ended`,
 
+  getGameTiming: (gameId: string): string => `${gameBaseUrl}/${gameId}/timing`,
+
   getFinishedGames: (model: GetFinishedGamesModel): string =>
     `${gameBaseUrl}/all-finished?${stringifyModel(model)}`,
 
   getTypeHistory: (model: GetTypeHistiryModel): string =>
     `${gameBaseUrl}/type-history?${stringifyModel(model)}`,
 
+  getAllInvitations: (model: GetAllInvitationsModel): string =>
+    `${gameBaseUrl}/invitations?${stringifyModel(model)}`,
+
   abortSearch: (model: AbortSearchModel): string =>
-    `${gameBaseUrl}/abort/?${stringifyModel(model)}`,
+    `${gameBaseUrl}/abort?${stringifyModel(model)}`,
+
+  declineInvitation: (model: DeclineInvitationModel): string =>
+    `${gameBaseUrl}/decline?${stringifyModel(model)}`,
 };
 
 const friendshipBaseUrl: string = baseUrl + "/friendship";
@@ -132,10 +145,10 @@ export const friendshipControllerPaths: FriendshipControllerPaths = {
   respondToFriendRequest: (): string => `${friendshipBaseUrl}/respond`,
 
   getAllFriendsByStatus: (model: GetAllFriendsByStatusModel): string =>
-    `${friendshipBaseUrl}/all-by-status/?${stringifyModel(model)}`,
+    `${friendshipBaseUrl}/all-by-status?${stringifyModel(model)}`,
 
   getAllNonFriends: (model: GetAllNonFriendsModel): string =>
-    `${friendshipBaseUrl}/all-non-friends/?${stringifyModel(model)}`,
+    `${friendshipBaseUrl}/all-non-friends?${stringifyModel(model)}`,
 
   removeFriend: (friendshipId: string): string =>
     `${friendshipBaseUrl}/${friendshipId}`,

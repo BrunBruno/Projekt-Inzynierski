@@ -24,6 +24,7 @@ import {
 import NotificationPopUp from "./notification-popup/NotificationPopUp";
 import { HubConnectionState } from "@microsoft/signalr";
 import DefaultView from "./default-view/DefaultView";
+import Invitations from "./invitations/Invitations";
 
 function GameSection() {
   const navigate = useNavigate();
@@ -62,7 +63,12 @@ function GameSection() {
   };
 
   const handleGameAccepted = (gameId: string) => {
-    navigate(`game/${gameId}`, { state: { timing: choosenTiming } });
+    console.log("accepted");
+    if (!choosenTiming) {
+      console.log("Timing not set");
+    } else {
+      navigate(`game/${gameId}`, { state: { timing: choosenTiming } });
+    }
   };
 
   useEffect(() => {
@@ -120,7 +126,7 @@ function GameSection() {
         setInterfaceContent(<UserGames />);
         break;
       case gameSearchInterface.invitations:
-        setInterfaceContent(<></>);
+        setInterfaceContent(<Invitations />);
         break;
     }
   };
@@ -183,6 +189,7 @@ function GameSection() {
 
         <NotificationPopUp
           allowNotification={allowNotification}
+          setAllowNotification={setAllowNotification}
           setChoosenTiming={setChoosenTiming}
         />
       </div>

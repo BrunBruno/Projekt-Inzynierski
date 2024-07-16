@@ -1,0 +1,19 @@
+@import "../../styles/variables/color.scss";
+@import "../../styles/variables/spacing.scss";
+@import "../../styles/commons-styles/elements.scss";
+@import "../../styles/commons-styles/texts.scss";
+
+.popup {
+  position: absolute;
+  z-index: 999;
+  top: 0;
+  right: 0;
+
+  &__icon {
+    @include square(2rem);
+  }
+
+  &__text {
+    font-size: 2rem;
+  }
+}

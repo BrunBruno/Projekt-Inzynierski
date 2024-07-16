@@ -25,6 +25,14 @@ export const timingTypes: EnumType = {
   daily: 4,
 };
 
+export const timingTypesNames = [
+  "Bullet",
+  "Blitz",
+  "Rapid",
+  "Classic",
+  "Daily",
+];
+
 // from back-end reasons why game has eneded
 export const endGameTypes: EnumType = {
   checkMate: 1,

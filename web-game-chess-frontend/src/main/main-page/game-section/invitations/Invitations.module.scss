@@ -1,0 +1,21 @@
+@import "../../../Main.scss";
+
+.invitations {
+  padding: 8rem;
+  height: 100%;
+
+  &__header {
+    padding: 1rem;
+    font-size: 3rem;
+    font-weight: bold;
+  }
+
+  &__cards {
+    height: 100%;
+    overflow-y: scroll;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
+}

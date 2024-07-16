@@ -1,6 +1,6 @@
 // friendship controller dtos
 
-import { EloDto } from "./dtos";
+import { EloDto } from "./commonTypes";
 
 export type GetAllFriendsByStatusDto = {
   freindshpId: string;

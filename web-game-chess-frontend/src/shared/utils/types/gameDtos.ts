@@ -112,3 +112,13 @@ export type CreateGameByEmailDto = {
   gameId: string;
   inviter: string;
 };
+
+export type GetAllInvitationsDto = {
+  gameId: string;
+  inviteeId: string;
+  invitorId: string;
+  invitorName: string;
+  inviteeName: string;
+  createdAt: Date;
+  type: number;
+};

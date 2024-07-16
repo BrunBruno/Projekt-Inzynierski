@@ -12,9 +12,7 @@
     display: grid;
     grid-template-columns: 1fr 1fr;
     grid-template-rows: 100%;
-
     height: 100%;
-
     background-color: rgba($gc9, 0.3);
 
     &__bar {
@@ -33,6 +31,11 @@
 
         input {
           @include cInput();
+        }
+        .input-search {
+        }
+        .input-mail {
+          padding-right: 4rem;
         }
 
         .send-icon {

@@ -16,8 +16,8 @@ public class InvitationRepository : IInvitationRepository {
 
     public async Task<List<Invitation>> GetAllForUser(Guid userId)
     => await _dbContext.Invitations
-                .Where(i => i.InvitorId == userId || i.InviteeId == userId)
-                .OrderBy(i => i.CreatedAt)
+                .Where(i => i.InviteeId == userId && i.IsAccepted == false)
+                .OrderByDescending(i => i.CreatedAt)
                 .ToListAsync();
 
 

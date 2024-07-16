@@ -1,16 +1,14 @@
-// friendship controller models to requests
+// friendship controller models
 
-export type GetAllFriendsByStatusModel = {
+import { PagedRequest } from "./commonTypes";
+
+export type GetAllFriendsByStatusModel = PagedRequest & {
   username: string | null;
   status: number;
-  pageNumber: number;
-  pageSize: number;
 };
 
-export type GetAllNonFriendsModel = {
+export type GetAllNonFriendsModel = PagedRequest & {
   username: string | null;
-  pageNumber: number;
-  pageSize: number;
 };
 
 export type InviteFriendModel = {

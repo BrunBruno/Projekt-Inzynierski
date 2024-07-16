@@ -18,6 +18,8 @@ using chess.Application.Requests.GameRequests.CreateRematchGame;
 using chess.Application.Requests.GameRequests.GetTypeHistory;
 using chess.Application.Requests.GameRequests.CreateGameByEmail;
 using chess.Application.Requests.GameRequests.DeclineInvitation;
+using chess.Application.Requests.GameRequests.GetAllInvitations;
+using chess.Application.Requests.GameRequests.GetGameTiming;
 
 namespace chess.Api.Controllers;
 
@@ -181,7 +183,11 @@ public class GameController : ControllerBase {
     }
 
 
-
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="gameId"></param>
+    /// <returns></returns>
     [HttpGet("{gameId}/opponent")]
     [Authorize(Policy = "IsVerified")]
     public async Task<IActionResult> GetOpponent([FromRoute] Guid gameId) {
@@ -218,6 +224,26 @@ public class GameController : ControllerBase {
 
 
     /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="gameId"></param>
+    /// <returns></returns>
+    [HttpGet("{gameId}/timing")]
+    [Authorize(Policy = "IsVerified")]
+    public async Task<IActionResult> GetGameTiming(Guid gameId) {
+
+        var request = new GetGameTimingRequest()
+        {
+            GameId = gameId,
+        };
+
+        var timing = await _mediator.Send(request);
+
+        return Ok(timing);
+    }
+
+
+    /// <summary>
     /// Gets all finished games for user
     /// </summary>
     /// <param name="model"></param>
@@ -248,6 +274,18 @@ public class GameController : ControllerBase {
         var games = await _mediator.Send(request);
 
         return Ok(games);
+    }
+
+
+    [HttpGet("invitations")]
+    [Authorize(Policy = "IsVerified")]
+    public async Task<IActionResult> GetAllInvitations([FromQuery] GetAllInvitationsModel model) {
+
+        var request = _mapper.Map<GetAllInvitationsRequest>(model);
+
+        var invitations = await _mediator.Send(request);
+
+        return Ok(invitations);
     }
 
 

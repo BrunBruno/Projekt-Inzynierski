@@ -151,9 +151,12 @@ function TimingTypesIcons({
 }: TimingTypesIconsProps) {
   if (iconName === "") return null;
 
-  const icon = icons[iconName](iconClass, color);
-
-  return icon ? icon : <>i</>;
+  try {
+    const icon = icons[iconName](iconClass, color);
+    return icon ? icon : <>i</>;
+  } catch (err) {
+    console.error("Icon error");
+  }
 }
 
 export default TimingTypesIcons;

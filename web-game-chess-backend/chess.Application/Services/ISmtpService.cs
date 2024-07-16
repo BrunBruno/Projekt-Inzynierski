@@ -16,4 +16,13 @@ public interface ISmtpService {
     /// <param name="code"> code value </param>
     /// <returns></returns>
     Task SendVerificationCode(string email, string recipientName, string code);
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="email"></param>
+    /// <param name="recipientName"></param>
+    /// <param name="invitorName"></param>
+    /// <returns></returns>
+    Task SendGameInvitation(string email, string recipientName, string invitorName);
 }

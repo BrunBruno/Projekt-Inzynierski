@@ -85,3 +85,5 @@ export type CreateGameByEmailModel = {
 export type DeclineInvitationModel = {
   gameId: string;
 };
+
+export type GetAllInvitationsModel = PagedRequest;
