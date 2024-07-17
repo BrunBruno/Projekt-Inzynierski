@@ -1,13 +1,6 @@
-import { GetGameDto, GetPlayerDto } from "./gameDtos";
+// types for representing essentail states that are used during game
 
-// export type CastleOptions = {
-//   cwkc: boolean;
-//   cwsrc: boolean;
-//   cwlrc: boolean;
-//   cbkc: boolean;
-//   cbsrc: boolean;
-//   cblrc: boolean;
-// };
+import { GetGameDto, GetPlayerDto } from "./gameDtos";
 
 export type GameStates = {
   gameId: string;

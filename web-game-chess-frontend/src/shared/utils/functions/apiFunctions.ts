@@ -177,6 +177,7 @@ export const getAuthorization = (): Headers => {
       };
 };
 
+// converts object to query string
 const stringifyModel = (model: Object): string => {
   const stringifiedModel = Object.entries(model).flatMap(([key, value]) => {
     if (Array.isArray(value)) {

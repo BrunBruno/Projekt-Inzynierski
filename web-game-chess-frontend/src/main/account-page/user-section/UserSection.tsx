@@ -18,6 +18,12 @@ import WinLoseIcons from "../../../shared/svgs/WinLoseIcons";
 import WinTypesIcons from "../../../shared/svgs/WinTypesIcons";
 import { UpdateProfileModel } from "../../../shared/utils/types/userModels";
 import { PieChart } from "@mui/x-charts";
+import {
+  dangerColor,
+  greyColor,
+  mainColor,
+  successColor,
+} from "../../../shared/utils/enums/colorMaps";
 
 type UserSectionProps = {
   getTypeHistory: (type: number) => void;
@@ -206,7 +212,7 @@ function UserSection({ getTypeHistory, setFriendSection }: UserSectionProps) {
                     ],
                   },
                 ]}
-                colors={["#51cf66", "#868e96", "#f03e3e"]}
+                colors={[successColor.mid, greyColor.c6, dangerColor.mid]}
                 slotProps={{
                   legend: {
                     hidden: true,
@@ -250,7 +256,7 @@ function UserSection({ getTypeHistory, setFriendSection }: UserSectionProps) {
                     ],
                   },
                 ]}
-                colors={["#845ef7", "#7048e8", "#5f3dc4"]}
+                colors={[mainColor.c5, mainColor.c7, mainColor.c9]}
                 slotProps={{
                   legend: {
                     hidden: true,
@@ -298,7 +304,7 @@ function UserSection({ getTypeHistory, setFriendSection }: UserSectionProps) {
                     ],
                   },
                 ]}
-                colors={["#845ef7", "#7048e8", "#5f3dc4"]}
+                colors={[mainColor.c5, mainColor.c7, mainColor.c9]}
                 slotProps={{
                   legend: {
                     hidden: true,

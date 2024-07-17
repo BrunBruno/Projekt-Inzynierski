@@ -25,7 +25,7 @@ function MainPopUp({}: MainPopUpProps) {
   return (
     <div className={classes.popup}>
       <div className={classes.popup__icon}></div>
-      <div className={classes.popup__text}>Invitaation sent.</div>
+      <div className={classes.popup__text}>Invitaation sent. {content}</div>
     </div>
   );
 }

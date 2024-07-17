@@ -1,6 +1,5 @@
 import axios from "axios";
 import TimingTypesIcons from "../../../../../shared/svgs/TimingTypesIcons";
-import { timingTypesNames } from "../../../../../shared/utils/enums/entitiesEnums";
 import GameHubService from "../../../../../shared/utils/services/GameHubService";
 import { GetAllInvitationsDto } from "../../../../../shared/utils/types/gameDtos";
 import {
@@ -12,6 +11,7 @@ import {
   gameControllerPaths,
   getAuthorization,
 } from "../../../../../shared/utils/functions/apiFunctions";
+import { timingTypesNames } from "../../../../../shared/utils/enums/commonConstLists";
 
 type InvitationCardProps = {
   invitation: GetAllInvitationsDto;

@@ -10,7 +10,28 @@
   right: 0;
 
   &__icon {
-    @include square(2rem);
+    @include square(4rem);
+
+    svg {
+      height: 4rem;
+    }
+
+    .success {
+      fill: $success-color-m;
+    }
+    .info {
+      path {
+        fill: $info-color-m;
+      }
+    }
+    .warning {
+      path {
+        fill: $warning-color-m;
+      }
+    }
+    .error {
+      fill: $danger-color-m;
+    }
   }
 
   &__text {

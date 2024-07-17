@@ -1,4 +1,4 @@
-import { greyColor } from "../utils/enums/colorMaps";
+import { dangerColor, greyColor, successColor } from "../utils/enums/colorMaps";
 import { IconMap, IconsMapProps } from "../utils/types/commonTypes";
 
 const icons: IconMap = {
@@ -8,14 +8,14 @@ const icons: IconMap = {
         cx="12"
         cy="12"
         r="9"
-        stroke="#51cf66"
+        stroke={successColor.mid}
         strokeWidth="2"
         strokeLinecap="round"
         strokeLinejoin="round"
       />
       <path
         d="M7 13L10 16L17 9"
-        stroke="#51cf66"
+        stroke={successColor.mid}
         strokeWidth="2"
         strokeLinecap="round"
         strokeLinejoin="round"
@@ -57,21 +57,21 @@ const icons: IconMap = {
         cx="12"
         cy="12"
         r="9"
-        stroke="#f03e3e"
+        stroke={dangerColor.mid}
         strokeWidth="2"
         strokeLinecap="round"
         strokeLinejoin="round"
       />
       <path
         d="M9 9L15 15"
-        stroke="#f03e3e"
+        stroke={dangerColor.mid}
         strokeWidth="2"
         strokeLinecap="round"
         strokeLinejoin="round"
       />
       <path
         d="M9 15L15 9"
-        stroke="#f03e3e"
+        stroke={dangerColor.mid}
         strokeWidth="2"
         strokeLinecap="round"
         strokeLinejoin="round"

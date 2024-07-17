@@ -57,7 +57,6 @@ type RankType = {
   pawnDoublePushRank: number;
   enPassantRank: number;
   promotionRank: number;
-
   backRank: number;
   kingShortFile: number;
   kingLongFile: number;
@@ -77,7 +76,6 @@ export const rankMap: RankMap = {
     pawnDoublePushRank: 4,
     enPassantRank: 3,
     promotionRank: 0,
-
     backRank: 1,
     kingShortFile: 7,
     kingLongFile: 3,
@@ -89,7 +87,6 @@ export const rankMap: RankMap = {
     pawnDoublePushRank: 5,
     enPassantRank: 6,
     promotionRank: 0,
-
     backRank: 8,
     kingShortFile: 7,
     kingLongFile: 3,

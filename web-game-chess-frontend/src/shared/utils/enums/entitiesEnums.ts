@@ -25,14 +25,6 @@ export const timingTypes: EnumType = {
   daily: 4,
 };
 
-export const timingTypesNames = [
-  "Bullet",
-  "Blitz",
-  "Rapid",
-  "Classic",
-  "Daily",
-];
-
 // from back-end reasons why game has eneded
 export const endGameTypes: EnumType = {
   checkMate: 1,
@@ -45,6 +37,7 @@ export const endGameTypes: EnumType = {
   insufficientMaterial: 8,
 };
 
+// from back-end statuses of friendship requests
 export const friendshipStatus: EnumType = {
   all: -1,
   pending: 0,
