@@ -127,7 +127,19 @@ function FriendList({
           </div>
         ))
       ) : (
-        <div className={classes.empty}>No results.</div>
+        <div className={classes.empty}>
+          {Array.from({ length: 8 }).map((_) => (
+            <div className={classes["empty-card"]}>
+              <AvatarSvg iconClass={classes["blank-avatar"]} />
+              <div className={classes.texts}>
+                <p />
+                <p />{" "}
+              </div>
+            </div>
+          ))}
+
+          <div className={classes["no-data"]}>No results. </div>
+        </div>
       )}
     </div>
   );

@@ -48,7 +48,7 @@ const icons: IconMap = {
   ),
 };
 
-function GameSectionIcons({ iconName }: IconsMapProps) {
+function MainPopUpIcons({ iconName }: IconsMapProps) {
   try {
     const icon = icons[iconName];
 
@@ -59,4 +59,4 @@ function GameSectionIcons({ iconName }: IconsMapProps) {
   }
 }
 
-export default GameSectionIcons;
+export default MainPopUpIcons;

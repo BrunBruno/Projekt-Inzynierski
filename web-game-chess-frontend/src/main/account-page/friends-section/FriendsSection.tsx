@@ -66,53 +66,70 @@ function FriendsSection() {
 
   return (
     <div
-      className={classes.friends}
+      className={`${classes.friends} ${
+        friendList.length === 0 ? classes.tamplate : classes.duap
+      }`}
       onMouseLeave={() => {
         clearSelection();
       }}
     >
-      {friendList.map((friend) => (
-        <div
-          key={friend.freindshpId}
-          className={classes.friends__friend}
-          onMouseEnter={(event) => {
-            setActive(event);
-          }}
-        >
-          <div className={classes.friends__friend__content}>
-            <div className={classes.friends__friend__content__avatar}>
-              {friend.imageUrl === null ? (
-                <AvatarSvg iconClass={""} />
-              ) : (
-                <img src={friend.imageUrl} />
-              )}
+      {friendList.length > 0 ? (
+        friendList.map((friend) => (
+          <div
+            key={friend.freindshpId}
+            className={classes.friends__friend}
+            onMouseEnter={(event) => {
+              setActive(event);
+            }}
+          >
+            <div className={classes.friends__friend__content}>
+              <div className={classes.friends__friend__content__avatar}>
+                {friend.imageUrl === null ? (
+                  <AvatarSvg iconClass={""} />
+                ) : (
+                  <img src={friend.imageUrl} alt={friend.username} />
+                )}
 
-              <div className={classes["country"]}>
-                {" "}
-                <img
-                  src={`https://flagsapi.com/${friend.country}/flat/64.png`}
-                />
+                <div className={classes["country"]}>
+                  {" "}
+                  <img
+                    src={`https://flagsapi.com/${friend.country}/flat/64.png`}
+                  />
+                </div>
               </div>
+              <div className={classes.friends__friend__content__name}>
+                <span>{friend.username}</span>{" "}
+                <span>{friend.name === null ? "---" : friend.name}</span>
+              </div>
+              <div className={classes.friends__friend__content__data}>
+                <span>{friend.wins}</span>
+                {" | "}
+                <span>{friend.draws}</span>
+                {" | "}
+                <span>{friend.loses}</span>
+              </div>{" "}
             </div>
-            <div className={classes.friends__friend__content__name}>
-              <span>{friend.username}</span>{" "}
-              <span>{friend.name === null ? "---" : friend.name}</span>
-            </div>
-            <div className={classes.friends__friend__content__data}>
-              <span>{friend.wins}</span>
-              {" | "}
-              <span>{friend.draws}</span>
-              {" | "}
-              <span>{friend.loses}</span>
-            </div>{" "}
-          </div>
 
-          <div className={classes.friends__friend__actions}>
-            <button>Profile</button>
-            <button>Play</button>
+            <div className={classes.friends__friend__actions}>
+              <button>Profile</button>
+              <button>Play</button>
+            </div>
           </div>
-        </div>
-      ))}
+        ))
+      ) : (
+        <>
+          <div className={classes["no-data"]}>
+            <span>You don't have any friends yet.</span>
+          </div>
+          {Array.from({ length: 16 }).map((_) => (
+            <div className={classes["empty-card"]}>
+              <AvatarSvg iconClass={classes["blank-avatar"]} />
+              <p />
+              <p />
+            </div>
+          ))}
+        </>
+      )}
     </div>
   );
 }

@@ -12,6 +12,7 @@ import {
   getAuthorization,
 } from "../../../../../shared/utils/functions/apiFunctions";
 import { timingTypesNames } from "../../../../../shared/utils/enums/commonConstLists";
+import { usePopup } from "../../../../../shared/utils/hooks/usePopUp";
 
 type InvitationCardProps = {
   invitation: GetAllInvitationsDto;
@@ -23,6 +24,8 @@ function InvitationCard({
   updateInvitations,
 }: InvitationCardProps) {
   ///
+
+  const { showPopup } = usePopup();
 
   const onAcceptInvitation = () => {
     const model: AcceptInvitationModel = {
@@ -46,6 +49,8 @@ function InvitationCard({
       );
 
       updateInvitations();
+
+      showPopup("Invitation deleted.", "success");
     } catch (err) {
       console.log(err);
     }
@@ -63,6 +68,7 @@ function InvitationCard({
         <span>User </span>
         <b>{invitation.invitorName}</b>
         <span> has invited you to new </span>
+        <br />
         <b>{timingTypesNames[invitation.type]}</b>
         <span> game.</span>
       </div>

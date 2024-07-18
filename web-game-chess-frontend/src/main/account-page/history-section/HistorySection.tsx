@@ -78,7 +78,36 @@ function HistorySection({ selectedType, typeHistory }: HistorySectionProps) {
   ) {
     return (
       <div className={classes.empty}>
-        <span>No games were found.</span> <span>Start playing now!</span>
+        <div className={classes.empty__chart}>
+          <ThemeProvider theme={theme}>
+            <LineChart
+              xAxis={[
+                {
+                  data: [0, 1, 2, 3, 4],
+                },
+              ]}
+              series={[
+                {
+                  data: [1000, 1200, 800, 1400, 1700],
+                  area: true,
+                  color: mainColor.c5,
+                  connectNulls: true,
+                  showMark: false,
+                },
+              ]}
+              grid={{ vertical: true, horizontal: true }}
+              slotProps={{
+                legend: {
+                  hidden: true,
+                },
+              }}
+            />
+          </ThemeProvider>
+        </div>
+        <div className={classes.empty__text}>
+          <p>No games found.</p>
+          <p>Play one now!</p>
+        </div>
       </div>
     );
   }

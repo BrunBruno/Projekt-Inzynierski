@@ -13,6 +13,7 @@ import UsersPage from "./users-page/UsersPage";
 import GameHubService from "../shared/utils/services/GameHubService";
 import { HubConnectionState } from "@microsoft/signalr";
 import AccountPage from "./account-page/AccountPage";
+import { PopupProvider } from "../shared/utils/hooks/usePopUp";
 
 function MainRouter() {
   const navigate = useNavigate();
@@ -67,12 +68,14 @@ function MainRouter() {
   }
 
   return (
-    <Routes>
-      <Route path="/" element={<MainPage />} />
-      <Route path="/users" element={<UsersPage />} />
-      <Route path="/game/:gameId" element={<GamePage />} />
-      <Route path="/account" element={<AccountPage />} />
-    </Routes>
+    <PopupProvider>
+      <Routes>
+        <Route path="/" element={<MainPage />} />
+        <Route path="/users" element={<UsersPage />} />
+        <Route path="/game/:gameId" element={<GamePage />} />
+        <Route path="/account" element={<AccountPage />} />
+      </Routes>
+    </PopupProvider>
   );
 }
 

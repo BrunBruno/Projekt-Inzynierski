@@ -50,3 +50,9 @@ export type EloDto = {
   classic: number;
   daily: number;
 };
+
+export type ChartObject = {
+  id: number;
+  value: number;
+  label: string;
+};

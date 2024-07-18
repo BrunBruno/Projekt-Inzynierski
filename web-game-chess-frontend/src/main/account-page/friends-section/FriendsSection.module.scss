@@ -3,6 +3,7 @@
 .friends {
   @include mainScrollbar($bgcolor: #0000);
 
+  position: relative;
   height: 100%;
   padding: 2rem 4rem;
   padding-bottom: 16rem;
@@ -140,6 +141,43 @@
       border-top-left-radius: 0;
       border-top-right-radius: 0;
       border-color: $gc0;
+    }
+  }
+
+  &.tamplate {
+    overflow: hidden;
+  }
+
+  .no-data {
+    @include absCenter();
+    z-index: 1;
+    text-align: center;
+    user-select: none;
+
+    span {
+      font-size: 4rem;
+      font-weight: bold;
+    }
+  }
+
+  .empty-card {
+    @include flex($direction: column, $gap: 1rem);
+
+    background-color: $gc9;
+    aspect-ratio: 3 / 4;
+    opacity: 0.3;
+    border-radius: 1rem;
+
+    .blank-avatar {
+      height: 10rem;
+      filter: grayscale(1) brightness(50%);
+    }
+
+    p {
+      @include rounded(1rem);
+
+      width: 80%;
+      background-color: $gc8;
     }
   }
 }

@@ -4,10 +4,18 @@
 @import "../../styles/commons-styles/texts.scss";
 
 .popup {
+  @include rounded(1rem);
+  @include flex($gap: 1rem);
+
   position: absolute;
   z-index: 999;
-  top: 0;
-  right: 0;
+  top: 2rem;
+  right: -200%;
+  opacity: 1;
+
+  background-color: $mc0;
+  border-bottom: solid 0.5rem $mc9;
+  animation: showPopup 0.3s forwards;
 
   &__icon {
     @include square(4rem);
@@ -36,5 +44,14 @@
 
   &__text {
     font-size: 2rem;
+    font-weight: bold;
+    color: $gc9;
+  }
+}
+
+@keyframes showPopup {
+  to {
+    right: 2rem;
+    opacity: 1;
   }
 }

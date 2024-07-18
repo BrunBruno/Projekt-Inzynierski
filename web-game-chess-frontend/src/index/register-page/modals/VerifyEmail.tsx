@@ -87,7 +87,12 @@ function VerifyEmail({ setModal }: VerifyEmailProps) {
       setProcessing(false);
 
       // navigae to main page
-      navigate("/main");
+      navigate("/main", {
+        state: {
+          popupText: "Verification successful",
+          popupType: "success",
+        },
+      });
     } catch (err) {
       // display backend erros
       errorDisplay(err, setErrorMess);

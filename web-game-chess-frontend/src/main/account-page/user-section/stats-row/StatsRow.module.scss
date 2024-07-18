@@ -1,0 +1,61 @@
+@import "../../../Main.scss";
+
+.stats {
+  position: relative;
+  width: 100%;
+
+  &__title {
+    @include rounded(0.5rem);
+    width: calc(3 * 8rem + 4rem);
+    font-size: 2rem;
+    font-weight: bold;
+    color: $gc3;
+    padding-left: 2rem;
+    background-color: rgba($gc8, 0.5);
+  }
+
+  &__data {
+    display: grid;
+    grid-template-columns: repeat(3, 8rem);
+    gap: 1rem;
+    margin-top: 0.8rem;
+    margin-bottom: 0.4rem;
+
+    .games {
+      @include flex($direction: column);
+
+      span {
+        &:nth-child(1) {
+          @include flex($gap: 0.3rem);
+          font-size: 1.6rem;
+          color: $gc5;
+        }
+        &:nth-child(2) {
+          font-size: 3.2rem;
+        }
+
+        svg {
+          height: 1.6rem;
+        }
+      }
+    }
+  }
+
+  &__chart {
+    @include circle(18rem);
+
+    position: absolute;
+    top: -5rem;
+    right: -8rem;
+    pointer-events: none;
+
+    svg {
+      @include absCenter();
+      pointer-events: all;
+
+      &:hover {
+        z-index: 1;
+      }
+    }
+  }
+}

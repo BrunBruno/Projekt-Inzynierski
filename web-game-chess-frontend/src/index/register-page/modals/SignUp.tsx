@@ -25,6 +25,7 @@ import {
   LogInUserModel,
   RegisterUserModel,
 } from "../../../shared/utils/types/userModels";
+import { usePopup } from "../../../shared/utils/hooks/usePopUp";
 
 type SignUpProps = {
   // change displayed modal
@@ -32,6 +33,10 @@ type SignUpProps = {
 };
 
 function SignUp({ setModal }: SignUpProps) {
+  ///
+
+  const { showPopup } = usePopup();
+
   // inputs refs
   const emailInputRef = useRef<HTMLInputElement>(null);
   const usernameInputRef = useRef<HTMLInputElement>(null);
@@ -205,6 +210,8 @@ function SignUp({ setModal }: SignUpProps) {
 
       // change modal to email verification
       setModal(registrationInterface.verify);
+
+      showPopup("Account created.", "success");
     } catch (err) {
       // display backend erros
       errorDisplay(err, setErrorMess);

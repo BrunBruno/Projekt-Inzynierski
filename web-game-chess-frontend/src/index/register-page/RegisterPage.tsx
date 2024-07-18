@@ -8,6 +8,7 @@ import { mainColor } from "../../shared/utils/enums/colorMaps";
 import ActionButton from "../../shared/components/action-button/ActionButton";
 import VerifyEmail from "./modals/VerifyEmail";
 import { registrationInterface } from "../../shared/utils/enums/interfacesEnums";
+import MainPopUp from "../../shared/components/main-popup/MainPopUp";
 
 function RegisterPage() {
   const location = useLocation();
@@ -108,6 +109,8 @@ function RegisterPage() {
           {renderModal()}
         </div>
       </div>
+
+      <MainPopUp />
     </main>
   );
 }

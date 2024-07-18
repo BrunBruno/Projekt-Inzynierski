@@ -91,10 +91,44 @@
   }
 
   .empty {
-    @include flex();
-    height: 100%;
-    font-size: 3rem;
-    font-weight: bold;
-    text-decoration: underline;
+    @include wh100();
+
+    position: relative;
+    overflow: hidden;
+
+    .empty-card {
+      @include rounded(1rem);
+
+      width: 100%;
+      background-color: $gc9;
+      display: grid;
+      grid-template-columns: 6rem auto;
+      grid-gap: 2rem;
+      margin-bottom: 1rem;
+      opacity: 0.3;
+
+      .blank-avatar {
+        height: 6rem;
+        filter: grayscale(1) brightness(50%);
+      }
+
+      .texts {
+        @include flex(column, start, start, 1rem);
+
+        p {
+          @include rounded(1rem);
+
+          width: 80%;
+          background-color: $gc8;
+        }
+      }
+    }
+
+    .no-data {
+      @include absCenter();
+      font-size: 3rem;
+      text-decoration: underline;
+      font-weight: bold;
+    }
   }
 }

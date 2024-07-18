@@ -14,16 +14,8 @@ import {
 import TimingTypesIcons from "../../../shared/svgs/TimingTypesIcons";
 import { timingTypes } from "../../../shared/utils/enums/entitiesEnums";
 import UserSectionIocns from "./UserSectionIcons";
-import WinLoseIcons from "../../../shared/svgs/WinLoseIcons";
-import WinTypesIcons from "../../../shared/svgs/WinTypesIcons";
 import { UpdateProfileModel } from "../../../shared/utils/types/userModels";
-import { PieChart } from "@mui/x-charts";
-import {
-  dangerColor,
-  greyColor,
-  mainColor,
-  successColor,
-} from "../../../shared/utils/enums/colorMaps";
+import StatsRow from "./stats-row/StatsRow";
 
 type UserSectionProps = {
   getTypeHistory: (type: number) => void;
@@ -104,7 +96,7 @@ function UserSection({ getTypeHistory, setFriendSection }: UserSectionProps) {
   }
 
   return (
-    <div className={classes.user}>
+    <section className={classes.user}>
       <div className={classes.user__profile}>
         <div className={classes.user__profile__avatar}>
           {user.imageUrl === null ? (
@@ -179,139 +171,13 @@ function UserSection({ getTypeHistory, setFriendSection }: UserSectionProps) {
             Total games played: <span>{user.gamesPlayed}</span>
           </div>
           <div className={classes.user__data__stats__row}>
-            <h4 className={classes.cat}>Games:</h4>
-            <div className={classes["data-row"]}>
-              <div className={classes["games"]}>
-                <span>
-                  Wins <WinLoseIcons iconName="win" />
-                </span>
-                <span>{user.wins}</span>
-              </div>
-              <div className={classes["games"]}>
-                <span>
-                  Draws <WinLoseIcons iconName="draw" />
-                </span>
-                <span>{user.draws}</span>
-              </div>
-              <div className={classes["games"]}>
-                <span>
-                  Loses <WinLoseIcons iconName="lose" />
-                </span>
-                <span>{user.loses}</span>
-              </div>
-            </div>
-
-            <div className={classes.chart}>
-              <PieChart
-                series={[
-                  {
-                    data: [
-                      { id: 0, value: user.wins, label: "Win" },
-                      { id: 1, value: user.draws, label: "Draw" },
-                      { id: 2, value: user.loses, label: "Lose" },
-                    ],
-                  },
-                ]}
-                colors={[successColor.mid, greyColor.c6, dangerColor.mid]}
-                slotProps={{
-                  legend: {
-                    hidden: true,
-                  },
-                }}
-              />
-            </div>
+            <StatsRow type={"games"} user={user} />
           </div>
           <div className={classes.user__data__stats__row}>
-            <h4>Wins by:</h4>
-
-            <div className={classes["data-row"]}>
-              <div className={classes["games"]}>
-                <span>
-                  Mate <WinTypesIcons iconName="checkmate" />
-                </span>
-                <span>{user.winsByCheckMate}</span>
-              </div>
-              <div className={classes["games"]}>
-                <span>
-                  Resign <WinTypesIcons iconName="resignation" />
-                </span>
-                <span>{user.winsByResignation}</span>
-              </div>
-              <div className={classes["games"]}>
-                <span>
-                  Timeout <WinTypesIcons iconName="outoftime" />
-                </span>
-                <span>{user.winsByTimeout}</span>
-              </div>
-            </div>
-
-            <div className={classes.chart}>
-              <PieChart
-                series={[
-                  {
-                    data: [
-                      { id: 0, value: user.winsByCheckMate, label: "Mate" },
-                      { id: 1, value: user.winsByResignation, label: "Resign" },
-                      { id: 2, value: user.winsByTimeout, label: "Timeout" },
-                    ],
-                  },
-                ]}
-                colors={[mainColor.c5, mainColor.c7, mainColor.c9]}
-                slotProps={{
-                  legend: {
-                    hidden: true,
-                  },
-                }}
-              />
-            </div>
+            <StatsRow type={"wins"} user={user} />
           </div>
           <div className={classes.user__data__stats__row}>
-            <h4>Loses by:</h4>
-
-            <div className={classes["data-row"]}>
-              <div className={classes["games"]}>
-                <span>
-                  Mate <WinTypesIcons iconName="checkmate" />
-                </span>
-                <span>{user.losesByCheckMate}</span>
-              </div>
-              <div className={classes["games"]}>
-                <span>
-                  Resign <WinTypesIcons iconName="resignation" />
-                </span>
-                <span>{user.losesByResignation}</span>
-              </div>
-              <div className={classes["games"]}>
-                <span>
-                  Timeout <WinTypesIcons iconName="outoftime" />
-                </span>
-                <span>{user.losesByTimeout}</span>
-              </div>
-            </div>
-
-            <div className={classes.chart}>
-              <PieChart
-                series={[
-                  {
-                    data: [
-                      { id: 0, value: user.losesByCheckMate, label: "Mate" },
-                      {
-                        id: 1,
-                        value: user.losesByResignation,
-                        label: "Resign",
-                      },
-                      { id: 2, value: user.losesByTimeout, label: "Timeout" },
-                    ],
-                  },
-                ]}
-                colors={[mainColor.c5, mainColor.c7, mainColor.c9]}
-                slotProps={{
-                  legend: {
-                    hidden: true,
-                  },
-                }}
-              />
-            </div>
+            <StatsRow type={"loses"} user={user} />
           </div>
         </div>
         <div className={classes.user__data__elo}>
@@ -326,7 +192,7 @@ function UserSection({ getTypeHistory, setFriendSection }: UserSectionProps) {
               iconName="bullet"
               iconClass={classes["elo-icon"]}
             />
-            {elo.bullet}
+            <span>{elo.bullet}</span>
           </div>
           <div
             className={classes.user__data__elo__type}
@@ -338,7 +204,7 @@ function UserSection({ getTypeHistory, setFriendSection }: UserSectionProps) {
               iconName="blitz"
               iconClass={classes["elo-icon"]}
             />
-            {elo.blitz}
+            <span>{elo.blitz}</span>
           </div>
           <div
             className={classes.user__data__elo__type}
@@ -350,7 +216,7 @@ function UserSection({ getTypeHistory, setFriendSection }: UserSectionProps) {
               iconName="rapid"
               iconClass={classes["elo-icon"]}
             />
-            {elo.rapid}
+            <span>{elo.rapid}</span>
           </div>
           <div
             className={classes.user__data__elo__type}
@@ -362,7 +228,7 @@ function UserSection({ getTypeHistory, setFriendSection }: UserSectionProps) {
               iconName="classic"
               iconClass={classes["elo-icon"]}
             />
-            {elo.classic}
+            <span>{elo.classic}</span>
           </div>
           <div
             className={classes.user__data__elo__type}
@@ -374,11 +240,11 @@ function UserSection({ getTypeHistory, setFriendSection }: UserSectionProps) {
               iconName="daily"
               iconClass={classes["elo-icon"]}
             />
-            {elo.daily}
+            <span>{elo.daily}</span>
           </div>
         </div>
       </div>
-    </div>
+    </section>
   );
 }
 

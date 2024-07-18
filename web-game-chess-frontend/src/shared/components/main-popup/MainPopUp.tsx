@@ -1,31 +1,31 @@
-import { useLocation } from "react-router-dom";
 import classes from "./MainPopUp.module.scss";
-import { useEffect, useState } from "react";
+import { usePopup } from "../../utils/hooks/usePopUp";
+import MainPopUpIcons from "./MainPopUpIcons";
+import { useEffect } from "react";
 
 type MainPopUpProps = {};
 
 function MainPopUp({}: MainPopUpProps) {
-  const location = useLocation();
-
-  const [content, setContent] = useState<string | null>(null);
+  const { popupContent, popupType, hidePopup } = usePopup();
 
   useEffect(() => {
-    if (location.state && location.state.popup) {
-      setContent(location.state.popup);
+    const timeout = setTimeout(() => {
+      hidePopup();
+    }, 2000);
 
-      delete location.state.popup;
+    return () => {
+      clearTimeout(timeout);
+    };
+  }, [popupContent]);
 
-      window.history.replaceState(location.state, "", location.pathname);
-    }
-  }, [location.state]);
+  if (!popupType) return <></>;
 
-  //   if (!content) return <></>;
-
-  //   return <div className={classes.popup}>{content}</div>;
   return (
     <div className={classes.popup}>
-      <div className={classes.popup__icon}></div>
-      <div className={classes.popup__text}>Invitaation sent. {content}</div>
+      <div className={classes.popup__icon}>
+        <MainPopUpIcons iconName={popupType} />
+      </div>
+      <div className={classes.popup__text}>{popupContent}</div>
     </div>
   );
 }
