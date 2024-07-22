@@ -26,6 +26,7 @@ import {
   RegisterUserModel,
 } from "../../../shared/utils/types/userModels";
 import { usePopup } from "../../../shared/utils/hooks/usePopUp";
+import { getCountry } from "../../../shared/utils/functions/externApi";
 
 type SignUpProps = {
   // change displayed modal
@@ -92,17 +93,6 @@ function SignUp({ setModal }: SignUpProps) {
 
     getDataConfigurations();
   }, []);
-
-  const getCountry = async (): Promise<string> => {
-    try {
-      const response = await axios.get("https://ipinfo.io");
-      return response.data.country;
-    } catch (err) {
-      console.log(err);
-    }
-
-    return "";
-  };
 
   // creates user account
   const signUpUser = async (

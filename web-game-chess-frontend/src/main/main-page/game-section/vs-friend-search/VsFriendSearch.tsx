@@ -1,15 +1,9 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import classes from "./VsFriendSearch.module.scss";
-import { GetAllFriendsByStatusModel } from "../../../../shared/utils/types/friendshipModels";
-import {
-  friendshipStatus,
-  timingTypes,
-} from "../../../../shared/utils/enums/entitiesEnums";
+import { timingTypes } from "../../../../shared/utils/enums/entitiesEnums";
 import axios from "axios";
-import { PagedResult } from "../../../../shared/utils/types/commonTypes";
 import { GetAllFriendsByStatusDto } from "../../../../shared/utils/types/friendshipDtos";
 import {
-  friendshipControllerPaths,
   gameControllerPaths,
   getAuthorization,
   userControllerPaths,
@@ -40,48 +34,16 @@ type VsFriendSearchProps = {
 };
 
 function VsFriendSearch({ setChoosenTiming }: VsFriendSearchProps) {
-  const [friends, setFriends] = useState<GetAllFriendsByStatusDto[] | null>(
-    null
-  );
-  const [totalItemsCount, setTotalItemsCount] = useState<number>(0);
+  ///
 
-  const [pageSize, setPageSize] = useState<number>(10);
   const [selectedUsername, setSelectedUsername] = useState<string>("");
-
   const [
     selectedFriend,
     setSelectedFriend,
   ] = useState<GetAllFriendsByStatusDto | null>(null);
-  const [selectedUser, setSelectedUser] = useState<GetByEmailDto | null>(null);
 
   const [selectedEmail, setSelectedEmail] = useState<string>("");
-
-  const getFriends = async () => {
-    try {
-      const getFriendsModel: GetAllFriendsByStatusModel = {
-        username: selectedUsername,
-        status: friendshipStatus.accepted,
-        pageSize: pageSize,
-        pageNumber: 1,
-      };
-
-      const friendsResponse = await axios.get<
-        PagedResult<GetAllFriendsByStatusDto>
-      >(
-        friendshipControllerPaths.getAllFriendsByStatus(getFriendsModel),
-        getAuthorization()
-      );
-
-      setFriends(friendsResponse.data.items);
-      setTotalItemsCount(friendsResponse.data.totalItemsCount);
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
-  useEffect(() => {
-    getFriends();
-  }, [selectedUsername, pageSize]);
+  const [selectedUser, setSelectedUser] = useState<GetByEmailDto | null>(null);
 
   const onInviteFriendToGame = async (
     friendshipId: string,
@@ -96,8 +58,6 @@ function VsFriendSearch({ setChoosenTiming }: VsFriendSearchProps) {
         minutes: values[0],
         increment: values[1],
       };
-
-      console.log(typeValue);
 
       setChoosenTiming(gameType);
 
@@ -267,11 +227,8 @@ function VsFriendSearch({ setChoosenTiming }: VsFriendSearchProps) {
           />
         ) : (
           <FriendList
-            friends={friends}
+            selectedUsername={selectedUsername}
             setSelectedFriend={setSelectedFriend}
-            pageSize={pageSize}
-            setPageSize={setPageSize}
-            totalItemsCount={totalItemsCount}
           />
         )}
       </div>

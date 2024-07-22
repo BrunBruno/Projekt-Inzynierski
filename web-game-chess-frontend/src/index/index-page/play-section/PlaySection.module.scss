@@ -86,8 +86,9 @@
         pointer-events: all;
 
         .actions-row {
-          opacity: 0;
-          transform: translateY(6rem);
+          &.show {
+            @include emergeAni(1s, 0s, 6rem);
+          }
 
           h3 {
             font-size: 4.4rem;
@@ -132,10 +133,6 @@
               }
             }
           }
-        }
-
-        .show {
-          @include emergeAni(1s, 0s);
         }
       }
     }

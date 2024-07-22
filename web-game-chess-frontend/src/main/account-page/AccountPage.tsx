@@ -13,6 +13,7 @@ import { GetTypeHistoryDto } from "../../shared/utils/types/gameDtos";
 import MainNav from "../../shared/components/main-nav/MainNav";
 import LoadingPage from "../../shared/components/loading-page/LoadingPage";
 import FriendsSection from "./friends-section/FriendsSection";
+import MainPopUp from "../../shared/components/main-popup/MainPopUp";
 
 const types = ["Bullet", "Blitz", "Rapid", "Classic", "Daily"];
 
@@ -57,7 +58,9 @@ function AccountPage() {
         getTypeHistory={getTypeHistory}
         setFriendSection={setFriendSection}
       />
-      {content}
+      <>{content}</>
+
+      <MainPopUp />
     </main>
   );
 }

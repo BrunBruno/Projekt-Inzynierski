@@ -1,56 +1,81 @@
-import { useRef } from "react";
+import { useEffect, useState } from "react";
 import AvatarSvg from "../../../../../shared/svgs/AvatarSvg";
 import { GetAllFriendsByStatusDto } from "../../../../../shared/utils/types/friendshipDtos";
 import classes from "./FriendList.module.scss";
 import TimingTypesIcons from "../../../../../shared/svgs/TimingTypesIcons";
 import { mainColor } from "../../../../../shared/utils/enums/colorMaps";
 import LoadingPage from "../../../../../shared/components/loading-page/LoadingPage";
+import usePagination from "../../../../../shared/utils/hooks/usePagination";
+import { GetAllFriendsByStatusModel } from "../../../../../shared/utils/types/friendshipModels";
+import {
+  friendshipControllerPaths,
+  getAuthorization,
+} from "../../../../../shared/utils/functions/apiFunctions";
+import { PagedResult } from "../../../../../shared/utils/types/commonTypes";
+import axios from "axios";
+import { friendshipStatus } from "../../../../../shared/utils/enums/entitiesEnums";
 
 type FriendListProps = {
-  friends: GetAllFriendsByStatusDto[] | null;
+  // usernam provided in input to filter
+  selectedUsername: string;
+  // to select user on "invite" button click
   setSelectedFriend: React.Dispatch<
     React.SetStateAction<GetAllFriendsByStatusDto | null>
   >;
-  pageSize: number;
-  setPageSize: React.Dispatch<React.SetStateAction<number>>;
-  totalItemsCount: number;
 };
 
-function FriendList({
-  friends,
-  setSelectedFriend,
-  pageSize,
-  setPageSize,
-  totalItemsCount,
-}: FriendListProps) {
-  const scrollRef = useRef<HTMLDivElement>(null);
+function FriendList({ selectedUsername, setSelectedFriend }: FriendListProps) {
+  ///
 
-  const handleListOnScroll = () => {
-    const scrollingElement = scrollRef.current;
-    if (scrollingElement) {
-      if (
-        scrollingElement.scrollHeight - 1.1 * scrollingElement.scrollTop <=
-        scrollingElement.clientHeight
-      ) {
-        if (pageSize < totalItemsCount) {
-          setPageSize((prevPageSize) => prevPageSize + 6);
-        }
-      }
+  const [friends, setFriends] = useState<GetAllFriendsByStatusDto[] | null>(
+    null
+  );
+
+  const {
+    scrollRef,
+    pageSize,
+    pageNumber,
+    totalItemsCount,
+    setTotalItemsCount,
+    setDefPageSize,
+  } = usePagination();
+
+  useEffect(() => {
+    setDefPageSize(10);
+  });
+
+  // get all friends to display for invitations
+  const getFriends = async () => {
+    try {
+      const model: GetAllFriendsByStatusModel = {
+        username: selectedUsername,
+        status: friendshipStatus.accepted,
+        pageSize: pageSize,
+        pageNumber: pageNumber,
+      };
+
+      const friendsResponse = await axios.get<
+        PagedResult<GetAllFriendsByStatusDto>
+      >(
+        friendshipControllerPaths.getAllFriendsByStatus(model),
+        getAuthorization()
+      );
+
+      setFriends(friendsResponse.data.items);
+      setTotalItemsCount(friendsResponse.data.totalItemsCount);
+    } catch (err) {
+      console.log(err);
     }
   };
 
-  if (!friends) {
-    return <LoadingPage text="Loading data" />;
-  }
+  useEffect(() => {
+    getFriends();
+  }, [selectedUsername, pageSize]);
+
+  if (!friends) return <LoadingPage text="Loading data" />;
 
   return (
-    <div
-      ref={scrollRef}
-      className={classes.list}
-      onWheel={() => {
-        handleListOnScroll();
-      }}
-    >
+    <div ref={scrollRef} className={classes.list}>
       {friends.length > 0 ? (
         friends.map((friend) => (
           <div key={friend.freindshpId} className={classes.list__element}>
@@ -141,6 +166,10 @@ function FriendList({
           <div className={classes["no-data"]}>No results. </div>
         </div>
       )}
+
+      <div className={classes.list__indicator}>
+        {friends.length} / {totalItemsCount}
+      </div>
     </div>
   );
 }

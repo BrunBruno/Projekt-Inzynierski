@@ -2,12 +2,14 @@
 
 .card {
   @include rounded(1rem);
+  @include emergeAni(0.2s, 0s, -1rem);
 
   position: relative;
-  height: fit-content;
-  min-height: 12rem;
+  min-height: fit-content;
   overflow: hidden;
   background-color: $gc9;
+  height: 14rem;
+  border-bottom: solid 0.3rem $mc9;
 
   &::after {
     @include subCl(60rem, 60rem);
@@ -28,21 +30,34 @@
     background-color: rgba($mc9, 0.1);
   }
 
-  .header {
+  &__content {
     @include flex(row, start, start, 2rem);
 
     position: inherit;
     z-index: 2;
     height: 100%;
 
-    .avatar-svg {
-      height: 8rem;
-      opacity: 0.8;
-      border: solid 0.5rem $mc9;
-      box-shadow: 0 1.2rem 2rem -1rem $mc0;
+    &__avatar {
+      @mixin avatar() {
+        @include circle(8rem);
+
+        opacity: 0.8;
+        border: solid 0.5rem $mc9;
+        box-shadow: 0 1.2rem 2rem -1rem $mc0;
+      }
+
+      .avatar-svg {
+        @include avatar();
+      }
+
+      .avatar-img {
+        @include avatar();
+
+        object-fit: cover;
+      }
     }
 
-    .user-info {
+    &__info {
       @include flex(column, space-between, start, 1rem);
       @include wh100();
 
@@ -94,6 +109,20 @@
         padding-top: 2rem;
         font-size: 1.6rem;
         color: $gc4;
+      }
+    }
+
+    &__country {
+      @include circle(3rem);
+      @include flex();
+
+      position: absolute;
+      right: 0;
+      top: 0;
+      overflow: hidden;
+
+      img {
+        height: 160%;
       }
     }
   }

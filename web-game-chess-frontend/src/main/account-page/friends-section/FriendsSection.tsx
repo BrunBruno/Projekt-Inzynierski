@@ -11,8 +11,14 @@ import { GetAllFriendsByStatusModel } from "../../../shared/utils/types/friendsh
 import { friendshipStatus } from "../../../shared/utils/enums/entitiesEnums";
 import LoadingPage from "../../../shared/components/loading-page/LoadingPage";
 import AvatarSvg from "../../../shared/svgs/AvatarSvg";
+import FriendCard from "./friend-card/FriendCard";
+import cardClasses from "./friend-card/FriendCard.module.scss";
+import { usePopup } from "../../../shared/utils/hooks/usePopUp";
+import usePagination from "../../../shared/utils/hooks/usePagination";
 
 function FriendsSection() {
+  ///
+
   const [friendList, setFriendList] = useState<
     GetAllFriendsByStatusDto[] | null
   >(null);
@@ -20,6 +26,10 @@ function FriendsSection() {
   const [selectedFriend, setSelectedFriend] = useState<HTMLElement | null>(
     null
   );
+
+  const { showPopup } = usePopup();
+
+  const { scrollRef, totalItemsCount, setTotalItemsCount } = usePagination();
 
   const getFriends = async () => {
     try {
@@ -38,8 +48,10 @@ function FriendsSection() {
       );
 
       setFriendList(friendsResponse.data.items);
+      setTotalItemsCount(friendsResponse.data.totalItemsCount);
     } catch (err) {
       console.log(err);
+      showPopup("Connection error", "error");
     }
   };
 
@@ -47,25 +59,16 @@ function FriendsSection() {
     getFriends();
   }, []);
 
-  const setActive = (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
-    const target = event.target as HTMLElement;
-
-    setSelectedFriend(target);
-
-    clearSelection();
-
-    target.classList.add(classes.active);
-  };
-
   const clearSelection = () => {
     if (selectedFriend !== null)
-      selectedFriend.classList.remove(classes.active);
+      selectedFriend.classList.remove(cardClasses.active);
   };
 
   if (!friendList) return <LoadingPage text="Loading data" />;
 
   return (
     <div
+      ref={scrollRef}
       className={`${classes.friends} ${
         friendList.length === 0 ? classes.tamplate : classes.duap
       }`}
@@ -75,46 +78,12 @@ function FriendsSection() {
     >
       {friendList.length > 0 ? (
         friendList.map((friend) => (
-          <div
+          <FriendCard
             key={friend.freindshpId}
-            className={classes.friends__friend}
-            onMouseEnter={(event) => {
-              setActive(event);
-            }}
-          >
-            <div className={classes.friends__friend__content}>
-              <div className={classes.friends__friend__content__avatar}>
-                {friend.imageUrl === null ? (
-                  <AvatarSvg iconClass={""} />
-                ) : (
-                  <img src={friend.imageUrl} alt={friend.username} />
-                )}
-
-                <div className={classes["country"]}>
-                  {" "}
-                  <img
-                    src={`https://flagsapi.com/${friend.country}/flat/64.png`}
-                  />
-                </div>
-              </div>
-              <div className={classes.friends__friend__content__name}>
-                <span>{friend.username}</span>{" "}
-                <span>{friend.name === null ? "---" : friend.name}</span>
-              </div>
-              <div className={classes.friends__friend__content__data}>
-                <span>{friend.wins}</span>
-                {" | "}
-                <span>{friend.draws}</span>
-                {" | "}
-                <span>{friend.loses}</span>
-              </div>{" "}
-            </div>
-
-            <div className={classes.friends__friend__actions}>
-              <button>Profile</button>
-              <button>Play</button>
-            </div>
-          </div>
+            friend={friend}
+            setSelectedFriend={setSelectedFriend}
+            clearSelection={clearSelection}
+          />
         ))
       ) : (
         <>
@@ -130,6 +99,9 @@ function FriendsSection() {
           ))}
         </>
       )}
+      <div className={classes.friends__indicator}>
+        {friendList.length} of {totalItemsCount}
+      </div>
     </div>
   );
 }

@@ -6,8 +6,6 @@
   box-shadow: 0.1rem 0 1rem 0 $gc0;
 
   &__profile {
-    // @include flex(row, start, center, 2rem);
-
     position: relative;
     padding: 2rem 4rem;
     background-color: $gc9;
@@ -38,8 +36,9 @@
       width: 100%;
 
       .avatar-img {
-        width: 20rem;
+        @include circle(20rem);
         border: solid 1rem $mc9;
+        object-fit: cover;
       }
 
       .set-img {

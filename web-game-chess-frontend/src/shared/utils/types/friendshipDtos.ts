@@ -21,5 +21,6 @@ export type GetAllNonFriendsDto = {
   username: string;
   name: string | null;
   imageUrl: string | null;
+  country: string;
   elo: EloDto;
 };
