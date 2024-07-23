@@ -1,20 +1,18 @@
 import { pieceColor } from "../../../../shared/utils/enums/entitiesEnums";
-import {
-  pieceImageMap,
-  piecePromotionMap,
-} from "../../../../shared/utils/enums/piecesMaps";
+import { pieceImageMap, piecePromotionMap } from "../../../../shared/utils/enums/piecesMaps";
 import { GetPlayerDto } from "../../../../shared/utils/types/gameDtos";
 import classes from "./GameBoardPromotion.module.scss";
 
 type GameBoardPromotionProps = {
+  // player data
   playerData: GetPlayerDto;
+  // to perform pawn promotion by promoted piece code
   onPerformPromotion: (promotedPiece: string) => void;
 };
 
-function GameBoardPromotion({
-  playerData,
-  onPerformPromotion,
-}: GameBoardPromotionProps) {
+function GameBoardPromotion({ playerData, onPerformPromotion }: GameBoardPromotionProps) {
+  ///
+
   return (
     <div className={classes.promotion}>
       <div className={classes.promotion__pieces}>
@@ -27,10 +25,7 @@ function GameBoardPromotion({
                   onPerformPromotion(p);
                 }}
               >
-                <img
-                  src={`/pieces/${pieceImageMap[p]}`}
-                  alt={`promote-to-${p}`}
-                />
+                <img src={`/pieces/${pieceImageMap[p]}`} alt={`promote-to-${p}`} />
               </div>
             ))
           : piecePromotionMap.black.map((p, i) => (
@@ -41,10 +36,7 @@ function GameBoardPromotion({
                   onPerformPromotion(p);
                 }}
               >
-                <img
-                  src={`/pieces/${pieceImageMap[p]}`}
-                  alt={`promote-to-${p}`}
-                />
+                <img src={`/pieces/${pieceImageMap[p]}`} alt={`promote-to-${p}`} />
               </div>
             ))}
       </div>

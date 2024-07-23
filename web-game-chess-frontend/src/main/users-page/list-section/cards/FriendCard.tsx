@@ -1,14 +1,12 @@
 import axios from "axios";
 import AvatarSvg from "../../../../shared/svgs/AvatarSvg";
 import { friendshipStatus } from "../../../../shared/utils/enums/entitiesEnums";
-import { GetAllFriendsByStatusDto } from "../../../../shared/utils/types/friendshipDtos";
+import { GetAllFriendsByStatusDto, GetFriendProfileDto } from "../../../../shared/utils/types/friendshipDtos";
 import { RespondToFriendRequestModel } from "../../../../shared/utils/types/friendshipModels";
 import classes from "./Cards.module.scss";
-import {
-  friendshipControllerPaths,
-  getAuthorization,
-} from "../../../../shared/utils/functions/apiFunctions";
+import { friendshipControllerPaths, getAuthorization } from "../../../../shared/utils/functions/apiFunctions";
 import { usePopup } from "../../../../shared/utils/hooks/usePopUp";
+import { getErrMessage } from "../../../../shared/utils/functions/displayError";
 
 type FriendCardsProps = {
   // selected list type
@@ -17,48 +15,65 @@ type FriendCardsProps = {
   friend: GetAllFriendsByStatusDto;
   // to update users
   getAllUsers: () => Promise<void>;
+  // to select profile to show
+  setFriend: (friend: GetFriendProfileDto) => void;
 };
 
-function FriendCard({ selectedList, friend, getAllUsers }: FriendCardsProps) {
+function FriendCard({ selectedList, friend, getAllUsers, setFriend }: FriendCardsProps) {
   ///
 
   const { showPopup } = usePopup();
 
   // response to friendshi request
-  const onRespondToRequest = async (friendshipId: string, accept: boolean) => {
+  const onRespondToRequest = async (accept: boolean) => {
     try {
-      const respondModel: RespondToFriendRequestModel = {
-        friendshipId: friendshipId,
+      const model: RespondToFriendRequestModel = {
+        friendshipId: friend.freindshpId,
         isAccepted: accept,
       };
 
-      await axios.put(
-        friendshipControllerPaths.respondToFriendRequest(),
-        respondModel,
-        getAuthorization()
-      );
+      await axios.put(friendshipControllerPaths.respondToFriendRequest(), model, getAuthorization());
+
+      if (accept === true) {
+        showPopup("User accepted", "success");
+      } else {
+        showPopup("User blocked", "error");
+      }
 
       getAllUsers();
     } catch (err) {
-      console.log(err);
-      showPopup("Connection error", "warning");
+      showPopup(getErrMessage(err), "warning");
     }
   };
 
   // delete friend /  remove freindship
-  const onRemoveFriend = async (friendshipId: string) => {
+  const onRemoveFriend = async (action: boolean) => {
     try {
-      await axios.delete(
-        friendshipControllerPaths.removeFriend(friendshipId),
-        getAuthorization()
-      );
+      await axios.delete(friendshipControllerPaths.removeFriend(friend.freindshpId), getAuthorization());
 
-      showPopup("Friend removed", "error");
+      if (action === true) {
+        showPopup("Friend removed", "error");
+      } else {
+        showPopup("Friend unblocked", "success");
+      }
 
       getAllUsers();
     } catch (err) {
-      console.log(err);
-      showPopup("Connection error", "warning");
+      showPopup(getErrMessage(err), "warning");
+    }
+  };
+
+  // get friend data to display in profile
+  const onShowProfile = async () => {
+    try {
+      const response = await axios.get<GetFriendProfileDto>(
+        friendshipControllerPaths.getFriendProfile(friend.freindshpId),
+        getAuthorization()
+      );
+
+      setFriend(response.data);
+    } catch (err) {
+      showPopup(getErrMessage(err), "warning");
     }
   };
 
@@ -68,13 +83,18 @@ function FriendCard({ selectedList, friend, getAllUsers }: FriendCardsProps) {
       case friendshipStatus.accepted:
         return (
           <div className={classes.actions}>
-            <button className={classes["main-button"]} onClick={() => {}}>
+            <button
+              className={classes["main-button"]}
+              onClick={() => {
+                onShowProfile();
+              }}
+            >
               See Profile
             </button>
             <button
               className={classes["sec-button"]}
               onClick={() => {
-                onRemoveFriend(friend.freindshpId);
+                onRemoveFriend(true);
               }}
             >
               Remove
@@ -89,7 +109,7 @@ function FriendCard({ selectedList, friend, getAllUsers }: FriendCardsProps) {
                 <button
                   className={classes["main-button"]}
                   onClick={() => {
-                    onRespondToRequest(friend.freindshpId, true);
+                    onRespondToRequest(true);
                   }}
                 >
                   Accept
@@ -97,7 +117,7 @@ function FriendCard({ selectedList, friend, getAllUsers }: FriendCardsProps) {
                 <button
                   className={classes["sec-button"]}
                   onClick={() => {
-                    onRespondToRequest(friend.freindshpId, false);
+                    onRespondToRequest(false);
                   }}
                 >
                   Decline
@@ -116,7 +136,7 @@ function FriendCard({ selectedList, friend, getAllUsers }: FriendCardsProps) {
                 <button
                   className={classes["sec-button"]}
                   onClick={() => {
-                    onRemoveFriend(friend.freindshpId);
+                    onRemoveFriend(false);
                   }}
                 >
                   Unblock
@@ -139,11 +159,7 @@ function FriendCard({ selectedList, friend, getAllUsers }: FriendCardsProps) {
           {friend.imageUrl === null ? (
             <AvatarSvg iconClass={classes["avatar-svg"]} />
           ) : (
-            <img
-              src={friend.imageUrl}
-              alt={friend.username}
-              className={classes["avatar-img"]}
-            />
+            <img src={friend.imageUrl} alt={friend.username} className={classes["avatar-img"]} />
           )}
         </div>
 

@@ -3,10 +3,7 @@ import classes from "./FriendsSection.module.scss";
 import { GetAllFriendsByStatusDto } from "../../../shared/utils/types/friendshipDtos";
 import axios from "axios";
 import { PagedResult } from "../../../shared/utils/types/commonTypes";
-import {
-  friendshipControllerPaths,
-  getAuthorization,
-} from "../../../shared/utils/functions/apiFunctions";
+import { friendshipControllerPaths, getAuthorization } from "../../../shared/utils/functions/apiFunctions";
 import { GetAllFriendsByStatusModel } from "../../../shared/utils/types/friendshipModels";
 import { friendshipStatus } from "../../../shared/utils/enums/entitiesEnums";
 import LoadingPage from "../../../shared/components/loading-page/LoadingPage";
@@ -15,17 +12,14 @@ import FriendCard from "./friend-card/FriendCard";
 import cardClasses from "./friend-card/FriendCard.module.scss";
 import { usePopup } from "../../../shared/utils/hooks/usePopUp";
 import usePagination from "../../../shared/utils/hooks/usePagination";
+import { getErrMessage } from "../../../shared/utils/functions/displayError";
 
 function FriendsSection() {
   ///
 
-  const [friendList, setFriendList] = useState<
-    GetAllFriendsByStatusDto[] | null
-  >(null);
+  const [friendList, setFriendList] = useState<GetAllFriendsByStatusDto[] | null>(null);
 
-  const [selectedFriend, setSelectedFriend] = useState<HTMLElement | null>(
-    null
-  );
+  const [selectedFriend, setSelectedFriend] = useState<HTMLElement | null>(null);
 
   const { showPopup } = usePopup();
 
@@ -40,9 +34,7 @@ function FriendsSection() {
         pageSize: 100,
       };
 
-      const friendsResponse = await axios.get<
-        PagedResult<GetAllFriendsByStatusDto>
-      >(
+      const friendsResponse = await axios.get<PagedResult<GetAllFriendsByStatusDto>>(
         friendshipControllerPaths.getAllFriendsByStatus(frindsModel),
         getAuthorization()
       );
@@ -50,8 +42,7 @@ function FriendsSection() {
       setFriendList(friendsResponse.data.items);
       setTotalItemsCount(friendsResponse.data.totalItemsCount);
     } catch (err) {
-      console.log(err);
-      showPopup("Connection error", "error");
+      showPopup(getErrMessage(err), "warning");
     }
   };
 
@@ -60,8 +51,7 @@ function FriendsSection() {
   }, []);
 
   const clearSelection = () => {
-    if (selectedFriend !== null)
-      selectedFriend.classList.remove(cardClasses.active);
+    if (selectedFriend !== null) selectedFriend.classList.remove(cardClasses.active);
   };
 
   if (!friendList) return <LoadingPage text="Loading data" />;
@@ -69,9 +59,7 @@ function FriendsSection() {
   return (
     <div
       ref={scrollRef}
-      className={`${classes.friends} ${
-        friendList.length === 0 ? classes.tamplate : classes.duap
-      }`}
+      className={`${classes.friends} ${friendList.length === 0 ? classes.tamplate : classes.duap}`}
       onMouseLeave={() => {
         clearSelection();
       }}

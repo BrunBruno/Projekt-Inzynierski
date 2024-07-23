@@ -2,14 +2,8 @@ import { useEffect, useState } from "react";
 import classes from "./GameSection.module.scss";
 import VsPlayerSearch from "./vs-player-search/VsPlayerSearch";
 import axios from "axios";
-import {
-  gameControllerPaths,
-  getAuthorization,
-} from "../../../shared/utils/functions/apiFunctions";
-import {
-  CheckIfInGameDto,
-  SearchGameDto,
-} from "../../../shared/utils/types/gameDtos";
+import { gameControllerPaths, getAuthorization } from "../../../shared/utils/functions/apiFunctions";
+import { CheckIfInGameDto, SearchGameDto } from "../../../shared/utils/types/gameDtos";
 import Searching from "./searching/Searching";
 import { useNavigate } from "react-router-dom";
 import GameHubService from "../../../shared/utils/services/GameHubService";
@@ -17,27 +11,24 @@ import { gameSearchInterface } from "../../../shared/utils/enums/interfacesEnums
 import UserGames from "./user-games/UserGames";
 import GameSectionIcons from "./GameSectionIcons";
 import VsFriendSearch from "./vs-friend-search/VsFriendSearch";
-import {
-  CheckIfInGameModel,
-  SearchGameModel,
-} from "../../../shared/utils/types/gameModels";
+import { CheckIfInGameModel, SearchGameModel } from "../../../shared/utils/types/gameModels";
 import NotificationPopUp from "./notification-popup/NotificationPopUp";
 import { HubConnectionState } from "@microsoft/signalr";
 import DefaultView from "./default-view/DefaultView";
 import Invitations from "./invitations/Invitations";
+import { getErrMessage } from "../../../shared/utils/functions/displayError";
+import { usePopup } from "../../../shared/utils/hooks/usePopUp";
 
 function GameSection() {
   const navigate = useNavigate();
 
-  const [interfaceContent, setInterfaceContent] = useState<JSX.Element>(
-    <DefaultView />
-  );
+  const [interfaceContent, setInterfaceContent] = useState<JSX.Element>(<DefaultView />);
   const [searchIds, setSearchIds] = useState<SearchGameDto | null>(null);
   const [allowNotification, setAllowNotification] = useState<boolean>(false);
 
-  const [choosenTiming, setChoosenTiming] = useState<SearchGameModel | null>(
-    null
-  );
+  const [choosenTiming, setChoosenTiming] = useState<SearchGameModel | null>(null);
+
+  const { showPopup } = usePopup();
 
   const handleGamesChanged = async () => {
     if (searchIds !== null) {
@@ -57,13 +48,12 @@ function GameSection() {
           });
         }
       } catch (err) {
-        console.log(err);
+        showPopup(getErrMessage(err), "warning");
       }
     }
   };
 
   const handleGameAccepted = (gameId: string) => {
-    console.log("accepted");
     if (!choosenTiming) {
       console.log("Timing not set");
     } else {
@@ -76,10 +66,7 @@ function GameSection() {
       setInterfaceById(gameSearchInterface.searching);
     }
 
-    if (
-      GameHubService.connection &&
-      GameHubService.connection.state === HubConnectionState.Connected
-    ) {
+    if (GameHubService.connection && GameHubService.connection.state === HubConnectionState.Connected) {
       GameHubService.connection.on("GamesChanged", handleGamesChanged);
       GameHubService.connection.on("GameAccepted", handleGameAccepted);
 
@@ -98,28 +85,17 @@ function GameSection() {
   const setInterfaceById = (interfaceId: number) => {
     switch (interfaceId) {
       case gameSearchInterface.vsPlayer:
-        setInterfaceContent(
-          <VsPlayerSearch
-            setSearchIds={setSearchIds}
-            setChoosenTiming={setChoosenTiming}
-          />
-        );
+        setInterfaceContent(<VsPlayerSearch setSearchIds={setSearchIds} setChoosenTiming={setChoosenTiming} />);
         break;
       case gameSearchInterface.vsComputer:
         setInterfaceContent(<></>);
         break;
       case gameSearchInterface.vsFriend:
-        setInterfaceContent(
-          <VsFriendSearch setChoosenTiming={setChoosenTiming} />
-        );
+        setInterfaceContent(<VsFriendSearch setChoosenTiming={setChoosenTiming} />);
         break;
       case gameSearchInterface.searching:
         setInterfaceContent(
-          <Searching
-            setInterfaceById={setInterfaceById}
-            searchIds={searchIds}
-            setSearchIds={setSearchIds}
-          />
+          <Searching setInterfaceById={setInterfaceById} searchIds={searchIds} setSearchIds={setSearchIds} />
         );
         break;
       case gameSearchInterface.userGames:

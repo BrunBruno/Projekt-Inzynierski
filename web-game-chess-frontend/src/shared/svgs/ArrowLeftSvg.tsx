@@ -1,4 +1,4 @@
-import { IconSvgProps } from '../utils/types/commonTypes';
+import { IconSvgProps } from "../utils/types/commonTypes";
 
 function ArrowLeftSvg({ color, iconClass }: IconSvgProps) {
   return (
@@ -6,7 +6,7 @@ function ArrowLeftSvg({ color, iconClass }: IconSvgProps) {
       viewBox="-4.5 0 20 20"
       version="1.1"
       xmlns="http://www.w3.org/2000/svg"
-      style={{ rotate: '180deg' }}
+      style={{ rotate: "180deg" }}
       className={iconClass}
     >
       <g fill="none">

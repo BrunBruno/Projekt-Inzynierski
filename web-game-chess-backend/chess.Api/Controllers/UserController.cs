@@ -4,6 +4,7 @@ using chess.Api.Models.UserModels;
 using chess.Application.Requests.UserRequests.CheckIfEmailExists;
 using chess.Application.Requests.UserRequests.GetElo;
 using chess.Application.Requests.UserRequests.GetFullUser;
+using chess.Application.Requests.UserRequests.GetOtherUser;
 using chess.Application.Requests.UserRequests.GetRegisterConf;
 using chess.Application.Requests.UserRequests.GetUser;
 using chess.Application.Requests.UserRequests.IsEmailVerified;
@@ -81,7 +82,7 @@ public class UserController : ControllerBase {
 
 
     /// <summary>
-    /// Verifies email
+    /// Verifies email address
     /// </summary>
     /// <param name="model"></param>
     /// <returns></returns>
@@ -95,6 +96,12 @@ public class UserController : ControllerBase {
         return Ok();
     }
 
+
+    /// <summary>
+    /// Updates updateable data for user
+    /// </summary>
+    /// <param name="model"></param>
+    /// <returns></returns>
     [HttpPut("profile")]
     [Authorize(Policy = "IsVerified")]
     public async Task<IActionResult> UpdateProfile([FromBody] UpdateProfileModel model) {
@@ -107,7 +114,7 @@ public class UserController : ControllerBase {
 
 
     /// <summary>
-    /// Gets user info
+    /// Gets basic user info
     /// </summary>
     /// <returns></returns>
     [HttpGet]
@@ -122,7 +129,7 @@ public class UserController : ControllerBase {
     }
 
     /// <summary>
-    /// 
+    /// Gets complete user info for account page
     /// </summary>
     /// <returns></returns>
     [HttpGet("full")]
@@ -138,7 +145,23 @@ public class UserController : ControllerBase {
 
 
     /// <summary>
-    /// 
+    /// Gets user info for other users
+    /// </summary>
+    /// <returns></returns>
+    [HttpGet("other")]
+    [Authorize]
+    public async Task<IActionResult> GetOtherUser([FromQuery] GetOtherUserModel model) {
+
+        var request = _mapper.Map<GetOtherUserRequest>(model);
+
+        var user = await _mediator.Send(request);
+
+        return Ok(user);
+    }
+
+
+    /// <summary>
+    /// Gets elo info
     /// </summary>
     /// <returns></returns>
     [HttpGet("elo")]
@@ -171,7 +194,7 @@ public class UserController : ControllerBase {
 
 
     /// <summary>
-    /// 
+    /// Gets user data by email address
     /// </summary>
     /// <param name="model"></param>
     /// <returns></returns>
@@ -185,6 +208,7 @@ public class UserController : ControllerBase {
 
         return Ok(user);
     }
+
 
     /// <summary>
     /// Gets registration configurations

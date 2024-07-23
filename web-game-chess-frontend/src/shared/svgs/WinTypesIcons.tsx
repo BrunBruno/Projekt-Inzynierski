@@ -4,34 +4,10 @@ import { IconMap, IconsMapProps } from "../utils/types/commonTypes";
 const icons: IconMap = {
   checkmate: (
     <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <path
-        d="M11 7L8 17"
-        stroke={greyColor.c0}
-        strokeWidth="1.5"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-      <path
-        d="M16 7L13 17"
-        stroke={greyColor.c0}
-        strokeWidth="1.5"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-      <path
-        d="M18 10H7"
-        stroke={greyColor.c0}
-        strokeWidth="1.5"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-      <path
-        d="M17 14H6"
-        stroke={greyColor.c0}
-        strokeWidth="1.5"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
+      <path d="M11 7L8 17" stroke={greyColor.c0} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M16 7L13 17" stroke={greyColor.c0} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M18 10H7" stroke={greyColor.c0} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M17 14H6" stroke={greyColor.c0} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
       <path
         d="M22 12C22 16.714 22 19.0711 20.5355 20.5355C19.0711 22 16.714 22 12 22C7.28595 22 4.92893 22 3.46447 20.5355C2 19.0711 2 16.714 2 12C2 7.28595 2 4.92893 3.46447 3.46447C4.92893 2 7.28595 2 12 2C16.714 2 19.0711 2 20.5355 3.46447C21.5093 4.43821 21.8356 5.80655 21.9449 8"
         stroke={greyColor.c0}
@@ -41,16 +17,8 @@ const icons: IconMap = {
     </svg>
   ),
   outoftime: (
-    <svg
-      viewBox="0 0 24 24"
-      xmlns="http://www.w3.org/2000/svg"
-      fill={greyColor.c0}
-    >
-      <path
-        d="M23.707,15.293a1,1,0,0,0-1.414,0L19.5,18.086l-2.793-2.793a1,1,0,0,0-1.414,1.414L18.086,19.5l-2.793,2.793a1,1,0,1,0,1.414,1.414L19.5,20.914l2.793,2.793a1,1,0,0,0,1.414-1.414L20.914,19.5l2.793-2.793A1,1,0,0,0,23.707,15.293Z
-  M12,22A10,10,0,1,1,22,12a1,1,0,0,0,2,0A12,12,0,1,0,12,24a1,1,0,0,0,0-2Z
-  M12,6a1,1,0,0,0-1,1v4.586L8.293,14.293a1,1,0,1,0,1.414,1.414l3-3A1,1,0,0,0,13,12V7A1,1,0,0,0,12,6Z"
-      />
+    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill={greyColor.c0}>
+      <path d="M23.707,15.293a1,1,0,0,0-1.414,0L19.5,18.086l-2.793-2.793a1,1,0,0,0-1.414,1.414L18.086,19.5l-2.793,2.793a1,1,0,1,0,1.414,1.414L19.5,20.914l2.793,2.793a1,1,0,0,0,1.414-1.414L20.914,19.5l2.793-2.793A1,1,0,0,0,23.707,15.293Z M12,22A10,10,0,1,1,22,12a1,1,0,0,0,2,0A12,12,0,1,0,12,24a1,1,0,0,0,0-2Z M12,6a1,1,0,0,0-1,1v4.586L8.293,14.293a1,1,0,1,0,1.414,1.414l3-3A1,1,0,0,0,13,12V7A1,1,0,0,0,12,6Z" />
     </svg>
   ),
   resignation: (

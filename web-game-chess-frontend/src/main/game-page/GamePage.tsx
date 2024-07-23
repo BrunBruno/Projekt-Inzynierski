@@ -11,20 +11,17 @@ import {
   GetPlayerDto,
   SearchGameDto,
 } from "../../shared/utils/types/gameDtos";
-import {
-  gameControllerPaths,
-  getAuthorization,
-} from "../../shared/utils/functions/apiFunctions";
+import { gameControllerPaths, getAuthorization } from "../../shared/utils/functions/apiFunctions";
 import LoadingPage from "../../shared/components/loading-page/LoadingPage";
 import GameBoard from "./game-board/GameBoard";
 import GameHubService from "../../shared/utils/services/GameHubService";
 import LeftSideBar from "./left-sidebar/LeftSideBar";
 import RightSideBar from "./right-sidebar/RightSideBar";
 import { HubConnectionState } from "@microsoft/signalr";
-import {
-  CheckIfInGameModel,
-  SearchGameModel,
-} from "../../shared/utils/types/gameModels";
+import { CheckIfInGameModel, SearchGameModel } from "../../shared/utils/types/gameModels";
+import { usePopup } from "../../shared/utils/hooks/usePopUp";
+import { getErrMessage } from "../../shared/utils/functions/displayError";
+import MainPopUp from "../../shared/components/main-popup/MainPopUp";
 
 function GamePage() {
   const { gameId } = useParams();
@@ -33,21 +30,15 @@ function GamePage() {
 
   const [gameData, setGameData] = useState<GetGameDto | null>(null);
   const [playerData, setPlayerData] = useState<GetPlayerDto | null>(null);
-  const [winner, setWinner] = useState<EndGameDto | GetEndedGameDto | null>(
-    null
-  );
+  const [winner, setWinner] = useState<EndGameDto | GetEndedGameDto | null>(null);
 
-  const [whitePlayerSeconds, setWhitePlayerSeconds] = useState<number | null>(
-    null
-  );
-  const [blackPlayerSeconds, setBlackPlayerSeconds] = useState<number | null>(
-    null
-  );
+  const [whitePlayerSeconds, setWhitePlayerSeconds] = useState<number | null>(null);
+  const [blackPlayerSeconds, setBlackPlayerSeconds] = useState<number | null>(null);
 
-  const [selectedTiming, setSelectedTiming] = useState<SearchGameModel | null>(
-    null
-  );
+  const [selectedTiming, setSelectedTiming] = useState<SearchGameModel | null>(null);
   const [searchIds, setSearchIds] = useState<SearchGameDto | null>(null);
+
+  const { showPopup } = usePopup();
 
   useEffect(() => {
     if (location.state.timing !== null) {
@@ -61,15 +52,12 @@ function GamePage() {
   const getGame = async () => {
     try {
       if (gameId) {
-        const getGameResponse = await axios.get<GetGameDto>(
-          gameControllerPaths.getGame(gameId),
-          getAuthorization()
-        );
+        const getGameResponse = await axios.get<GetGameDto>(gameControllerPaths.getGame(gameId), getAuthorization());
 
         setGameData(getGameResponse.data);
       }
     } catch (err) {
-      console.log(err);
+      showPopup(getErrMessage(err), "warning");
     }
   };
 
@@ -85,7 +73,7 @@ function GamePage() {
         setPlayerData(getPlayerResponse.data);
       }
     } catch (err) {
-      console.log(err);
+      showPopup(getErrMessage(err), "warning");
     }
   };
 
@@ -117,15 +105,12 @@ function GamePage() {
     if (!gameId) return;
 
     try {
-      const timeResponse = await axios.get<FetchTimeDto>(
-        gameControllerPaths.fetchTime(gameId),
-        getAuthorization()
-      );
+      const timeResponse = await axios.get<FetchTimeDto>(gameControllerPaths.fetchTime(gameId), getAuthorization());
 
       setWhitePlayerSeconds(timeResponse.data.whiteTimeLeft);
       setBlackPlayerSeconds(timeResponse.data.blackTimeLeft);
     } catch (err) {
-      console.log(err);
+      showPopup(getErrMessage(err), "warning");
     }
   };
 
@@ -141,7 +126,7 @@ function GamePage() {
 
         setWinner(winnerResponse.data);
       } catch (err) {
-        console.log(err);
+        showPopup(getErrMessage(err), "warning");
       }
     };
 
@@ -173,16 +158,13 @@ function GamePage() {
           window.location.reload();
         }
       } catch (err) {
-        console.log(err);
+        showPopup(getErrMessage(err), "warning");
       }
     }
   };
 
   useEffect(() => {
-    if (
-      GameHubService.connection &&
-      GameHubService.connection.state === HubConnectionState.Connected
-    ) {
+    if (GameHubService.connection && GameHubService.connection.state === HubConnectionState.Connected) {
       GameHubService.connection.on("GamesChanged", handleGamesChanged);
     }
 
@@ -199,11 +181,8 @@ function GamePage() {
 
   return (
     <main className={classes["game-main"]}>
-      <LeftSideBar
-        gameId={gameId}
-        playerData={playerData}
-        gameData={gameData}
-      />
+      <LeftSideBar gameId={gameId} playerData={playerData} gameData={gameData} />
+
       <GameBoard
         gameId={gameId}
         gameData={gameData}
@@ -213,6 +192,7 @@ function GamePage() {
         setSearchIds={setSearchIds}
         selectedTiming={selectedTiming}
       />
+
       <RightSideBar
         gameId={gameId}
         gameData={gameData}
@@ -221,6 +201,8 @@ function GamePage() {
         setWhitePlayerSeconds={setWhitePlayerSeconds}
         setBlackPlayerSeconds={setBlackPlayerSeconds}
       />
+
+      <MainPopUp />
     </main>
   );
 }

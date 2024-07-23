@@ -14,10 +14,7 @@ import {
   NotifyUserModel,
   SearchGameModel,
 } from "../../../../shared/utils/types/gameModels";
-import {
-  CreateGameByEmailDto,
-  CreatePrivateGameDto,
-} from "../../../../shared/utils/types/gameDtos";
+import { CreateGameByEmailDto, CreatePrivateGameDto } from "../../../../shared/utils/types/gameDtos";
 import GameHubService from "../../../../shared/utils/services/GameHubService";
 import TimeSelection from "./time-selection/TimeSelection";
 import FriendList from "./friends-list/FriendList";
@@ -26,30 +23,28 @@ import RoundArrowSvg from "../../../../shared/svgs/RoundArrowSvg";
 import { mainColor } from "../../../../shared/utils/enums/colorMaps";
 import { GetByEmailDto } from "../../../../shared/utils/types/userDtos";
 import { CheckIfEmailExistsModel } from "../../../../shared/utils/types/userModels";
+import { usePopup } from "../../../../shared/utils/hooks/usePopUp";
+import { getErrMessage } from "../../../../shared/utils/functions/displayError";
 
 type VsFriendSearchProps = {
-  setChoosenTiming: React.Dispatch<
-    React.SetStateAction<SearchGameModel | null>
-  >;
+  // to set selected timing
+  // needed to proceed to game
+  setChoosenTiming: React.Dispatch<React.SetStateAction<SearchGameModel | null>>;
 };
 
 function VsFriendSearch({ setChoosenTiming }: VsFriendSearchProps) {
   ///
 
   const [selectedUsername, setSelectedUsername] = useState<string>("");
-  const [
-    selectedFriend,
-    setSelectedFriend,
-  ] = useState<GetAllFriendsByStatusDto | null>(null);
+  const [selectedFriend, setSelectedFriend] = useState<GetAllFriendsByStatusDto | null>(null);
 
   const [selectedEmail, setSelectedEmail] = useState<string>("");
   const [selectedUser, setSelectedUser] = useState<GetByEmailDto | null>(null);
 
-  const onInviteFriendToGame = async (
-    friendshipId: string,
-    header: string,
-    values: number[]
-  ) => {
+  const { showPopup } = usePopup();
+
+  // to inviate friend to game via selection from friend list
+  const onInviteFriendToGame = async (friendshipId: string, header: string, values: number[]) => {
     try {
       const typeValue = timingTypes[header.toLowerCase()];
 
@@ -84,16 +79,15 @@ function VsFriendSearch({ setChoosenTiming }: VsFriendSearchProps) {
       };
 
       GameHubService.NotifyUser(notifyModel);
+
+      showPopup("User invited", "success");
     } catch (err) {
-      console.log(err);
+      showPopup(getErrMessage(err), "warning");
     }
   };
 
-  const onInviteByEmail = async (
-    email: string,
-    header: string,
-    values: number[]
-  ) => {
+  // to invite friend to game by providing user emial
+  const onInviteByEmail = async (email: string, header: string, values: number[]) => {
     try {
       const typeValue = timingTypes[header.toLowerCase()];
 
@@ -128,23 +122,28 @@ function VsFriendSearch({ setChoosenTiming }: VsFriendSearchProps) {
       };
 
       GameHubService.NotifyUser(notifyModel);
+
+      showPopup("User invited", "success");
     } catch (err) {
-      console.log(err);
+      showPopup(getErrMessage(err), "warning");
     }
   };
 
+  // to filter users by names
   const onSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
     const target = event.target as HTMLInputElement;
     const username = target.value.toLocaleLowerCase();
     setSelectedUsername(username);
   };
 
+  // to set email address
   const setEmail = (event: React.ChangeEvent<HTMLInputElement>) => {
     const target = event.target as HTMLInputElement;
     const email = target.value.toLocaleLowerCase();
     setSelectedEmail(email);
   };
 
+  // to get user data by provide emial
   const getByEmail = async () => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(selectedEmail)) {
@@ -164,7 +163,7 @@ function VsFriendSearch({ setChoosenTiming }: VsFriendSearchProps) {
 
       setSelectedUser(userResponse.data);
     } catch (err) {
-      console.log(err);
+      showPopup(getErrMessage(err), "warning");
     }
   };
 
@@ -205,11 +204,7 @@ function VsFriendSearch({ setChoosenTiming }: VsFriendSearchProps) {
                 getByEmail();
               }}
             >
-              <RoundArrowSvg
-                color={mainColor.c9}
-                secColor={mainColor.c0}
-                iconClass={classes["arrow-svg"]}
-              />
+              <RoundArrowSvg color={mainColor.c9} secColor={mainColor.c0} iconClass={classes["arrow-svg"]} />
             </div>
           </div>
 
@@ -226,10 +221,7 @@ function VsFriendSearch({ setChoosenTiming }: VsFriendSearchProps) {
             onInviteByEmail={onInviteByEmail}
           />
         ) : (
-          <FriendList
-            selectedUsername={selectedUsername}
-            setSelectedFriend={setSelectedFriend}
-          />
+          <FriendList selectedUsername={selectedUsername} setSelectedFriend={setSelectedFriend} />
         )}
       </div>
     </div>

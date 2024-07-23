@@ -49,9 +49,7 @@ class FindMoves {
     this.gameState = gameState;
     this.selectionState = selectionState;
     this.checkedPiece = checkedPiece ? checkedPiece : this.selectionState.piece;
-    this.checkedCoor = checkedCoor
-      ? checkedCoor
-      : this.selectionState.coordinates;
+    this.checkedCoor = checkedCoor ? checkedCoor : this.selectionState.coordinates;
 
     if (this.checkedPiece === "" && this.checkedCoor.length === 0) return [];
     if (!this.gameState.playerData) return [];
@@ -64,16 +62,13 @@ class FindMoves {
 
     // check for pins
     const [isPinned, direction] = this.checkPin([xCoor, yCoor]);
-    const directionVector: number[][] | null = isPinned
-      ? this.directionMap[direction]
-      : null;
+    const directionVector: number[][] | null = isPinned ? this.directionMap[direction] : null;
 
     switch (this.checkedPiece) {
       case pieceTagMap.white.pawn:
       case pieceTagMap.black.pawn:
         // no horzontal moves for pinned pawns
-        if (direction !== this.directions.hor)
-          foundTips = this.checkPawnMove([xCoor, yCoor], directionVector);
+        if (direction !== this.directions.hor) foundTips = this.checkPawnMove([xCoor, yCoor], directionVector);
 
         break;
       case pieceTagMap.white.knight:
@@ -85,90 +80,51 @@ class FindMoves {
       case pieceTagMap.white.bishop:
       case pieceTagMap.black.bishop:
         // no streights moves for pinned bishops
-        if (
-          direction !== this.directions.ver &&
-          direction !== this.directions.hor
-        ) {
-          foundTips = this.checkPiecesMoves(
-            [xCoor, yCoor],
-            movementMap.bishopMoves,
-            directionVector
-          );
+        if (direction !== this.directions.ver && direction !== this.directions.hor) {
+          foundTips = this.checkPiecesMoves([xCoor, yCoor], movementMap.bishopMoves, directionVector);
         }
 
         break;
       case pieceTagMap.white.rook:
       case pieceTagMap.black.rook:
         // no diagonal moves for pinned rooks
-        if (
-          direction !== this.directions.tbd &&
-          direction !== this.directions.btd
-        ) {
-          foundTips = this.checkPiecesMoves(
-            [xCoor, yCoor],
-            movementMap.rookMoves,
-            directionVector
-          );
+        if (direction !== this.directions.tbd && direction !== this.directions.btd) {
+          foundTips = this.checkPiecesMoves([xCoor, yCoor], movementMap.rookMoves, directionVector);
         }
 
         break;
       case pieceTagMap.white.queen:
       case pieceTagMap.black.queen:
-        foundTips = this.checkPiecesMoves(
-          [xCoor, yCoor],
-          movementMap.queenMoves,
-          directionVector
-        );
+        foundTips = this.checkPiecesMoves([xCoor, yCoor], movementMap.queenMoves, directionVector);
 
         break;
       case pieceTagMap.white.king:
-        foundTips = this.checkKingMoves(
-          [xCoor, yCoor],
-          this.gameState.controlledAreas.black,
-          pieceTagMap.white.king
-        );
+        foundTips = this.checkKingMoves([xCoor, yCoor], this.gameState.controlledAreas.black, pieceTagMap.white.king);
         break;
       case pieceTagMap.black.king:
-        foundTips = this.checkKingMoves(
-          [xCoor, yCoor],
-          this.gameState.controlledAreas.white,
-          pieceTagMap.black.king
-        );
+        foundTips = this.checkKingMoves([xCoor, yCoor], this.gameState.controlledAreas.white, pieceTagMap.black.king);
         break;
       default:
         break;
     }
 
     // if check exist then limit pieces moves to stop check
-    if (
-      this.checkedPiece !== pieceTagMap.white.king &&
-      this.checkedPiece !== pieceTagMap.black.king
-    ) {
+    if (this.checkedPiece !== pieceTagMap.white.king && this.checkedPiece !== pieceTagMap.black.king) {
       // if check exist for white
-      if (
-        color === pieceColor.white &&
-        this.gameState.checkAreas.black.length > 0
-      ) {
+      if (color === pieceColor.white && this.gameState.checkAreas.black.length > 0) {
         // filter for those that eliminates check
 
         foundTips = foundTips.filter((tip) =>
-          this.gameState!.checkAreas.black.some((check) =>
-            areCoorEqual(check, tip)
-          )
+          this.gameState!.checkAreas.black.some((check) => areCoorEqual(check, tip))
         );
       }
 
       // if check exist for black
-      if (
-        color === pieceColor.black &&
-        this.gameState.checkAreas.white.length > 0
-      ) {
+      if (color === pieceColor.black && this.gameState.checkAreas.white.length > 0) {
         // filter for those that eliminates check
 
         foundTips = foundTips.filter((tip) =>
-          this.gameState!.checkAreas.white.some((check) =>
-            areCoorEqual(check, tip)
-          )
+          this.gameState!.checkAreas.white.some((check) => areCoorEqual(check, tip))
         );
       }
     }
@@ -180,8 +136,7 @@ class FindMoves {
 
   // isValid | isEmpty
   private isValidField = ([x, y]: [number, number]): boolean[] => {
-    if (!this.gameState || !this.checkedPiece || !this.gameState.playerData)
-      return [false, false];
+    if (!this.gameState || !this.checkedPiece || !this.gameState.playerData) return [false, false];
 
     let isValid: boolean = false;
     let isEmpty: boolean = false;
@@ -205,10 +160,7 @@ class FindMoves {
   };
 
   // check for all available pawn moves
-  private checkPawnMove = (
-    [xCoor, yCoor]: [number, number],
-    directions: number[][] | null
-  ): number[][] => {
+  private checkPawnMove = ([xCoor, yCoor]: [number, number], directions: number[][] | null): number[][] => {
     const availableMoves: number[][] = [];
 
     const pawnDirectionMap = {
@@ -216,9 +168,7 @@ class FindMoves {
       diagL: 1,
       diagR: -1,
     };
-    const dir: number | null = directions
-      ? directions[0][0] * directions[0][1]
-      : null;
+    const dir: number | null = directions ? directions[0][0] * directions[0][1] : null;
 
     const enPassantCoor: number[] | null = this.gameState?.gameData?.enPassant
       ? this.gameState.gameData.enPassant.split(",").map(Number)
@@ -245,14 +195,7 @@ class FindMoves {
         y = yCoor + 1;
 
         // check pawn capture
-        if (
-          this.isValidPawnCapture(
-            [x, y],
-            dir,
-            pawnDirectionMap.diagL,
-            enPassantCoor
-          )
-        ) {
+        if (this.isValidPawnCapture([x, y], dir, pawnDirectionMap.diagL, enPassantCoor)) {
           availableMoves.push([x, y]);
         }
 
@@ -260,14 +203,7 @@ class FindMoves {
         y = yCoor + 1;
 
         // check pawn capture
-        if (
-          this.isValidPawnCapture(
-            [x, y],
-            dir,
-            pawnDirectionMap.diagR,
-            enPassantCoor
-          )
-        ) {
+        if (this.isValidPawnCapture([x, y], dir, pawnDirectionMap.diagR, enPassantCoor)) {
           availableMoves.push([x, y]);
         }
 
@@ -301,14 +237,7 @@ class FindMoves {
         y = yCoor - 1;
 
         // check pawn capture
-        if (
-          this.isValidPawnCapture(
-            [x, y],
-            dir,
-            pawnDirectionMap.diagR,
-            enPassantCoor
-          )
-        ) {
+        if (this.isValidPawnCapture([x, y], dir, pawnDirectionMap.diagR, enPassantCoor)) {
           availableMoves.push([x, y]);
         }
 
@@ -316,14 +245,7 @@ class FindMoves {
         y = yCoor - 1;
 
         // check pawn capture
-        if (
-          this.isValidPawnCapture(
-            [x, y],
-            dir,
-            pawnDirectionMap.diagL,
-            enPassantCoor
-          )
-        ) {
+        if (this.isValidPawnCapture([x, y], dir, pawnDirectionMap.diagL, enPassantCoor)) {
           availableMoves.push([x, y]);
         }
 
@@ -344,11 +266,7 @@ class FindMoves {
     return availableMoves;
   };
 
-  private isValidPawnMove(
-    [x, y]: [number, number],
-    dir: number | null,
-    dirCheck: number
-  ): boolean {
+  private isValidPawnMove([x, y]: [number, number], dir: number | null, dirCheck: number): boolean {
     const [isValid, isEmpty] = this.isValidField([x, y]);
     return isValid && isEmpty && (dir === null || dir === dirCheck);
   }
@@ -362,8 +280,7 @@ class FindMoves {
     const [isValid, isEmpty] = this.isValidField([x, y]);
     return (
       isValid &&
-      (!isEmpty ||
-        (enPassantCoor !== null && areCoorEqual(enPassantCoor, [x, y]))) &&
+      (!isEmpty || (enPassantCoor !== null && areCoorEqual(enPassantCoor, [x, y]))) &&
       (dir === null || dir === dirCheck)
     );
   }
@@ -418,11 +335,7 @@ class FindMoves {
   };
 
   // check for all available king moves
-  private checkKingMoves = (
-    [xCoor, yCoor]: [number, number],
-    areas: number[][],
-    piece: string
-  ): number[][] => {
+  private checkKingMoves = ([xCoor, yCoor]: [number, number], areas: number[][], piece: string): number[][] => {
     const availableMoves: number[][] = [];
 
     // check for all moves
@@ -440,11 +353,7 @@ class FindMoves {
     }
 
     // check castlings and king not in check
-    if (
-      !areas.some((coord) => areCoorEqual([xCoor, yCoor], coord)) &&
-      this.gameState &&
-      this.gameState.gameData
-    ) {
+    if (!areas.some((coord) => areCoorEqual([xCoor, yCoor], coord)) && this.gameState && this.gameState.gameData) {
       // short castle possible and king not in check
       if (
         // short castling still enable for any of kings
@@ -509,10 +418,7 @@ class FindMoves {
     if (!this.gameState || !this.gameState.playerData) return [false, ""];
 
     // no pines for king
-    if (
-      this.checkedPiece === pieceTagMap.white.king ||
-      this.checkedPiece === pieceTagMap.black.king
-    ) {
+    if (this.checkedPiece === pieceTagMap.white.king || this.checkedPiece === pieceTagMap.black.king) {
       return [false, ""];
     }
 
@@ -543,35 +449,28 @@ class FindMoves {
     switch (this.gameState.playerData.color) {
       case pieceColor.white:
         // check if king is in line
-        const whiteKing = foundPieces.find(
-          (piece) => piece[0] === pieceTagMap.white.king
-        );
+        const whiteKing = foundPieces.find((piece) => piece[0] === pieceTagMap.white.king);
 
         if (whiteKing) {
           // find piece aligned with king
           const whiteKingDir = whiteKing[1];
           const pinningPiece = foundPieces.find(
-            (piece) =>
-              piece[1] === whiteKingDir && piece[0] !== pieceTagMap.white.king
+            (piece) => piece[1] === whiteKingDir && piece[0] !== pieceTagMap.white.king
           );
 
           if (pinningPiece) {
             // check for diagonal pins
             if (
-              (whiteKingDir === this.directions.btd ||
-                whiteKingDir === this.directions.tbd) &&
-              (pinningPiece[0] === pieceTagMap.black.bishop ||
-                pinningPiece[0] === pieceTagMap.black.queen)
+              (whiteKingDir === this.directions.btd || whiteKingDir === this.directions.tbd) &&
+              (pinningPiece[0] === pieceTagMap.black.bishop || pinningPiece[0] === pieceTagMap.black.queen)
             ) {
               direction = whiteKingDir;
               isPinning = true;
             }
             // check for file pins
             if (
-              (whiteKingDir === this.directions.hor ||
-                whiteKingDir === this.directions.ver) &&
-              (pinningPiece[0] === pieceTagMap.black.rook ||
-                pinningPiece[0] === pieceTagMap.black.queen)
+              (whiteKingDir === this.directions.hor || whiteKingDir === this.directions.ver) &&
+              (pinningPiece[0] === pieceTagMap.black.rook || pinningPiece[0] === pieceTagMap.black.queen)
             ) {
               direction = whiteKingDir;
               isPinning = true;
@@ -582,35 +481,28 @@ class FindMoves {
         break;
       case pieceColor.black:
         // check if king is in line
-        const blackKing = foundPieces.find(
-          (piece) => piece[0] === pieceTagMap.black.king
-        );
+        const blackKing = foundPieces.find((piece) => piece[0] === pieceTagMap.black.king);
 
         if (blackKing) {
           // find piece aligned with king
           const blackKingDir = blackKing[1];
           const pinningPiece = foundPieces.find(
-            (piece) =>
-              piece[1] === blackKingDir && piece[0] !== pieceTagMap.black.king
+            (piece) => piece[1] === blackKingDir && piece[0] !== pieceTagMap.black.king
           );
 
           if (pinningPiece) {
             // check for diagonal pins
             if (
-              (blackKingDir === this.directions.btd ||
-                blackKingDir === this.directions.tbd) &&
-              (pinningPiece[0] === pieceTagMap.white.bishop ||
-                pinningPiece[0] === pieceTagMap.white.queen)
+              (blackKingDir === this.directions.btd || blackKingDir === this.directions.tbd) &&
+              (pinningPiece[0] === pieceTagMap.white.bishop || pinningPiece[0] === pieceTagMap.white.queen)
             ) {
               direction = blackKingDir;
               isPinning = true;
             }
             // check for file pins
             if (
-              (blackKingDir === this.directions.hor ||
-                blackKingDir === this.directions.ver) &&
-              (pinningPiece[0] === pieceTagMap.white.rook ||
-                pinningPiece[0] === pieceTagMap.white.queen)
+              (blackKingDir === this.directions.hor || blackKingDir === this.directions.ver) &&
+              (pinningPiece[0] === pieceTagMap.white.rook || pinningPiece[0] === pieceTagMap.white.queen)
             ) {
               direction = blackKingDir;
               isPinning = true;

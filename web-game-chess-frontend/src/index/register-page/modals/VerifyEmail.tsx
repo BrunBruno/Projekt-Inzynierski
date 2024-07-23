@@ -3,19 +3,12 @@ import DetailPawnIconSvg from "../../../shared/svgs/DetailPawnIconSvg";
 import { mainColor } from "../../../shared/utils/enums/colorMaps";
 import classes from "./Sign.module.scss";
 import axios from "axios";
-import {
-  getAuthorization,
-  userControllerPaths,
-} from "../../../shared/utils/functions/apiFunctions";
+import { getAuthorization, userControllerPaths } from "../../../shared/utils/functions/apiFunctions";
 import { useNavigate } from "react-router-dom";
 import { errorDisplay } from "../../../shared/utils/functions/displayError";
 import LoadingPage from "../../../shared/components/loading-page/LoadingPage";
 import { LogInUserDto } from "../../../shared/utils/types/userDtos";
-import {
-  LogInUserModel,
-  RegenerateCodeModel,
-  VerifyEmailModel,
-} from "../../../shared/utils/types/userModels";
+import { LogInUserModel, RegenerateCodeModel, VerifyEmailModel } from "../../../shared/utils/types/userModels";
 import PasteIconSvg from "../../../shared/svgs/PasteIconSvg";
 import { registrationInterface } from "../../../shared/utils/enums/interfacesEnums";
 
@@ -35,9 +28,7 @@ function VerifyEmail({ setModal }: VerifyEmailProps) {
 
   // verify user email
   // login user after sucessful veryfication
-  const verifyUser = async (
-    event: React.FormEvent<HTMLFormElement>
-  ): Promise<void> => {
+  const verifyUser = async (event: React.FormEvent<HTMLFormElement>): Promise<void> => {
     event.preventDefault();
 
     // check if user signed in
@@ -62,21 +53,12 @@ function VerifyEmail({ setModal }: VerifyEmailProps) {
       setProcessing(true);
 
       // verify user email
-      await axios.put(
-        userControllerPaths.verifyEmail(),
-        verificationCode,
-        getAuthorization()
-      );
+      await axios.put(userControllerPaths.verifyEmail(), verificationCode, getAuthorization());
 
-      const tempUser: LogInUserModel = JSON.parse(
-        localStorage.getItem("logUserTemp")!
-      );
+      const tempUser: LogInUserModel = JSON.parse(localStorage.getItem("logUserTemp")!);
 
       //sign in user after sucessful veryfication
-      const logInResponse = await axios.post<LogInUserDto>(
-        userControllerPaths.logIn(),
-        tempUser
-      );
+      const logInResponse = await axios.post<LogInUserDto>(userControllerPaths.logIn(), tempUser);
 
       // remove user temp
       localStorage.removeItem("logUserTemp");
@@ -109,11 +91,7 @@ function VerifyEmail({ setModal }: VerifyEmailProps) {
       const regenerateCode: RegenerateCodeModel = {};
 
       // generate new code and delete previous
-      await axios.post(
-        userControllerPaths.regenerateCode(),
-        regenerateCode,
-        getAuthorization()
-      );
+      await axios.post(userControllerPaths.regenerateCode(), regenerateCode, getAuthorization());
     } catch (err) {
       // display backend erros
       errorDisplay(err, setErrorMess);
@@ -123,9 +101,7 @@ function VerifyEmail({ setModal }: VerifyEmailProps) {
   };
 
   // handle code input on change
-  const handleCodeInputChange = (
-    event: React.ChangeEvent<HTMLInputElement>
-  ): void => {
+  const handleCodeInputChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
     const inputValue = event.target.value;
     if (/^\d{0,6}$/.test(inputValue)) {
       setCodeValue(inputValue);
@@ -139,7 +115,9 @@ function VerifyEmail({ setModal }: VerifyEmailProps) {
       if (/^\d{0,6}$/.test(code)) {
         setCodeValue(code);
       }
-    } catch (err) {}
+    } catch (err) {
+      console.error(err);
+    }
   };
 
   if (processing) {
@@ -147,18 +125,14 @@ function VerifyEmail({ setModal }: VerifyEmailProps) {
   }
 
   return (
-    <form
-      className={classes["registration-form"]}
-      onSubmit={(event) => verifyUser(event)}
-    >
+    <form className={classes["registration-form"]} onSubmit={(event) => verifyUser(event)}>
       {/* bg */}
       <DetailPawnIconSvg color={mainColor.c0} iconClass={classes["bg-svg"]} />
 
       {/* header */}
       <h2>Verify Email</h2>
       <p className={classes["verify-text"]}>
-        We sent you verification code to your email. Please enter the code to
-        verify your accout.
+        We sent you verification code to your email. Please enter the code to verify your accout.
       </p>
 
       {/* input */}
@@ -183,10 +157,7 @@ function VerifyEmail({ setModal }: VerifyEmailProps) {
               onPasteCode();
             }}
           >
-            <PasteIconSvg
-              color={mainColor.c5}
-              iconClass={classes["paste-svg"]}
-            />
+            <PasteIconSvg color={mainColor.c5} iconClass={classes["paste-svg"]} />
           </p>
         </div>
         <p

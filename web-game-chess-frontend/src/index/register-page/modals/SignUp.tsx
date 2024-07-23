@@ -1,30 +1,17 @@
 import { useEffect, useRef, useState } from "react";
 import DetailPawnIconSvg from "../../../shared/svgs/DetailPawnIconSvg";
-import {
-  mainColor,
-  strengthColor,
-} from "../../../shared/utils/enums/colorMaps";
+import { mainColor, strengthColor } from "../../../shared/utils/enums/colorMaps";
 import classes from "./Sign.module.scss";
 import axios from "axios";
-import {
-  ValidationResult,
-  checkFromConfiguration,
-} from "../../../shared/utils/functions/checkFromConfiguration";
+import { ValidationResult, checkFromConfiguration } from "../../../shared/utils/functions/checkFromConfiguration";
 import SignArrowSvg from "./SignArrow";
 import LoadingPage from "../../../shared/components/loading-page/LoadingPage";
-import { errorDisplay } from "../../../shared/utils/functions/displayError";
+import { errorDisplay, getErrMessage } from "../../../shared/utils/functions/displayError";
 import { userControllerPaths } from "../../../shared/utils/functions/apiFunctions";
-import {
-  ConfigurationDto,
-  LogInUserDto,
-} from "../../../shared/utils/types/userDtos";
+import { ConfigurationDto, LogInUserDto } from "../../../shared/utils/types/userDtos";
 import { dataConfigurations } from "../../../shared/utils/enums/entitiesEnums";
 import { registrationInterface } from "../../../shared/utils/enums/interfacesEnums";
-import {
-  GetRegisterConfModel,
-  LogInUserModel,
-  RegisterUserModel,
-} from "../../../shared/utils/types/userModels";
+import { GetRegisterConfModel, LogInUserModel, RegisterUserModel } from "../../../shared/utils/types/userModels";
 import { usePopup } from "../../../shared/utils/hooks/usePopUp";
 import { getCountry } from "../../../shared/utils/functions/externApi";
 
@@ -49,13 +36,9 @@ function SignUp({ setModal }: SignUpProps) {
   // error message content
   const [errorMess, setErrorMess] = useState<string>("");
   // user name configuration
-  const [userNameConf, setUserNameConf] = useState<ConfigurationDto | null>(
-    null
-  );
+  const [userNameConf, setUserNameConf] = useState<ConfigurationDto | null>(null);
   // password configuration
-  const [userPassConf, setUserPassConf] = useState<ConfigurationDto | null>(
-    null
-  );
+  const [userPassConf, setUserPassConf] = useState<ConfigurationDto | null>(null);
   // state if something is processing
   const [processing, setProcessing] = useState<boolean>(true);
 
@@ -87,7 +70,7 @@ function SignUp({ setModal }: SignUpProps) {
 
         setProcessing(false);
       } catch (err) {
-        console.log(err);
+        showPopup(getErrMessage(err), "warning");
       }
     };
 
@@ -95,9 +78,7 @@ function SignUp({ setModal }: SignUpProps) {
   }, []);
 
   // creates user account
-  const signUpUser = async (
-    event: React.FormEvent<HTMLFormElement>
-  ): Promise<void> => {
+  const signUpUser = async (event: React.FormEvent<HTMLFormElement>): Promise<void> => {
     event.preventDefault();
 
     if (
@@ -133,11 +114,7 @@ function SignUp({ setModal }: SignUpProps) {
     }
 
     // check username with configuration
-    const checkUserName: ValidationResult = checkFromConfiguration(
-      "UserName",
-      userData.username,
-      userNameConf
-    );
+    const checkUserName: ValidationResult = checkFromConfiguration("UserName", userData.username, userNameConf);
 
     // verify username
     if (!checkUserName.isValid) {
@@ -154,11 +131,7 @@ function SignUp({ setModal }: SignUpProps) {
     }
 
     // check password with configuration
-    const checkUserPass: ValidationResult = checkFromConfiguration(
-      "Password",
-      userData.password,
-      userPassConf
-    );
+    const checkUserPass: ValidationResult = checkFromConfiguration("Password", userData.password, userPassConf);
 
     // verify password
     if (!checkUserPass.isValid) {
@@ -188,10 +161,7 @@ function SignUp({ setModal }: SignUpProps) {
       localStorage.setItem("logUserTemp", JSON.stringify(logUserData));
 
       // login user, get unverified token
-      const logInResponse = await axios.post<LogInUserDto>(
-        userControllerPaths.logIn(),
-        logUserData
-      );
+      const logInResponse = await axios.post<LogInUserDto>(userControllerPaths.logIn(), logUserData);
 
       // set unverified token
       localStorage.setItem("token", logInResponse.data.token);
@@ -252,20 +222,14 @@ function SignUp({ setModal }: SignUpProps) {
   }
 
   return (
-    <form
-      className={classes["registration-form"]}
-      onSubmit={(event) => signUpUser(event)}
-    >
+    <form className={classes["registration-form"]} onSubmit={(event) => signUpUser(event)}>
       {/* bg */}
       <DetailPawnIconSvg color={mainColor.c0} iconClass={classes["bg-svg"]} />
 
       {/* header */}
       <h2>Create Account</h2>
       <div className={classes["change-form"]}>
-        Already have an account?{" "}
-        <span onClick={() => setModal(registrationInterface.signIn)}>
-          Sing In
-        </span>
+        Already have an account? <span onClick={() => setModal(registrationInterface.signIn)}>Sing In</span>
       </div>
 
       {/* inputs */}

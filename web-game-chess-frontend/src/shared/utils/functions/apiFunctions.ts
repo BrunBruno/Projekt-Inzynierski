@@ -1,7 +1,4 @@
-import {
-  GetAllFriendsByStatusModel,
-  GetAllNonFriendsModel,
-} from "../types/friendshipModels";
+import { GetAllFriendsByStatusModel, GetAllNonFriendsModel } from "../types/friendshipModels";
 import {
   AbortSearchModel,
   CheckIfInGameModel,
@@ -10,10 +7,7 @@ import {
   GetFinishedGamesModel,
   GetTypeHistiryModel,
 } from "../types/gameModels";
-import {
-  CheckIfEmailExistsModel,
-  GetRegisterConfModel,
-} from "../types/userModels";
+import { CheckIfEmailExistsModel, GetOtherUserModel, GetRegisterConfModel } from "../types/userModels";
 
 // api paths and function
 const baseUrl: string = "http://localhost:5125/api";
@@ -31,6 +25,7 @@ interface UserControllerPaths {
   //GET
   getUser: () => string;
   getFullUser: () => string;
+  getOtherUser: (model: GetOtherUserModel) => string;
   getElo: () => string;
   isVerified: () => string;
   getByEmail: (model: CheckIfEmailExistsModel) => string;
@@ -54,15 +49,15 @@ export const userControllerPaths: UserControllerPaths = {
 
   getFullUser: (): string => `${userBaseUrl}/full`,
 
+  getOtherUser: (model): string => `${userBaseUrl}/other/?${stringifyModel(model)}`,
+
   getElo: (): string => `${userBaseUrl}/elo`,
 
   isVerified: (): string => `${userBaseUrl}/is-verified`,
 
-  getByEmail: (model: CheckIfEmailExistsModel): string =>
-    `${userBaseUrl}/by-email/?${stringifyModel(model)}`,
+  getByEmail: (model: CheckIfEmailExistsModel): string => `${userBaseUrl}/by-email/?${stringifyModel(model)}`,
 
-  getRegisterConf: (model: GetRegisterConfModel): string =>
-    `${userBaseUrl}/configuration/?${stringifyModel(model)}`,
+  getRegisterConf: (model: GetRegisterConfModel): string => `${userBaseUrl}/configuration/?${stringifyModel(model)}`,
 };
 
 const gameBaseUrl: string = baseUrl + "/game";
@@ -96,8 +91,7 @@ export const gameControllerPaths: GameControllerPaths = {
 
   createGameByEmail: (): string => `${gameBaseUrl}/by-email`,
 
-  checkIfInGame: (model: CheckIfInGameModel): string =>
-    `${gameBaseUrl}/check-if-in-game/?${stringifyModel(model)}`,
+  checkIfInGame: (model: CheckIfInGameModel): string => `${gameBaseUrl}/check-if-in-game/?${stringifyModel(model)}`,
 
   getGame: (gameId: string): string => `${gameBaseUrl}/${gameId}`,
 
@@ -109,20 +103,15 @@ export const gameControllerPaths: GameControllerPaths = {
 
   getGameTiming: (gameId: string): string => `${gameBaseUrl}/${gameId}/timing`,
 
-  getFinishedGames: (model: GetFinishedGamesModel): string =>
-    `${gameBaseUrl}/all-finished?${stringifyModel(model)}`,
+  getFinishedGames: (model: GetFinishedGamesModel): string => `${gameBaseUrl}/all-finished?${stringifyModel(model)}`,
 
-  getTypeHistory: (model: GetTypeHistiryModel): string =>
-    `${gameBaseUrl}/type-history?${stringifyModel(model)}`,
+  getTypeHistory: (model: GetTypeHistiryModel): string => `${gameBaseUrl}/type-history?${stringifyModel(model)}`,
 
-  getAllInvitations: (model: GetAllInvitationsModel): string =>
-    `${gameBaseUrl}/invitations?${stringifyModel(model)}`,
+  getAllInvitations: (model: GetAllInvitationsModel): string => `${gameBaseUrl}/invitations?${stringifyModel(model)}`,
 
-  abortSearch: (model: AbortSearchModel): string =>
-    `${gameBaseUrl}/abort?${stringifyModel(model)}`,
+  abortSearch: (model: AbortSearchModel): string => `${gameBaseUrl}/abort?${stringifyModel(model)}`,
 
-  declineInvitation: (model: DeclineInvitationModel): string =>
-    `${gameBaseUrl}/decline?${stringifyModel(model)}`,
+  declineInvitation: (model: DeclineInvitationModel): string => `${gameBaseUrl}/decline?${stringifyModel(model)}`,
 };
 
 const friendshipBaseUrl: string = baseUrl + "/friendship";
@@ -135,6 +124,7 @@ interface FriendshipControllerPaths {
   //GET
   getAllFriendsByStatus: (model: GetAllFriendsByStatusModel) => string;
   getAllNonFriends: (model: GetAllNonFriendsModel) => string;
+  getFriendProfile: (friendshipId: string) => string;
   //DELETE
   removeFriend: (friendshipId: string) => string;
 }
@@ -150,8 +140,9 @@ export const friendshipControllerPaths: FriendshipControllerPaths = {
   getAllNonFriends: (model: GetAllNonFriendsModel): string =>
     `${friendshipBaseUrl}/all-non-friends?${stringifyModel(model)}`,
 
-  removeFriend: (friendshipId: string): string =>
-    `${friendshipBaseUrl}/${friendshipId}`,
+  getFriendProfile: (friendshipId: string): string => `${friendshipBaseUrl}/${friendshipId}`,
+
+  removeFriend: (friendshipId: string): string => `${friendshipBaseUrl}/${friendshipId}`,
 };
 
 type Headers = {
@@ -180,9 +171,8 @@ export const getAuthorization = (): Headers => {
 // converts object to query string
 const stringifyModel = (model: Object): string => {
   const stringifiedModel = Object.entries(model).flatMap(([key, value]) => {
-    if (Array.isArray(value)) {
-      return value.map((element) => [key, String(element)]);
-    }
+    if (Array.isArray(value)) return value.map((element) => [key, String(element)]);
+
     return [[key, String(value)]];
   });
 

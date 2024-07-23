@@ -1,34 +1,28 @@
 import { useNavigate } from "react-router-dom";
 import AvatarSvg from "../../../../shared/svgs/AvatarSvg";
 import { pieceColor } from "../../../../shared/utils/enums/entitiesEnums";
-import {
-  EndGameDto,
-  GetGameDto,
-  SearchGameDto,
-} from "../../../../shared/utils/types/gameDtos";
+import { EndGameDto, GetEndedGameDto, GetGameDto, SearchGameDto } from "../../../../shared/utils/types/gameDtos";
 import classes from "./GameBoardWinner.module.scss";
 import { SearchGameModel } from "../../../../shared/utils/types/gameModels";
-import {
-  gameControllerPaths,
-  getAuthorization,
-} from "../../../../shared/utils/functions/apiFunctions";
+import { gameControllerPaths, getAuthorization } from "../../../../shared/utils/functions/apiFunctions";
 import axios from "axios";
 import GameHubService from "../../../../shared/utils/services/GameHubService";
+import { getErrMessage } from "../../../../shared/utils/functions/displayError";
+import { usePopup } from "../../../../shared/utils/hooks/usePopUp";
 
 type GameBoardWinnerProps = {
   gameData: GetGameDto;
-  winner: EndGameDto | null;
+  winner: EndGameDto | GetEndedGameDto | null;
   setSearchIds: React.Dispatch<React.SetStateAction<SearchGameDto | null>>;
   selectedTiming: SearchGameModel | null;
 };
 
-function GameBoardWinner({
-  winner,
-  gameData,
-  setSearchIds,
-  selectedTiming,
-}: GameBoardWinnerProps) {
+function GameBoardWinner({ winner, gameData, setSearchIds, selectedTiming }: GameBoardWinnerProps) {
+  ///
+
   const navigate = useNavigate();
+
+  const { showPopup } = usePopup();
 
   if (!winner) return;
 
@@ -48,7 +42,7 @@ function GameBoardWinner({
 
       GameHubService.PlayerJoined(searchGameResponse.data.timingId);
     } catch (err) {
-      console.log(err);
+      showPopup(getErrMessage(err), "warning");
     }
   };
 
@@ -59,16 +53,8 @@ function GameBoardWinner({
           className={`
             ${classes.title}
             ${winner.winnerColor === null ? classes["draw"] : ""}
-            ${
-              winner.winnerColor === pieceColor.white
-                ? classes["white-winner"]
-                : ""
-            }
-            ${
-              winner.winnerColor === pieceColor.black
-                ? classes["black-winner"]
-                : ""
-            }
+            ${winner.winnerColor === pieceColor.white ? classes["white-winner"] : ""}
+            ${winner.winnerColor === pieceColor.black ? classes["black-winner"] : ""}
           `}
         >
           {winner.winnerColor === null && <span>Draw</span>}

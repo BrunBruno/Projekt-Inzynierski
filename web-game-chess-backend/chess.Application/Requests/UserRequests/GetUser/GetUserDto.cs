@@ -30,4 +30,9 @@ public class GetUserDto {
     /// User avatar
     /// </summary>
     public string? ImageUrl { get; set; }
+
+    /// <summary>
+    /// Country
+    /// </summary>
+    public required string Country { get; set; }
 }

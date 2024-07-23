@@ -34,20 +34,8 @@ const icons: IconMap = {
         strokeLinecap="round"
         strokeLinejoin="round"
       />
-      <path
-        d="M9 10L15 10"
-        stroke={greyColor.c5}
-        strokeWidth="2"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-      <path
-        d="M9 14L15 14"
-        stroke={greyColor.c5}
-        strokeWidth="2"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
+      <path d="M9 10L15 10" stroke={greyColor.c5} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M9 14L15 14" stroke={greyColor.c5} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
     </svg>
   ),
 
@@ -62,20 +50,8 @@ const icons: IconMap = {
         strokeLinecap="round"
         strokeLinejoin="round"
       />
-      <path
-        d="M9 9L15 15"
-        stroke={dangerColor.mid}
-        strokeWidth="2"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-      <path
-        d="M9 15L15 9"
-        stroke={dangerColor.mid}
-        strokeWidth="2"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
+      <path d="M9 9L15 15" stroke={dangerColor.mid} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M9 15L15 9" stroke={dangerColor.mid} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
     </svg>
   ),
 };

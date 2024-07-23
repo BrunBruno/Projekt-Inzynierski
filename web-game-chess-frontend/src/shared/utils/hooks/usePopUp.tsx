@@ -22,9 +22,7 @@ type PopUpProviderProps = {
 
 export const PopupProvider = ({ children }: PopUpProviderProps) => {
   const [popupContent, setPopupContent] = useState<string>("");
-  const [popupType, setPopupType] = useState<
-    typeof popupIconTypes[number] | null
-  >(null);
+  const [popupType, setPopupType] = useState<typeof popupIconTypes[number] | null>(null);
 
   const showPopup = (content: string, type: typeof popupIconTypes[number]) => {
     hidePopup();
@@ -41,11 +39,7 @@ export const PopupProvider = ({ children }: PopUpProviderProps) => {
   };
 
   return (
-    <PopupContext.Provider
-      value={{ showPopup, hidePopup, popupContent, popupType }}
-    >
-      {children}
-    </PopupContext.Provider>
+    <PopupContext.Provider value={{ showPopup, hidePopup, popupContent, popupType }}>{children}</PopupContext.Provider>
   );
 };
 

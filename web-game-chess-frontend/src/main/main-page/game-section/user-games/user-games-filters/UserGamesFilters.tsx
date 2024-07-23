@@ -5,9 +5,13 @@ import classes from "./UserGamesFilters.module.scss";
 import { resultList, timingTypesList } from "./UserGamesFiltersObects";
 
 type UserGamesFiltersProps = {
+  // list to filter timing types
   timingTypeFilters: number[];
+  // set timing list
   setTimingTypeFilters: React.Dispatch<React.SetStateAction<number[]>>;
+  // list to filter result of the game
   resultFilters: (boolean | null)[];
+  // set result list
   setResultFilters: React.Dispatch<React.SetStateAction<(boolean | null)[]>>;
 };
 
@@ -17,6 +21,9 @@ function UserGamesFilters({
   resultFilters,
   setResultFilters,
 }: UserGamesFiltersProps) {
+  ///
+
+  // sets timing type filter list
   const activateTimingTypeFilter = (value: number) => {
     setTimingTypeFilters((prevTypes) => {
       const newTypes = [...prevTypes];
@@ -25,10 +32,12 @@ function UserGamesFilters({
       } else {
         newTypes.push(value);
       }
+
       return newTypes;
     });
   };
 
+  // sets game result filter list
   const activateResultFilter = (value: boolean | null) => {
     setResultFilters((prevTypes) => {
       const newTypes = [...prevTypes];
@@ -37,6 +46,7 @@ function UserGamesFilters({
       } else {
         newTypes.push(value);
       }
+
       return newTypes;
     });
   };
@@ -47,9 +57,7 @@ function UserGamesFilters({
         {timingTypesList.map((element, i) => (
           <p
             key={`type-${i}`}
-            className={
-              timingTypeFilters.includes(element.value) ? classes.active : ""
-            }
+            className={timingTypeFilters.includes(element.value) ? classes.active : ""}
             onClick={() => {
               activateTimingTypeFilter(element.value);
             }}
@@ -69,19 +77,13 @@ function UserGamesFilters({
         {resultList.map((element, i) => (
           <p
             key={`result-${i}`}
-            className={
-              resultFilters.includes(element.value) ? classes.active : ""
-            }
+            className={resultFilters.includes(element.value) ? classes.active : ""}
             onClick={() => {
               activateResultFilter(element.value);
             }}
           >
             {element.label}
-            <WinLoseIcons
-              iconName={element.label
-                .toLocaleLowerCase()
-                .substring(0, element.label.length - 1)}
-            />
+            <WinLoseIcons iconName={element.label.toLocaleLowerCase().substring(0, element.label.length - 1)} />
           </p>
         ))}
       </div>

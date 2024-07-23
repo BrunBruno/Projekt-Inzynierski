@@ -87,7 +87,6 @@
 
     .players {
       @include absCenter();
-      // @include flex($gap: 2rem);
 
       display: grid;
       grid-template-columns: repeat(3, 1fr);
@@ -108,6 +107,7 @@
           .player-img {
             @include wh100();
             border-radius: 100%;
+            object-fit: cover;
           }
         }
 

@@ -22,14 +22,8 @@ function LoadingPage({ text = "" }: LoadingPageProps) {
   return (
     <div ref={loadingRef} className={classes.loading}>
       <div className={classes.loading__container}>
-        <div
-          className={classes.loading__container__inner}
-          style={{ borderWidth: size + "px" }}
-        >
-          <div
-            className={classes.loading__container__inner__outer}
-            style={{ borderWidth: size + "px" }}
-          />
+        <div className={classes.loading__container__inner} style={{ borderWidth: size + "px" }}>
+          <div className={classes.loading__container__inner__outer} style={{ borderWidth: size + "px" }} />
         </div>
 
         <div className={classes.loading__container__text}>{text}</div>

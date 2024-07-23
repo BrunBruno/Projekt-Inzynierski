@@ -2,13 +2,12 @@ import { useEffect, useState } from "react";
 import GameBoardSearchingIcons from "./GameBoadrSearchingIcons";
 import classes from "./GameBoardSearching.module.scss";
 import GameHubService from "../../../../shared/utils/services/GameHubService";
-import {
-  gameControllerPaths,
-  getAuthorization,
-} from "../../../../shared/utils/functions/apiFunctions";
+import { gameControllerPaths, getAuthorization } from "../../../../shared/utils/functions/apiFunctions";
 import axios from "axios";
 import { AbortSearchModel } from "../../../../shared/utils/types/gameModels";
 import { SearchGameDto } from "../../../../shared/utils/types/gameDtos";
+import { usePopup } from "../../../../shared/utils/hooks/usePopUp";
+import { getErrMessage } from "../../../../shared/utils/functions/displayError";
 
 type GameBoardSearchingProps = {
   searchIds: SearchGameDto | null;
@@ -16,12 +15,13 @@ type GameBoardSearchingProps = {
 };
 
 const numOfPawns = 8;
-function GameBoardSearching({
-  searchIds,
-  setSearchIds,
-}: GameBoardSearchingProps) {
+function GameBoardSearching({ searchIds, setSearchIds }: GameBoardSearchingProps) {
+  ///
+
   const [activeIndex, setActiveIndex] = useState<number>(0);
   const [pause, setPause] = useState<boolean>(false);
+
+  const { showPopup } = usePopup();
 
   // searching animation
   useEffect(() => {
@@ -67,16 +67,13 @@ function GameBoardSearching({
         playerId: searchIds.playerId,
       };
 
-      await axios.delete(
-        gameControllerPaths.abortSearch(abortSearchModel),
-        getAuthorization()
-      );
+      await axios.delete(gameControllerPaths.abortSearch(abortSearchModel), getAuthorization());
 
       GameHubService.PlayerLeaved(searchIds.timingId);
 
       setSearchIds(null);
     } catch (err) {
-      console.log(err);
+      showPopup(getErrMessage(err), "warning");
     }
   };
 
@@ -88,11 +85,7 @@ function GameBoardSearching({
         </div>
         <div className={classes.searching__content__indicator}>
           {Array.from({ length: numOfPawns }).map((_, index) => (
-            <GameBoardSearchingIcons
-              key={index}
-              iconName="pawn"
-              active={index === activeIndex && !pause}
-            />
+            <GameBoardSearchingIcons key={index} iconName="pawn" active={index === activeIndex && !pause} />
           ))}
         </div>
         <button

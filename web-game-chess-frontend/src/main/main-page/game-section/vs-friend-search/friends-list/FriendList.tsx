@@ -7,38 +7,28 @@ import { mainColor } from "../../../../../shared/utils/enums/colorMaps";
 import LoadingPage from "../../../../../shared/components/loading-page/LoadingPage";
 import usePagination from "../../../../../shared/utils/hooks/usePagination";
 import { GetAllFriendsByStatusModel } from "../../../../../shared/utils/types/friendshipModels";
-import {
-  friendshipControllerPaths,
-  getAuthorization,
-} from "../../../../../shared/utils/functions/apiFunctions";
+import { friendshipControllerPaths, getAuthorization } from "../../../../../shared/utils/functions/apiFunctions";
 import { PagedResult } from "../../../../../shared/utils/types/commonTypes";
 import axios from "axios";
 import { friendshipStatus } from "../../../../../shared/utils/enums/entitiesEnums";
+import { usePopup } from "../../../../../shared/utils/hooks/usePopUp";
+import { getErrMessage } from "../../../../../shared/utils/functions/displayError";
 
 type FriendListProps = {
   // usernam provided in input to filter
   selectedUsername: string;
   // to select user on "invite" button click
-  setSelectedFriend: React.Dispatch<
-    React.SetStateAction<GetAllFriendsByStatusDto | null>
-  >;
+  setSelectedFriend: React.Dispatch<React.SetStateAction<GetAllFriendsByStatusDto | null>>;
 };
 
 function FriendList({ selectedUsername, setSelectedFriend }: FriendListProps) {
   ///
 
-  const [friends, setFriends] = useState<GetAllFriendsByStatusDto[] | null>(
-    null
-  );
+  const [friends, setFriends] = useState<GetAllFriendsByStatusDto[] | null>(null);
 
-  const {
-    scrollRef,
-    pageSize,
-    pageNumber,
-    totalItemsCount,
-    setTotalItemsCount,
-    setDefPageSize,
-  } = usePagination();
+  const { showPopup } = usePopup();
+
+  const { scrollRef, pageSize, pageNumber, totalItemsCount, setTotalItemsCount, setDefPageSize } = usePagination();
 
   useEffect(() => {
     setDefPageSize(10);
@@ -54,9 +44,7 @@ function FriendList({ selectedUsername, setSelectedFriend }: FriendListProps) {
         pageNumber: pageNumber,
       };
 
-      const friendsResponse = await axios.get<
-        PagedResult<GetAllFriendsByStatusDto>
-      >(
+      const friendsResponse = await axios.get<PagedResult<GetAllFriendsByStatusDto>>(
         friendshipControllerPaths.getAllFriendsByStatus(model),
         getAuthorization()
       );
@@ -64,7 +52,7 @@ function FriendList({ selectedUsername, setSelectedFriend }: FriendListProps) {
       setFriends(friendsResponse.data.items);
       setTotalItemsCount(friendsResponse.data.totalItemsCount);
     } catch (err) {
-      console.log(err);
+      showPopup(getErrMessage(err), "warning");
     }
   };
 
@@ -81,11 +69,7 @@ function FriendList({ selectedUsername, setSelectedFriend }: FriendListProps) {
           <div key={friend.freindshpId} className={classes.list__element}>
             <div className={classes.avatar}>
               {friend.imageUrl ? (
-                <img
-                  className={classes["user-avatar"]}
-                  src={friend.imageUrl}
-                  alt={`${friend.username}`}
-                />
+                <img className={classes["user-avatar"]} src={friend.imageUrl} alt={`${friend.username}`} />
               ) : (
                 <AvatarSvg iconClass={classes["user-avatar"]} />
               )}
@@ -94,50 +78,29 @@ function FriendList({ selectedUsername, setSelectedFriend }: FriendListProps) {
               <h3>{friend.username}</h3>
               <div className={classes.elo}>
                 <span>
-                  <TimingTypesIcons
-                    iconClass={classes.icon}
-                    iconName="bullet"
-                    color={mainColor.c0}
-                  />
+                  <TimingTypesIcons iconClass={classes.icon} iconName="bullet" color={mainColor.c0} />
                   {friend.elo.bullet}
                 </span>
                 <span>
-                  <TimingTypesIcons
-                    iconClass={classes.icon}
-                    iconName="blitz"
-                    color={mainColor.c0}
-                  />
+                  <TimingTypesIcons iconClass={classes.icon} iconName="blitz" color={mainColor.c0} />
                   {friend.elo.blitz}
                 </span>
                 <span>
-                  <TimingTypesIcons
-                    iconClass={classes.icon}
-                    iconName="rapid"
-                    color={mainColor.c0}
-                  />
+                  <TimingTypesIcons iconClass={classes.icon} iconName="rapid" color={mainColor.c0} />
                   {friend.elo.rapid}
                 </span>
                 <span>
-                  <TimingTypesIcons
-                    iconClass={classes.icon}
-                    iconName="classic"
-                    color={mainColor.c0}
-                  />
+                  <TimingTypesIcons iconClass={classes.icon} iconName="classic" color={mainColor.c0} />
                   {friend.elo.classic}
                 </span>
                 <span>
-                  <TimingTypesIcons
-                    iconClass={classes.icon}
-                    iconName="daily"
-                    color={mainColor.c0}
-                  />
+                  <TimingTypesIcons iconClass={classes.icon} iconName="daily" color={mainColor.c0} />
                   {friend.elo.daily}
                 </span>
               </div>
               <div className={classes["previous-games"]}>
                 <p>{friend.gamesPlayed} games played </p>
-                <span>{friend.wins}W</span> <span>{friend.draws}D</span>{" "}
-                <span>{friend.loses}L</span>
+                <span>{friend.wins}W</span> <span>{friend.draws}D</span> <span>{friend.loses}L</span>
               </div>
             </div>
             <div className={classes.invite}>
@@ -158,7 +121,7 @@ function FriendList({ selectedUsername, setSelectedFriend }: FriendListProps) {
               <AvatarSvg iconClass={classes["blank-avatar"]} />
               <div className={classes.texts}>
                 <p />
-                <p />{" "}
+                <p />
               </div>
             </div>
           ))}

@@ -6,22 +6,18 @@ import classes from "./TimeSelection.module.scss";
 import { defaultTimeControls, TimeControl } from "./TimeSelectionObjects";
 
 type TimeSelectionProps = {
+  // user data when friend selected manualy
   selectedFriend: GetAllFriendsByStatusDto | null;
+  // user data when friend selected by email
   selectedUser: GetByEmailDto | null;
-  setSelectedFriend: React.Dispatch<
-    React.SetStateAction<GetAllFriendsByStatusDto | null>
-  >;
+  // to unseclec friend
+  setSelectedFriend: React.Dispatch<React.SetStateAction<GetAllFriendsByStatusDto | null>>;
+  // to unseclec friend
   setSelectedUser: React.Dispatch<React.SetStateAction<GetByEmailDto | null>>;
-  onInviteFriendToGame: (
-    friendshipId: string,
-    header: string,
-    values: number[]
-  ) => Promise<void>;
-  onInviteByEmail: (
-    email: string,
-    header: string,
-    values: number[]
-  ) => Promise<void>;
+  // to invite to private game via click
+  onInviteFriendToGame: (friendshipId: string, header: string, values: number[]) => Promise<void>;
+  // to inviate to private game by email
+  onInviteByEmail: (email: string, header: string, values: number[]) => Promise<void>;
 };
 
 function TimeSelection({
@@ -32,21 +28,16 @@ function TimeSelection({
   onInviteFriendToGame,
   onInviteByEmail,
 }: TimeSelectionProps) {
+  ///
+
+  // to invite user base on selection
   const onInvite = (control: TimeControl, index: number) => {
     if (selectedFriend !== null) {
-      onInviteFriendToGame(
-        selectedFriend.freindshpId,
-        control.header,
-        control.values[index]
-      );
+      onInviteFriendToGame(selectedFriend.freindshpId, control.header, control.values[index]);
     }
 
     if (selectedUser !== null) {
-      onInviteByEmail(
-        selectedUser.email,
-        control.header,
-        control.values[index]
-      );
+      onInviteByEmail(selectedUser.email, control.header, control.values[index]);
     }
   };
 
@@ -55,6 +46,7 @@ function TimeSelection({
     setSelectedUser(null);
   };
 
+  // to display timing type tag
   const transformTag = (tag: string): JSX.Element => {
     const transformedTag: JSX.Element[] = [];
 
@@ -89,10 +81,7 @@ function TimeSelection({
       {defaultTimeControls.map((control, index) => (
         <div key={index} className={classes.time__row}>
           <div className={classes.time__row__header}>
-            <TimingTypesIcons
-              iconName={control.header.toLocaleLowerCase()}
-              iconClass={classes["header-icon"]}
-            />
+            <TimingTypesIcons iconName={control.header.toLocaleLowerCase()} iconClass={classes["header-icon"]} />
             {control.header}
           </div>
           {control.tags.map((tag, i) => (

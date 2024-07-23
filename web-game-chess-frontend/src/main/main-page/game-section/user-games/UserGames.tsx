@@ -1,10 +1,7 @@
 import axios from "axios";
 import classes from "./UserGame.module.scss";
 import { GetFinishedGamesDto } from "../../../../shared/utils/types/gameDtos";
-import {
-  gameControllerPaths,
-  getAuthorization,
-} from "../../../../shared/utils/functions/apiFunctions";
+import { gameControllerPaths, getAuthorization } from "../../../../shared/utils/functions/apiFunctions";
 import { GetFinishedGamesModel } from "../../../../shared/utils/types/gameModels";
 import { useEffect, useState } from "react";
 import LoadingPage from "../../../../shared/components/loading-page/LoadingPage";
@@ -12,6 +9,8 @@ import { PagedResult } from "../../../../shared/utils/types/commonTypes";
 import UserGamesFilters from "./user-games-filters/UserGamesFilters";
 import usePagination from "../../../../shared/utils/hooks/usePagination";
 import UserGamesCard from "./user-games-card/UserGamesCard";
+import { usePopup } from "../../../../shared/utils/hooks/usePopUp";
+import { getErrMessage } from "../../../../shared/utils/functions/displayError";
 
 type UserGamesProps = {};
 
@@ -26,13 +25,9 @@ function UserGames({}: UserGamesProps) {
 
   const [showFilters, setShowFilters] = useState<boolean>(false);
 
-  const {
-    scrollRef,
-    pageSize,
-    totalItemsCount,
-    setDefPageSize,
-    setTotalItemsCount,
-  } = usePagination();
+  const { showPopup } = usePopup();
+
+  const { scrollRef, pageSize, totalItemsCount, setDefPageSize, setTotalItemsCount } = usePagination();
 
   useEffect(() => {
     setDefPageSize(6);
@@ -64,7 +59,7 @@ function UserGames({}: UserGamesProps) {
 
       setItemsCount(count);
     } catch (err) {
-      console.log(err);
+      showPopup(getErrMessage(err), "warning");
     }
   };
 

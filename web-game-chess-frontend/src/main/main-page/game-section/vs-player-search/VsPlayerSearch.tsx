@@ -1,27 +1,25 @@
 import axios from "axios";
 import classes from "./VsPlayerSearch.module.scss";
-import {
-  gameControllerPaths,
-  getAuthorization,
-} from "../../../../shared/utils/functions/apiFunctions";
+import { gameControllerPaths, getAuthorization } from "../../../../shared/utils/functions/apiFunctions";
 import { defaultTimeControls } from "./VsPlayerSearchObjects";
 import { SearchGameDto } from "../../../../shared/utils/types/gameDtos";
 import GameHubService from "../../../../shared/utils/services/GameHubService";
 import { timingTypes } from "../../../../shared/utils/enums/entitiesEnums";
 import { SearchGameModel } from "../../../../shared/utils/types/gameModels";
 import TimingTypesIcons from "../../../../shared/svgs/TimingTypesIcons";
+import { usePopup } from "../../../../shared/utils/hooks/usePopUp";
+import { getErrMessage } from "../../../../shared/utils/functions/displayError";
 
 type VsPlayerSearchProps = {
   setSearchIds: React.Dispatch<React.SetStateAction<SearchGameDto | null>>;
-  setChoosenTiming: React.Dispatch<
-    React.SetStateAction<SearchGameModel | null>
-  >;
+  setChoosenTiming: React.Dispatch<React.SetStateAction<SearchGameModel | null>>;
 };
 
-function VsPlayerSearch({
-  setSearchIds,
-  setChoosenTiming,
-}: VsPlayerSearchProps) {
+function VsPlayerSearch({ setSearchIds, setChoosenTiming }: VsPlayerSearchProps) {
+  ///
+
+  const { showPopup } = usePopup();
+
   // API call search for game
   const onSearchForGame = async (header: string, values: number[]) => {
     const typeValue = timingTypes[header.toLocaleLowerCase()];
@@ -45,7 +43,7 @@ function VsPlayerSearch({
 
       GameHubService.PlayerJoined(searchGameResponse.data.timingId);
     } catch (err) {
-      console.log(err);
+      showPopup(getErrMessage(err), "warning");
     }
   };
 
@@ -88,10 +86,7 @@ function VsPlayerSearch({
         {defaultTimeControls.map((control, index) => (
           <div key={index} className={classes.search__grid__row}>
             <div className={classes.search__grid__row__header}>
-              <TimingTypesIcons
-                iconName={control.header.toLocaleLowerCase()}
-                iconClass={classes["header-icon"]}
-              />
+              <TimingTypesIcons iconName={control.header.toLocaleLowerCase()} iconClass={classes["header-icon"]} />
               {control.header}
             </div>
             {control.tags.map((tag, i) => (

@@ -6,16 +6,17 @@ import { friendshipStatus } from "../../../shared/utils/enums/entitiesEnums";
 import { delayAction } from "../../../shared/utils/functions/eventsRelated";
 
 type BarSectionProps = {
+  // to provide username to filters users
   setSelectedUsername: React.Dispatch<React.SetStateAction<string>>;
+  // type of selected list
   selectedList: number;
+  // to select list based on friendship status
   setSelectedList: React.Dispatch<React.SetStateAction<number>>;
 };
 
-function BarSection({
-  setSelectedUsername,
-  selectedList,
-  setSelectedList,
-}: BarSectionProps) {
+function BarSection({ setSelectedUsername, selectedList, setSelectedList }: BarSectionProps) {
+  ///
+
   const navigate = useNavigate();
 
   const onSearch = (event: React.ChangeEvent<HTMLInputElement>) => {

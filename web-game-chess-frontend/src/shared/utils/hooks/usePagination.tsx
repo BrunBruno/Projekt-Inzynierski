@@ -8,7 +8,7 @@ const usePagination = () => {
   const [pageSize, setPageSize] = useState<number>(0);
 
   const [defPageNumber, setDefPageNumber] = useState<number>(1);
-  const [defPageSize, setDefPageSize] = useState<number>(1);
+  const [defPageSize, setDefPageSize] = useState<number>(6);
   const [totalItemsCount, setTotalItemsCount] = useState<number>(0);
 
   useEffect(() => {
@@ -21,10 +21,7 @@ const usePagination = () => {
   const handleScroll = () => {
     const scrollingElement = scrollRef.current;
     if (scrollingElement) {
-      if (
-        scrollingElement.scrollHeight - 1.1 * scrollingElement.scrollTop <=
-        scrollingElement.clientHeight
-      ) {
+      if (scrollingElement.scrollHeight - 1.1 * scrollingElement.scrollTop <= scrollingElement.clientHeight) {
         if (pageSize < totalItemsCount) {
           setPageSize((prevPageSize) => prevPageSize + defPageSize);
         }

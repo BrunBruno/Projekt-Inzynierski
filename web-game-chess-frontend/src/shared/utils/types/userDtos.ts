@@ -21,6 +21,7 @@ export type GetUserDto = {
   userName: string;
   fullName: string | null;
   imageUrl: string | null;
+  country: string;
 };
 
 export type IsEmailVerifiedDto = {
@@ -52,4 +53,14 @@ export type GetFullUserDto = {
 export type GetByEmailDto = {
   email: string;
   userName: string;
+};
+
+export type GetOtherUserDto = {
+  username: string;
+  name: string | null;
+  joinDate: Date;
+  imageUrl: string | null;
+  country: string;
+  bio: string | null;
+  gamesPlayed: number;
 };

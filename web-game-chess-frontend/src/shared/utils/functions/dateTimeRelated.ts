@@ -8,8 +8,7 @@ export const makeTimeFromMinutes = (minutes: number): string => {
   const secs = Math.round(totalSeconds % 60);
 
   const formattedDays = days > 0 ? `${days}d:` : "";
-  const formattedHours =
-    hours === 0 && days === 0 ? "" : `${String(hours).padStart(2, "0")}:`;
+  const formattedHours = hours === 0 && days === 0 ? "" : `${String(hours).padStart(2, "0")}:`;
   const formattedMinutes = `${String(mins).padStart(2, "0")}:`;
   const formattedSeconds = `${String(secs).padStart(2, "0")}`;
 
@@ -23,11 +22,5 @@ export const formatDate = (date: Date): string => {
     return value.length === 1 ? "0" + value : value;
   };
 
-  return (
-    add0(date.getDate().toString()) +
-    "." +
-    add0((date.getMonth() + 1).toString()) +
-    "." +
-    date.getFullYear()
-  );
+  return add0(date.getDate().toString()) + "." + add0((date.getMonth() + 1).toString()) + "." + date.getFullYear();
 };

@@ -12,12 +12,7 @@ function LogoIconSvg({ iconClass }: LogoIconSvgProps) {
   }
 
   return (
-    <svg
-      viewBox="0 0 1000 1000"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-      className={iconClass}
-    >
+    <svg viewBox="0 0 1000 1000" fill="none" xmlns="http://www.w3.org/2000/svg" className={iconClass}>
       <path
         d="M0 50C0 22.3858 22.3858 0 50 0H450C477.614 0 500 22.3858 500 50V450C500 477.614 477.614 500 450 500H50C22.3858 500 0 477.614 0 450V50Z"
         fill={`url(#${defsIds.id0})`}
@@ -26,20 +21,8 @@ function LogoIconSvg({ iconClass }: LogoIconSvgProps) {
         d="M500 550C500 522.386 522.386 500 550 500H950C977.614 500 1000 522.386 1000 550V950C1000 977.614 977.614 1000 950 1000H550C522.386 1000 500 977.614 500 950V550Z"
         fill={`url(#${defsIds.id1})`}
       />
-      <rect
-        x="500"
-        width="500"
-        height="500"
-        rx="50"
-        fill={`url(#${defsIds.id2})`}
-      />
-      <rect
-        y="500"
-        width="500"
-        height="500"
-        rx="50"
-        fill={`url(#${defsIds.id3})`}
-      />
+      <rect x="500" width="500" height="500" rx="50" fill={`url(#${defsIds.id2})`} />
+      <rect y="500" width="500" height="500" rx="50" fill={`url(#${defsIds.id3})`} />
       <path
         d="M367.76 58L369.76 58.5C378.093 63.5 385.26 69.1666 391.26 75.5C397.593 81.5 403.26 88 408.26 95C413.593 101.667 417.76 109 420.76 117C433.426 147.667 422.426 182 387.76 220C373.093 236 356.593 249.667 338.26 261C342.926 264.333 347.26 266.833 351.26 268.5C355.593 269.833 361.593 272.667 369.26 277C376.926 281 381.926 288.833 384.26 300.5C386.593 311.833 385.926 324.667 382.26 339C378.926 353.333 372.593 368.167 363.26 383.5C354.26 398.5 342.426 412 327.76 424C294.426 451.667 255.76 463.333 211.76 459C205.426 459 201.426 458.5 199.76 457.5C198.093 456.5 196.76 455.667 195.76 455C194.76 454.333 192.593 453.833 189.26 453.5C180.926 460.167 171.426 464.333 160.76 466C150.093 467.667 139.926 466.833 130.26 463.5C120.926 460.167 112.926 454.5 106.26 446.5C99.9264 438.5 96.7598 428 96.7598 415C97.7598 406.333 99.4264 399.5 101.76 394.5C100.76 391.5 100.26 387.833 100.26 383.5C111.593 323.167 122.26 277 132.26 245C152.593 181.333 174.593 133.333 198.26 101C217.593 73.6666 244.426 56 278.76 48C311.76 40.3333 341.426 43.6666 367.76 58ZM212.26 407C216.26 406 219.593 405.833 222.26 406.5C225.26 406.833 228.76 406.667 232.76 406C242.426 405 255.426 399 271.76 388C282.093 377.667 287.593 367.5 288.26 357.5C288.926 347.5 287.426 341.167 283.76 338.5C280.093 335.5 275.093 334 268.76 334C262.76 334 255.926 335 248.26 337C240.926 338.667 233.76 339.667 226.76 340V341C225.093 347.667 223.426 353.5 221.76 358.5C220.093 363.5 218.593 368.333 217.26 373C214.26 384 211.926 395.333 210.26 407H212.26ZM305.26 147C295.26 145.667 284.426 153.5 272.76 170.5C265.426 181.167 259.76 197.333 255.76 219C262.76 216 269.593 213.5 276.26 211.5C283.26 209.167 289.76 206.667 295.76 204C310.426 197.667 320.926 190 327.26 181C334.593 172.333 336.926 165 334.26 159C330.26 153.667 323.76 148.833 314.76 144.5C312.093 146.833 308.926 147.667 305.26 147ZM297.76 145H299.26H297.76Z"
         fill={`url(#${defsIds.id4})`}
@@ -53,81 +36,32 @@ function LogoIconSvg({ iconClass }: LogoIconSvgProps) {
         fill={`url(#${defsIds.id6})`}
       />
       <defs>
-        <linearGradient
-          id={defsIds.id0}
-          x1="250"
-          y1="0"
-          x2="250"
-          y2="500"
-          gradientUnits="userSpaceOnUse"
-        >
+        <linearGradient id={defsIds.id0} x1="250" y1="0" x2="250" y2="500" gradientUnits="userSpaceOnUse">
           <stop stopColor="#E5DBFF" />
           <stop offset="1" stopColor="#898399" />
         </linearGradient>
-        <linearGradient
-          id={defsIds.id1}
-          x1="750"
-          y1="500"
-          x2="750"
-          y2="1000"
-          gradientUnits="userSpaceOnUse"
-        >
+        <linearGradient id={defsIds.id1} x1="750" y1="500" x2="750" y2="1000" gradientUnits="userSpaceOnUse">
           <stop stopColor="#E5DBFF" />
           <stop offset="1" stopColor="#898399" />
         </linearGradient>
-        <linearGradient
-          id={defsIds.id2}
-          x1="750"
-          y1="0"
-          x2="750"
-          y2="500"
-          gradientUnits="userSpaceOnUse"
-        >
+        <linearGradient id={defsIds.id2} x1="750" y1="0" x2="750" y2="500" gradientUnits="userSpaceOnUse">
           <stop stopColor="#6741D9" />
           <stop offset="1" stopColor="#372273" />
         </linearGradient>
-        <linearGradient
-          id={defsIds.id3}
-          x1="250"
-          y1="500"
-          x2="250"
-          y2="1000"
-          gradientUnits="userSpaceOnUse"
-        >
+        <linearGradient id={defsIds.id3} x1="250" y1="500" x2="250" y2="1000" gradientUnits="userSpaceOnUse">
           <stop stopColor="#6741D9" />
           <stop offset="1" stopColor="#372273" />
         </linearGradient>
-        <linearGradient
-          id={defsIds.id4}
-          x1="250"
-          y1="-150"
-          x2="250"
-          y2="350"
-          gradientUnits="userSpaceOnUse"
-        >
+        <linearGradient id={defsIds.id4} x1="250" y1="-150" x2="250" y2="350" gradientUnits="userSpaceOnUse">
           <stop offset="0.50235" stopColor="#5F3DC4" />
           <stop offset="1" stopColor="#2E1D5E" />
           <stop offset="1" stopColor="#2E1D5E" />
         </linearGradient>
-        <linearGradient
-          id={defsIds.id5}
-          x1="750"
-          y1="-150"
-          x2="750"
-          y2="350"
-          gradientUnits="userSpaceOnUse"
-        >
+        <linearGradient id={defsIds.id5} x1="750" y1="-150" x2="750" y2="350" gradientUnits="userSpaceOnUse">
           <stop offset="0.497751" stopColor="#E5DBFF" />
           <stop offset="1" stopColor="#898399" />
         </linearGradient>
-        <linearGradient
-          id={defsIds.id6}
-          x1="250"
-          y1="350"
-          x2="250"
-          y2="850"
-          gradientUnits="userSpaceOnUse"
-        >
+        <linearGradient id={defsIds.id6} x1="250" y1="350" x2="250" y2="850" gradientUnits="userSpaceOnUse">
           <stop offset="0.504902" stopColor="#E5DBFF" />
           <stop offset="1" stopColor="#898399" />
         </linearGradient>

@@ -2,23 +2,20 @@ import AvatarSvg from "../../../../../shared/svgs/AvatarSvg";
 import TimingTypesIcons from "../../../../../shared/svgs/TimingTypesIcons";
 import WinLoseIcons from "../../../../../shared/svgs/WinLoseIcons";
 import WinTypesIcons from "../../../../../shared/svgs/WinTypesIcons";
-import {
-  endGameTypes,
-  timingTypes,
-} from "../../../../../shared/utils/enums/entitiesEnums";
+import { endGameTypes, timingTypes } from "../../../../../shared/utils/enums/entitiesEnums";
 import { pieceImageMap } from "../../../../../shared/utils/enums/piecesMaps";
 import { getEnumTypeByNumber } from "../../../../../shared/utils/functions/enumRelated";
-import {
-  GetFinishedGamesDto,
-  GetFinishedGamesPlayerDto,
-} from "../../../../../shared/utils/types/gameDtos";
+import { GetFinishedGamesDto, GetFinishedGamesPlayerDto } from "../../../../../shared/utils/types/gameDtos";
 import classes from "./UserGamesCard.module.scss";
 
 type UserGamesCardProps = {
+  // finished game data
   game: GetFinishedGamesDto;
 };
 
 function UserGamesCard({ game }: UserGamesCardProps) {
+  ///
+
   // display players based on user player color
   const displayPlayer = (game: GetFinishedGamesDto): JSX.Element => {
     const userInfo = localStorage.getItem("userInfo");
@@ -27,17 +24,9 @@ function UserGamesCard({ game }: UserGamesCardProps) {
 
     const userInfoObject = JSON.parse(userInfo);
 
-    const renderPlayer = (
-      player: GetFinishedGamesPlayerDto,
-      isWhite: boolean,
-      eloGained: number
-    ) => (
+    const renderPlayer = (player: GetFinishedGamesPlayerDto, isWhite: boolean, eloGained: number) => (
       <div className={classes.player}>
-        <div
-          className={
-            isWhite ? classes["white-player-img"] : classes["black-player-img"]
-          }
-        >
+        <div className={isWhite ? classes["white-player-img"] : classes["black-player-img"]}>
           {player.imageUrl !== null ? (
             <img
               className={classes["player-img"]}
@@ -59,20 +48,10 @@ function UserGamesCard({ game }: UserGamesCardProps) {
 
     if (userInfoObject.userName === game.whitePlayer.name) {
       const betterOpp =
-        game.whitePlayer.elo === game.blackPlayer.elo
-          ? null
-          : game.whitePlayer.elo < game.blackPlayer.elo;
+        game.whitePlayer.elo === game.blackPlayer.elo ? null : game.whitePlayer.elo < game.blackPlayer.elo;
 
       const sign =
-        game.isWinner === null
-          ? betterOpp === null
-            ? ""
-            : betterOpp
-            ? "+"
-            : "-"
-          : game.isWinner
-          ? "+"
-          : "-";
+        game.isWinner === null ? (betterOpp === null ? "" : betterOpp ? "+" : "-") : game.isWinner ? "+" : "-";
 
       const eloGained = parseInt(sign + game.eloGained);
 
@@ -83,9 +62,7 @@ function UserGamesCard({ game }: UserGamesCardProps) {
             <span>vs</span>
 
             <span>
-              <span className={sign === "+" ? classes.p : classes.m}>
-                {sign}
-              </span>
+              <span className={sign === "+" ? classes.p : classes.m}>{sign}</span>
               {game.eloGained}
             </span>
           </div>
@@ -96,20 +73,10 @@ function UserGamesCard({ game }: UserGamesCardProps) {
 
     if (userInfoObject.userName === game.blackPlayer.name) {
       const betterOpp =
-        game.whitePlayer.elo === game.blackPlayer.elo
-          ? null
-          : game.blackPlayer.elo < game.whitePlayer.elo;
+        game.whitePlayer.elo === game.blackPlayer.elo ? null : game.blackPlayer.elo < game.whitePlayer.elo;
 
       const sign =
-        game.isWinner === null
-          ? betterOpp === null
-            ? ""
-            : betterOpp
-            ? "+"
-            : "-"
-          : game.isWinner
-          ? "+"
-          : "-";
+        game.isWinner === null ? (betterOpp === null ? "" : betterOpp ? "+" : "-") : game.isWinner ? "+" : "-";
 
       const eloGained = parseInt(sign + game.eloGained);
 
@@ -120,9 +87,7 @@ function UserGamesCard({ game }: UserGamesCardProps) {
             <span>vs</span>
 
             <span>
-              <span className={sign === "+" ? classes.p : classes.m}>
-                {sign}
-              </span>
+              <span className={sign === "+" ? classes.p : classes.m}>{sign}</span>
               {game.eloGained}
             </span>
           </div>
@@ -133,8 +98,6 @@ function UserGamesCard({ game }: UserGamesCardProps) {
 
     return <></>;
   };
-
-  console.log(game);
 
   // create board from game position
   const mapFromPosition = (position: string): JSX.Element[] => {
@@ -151,14 +114,7 @@ function UserGamesCard({ game }: UserGamesCardProps) {
 
       if (!isNaN(parseInt(char))) {
         for (let j = 0; j < parseInt(char); j++) {
-          fields.push(
-            <div
-              key={ind}
-              className={`${
-                ind % 2 === 0 ? classes["light-f"] : classes["dark-f"]
-              }`}
-            ></div>
-          );
+          fields.push(<div key={ind} className={`${ind % 2 === 0 ? classes["light-f"] : classes["dark-f"]}`}></div>);
 
           ind++;
         }
@@ -166,9 +122,7 @@ function UserGamesCard({ game }: UserGamesCardProps) {
         fields.push(
           <div
             key={ind}
-            className={`${
-              ind % 2 === 0 ? classes["light-f"] : classes["dark-f"]
-            }`}
+            className={`${ind % 2 === 0 ? classes["light-f"] : classes["dark-f"]}`}
             style={{ backgroundImage: `url("/pieces/${pieceImageMap[char]}")` }}
           ></div>
         );
@@ -184,17 +138,12 @@ function UserGamesCard({ game }: UserGamesCardProps) {
       <div className={`${classes["mini-grid"]}`}>
         {mapFromPosition(game.position)}
         {displayPlayer(game)}
-        <div className={classes.date}>
-          {new Date(game.createdAt).toLocaleDateString()}
-        </div>
+        <div className={classes.date}>{new Date(game.createdAt).toLocaleDateString()}</div>
       </div>
 
       <div className={classes["game-data"]}>
         <div className={classes["timing-type"]}>
-          <TimingTypesIcons
-            iconName={getEnumTypeByNumber(timingTypes, game.timingType)}
-            iconClass=""
-          />
+          <TimingTypesIcons iconName={getEnumTypeByNumber(timingTypes, game.timingType)} iconClass="" />
         </div>
         <div className={classes["is-winner"]}>
           {game.isWinner === null ? (
@@ -208,9 +157,7 @@ function UserGamesCard({ game }: UserGamesCardProps) {
 
         <div className={classes.moves}>{game.moves}</div>
         <div className={classes["win-type"]}>
-          <WinTypesIcons
-            iconName={getEnumTypeByNumber(endGameTypes, game.endGameType)}
-          />
+          <WinTypesIcons iconName={getEnumTypeByNumber(endGameTypes, game.endGameType)} />
         </div>
       </div>
     </div>

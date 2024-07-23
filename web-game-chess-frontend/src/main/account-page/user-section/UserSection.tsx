@@ -1,21 +1,17 @@
 import { useEffect, useState } from "react";
 import classes from "./UserSection.module.scss";
-import {
-  GetEloDto,
-  GetFullUserDto,
-} from "../../../shared/utils/types/userDtos";
+import { GetEloDto, GetFullUserDto } from "../../../shared/utils/types/userDtos";
 import LoadingPage from "../../../shared/components/loading-page/LoadingPage";
 import AvatarSvg from "../../../shared/svgs/AvatarSvg";
 import axios from "axios";
-import {
-  getAuthorization,
-  userControllerPaths,
-} from "../../../shared/utils/functions/apiFunctions";
+import { getAuthorization, userControllerPaths } from "../../../shared/utils/functions/apiFunctions";
 import TimingTypesIcons from "../../../shared/svgs/TimingTypesIcons";
 import { timingTypes } from "../../../shared/utils/enums/entitiesEnums";
 import UserSectionIocns from "./UserSectionIcons";
 import { UpdateProfileModel } from "../../../shared/utils/types/userModels";
 import StatsRow from "./stats-row/StatsRow";
+import { usePopup } from "../../../shared/utils/hooks/usePopUp";
+import { getErrMessage } from "../../../shared/utils/functions/displayError";
 
 type UserSectionProps = {
   getTypeHistory: (type: number) => void;
@@ -23,18 +19,19 @@ type UserSectionProps = {
 };
 
 function UserSection({ getTypeHistory, setFriendSection }: UserSectionProps) {
+  ///
+
   const [user, setUser] = useState<GetFullUserDto | null>(null);
   const [elo, setElo] = useState<GetEloDto | null>(null);
 
   const [name, setName] = useState<string>("");
   const [bio, setBio] = useState<string>("");
 
+  const { showPopup } = usePopup();
+
   const getUser = async () => {
     try {
-      const userResponse = await axios.get<GetFullUserDto>(
-        userControllerPaths.getFullUser(),
-        getAuthorization()
-      );
+      const userResponse = await axios.get<GetFullUserDto>(userControllerPaths.getFullUser(), getAuthorization());
 
       setUser(userResponse.data);
 
@@ -45,20 +42,17 @@ function UserSection({ getTypeHistory, setFriendSection }: UserSectionProps) {
         setBio(userResponse.data.bio);
       }
     } catch (err) {
-      console.log(err);
+      showPopup(getErrMessage(err), "warning");
     }
   };
 
   const getElo = async () => {
     try {
-      const eloResponse = await axios.get<GetEloDto>(
-        userControllerPaths.getElo(),
-        getAuthorization()
-      );
+      const eloResponse = await axios.get<GetEloDto>(userControllerPaths.getElo(), getAuthorization());
 
       setElo(eloResponse.data);
     } catch (err) {
-      console.log(err);
+      showPopup(getErrMessage(err), "warning");
     }
   };
 
@@ -79,15 +73,11 @@ function UserSection({ getTypeHistory, setFriendSection }: UserSectionProps) {
     };
 
     try {
-      await axios.put(
-        userControllerPaths.updateProfile(),
-        profileModel,
-        getAuthorization()
-      );
+      await axios.put(userControllerPaths.updateProfile(), profileModel, getAuthorization());
 
       fetchData();
     } catch (err) {
-      console.log(err);
+      showPopup(getErrMessage(err), "warning");
     }
   };
 
@@ -188,10 +178,7 @@ function UserSection({ getTypeHistory, setFriendSection }: UserSectionProps) {
               getTypeHistory(timingTypes.bullet);
             }}
           >
-            <TimingTypesIcons
-              iconName="bullet"
-              iconClass={classes["elo-icon"]}
-            />
+            <TimingTypesIcons iconName="bullet" iconClass={classes["elo-icon"]} />
             <span>{elo.bullet}</span>
           </div>
           <div
@@ -200,10 +187,7 @@ function UserSection({ getTypeHistory, setFriendSection }: UserSectionProps) {
               getTypeHistory(timingTypes.blitz);
             }}
           >
-            <TimingTypesIcons
-              iconName="blitz"
-              iconClass={classes["elo-icon"]}
-            />
+            <TimingTypesIcons iconName="blitz" iconClass={classes["elo-icon"]} />
             <span>{elo.blitz}</span>
           </div>
           <div
@@ -212,10 +196,7 @@ function UserSection({ getTypeHistory, setFriendSection }: UserSectionProps) {
               getTypeHistory(timingTypes.rapid);
             }}
           >
-            <TimingTypesIcons
-              iconName="rapid"
-              iconClass={classes["elo-icon"]}
-            />
+            <TimingTypesIcons iconName="rapid" iconClass={classes["elo-icon"]} />
             <span>{elo.rapid}</span>
           </div>
           <div
@@ -224,10 +205,7 @@ function UserSection({ getTypeHistory, setFriendSection }: UserSectionProps) {
               getTypeHistory(timingTypes.classic);
             }}
           >
-            <TimingTypesIcons
-              iconName="classic"
-              iconClass={classes["elo-icon"]}
-            />
+            <TimingTypesIcons iconName="classic" iconClass={classes["elo-icon"]} />
             <span>{elo.classic}</span>
           </div>
           <div
@@ -236,10 +214,7 @@ function UserSection({ getTypeHistory, setFriendSection }: UserSectionProps) {
               getTypeHistory(timingTypes.daily);
             }}
           >
-            <TimingTypesIcons
-              iconName="daily"
-              iconClass={classes["elo-icon"]}
-            />
+            <TimingTypesIcons iconName="daily" iconClass={classes["elo-icon"]} />
             <span>{elo.daily}</span>
           </div>
         </div>

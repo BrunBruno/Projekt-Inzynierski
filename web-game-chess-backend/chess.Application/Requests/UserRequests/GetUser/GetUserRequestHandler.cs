@@ -33,6 +33,7 @@ public class GetUserRequestHandler : IRequestHandler<GetUserRequest, GetUserDto>
             UserName = user.Username,
             FullName = user.Name,
             ImageUrl = user.ImageUrl,
+            Country = user.Country,
         };
 
         return userDto;

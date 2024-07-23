@@ -32,3 +32,7 @@ export type UpdateProfileModel = {
 export type CheckIfEmailExistsModel = {
   email: string | null;
 };
+
+export type GetOtherUserModel = {
+  userId: string;
+};

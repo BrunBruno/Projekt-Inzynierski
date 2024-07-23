@@ -2,14 +2,13 @@ import axios from "axios";
 import classes from "./Invitations.module.scss";
 import { PagedResult } from "../../../../shared/utils/types/commonTypes";
 import { GetAllInvitationsDto } from "../../../../shared/utils/types/gameDtos";
-import {
-  gameControllerPaths,
-  getAuthorization,
-} from "../../../../shared/utils/functions/apiFunctions";
+import { gameControllerPaths, getAuthorization } from "../../../../shared/utils/functions/apiFunctions";
 import { GetAllInvitationsModel } from "../../../../shared/utils/types/gameModels";
 import { useEffect, useRef, useState } from "react";
 import InvitationCard from "./invitation-card/InvitationCard";
 import LoadingPage from "../../../../shared/components/loading-page/LoadingPage";
+import { getErrMessage } from "../../../../shared/utils/functions/displayError";
+import { usePopup } from "../../../../shared/utils/hooks/usePopUp";
 
 const defaultSize = 10;
 
@@ -20,10 +19,10 @@ function Invitations({}: InvitationsProps) {
 
   const listRef = useRef<HTMLDivElement>(null);
 
-  const [invitations, setInvitations] = useState<PagedResult<
-    GetAllInvitationsDto
-  > | null>(null);
+  const [invitations, setInvitations] = useState<PagedResult<GetAllInvitationsDto> | null>(null);
   const [pageSize, setPageSize] = useState<number>(defaultSize);
+
+  const { showPopup } = usePopup();
 
   const getInvitations = async () => {
     try {
@@ -32,16 +31,14 @@ function Invitations({}: InvitationsProps) {
         pageSize: pageSize,
       };
 
-      const invitationsResponse = await axios.get<
-        PagedResult<GetAllInvitationsDto>
-      >(
+      const invitationsResponse = await axios.get<PagedResult<GetAllInvitationsDto>>(
         gameControllerPaths.getAllInvitations(invitationsModel),
         getAuthorization()
       );
 
       setInvitations(invitationsResponse.data);
     } catch (err) {
-      console.log(err);
+      showPopup(getErrMessage(err), "warning");
     }
   };
 
@@ -57,10 +54,7 @@ function Invitations({}: InvitationsProps) {
   const handleListOnScroll = () => {
     const listElement = listRef.current;
     if (listElement && invitations) {
-      if (
-        listElement.scrollHeight - 1.1 * listElement.scrollTop <=
-        listElement.clientHeight
-      ) {
+      if (listElement.scrollHeight - 1.1 * listElement.scrollTop <= listElement.clientHeight) {
         if (pageSize < invitations.totalItemsCount) {
           setPageSize((prevPageSize) => prevPageSize + defaultSize);
         }
@@ -84,11 +78,7 @@ function Invitations({}: InvitationsProps) {
         }}
       >
         {invitations.items.map((invitation, i) => (
-          <InvitationCard
-            key={i}
-            invitation={invitation}
-            updateInvitations={updateInvitations}
-          />
+          <InvitationCard key={i} invitation={invitation} updateInvitations={updateInvitations} />
         ))}
       </div>
     </div>

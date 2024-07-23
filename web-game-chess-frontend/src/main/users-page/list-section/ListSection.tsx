@@ -1,18 +1,13 @@
 import axios from "axios";
-import {
-  GetAllFriendsByStatusModel,
-  GetAllNonFriendsModel,
-} from "../../../shared/utils/types/friendshipModels";
+import { GetAllFriendsByStatusModel, GetAllNonFriendsModel } from "../../../shared/utils/types/friendshipModels";
 import classes from "./ListSection.module.scss";
 import { PagedResult } from "../../../shared/utils/types/commonTypes";
 import {
   GetAllFriendsByStatusDto,
   GetAllNonFriendsDto,
+  GetFriendProfileDto,
 } from "../../../shared/utils/types/friendshipDtos";
-import {
-  friendshipControllerPaths,
-  getAuthorization,
-} from "../../../shared/utils/functions/apiFunctions";
+import { friendshipControllerPaths, getAuthorization } from "../../../shared/utils/functions/apiFunctions";
 import { useEffect, useRef, useState } from "react";
 import { friendshipStatus } from "../../../shared/utils/enums/entitiesEnums";
 import UserCards from "./cards/UserCards";
@@ -20,15 +15,21 @@ import FriendCard from "./cards/FriendCard";
 import usePagination from "../../../shared/utils/hooks/usePagination";
 import { usePopup } from "../../../shared/utils/hooks/usePopUp";
 import LoadingPage from "../../../shared/components/loading-page/LoadingPage";
+import { GetOtherUserDto } from "../../../shared/utils/types/userDtos";
+import { getErrMessage } from "../../../shared/utils/functions/displayError";
 
 type ListSectionProps = {
   // provided username to match
   selectedUsername: string;
   // type of user/freind list to get
   selectedList: number;
+  // set non friend data for profile
+  setUserProfile: React.Dispatch<React.SetStateAction<GetOtherUserDto | null>>;
+  // set  friend data for profile
+  setFriendProfile: React.Dispatch<React.SetStateAction<GetFriendProfileDto | null>>;
 };
 
-function ListSection({ selectedUsername, selectedList }: ListSectionProps) {
+function ListSection({ selectedUsername, selectedList, setUserProfile, setFriendProfile }: ListSectionProps) {
   ///
 
   const listRef = useRef<HTMLDivElement>(null);
@@ -37,14 +38,7 @@ function ListSection({ selectedUsername, selectedList }: ListSectionProps) {
   const [users, setUsers] = useState<GetAllNonFriendsDto[]>([]);
   const [friends, setFriends] = useState<GetAllFriendsByStatusDto[]>([]);
 
-  const {
-    scrollRef,
-    pageNumber,
-    pageSize,
-    totalItemsCount,
-    setDefPageSize,
-    setTotalItemsCount,
-  } = usePagination();
+  const { scrollRef, pageNumber, pageSize, totalItemsCount, setDefPageSize, setTotalItemsCount } = usePagination();
 
   const { showPopup } = usePopup();
 
@@ -59,9 +53,7 @@ function ListSection({ selectedUsername, selectedList }: ListSectionProps) {
           pageSize: pageSize,
         };
 
-        const friendsResponse = await axios.get<
-          PagedResult<GetAllNonFriendsDto>
-        >(
+        const friendsResponse = await axios.get<PagedResult<GetAllNonFriendsDto>>(
           friendshipControllerPaths.getAllNonFriends(model),
           getAuthorization()
         );
@@ -79,9 +71,7 @@ function ListSection({ selectedUsername, selectedList }: ListSectionProps) {
           status: selectedList,
         };
 
-        const friendsResponse = await axios.get<
-          PagedResult<GetAllFriendsByStatusDto>
-        >(
+        const friendsResponse = await axios.get<PagedResult<GetAllFriendsByStatusDto>>(
           friendshipControllerPaths.getAllFriendsByStatus(model),
           getAuthorization()
         );
@@ -91,8 +81,7 @@ function ListSection({ selectedUsername, selectedList }: ListSectionProps) {
         setTotalItemsCount(friendsResponse.data.totalItemsCount);
       }
     } catch (err) {
-      console.log(err);
-      showPopup("Connection error", "error");
+      showPopup(getErrMessage(err), "warning");
     }
   };
 
@@ -139,6 +128,17 @@ function ListSection({ selectedUsername, selectedList }: ListSectionProps) {
     };
   }, [users, friends, listRef]);
 
+  // setter for profile data
+  const setNonFriend = (user: GetOtherUserDto) => {
+    setFriendProfile(null);
+    setUserProfile(user);
+  };
+  const setFriend = (friend: GetFriendProfileDto) => {
+    setUserProfile(null);
+    setFriendProfile(friend);
+  };
+
+  // to display loading on scroll
   const handleLoading = (event: React.WheelEvent<HTMLDivElement>) => {
     const loadingElement = loadingRef.current;
     const scrollingElement = scrollRef.current;
@@ -146,8 +146,7 @@ function ListSection({ selectedUsername, selectedList }: ListSectionProps) {
     if (loadingElement && scrollingElement) {
       const isScrollingDown = event.deltaY > 0;
       const isAtBottom =
-        scrollingElement.scrollHeight - 1.01 * scrollingElement.scrollTop <=
-        scrollingElement.clientHeight;
+        scrollingElement.scrollHeight - 1.01 * scrollingElement.scrollTop <= scrollingElement.clientHeight;
 
       if (isScrollingDown && isAtBottom) {
         loadingElement.classList.add(classes.active);
@@ -177,7 +176,12 @@ function ListSection({ selectedUsername, selectedList }: ListSectionProps) {
           }}
         >
           {users.map((user, i) => (
-            <UserCards key={i} user={user} getAllUsers={getAllUsers} />
+            <UserCards
+              key={`user-card-${user.username}-${i}`}
+              user={user}
+              getAllUsers={getAllUsers}
+              setNonFriend={setNonFriend}
+            />
           ))}
         </div>
       ) : friends.length > 0 ? (
@@ -190,10 +194,11 @@ function ListSection({ selectedUsername, selectedList }: ListSectionProps) {
         >
           {friends.map((friend, i) => (
             <FriendCard
-              key={i}
+              key={`friend-card-${friend.username}-${i}`}
               selectedList={selectedList}
               friend={friend}
               getAllUsers={getAllUsers}
+              setFriend={setFriend}
             />
           ))}
         </div>

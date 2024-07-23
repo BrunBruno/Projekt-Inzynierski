@@ -25,11 +25,7 @@ const icons: TimingTypeMap = {
   ),
 
   blitz: (iconClass: string, color: string): JSX.Element => (
-    <svg
-      viewBox="0 0 24 24"
-      xmlns="http://www.w3.org/2000/svg"
-      className={iconClass}
-    >
+    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" className={iconClass}>
       <polygon
         points="8.29 1.71 18.5 1.71 13.86 9.14 17.57 9.14 7.36 20.29 9.21 12.86 5.5 12.86 8.29 1.71"
         fill="none"
@@ -40,12 +36,7 @@ const icons: TimingTypeMap = {
   ),
 
   rapid: (iconClass: string, color: string): JSX.Element => (
-    <svg
-      viewBox="0 0 24 24"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-      className={iconClass}
-    >
+    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className={iconClass}>
       <path
         d="M4.51555 7C3.55827 8.4301 3 10.1499 3 12C3 16.9706 7.02944 21 12 21C16.9706 21 21 16.9706 21 12C21 7.02944 16.9706 3 12 3V6M12 12L8 8"
         stroke={color}
@@ -57,12 +48,7 @@ const icons: TimingTypeMap = {
   ),
 
   classic: (iconClass: string, color: string): JSX.Element => (
-    <svg
-      viewBox="0 0 24 24"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-      className={iconClass}
-    >
+    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className={iconClass}>
       <path
         d="M12 7V12H15M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z"
         stroke={color}
@@ -74,66 +60,21 @@ const icons: TimingTypeMap = {
   ),
 
   daily: (iconClass: string, color: string): JSX.Element => (
-    <svg
-      viewBox="0 0 24 24"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-      className={iconClass}
-    >
+    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className={iconClass}>
       <path
         d="M7.28451 10.3333C7.10026 10.8546 7 11.4156 7 12C7 14.7614 9.23858 17 12 17C14.7614 17 17 14.7614 17 12C17 9.23858 14.7614 7 12 7C11.4156 7 10.8546 7.10026 10.3333 7.28451"
         stroke={color}
         strokeWidth="1.5"
         strokeLinecap="round"
       />
-      <path
-        d="M12 2V4"
-        stroke={color}
-        strokeWidth="1.5"
-        strokeLinecap="round"
-      />
-      <path
-        d="M12 20V22"
-        stroke={color}
-        strokeWidth="1.5"
-        strokeLinecap="round"
-      />
-      <path
-        d="M4 12L2 12"
-        stroke={color}
-        strokeWidth="1.5"
-        strokeLinecap="round"
-      />
-      <path
-        d="M22 12L20 12"
-        stroke={color}
-        strokeWidth="1.5"
-        strokeLinecap="round"
-      />
-      <path
-        d="M19.7778 4.22266L17.5558 6.25424"
-        stroke={color}
-        strokeWidth="1.5"
-        strokeLinecap="round"
-      />
-      <path
-        d="M4.22217 4.22266L6.44418 6.25424"
-        stroke={color}
-        strokeWidth="1.5"
-        strokeLinecap="round"
-      />
-      <path
-        d="M6.44434 17.5557L4.22211 19.7779"
-        stroke={color}
-        strokeWidth="1.5"
-        strokeLinecap="round"
-      />
-      <path
-        d="M19.7778 19.7773L17.5558 17.5551"
-        stroke={color}
-        strokeWidth="1.5"
-        strokeLinecap="round"
-      />
+      <path d="M12 2V4" stroke={color} strokeWidth="1.5" strokeLinecap="round" />
+      <path d="M12 20V22" stroke={color} strokeWidth="1.5" strokeLinecap="round" />
+      <path d="M4 12L2 12" stroke={color} strokeWidth="1.5" strokeLinecap="round" />
+      <path d="M22 12L20 12" stroke={color} strokeWidth="1.5" strokeLinecap="round" />
+      <path d="M19.7778 4.22266L17.5558 6.25424" stroke={color} strokeWidth="1.5" strokeLinecap="round" />
+      <path d="M4.22217 4.22266L6.44418 6.25424" stroke={color} strokeWidth="1.5" strokeLinecap="round" />
+      <path d="M6.44434 17.5557L4.22211 19.7779" stroke={color} strokeWidth="1.5" strokeLinecap="round" />
+      <path d="M19.7778 19.7773L17.5558 17.5551" stroke={color} strokeWidth="1.5" strokeLinecap="round" />
     </svg>
   ),
 };
@@ -144,11 +85,7 @@ type TimingTypesIconsProps = {
   color?: string;
 };
 
-function TimingTypesIcons({
-  iconName,
-  iconClass,
-  color = mainColor.c5,
-}: TimingTypesIconsProps) {
+function TimingTypesIcons({ iconName, iconClass, color = mainColor.c5 }: TimingTypesIconsProps) {
   if (iconName === "") return null;
 
   try {
