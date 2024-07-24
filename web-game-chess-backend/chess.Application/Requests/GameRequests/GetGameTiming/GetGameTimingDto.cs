@@ -1,10 +1,12 @@
 ﻿
+using chess.Application.Requests.Abstraction;
 using chess.Core.Enums;
 
 namespace chess.Application.Requests.GameRequests.GetGameTiming;
 
-public class GetGameTimingDto {
-    public TimingTypes Type { get; set; }
-    public int Minutes { get; set; }
-    public int Increment { get; set; }
+/// <summary>
+/// Dto of timing type
+/// </summary>
+public class GetGameTimingDto : TimingType {
+
 }

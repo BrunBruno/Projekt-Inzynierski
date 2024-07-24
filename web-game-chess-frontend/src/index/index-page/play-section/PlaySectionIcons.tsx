@@ -1,17 +1,9 @@
-import {
-  IconMap,
-  IconsMapProps,
-} from "../../../shared/utils/types/commonTypes";
+import { IconMap, IconsMapProps } from "../../../shared/utils/types/commonTypes";
 import classes from "./PlaySection.module.scss";
 
 const icons: IconMap = {
   online: (
-    <svg
-      className={classes["vs-player-icon"]}
-      viewBox="0 0 24 24"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-    >
+    <svg className={classes["vs-player-icon"]} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
       <path
         fillRule="evenodd"
         clipRule="evenodd"
@@ -21,12 +13,7 @@ const icons: IconMap = {
   ),
 
   offline: (
-    <svg
-      className={classes["vs-computer-icon"]}
-      viewBox="0 0 24 24"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-    >
+    <svg className={classes["vs-computer-icon"]} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
       <path
         fillRule="evenodd"
         clipRule="evenodd"
@@ -37,9 +24,16 @@ const icons: IconMap = {
 };
 
 function PlaySectionIcons({ iconName }: IconsMapProps) {
-  const icon = icons[iconName];
+  if (iconName === "") return <>i</>;
 
-  return icon ? icon : <></>;
+  try {
+    const icon = icons[iconName];
+    return icon ? icon : <>i</>;
+  } catch (err) {
+    console.error("Icon error");
+  }
+
+  return <>i</>;
 }
 
 export default PlaySectionIcons;

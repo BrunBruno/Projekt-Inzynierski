@@ -1,16 +1,14 @@
 import { mainColor } from "../utils/enums/colorMaps";
+import { IconParamMap } from "../utils/types/commonTypes";
 
-type PiecesMapType = {
-  [key: string]: (color: string) => JSX.Element;
-};
-
-const icons: PiecesMapType = {
-  p: (color: string) => (
-    <svg fill={color} viewBox="-96 0 512 512" xmlns="http://www.w3.org/2000/svg">
+const icons: IconParamMap = {
+  p: (iconClass: string, color: string) => (
+    <svg fill={color} viewBox="-96 0 512 512" xmlns="http://www.w3.org/2000/svg" className={iconClass}>
       <path d="M105.1 224H80a16 16 0 0 0-16 16v32a16 16 0 0 0 16 16h16v5.49c0 44-4.14 86.6-24 122.51h176c-19.89-35.91-24-78.51-24-122.51V288h16a16 16 0 0 0 16-16v-32a16 16 0 0 0-16-16h-25.1c29.39-18.38 49.1-50.78 49.1-88a104 104 0 0 0-208 0c0 37.22 19.71 69.62 49.1 88zM304 448H16a16 16 0 0 0-16 16v32a16 16 0 0 0 16 16h288a16 16 0 0 0 16-16v-32a16 16 0 0 0-16-16z" />
     </svg>
   ),
-  n: (color: string) => (
+
+  n: (iconClass: string, color: string) => (
     <svg
       fill={color}
       version="1.1"
@@ -18,6 +16,7 @@ const icons: PiecesMapType = {
       xmlnsXlink="http://www.w3.org/1999/xlink"
       viewBox="0 0 32 32"
       xmlSpace="preserve"
+      className={iconClass}
     >
       <g>
         <path d="M7.2,16l1.1-0.2c1.6-0.3,3.3-0.5,5-0.7c-2.4,2.3-3.9,5.3-4.7,7.9h14.7c0.4-1.5,1.1-3,2.3-4.1l0.2-0.2 c0.2-0.2,0.3-0.4,0.3-0.6C26.6,13,24.2,8,19.8,5.3c-0.8-1.4-2-2.4-3.6-2.9l-0.9-0.3C15,2,14.7,2,14.4,2.2C14.2,2.4,14,2.7,14,3v2.4 l-1.4,0.7C12.2,6.3,12,6.6,12,7v0.5l-4.7,3.1C6.5,11.1,6,12.1,6,13.1V15c0,0.3,0.1,0.6,0.4,0.8C6.6,16,6.9,16,7.2,16z" />
@@ -25,17 +24,20 @@ const icons: PiecesMapType = {
       </g>
     </svg>
   ),
-  b: (color: string) => (
-    <svg fill={color} viewBox="-96 0 512 512" xmlns="http://www.w3.org/2000/svg">
+
+  b: (iconClass: string, color: string) => (
+    <svg fill={color} viewBox="-96 0 512 512" xmlns="http://www.w3.org/2000/svg" className={iconClass}>
       <path d="M8 287.88c0 51.64 22.14 73.83 56 84.6V416h192v-43.52c33.86-10.77 56-33 56-84.6 0-30.61-10.73-67.1-26.69-102.56L185 285.65a8 8 0 0 1-11.31 0l-11.31-11.31a8 8 0 0 1 0-11.31L270.27 155.1c-20.8-37.91-46.47-72.1-70.87-92.59C213.4 59.09 224 47.05 224 32a32 32 0 0 0-32-32h-64a32 32 0 0 0-32 32c0 15 10.6 27.09 24.6 30.51C67.81 106.8 8 214.5 8 287.88zM304 448H16a16 16 0 0 0-16 16v32a16 16 0 0 0 16 16h288a16 16 0 0 0 16-16v-32a16 16 0 0 0-16-16z" />
     </svg>
   ),
-  r: (color: string) => (
-    <svg fill={color} viewBox="-64 0 512 512" xmlns="http://www.w3.org/2000/svg">
+
+  r: (iconClass: string, color: string) => (
+    <svg fill={color} viewBox="-64 0 512 512" xmlns="http://www.w3.org/2000/svg" className={iconClass}>
       <path d="M368 32h-56a16 16 0 0 0-16 16v48h-48V48a16 16 0 0 0-16-16h-80a16 16 0 0 0-16 16v48H88.1V48a16 16 0 0 0-16-16H16A16 16 0 0 0 0 48v176l64 32c0 48.33-1.54 95-13.21 160h282.42C321.54 351 320 303.72 320 256l64-32V48a16 16 0 0 0-16-16zM224 320h-64v-64a32 32 0 0 1 64 0zm144 128H16a16 16 0 0 0-16 16v32a16 16 0 0 0 16 16h352a16 16 0 0 0 16-16v-32a16 16 0 0 0-16-16z" />
     </svg>
   ),
-  q: (color: string) => (
+
+  q: (iconClass: string, color: string) => (
     <svg
       fill={color}
       version="1.1"
@@ -43,6 +45,7 @@ const icons: PiecesMapType = {
       xmlnsXlink="http://www.w3.org/1999/xlink"
       viewBox="0 0 277.366 277.366"
       xmlSpace="preserve"
+      className={iconClass}
     >
       <g>
         <path d="M257.799,55.704c-7.706-3.866-17.016-2.36-23.111,3.734l-39.2,39.201l-38.526-86.757C153.753,4.657,146.589,0,138.683,0 s-15.07,4.657-18.278,11.883L81.878,98.64l-39.2-39.201c-6.094-6.093-15.405-7.6-23.111-3.733 C11.864,59.569,7.502,67.935,8.745,76.463l17.879,122.785c1.431,9.829,9.858,17.118,19.791,17.118h184.536 c9.933,0,18.36-7.289,19.791-17.118l17.88-122.786C269.864,67.934,265.502,59.568,257.799,55.704z" />
@@ -50,7 +53,8 @@ const icons: PiecesMapType = {
       </g>
     </svg>
   ),
-  k: (color: string) => (
+
+  k: (iconClass: string, color: string) => (
     <svg
       fill={color}
       version="1.1"
@@ -58,6 +62,7 @@ const icons: PiecesMapType = {
       xmlnsXlink="http://www.w3.org/1999/xlink"
       viewBox="0 0 277.299 277.299"
       xmlSpace="preserve"
+      className={iconClass}
     >
       <g>
         <path d="M248.325,237.299H28.973c-11.046,0-20,8.954-20,20s8.954,20,20,20h219.353c11.046,0,20-8.954,20-20 S259.371,237.299,248.325,237.299z" />
@@ -74,7 +79,7 @@ type PiecesSvgsProps = {
 
 function PiecesSvgs({ iconName, color }: PiecesSvgsProps) {
   const mc = color ? mainColor.c0 : mainColor.c9;
-  const icon = icons[iconName](mc);
+  const icon = icons[iconName]("", mc);
 
   return icon ? icon : <>i</>;
 }

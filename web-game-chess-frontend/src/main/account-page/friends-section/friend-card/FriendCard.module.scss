@@ -38,11 +38,7 @@
 
       position: relative;
 
-      svg {
-        height: 10rem;
-      }
-
-      img {
+      .avatar {
         @include circle(10rem);
         object-fit: cover;
       }

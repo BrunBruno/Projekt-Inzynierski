@@ -32,6 +32,8 @@ const icons: IconMap = {
 };
 
 function MainPopUpIcons({ iconName }: IconsMapProps) {
+  if (iconName === "") return <>i</>;
+
   try {
     const icon = icons[iconName];
 

@@ -3,7 +3,7 @@ import DetailPawnIconSvg from "../../../shared/svgs/DetailPawnIconSvg";
 import { mainColor } from "../../../shared/utils/enums/colorMaps";
 import classes from "./Sign.module.scss";
 import axios from "axios";
-import { getAuthorization, userControllerPaths } from "../../../shared/utils/functions/apiFunctions";
+import { getAuthorization, userControllerPaths } from "../../../shared/utils/services/ApiService";
 import { useNavigate } from "react-router-dom";
 import { errorDisplay } from "../../../shared/utils/functions/displayError";
 import LoadingPage from "../../../shared/components/loading-page/LoadingPage";

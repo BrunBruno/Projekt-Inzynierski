@@ -1,16 +1,16 @@
 import axios from "axios";
 import classes from "./UserGame.module.scss";
 import { GetFinishedGamesDto } from "../../../../shared/utils/types/gameDtos";
-import { gameControllerPaths, getAuthorization } from "../../../../shared/utils/functions/apiFunctions";
+import { gameControllerPaths, getAuthorization } from "../../../../shared/utils/services/ApiService";
 import { GetFinishedGamesModel } from "../../../../shared/utils/types/gameModels";
 import { useEffect, useState } from "react";
 import LoadingPage from "../../../../shared/components/loading-page/LoadingPage";
-import { PagedResult } from "../../../../shared/utils/types/commonTypes";
 import UserGamesFilters from "./user-games-filters/UserGamesFilters";
 import usePagination from "../../../../shared/utils/hooks/usePagination";
 import UserGamesCard from "./user-games-card/UserGamesCard";
 import { usePopup } from "../../../../shared/utils/hooks/usePopUp";
 import { getErrMessage } from "../../../../shared/utils/functions/displayError";
+import { PagedResult } from "../../../../shared/utils/types/abstracDtosAndModels";
 
 type UserGamesProps = {};
 

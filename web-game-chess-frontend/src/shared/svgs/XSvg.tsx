@@ -1,9 +1,6 @@
-type XSvgProps = {
-  iconClass: string;
-  color: string;
-};
+import { IconSvgProps } from "../utils/types/commonTypes";
 
-function XSvg({ iconClass, color }: XSvgProps) {
+function XSvg({ iconClass, color }: IconSvgProps) {
   return (
     <svg viewBox="0 -0.5 25 25" fill="none" xmlns="http://www.w3.org/2000/svg" className={iconClass}>
       <path

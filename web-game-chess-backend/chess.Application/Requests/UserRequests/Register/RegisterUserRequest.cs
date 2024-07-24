@@ -29,7 +29,7 @@ public class RegisterUserRequest : IRequest {
     public required string ConfirmPassword { get; set; }
 
     /// <summary>
-    /// 
+    /// Country where user created account
     /// </summary>
     public required string Country { get; set; }
 }

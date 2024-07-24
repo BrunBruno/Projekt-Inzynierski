@@ -76,12 +76,12 @@ public class ChessAppDbContext : DbContext {
     public DbSet<Message> Messages { get; set; }
 
     /// <summary>
-    /// 
+    /// Stats db set (one to one user)
     /// </summary>
     public DbSet<UserStats> UserStats { get; set; }
 
     /// <summary>
-    /// 
+    /// Invitations db set (one to one game but not for all)
     /// </summary>
     public DbSet<Invitation> Invitations { get; set; }
 

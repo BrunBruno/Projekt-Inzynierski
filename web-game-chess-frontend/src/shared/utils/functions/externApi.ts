@@ -1,6 +1,6 @@
 import axios from "axios";
 
-// to get country flag
+// to get country
 export const getCountry = async (): Promise<string> => {
   try {
     const response = await axios.get("https://ipinfo.io");

@@ -1,13 +1,9 @@
 // friendship controller dtos
 
-import { EloDto } from "./commonTypes";
+import { EloDto, UserDto } from "./abstracDtosAndModels";
 
-export type GetAllFriendsByStatusDto = {
+export type GetAllFriendsByStatusDto = UserDto & {
   freindshpId: string;
-  username: string;
-  name: string | null;
-  imageUrl: string | null;
-  country: string;
   elo: EloDto;
   isRequestor: boolean;
   gamesPlayed: number;
@@ -16,24 +12,15 @@ export type GetAllFriendsByStatusDto = {
   draws: number;
 };
 
-export type GetAllNonFriendsDto = {
+export type GetAllNonFriendsDto = UserDto & {
   userId: string;
-  username: string;
-  name: string | null;
-  imageUrl: string | null;
-  country: string;
   elo: EloDto;
 };
 
-export type GetFriendProfileDto = {
-  username: string;
-  name: string | null;
-  imageUrl: string | null;
+export type GetFriendProfileDto = UserDto & {
   bio: string | null;
-  country: string;
   joinDate: Date;
   friendsSince: Date | null;
-
   requestorWins: number;
   requestorLoses: number;
   requestorDraws: number;

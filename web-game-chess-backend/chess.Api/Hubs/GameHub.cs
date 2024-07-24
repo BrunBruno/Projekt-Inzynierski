@@ -91,7 +91,7 @@ public class GameHub : Hub<IGameHub> {
 
 
     /// <summary>
-    /// 
+    /// Creates new message for currect users and current game
     /// </summary>
     /// <param name="model"></param>
     /// <returns></returns>
@@ -141,7 +141,8 @@ public class GameHub : Hub<IGameHub> {
 
 
     /// <summary>
-    /// 
+    ///  To accept new received invitation
+    ///  Notify both counterpartiens and starts the game
     /// </summary>
     /// <param name="model"></param>
     /// <returns></returns>
@@ -161,7 +162,7 @@ public class GameHub : Hub<IGameHub> {
 
 
     /// <summary>
-    /// 
+    /// Provides invited user with essentail data to accept newly creacted game
     /// </summary>
     /// <param name="userId"></param>
     /// <param name="gameId"></param>

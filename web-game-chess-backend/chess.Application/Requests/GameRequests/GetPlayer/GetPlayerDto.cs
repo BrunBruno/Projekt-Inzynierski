@@ -19,7 +19,7 @@ public class GetPlayerDto {
     public int Elo { get; set; }
 
     /// <summary>
-    /// Color
+    /// Color representing side of the board 
     /// </summary>
     public Colors Color { get; set; }
 }

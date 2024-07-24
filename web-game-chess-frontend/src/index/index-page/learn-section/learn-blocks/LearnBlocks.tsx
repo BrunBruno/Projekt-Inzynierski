@@ -5,7 +5,11 @@ import { mainColor } from "../../../../shared/utils/enums/colorMaps";
 import LearnBlocksIcons from "./LearnBlocksIcons";
 import { SectionData, sectionData } from "./LearnBlocksObjects";
 
-const LearnBlocks = () => {
+type LearnBlocksProps = {};
+
+const LearnBlocks = ({}: LearnBlocksProps) => {
+  ///
+
   const [wasActived, setWasActived] = useState(false);
   const [count, setCount] = useState<number>(0);
 
@@ -26,22 +30,10 @@ const LearnBlocks = () => {
   const createIcon = (iconName: string): JSX.Element => {
     switch (iconName) {
       case "pieces-icon":
-        const links = [
-          "white-rook",
-          "black-queen",
-          "white-pawn",
-          "black-bishop",
-          "white-king",
-        ] as const;
+        const links = ["white-rook", "black-queen", "white-pawn", "black-bishop", "white-king"] as const;
 
         const images = links.map((link) => (
-          <img
-            key={link}
-            src={`pieces/${link}.png`}
-            alt={link}
-            draggable={false}
-            className={classes["piece-img"]}
-          />
+          <img key={link} src={`pieces/${link}.png`} alt={link} draggable={false} className={classes["piece-img"]} />
         ));
 
         return (
@@ -58,10 +50,7 @@ const LearnBlocks = () => {
             .slice(-1);
 
           return (
-            <div
-              key={i}
-              style={{ color: value === "3" ? mainColor.c3 : mainColor.c0 }}
-            >
+            <div key={i} style={{ color: value === "3" ? mainColor.c3 : mainColor.c0 }}>
               {value}
             </div>
           );
@@ -94,34 +83,22 @@ const LearnBlocks = () => {
     const textObserverAction = (entry: IntersectionObserverEntry): void => {
       entry.target.classList.add(classes["active-text"]);
     };
-    const textObserver: IntersectionObserver = createOneTimeObserver(
-      textObserverAction,
-      {}
-    );
+    const textObserver: IntersectionObserver = createOneTimeObserver(textObserverAction, {});
 
     const iconObserverAction = (entry: IntersectionObserverEntry): void => {
       entry.target.classList.add(classes["active-icon"]);
 
-      if (
-        !wasActived &&
-        entry.target.classList.contains(classes["counter-icon"])
-      ) {
+      if (!wasActived && entry.target.classList.contains(classes["counter-icon"])) {
         setWasActived(true);
         setTimeout(() => incrementCount(0), 1000);
       }
     };
-    const iconObserver: IntersectionObserver = createOneTimeObserver(
-      iconObserverAction,
-      {}
-    );
+    const iconObserver: IntersectionObserver = createOneTimeObserver(iconObserverAction, {});
 
     const lineObserverAction = (entry: IntersectionObserverEntry): void => {
       entry.target.classList.add(classes["active-line"]);
     };
-    const lineObserver: IntersectionObserver = createOneTimeObserver(
-      lineObserverAction,
-      {}
-    );
+    const lineObserver: IntersectionObserver = createOneTimeObserver(lineObserverAction, {});
 
     SectionBlocks.forEach((block) => {
       if (block.textRef.current) {
@@ -161,12 +138,7 @@ const LearnBlocks = () => {
               <h3 className={classes["row-h3"]}>{block.title}</h3>
               <p className={classes["row-p"]}>{block.text}</p>
             </div>
-            <div
-              ref={block.iconRef}
-              className={`${classes.zpattern__row__icon} ${
-                classes[block.iconName]
-              }`}
-            >
+            <div ref={block.iconRef} className={`${classes.zpattern__row__icon} ${classes[block.iconName]}`}>
               {createIcon(block.iconName)}
             </div>
             <div ref={block.lineRef} className={classes["row-line-icon"]}>
@@ -175,12 +147,7 @@ const LearnBlocks = () => {
           </div>
         ) : (
           <div className={classes.zpattern__row} key={index}>
-            <div
-              ref={block.iconRef}
-              className={`${classes.zpattern__row__icon} ${
-                classes[block.iconName!]
-              }`}
-            >
+            <div ref={block.iconRef} className={`${classes.zpattern__row__icon} ${classes[block.iconName!]}`}>
               {createIcon(block.iconName!)}
             </div>
             <div ref={block.textRef} className={classes.zpattern__row__text}>

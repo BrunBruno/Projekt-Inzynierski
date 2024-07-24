@@ -6,6 +6,7 @@ namespace chess.Core.Entities;
 /// User role entity
 /// </summary>
 public class Role {
+
     /// <summary>
     /// Role identifier.
     /// </summary>

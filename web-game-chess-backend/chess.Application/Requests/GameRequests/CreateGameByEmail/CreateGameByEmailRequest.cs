@@ -1,12 +1,17 @@
 ﻿
-using chess.Core.Enums;
+using chess.Application.Requests.Abstraction;
 using MediatR;
 
 namespace chess.Application.Requests.GameRequests.CreateGameByEmail;
 
-public class CreateGameByEmailRequest : IRequest<CreateGameByEmailDto> {
+/// <summary>
+/// Request to create new private game
+/// Select opponent by provideing email address by current user
+/// </summary>
+public class CreateGameByEmailRequest : TimingType, IRequest<CreateGameByEmailDto> {
+
+    /// <summary>
+    /// Friend email
+    /// </summary>
     public required string Email { get; set; }
-    public TimingTypes Type { get; set; }
-    public int Minutes { get; set; }
-    public int Increment { get; set; }
 }

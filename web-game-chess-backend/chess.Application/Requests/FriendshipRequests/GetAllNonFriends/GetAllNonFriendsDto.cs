@@ -3,11 +3,18 @@ using chess.Core.Dtos;
 
 namespace chess.Application.Requests.FriendshipRequests.GetAllNonFriends;
 
-public class GetAllNonFriendsDto {
+/// <summary>
+/// Dto represent user, that dont have relation with current user
+/// </summary>
+public class GetAllNonFriendsDto : UserDto {
+
+    /// <summary>
+    /// User id
+    /// </summary>
     public Guid UserId { get; set; }
-    public required string Username { get; set; }
-    public string? Name { get; set; }
-    public string? ImageUrl { get; set; }
-    public required string Country { get; set; }
+
+    /// <summary>
+    /// User elo for all timing types
+    /// </summary>
     public required EloDto Elo { get; set; }
 }

@@ -1,6 +1,4 @@
 ﻿
-using System.Net.Mail;
-
 namespace chess.Application.Services;
 
 /// <summary>
@@ -18,7 +16,7 @@ public interface ISmtpService {
     Task SendVerificationCode(string email, string recipientName, string code);
 
     /// <summary>
-    /// 
+    /// Send game invitation
     /// </summary>
     /// <param name="email"></param>
     /// <param name="recipientName"></param>

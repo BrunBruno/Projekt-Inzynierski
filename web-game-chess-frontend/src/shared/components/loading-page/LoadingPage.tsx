@@ -10,6 +10,7 @@ function LoadingPage({ text = "" }: LoadingPageProps) {
 
   const [size, setSize] = useState<number>(0);
 
+  // set size of loading circles
   useEffect(() => {
     if (loadingRef.current) {
       const { offsetWidth } = loadingRef.current;

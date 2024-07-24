@@ -57,9 +57,16 @@ const icons: IconMap = {
 };
 
 function WinLoseIcons({ iconName }: IconsMapProps) {
-  const icon = icons[iconName];
+  if (iconName === "") return <>i</>;
 
-  return icon ? icon : <></>;
+  try {
+    const icon = icons[iconName];
+    return icon ? icon : <>i</>;
+  } catch (err) {
+    console.error("Icon error");
+  }
+
+  return <>i</>;
 }
 
 export default WinLoseIcons;

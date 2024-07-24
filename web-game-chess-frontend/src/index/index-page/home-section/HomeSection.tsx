@@ -1,9 +1,4 @@
-import React, {
-  forwardRef,
-  useEffect,
-  useImperativeHandle,
-  useRef,
-} from "react";
+import React, { forwardRef, useEffect, useImperativeHandle, useRef } from "react";
 import classes from "./HomeSection.module.scss";
 import HomeActions from "./home-actions/HomeActions";
 import { createOneTimeObserver } from "../../../shared/utils/functions/createOneTimeObserver";
@@ -14,10 +9,9 @@ type HomeSectionProps = {
 };
 
 const HomeSection = forwardRef<HandleOnScroll, HomeSectionProps>(
-  (
-    { sectionRef }: HomeSectionProps,
-    ref: React.ForwardedRef<HandleOnScroll>
-  ) => {
+  ({ sectionRef }: HomeSectionProps, ref: React.ForwardedRef<HandleOnScroll>) => {
+    ///
+
     const h = window.innerHeight * 0.7;
 
     const introRef = useRef<HTMLDivElement>(null);
@@ -31,8 +25,7 @@ const HomeSection = forwardRef<HandleOnScroll, HomeSectionProps>(
         const y = window.scrollY - 1.7 * window.innerHeight;
 
         if (y < 1.7 * homeElement.clientHeight) {
-          const brightness =
-            -100 / (1 + Math.pow(Math.E, -(y - h) / 100)) + 100;
+          const brightness = -100 / (1 + Math.pow(Math.E, -(y - h) / 100)) + 100;
 
           homeElement.style.filter = `brightness(${brightness}%)`;
         }
@@ -48,10 +41,7 @@ const HomeSection = forwardRef<HandleOnScroll, HomeSectionProps>(
       const introObserverAction = (entry: IntersectionObserverEntry): void => {
         entry.target.classList.add(classes["show"]);
       };
-      const introObserver: IntersectionObserver = createOneTimeObserver(
-        introObserverAction,
-        {}
-      );
+      const introObserver: IntersectionObserver = createOneTimeObserver(introObserverAction, {});
 
       if (introRef.current) {
         introObserver.observe(introRef.current);
@@ -73,11 +63,9 @@ const HomeSection = forwardRef<HandleOnScroll, HomeSectionProps>(
               <span>BRN Chess</span>
             </h1>
             <span className={classes.home__content__intro__text}>
-              Chess is one of the most popular and enduring games in the world,
-              with millions of people playing and enjoying it every day. It is a
-              game of strategy, logic, and skill, where players must use their
-              wits and experience to outmaneuver their opponents and claim
-              victory on the board.
+              Chess is one of the most popular and enduring games in the world, with millions of people playing and
+              enjoying it every day. It is a game of strategy, logic, and skill, where players must use their wits and
+              experience to outmaneuver their opponents and claim victory on the board.
             </span>
           </div>
           {/* end intro senction */}

@@ -54,7 +54,7 @@ public class Move {
     public double BlackTime {  get; set; }
 
     /// <summary>
-    /// 
+    /// Date adn time when move was made
     /// </summary>
     public DateTime DoneAt { get; set; } = DateTime.UtcNow;
 

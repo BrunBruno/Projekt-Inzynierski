@@ -4,6 +4,9 @@ using chess.Core.Enums;
 
 namespace chess.Core.Maps;
 
+/// <summary>
+/// Map to get and set elo points to user
+/// </summary>
 public static class EloMap {
     public static readonly Dictionary<TimingTypes, (Func<Elo, int> Get, Action<Elo, int> Set, Action<Elo, int> Update)> EloMapping = new()
     {

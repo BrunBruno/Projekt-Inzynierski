@@ -2,8 +2,7 @@ import { useEffect, useState } from "react";
 import classes from "./FriendsSection.module.scss";
 import { GetAllFriendsByStatusDto } from "../../../shared/utils/types/friendshipDtos";
 import axios from "axios";
-import { PagedResult } from "../../../shared/utils/types/commonTypes";
-import { friendshipControllerPaths, getAuthorization } from "../../../shared/utils/functions/apiFunctions";
+import { friendshipControllerPaths, getAuthorization } from "../../../shared/utils/services/ApiService";
 import { GetAllFriendsByStatusModel } from "../../../shared/utils/types/friendshipModels";
 import { friendshipStatus } from "../../../shared/utils/enums/entitiesEnums";
 import LoadingPage from "../../../shared/components/loading-page/LoadingPage";
@@ -13,6 +12,7 @@ import cardClasses from "./friend-card/FriendCard.module.scss";
 import { usePopup } from "../../../shared/utils/hooks/usePopUp";
 import usePagination from "../../../shared/utils/hooks/usePagination";
 import { getErrMessage } from "../../../shared/utils/functions/displayError";
+import { PagedResult } from "../../../shared/utils/types/abstracDtosAndModels";
 
 function FriendsSection() {
   ///

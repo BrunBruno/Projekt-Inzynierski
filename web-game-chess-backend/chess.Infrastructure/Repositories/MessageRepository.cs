@@ -13,11 +13,13 @@ public class MessageRepository : IMessageRepository {
         _dbContext = dbContext;
     }
 
+    ///<inheritdoc/>
     public async Task Create(Message message) {
         await _dbContext.Messages.AddAsync(message);
         await _dbContext.SaveChangesAsync();
     }
 
+    ///<inheritdoc/>
     public async Task Delete(Message message) {
         _dbContext.Messages.Remove(message);
         await _dbContext.SaveChangesAsync();

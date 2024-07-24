@@ -41,24 +41,22 @@ export const strengthColor: colorMap = {
   c4: "#51cf66",
 };
 
+// other spacial colors maps
 export const successColor: colorMap = {
   light: "#8ce99a",
   mid: "#51cf66",
   dark: "#2f9e44",
 };
-
 export const infoColor: colorMap = {
   light: "#a5d8ff",
   mid: "#339af0",
   dark: "#1864ab",
 };
-
 export const warningColor: colorMap = {
   light: "#ffe066",
   mid: "#fcc419",
   dark: "#f59f00",
 };
-
 export const dangerColor: colorMap = {
   light: "#ffa8a8",
   mid: "#f03e3e",

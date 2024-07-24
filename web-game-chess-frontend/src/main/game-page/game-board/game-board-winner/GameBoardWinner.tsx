@@ -1,14 +1,14 @@
 import { useNavigate } from "react-router-dom";
-import AvatarSvg from "../../../../shared/svgs/AvatarSvg";
 import { pieceColor } from "../../../../shared/utils/enums/entitiesEnums";
 import { EndGameDto, GetEndedGameDto, GetGameDto, SearchGameDto } from "../../../../shared/utils/types/gameDtos";
 import classes from "./GameBoardWinner.module.scss";
 import { SearchGameModel } from "../../../../shared/utils/types/gameModels";
-import { gameControllerPaths, getAuthorization } from "../../../../shared/utils/functions/apiFunctions";
+import { gameControllerPaths, getAuthorization } from "../../../../shared/utils/services/ApiService";
 import axios from "axios";
 import GameHubService from "../../../../shared/utils/services/GameHubService";
 import { getErrMessage } from "../../../../shared/utils/functions/displayError";
 import { usePopup } from "../../../../shared/utils/hooks/usePopUp";
+import AvatarImage from "../../../../shared/components/avatar-image/AvatarImage";
 
 type GameBoardWinnerProps = {
   gameData: GetGameDto;
@@ -64,17 +64,13 @@ function GameBoardWinner({ winner, gameData, setSearchIds, selectedTiming }: Gam
         <div className={classes.winner__content__info}>
           <div className={classes.winner__content__info__players}>
             <div className={`${classes.player} ${classes["white-player"]}`}>
-              <div className={classes["white-player-img"]}>
-                {gameData.whitePlayer.imageUrl ? (
-                  <img
-                    className={classes["player-img"]}
-                    src={gameData.whitePlayer.imageUrl}
-                    alt="white-player-avatar"
-                  />
-                ) : (
-                  <AvatarSvg iconClass={classes.avatar} />
-                )}
-              </div>
+              <AvatarImage
+                username={gameData.whitePlayer.name}
+                imageUrl={gameData.whitePlayer.imageUrl}
+                containerClass={classes["white-player-img"]}
+                imageClass={classes["player-img"]}
+              />
+
               <div className={classes["player-data"]}>
                 <span>{gameData.whitePlayer.name}</span>
                 <span>
@@ -84,17 +80,13 @@ function GameBoardWinner({ winner, gameData, setSearchIds, selectedTiming }: Gam
             </div>
             <p>vs</p>
             <div className={`${classes.player} ${classes["black-player"]}`}>
-              <div className={classes["black-player-img"]}>
-                {gameData.blackPlayer.imageUrl ? (
-                  <img
-                    className={classes["player-img"]}
-                    src={gameData.blackPlayer.imageUrl}
-                    alt="black-player-avatar"
-                  />
-                ) : (
-                  <AvatarSvg iconClass={classes.avatar} />
-                )}
-              </div>
+              <AvatarImage
+                username={gameData.blackPlayer.name}
+                imageUrl={gameData.blackPlayer.imageUrl}
+                containerClass={classes["black-player-img"]}
+                imageClass={classes["player-img"]}
+              />
+
               <div className={classes["player-data"]}>
                 <span>{gameData.blackPlayer.name}</span>
                 <span>

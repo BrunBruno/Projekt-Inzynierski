@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import classes from "./GameSection.module.scss";
 import VsPlayerSearch from "./vs-player-search/VsPlayerSearch";
 import axios from "axios";
-import { gameControllerPaths, getAuthorization } from "../../../shared/utils/functions/apiFunctions";
+import { gameControllerPaths, getAuthorization } from "../../../shared/utils/services/ApiService";
 import { CheckIfInGameDto, SearchGameDto } from "../../../shared/utils/types/gameDtos";
 import Searching from "./searching/Searching";
 import { useNavigate } from "react-router-dom";
@@ -44,7 +44,11 @@ function GameSection() {
 
         if (isInGameResponse.data.isInGame) {
           navigate(`game/${isInGameResponse.data.gameId}`, {
-            state: { timing: choosenTiming },
+            state: {
+              timing: choosenTiming,
+              popupText: "Game started",
+              popupType: "info",
+            },
           });
         }
       } catch (err) {
@@ -57,7 +61,13 @@ function GameSection() {
     if (!choosenTiming) {
       console.log("Timing not set");
     } else {
-      navigate(`game/${gameId}`, { state: { timing: choosenTiming } });
+      navigate(`game/${gameId}`, {
+        state: {
+          timing: choosenTiming,
+          popupText: "Game started",
+          popupType: "info",
+        },
+      });
     }
   };
 

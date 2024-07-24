@@ -7,7 +7,7 @@ import { ValidationResult, checkFromConfiguration } from "../../../shared/utils/
 import SignArrowSvg from "./SignArrow";
 import LoadingPage from "../../../shared/components/loading-page/LoadingPage";
 import { errorDisplay, getErrMessage } from "../../../shared/utils/functions/displayError";
-import { userControllerPaths } from "../../../shared/utils/functions/apiFunctions";
+import { userControllerPaths } from "../../../shared/utils/services/ApiService";
 import { ConfigurationDto, LogInUserDto } from "../../../shared/utils/types/userDtos";
 import { dataConfigurations } from "../../../shared/utils/enums/entitiesEnums";
 import { registrationInterface } from "../../../shared/utils/enums/interfacesEnums";

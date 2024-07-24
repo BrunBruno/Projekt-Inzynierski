@@ -89,5 +89,8 @@ public class Player {
     /// </summary>
     public Guid TimingId { get; set; }
 
+    /// <summary>
+    /// All messages sent durning game
+    /// </summary>
     public List<Message> Messages { get; set; }
 }

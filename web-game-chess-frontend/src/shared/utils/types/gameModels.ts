@@ -1,6 +1,6 @@
 // game controller models to requests
 
-import { PagedRequest } from "./commonTypes";
+import { PagedModel, TimingType } from "./abstracDtosAndModels";
 
 export type AbortSearchModel = {
   playerId: string;
@@ -16,11 +16,8 @@ export type CheckIfInGameModel = {
   playerId: string;
 };
 
-export type CreatePrivateGameModel = {
+export type CreatePrivateGameModel = TimingType & {
   friendshipId: string;
-  type: number;
-  minutes: number;
-  increment: number;
 };
 
 export type EndGameModel = {
@@ -29,12 +26,12 @@ export type EndGameModel = {
   endGameType: number;
 };
 
-export type GetFinishedGamesModel = PagedRequest & {
+export type GetFinishedGamesModel = PagedModel & {
   timingTypeFilters: number[];
   resultFilters: (boolean | null)[];
 };
 
-export type GetTypeHistiryModel = PagedRequest & {
+export type GetTypeHistiryModel = PagedModel & {
   type: number;
 };
 
@@ -54,20 +51,13 @@ export type MakeMoveModel = {
   blrm: boolean;
 };
 
-export type NotifyUserModel = {
+export type NotifyUserModel = TimingType & {
   friendId: string;
   gameId: string;
   inviter: string;
-  type: number;
-  minutes: number;
-  increment: number;
 };
 
-export type SearchGameModel = {
-  type: number;
-  minutes: number;
-  increment: number;
-};
+export type SearchGameModel = TimingType;
 
 export type SendMessageModel = {
   gameId: string;
@@ -75,15 +65,12 @@ export type SendMessageModel = {
   message: string;
 };
 
-export type CreateGameByEmailModel = {
+export type CreateGameByEmailModel = TimingType & {
   email: string;
-  type: number;
-  minutes: number;
-  increment: number;
 };
 
 export type DeclineInvitationModel = {
   gameId: string;
 };
 
-export type GetAllInvitationsModel = PagedRequest;
+export type GetAllInvitationsModel = PagedModel;

@@ -12,6 +12,7 @@ const icons: IconMap = {
       />
     </svg>
   ),
+
   addFriend: (
     <svg fill={greyColor.c0} viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" className={classes["nav-icon"]}>
       <path
@@ -41,6 +42,7 @@ const icons: IconMap = {
       ></path>
     </svg>
   ),
+
   home: (
     <svg
       fill={greyColor.c0}
@@ -58,6 +60,7 @@ const icons: IconMap = {
       </g>
     </svg>
   ),
+
   logOut: (
     <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className={classes["nav-icon"]}>
       <path
@@ -72,9 +75,16 @@ const icons: IconMap = {
 };
 
 function MainNavIcons({ iconName }: IconsMapProps) {
-  const icon = icons[iconName];
+  if (iconName === "") return <>i</>;
 
-  return icon ? icon : <></>;
+  try {
+    const icon = icons[iconName];
+    return icon ? icon : <>i</>;
+  } catch (err) {
+    console.error("Icon error");
+  }
+
+  return <>i</>;
 }
 
 export default MainNavIcons;

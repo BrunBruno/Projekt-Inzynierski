@@ -1,17 +1,9 @@
 import { greyColor } from "../../../shared/utils/enums/colorMaps";
+import { IconSvgProps } from "../../../shared/utils/types/commonTypes";
 
-type SignArrowSvgProps = {
-  iconClass: string;
-};
-
-function SignArrowSvg({ iconClass }: SignArrowSvgProps) {
+function SignArrowSvg({ iconClass }: IconSvgProps) {
   return (
-    <svg
-      className={iconClass}
-      fill={greyColor.c5}
-      xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 0 32 32"
-    >
+    <svg className={iconClass} fill={greyColor.c5} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
       <g>
         <path
           d="M25,27.8c-0.5,0-0.9-0.3-1-0.8l0-0.2c-1-4.4-4.6-7.5-9-8v3.5c0,0.8-0.5,1.5-1.2,1.8c-0.8,0.3-1.6,0.1-2.2-0.4l-8.3-8.3

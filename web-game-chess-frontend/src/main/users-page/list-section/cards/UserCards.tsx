@@ -1,5 +1,4 @@
 import axios from "axios";
-import AvatarSvg from "../../../../shared/svgs/AvatarSvg";
 import { GetAllNonFriendsDto } from "../../../../shared/utils/types/friendshipDtos";
 import { InviteFriendModel } from "../../../../shared/utils/types/friendshipModels";
 import classes from "./Cards.module.scss";
@@ -7,11 +6,12 @@ import {
   friendshipControllerPaths,
   getAuthorization,
   userControllerPaths,
-} from "../../../../shared/utils/functions/apiFunctions";
+} from "../../../../shared/utils/services/ApiService";
 import { usePopup } from "../../../../shared/utils/hooks/usePopUp";
 import { GetOtherUserDto } from "../../../../shared/utils/types/userDtos";
 import { GetOtherUserModel } from "../../../../shared/utils/types/userModels";
 import { getErrMessage } from "../../../../shared/utils/functions/displayError";
+import AvatarImage from "../../../../shared/components/avatar-image/AvatarImage";
 
 type UserCardsProps = {
   // user data to create card
@@ -62,13 +62,12 @@ function UserCards({ user, getAllUsers, setNonFriend }: UserCardsProps) {
   return (
     <div className={classes.card}>
       <div className={classes.card__content}>
-        <div className={classes.card__content__avatar}>
-          {user.imageUrl === null ? (
-            <AvatarSvg iconClass={classes["avatar-svg"]} />
-          ) : (
-            <img src={user.imageUrl} alt={user.username} className={classes["avatar-img"]} />
-          )}
-        </div>
+        <AvatarImage
+          username={user.username}
+          imageUrl={user.imageUrl}
+          containerClass={classes.card__content__avatar}
+          imageClass={classes["avatar-img"]}
+        />
 
         <div className={classes.card__content__info}>
           <div className={classes["user-name"]}>

@@ -10,26 +10,19 @@ type PlaySectionProps = {
 };
 
 const PlaySection = forwardRef<HandleOnScroll, PlaySectionProps>(
-  (
-    { sectionRef }: PlaySectionProps,
-    ref: React.ForwardedRef<HandleOnScroll>
-  ) => {
-    // refs
+  ({ sectionRef }: PlaySectionProps, ref: React.ForwardedRef<HandleOnScroll>) => {
+    ///
+
     // section title ref
     const introRef = useRef<HTMLDivElement>(null);
     const actionRefs: React.RefObject<HTMLDivElement>[] = [];
-    for (let i = 0; i < 4; i++) {
-      actionRefs[i] = useRef<HTMLDivElement>(null);
-    }
+    for (let i = 0; i < 4; i++) actionRefs[i] = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
       const introObserverAction = (entry: IntersectionObserverEntry): void => {
         entry.target.classList.remove(classes["active-intro"]);
       };
-      const introObserver: IntersectionObserver = createOneTimeObserver(
-        introObserverAction,
-        {}
-      );
+      const introObserver: IntersectionObserver = createOneTimeObserver(introObserverAction, {});
 
       if (introRef.current) {
         introObserver.observe(introRef.current);
@@ -41,15 +34,10 @@ const PlaySection = forwardRef<HandleOnScroll, PlaySectionProps>(
     }, [introRef]);
 
     useEffect(() => {
-      const actionsObserverAction = (
-        entry: IntersectionObserverEntry
-      ): void => {
+      const actionsObserverAction = (entry: IntersectionObserverEntry): void => {
         entry.target.classList.add(classes["show"]);
       };
-      const actionsObserver: IntersectionObserver = createOneTimeObserver(
-        actionsObserverAction,
-        {}
-      );
+      const actionsObserver: IntersectionObserver = createOneTimeObserver(actionsObserverAction, {});
 
       actionRefs.forEach((element) => {
         if (element.current) {
@@ -65,10 +53,7 @@ const PlaySection = forwardRef<HandleOnScroll, PlaySectionProps>(
     return (
       <section id="play-section" ref={sectionRef} className={classes.play}>
         {/* intro */}
-        <div
-          ref={introRef}
-          className={`${classes.play__intro} ${classes["active-intro"]}`}
-        >
+        <div ref={introRef} className={`${classes.play__intro} ${classes["active-intro"]}`}>
           <h2 className={`${classes["intro-h2"]} ${classes["active-h2"]}`}>
             <span>LET'S GET</span>
           </h2>
@@ -90,18 +75,20 @@ const PlaySection = forwardRef<HandleOnScroll, PlaySectionProps>(
               <div ref={actionRefs[0]} className={classes["actions-row"]}>
                 <h3 className={classes["buttons-title"]}>Start playing now!</h3>
               </div>
+
               <div ref={actionRefs[1]} className={classes["actions-row"]}>
                 <h4 className={classes["buttons-text"]}>
-                  Join our community and start playing users at your level or
-                  simply join random game and enjoy chess.
+                  Join our community and start playing users at your level or simply join random game and enjoy chess.
                 </h4>
               </div>
+
               <div ref={actionRefs[2]} className={classes["actions-row"]}>
                 <button className={classes["vs-player-button"]}>
                   <PlaySectionIcons iconName="online" />
                   <span>PLAY ONLINE</span>
                 </button>
               </div>
+
               <div ref={actionRefs[3]} className={classes["actions-row"]}>
                 <button className={classes["vs-computer-button"]}>
                   <PlaySectionIcons iconName="offline" />

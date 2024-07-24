@@ -6,26 +6,40 @@ import { GetGameDto, GetPlayerDto } from "../../../shared/utils/types/gameDtos";
 import { EndGameModel } from "../../../shared/utils/types/gameModels";
 import classes from "./LeftSideBar.module.scss";
 import LeftSideBarIcons from "./LeftSideBarIcons";
+import { usePopup } from "../../../shared/utils/hooks/usePopUp";
+import { getErrMessage } from "../../../shared/utils/functions/displayError";
 
 type LeftSideBarProps = {
+  // game id
   gameId: string;
+  // current player data
   playerData: GetPlayerDto;
+  // current game data
   gameData: GetGameDto;
 };
 
 function LeftSideBar({ gameId, playerData, gameData }: LeftSideBarProps) {
+  ///
+
   const navigate = useNavigate();
 
-  const endGame = async (loserColor: number | null, endGameType: number) => {
-    const loserPlayer: EndGameModel = {
-      gameId: gameId,
-      loserColor: loserColor,
-      endGameType: endGameType,
-    };
+  const { showPopup } = usePopup();
 
-    GameHubService.EndGame(loserPlayer);
+  const endGame = async (loserColor: number | null, endGameType: number) => {
+    try {
+      const loserPlayer: EndGameModel = {
+        gameId: gameId,
+        loserColor: loserColor,
+        endGameType: endGameType,
+      };
+
+      await GameHubService.EndGame(loserPlayer);
+    } catch (err) {
+      showPopup(getErrMessage(err), "warning");
+    }
   };
 
+  // to abort from game
   const onAbort = () => {
     if (gameData.turn === 0 || gameData.turn === 1) {
       endGame(null, endGameTypes.agreement);
@@ -35,9 +49,13 @@ function LeftSideBar({ gameId, playerData, gameData }: LeftSideBarProps) {
 
     navigate("/main");
   };
+
+  // to resign the game
   const onResign = () => {
     endGame(playerData.color, endGameTypes.resignation);
   };
+
+  // to offer a draw
   const onDrawOffer = () => {};
 
   return (

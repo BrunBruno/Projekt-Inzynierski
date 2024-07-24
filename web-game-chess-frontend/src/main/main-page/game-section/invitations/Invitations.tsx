@@ -1,14 +1,14 @@
 import axios from "axios";
 import classes from "./Invitations.module.scss";
-import { PagedResult } from "../../../../shared/utils/types/commonTypes";
 import { GetAllInvitationsDto } from "../../../../shared/utils/types/gameDtos";
-import { gameControllerPaths, getAuthorization } from "../../../../shared/utils/functions/apiFunctions";
+import { gameControllerPaths, getAuthorization } from "../../../../shared/utils/services/ApiService";
 import { GetAllInvitationsModel } from "../../../../shared/utils/types/gameModels";
 import { useEffect, useRef, useState } from "react";
 import InvitationCard from "./invitation-card/InvitationCard";
 import LoadingPage from "../../../../shared/components/loading-page/LoadingPage";
 import { getErrMessage } from "../../../../shared/utils/functions/displayError";
 import { usePopup } from "../../../../shared/utils/hooks/usePopUp";
+import { PagedResult } from "../../../../shared/utils/types/abstracDtosAndModels";
 
 const defaultSize = 10;
 

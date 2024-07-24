@@ -1,14 +1,18 @@
 import { createContext, ReactNode, useContext, useState } from "react";
-
-export const popupIconTypes = ["success", "info", "warning", "error"] as const;
+import { popupIconTypes } from "../enums/commonConstLists";
 
 interface PopupContextType {
+  // to show MainPopup, set content and icon
   showPopup: (content: string, type: typeof popupIconTypes[number]) => void;
+  // to hide popup
   hidePopup: () => void;
+  // popup message content
   popupContent: string;
+  // popup icon type
   popupType: typeof popupIconTypes[number] | null;
 }
 
+// default popup context
 const PopupContext = createContext<PopupContextType>({
   showPopup: () => {},
   hidePopup: () => {},
@@ -17,13 +21,17 @@ const PopupContext = createContext<PopupContextType>({
 });
 
 type PopUpProviderProps = {
+  // popup content
   children: ReactNode;
 };
 
 export const PopupProvider = ({ children }: PopUpProviderProps) => {
+  // state for popup content
   const [popupContent, setPopupContent] = useState<string>("");
+  // state for popup icon type
   const [popupType, setPopupType] = useState<typeof popupIconTypes[number] | null>(null);
 
+  // show popup
   const showPopup = (content: string, type: typeof popupIconTypes[number]) => {
     hidePopup();
 
@@ -33,6 +41,7 @@ export const PopupProvider = ({ children }: PopUpProviderProps) => {
     }, 10);
   };
 
+  // hide popup
   const hidePopup = () => {
     setPopupContent("");
     setPopupType(null);

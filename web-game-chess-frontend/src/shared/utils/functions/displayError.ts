@@ -1,6 +1,6 @@
 import { AxiosError } from "axios";
 
-// back-end error displaying
+// Gets messages for registration errors to display
 export const errorDisplay = (error: any, action: (value: React.SetStateAction<string>) => void) => {
   if (error instanceof AxiosError) {
     if (error.response && error.response.data) {
@@ -13,6 +13,7 @@ export const errorDisplay = (error: any, action: (value: React.SetStateAction<st
   }
 };
 
+// Get messages for popups to display
 export const getErrMessage = (error: any): string => {
   console.log(error);
 

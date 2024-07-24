@@ -8,6 +8,7 @@ namespace chess.Core.Entities;
 /// User entity
 /// </summary>
 public class User {
+
     /// <summary>
     /// Id PK
     /// </summary>

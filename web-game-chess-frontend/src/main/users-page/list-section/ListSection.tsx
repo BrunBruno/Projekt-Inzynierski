@@ -1,13 +1,12 @@
 import axios from "axios";
 import { GetAllFriendsByStatusModel, GetAllNonFriendsModel } from "../../../shared/utils/types/friendshipModels";
 import classes from "./ListSection.module.scss";
-import { PagedResult } from "../../../shared/utils/types/commonTypes";
 import {
   GetAllFriendsByStatusDto,
   GetAllNonFriendsDto,
   GetFriendProfileDto,
 } from "../../../shared/utils/types/friendshipDtos";
-import { friendshipControllerPaths, getAuthorization } from "../../../shared/utils/functions/apiFunctions";
+import { friendshipControllerPaths, getAuthorization } from "../../../shared/utils/services/ApiService";
 import { useEffect, useRef, useState } from "react";
 import { friendshipStatus } from "../../../shared/utils/enums/entitiesEnums";
 import UserCards from "./cards/UserCards";
@@ -17,6 +16,7 @@ import { usePopup } from "../../../shared/utils/hooks/usePopUp";
 import LoadingPage from "../../../shared/components/loading-page/LoadingPage";
 import { GetOtherUserDto } from "../../../shared/utils/types/userDtos";
 import { getErrMessage } from "../../../shared/utils/functions/displayError";
+import { PagedResult } from "../../../shared/utils/types/abstracDtosAndModels";
 
 type ListSectionProps = {
   // provided username to match

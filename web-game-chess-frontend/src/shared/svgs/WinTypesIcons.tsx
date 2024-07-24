@@ -16,11 +16,13 @@ const icons: IconMap = {
       />
     </svg>
   ),
+
   outoftime: (
     <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill={greyColor.c0}>
       <path d="M23.707,15.293a1,1,0,0,0-1.414,0L19.5,18.086l-2.793-2.793a1,1,0,0,0-1.414,1.414L18.086,19.5l-2.793,2.793a1,1,0,1,0,1.414,1.414L19.5,20.914l2.793,2.793a1,1,0,0,0,1.414-1.414L20.914,19.5l2.793-2.793A1,1,0,0,0,23.707,15.293Z M12,22A10,10,0,1,1,22,12a1,1,0,0,0,2,0A12,12,0,1,0,12,24a1,1,0,0,0,0-2Z M12,6a1,1,0,0,0-1,1v4.586L8.293,14.293a1,1,0,1,0,1.414,1.414l3-3A1,1,0,0,0,13,12V7A1,1,0,0,0,12,6Z" />
     </svg>
   ),
+
   resignation: (
     <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
       <path
@@ -29,8 +31,11 @@ const icons: IconMap = {
       />
     </svg>
   ),
+
   stalemate: <p>=</p>,
+
   threefold: <p>3</p>,
+
   agreement: (
     <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
       <path
@@ -39,14 +44,23 @@ const icons: IconMap = {
       />
     </svg>
   ),
+
   fiftymovesrule: <p>50</p>,
+
   insufficientmaterial: <p>x</p>,
 };
 
 function WinTypesIcons({ iconName }: IconsMapProps) {
-  const icon = icons[iconName];
+  if (iconName === "") return <>i</>;
 
-  return icon ? icon : <></>;
+  try {
+    const icon = icons[iconName];
+    return icon ? icon : <>i</>;
+  } catch (err) {
+    console.error("Icon error");
+  }
+
+  return <>i</>;
 }
 
 export default WinTypesIcons;

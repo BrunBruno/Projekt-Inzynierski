@@ -1,13 +1,13 @@
 // friendship controller models
 
-import { PagedRequest } from "./commonTypes";
+import { PagedModel } from "./abstracDtosAndModels";
 
-export type GetAllFriendsByStatusModel = PagedRequest & {
+export type GetAllFriendsByStatusModel = PagedModel & {
   username: string | null;
   status: number;
 };
 
-export type GetAllNonFriendsModel = PagedRequest & {
+export type GetAllNonFriendsModel = PagedModel & {
   username: string | null;
 };
 

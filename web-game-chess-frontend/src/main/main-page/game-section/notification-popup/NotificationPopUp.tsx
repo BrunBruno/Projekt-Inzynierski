@@ -8,7 +8,7 @@ import {
   SearchGameModel,
 } from "../../../../shared/utils/types/gameModels";
 import axios from "axios";
-import { gameControllerPaths, getAuthorization } from "../../../../shared/utils/functions/apiFunctions";
+import { gameControllerPaths, getAuthorization } from "../../../../shared/utils/services/ApiService";
 import { usePopup } from "../../../../shared/utils/hooks/usePopUp";
 import { getErrMessage } from "../../../../shared/utils/functions/displayError";
 

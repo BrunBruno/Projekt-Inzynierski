@@ -1,15 +1,31 @@
 ﻿
-using chess.Core.Enums;
+using chess.Application.Requests.Abstraction;
 
 namespace chess.Application.Requests.GameRequests.InvitedToGame;
 
-public class InvitedToGameDto
+/// <summary>
+/// Data returnet to invited user
+/// </summary>
+public class InvitedToGameDto : TimingType
 {
+
+    /// <summary>
+    /// Created game id
+    /// </summary>
     public Guid GameId { get; set; }
+
+    /// <summary>
+    /// Invetee id
+    /// </summary>
     public Guid InviteeId { get; set; }
+
+    /// <summary>
+    /// Invitor id
+    /// </summary>
     public Guid InviterId { get; set; }
+
+    /// <summary>
+    /// Invitre username
+    /// </summary>
     public required string Inviter { get; set; }
-    public TimingTypes Type { get; set; }
-    public int Minutes { get; set; }
-    public int Increment { get; set; }
 }

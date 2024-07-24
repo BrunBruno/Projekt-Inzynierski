@@ -33,6 +33,7 @@ public class FriendshipRepository : IFriendshipRepository {
         => await _dbContext.Friendships
                     .FirstOrDefaultAsync(f => f.Id == friendshipId);
 
+    ///<inheritdoc/>
     public async Task<Friendship?> GetByUsersIds(Guid requesotId, Guid receiverId)
         => await _dbContext.Friendships
                     .FirstOrDefaultAsync(f => 
@@ -51,6 +52,7 @@ public class FriendshipRepository : IFriendshipRepository {
         await _dbContext.SaveChangesAsync();
     }
 
+    ///<inheritdoc/>
     public async Task Delete(Friendship friendship) {
         _dbContext.Friendships.Remove(friendship);
         await _dbContext.SaveChangesAsync();

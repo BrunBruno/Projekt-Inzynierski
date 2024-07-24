@@ -11,7 +11,7 @@ import {
   GetPlayerDto,
   SearchGameDto,
 } from "../../shared/utils/types/gameDtos";
-import { gameControllerPaths, getAuthorization } from "../../shared/utils/functions/apiFunctions";
+import { gameControllerPaths, getAuthorization } from "../../shared/utils/services/ApiService";
 import LoadingPage from "../../shared/components/loading-page/LoadingPage";
 import GameBoard from "./game-board/GameBoard";
 import GameHubService from "../../shared/utils/services/GameHubService";
@@ -22,8 +22,11 @@ import { CheckIfInGameModel, SearchGameModel } from "../../shared/utils/types/ga
 import { usePopup } from "../../shared/utils/hooks/usePopUp";
 import { getErrMessage } from "../../shared/utils/functions/displayError";
 import MainPopUp from "../../shared/components/main-popup/MainPopUp";
+import { PopupType } from "../../shared/utils/types/commonTypes";
 
 function GamePage() {
+  ///
+
   const { gameId } = useParams();
   const location = useLocation();
   const navigate = useNavigate();
@@ -40,11 +43,17 @@ function GamePage() {
 
   const { showPopup } = usePopup();
 
+  // return if no timing set
   useEffect(() => {
     if (location.state.timing !== null) {
       setSelectedTiming(location.state.timing);
     } else {
-      navigate("/main");
+      navigate("/main", {
+        state: {
+          popupText: "Error starting game",
+          popupType: "error",
+        },
+      });
     }
   }, [location.state]);
 
@@ -77,6 +86,7 @@ function GamePage() {
     }
   };
 
+  // to finish the game
   const endGame = (endGameData: EndGameDto) => {
     setWinner(endGameData);
 
@@ -137,7 +147,7 @@ function GamePage() {
     fetchTime();
   }, [gameData]);
 
-  //
+  // handle hub service game changed event
   const handleGamesChanged = async () => {
     if (searchIds !== null) {
       try {
@@ -152,7 +162,11 @@ function GamePage() {
 
         if (isInGameResponse.data.isInGame) {
           navigate(`/main/game/${isInGameResponse.data.gameId}`, {
-            state: { timing: selectedTiming },
+            state: {
+              timing: selectedTiming,
+              popupText: "Game started",
+              popupType: "info",
+            },
           });
 
           window.location.reload();
@@ -175,9 +189,17 @@ function GamePage() {
     };
   }, [searchIds]);
 
-  if (!gameId || !gameData || !playerData) {
-    return <LoadingPage />;
-  }
+  useEffect(() => {
+    if (location.state) {
+      const state = location.state as PopupType;
+
+      if (state.popupText && state.popupType) {
+        showPopup(state.popupText, state.popupType);
+      }
+    }
+  }, []);
+
+  if (!gameId || !gameData || !playerData) return <LoadingPage />;
 
   return (
     <main className={classes["game-main"]}>

@@ -4,7 +4,7 @@ import GameHubService from "../../../../../shared/utils/services/GameHubService"
 import { GetAllInvitationsDto } from "../../../../../shared/utils/types/gameDtos";
 import { AcceptInvitationModel, DeclineInvitationModel } from "../../../../../shared/utils/types/gameModels";
 import classes from "./InvitationCard.module.scss";
-import { gameControllerPaths, getAuthorization } from "../../../../../shared/utils/functions/apiFunctions";
+import { gameControllerPaths, getAuthorization } from "../../../../../shared/utils/services/ApiService";
 import { timingTypesNames } from "../../../../../shared/utils/enums/commonConstLists";
 import { usePopup } from "../../../../../shared/utils/hooks/usePopUp";
 import { getErrMessage } from "../../../../../shared/utils/functions/displayError";

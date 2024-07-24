@@ -110,6 +110,7 @@ public class CreateRematchGameRequestHandler : IRequestHandler<CreateRematchGame
 
         await _gameStateRepository.Create(gameState);
 
+
         var privateGameDto = new CreateRematchGameDto()
         {
             GameId = game.Id,

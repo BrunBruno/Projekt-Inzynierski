@@ -1,12 +1,12 @@
 import axios from "axios";
-import AvatarSvg from "../../../../shared/svgs/AvatarSvg";
 import { friendshipStatus } from "../../../../shared/utils/enums/entitiesEnums";
 import { GetAllFriendsByStatusDto, GetFriendProfileDto } from "../../../../shared/utils/types/friendshipDtos";
 import { RespondToFriendRequestModel } from "../../../../shared/utils/types/friendshipModels";
 import classes from "./Cards.module.scss";
-import { friendshipControllerPaths, getAuthorization } from "../../../../shared/utils/functions/apiFunctions";
+import { friendshipControllerPaths, getAuthorization } from "../../../../shared/utils/services/ApiService";
 import { usePopup } from "../../../../shared/utils/hooks/usePopUp";
 import { getErrMessage } from "../../../../shared/utils/functions/displayError";
+import AvatarImage from "../../../../shared/components/avatar-image/AvatarImage";
 
 type FriendCardsProps = {
   // selected list type
@@ -155,13 +155,12 @@ function FriendCard({ selectedList, friend, getAllUsers, setFriend }: FriendCard
   return (
     <div className={classes.card}>
       <div className={classes.card__content}>
-        <div className={classes.card__content__avatar}>
-          {friend.imageUrl === null ? (
-            <AvatarSvg iconClass={classes["avatar-svg"]} />
-          ) : (
-            <img src={friend.imageUrl} alt={friend.username} className={classes["avatar-img"]} />
-          )}
-        </div>
+        <AvatarImage
+          username={friend.username}
+          imageUrl={friend.imageUrl}
+          containerClass={classes.card__content__avatar}
+          imageClass={classes["avatar-img"]}
+        />
 
         <div className={classes.card__content__info}>
           <div className={classes["user-name"]}>

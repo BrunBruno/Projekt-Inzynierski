@@ -1,10 +1,7 @@
 import { mainColor } from "../utils/enums/colorMaps";
+import { IconParamMap } from "../utils/types/commonTypes";
 
-type TimingTypeMap = {
-  [key: string]: (iconClass: string, color: string) => JSX.Element;
-};
-
-const icons: TimingTypeMap = {
+const icons: IconParamMap = {
   bullet: (iconClass: string, color: string): JSX.Element => (
     <svg
       version="1.1"
@@ -86,7 +83,7 @@ type TimingTypesIconsProps = {
 };
 
 function TimingTypesIcons({ iconName, iconClass, color = mainColor.c5 }: TimingTypesIconsProps) {
-  if (iconName === "") return null;
+  if (iconName === "") return <>i</>;
 
   try {
     const icon = icons[iconName](iconClass, color);
@@ -94,6 +91,8 @@ function TimingTypesIcons({ iconName, iconClass, color = mainColor.c5 }: TimingT
   } catch (err) {
     console.error("Icon error");
   }
+
+  return <>i</>;
 }
 
 export default TimingTypesIcons;

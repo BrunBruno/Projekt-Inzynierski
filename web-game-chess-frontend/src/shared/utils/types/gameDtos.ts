@@ -1,5 +1,7 @@
 // game controller dtos
 
+import { TimingType } from "./abstracDtosAndModels";
+
 export type CheckIfInGameDto = {
   isInGame: boolean;
   gameId: string | null;
@@ -92,14 +94,11 @@ export type GetTypeHistoryDto = {
   createdAt: string;
 };
 
-export type InvitedToGameDto = {
+export type InvitedToGameDto = TimingType & {
   gameId: string;
   inviteeId: string;
   inviterId: string;
   inviter: string;
-  type: number;
-  minutes: number;
-  increment: number;
 };
 
 export type SearchGameDto = {

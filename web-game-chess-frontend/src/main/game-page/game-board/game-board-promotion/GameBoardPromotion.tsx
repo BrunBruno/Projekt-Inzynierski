@@ -16,29 +16,33 @@ function GameBoardPromotion({ playerData, onPerformPromotion }: GameBoardPromoti
   return (
     <div className={classes.promotion}>
       <div className={classes.promotion__pieces}>
-        {playerData.color === pieceColor.white
-          ? piecePromotionMap.white.map((p, i) => (
-              <div
-                key={`promotion-${i}`}
-                className={classes.piece}
-                onClick={() => {
-                  onPerformPromotion(p);
-                }}
-              >
-                <img src={`/pieces/${pieceImageMap[p]}`} alt={`promote-to-${p}`} />
-              </div>
-            ))
-          : piecePromotionMap.black.map((p, i) => (
-              <div
-                key={`promotion-${i}`}
-                className={classes.piece}
-                onClick={() => {
-                  onPerformPromotion(p);
-                }}
-              >
-                <img src={`/pieces/${pieceImageMap[p]}`} alt={`promote-to-${p}`} />
-              </div>
-            ))}
+        {playerData.color === pieceColor.white ? (
+          piecePromotionMap.white.map((p, i) => (
+            <div
+              key={`promotion-${i}`}
+              className={classes.piece}
+              onClick={() => {
+                onPerformPromotion(p);
+              }}
+            >
+              <img src={`/pieces/${pieceImageMap[p]}`} alt={`promote-to-${p}`} />
+            </div>
+          ))
+        ) : playerData.color === pieceColor.black ? (
+          piecePromotionMap.black.map((p, i) => (
+            <div
+              key={`promotion-${i}`}
+              className={classes.piece}
+              onClick={() => {
+                onPerformPromotion(p);
+              }}
+            >
+              <img src={`/pieces/${pieceImageMap[p]}`} alt={`promote-to-${p}`} />
+            </div>
+          ))
+        ) : (
+          <></>
+        )}
       </div>
     </div>
   );

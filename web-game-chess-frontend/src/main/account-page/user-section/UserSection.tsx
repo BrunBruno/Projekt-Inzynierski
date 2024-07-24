@@ -2,9 +2,8 @@ import { useEffect, useState } from "react";
 import classes from "./UserSection.module.scss";
 import { GetEloDto, GetFullUserDto } from "../../../shared/utils/types/userDtos";
 import LoadingPage from "../../../shared/components/loading-page/LoadingPage";
-import AvatarSvg from "../../../shared/svgs/AvatarSvg";
 import axios from "axios";
-import { getAuthorization, userControllerPaths } from "../../../shared/utils/functions/apiFunctions";
+import { getAuthorization, userControllerPaths } from "../../../shared/utils/services/ApiService";
 import TimingTypesIcons from "../../../shared/svgs/TimingTypesIcons";
 import { timingTypes } from "../../../shared/utils/enums/entitiesEnums";
 import UserSectionIocns from "./UserSectionIcons";
@@ -12,6 +11,7 @@ import { UpdateProfileModel } from "../../../shared/utils/types/userModels";
 import StatsRow from "./stats-row/StatsRow";
 import { usePopup } from "../../../shared/utils/hooks/usePopUp";
 import { getErrMessage } from "../../../shared/utils/functions/displayError";
+import AvatarImage from "../../../shared/components/avatar-image/AvatarImage";
 
 type UserSectionProps = {
   getTypeHistory: (type: number) => void;
@@ -89,11 +89,7 @@ function UserSection({ getTypeHistory, setFriendSection }: UserSectionProps) {
     <section className={classes.user}>
       <div className={classes.user__profile}>
         <div className={classes.user__profile__avatar}>
-          {user.imageUrl === null ? (
-            <AvatarSvg iconClass={classes["avatar-img"]} />
-          ) : (
-            <img src={user.imageUrl} className={classes["avatar-img"]} />
-          )}
+          <AvatarImage username={user.username} imageUrl={user.imageUrl} imageClass={classes["avatar-img"]} />
 
           <div className={classes["set-img"]}>
             <UserSectionIocns iconName="image" />

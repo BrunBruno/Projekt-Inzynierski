@@ -1,4 +1,4 @@
-import AvatarSvg from "../../../../../shared/svgs/AvatarSvg";
+import AvatarImage from "../../../../../shared/components/avatar-image/AvatarImage";
 import TimingTypesIcons from "../../../../../shared/svgs/TimingTypesIcons";
 import WinLoseIcons from "../../../../../shared/svgs/WinLoseIcons";
 import WinTypesIcons from "../../../../../shared/svgs/WinTypesIcons";
@@ -26,17 +26,13 @@ function UserGamesCard({ game }: UserGamesCardProps) {
 
     const renderPlayer = (player: GetFinishedGamesPlayerDto, isWhite: boolean, eloGained: number) => (
       <div className={classes.player}>
-        <div className={isWhite ? classes["white-player-img"] : classes["black-player-img"]}>
-          {player.imageUrl !== null ? (
-            <img
-              className={classes["player-img"]}
-              src={player.imageUrl}
-              alt={`${isWhite ? "white" : "black"}-player-avatar`}
-            />
-          ) : (
-            <AvatarSvg iconClass={classes.avatar} />
-          )}
-        </div>
+        <AvatarImage
+          username={player.name}
+          imageUrl={player.imageUrl}
+          containerClass={isWhite ? classes["white-player-img"] : classes["black-player-img"]}
+          imageClass={classes["player-img"]}
+        />
+
         <div className={classes["player-data"]}>
           <span>{player.name}</span>
           <span>
@@ -46,7 +42,7 @@ function UserGamesCard({ game }: UserGamesCardProps) {
       </div>
     );
 
-    if (userInfoObject.userName === game.whitePlayer.name) {
+    if (userInfoObject.username === game.whitePlayer.name) {
       const betterOpp =
         game.whitePlayer.elo === game.blackPlayer.elo ? null : game.whitePlayer.elo < game.blackPlayer.elo;
 
@@ -71,7 +67,7 @@ function UserGamesCard({ game }: UserGamesCardProps) {
       );
     }
 
-    if (userInfoObject.userName === game.blackPlayer.name) {
+    if (userInfoObject.username === game.blackPlayer.name) {
       const betterOpp =
         game.whitePlayer.elo === game.blackPlayer.elo ? null : game.blackPlayer.elo < game.whitePlayer.elo;
 

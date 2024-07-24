@@ -1,4 +1,4 @@
-import AvatarSvg from "../../../../shared/svgs/AvatarSvg";
+import AvatarImage from "../../../../shared/components/avatar-image/AvatarImage";
 import { GetAllFriendsByStatusDto } from "../../../../shared/utils/types/friendshipDtos";
 import classes from "./FriendCard.module.scss";
 
@@ -8,11 +8,7 @@ type FriendCardProps = {
   clearSelection: () => void;
 };
 
-function FriendCard({
-  friend,
-  setSelectedFriend,
-  clearSelection,
-}: FriendCardProps) {
+function FriendCard({ friend, setSelectedFriend, clearSelection }: FriendCardProps) {
   const setActive = (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     const target = event.target as HTMLElement;
 
@@ -32,20 +28,14 @@ function FriendCard({
     >
       <div className={classes.friend__content}>
         <div className={classes.friend__content__avatar}>
-          {friend.imageUrl === null ? (
-            <AvatarSvg iconClass={""} />
-          ) : (
-            <img src={friend.imageUrl} alt={friend.username} />
-          )}
+          <AvatarImage username={friend.username} imageUrl={friend.imageUrl} imageClass={classes.avatar} />
 
           <div className={classes["country"]}>
-            {" "}
             <img src={`https://flagsapi.com/${friend.country}/flat/64.png`} />
           </div>
         </div>
         <div className={classes.friend__content__name}>
-          <span>{friend.username}</span>{" "}
-          <span>{friend.name === null ? "---" : friend.name}</span>
+          <span>{friend.username}</span> <span>{friend.name === null ? "---" : friend.name}</span>
         </div>
         <div className={classes.friend__content__data}>
           <span>{friend.wins}</span>

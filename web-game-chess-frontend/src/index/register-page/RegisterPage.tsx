@@ -11,9 +11,12 @@ import { registrationInterface } from "../../shared/utils/enums/interfacesEnums"
 import MainPopUp from "../../shared/components/main-popup/MainPopUp";
 
 function RegisterPage() {
+  ///
+
   const location = useLocation();
   const navigate = useNavigate();
 
+  // React node modal set to be displayed
   const [modal, setModal] = useState<number>(0);
 
   useEffect(() => {
@@ -56,16 +59,13 @@ function RegisterPage() {
     <main className={classes.register}>
       <div className={classes.register__content}>
         {modal === registrationInterface.signIn ? (
-          <div
-            className={`${classes.register__content__split} ${classes["left-side-content"]}`}
-          >
+          <div className={`${classes.register__content__split} ${classes["left-side-content"]}`}>
             <div className={classes.form}></div>
             <div className={classes.intro}>
               <h1 className={classes.title}>Welcome Back</h1>
               <p className={classes.text}>
-                We're thrilled to see you again! Sign in to access your
-                personalized dashboard, manage your preferences, and stay
-                updated with the latest features and updates.
+                We're thrilled to see you again! Sign in to access your personalized dashboard, manage your preferences,
+                and stay updated with the latest features and updates.
               </p>
               <div
                 className={classes["action-button"]}
@@ -78,15 +78,12 @@ function RegisterPage() {
             </div>
           </div>
         ) : (
-          <div
-            className={`${classes.register__content__split} ${classes["right-side-content"]}`}
-          >
+          <div className={`${classes.register__content__split} ${classes["right-side-content"]}`}>
             <div className={classes.intro}>
               <h1 className={classes.title}>Get on Board</h1>
               <p className={classes.text}>
-                Join us today to unlock a world of benefits! Create an account
-                to access exclusive content, connect with a vibrant community,
-                and get personalized recommendations.
+                Join us today to unlock a world of benefits! Create an account to access exclusive content, connect with
+                a vibrant community, and get personalized recommendations.
               </p>
               <div
                 className={classes["action-button"]}
@@ -102,10 +99,7 @@ function RegisterPage() {
         )}
 
         <div className={`${classes.register__content__form} ${getFormClass()}`}>
-          <PasswordIconSvg
-            color={mainColor.c7}
-            iconClass={classes["lock-svg"]}
-          />
+          <PasswordIconSvg color={mainColor.c7} iconClass={classes["lock-svg"]} />
           {renderModal()}
         </div>
       </div>

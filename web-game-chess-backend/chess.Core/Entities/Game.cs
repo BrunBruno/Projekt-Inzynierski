@@ -59,7 +59,7 @@ public class Game {
     public EndGameTypes? EndGameType { get; set; } = null;
 
     /// <summary>
-    /// 
+    /// Elo gained or lost after game has ended
     /// </summary>
     public int EloGain { get; set; }
 

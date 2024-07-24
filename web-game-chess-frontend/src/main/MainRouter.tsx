@@ -2,7 +2,7 @@ import { Route, Routes, useNavigate } from "react-router-dom";
 import MainPage from "./main-page/MainPage";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { getAuthorization, userControllerPaths } from "../shared/utils/functions/apiFunctions";
+import { getAuthorization, userControllerPaths } from "../shared/utils/services/ApiService";
 import LoadingPage from "../shared/components/loading-page/LoadingPage";
 import { GetUserDto, IsEmailVerifiedDto } from "../shared/utils/types/userDtos";
 import GamePage from "./game-page/GamePage";
@@ -11,6 +11,8 @@ import GameHubService from "../shared/utils/services/GameHubService";
 import { HubConnectionState } from "@microsoft/signalr";
 import AccountPage from "./account-page/AccountPage";
 import { PopupProvider } from "../shared/utils/hooks/usePopUp";
+import { getErrMessage } from "../shared/utils/functions/displayError";
+import ProfilePage from "./profile-page/ProfilePage";
 
 function MainRouter() {
   const navigate = useNavigate();
@@ -28,7 +30,12 @@ function MainRouter() {
 
         const isVerified = isVerifiedResponse.data.isEmailVerified;
         if (!isVerified) {
-          navigate("/registration");
+          navigate("/registration", {
+            state: {
+              popupText: "Account not verified",
+              popupType: "error",
+            },
+          });
           return;
         }
 
@@ -38,7 +45,12 @@ function MainRouter() {
 
         const token = localStorage.getItem("token");
         if (token === null) {
-          navigate("/registration");
+          navigate("/registration", {
+            state: {
+              popupText: "Please, log in",
+              popupType: "error",
+            },
+          });
           return;
         }
 
@@ -50,7 +62,12 @@ function MainRouter() {
           setAuthorize(true);
         }
       } catch (err) {
-        navigate("/");
+        navigate("/", {
+          state: {
+            popupText: getErrMessage(err),
+            popupType: "warning",
+          },
+        });
       }
     };
 
@@ -68,6 +85,7 @@ function MainRouter() {
         <Route path="/users" element={<UsersPage />} />
         <Route path="/game/:gameId" element={<GamePage />} />
         <Route path="/account" element={<AccountPage />} />
+        <Route path="/profile/:userId" element={<ProfilePage />} />
       </Routes>
     </PopupProvider>
   );

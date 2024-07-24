@@ -1,6 +1,6 @@
 import axios from "axios";
 import classes from "./VsPlayerSearch.module.scss";
-import { gameControllerPaths, getAuthorization } from "../../../../shared/utils/functions/apiFunctions";
+import { gameControllerPaths, getAuthorization } from "../../../../shared/utils/services/ApiService";
 import { defaultTimeControls } from "./VsPlayerSearchObjects";
 import { SearchGameDto } from "../../../../shared/utils/types/gameDtos";
 import GameHubService from "../../../../shared/utils/services/GameHubService";

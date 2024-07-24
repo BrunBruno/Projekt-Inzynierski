@@ -8,6 +8,7 @@ type MainPopUpProps = {};
 function MainPopUp({}: MainPopUpProps) {
   const { popupContent, popupType, hidePopup } = usePopup();
 
+  // to imidietly hide popups
   useEffect(() => {
     const timeout = setTimeout(() => {
       hidePopup();
@@ -25,7 +26,9 @@ function MainPopUp({}: MainPopUpProps) {
       <div className={classes.popup__icon}>
         <MainPopUpIcons iconName={popupType} />
       </div>
-      <div className={classes.popup__text}>{popupContent}</div>
+      <div className={classes.popup__text}>
+        <span>{popupContent}</span>
+      </div>
     </div>
   );
 }

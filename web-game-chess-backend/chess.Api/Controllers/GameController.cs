@@ -73,7 +73,8 @@ public class GameController : ControllerBase {
 
 
     /// <summary>
-    /// 
+    /// Creates private game by proving opponent email
+    /// Return created game id
     /// </summary>
     /// <param name="model"></param>
     /// <returns></returns>
@@ -90,7 +91,7 @@ public class GameController : ControllerBase {
 
 
     /// <summary>
-    /// 
+    /// Creates new game for two same users taht has already played one game
     /// </summary>
     /// <param name="model"></param>
     /// <returns></returns>
@@ -164,7 +165,7 @@ public class GameController : ControllerBase {
 
 
     /// <summary>
-    /// 
+    /// Gets time left for user
     /// </summary>
     /// <param name="gameId"></param>
     /// <returns></returns>
@@ -184,7 +185,7 @@ public class GameController : ControllerBase {
 
 
     /// <summary>
-    /// 
+    /// Gets opponent data
     /// </summary>
     /// <param name="gameId"></param>
     /// <returns></returns>
@@ -224,7 +225,7 @@ public class GameController : ControllerBase {
 
 
     /// <summary>
-    /// 
+    /// Gets game timing type and configuration
     /// </summary>
     /// <param name="gameId"></param>
     /// <returns></returns>
@@ -261,7 +262,7 @@ public class GameController : ControllerBase {
 
 
     /// <summary>
-    /// 
+    /// Get all previous games for choosen timing type
     /// </summary>
     /// <param name="model"></param>
     /// <returns></returns>
@@ -277,6 +278,11 @@ public class GameController : ControllerBase {
     }
 
 
+    /// <summary>
+    /// Gets all previous inivations, taht were untouched
+    /// </summary>
+    /// <param name="model"></param>
+    /// <returns></returns>
     [HttpGet("invitations")]
     [Authorize(Policy = "IsVerified")]
     public async Task<IActionResult> GetAllInvitations([FromQuery] GetAllInvitationsModel model) {
@@ -305,9 +311,9 @@ public class GameController : ControllerBase {
         return Ok();
     }
 
-
+    // do huba ----------------
     /// <summary>
-    /// 
+    /// Removes previous invitation, that was not respended to
     /// </summary>
     /// <param name="model"></param>
     /// <returns></returns>

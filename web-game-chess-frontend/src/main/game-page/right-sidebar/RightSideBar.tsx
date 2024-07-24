@@ -1,23 +1,26 @@
 import { useEffect } from "react";
-import AvatarSvg from "../../../shared/svgs/AvatarSvg";
-import PiecesSvgs from "../../../shared/svgs/PiecesSvgs";
-import { makeTimeFromMinutes } from "../../../shared/utils/functions/dateTimeRelated";
 import { GetGameDto } from "../../../shared/utils/types/gameDtos";
 import classes from "./RightSideBar.module.scss";
 import { EndGameModel } from "../../../shared/utils/types/gameModels";
 import GameHubService from "../../../shared/utils/services/GameHubService";
-import {
-  endGameTypes,
-  pieceColor,
-} from "../../../shared/utils/enums/entitiesEnums";
+import { endGameTypes, pieceColor } from "../../../shared/utils/enums/entitiesEnums";
 import LoadingPage from "../../../shared/components/loading-page/LoadingPage";
+import MoveRecord from "./move-record/MoveRecord";
+import GameClock from "./game-clock/GameClock";
+import AvatarImage from "../../../shared/components/avatar-image/AvatarImage";
 
 type RightSideBarProps = {
+  // game id
   gameId: string;
+  // game data
   gameData: GetGameDto;
+  // time left for white
   whitePlayerSeconds: number | null;
+  // time left for black
   blackPlayerSeconds: number | null;
+  // setter for white time
   setWhitePlayerSeconds: React.Dispatch<React.SetStateAction<number | null>>;
+  // setter for black time
   setBlackPlayerSeconds: React.Dispatch<React.SetStateAction<number | null>>;
 };
 
@@ -29,19 +32,14 @@ function RightSideBar({
   setWhitePlayerSeconds,
   setBlackPlayerSeconds,
 }: RightSideBarProps) {
+  ///
+
+  // sets time left for both players
   useEffect(() => {
     if (whitePlayerSeconds === null || blackPlayerSeconds === null) return;
 
-    const whiteTick = () => {
-      setWhitePlayerSeconds((prevSeconds) =>
-        prevSeconds! > 0 ? prevSeconds! - 1 : 0
-      );
-    };
-    const blackTick = () => {
-      setBlackPlayerSeconds((prevSeconds) =>
-        prevSeconds! > 0 ? prevSeconds! - 1 : 0
-      );
-    };
+    const whiteTick = () => setWhitePlayerSeconds((prevSeconds) => (prevSeconds! > 0 ? prevSeconds! - 1 : 0));
+    const blackTick = () => setBlackPlayerSeconds((prevSeconds) => (prevSeconds! > 0 ? prevSeconds! - 1 : 0));
 
     let interval: number;
     if (gameData.turn % 2 === 0) {
@@ -76,44 +74,20 @@ function RightSideBar({
     }
   }, [blackPlayerSeconds]);
 
-  const showTime = (seconds: number): (string | JSX.Element)[] => {
-    const minutes = seconds / 60;
-    const time = makeTimeFromMinutes(minutes);
-    const parts = time.split(":");
-
-    const elements = [];
-    for (let i = 0; i < parts.length; i++) {
-      elements.push(parts[i]);
-      if (i < parts.length - 1) {
-        elements.push(<span key={`colon-${i}`}>:</span>);
-      }
-    }
-
-    return elements;
-  };
-
-  if (whitePlayerSeconds === null || blackPlayerSeconds === null) {
-    return <LoadingPage />;
-  }
+  if (whitePlayerSeconds === null || blackPlayerSeconds === null) return <LoadingPage />;
 
   return (
     <section className={classes.bar}>
       <div className={classes.bar__content}>
         <div className={classes.bar__content__header}>
-          <div
-            className={`${classes.bar__content__header__player} ${classes["white-player"]}`}
-          >
-            <div className={classes["white-player-img"]}>
-              {gameData.whitePlayer.imageUrl ? (
-                <img
-                  className={classes["player-img"]}
-                  src={gameData.whitePlayer.imageUrl}
-                  alt="white-player-avatar"
-                />
-              ) : (
-                <AvatarSvg iconClass={classes.avatar} />
-              )}
-            </div>
+          <div className={`${classes.bar__content__header__player} ${classes["white-player"]}`}>
+            <AvatarImage
+              username={gameData.whitePlayer.name}
+              imageUrl={gameData.whitePlayer.imageUrl}
+              containerClass={classes["white-player-img"]}
+              imageClass={classes["player-img"]}
+            />
+
             <div className={classes["player-data"]}>
               <span>{gameData.whitePlayer.name}</span>
               <span>
@@ -122,20 +96,14 @@ function RightSideBar({
             </div>
           </div>
           <p>vs</p>
-          <div
-            className={`${classes.bar__content__header__player} ${classes["black-player"]}`}
-          >
-            <div className={classes["black-player-img"]}>
-              {gameData.blackPlayer.imageUrl ? (
-                <img
-                  className={classes["player-img"]}
-                  src={gameData.blackPlayer.imageUrl}
-                  alt="black-player-avatar"
-                />
-              ) : (
-                <AvatarSvg iconClass={classes.avatar} />
-              )}
-            </div>
+          <div className={`${classes.bar__content__header__player} ${classes["black-player"]}`}>
+            <AvatarImage
+              username={gameData.blackPlayer.name}
+              imageUrl={gameData.blackPlayer.imageUrl}
+              containerClass={classes["black-player-img"]}
+              imageClass={classes["player-img"]}
+            />
+
             <div className={classes["player-data"]}>
               <span>{gameData.blackPlayer.name}</span>
               <span>
@@ -145,55 +113,20 @@ function RightSideBar({
           </div>
         </div>
 
-        <div className={classes["time-control"]}>
-          <div
-            className={`
-              ${classes.time} 
-              ${gameData.turn % 2 === 0 ? classes.active : ""}
-            `}
-          >
-            {showTime(whitePlayerSeconds)}
-          </div>
-          <div
-            className={`
-              ${classes.time} 
-              ${gameData.turn % 2 === 1 ? classes.active : ""}
-            `}
-          >
-            {showTime(blackPlayerSeconds)}
-          </div>
-        </div>
+        <GameClock
+          gameData={gameData}
+          whitePlayerSeconds={whitePlayerSeconds}
+          blackPlayerSeconds={blackPlayerSeconds}
+        />
 
         <div className={classes.bar__content__history}>
           <div className={classes.bar__content__history__list}>
-            {gameData.moves.map((move, i) => {
-              const turn = Math.floor((move.turn - 1) / 2) + 1;
-
-              return (
-                <div
-                  key={i}
-                  className={classes.bar__content__history__list__record}
-                >
-                  {i % 2 === 0 ? (
-                    <p className={classes.turn}>{turn + ". "}</p>
-                  ) : (
-                    <p className={classes.sep}>:</p>
-                  )}
-                  <p className={classes.move}>
-                    <PiecesSvgs
-                      iconName={move.move[0].toLowerCase()}
-                      color={i % 2 === 0}
-                    />
-                    <span>
-                      {move.move.charAt(0).toUpperCase() +
-                        move.move.slice(1).toLowerCase()}
-                    </span>
-                  </p>
-                </div>
-              );
-            })}
+            {gameData.moves.map((move, i) => (
+              <MoveRecord key={i} recordNum={i} move={move} />
+            ))}
           </div>
         </div>
+
         <div className={classes.bar__content__actions}></div>
       </div>
     </section>

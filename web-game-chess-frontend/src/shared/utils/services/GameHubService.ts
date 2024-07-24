@@ -10,8 +10,10 @@ import {
 // singalR hub service map from GameHub
 class GameHub {
   private gameHubUrl: string = "http://localhost:5125/game-hub";
-  public connection: signalR.HubConnection | null = null;
   private token: string | null = null;
+  private attempts: number = 0;
+
+  public connection: signalR.HubConnection | null = null;
 
   constructor() {
     this.token = localStorage.getItem("token");
@@ -48,7 +50,10 @@ class GameHub {
       console.log("SignalR Connected");
     } catch (err) {
       console.error(err);
-      // setTimeout(() => this.startConnection(), 5000);
+      setTimeout(() => {
+        this.attempts += 1;
+        if (this.attempts <= 10) this.startConnection();
+      }, 5000);
     }
   }
 
@@ -79,7 +84,7 @@ class GameHub {
     }
   }
 
-  //
+  // to send new messages
   public async SendMessage(model: SendMessageModel) {
     try {
       await this.connection?.invoke("send-message", model);
@@ -97,7 +102,7 @@ class GameHub {
     }
   }
 
-  //
+  // to accept game invitations
   public async AcceptInvitation(model: AcceptInvitationModel) {
     try {
       await this.connection?.invoke("accept-invitation", model);
@@ -115,7 +120,7 @@ class GameHub {
     }
   }
 
-  //
+  // notifies user about new game invitations
   public async NotifyUser(model: NotifyUserModel): Promise<void> {
     try {
       await this.connection?.invoke("notify-user", model);

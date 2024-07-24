@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import GameBoardSearchingIcons from "./GameBoadrSearchingIcons";
 import classes from "./GameBoardSearching.module.scss";
 import GameHubService from "../../../../shared/utils/services/GameHubService";
-import { gameControllerPaths, getAuthorization } from "../../../../shared/utils/functions/apiFunctions";
+import { gameControllerPaths, getAuthorization } from "../../../../shared/utils/services/ApiService";
 import axios from "axios";
 import { AbortSearchModel } from "../../../../shared/utils/types/gameModels";
 import { SearchGameDto } from "../../../../shared/utils/types/gameDtos";

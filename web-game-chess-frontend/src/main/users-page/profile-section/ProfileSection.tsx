@@ -1,4 +1,4 @@
-import AvatarSvg from "../../../shared/svgs/AvatarSvg";
+import AvatarImage from "../../../shared/components/avatar-image/AvatarImage";
 import XSvg from "../../../shared/svgs/XSvg";
 import { greyColor } from "../../../shared/utils/enums/colorMaps";
 import { GetFriendProfileDto } from "../../../shared/utils/types/friendshipDtos";
@@ -22,17 +22,14 @@ function ProfileSection({ userProfile, friendProfile, closeProfile }: ProfileSec
       {userProfile !== null ? (
         <div className={classes.profile__content}>
           <div className={classes.profile__content__bg} />
-          <div className={classes.profile__content__avatar}>
-            {userProfile.imageUrl === null ? (
-              <AvatarSvg iconClass={classes["avatar-img"]} />
-            ) : (
-              <img
-                src={userProfile.imageUrl}
-                className={classes["avatar-img"]}
-                alt={`user-${userProfile.username}-profile-picture`}
-              />
-            )}
-          </div>
+
+          <AvatarImage
+            username={userProfile.username}
+            imageUrl={userProfile.imageUrl}
+            containerClass={classes.profile__content__avatar}
+            imageClass={classes["avatar-img"]}
+          />
+
           <div className={classes.profile__content__data}>
             <h1>{userProfile.username}</h1>
             <h2>{userProfile.name === null ? "----- -----" : userProfile.name}</h2>
@@ -51,17 +48,13 @@ function ProfileSection({ userProfile, friendProfile, closeProfile }: ProfileSec
       ) : friendProfile !== null ? (
         <div className={classes.profile__content}>
           <div className={classes.profile__content__bg} />
-          <div className={classes.profile__content__avatar}>
-            {friendProfile.imageUrl === null ? (
-              <AvatarSvg iconClass={classes["avatar-img"]} />
-            ) : (
-              <img
-                src={friendProfile.imageUrl}
-                className={classes["avatar-img"]}
-                alt={`user-${friendProfile.username}-profile-picture`}
-              />
-            )}
-          </div>
+
+          <AvatarImage
+            username={friendProfile.username}
+            imageUrl={friendProfile.imageUrl}
+            containerClass={classes.profile__content__avatar}
+            imageClass={classes["avatar-img"]}
+          />
 
           <div className={classes.profile__content__data}>
             <h1>{friendProfile.username}</h1>

@@ -36,13 +36,13 @@ public interface IGameHub {
     Task InvitedToGame(InvitedToGameDto dto);
 
     /// <summary>
-    /// 
+    /// To notify users that invitation was accepted
     /// </summary>
     /// <returns></returns>
     Task GameAccepted(Guid gameId);
 
     /// <summary>
-    /// 
+    /// To notify users when new message was sent
     /// </summary>
     /// <returns></returns>
     Task MessagesUpdated();

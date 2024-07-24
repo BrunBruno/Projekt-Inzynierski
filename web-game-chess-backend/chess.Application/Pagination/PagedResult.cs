@@ -2,6 +2,10 @@
 namespace chess.Application.Pagination;
 #pragma warning disable CS8618 
 
+/// <summary>
+/// General class for pagination results
+/// </summary>
+/// <typeparam name="T"></typeparam>
 public class PagedResult<T> where T : class {
     public List<T> Items { get; set; }
     public int TotalPages { get; set; }

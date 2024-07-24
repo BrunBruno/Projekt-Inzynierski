@@ -1,6 +1,6 @@
 // user controller dtos
 
-import { EloDto } from "./commonTypes";
+import { EloDto, UserDto } from "./abstracDtosAndModels";
 
 export type ConfigurationDto = {
   minLength: number | null;
@@ -15,13 +15,9 @@ export type LogInUserDto = {
   token: string;
 };
 
-export type GetUserDto = {
+export type GetUserDto = UserDto & {
   userId: string;
   email: string;
-  userName: string;
-  fullName: string | null;
-  imageUrl: string | null;
-  country: string;
 };
 
 export type IsEmailVerifiedDto = {
@@ -30,13 +26,9 @@ export type IsEmailVerifiedDto = {
 
 export type GetEloDto = EloDto;
 
-export type GetFullUserDto = {
+export type GetFullUserDto = UserDto & {
   email: string;
-  username: string;
-  name: string | null;
   joinDate: Date;
-  imageUrl: string | null;
-  country: string;
   bio: string | null;
   wins: number;
   loses: number;
@@ -55,12 +47,8 @@ export type GetByEmailDto = {
   userName: string;
 };
 
-export type GetOtherUserDto = {
-  username: string;
-  name: string | null;
+export type GetOtherUserDto = UserDto & {
   joinDate: Date;
-  imageUrl: string | null;
-  country: string;
   bio: string | null;
   gamesPlayed: number;
 };

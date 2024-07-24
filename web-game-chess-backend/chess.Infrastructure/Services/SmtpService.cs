@@ -43,6 +43,7 @@ public class SmtpService : ISmtpService {
         }
     }
 
+    ///<inheritdoc/>
     public async Task SendGameInvitation(string email, string recipientName, string invitorName) {
         string fromMail = _smtpOptions.FromMail!;
         string fromPassword = _smtpOptions.FromPassword!;

@@ -6,11 +6,17 @@ import LogoIconSvg from "../../svgs/LogoIconSvg";
 function MainNav() {
   const navigate = useNavigate();
 
+  // log out user
   const onLogOut = () => {
     localStorage.removeItem("userInfo");
     localStorage.removeItem("token");
 
-    navigate("/");
+    navigate("/", {
+      state: {
+        popupText: "Logged out",
+        popupType: "info",
+      },
+    });
   };
 
   return (
@@ -45,12 +51,14 @@ function MainNav() {
           <span className={classes.ind}>Add friend</span>
         </div>
 
+        {/* placeholders */}
         {Array.from({ length: 6 }).map((_, i) => (
           <div key={i} className={classes.element}>
             <p>i</p>
             <span className={classes.ind}>ind</span>
           </div>
         ))}
+        {/* placeholders */}
 
         <div
           className={classes.element}

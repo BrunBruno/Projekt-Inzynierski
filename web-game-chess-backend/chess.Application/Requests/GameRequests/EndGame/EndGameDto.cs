@@ -14,7 +14,7 @@ public class EndGameDto {
     public Colors? WinnerColor { get; set; }
 
     /// <summary>
-    /// 
+    /// Elo gained or lost after the game
     /// </summary>
     public int EloGain { get; set; }
 }

@@ -7,7 +7,7 @@ import {
   gameControllerPaths,
   getAuthorization,
   userControllerPaths,
-} from "../../../../shared/utils/functions/apiFunctions";
+} from "../../../../shared/utils/services/ApiService";
 import {
   CreateGameByEmailModel,
   CreatePrivateGameModel,

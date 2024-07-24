@@ -95,7 +95,7 @@ public class FriendshipController : ControllerBase {
 
 
     /// <summary>
-    /// 
+    /// Get user data for other user with established friendship
     /// </summary>
     /// <param name="friendshipId"></param>
     /// <returns></returns>\   

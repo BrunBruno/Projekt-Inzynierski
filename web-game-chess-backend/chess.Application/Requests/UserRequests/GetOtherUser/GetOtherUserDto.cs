@@ -1,12 +1,25 @@
 ﻿
+using chess.Core.Dtos;
+
 namespace chess.Application.Requests.UserRequests.GetOtherUser;
 
-public class GetOtherUserDto {
-    public required string Username { get; set; }
-    public string? Name { get; set; }
+/// <summary>
+/// User dto
+/// </summary>
+public class GetOtherUserDto : UserDto {
+
+    /// <summary>
+    /// Account creation date
+    /// </summary>
     public DateTime JoinDate { get; set; }
-    public string? ImageUrl { get; set; }
-    public required string Country { get; set; }
+
+    /// <summary>
+    /// Bio
+    /// </summary>
     public string? Bio { get; set; }
+
+    /// <summary>
+    /// Total games played
+    /// </summary>
     public int GamesPlayed { get; set; }
 }

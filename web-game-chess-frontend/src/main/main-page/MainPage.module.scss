@@ -1,11 +1,10 @@
 @import "../Main.scss";
 
 .main {
+  @include wh100();
   @include gridBg();
   @include forNav();
 
   position: relative;
-  height: 100%;
-
   overflow: hidden; //
 }

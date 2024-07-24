@@ -7,12 +7,13 @@ import { mainColor } from "../../../../../shared/utils/enums/colorMaps";
 import LoadingPage from "../../../../../shared/components/loading-page/LoadingPage";
 import usePagination from "../../../../../shared/utils/hooks/usePagination";
 import { GetAllFriendsByStatusModel } from "../../../../../shared/utils/types/friendshipModels";
-import { friendshipControllerPaths, getAuthorization } from "../../../../../shared/utils/functions/apiFunctions";
-import { PagedResult } from "../../../../../shared/utils/types/commonTypes";
+import { friendshipControllerPaths, getAuthorization } from "../../../../../shared/utils/services/ApiService";
 import axios from "axios";
 import { friendshipStatus } from "../../../../../shared/utils/enums/entitiesEnums";
 import { usePopup } from "../../../../../shared/utils/hooks/usePopUp";
 import { getErrMessage } from "../../../../../shared/utils/functions/displayError";
+import { PagedResult } from "../../../../../shared/utils/types/abstracDtosAndModels";
+import AvatarImage from "../../../../../shared/components/avatar-image/AvatarImage";
 
 type FriendListProps = {
   // usernam provided in input to filter
@@ -67,13 +68,13 @@ function FriendList({ selectedUsername, setSelectedFriend }: FriendListProps) {
       {friends.length > 0 ? (
         friends.map((friend) => (
           <div key={friend.freindshpId} className={classes.list__element}>
-            <div className={classes.avatar}>
-              {friend.imageUrl ? (
-                <img className={classes["user-avatar"]} src={friend.imageUrl} alt={`${friend.username}`} />
-              ) : (
-                <AvatarSvg iconClass={classes["user-avatar"]} />
-              )}
-            </div>
+            <AvatarImage
+              username={friend.username}
+              imageUrl={friend.imageUrl}
+              containerClass={classes.avatar}
+              imageClass={classes["user-avatar"]}
+            />
+
             <div className={classes.data}>
               <h3>{friend.username}</h3>
               <div className={classes.elo}>

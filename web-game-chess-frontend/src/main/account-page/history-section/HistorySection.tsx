@@ -1,4 +1,3 @@
-import { PagedResult } from "../../../shared/utils/types/commonTypes";
 import { GetTypeHistoryDto } from "../../../shared/utils/types/gameDtos";
 import classes from "./HistorySection.module.scss";
 import { LineChart } from "@mui/x-charts";
@@ -6,6 +5,7 @@ import { ThemeProvider, createTheme } from "@mui/material/styles";
 import { mainColor } from "../../../shared/utils/enums/colorMaps";
 import { formatDate } from "../../../shared/utils/functions/dateTimeRelated";
 import TimingTypesIcons from "../../../shared/svgs/TimingTypesIcons";
+import { PagedResult } from "../../../shared/utils/types/abstracDtosAndModels";
 
 type HistorySectionProps = {
   selectedType: string | null;
@@ -21,17 +21,14 @@ function HistorySection({ selectedType, typeHistory }: HistorySectionProps) {
 
   const createChart = (history: GetTypeHistoryDto[]) => {
     type GroupedByCreatedAt = Record<string, GetTypeHistoryDto[]>;
-    const groupedByCreatedAt: GroupedByCreatedAt = history.reduce(
-      (acc, currentItem) => {
-        const key = currentItem.createdAt.split("T")[0];
-        if (!acc[key]) acc[key] = [];
+    const groupedByCreatedAt: GroupedByCreatedAt = history.reduce((acc, currentItem) => {
+      const key = currentItem.createdAt.split("T")[0];
+      if (!acc[key]) acc[key] = [];
 
-        acc[key].push(currentItem);
+      acc[key].push(currentItem);
 
-        return acc;
-      },
-      {} as GroupedByCreatedAt
-    );
+      return acc;
+    }, {} as GroupedByCreatedAt);
 
     const dates: string[] = Object.keys(groupedByCreatedAt);
     const labels: Date[] = dates.map((date) => new Date(date));
@@ -71,11 +68,7 @@ function HistorySection({ selectedType, typeHistory }: HistorySectionProps) {
     );
   };
 
-  if (
-    typeHistory === null ||
-    selectedType === null ||
-    typeHistory.items.length === 0
-  ) {
+  if (typeHistory === null || selectedType === null || typeHistory.items.length === 0) {
     return (
       <div className={classes.empty}>
         <div className={classes.empty__chart}>
@@ -115,16 +108,10 @@ function HistorySection({ selectedType, typeHistory }: HistorySectionProps) {
   return (
     <div className={classes.actions}>
       <h2>
-        <TimingTypesIcons
-          iconName={selectedType.toLocaleLowerCase()}
-          iconClass={classes["type-icon"]}
-        />{" "}
-        {selectedType}
+        <TimingTypesIcons iconName={selectedType.toLocaleLowerCase()} iconClass={classes["type-icon"]} /> {selectedType}
       </h2>
 
-      <div className={classes.actions__chart}>
-        {createChart(typeHistory.items)}
-      </div>
+      <div className={classes.actions__chart}>{createChart(typeHistory.items)}</div>
 
       <div className={classes.actions__items}>
         {typeHistory.items.reverse().map((item, index) => (
@@ -132,13 +119,7 @@ function HistorySection({ selectedType, typeHistory }: HistorySectionProps) {
             key={index}
             className={`
               ${classes.actions__items__record}
-              ${
-                item.isWinner === null
-                  ? ""
-                  : item.isWinner === true
-                  ? classes.win
-                  : classes.lose
-              }
+              ${item.isWinner === null ? "" : item.isWinner === true ? classes.win : classes.lose}
               `}
           >
             <span>
