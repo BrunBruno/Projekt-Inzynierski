@@ -7,6 +7,8 @@ type HeroSectionProps = {};
 
 const HeroSection = forwardRef<HandleOnScroll, HeroSectionProps>(
   ({}: HeroSectionProps, ref: React.ForwardedRef<HandleOnScroll>) => {
+    ///
+
     const heroBgRef = useRef<HTMLDivElement>(null);
     const handleOnScroll = () => {
       const bgElement = heroBgRef.current;
@@ -36,13 +38,11 @@ const HeroSection = forwardRef<HandleOnScroll, HeroSectionProps>(
             <div></div>
             <h1>
               <span>
-                <span className={classes["span-n"]}>Enter the</span>{" "}
-                <span className={classes["span-f"]}>realm</span>
+                <span className={classes["span-n"]}>Enter the</span> <span className={classes["span-f"]}>realm</span>
               </span>
               <br />
               <span>
-                <span className={classes["span-n"]}>where every</span>{" "}
-                <span className={classes["span-f"]}>move</span>{" "}
+                <span className={classes["span-n"]}>where every</span> <span className={classes["span-f"]}>move</span>{" "}
                 <span className={classes["span-n"]}> shapes destiny</span>
               </span>
             </h1>

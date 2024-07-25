@@ -45,6 +45,7 @@ public class GetAllNonFriendsRequestHandler : IRequestHandler<GetAllNonFriendsRe
             Username = nf.Username,
             Name = nf.Name,
             ImageUrl = nf.ImageUrl,
+            Country = nf.Country,
             Elo = new EloDto()
             {
                 Bullet = nf.Elo.Bullet,

@@ -31,6 +31,8 @@ public class Game {
     /// </summary>
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 
+    public DateTime? StartedAt { get; set; } = null;
+
     /// <summary>
     /// Turn of game
     /// </summary>
@@ -55,6 +57,11 @@ public class Game {
     /// Reason why game has ended
     /// </summary>
     public EndGameTypes? EndGameType { get; set; } = null;
+
+    /// <summary>
+    /// Elo gained or lost after game has ended
+    /// </summary>
+    public int EloGain { get; set; }
 
     /// <summary>
     /// Id of player playing as white

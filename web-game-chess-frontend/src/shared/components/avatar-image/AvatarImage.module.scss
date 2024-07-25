@@ -1,0 +1,11 @@
+@import "../../styles/commons-styles/elements.scss";
+
+.avatar-image {
+  @include flex();
+  border-radius: 100%;
+
+  .avatar {
+    height: 2rem;
+    object-fit: cover;
+  }
+}

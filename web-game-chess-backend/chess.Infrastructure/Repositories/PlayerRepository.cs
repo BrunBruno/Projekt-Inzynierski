@@ -1,6 +1,7 @@
 ﻿
 using chess.Application.Repositories;
 using chess.Core.Entities;
+using chess.Core.Enums;
 using chess.Infrastructure.Contexts;
 using Microsoft.EntityFrameworkCore;
 
@@ -45,6 +46,7 @@ public class PlayerRepository : IPlayerRepository {
     ///<inheritdoc/>
     public async Task<Player?> GetById(Guid id)
         => await _dbContext.Players
+                    .Include(p => p.Messages)
                     .FirstOrDefaultAsync(p => p.Id == id);
 
     ///<inheritdoc/>

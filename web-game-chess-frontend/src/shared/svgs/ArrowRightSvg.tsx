@@ -1,13 +1,8 @@
-import { IconSvgProps } from '../utils/types/commonTypes';
+import { IconSvgProps } from "../utils/types/commonTypes";
 
 function ArrowRightSvg({ color, iconClass }: IconSvgProps) {
   return (
-    <svg
-      viewBox="-4.5 0 20 20"
-      version="1.1"
-      xmlns="http://www.w3.org/2000/svg"
-      className={iconClass}
-    >
+    <svg viewBox="-4.5 0 20 20" version="1.1" xmlns="http://www.w3.org/2000/svg" className={iconClass}>
       <g fill="none">
         <g transform="translate(-305.000000, -6679.000000)" fill={color}>
           <g transform="translate(56.000000, 160.000000)">

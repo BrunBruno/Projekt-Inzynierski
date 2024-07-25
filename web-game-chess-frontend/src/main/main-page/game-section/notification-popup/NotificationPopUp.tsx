@@ -2,18 +2,40 @@ import { useEffect, useState } from "react";
 import classes from "./NotificationPopUp.module.scss";
 import GameHubService from "../../../../shared/utils/services/GameHubService";
 import { InvitedToGameDto } from "../../../../shared/utils/types/gameDtos";
-import { AcceptInvitationModel } from "../../../../shared/utils/types/gameModels";
+import {
+  AcceptInvitationModel,
+  DeclineInvitationModel,
+  SearchGameModel,
+} from "../../../../shared/utils/types/gameModels";
+import { usePopup } from "../../../../shared/utils/hooks/usePopUp";
+import { getErrMessage } from "../../../../shared/utils/functions/displayError";
+import { useTimingType } from "../../../../shared/utils/hooks/useTimingType";
 
 type NotificationPopUpProps = {
   allowNotification: boolean;
+  setAllowNotification: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-function NotificationPopUp({ allowNotification }: NotificationPopUpProps) {
-  const [notification, setNotification] = useState<InvitedToGameDto | null>(
-    null
-  );
+function NotificationPopUp({ allowNotification, setAllowNotification }: NotificationPopUpProps) {
+  ///
+
+  const [notification, setNotification] = useState<InvitedToGameDto | null>(null);
+
+  const { showPopup } = usePopup();
+
+  const { setTimingType } = useTimingType();
 
   const handleNotificationChange = (invitationDto: InvitedToGameDto): void => {
+    const timing: SearchGameModel = {
+      type: invitationDto.type,
+      minutes: invitationDto.minutes,
+      increment: invitationDto.increment,
+    };
+
+    console.log(timing);
+
+    setTimingType(timing);
+
     setNotification(invitationDto);
   };
 
@@ -24,29 +46,49 @@ function NotificationPopUp({ allowNotification }: NotificationPopUpProps) {
 
     return () => {
       if (allowNotification && GameHubService.connection) {
-        console.log("in notification removed");
-
-        GameHubService.connection.off(
-          "InvitededToGame",
-          handleNotificationChange
-        );
+        GameHubService.connection.off("InvitededToGame", handleNotificationChange);
       }
     };
   }, [allowNotification]);
 
-  const onAcceptInvitation = () => {
+  // to accept incoming game invitation
+  const onAcceptInvitation = async (): Promise<void> => {
     if (!notification) return;
 
-    const model: AcceptInvitationModel = {
-      gameId: notification.gameId,
-      inviteeId: notification.inviteeId,
-      invitorId: notification.inviterId,
-    };
+    try {
+      const model: AcceptInvitationModel = {
+        gameId: notification.gameId,
+        inviteeId: notification.inviteeId,
+        invitorId: notification.inviterId,
+      };
 
-    GameHubService.AcceptInvitation(model);
+      await GameHubService.AcceptInvitation(model);
+
+      setNotification(null);
+      setAllowNotification(false);
+    } catch (err) {
+      showPopup(getErrMessage(err), "warning");
+    }
   };
 
-  const onDeclineInvitation = () => {};
+  // to declain incoming game invitation
+  const onDeclineInvitation = async (): Promise<void> => {
+    if (!notification) return;
+
+    try {
+      const model: DeclineInvitationModel = {
+        gameId: notification.gameId,
+        friendId: notification.inviterId,
+      };
+
+      await GameHubService.DeclineInvitation(model);
+
+      setNotification(null);
+      setAllowNotification(false);
+    } catch (err) {
+      showPopup(getErrMessage(err), "warning");
+    }
+  };
 
   if (!notification) {
     return <></>;

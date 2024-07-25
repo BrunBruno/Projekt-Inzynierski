@@ -27,7 +27,7 @@
     background-color: $gc9;
     display: grid;
     grid-template-columns: 1fr;
-    grid-template-rows: 12rem auto 24rem;
+    grid-template-rows: 8rem 4rem auto 24rem;
     gap: 2rem;
 
     &__header {
@@ -38,10 +38,11 @@
 
         @mixin playerImg() {
           @include flex();
-          @include square(5rem);
+          @include circle(5rem);
 
           padding: 0.6rem;
           border-radius: 100%;
+          overflow: hidden;
 
           .player-img {
             @include wh100();
@@ -99,43 +100,6 @@
         grid-template-columns: 1fr 1fr;
         grid-template-rows: auto;
         height: fit-content;
-
-        &__record {
-          @include flex(row, start, start, 0);
-          margin-bottom: 1.2rem;
-          font-size: 1.6rem;
-
-          .move {
-            @include flex(row, start, center, 0.5rem);
-
-            padding-left: 1rem;
-            width: 100%;
-            padding-bottom: 0.2rem;
-            border-bottom: solid 0.1rem $gc8;
-            height: 2rem;
-
-            svg {
-              height: 1.4rem;
-            }
-
-            span {
-              color: $gc5;
-            }
-          }
-
-          .turn {
-            width: fit-content;
-            margin-right: 1rem;
-            color: $gc6;
-          }
-
-          .sep {
-            width: fit-content;
-            height: 2rem;
-            color: $gc6;
-            border-bottom: solid 0.1rem $gc8;
-          }
-        }
       }
     }
 

@@ -8,8 +8,9 @@ namespace chess.Core.Entities;
 /// User entity
 /// </summary>
 public class User {
+
     /// <summary>
-    /// Id
+    /// Id PK
     /// </summary>
     public Guid Id { get; set; }
 
@@ -49,6 +50,21 @@ public class User {
     public bool IsVerified { get; set; } = false;
 
     /// <summary>
+    /// Country where user signed up
+    /// </summary>
+    public string Country { get; set; } = "";
+
+    /// <summary>
+    /// Short description/biograpth of user
+    /// </summary>
+    public string? Bio { get; set; }
+
+    /// <summary>
+    /// Determines if user profile is private or not
+    /// </summary>
+    public bool IsPrivate { get; set; } = false;
+
+    /// <summary>
     /// Role id
     /// </summary>
     public int RoleId { get; set; } = (int)Roles.User;
@@ -62,6 +78,11 @@ public class User {
     /// Score poitns of player for different types
     /// </summary>
     public Elo Elo { get; set; }
+
+    /// <summary>
+    /// Statistics for users games
+    /// </summary>
+    public UserStats Stats { get; set; }
 
     /// <summary>
     /// Players for each game that user played

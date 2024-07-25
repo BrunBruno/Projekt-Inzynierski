@@ -46,7 +46,9 @@ public class RegisterUserRequestHandler : IRequestHandler<RegisterUserRequest> {
             Email = request.Email.ToLower(),
             Username = request.Username,
             JoinDate = DateTime.UtcNow,
+            Country = request.Country,
             Elo = new Elo(),
+            Stats = new UserStats(),
         };
 
         var hashedPassword = _passwordHasher.HashPassword(user, request.Password);
@@ -74,5 +76,6 @@ public class RegisterUserRequestHandler : IRequestHandler<RegisterUserRequest> {
 
 
         await _smtpService.SendVerificationCode(request.Email.ToLower(), request.Username, codeValue);
+
     }
 }

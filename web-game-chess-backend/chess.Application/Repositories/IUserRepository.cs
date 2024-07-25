@@ -9,9 +9,10 @@ namespace chess.Application.Repositories;
 public interface IUserRepository {
 
     /// <summary>
-    /// 
+    /// Gets all users, that have not established relationship with current user
     /// </summary>
     /// <param name="ids"></param>
+    /// <param name="userId"></param>
     /// <returns></returns>
     Task<List<User>> GetAllNonFriends(List<Guid> ids, Guid userId);
 

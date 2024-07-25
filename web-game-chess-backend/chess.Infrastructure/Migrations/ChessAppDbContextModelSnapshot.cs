@@ -84,7 +84,7 @@ namespace chess.Infrastructure.Migrations
                         {
                             Id = 1,
                             MinLength = 5,
-                            RequireDigit = true,
+                            RequireDigit = false,
                             RequireLowercase = false,
                             RequireSpecialChar = false,
                             RequireUppercase = false
@@ -172,8 +172,17 @@ namespace chess.Infrastructure.Migrations
                     b.Property<DateTime?>("RequestRespondedAt")
                         .HasColumnType("timestamp with time zone");
 
+                    b.Property<int>("RequestorDraws")
+                        .HasColumnType("integer");
+
                     b.Property<Guid>("RequestorId")
                         .HasColumnType("uuid");
+
+                    b.Property<int>("RequestorLoses")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("RequestorWins")
+                        .HasColumnType("integer");
 
                     b.Property<int>("Status")
                         .HasColumnType("integer");
@@ -199,6 +208,9 @@ namespace chess.Infrastructure.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
 
+                    b.Property<int>("EloGain")
+                        .HasColumnType("integer");
+
                     b.Property<int?>("EndGameType")
                         .HasColumnType("integer");
 
@@ -217,6 +229,9 @@ namespace chess.Infrastructure.Migrations
 
                     b.Property<int>("Round")
                         .HasColumnType("integer");
+
+                    b.Property<DateTime?>("StartedAt")
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<int>("TimingType")
                         .HasColumnType("integer");
@@ -290,7 +305,7 @@ namespace chess.Infrastructure.Migrations
                     b.Property<int>("Increment")
                         .HasColumnType("integer");
 
-                    b.Property<int>("Minutes")
+                    b.Property<int>("Seconds")
                         .HasColumnType("integer");
 
                     b.Property<int>("Type")
@@ -299,6 +314,69 @@ namespace chess.Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("GameTimings");
+                });
+
+            modelBuilder.Entity("chess.Core.Entities.Invitation", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid>("GameId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("InviteeId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("InviteeName")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<Guid>("InvitorId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("InvitorName")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<bool>("IsAccepted")
+                        .HasColumnType("boolean");
+
+                    b.Property<int>("Type")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("GameId")
+                        .IsUnique();
+
+                    b.ToTable("Invitations");
+                });
+
+            modelBuilder.Entity("chess.Core.Entities.Message", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Content")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<Guid>("PlayerId")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("SentAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PlayerId");
+
+                    b.ToTable("Messages");
                 });
 
             modelBuilder.Entity("chess.Core.Entities.Move", b =>
@@ -312,6 +390,9 @@ namespace chess.Infrastructure.Migrations
 
                     b.Property<string>("CapturedPiece")
                         .HasColumnType("text");
+
+                    b.Property<DateTime>("DoneAt")
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("DoneMove")
                         .IsRequired()
@@ -427,12 +508,22 @@ namespace chess.Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
+                    b.Property<string>("Bio")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Country")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.Property<string>("Email")
                         .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("ImageUrl")
                         .HasColumnType("text");
+
+                    b.Property<bool>("IsPrivate")
+                        .HasColumnType("boolean");
 
                     b.Property<bool>("IsVerified")
                         .HasColumnType("boolean");
@@ -459,6 +550,50 @@ namespace chess.Infrastructure.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("Users");
+                });
+
+            modelBuilder.Entity("chess.Core.Entities.UserStats", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<int>("Draws")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("Loses")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("LosesByCheckMate")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("LosesByResignation")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("LosesByTimeout")
+                        .HasColumnType("integer");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uuid");
+
+                    b.Property<int>("Wins")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("WinsByCheckMate")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("WinsByResignation")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("WinsByTimeout")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId")
+                        .IsUnique();
+
+                    b.ToTable("UserStats");
                 });
 
             modelBuilder.Entity("chess.Core.Entities.BannedUser", b =>
@@ -551,6 +686,28 @@ namespace chess.Infrastructure.Migrations
                     b.Navigation("Game");
                 });
 
+            modelBuilder.Entity("chess.Core.Entities.Invitation", b =>
+                {
+                    b.HasOne("chess.Core.Entities.Game", "Game")
+                        .WithOne()
+                        .HasForeignKey("chess.Core.Entities.Invitation", "GameId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Game");
+                });
+
+            modelBuilder.Entity("chess.Core.Entities.Message", b =>
+                {
+                    b.HasOne("chess.Core.Entities.Player", "Player")
+                        .WithMany("Messages")
+                        .HasForeignKey("PlayerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Player");
+                });
+
             modelBuilder.Entity("chess.Core.Entities.Move", b =>
                 {
                     b.HasOne("chess.Core.Entities.Game", "Game")
@@ -584,6 +741,17 @@ namespace chess.Infrastructure.Migrations
                     b.Navigation("Role");
                 });
 
+            modelBuilder.Entity("chess.Core.Entities.UserStats", b =>
+                {
+                    b.HasOne("chess.Core.Entities.User", "User")
+                        .WithOne("Stats")
+                        .HasForeignKey("chess.Core.Entities.UserStats", "UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("chess.Core.Entities.Game", b =>
                 {
                     b.Navigation("GameState")
@@ -602,6 +770,8 @@ namespace chess.Infrastructure.Migrations
                     b.Navigation("BlackGame")
                         .IsRequired();
 
+                    b.Navigation("Messages");
+
                     b.Navigation("WhiteGame")
                         .IsRequired();
                 });
@@ -616,6 +786,9 @@ namespace chess.Infrastructure.Migrations
                     b.Navigation("ReceivedFriendships");
 
                     b.Navigation("RequestedFriendships");
+
+                    b.Navigation("Stats")
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

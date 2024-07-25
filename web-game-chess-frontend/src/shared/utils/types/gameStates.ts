@@ -1,16 +1,10 @@
+// types for representing essentail states that are used during game
+
+import { Guid } from "guid-typescript";
 import { GetGameDto, GetPlayerDto } from "./gameDtos";
 
-// export type CastleOptions = {
-//   cwkc: boolean;
-//   cwsrc: boolean;
-//   cwlrc: boolean;
-//   cbkc: boolean;
-//   cbsrc: boolean;
-//   cblrc: boolean;
-// };
-
 export type GameStates = {
-  gameId: string;
+  gameId: Guid;
   gameData: GetGameDto | null;
   playerData: GetPlayerDto | null;
   matrix: string[][];

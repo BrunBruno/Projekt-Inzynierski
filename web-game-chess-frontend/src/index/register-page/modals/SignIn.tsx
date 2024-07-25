@@ -3,17 +3,11 @@ import DetailPawnIconSvg from "../../../shared/svgs/DetailPawnIconSvg";
 import { mainColor } from "../../../shared/utils/enums/colorMaps";
 import classes from "./Sign.module.scss";
 import axios from "axios";
-import {
-  getAuthorization,
-  userControllerPaths,
-} from "../../../shared/utils/functions/apiFunctions";
+import { getAuthorization, userControllerPaths } from "../../../shared/utils/services/ApiService";
 import { useNavigate } from "react-router-dom";
 import LoadingPage from "../../../shared/components/loading-page/LoadingPage";
 import { errorDisplay } from "../../../shared/utils/functions/displayError";
-import {
-  IsEmailVerifiedDto,
-  LogInUserDto,
-} from "../../../shared/utils/types/userDtos";
+import { IsEmailVerifiedDto, LogInUserDto } from "../../../shared/utils/types/userDtos";
 import { registrationInterface } from "../../../shared/utils/enums/interfacesEnums";
 import { LogInUserModel } from "../../../shared/utils/types/userModels";
 
@@ -38,9 +32,7 @@ function SignIn({ setModal }: SignInProps) {
   // sign in user
   // set validation token
   // redirect to main
-  const signInUser = async (
-    event: React.FormEvent<HTMLFormElement>
-  ): Promise<void> => {
+  const signInUser = async (event: React.FormEvent<HTMLFormElement>): Promise<void> => {
     event.preventDefault();
 
     if (!emailInputRef.current || !passwordInputRef.current) {
@@ -74,10 +66,7 @@ function SignIn({ setModal }: SignInProps) {
       setProcessing(true);
 
       // Log in user
-      const signInResponse = await axios.post<LogInUserDto>(
-        userControllerPaths.logIn(),
-        userData
-      );
+      const signInResponse = await axios.post<LogInUserDto>(userControllerPaths.logIn(), userData);
 
       // set token
       localStorage.setItem("token", signInResponse.data.token);
@@ -122,20 +111,14 @@ function SignIn({ setModal }: SignInProps) {
   }
 
   return (
-    <form
-      className={classes["registration-form"]}
-      onSubmit={(event) => signInUser(event)}
-    >
+    <form className={classes["registration-form"]} onSubmit={(event) => signInUser(event)}>
       {/* bg */}
       <DetailPawnIconSvg color={mainColor.c0} iconClass={classes["bg-svg"]} />
 
       {/* header */}
       <h2>Login Now</h2>
       <div className={classes["change-form"]}>
-        Don't have an accout?{" "}
-        <span onClick={() => setModal(registrationInterface.signUp)}>
-          Sing Up
-        </span>
+        Don't have an accout? <span onClick={() => setModal(registrationInterface.signUp)}>Sing Up</span>
       </div>
 
       {/* inpus */}

@@ -15,15 +15,17 @@ export const pieceColor: EnumType = {
   white: 0,
   black: 1,
 };
+export type PieceColor = typeof pieceColor[keyof typeof pieceColor];
 
 // from back-end game timining type enum
 export const timingTypes: EnumType = {
-  Bullet: 0,
-  Blitz: 1,
-  Rapid: 2,
-  Classic: 3,
-  Daily: 4,
-};
+  bullet: 0,
+  blitz: 1,
+  rapid: 2,
+  classic: 3,
+  daily: 4,
+} as const;
+export type TimingType = typeof timingTypes[keyof typeof timingTypes];
 
 // from back-end reasons why game has eneded
 export const endGameTypes: EnumType = {
@@ -36,10 +38,13 @@ export const endGameTypes: EnumType = {
   fiftyMovesRule: 7,
   insufficientMaterial: 8,
 };
+export type EndGameTypes = typeof endGameTypes[keyof typeof endGameTypes];
 
+// from back-end statuses of friendship requests
 export const friendshipStatus: EnumType = {
   all: -1,
   pending: 0,
   accepted: 1,
   rejected: 2,
 };
+export type FriendshipStatus = typeof friendshipStatus[keyof typeof friendshipStatus];

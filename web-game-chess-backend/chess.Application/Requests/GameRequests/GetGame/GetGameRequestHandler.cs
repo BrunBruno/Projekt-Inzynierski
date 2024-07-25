@@ -26,13 +26,18 @@ public class GetGameRequestHandler : IRequestHandler<GetGameRequest, GetGameDto>
         if (game.WhitePlayer.UserId != userId && game.BlackPlayer.UserId != userId)
             throw new UnauthorizedException("This is not user game.");
 
+        if(game.StartedAt == null) {
+            game.StartedAt = DateTime.UtcNow;
+
+            await _gameRepository.Update(game);
+
+        }
+
         var gameDto = new GetGameDto()
         {
             HasEnded = game.HasEnded,
             Position = game.Position,
             Turn = game.Turn,
-            Duration = game.GameTiming.Minutes,
-            Increment = game.GameTiming.Increment,
             EnPassant = game.GameState.EnPassant,
             CanWhiteKingCastle = game.GameState.CanWhiteKingCastle,
             CanWhiteShortRookCastle = game.GameState.CanWhiteShortRookCastle,
@@ -45,7 +50,7 @@ public class GetGameRequestHandler : IRequestHandler<GetGameRequest, GetGameDto>
             {
                 Name = game.WhitePlayer.Name,
                 ImageUrl = game.WhitePlayer.ImageUrl,
-                Elo = game.BlackPlayer.Elo,
+                Elo = game.WhitePlayer.Elo,
             },
 
             BlackPlayer = new GetGamePlayerDto()

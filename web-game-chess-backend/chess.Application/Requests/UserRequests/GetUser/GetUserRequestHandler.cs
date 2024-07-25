@@ -30,9 +30,10 @@ public class GetUserRequestHandler : IRequestHandler<GetUserRequest, GetUserDto>
         {
             UserId = userId,
             Email = user.Email,
-            UserName = user.Username,
-            FullName = user.Name,
+            Username = user.Username,
+            Name = user.Name,
             ImageUrl = user.ImageUrl,
+            Country = user.Country,
         };
 
         return userDto;

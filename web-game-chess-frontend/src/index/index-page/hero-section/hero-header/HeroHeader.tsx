@@ -6,6 +6,8 @@ import { registrationInterface } from "../../../../shared/utils/enums/interfaces
 type HeroHeaderProps = {};
 
 function HeroHeader({}: HeroHeaderProps) {
+  ///
+
   const navigate = useNavigate();
 
   return (

@@ -1,31 +1,20 @@
 import { useEffect, useReducer, useRef, useState } from "react";
-import {
-  pieceImageMap,
-  pieceTagMap,
-} from "../../../shared/utils/enums/piecesMaps";
+import { pieceImageMap, pieceTagMap } from "../../../shared/utils/enums/piecesMaps";
 import {
   EndGameDto,
+  GetEndedGameDto,
   GetGameDto,
   GetPlayerDto,
+  SearchGameDto,
 } from "../../../shared/utils/types/gameDtos";
 import classes from "./GameBoard.module.scss";
-import {
-  areCoorEqual,
-  checkIfOwnPiece,
-  checkIfPlayerTurn,
-} from "../../../shared/utils/functions/gameRelated";
-import {
-  generateControlledAreas,
-  checkChecks,
-} from "../../../shared/utils/chess-game/ControlledAreas";
-import {
-  endGameTypes,
-  pieceColor,
-} from "../../../shared/utils/enums/entitiesEnums";
+import { areCoorEqual, checkIfOwnPiece, checkIfPlayerTurn } from "../../../shared/utils/functions/gameRelated";
+import { generateControlledAreas, checkChecks } from "../../../shared/utils/chess-game/ControlledAreas";
+import { endGameTypes, pieceColor } from "../../../shared/utils/enums/entitiesEnums";
 import XSvg from "../../../shared/svgs/XSvg";
 import { generateRandomId } from "../../../shared/utils/functions/generateRandom";
 import { checkIfAnyMoveExists } from "../../../shared/utils/chess-game/CheckIfAnyMoveExists";
-import { EndGameModel } from "../../../shared/utils/types/gameModels";
+import { EndGameModel, SearchGameModel } from "../../../shared/utils/types/gameModels";
 import GameHubService from "../../../shared/utils/services/GameHubService";
 import GameBoardWinner from "./game-board-winner/GameBoardWinner";
 import GameBoardPromotion from "./game-board-promotion/GameBoardPromotion";
@@ -38,34 +27,33 @@ import {
 import GameBoardCoordinates from "./game-board-coordinates/GameBoardCoordinates";
 import FindMoves from "../../../shared/utils/chess-game/FindMoves";
 import { makeMove } from "../../../shared/utils/chess-game/MakeMove";
-import {
-  onClearHighlights,
-  onHighlightFile,
-} from "../../../shared/utils/chess-game/BoardVisualization";
+import { onClearHighlights, onHighlightFile } from "../../../shared/utils/chess-game/BoardVisualization";
+import GameBoardSearching from "./game-board-searching/GameBoardSearching";
+import { dangerColor } from "../../../shared/utils/enums/colorMaps";
+import { Guid } from "guid-typescript";
 
 type GameBoardProps = {
-  gameId: string;
+  gameId: Guid;
   gameData: GetGameDto;
   playerData: GetPlayerDto;
-  winner: EndGameDto | null;
+  winner: EndGameDto | GetEndedGameDto | null;
+  searchIds: SearchGameDto | null;
+  setSearchIds: React.Dispatch<React.SetStateAction<SearchGameDto | null>>;
+  selectedTiming: SearchGameModel | null;
 };
 
-function GameBoard({ gameId, gameData, playerData, winner }: GameBoardProps) {
+function GameBoard({ gameId, gameData, playerData, winner, searchIds, setSearchIds, selectedTiming }: GameBoardProps) {
+  ///
+
   const innerBoardRef = useRef<HTMLDivElement>(null);
   const outerBoardRef = useRef<HTMLDivElement>(null);
 
   const [board, setBoard] = useState<JSX.Element>(<></>);
   const [innerBoard, setInnerBoard] = useState<JSX.Element>(<></>);
 
-  const [gameStates, setGameStates] = useReducer(
-    gameStatesReducer,
-    gameInitialStates
-  );
+  const [gameStates, setGameStates] = useReducer(gameStatesReducer, gameInitialStates);
 
-  const [selectionStates, setSelectionStates] = useReducer(
-    selectionStatesReducer,
-    selectionInitialStates
-  );
+  const [selectionStates, setSelectionStates] = useReducer(selectionStatesReducer, selectionInitialStates);
 
   // display done move
   const [oldCoordinates, setOldCoordinates] = useState<number[]>([]);
@@ -212,16 +200,10 @@ function GameBoard({ gameId, gameData, playerData, winner }: GameBoardProps) {
       const noMove = checkIfAnyMoveExists(gameStates, selectionStates);
 
       if (noMove) {
-        if (
-          playerData.color === pieceColor.white &&
-          gameStates.checkAreas.black.length !== 0
-        ) {
+        if (playerData.color === pieceColor.white && gameStates.checkAreas.black.length !== 0) {
           // white has been check mated
           endGame(playerData.color, endGameTypes.checkMate);
-        } else if (
-          playerData.color === pieceColor.black &&
-          gameStates.checkAreas.white.length !== 0
-        ) {
+        } else if (playerData.color === pieceColor.black && gameStates.checkAreas.white.length !== 0) {
           // black has been check mated
           endGame(playerData.color, endGameTypes.checkMate);
         } else {
@@ -249,9 +231,7 @@ function GameBoard({ gameId, gameData, playerData, winner }: GameBoardProps) {
     const coordinates = [(coor % 8) + 1, 8 - Math.floor(coor / 8)];
 
     // to check if clicked on tip fields
-    const isInTipFields = selectionStates.availableFelds.some((coordinate) =>
-      areCoorEqual(coordinate, coordinates)
-    );
+    const isInTipFields = selectionStates.availableFelds.some((coordinate) => areCoorEqual(coordinate, coordinates));
 
     // to check if selected piece was selected again
     const sameCoor = areCoorEqual(coordinates, selectionStates.coordinates);
@@ -259,21 +239,14 @@ function GameBoard({ gameId, gameData, playerData, winner }: GameBoardProps) {
     // to check if kings are in check
     const isWhiteInCheck =
       char === pieceTagMap.white.king &&
-      gameStates.controlledAreas.black.some((area) =>
-        areCoorEqual(area, coordinates)
-      );
+      gameStates.controlledAreas.black.some((area) => areCoorEqual(area, coordinates));
     const isBlackInCheck =
       char === pieceTagMap.black.king &&
-      gameStates.controlledAreas.white.some((area) =>
-        areCoorEqual(area, coordinates)
-      );
+      gameStates.controlledAreas.white.some((area) => areCoorEqual(area, coordinates));
     const isInCheck = isWhiteInCheck || isBlackInCheck;
 
     // to not display dragging piece
-    const shouldDisplay = !(
-      selectionStates.isDragging &&
-      areCoorEqual(selectionStates.coordinates, coordinates)
-    );
+    const shouldDisplay = !(selectionStates.isDragging && areCoorEqual(selectionStates.coordinates, coordinates));
 
     // to display done move
     const isOldFiled = areCoorEqual(coordinates, oldCoordinates);
@@ -307,12 +280,7 @@ function GameBoard({ gameId, gameData, playerData, winner }: GameBoardProps) {
         }}
         onContextMenu={(event) => {
           event.preventDefault();
-          onHighlightFile(
-            innerBoardRef,
-            coordinates,
-            classes.highlight,
-            classes.field
-          );
+          onHighlightFile(innerBoardRef, coordinates, classes.highlight, classes.field);
         }}
         onDragStartCapture={() => {
           onDragPiece(char, coordinates);
@@ -333,18 +301,11 @@ function GameBoard({ gameId, gameData, playerData, winner }: GameBoardProps) {
             `}
             draggable={checkIfOwnPiece(char, playerData)}
           >
-            <img
-              src={`/pieces/${pieceImageMap[char]}`}
-              draggable={false}
-              alt={`piece-${char}`}
-            />
+            <img src={`/pieces/${pieceImageMap[char]}`} draggable={false} alt={`piece-${char}`} />
             {showCapture && (
               <div className={classes.capture}>
-                <XSvg iconClass={classes.x} />
-                <img
-                  src={`/pieces/${pieceImageMap[capturedPiece]}`}
-                  alt={`captured-piece-${capturedPiece}`}
-                />
+                <XSvg iconClass={classes.x} color={dangerColor.mid} />
+                <img src={`/pieces/${pieceImageMap[capturedPiece]}`} alt={`captured-piece-${capturedPiece}`} />
               </div>
             )}
           </div>
@@ -401,11 +362,7 @@ function GameBoard({ gameId, gameData, playerData, winner }: GameBoardProps) {
         ref={outerBoardRef}
         className={`
           ${classes.board__content__outer} 
-          ${
-            playerData.color === pieceColor.black
-              ? classes["black-board"]
-              : classes["white-board"]
-          }
+          ${playerData.color === pieceColor.black ? classes["black-board"] : classes["white-board"]}
         `}
       >
         {outerFields}
@@ -414,11 +371,7 @@ function GameBoard({ gameId, gameData, playerData, winner }: GameBoardProps) {
         ref={innerBoardRef}
         className={`
           ${classes.board__content__inner} 
-          ${
-            playerData.color === pieceColor.black
-              ? classes["black-board"]
-              : classes["white-board"]
-          }
+          ${playerData.color === pieceColor.black ? classes["black-board"] : classes["white-board"]}
         `}
       >
         {innerFields}
@@ -442,10 +395,8 @@ function GameBoard({ gameId, gameData, playerData, winner }: GameBoardProps) {
 
     if (
       isInTipFields &&
-      ((selectionStates.piece === pieceTagMap.white.pawn &&
-        coordinates[1] === 8) ||
-        (selectionStates.piece === pieceTagMap.black.pawn &&
-          coordinates[1] === 1))
+      ((selectionStates.piece === pieceTagMap.white.pawn && coordinates[1] === 8) ||
+        (selectionStates.piece === pieceTagMap.black.pawn && coordinates[1] === 1))
     ) {
       setSelectionStates({ type: "SET_PROMOTION_COOR", payload: coordinates });
       return;
@@ -490,11 +441,7 @@ function GameBoard({ gameId, gameData, playerData, winner }: GameBoardProps) {
     chosePiece(piece, coordinates);
   };
 
-  const onDropPiece = (
-    coordinates: number[],
-    isInTipFields: boolean,
-    samePiece: boolean
-  ): void => {
+  const onDropPiece = (coordinates: number[], isInTipFields: boolean, samePiece: boolean): void => {
     setSelectionStates({ type: "SET_IS_DRAGGING", payload: false });
 
     // unselect piece when back on same field
@@ -506,10 +453,8 @@ function GameBoard({ gameId, gameData, playerData, winner }: GameBoardProps) {
     // add promotion coordinates when on last rank
     if (
       isInTipFields &&
-      ((selectionStates.piece === pieceTagMap.white.pawn &&
-        coordinates[1] === 8) ||
-        (selectionStates.piece === pieceTagMap.black.pawn &&
-          coordinates[1] === 1))
+      ((selectionStates.piece === pieceTagMap.white.pawn && coordinates[1] === 8) ||
+        (selectionStates.piece === pieceTagMap.black.pawn && coordinates[1] === 1))
     ) {
       setSelectionStates({ type: "SET_PROMOTION_COOR", payload: coordinates });
       return;
@@ -517,7 +462,7 @@ function GameBoard({ gameId, gameData, playerData, winner }: GameBoardProps) {
 
     // if put on one of tip fields make move else clear piece
     if (isInTipFields) {
-      makeMove(gameStates, selectionStates, coordinates);
+      makeMove(gameStates, selectionStates, coordinates, null);
     } else {
       chosePiece("", []);
     }
@@ -544,12 +489,7 @@ function GameBoard({ gameId, gameData, playerData, winner }: GameBoardProps) {
   // promote pawn to choosen piece
   const onPerformPromotion = (promotedPiece: string): void => {
     if (selectionStates.promotionCoor) {
-      makeMove(
-        gameStates,
-        selectionStates,
-        selectionStates.promotionCoor,
-        promotedPiece
-      );
+      makeMove(gameStates, selectionStates, selectionStates.promotionCoor, promotedPiece);
     }
 
     setSelectionStates({ type: "SET_PROMOTION_COOR", payload: [] });
@@ -567,14 +507,20 @@ function GameBoard({ gameId, gameData, playerData, winner }: GameBoardProps) {
 
         {/* promotion box */}
         {selectionStates.promotionCoor.length > 0 && (
-          <GameBoardPromotion
-            playerData={playerData}
-            onPerformPromotion={onPerformPromotion}
-          />
+          <GameBoardPromotion playerData={playerData} onPerformPromotion={onPerformPromotion} />
         )}
 
         {/* end game info*/}
-        {winner && <GameBoardWinner gameData={gameData} winner={winner} />}
+        {winner && !searchIds && (
+          <GameBoardWinner
+            gameData={gameData}
+            winner={winner}
+            setSearchIds={setSearchIds}
+            selectedTiming={selectedTiming}
+          />
+        )}
+
+        {winner && searchIds && <GameBoardSearching searchIds={searchIds} setSearchIds={setSearchIds} />}
       </div>
     </section>
   );

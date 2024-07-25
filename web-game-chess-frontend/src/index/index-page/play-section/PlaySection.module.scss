@@ -11,13 +11,7 @@
     width: 100%;
     margin: 10rem 0;
 
-    background-image: linear-gradient(
-      -60deg,
-      $mc1 60%,
-      $mc3 60%,
-      $mc3 80%,
-      $mc1 80%
-    );
+    background-image: linear-gradient(-60deg, $mc1 60%, $mc3 60%, $mc3 80%, $mc1 80%);
     background-attachment: fixed;
     opacity: 1;
     filter: drop-shadow(0 0 0.4rem $mc0);
@@ -86,8 +80,9 @@
         pointer-events: all;
 
         .actions-row {
-          opacity: 0;
-          transform: translateY(6rem);
+          &.show {
+            @include emergeAni(1s, 0s, 6rem);
+          }
 
           h3 {
             font-size: 4.4rem;
@@ -132,10 +127,6 @@
               }
             }
           }
-        }
-
-        .show {
-          @include emergeAni(1s, 0s);
         }
       }
     }

@@ -1,20 +1,75 @@
-import AvatarSvg from "../../../../shared/svgs/AvatarSvg";
+import axios from "axios";
 import { GetAllNonFriendsDto } from "../../../../shared/utils/types/friendshipDtos";
+import { InviteFriendModel } from "../../../../shared/utils/types/friendshipModels";
 import classes from "./Cards.module.scss";
+import {
+  friendshipControllerPaths,
+  getAuthorization,
+  userControllerPaths,
+} from "../../../../shared/utils/services/ApiService";
+import { usePopup } from "../../../../shared/utils/hooks/usePopUp";
+import { GetOtherUserDto } from "../../../../shared/utils/types/userDtos";
+import { GetOtherUserModel } from "../../../../shared/utils/types/userModels";
+import { getErrMessage } from "../../../../shared/utils/functions/displayError";
+import AvatarImage from "../../../../shared/components/avatar-image/AvatarImage";
 
 type UserCardsProps = {
+  // user data to create card
   user: GetAllNonFriendsDto;
-  onInviteFriend: (userId: string) => Promise<void>;
+  // to updated list when action was performed
+  getAllUsers: () => Promise<void>;
+  // to select profile to show
+  setNonFriend: (user: GetOtherUserDto) => void;
 };
 
-function UserCards({ user, onInviteFriend }: UserCardsProps) {
+function UserCards({ user, getAllUsers, setNonFriend }: UserCardsProps) {
+  ///
+
+  const { showPopup } = usePopup();
+
+  // invite new friend
+  const onInviteFriend = async (userId: string) => {
+    try {
+      const model: InviteFriendModel = {
+        receiverId: userId,
+      };
+
+      await axios.post(friendshipControllerPaths.inviteFriend(), model, getAuthorization());
+
+      showPopup("Invitation sent", "success");
+
+      getAllUsers();
+    } catch (err) {
+      showPopup(getErrMessage(err), "warning");
+    }
+  };
+
+  // get non friend profile to display
+  const onShowProfile = async () => {
+    try {
+      const model: GetOtherUserModel = {
+        userId: user.userId,
+      };
+
+      const response = await axios.get<GetOtherUserDto>(userControllerPaths.getOtherUser(model), getAuthorization());
+
+      setNonFriend(response.data);
+    } catch (err) {
+      showPopup(getErrMessage(err), "warning");
+    }
+  };
+
   return (
     <div className={classes.card}>
-      <div className={classes.header}>
-        <div className={classes.avatar}>
-          <AvatarSvg iconClass={classes["avatar-svg"]} />
-        </div>
-        <div className={classes["user-info"]}>
+      <div className={classes.card__content}>
+        <AvatarImage
+          username={user.username}
+          imageUrl={user.imageUrl}
+          containerClass={classes.card__content__avatar}
+          imageClass={classes["avatar-img"]}
+        />
+
+        <div className={classes.card__content__info}>
           <div className={classes["user-name"]}>
             <p>{user.username}</p>
             <p>{user.name ? user.name : "----- -----"}</p>
@@ -28,13 +83,21 @@ function UserCards({ user, onInviteFriend }: UserCardsProps) {
             >
               Add to friends
             </button>
-            <button className={classes["sec-button"]} onClick={() => {}}>
+            <button
+              className={classes["sec-button"]}
+              onClick={() => {
+                onShowProfile();
+              }}
+            >
               See Profile
             </button>
           </div>
         </div>
+
+        <div className={classes.card__content__country}>
+          <img src={`https://flagsapi.com/${user.country}/flat/64.png`} />
+        </div>
       </div>
-      <div className={classes.content}></div>
     </div>
   );
 }

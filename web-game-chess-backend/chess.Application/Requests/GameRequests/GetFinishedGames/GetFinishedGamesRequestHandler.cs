@@ -5,6 +5,7 @@ using chess.Application.Services;
 using chess.Core.Enums;
 using chess.Shared.Exceptions;
 using MediatR;
+using Microsoft.IdentityModel.Tokens;
 
 namespace chess.Application.Requests.GameRequests.GetFinishedGames;
 
@@ -28,19 +29,35 @@ public class GetFinishedGamesRequestHandler : IRequestHandler<GetFinishedGamesRe
 
         var finishedGames = new List<GetFinishedGamesDto>();
 
+        if(request.TimingTypeFilters == null) { }
+
         foreach(var player in players) {
 
             if(player.WhiteGame is not null &&
                 player.WhiteGame.WhitePlayer is not null &&
                 player.WhiteGame.BlackPlayer is not null &&
-                player.WhiteGame.HasEnded
+                player.WhiteGame.HasEnded 
             ){
-                finishedGames.Add(new GetFinishedGamesDto()
+                if (request.TimingTypeFilters is not null &&
+                    !request.TimingTypeFilters.IsNullOrEmpty() &&
+                    !request.TimingTypeFilters.Contains(player.WhiteGame.TimingType))
+                    continue;
+
+
+                bool? isWinner = player.WhiteGame.WinnerColor != null ? player.WhiteGame.WinnerColor == Colors.White : null;
+
+                if (request.ResultFilters is not null &&
+                    !request.ResultFilters.IsNullOrEmpty() &&
+                    !request.ResultFilters.Contains(isWinner))
+                    continue;
+
+                var gameDto = new GetFinishedGamesDto()
                 {
                     Position = player.WhiteGame.Position,
                     Turn = player.WhiteGame.Turn,
                     Moves = player.WhiteGame.Round,
-                    IsWinner = player.WhiteGame.WinnerColor != null ? player.WhiteGame.WinnerColor == Colors.White : null,
+                    IsWinner = isWinner,
+                    EloGained = player.WhiteGame.EloGain,
                     CreatedAt = player.WhiteGame.CreatedAt,
 
                     TimingType = player.WhiteGame.TimingType,
@@ -54,6 +71,7 @@ public class GetFinishedGamesRequestHandler : IRequestHandler<GetFinishedGamesRe
                         Elo = player.WhiteGame.WhitePlayer.Elo,
 
                     },
+
                     BlackPlayer = new GetFinishedGamesPlayerDto()
                     {
                         Name = player.WhiteGame.BlackPlayer.Name,
@@ -61,7 +79,9 @@ public class GetFinishedGamesRequestHandler : IRequestHandler<GetFinishedGamesRe
                         Elo = player.WhiteGame.BlackPlayer.Elo,
                     }
                     
-                });
+                };
+
+                finishedGames.Add(gameDto);
             }
 
             if (player.BlackGame is not null &&
@@ -69,12 +89,25 @@ public class GetFinishedGamesRequestHandler : IRequestHandler<GetFinishedGamesRe
                 player.BlackGame.BlackPlayer is not null &&
                 player.BlackGame.HasEnded
             ) {
-                finishedGames.Add(new GetFinishedGamesDto()
+                if (request.TimingTypeFilters is not null &&
+                    !request.TimingTypeFilters.IsNullOrEmpty() &&
+                    !request.TimingTypeFilters.Contains(player.BlackGame.TimingType))
+                    continue;
+
+                bool? isWinner = player.BlackGame.WinnerColor != null ? player.BlackGame.WinnerColor == Colors.Black : null;
+
+                if (request.ResultFilters is not null &&
+                    !request.ResultFilters.IsNullOrEmpty() &&
+                    !request.ResultFilters.Contains(isWinner))
+                    continue;
+
+                var gameDto = new GetFinishedGamesDto()
                 {
                     Position = player.BlackGame.Position,
                     Turn = player.BlackGame.Turn,
                     Moves = player.BlackGame.Round,
-                    IsWinner = player.BlackGame.WinnerColor != null ? player.BlackGame.WinnerColor == Colors.Black : null,
+                    IsWinner = isWinner,
+                    EloGained = player.BlackGame.EloGain,
                     CreatedAt = player.BlackGame.CreatedAt,
 
                     TimingType = player.BlackGame.TimingType,
@@ -87,13 +120,16 @@ public class GetFinishedGamesRequestHandler : IRequestHandler<GetFinishedGamesRe
                         ImageUrl = player.BlackGame.WhitePlayer.ImageUrl,
                         Elo = player.BlackGame.WhitePlayer.Elo,
                     },
+
                     BlackPlayer = new GetFinishedGamesPlayerDto()
                     {
                         Name = player.BlackGame.BlackPlayer.Name,
                         ImageUrl = player.BlackGame.BlackPlayer.ImageUrl,
                         Elo = player.BlackGame.BlackPlayer.Elo,
                     }
-                });
+                };
+
+                finishedGames.Add(gameDto);
             }
         }
 

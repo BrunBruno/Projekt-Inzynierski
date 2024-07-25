@@ -58,8 +58,7 @@ export const gameplayAndFeaturesFAQs: questionsType[] = [
       "You can analyze your games using the analysis feature in the app. This allows you to review each move, see where you or your opponent went wrong, and learn from your gameplay.",
   },
   {
-    question:
-      "Is there a chat feature for communicating with opponents during a game?",
+    question: "Is there a chat feature for communicating with opponents during a game?",
     answer:
       "Yes, there's a chat feature available during games. You can use it to communicate with your opponent, discuss strategies, or just say hello!",
   },

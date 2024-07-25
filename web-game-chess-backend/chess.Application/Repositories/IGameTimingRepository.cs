@@ -23,7 +23,7 @@ public interface IGameTimingRepository {
     /// <param name="minutes"></param>
     /// <param name="increment"></param>
     /// <returns></returns>
-    Task<GameTiming?> FindTiming(TimingTypes type, int minutes, int increment);
+    Task<GameTiming?> FindTiming(TimingTypes type, int seconds, int increment);
 
     /// <summary>
     /// Creates new timing

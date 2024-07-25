@@ -49,6 +49,7 @@ public class GetAllFriendsByStatusRequestHandler : IRequestHandler<GetAllFriends
                         Username = friend.Username,
                         Name = friend.Name,
                         ImageUrl = friend.ImageUrl,
+                        Country = friend.Country,
                         IsRequestor = isRequestor,
                         Elo = new EloDto()
                         {
@@ -58,6 +59,11 @@ public class GetAllFriendsByStatusRequestHandler : IRequestHandler<GetAllFriends
                             Classic = friend.Elo.Classic,
                             Daily = friend.Elo.Daily,
                         },
+
+                        GamesPlayed = friendship.GamesPlayed,
+                        Wins = isRequestor ? friendship.RequestorWins : friendship.RequestorLoses,
+                        Loses = isRequestor ? friendship.RequestorLoses : friendship.RequestorWins,
+                        Draws = friendship.RequestorDraws,
                     };
 
                     friends.Add(friendDto);

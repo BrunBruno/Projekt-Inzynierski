@@ -1,18 +1,50 @@
-import AvatarSvg from "../../../../shared/svgs/AvatarSvg";
+import { useNavigate } from "react-router-dom";
 import { pieceColor } from "../../../../shared/utils/enums/entitiesEnums";
-import {
-  EndGameDto,
-  GetGameDto,
-} from "../../../../shared/utils/types/gameDtos";
+import { EndGameDto, GetEndedGameDto, GetGameDto, SearchGameDto } from "../../../../shared/utils/types/gameDtos";
 import classes from "./GameBoardWinner.module.scss";
+import { SearchGameModel } from "../../../../shared/utils/types/gameModels";
+import { gameControllerPaths, getAuthorization } from "../../../../shared/utils/services/ApiService";
+import axios from "axios";
+import GameHubService from "../../../../shared/utils/services/GameHubService";
+import { getErrMessage } from "../../../../shared/utils/functions/displayError";
+import { usePopup } from "../../../../shared/utils/hooks/usePopUp";
+import AvatarImage from "../../../../shared/components/avatar-image/AvatarImage";
 
 type GameBoardWinnerProps = {
   gameData: GetGameDto;
-  winner: EndGameDto | null;
+  winner: EndGameDto | GetEndedGameDto | null;
+  setSearchIds: React.Dispatch<React.SetStateAction<SearchGameDto | null>>;
+  selectedTiming: SearchGameModel | null;
 };
 
-function GameBoardWinner({ winner, gameData }: GameBoardWinnerProps) {
+function GameBoardWinner({ winner, gameData, setSearchIds, selectedTiming }: GameBoardWinnerProps) {
+  ///
+
+  const navigate = useNavigate();
+
+  const { showPopup } = usePopup();
+
   if (!winner) return;
+
+  const onSearchForGame = async () => {
+    if (selectedTiming === null) return;
+
+    const gameType: SearchGameModel = selectedTiming;
+
+    try {
+      const searchGameResponse = await axios.post<SearchGameDto>(
+        gameControllerPaths.startSearch(),
+        gameType,
+        getAuthorization()
+      );
+
+      setSearchIds(searchGameResponse.data);
+
+      GameHubService.PlayerJoined(searchGameResponse.data.timingId);
+    } catch (err) {
+      showPopup(getErrMessage(err), "warning");
+    }
+  };
 
   return (
     <div className={classes.winner}>
@@ -32,17 +64,13 @@ function GameBoardWinner({ winner, gameData }: GameBoardWinnerProps) {
         <div className={classes.winner__content__info}>
           <div className={classes.winner__content__info__players}>
             <div className={`${classes.player} ${classes["white-player"]}`}>
-              <div className={classes["white-player-img"]}>
-                {gameData.whitePlayer.imageUrl ? (
-                  <img
-                    className={classes["player-img"]}
-                    src={gameData.whitePlayer.imageUrl}
-                    alt="white-player-avatar"
-                  />
-                ) : (
-                  <AvatarSvg iconClass={classes.avatar} />
-                )}
-              </div>
+              <AvatarImage
+                username={gameData.whitePlayer.name}
+                imageUrl={gameData.whitePlayer.imageUrl}
+                containerClass={classes["white-player-img"]}
+                imageClass={classes["player-img"]}
+              />
+
               <div className={classes["player-data"]}>
                 <span>{gameData.whitePlayer.name}</span>
                 <span>
@@ -52,17 +80,13 @@ function GameBoardWinner({ winner, gameData }: GameBoardWinnerProps) {
             </div>
             <p>vs</p>
             <div className={`${classes.player} ${classes["black-player"]}`}>
-              <div className={classes["black-player-img"]}>
-                {gameData.blackPlayer.imageUrl ? (
-                  <img
-                    className={classes["player-img"]}
-                    src={gameData.blackPlayer.imageUrl}
-                    alt="black-player-avatar"
-                  />
-                ) : (
-                  <AvatarSvg iconClass={classes.avatar} />
-                )}
-              </div>
+              <AvatarImage
+                username={gameData.blackPlayer.name}
+                imageUrl={gameData.blackPlayer.imageUrl}
+                containerClass={classes["black-player-img"]}
+                imageClass={classes["player-img"]}
+              />
+
               <div className={classes["player-data"]}>
                 <span>{gameData.blackPlayer.name}</span>
                 <span>
@@ -73,8 +97,25 @@ function GameBoardWinner({ winner, gameData }: GameBoardWinnerProps) {
           </div>
 
           <div className={classes.winner__content__info__buttons}>
-            <button className={classes["new-game"]}>New Game</button>
+            <button
+              className={classes["new-game"]}
+              onClick={() => {
+                onSearchForGame();
+              }}
+            >
+              New Game
+            </button>
             <button className={classes["re-game"]}>Remach</button>
+          </div>
+
+          <div className={classes.leave}>
+            <button
+              onClick={() => {
+                navigate("/main");
+              }}
+            >
+              Leave
+            </button>
           </div>
         </div>
       </div>

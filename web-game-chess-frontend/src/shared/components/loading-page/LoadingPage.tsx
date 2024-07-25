@@ -1,12 +1,34 @@
+import { useEffect, useRef, useState } from "react";
 import classes from "./LoadingPage.module.scss";
 
-type LoadingPageProps = {};
+type LoadingPageProps = {
+  text?: string;
+};
 
-function LoadingPage({}: LoadingPageProps) {
+function LoadingPage({ text = "" }: LoadingPageProps) {
+  const loadingRef = useRef<HTMLDivElement>(null);
+
+  const [size, setSize] = useState<number>(0);
+
+  // set size of loading circles
+  useEffect(() => {
+    if (loadingRef.current) {
+      const { offsetWidth } = loadingRef.current;
+      const borderWidth = offsetWidth / 10 / 5;
+
+      setSize(borderWidth);
+    }
+  }, []);
+
   return (
-    <div className={classes.loading}>
-      <div className={classes.loading__inner} />
-      <div className={classes.loading__outer} />
+    <div ref={loadingRef} className={classes.loading}>
+      <div className={classes.loading__container}>
+        <div className={classes.loading__container__inner} style={{ borderWidth: size + "px" }}>
+          <div className={classes.loading__container__inner__outer} style={{ borderWidth: size + "px" }} />
+        </div>
+
+        <div className={classes.loading__container__text}>{text}</div>
+      </div>
     </div>
   );
 }

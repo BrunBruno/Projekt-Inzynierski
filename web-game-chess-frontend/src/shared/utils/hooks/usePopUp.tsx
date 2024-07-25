@@ -1,50 +1,55 @@
-import { useEffect, useRef, useState } from "react";
-import { useLocation } from "react-router-dom";
+import { createContext, ReactNode, useContext, useState } from "react";
+import { popupIconTypes } from "../enums/commonConstLists";
 
-type PopupHookReturnType = [
-  React.RefObject<HTMLDivElement>,
-  string,
-  React.Dispatch<React.SetStateAction<string>>,
-];
+interface PopupContextType {
+  // to show MainPopup, set content and icon
+  showPopup: (content: string, type: typeof popupIconTypes[number]) => void;
+  // to hide popup
+  hidePopup: () => void;
+  // popup message content
+  popupContent: string;
+  // popup icon type
+  popupType: typeof popupIconTypes[number] | null;
+}
 
-type PopupHookProps = {
-  className: string;
+// default popup context
+const PopupContext = createContext<PopupContextType>({
+  showPopup: () => {},
+  hidePopup: () => {},
+  popupContent: "",
+  popupType: null,
+});
+
+type PopUpProviderProps = {
+  // popup content
+  children: ReactNode;
 };
 
-const usePopup = ({ className }: PopupHookProps): PopupHookReturnType => {
-  const location = useLocation();
+export const PopupProvider = ({ children }: PopUpProviderProps) => {
+  // state for popup content
+  const [popupContent, setPopupContent] = useState<string>("");
+  // state for popup icon type
+  const [popupType, setPopupType] = useState<typeof popupIconTypes[number] | null>(null);
 
-  const ref = useRef<HTMLDivElement>(null);
-  const [content, setContent] = useState<string>("");
+  // show popup
+  const showPopup = (content: string, type: typeof popupIconTypes[number]) => {
+    hidePopup();
 
-  useEffect(() => {
-    if (location.state && location.state.popup) {
-      setContent(location.state.popup);
+    setTimeout(() => {
+      setPopupContent(content);
+      setPopupType(type);
+    }, 10);
+  };
 
-      delete location.state.popup;
+  // hide popup
+  const hidePopup = () => {
+    setPopupContent("");
+    setPopupType(null);
+  };
 
-      window.history.replaceState(location.state, "", location.pathname);
-    }
-  }, [location.state]);
-
-  useEffect(() => {
-    if (content !== "" && ref.current) {
-      ref.current.classList.remove(className);
-
-      setTimeout(() => {
-        if (ref.current) {
-          ref.current.classList.add(className);
-        }
-        setTimeout(() => {
-          if (ref.current) {
-            setContent("");
-          }
-        }, 2000);
-      }, 3000);
-    }
-  }, [content, ref.current]);
-
-  return [ref, content, setContent];
+  return (
+    <PopupContext.Provider value={{ showPopup, hidePopup, popupContent, popupType }}>{children}</PopupContext.Provider>
+  );
 };
 
-export default usePopup;
+export const usePopup = () => useContext(PopupContext);

@@ -1,3 +1,5 @@
+import { popupIconTypes } from "../enums/commonConstLists";
+
 // type from enums string to number
 export type EnumType = {
   [key: string]: number;
@@ -5,7 +7,7 @@ export type EnumType = {
 
 // type for svg icons
 export type IconSvgProps = {
-  color: string;
+  color?: string;
   iconClass: string;
 };
 
@@ -19,21 +21,30 @@ export type IconsMapProps = {
   iconName: string;
 };
 
+// type for svg icons with params
+export type IconParamMap = {
+  [key: string]: (iconClass: string, color: string) => JSX.Element;
+};
+
 // handle on scoll function type
 export type HandleOnScroll = {
   handleOnScroll: () => void;
 };
 
-// pagination result type
-export type PagedResult<T> = {
-  items: T[];
-  totalPages: number;
-  itemsFrom: number;
-  itemsTo: number;
-  totalItemsCount: number;
-};
-
+// xy position of mouse
 export type MousePosition = {
   x: number;
   y: number;
+};
+
+// pie chart data object
+export type ChartObject = {
+  id: number;
+  value: number;
+  label: string;
+};
+
+export type PopupType = {
+  popupText: string;
+  popupType: typeof popupIconTypes[number];
 };

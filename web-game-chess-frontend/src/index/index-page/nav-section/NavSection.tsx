@@ -8,10 +8,9 @@ type NavSectionProps = {
 };
 
 const NavSection = forwardRef<HandleOnScroll, NavSectionProps>(
-  (
-    { indicators }: NavSectionProps,
-    ref: React.ForwardedRef<HandleOnScroll>
-  ) => {
+  ({ indicators }: NavSectionProps, ref: React.ForwardedRef<HandleOnScroll>) => {
+    ///
+
     // handle navbar onscroll
     const navRef = useRef<HTMLDivElement>(null);
     const handleOnScroll = (): void => {
@@ -44,9 +43,7 @@ const NavSection = forwardRef<HandleOnScroll, NavSectionProps>(
             <a
               href={"#" + element + "-section"}
               key={`a-${index}`}
-              className={`${classes["nav-element"]} ${
-                index === 0 ? classes.active : ""
-              }`}
+              className={`${classes["nav-element"]} ${index === 0 ? classes.active : ""}`}
             >
               <span className={classes.text}>{element.toUpperCase()}</span>
               <span className={classes.icon}>

@@ -12,6 +12,14 @@ using chess.Application.Requests.GameRequests.GetPlayer;
 using chess.Application.Requests.GameRequests.GetFinishedGames;
 using chess.Application.Requests.GameRequests.GetEndedGame;
 using chess.Application.Requests.GameRequests.CreatePrivateGame;
+using chess.Application.Requests.GameRequests.FetchTime;
+using chess.Application.Requests.GameRequests.GetOpponent;
+using chess.Application.Requests.GameRequests.CreateRematchGame;
+using chess.Application.Requests.GameRequests.GetTypeHistory;
+using chess.Application.Requests.GameRequests.CreateGameByEmail;
+using chess.Application.Requests.GameRequests.DeclineInvitation;
+using chess.Application.Requests.GameRequests.GetAllInvitations;
+using chess.Application.Requests.GameRequests.GetGameTiming;
 
 namespace chess.Api.Controllers;
 
@@ -40,9 +48,9 @@ public class GameController : ControllerBase {
 
         var request = _mapper.Map<SearchGameRequest>(model);
 
-        var ids = await _mediator.Send(request);
+        var gameData = await _mediator.Send(request);
 
-        return Ok(ids);
+        return Ok(gameData);
     }
 
 
@@ -58,9 +66,44 @@ public class GameController : ControllerBase {
 
         var request = _mapper.Map<CreatePrivateGameRequest>(model);
 
-        var gameId = await _mediator.Send(request);
+        var gameData = await _mediator.Send(request);
 
-        return Ok(gameId);
+        return Ok(gameData);
+    }
+
+
+    /// <summary>
+    /// Creates private game by proving opponent email
+    /// Return created game id
+    /// </summary>
+    /// <param name="model"></param>
+    /// <returns></returns>
+    [HttpPost("by-email")]
+    [Authorize(Policy = "IsVerified")]
+    public async Task<IActionResult> CreateGameByEmail([FromBody] CreateGameByEmailModel model) {
+
+        var request = _mapper.Map<CreateGameByEmailRequest>(model);
+
+        var gameData = await _mediator.Send(request);
+
+        return Ok(gameData);
+    }
+
+
+    /// <summary>
+    /// Creates new game for two same users taht has already played one game
+    /// </summary>
+    /// <param name="model"></param>
+    /// <returns></returns>
+    [HttpPost("rematch")]
+    [Authorize(Policy = "IsVerified")]
+    public async Task<IActionResult> CreateRematchGame([FromBody] CreateRematchGameModel model) {
+
+        var request = _mapper.Map<CreateRematchGameRequest>(model);
+
+        var gameData = await _mediator.Send(request);
+
+        return Ok(gameData);
     }
 
 
@@ -122,6 +165,46 @@ public class GameController : ControllerBase {
 
 
     /// <summary>
+    /// Gets time left for user
+    /// </summary>
+    /// <param name="gameId"></param>
+    /// <returns></returns>
+    [HttpGet("{gameId}/time")]
+    [Authorize(Policy = "IsVerified")]
+    public async Task<IActionResult> FetchTime([FromRoute] Guid gameId) {
+
+        var request = new FetchTimeRequest()
+        {
+            GameId = gameId,
+        };
+
+        var time = await _mediator.Send(request);
+
+        return Ok(time);
+    }
+
+
+    /// <summary>
+    /// Gets opponent data
+    /// </summary>
+    /// <param name="gameId"></param>
+    /// <returns></returns>
+    [HttpGet("{gameId}/opponent")]
+    [Authorize(Policy = "IsVerified")]
+    public async Task<IActionResult> GetOpponent([FromRoute] Guid gameId) {
+
+        var request = new GetOpponentRequest()
+        {
+            GameId = gameId,
+        };
+
+        var opponent = await _mediator.Send(request);
+
+        return Ok(opponent);
+    }
+
+
+    /// <summary>
     /// Gets ended game info
     /// </summary>
     /// <param name="gameId"></param>
@@ -138,6 +221,26 @@ public class GameController : ControllerBase {
         var game = await _mediator.Send(request);
 
         return Ok(game);
+    }
+
+
+    /// <summary>
+    /// Gets game timing type and configuration
+    /// </summary>
+    /// <param name="gameId"></param>
+    /// <returns></returns>
+    [HttpGet("{gameId}/timing")]
+    [Authorize(Policy = "IsVerified")]
+    public async Task<IActionResult> GetGameTiming(Guid gameId) {
+
+        var request = new GetGameTimingRequest()
+        {
+            GameId = gameId,
+        };
+
+        var timing = await _mediator.Send(request);
+
+        return Ok(timing);
     }
 
 
@@ -159,6 +262,40 @@ public class GameController : ControllerBase {
 
 
     /// <summary>
+    /// Get all previous games for choosen timing type
+    /// </summary>
+    /// <param name="model"></param>
+    /// <returns></returns>
+    [HttpGet("type-history")]
+    [Authorize(Policy = "IsVerified")]
+    public async Task<IActionResult> GetTypeHitory([FromQuery] GetTypeHistoryModel model) {
+
+        var request = _mapper.Map<GetTypeHistoryRequest>(model);
+
+        var games = await _mediator.Send(request);
+
+        return Ok(games);
+    }
+
+
+    /// <summary>
+    /// Gets all previous inivations, taht were untouched
+    /// </summary>
+    /// <param name="model"></param>
+    /// <returns></returns>
+    [HttpGet("invitations")]
+    [Authorize(Policy = "IsVerified")]
+    public async Task<IActionResult> GetAllInvitations([FromQuery] GetAllInvitationsModel model) {
+
+        var request = _mapper.Map<GetAllInvitationsRequest>(model);
+
+        var invitations = await _mediator.Send(request);
+
+        return Ok(invitations);
+    }
+
+
+    /// <summary>
     /// Removes player
     /// </summary>
     /// <param name="model"></param>
@@ -173,4 +310,5 @@ public class GameController : ControllerBase {
 
         return Ok();
     }
+
 }

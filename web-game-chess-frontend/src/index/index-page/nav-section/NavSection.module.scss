@@ -13,9 +13,7 @@
   user-select: none;
   pointer-events: none;
 
-  transition:
-    margin-top 0.5s,
-    transform 0.5s;
+  transition: margin-top 0.5s, transform 0.5s;
 
   // navbar
   .nav-bar {
@@ -138,11 +136,7 @@
     background-color: $gc9;
     box-shadow: 0 0 0 0.3rem $gc8;
 
-    transition:
-      top 0.5s,
-      right 0.5s,
-      background-color 0.3s 0.5s,
-      box-shadow 0.3s 0.5s;
+    transition: top 0.5s, right 0.5s, background-color 0.3s 0.5s, box-shadow 0.3s 0.5s;
 
     button {
       &:nth-child(1) {

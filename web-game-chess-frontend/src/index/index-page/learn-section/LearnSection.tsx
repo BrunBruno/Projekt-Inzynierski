@@ -12,10 +12,9 @@ type LearnSectionProps = {
 };
 
 const LearnSection = forwardRef<HandleOnScroll, LearnSectionProps>(
-  (
-    { sectionRef }: LearnSectionProps,
-    ref: React.ForwardedRef<HandleOnScroll>
-  ) => {
+  ({ sectionRef }: LearnSectionProps, ref: React.ForwardedRef<HandleOnScroll>) => {
+    ///
+
     const handleOnScroll = () => {};
     useImperativeHandle(ref, () => ({
       handleOnScroll,
@@ -26,10 +25,7 @@ const LearnSection = forwardRef<HandleOnScroll, LearnSectionProps>(
       const observerAction = (entry: IntersectionObserverEntry): void => {
         entry.target.classList.add(classes["open-card"]);
       };
-      const observer: IntersectionObserver = createOneTimeObserver(
-        observerAction,
-        {}
-      );
+      const observer: IntersectionObserver = createOneTimeObserver(observerAction, {});
 
       cardRefs.current.forEach((cardRef) => {
         observer.observe(cardRef);
@@ -77,10 +73,9 @@ const LearnSection = forwardRef<HandleOnScroll, LearnSectionProps>(
           <div className={classes.learn__join__button}>
             <h2>BRN CHESS</h2>
             <h3>
-              In the heart of the chessboard, where kings reign and pawns dream,
-              we find ourselves in a realm where intellect meets strategy, where
-              every move is a step towards victory, where each decision carries
-              the weight of kingdoms.
+              In the heart of the chessboard, where kings reign and pawns dream, we find ourselves in a realm where
+              intellect meets strategy, where every move is a step towards victory, where each decision carries the
+              weight of kingdoms.
             </h3>
             <a href="#home-section">
               <button>JOIN NOW</button>

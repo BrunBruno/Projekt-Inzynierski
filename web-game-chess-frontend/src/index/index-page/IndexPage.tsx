@@ -10,7 +10,10 @@ import FaqSection from "./faq-section/FaqSection";
 import LogoIconSvg from "../../shared/svgs/LogoIconSvg";
 import FooterSection from "./footer-section/FooterSection";
 import HeroSection from "./hero-section/HeroSection";
-import { HandleOnScroll } from "../../shared/utils/types/commonTypes";
+import { HandleOnScroll, PopupType } from "../../shared/utils/types/commonTypes";
+import MainPopUp from "../../shared/components/main-popup/MainPopUp";
+import { useLocation } from "react-router-dom";
+import { usePopup } from "../../shared/utils/hooks/usePopUp";
 
 // sections indicators
 const indicators = ["home", "play", "learn", "faq"] as const;
@@ -23,6 +26,10 @@ interface Section {
 }
 
 function IndexPage() {
+  ///
+
+  const location = useLocation();
+
   // create section map
   const createSection = (sectionId: string): Section => ({
     id: sectionId,
@@ -41,6 +48,8 @@ function IndexPage() {
   // navbar ref
   const navForRef = useRef<HandleOnScroll>(null);
   const heroForRef = useRef<HandleOnScroll>(null);
+
+  const { showPopup } = usePopup();
 
   // scroll events
   const handleScroll = () => {
@@ -63,24 +72,21 @@ function IndexPage() {
 
   // navbar funnctionality
   useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries: IntersectionObserverEntry[]) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            let elements: HTMLCollectionOf<Element> =
-              document.getElementsByClassName(navClasses["nav-element"]);
+    const observer = new IntersectionObserver((entries: IntersectionObserverEntry[]) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          let elements: HTMLCollectionOf<Element> = document.getElementsByClassName(navClasses["nav-element"]);
 
-            for (let i = 0; i < elements.length; i++) {
-              elements[i].classList.remove(navClasses.active);
+          for (let i = 0; i < elements.length; i++) {
+            elements[i].classList.remove(navClasses.active);
 
-              if (entry.target.id === `obs-${indicators[i]}`) {
-                elements[i].classList.add(navClasses.active);
-              }
+            if (entry.target.id === `obs-${indicators[i]}`) {
+              elements[i].classList.add(navClasses.active);
             }
           }
-        });
-      }
-    );
+        }
+      });
+    });
 
     sections.forEach((section) => {
       if (section.indRef.current) {
@@ -137,12 +143,20 @@ function IndexPage() {
     }
   }, [sections]);
 
+  // handle popups
+  useEffect(() => {
+    if (location.state) {
+      const state = location.state as PopupType;
+
+      if (state.popupText && state.popupType) {
+        showPopup(state.popupText, state.popupType);
+      }
+    }
+  }, [location.state]);
+
   return (
     <main className={classes["home-main"]}>
-      <div
-        ref={bgRef}
-        className={`${classes["intro-background"]} ${classes["intro-remove"]}`}
-      >
+      <div ref={bgRef} className={`${classes["intro-background"]} ${classes["intro-remove"]}`}>
         <div className={classes["intro-logo"]}>
           <LogoIconSvg iconClass={classes["intro-svg"]} />
           <p className={classes["intro-text"]}>Chess</p>
@@ -155,25 +169,19 @@ function IndexPage() {
 
       {sections.map((section) => (
         <React.Fragment key={section.id}>
-          <div
-            id={`obs-${section.id}`}
-            ref={section.indRef}
-            className={classes.observe}
-          />
+          <div id={`obs-${section.id}`} ref={section.indRef} className={classes.observe} />
           {renderSection(section.id, section.forRef, section.sectionRef)}
         </React.Fragment>
       ))}
 
       <FooterSection />
+
+      <MainPopUp />
     </main>
   );
 }
 
-function renderSection(
-  id: string,
-  forRef: React.RefObject<HandleOnScroll>,
-  sectionRef: React.RefObject<HTMLElement>
-) {
+function renderSection(id: string, forRef: React.RefObject<HandleOnScroll>, sectionRef: React.RefObject<HTMLElement>) {
   switch (id) {
     case "home":
       return <HomeSection ref={forRef} sectionRef={sectionRef} />;

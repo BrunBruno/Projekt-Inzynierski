@@ -87,9 +87,7 @@
         .piece-img {
           @for $i from 1 through 5 {
             &:nth-child(#{$i}) {
-              transform: rotate(calc(($i - 3) * 20deg))
-                translateX(($i - 3) * 8rem)
-                translateY(-5rem);
+              transform: rotate(calc(($i - 3) * 20deg)) translateX(($i - 3) * 8rem) translateY(-5rem);
             }
           }
         }

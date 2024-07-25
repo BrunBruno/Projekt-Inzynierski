@@ -18,6 +18,7 @@ public class CreatePrivateGameRequestHandler : IRequestHandler<CreatePrivateGame
     private readonly IGameStateRepository _gameStateRepository;
     private readonly IPlayerRepository _playerRepository;
     private readonly IFriendshipRepository _friendshipRepository;
+    private readonly IInvitationRepository _invitationRepository;
 
     public CreatePrivateGameRequestHandler(
         IUserContextService userContextService,
@@ -26,7 +27,8 @@ public class CreatePrivateGameRequestHandler : IRequestHandler<CreatePrivateGame
         IGameTimingRepository gameTimingRepository,
         IGameStateRepository gameStateRepository,
         IPlayerRepository playerRepository,
-        IFriendshipRepository friendshipRepository
+        IFriendshipRepository friendshipRepository,
+        IInvitationRepository invitationRepository
     ) {
         _userContextService = userContextService;
         _userRepository = userRepository;
@@ -35,6 +37,7 @@ public class CreatePrivateGameRequestHandler : IRequestHandler<CreatePrivateGame
         _gameStateRepository = gameStateRepository;
         _playerRepository = playerRepository;
         _friendshipRepository = friendshipRepository;
+        _invitationRepository = invitationRepository;
     }
 
     public async Task<CreatePrivateGameDto> Handle(CreatePrivateGameRequest request, CancellationToken cancellationToken) {
@@ -55,7 +58,7 @@ public class CreatePrivateGameRequestHandler : IRequestHandler<CreatePrivateGame
         if (request.Minutes == 0)
             throw new BadRequestException("Incorrect minutes value.");
 
-        var existingGameTiming = await _gameTimingRepository.FindTiming(request.Type, request.Minutes, request.Increment);
+        var existingGameTiming = await _gameTimingRepository.FindTiming(request.Type, request.Minutes * 60, request.Increment);
 
         var timing = existingGameTiming;
         if (existingGameTiming is null) {
@@ -64,7 +67,7 @@ public class CreatePrivateGameRequestHandler : IRequestHandler<CreatePrivateGame
             {
                 Id = Guid.NewGuid(),
                 Type = request.Type,
-                Minutes = request.Minutes,
+                Seconds = request.Minutes * 60,
                 Increment = request.Increment,
             };
 
@@ -81,7 +84,7 @@ public class CreatePrivateGameRequestHandler : IRequestHandler<CreatePrivateGame
             Name = user.Username,
             ImageUrl = user.ImageUrl,
             Elo = userElo,
-            TimeLeft = request.Minutes,
+            TimeLeft = request.Minutes * 60,
             UserId = userId,
             TimingId = timing!.Id,
         };
@@ -96,7 +99,7 @@ public class CreatePrivateGameRequestHandler : IRequestHandler<CreatePrivateGame
             Name = friend.Username,
             ImageUrl = friend.ImageUrl,
             Elo = friendElo,
-            TimeLeft = request.Minutes,
+            TimeLeft = request.Minutes * 60,
             UserId = friend.Id,
             TimingId = timing!.Id,
         };
@@ -135,6 +138,22 @@ public class CreatePrivateGameRequestHandler : IRequestHandler<CreatePrivateGame
 
 
         await _gameStateRepository.Create(gameState);
+
+
+        var invitation = new Invitation()
+        {
+            Id = Guid.NewGuid(),
+            InvitorId = userId,
+            InvitorName = user.Username,
+            InviteeId = friend.Id,
+            InviteeName = friend.Username,
+            Type = request.Type,
+            GameId = game.Id,
+        };
+
+
+        await _invitationRepository.Create(invitation);
+
 
         var privateGameDto = new CreatePrivateGameDto()
         {

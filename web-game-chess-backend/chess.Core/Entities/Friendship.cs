@@ -30,6 +30,26 @@ public class Friendship {
     public DateTime? RequestRespondedAt { get; set; } = null;
 
     /// <summary>
+    /// Wins of friendship requestor
+    /// </summary>
+    public int RequestorWins { get; set; } = 0;
+
+    /// <summary>
+    /// Loses of friendship requestor
+    /// </summary>
+    public int RequestorLoses { get; set; } = 0;
+
+    /// <summary>
+    /// Draws of friendship requestor
+    /// </summary>
+    public int RequestorDraws { get; set; } = 0;
+
+    /// <summary>
+    /// Total games played in relationship
+    /// </summary>
+    public int GamesPlayed => RequestorWins + RequestorLoses + RequestorDraws;
+
+    /// <summary>
     /// Requestor id
     /// </summary>
     public Guid RequestorId { get; set; }

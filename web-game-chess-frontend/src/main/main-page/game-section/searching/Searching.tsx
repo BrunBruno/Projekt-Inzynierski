@@ -1,15 +1,14 @@
 import { useEffect, useState } from "react";
 import classes from "./Searching.module.scss";
 import axios from "axios";
-import {
-  gameControllerPaths,
-  getAuthorization,
-} from "../../../../shared/utils/functions/apiFunctions";
+import { gameControllerPaths, getAuthorization } from "../../../../shared/utils/services/ApiService";
 import { SearchGameDto } from "../../../../shared/utils/types/gameDtos";
 import GameHubService from "../../../../shared/utils/services/GameHubService";
 import { gameSearchInterface } from "../../../../shared/utils/enums/interfacesEnums";
 import SearchingIcons from "./SearchingIcons";
 import { AbortSearchModel } from "../../../../shared/utils/types/gameModels";
+import { getErrMessage } from "../../../../shared/utils/functions/displayError";
+import { usePopup } from "../../../../shared/utils/hooks/usePopUp";
 
 const numOfPawns = 8;
 
@@ -19,15 +18,15 @@ type SearchingProps = {
   setSearchIds: React.Dispatch<React.SetStateAction<SearchGameDto | null>>;
 };
 
-function Searching({
-  setInterfaceById,
-  searchIds,
-  setSearchIds,
-}: SearchingProps) {
+function Searching({ setInterfaceById, searchIds, setSearchIds }: SearchingProps) {
+  ///
+
   const [activeIndex, setActiveIndex] = useState<number>(0);
   const [pause, setPause] = useState<boolean>(false);
 
-  // searching animation
+  const { showPopup } = usePopup();
+
+  // searching pawns animation
   useEffect(() => {
     const delay = 100;
     const firstintervalId = setInterval(() => {
@@ -71,10 +70,7 @@ function Searching({
         playerId: searchIds.playerId,
       };
 
-      await axios.delete(
-        gameControllerPaths.abortSearch(abortSearchModel),
-        getAuthorization()
-      );
+      await axios.delete(gameControllerPaths.abortSearch(abortSearchModel), getAuthorization());
 
       GameHubService.PlayerLeaved(searchIds.timingId);
 
@@ -82,7 +78,7 @@ function Searching({
 
       setInterfaceById(gameSearchInterface.vsPlayer);
     } catch (err) {
-      console.log(err);
+      showPopup(getErrMessage(err), "warning");
     }
   };
 
@@ -97,11 +93,7 @@ function Searching({
         </div>
         <div className={classes.searching__content__indicator}>
           {Array.from({ length: numOfPawns }).map((_, index) => (
-            <SearchingIcons
-              key={index}
-              iconName="pawn"
-              active={index === activeIndex && !pause}
-            />
+            <SearchingIcons key={index} iconName="pawn" active={index === activeIndex && !pause} />
           ))}
         </div>
         <button

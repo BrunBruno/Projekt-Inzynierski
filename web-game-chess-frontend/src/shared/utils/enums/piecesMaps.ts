@@ -49,6 +49,8 @@ export const pieceTagMap: PieceTagMap = {
     king: "k",
   },
 };
+export type WhitePieceType = typeof pieceTagMap.white[keyof typeof pieceTagMap.white];
+export type BlackPieceType = typeof pieceTagMap.black[keyof typeof pieceTagMap.black];
 
 export type PiecePromotionMap = {
   white: string[];

@@ -1,17 +1,9 @@
-import React, {
-  forwardRef,
-  useImperativeHandle,
-  useRef,
-  useState,
-} from "react";
+import React, { forwardRef, useImperativeHandle, useRef, useState } from "react";
 import classes from "./FaqSection.module.scss";
 import ArrowLeftSvg from "../../../shared/svgs/ArrowLeftSvg";
 import { mainColor } from "../../../shared/utils/enums/colorMaps";
 import ArrowRightSvg from "../../../shared/svgs/ArrowRightSvg";
-import {
-  accountAndUserProfileFAQs,
-  gameplayAndFeaturesFAQs,
-} from "./FaqSectionQuestions";
+import { accountAndUserProfileFAQs, gameplayAndFeaturesFAQs } from "./FaqSectionQuestions";
 import { HandleOnScroll } from "../../../shared/utils/types/commonTypes";
 
 type FaqSectionProps = {
@@ -19,10 +11,9 @@ type FaqSectionProps = {
 };
 
 const FaqSection = forwardRef<HandleOnScroll, FaqSectionProps>(
-  (
-    { sectionRef }: FaqSectionProps,
-    ref: React.ForwardedRef<HandleOnScroll>
-  ) => {
+  ({ sectionRef }: FaqSectionProps, ref: React.ForwardedRef<HandleOnScroll>) => {
+    ///
+
     const scrollSize = window.innerWidth / 2;
     const row1Ref = useRef<HTMLDivElement>(null);
     const row2Ref = useRef<HTMLDivElement>(null);
@@ -33,10 +24,7 @@ const FaqSection = forwardRef<HandleOnScroll, FaqSectionProps>(
     const [arrR2A2, setArrR2A2] = useState<boolean>(true);
 
     // handle faq onscroll
-    const handleScrollOnClick = (
-      containerRow: number,
-      scrollAmount: number
-    ) => {
+    const handleScrollOnClick = (containerRow: number, scrollAmount: number) => {
       let element;
       if (containerRow === 1) {
         element = row1Ref.current;
@@ -100,9 +88,8 @@ const FaqSection = forwardRef<HandleOnScroll, FaqSectionProps>(
         </div>
 
         <div className={classes.faq__content}>
-          <div className={classes.faq__content__cathegory}>
-            Account and User Profile FAQs
-          </div>
+          <div className={classes.faq__content__cathegory}>Account and User Profile FAQs</div>
+
           {/* question sections */}
           <div
             className={classes.faq__content__arrow}
@@ -132,9 +119,7 @@ const FaqSection = forwardRef<HandleOnScroll, FaqSectionProps>(
           >
             {arrR1A2 && <ArrowRightSvg iconClass="" color={mainColor.c0} />}
           </div>
-          <div className={classes.faq__content__cathegory}>
-            Gameplay and Features FAQs
-          </div>
+          <div className={classes.faq__content__cathegory}>Gameplay and Features FAQs</div>
           <div
             className={classes.faq__content__arrow}
             onClick={() => {

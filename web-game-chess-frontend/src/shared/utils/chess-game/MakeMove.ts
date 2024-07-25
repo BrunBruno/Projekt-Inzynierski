@@ -23,9 +23,7 @@ export const makeMove = (
   const capturedPiece = gameState.matrix[newY - 1][newX - 1];
   const capture = capturedPiece === "" ? "" : "x";
   gameState.matrix[oldY - 1][oldX - 1] = "";
-  gameState.matrix[newY - 1][newX - 1] = promotedPiece
-    ? promotedPiece
-    : selectionState.piece;
+  gameState.matrix[newY - 1][newX - 1] = promotedPiece ? promotedPiece : selectionState.piece;
 
   // remove enpassanted pawn
   let enPassantCoor: number[] | null = null;
@@ -45,52 +43,30 @@ export const makeMove = (
     }
   }
   // perform white castling
-  if (
-    selectionState.piece === pieceTagMap.white.king &&
-    gameState.gameData.canWhiteKingCastle
-  ) {
+  if (selectionState.piece === pieceTagMap.white.king && gameState.gameData.canWhiteKingCastle) {
     // short castling
     if (newX === rankMap.white.kingShortFile) {
-      gameState.matrix[rankMap.white.backRank - 1][
-        rankMap.white.shortRookFile - 1
-      ] = "";
-      gameState.matrix[rankMap.white.backRank - 1][
-        rankMap.white.kingShortFile - 1 - 1
-      ] = pieceTagMap.white.rook;
+      gameState.matrix[rankMap.white.backRank - 1][rankMap.white.shortRookFile - 1] = "";
+      gameState.matrix[rankMap.white.backRank - 1][rankMap.white.kingShortFile - 1 - 1] = pieceTagMap.white.rook;
     }
     // long castling
     if (newX === rankMap.white.kingLongFile) {
-      gameState.matrix[rankMap.white.backRank - 1][
-        rankMap.white.longtRookFile - 1
-      ] = "";
-      gameState.matrix[rankMap.white.backRank - 1][
-        rankMap.white.kingLongFile + 1 - 1
-      ] = pieceTagMap.white.rook;
+      gameState.matrix[rankMap.white.backRank - 1][rankMap.white.longtRookFile - 1] = "";
+      gameState.matrix[rankMap.white.backRank - 1][rankMap.white.kingLongFile + 1 - 1] = pieceTagMap.white.rook;
     }
   }
 
   // perform black castling
-  if (
-    selectionState.piece === pieceTagMap.black.king &&
-    gameState.gameData.canBlackKingCastle
-  ) {
+  if (selectionState.piece === pieceTagMap.black.king && gameState.gameData.canBlackKingCastle) {
     // short castling
     if (newX === rankMap.black.kingShortFile) {
-      gameState.matrix[rankMap.black.backRank - 1][
-        rankMap.black.shortRookFile - 1
-      ] = "";
-      gameState.matrix[rankMap.black.backRank - 1][
-        rankMap.black.kingShortFile - 1 - 1
-      ] = pieceTagMap.black.rook;
+      gameState.matrix[rankMap.black.backRank - 1][rankMap.black.shortRookFile - 1] = "";
+      gameState.matrix[rankMap.black.backRank - 1][rankMap.black.kingShortFile - 1 - 1] = pieceTagMap.black.rook;
     }
     // long castling
     if (newX === rankMap.black.kingLongFile) {
-      gameState.matrix[rankMap.black.backRank - 1][
-        rankMap.black.longtRookFile - 1
-      ] = "";
-      gameState.matrix[rankMap.black.backRank - 1][
-        rankMap.black.kingLongFile + 1 - 1
-      ] = pieceTagMap.black.rook;
+      gameState.matrix[rankMap.black.backRank - 1][rankMap.black.longtRookFile - 1] = "";
+      gameState.matrix[rankMap.black.backRank - 1][rankMap.black.kingLongFile + 1 - 1] = pieceTagMap.black.rook;
     }
   }
 
@@ -121,30 +97,18 @@ export const makeMove = (
   const wkm = selectionState.piece === pieceTagMap.white.king;
   const wsrm =
     selectionState.piece === pieceTagMap.white.rook &&
-    areCoorEqual(
-      [oldX, oldY],
-      [rankMap.white.shortRookFile, rankMap.white.backRank]
-    );
+    areCoorEqual([oldX, oldY], [rankMap.white.shortRookFile, rankMap.white.backRank]);
   const wlrm =
     selectionState.piece === pieceTagMap.white.rook &&
-    areCoorEqual(
-      [oldX, oldY],
-      [rankMap.white.longtRookFile, rankMap.white.backRank]
-    );
+    areCoorEqual([oldX, oldY], [rankMap.white.longtRookFile, rankMap.white.backRank]);
 
   const bkm = selectionState.piece === pieceTagMap.black.king;
   const bsrm =
     selectionState.piece === pieceTagMap.black.rook &&
-    areCoorEqual(
-      [oldX, oldY],
-      [rankMap.black.shortRookFile, rankMap.white.backRank]
-    );
+    areCoorEqual([oldX, oldY], [rankMap.black.shortRookFile, rankMap.white.backRank]);
   const blrm =
     selectionState.piece === pieceTagMap.black.rook &&
-    areCoorEqual(
-      [oldX, oldY],
-      [rankMap.black.longtRookFile, rankMap.white.backRank]
-    );
+    areCoorEqual([oldX, oldY], [rankMap.black.longtRookFile, rankMap.white.backRank]);
 
   const makeMoveModel: MakeMoveModel = {
     gameId: gameState.gameId,

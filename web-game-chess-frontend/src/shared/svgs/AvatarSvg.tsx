@@ -1,10 +1,7 @@
 import { mainColor } from "../utils/enums/colorMaps";
+import { IconSvgProps } from "../utils/types/commonTypes";
 
-type AvatarSvgProps = {
-  iconClass: string;
-};
-
-function AvatarSvg({ iconClass }: AvatarSvgProps) {
+function AvatarSvg({ iconClass }: IconSvgProps) {
   return (
     <svg
       viewBox="0 0 1024 1024"

@@ -36,10 +36,17 @@ public class MakeMoveRequestHandler : IRequestHandler<MakeMoveRequest> {
         if (game.HasEnded)
             throw new BadRequestException("Can not make move in finished game");
 
+        DateTime lastTimeRecorded = (game.Moves.Count == 0 ? game.StartedAt : game.Moves[game.Moves.Count - 1].DoneAt)
+          ?? throw new BadRequestException("Game was not started properly.");
+
+        double timeDifference = (DateTime.UtcNow - lastTimeRecorded).TotalSeconds;
+
         if (game.Turn % 2 == 0) {
-            game.WhitePlayer.TimeLeft += game.GameTiming.Increment / 60;
+            game.WhitePlayer.TimeLeft -= timeDifference;
+            game.WhitePlayer.TimeLeft += game.GameTiming.Increment;
         } else {
-            game.BlackPlayer.TimeLeft += game.GameTiming.Increment / 60;
+            game.BlackPlayer.TimeLeft -= timeDifference;
+            game.BlackPlayer.TimeLeft += game.GameTiming.Increment;
         }
 
         game.Position = request.Position;

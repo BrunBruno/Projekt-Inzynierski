@@ -1,22 +1,12 @@
 import { greyColor, mainColor } from "../../../../shared/utils/enums/colorMaps";
-import {
-  IconMap,
-  IconsMapProps,
-} from "../../../../shared/utils/types/commonTypes";
+import { IconMap, IconsMapProps } from "../../../../shared/utils/types/commonTypes";
 import classes from "./LearnBlocks.module.scss";
 
 const icons: IconMap = {
   pawnLine: (
     <svg viewBox="0 0 3364 96" fill="none" xmlns="http://www.w3.org/2000/svg">
       <rect y="91" width="3000" height="5" rx="2.5" fill={mainColor.c0} />
-      <rect
-        x="3064"
-        y="90"
-        width="300"
-        height="5"
-        rx="2.5"
-        fill={mainColor.c0}
-      />
+      <rect x="3064" y="90" width="300" height="5" rx="2.5" fill={mainColor.c0} />
       <path
         d="M3067 95C3068.66 95 3070.01 93.655 3069.89 92.0028C3069.49 86.7271 3068.05 81.572 3065.64 76.8404C3063.23 72.1088 3059.91 67.9137 3055.87 64.492C3054.61 63.4204 3052.72 63.7259 3051.75 65.0664V65.0664C3050.77 66.4068 3051.08 68.2733 3052.33 69.3615C3055.61 72.2151 3058.31 75.6766 3060.29 79.5643C3062.28 83.452 3063.48 87.676 3063.87 92.0039C3064.01 93.6543 3065.34 95 3067 95V95Z"
         fill={mainColor.c0}
@@ -85,12 +75,7 @@ const icons: IconMap = {
   ),
 
   message: (
-    <svg
-      viewBox="0 0 24 24"
-      fill={mainColor.c7}
-      xmlns="http://www.w3.org/2000/svg"
-      className={classes["message-svg"]}
-    >
+    <svg viewBox="0 0 24 24" fill={mainColor.c7} xmlns="http://www.w3.org/2000/svg" className={classes["message-svg"]}>
       <path
         d="M7 9H17M7 13H17M21 20L17.6757 18.3378C17.4237 18.2118 17.2977 18.1488 17.1656 18.1044C17.0484 18.065 16.9277 18.0365 16.8052 18.0193C16.6672 18 16.5263 18 16.2446 18H6.2C5.07989 18 4.51984 18 4.09202 17.782C3.71569 17.5903 3.40973 17.2843 3.21799 16.908C3 16.4802 3 15.9201 3 14.8V7.2C3 6.07989 3 5.51984 3.21799 5.09202C3.40973 4.71569 3.71569 4.40973 4.09202 4.21799C4.51984 4 5.0799 4 6.2 4H17.8C18.9201 4 19.4802 4 19.908 4.21799C20.2843 4.40973 20.5903 4.71569 20.782 5.09202C21 5.51984 21 6.0799 21 7.2V20Z"
         stroke={mainColor.c0}
@@ -194,9 +179,16 @@ const icons: IconMap = {
 };
 
 function LearnBlocksIcons({ iconName }: IconsMapProps) {
-  const icon = icons[iconName];
+  if (iconName === "") return <>i</>;
 
-  return icon ? icon : <></>;
+  try {
+    const icon = icons[iconName];
+    return icon ? icon : <>i</>;
+  } catch (err) {
+    console.error("Icon error");
+  }
+
+  return <>i</>;
 }
 
 export default LearnBlocksIcons;

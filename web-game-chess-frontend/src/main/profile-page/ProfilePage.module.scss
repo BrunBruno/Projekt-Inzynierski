@@ -1,0 +1,7 @@
+@import "../Main.scss";
+
+.profile-main {
+  @include wh100();
+  @include gridBg();
+  @include forNav();
+}

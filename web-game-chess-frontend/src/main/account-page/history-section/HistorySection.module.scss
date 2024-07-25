@@ -1,0 +1,90 @@
+@import "../../Main.scss";
+
+.actions {
+  max-height: 100vh;
+  height: 100%;
+  display: grid;
+  grid-template-rows: 2rem 1fr 1fr;
+  padding-top: 2rem;
+  padding-bottom: 2rem;
+
+  h2 {
+    @include flex($gap: 1rem);
+
+    width: 100%;
+    font-size: 4rem;
+
+    .type-icon {
+      height: 4rem;
+    }
+  }
+
+  &__chart {
+    padding: 0 2rem;
+    overflow: hidden;
+  }
+
+  &__items {
+    @include flex(column, start, center, 1rem);
+
+    padding: 0 8rem;
+    overflow-y: scroll;
+    padding-bottom: 2rem;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+
+    &__record {
+      @include rounded(0.5rem);
+
+      width: 100%;
+      background-color: rgba($gc9, 0.5);
+      display: grid;
+      grid-template-columns: 45% 15% 10% 30%;
+
+      &.win {
+        background-color: rgba($success-color-m, 0.5);
+      }
+      &.lose {
+        background-color: rgba($danger-color-m, 0.5);
+      }
+
+      span {
+        padding-left: 2rem;
+        font-size: 1.6rem;
+        border-right: solid 0.2rem $gc0;
+
+        &:last-child {
+          border: none;
+        }
+      }
+    }
+  }
+}
+
+.empty {
+  @include flex($direction: column, $gap: 1rem);
+
+  position: relative;
+
+  &__chart {
+    @include wh100();
+    opacity: 0.1;
+    pointer-events: none;
+    padding: 1rem;
+  }
+
+  &__text {
+    @include absCenter();
+
+    font-size: 4rem;
+    text-align: center;
+    p {
+      &:last-child {
+        color: $mc5;
+        font-weight: 600;
+      }
+    }
+  }
+}

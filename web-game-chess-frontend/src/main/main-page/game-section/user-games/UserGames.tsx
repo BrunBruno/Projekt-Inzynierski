@@ -1,41 +1,45 @@
 import axios from "axios";
 import classes from "./UserGame.module.scss";
 import { GetFinishedGamesDto } from "../../../../shared/utils/types/gameDtos";
-import {
-  gameControllerPaths,
-  getAuthorization,
-} from "../../../../shared/utils/functions/apiFunctions";
+import { gameControllerPaths, getAuthorization } from "../../../../shared/utils/services/ApiService";
 import { GetFinishedGamesModel } from "../../../../shared/utils/types/gameModels";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import LoadingPage from "../../../../shared/components/loading-page/LoadingPage";
-import { pieceImageMap } from "../../../../shared/utils/enums/piecesMaps";
-import AvatarSvg from "../../../../shared/svgs/AvatarSvg";
-import UserGamesIcons from "./user-game-icons/UserGamesIcons";
-import TimingTypesIcons from "../../../../shared/svgs/TimingTypesIcons";
-import { getEnumTypeByNumber } from "../../../../shared/utils/functions/enumRelated";
-import {
-  endGameTypes,
-  timingTypes,
-} from "../../../../shared/utils/enums/entitiesEnums";
-import WinTypesIocns from "./user-game-icons/WinTypesIcons";
-import { PagedResult } from "../../../../shared/utils/types/commonTypes";
+import UserGamesFilters from "./user-games-filters/UserGamesFilters";
+import usePagination from "../../../../shared/utils/hooks/usePagination";
+import UserGamesCard from "./user-games-card/UserGamesCard";
+import { usePopup } from "../../../../shared/utils/hooks/usePopUp";
+import { getErrMessage } from "../../../../shared/utils/functions/displayError";
+import { PagedResult } from "../../../../shared/utils/types/abstracDtosAndModels";
 
 type UserGamesProps = {};
 
 function UserGames({}: UserGamesProps) {
-  const listRef = useRef<HTMLDivElement>(null);
+  ///
 
   const [games, setGames] = useState<GetFinishedGamesDto[] | null>(null);
   const [itemsCount, setItemsCount] = useState<number>(0);
-  const [totalItemsCount, setTotalItemsCount] = useState<number>(0);
 
-  const [pageSize, setPageSize] = useState<number>(6);
+  const [timingTypeFilters, setTimingTypeFilters] = useState<number[]>([]);
+  const [resultFilters, setResultFilters] = useState<(boolean | null)[]>([]);
+
+  const [showFilters, setShowFilters] = useState<boolean>(false);
+
+  const { showPopup } = usePopup();
+
+  const { scrollRef, pageSize, totalItemsCount, setDefPageSize, setTotalItemsCount } = usePagination();
+
+  useEffect(() => {
+    setDefPageSize(6);
+  }, []);
 
   // get all finished games
   const getGames = async () => {
     const getGamesOptions: GetFinishedGamesModel = {
       pageNumber: 1,
       pageSize: pageSize,
+      timingTypeFilters: timingTypeFilters,
+      resultFilters: resultFilters,
     };
 
     try {
@@ -55,175 +59,15 @@ function UserGames({}: UserGamesProps) {
 
       setItemsCount(count);
     } catch (err) {
-      console.log(err);
+      showPopup(getErrMessage(err), "warning");
     }
   };
 
   useEffect(() => {
     getGames();
-  }, [pageSize]);
+  }, [pageSize, timingTypeFilters, resultFilters]);
 
-  // icrease page size on scroll
-  const handleListOnScroll = () => {
-    const listElement = listRef.current;
-    if (listElement) {
-      if (
-        listElement.scrollHeight - 1.1 * listElement.scrollTop <=
-        listElement.clientHeight
-      ) {
-        if (pageSize < totalItemsCount) {
-          setPageSize((prevPageSize) => prevPageSize + 6);
-        }
-      }
-    }
-  };
-
-  // create board from game position
-  const mapFromPosition = (position: string): JSX.Element[] => {
-    const fields: JSX.Element[] = [];
-    let ind: number = 0;
-
-    for (let i = 0; i < position.length; i++) {
-      const char = position[i];
-
-      if (char == "/") {
-        ind++;
-        continue;
-      }
-
-      if (!isNaN(parseInt(char))) {
-        for (let j = 0; j < parseInt(char); j++) {
-          fields.push(
-            <div
-              key={ind}
-              className={`${
-                ind % 2 === 0 ? classes["light-f"] : classes["dark-f"]
-              }`}
-            ></div>
-          );
-
-          ind++;
-        }
-      } else {
-        fields.push(
-          <div
-            key={ind}
-            className={`${
-              ind % 2 === 0 ? classes["light-f"] : classes["dark-f"]
-            }`}
-            style={{ backgroundImage: `url("/pieces/${pieceImageMap[char]}")` }}
-          ></div>
-        );
-        ind++;
-      }
-    }
-
-    return fields;
-  };
-
-  // display players based on user player color
-  const displayPlayer = (game: GetFinishedGamesDto): JSX.Element => {
-    const userInfo = localStorage.getItem("userInfo");
-
-    if (!userInfo) return <></>;
-
-    const userInfoObject = JSON.parse(userInfo);
-
-    if (userInfoObject.userName === game.whitePlayer.name) {
-      return (
-        <div className={classes.players}>
-          <div className={classes.player}>
-            <div className={classes["white-player-img"]}>
-              {game.whitePlayer.imageUrl ? (
-                <img
-                  className={classes["player-img"]}
-                  src={game.whitePlayer.imageUrl}
-                  alt="white-player-avatar"
-                />
-              ) : (
-                <AvatarSvg iconClass={classes.avatar} />
-              )}
-            </div>
-            <div className={classes["player-data"]}>
-              <span>{game.whitePlayer.name}</span>
-              <span>
-                (<span>{game.whitePlayer.elo}</span>)
-              </span>
-            </div>
-          </div>
-          <p>vs</p>
-          <div className={classes.player}>
-            <div className={classes["black-player-img"]}>
-              {game.blackPlayer.imageUrl ? (
-                <img
-                  className={classes["player-img"]}
-                  src={game.blackPlayer.imageUrl}
-                  alt="black-player-avatar"
-                />
-              ) : (
-                <AvatarSvg iconClass={classes.avatar} />
-              )}
-            </div>
-            <div className={classes["player-data"]}>
-              <span>{game.blackPlayer.name}</span>
-              <span>
-                (<span>{game.blackPlayer.elo}</span>)
-              </span>
-            </div>
-          </div>
-        </div>
-      );
-    }
-    if (userInfoObject.userName === game.blackPlayer.name) {
-      return (
-        <div className={classes.players}>
-          <div className={classes.player}>
-            <div className={classes["black-player-img"]}>
-              {game.blackPlayer.imageUrl ? (
-                <img
-                  className={classes["player-img"]}
-                  src={game.blackPlayer.imageUrl}
-                  alt="black-player-avatar"
-                />
-              ) : (
-                <AvatarSvg iconClass={classes.avatar} />
-              )}
-            </div>
-            <div className={classes["player-data"]}>
-              <span>{game.blackPlayer.name}</span>
-              <span>
-                (<span>{game.blackPlayer.elo}</span>)
-              </span>
-            </div>
-          </div>
-          <p>vs</p>
-          <div className={classes.player}>
-            <div className={classes["white-player-img"]}>
-              {game.whitePlayer.imageUrl ? (
-                <img
-                  className={classes["player-img"]}
-                  src={game.whitePlayer.imageUrl}
-                  alt="white-player-avatar"
-                />
-              ) : (
-                <AvatarSvg iconClass={classes.avatar} />
-              )}
-            </div>
-            <div className={classes["player-data"]}>
-              <span>{game.whitePlayer.name}</span>
-              <span>
-                (<span>{game.whitePlayer.elo}</span>)
-              </span>
-            </div>
-          </div>
-        </div>
-      );
-    }
-
-    return <></>;
-  };
-
-  if (!games) return <LoadingPage />;
+  if (!games) return <LoadingPage text="Loading games" />;
 
   return (
     <div className={classes.games}>
@@ -234,51 +78,30 @@ function UserGames({}: UserGamesProps) {
             ({itemsCount}/{totalItemsCount})
           </span>
         </h2>
+        <div className={classes.filters}>
+          <button
+            onClick={() => {
+              setShowFilters((prev) => !prev);
+            }}
+          >
+            Filters
+          </button>
+        </div>
       </div>
-      <div
-        ref={listRef}
-        className={classes.games__list}
-        onWheel={() => {
-          handleListOnScroll();
-        }}
-      >
+      <div ref={scrollRef} className={classes.games__list}>
         {games.map((game, i) => (
-          <div key={`game-${i}`} className={classes.games__list__record}>
-            <div className={`${classes["mini-grid"]}`}>
-              {mapFromPosition(game.position)}
-              {displayPlayer(game)}
-              <div className={classes.date}>
-                {new Date(game.createdAt).toLocaleDateString()}
-              </div>
-            </div>
-
-            <div key={`game-${i}`} className={classes["game-data"]}>
-              <div className={classes["timing-type"]}>
-                <TimingTypesIcons
-                  iconName={getEnumTypeByNumber(timingTypes, game.timingType)}
-                  iconClass=""
-                />
-              </div>
-              <div className={classes["is-winner"]}>
-                {game.isWinner === null ? (
-                  <UserGamesIcons iconName="draw" />
-                ) : game.isWinner === true ? (
-                  <UserGamesIcons iconName="win" />
-                ) : (
-                  <UserGamesIcons iconName="lose" />
-                )}
-              </div>
-
-              <div className={classes.moves}>{game.moves}</div>
-              <div className={classes["win-type"]}>
-                <WinTypesIocns
-                  iconName={getEnumTypeByNumber(endGameTypes, game.endGameType)}
-                />
-              </div>
-            </div>
-          </div>
+          <UserGamesCard key={`game-${i}`} game={game} />
         ))}
       </div>
+
+      {showFilters && (
+        <UserGamesFilters
+          timingTypeFilters={timingTypeFilters}
+          setTimingTypeFilters={setTimingTypeFilters}
+          resultFilters={resultFilters}
+          setResultFilters={setResultFilters}
+        />
+      )}
     </div>
   );
 }

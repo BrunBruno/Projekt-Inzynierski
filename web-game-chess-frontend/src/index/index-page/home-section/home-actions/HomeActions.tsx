@@ -5,6 +5,8 @@ import { registrationInterface } from "../../../../shared/utils/enums/interfaces
 type HomeActionsProps = {};
 
 function HomeActions({}: HomeActionsProps) {
+  ///
+
   const partOfPawn = 6;
 
   const navigate = useNavigate();
@@ -14,8 +16,7 @@ function HomeActions({}: HomeActionsProps) {
     const tiles: JSX.Element[] = [];
 
     const numberOfTiles = 25;
-    for (let i = 0; i < numberOfTiles; i++)
-      tiles.push(<p key={i} className={classes["p-tile"]} />);
+    for (let i = 0; i < numberOfTiles; i++) tiles.push(<p key={i} className={classes["p-tile"]} />);
 
     return tiles;
   };

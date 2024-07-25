@@ -45,11 +45,10 @@
       list-style-type: none;
 
       &__element {
+        @include flex(row, start, center, 1rem);
         @include rounded(1rem);
 
         width: 100%;
-        font-size: 2rem;
-        color: $gc5;
         border-bottom: solid 0.3rem $gc8;
         border-left: solid 0.3rem $gc8;
         border-bottom-right-radius: 0;
@@ -59,6 +58,19 @@
           cursor: pointer;
           background-color: $gc8;
           border-color: $gc7;
+
+          span {
+            color: $gc3;
+          }
+        }
+
+        span {
+          font-size: 2rem;
+          color: $gc5;
+        }
+
+        svg.list-icon {
+          height: 3rem;
         }
       }
     }

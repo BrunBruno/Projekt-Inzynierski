@@ -13,6 +13,7 @@ public class EloRepository : IEloRepository {
         _dbContext = dbContext;
     }
 
+    ///<inheritdoc/>
     public async Task Update(Elo elo) {
         _dbContext.Elos.Update(elo);
         await _dbContext.SaveChangesAsync();

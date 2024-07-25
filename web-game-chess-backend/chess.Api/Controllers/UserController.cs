@@ -1,12 +1,17 @@
 ﻿
 using AutoMapper;
 using chess.Api.Models.UserModels;
+using chess.Application.Requests.UserRequests.CheckIfEmailExists;
+using chess.Application.Requests.UserRequests.GetElo;
+using chess.Application.Requests.UserRequests.GetFullUser;
+using chess.Application.Requests.UserRequests.GetOtherUser;
 using chess.Application.Requests.UserRequests.GetRegisterConf;
 using chess.Application.Requests.UserRequests.GetUser;
 using chess.Application.Requests.UserRequests.IsEmailVerified;
 using chess.Application.Requests.UserRequests.LogIn;
 using chess.Application.Requests.UserRequests.RegenerateCode;
 using chess.Application.Requests.UserRequests.Register;
+using chess.Application.Requests.UserRequests.UpdateProfile;
 using chess.Application.Requests.UserRequests.VerifyEmail;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -77,7 +82,7 @@ public class UserController : ControllerBase {
 
 
     /// <summary>
-    /// Verifies email
+    /// Verifies email address
     /// </summary>
     /// <param name="model"></param>
     /// <returns></returns>
@@ -93,7 +98,23 @@ public class UserController : ControllerBase {
 
 
     /// <summary>
-    /// Gets user info
+    /// Updates updateable data for user
+    /// </summary>
+    /// <param name="model"></param>
+    /// <returns></returns>
+    [HttpPut("profile")]
+    [Authorize(Policy = "IsVerified")]
+    public async Task<IActionResult> UpdateProfile([FromBody] UpdateProfileModel model) {
+
+        var request = _mapper.Map<UpdateProfileRequest>(model);
+
+        await _mediator.Send(request);
+        return Ok();
+    }
+
+
+    /// <summary>
+    /// Gets basic user info
     /// </summary>
     /// <returns></returns>
     [HttpGet]
@@ -107,6 +128,53 @@ public class UserController : ControllerBase {
         return Ok(user);
     }
 
+    /// <summary>
+    /// Gets complete user info for account page
+    /// </summary>
+    /// <returns></returns>
+    [HttpGet("full")]
+    [Authorize]
+    public async Task<IActionResult> GetFullUser() {
+
+        var request = new GetFullUserRequest();
+
+        var user = await _mediator.Send(request);
+
+        return Ok(user);
+    }
+
+
+    /// <summary>
+    /// Gets user info for other users
+    /// </summary>
+    /// <returns></returns>
+    [HttpGet("other")]
+    [Authorize]
+    public async Task<IActionResult> GetOtherUser([FromQuery] GetOtherUserModel model) {
+
+        var request = _mapper.Map<GetOtherUserRequest>(model);
+
+        var user = await _mediator.Send(request);
+
+        return Ok(user);
+    }
+
+
+    /// <summary>
+    /// Gets elo info
+    /// </summary>
+    /// <returns></returns>
+    [HttpGet("elo")]
+    [Authorize(Policy = "IsVerified")]
+    public async Task<IActionResult> GetElo() {
+
+        var request = new GetEloRequest();
+
+        var elo = await _mediator.Send(request);
+
+        return Ok(elo);
+    }
+
 
     /// <summary>
     /// Checks if user email is verified
@@ -117,13 +185,30 @@ public class UserController : ControllerBase {
     [Authorize]
     public async Task<IActionResult> IsEmailVerified() {
 
-
         var request = new IsEmailVerifiedRequest();
 
         var result = await _mediator.Send(request);
 
         return Ok(result);
     }
+
+
+    /// <summary>
+    /// Gets user data by email address
+    /// </summary>
+    /// <param name="model"></param>
+    /// <returns></returns>
+    [HttpGet("by-email")]
+    [Authorize(Policy = "IsVerified")]
+    public async Task<IActionResult> GetByEmail([FromQuery] GetByEmailModel model) {
+
+        var request = _mapper.Map<GetByEmailRequest>(model);
+
+        var user = await _mediator.Send(request);
+
+        return Ok(user);
+    }
+
 
     /// <summary>
     /// Gets registration configurations

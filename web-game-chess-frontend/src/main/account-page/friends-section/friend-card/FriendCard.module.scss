@@ -1,0 +1,133 @@
+@import "../../../Main.scss";
+
+.friend {
+  position: relative;
+  z-index: 0;
+  transition: transform 0.3s;
+
+  &:hover {
+    cursor: pointer;
+    filter: brightness(90%);
+  }
+
+  &.active {
+    z-index: 2;
+    transform: scale(1.2);
+  }
+
+  &.active &__content {
+    z-index: 2;
+    border-color: $gc0;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+  }
+
+  &__content {
+    @include flex(column, center, center, 1rem);
+    @include rounded(1rem);
+
+    position: relative;
+    pointer-events: none;
+    border: solid 0.5rem #0000;
+    border-bottom: none;
+    background-color: $gc9;
+    transition: all 0.3s;
+
+    &__avatar {
+      @include flex();
+
+      position: relative;
+
+      .avatar {
+        @include circle(10rem);
+        object-fit: cover;
+      }
+
+      .country {
+        @include circle(2.4rem);
+        @include flex();
+
+        position: absolute;
+        top: 0;
+        right: 0;
+        overflow: hidden;
+
+        img {
+          height: 160%;
+        }
+      }
+    }
+
+    &__name {
+      @include flex($direction: column);
+
+      width: 100%;
+      pointer-events: none;
+
+      span {
+        @include longText();
+        text-align: center;
+
+        &:nth-child(1) {
+          font-size: 2rem;
+          font-weight: 500;
+        }
+        &:nth-child(2) {
+          font-size: 1.6rem;
+          color: $gc5;
+        }
+      }
+    }
+
+    &__data {
+      pointer-events: none;
+
+      span {
+        font-size: 1.6rem;
+        &:nth-child(1) {
+          color: $success-color-m;
+        }
+        &:nth-child(2) {
+          color: $gc5;
+        }
+        &:nth-child(3) {
+          color: $danger-color-m;
+        }
+      }
+    }
+  }
+
+  &__actions {
+    @include rounded(1rem);
+    @include flex(column, center, center, 0.5rem);
+
+    position: absolute;
+    top: 100%;
+    background-color: $gc9;
+    z-index: -1;
+    transform: scaleY(0);
+    width: 100%;
+    transition: all 0.3s;
+    transform-origin: 50% 0;
+    border: solid 0.5rem #0000;
+    border-top: none;
+
+    button {
+      @include button(1.4rem);
+
+      &:nth-child(1) {
+        @include mainMButton();
+      }
+      &:nth-child(2) {
+        @include secMButton();
+      }
+    }
+  }
+
+  &.active &__actions {
+    transform: scaleY(1) translateZ(-1rem);
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+    border-color: $gc0;
+  }
+}

@@ -37,7 +37,7 @@ public class SearchGameRequestHandler : IRequestHandler<SearchGameRequest, Searc
         if (request.Minutes == 0)
             throw new BadRequestException("Incorrect minutes value.");
 
-        var existingGameTiming = await _gameTimingRepository.FindTiming(request.Type, request.Minutes, request.Increment);
+        var existingGameTiming = await _gameTimingRepository.FindTiming(request.Type, request.Minutes * 60, request.Increment);
 
         Guid timingId;
         if (existingGameTiming is null) {
@@ -46,7 +46,7 @@ public class SearchGameRequestHandler : IRequestHandler<SearchGameRequest, Searc
             {
                 Id = Guid.NewGuid(),
                 Type = request.Type,
-                Minutes = request.Minutes,
+                Seconds = request.Minutes * 60,
                 Increment = request.Increment,
             };
 
@@ -72,7 +72,7 @@ public class SearchGameRequestHandler : IRequestHandler<SearchGameRequest, Searc
                 Name = user.Username,
                 ImageUrl = user.ImageUrl,
                 Elo = playerElo,
-                TimeLeft = request.Minutes,
+                TimeLeft = request.Minutes * 60,
                 UserId = userId,
                 TimingId = timingId,
             };

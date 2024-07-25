@@ -1,0 +1,235 @@
+@import "../../Main.scss";
+
+.user {
+  height: 100%;
+  background-color: rgba($gc9, 0.5);
+  box-shadow: 0.1rem 0 1rem 0 $gc0;
+
+  &__profile {
+    position: relative;
+    padding: 2rem 4rem;
+    background-color: $gc9;
+    border-bottom: solid 0.5rem $gc8;
+    display: grid;
+    grid-template-columns: 22rem 44rem;
+
+    &::before {
+      @include subCl();
+      @include absCenter();
+
+      z-index: 0;
+      background-image: radial-gradient(
+          circle at 00%,
+          rgba($gc9, 0.5) 0%,
+          $gc9 40%,
+          #111 100%
+        ),
+        url("/images/account-bg.jpg");
+      background-size: contain;
+      background-repeat: no-repeat;
+    }
+
+    &__avatar {
+      position: relative;
+      z-index: 1;
+      border-radius: 100%;
+      width: 100%;
+
+      .avatar-img {
+        @include circle(20rem);
+        border: solid 1rem $mc9;
+        object-fit: cover;
+      }
+
+      .set-img {
+        @include circle(5rem);
+        @include flex();
+
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        background-color: $mc9;
+        padding: 1rem;
+
+        &:hover {
+          cursor: pointer;
+          svg {
+            filter: brightness(80%);
+          }
+        }
+      }
+    }
+
+    &__info {
+      z-index: 1;
+      height: 20rem;
+      width: 100%;
+      overflow: hidden;
+
+      .user-name {
+        width: 70%;
+        font-size: 4rem;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        user-select: none;
+      }
+
+      input.name {
+        @include tInput();
+
+        border: none;
+        font-size: 2rem;
+        color: $gc3;
+
+        &::placeholder {
+          color: $gc5;
+          &:active,
+          :focus {
+            color: $gc6;
+          }
+        }
+
+        &:focus,
+        :active {
+          color: $gc2;
+        }
+      }
+
+      textarea.bio {
+        @include tInput();
+
+        width: 80%;
+        height: 12rem;
+        font-size: 1.4rem;
+        resize: none;
+
+        &::-webkit-scrollbar {
+          display: none;
+        }
+
+        &::placeholder {
+          color: $gc5;
+        }
+
+        &:focus,
+        &:active {
+          color: $gc2;
+        }
+      }
+    }
+
+    &__icons {
+      @include flex($gap: 0.5rem);
+      position: absolute;
+      top: 0;
+      right: 0;
+      padding: 2rem;
+      z-index: 2;
+
+      .iocn-con {
+        @include flex();
+        position: relative;
+
+        &:hover {
+          span {
+            display: block;
+          }
+        }
+
+        .icon {
+          @include circle(4rem);
+          @include flex();
+
+          overflow: hidden;
+
+          &:not(.country) {
+            &:hover {
+              cursor: pointer;
+              filter: brightness(80%);
+            }
+          }
+        }
+
+        span {
+          @include rounded(0.5rem);
+
+          position: absolute;
+          bottom: -2rem;
+          background-color: $gc9;
+          display: none;
+        }
+      }
+    }
+  }
+
+  &__data {
+    display: grid;
+    grid-template-columns: 60% 40%;
+    padding: 2rem;
+
+    &__stats {
+      @include wh100();
+      @include flex(column, start, start, 0.5rem);
+
+      position: relative;
+      border-right: solid 0.3rem $gc1;
+
+      &__header {
+        font-size: 2.8rem;
+        font-weight: 600;
+        padding: 0.5rem;
+
+        span {
+          color: $mc5;
+        }
+      }
+
+      &__row {
+        position: relative;
+        width: 100%;
+      }
+    }
+
+    &__elo {
+      @include flex(column, center, center, 0);
+
+      padding: 0 2rem;
+      z-index: 2;
+
+      &__header {
+        @include rounded(1rem);
+
+        font-size: 2.2rem;
+        font-weight: 600;
+
+        color: $gc4;
+        background-color: rgba($gc8, 0.5);
+        margin-bottom: 1rem;
+      }
+
+      &__type {
+        @include rounded(1rem);
+
+        width: 100%;
+        display: grid;
+        grid-template-columns: 4rem auto;
+        gap: 2rem;
+        padding-left: 2rem;
+
+        &:hover {
+          cursor: pointer;
+          background-color: $gc8;
+        }
+
+        .elo-icon {
+          height: 4rem;
+        }
+
+        span {
+          width: 100%;
+          font-size: 3rem;
+        }
+      }
+    }
+  }
+}

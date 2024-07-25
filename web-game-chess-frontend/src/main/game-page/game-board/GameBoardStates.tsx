@@ -1,11 +1,9 @@
+import { Guid } from "guid-typescript";
 import { GetGameDto, GetPlayerDto } from "../../../shared/utils/types/gameDtos";
-import {
-  GameStates,
-  SelectionStates,
-} from "../../../shared/utils/types/gameStates";
+import { GameStates, SelectionStates } from "../../../shared/utils/types/gameStates";
 
 export const gameInitialStates: GameStates = {
-  gameId: "",
+  gameId: Guid.createEmpty(),
   gameData: null,
   playerData: null,
   matrix: [],
@@ -20,7 +18,7 @@ export const gameInitialStates: GameStates = {
 };
 
 type GameAction =
-  | { type: "SET_GAME_ID"; payload: string }
+  | { type: "SET_GAME_ID"; payload: Guid }
   | { type: "SET_GAME_DATA"; payload: GetGameDto }
   | { type: "SET_PLAYER_DATA"; payload: GetPlayerDto }
   | { type: "SET_MATRIX"; payload: string[][] }
@@ -33,10 +31,7 @@ type GameAction =
       payload: { white: number[][]; black: number[][] };
     };
 
-export const gameStatesReducer = (
-  state: GameStates,
-  action: GameAction
-): GameStates => {
+export const gameStatesReducer = (state: GameStates, action: GameAction): GameStates => {
   switch (action.type) {
     case "SET_GAME_ID":
       return { ...state, gameId: action.payload };
@@ -72,10 +67,7 @@ type SelectionAction =
   | { type: "SET_PROMOTION_COOR"; payload: number[] }
   | { type: "SET_AVAILABLE_FIELDS"; payload: number[][] };
 
-export const selectionStatesReducer = (
-  state: SelectionStates,
-  action: SelectionAction
-): SelectionStates => {
+export const selectionStatesReducer = (state: SelectionStates, action: SelectionAction): SelectionStates => {
   switch (action.type) {
     case "SET_PIECE":
       return { ...state, piece: action.payload };

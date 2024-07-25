@@ -8,7 +8,7 @@ namespace chess.Core.Entities;
 public class GameState {
 
     /// <summary>
-    /// id
+    /// Id
     /// </summary>
     public Guid Id { get; set; }
 

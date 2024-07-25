@@ -3,10 +3,7 @@ import { checkIfOwnPiece } from "../functions/gameRelated";
 import FindMoves from "./FindMoves";
 
 // to check for checkmates and stalemates
-export const checkIfAnyMoveExists = (
-  gameState: GameStates,
-  selectionState: SelectionStates
-): boolean => {
+export const checkIfAnyMoveExists = (gameState: GameStates, selectionState: SelectionStates): boolean => {
   if (!gameState.playerData) return false;
 
   let moveNotExists: boolean = true;
@@ -22,12 +19,7 @@ export const checkIfAnyMoveExists = (
         const coor = [parseInt(col) + 1, parseInt(row) + 1];
 
         // check if any posible move exists
-        const availableAreas = FindMoves.find(
-          gameState,
-          selectionState,
-          piece,
-          coor
-        );
+        const availableAreas = FindMoves.find(gameState, selectionState, piece, coor);
 
         // more then 1 to not include piece itself
         if (availableAreas.length > 1) {

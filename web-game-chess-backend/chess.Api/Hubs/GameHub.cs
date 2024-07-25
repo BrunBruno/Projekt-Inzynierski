@@ -2,10 +2,12 @@
 using AutoMapper;
 using chess.Api.Models.GameModels;
 using chess.Application.Hubs;
-using chess.Application.Hubs.GameHubDtos;
 using chess.Application.Requests.GameRequests.AcceptInvitation;
+using chess.Application.Requests.GameRequests.DeclineInvitation;
 using chess.Application.Requests.GameRequests.EndGame;
+using chess.Application.Requests.GameRequests.InvitedToGame;
 using chess.Application.Requests.GameRequests.MakeMove;
+using chess.Application.Requests.GameRequests.SendMessage;
 using chess.Application.Requests.GameRequests.StartGames;
 using chess.Application.Services;
 using MediatR;
@@ -90,6 +92,24 @@ public class GameHub : Hub<IGameHub> {
 
 
     /// <summary>
+    /// Creates new message for currect users and current game
+    /// </summary>
+    /// <param name="model"></param>
+    /// <returns></returns>
+    [HubMethodName("send-message")]
+    [Authorize(Policy = "IsVerified")]
+    [SignalRMethod("SendMessage", Operation.Post)]
+    public async Task SendMessage(SendMessageModel model) {
+
+        var request = _mapper.Map<SendMessageRequest>(model);
+
+        await _mediator.Send(request);
+
+        await Clients.Groups($"game-{model.GameId}").MessagesUpdated();
+    }
+
+
+    /// <summary>
     /// Changels all necessary parameters to end the game
     /// </summary>
     /// <param name="model"></param>
@@ -122,7 +142,8 @@ public class GameHub : Hub<IGameHub> {
 
 
     /// <summary>
-    /// 
+    ///  To accept new received invitation
+    ///  Notify both counterpartiens and starts the game
     /// </summary>
     /// <param name="model"></param>
     /// <returns></returns>
@@ -138,15 +159,13 @@ public class GameHub : Hub<IGameHub> {
 
         await Clients.Groups($"user-{model.InvitorId}").GameAccepted(model.GameId);
         await Clients.Groups($"user-{model.InviteeId}").GameAccepted(model.GameId);
-
     }
 
 
     /// <summary>
-    /// 
+    /// Provides invited user with essentail data to accept newly creacted game
     /// </summary>
-    /// <param name="userId"></param>
-    /// <param name="gameId"></param>
+    /// <param name="model"></param>
     /// <returns></returns>
     [HubMethodName("notify-user")]
     [Authorize(Policy = "IsVerified")]
@@ -161,6 +180,9 @@ public class GameHub : Hub<IGameHub> {
             InviteeId = model.FriendId,
             InviterId = inviterId,
             Inviter = model.Inviter,
+            Type = model.Type,
+            Minutes = model.Minutes,
+            Increment = model.Increment,
         };
 
         await Clients.Groups($"user-{model.FriendId}").InvitedToGame(invitationDto);
@@ -185,7 +207,7 @@ public class GameHub : Hub<IGameHub> {
     /// <summary>
     /// Removes user from game connection
     /// </summary>
-    /// <param name="gameId"> Game id </param>
+    /// <param name="gameId"></param>
     /// <returns></returns>
     [HubMethodName("leave-game")]
     [Authorize(Policy = "IsVerified")]
@@ -193,5 +215,23 @@ public class GameHub : Hub<IGameHub> {
     public async Task LeaveGame(Guid gameId) {
 
         await Groups.RemoveFromGroupAsync(Context.ConnectionId, $"game-{gameId}");
+    }
+
+
+    /// <summary>
+    /// To decline invitations and notify invitor
+    /// </summary>
+    /// <param name="gameId"></param>
+    /// <returns></returns>
+    [HubMethodName("decline-invitation")]
+    [Authorize(Policy = "IsVerified")]
+    [SignalRMethod("LeaveGame", Operation.Delete)]
+    public async Task DeclineInvitation(DeclineInvitationModel model) {
+
+        var request = _mapper.Map<DeclineInvitationRequest>(model);
+
+        await _mediator.Send(request);
+
+        await Clients.Groups($"user-{model.FriendId}").InvitationDeclined();
     }
 }

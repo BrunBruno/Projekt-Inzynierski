@@ -5,11 +5,7 @@
   .pb {
     &:nth-child(odd) {
       background-color: $mainColor;
-      background-image: linear-gradient(
-        to top,
-        $sideColor 30%,
-        $mainColor 100%
-      );
+      background-image: linear-gradient(to top, $sideColor 30%, $mainColor 100%);
     }
 
     &:nth-child(even) {
@@ -128,11 +124,7 @@
       &::after {
         @include subCl();
 
-        background-image: linear-gradient(
-          to top left,
-          #0000 0%,
-          rgba($mc7, 0.95) 60%
-        );
+        background-image: linear-gradient(to top left, #0000 0%, rgba($mc7, 0.95) 60%);
       }
 
       .p-tile {

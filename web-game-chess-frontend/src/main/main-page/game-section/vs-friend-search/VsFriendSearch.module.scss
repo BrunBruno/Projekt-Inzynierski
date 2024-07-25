@@ -3,19 +3,19 @@
 .search {
   @include wh100();
 
-  padding: 12rem 16rem;
+  padding: 8rem 10rem;
 
   &__split {
     @include rounded(2rem);
     @include showAni();
 
+    position: relative;
     display: grid;
     grid-template-columns: 1fr 1fr;
     grid-template-rows: 100%;
-
     height: 100%;
-
     background-color: rgba($gc9, 0.3);
+    padding-bottom: 3rem;
 
     &__bar {
       @include flex(column, start, center, 2rem);
@@ -27,8 +27,35 @@
         font-size: 3.2rem;
       }
 
-      input {
-        @include cInput();
+      .input-holder {
+        @include flex();
+        position: relative;
+
+        input {
+          @include cInput();
+        }
+        .input-search {
+          margin: none;
+        }
+        .input-mail {
+          padding-right: 4rem;
+        }
+
+        .send-icon {
+          @include circle(4rem);
+
+          position: absolute;
+          right: -0.2rem;
+
+          &:hover {
+            cursor: pointer;
+            filter: brightness(80%);
+          }
+
+          svg.arrow-svg {
+            height: 100%;
+          }
+        }
       }
 
       .text {

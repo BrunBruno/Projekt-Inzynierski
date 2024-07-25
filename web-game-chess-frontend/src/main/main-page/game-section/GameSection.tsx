@@ -2,16 +2,10 @@ import { useEffect, useState } from "react";
 import classes from "./GameSection.module.scss";
 import VsPlayerSearch from "./vs-player-search/VsPlayerSearch";
 import axios from "axios";
-import {
-  gameControllerPaths,
-  getAuthorization,
-} from "../../../shared/utils/functions/apiFunctions";
-import {
-  CheckIfInGameDto,
-  SearchGameDto,
-} from "../../../shared/utils/types/gameDtos";
+import { gameControllerPaths, getAuthorization } from "../../../shared/utils/services/ApiService";
+import { CheckIfInGameDto, SearchGameDto } from "../../../shared/utils/types/gameDtos";
 import Searching from "./searching/Searching";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import GameHubService from "../../../shared/utils/services/GameHubService";
 import { gameSearchInterface } from "../../../shared/utils/enums/interfacesEnums";
 import UserGames from "./user-games/UserGames";
@@ -21,16 +15,36 @@ import { CheckIfInGameModel } from "../../../shared/utils/types/gameModels";
 import NotificationPopUp from "./notification-popup/NotificationPopUp";
 import { HubConnectionState } from "@microsoft/signalr";
 import DefaultView from "./default-view/DefaultView";
+import Invitations from "./invitations/Invitations";
+import { getErrMessage } from "../../../shared/utils/functions/displayError";
+import { usePopup } from "../../../shared/utils/hooks/usePopUp";
+import { useTimingType } from "../../../shared/utils/hooks/useTimingType";
 
 function GameSection() {
+  ///
+
+  const location = useLocation();
   const navigate = useNavigate();
 
-  const [interfaceContent, setInterfaceContent] = useState<JSX.Element>(
-    <DefaultView />
-  );
+  const [interfaceContent, setInterfaceContent] = useState<JSX.Element>(<DefaultView />);
   const [searchIds, setSearchIds] = useState<SearchGameDto | null>(null);
   const [allowNotification, setAllowNotification] = useState<boolean>(false);
 
+  const { timingType } = useTimingType();
+
+  const { showPopup } = usePopup();
+
+  useEffect(() => {
+    if (location.state) {
+      const state = location.state;
+
+      if (state.interface) {
+        setInterfaceById(state.interface);
+      }
+    }
+  }, [location.state]);
+
+  // to handle when joining queue has changed
   const handleGamesChanged = async () => {
     if (searchIds !== null) {
       try {
@@ -44,29 +58,56 @@ function GameSection() {
         );
 
         if (isInGameResponse.data.isInGame) {
-          navigate(`game/${isInGameResponse.data.gameId}`);
+          if (timingType) {
+            navigate(`game/${isInGameResponse.data.gameId}`, {
+              state: {
+                timing: timingType,
+                popupText: "Game started",
+                popupType: "info",
+              },
+            });
+          } else {
+            console.error("Type not set");
+          }
         }
       } catch (err) {
-        console.log(err);
+        showPopup(getErrMessage(err), "warning");
       }
     }
   };
 
+  // to handle when frind accepeted the invitation
   const handleGameAccepted = (gameId: string) => {
-    navigate(`game/${gameId}`);
+    if (timingType) {
+      navigate(`game/${gameId}`, {
+        state: {
+          timing: timingType,
+          popupText: "Game started",
+          popupType: "info",
+        },
+      });
+    } else {
+      console.error("Type not set");
+    }
   };
 
+  // to handle when frind declinded the invitation
+  const handleGameDeclined = () => {
+    showPopup("Invitation declined", "error");
+  };
+
+  // connect game hub handlers
   useEffect(() => {
+    console.log(timingType);
+
     if (searchIds !== null) {
       setInterfaceById(gameSearchInterface.searching);
     }
 
-    if (
-      GameHubService.connection &&
-      GameHubService.connection.state === HubConnectionState.Connected
-    ) {
+    if (GameHubService.connection && GameHubService.connection.state === HubConnectionState.Connected) {
       GameHubService.connection.on("GamesChanged", handleGamesChanged);
       GameHubService.connection.on("GameAccepted", handleGameAccepted);
+      GameHubService.connection.on("InvitationDeclined", handleGameDeclined);
 
       setAllowNotification(true);
     }
@@ -75,9 +116,10 @@ function GameSection() {
       if (GameHubService.connection) {
         GameHubService.connection.off("GamesChanged", handleGamesChanged);
         GameHubService.connection.off("GameAccepted", handleGameAccepted);
+        GameHubService.connection.off("InvitationDeclined", handleGameDeclined);
       }
     };
-  }, [searchIds]);
+  }, [searchIds, timingType]);
 
   // set game section content
   const setInterfaceById = (interfaceId: number) => {
@@ -85,23 +127,27 @@ function GameSection() {
       case gameSearchInterface.vsPlayer:
         setInterfaceContent(<VsPlayerSearch setSearchIds={setSearchIds} />);
         break;
+
       case gameSearchInterface.vsComputer:
         setInterfaceContent(<></>);
         break;
+
       case gameSearchInterface.vsFriend:
         setInterfaceContent(<VsFriendSearch />);
         break;
+
       case gameSearchInterface.searching:
         setInterfaceContent(
-          <Searching
-            setInterfaceById={setInterfaceById}
-            searchIds={searchIds}
-            setSearchIds={setSearchIds}
-          />
+          <Searching setInterfaceById={setInterfaceById} searchIds={searchIds} setSearchIds={setSearchIds} />
         );
         break;
+
       case gameSearchInterface.userGames:
         setInterfaceContent(<UserGames />);
+        break;
+
+      case gameSearchInterface.invitations:
+        setInterfaceContent(<Invitations />);
         break;
     }
   };
@@ -123,6 +169,7 @@ function GameSection() {
               <GameSectionIcons iconName="vsPlayer" />
               <span>Play vs Player</span>
             </button>
+
             <button
               className={classes["interface-button"]}
               onClick={() => {
@@ -132,6 +179,7 @@ function GameSection() {
               <GameSectionIcons iconName="vsComputer" />
               <span>Play vs Computer</span>
             </button>
+
             <button
               className={classes["interface-button"]}
               onClick={() => {
@@ -141,6 +189,7 @@ function GameSection() {
               <GameSectionIcons iconName="vsFriend" />
               <span>Play vs Friend</span>
             </button>
+
             <button
               className={classes["interface-button"]}
               onClick={() => {
@@ -150,10 +199,20 @@ function GameSection() {
               <GameSectionIcons iconName="userGames" />
               <span>My Games</span>
             </button>
+
+            <button
+              className={classes["interface-button"]}
+              onClick={() => {
+                setInterfaceById(gameSearchInterface.invitations);
+              }}
+            >
+              <GameSectionIcons iconName="invitations" />
+              <span>Invitations</span>
+            </button>
           </div>
         </div>
 
-        <NotificationPopUp allowNotification={allowNotification} />
+        <NotificationPopUp allowNotification={allowNotification} setAllowNotification={setAllowNotification} />
       </div>
     </section>
   );

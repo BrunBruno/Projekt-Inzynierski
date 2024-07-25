@@ -7,7 +7,8 @@ type PlayBoardProps = {};
 
 const PlayBoard = forwardRef<HandleOnScroll, PlayBoardProps>(
   ({}: PlayBoardProps, ref: React.ForwardedRef<HandleOnScroll>) => {
-    //vars
+    ///
+
     const wh = window.innerHeight;
 
     // whole board div ref
@@ -41,10 +42,7 @@ const PlayBoard = forwardRef<HandleOnScroll, PlayBoardProps>(
             }
           }
 
-          const scale: number = Math.pow(
-            Math.E,
-            -(1 / Math.pow(10, 6)) * Math.pow(y, 2)
-          );
+          const scale: number = Math.pow(Math.E, -(1 / Math.pow(10, 6)) * Math.pow(y, 2));
           const rotate: number = -(1 / 100) * y;
 
           // roate board based on user position
@@ -74,9 +72,7 @@ const PlayBoard = forwardRef<HandleOnScroll, PlayBoardProps>(
               elementRefs[key] = React.createRef<HTMLDivElement>();
             }
 
-            rowTiles.push(
-              <div ref={elementRefs[key]} key={key} className={classes.tile} />
-            );
+            rowTiles.push(<div ref={elementRefs[key]} key={key} className={classes.tile} />);
           }
 
           return rowTiles;
@@ -94,30 +90,16 @@ const PlayBoard = forwardRef<HandleOnScroll, PlayBoardProps>(
     // end generate board
 
     // handle on click
-    const handleBoardOnClick = (
-      event: React.MouseEvent<HTMLDivElement, MouseEvent>
-    ): string => {
+    const handleBoardOnClick = (event: React.MouseEvent<HTMLDivElement, MouseEvent>): string => {
       // get cor of tiles based on cursor position
-      const getPosition = (
-        cpos: number,
-        ppos: number,
-        psize: number
-      ): number => {
+      const getPosition = (cpos: number, ppos: number, psize: number): number => {
         return Math.floor((cpos - ppos) / (psize / 8)) + 1;
       };
 
       const parentRect = event.currentTarget.getBoundingClientRect();
 
-      const x: number = getPosition(
-        event.clientX,
-        parentRect.left,
-        parentRect.width
-      );
-      const y: number = getPosition(
-        event.clientY,
-        parentRect.top,
-        parentRect.height
-      );
+      const x: number = getPosition(event.clientX, parentRect.left, parentRect.width);
+      const y: number = getPosition(event.clientY, parentRect.top, parentRect.height);
 
       const key: string = `${x}-${y}`;
 
@@ -127,20 +109,11 @@ const PlayBoard = forwardRef<HandleOnScroll, PlayBoardProps>(
     const time = 30;
     const done: string[] = [];
     const makeWave = (key: string): void => {
-      let [row, col]: [number, number] = key.split("-").map(Number) as [
-        number,
-        number,
-      ];
+      let [row, col]: [number, number] = key.split("-").map(Number) as [number, number];
 
       let neighborKey: string = `${row}-${col}`;
 
-      if (
-        row === 0 ||
-        row === 9 ||
-        col === 0 ||
-        col === 9 ||
-        done.includes(neighborKey)
-      ) {
+      if (row === 0 || row === 9 || col === 0 || col === 9 || done.includes(neighborKey)) {
         return;
       }
       done.push(neighborKey);
@@ -172,9 +145,7 @@ const PlayBoard = forwardRef<HandleOnScroll, PlayBoardProps>(
     // end handle on click
 
     // handle board hover
-    const handleOnGridHover = (
-      event: React.MouseEvent<HTMLDivElement, MouseEvent>
-    ) => {
+    const handleOnGridHover = (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
       const parentRect = event.currentTarget.getBoundingClientRect();
       const offsetX = event.clientX - parentRect.left;
       const offsetY = event.clientY - parentRect.top;

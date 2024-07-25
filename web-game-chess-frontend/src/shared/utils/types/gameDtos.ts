@@ -1,22 +1,32 @@
 // game controller dtos
 
+import { Guid } from "guid-typescript";
+import { TimingTypeModel } from "./abstracDtosAndModels";
+import { PieceColor, TimingType } from "../enums/entitiesEnums";
+
 export type CheckIfInGameDto = {
   isInGame: boolean;
-  gameId: string | null;
+  gameId: Guid | null;
 };
 
 export type CreatePrivateGameDto = {
-  friendId: string;
-  gameId: string;
+  friendId: Guid;
+  gameId: Guid;
   inviter: string;
 };
 
 export type EndGameDto = {
-  winnerColor: number | null;
+  winnerColor: PieceColor | null;
+  eloGained: number;
+};
+
+export type FetchTimeDto = {
+  whiteTimeLeft: number;
+  blackTimeLeft: number;
 };
 
 export type GetEndedGameDto = {
-  winnerColor: number | null;
+  winnerColor: PieceColor | null;
 };
 
 export type GetFinishedGamesDto = {
@@ -24,6 +34,7 @@ export type GetFinishedGamesDto = {
   turn: number;
   moves: number;
   isWinner: boolean | null;
+  eloGained: number;
   createdAt: Date;
   timingType: number;
   endGameType: number;
@@ -73,17 +84,42 @@ export type GetGameMoveDto = {
 export type GetPlayerDto = {
   name: string;
   elo: number;
-  color: number;
+  color: PieceColor;
 };
 
-export type InvitedToGameDto = {
-  gameId: string;
-  inviteeId: string;
-  inviterId: string;
+export type GetTypeHistoryDto = {
+  whitePlayer: string;
+  blackPlayer: string;
+  moves: number;
+  isWinner: boolean | null;
+  prevElo: number;
+  createdAt: Date;
+};
+
+export type InvitedToGameDto = TimingTypeModel & {
+  gameId: Guid;
+  inviteeId: Guid;
+  inviterId: Guid;
   inviter: string;
 };
 
 export type SearchGameDto = {
-  playerId: string;
-  timingId: string;
+  playerId: Guid;
+  timingId: Guid;
+};
+
+export type CreateGameByEmailDto = {
+  friendId: Guid;
+  gameId: Guid;
+  inviter: string;
+};
+
+export type GetAllInvitationsDto = {
+  gameId: Guid;
+  inviteeId: Guid;
+  invitorId: Guid;
+  invitorName: string;
+  inviteeName: string;
+  createdAt: Date;
+  type: TimingType;
 };

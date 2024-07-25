@@ -1,0 +1,25 @@
+﻿
+using MediatR;
+
+namespace chess.Application.Requests.UserRequests.UpdateProfile;
+
+/// <summary>
+/// Request to set data for current user
+/// </summary>
+public class UpdateProfileRequest : IRequest {
+
+    /// <summary>
+    /// Provide full name
+    /// </summary>
+    public string? Name { get; set; }
+
+    /// <summary>
+    /// Provided profile decription/biography
+    /// </summary>
+    public string? Bio { get; set; }
+
+    /// <summary>
+    /// Provided profile picture
+    /// </summary>
+    public string? ImageUrl { get; set; }
+}

@@ -3,6 +3,7 @@ using AutoMapper;
 using chess.Api.Models.FriendshipModels;
 using chess.Application.Requests.FriendshipRequests.GetAllFriendsByStatus;
 using chess.Application.Requests.FriendshipRequests.GetAllNonFriends;
+using chess.Application.Requests.FriendshipRequests.GetFriendProfile;
 using chess.Application.Requests.FriendshipRequests.InviteFriend;
 using chess.Application.Requests.FriendshipRequests.RemoveFriend;
 using chess.Application.Requests.FriendshipRequests.RespondToFriendRequest;
@@ -90,6 +91,26 @@ public class FriendshipController : ControllerBase {
         var friends = await _mediator.Send(request);
 
         return Ok(friends);
+    }
+
+
+    /// <summary>
+    /// Get user data for other user with established friendship
+    /// </summary>
+    /// <param name="friendshipId"></param>
+    /// <returns></returns>\   
+    [HttpGet("{friendshipId}")]
+    [Authorize(Policy = "IsVerified")]
+    public async Task<IActionResult> GetFriendProfile([FromRoute] Guid friendshipId) {
+
+        var request = new GetFriendProfileRequest()
+        {
+            FriendshipId = friendshipId,
+        };
+
+        var friend = await _mediator.Send(request);
+
+        return Ok(friend);
     }
 
 

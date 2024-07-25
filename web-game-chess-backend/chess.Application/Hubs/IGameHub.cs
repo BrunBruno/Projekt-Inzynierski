@@ -1,8 +1,7 @@
-﻿
-using chess.Application.Hubs.GameHubDtos;
-using chess.Application.Requests.GameRequests.EndGame;
+﻿using chess.Application.Requests.GameRequests.EndGame;
+using chess.Application.Requests.GameRequests.InvitedToGame;
 
-namespace chess.Application.Hubs; 
+namespace chess.Application.Hubs;
 
 /// <summary>
 /// SignalR game related actions
@@ -24,9 +23,9 @@ public interface IGameHub {
     /// <summary>
     /// Returns to all users in game group end game dto
     /// </summary>
-    /// <param name="endGameDto"></param>
+    /// <param name="dto"></param>
     /// <returns></returns>
-    Task GameEnded(EndGameDto endGameDto);
+    Task GameEnded(EndGameDto dto);
 
     /// <summary>
     /// To get game invitation
@@ -37,8 +36,20 @@ public interface IGameHub {
     Task InvitedToGame(InvitedToGameDto dto);
 
     /// <summary>
-    /// 
+    /// To notify users that invitation was accepted
     /// </summary>
     /// <returns></returns>
     Task GameAccepted(Guid gameId);
+
+    /// <summary>
+    /// To notify users when new message was sent
+    /// </summary>
+    /// <returns></returns>
+    Task MessagesUpdated();
+
+    /// <summary>
+    /// To notify about declined invitation
+    /// </summary>
+    /// <returns></returns>
+    Task InvitationDeclined();
 }

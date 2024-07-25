@@ -1,0 +1,36 @@
+@import "../../../Main.scss";
+
+.clock {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  padding: 0 2rem;
+
+  .time {
+    @include flex();
+    @include rounded(1rem);
+
+    font-size: 2rem;
+    font-weight: 600;
+    opacity: 0.5;
+
+    &:nth-child(1) {
+      color: #000;
+      background-color: #fff;
+    }
+    &:nth-child(2) {
+      color: #fff;
+      background-color: #000;
+    }
+
+    &.active {
+      opacity: 1;
+    }
+
+    span {
+      margin: 0.1rem;
+      color: $gc5;
+      font-size: 1.4rem;
+    }
+  }
+}

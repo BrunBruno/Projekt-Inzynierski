@@ -1,8 +1,5 @@
 import { mainColor } from "../../../shared/utils/enums/colorMaps";
-import {
-  IconMap,
-  IconsMapProps,
-} from "../../../shared/utils/types/commonTypes";
+import { IconMap, IconsMapProps } from "../../../shared/utils/types/commonTypes";
 import classes from "./GameSection.module.scss";
 
 const icons: IconMap = {
@@ -69,24 +66,14 @@ const icons: IconMap = {
   ),
 
   userGames: (
-    <svg
-      viewBox="0 0 24 24"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-      className={classes["user-games-icon"]}
-    >
+    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className={classes["user-games-icon"]}>
       <path
         d="M21.2206 8C20.5311 5.81603 19.4281 4.63486 18.0908 4.16059C17.7099 4.02549 17.3016 4 16.8974 4H16.2849C15.4074 4 14.5514 4.27225 13.8351 4.77922L13.3332 5.13441C12.9434 5.41029 12.4776 5.55844 12 5.55844C11.5225 5.55844 11.0567 5.41029 10.6669 5.13443L10.165 4.77922C9.44862 4.27225 8.59264 4 7.71504 4H7.10257C6.69838 4 6.29009 4.02549 5.90915 4.16059C3.52645 5.00566 1.88749 8.09504 2.00604 15.1026C2.02992 16.5145 2.3603 18.075 3.63423 18.6842C4.03121 18.8741 4.49667 19 5.02671 19C5.66273 19 6.1678 18.8187 6.55763 18.5632C7.47153 17.9642 8.14122 16.9639 9.11125 16.4609C9.69519 16.1581 10.3434 16 11.0011 16H12.9989C13.6566 16 14.3048 16.1581 14.8888 16.4609C15.8588 16.9639 16.5285 17.9642 17.4424 18.5632C17.8322 18.8187 18.3373 19 18.9733 19C19.5033 19 19.9688 18.8741 20.3658 18.6842C21.6397 18.075 21.9701 16.5145 21.994 15.1026C22.0132 13.9681 21.9863 12.9362 21.9176 12"
         stroke={mainColor.c7}
         strokeWidth="2"
         strokeLinecap="round"
       />
-      <path
-        d="M7.5 9V12M6 10.5L9 10.5"
-        stroke={mainColor.c7}
-        strokeWidth="2"
-        strokeLinecap="round"
-      />
+      <path d="M7.5 9V12M6 10.5L9 10.5" stroke={mainColor.c7} strokeWidth="2" strokeLinecap="round" />
       <path
         d="M19 10.25C19 10.6642 18.6642 11 18.25 11C17.8358 11 17.5 10.6642 17.5 10.25C17.5 9.83579 17.8358 9.5 18.25 9.5C18.6642 9.5 19 9.83579 19 10.25Z"
         fill={mainColor.c7}
@@ -105,12 +92,34 @@ const icons: IconMap = {
       />
     </svg>
   ),
+
+  invitations: (
+    <svg
+      fill={mainColor.c7}
+      viewBox="0 0 1920 1920"
+      xmlns="http://www.w3.org/2000/svg"
+      className={classes["invitations-icon"]}
+    >
+      <path
+        d="m1387.688 1315.136 387.307 498.24H144.275l387.413-498.24 89.28 71.573h677.44l89.28-71.573ZM53 932.235l395.413 316.48L53 1756.98V932.235Zm1813.333.053v824.64l-395.413-508.267 395.413-316.373ZM1546.408-.011v498.347l319.893 277.333v19.947l-426.666 341.44v-1030.4h-960v1030.4L52.968 795.616v-19.947l320-277.333V-.011h1173.44ZM1013 266.667v266.666h266.667V640H1013v266.667H906.333V640H639.667V533.333h266.666V266.667H1013Z"
+        fillRule="evenodd"
+      />
+    </svg>
+  ),
 };
 
 function GameSectionIcons({ iconName }: IconsMapProps) {
-  const icon = icons[iconName];
+  if (iconName === "") return <>i</>;
 
-  return icon ? icon : <></>;
+  try {
+    const icon = icons[iconName];
+
+    return icon ? icon : <>i</>;
+  } catch (err) {
+    console.error("Icon error");
+  }
+
+  return <>i</>;
 }
 
 export default GameSectionIcons;

@@ -4,6 +4,10 @@ using chess.Core.Enums;
 namespace chess.Core.Entities;
 #pragma warning disable CS8618
 
+/// <summary>
+/// Timing entity
+/// One type is used for many games
+/// </summary>
 public class GameTiming {
 
     /// <summary>
@@ -17,9 +21,9 @@ public class GameTiming {
     public TimingTypes Type { get; set; }
 
     /// <summary>
-    /// Duretion of the game (in minutes)
+    /// Duretion of the game
     /// </summary>
-    public int Minutes { get; set; }
+    public int Seconds { get; set; }
 
     /// <summary>
     /// Time increment (in seconds)

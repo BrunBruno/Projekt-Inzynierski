@@ -1,0 +1,107 @@
+@import "../../Main.scss";
+
+.profile {
+  @include absCenter();
+
+  z-index: 9;
+
+  &__content {
+    @include rounded(2rem);
+
+    position: relative;
+    width: 70rem;
+    aspect-ratio: 3 / 2;
+    background-color: $gc9;
+    transform-origin: center center;
+    transform: scale(0);
+    overflow: hidden;
+    border: solid 0.6rem $gc8;
+    display: grid;
+    grid-template-columns: 40% 60%;
+
+    animation: openProfile 0.1s linear forwards;
+
+    @keyframes openProfile {
+      to {
+        transform: scale(1);
+      }
+    }
+
+    &__bg {
+      @include wh100();
+
+      z-index: 0;
+      position: absolute;
+      top: -40%;
+      left: 0;
+
+      box-shadow: 0 0 0 2rem $mc9;
+
+      &::after {
+        @include subCl();
+        background-image: url("/images/account-bg.jpg");
+        background-size: cover;
+        background-repeat: no-repeat;
+        filter: brightness(20%);
+      }
+    }
+
+    &__avatar {
+      @include flex();
+
+      z-index: 1;
+      padding: 2rem;
+
+      .avatar-img {
+        aspect-ratio: 1/1;
+        width: 100%;
+        object-fit: cover;
+        border-radius: 100%;
+        box-shadow: 0 0 0 2rem $mc9;
+      }
+    }
+
+    &__data {
+      @include flex(column, start, center, 1rem);
+      z-index: 1;
+      padding: 2rem;
+
+      h1 {
+        @include longText();
+        font-size: 4.4rem;
+        font-weight: bold;
+        text-align: center;
+      }
+
+      h2 {
+        @include longText();
+        color: $gc4;
+        font-size: 2.2rem;
+        text-align: center;
+      }
+
+      .bio {
+        font-size: 1.4rem;
+        columns: $gc5;
+        display: -webkit-box;
+        line-clamp: 6;
+        -webkit-line-clamp: 6;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      .x {
+        @include circle(4rem);
+        position: absolute;
+        top: 1rem;
+        right: 1rem;
+
+        &:hover {
+          cursor: pointer;
+          filter: brightness(80%);
+        }
+      }
+    }
+  }
+}
