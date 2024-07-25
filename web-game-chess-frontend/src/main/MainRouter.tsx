@@ -85,7 +85,7 @@ function MainRouter() {
         <Route path="/users" element={<UsersPage />} />
         <Route path="/game/:gameId" element={<GamePage />} />
         <Route path="/account" element={<AccountPage />} />
-        <Route path="/profile/:userId" element={<ProfilePage />} />
+        <Route path="/profile/:friendshipId" element={<ProfilePage />} />
       </Routes>
     </PopupProvider>
   );

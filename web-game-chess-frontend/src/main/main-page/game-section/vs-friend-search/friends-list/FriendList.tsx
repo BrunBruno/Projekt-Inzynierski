@@ -67,7 +67,7 @@ function FriendList({ selectedUsername, setSelectedFriend }: FriendListProps) {
     <div ref={scrollRef} className={classes.list}>
       {friends.length > 0 ? (
         friends.map((friend) => (
-          <div key={friend.freindshpId} className={classes.list__element}>
+          <div key={friend.freindshpId.toString()} className={classes.list__element}>
             <AvatarImage
               username={friend.username}
               imageUrl={friend.imageUrl}
@@ -117,8 +117,8 @@ function FriendList({ selectedUsername, setSelectedFriend }: FriendListProps) {
         ))
       ) : (
         <div className={classes.empty}>
-          {Array.from({ length: 8 }).map((_) => (
-            <div className={classes["empty-card"]}>
+          {Array.from({ length: 8 }).map((_, i) => (
+            <div key={i} className={classes["empty-card"]}>
               <AvatarSvg iconClass={classes["blank-avatar"]} />
               <div className={classes.texts}>
                 <p />

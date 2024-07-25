@@ -1,7 +1,9 @@
 // user controller models to requests
 
+import { Guid } from "guid-typescript";
+
 export type GetRegisterConfModel = {
-  configurationId: number;
+  configurationId: Guid;
 };
 
 export type LogInUserModel = {
@@ -34,5 +36,5 @@ export type CheckIfEmailExistsModel = {
 };
 
 export type GetOtherUserModel = {
-  userId: string;
+  userId: Guid;
 };

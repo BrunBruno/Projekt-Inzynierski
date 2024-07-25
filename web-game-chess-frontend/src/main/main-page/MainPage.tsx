@@ -21,7 +21,7 @@ function MainPage() {
         showPopup(state.popupText, state.popupType);
       }
     }
-  }, []);
+  }, [location.state]);
 
   return (
     <main className={classes.main}>

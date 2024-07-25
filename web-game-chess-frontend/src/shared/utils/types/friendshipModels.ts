@@ -1,10 +1,12 @@
 // friendship controller models
 
+import { Guid } from "guid-typescript";
+import { FriendshipStatus } from "../enums/entitiesEnums";
 import { PagedModel } from "./abstracDtosAndModels";
 
 export type GetAllFriendsByStatusModel = PagedModel & {
   username: string | null;
-  status: number;
+  status: FriendshipStatus;
 };
 
 export type GetAllNonFriendsModel = PagedModel & {
@@ -12,10 +14,10 @@ export type GetAllNonFriendsModel = PagedModel & {
 };
 
 export type InviteFriendModel = {
-  receiverId: string;
+  receiverId: Guid;
 };
 
 export type RespondToFriendRequestModel = {
-  friendshipId: string;
+  friendshipId: Guid;
   isAccepted: boolean;
 };

@@ -8,10 +8,11 @@ import LoadingPage from "../../../shared/components/loading-page/LoadingPage";
 import MoveRecord from "./move-record/MoveRecord";
 import GameClock from "./game-clock/GameClock";
 import AvatarImage from "../../../shared/components/avatar-image/AvatarImage";
+import { Guid } from "guid-typescript";
 
 type RightSideBarProps = {
   // game id
-  gameId: string;
+  gameId: Guid;
   // game data
   gameData: GetGameDto;
   // time left for white

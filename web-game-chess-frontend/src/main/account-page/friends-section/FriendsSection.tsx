@@ -59,7 +59,7 @@ function FriendsSection() {
   return (
     <div
       ref={scrollRef}
-      className={`${classes.friends} ${friendList.length === 0 ? classes.tamplate : classes.duap}`}
+      className={classes.friends}
       onMouseLeave={() => {
         clearSelection();
       }}
@@ -67,7 +67,7 @@ function FriendsSection() {
       {friendList.length > 0 ? (
         friendList.map((friend) => (
           <FriendCard
-            key={friend.freindshpId}
+            key={friend.freindshpId.toString()}
             friend={friend}
             setSelectedFriend={setSelectedFriend}
             clearSelection={clearSelection}
@@ -78,8 +78,8 @@ function FriendsSection() {
           <div className={classes["no-data"]}>
             <span>You don't have any friends yet.</span>
           </div>
-          {Array.from({ length: 16 }).map((_) => (
-            <div className={classes["empty-card"]}>
+          {Array.from({ length: 16 }).map((_, i) => (
+            <div key={i} className={classes["empty-card"]}>
               <AvatarSvg iconClass={classes["blank-avatar"]} />
               <p />
               <p />

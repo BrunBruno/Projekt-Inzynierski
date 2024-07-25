@@ -8,10 +8,11 @@ import classes from "./LeftSideBar.module.scss";
 import LeftSideBarIcons from "./LeftSideBarIcons";
 import { usePopup } from "../../../shared/utils/hooks/usePopUp";
 import { getErrMessage } from "../../../shared/utils/functions/displayError";
+import { Guid } from "guid-typescript";
 
 type LeftSideBarProps = {
   // game id
-  gameId: string;
+  gameId: Guid;
   // current player data
   playerData: GetPlayerDto;
   // current game data

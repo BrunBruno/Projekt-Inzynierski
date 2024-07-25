@@ -1,6 +1,8 @@
+import { useNavigate } from "react-router-dom";
 import AvatarImage from "../../../../shared/components/avatar-image/AvatarImage";
 import { GetAllFriendsByStatusDto } from "../../../../shared/utils/types/friendshipDtos";
 import classes from "./FriendCard.module.scss";
+import { gameSearchInterface } from "../../../../shared/utils/enums/interfacesEnums";
 
 type FriendCardProps = {
   friend: GetAllFriendsByStatusDto;
@@ -9,7 +11,21 @@ type FriendCardProps = {
 };
 
 function FriendCard({ friend, setSelectedFriend, clearSelection }: FriendCardProps) {
-  const setActive = (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+  ///
+
+  const navigate = useNavigate();
+
+  const checkProfile = () => {};
+
+  const onInviteFriendToGame = async () => {
+    navigate(`main/`, {
+      state: {
+        interface: gameSearchInterface.vsFriend,
+      },
+    });
+  };
+
+  const setActive = (event: React.MouseEvent<HTMLDivElement, MouseEvent>): void => {
     const target = event.target as HTMLElement;
 
     setSelectedFriend(target);
@@ -47,8 +63,20 @@ function FriendCard({ friend, setSelectedFriend, clearSelection }: FriendCardPro
       </div>
 
       <div className={classes.friend__actions}>
-        <button>Profile</button>
-        <button>Play</button>
+        <button
+          onClick={() => {
+            checkProfile();
+          }}
+        >
+          Profile
+        </button>
+        <button
+          onClick={() => {
+            onInviteFriendToGame();
+          }}
+        >
+          Play
+        </button>
       </div>
     </div>
   );

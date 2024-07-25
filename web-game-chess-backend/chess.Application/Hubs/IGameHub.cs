@@ -46,4 +46,10 @@ public interface IGameHub {
     /// </summary>
     /// <returns></returns>
     Task MessagesUpdated();
+
+    /// <summary>
+    /// To notify about declined invitation
+    /// </summary>
+    /// <returns></returns>
+    Task InvitationDeclined();
 }

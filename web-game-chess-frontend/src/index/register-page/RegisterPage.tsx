@@ -25,7 +25,7 @@ function RegisterPage() {
     } else {
       setModal(registrationInterface.signIn);
     }
-  }, [location]);
+  }, [location.state]);
 
   // set form modal
   const renderModal = (): JSX.Element => {

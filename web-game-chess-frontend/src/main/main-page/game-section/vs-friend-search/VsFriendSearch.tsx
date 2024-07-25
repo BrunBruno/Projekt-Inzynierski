@@ -25,14 +25,14 @@ import { GetByEmailDto } from "../../../../shared/utils/types/userDtos";
 import { CheckIfEmailExistsModel } from "../../../../shared/utils/types/userModels";
 import { usePopup } from "../../../../shared/utils/hooks/usePopUp";
 import { getErrMessage } from "../../../../shared/utils/functions/displayError";
+import { Guid } from "guid-typescript";
+import { useTimingType } from "../../../../shared/utils/hooks/useTimingType";
 
 type VsFriendSearchProps = {
   // to set selected timing
-  // needed to proceed to game
-  setChoosenTiming: React.Dispatch<React.SetStateAction<SearchGameModel | null>>;
 };
 
-function VsFriendSearch({ setChoosenTiming }: VsFriendSearchProps) {
+function VsFriendSearch({}: VsFriendSearchProps) {
   ///
 
   const [selectedUsername, setSelectedUsername] = useState<string>("");
@@ -43,8 +43,10 @@ function VsFriendSearch({ setChoosenTiming }: VsFriendSearchProps) {
 
   const { showPopup } = usePopup();
 
+  const { setTimingType } = useTimingType();
+
   // to inviate friend to game via selection from friend list
-  const onInviteFriendToGame = async (friendshipId: string, header: string, values: number[]) => {
+  const onInviteFriendToGame = async (friendshipId: Guid, header: string, values: number[]) => {
     try {
       const typeValue = timingTypes[header.toLowerCase()];
 
@@ -54,7 +56,7 @@ function VsFriendSearch({ setChoosenTiming }: VsFriendSearchProps) {
         increment: values[1],
       };
 
-      setChoosenTiming(gameType);
+      setTimingType(gameType);
 
       const privateGameModel: CreatePrivateGameModel = {
         friendshipId: friendshipId,
@@ -97,7 +99,7 @@ function VsFriendSearch({ setChoosenTiming }: VsFriendSearchProps) {
         increment: values[1],
       };
 
-      setChoosenTiming(gameType);
+      setTimingType(gameType);
 
       const gameByEmailModel: CreateGameByEmailModel = {
         email: email,

@@ -30,9 +30,10 @@ import { makeMove } from "../../../shared/utils/chess-game/MakeMove";
 import { onClearHighlights, onHighlightFile } from "../../../shared/utils/chess-game/BoardVisualization";
 import GameBoardSearching from "./game-board-searching/GameBoardSearching";
 import { dangerColor } from "../../../shared/utils/enums/colorMaps";
+import { Guid } from "guid-typescript";
 
 type GameBoardProps = {
-  gameId: string;
+  gameId: Guid;
   gameData: GetGameDto;
   playerData: GetPlayerDto;
   winner: EndGameDto | GetEndedGameDto | null;

@@ -1,5 +1,6 @@
 // user controller dtos
 
+import { Guid } from "guid-typescript";
 import { EloDto, UserDto } from "./abstracDtosAndModels";
 
 export type ConfigurationDto = {
@@ -16,7 +17,7 @@ export type LogInUserDto = {
 };
 
 export type GetUserDto = UserDto & {
-  userId: string;
+  userId: Guid;
   email: string;
 };
 

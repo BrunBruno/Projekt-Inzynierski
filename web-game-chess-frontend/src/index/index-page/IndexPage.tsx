@@ -152,7 +152,7 @@ function IndexPage() {
         showPopup(state.popupText, state.popupType);
       }
     }
-  }, []);
+  }, [location.state]);
 
   return (
     <main className={classes["home-main"]}>

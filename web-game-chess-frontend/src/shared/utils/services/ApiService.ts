@@ -1,8 +1,8 @@
+import { Guid } from "guid-typescript";
 import { GetAllFriendsByStatusModel, GetAllNonFriendsModel } from "../types/friendshipModels";
 import {
   AbortSearchModel,
   CheckIfInGameModel,
-  DeclineInvitationModel,
   GetAllInvitationsModel,
   GetFinishedGamesModel,
   GetTypeHistiryModel,
@@ -70,17 +70,16 @@ interface GameControllerPaths {
   //PUT
   //GET
   checkIfInGame: (model: CheckIfInGameModel) => string;
-  getGame: (gameId: string) => string;
-  getPlayer: (gameId: string) => string;
-  fetchTime: (gameId: string) => string;
-  getEndedGame: (gameId: string) => string;
-  getGameTiming: (gameId: string) => string;
+  getGame: (gameId: Guid) => string;
+  getPlayer: (gameId: Guid) => string;
+  fetchTime: (gameId: Guid) => string;
+  getEndedGame: (gameId: Guid) => string;
+  getGameTiming: (gameId: Guid) => string;
   getFinishedGames: (model: GetFinishedGamesModel) => string;
   getTypeHistory: (model: GetTypeHistiryModel) => string;
   getAllInvitations: (model: GetAllInvitationsModel) => string;
   //DELETE
   abortSearch: (model: AbortSearchModel) => string;
-  declineInvitation: (model: DeclineInvitationModel) => string;
 }
 
 // paths in game controller
@@ -93,15 +92,15 @@ export const gameControllerPaths: GameControllerPaths = {
 
   checkIfInGame: (model: CheckIfInGameModel): string => `${gameBaseUrl}/check-if-in-game/?${stringifyModel(model)}`,
 
-  getGame: (gameId: string): string => `${gameBaseUrl}/${gameId}`,
+  getGame: (gameId: Guid): string => `${gameBaseUrl}/${gameId}`,
 
-  getPlayer: (gameId: string): string => `${gameBaseUrl}/${gameId}/player`,
+  getPlayer: (gameId: Guid): string => `${gameBaseUrl}/${gameId}/player`,
 
-  fetchTime: (gameId: string): string => `${gameBaseUrl}/${gameId}/time`,
+  fetchTime: (gameId: Guid): string => `${gameBaseUrl}/${gameId}/time`,
 
-  getEndedGame: (gameId: string): string => `${gameBaseUrl}/${gameId}/ended`,
+  getEndedGame: (gameId: Guid): string => `${gameBaseUrl}/${gameId}/ended`,
 
-  getGameTiming: (gameId: string): string => `${gameBaseUrl}/${gameId}/timing`,
+  getGameTiming: (gameId: Guid): string => `${gameBaseUrl}/${gameId}/timing`,
 
   getFinishedGames: (model: GetFinishedGamesModel): string => `${gameBaseUrl}/all-finished?${stringifyModel(model)}`,
 
@@ -110,8 +109,6 @@ export const gameControllerPaths: GameControllerPaths = {
   getAllInvitations: (model: GetAllInvitationsModel): string => `${gameBaseUrl}/invitations?${stringifyModel(model)}`,
 
   abortSearch: (model: AbortSearchModel): string => `${gameBaseUrl}/abort?${stringifyModel(model)}`,
-
-  declineInvitation: (model: DeclineInvitationModel): string => `${gameBaseUrl}/decline?${stringifyModel(model)}`,
 };
 
 const friendshipBaseUrl: string = baseUrl + "/friendship";
@@ -124,9 +121,9 @@ interface FriendshipControllerPaths {
   //GET
   getAllFriendsByStatus: (model: GetAllFriendsByStatusModel) => string;
   getAllNonFriends: (model: GetAllNonFriendsModel) => string;
-  getFriendProfile: (friendshipId: string) => string;
+  getFriendProfile: (friendshipId: Guid) => string;
   //DELETE
-  removeFriend: (friendshipId: string) => string;
+  removeFriend: (friendshipId: Guid) => string;
 }
 
 export const friendshipControllerPaths: FriendshipControllerPaths = {
@@ -140,9 +137,9 @@ export const friendshipControllerPaths: FriendshipControllerPaths = {
   getAllNonFriends: (model: GetAllNonFriendsModel): string =>
     `${friendshipBaseUrl}/all-non-friends?${stringifyModel(model)}`,
 
-  getFriendProfile: (friendshipId: string): string => `${friendshipBaseUrl}/${friendshipId}`,
+  getFriendProfile: (friendshipId: Guid): string => `${friendshipBaseUrl}/${friendshipId}`,
 
-  removeFriend: (friendshipId: string): string => `${friendshipBaseUrl}/${friendshipId}`,
+  removeFriend: (friendshipId: Guid): string => `${friendshipBaseUrl}/${friendshipId}`,
 };
 
 type Headers = {

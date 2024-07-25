@@ -1,9 +1,10 @@
 // friendship controller dtos
 
+import { Guid } from "guid-typescript";
 import { EloDto, UserDto } from "./abstracDtosAndModels";
 
 export type GetAllFriendsByStatusDto = UserDto & {
-  freindshpId: string;
+  freindshpId: Guid;
   elo: EloDto;
   isRequestor: boolean;
   gamesPlayed: number;
@@ -13,7 +14,7 @@ export type GetAllFriendsByStatusDto = UserDto & {
 };
 
 export type GetAllNonFriendsDto = UserDto & {
-  userId: string;
+  userId: Guid;
   elo: EloDto;
 };
 

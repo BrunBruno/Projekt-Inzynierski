@@ -9,16 +9,18 @@ import { SearchGameModel } from "../../../../shared/utils/types/gameModels";
 import TimingTypesIcons from "../../../../shared/svgs/TimingTypesIcons";
 import { usePopup } from "../../../../shared/utils/hooks/usePopUp";
 import { getErrMessage } from "../../../../shared/utils/functions/displayError";
+import { useTimingType } from "../../../../shared/utils/hooks/useTimingType";
 
 type VsPlayerSearchProps = {
   setSearchIds: React.Dispatch<React.SetStateAction<SearchGameDto | null>>;
-  setChoosenTiming: React.Dispatch<React.SetStateAction<SearchGameModel | null>>;
 };
 
-function VsPlayerSearch({ setSearchIds, setChoosenTiming }: VsPlayerSearchProps) {
+function VsPlayerSearch({ setSearchIds }: VsPlayerSearchProps) {
   ///
 
   const { showPopup } = usePopup();
+
+  const { setTimingType } = useTimingType();
 
   // API call search for game
   const onSearchForGame = async (header: string, values: number[]) => {
@@ -37,11 +39,11 @@ function VsPlayerSearch({ setSearchIds, setChoosenTiming }: VsPlayerSearchProps)
         getAuthorization()
       );
 
-      setChoosenTiming(gameType);
+      setTimingType(gameType);
 
       setSearchIds(searchGameResponse.data);
 
-      GameHubService.PlayerJoined(searchGameResponse.data.timingId);
+      await GameHubService.PlayerJoined(searchGameResponse.data.timingId);
     } catch (err) {
       showPopup(getErrMessage(err), "warning");
     }

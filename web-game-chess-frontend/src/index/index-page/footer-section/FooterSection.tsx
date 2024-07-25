@@ -36,7 +36,12 @@ function FooterSection({}: FooterSectionProps) {
           <h3>Socials</h3>
 
           {socials.map((social) => (
-            <a href={`https://www.${social.toLocaleLowerCase()}.com/`} target="blank" className={classes.link}>
+            <a
+              key={social}
+              href={`https://www.${social.toLocaleLowerCase()}.com/`}
+              target="blank"
+              className={classes.link}
+            >
               <div className={classes.element}>
                 <FooterSectionIcons iconName={social.toLocaleLowerCase()} />
                 <p>{social}</p>

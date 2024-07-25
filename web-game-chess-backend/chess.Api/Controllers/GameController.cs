@@ -311,20 +311,4 @@ public class GameController : ControllerBase {
         return Ok();
     }
 
-    // do huba ----------------
-    /// <summary>
-    /// Removes previous invitation, that was not respended to
-    /// </summary>
-    /// <param name="model"></param>
-    /// <returns></returns>
-    [HttpDelete("decline")]
-    [Authorize(Policy = "IsVerified")]
-    public async Task<IActionResult> DeclineInvitation([FromQuery] DeclineInvitationModel model) {
-
-        var request = _mapper.Map<DeclineInvitationRequest>(model);
-
-        await _mediator.Send(request);
-
-        return Ok();
-    }
 }

@@ -7,23 +7,23 @@ import {
   DeclineInvitationModel,
   SearchGameModel,
 } from "../../../../shared/utils/types/gameModels";
-import axios from "axios";
-import { gameControllerPaths, getAuthorization } from "../../../../shared/utils/services/ApiService";
 import { usePopup } from "../../../../shared/utils/hooks/usePopUp";
 import { getErrMessage } from "../../../../shared/utils/functions/displayError";
+import { useTimingType } from "../../../../shared/utils/hooks/useTimingType";
 
 type NotificationPopUpProps = {
   allowNotification: boolean;
   setAllowNotification: React.Dispatch<React.SetStateAction<boolean>>;
-  setChoosenTiming: React.Dispatch<React.SetStateAction<SearchGameModel | null>>;
 };
 
-function NotificationPopUp({ allowNotification, setAllowNotification, setChoosenTiming }: NotificationPopUpProps) {
+function NotificationPopUp({ allowNotification, setAllowNotification }: NotificationPopUpProps) {
   ///
 
   const [notification, setNotification] = useState<InvitedToGameDto | null>(null);
 
   const { showPopup } = usePopup();
+
+  const { setTimingType } = useTimingType();
 
   const handleNotificationChange = (invitationDto: InvitedToGameDto): void => {
     const timing: SearchGameModel = {
@@ -32,7 +32,9 @@ function NotificationPopUp({ allowNotification, setAllowNotification, setChoosen
       increment: invitationDto.increment,
     };
 
-    setChoosenTiming(timing);
+    console.log(timing);
+
+    setTimingType(timing);
 
     setNotification(invitationDto);
   };
@@ -50,19 +52,23 @@ function NotificationPopUp({ allowNotification, setAllowNotification, setChoosen
   }, [allowNotification]);
 
   // to accept incoming game invitation
-  const onAcceptInvitation = (): void => {
+  const onAcceptInvitation = async (): Promise<void> => {
     if (!notification) return;
 
-    const model: AcceptInvitationModel = {
-      gameId: notification.gameId,
-      inviteeId: notification.inviteeId,
-      invitorId: notification.inviterId,
-    };
+    try {
+      const model: AcceptInvitationModel = {
+        gameId: notification.gameId,
+        inviteeId: notification.inviteeId,
+        invitorId: notification.inviterId,
+      };
 
-    GameHubService.AcceptInvitation(model);
+      await GameHubService.AcceptInvitation(model);
 
-    setNotification(null);
-    setAllowNotification(false);
+      setNotification(null);
+      setAllowNotification(false);
+    } catch (err) {
+      showPopup(getErrMessage(err), "warning");
+    }
   };
 
   // to declain incoming game invitation
@@ -72,9 +78,10 @@ function NotificationPopUp({ allowNotification, setAllowNotification, setChoosen
     try {
       const model: DeclineInvitationModel = {
         gameId: notification.gameId,
+        friendId: notification.inviterId,
       };
 
-      await axios.delete(gameControllerPaths.declineInvitation(model), getAuthorization());
+      await GameHubService.DeclineInvitation(model);
 
       setNotification(null);
       setAllowNotification(false);

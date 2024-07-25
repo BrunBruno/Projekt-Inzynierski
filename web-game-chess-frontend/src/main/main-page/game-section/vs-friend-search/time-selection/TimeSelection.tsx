@@ -1,3 +1,4 @@
+import { Guid } from "guid-typescript";
 import ActionButton from "../../../../../shared/components/action-button/ActionButton";
 import TimingTypesIcons from "../../../../../shared/svgs/TimingTypesIcons";
 import { GetAllFriendsByStatusDto } from "../../../../../shared/utils/types/friendshipDtos";
@@ -15,7 +16,7 @@ type TimeSelectionProps = {
   // to unseclec friend
   setSelectedUser: React.Dispatch<React.SetStateAction<GetByEmailDto | null>>;
   // to invite to private game via click
-  onInviteFriendToGame: (friendshipId: string, header: string, values: number[]) => Promise<void>;
+  onInviteFriendToGame: (friendshipId: Guid, header: string, values: number[]) => Promise<void>;
   // to inviate to private game by email
   onInviteByEmail: (email: string, header: string, values: number[]) => Promise<void>;
 };

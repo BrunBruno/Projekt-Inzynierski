@@ -1,11 +1,13 @@
 import * as signalR from "@microsoft/signalr";
 import {
   AcceptInvitationModel,
+  DeclineInvitationModel,
   EndGameModel,
   MakeMoveModel,
   NotifyUserModel,
   SendMessageModel,
 } from "../types/gameModels";
+import { Guid } from "guid-typescript";
 
 // singalR hub service map from GameHub
 class GameHub {
@@ -67,7 +69,7 @@ class GameHub {
   }
 
   // add player to queue | create game
-  public async PlayerJoined(typeId: string): Promise<void> {
+  public async PlayerJoined(typeId: Guid): Promise<void> {
     try {
       await this.connection?.invoke("player-joined", typeId);
     } catch (err) {
@@ -112,7 +114,7 @@ class GameHub {
   }
 
   // add to group with game id
-  public async GameStarted(gameId: string): Promise<void> {
+  public async GameStarted(gameId: Guid): Promise<void> {
     try {
       await this.connection?.invoke("game-started", gameId);
     } catch (err) {
@@ -130,7 +132,7 @@ class GameHub {
   }
 
   // remove from queue
-  public async PlayerLeaved(typeId: string): Promise<void> {
+  public async PlayerLeaved(typeId: Guid): Promise<void> {
     try {
       await this.connection?.invoke("player-leaved", typeId);
     } catch (err) {
@@ -139,9 +141,18 @@ class GameHub {
   }
 
   // remove user from game group
-  public async LeaveGame(gameId: string): Promise<void> {
+  public async LeaveGame(gameId: Guid): Promise<void> {
     try {
       await this.connection?.invoke("leave-game", gameId);
+    } catch (err) {
+      console.error(err);
+    }
+  }
+
+  // removes invitation
+  public async DeclineInvitation(model: DeclineInvitationModel): Promise<void> {
+    try {
+      await this.connection?.invoke("decline-invitation", model);
     } catch (err) {
       console.error(err);
     }

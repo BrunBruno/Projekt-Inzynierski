@@ -23,11 +23,15 @@ import { usePopup } from "../../shared/utils/hooks/usePopUp";
 import { getErrMessage } from "../../shared/utils/functions/displayError";
 import MainPopUp from "../../shared/components/main-popup/MainPopUp";
 import { PopupType } from "../../shared/utils/types/commonTypes";
+import { Guid } from "guid-typescript";
 
 function GamePage() {
   ///
 
-  const { gameId } = useParams();
+  const { gameIdStr } = useParams<{ gameIdStr: string }>();
+  const [gameId, setGameId] = useState<Guid>(Guid.createEmpty());
+  useEffect(() => setGameId(Guid.parse(gameIdStr!)), [gameIdStr]);
+
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -148,7 +152,7 @@ function GamePage() {
   }, [gameData]);
 
   // handle hub service game changed event
-  const handleGamesChanged = async () => {
+  const handleGamesChanged = async (): Promise<void> => {
     if (searchIds !== null) {
       try {
         const isInGameModel: CheckIfInGameModel = {
@@ -177,6 +181,7 @@ function GamePage() {
     }
   };
 
+  // connect game hub methods
   useEffect(() => {
     if (GameHubService.connection && GameHubService.connection.state === HubConnectionState.Connected) {
       GameHubService.connection.on("GamesChanged", handleGamesChanged);
@@ -189,6 +194,7 @@ function GamePage() {
     };
   }, [searchIds]);
 
+  // display enter popups
   useEffect(() => {
     if (location.state) {
       const state = location.state as PopupType;
@@ -197,7 +203,7 @@ function GamePage() {
         showPopup(state.popupText, state.popupType);
       }
     }
-  }, []);
+  }, [location.state]);
 
   if (!gameId || !gameData || !playerData) return <LoadingPage />;
 

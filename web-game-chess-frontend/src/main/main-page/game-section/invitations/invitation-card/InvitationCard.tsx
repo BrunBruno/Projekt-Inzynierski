@@ -1,10 +1,8 @@
-import axios from "axios";
 import TimingTypesIcons from "../../../../../shared/svgs/TimingTypesIcons";
 import GameHubService from "../../../../../shared/utils/services/GameHubService";
 import { GetAllInvitationsDto } from "../../../../../shared/utils/types/gameDtos";
 import { AcceptInvitationModel, DeclineInvitationModel } from "../../../../../shared/utils/types/gameModels";
 import classes from "./InvitationCard.module.scss";
-import { gameControllerPaths, getAuthorization } from "../../../../../shared/utils/services/ApiService";
 import { timingTypesNames } from "../../../../../shared/utils/enums/commonConstLists";
 import { usePopup } from "../../../../../shared/utils/hooks/usePopUp";
 import { getErrMessage } from "../../../../../shared/utils/functions/displayError";
@@ -22,24 +20,31 @@ function InvitationCard({ invitation, updateInvitations }: InvitationCardProps) 
   const { showPopup } = usePopup();
 
   // to accept previous invitation
-  const onAcceptInvitation = () => {
-    const model: AcceptInvitationModel = {
-      gameId: invitation.gameId,
-      inviteeId: invitation.inviteeId,
-      invitorId: invitation.invitorId,
-    };
+  const onAcceptInvitation = async (): Promise<void> => {
+    if (!invitation) return;
 
-    GameHubService.AcceptInvitation(model);
+    try {
+      const model: AcceptInvitationModel = {
+        gameId: invitation.gameId,
+        inviteeId: invitation.inviteeId,
+        invitorId: invitation.invitorId,
+      };
+
+      await GameHubService.AcceptInvitation(model);
+    } catch (err) {
+      showPopup(getErrMessage(err), "warning");
+    }
   };
 
   // to decline previous invitations
-  const onDeclineInvitation = async () => {
+  const onDeclineInvitation = async (): Promise<void> => {
     try {
       const model: DeclineInvitationModel = {
         gameId: invitation.gameId,
+        friendId: invitation.invitorId,
       };
 
-      await axios.delete(gameControllerPaths.declineInvitation(model), getAuthorization());
+      await GameHubService.DeclineInvitation(model);
 
       updateInvitations();
 

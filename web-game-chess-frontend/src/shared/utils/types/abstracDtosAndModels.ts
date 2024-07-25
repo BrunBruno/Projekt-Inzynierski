@@ -1,5 +1,7 @@
 // abstract types of dtos and models
 
+import { TimingType } from "../enums/entitiesEnums";
+
 // pagination result type
 export type PagedResult<T> = {
   items: T[];
@@ -32,8 +34,8 @@ export type UserDto = {
   country: string;
 };
 
-export type TimingType = {
-  type: number;
+export type TimingTypeModel = {
+  type: TimingType;
   minutes: number;
   increment: number;
 };
