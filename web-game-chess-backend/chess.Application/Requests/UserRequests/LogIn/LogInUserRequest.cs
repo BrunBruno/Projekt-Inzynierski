@@ -9,9 +9,9 @@ namespace chess.Application.Requests.UserRequests.LogIn;
 public class LogInUserRequest : IRequest<LogInUserDto> {
 
     /// <summary>
-    /// Email
+    /// Email or username
     /// </summary>
-    public required string Email { get; set; }
+    public required string EmailOrUsername { get; set; }
 
     /// <summary>
     /// Password

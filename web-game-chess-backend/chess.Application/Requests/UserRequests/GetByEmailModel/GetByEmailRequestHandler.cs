@@ -5,6 +5,11 @@ using MediatR;
 
 namespace chess.Application.Requests.UserRequests.CheckIfEmailExists;
 
+/// <summary>
+/// Check if provided email is correct
+/// Check if user exists
+/// Returns user data
+/// </summary>
 public class GetByEmailRequestHandler : IRequestHandler<GetByEmailRequest, GetByEmailDto> {
 
     public IUserRepository _userRepository;
@@ -18,7 +23,7 @@ public class GetByEmailRequestHandler : IRequestHandler<GetByEmailRequest, GetBy
         if (request.Email is null)
             throw new BadRequestException("Invalid email.");
 
-        var user = await _userRepository.GetByEmail(request.Email) 
+        var user = await _userRepository.GetByEmail(request.Email.ToLower()) 
             ?? throw new NotFoundException("User not found.");
 
         var emailExistsDto = new GetByEmailDto()

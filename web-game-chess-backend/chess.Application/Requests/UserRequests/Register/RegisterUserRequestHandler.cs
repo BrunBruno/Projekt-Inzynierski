@@ -5,9 +5,19 @@ using chess.Core.Entities;
 using chess.Shared.Exceptions;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
+using System.Net.Mail;
 
 namespace chess.Application.Requests.UserRequests.Register;
 
+
+/// <summary>
+/// Validates provided data
+/// Checks if user not exists
+/// Creates new user
+/// Hashes password
+/// Creates and hashes verification code
+/// Sends created code by provided email
+/// </summary>
 public class RegisterUserRequestHandler : IRequestHandler<RegisterUserRequest> {
 
     private readonly IUserRepository _userRepository;
@@ -32,10 +42,16 @@ public class RegisterUserRequestHandler : IRequestHandler<RegisterUserRequest> {
 
     public async Task Handle(RegisterUserRequest request, CancellationToken cancellationToken) {
 
-        var emailAlreadyExists = await _userRepository.GetByEmail(request.Email.ToLower());
+        if (!IsValidEmail(request.Email))
+            throw new BadRequestException("Invalid email format.");
 
+        var emailAlreadyExists = await _userRepository.GetByEmail(request.Email.ToLower());
         if (emailAlreadyExists is not null)
-            throw new BadRequestException("User already exists.");
+            throw new BadRequestException("Email already taken");
+
+        var usernameAlreadyExists = await _userRepository.GetByUsername(request.Username);
+        if (usernameAlreadyExists is not null)
+            throw new BadRequestException("Username already taken.");
 
         if (!request.Password.Equals(request.ConfirmPassword))
             throw new BadRequestException("Passwords don't match.");
@@ -45,7 +61,6 @@ public class RegisterUserRequestHandler : IRequestHandler<RegisterUserRequest> {
             Id = Guid.NewGuid(),
             Email = request.Email.ToLower(),
             Username = request.Username,
-            JoinDate = DateTime.UtcNow,
             Country = request.Country,
             Elo = new Elo(),
             Stats = new UserStats(),
@@ -77,5 +92,17 @@ public class RegisterUserRequestHandler : IRequestHandler<RegisterUserRequest> {
 
         await _smtpService.SendVerificationCode(request.Email.ToLower(), request.Username, codeValue);
 
+    }
+
+    private static bool IsValidEmail(string email) {
+        if (string.IsNullOrWhiteSpace(email))
+            return false;
+
+        try {
+            var addr = new MailAddress(email);
+            return addr.Address == email;
+        } catch {
+            return false;
+        }
     }
 }

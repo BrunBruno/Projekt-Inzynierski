@@ -6,6 +6,10 @@ using MediatR;
 
 namespace chess.Application.Requests.UserRequests.GetUser;
 
+/// <summary>
+/// Check if user exists
+/// Creates and returns user dto
+/// </summary>
 public class GetUserRequestHandler : IRequestHandler<GetUserRequest, GetUserDto> {
 
     private readonly IUserContextService _userContext;

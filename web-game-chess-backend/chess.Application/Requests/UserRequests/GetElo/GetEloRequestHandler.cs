@@ -6,6 +6,10 @@ using MediatR;
 
 namespace chess.Application.Requests.UserRequests.GetElo;
 
+/// <summary>
+/// Checks if user exists
+/// Gets and returns user elo dto
+/// </summary>
 public class GetEloRequestHandler : IRequestHandler<GetEloRequest, GetEloDto> {
 
     private readonly IUserContextService _userContextService;

@@ -6,6 +6,11 @@ using chess.Shared.Exceptions;
 
 namespace chess.Application.Requests.UserRequests.GetRegisterConf;
 
+/// <summary>
+/// Checks if provided conviguration id is correct
+/// Checks if configuration exists
+/// Returns data configuration
+/// </summary>
 public class GetRegisterConfRequestHandler : IRequestHandler<GetRegisterConfRequest, GetRegisterConfDto> {
 
     private readonly IDataConfigurationRepository _dataConfigurationRepository;

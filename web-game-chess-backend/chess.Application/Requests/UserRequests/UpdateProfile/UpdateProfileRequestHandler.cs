@@ -6,6 +6,10 @@ using MediatR;
 
 namespace chess.Application.Requests.UserRequests.UpdateProfile;
 
+/// <summary>
+/// Checks if user exists
+/// Updates provided data of user
+/// </summary>
 public class UpdateProfileRequestHandler : IRequestHandler<UpdateProfileRequest> {
 
     private readonly IUserContextService _userContextService;
