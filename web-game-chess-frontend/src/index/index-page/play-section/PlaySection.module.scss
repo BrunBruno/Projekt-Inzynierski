@@ -134,3 +134,39 @@
   }
   // end board content
 }
+
+@media (max-width: 700px) {
+  .play {
+    &__intro {
+      margin: 0;
+      margin-bottom: 10rem;
+
+      .intro-h2 {
+        span {
+          font-size: 12rem;
+        }
+      }
+    }
+
+    &__content {
+      @include flex(column, start, center, 10rem);
+
+      &__board {
+        padding: 0;
+      }
+
+      &__actions {
+        padding: 0;
+
+        &__buttons {
+          .actions-row {
+            @include flex();
+            h4 {
+              max-width: 80%;
+            }
+          }
+        }
+      }
+    }
+  }
+}

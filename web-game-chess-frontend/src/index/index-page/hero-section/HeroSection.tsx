@@ -11,15 +11,17 @@ const HeroSection = forwardRef<HandleOnScroll, HeroSectionProps>(
 
     const heroBgRef = useRef<HTMLDivElement>(null);
     const handleOnScroll = () => {
-      const bgElement = heroBgRef.current;
+      if (window.innerWidth > 700) {
+        const bgElement = heroBgRef.current;
 
-      if (bgElement) {
-        const y = 100 - (window.scrollY / (1.5 * window.innerHeight)) * 100;
+        if (bgElement) {
+          const y = 100 - (window.scrollY / (1.5 * window.innerHeight)) * 100;
 
-        if (y < 100) {
-          bgElement.style.backgroundImage = `radial-gradient(circle at 50% 50%, #0000 ${y}%, #000 ${
-            y + 5
-          }%, #000 100%)`;
+          if (y < 100) {
+            bgElement.style.backgroundImage = `radial-gradient(circle at 50% 50%, #0000 ${y}%, #000 ${
+              y + 5
+            }%, #000 100%)`;
+          }
         }
       }
     };
@@ -55,7 +57,7 @@ const HeroSection = forwardRef<HandleOnScroll, HeroSectionProps>(
         </div>
       </section>
     );
-  }
+  },
 );
 
 export default HeroSection;

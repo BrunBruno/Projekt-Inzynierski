@@ -42,7 +42,7 @@ app.MapHub<GameHub>("/game-hub");
 
 app.UseCors("FrontEndClient");
 
-//app.UseHttpsRedirection();
+// app.UseHttpsRedirection();
 
 
 app.UseShared();

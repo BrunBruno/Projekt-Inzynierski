@@ -10,7 +10,8 @@ import {
 import { CheckIfEmailExistsModel, GetOtherUserModel, GetRegisterConfModel } from "../types/userModels";
 
 // api paths and function
-const baseUrl: string = "http://localhost:5125/api";
+// const baseUrl: string = "http://localhost:5125/api";
+const baseUrl: string = "http://192.168.1.46:5125/api";
 
 const userBaseUrl: string = baseUrl + "/user";
 

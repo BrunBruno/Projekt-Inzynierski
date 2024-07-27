@@ -54,7 +54,7 @@ function GameSection() {
 
         const isInGameResponse = await axios.get<CheckIfInGameDto>(
           gameControllerPaths.checkIfInGame(isInGameModel),
-          getAuthorization()
+          getAuthorization(),
         );
 
         if (isInGameResponse.data.isInGame) {
@@ -98,8 +98,6 @@ function GameSection() {
 
   // connect game hub handlers
   useEffect(() => {
-    console.log(timingType);
-
     if (searchIds !== null) {
       setInterfaceById(gameSearchInterface.searching);
     }
@@ -138,7 +136,7 @@ function GameSection() {
 
       case gameSearchInterface.searching:
         setInterfaceContent(
-          <Searching setInterfaceById={setInterfaceById} searchIds={searchIds} setSearchIds={setSearchIds} />
+          <Searching setInterfaceById={setInterfaceById} searchIds={searchIds} setSearchIds={setSearchIds} />,
         );
         break;
 

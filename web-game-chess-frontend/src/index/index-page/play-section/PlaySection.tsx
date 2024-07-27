@@ -101,7 +101,7 @@ const PlaySection = forwardRef<HandleOnScroll, PlaySectionProps>(
         </div>
       </section>
     );
-  }
+  },
 );
 
 export default PlaySection;
