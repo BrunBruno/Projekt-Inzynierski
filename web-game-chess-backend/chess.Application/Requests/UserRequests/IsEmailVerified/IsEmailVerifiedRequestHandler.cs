@@ -6,6 +6,10 @@ using MediatR;
 
 namespace chess.Application.Requests.UserRequests.IsEmailVerified;
 
+/// <summary>
+/// Check if user exists
+/// Check if user is verified and returns bool value
+/// </summary>
 public class IsEmailVerifiedRequestHandler : IRequestHandler<IsEmailVerifiedRequest, IsEmailVerifiedDto> {
 
     private readonly IUserRepository _userRepository;

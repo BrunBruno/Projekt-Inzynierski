@@ -5,6 +5,10 @@ using MediatR;
 
 namespace chess.Application.Requests.UserRequests.GetOtherUser;
 
+/// <summary>
+/// Check if user with provided id exists
+/// Returns user dto
+/// </summary>
 public class GetOtherUserRequestHandler : IRequestHandler<GetOtherUserRequest, GetOtherUserDto> {
 
     private readonly IUserRepository _userRepository;

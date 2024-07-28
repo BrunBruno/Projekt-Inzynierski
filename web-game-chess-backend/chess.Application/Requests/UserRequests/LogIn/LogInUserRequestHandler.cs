@@ -8,6 +8,10 @@ using Microsoft.AspNetCore.Identity;
 
 namespace chess.Application.Requests.UserRequests.LogIn; 
 
+/// <summary>
+/// Check if user exists
+/// Creates and returns jwt token
+/// </summary>
 public class LogInUserRequestHandler : IRequestHandler<LogInUserRequest, LogInUserDto>  {
 
     private readonly IUserRepository _userRepository;
@@ -26,7 +30,7 @@ public class LogInUserRequestHandler : IRequestHandler<LogInUserRequest, LogInUs
 
     public async Task<LogInUserDto> Handle(LogInUserRequest request, CancellationToken cancellationToken) {
 
-        var user = await _userRepository.GetByEmail(request.Email.ToLower()) 
+        var user = await _userRepository.GetByEmailOrUsername(request.EmailOrUsername) 
             ?? throw new BadRequestException("Invalid email or password.");
 
         var result = _passwordHasher.VerifyHashedPassword(user, user.PasswordHash, request.Password);

@@ -20,7 +20,7 @@ public class User {
     public required string Email { get; set; }
 
     /// <summary>
-    /// Username
+    /// Unique username
     /// </summary>
     public required string Username { get; set; }
 
@@ -52,7 +52,7 @@ public class User {
     /// <summary>
     /// Country where user signed up
     /// </summary>
-    public string Country { get; set; } = "";
+    public string Country { get; set; } = string.Empty;
 
     /// <summary>
     /// Short description/biograpth of user

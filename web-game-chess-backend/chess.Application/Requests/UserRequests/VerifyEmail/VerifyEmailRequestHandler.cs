@@ -8,6 +8,11 @@ using Microsoft.AspNetCore.Identity;
 
 namespace chess.Application.Requests.UserRequests.VerifyEmail;
 
+/// <summary>
+/// Check if code exists
+/// Check if code is correct
+/// Updates user
+/// </summary>
 public class VerifyEmailRequestHandler : IRequestHandler<VerifyEmailRequest> {
 
     private readonly IEmailVerificationCodeRepository _codeRepository;

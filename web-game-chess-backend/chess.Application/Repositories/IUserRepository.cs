@@ -31,6 +31,21 @@ public interface IUserRepository {
     Task<User?> GetByEmail(string email);
 
     /// <summary>
+    /// Gets user by unique username
+    /// </summary>
+    /// <param name="username"></param>
+    /// <returns></returns>
+    Task<User?> GetByUsername(string username);
+
+    /// <summary>
+    /// Gets user by email or username
+    /// </summary>
+    /// <param name="email"></param>
+    /// <param name="username"></param>
+    /// <returns></returns>
+    Task<User?> GetByEmailOrUsername(string value);
+
+    /// <summary>
     /// Creates user
     /// </summary>
     /// <param name="user"></param>

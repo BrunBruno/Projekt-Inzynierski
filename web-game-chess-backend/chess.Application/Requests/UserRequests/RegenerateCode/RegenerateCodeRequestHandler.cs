@@ -8,6 +8,12 @@ using Microsoft.AspNetCore.Identity;
 
 namespace chess.Application.Requests.UserRequests.RegenerateCode;
 
+/// <summary>
+/// Checks if user exists
+/// Removes previous code
+/// Creates new verification code
+/// Send new code by email
+/// </summary>
 public class RegenerateCodeRequestHandler : IRequestHandler<RegenerateCodeRequest> {
 
     private readonly IEmailVerificationCodeRepository _emailVerificationCodeRepository;
