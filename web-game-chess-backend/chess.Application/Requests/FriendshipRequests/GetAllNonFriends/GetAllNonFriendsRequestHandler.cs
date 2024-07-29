@@ -7,6 +7,11 @@ using MediatR;
 
 namespace chess.Application.Requests.FriendshipRequests.GetAllNonFriends;
 
+/// <summary>
+/// Collents all users that have not estalished raltionship with current user
+/// Filters users with provided username
+/// Returns paged result of user dtos
+/// </summary>
 public class GetAllNonFriendsRequestHandler : IRequestHandler<GetAllNonFriendsRequest, PagedResult<GetAllNonFriendsDto>> {
 
     private readonly IFriendshipRepository _friendshipRepository;

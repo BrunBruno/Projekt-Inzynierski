@@ -31,7 +31,6 @@ public class GetUserTests : IClassFixture<TestWebApplicationFactory<Program>> {
     public async Task GetUser_Should_Return_Ok_On_Success() {
 
         await _dbContext.Init();
-
         await _dbContext.AddUser();
 
 
@@ -41,7 +40,7 @@ public class GetUserTests : IClassFixture<TestWebApplicationFactory<Program>> {
         response.StatusCode.Should().Be(HttpStatusCode.OK);
 
         var result = JsonConvert.DeserializeObject<GetUserDto>(await response.Content.ReadAsStringAsync());
-        result.Email.Should().Be("test@gmail.com");
+        result.Email.Should().Be("test@test.com");
         result.Username.Should().NotBeEmpty();
     }
 

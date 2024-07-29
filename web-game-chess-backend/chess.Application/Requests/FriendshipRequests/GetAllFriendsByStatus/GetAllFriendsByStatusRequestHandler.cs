@@ -3,11 +3,16 @@ using chess.Application.Pagination;
 using chess.Application.Repositories;
 using chess.Application.Services;
 using chess.Core.Dtos;
-using chess.Core.Extensions;
 using MediatR;
 
 namespace chess.Application.Requests.FriendshipRequests.GetAllFriendsByStatus;
 
+/// <summary>
+/// Gets all friends based on provided freindship status
+/// Filters users by provided username
+/// Creates new user dto
+/// Returns paged result of users
+/// </summary>
 public class GetAllFriendsByStatusRequestHandler : IRequestHandler<GetAllFriendsByStatusRequest, PagedResult<GetAllFriendsByStatusDto>> {
 
     private readonly IFriendshipRepository _friendshipRepository;
@@ -51,6 +56,7 @@ public class GetAllFriendsByStatusRequestHandler : IRequestHandler<GetAllFriends
                         ImageUrl = friend.ImageUrl,
                         Country = friend.Country,
                         IsRequestor = isRequestor,
+
                         Elo = new EloDto()
                         {
                             Bullet = friend.Elo.Bullet,

@@ -121,7 +121,7 @@ public class FriendshipController : ControllerBase {
     /// <returns></returns>
     [HttpDelete("{friendshipId}")]
     [Authorize(Policy = "IsVerified")]
-    public async Task<IActionResult> UnblockFriend([FromRoute] Guid friendshipId) {
+    public async Task<IActionResult> RemoveFriend([FromRoute] Guid friendshipId) {
 
         var request = new RemoveFriendRequest()
         {

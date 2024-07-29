@@ -7,6 +7,12 @@ using MediatR;
 
 namespace chess.Application.Requests.FriendshipRequests.RespondToFriendRequest;
 
+/// <summary>
+/// Checks if friendship exists
+/// Checks if user is receiver
+/// Checks if user owns friendship
+/// Updates friendship status basedon provided answer
+/// </summary>
 public class RespondToFriendRequestRequestHadnler : IRequestHandler<RespondToFriendRequestRequest> {
 
     private readonly IFriendshipRepository _friendshipRepository;
@@ -28,7 +34,7 @@ public class RespondToFriendRequestRequestHadnler : IRequestHandler<RespondToFri
             throw new BadRequestException("This friend request was sent by you.");
 
         if (friendship.ReceiverId != userId)
-            throw new BadRequestException("This is not your friend request.");
+            throw new UnauthorizedException("This is not your friend request.");
 
         if(request.IsAccepted)
             friendship.Status = FriendshipStatus.Accepted;

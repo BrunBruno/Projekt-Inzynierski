@@ -40,11 +40,13 @@ public class UserRepository : IUserRepository {
     ///<inheritdoc/>
     public async Task<User?> GetByUsername(string username)
         => await _dbContext.Users
+                    .Include(u => u.Role)
                     .FirstOrDefaultAsync(u => u.Username == username);
 
     ///<inheritdoc/>
     public async Task<User?> GetByEmailOrUsername(string value) 
         => await _dbContext.Users
+                    .Include(u => u.Role)
                     .FirstOrDefaultAsync(u => u.Email == value || u.Username == value);
 
     ///<inheritdoc/>

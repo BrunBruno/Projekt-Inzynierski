@@ -6,6 +6,12 @@ using MediatR;
 
 namespace chess.Application.Requests.FriendshipRequests.RemoveFriend;
 
+/// <summary>
+/// Checks if friendship exists
+/// Checks if current users is one of friendship counterparty
+/// Removes freindship
+/// By removing freindship with status "rejected" it unblocks blocked freind
+/// </summary>
 public class RemoveFriendRequestHandler : IRequestHandler<RemoveFriendRequest> {
 
     private readonly IFriendshipRepository _friendshipRepository;

@@ -104,4 +104,14 @@ public static partial class DbFilter {
         await dbContext.Elos.AddAsync(elo);
         await dbContext.SaveChangesAsync();
     }
+
+    public static async Task AddStatsForUser(this ChessAppDbContext dbContext) {
+        var stats = new UserStats() {
+            Id = Guid.NewGuid(),
+            UserId = Guid.Parse(Constants.UserId),
+        };
+
+        await dbContext.UserStats.AddAsync(stats);
+        await dbContext.SaveChangesAsync();
+    }
 }

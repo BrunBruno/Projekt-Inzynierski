@@ -58,7 +58,7 @@ public class RegisterTests : IClassFixture<TestWebApplicationFactory<Program>> {
 
         response.StatusCode.Should().Be(HttpStatusCode.OK);
 
-        var user = await assertDbContext.Users.FirstOrDefaultAsync();
+        var user = await assertDbContext.Users.FirstAsync();
 
         user.Username.Should().Be("Test");
         user.Email.Should().Be("test@test.com");

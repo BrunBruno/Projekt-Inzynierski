@@ -7,6 +7,12 @@ using MediatR;
 
 namespace chess.Application.Requests.FriendshipRequests.GetFriendProfile;
 
+/// <summary>
+/// Checks if freindships exists
+/// Checks if found friendship belongs to current user
+/// Checks if freindship is accepted
+/// Creates and returns user profile dto
+/// </summary>
 public class GetFriendProfileRequestHandler : IRequestHandler<GetFriendProfileRequest, GetFriendProfileDto> {
 
     private readonly IUserContextService _userContextService;

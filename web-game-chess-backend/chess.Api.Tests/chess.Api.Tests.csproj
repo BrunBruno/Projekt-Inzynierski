@@ -29,11 +29,6 @@
     <ProjectReference Include="..\chess.Api\chess.Api.csproj" />
     <ProjectReference Include="..\chess.Infrastructure\chess.Infrastructure.csproj" />
   </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Game\" />
-    <Folder Include="Friendship\" />
-  </ItemGroup>
 	
 
 

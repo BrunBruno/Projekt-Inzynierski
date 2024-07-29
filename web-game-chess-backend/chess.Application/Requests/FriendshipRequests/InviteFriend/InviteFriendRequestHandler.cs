@@ -8,17 +8,33 @@ using MediatR;
 
 namespace chess.Application.Requests.FriendshipRequests.InviteFriend;
 
+/// <summary>
+/// Check if provided id is correct
+/// Check if user is not already accepted
+/// Check if friendship is already pending
+/// Check if counterparty has not block current user
+/// Creates new friendship
+/// </summary>
 public class InviteFriendRequestHandler : IRequestHandler<InviteFriendRequest> {
 
     private readonly IFriendshipRepository _friendshipRepository;
     private readonly IUserContextService _userContextService;
+    private readonly IUserRepository _userRepository;
 
-    public InviteFriendRequestHandler(IFriendshipRepository friendshipRepository, IUserContextService userContextService) {
+    public InviteFriendRequestHandler(
+        IFriendshipRepository friendshipRepository,
+        IUserContextService userContextService,
+        IUserRepository userRepository
+    ) {
         _friendshipRepository = friendshipRepository;
         _userContextService = userContextService;
+        _userRepository = userRepository;
     }
 
     public async Task Handle(InviteFriendRequest request, CancellationToken cancellationToken) {
+
+        var userToBeFriend = await _userRepository.GetById(request.ReceiverId)
+            ?? throw new NotFoundException("User not found.");
 
         var userId = _userContextService.GetUserId();
 
