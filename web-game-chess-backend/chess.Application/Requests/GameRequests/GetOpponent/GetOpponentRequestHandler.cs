@@ -6,6 +6,11 @@ using MediatR;
 
 namespace chess.Application.Requests.GameRequests.GetOpponent;
 
+/// <summary>
+/// Checks if previous game exists
+/// Checks if previous game was for current user
+/// Gets and returs opponent id
+/// </summary>
 public class GetOpponentRequestHandler : IRequestHandler<GetOpponentRequest, GetOpponentDto> {
 
     private readonly IUserContextService _userContextService;

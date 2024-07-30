@@ -7,6 +7,11 @@ using MediatR;
 
 namespace chess.Application.Requests.GameRequests.GetPlayer;
 
+/// <summary>
+/// Checks if player exists
+/// Checks if player is playing
+/// Returns player dto
+/// </summary>
 public class GetPlayerRequestHandler : IRequestHandler<GetPlayerRequest, GetPlayerDto> {
 
     private readonly IPlayerRepository _playerRepository;
@@ -29,9 +34,6 @@ public class GetPlayerRequestHandler : IRequestHandler<GetPlayerRequest, GetPlay
 
         if (player.Color is null || !player.IsPlaying)
             throw new BadRequestException("Player has not been asigned to game yet.");
-
-        //if (player.FinishedGame)
-        //    throw new BadRequestException("Game for player has been already finishd.");
 
         var playerDto = new GetPlayerDto()
         {

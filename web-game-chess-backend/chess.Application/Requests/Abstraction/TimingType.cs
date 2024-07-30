@@ -11,16 +11,16 @@ public abstract class TimingType {
     /// <summary>
     /// Type of timing
     /// </summary>
-    public TimingTypes Type { get; set; }
+    public required TimingTypes Type { get; set; }
 
     /// <summary>
     /// Duration of the game for one player
     /// Gets converted to seconds
     /// </summary>
-    public int Minutes { get; set; }
+    public required int Minutes { get; set; }
 
     /// <summary>
     /// Time increment for every done move
     /// </summary>
-    public int Increment { get; set; }
+    public required int Increment { get; set; }
 }

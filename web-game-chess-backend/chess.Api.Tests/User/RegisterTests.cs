@@ -29,10 +29,6 @@ public class RegisterTests : IClassFixture<TestWebApplicationFactory<Program>> {
             ?? throw new InvalidOperationException("ChessAppDbContext not registered.");
     }
 
-    /// <summary>
-    /// Register already existing user
-    /// </summary>
-    /// <returns></returns>
     [Fact]
     public async Task Register_Should_Create_User_On_Success() {
 
@@ -72,7 +68,7 @@ public class RegisterTests : IClassFixture<TestWebApplicationFactory<Program>> {
     public async Task Register_Should_Return_BadRequest_On_Fail() {
 
         await _dbContext.Init();
-        await _dbContext.AddUserWithEmail("test@test.com");
+        await _dbContext.AddUserWithEmail("test@test.com"); // user already exists
 
         var model = new RegisterUserModel()
         {

@@ -9,6 +9,13 @@ using chess.Core.Enums;
 
 namespace chess.Application.Requests.GameRequests.CreateRematchGame;
 
+/// <summary>
+/// Checks of provided timing exists
+/// Checks if both users exists
+/// Ceates players for both users
+/// Creates new game and game states
+/// Returns game id
+/// </summary>
 public class CreateRematchGameRequestHandler : IRequestHandler<CreateRematchGameRequest, CreateRematchGameDto> {
 
     private readonly IGameTimingRepository _gameTimingRepository;

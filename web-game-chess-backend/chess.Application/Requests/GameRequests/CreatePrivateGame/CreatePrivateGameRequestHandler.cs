@@ -9,6 +9,17 @@ using chess.Core.Extensions;
 
 namespace chess.Application.Requests.GameRequests.CreatePrivateGame;
 
+/// <summary>
+/// Checks if current user exists
+/// Checks if friendship with provided user exists
+/// Checks if provided data is correct
+/// Checks if game timing exists and if not creates one
+/// Creates players for both current user and provided friend
+/// Creates new game and associated game state
+/// Creates new invitation for created game
+/// Sends invitaton to friend email
+/// Returns essentail for further actions
+/// </summary>
 public class CreatePrivateGameRequestHandler : IRequestHandler<CreatePrivateGameRequest, CreatePrivateGameDto> {
 
     private readonly IUserContextService _userContextService;
@@ -19,6 +30,7 @@ public class CreatePrivateGameRequestHandler : IRequestHandler<CreatePrivateGame
     private readonly IPlayerRepository _playerRepository;
     private readonly IFriendshipRepository _friendshipRepository;
     private readonly IInvitationRepository _invitationRepository;
+    private readonly ISmtpService _smtpService;
 
     public CreatePrivateGameRequestHandler(
         IUserContextService userContextService,
@@ -28,7 +40,9 @@ public class CreatePrivateGameRequestHandler : IRequestHandler<CreatePrivateGame
         IGameStateRepository gameStateRepository,
         IPlayerRepository playerRepository,
         IFriendshipRepository friendshipRepository,
-        IInvitationRepository invitationRepository
+        IInvitationRepository invitationRepository,
+        ISmtpService smtpService
+        
     ) {
         _userContextService = userContextService;
         _userRepository = userRepository;
@@ -38,6 +52,7 @@ public class CreatePrivateGameRequestHandler : IRequestHandler<CreatePrivateGame
         _playerRepository = playerRepository;
         _friendshipRepository = friendshipRepository;
         _invitationRepository = invitationRepository;
+        _smtpService = smtpService;
     }
 
     public async Task<CreatePrivateGameDto> Handle(CreatePrivateGameRequest request, CancellationToken cancellationToken) {
@@ -161,6 +176,10 @@ public class CreatePrivateGameRequestHandler : IRequestHandler<CreatePrivateGame
             GameId = game.Id,
             Inviter = user.Username,
         };
+
+
+        await _smtpService.SendGameInvitation(friend.Email.ToLower(), friend.Username, user.Username);
+
 
         return privateGameDto;
     }

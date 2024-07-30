@@ -5,9 +5,9 @@ using chess.Infrastructure.Contexts;
 
 namespace chess.Api.Tests.User;
 
-public static partial class DbFilter {
+internal static partial class DbFilter {
 
-    public static async Task Init(this ChessAppDbContext dbContext) {
+    internal static async Task Init(this ChessAppDbContext dbContext) {
 
         var roles = new List<Role>
             {
@@ -54,7 +54,7 @@ public static partial class DbFilter {
         await dbContext.SaveChangesAsync();
     }
 
-    public static async Task AddUser(this ChessAppDbContext dbContext) {
+    internal static async Task AddUser(this ChessAppDbContext dbContext) {
 
         var user = new Core.Entities.User
         {
@@ -62,26 +62,38 @@ public static partial class DbFilter {
             Email = "test@test.com",
             Username = "TestUserName",
             PasswordHash = Constants.PasswordHash,
+
+            Elo = new Elo() { },
+            Stats = new UserStats() { },
         };
 
         await dbContext.Users.AddAsync(user);
         await dbContext.SaveChangesAsync();
     }
 
-    public static async Task AddUserWithEmail(this ChessAppDbContext dbContext, string email) {
+    internal static async Task<Guid> AddUserWithEmail(this ChessAppDbContext dbContext, string email) {
+
+        Guid id = Guid.NewGuid();
+
         var user = new Core.Entities.User
         {
-            Id = Guid.NewGuid(),
+            Id = id,
             Email = email,
             Username = "TestUserName",
-            PasswordHash = Constants.PasswordHash
+            PasswordHash = Constants.PasswordHash,
+
+            Elo = new Elo() { },
+            Stats = new UserStats() { },
         };
 
         await dbContext.Users.AddAsync(user);
         await dbContext.SaveChangesAsync();
+
+        return id;
     }
 
-    public static async Task AddCodeForUser(this ChessAppDbContext dbContext) {
+    internal static async Task AddCodeForUser(this ChessAppDbContext dbContext) {
+
         var code = new EmailVerificationCode()
         {
             Id = Guid.NewGuid(),
@@ -94,7 +106,8 @@ public static partial class DbFilter {
         await dbContext.SaveChangesAsync();
     }
 
-    public static async Task AddEloForUser(this ChessAppDbContext dbContext) {
+    internal static async Task AddEloForUser(this ChessAppDbContext dbContext) {
+
         var elo = new Elo()
         {
             Id = Guid.NewGuid(),
@@ -105,7 +118,8 @@ public static partial class DbFilter {
         await dbContext.SaveChangesAsync();
     }
 
-    public static async Task AddStatsForUser(this ChessAppDbContext dbContext) {
+    internal static async Task AddStatsForUser(this ChessAppDbContext dbContext) {
+
         var stats = new UserStats() {
             Id = Guid.NewGuid(),
             UserId = Guid.Parse(Constants.UserId),

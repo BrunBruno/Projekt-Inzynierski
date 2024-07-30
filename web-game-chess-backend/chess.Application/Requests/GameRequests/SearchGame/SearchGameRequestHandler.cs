@@ -8,6 +8,13 @@ using MediatR;
 
 namespace chess.Application.Requests.GameRequests.SearchGame;
 
+/// <summary>
+/// Checks if current user exists
+/// Checks if provided data is correct
+/// Checks if provided timing exists, otherwise creates it
+/// Checks if player for current user alreay exists and await for game, otherwise creates new player
+/// Reaturns timing id and player id
+/// </summary>
 public class SearchGameRequestHandler : IRequestHandler<SearchGameRequest, SearchGameDto> {
 
     private readonly IPlayerRepository _playerRepository;

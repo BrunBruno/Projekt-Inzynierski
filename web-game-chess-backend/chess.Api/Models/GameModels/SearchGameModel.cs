@@ -1,10 +1,7 @@
 ﻿
-using chess.Core.Enums;
+using chess.Application.Requests.Abstraction;
 
 namespace chess.Api.Models.GameModels;
 
-public class SearchGameModel {
-    public TimingTypes Type { get; set; }
-    public int Minutes { get; set; }
-    public int Increment { get; set; }
+public class SearchGameModel : TimingType {
 }

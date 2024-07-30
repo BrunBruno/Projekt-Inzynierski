@@ -6,6 +6,11 @@ using MediatR;
 
 namespace chess.Application.Requests.GameRequests.CheckIfInGame;
 
+/// <summary>
+/// Checks if player for current user exists
+/// Checks if player is playing
+/// Return is playing dto
+/// </summary>
 public class CheckIfInGameRequestHandler : IRequestHandler<CheckIfInGameRequest, CheckIfInGameDto> {
 
     private readonly IPlayerRepository _playerRepository;
@@ -30,7 +35,7 @@ public class CheckIfInGameRequestHandler : IRequestHandler<CheckIfInGameRequest,
             ?? throw new NotFoundException("Player not found.");
 
         if (userId != player.UserId)
-            throw new BadRequestException("Can not check status of not owned player.");
+            throw new UnauthorizedException("Can not check status of not owned player.");
 
         var isInGameDto = new CheckIfInGameDto()
         {

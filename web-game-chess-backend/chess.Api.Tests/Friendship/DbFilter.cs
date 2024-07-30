@@ -5,9 +5,9 @@ using chess.Infrastructure.Contexts;
 
 namespace chess.Api.Tests.Friendship;
 
-public static partial class DbFilter {
+internal static partial class DbFilter {
 
-    public static async Task AddUsers(this ChessAppDbContext dbContext, Guid friendId) {
+    internal static async Task AddUsers(this ChessAppDbContext dbContext, Guid friendId) {
 
         var requestor = new Core.Entities.User
         {
@@ -50,7 +50,7 @@ public static partial class DbFilter {
         await dbContext.SaveChangesAsync();
     }
 
-    public static async Task AddFriendship(this ChessAppDbContext dbContext, Guid friendshipId, Guid requestorId, Guid receiverId, FriendshipStatus status) {
+    internal static async Task AddFriendship(this ChessAppDbContext dbContext, Guid friendshipId, Guid requestorId, Guid receiverId, FriendshipStatus status) {
 
         var friendship = new Core.Entities.Friendship()
         {
@@ -64,7 +64,7 @@ public static partial class DbFilter {
         await dbContext.SaveChangesAsync();
     }
 
-    public static async Task AddUsersAndFreindships(this ChessAppDbContext dbContext) {
+    internal static async Task AddUsersAndFreindships(this ChessAppDbContext dbContext) {
 
         var users = new List<Core.Entities.User>();
         var friendships = new List<Core.Entities.Friendship>();
@@ -110,7 +110,7 @@ public static partial class DbFilter {
         await dbContext.SaveChangesAsync();
     }
 
-    private static string RandomString(int length) {
+    internal static string RandomString(int length) {
         var random = new Random();
 
         const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";

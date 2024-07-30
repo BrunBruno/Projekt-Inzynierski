@@ -6,6 +6,12 @@ using MediatR;
 
 namespace chess.Application.Requests.GameRequests.GetGameTiming;
 
+/// <summary>
+/// Checks if game exists with provided id
+/// Checks if game is user game
+/// Chekcs if timing exists
+/// Creates and returns game timing dto
+/// </summary>
 public class GetGameTimingRequestHandler : IRequestHandler<GetGameTimingRequest, GetGameTimingDto> {
 
     private readonly IUserContextService _userContextService;

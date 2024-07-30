@@ -6,6 +6,12 @@ using MediatR;
 
 namespace chess.Application.Requests.GameRequests.AbortSearch;
 
+/// <summary>
+/// Checks if player exists
+/// Checks if player is ownd by current user
+/// Checks if player is not in playeing state
+/// Removes player
+/// </summary>
 public class AbortSearchRequestHandler : IRequestHandler<AbortSearchRequest> {
 
     private readonly IPlayerRepository _playerRepository;
