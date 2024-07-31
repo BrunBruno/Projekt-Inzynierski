@@ -52,8 +52,8 @@ public class FetchTimeRequestHandler : IRequestHandler<FetchTimeRequest, FetchTi
 
         var timeDto = new FetchTimeDto()
         {
-            WhiteTimeLeft = whiteTimeLeft,
-            BlackTimeLeft = blackTimeLeft,
+            WhiteTimeLeft = whiteTimeLeft > 0 ? whiteTimeLeft : 0,
+            BlackTimeLeft = blackTimeLeft > 0 ? blackTimeLeft : 0,
         };
 
         return timeDto;

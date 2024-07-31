@@ -1,6 +1,8 @@
 ﻿
 using chess.Api.Tests.User;
+using chess.Application.Requests.Abstraction;
 using chess.Application.Requests.GameRequests.GetGame;
+using chess.Core.Enums;
 using chess.Infrastructure.Contexts;
 using FluentAssertions;
 using Microsoft.Extensions.DependencyInjection;
@@ -31,18 +33,24 @@ public class GetGameTests : IClassFixture<TestWebApplicationFactory<Program>> {
     [Fact]
     public async Task GetGame_Should_Return_GameDto_On_Success() {
 
-        Guid freindId = Guid.NewGuid();
-        string friendEmail = "freind@test.com";
         string friendUsername = "FriendUsername";
 
         await _dbContext.Init();
         await _dbContext.AddUser();
-        await _dbContext.AddUserWithEmail(friendEmail);
+        await _dbContext.AddUserWithEmail("freind@test.com");
 
-        var timingId = await _dbContext.CreateTiming();
-        var userPlayerId = await _dbContext.AddPlayerForUser();
-        var friendPlayerId = await _dbContext.AddPlayer(freindId, friendUsername);
+        var timingId = await _dbContext.CreateTiming(new TimingType() {
+            Type = TimingTypes.Bullet,
+            Minutes = 2,
+            Increment = 0,
+        });
+
+        var userPlayerId = await _dbContext.AddPlayer(Guid.Parse(Constants.UserId), Constants.Username);
+        var friendPlayerId = await _dbContext.AddPlayer(Guid.NewGuid(), friendUsername);
+
         var gameId = await _dbContext.AddGame(userPlayerId, friendPlayerId, timingId);
+        await _dbContext.AddPlayerToGame(userPlayerId, gameId, Colors.White);
+        await _dbContext.AddPlayerToGame(friendPlayerId, gameId, Colors.Black);
 
 
         var response = await _client.GetAsync($"api/game/{gameId}");
@@ -51,7 +59,7 @@ public class GetGameTests : IClassFixture<TestWebApplicationFactory<Program>> {
         response.StatusCode.Should().Be(HttpStatusCode.OK);
 
         var result = JsonConvert.DeserializeObject<GetGameDto>(await response.Content.ReadAsStringAsync());
-        result.WhitePlayer.Name.Should().Be("TestUserName");
+        result.WhitePlayer.Name.Should().Be(Constants.Username);
         result.BlackPlayer.Name.Should().Be(friendUsername);
     }
 
@@ -62,18 +70,21 @@ public class GetGameTests : IClassFixture<TestWebApplicationFactory<Program>> {
     [Fact]
     public async Task GetGame_Should_Return_NotFound_On_Fail() {
 
-        Guid freindId = Guid.NewGuid();
-        string friendEmail = "freind@test.com";
-        string friendUsername = "FriendUsername";
-
         await _dbContext.Init();
         await _dbContext.AddUser();
-        await _dbContext.AddUserWithEmail(friendEmail);
+        await _dbContext.AddUserWithEmail("freind@test.com");
 
-        var timingId = await _dbContext.CreateTiming();
-        var userPlayerId = await _dbContext.AddPlayerForUser();
-        var friendPlayerId = await _dbContext.AddPlayer(freindId, friendUsername);
+        await _dbContext.CreateTiming(new TimingType() {
+            Type = TimingTypes.Bullet,
+            Minutes = 2,
+            Increment = 0,
+        });
+
+        await _dbContext.AddPlayer(Guid.Parse(Constants.UserId), Constants.Username);
+        await _dbContext.AddPlayer(Guid.NewGuid(), "FriendUsername");
+
         // game not added
+
 
         var response = await _client.GetAsync($"api/game/{Guid.NewGuid()}");
 
@@ -88,19 +99,20 @@ public class GetGameTests : IClassFixture<TestWebApplicationFactory<Program>> {
     [Fact]
     public async Task GetGame_Should_Return_Unauthorized_On_Fail() {
 
-        Guid freindId = Guid.NewGuid();
-        string friendEmail = "freind@test.com";
-        string friendUsername = "FriendUsername";
-
         await _dbContext.Init();
         await _dbContext.AddUser();
-        await _dbContext.AddUserWithEmail(friendEmail);
+        await _dbContext.AddUserWithEmail("freind@test.com");
 
-        var timingId = await _dbContext.CreateTiming();
-        await _dbContext.AddPlayerForUser();
+        var timingId = await _dbContext.CreateTiming(new TimingType() {
+            Type = TimingTypes.Bullet,
+            Minutes = 2,
+            Increment = 0,
+        });
 
-        var friendPlayerId = await _dbContext.AddPlayer(freindId, friendUsername);
-        var otherPlayerId = await _dbContext.AddPlayer(Guid.NewGuid(), "OtherPlayer");
+        await _dbContext.AddPlayer(Guid.Parse(Constants.UserId), Constants.Username);
+        var friendPlayerId = await _dbContext.AddPlayer(Guid.NewGuid(), "FriendUsername");
+        var otherPlayerId = await _dbContext.AddPlayer(Guid.NewGuid(), "OtherUsername");
+
         var gameId = await _dbContext.AddGame(otherPlayerId, friendPlayerId, timingId); // user is not in game
 
 

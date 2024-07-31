@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace chess.Api.Models.GameModels;
 
-public class GetFinishedGamesModel : PagedRequest {
+public class GetAllFinishedGamesModel : PagedRequest {
     public List<TimingTypes>? TimingTypeFilters { get; set; }
 
     [ModelBinder(BinderType = typeof(NullableBooleanListBinder))]

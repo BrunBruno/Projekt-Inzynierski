@@ -3,7 +3,6 @@ using chess.Application.Repositories;
 using chess.Application.Services;
 using chess.Core.Entities;
 using chess.Core.Enums;
-using chess.Core.Extensions;
 using chess.Shared.Exceptions;
 using MediatR;
 
@@ -60,9 +59,6 @@ public class CreateGameByEmailRequestHandler : IRequestHandler<CreateGameByEmail
 
         var friend = await _userRepository.GetByEmail(request.Email)
              ?? throw new NotFoundException("Friend not found.");
-
-        if (request.Minutes == 0)
-            throw new BadRequestException("Incorrect minutes value.");
 
         var existingGameTiming = await _gameTimingRepository.FindTiming(request.Type, request.Minutes * 60, request.Increment);
 

@@ -35,7 +35,7 @@ public class GetEndedGameRequestHandler : IRequestHandler<GetEndedGameRequest, G
         if (game.WhitePlayer.UserId != userId && game.BlackPlayer.UserId != userId)
             throw new UnauthorizedException("This is not user game.");
 
-        if (!game.HasEnded)
+        if (game.HasEnded == false)
             throw new BadRequestException("Game has not ended yet.");
 
         var endedGameDto = new GetEndedGameDto()

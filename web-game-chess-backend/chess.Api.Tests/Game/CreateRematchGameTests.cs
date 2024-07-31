@@ -1,6 +1,7 @@
 ﻿
 using chess.Api.Models.GameModels;
 using chess.Api.Tests.User;
+using chess.Application.Requests.Abstraction;
 using chess.Application.Requests.GameRequests.CreateRematchGame;
 using chess.Core.Enums;
 using chess.Infrastructure.Contexts;
@@ -35,19 +36,26 @@ public class CreateRematchGameTests : IClassFixture<TestWebApplicationFactory<Pr
     [Fact]
     public async Task CreateRematchGame_Should_Create_Game_Essentails_And_Return_Game_Id() {
 
+        var timingType = new TimingType()
+        {
+            Type = TimingTypes.Classic,
+            Minutes = 60,
+            Increment = 0,
+        };
+
         string friendEmail = "friend@test.com";
 
         await _dbContext.Init();
         await _dbContext.AddUser();
         var freindId = await _dbContext.AddUserWithEmail(friendEmail);
-        await _dbContext.CreateTiming();
+        await _dbContext.CreateTiming(timingType);
 
         var model = new CreateRematchGameModel()
         {
             OpponentId = freindId,
-            Type = TimingTypes.Rapid,
-            Minutes = 10,
-            Increment = 0,
+            Type = timingType.Type,
+            Minutes = timingType.Minutes,
+            Increment = timingType.Increment,
         };
 
         var json = JsonConvert.SerializeObject(model);

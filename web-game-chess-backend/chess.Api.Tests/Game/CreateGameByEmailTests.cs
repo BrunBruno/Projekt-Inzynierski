@@ -73,37 +73,6 @@ public class CreateGameByEmailTests : IClassFixture<TestWebApplicationFactory<Pr
     }
 
     /// <summary>
-    /// Incorrect data provided
-    /// </summary>
-    /// <returns></returns>
-    [Fact]
-    public async Task CreateGameByEmail_Should_Return_BadRequest_On_Fail() {
-
-        string friendEmail = "friend@test.com";
-
-        await _dbContext.Init();
-        await _dbContext.AddUser();
-        await _dbContext.AddUserWithEmail(friendEmail);
-
-        var model = new CreateGameByEmailModel()
-        {
-            Email = friendEmail,
-            Type = TimingTypes.Blitz,
-            Minutes = 0, //incorrect value
-            Increment = 0,
-        };
-
-        var json = JsonConvert.SerializeObject(model);
-        var httpContent = new StringContent(json, Encoding.UTF8, "application/json");
-
-
-        var response = await _client.PostAsync("api/game/by-email", httpContent);
-
-
-        response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
-    }
-
-    /// <summary>
     /// Create for user that not existss
     /// </summary>
     /// <returns></returns>

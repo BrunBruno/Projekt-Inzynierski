@@ -2,6 +2,7 @@
 using chess.Application.Pagination;
 using chess.Application.Repositories;
 using chess.Application.Services;
+using chess.Core.Abstraction;
 using chess.Core.Dtos;
 using MediatR;
 
@@ -66,10 +67,21 @@ public class GetAllFriendsByStatusRequestHandler : IRequestHandler<GetAllFriends
                             Daily = friend.Elo.Daily,
                         },
 
-                        GamesPlayed = friendship.GamesPlayed,
-                        Wins = isRequestor ? friendship.RequestorWins : friendship.RequestorLoses,
-                        Loses = isRequestor ? friendship.RequestorLoses : friendship.RequestorWins,
-                        Draws = friendship.RequestorDraws,
+                        WdlTotal = new WinDrawLose()
+                        {
+                            Total = friend.Stats.GamesPlayed,
+                            Wins = friend.Stats.Wins,
+                            Loses = friend.Stats.Loses,
+                            Draws = friend.Stats.Draws,
+                        },
+
+                        WdlTogether = new WinDrawLose()
+                        {
+                            Total = friendship.GamesPlayed,
+                            Wins = isRequestor ? friendship.RequestorWins : friendship.RequestorLoses,
+                            Loses = isRequestor ? friendship.RequestorLoses : friendship.RequestorWins,
+                            Draws = friendship.RequestorDraws,
+                        },
                     };
 
                     friends.Add(friendDto);

@@ -1,5 +1,6 @@
 ﻿
 using chess.Api.Tests.User;
+using chess.Application.Requests.Abstraction;
 using chess.Application.Requests.GameRequests.GetGameTiming;
 using chess.Core.Enums;
 using chess.Infrastructure.Contexts;
@@ -32,12 +33,21 @@ public class GetGameTimingTests : IClassFixture<TestWebApplicationFactory<Progra
     [Fact]
     public async Task GetGameTiming_Should_Return_TimingDto_On_Success() {
 
+        var timingType = new TimingType() 
+        { 
+            Type = TimingTypes.Rapid,
+            Minutes = 30,
+            Increment = 10,
+        };
+
         await _dbContext.Init();
         await _dbContext.AddUser();
 
-        var timingId = await _dbContext.CreateTiming();
-        var userPlayerId = await _dbContext.AddPlayerForUser();
-        var gameId = await _dbContext.AddGame(userPlayerId, Guid.NewGuid(), timingId);
+        var timingId = await _dbContext.CreateTiming(timingType);
+
+        var userPlayerId = await _dbContext.AddPlayer(Guid.Parse(Constants.UserId), Constants.Username);
+        var otherPlayerId = await _dbContext.AddPlayer(Guid.NewGuid(), "OtherPlayer");
+        var gameId = await _dbContext.AddGame(userPlayerId, otherPlayerId, timingId);
 
 
         var response = await _client.GetAsync($"api/game/{gameId}/timing");
@@ -46,7 +56,9 @@ public class GetGameTimingTests : IClassFixture<TestWebApplicationFactory<Progra
         response.StatusCode.Should().Be(HttpStatusCode.OK);
 
         var result = JsonConvert.DeserializeObject<GetGameTimingDto>(await response.Content.ReadAsStringAsync());
-        result.Type.Should().Be(TimingTypes.Rapid);
+        result.Type.Should().Be(timingType.Type);
+        result.Minutes.Should().Be(timingType.Minutes);
+        result.Increment.Should().Be(timingType.Increment);
     }
 
     /// <summary>
@@ -59,9 +71,17 @@ public class GetGameTimingTests : IClassFixture<TestWebApplicationFactory<Progra
         await _dbContext.Init();
         await _dbContext.AddUser();
 
-        var timingId = await _dbContext.CreateTiming();
-        await _dbContext.AddPlayerForUser();
-        var gameId = await _dbContext.AddGame(Guid.NewGuid(), Guid.NewGuid(), timingId); // not owned game
+        var timingId = await _dbContext.CreateTiming(new TimingType() {
+            Type = TimingTypes.Rapid,
+            Minutes = 30,
+            Increment = 10,
+        });
+
+        await _dbContext.AddPlayer(Guid.Parse(Constants.UserId), Constants.Username);
+        var otherPlayerId = await _dbContext.AddPlayer(Guid.NewGuid(), "OtherUser");
+        var otherPlyaer2Id = await _dbContext.AddPlayer(Guid.NewGuid(), "OtherUser2");
+
+        var gameId = await _dbContext.AddGame(otherPlayerId, otherPlyaer2Id, timingId); // not owned game
 
 
         var response = await _client.GetAsync($"api/game/{gameId}/timing");
@@ -80,8 +100,13 @@ public class GetGameTimingTests : IClassFixture<TestWebApplicationFactory<Progra
         await _dbContext.Init();
         await _dbContext.AddUser();
 
-        await _dbContext.CreateTiming();
-        await _dbContext.AddPlayerForUser();
+        await _dbContext.CreateTiming(new TimingType() { 
+            Type = TimingTypes.Rapid,
+            Minutes = 30,
+            Increment = 10,
+        });
+
+        await _dbContext.AddPlayer(Guid.Parse(Constants.UserId), Constants.Username);
         // game not added
 
 

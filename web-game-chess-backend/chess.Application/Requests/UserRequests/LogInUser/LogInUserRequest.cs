@@ -1,7 +1,7 @@
 ﻿
 using MediatR;
 
-namespace chess.Application.Requests.UserRequests.LogIn; 
+namespace chess.Application.Requests.UserRequests.LogInUser; 
 
 /// <summary>
 /// Request for geting jwt token

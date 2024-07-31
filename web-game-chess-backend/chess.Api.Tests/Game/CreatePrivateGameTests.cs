@@ -75,38 +75,6 @@ public class CreatePrivateGameTests : IClassFixture<TestWebApplicationFactory<Pr
     }
 
     /// <summary>
-    /// Incorrect data provided
-    /// </summary>
-    /// <returns></returns>
-    [Fact]
-    public async Task CreatePrivateGame_Should_Return_BadRequest_On_Fail() {
-
-        Guid friendId = Guid.NewGuid();
-        Guid friendshipId = Guid.NewGuid();
-
-        await _dbContext.Init();
-        await _dbContext.AddUsers(friendId);
-        await _dbContext.AddFriendship(friendshipId, friendId, Guid.Parse(Constants.UserId), FriendshipStatus.Accepted);
-
-        var model = new CreatePrivateGameModel()
-        {
-            FriendshipId = friendshipId,
-            Type = TimingTypes.Blitz,
-            Minutes = 0,
-            Increment = 0,
-        };
-
-        var json = JsonConvert.SerializeObject(model);
-        var httpContent = new StringContent(json, Encoding.UTF8, "application/json");
-
-
-        var response = await _client.PostAsync("api/game/private", httpContent);
-
-
-        response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
-    }
-
-    /// <summary>
     /// Create withou friendship existsing
     /// </summary>
     /// <returns></returns>

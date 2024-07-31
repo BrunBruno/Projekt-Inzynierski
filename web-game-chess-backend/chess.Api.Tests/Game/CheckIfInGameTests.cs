@@ -1,6 +1,8 @@
 ﻿
 using chess.Api.Tests.User;
+using chess.Application.Requests.Abstraction;
 using chess.Application.Requests.GameRequests.CheckIfInGame;
+using chess.Core.Enums;
 using chess.Infrastructure.Contexts;
 using FluentAssertions;
 using Microsoft.Extensions.DependencyInjection;
@@ -33,17 +35,40 @@ public class CheckIfInGameTests : IClassFixture<TestWebApplicationFactory<Progra
 
         await _dbContext.Init();
         await _dbContext.AddUser();
-        var playerId = await _dbContext.AddPlayerForUser();
+
+        var timingId = await _dbContext.CreateTiming(new TimingType() {
+            Type = TimingTypes.Bullet,
+            Minutes = 1,
+            Increment = 5,
+        });
+
+        var userPlayerId = await _dbContext.AddPlayer(Guid.Parse(Constants.UserId), Constants.Username);
+        var otherPlayerId = await _dbContext.AddPlayer(Guid.NewGuid(), "OtherUser");
 
 
-        var response = await _client.GetAsync($"api/game/check-if-in-game?playerId={playerId}");
+        var response_false = await _client.GetAsync($"api/game/check-if-in-game?playerId={userPlayerId}");
 
 
-        response.StatusCode.Should().Be(HttpStatusCode.OK);
+        response_false.StatusCode.Should().Be(HttpStatusCode.OK);
 
-        var result = JsonConvert.DeserializeObject<CheckIfInGameDto>(await response.Content.ReadAsStringAsync());
-        result.GameId.Should().Be(null);
-        result.IsInGame.Should().Be(false);
+        var result_false = JsonConvert.DeserializeObject<CheckIfInGameDto>(await response_false.Content.ReadAsStringAsync());
+        result_false.IsInGame.Should().Be(false);
+        result_false.GameId.Should().Be(null);
+
+
+        var gameId = await _dbContext.AddGame(userPlayerId, otherPlayerId, timingId);
+        await _dbContext.AddPlayerToGame(userPlayerId, gameId, Colors.White);
+        await _dbContext.AddPlayerToGame(otherPlayerId, gameId, Colors.Black);
+
+
+        var response_true = await _client.GetAsync($"api/game/check-if-in-game?playerId={userPlayerId}");
+
+
+        response_true.StatusCode.Should().Be(HttpStatusCode.OK);
+
+        var result_true = JsonConvert.DeserializeObject<CheckIfInGameDto>(await response_true.Content.ReadAsStringAsync());
+        result_true.IsInGame.Should().Be(true);
+        result_true.GameId.Should().Be(gameId);
     }
 
     /// <summary>
@@ -55,6 +80,7 @@ public class CheckIfInGameTests : IClassFixture<TestWebApplicationFactory<Progra
 
         await _dbContext.Init();
         await _dbContext.AddUser();
+
         // no player added
 
 
@@ -73,6 +99,7 @@ public class CheckIfInGameTests : IClassFixture<TestWebApplicationFactory<Progra
 
         await _dbContext.Init();
         await _dbContext.AddUser();
+
         var playerId = await _dbContext.AddPlayer(Guid.NewGuid(), "OtherPlayer"); // not owned player
 
 

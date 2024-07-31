@@ -9,7 +9,6 @@ using Microsoft.AspNetCore.Mvc;
 using chess.Application.Requests.GameRequests.CheckIfInGame;
 using chess.Application.Requests.GameRequests.GetGame;
 using chess.Application.Requests.GameRequests.GetPlayer;
-using chess.Application.Requests.GameRequests.GetFinishedGames;
 using chess.Application.Requests.GameRequests.GetEndedGame;
 using chess.Application.Requests.GameRequests.CreatePrivateGame;
 using chess.Application.Requests.GameRequests.FetchTime;
@@ -17,7 +16,6 @@ using chess.Application.Requests.GameRequests.GetOpponent;
 using chess.Application.Requests.GameRequests.CreateRematchGame;
 using chess.Application.Requests.GameRequests.GetTypeHistory;
 using chess.Application.Requests.GameRequests.CreateGameByEmail;
-using chess.Application.Requests.GameRequests.DeclineInvitation;
 using chess.Application.Requests.GameRequests.GetAllInvitations;
 using chess.Application.Requests.GameRequests.GetGameTiming;
 
@@ -211,7 +209,7 @@ public class GameController : ControllerBase {
     /// <returns></returns>
     [HttpGet("{gameId}/ended")]
     [Authorize(Policy = "IsVerified")]
-    public async Task<IActionResult> GetEndedGame(Guid gameId) {
+    public async Task<IActionResult> GetEndedGame([FromRoute] Guid gameId) {
 
         var request = new GetEndedGameRequest()
         {
@@ -251,9 +249,9 @@ public class GameController : ControllerBase {
     /// <returns></returns>
     [HttpGet("all-finished")]
     [Authorize(Policy = "IsVerified")]
-    public async Task<IActionResult> GetFinishedGames([FromQuery] GetFinishedGamesModel model) {
+    public async Task<IActionResult> GetFinishedGames([FromQuery] GetAllFinishedGamesModel model) {
 
-        var request = _mapper.Map<GetFinishedGamesRequest>(model);
+        var request = _mapper.Map<GetAllFinishedGamesRequest>(model);
 
         var games = await _mediator.Send(request);
 

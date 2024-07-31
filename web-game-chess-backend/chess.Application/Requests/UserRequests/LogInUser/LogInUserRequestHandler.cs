@@ -6,7 +6,7 @@ using chess.Shared.Exceptions;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 
-namespace chess.Application.Requests.UserRequests.LogIn; 
+namespace chess.Application.Requests.UserRequests.LogInUser; 
 
 /// <summary>
 /// Check if user exists

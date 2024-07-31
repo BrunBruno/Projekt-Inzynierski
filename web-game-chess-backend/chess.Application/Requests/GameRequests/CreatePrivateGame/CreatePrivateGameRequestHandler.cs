@@ -5,7 +5,6 @@ using chess.Core.Entities;
 using chess.Core.Enums;
 using chess.Shared.Exceptions;
 using MediatR;
-using chess.Core.Extensions;
 
 namespace chess.Application.Requests.GameRequests.CreatePrivateGame;
 
@@ -69,9 +68,6 @@ public class CreatePrivateGameRequestHandler : IRequestHandler<CreatePrivateGame
 
         var friend = await _userRepository.GetById(friendId)
              ?? throw new NotFoundException("Friend not found.");
-
-        if (request.Minutes == 0)
-            throw new BadRequestException("Incorrect minutes value.");
 
         var existingGameTiming = await _gameTimingRepository.FindTiming(request.Type, request.Minutes * 60, request.Increment);
 

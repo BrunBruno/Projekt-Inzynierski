@@ -1,4 +1,5 @@
 ﻿
+using chess.Core.Abstraction;
 using chess.Core.Dtos;
 
 namespace chess.Application.Requests.FriendshipRequests.GetAllFriendsByStatus;
@@ -19,30 +20,19 @@ public class GetAllFriendsByStatusDto : UserDto {
     public bool IsRequestor { get; set; }
 
     /// <summary>
-    /// Games played together in friendship
-    /// </summary>
-    public int GamesPlayed { get; set; }
-
-    /// <summary>
-    /// Wins in friendship
-    /// </summary>
-    public int Wins { get; set; }
-
-    /// <summary>
-    /// Loses in friendship
-    /// </summary>
-    public int Loses { get; set; }
-
-    /// <summary>
-    /// Draws in friendship
-    /// </summary>
-    public int Draws { get; set; }
-
-    /// <summary>
     /// Friends elo for all timing types
     /// </summary>
     public required EloDto Elo { get; set; }
 
+    /// <summary>
+    /// Win, loses nad draws in total
+    /// </summary>
+    public required WinDrawLose WdlTotal { get; set; }
+
+    /// <summary>
+    ///  Win, loses nad draws in ralationship
+    /// </summary>
+    public required WinDrawLose WdlTogether { get; set; }
 }
 
 

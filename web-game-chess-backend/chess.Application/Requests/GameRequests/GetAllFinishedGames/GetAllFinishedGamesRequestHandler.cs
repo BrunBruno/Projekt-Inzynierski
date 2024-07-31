@@ -7,27 +7,27 @@ using chess.Shared.Exceptions;
 using MediatR;
 using Microsoft.IdentityModel.Tokens;
 
-namespace chess.Application.Requests.GameRequests.GetFinishedGames;
+namespace chess.Application.Requests.GameRequests.GetAllFinishedGames;
 
-public class GetFinishedGamesRequestHandler : IRequestHandler<GetFinishedGamesRequest, PagedResult<GetFinishedGamesDto>> {
+public class GetAllFinishedGamesRequestHandler : IRequestHandler<GetAllFinishedGamesRequest, PagedResult<GetAllFinishedGamesDto>> {
 
     private readonly IUserContextService _userContextService;
     private readonly IPlayerRepository _playerRepository;
 
-    public GetFinishedGamesRequestHandler(IUserContextService userContextService, IPlayerRepository playerRepository) {
+    public GetAllFinishedGamesRequestHandler(IUserContextService userContextService, IPlayerRepository playerRepository) {
         _userContextService = userContextService;
         _playerRepository = playerRepository;
     }
 
 
-    public async Task<PagedResult<GetFinishedGamesDto>> Handle(GetFinishedGamesRequest request, CancellationToken cancellationToken) {
+    public async Task<PagedResult<GetAllFinishedGamesDto>> Handle(GetAllFinishedGamesRequest request, CancellationToken cancellationToken) {
 
         var userId = _userContextService.GetUserId();
 
         var players = await _playerRepository.GetAllForUser(userId) 
             ?? throw new NotFoundException("Players not found.");
 
-        var finishedGames = new List<GetFinishedGamesDto>();
+        var finishedGames = new List<GetAllFinishedGamesDto>();
 
         if(request.TimingTypeFilters == null) { }
 
@@ -51,7 +51,7 @@ public class GetFinishedGamesRequestHandler : IRequestHandler<GetFinishedGamesRe
                     !request.ResultFilters.Contains(isWinner))
                     continue;
 
-                var gameDto = new GetFinishedGamesDto()
+                var gameDto = new GetAllFinishedGamesDto()
                 {
                     Position = player.WhiteGame.Position,
                     Turn = player.WhiteGame.Turn,
@@ -101,7 +101,7 @@ public class GetFinishedGamesRequestHandler : IRequestHandler<GetFinishedGamesRe
                     !request.ResultFilters.Contains(isWinner))
                     continue;
 
-                var gameDto = new GetFinishedGamesDto()
+                var gameDto = new GetAllFinishedGamesDto()
                 {
                     Position = player.BlackGame.Position,
                     Turn = player.BlackGame.Turn,
@@ -133,7 +133,7 @@ public class GetFinishedGamesRequestHandler : IRequestHandler<GetFinishedGamesRe
             }
         }
 
-        var pagedResult = new PagedResult<GetFinishedGamesDto>(finishedGames, finishedGames.Count, request.PageSize, request.PageNumber);
+        var pagedResult = new PagedResult<GetAllFinishedGamesDto>(finishedGames, finishedGames.Count, request.PageSize, request.PageNumber);
 
         return pagedResult;
 

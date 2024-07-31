@@ -35,7 +35,7 @@ public class GetGameTimingRequestHandler : IRequestHandler<GetGameTimingRequest,
         var game = await _gameRepository.GetById(request.GameId)
             ?? throw new NotFoundException("Game not found.");
 
-        if (game.WhitePlayerId != userId && game.BlackPlayerId != userId)
+        if (game.WhitePlayer.UserId != userId && game.BlackPlayer.UserId != userId)
             throw new BadRequestException("This is not user game.");
 
         var timing = await _gameTimingRepository.GetById(game.GameTimingId)

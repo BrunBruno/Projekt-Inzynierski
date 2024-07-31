@@ -27,7 +27,7 @@ public class GameMappingProfile : Profile {
         CreateMap<SearchGameModel, SearchGameRequest>();
         CreateMap<MakeMoveModel, MakeMoveRequest>();
         CreateMap<EndGameModel, EndGameRequest>();
-        CreateMap<GetFinishedGamesModel, GetFinishedGamesRequest>();
+        CreateMap<GetAllFinishedGamesModel, GetAllFinishedGamesRequest>();
         CreateMap<CheckIfInGameModel, CheckIfInGameRequest>();
         CreateMap<AbortSearchModel, AbortSearchRequest>();
         CreateMap<CreatePrivateGameModel, CreatePrivateGameRequest>();

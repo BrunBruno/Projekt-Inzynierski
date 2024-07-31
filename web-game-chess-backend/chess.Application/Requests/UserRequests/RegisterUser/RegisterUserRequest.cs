@@ -1,7 +1,7 @@
 ﻿
 using MediatR;
 
-namespace chess.Application.Requests.UserRequests.Register;
+namespace chess.Application.Requests.UserRequests.RegisterUser;
 
 /// <summary>
 /// Request for user register

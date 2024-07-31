@@ -2,7 +2,6 @@
 using chess.Application.Repositories;
 using chess.Application.Services;
 using chess.Core.Enums;
-using chess.Core.Extensions;
 using chess.Shared.Exceptions;
 using MediatR;
 

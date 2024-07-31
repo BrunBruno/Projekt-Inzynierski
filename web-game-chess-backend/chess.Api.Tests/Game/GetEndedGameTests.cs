@@ -1,5 +1,6 @@
 ﻿
 using chess.Api.Tests.User;
+using chess.Application.Requests.Abstraction;
 using chess.Application.Requests.GameRequests.GetEndedGame;
 using chess.Core.Enums;
 using chess.Infrastructure.Contexts;
@@ -32,6 +33,13 @@ public class GetEndedGameTests : IClassFixture<TestWebApplicationFactory<Program
     [Fact]
     public async Task GetEndedGame_Should_Return_Winner_On_Success() {
 
+        var timingType = new TimingType()
+        {
+            Type = TimingTypes.Blitz,
+            Minutes = 5,
+            Increment = 1,
+        };
+
         Guid freindId = Guid.NewGuid();
         string friendEmail = "freind@test.com";
         string friendUsername = "FriendUsername";
@@ -40,13 +48,14 @@ public class GetEndedGameTests : IClassFixture<TestWebApplicationFactory<Program
         await _dbContext.AddUser();
         await _dbContext.AddUserWithEmail(friendEmail);
 
-        var timingId = await _dbContext.CreateTiming();
-        var userPlayerId = await _dbContext.AddPlayerForUser();
+        var timingId = await _dbContext.CreateTiming(timingType);
+        var userPlayerId = await _dbContext.AddPlayer(Guid.Parse(Constants.UserId), Constants.Username);
         var friendPlayerId = await _dbContext.AddPlayer(freindId, friendUsername);
+
         var gameId = await _dbContext.AddGame(userPlayerId, friendPlayerId, timingId);
 
         await _dbContext.StartGame(gameId);
-        await _dbContext.EndGame(gameId);
+        await _dbContext.EndGame(gameId, Colors.Black);
 
 
         var response = await _client.GetAsync($"api/game/{gameId}/ended");
@@ -55,7 +64,7 @@ public class GetEndedGameTests : IClassFixture<TestWebApplicationFactory<Program
         response.StatusCode.Should().Be(HttpStatusCode.OK);
 
         var result = JsonConvert.DeserializeObject<GetEndedGameDto>(await response.Content.ReadAsStringAsync());
-        result.WinnerColor.Should().Be(Colors.White);
+        result.WinnerColor.Should().Be(Colors.Black);
     }
 
     /// <summary>
@@ -65,17 +74,21 @@ public class GetEndedGameTests : IClassFixture<TestWebApplicationFactory<Program
     [Fact]
     public async Task GetEndedGame_Should_Return_Bad_Request_On_Fail() {
 
-        Guid freindId = Guid.NewGuid();
-        string friendEmail = "freind@test.com";
-        string friendUsername = "FriendUsername";
+
+        var timingType = new TimingType()
+        {
+            Type = TimingTypes.Blitz,
+            Minutes = 5,
+            Increment = 1,
+        };
 
         await _dbContext.Init();
         await _dbContext.AddUser();
-        await _dbContext.AddUserWithEmail(friendEmail);
+        await _dbContext.AddUserWithEmail("freind@test.com");
 
-        var timingId = await _dbContext.CreateTiming();
-        var userPlayerId = await _dbContext.AddPlayerForUser();
-        var friendPlayerId = await _dbContext.AddPlayer(freindId, friendUsername);
+        var timingId = await _dbContext.CreateTiming(timingType);
+        var userPlayerId = await _dbContext.AddPlayer(Guid.Parse(Constants.UserId), Constants.Username);
+        var friendPlayerId = await _dbContext.AddPlayer(Guid.NewGuid(), "FriendUsername");
         var gameId = await _dbContext.AddGame(userPlayerId, friendPlayerId, timingId);
 
         await _dbContext.StartGame(gameId);
@@ -94,9 +107,19 @@ public class GetEndedGameTests : IClassFixture<TestWebApplicationFactory<Program
     [Fact]
     public async Task GetEndedGame_Should_Return_NotFound_On_Fail() {
 
+
+        var timingType = new TimingType()
+        {
+            Type = TimingTypes.Blitz,
+            Minutes = 5,
+            Increment = 1,
+        };
+
         await _dbContext.Init();
         await _dbContext.AddUser();
-        await _dbContext.AddPlayerForUser();
+        await _dbContext.AddPlayer(Guid.Parse(Constants.UserId), Constants.Username);
+
+        await _dbContext.CreateTiming(timingType);
         // game not added
 
         var response = await _client.GetAsync($"api/game/{Guid.NewGuid()}/ended");
@@ -112,16 +135,29 @@ public class GetEndedGameTests : IClassFixture<TestWebApplicationFactory<Program
     [Fact]
     public async Task GetEndedGame_Should_Return_Unauthorized_On_Fail() {
 
+
+        var timingType = new TimingType()
+        {
+            Type = TimingTypes.Blitz,
+            Minutes = 5,
+            Increment = 1,
+        };
+
+
         await _dbContext.Init();
         await _dbContext.AddUser();
 
-        var timingId = await _dbContext.CreateTiming();
-        await _dbContext.AddPlayerForUser();
+        var timingId = await _dbContext.CreateTiming(timingType);
 
-        var gameId = await _dbContext.AddGame(Guid.NewGuid(), Guid.NewGuid(), timingId); // not owned game
+        await _dbContext.AddPlayer(Guid.Parse(Constants.UserId), Constants.Username);
+        var friendPlayerId = await _dbContext.AddPlayer(Guid.NewGuid(), "FriendUsername");
+        var otherPlayerId = await _dbContext.AddPlayer(Guid.NewGuid(), "OtherUsername");
+
+
+        var gameId = await _dbContext.AddGame(otherPlayerId, friendPlayerId, timingId); // not owned game
 
         await _dbContext.StartGame(gameId);
-        await _dbContext.EndGame(gameId);
+        await _dbContext.EndGame(gameId, Colors.Black);
 
 
         var response = await _client.GetAsync($"api/game/{gameId}/ended");

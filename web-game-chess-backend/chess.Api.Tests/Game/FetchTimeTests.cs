@@ -1,6 +1,8 @@
 ﻿
 using chess.Api.Tests.User;
+using chess.Application.Requests.Abstraction;
 using chess.Application.Requests.GameRequests.FetchTime;
+using chess.Core.Enums;
 using chess.Infrastructure.Contexts;
 using FluentAssertions;
 using Microsoft.Extensions.DependencyInjection;
@@ -31,19 +33,23 @@ public class FetchTimeTests : IClassFixture<TestWebApplicationFactory<Program>> 
     [Fact]
     public async Task FetchTime_Should_Return_TimeDto_On_Success() {
 
-        Guid freindId = Guid.NewGuid();
-        string friendEmail = "freind@test.com";
-        string friendUsername = "FriendUsername";
+        var timingType = new TimingType()
+        {
+            Type = TimingTypes.Daily,
+            Minutes = 24 * 60,
+            Increment = 0,
+        };
 
         await _dbContext.Init();
         await _dbContext.AddUser();
-        await _dbContext.AddUserWithEmail(friendEmail);
+        await _dbContext.AddUserWithEmail("freind@test.com");
 
-        var timingId = await _dbContext.CreateTiming();
-        var userPlayerId = await _dbContext.AddPlayerForUser();
-        var friendPlayerId = await _dbContext.AddPlayer(freindId, friendUsername);
+        var timingId = await _dbContext.CreateTiming(timingType);
+
+        var userPlayerId = await _dbContext.AddPlayer(Guid.Parse(Constants.UserId), Constants.Username);
+        var friendPlayerId = await _dbContext.AddPlayer(Guid.NewGuid(), "FriendUsername");
+
         var gameId = await _dbContext.AddGame(userPlayerId, friendPlayerId, timingId);
-
         await _dbContext.StartGame(gameId);
 
 
@@ -55,6 +61,8 @@ public class FetchTimeTests : IClassFixture<TestWebApplicationFactory<Program>> 
         var result = JsonConvert.DeserializeObject<FetchTimeDto>(await response.Content.ReadAsStringAsync());
         result.WhiteTimeLeft.Should().BeGreaterThan(0);
         result.BlackTimeLeft.Should().BeGreaterThan(0);
+
+        result.WhiteTimeLeft.Should().BeApproximately(timingType.Minutes * 60, 1);
     }
 
     /// <summary>
@@ -64,17 +72,19 @@ public class FetchTimeTests : IClassFixture<TestWebApplicationFactory<Program>> 
     [Fact]
     public async Task FetchTime_Should_Return_BadRequest_On_Fail() {
 
-        Guid freindId = Guid.NewGuid();
-        string friendEmail = "freind@test.com";
-        string friendUsername = "FriendUsername";
-
         await _dbContext.Init();
         await _dbContext.AddUser();
-        await _dbContext.AddUserWithEmail(friendEmail);
+        await _dbContext.AddUserWithEmail("freind@test.com");
 
-        var timingId = await _dbContext.CreateTiming();
-        var userPlayerId = await _dbContext.AddPlayerForUser();
-        var friendPlayerId = await _dbContext.AddPlayer(freindId, friendUsername);
+        var timingId = await _dbContext.CreateTiming(new TimingType() {
+            Type = TimingTypes.Daily,
+            Minutes = 24 * 60,
+            Increment = 0,
+        });
+
+        var userPlayerId = await _dbContext.AddPlayer(Guid.Parse(Constants.UserId), Constants.Username);
+        var friendPlayerId = await _dbContext.AddPlayer(Guid.NewGuid(), "FriendUsername");
+
         var gameId = await _dbContext.AddGame(userPlayerId, friendPlayerId, timingId);
         // no game start
 
@@ -94,6 +104,15 @@ public class FetchTimeTests : IClassFixture<TestWebApplicationFactory<Program>> 
 
         await _dbContext.Init();
         await _dbContext.AddUser();
+        await _dbContext.AddPlayer(Guid.Parse(Constants.UserId), Constants.Username);
+
+        await _dbContext.CreateTiming(new TimingType() {
+            Type = TimingTypes.Daily,
+            Minutes = 24 * 60,
+            Increment = 0,
+        });
+
+        // no game added
 
 
         var response = await _client.GetAsync($"api/game/{Guid.NewGuid()}/time");

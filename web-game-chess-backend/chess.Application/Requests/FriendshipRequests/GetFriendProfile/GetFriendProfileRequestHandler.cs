@@ -1,6 +1,7 @@
 ﻿
 using chess.Application.Repositories;
 using chess.Application.Services;
+using chess.Core.Abstraction;
 using chess.Core.Dtos;
 using chess.Shared.Exceptions;
 using MediatR;
@@ -58,12 +59,6 @@ public class GetFriendProfileRequestHandler : IRequestHandler<GetFriendProfileRe
             Bio = friend.Bio,
             FriendsSince = friendship.RequestRespondedAt,
 
-            RequestorWins = friendship.RequestorWins,
-            RequestorDraws = friendship.RequestorDraws,
-            RequestorLoses = friendship.RequestorLoses,
-            GamesPlayed = friend.Stats.GamesPlayed,
-            GamesPlayedTogether = friendship.GamesPlayed,
-
             Elo = new EloDto()
             {
                 Bullet = friend.Elo.Bullet,
@@ -71,6 +66,22 @@ public class GetFriendProfileRequestHandler : IRequestHandler<GetFriendProfileRe
                 Rapid = friend.Elo.Rapid,
                 Classic = friend.Elo.Classic,
                 Daily = friend.Elo.Daily,
+            },
+
+            WdlTotal = new WinDrawLose()
+            {
+                Total = friend.Stats.GamesPlayed,
+                Wins = friend.Stats.Wins,
+                Loses = friend.Stats.Loses,
+                Draws = friend.Stats.Draws,
+            },
+
+            WdlTogether = new WinDrawLose()
+            {
+                Total = friendship.GamesPlayed,
+                Wins = friendship.RequestorId == userId ? friendship.RequestorWins : friendship.RequestorLoses,
+                Loses = friendship.RequestorId == userId ? friendship.RequestorLoses : friendship.RequestorWins,
+                Draws = friendship.RequestorDraws,
             },
         };
 

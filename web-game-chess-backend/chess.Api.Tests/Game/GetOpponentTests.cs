@@ -1,6 +1,8 @@
 ﻿
 using chess.Api.Tests.User;
+using chess.Application.Requests.Abstraction;
 using chess.Application.Requests.GameRequests.GetOpponent;
+using chess.Core.Enums;
 using chess.Infrastructure.Contexts;
 using FluentAssertions;
 using Microsoft.Extensions.DependencyInjection;
@@ -32,16 +34,20 @@ public class GetOpponentTests : IClassFixture<TestWebApplicationFactory<Program>
     public async Task GetOpponent_Should_Return_PlayerDto_On_Success() {
 
         Guid freindId = Guid.NewGuid();
-        string friendEmail = "freind@test.com";
-        string friendUsername = "FriendUsername";
 
         await _dbContext.Init();
         await _dbContext.AddUser();
-        await _dbContext.AddUserWithEmail(friendEmail);
+        await _dbContext.AddUserWithEmail("freind@test.com");
 
-        var timingId = await _dbContext.CreateTiming();
-        var userPlayerId = await _dbContext.AddPlayerForUser();
-        var friendPlayerId = await _dbContext.AddPlayer(freindId, friendUsername);
+        var timingId = await _dbContext.CreateTiming(new TimingType() {
+            Type = TimingTypes.Bullet,
+            Minutes = 1,
+            Increment = 0,
+        });
+
+        var userPlayerId = await _dbContext.AddPlayer(Guid.Parse(Constants.UserId), Constants.Username);
+        var friendPlayerId = await _dbContext.AddPlayer(freindId, "FriendUsername");
+
         var gameId = await _dbContext.AddGame(userPlayerId, friendPlayerId, timingId);
 
 
@@ -51,7 +57,7 @@ public class GetOpponentTests : IClassFixture<TestWebApplicationFactory<Program>
         response.StatusCode.Should().Be(HttpStatusCode.OK);
 
         var result = JsonConvert.DeserializeObject<GetOpponentDto>(await response.Content.ReadAsStringAsync());
-        result.OppeonetId.Should().Be(friendPlayerId);
+        result.OppeonetId.Should().Be(freindId);
     }
 
     /// <summary>
@@ -60,19 +66,29 @@ public class GetOpponentTests : IClassFixture<TestWebApplicationFactory<Program>
     /// <returns></returns>
     [Fact]
     public async Task GetOpponent_Should_Return_BadRequest_On_Fail() {
+
         await _dbContext.Init();
         await _dbContext.AddUser();
 
-        var timingId = await _dbContext.CreateTiming();
-        await _dbContext.AddPlayerForUser();
+        var timingId = await _dbContext.CreateTiming(new TimingType() {  
+            Type = TimingTypes.Bullet,
+            Minutes = 1,
+            Increment = 0,
+        });
 
-        var gameId = await _dbContext.AddGame(Guid.NewGuid(), Guid.NewGuid(), timingId); // not user game
+        await _dbContext.AddPlayer(Guid.Parse(Constants.UserId), Constants.Username);
+        var otherPlaywerId = await _dbContext.AddPlayer(Guid.NewGuid(), "OtherUsername");
+        var otherPlaywer2Id = await _dbContext.AddPlayer(Guid.NewGuid(), "OtherUsername2");
+
+        var gameId = await _dbContext.AddGame(otherPlaywerId, otherPlaywer2Id, timingId); // not user game
+        await _dbContext.AddPlayerToGame(otherPlaywerId, gameId, Colors.White);
+        await _dbContext.AddPlayerToGame(otherPlaywer2Id, gameId, Colors.Black);
 
 
         var response = await _client.GetAsync($"api/game/{gameId}/opponent");
 
 
-        response.StatusCode.Should().Be(HttpStatusCode.NotFound);
+        response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
     }
 
     /// <summary>
@@ -84,7 +100,14 @@ public class GetOpponentTests : IClassFixture<TestWebApplicationFactory<Program>
 
         await _dbContext.Init();
         await _dbContext.AddUser();
-        await _dbContext.AddPlayerForUser();
+
+        await _dbContext.CreateTiming(new TimingType() {
+            Type = TimingTypes.Bullet,
+            Minutes = 1,
+            Increment = 0,
+        });
+
+        await _dbContext.AddPlayer(Guid.Parse(Constants.UserId), Constants.Username);
         // game not added
 
 

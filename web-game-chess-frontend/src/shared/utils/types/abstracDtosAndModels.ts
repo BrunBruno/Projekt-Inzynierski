@@ -34,8 +34,17 @@ export type UserDto = {
   country: string;
 };
 
+// general timing type model
 export type TimingTypeModel = {
   type: TimingType;
   minutes: number;
   increment: number;
+};
+
+// game results representation
+export type WinDrawLose = {
+  total: number;
+  wins: number;
+  draws: number;
+  loses: number;
 };

@@ -2,7 +2,6 @@
 using chess.Application.Repositories;
 using chess.Application.Services;
 using chess.Core.Entities;
-using chess.Core.Extensions;
 using chess.Shared.Exceptions;
 using MediatR;
 
@@ -40,9 +39,6 @@ public class SearchGameRequestHandler : IRequestHandler<SearchGameRequest, Searc
 
         var user = await _userRepository.GetById(userId)
             ?? throw new NotFoundException("User not found.");
-
-        if (request.Minutes == 0)
-            throw new BadRequestException("Incorrect minutes value.");
 
         var existingGameTiming = await _gameTimingRepository.FindTiming(request.Type, request.Minutes * 60, request.Increment);
 

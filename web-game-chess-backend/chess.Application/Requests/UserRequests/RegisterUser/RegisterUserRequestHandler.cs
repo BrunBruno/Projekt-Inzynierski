@@ -7,7 +7,7 @@ using MediatR;
 using Microsoft.AspNetCore.Identity;
 using System.Net.Mail;
 
-namespace chess.Application.Requests.UserRequests.Register;
+namespace chess.Application.Requests.UserRequests.RegisterUser;
 
 
 /// <summary>

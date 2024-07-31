@@ -1,5 +1,5 @@
 ﻿
-namespace chess.Application.Requests.UserRequests.LogIn;
+namespace chess.Application.Requests.UserRequests.LogInUser;
 
 /// <summary>
 /// DTO returned after signing in.

@@ -1,6 +1,7 @@
 ﻿
 using chess.Api.Tests.User;
-using chess.Core.Entities;
+using chess.Application.Requests.Abstraction;
+using chess.Core.Enums;
 using chess.Infrastructure.Contexts;
 using FluentAssertions;
 using Microsoft.EntityFrameworkCore;
@@ -34,8 +35,13 @@ public class AbortSearchTests : IClassFixture<TestWebApplicationFactory<Program>
         await _dbContext.Init();
         await _dbContext.AddUser();
 
-        await _dbContext.CreateTiming();
-        var playerId = await _dbContext.AddPlayerForUser();
+        await _dbContext.CreateTiming(new TimingType() {
+            Type = TimingTypes.Blitz,
+            Minutes = 3,
+            Increment = 0,
+        });
+
+        var playerId = await _dbContext.AddPlayer(Guid.Parse(Constants.UserId), Constants.Username);
 
 
         var response = await _client.DeleteAsync($"api/game/abort?playerId={playerId}");
@@ -59,8 +65,12 @@ public class AbortSearchTests : IClassFixture<TestWebApplicationFactory<Program>
         await _dbContext.Init();
         await _dbContext.AddUser();
 
-        await _dbContext.CreateTiming();
-        await _dbContext.AddPlayerForUser();
+        await _dbContext.CreateTiming(new TimingType() {
+            Type = TimingTypes.Blitz,
+            Minutes = 3,
+            Increment = 0,
+        });
+
         var otherPlayerId = await _dbContext.AddPlayer(Guid.NewGuid(), "OtherUser"); // other player
 
 
@@ -79,7 +89,12 @@ public class AbortSearchTests : IClassFixture<TestWebApplicationFactory<Program>
         await _dbContext.Init();
         await _dbContext.AddUser();
 
-        await _dbContext.CreateTiming();
+        await _dbContext.CreateTiming(new TimingType() {
+            Type = TimingTypes.Blitz,
+            Minutes = 3,
+            Increment = 0,
+        });
+
         // player not created
 
 

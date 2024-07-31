@@ -44,7 +44,6 @@ public class RespondToFriendRequestTests : IClassFixture<TestWebApplicationFacto
 
         var model = new RespondToFriendRequestModel()
         {
-            FriendshipId = friendshipId,
             IsAccepted = true,
         };
 
@@ -52,7 +51,7 @@ public class RespondToFriendRequestTests : IClassFixture<TestWebApplicationFacto
         var httpContent = new StringContent(json, Encoding.UTF8, "application/json");
 
 
-        var response = await _client.PutAsync("api/friendship/respond", httpContent);
+        var response = await _client.PutAsync($"api/friendship/{friendshipId}/respond", httpContent);
 
 
         var assertDbContext = _factory.GetDbContextForAsserts();

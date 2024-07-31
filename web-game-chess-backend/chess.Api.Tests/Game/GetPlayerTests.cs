@@ -1,5 +1,6 @@
 ﻿
 using chess.Api.Tests.User;
+using chess.Application.Requests.Abstraction;
 using chess.Application.Requests.GameRequests.GetPlayer;
 using chess.Core.Enums;
 using chess.Infrastructure.Contexts;
@@ -35,12 +36,19 @@ public class GetPlayerTests : IClassFixture<TestWebApplicationFactory<Program>> 
         await _dbContext.Init();
         await _dbContext.AddUser();
 
-        var timingId = await _dbContext.CreateTiming();
-        var playerId = await _dbContext.AddPlayerForUser();
-        var gameId = await _dbContext.AddGame(playerId, Guid.NewGuid(), timingId);
+        var timingId = await _dbContext.CreateTiming(new TimingType() {
+            Type = TimingTypes.Rapid,
+            Minutes = 10,
+            Increment = 0,
+        });
 
-        await _dbContext.AddPlayerToGame(playerId, gameId);
-        await _dbContext.UpdatePlayer(playerId);
+        var userPlayerId = await _dbContext.AddPlayer(Guid.Parse(Constants.UserId), Constants.Username);
+        var otherPlayerId = await _dbContext.AddPlayer(Guid.NewGuid(), "OtherPlayer");
+
+        var gameId = await _dbContext.AddGame(userPlayerId, otherPlayerId, timingId);
+
+        await _dbContext.AddPlayerToGame(userPlayerId, gameId, Colors.Black);
+        await _dbContext.AddPlayerToGame(otherPlayerId, gameId, Colors.White);
 
 
         var response = await _client.GetAsync($"api/game/{gameId}/player");
@@ -49,8 +57,8 @@ public class GetPlayerTests : IClassFixture<TestWebApplicationFactory<Program>> 
         response.StatusCode.Should().Be(HttpStatusCode.OK);
 
         var result = JsonConvert.DeserializeObject<GetPlayerDto>(await response.Content.ReadAsStringAsync());
-        result.Name.Should().Be("TestUserName");
-        result.Color.Should().Be(Colors.White);
+        result.Name.Should().Be(Constants.Username);
+        result.Color.Should().Be(Colors.Black);
     }
 
     /// <summary>
@@ -63,12 +71,21 @@ public class GetPlayerTests : IClassFixture<TestWebApplicationFactory<Program>> 
         await _dbContext.Init();
         await _dbContext.AddUser();
 
-        var timingId = await _dbContext.CreateTiming();
-        var playerId = await _dbContext.AddPlayerForUser();
-        var gameId = await _dbContext.AddGame(playerId, Guid.NewGuid(), timingId);
+        var timingId = await _dbContext.CreateTiming(new TimingType() {
+            Type = TimingTypes.Rapid,
+            Minutes = 10,
+            Increment = 0,
+        });
 
-        await _dbContext.AddPlayerToGame(playerId, gameId);
-        // no user update
+        var userPlayerId = await _dbContext.AddPlayer(Guid.Parse(Constants.UserId), Constants.Username);
+        var otherPlayerId = await _dbContext.AddPlayer(Guid.NewGuid(), "OtherPlayer");
+
+        var gameId = await _dbContext.AddGame(userPlayerId, otherPlayerId, timingId);
+
+        await _dbContext.AddPlayerToGame(userPlayerId, gameId, Colors.Black);
+        await _dbContext.AddPlayerToGame(otherPlayerId, gameId, Colors.White);
+        await _dbContext.ChangePlayerToNotPlaying(userPlayerId);
+        // no player assigneant
 
 
         var response = await _client.GetAsync($"api/game/{gameId}/player");
@@ -87,10 +104,17 @@ public class GetPlayerTests : IClassFixture<TestWebApplicationFactory<Program>> 
         await _dbContext.Init();
         await _dbContext.AddUser();
 
-        var timingId = await _dbContext.CreateTiming();
-        await _dbContext.AddPlayerForUser();
+        var timingId = await _dbContext.CreateTiming(new TimingType() {
+            Type = TimingTypes.Rapid,
+            Minutes = 10,
+            Increment = 0,
+        });
 
-        var gameId = await _dbContext.AddGame(Guid.NewGuid(), Guid.NewGuid(), timingId); // game with other players
+        await _dbContext.AddPlayer(Guid.Parse(Constants.UserId), Constants.Username);
+        var otherPlayerId = await _dbContext.AddPlayer(Guid.NewGuid(), "OtherPlayer");
+        var otherPlayer2Id = await _dbContext.AddPlayer(Guid.NewGuid(), "OtherPlayer2");
+
+        var gameId = await _dbContext.AddGame(otherPlayerId, otherPlayer2Id, timingId); // game with other players
 
 
         var response = await _client.GetAsync($"api/game/{gameId}/player");

@@ -17,8 +17,8 @@ const userBaseUrl: string = baseUrl + "/user";
 
 interface UserControllerPaths {
   //POST
-  register: () => string;
-  logIn: () => string;
+  registerUser: () => string;
+  logInUser: () => string;
   regenerateCode: () => string;
   //PUT
   verifyEmail: () => string;
@@ -36,9 +36,10 @@ interface UserControllerPaths {
 
 // paths in user controller
 export const userControllerPaths: UserControllerPaths = {
-  register: (): string => `${userBaseUrl}/sign-up`,
+  // registers user and sends email verification code
+  registerUser: (): string => `${userBaseUrl}/sign-up`,
 
-  logIn: (): string => `${userBaseUrl}/sign-in`,
+  logInUser: (): string => `${userBaseUrl}/sign-in`,
 
   regenerateCode: (): string => `${userBaseUrl}/regenerate-code`,
 
@@ -118,7 +119,7 @@ interface FriendshipControllerPaths {
   //POST
   inviteFriend: () => string;
   //PUT
-  respondToFriendRequest: () => string;
+  respondToFriendRequest: (friendshipId: Guid) => string;
   //GET
   getAllFriendsByStatus: (model: GetAllFriendsByStatusModel) => string;
   getAllNonFriends: (model: GetAllNonFriendsModel) => string;
@@ -128,18 +129,24 @@ interface FriendshipControllerPaths {
 }
 
 export const friendshipControllerPaths: FriendshipControllerPaths = {
+  // creates new frendship, with pending status
   inviteFriend: (): string => `${friendshipBaseUrl}/invite`,
 
-  respondToFriendRequest: (): string => `${friendshipBaseUrl}/respond`,
+  // changes status of pending friendship
+  respondToFriendRequest: (friendshipId: Guid): string => `${friendshipBaseUrl}/${friendshipId}/respond`,
 
+  // gets all users with choosen relation to user
   getAllFriendsByStatus: (model: GetAllFriendsByStatusModel): string =>
     `${friendshipBaseUrl}/all-by-status?${stringifyModel(model)}`,
 
+  // gets all users that are not in relation with user
   getAllNonFriends: (model: GetAllNonFriendsModel): string =>
     `${friendshipBaseUrl}/all-non-friends?${stringifyModel(model)}`,
 
+  // get user data for other user with established friendship
   getFriendProfile: (friendshipId: Guid): string => `${friendshipBaseUrl}/${friendshipId}`,
 
+  // removes friendships
   removeFriend: (friendshipId: Guid): string => `${friendshipBaseUrl}/${friendshipId}`,
 };
 

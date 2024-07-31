@@ -63,34 +63,7 @@ public class StartSearchTests : IClassFixture<TestWebApplicationFactory<Program>
 
         var gameTiming = await assertDbContext.GameTimings.FirstAsync();
         gameTiming.Id.Should().Be(result.TimingId);
-        gameTiming.Type.Should().Be(TimingTypes.Rapid);
-    }
-
-    /// <summary>
-    /// Incorrect timing value
-    /// </summary>
-    /// <returns></returns>
-    [Fact]
-    public async Task StartSearch_Should_Return_BadRequest_On_Fail() {
-
-        await _dbContext.Init();
-        await _dbContext.AddUser();
-
-        var model = new SearchGameModel()
-        {
-            Type = TimingTypes.Rapid,
-            Minutes = 0,
-            Increment = 0,
-        };
-
-        var json = JsonConvert.SerializeObject(model);
-        var httpContent = new StringContent(json, Encoding.UTF8, "application/json");
-
-
-        var response = await _client.PostAsync("api/game/search", httpContent);
-
-
-        response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+        gameTiming.Type.Should().Be(model.Type);
     }
 
     /// <summary>

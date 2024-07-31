@@ -1,12 +1,12 @@
 ﻿
 using chess.Core.Enums;
 
-namespace chess.Application.Requests.GameRequests.GetFinishedGames;
+namespace chess.Application.Requests.GameRequests.GetAllFinishedGames;
 
 /// <summary>
 /// Dto representing finished game
 /// </summary>
-public class GetFinishedGamesDto {
+public class GetAllFinishedGamesDto {
 
     /// <summary>
     /// Position at which game has ended
