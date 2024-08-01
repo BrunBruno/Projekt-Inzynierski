@@ -5,7 +5,8 @@ import WinTypesIcons from "../../../../../shared/svgs/WinTypesIcons";
 import { endGameTypes, timingTypes } from "../../../../../shared/utils/enums/entitiesEnums";
 import { pieceImageMap } from "../../../../../shared/utils/enums/piecesMaps";
 import { getEnumTypeByNumber } from "../../../../../shared/utils/functions/enumRelated";
-import { GetFinishedGamesDto, GetFinishedGamesPlayerDto } from "../../../../../shared/utils/types/gameDtos";
+import { PlayerDto } from "../../../../../shared/utils/types/abstracDtosAndModels";
+import { GetFinishedGamesDto } from "../../../../../shared/utils/types/gameDtos";
 import classes from "./UserGamesCard.module.scss";
 
 type UserGamesCardProps = {
@@ -24,7 +25,7 @@ function UserGamesCard({ game }: UserGamesCardProps) {
 
     const userInfoObject = JSON.parse(userInfo);
 
-    const renderPlayer = (player: GetFinishedGamesPlayerDto, isWhite: boolean, eloGained: number) => (
+    const renderPlayer = (player: PlayerDto, isWhite: boolean, eloGained: number) => (
       <div className={classes.player}>
         <AvatarImage
           username={player.name}

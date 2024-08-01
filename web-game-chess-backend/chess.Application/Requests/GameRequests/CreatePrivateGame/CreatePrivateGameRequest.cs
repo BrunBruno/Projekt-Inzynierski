@@ -1,5 +1,5 @@
 ﻿
-using chess.Application.Requests.Abstraction;
+using chess.Core.Abstraction;
 using MediatR;
 
 namespace chess.Application.Requests.GameRequests.CreatePrivateGame;

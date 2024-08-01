@@ -1,6 +1,5 @@
 ﻿
-using chess.Application.Requests.Abstraction;
-using chess.Core.Enums;
+using chess.Core.Abstraction;
 
 namespace chess.Application.Requests.GameRequests.GetGameTiming;
 

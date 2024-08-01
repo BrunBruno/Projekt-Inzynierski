@@ -22,7 +22,7 @@ import { delayAction } from "../../../../shared/utils/functions/eventsRelated";
 import RoundArrowSvg from "../../../../shared/svgs/RoundArrowSvg";
 import { mainColor } from "../../../../shared/utils/enums/colorMaps";
 import { GetByEmailDto } from "../../../../shared/utils/types/userDtos";
-import { CheckIfEmailExistsModel } from "../../../../shared/utils/types/userModels";
+import { GetByEmailModel } from "../../../../shared/utils/types/userModels";
 import { usePopup } from "../../../../shared/utils/hooks/usePopUp";
 import { getErrMessage } from "../../../../shared/utils/functions/displayError";
 import { Guid } from "guid-typescript";
@@ -153,7 +153,7 @@ function VsFriendSearch({}: VsFriendSearchProps) {
       return;
     }
 
-    const getByEmailModel: CheckIfEmailExistsModel = {
+    const getByEmailModel: GetByEmailModel = {
       email: selectedEmail,
     };
 

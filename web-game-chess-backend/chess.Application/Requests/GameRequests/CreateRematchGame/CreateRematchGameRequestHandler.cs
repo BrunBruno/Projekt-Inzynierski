@@ -2,9 +2,10 @@
 using chess.Application.Repositories;
 using chess.Application.Services;
 using chess.Core.Entities;
+using chess.Core.Enums;
+using chess.Core.Maps.MapOfElo;
 using chess.Shared.Exceptions;
 using MediatR;
-using chess.Core.Enums;
 
 namespace chess.Application.Requests.GameRequests.CreateRematchGame;
 

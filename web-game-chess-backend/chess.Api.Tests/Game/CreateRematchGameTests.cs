@@ -1,8 +1,8 @@
 ﻿
 using chess.Api.Models.GameModels;
 using chess.Api.Tests.User;
-using chess.Application.Requests.Abstraction;
 using chess.Application.Requests.GameRequests.CreateRematchGame;
+using chess.Core.Abstraction;
 using chess.Core.Enums;
 using chess.Infrastructure.Contexts;
 using FluentAssertions;

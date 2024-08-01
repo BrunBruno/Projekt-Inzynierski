@@ -3,6 +3,7 @@
 import { Guid } from "guid-typescript";
 
 /** POST models */
+
 export type RegisterUserModel = {
   // provided unique email
   email: string;
@@ -41,14 +42,19 @@ export type UpdateProfileModel = {
   imageUrl: string | null;
 };
 
-export type CheckIfEmailExistsModel = {
+/** GET models */
+
+export type GetByEmailModel = {
+  // provided email
   email: string | null;
 };
 
 export type GetOtherUserModel = {
+  // other user id
   userId: Guid;
 };
 
 export type GetRegisterConfModel = {
-  configurationId: Guid;
+  // configuration id
+  configurationId: number;
 };

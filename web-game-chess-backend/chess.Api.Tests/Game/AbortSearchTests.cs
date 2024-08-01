@@ -1,6 +1,6 @@
 ﻿
 using chess.Api.Tests.User;
-using chess.Application.Requests.Abstraction;
+using chess.Core.Abstraction;
 using chess.Core.Enums;
 using chess.Infrastructure.Contexts;
 using FluentAssertions;

@@ -1,6 +1,7 @@
 ﻿
 using chess.Application.Repositories;
 using chess.Application.Services;
+using chess.Core.Dtos;
 using chess.Shared.Exceptions;
 using MediatR;
 
@@ -52,21 +53,21 @@ public class GetGameRequestHandler : IRequestHandler<GetGameRequest, GetGameDto>
             CanBlackShortRookCastle = game.GameState.CanBlackShortRookCastle,
             CanBlackLongRookCastle = game.GameState.CanBlackLongRookCastle,
 
-            WhitePlayer = new GetGamePlayerDto()
+            WhitePlayer = new PlayerDto()
             {
                 Name = game.WhitePlayer.Name,
                 ImageUrl = game.WhitePlayer.ImageUrl,
                 Elo = game.WhitePlayer.Elo,
             },
 
-            BlackPlayer = new GetGamePlayerDto()
+            BlackPlayer = new PlayerDto()
             {
                 Name = game.BlackPlayer.Name,
                 ImageUrl = game.BlackPlayer.ImageUrl,
                 Elo = game.BlackPlayer.Elo,
             },
 
-            Moves = game.Moves.Select(move => new GetGameMoveDto
+            Moves = game.Moves.Select(move => new MoveDto
             {
                 Move = move.DoneMove,
                 Turn = move.Turn,

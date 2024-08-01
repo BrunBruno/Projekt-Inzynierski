@@ -66,7 +66,7 @@ function SignIn({ setModal }: SignInProps) {
       setProcessing(true);
 
       // Log in user
-      const signInResponse = await axios.post<LogInUserDto>(userControllerPaths.logIn(), userData);
+      const signInResponse = await axios.post<LogInUserDto>(userControllerPaths.logInUser(), userData);
 
       // set token
       localStorage.setItem("token", signInResponse.data.token);

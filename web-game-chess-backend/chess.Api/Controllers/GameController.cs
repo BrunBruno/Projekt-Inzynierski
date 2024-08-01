@@ -18,6 +18,7 @@ using chess.Application.Requests.GameRequests.GetTypeHistory;
 using chess.Application.Requests.GameRequests.CreateGameByEmail;
 using chess.Application.Requests.GameRequests.GetAllInvitations;
 using chess.Application.Requests.GameRequests.GetGameTiming;
+using chess.Application.Requests.GameRequests.GetAllFinishedGames;
 
 namespace chess.Api.Controllers;
 
@@ -183,7 +184,7 @@ public class GameController : ControllerBase {
 
 
     /// <summary>
-    /// Gets opponent data
+    /// Gets opponent data from previous game
     /// </summary>
     /// <param name="gameId"></param>
     /// <returns></returns>
@@ -249,7 +250,7 @@ public class GameController : ControllerBase {
     /// <returns></returns>
     [HttpGet("all-finished")]
     [Authorize(Policy = "IsVerified")]
-    public async Task<IActionResult> GetFinishedGames([FromQuery] GetAllFinishedGamesModel model) {
+    public async Task<IActionResult> GetAllFinishedGames([FromQuery] GetAllFinishedGamesModel model) {
 
         var request = _mapper.Map<GetAllFinishedGamesRequest>(model);
 

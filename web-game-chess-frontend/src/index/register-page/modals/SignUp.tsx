@@ -150,7 +150,7 @@ function SignUp({ setModal }: SignUpProps) {
     try {
       setProcessing(true);
       // create account
-      await axios.post(userControllerPaths.register(), userData);
+      await axios.post(userControllerPaths.registerUser(), userData);
 
       const logUserData: LogInUserModel = {
         email: form.email.value.trim(),
@@ -161,7 +161,7 @@ function SignUp({ setModal }: SignUpProps) {
       localStorage.setItem("logUserTemp", JSON.stringify(logUserData));
 
       // login user, get unverified token
-      const logInResponse = await axios.post<LogInUserDto>(userControllerPaths.logIn(), logUserData);
+      const logInResponse = await axios.post<LogInUserDto>(userControllerPaths.logInUser(), logUserData);
 
       // set unverified token
       localStorage.setItem("token", logInResponse.data.token);

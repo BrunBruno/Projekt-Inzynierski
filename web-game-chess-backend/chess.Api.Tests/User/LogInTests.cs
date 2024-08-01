@@ -1,6 +1,6 @@
 ﻿
 using chess.Api.Models.UserModels;
-using chess.Application.Requests.UserRequests.LogIn;
+using chess.Application.Requests.UserRequests.LogInUser;
 using chess.Infrastructure.Contexts;
 using FluentAssertions;
 using Microsoft.Extensions.DependencyInjection;

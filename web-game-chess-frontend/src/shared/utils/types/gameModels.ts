@@ -5,47 +5,41 @@ import { BlackPieceType, WhitePieceType } from "../enums/piecesMaps";
 import { PagedModel, TimingTypeModel } from "./abstracDtosAndModels";
 import { Guid } from "guid-typescript";
 
-export type AbortSearchModel = {
-  playerId: Guid;
-};
+/** POST models */
 
-export type AcceptInvitationModel = {
-  gameId: Guid;
-  invitorId: Guid;
-  inviteeId: Guid;
-};
-
-export type CheckIfInGameModel = {
-  playerId: Guid;
-};
+export type SearchGameModel = TimingTypeModel;
 
 export type CreatePrivateGameModel = TimingTypeModel & {
+  // freindship id
   friendshipId: Guid;
 };
 
-export type EndGameModel = {
-  gameId: Guid;
-  loserColor: PieceColor | null;
-  endGameType: EndGameTypes;
+export type CreateGameByEmailModel = TimingTypeModel & {
+  // provided other user emil to invite
+  email: string;
 };
 
-export type GetFinishedGamesModel = PagedModel & {
-  timingTypeFilters: TimingType[];
-  resultFilters: (boolean | null)[];
-};
-
-export type GetTypeHistiryModel = PagedModel & {
-  type: TimingType;
+export type CreateRematchGameModel = TimingTypeModel & {
+  // user opponents id from previous game
+  opponentId: Guid;
 };
 
 export type MakeMoveModel = {
+  // game id
   gameId: Guid;
+  // current position
   position: string;
+  // done move
   move: string;
+  // previous coordinates
   oldCoor: string;
+  // new coordinates
   newCoor: string;
+  // piece that was capured or nothing
   capturedPiece: WhitePieceType | BlackPieceType | null;
+  // enpassant coordinates if possible
   enPassant: string | null;
+  // castling options
   wkm: boolean;
   wsrm: boolean;
   wlrm: boolean;
@@ -54,27 +48,75 @@ export type MakeMoveModel = {
   blrm: boolean;
 };
 
-export type NotifyUserModel = TimingTypeModel & {
-  friendId: Guid;
-  gameId: Guid;
-  inviter: string;
-};
-
-export type SearchGameModel = TimingTypeModel;
-
 export type SendMessageModel = {
+  // game id where message was sent
   gameId: Guid;
+  // player id that sent message
   playerId: Guid;
+  // message content
   message: string;
 };
 
-export type CreateGameByEmailModel = TimingTypeModel & {
-  email: string;
+/** PUT models */
+
+export type EndGameModel = {
+  // game id to end
+  gameId: Guid;
+  // the loser color
+  loserColor: PieceColor | null;
+  // reason hwy game has ended
+  endGameType: EndGameTypes;
+};
+
+export type AcceptInvitationModel = {
+  // game id of invitation
+  gameId: Guid;
+  // invitor of game id
+  invitorId: Guid;
+  // invitee of game id
+  inviteeId: Guid;
+};
+
+/** GET models */
+
+export type CheckIfInGameModel = {
+  // obtained player di
+  playerId: Guid;
+};
+
+export type GetFinishedGamesModel = PagedModel & {
+  // to get only selected types of timing type
+  timingTypeFilters: TimingType[];
+  // to get only selected results of the game
+  resultFilters: (boolean | null)[];
+};
+
+export type GetTypeHistiryModel = PagedModel & {
+  // selected timing to to display history of games
+  type: TimingType;
 };
 
 export type GetAllInvitationsModel = PagedModel;
 
-export type DeclineInvitationModel = {
+export type NotifyUserModel = TimingTypeModel & {
+  // friend to notify id
+  friendId: Guid;
+  // game to invite id
   gameId: Guid;
+  // who is inviting
+  inviter: string;
+};
+
+/** DELETE models */
+
+export type AbortSearchModel = {
+  // plyaer to remove id
+  playerId: Guid;
+};
+
+export type DeclineInvitationModel = {
+  // game to decline id
+  gameId: Guid;
+  // invitor id
   friendId: Guid;
 };

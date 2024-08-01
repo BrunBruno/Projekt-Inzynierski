@@ -1,5 +1,5 @@
 ﻿
-using chess.Application.Requests.Abstraction;
+using chess.Core.Abstraction;
 using chess.Core.Entities;
 using chess.Core.Enums;
 using chess.Infrastructure.Contexts;

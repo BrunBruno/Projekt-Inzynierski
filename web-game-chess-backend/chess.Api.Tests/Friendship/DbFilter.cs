@@ -81,7 +81,9 @@ internal static partial class DbFilter {
                 PasswordHash = Constants.PasswordHash,
                 JoinDate = DateTime.UtcNow,
                 IsVerified = true,
-                Elo = new Elo() { }
+                Elo = new Elo() { },
+                Stats = new UserStats { },
+               
             });
 
             if (i % 2 == 0) {

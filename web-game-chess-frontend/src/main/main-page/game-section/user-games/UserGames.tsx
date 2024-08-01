@@ -44,7 +44,7 @@ function UserGames({}: UserGamesProps) {
 
     try {
       const gamesRespones = await axios.get<PagedResult<GetFinishedGamesDto>>(
-        gameControllerPaths.getFinishedGames(getGamesOptions),
+        gameControllerPaths.getAllFinishedGames(getGamesOptions),
         getAuthorization()
       );
 

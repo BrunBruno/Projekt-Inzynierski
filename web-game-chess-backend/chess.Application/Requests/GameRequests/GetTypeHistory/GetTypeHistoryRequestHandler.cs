@@ -5,7 +5,6 @@ using chess.Application.Services;
 using chess.Core.Enums;
 using chess.Shared.Exceptions;
 using MediatR;
-using chess.Core.Extensions;
 
 namespace chess.Application.Requests.GameRequests.GetTypeHistory;
 

@@ -1,7 +1,7 @@
 import { intToChar } from "../../../../shared/utils/functions/gameRelated";
 import { pieceColor } from "../../../../shared/utils/enums/entitiesEnums";
-import { GetPlayerDto } from "../../../../shared/utils/types/gameDtos";
 import classes from "./GameBoardCoordinates.module.scss";
+import { GetPlayerDto } from "../../../../shared/utils/types/gameDtos";
 
 type GameBoardCoordinatesProps = {
   // player data to get side

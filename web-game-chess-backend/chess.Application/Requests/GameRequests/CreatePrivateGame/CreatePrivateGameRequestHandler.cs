@@ -3,6 +3,7 @@ using chess.Application.Repositories;
 using chess.Application.Services;
 using chess.Core.Entities;
 using chess.Core.Enums;
+using chess.Core.Maps.MapOfElo;
 using chess.Shared.Exceptions;
 using MediatR;
 
@@ -61,10 +62,13 @@ public class CreatePrivateGameRequestHandler : IRequestHandler<CreatePrivateGame
         var user = await _userRepository.GetById(userId)
             ?? throw new NotFoundException("User not found.");
 
-        var firendship = await _friendshipRepository.GetById(request.FriendshipId)
+        var friendship = await _friendshipRepository.GetById(request.FriendshipId)
                ?? throw new NotFoundException("Friendship not found.");
 
-        var friendId = userId == firendship.RequestorId ? firendship.ReceiverId : firendship.RequestorId;
+        if (friendship.Status != FriendshipStatus.Accepted)
+            throw new BadRequestException("Friendship not accepted.");
+
+        var friendId = userId == friendship.RequestorId ? friendship.ReceiverId : friendship.RequestorId;
 
         var friend = await _userRepository.GetById(friendId)
              ?? throw new NotFoundException("Friend not found.");

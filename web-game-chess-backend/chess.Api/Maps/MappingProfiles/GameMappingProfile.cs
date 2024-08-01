@@ -10,7 +10,7 @@ using chess.Application.Requests.GameRequests.CreateRematchGame;
 using chess.Application.Requests.GameRequests.DeclineInvitation;
 using chess.Application.Requests.GameRequests.EndGame;
 using chess.Application.Requests.GameRequests.GetAllInvitations;
-using chess.Application.Requests.GameRequests.GetFinishedGames;
+using chess.Application.Requests.GameRequests.GetAllFinishedGames;
 using chess.Application.Requests.GameRequests.GetTypeHistory;
 using chess.Application.Requests.GameRequests.MakeMove;
 using chess.Application.Requests.GameRequests.SearchGame;

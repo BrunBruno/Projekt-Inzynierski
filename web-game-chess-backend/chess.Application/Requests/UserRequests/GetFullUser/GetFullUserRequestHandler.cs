@@ -36,10 +36,15 @@ public class GetFullUserRequestHandler : IRequestHandler<GetFullUserRequest, Get
             ImageUrl = user.ImageUrl,
             Country = user.Country,
             Bio = user.Bio,
-            Wins = user.Stats.Wins,
-            Loses = user.Stats.Loses,
-            Draws = user.Stats.Draws,
-            GamesPlayed = user.Stats.GamesPlayed,
+      
+            WdlTotal = new Core.Abstraction.WinDrawLose()
+            {
+                Total = user.Stats.GamesPlayed,
+                Wins = user.Stats.Wins,
+                Loses = user.Stats.Loses,
+                Draws = user.Stats.Draws,
+            },
+
             WinsByCheckMate = user.Stats.WinsByCheckMate,
             WinsByTimeout = user.Stats.WinsByTimeout,
             WinsByResignation = user.Stats.WinsByResignation,

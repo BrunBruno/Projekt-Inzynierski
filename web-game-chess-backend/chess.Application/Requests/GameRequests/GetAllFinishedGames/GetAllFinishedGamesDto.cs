@@ -1,4 +1,5 @@
 ﻿
+using chess.Core.Dtos;
 using chess.Core.Enums;
 
 namespace chess.Application.Requests.GameRequests.GetAllFinishedGames;
@@ -51,31 +52,11 @@ public class GetAllFinishedGamesDto {
     /// <summary>
     /// White player data
     /// </summary>
-    public required GetFinishedGamesPlayerDto WhitePlayer { get; set; }
+    public required PlayerDto WhitePlayer { get; set; }
 
     /// <summary>
     /// Black player data
     /// </summary>
-    public required GetFinishedGamesPlayerDto BlackPlayer { get; set; }
+    public required PlayerDto BlackPlayer { get; set; }
 }
 
-/// <summary>
-/// Player data
-/// </summary>
-public class GetFinishedGamesPlayerDto {
-
-    /// <summary>
-    /// User name
-    /// </summary>
-    public required string Name { get; set; }
-
-    /// <summary>
-    /// Avatar
-    /// </summary>
-    public string? ImageUrl { get; set; }
-
-    /// <summary>
-    /// Elo points
-    /// </summary>
-    public int Elo { get; set; }
-}

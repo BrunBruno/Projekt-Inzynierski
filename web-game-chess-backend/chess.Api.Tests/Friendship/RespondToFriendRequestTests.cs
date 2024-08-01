@@ -80,7 +80,6 @@ public class RespondToFriendRequestTests : IClassFixture<TestWebApplicationFacto
 
         var model = new RespondToFriendRequestModel()
         {
-            FriendshipId = friendshipId,
             IsAccepted = true,
         };
 
@@ -88,7 +87,7 @@ public class RespondToFriendRequestTests : IClassFixture<TestWebApplicationFacto
         var httpContent = new StringContent(json, Encoding.UTF8, "application/json");
 
 
-        var response = await _client.PutAsync("api/friendship/respond", httpContent);
+        var response = await _client.PutAsync($"api/friendship/{friendshipId}/respond", httpContent);
 
 
         response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
@@ -106,7 +105,6 @@ public class RespondToFriendRequestTests : IClassFixture<TestWebApplicationFacto
 
         var model = new RespondToFriendRequestModel()
         {
-            FriendshipId = Guid.NewGuid(),
             IsAccepted = true,
         };
 
@@ -114,7 +112,7 @@ public class RespondToFriendRequestTests : IClassFixture<TestWebApplicationFacto
         var httpContent = new StringContent(json, Encoding.UTF8, "application/json");
 
 
-        var response = await _client.PutAsync("api/friendship/respond", httpContent);
+        var response = await _client.PutAsync($"api/friendship/{Guid.NewGuid()}/respond", httpContent);
 
 
         response.StatusCode.Should().Be(HttpStatusCode.NotFound);
@@ -136,7 +134,6 @@ public class RespondToFriendRequestTests : IClassFixture<TestWebApplicationFacto
 
         var model = new RespondToFriendRequestModel()
         {
-            FriendshipId = friendshipId,
             IsAccepted = true,
         };
 
@@ -144,7 +141,7 @@ public class RespondToFriendRequestTests : IClassFixture<TestWebApplicationFacto
         var httpContent = new StringContent(json, Encoding.UTF8, "application/json");
 
 
-        var response = await _client.PutAsync("api/friendship/respond", httpContent);
+        var response = await _client.PutAsync($"api/friendship/{friendshipId}/respond", httpContent);
 
 
         response.StatusCode.Should().Be(HttpStatusCode.Unauthorized);

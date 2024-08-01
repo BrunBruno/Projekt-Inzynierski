@@ -2,6 +2,7 @@
 using chess.Application.Pagination;
 using chess.Application.Repositories;
 using chess.Application.Services;
+using chess.Core.Dtos;
 using chess.Core.Enums;
 using chess.Shared.Exceptions;
 using MediatR;
@@ -64,7 +65,7 @@ public class GetAllFinishedGamesRequestHandler : IRequestHandler<GetAllFinishedG
                     EndGameType = player.WhiteGame.EndGameType,
 
 
-                    WhitePlayer = new GetFinishedGamesPlayerDto()
+                    WhitePlayer = new PlayerDto()
                     { 
                         Name = player.WhiteGame.WhitePlayer.Name,
                         ImageUrl = player.WhiteGame.WhitePlayer.ImageUrl,
@@ -72,7 +73,7 @@ public class GetAllFinishedGamesRequestHandler : IRequestHandler<GetAllFinishedG
 
                     },
 
-                    BlackPlayer = new GetFinishedGamesPlayerDto()
+                    BlackPlayer = new PlayerDto()
                     {
                         Name = player.WhiteGame.BlackPlayer.Name,
                         ImageUrl = player.WhiteGame.BlackPlayer.ImageUrl,
@@ -114,14 +115,14 @@ public class GetAllFinishedGamesRequestHandler : IRequestHandler<GetAllFinishedG
                     EndGameType = player.BlackGame.EndGameType,
 
 
-                    WhitePlayer = new GetFinishedGamesPlayerDto()
+                    WhitePlayer = new PlayerDto()
                     {
                         Name = player.BlackGame.WhitePlayer.Name,
                         ImageUrl = player.BlackGame.WhitePlayer.ImageUrl,
                         Elo = player.BlackGame.WhitePlayer.Elo,
                     },
 
-                    BlackPlayer = new GetFinishedGamesPlayerDto()
+                    BlackPlayer = new PlayerDto()
                     {
                         Name = player.BlackGame.BlackPlayer.Name,
                         ImageUrl = player.BlackGame.BlackPlayer.ImageUrl,
