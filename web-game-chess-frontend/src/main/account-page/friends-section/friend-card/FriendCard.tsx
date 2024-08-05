@@ -54,11 +54,11 @@ function FriendCard({ friend, setSelectedFriend, clearSelection }: FriendCardPro
           <span>{friend.username}</span> <span>{friend.name === null ? "---" : friend.name}</span>
         </div>
         <div className={classes.friend__content__data}>
-          <span>{friend.wins}</span>
+          <span>{friend.wdlTotal.wins}</span>
           {" | "}
-          <span>{friend.draws}</span>
+          <span>{friend.wdlTotal.draws}</span>
           {" | "}
-          <span>{friend.loses}</span>
+          <span>{friend.wdlTotal.loses}</span>
         </div>{" "}
       </div>
 

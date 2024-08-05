@@ -7,12 +7,14 @@
   max-width: 160rem;
   margin: auto;
   overflow: hidden;
-  position: relative;
 
   .intro-background {
     position: fixed;
+    top: 0;
+    left: 0;
     z-index: 999;
     width: 100%;
+    min-width: 160rem;
     height: 100vh;
     background-color: rgba(#000, 1);
 

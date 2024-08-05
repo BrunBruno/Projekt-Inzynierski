@@ -6,19 +6,19 @@ import { endGameTypes, timingTypes } from "../../../../../shared/utils/enums/ent
 import { pieceImageMap } from "../../../../../shared/utils/enums/piecesMaps";
 import { getEnumTypeByNumber } from "../../../../../shared/utils/functions/enumRelated";
 import { PlayerDto } from "../../../../../shared/utils/types/abstracDtosAndModels";
-import { GetFinishedGamesDto } from "../../../../../shared/utils/types/gameDtos";
+import { GetAllFinishedGamesDto } from "../../../../../shared/utils/types/gameDtos";
 import classes from "./UserGamesCard.module.scss";
 
 type UserGamesCardProps = {
   // finished game data
-  game: GetFinishedGamesDto;
+  game: GetAllFinishedGamesDto;
 };
 
 function UserGamesCard({ game }: UserGamesCardProps) {
   ///
 
   // display players based on user player color
-  const displayPlayer = (game: GetFinishedGamesDto): JSX.Element => {
+  const displayPlayer = (game: GetAllFinishedGamesDto): JSX.Element => {
     const userInfo = localStorage.getItem("userInfo");
 
     if (!userInfo) return <></>;

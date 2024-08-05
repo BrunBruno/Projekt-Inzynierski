@@ -121,7 +121,7 @@ internal static partial class DbFilter {
         await dbContext.SaveChangesAsync();
     }
 
-    internal static async Task AddGames(this ChessAppDbContext dbContext) {
+    internal static async Task AddFinishedGames(this ChessAppDbContext dbContext) {
 
         var blitzTiming = new GameTiming()
         {
@@ -141,39 +141,58 @@ internal static partial class DbFilter {
 
 
         var games = new List<Core.Entities.Game>();
+        var players = new List<Player>();
 
         for(int i = 0; i < 100; i++) {
 
             var userPlayer = new Player() { 
+                Id = Guid.NewGuid(),
                 Name = Constants.Username,
                 Color = i % 2 == 0 ? Colors.White : Colors.Black,
                 IsPlaying = true,
+                FinishedGame = true,
                 UserId = Guid.Parse(Constants.UserId),
             };
             var enemyPlayer = new Player()
             {
+                Id = Guid.NewGuid(),
                 Name = "Enemy",
                 Color = i % 2 == 0 ? Colors.Black : Colors.White,
                 IsPlaying = true,
+                FinishedGame = true,
                 UserId = Guid.NewGuid(),
             };
 
-            games.Add(new Core.Entities.Game() {
+          var game = new Core.Entities.Game() {
 
                 Id = Guid.NewGuid(),
                 HasEnded = true,
 
+                WhitePlayerId = i % 2 == 0 ? userPlayer.Id : enemyPlayer.Id,
                 WhitePlayer = i % 2 == 0 ? userPlayer : enemyPlayer,
+                BlackPlayerId = i % 2 == 0 ? enemyPlayer.Id : userPlayer.Id,
                 BlackPlayer = i % 2 == 0 ? enemyPlayer : userPlayer,
 
-                TimingType = i > 50 ? TimingTypes.Rapid : TimingTypes.Blitz,
-                GameTimingId = i > 50 ? rapidTiming.Id : blitzTiming.Id,
+                TimingType = i >= 50 ? TimingTypes.Rapid : TimingTypes.Blitz,
+                GameTimingId = i >= 50 ? rapidTiming.Id : blitzTiming.Id,
+
+                EndGameType = i % 5 == 0 ? EndGameTypes.CheckMate : EndGameTypes.Resignation,
+                WinnerColor = i % 4 == 0 ? Colors.White : Colors.Black,
+
                 GameState = new GameState() { },
 
-            });
+            };
+
+            userPlayer.GameId = game.Id;
+            enemyPlayer.GameId = game.Id;
+
+            games.Add(game);
+            players.Add(userPlayer);
+            players.Add(enemyPlayer);
         }
 
-        await dbContext.AddRangeAsync(games);
+        await dbContext.Players.AddRangeAsync(players);
+        await dbContext.Games.AddRangeAsync(games);
         await dbContext.SaveChangesAsync();
     }
 

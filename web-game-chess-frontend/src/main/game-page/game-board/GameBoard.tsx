@@ -33,12 +33,19 @@ import { dangerColor } from "../../../shared/utils/enums/colorMaps";
 import { Guid } from "guid-typescript";
 
 type GameBoardProps = {
+  // game id
   gameId: Guid;
+  // current game data
   gameData: GetGameDto;
+  // current player data
   playerData: GetPlayerDto;
+  // winner color if game is finished
   winner: EndGameDto | GetEndedGameDto | null;
+  // obtained ids for rematch game
   searchIds: SearchGameDto | null;
+  // setter of obtained ids
   setSearchIds: React.Dispatch<React.SetStateAction<SearchGameDto | null>>;
+  // timing of current game
   selectedTiming: SearchGameModel | null;
 };
 

@@ -8,7 +8,9 @@ import TimingTypesIcons from "../../../shared/svgs/TimingTypesIcons";
 import { PagedResult } from "../../../shared/utils/types/abstracDtosAndModels";
 
 type HistorySectionProps = {
+  // game type name
   selectedType: string | null;
+  // paged result of type histoy dtos
   typeHistory: PagedResult<GetTypeHistoryDto> | null;
 };
 
@@ -22,7 +24,7 @@ function HistorySection({ selectedType, typeHistory }: HistorySectionProps) {
   const createChart = (history: GetTypeHistoryDto[]) => {
     type GroupedByCreatedAt = Record<string, GetTypeHistoryDto[]>;
     const groupedByCreatedAt: GroupedByCreatedAt = history.reduce((acc, currentItem) => {
-      const key = currentItem.createdAt.split("T")[0];
+      const key = currentItem.createdAt.toString().split("T")[0];
       if (!acc[key]) acc[key] = [];
 
       acc[key].push(currentItem);

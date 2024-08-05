@@ -138,9 +138,11 @@ const LearnBlocks = ({}: LearnBlocksProps) => {
               <h3 className={classes["row-h3"]}>{block.title}</h3>
               <p className={classes["row-p"]}>{block.text}</p>
             </div>
+
             <div ref={block.iconRef} className={`${classes.zpattern__row__icon} ${classes[block.iconName]}`}>
               {createIcon(block.iconName)}
             </div>
+
             <div ref={block.lineRef} className={classes["row-line-icon"]}>
               <LearnBlocksIcons iconName="pawnLine" />
             </div>
@@ -148,8 +150,9 @@ const LearnBlocks = ({}: LearnBlocksProps) => {
         ) : (
           <div className={classes.zpattern__row} key={index}>
             <div ref={block.iconRef} className={`${classes.zpattern__row__icon} ${classes[block.iconName!]}`}>
-              {createIcon(block.iconName!)}
+              {createIcon(block.iconName)}
             </div>
+
             <div ref={block.textRef} className={classes.zpattern__row__text}>
               <h3 className={classes["row-h3"]}>{block.title}</h3>
               <p className={classes["row-p"]}>{block.text}</p>

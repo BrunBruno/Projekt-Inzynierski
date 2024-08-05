@@ -4,7 +4,7 @@ import {
   AbortSearchModel,
   CheckIfInGameModel,
   GetAllInvitationsModel,
-  GetFinishedGamesModel,
+  GetAllFinishedGamesModel,
   GetTypeHistiryModel,
 } from "../types/gameModels";
 import { GetByEmailModel, GetOtherUserModel, GetRegisterConfModel } from "../types/userModels";
@@ -90,7 +90,7 @@ interface GameControllerPaths {
   getOpponent: (gameId: Guid) => string;
   getEndedGame: (gameId: Guid) => string;
   getGameTiming: (gameId: Guid) => string;
-  getAllFinishedGames: (model: GetFinishedGamesModel) => string;
+  getAllFinishedGames: (model: GetAllFinishedGamesModel) => string;
   getTypeHistory: (model: GetTypeHistiryModel) => string;
   getAllInvitations: (model: GetAllInvitationsModel) => string;
   //DELETE
@@ -133,7 +133,8 @@ export const gameControllerPaths: GameControllerPaths = {
   getGameTiming: (gameId: Guid): string => `${gameBaseUrl}/${gameId}/timing`,
 
   // gets all finished games for user
-  getAllFinishedGames: (model: GetFinishedGamesModel): string => `${gameBaseUrl}/all-finished?${stringifyModel(model)}`,
+  getAllFinishedGames: (model: GetAllFinishedGamesModel): string =>
+    `${gameBaseUrl}/all-finished?${stringifyModel(model)}`,
 
   // get all previous games for choosen timing type
   getTypeHistory: (model: GetTypeHistiryModel): string => `${gameBaseUrl}/type-history?${stringifyModel(model)}`,

@@ -43,7 +43,7 @@ export type GetPlayerDto = PlayerDto & {
   color: PieceColor;
 };
 
-export type GetFinishedGamesDto = {
+export type GetAllFinishedGamesDto = {
   // last position
   position: string;
   // number of turns

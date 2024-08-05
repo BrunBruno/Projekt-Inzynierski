@@ -2,6 +2,8 @@ import { AxiosError } from "axios";
 
 // Gets messages for registration errors to display
 export const errorDisplay = (error: any, action: (value: React.SetStateAction<string>) => void) => {
+  console.log(error);
+
   if (error instanceof AxiosError) {
     if (error.response && error.response.data) {
       action(error.response.data);

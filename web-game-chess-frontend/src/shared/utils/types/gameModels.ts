@@ -84,7 +84,7 @@ export type CheckIfInGameModel = {
   playerId: Guid;
 };
 
-export type GetFinishedGamesModel = PagedModel & {
+export type GetAllFinishedGamesModel = PagedModel & {
   // to get only selected types of timing type
   timingTypeFilters: TimingType[];
   // to get only selected results of the game

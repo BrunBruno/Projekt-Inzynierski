@@ -19,7 +19,7 @@ export type RegisterUserModel = {
 
 export type LogInUserModel = {
   // provided email
-  email: string;
+  emailOrUsername: string;
   // provided password
   password: string;
 };

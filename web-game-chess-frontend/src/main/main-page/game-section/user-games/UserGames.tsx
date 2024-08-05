@@ -1,8 +1,8 @@
 import axios from "axios";
 import classes from "./UserGame.module.scss";
-import { GetFinishedGamesDto } from "../../../../shared/utils/types/gameDtos";
+import { GetAllFinishedGamesDto } from "../../../../shared/utils/types/gameDtos";
 import { gameControllerPaths, getAuthorization } from "../../../../shared/utils/services/ApiService";
-import { GetFinishedGamesModel } from "../../../../shared/utils/types/gameModels";
+import { GetAllFinishedGamesModel } from "../../../../shared/utils/types/gameModels";
 import { useEffect, useState } from "react";
 import LoadingPage from "../../../../shared/components/loading-page/LoadingPage";
 import UserGamesFilters from "./user-games-filters/UserGamesFilters";
@@ -17,7 +17,7 @@ type UserGamesProps = {};
 function UserGames({}: UserGamesProps) {
   ///
 
-  const [games, setGames] = useState<GetFinishedGamesDto[] | null>(null);
+  const [games, setGames] = useState<GetAllFinishedGamesDto[] | null>(null);
   const [itemsCount, setItemsCount] = useState<number>(0);
 
   const [timingTypeFilters, setTimingTypeFilters] = useState<number[]>([]);
@@ -35,7 +35,7 @@ function UserGames({}: UserGamesProps) {
 
   // get all finished games
   const getGames = async () => {
-    const getGamesOptions: GetFinishedGamesModel = {
+    const getGamesOptions: GetAllFinishedGamesModel = {
       pageNumber: 1,
       pageSize: pageSize,
       timingTypeFilters: timingTypeFilters,
@@ -43,7 +43,7 @@ function UserGames({}: UserGamesProps) {
     };
 
     try {
-      const gamesRespones = await axios.get<PagedResult<GetFinishedGamesDto>>(
+      const gamesRespones = await axios.get<PagedResult<GetAllFinishedGamesDto>>(
         gameControllerPaths.getAllFinishedGames(getGamesOptions),
         getAuthorization()
       );

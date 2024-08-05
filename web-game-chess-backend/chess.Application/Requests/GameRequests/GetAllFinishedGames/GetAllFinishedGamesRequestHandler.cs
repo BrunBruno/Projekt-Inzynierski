@@ -4,7 +4,6 @@ using chess.Application.Repositories;
 using chess.Application.Services;
 using chess.Core.Dtos;
 using chess.Core.Enums;
-using chess.Shared.Exceptions;
 using MediatR;
 using Microsoft.IdentityModel.Tokens;
 
@@ -25,12 +24,10 @@ public class GetAllFinishedGamesRequestHandler : IRequestHandler<GetAllFinishedG
 
         var userId = _userContextService.GetUserId();
 
-        var players = await _playerRepository.GetAllForUser(userId) 
-            ?? throw new NotFoundException("Players not found.");
+        var players = await _playerRepository.GetAllForUser(userId);
 
         var finishedGames = new List<GetAllFinishedGamesDto>();
 
-        if(request.TimingTypeFilters == null) { }
 
         foreach(var player in players) {
 

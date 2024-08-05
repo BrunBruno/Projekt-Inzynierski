@@ -28,9 +28,7 @@ import { getErrMessage } from "../../../../shared/utils/functions/displayError";
 import { Guid } from "guid-typescript";
 import { useTimingType } from "../../../../shared/utils/hooks/useTimingType";
 
-type VsFriendSearchProps = {
-  // to set selected timing
-};
+type VsFriendSearchProps = {};
 
 function VsFriendSearch({}: VsFriendSearchProps) {
   ///
