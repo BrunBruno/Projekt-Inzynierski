@@ -9,6 +9,10 @@ using Microsoft.IdentityModel.Tokens;
 
 namespace chess.Application.Requests.GameRequests.GetAllFinishedGames;
 
+/// <summary>
+/// Gets all players for current user
+/// Creates amd return paged result of all previous games, based on user players
+/// </summary>
 public class GetAllFinishedGamesRequestHandler : IRequestHandler<GetAllFinishedGamesRequest, PagedResult<GetAllFinishedGamesDto>> {
 
     private readonly IUserContextService _userContextService;

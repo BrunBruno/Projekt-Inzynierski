@@ -1,7 +1,6 @@
 ﻿
 using chess.Application.Repositories;
 using chess.Core.Entities;
-using chess.Core.Enums;
 using chess.Infrastructure.Contexts;
 using Microsoft.EntityFrameworkCore;
 

@@ -52,6 +52,7 @@ public class GetOtherUserTests : IClassFixture<TestWebApplicationFactory<Program
     public async Task GetOtherUser_Returns_NotFound_On_Fail() {
 
         await _dbContext.Init();
+        // user not added
 
 
         var response = await _client.GetAsync($"api/user/other?userId={Guid.Parse(Constants.UserId)}");

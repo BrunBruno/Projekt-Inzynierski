@@ -76,7 +76,7 @@ public class RespondToFriendRequestTests : IClassFixture<TestWebApplicationFacto
 
         await _dbContext.Init();
         await _dbContext.AddUsers(friendId);
-        await _dbContext.AddFriendship(friendshipId, userId, friendId, FriendshipStatus.Pending);
+        await _dbContext.AddFriendship(friendshipId, userId, friendId, FriendshipStatus.Pending); // user as requestor
 
         var model = new RespondToFriendRequestModel()
         {
@@ -102,6 +102,7 @@ public class RespondToFriendRequestTests : IClassFixture<TestWebApplicationFacto
 
         await _dbContext.Init();
         await _dbContext.AddUsers(Guid.NewGuid());
+        // friendship not added
 
         var model = new RespondToFriendRequestModel()
         {
@@ -141,6 +142,7 @@ public class RespondToFriendRequestTests : IClassFixture<TestWebApplicationFacto
         var httpContent = new StringContent(json, Encoding.UTF8, "application/json");
 
 
+        // friendship not owned
         var response = await _client.PutAsync($"api/friendship/{friendshipId}/respond", httpContent);
 
 

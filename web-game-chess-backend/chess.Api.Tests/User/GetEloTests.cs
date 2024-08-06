@@ -52,6 +52,7 @@ public class GetEloTests : IClassFixture<TestWebApplicationFactory<Program>> {
     public async Task GetElo_Should_Return_NotFound_On_Fail() {
 
         await _dbContext.Init();
+        // user not added
         await _dbContext.AddEloForUser();
 
 

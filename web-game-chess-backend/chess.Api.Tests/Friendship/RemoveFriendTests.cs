@@ -63,6 +63,7 @@ public class RemoveFriendTests : IClassFixture<TestWebApplicationFactory<Program
 
         await _dbContext.Init();
         await _dbContext.AddUsers(friendId);
+        // friendship not added
 
 
         var response = await _client.DeleteAsync($"api/friendship/{Guid.NewGuid()}");
@@ -86,6 +87,7 @@ public class RemoveFriendTests : IClassFixture<TestWebApplicationFactory<Program
         await _dbContext.AddFriendship(friendshipId, friendId, Guid.NewGuid(), FriendshipStatus.Accepted);
 
 
+        // not owned relationship
         var response = await _client.DeleteAsync($"api/friendship/{friendshipId}");
 
 

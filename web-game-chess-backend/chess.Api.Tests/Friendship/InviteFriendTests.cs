@@ -73,7 +73,7 @@ public class InviteFriendTests : IClassFixture<TestWebApplicationFactory<Program
 
         var model = new InviteFriendModel()
         {
-            ReceiverId = Guid.Parse(Constants.UserId),
+            ReceiverId = Guid.Parse(Constants.UserId), // user id as reciver id
         };
 
         var json = JsonConvert.SerializeObject(model);
@@ -97,7 +97,7 @@ public class InviteFriendTests : IClassFixture<TestWebApplicationFactory<Program
 
         var model = new InviteFriendModel()
         {
-            ReceiverId = Guid.NewGuid(),
+            ReceiverId = Guid.NewGuid(), // not existsing user
         };
 
         var json = JsonConvert.SerializeObject(model);

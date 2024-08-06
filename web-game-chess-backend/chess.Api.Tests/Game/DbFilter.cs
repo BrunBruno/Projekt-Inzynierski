@@ -4,12 +4,17 @@ using chess.Core.Entities;
 using chess.Core.Enums;
 using chess.Infrastructure.Contexts;
 using Microsoft.EntityFrameworkCore;
-using System.Drawing;
 
 namespace chess.Api.Tests.Game;
 
 internal static partial class DbFilter {
 
+    /// <summary>
+    /// To create provided game timing
+    /// </summary>
+    /// <param name="dbContext"></param>
+    /// <param name="timingType"></param>
+    /// <returns> GameTiming id </returns>
     internal static async Task<Guid> CreateTiming(this ChessAppDbContext dbContext, TimingType timingType) {
 
         Guid timingId = Guid.NewGuid();
@@ -28,6 +33,14 @@ internal static partial class DbFilter {
         return timingId;
     }
 
+
+    /// <summary>
+    /// To create player
+    /// </summary>
+    /// <param name="dbContext"></param>
+    /// <param name="userId"></param>
+    /// <param name="username"></param>
+    /// <returns> Player id </returns>
     internal static async Task<Guid> AddPlayer(this ChessAppDbContext dbContext, Guid userId, string username) {
 
         Guid playerId = Guid.NewGuid();
@@ -45,6 +58,15 @@ internal static partial class DbFilter {
         return playerId;
     }
 
+
+    /// <summary>
+    /// To create game
+    /// </summary>
+    /// <param name="dbContext"></param>
+    /// <param name="whitePlayerId"></param>
+    /// <param name="blackPlayerId"></param>
+    /// <param name="timingId"></param>
+    /// <returns> Game id </returns>
     internal static async Task<Guid> AddGame(this ChessAppDbContext dbContext, Guid whitePlayerId, Guid blackPlayerId, Guid timingId) {
 
         Guid gameId = Guid.NewGuid();
@@ -70,6 +92,16 @@ internal static partial class DbFilter {
         return gameId;
     }
 
+
+    /// <summary>
+    /// To set values of player to be included in game
+    /// </summary>
+    /// <param name="dbContext"></param>
+    /// <param name="playerId"></param>
+    /// <param name="gameId"></param>
+    /// <param name="color"></param>
+    /// <returns></returns>
+    /// <exception cref="InvalidOperationException"></exception>
     internal static async Task AddPlayerToGame(this ChessAppDbContext dbContext, Guid playerId, Guid gameId, Colors color) {
 
         var player = await dbContext.Players.FirstOrDefaultAsync(p => p.Id == playerId)
@@ -83,6 +115,14 @@ internal static partial class DbFilter {
         await dbContext.SaveChangesAsync();
     }
 
+
+    /// <summary>
+    /// To exclude player from game
+    /// </summary>
+    /// <param name="dbContext"></param>
+    /// <param name="playerId"></param>
+    /// <returns></returns>
+    /// <exception cref="InvalidOperationException"></exception>
     internal static async Task ChangePlayerToNotPlaying(this ChessAppDbContext dbContext, Guid playerId) {
 
 
@@ -96,6 +136,14 @@ internal static partial class DbFilter {
         await dbContext.SaveChangesAsync();
     }
 
+
+    /// <summary>
+    /// To set params of game to be active
+    /// </summary>
+    /// <param name="dbContext"></param>
+    /// <param name="gameId"></param>
+    /// <returns></returns>
+    /// <exception cref="InvalidOperationException"></exception>
     internal static async Task StartGame(this ChessAppDbContext dbContext, Guid gameId) {
 
         var game = await dbContext.Games.FirstOrDefaultAsync(g => g.Id == gameId)
@@ -109,6 +157,15 @@ internal static partial class DbFilter {
         await dbContext.SaveChangesAsync();
     }
 
+
+    /// <summary>
+    /// To set params of game to be finished
+    /// </summary>
+    /// <param name="dbContext"></param>
+    /// <param name="gameId"></param>
+    /// <param name="winner"></param>
+    /// <returns></returns>
+    /// <exception cref="InvalidOperationException"></exception>
     internal static async Task EndGame(this ChessAppDbContext dbContext, Guid gameId, Colors winner) {
 
         var game = await dbContext.Games.FirstOrDefaultAsync(g => g.Id == gameId)
@@ -121,9 +178,17 @@ internal static partial class DbFilter {
         await dbContext.SaveChangesAsync();
     }
 
-    internal static async Task AddFinishedGames(this ChessAppDbContext dbContext) {
 
-        var blitzTiming = new GameTiming()
+    /// <summary>
+    /// To add many games, player, timings and invitations
+    /// </summary>
+    /// <param name="dbContext"></param>
+    /// <param name="isFinished"></param>
+    /// <param name="withInvitation"></param>
+    /// <returns></returns>
+    internal static async Task AddGames(this ChessAppDbContext dbContext, bool isFinished, bool withInvitation) {
+
+        var bulletTiming = new GameTiming()
         {
             Id = Guid.NewGuid(),
             Type = TimingTypes.Bullet,
@@ -142,39 +207,49 @@ internal static partial class DbFilter {
 
         var games = new List<Core.Entities.Game>();
         var players = new List<Player>();
+        var invitations = new List<Invitation>();
 
-        for(int i = 0; i < 100; i++) {
+        int userPlayerBulletElo = 1000;
+        int enemyPlayerBulletElo = 1000;
+        int userPlayerRapidElo = 1000;
+        int enemyPlayerRapidElo = 1000;
 
-            var userPlayer = new Player() { 
+        for (int i = 0; i < 100; i++) {
+
+            var userPlayer = new Player() {
                 Id = Guid.NewGuid(),
                 Name = Constants.Username,
+                Elo = i >= 50 ? userPlayerRapidElo : userPlayerBulletElo,
                 Color = i % 2 == 0 ? Colors.White : Colors.Black,
                 IsPlaying = true,
-                FinishedGame = true,
+                FinishedGame = isFinished,
                 UserId = Guid.Parse(Constants.UserId),
             };
+
             var enemyPlayer = new Player()
             {
                 Id = Guid.NewGuid(),
                 Name = "Enemy",
+                Elo = i >= 50 ? enemyPlayerRapidElo : enemyPlayerBulletElo,
                 Color = i % 2 == 0 ? Colors.Black : Colors.White,
                 IsPlaying = true,
-                FinishedGame = true,
+                FinishedGame = isFinished,
                 UserId = Guid.NewGuid(),
             };
 
-          var game = new Core.Entities.Game() {
+            var game = new Core.Entities.Game() {
 
                 Id = Guid.NewGuid(),
-                HasEnded = true,
+                HasEnded = isFinished,
+                CreatedAt = DateTime.UtcNow,
 
                 WhitePlayerId = i % 2 == 0 ? userPlayer.Id : enemyPlayer.Id,
                 WhitePlayer = i % 2 == 0 ? userPlayer : enemyPlayer,
                 BlackPlayerId = i % 2 == 0 ? enemyPlayer.Id : userPlayer.Id,
                 BlackPlayer = i % 2 == 0 ? enemyPlayer : userPlayer,
 
-                TimingType = i >= 50 ? TimingTypes.Rapid : TimingTypes.Blitz,
-                GameTimingId = i >= 50 ? rapidTiming.Id : blitzTiming.Id,
+                TimingType = i >= 50 ? TimingTypes.Rapid : TimingTypes.Bullet,
+                GameTimingId = i >= 50 ? rapidTiming.Id : bulletTiming.Id,
 
                 EndGameType = i % 5 == 0 ? EndGameTypes.CheckMate : EndGameTypes.Resignation,
                 WinnerColor = i % 4 == 0 ? Colors.White : Colors.Black,
@@ -186,17 +261,40 @@ internal static partial class DbFilter {
             userPlayer.GameId = game.Id;
             enemyPlayer.GameId = game.Id;
 
+            if (withInvitation) {
+                invitations.Add(new Invitation() {
+                    Id = Guid.NewGuid(),
+                    InvitorId = i % 2 == 0 ? userPlayer.UserId : enemyPlayer.UserId,
+                    InvitorName = i % 2 == 0 ? userPlayer.Name : enemyPlayer.Name,
+                    InviteeId = i % 2 == 0 ? enemyPlayer.UserId : userPlayer.UserId,
+                    InviteeName = i % 2 == 0 ? enemyPlayer.Name : userPlayer.Name,
+                    GameId = game.Id,
+                    Type = i >= 50 ? TimingTypes.Rapid : TimingTypes.Bullet,
+                });
+            }
+
+            if(game.TimingType == TimingTypes.Bullet) {
+
+                userPlayerBulletElo = userPlayer.Color == game.WinnerColor ? userPlayerBulletElo + 10 : userPlayerBulletElo - 10;
+                enemyPlayerBulletElo = enemyPlayer.Color == game.WinnerColor ? enemyPlayerBulletElo + 10 : enemyPlayerBulletElo - 10;
+            }
+
+            if(game.TimingType == TimingTypes.Rapid) {
+
+                userPlayerRapidElo = userPlayer.Color == game.WinnerColor ? userPlayerRapidElo + 10 : userPlayerRapidElo - 10;
+                enemyPlayerRapidElo = enemyPlayer.Color == game.WinnerColor ? enemyPlayerRapidElo + 10 : enemyPlayerRapidElo - 10;
+            }
+
+
+
             games.Add(game);
             players.Add(userPlayer);
             players.Add(enemyPlayer);
         }
 
+        await dbContext.Invitations.AddRangeAsync(invitations);
         await dbContext.Players.AddRangeAsync(players);
         await dbContext.Games.AddRangeAsync(games);
         await dbContext.SaveChangesAsync();
-    }
-
-    internal static async Task AddInvitations(this ChessAppDbContext dbContext) {
-
     }
 }

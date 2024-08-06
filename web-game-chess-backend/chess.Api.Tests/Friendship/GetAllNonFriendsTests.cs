@@ -36,8 +36,11 @@ public class GetAllNonFriendsTests : IClassFixture<TestWebApplicationFactory<Pro
         await _dbContext.AddUser();
         await _dbContext.AddUsersAndFreindships();
 
+
+        // request without and with name filtering
         var respionse = await _client.GetAsync("api/friendship/all-non-friends?pageNumber=1&pageSize=20");
         var responseWithName = await _client.GetAsync("api/friendship/all-non-friends?pageNumber=1&pageSize=20&Username=friend");
+
 
         respionse.StatusCode.Should().Be(HttpStatusCode.OK);
         var result = JsonConvert.DeserializeObject<PagedResult<GetAllNonFriendsDto>>(await respionse.Content.ReadAsStringAsync());

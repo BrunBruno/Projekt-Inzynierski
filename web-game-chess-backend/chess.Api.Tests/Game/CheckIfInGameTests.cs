@@ -46,6 +46,7 @@ public class CheckIfInGameTests : IClassFixture<TestWebApplicationFactory<Progra
         var otherPlayerId = await _dbContext.AddPlayer(Guid.NewGuid(), "OtherUser");
 
 
+        // player that is not in game
         var response_false = await _client.GetAsync($"api/game/check-if-in-game?playerId={userPlayerId}");
 
 
@@ -61,6 +62,7 @@ public class CheckIfInGameTests : IClassFixture<TestWebApplicationFactory<Progra
         await _dbContext.AddPlayerToGame(otherPlayerId, gameId, Colors.Black);
 
 
+        // player that is in game
         var response_true = await _client.GetAsync($"api/game/check-if-in-game?playerId={userPlayerId}");
 
 

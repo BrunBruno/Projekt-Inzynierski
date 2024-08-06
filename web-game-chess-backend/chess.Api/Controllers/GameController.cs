@@ -40,7 +40,7 @@ public class GameController : ControllerBase {
     /// Creates game timing if not exist
     /// </summary>
     /// <param name="model"></param>
-    /// <returns></returns>
+    /// <returns> Essential for game creation </returns>
     [HttpPost("search")]
     [Authorize(Policy = "IsVerified")]
     public async Task<IActionResult> StartSearch([FromBody] SearchGameModel model) {
@@ -58,7 +58,7 @@ public class GameController : ControllerBase {
     /// Return created game id
     /// </summary>
     /// <param name="model"></param>
-    /// <returns></returns>
+    /// <returns> Essential for game creation </returns>
     [HttpPost("private")]
     [Authorize(Policy = "IsVerified")]
     public async Task<IActionResult> CreatePrivateGame([FromBody] CreatePrivateGameModel model) {
@@ -76,7 +76,7 @@ public class GameController : ControllerBase {
     /// Return created game id
     /// </summary>
     /// <param name="model"></param>
-    /// <returns></returns>
+    /// <returns> Essential for game creation </returns>
     [HttpPost("by-email")]
     [Authorize(Policy = "IsVerified")]
     public async Task<IActionResult> CreateGameByEmail([FromBody] CreateGameByEmailModel model) {
@@ -93,7 +93,7 @@ public class GameController : ControllerBase {
     /// Creates new game for two same users taht has already played one game
     /// </summary>
     /// <param name="model"></param>
-    /// <returns></returns>
+    /// <returns> Essential for game creation </returns>
     [HttpPost("rematch")]
     [Authorize(Policy = "IsVerified")]
     public async Task<IActionResult> CreateRematchGame([FromBody] CreateRematchGameModel model) {
@@ -110,7 +110,7 @@ public class GameController : ControllerBase {
     /// Check if player was matched and the game has started
     /// </summary>
     /// <param name="model"></param>
-    /// <returns></returns>
+    /// <returns> bool value </returns>
     [HttpGet("check-if-in-game")]
     [Authorize(Policy = "IsVerified")]
     public async Task<IActionResult> CheckIfInGame([FromQuery] CheckIfInGameModel model) {
@@ -127,7 +127,7 @@ public class GameController : ControllerBase {
     /// Gets all data for one game
     /// </summary>
     /// <param name="gameId"></param>
-    /// <returns></returns>
+    /// <returns> Game </returns>
     [HttpGet("{gameId}")]
     [Authorize(Policy = "IsVerified")]
     public async Task<IActionResult> GetGame([FromRoute] Guid gameId) {
@@ -147,7 +147,7 @@ public class GameController : ControllerBase {
     /// Gets all data of player
     /// </summary>
     /// <param name="gameId"></param>
-    /// <returns></returns>
+    /// <returns> Player </returns>
     [HttpGet("{gameId}/player")]
     [Authorize(Policy = "IsVerified")]
     public async Task<IActionResult> GetPlayer([FromRoute] Guid gameId) {
@@ -167,7 +167,7 @@ public class GameController : ControllerBase {
     /// Gets time left for user
     /// </summary>
     /// <param name="gameId"></param>
-    /// <returns></returns>
+    /// <returns> Players time left </returns>
     [HttpGet("{gameId}/time")]
     [Authorize(Policy = "IsVerified")]
     public async Task<IActionResult> FetchTime([FromRoute] Guid gameId) {
@@ -187,7 +187,7 @@ public class GameController : ControllerBase {
     /// Gets opponent data from previous game
     /// </summary>
     /// <param name="gameId"></param>
-    /// <returns></returns>
+    /// <returns> Player </returns>
     [HttpGet("{gameId}/opponent")]
     [Authorize(Policy = "IsVerified")]
     public async Task<IActionResult> GetOpponent([FromRoute] Guid gameId) {
@@ -207,7 +207,7 @@ public class GameController : ControllerBase {
     /// Gets ended game info
     /// </summary>
     /// <param name="gameId"></param>
-    /// <returns></returns>
+    /// <returns> Game </returns>
     [HttpGet("{gameId}/ended")]
     [Authorize(Policy = "IsVerified")]
     public async Task<IActionResult> GetEndedGame([FromRoute] Guid gameId) {
@@ -227,7 +227,7 @@ public class GameController : ControllerBase {
     /// Gets game timing type and configuration
     /// </summary>
     /// <param name="gameId"></param>
-    /// <returns></returns>
+    /// <returns> Game timing </returns>
     [HttpGet("{gameId}/timing")]
     [Authorize(Policy = "IsVerified")]
     public async Task<IActionResult> GetGameTiming(Guid gameId) {
@@ -247,7 +247,7 @@ public class GameController : ControllerBase {
     /// Gets all finished games for user
     /// </summary>
     /// <param name="model"></param>
-    /// <returns></returns>
+    /// <returns>  Page result of games </returns>
     [HttpGet("all-finished")]
     [Authorize(Policy = "IsVerified")]
     public async Task<IActionResult> GetAllFinishedGames([FromQuery] GetAllFinishedGamesModel model) {
@@ -264,7 +264,7 @@ public class GameController : ControllerBase {
     /// Get all previous games for choosen timing type
     /// </summary>
     /// <param name="model"></param>
-    /// <returns></returns>
+    /// <returns> Page result of games </returns>
     [HttpGet("type-history")]
     [Authorize(Policy = "IsVerified")]
     public async Task<IActionResult> GetTypeHitory([FromQuery] GetTypeHistoryModel model) {
@@ -281,7 +281,7 @@ public class GameController : ControllerBase {
     /// Gets all previous inivations, taht were untouched
     /// </summary>
     /// <param name="model"></param>
-    /// <returns></returns>
+    /// <returns> Paged result of invitations </returns>
     [HttpGet("invitations")]
     [Authorize(Policy = "IsVerified")]
     public async Task<IActionResult> GetAllInvitations([FromQuery] GetAllInvitationsModel model) {

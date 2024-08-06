@@ -36,9 +36,10 @@ public class GetAllFinishedGamesTests : IClassFixture<TestWebApplicationFactory<
         await _dbContext.Init();
         await _dbContext.AddUser();
 
-        await _dbContext.AddFinishedGames();
+        await _dbContext.AddGames(true, false);
 
 
+        // without filters
         var responseFull1 = await _client.GetAsync($"api/game/all-finished?pageNumber=1&pageSize=20");
         var responseFull2 = await _client.GetAsync($"api/game/all-finished?pageNumber=1&pageSize=40");
         var responseFull3 = await _client.GetAsync($"api/game/all-finished?pageNumber=2&pageSize=20");
@@ -60,8 +61,9 @@ public class GetAllFinishedGamesTests : IClassFixture<TestWebApplicationFactory<
         resultFull3.Items.Count.Should().Be(20);
 
 
+        // type filters
         var responseWithTiming1 = await _client.GetAsync($"api/game/all-finished?pageNumber=1&pageSize=100&timingTypeFilters={ TimingTypes.Rapid }");
-        var responseWithTiming2 = await _client.GetAsync($"api/game/all-finished?pageNumber=1&pageSize=100&timingTypeFilters={ TimingTypes.Rapid },{ TimingTypes.Daily }");
+        var responseWithTiming2 = await _client.GetAsync($"api/game/all-finished?pageNumber=1&pageSize=100&timingTypeFilters={ TimingTypes.Rapid }&timingTypeFilters={ TimingTypes.Rapid }");
 
         responseWithTiming1.StatusCode.Should().Be(HttpStatusCode.OK);
         var resultWithTiming1 = JsonConvert.DeserializeObject<PagedResult<GetAllFinishedGamesDto>>(await responseWithTiming1.Content.ReadAsStringAsync());
@@ -73,8 +75,10 @@ public class GetAllFinishedGamesTests : IClassFixture<TestWebApplicationFactory<
 
         resultWithTiming2.Items.Count.Should().Be(50);
 
+
+        // result filters
         var responseWithResult1 = await _client.GetAsync($"api/game/all-finished?pageNumber=1&pageSize=100&resultFilters=true");
-        var responseWithResult2 = await _client.GetAsync($"api/game/all-finished?pageNumber=1&pageSize=100&resultFilters=true,false");
+        var responseWithResult2 = await _client.GetAsync($"api/game/all-finished?pageNumber=1&pageSize=100&resultFilters=true&resultFilters=false");
 
 
         responseWithResult1.StatusCode.Should().Be(HttpStatusCode.OK);
@@ -87,5 +91,14 @@ public class GetAllFinishedGamesTests : IClassFixture<TestWebApplicationFactory<
         var resultWithResult2 = JsonConvert.DeserializeObject<PagedResult<GetAllFinishedGamesDto>>(await responseWithResult2.Content.ReadAsStringAsync());
 
         resultWithResult2.Items.Count.Should().Be(100);
+
+
+        // all finters
+        var responseWithFilter = await _client.GetAsync($"api/game/all-finished?pageNumber=1&pageSize=100&timingTypeFilters={ TimingTypes.Rapid }&resultFilters=true");
+
+        responseWithFilter.StatusCode.Should().Be(HttpStatusCode.OK);
+        var resultWithFilters = JsonConvert.DeserializeObject<PagedResult<GetAllFinishedGamesDto>>(await responseWithFilter.Content.ReadAsStringAsync());
+
+        resultWithFilters.Items.Count.Should().Be(37);
     }
 }

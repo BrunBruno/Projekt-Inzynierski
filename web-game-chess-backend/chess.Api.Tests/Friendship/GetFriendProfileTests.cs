@@ -60,7 +60,7 @@ public class GetFriendProfileTests : IClassFixture<TestWebApplicationFactory<Pro
 
         await _dbContext.Init();
         await _dbContext.AddUsers(friendId);
-        await _dbContext.AddFriendship(friendshipId, Guid.Parse(Constants.UserId), friendId, FriendshipStatus.Rejected);
+        await _dbContext.AddFriendship(friendshipId, Guid.Parse(Constants.UserId), friendId, FriendshipStatus.Rejected); // rejected
 
         var response = await _client.GetAsync($"api/friendship/{friendshipId}");
 
@@ -81,7 +81,10 @@ public class GetFriendProfileTests : IClassFixture<TestWebApplicationFactory<Pro
         await _dbContext.AddUsers(friendId);
         await _dbContext.AddFriendship(friendshipId, Guid.Parse(Constants.UserId), friendId, FriendshipStatus.Accepted);
 
+
+        // non existing friendship id
         var response = await _client.GetAsync($"api/friendship/{Guid.NewGuid()}");
+
 
         response.StatusCode.Should().Be(HttpStatusCode.NotFound);
     }
@@ -100,7 +103,10 @@ public class GetFriendProfileTests : IClassFixture<TestWebApplicationFactory<Pro
         await _dbContext.AddUsers(friendId);
         await _dbContext.AddFriendship(friendshipId, Guid.NewGuid(), friendId, FriendshipStatus.Accepted);
 
+
+        // not owned friendship
         var response = await _client.GetAsync($"api/friendship/{friendshipId}");
+
 
         response.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
     }

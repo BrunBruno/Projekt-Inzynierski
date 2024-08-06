@@ -8,6 +8,12 @@ using MediatR;
 
 namespace chess.Application.Requests.GameRequests.GetTypeHistory;
 
+/// <summary>
+/// Checks if user exists
+/// Checks if players for user exosts
+/// Creates hstory of games for selected and provided game timing type
+/// Returns type history
+/// </summary>
 public class GetTypeHistoryRequestHandler : IRequestHandler<GetTypeHistoryRequest, PagedResult<GetTypeHistoryDto>> {
 
     private readonly IUserContextService _userContextService;
@@ -53,7 +59,6 @@ public class GetTypeHistoryRequestHandler : IRequestHandler<GetTypeHistoryReques
                 };
 
                 typeHistory.Add(typeHistoryDto);
-
             }
 
             if (player.BlackGame != null && player.BlackGame.TimingType == request.Type) {
@@ -71,8 +76,6 @@ public class GetTypeHistoryRequestHandler : IRequestHandler<GetTypeHistoryReques
                 };
 
                 typeHistory.Add(typeHistoryDto);
-
-
             }
 
         }

@@ -69,7 +69,7 @@ public class LogInTests : IClassFixture<TestWebApplicationFactory<Program>> {
         var model = new LogInUserModel()
         {
             EmailOrUsername = userEmail,
-            Password = "Password",
+            Password = "Password", // incorrect (string)
         };
 
         var json = JsonConvert.SerializeObject(model);

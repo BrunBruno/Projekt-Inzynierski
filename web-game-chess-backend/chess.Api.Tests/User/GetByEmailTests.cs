@@ -53,6 +53,7 @@ public class GetByEmailTests : IClassFixture<TestWebApplicationFactory<Program>>
     public async Task GetByEmail_Should_Return_NotFound_On_Fail() {
 
         await _dbContext.Init();
+        // user not added
 
         string email = "test@test.com";
 
@@ -74,6 +75,7 @@ public class GetByEmailTests : IClassFixture<TestWebApplicationFactory<Program>>
         await _dbContext.AddUser();
 
 
+        // incorrect email
         var response = await _client.GetAsync($"api/user/by-email?email={null}");
 
 
