@@ -18,7 +18,10 @@ public class GetAllFinishedGamesRequestHandler : IRequestHandler<GetAllFinishedG
     private readonly IUserContextService _userContextService;
     private readonly IPlayerRepository _playerRepository;
 
-    public GetAllFinishedGamesRequestHandler(IUserContextService userContextService, IPlayerRepository playerRepository) {
+    public GetAllFinishedGamesRequestHandler(
+        IUserContextService userContextService,
+        IPlayerRepository playerRepository
+    ) {
         _userContextService = userContextService;
         _playerRepository = playerRepository;
     }

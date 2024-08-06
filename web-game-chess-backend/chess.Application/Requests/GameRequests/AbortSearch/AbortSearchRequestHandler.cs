@@ -17,7 +17,10 @@ public class AbortSearchRequestHandler : IRequestHandler<AbortSearchRequest> {
     private readonly IPlayerRepository _playerRepository;
     private readonly IUserContextService _userContextService;
 
-    public AbortSearchRequestHandler(IPlayerRepository playerRepository, IUserContextService userContextService) {
+    public AbortSearchRequestHandler(
+        IPlayerRepository playerRepository,
+        IUserContextService userContextService
+    ) {
         _playerRepository = playerRepository;
         _userContextService = userContextService;
     }

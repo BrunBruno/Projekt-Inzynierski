@@ -15,7 +15,10 @@ public class GetFullUserRequestHandler : IRequestHandler<GetFullUserRequest, Get
     private readonly IUserContextService _userContextService;
     private readonly IUserRepository _userRepository;
 
-    public GetFullUserRequestHandler(IUserContextService userContextService, IUserRepository userRepository) {
+    public GetFullUserRequestHandler(
+        IUserContextService userContextService,
+        IUserRepository userRepository
+    ) {
         _userContextService = userContextService;
         _userRepository = userRepository;
     }

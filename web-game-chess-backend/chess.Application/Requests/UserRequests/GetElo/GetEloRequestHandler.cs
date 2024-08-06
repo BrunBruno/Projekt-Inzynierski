@@ -15,7 +15,10 @@ public class GetEloRequestHandler : IRequestHandler<GetEloRequest, GetEloDto> {
     private readonly IUserContextService _userContextService;
     private readonly IUserRepository _userRepository;
 
-    public GetEloRequestHandler(IUserContextService userContextService, IUserRepository userRepository) {
+    public GetEloRequestHandler(
+        IUserContextService userContextService,
+        IUserRepository userRepository
+    ) {
         _userContextService = userContextService;
         _userRepository = userRepository;
     }

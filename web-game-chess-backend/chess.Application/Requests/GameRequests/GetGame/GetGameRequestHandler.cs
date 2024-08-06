@@ -18,7 +18,10 @@ public class GetGameRequestHandler : IRequestHandler<GetGameRequest, GetGameDto>
     private readonly IGameRepository _gameRepository;
     private readonly IUserContextService _userContextService;
 
-    public GetGameRequestHandler(IGameRepository gameRepository, IUserContextService userContextService) {
+    public GetGameRequestHandler(
+        IGameRepository gameRepository,
+        IUserContextService userContextService
+    ) {
         _gameRepository = gameRepository;
         _userContextService = userContextService;
     }

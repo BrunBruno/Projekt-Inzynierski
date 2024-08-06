@@ -1,5 +1,5 @@
 ﻿
-using chess.Application.Requests.UserRequests.CheckIfEmailExists;
+using chess.Application.Requests.UserRequests.GetByEmail;
 using chess.Infrastructure.Contexts;
 using FluentAssertions;
 using Microsoft.Extensions.DependencyInjection;

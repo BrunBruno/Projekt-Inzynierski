@@ -1,7 +1,7 @@
 ﻿
 using MediatR;
 
-namespace chess.Application.Requests.UserRequests.CheckIfEmailExists;
+namespace chess.Application.Requests.UserRequests.GetByEmail;
 
 /// <summary>
 /// Gets basic user data by previded email

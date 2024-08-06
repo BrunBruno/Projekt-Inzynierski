@@ -7,6 +7,11 @@ using MediatR;
 
 namespace chess.Application.Requests.GameRequests.StartGames;
 
+/// <summary>
+/// Checks if provided timing exists
+/// Gets all awaiting players
+/// Maches players and creates games for each mach
+/// </summary>
 public class StartGamesRequestHandler : IRequestHandler<StartGamesRequest> {
 
     private readonly IGameRepository _gameRepository;

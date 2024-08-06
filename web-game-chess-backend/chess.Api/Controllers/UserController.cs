@@ -1,7 +1,7 @@
 ﻿
 using AutoMapper;
 using chess.Api.Models.UserModels;
-using chess.Application.Requests.UserRequests.CheckIfEmailExists;
+using chess.Application.Requests.UserRequests.GetByEmail;
 using chess.Application.Requests.UserRequests.GetElo;
 using chess.Application.Requests.UserRequests.GetFullUser;
 using chess.Application.Requests.UserRequests.GetOtherUser;

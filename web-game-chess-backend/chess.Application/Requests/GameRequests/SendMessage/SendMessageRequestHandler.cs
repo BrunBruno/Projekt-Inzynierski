@@ -5,6 +5,9 @@ using MediatR;
 
 namespace chess.Application.Requests.GameRequests.SendMessage;
 
+/// <summary>
+/// Creates new message
+/// </summary>
 public class SendMessageRequestHandler : IRequestHandler<SendMessageRequest> {
 
     private readonly IMessageRepository _messageRepository;
@@ -14,6 +17,8 @@ public class SendMessageRequestHandler : IRequestHandler<SendMessageRequest> {
     }
 
     public async Task Handle(SendMessageRequest request, CancellationToken cancellationToken) {
+
+        throw new NotImplementedException();
 
         var message = new Message()
         {

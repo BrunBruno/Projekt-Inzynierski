@@ -1,5 +1,5 @@
 ﻿
-namespace chess.Application.Requests.UserRequests.CheckIfEmailExists;
+namespace chess.Application.Requests.UserRequests.GetByEmail;
 
 /// <summary>
 /// Basic user dto

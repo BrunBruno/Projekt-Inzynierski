@@ -7,6 +7,14 @@ using MediatR;
 
 namespace chess.Application.Requests.GameRequests.MakeMove;
 
+/// <summary>
+/// Checks if current game exists
+/// Checks if current user belongs to game
+/// Checks if game is still ongoing
+/// Checks if game was started properly
+/// Sets all states of the game
+/// Creates new move
+/// </summary>
 public class MakeMoveRequestHandler : IRequestHandler<MakeMoveRequest> {
 
     private readonly IGameRepository _gameRepository;

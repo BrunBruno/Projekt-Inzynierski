@@ -3,7 +3,7 @@ using chess.Application.Repositories;
 using chess.Shared.Exceptions;
 using MediatR;
 
-namespace chess.Application.Requests.UserRequests.CheckIfEmailExists;
+namespace chess.Application.Requests.UserRequests.GetByEmail;
 
 /// <summary>
 /// Check if provided email is correct

@@ -8,6 +8,14 @@ using MediatR;
 
 namespace chess.Application.Requests.GameRequests.EndGame;
 
+/// <summary>
+/// Checks if game with provided id exists
+/// Checks if current user was a participant of the game
+/// If game has been ginished returns end game dto
+/// Gets both players
+/// Sets all parameters for users (stats and elo points) and games according to result of the game
+/// Returns end game dto
+/// </summary>
 public class EndGameRequestHandler : IRequestHandler<EndGameRequest, EndGameDto> {
 
     private readonly IGameRepository _gameRepository;
@@ -189,6 +197,5 @@ public class EndGameRequestHandler : IRequestHandler<EndGameRequest, EndGameDto>
         };
 
         return endGameDto;
-
     }
 }

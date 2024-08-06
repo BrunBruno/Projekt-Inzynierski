@@ -18,7 +18,10 @@ public class RespondToFriendRequestRequestHadnler : IRequestHandler<RespondToFri
     private readonly IFriendshipRepository _friendshipRepository;
     private readonly IUserContextService _userContextService;   
 
-    public RespondToFriendRequestRequestHadnler(IFriendshipRepository friendshipRepository, IUserContextService userContextService) {
+    public RespondToFriendRequestRequestHadnler(
+        IFriendshipRepository friendshipRepository,
+        IUserContextService userContextService
+    ) {
         _friendshipRepository = friendshipRepository;
         _userContextService = userContextService;
     }

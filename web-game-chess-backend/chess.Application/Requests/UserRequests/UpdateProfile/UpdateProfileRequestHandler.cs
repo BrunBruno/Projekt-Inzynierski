@@ -15,7 +15,10 @@ public class UpdateProfileRequestHandler : IRequestHandler<UpdateProfileRequest>
     private readonly IUserContextService _userContextService;
     private readonly IUserRepository _userRepository;
 
-    public UpdateProfileRequestHandler(IUserContextService userContextService, IUserRepository userRepository) {
+    public UpdateProfileRequestHandler(
+        IUserContextService userContextService,
+        IUserRepository userRepository
+    ) {
         _userContextService = userContextService;
         _userRepository = userRepository;
     }
