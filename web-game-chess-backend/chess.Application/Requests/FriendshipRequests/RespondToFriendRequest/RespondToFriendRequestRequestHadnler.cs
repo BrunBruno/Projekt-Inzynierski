@@ -13,12 +13,12 @@ namespace chess.Application.Requests.FriendshipRequests.RespondToFriendRequest;
 /// Checks if user owns friendship
 /// Updates friendship status basedon provided answer
 /// </summary>
-public class RespondToFriendRequestRequestHadnler : IRequestHandler<RespondToFriendRequestRequest> {
+public class RespondToFriendRequestRequestHandler : IRequestHandler<RespondToFriendRequestRequest> {
 
     private readonly IFriendshipRepository _friendshipRepository;
     private readonly IUserContextService _userContextService;   
 
-    public RespondToFriendRequestRequestHadnler(
+    public RespondToFriendRequestRequestHandler(
         IFriendshipRepository friendshipRepository,
         IUserContextService userContextService
     ) {

@@ -43,7 +43,7 @@ public class GetAllFriendsByStatusRequestHandler : IRequestHandler<GetAllFriends
             bool isRequestor = friendship.RequestorId == userId;
             var friendId = isRequestor ? friendship.ReceiverId : friendship.RequestorId;
 
-            var friend = await _userRepository.GetById(friendId);
+            var friend = await _userRepository.GetById(friendId); // ???
 
             if (friend is not null) {
                 if (request.Username is null || friend.Username.Contains(request.Username) ||

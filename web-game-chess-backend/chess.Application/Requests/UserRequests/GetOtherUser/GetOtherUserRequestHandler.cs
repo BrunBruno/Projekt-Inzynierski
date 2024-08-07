@@ -33,7 +33,7 @@ public class GetOtherUserRequestHandler : IRequestHandler<GetOtherUserRequest, G
             GamesPlayed = user.Stats.GamesPlayed,
         };
 
-        return userDto;
 
+        return userDto;
     }
 }

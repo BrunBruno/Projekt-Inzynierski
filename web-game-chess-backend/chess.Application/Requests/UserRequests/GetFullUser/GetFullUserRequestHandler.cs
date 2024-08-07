@@ -56,6 +56,7 @@ public class GetFullUserRequestHandler : IRequestHandler<GetFullUserRequest, Get
             LosesByResignation = user.Stats.LosesByResignation,
         };
 
+
         return userDto;
     }
 }
