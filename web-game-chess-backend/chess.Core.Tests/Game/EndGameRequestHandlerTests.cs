@@ -16,4 +16,9 @@ public class EndGameRequestHandlerTests {
         _mockIUserRepository = new Mock<IUserRepository>();
         _mockGameRepository = new Mock<IGameRepository>();
     }
+
+    [Fact]
+    public async Task Handle_Updates_Game_On_Success() {
+
+    }
 }

@@ -6,6 +6,12 @@ using MediatR;
 
 namespace chess.Application.Requests.GameRequests.AcceptInvitation;
 
+/// <summary>
+/// Checks if players for both users exists
+/// Checks if user is invitee
+/// Checks if invitation for game exists
+/// Updates players and invitation
+/// </summary>
 public class AcceptInvitationRequestHandler : IRequestHandler<AcceptInvitationRequest> {
 
     private readonly IPlayerRepository _playerRepository;
@@ -47,6 +53,5 @@ public class AcceptInvitationRequestHandler : IRequestHandler<AcceptInvitationRe
         await _playerRepository.Update(invitor);
         await _playerRepository.Update(invitee);
         await _invitationRepository.Update(invitation);
-
     }
 }

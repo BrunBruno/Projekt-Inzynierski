@@ -3,7 +3,6 @@ using chess.Application.Repositories;
 using chess.Application.Requests.FriendshipRequests.GetAllNonFriends;
 using chess.Application.Services;
 using chess.Core.Entities;
-using chess.Core.Enums;
 using FluentAssertions;
 using Moq;
 
@@ -14,7 +13,7 @@ public class GetAllNonFriendsRequestHandlerTests {
     private readonly Mock<IUserContextService> _mockUserContextService;
     private readonly Mock<IUserRepository> _mockUserRepository;
     private readonly Mock<IFriendshipRepository> _mockFriendshipRepository;
-    private static Random random = new Random();
+    private static readonly Random random = new();
 
     public GetAllNonFriendsRequestHandlerTests() {
         _mockUserContextService = new Mock<IUserContextService>();
@@ -37,7 +36,7 @@ public class GetAllNonFriendsRequestHandlerTests {
 
 
         _mockUserContextService.Setup(x => x.GetUserId()).Returns(userId);
-        _mockFriendshipRepository.Setup(x => x.GetAllFriendIds(userId)).ReturnsAsync(ids);
+        _mockFriendshipRepository.Setup(x => x.GetAllFriendIds(userId, null)).ReturnsAsync(ids);
         _mockUserRepository.Setup(x => x.GetAllNonFriends(ids, userId)).ReturnsAsync(users);
 
 
@@ -56,7 +55,7 @@ public class GetAllNonFriendsRequestHandlerTests {
         result.ItemsTo = 5;
 
         _mockUserContextService.Verify(x => x.GetUserId(), Times.Once);
-        _mockFriendshipRepository.Verify(x => x.GetAllFriendIds(userId), Times.Once);
+        _mockFriendshipRepository.Verify(x => x.GetAllFriendIds(userId, null), Times.Once);
         _mockUserRepository.Verify(x => x.GetAllNonFriends(ids, userId), Times.Once);
     }
 

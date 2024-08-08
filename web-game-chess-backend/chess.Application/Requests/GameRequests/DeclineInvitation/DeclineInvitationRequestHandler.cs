@@ -6,6 +6,12 @@ using MediatR;
 
 namespace chess.Application.Requests.GameRequests.DeclineInvitation;
 
+/// <summary>
+/// Checks if game for provided id exists
+/// Checks if user is participant of the game
+/// Checks if invitation for game exists
+/// Removes game invitation
+/// </summary>
 public class DeclineInvitationRequestHandler : IRequestHandler<DeclineInvitationRequest> {
 
     private readonly IUserContextService _userContextService;
@@ -30,12 +36,11 @@ public class DeclineInvitationRequestHandler : IRequestHandler<DeclineInvitation
             ?? throw new NotFoundException("Game not found.");
 
         if (game.WhitePlayer.UserId != userId && game.BlackPlayer.UserId != userId)
-            throw new BadRequestException("This is not user game");
+            throw new BadRequestException("This is not user game.");
 
         var invitation = await _invitationRepository.GetByGameId(request.GameId)
-             ?? throw new NotFoundException("invitation not found.");
+             ?? throw new NotFoundException("Invitation not found.");
 
         await _invitationRepository.Delete(invitation);
-
     }
 }

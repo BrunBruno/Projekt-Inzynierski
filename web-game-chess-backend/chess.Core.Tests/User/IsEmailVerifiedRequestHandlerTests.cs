@@ -48,9 +48,9 @@ public class IsEmailVerifiedRequestHandlerTests {
         var result = await handler.Handle(request, CancellationToken.None);
 
 
+        result.IsEmailVerified.Should().BeTrue();
         _mockUserContextService.Verify(x => x.GetUserId(), Times.Once);
         _mockUserRepository.Verify(x => x.GetById(exampleUser.Id), Times.Once);
-        result.IsEmailVerified.Should().BeTrue();
     }
 
     [Fact]

@@ -24,14 +24,14 @@ public class InviteFriendRequestHandlerTests {
     [Fact]
     public async Task Handle_Should_Create_Pending_Freindship_On_Success() {
 
+        var userId = Guid.NewGuid();
+
         var exampleFriend = new Entities.User()
         {
             Id = Guid.NewGuid(),
             Email = "friend@test.com",
             Username = "Friend",
         };
-
-        var userId = Guid.NewGuid();
 
         var request = new InviteFriendRequest()
         {

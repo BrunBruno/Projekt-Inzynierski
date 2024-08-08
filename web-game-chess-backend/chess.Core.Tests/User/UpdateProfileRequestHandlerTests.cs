@@ -21,18 +21,20 @@ public class UpdateProfileRequestHandlerTests {
     [Fact]
     public async Task Handle_Should_Update_User_On_Success() {
 
+        var userId = Guid.NewGuid();
+
         var request = new UpdateProfileRequest()
         {
             Name = "Name",
         };
 
-        var userId = Guid.NewGuid();
 
         _mockUserContextService.Setup(x => x.GetUserId()).Returns(userId);
         _mockUserRepository.Setup(x => x.GetById(userId)).ReturnsAsync(new Entities.User() { 
             Email = "test@test.com",
             Username = "Username",
         });
+
 
         var handler = new UpdateProfileRequestHandler(
             _mockUserContextService.Object,

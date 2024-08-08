@@ -22,7 +22,7 @@ public interface IFriendshipRepository {
     /// </summary>
     /// <param name="userId"></param>
     /// <returns></returns>
-    Task<List<Guid>> GetAllFriendIds(Guid userId);
+    Task<List<Guid>> GetAllFriendIds(Guid userId, FriendshipStatus? status = null);
 
     /// <summary>
     /// Get friendship with id

@@ -23,6 +23,14 @@ public class UserRepository : IUserRepository {
                     .ToListAsync();
 
     ///<inheritdoc/>
+    public async Task<List<User>> GetAllFriends(List<Guid> ids, Guid userId)
+        => await _dbContext.Users
+                    .Include(u => u.Elo)
+                    .Include(u => u.Stats)
+                    .Where(u => ids.Contains(u.Id) && u.IsVerified && u.Id != userId)
+                    .ToListAsync();
+
+    ///<inheritdoc/>
     public async Task<User?> GetById(Guid id)
         => await _dbContext.Users
                     .Include(u => u.Role)

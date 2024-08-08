@@ -6,7 +6,6 @@ using chess.Core.Entities;
 using chess.Core.Enums;
 using FluentAssertions;
 using Moq;
-using Xunit.Abstractions;
 
 namespace chess.Core.Tests.Friendship; 
 
@@ -15,7 +14,7 @@ public class GetAllFriendsByStatusRequestHandlerTests {
     private readonly Mock<IUserContextService> _mockUserContextService;
     private readonly Mock<IUserRepository> _mockUserRepository;
     private readonly Mock<IFriendshipRepository> _mockFriendshipRepository;
-    private static Random random = new Random();
+    private static readonly Random random = new();
 
     public GetAllFriendsByStatusRequestHandlerTests() {
         _mockUserContextService = new Mock<IUserContextService>();
@@ -28,6 +27,14 @@ public class GetAllFriendsByStatusRequestHandlerTests {
 
         var userId = Guid.NewGuid();
         var friendships = ReturnExampleFriendships(userId, FriendshipStatus.Accepted);
+        var friendsIds = friendships.Select(f => f.RequestorId == userId ? f.ReceiverId : f.RequestorId).ToList();
+        var friends = friendships.Select(f => new Entities.User() {
+            Id = f.RequestorId == userId ? f.ReceiverId : f.RequestorId,
+            Email = RandomString(5) + "@test.com",
+            Username = RandomString(5),
+            Elo = new Elo(),
+            Stats = new UserStats(),
+        }).ToList();
 
         var request = new GetAllFriendsByStatusRequest()
         {
@@ -39,16 +46,8 @@ public class GetAllFriendsByStatusRequestHandlerTests {
 
         _mockUserContextService.Setup(x => x.GetUserId()).Returns(userId);
         _mockFriendshipRepository.Setup(x => x.GetAllForUserByStatus(userId, FriendshipStatus.Accepted)).ReturnsAsync(friendships);
-        foreach(var friendship in friendships) {
-            _mockUserRepository.Setup(x => x.GetById(friendship.ReceiverId)).ReturnsAsync(new Entities.User()
-            {
-                Id = friendship.ReceiverId,
-                Email = RandomString(5) + "@test.com",
-                Username = RandomString(5),
-                Elo = new Elo(),
-                Stats = new UserStats(),
-            });
-        }
+        _mockFriendshipRepository.Setup(x => x.GetAllFriendIds(userId, FriendshipStatus.Accepted)).ReturnsAsync(friendsIds);
+        _mockUserRepository.Setup(x => x.GetAllFriends(friendsIds, userId)).ReturnsAsync(friends);
 
 
         var handler = new GetAllFriendsByStatusRequestHandler(
@@ -67,9 +66,8 @@ public class GetAllFriendsByStatusRequestHandlerTests {
 
         _mockUserContextService.Verify(x => x.GetUserId(), Times.Once);
         _mockFriendshipRepository.Verify(x => x.GetAllForUserByStatus(userId, FriendshipStatus.Accepted), Times.Once);
-        foreach (var friendship in friendships) {
-            _mockUserRepository.Verify(x => x.GetById(friendship.ReceiverId), Times.Once); 
-        }
+        _mockFriendshipRepository.Verify(x => x.GetAllFriendIds(userId, FriendshipStatus.Accepted), Times.Once);
+        _mockUserRepository.Verify(x => x.GetAllFriends(friendsIds, userId), Times.Once);
     }
 
     private List<Entities.Friendship> ReturnExampleFriendships(Guid userId, FriendshipStatus status) {
