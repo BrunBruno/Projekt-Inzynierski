@@ -44,7 +44,7 @@ public class MakeMoveRequestHandler : IRequestHandler<MakeMoveRequest> {
         if (game.HasEnded)
             throw new BadRequestException("Can not make move in finished game");
 
-        DateTime lastTimeRecorded = (game.Moves.Count == 0 ? game.StartedAt : game.Moves[game.Moves.Count - 1].DoneAt)
+        DateTime lastTimeRecorded = (game.Moves.Count == 0 ? game.StartedAt : game.Moves[game!.Moves.Count - 1].DoneAt)
           ?? throw new BadRequestException("Game was not started properly.");
 
         double timeDifference = (DateTime.UtcNow - lastTimeRecorded).TotalSeconds;

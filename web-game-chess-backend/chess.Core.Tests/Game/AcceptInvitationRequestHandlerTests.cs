@@ -56,8 +56,8 @@ public class AcceptInvitationRequestHandlerTests {
 
 
         _mockUserContextService.Setup(x => x.GetUserId()).Returns(userId);
-        _mockPlayerRepository.Setup(x => x.GetByUserIdandGameId(request.InvitorId, gameId)).ReturnsAsync(invitorPlayer);
-        _mockPlayerRepository.Setup(x => x.GetByUserIdandGameId(request.InviteeId, gameId)).ReturnsAsync(inviteePlayer);
+        _mockPlayerRepository.Setup(x => x.GetByUserIdAndGameId(request.InvitorId, gameId)).ReturnsAsync(invitorPlayer);
+        _mockPlayerRepository.Setup(x => x.GetByUserIdAndGameId(request.InviteeId, gameId)).ReturnsAsync(inviteePlayer);
         _mockInvitationRepository.Setup(x => x.GetByGameId(gameId)).ReturnsAsync(gameInvitation);
 
 
@@ -72,8 +72,8 @@ public class AcceptInvitationRequestHandlerTests {
 
         await act.Should().NotThrowAsync();
         _mockUserContextService.Verify(x => x.GetUserId(), Times.Once);
-        _mockPlayerRepository.Verify(x => x.GetByUserIdandGameId(request.InvitorId, gameId), Times.Once);
-        _mockPlayerRepository.Verify(x => x.GetByUserIdandGameId(request.InviteeId, gameId), Times.Once);
+        _mockPlayerRepository.Verify(x => x.GetByUserIdAndGameId(request.InvitorId, gameId), Times.Once);
+        _mockPlayerRepository.Verify(x => x.GetByUserIdAndGameId(request.InviteeId, gameId), Times.Once);
         _mockInvitationRepository.Verify(x => x.GetByGameId(gameId), Times.Once);
         _mockPlayerRepository.Verify(x => x.Update(invitorPlayer), Times.Once);
         _mockPlayerRepository.Verify(x => x.Update(inviteePlayer), Times.Once);
@@ -109,8 +109,8 @@ public class AcceptInvitationRequestHandlerTests {
 
         await act.Should().ThrowAsync<NotFoundException>();
         _mockUserContextService.Verify(x => x.GetUserId(), Times.Once);
-        _mockPlayerRepository.Verify(x => x.GetByUserIdandGameId(request.InvitorId, gameId), Times.Once);
-        _mockPlayerRepository.Verify(x => x.GetByUserIdandGameId(request.InviteeId, gameId), Times.Never);
+        _mockPlayerRepository.Verify(x => x.GetByUserIdAndGameId(request.InvitorId, gameId), Times.Once);
+        _mockPlayerRepository.Verify(x => x.GetByUserIdAndGameId(request.InviteeId, gameId), Times.Never);
         _mockInvitationRepository.Verify(x => x.GetByGameId(gameId), Times.Never);
         _mockPlayerRepository.Verify(x => x.Update(It.IsAny<Player>()), Times.Never);
         _mockPlayerRepository.Verify(x => x.Update(It.IsAny<Player>()), Times.Never);
@@ -139,7 +139,7 @@ public class AcceptInvitationRequestHandlerTests {
 
 
         _mockUserContextService.Setup(x => x.GetUserId()).Returns(userId);
-        _mockPlayerRepository.Setup(x => x.GetByUserIdandGameId(request.InvitorId, gameId)).ReturnsAsync(invitorPlayer);
+        _mockPlayerRepository.Setup(x => x.GetByUserIdAndGameId(request.InvitorId, gameId)).ReturnsAsync(invitorPlayer);
 
 
 
@@ -154,8 +154,8 @@ public class AcceptInvitationRequestHandlerTests {
 
         await act.Should().ThrowAsync<NotFoundException>();
         _mockUserContextService.Verify(x => x.GetUserId(), Times.Once);
-        _mockPlayerRepository.Verify(x => x.GetByUserIdandGameId(request.InvitorId, gameId), Times.Once);
-        _mockPlayerRepository.Verify(x => x.GetByUserIdandGameId(request.InviteeId, gameId), Times.Once);
+        _mockPlayerRepository.Verify(x => x.GetByUserIdAndGameId(request.InvitorId, gameId), Times.Once);
+        _mockPlayerRepository.Verify(x => x.GetByUserIdAndGameId(request.InviteeId, gameId), Times.Once);
         _mockInvitationRepository.Verify(x => x.GetByGameId(gameId), Times.Never);
         _mockPlayerRepository.Verify(x => x.Update(invitorPlayer), Times.Never);
         _mockPlayerRepository.Verify(x => x.Update(It.IsAny<Player>()), Times.Never);
@@ -190,8 +190,8 @@ public class AcceptInvitationRequestHandlerTests {
 
 
         _mockUserContextService.Setup(x => x.GetUserId()).Returns(userId);
-        _mockPlayerRepository.Setup(x => x.GetByUserIdandGameId(request.InvitorId, gameId)).ReturnsAsync(invitorPlayer);
-        _mockPlayerRepository.Setup(x => x.GetByUserIdandGameId(request.InviteeId, gameId)).ReturnsAsync(inviteePlayer);
+        _mockPlayerRepository.Setup(x => x.GetByUserIdAndGameId(request.InvitorId, gameId)).ReturnsAsync(invitorPlayer);
+        _mockPlayerRepository.Setup(x => x.GetByUserIdAndGameId(request.InviteeId, gameId)).ReturnsAsync(inviteePlayer);
 
 
         var handler = new AcceptInvitationRequestHandler(
@@ -205,8 +205,8 @@ public class AcceptInvitationRequestHandlerTests {
 
         await act.Should().ThrowAsync<BadRequestException>();
         _mockUserContextService.Verify(x => x.GetUserId(), Times.Once);
-        _mockPlayerRepository.Verify(x => x.GetByUserIdandGameId(request.InvitorId, gameId), Times.Once);
-        _mockPlayerRepository.Verify(x => x.GetByUserIdandGameId(request.InviteeId, gameId), Times.Once);
+        _mockPlayerRepository.Verify(x => x.GetByUserIdAndGameId(request.InvitorId, gameId), Times.Once);
+        _mockPlayerRepository.Verify(x => x.GetByUserIdAndGameId(request.InviteeId, gameId), Times.Once);
         _mockInvitationRepository.Verify(x => x.GetByGameId(gameId), Times.Never);
         _mockPlayerRepository.Verify(x => x.Update(invitorPlayer), Times.Never);
         _mockPlayerRepository.Verify(x => x.Update(inviteePlayer), Times.Never);
@@ -241,8 +241,8 @@ public class AcceptInvitationRequestHandlerTests {
 
 
         _mockUserContextService.Setup(x => x.GetUserId()).Returns(userId);
-        _mockPlayerRepository.Setup(x => x.GetByUserIdandGameId(request.InvitorId, gameId)).ReturnsAsync(invitorPlayer);
-        _mockPlayerRepository.Setup(x => x.GetByUserIdandGameId(request.InviteeId, gameId)).ReturnsAsync(inviteePlayer);
+        _mockPlayerRepository.Setup(x => x.GetByUserIdAndGameId(request.InvitorId, gameId)).ReturnsAsync(invitorPlayer);
+        _mockPlayerRepository.Setup(x => x.GetByUserIdAndGameId(request.InviteeId, gameId)).ReturnsAsync(inviteePlayer);
 
 
         var handler = new AcceptInvitationRequestHandler(
@@ -256,8 +256,8 @@ public class AcceptInvitationRequestHandlerTests {
 
         await act.Should().ThrowAsync<NotFoundException>();
         _mockUserContextService.Verify(x => x.GetUserId(), Times.Once);
-        _mockPlayerRepository.Verify(x => x.GetByUserIdandGameId(request.InvitorId, gameId), Times.Once);
-        _mockPlayerRepository.Verify(x => x.GetByUserIdandGameId(request.InviteeId, gameId), Times.Once);
+        _mockPlayerRepository.Verify(x => x.GetByUserIdAndGameId(request.InvitorId, gameId), Times.Once);
+        _mockPlayerRepository.Verify(x => x.GetByUserIdAndGameId(request.InviteeId, gameId), Times.Once);
         _mockInvitationRepository.Verify(x => x.GetByGameId(gameId), Times.Once);
         _mockPlayerRepository.Verify(x => x.Update(invitorPlayer), Times.Never);
         _mockPlayerRepository.Verify(x => x.Update(inviteePlayer), Times.Never);

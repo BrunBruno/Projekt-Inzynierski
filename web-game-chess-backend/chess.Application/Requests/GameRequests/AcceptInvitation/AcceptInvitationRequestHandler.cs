@@ -32,10 +32,10 @@ public class AcceptInvitationRequestHandler : IRequestHandler<AcceptInvitationRe
 
         var userId = _userContextService.GetUserId();
 
-        var invitor = await _playerRepository.GetByUserIdandGameId(request.InvitorId, request.GameId)
+        var invitor = await _playerRepository.GetByUserIdAndGameId(request.InvitorId, request.GameId)
             ?? throw new NotFoundException("Player not found.");
 
-        var invitee  = await _playerRepository.GetByUserIdandGameId(request.InviteeId, request.GameId)
+        var invitee  = await _playerRepository.GetByUserIdAndGameId(request.InviteeId, request.GameId)
             ?? throw new NotFoundException("Player not found.");
 
         if (userId != invitee.UserId)

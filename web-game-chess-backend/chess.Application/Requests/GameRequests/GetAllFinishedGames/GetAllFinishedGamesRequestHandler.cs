@@ -141,6 +141,5 @@ public class GetAllFinishedGamesRequestHandler : IRequestHandler<GetAllFinishedG
         var pagedResult = new PagedResult<GetAllFinishedGamesDto>(finishedGames, finishedGames.Count, request.PageSize, request.PageNumber);
 
         return pagedResult;
-
     }
 }

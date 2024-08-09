@@ -36,6 +36,22 @@ public class EndGameRequestHandler : IRequestHandler<EndGameRequest, EndGameDto>
 
         var userId = _userContextService.GetUserId();
 
+        if((
+            request.LoserColor == null && 
+                (request.EndGameType == EndGameTypes.CheckMate ||
+                request.EndGameType == EndGameTypes.OutOfTime ||
+                request.EndGameType == EndGameTypes.Resignation)
+            ) || (
+            request.LoserColor != null &&
+                (request.EndGameType == EndGameTypes.StaleMate ||
+                request.EndGameType == EndGameTypes.Threefold ||
+                request.EndGameType == EndGameTypes.Agreement ||
+                request.EndGameType == EndGameTypes.FiftyMovesRule ||
+                request.EndGameType == EndGameTypes.InsufficientMaterial)
+            )){
+            throw new BadRequestException("Incorrect game result.");
+        }
+
         var game = await _gameRepository.GetById(request.GameId) 
             ?? throw new NotFoundException("Game not found.");
 

@@ -36,7 +36,6 @@ public class StartGamesRequestHandler : IRequestHandler<StartGamesRequest> {
         var timing = await _gameTimingRepository.GetById(request.TimingId) 
             ?? throw new NotFoundException("Timing not found.");
 
-
         var players = await _playerRepository.GetAllAvailablePlayersForTiming(request.TimingId);
 
         var matchedPlayers = new List<Player>();

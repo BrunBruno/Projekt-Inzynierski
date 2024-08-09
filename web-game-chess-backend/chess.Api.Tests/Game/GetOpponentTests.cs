@@ -65,7 +65,7 @@ public class GetOpponentTests : IClassFixture<TestWebApplicationFactory<Program>
     /// </summary>
     /// <returns></returns>
     [Fact]
-    public async Task GetOpponent_Should_Return_BadRequest_On_Fail() {
+    public async Task GetOpponent_Should_Return_Unauthorized_On_Fail() {
 
         await _dbContext.Init();
         await _dbContext.AddUser();
@@ -88,7 +88,7 @@ public class GetOpponentTests : IClassFixture<TestWebApplicationFactory<Program>
         var response = await _client.GetAsync($"api/game/{gameId}/opponent");
 
 
-        response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+        response.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
     }
 
     /// <summary>

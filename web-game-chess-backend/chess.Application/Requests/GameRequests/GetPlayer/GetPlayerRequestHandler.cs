@@ -9,7 +9,7 @@ namespace chess.Application.Requests.GameRequests.GetPlayer;
 
 /// <summary>
 /// Checks if player exists
-/// Checks if player is playing
+/// Checks if player is playing - it is only used for getting player during game
 /// Returns player dto
 /// </summary>
 public class GetPlayerRequestHandler : IRequestHandler<GetPlayerRequest, GetPlayerDto> {
@@ -29,7 +29,7 @@ public class GetPlayerRequestHandler : IRequestHandler<GetPlayerRequest, GetPlay
 
         var userId = _userContextService.GetUserId();
 
-        var player = await _playerRepository.GetByUserIdandGameId(userId, request.GameId) 
+        var player = await _playerRepository.GetByUserIdAndGameId(userId, request.GameId) 
             ?? throw new NotFoundException("Player not found.");
 
         if (player.Color is null || !player.IsPlaying)
@@ -40,7 +40,7 @@ public class GetPlayerRequestHandler : IRequestHandler<GetPlayerRequest, GetPlay
             Name = player.Name,
             ImageUrl = player.ImageUrl,
             Elo = player.Elo,
-            Color = (Colors)player.Color!,
+            Color = (Colors)player.Color,
         };
 
         return playerDto;

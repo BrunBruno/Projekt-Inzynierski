@@ -18,27 +18,20 @@ public class GetTypeHistoryRequestHandler : IRequestHandler<GetTypeHistoryReques
 
     private readonly IUserContextService _userContextService;
     private readonly IPlayerRepository _playerRepository;
-    private readonly IUserRepository _userRepository;
 
     public GetTypeHistoryRequestHandler(
         IUserContextService userContextService,
-        IPlayerRepository playerRepository,
-        IUserRepository userRepository
+        IPlayerRepository playerRepository
     ) {
         _userContextService = userContextService;
         _playerRepository = playerRepository;
-        _userRepository = userRepository;
     }
 
     public async Task<PagedResult<GetTypeHistoryDto>> Handle(GetTypeHistoryRequest request, CancellationToken cancellationToken) {
 
         var userId = _userContextService.GetUserId();
 
-        var user = await _userRepository.GetById(userId)
-            ?? throw new NotFoundException("User not found.");
-
-        var players = await _playerRepository.GetAllForUser(userId)
-            ?? throw new NotFoundException("Players not found.");
+        var players = await _playerRepository.GetAllForUser(userId);
 
         var typeHistory = new List<GetTypeHistoryDto>();
 

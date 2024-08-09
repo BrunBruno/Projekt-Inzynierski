@@ -64,21 +64,4 @@ public class GetTypeHitoryTests : IClassFixture<TestWebApplicationFactory<Progra
         // 37 * 10 - 13 * 10 = 240
         // last win - prev 240 - 10 = 230
     }
-
-    /// <summary>
-    ///  Get type history for non existsing user
-    /// </summary>
-    /// <returns></returns>
-    [Fact]
-    public async Task GetTypeHistory_Should_Return_NotDound_On_Fail() {
-
-        await _dbContext.Init();
-        // no user added
-
-        await _dbContext.AddGames(true, false);
-
-        var responseBullet = await _client.GetAsync($"api/game/type-history?pageNumber=1&pageSize=100&type={TimingTypes.Bullet}");
-
-        responseBullet.StatusCode.Should().Be(HttpStatusCode.NotFound);
-    }
 }

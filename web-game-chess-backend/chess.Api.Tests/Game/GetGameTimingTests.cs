@@ -66,7 +66,7 @@ public class GetGameTimingTests : IClassFixture<TestWebApplicationFactory<Progra
     /// </summary>
     /// <returns></returns>
     [Fact]
-    public async Task GetGameTiming_Should_Return_BadRequest_On_Fail() {
+    public async Task GetGameTiming_Should_Return_Unauthorized_On_Fail() {
 
         await _dbContext.Init();
         await _dbContext.AddUser();
@@ -87,7 +87,7 @@ public class GetGameTimingTests : IClassFixture<TestWebApplicationFactory<Progra
         var response = await _client.GetAsync($"api/game/{gameId}/timing");
 
 
-        response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+        response.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
     }
 
     /// <summary>
