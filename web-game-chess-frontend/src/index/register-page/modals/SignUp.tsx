@@ -153,7 +153,7 @@ function SignUp({ setModal }: SignUpProps) {
       await axios.post(userControllerPaths.registerUser(), userData);
 
       const logUserData: LogInUserModel = {
-        email: form.email.value.trim(),
+        emailOrUsername: form.email.value.trim(),
         password: form.password.value,
       };
 

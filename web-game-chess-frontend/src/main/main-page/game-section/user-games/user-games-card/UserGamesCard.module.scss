@@ -3,13 +3,15 @@
 .card {
   @include flex(column, start, center, 0);
 
+  border: solid 1rem red;
+
   position: relative;
-  height: 36rem;
   overflow: hidden;
   background-color: rgba($gc9, 0.6);
   border-radius: 1rem;
   border-bottom: solid 0.3rem $mc7;
   user-select: none;
+  flex-shrink: 0 !important;
 
   transform: scale(1);
   transition: transform 0.3s;
@@ -62,8 +64,7 @@
 
   .mini-grid {
     width: 100%;
-    aspect-ratio: 1/1;
-
+    aspect-ratio: 1/1 !important;
     position: relative;
     display: grid;
     grid-template-columns: repeat(8, 1fr);
@@ -187,6 +188,47 @@
       right: 0;
       padding: 1rem;
       color: $gc5;
+    }
+  }
+}
+
+@media (max-width: 700px) {
+  .card {
+    .game-data {
+      .timing-type {
+        @include flex();
+
+        svg {
+          height: 5rem;
+        }
+      }
+
+      .is-winner {
+        @include flex();
+
+        svg {
+          height: 5rem;
+        }
+      }
+
+      .moves {
+        @include circle(4.5rem);
+
+        font-size: 1.6rem;
+        border-width: 0.5rem;
+      }
+
+      .win-type {
+        position: relative;
+
+        p {
+          font-size: 3rem;
+        }
+
+        svg {
+          height: 4rem;
+        }
+      }
     }
   }
 }

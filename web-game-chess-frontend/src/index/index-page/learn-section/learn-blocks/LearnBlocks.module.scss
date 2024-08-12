@@ -292,7 +292,7 @@
     padding: 0;
 
     &__row {
-      padding: 2rem;
+      padding: 3rem;
 
       &:nth-child(odd) {
         @include flex(column-reverse, center, center, 2rem);
@@ -306,6 +306,8 @@
       }
 
       &__text {
+        text-align: justify;
+
         .row-h3 {
           font-size: 4rem;
         }

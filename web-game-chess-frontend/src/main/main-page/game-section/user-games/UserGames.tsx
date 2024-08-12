@@ -29,9 +29,45 @@ function UserGames({}: UserGamesProps) {
 
   const { scrollRef, pageSize, totalItemsCount, setDefPageSize, setTotalItemsCount } = usePagination();
 
+  // useEffect(() => {
+  //   console.log(scrollRef.current?.clientWidth);
+  //   console.log(scrollRef.current?.clientHeight);
+
+  //   setDefPageSize(6);
+  // }, []);
+
   useEffect(() => {
-    setDefPageSize(6);
-  }, []);
+    const setDefSize = () => {
+      let elemCount: number;
+      if (window.innerWidth > 700) {
+        elemCount = 3;
+      } else {
+        elemCount = 2;
+      }
+
+      const container = scrollRef.current;
+      if (container) {
+        const containerHeight = container.clientHeight;
+        const firstChild = container.firstChild as HTMLElement;
+        if (firstChild) {
+          const elementHeight = firstChild.clientHeight;
+
+          if (elementHeight > 0) {
+            const count = Math.ceil(containerHeight / elementHeight) * elemCount;
+
+            setDefPageSize(count);
+          }
+        }
+      }
+    };
+
+    setDefSize();
+    window.addEventListener("resize", setDefSize);
+
+    return () => {
+      window.removeEventListener("resize", setDefSize);
+    };
+  }, [games]);
 
   // get all finished games
   const getGames = async () => {
