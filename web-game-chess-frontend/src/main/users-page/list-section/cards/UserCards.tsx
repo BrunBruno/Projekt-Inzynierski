@@ -12,6 +12,7 @@ import { GetOtherUserDto } from "../../../../shared/utils/types/userDtos";
 import { GetOtherUserModel } from "../../../../shared/utils/types/userModels";
 import { getErrMessage } from "../../../../shared/utils/functions/displayError";
 import AvatarImage from "../../../../shared/components/avatar-image/AvatarImage";
+import { Guid } from "guid-typescript";
 
 type UserCardsProps = {
   // user data to create card
@@ -28,7 +29,7 @@ function UserCards({ user, getAllUsers, setNonFriend }: UserCardsProps) {
   const { showPopup } = usePopup();
 
   // invite new friend
-  const onInviteFriend = async (userId: string) => {
+  const onInviteFriend = async (userId: Guid) => {
     try {
       const model: InviteFriendModel = {
         receiverId: userId,

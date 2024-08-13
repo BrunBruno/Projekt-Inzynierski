@@ -54,6 +54,7 @@ public class GetRegisterConfTests : IClassFixture<TestWebApplicationFactory<Prog
         await _dbContext.Init();
 
 
+        // incorrect id
         var response = await _client.GetAsync($"api/user/configuration?configurationId={1000}");
 
 

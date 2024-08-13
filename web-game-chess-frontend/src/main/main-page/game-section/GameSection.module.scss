@@ -103,3 +103,46 @@
     }
   }
 }
+
+@media (max-width: 700px) {
+  .game {
+    &__content {
+      grid-template-columns: 1fr;
+      grid-template-rows: 12rem auto;
+
+      &__col {
+        &:nth-child(2) {
+          grid-row: 1;
+        }
+
+        .game-buttons {
+          flex-direction: row;
+          padding: 2rem;
+
+          &::before {
+            @include subCl(100%, 0.1rem);
+            top: 100%;
+            left: 0;
+
+            box-shadow: 0 0 1rem 0.1rem $mc0;
+          }
+
+          button.interface-button {
+            @include flex();
+            @include square(10rem);
+            gap: 0;
+            padding: 0;
+
+            span {
+              display: none;
+            }
+
+            svg {
+              height: 6rem !important;
+            }
+          }
+        }
+      }
+    }
+  }
+}

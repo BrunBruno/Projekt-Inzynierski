@@ -2,12 +2,20 @@
 using chess.Application.Repositories;
 using chess.Application.Services;
 using chess.Core.Enums;
-using chess.Core.Extensions;
+using chess.Core.Maps.MapOfElo;
 using chess.Shared.Exceptions;
 using MediatR;
 
 namespace chess.Application.Requests.GameRequests.EndGame;
 
+/// <summary>
+/// Checks if game with provided id exists
+/// Checks if current user was a participant of the game
+/// If game has been ginished returns end game dto
+/// Gets both players
+/// Sets all parameters for users (stats and elo points) and games according to result of the game
+/// Returns end game dto
+/// </summary>
 public class EndGameRequestHandler : IRequestHandler<EndGameRequest, EndGameDto> {
 
     private readonly IGameRepository _gameRepository;
@@ -27,6 +35,22 @@ public class EndGameRequestHandler : IRequestHandler<EndGameRequest, EndGameDto>
     public async Task<EndGameDto> Handle(EndGameRequest request, CancellationToken cancellationToken) {
 
         var userId = _userContextService.GetUserId();
+
+        if((
+            request.LoserColor == null && 
+                (request.EndGameType == EndGameTypes.CheckMate ||
+                request.EndGameType == EndGameTypes.OutOfTime ||
+                request.EndGameType == EndGameTypes.Resignation)
+            ) || (
+            request.LoserColor != null &&
+                (request.EndGameType == EndGameTypes.StaleMate ||
+                request.EndGameType == EndGameTypes.Threefold ||
+                request.EndGameType == EndGameTypes.Agreement ||
+                request.EndGameType == EndGameTypes.FiftyMovesRule ||
+                request.EndGameType == EndGameTypes.InsufficientMaterial)
+            )){
+            throw new BadRequestException("Incorrect game result.");
+        }
 
         var game = await _gameRepository.GetById(request.GameId) 
             ?? throw new NotFoundException("Game not found.");
@@ -189,6 +213,5 @@ public class EndGameRequestHandler : IRequestHandler<EndGameRequest, EndGameDto>
         };
 
         return endGameDto;
-
     }
 }

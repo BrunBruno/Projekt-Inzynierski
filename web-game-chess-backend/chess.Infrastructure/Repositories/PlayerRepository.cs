@@ -1,7 +1,6 @@
 ﻿
 using chess.Application.Repositories;
 using chess.Core.Entities;
-using chess.Core.Enums;
 using chess.Infrastructure.Contexts;
 using Microsoft.EntityFrameworkCore;
 
@@ -34,7 +33,7 @@ public class PlayerRepository : IPlayerRepository {
                     .ToListAsync();
 
     ///<inheritdoc/>
-    public async Task<Player?> GetByUserIdandGameId(Guid userId, Guid gameId) 
+    public async Task<Player?> GetByUserIdAndGameId(Guid userId, Guid gameId) 
         => await _dbContext.Players
                     .FirstOrDefaultAsync(p => p.UserId == userId && p.GameId == gameId);
 

@@ -5,26 +5,27 @@ import WinTypesIcons from "../../../../../shared/svgs/WinTypesIcons";
 import { endGameTypes, timingTypes } from "../../../../../shared/utils/enums/entitiesEnums";
 import { pieceImageMap } from "../../../../../shared/utils/enums/piecesMaps";
 import { getEnumTypeByNumber } from "../../../../../shared/utils/functions/enumRelated";
-import { GetFinishedGamesDto, GetFinishedGamesPlayerDto } from "../../../../../shared/utils/types/gameDtos";
+import { PlayerDto } from "../../../../../shared/utils/types/abstracDtosAndModels";
+import { GetAllFinishedGamesDto } from "../../../../../shared/utils/types/gameDtos";
 import classes from "./UserGamesCard.module.scss";
 
 type UserGamesCardProps = {
   // finished game data
-  game: GetFinishedGamesDto;
+  game: GetAllFinishedGamesDto;
 };
 
 function UserGamesCard({ game }: UserGamesCardProps) {
   ///
 
   // display players based on user player color
-  const displayPlayer = (game: GetFinishedGamesDto): JSX.Element => {
+  const displayPlayer = (game: GetAllFinishedGamesDto): JSX.Element => {
     const userInfo = localStorage.getItem("userInfo");
 
     if (!userInfo) return <></>;
 
     const userInfoObject = JSON.parse(userInfo);
 
-    const renderPlayer = (player: GetFinishedGamesPlayerDto, isWhite: boolean, eloGained: number) => (
+    const renderPlayer = (player: PlayerDto, isWhite: boolean, eloGained: number) => (
       <div className={classes.player}>
         <AvatarImage
           username={player.name}

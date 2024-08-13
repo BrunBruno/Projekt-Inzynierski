@@ -1,16 +1,16 @@
 ﻿
 using AutoMapper;
 using chess.Api.Models.UserModels;
-using chess.Application.Requests.UserRequests.CheckIfEmailExists;
+using chess.Application.Requests.UserRequests.GetByEmail;
 using chess.Application.Requests.UserRequests.GetElo;
 using chess.Application.Requests.UserRequests.GetFullUser;
 using chess.Application.Requests.UserRequests.GetOtherUser;
 using chess.Application.Requests.UserRequests.GetRegisterConf;
 using chess.Application.Requests.UserRequests.GetUser;
 using chess.Application.Requests.UserRequests.IsEmailVerified;
-using chess.Application.Requests.UserRequests.LogIn;
+using chess.Application.Requests.UserRequests.LogInUser;
 using chess.Application.Requests.UserRequests.RegenerateCode;
-using chess.Application.Requests.UserRequests.Register;
+using chess.Application.Requests.UserRequests.RegisterUser;
 using chess.Application.Requests.UserRequests.UpdateProfile;
 using chess.Application.Requests.UserRequests.VerifyEmail;
 using MediatR;
@@ -34,12 +34,12 @@ public class UserController : ControllerBase {
 
 
     /// <summary>
-    /// Registers user and sends email verification code.
+    /// Registers user and sends email verification code
     /// </summary>
     /// <param name="model"></param>
     /// <returns></returns>
     [HttpPost("sign-up")]
-    public async Task<IActionResult> Register([FromBody] RegisterUserModel model) {
+    public async Task<IActionResult> RegisterUser([FromBody] RegisterUserModel model) {
 
         var request = _mapper.Map<RegisterUserRequest>(model);
 
@@ -55,7 +55,7 @@ public class UserController : ControllerBase {
     /// <param name="model"></param>
     /// <returns></returns>
     [HttpPost("sign-in")]
-    public async Task<IActionResult> LogIn([FromBody] LogInUserModel model) {
+    public async Task<IActionResult> LogInUser([FromBody] LogInUserModel model) {
 
         var request = _mapper.Map<LogInUserRequest>(model);
 
@@ -74,7 +74,7 @@ public class UserController : ControllerBase {
     [Authorize(Policy = "IsNotVerified")]
     public async Task<IActionResult> RegenerateCode([FromBody] RegenerateCodeModel model) {
 
-        var request = new RegenerateCodeRequest();
+        var request = new RegenerateCodeRequest() { };
 
         await _mediator.Send(request);
         return Ok();

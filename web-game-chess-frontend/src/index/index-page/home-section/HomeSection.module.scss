@@ -113,3 +113,34 @@
     // end home intro
   }
 }
+
+@media (max-width: 700px) {
+  .home {
+    height: 100dvh;
+    max-height: none;
+
+    &__content {
+      &::after {
+        display: none;
+      }
+      &::before {
+        display: none;
+      }
+
+      &__intro {
+        top: 0;
+        left: 0;
+        padding: 4rem;
+        padding-top: 10rem;
+
+        &__h1 {
+          width: 80%;
+        }
+
+        &__text {
+          width: 80%;
+        }
+      }
+    }
+  }
+}

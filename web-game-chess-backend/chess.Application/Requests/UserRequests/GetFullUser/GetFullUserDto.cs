@@ -1,4 +1,5 @@
 ﻿
+using chess.Core.Abstraction;
 using chess.Core.Dtos;
 
 namespace chess.Application.Requests.UserRequests.GetFullUser;
@@ -24,25 +25,9 @@ public class GetFullUserDto : UserDto {
     public string? Bio { get; set; }
 
     /// <summary>
-    /// Total user wins
+    /// Win, draws and loses
     /// </summary>
-    public int Wins { get; set; } 
-
-    /// <summary>
-    /// Total user loses
-    /// </summary>
-    public int Loses { get; set; } 
-
-    /// <summary>
-    /// Total user draws
-    /// </summary>
-    public int Draws { get; set; } 
-
-    /// <summary>
-    /// Total games played
-    /// </summary>
-    public int GamesPlayed { get; set; }
-
+    public required WinDrawLose WdlTotal { get; set; }
 
     /// <summary>
     /// Wins by some win option

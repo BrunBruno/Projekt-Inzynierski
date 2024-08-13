@@ -3,8 +3,11 @@ import { GetGameDto } from "../../../../shared/utils/types/gameDtos";
 import classes from "./GameClock.module.scss";
 
 type GameClockProps = {
+  // game data
   gameData: GetGameDto;
+  // time left for white player
   whitePlayerSeconds: number;
+  // time left for black player
   blackPlayerSeconds: number;
 };
 

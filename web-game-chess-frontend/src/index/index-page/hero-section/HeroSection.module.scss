@@ -14,20 +14,14 @@
     background-image: linear-gradient(to bottom, rgba(#000, 0.6) 0%, rgba(#000, 0.6) 100%), url("images/hero-bg.jpg");
     background-size: cover;
     background-position: center;
+    background-color: #000;
 
     &__bg {
       @include absCenter();
       @include wh100();
       z-index: 2;
-      background-color: rgba($gc0, 0.1);
+      background-color: rgba(#000, 0.1);
       pointer-events: none;
-    }
-
-    &__video {
-      position: absolute;
-      z-index: 0;
-      object-fit: contain;
-      filter: grayscale(100%);
     }
 
     &__content {
@@ -104,6 +98,44 @@
             box-shadow: 1rem 1rem 0 0 $gc9;
             scale: 0.6;
           }
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 1000px) {
+  .hero {
+    &__container {
+      &__content {
+        max-height: 100%;
+      }
+    }
+  }
+}
+
+@media (max-width: 700px) {
+  .hero {
+    height: 100dvh;
+
+    &__container {
+      &__content {
+        @include flex(column, end, start, 4rem);
+
+        height: 100%;
+        padding: 10rem 2rem;
+
+        h1 {
+          font-size: 7rem;
+          letter-spacing: -0.2rem;
+        }
+
+        h2 {
+          font-size: 3.2rem;
+        }
+
+        .begin {
+          display: none;
         }
       }
     }

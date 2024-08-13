@@ -1,13 +1,17 @@
 import PiecesSvgs from "../../../../shared/svgs/PiecesSvgs";
-import { GetGameMoveDto } from "../../../../shared/utils/types/gameDtos";
+import { MoveDto } from "../../../../shared/utils/types/abstracDtosAndModels";
 import classes from "./MoveRecord.module.scss";
 
 type MoveRecordProps = {
+  // tuen number
   recordNum: number;
-  move: GetGameMoveDto;
+  // done move dto
+  move: MoveDto;
 };
 
 function MoveRecord({ recordNum, move }: MoveRecordProps) {
+  ///
+
   const turn = Math.floor((move.turn - 1) / 2) + 1;
 
   return (

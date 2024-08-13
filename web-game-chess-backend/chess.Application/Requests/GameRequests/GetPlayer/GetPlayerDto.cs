@@ -1,4 +1,5 @@
 ﻿
+using chess.Core.Dtos;
 using chess.Core.Enums;
 
 namespace chess.Application.Requests.GameRequests.GetPlayer; 
@@ -6,20 +7,10 @@ namespace chess.Application.Requests.GameRequests.GetPlayer;
 /// <summary>
 /// Dto represent player of current game
 /// </summary>
-public class GetPlayerDto {
-
-    /// <summary>
-    /// User name
-    /// </summary>
-    public required string Name { get; set; }
-
-    /// <summary>
-    /// Elo points
-    /// </summary>
-    public int Elo { get; set; }
+public class GetPlayerDto : PlayerDto {
 
     /// <summary>
     /// Color representing side of the board 
     /// </summary>
-    public Colors Color { get; set; }
+    public required Colors Color { get; set; }
 }

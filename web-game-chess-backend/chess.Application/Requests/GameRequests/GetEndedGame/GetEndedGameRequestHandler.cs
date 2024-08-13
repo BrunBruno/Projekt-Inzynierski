@@ -6,12 +6,21 @@ using MediatR;
 
 namespace chess.Application.Requests.GameRequests.GetEndedGame;
 
+/// <summary>
+/// Checks if game exists
+/// Checks if game belongs to current user
+/// Checks if game has ended
+/// Returns winner of the game
+/// </summary>
 public class GetEndedGameRequestHandler : IRequestHandler<GetEndedGameRequest, GetEndedGameDto> {
 
     private readonly IGameRepository _gameRepository;
     private readonly IUserContextService _userContextService;
 
-    public GetEndedGameRequestHandler(IGameRepository gameRepository, IUserContextService userContextService) { 
+    public GetEndedGameRequestHandler(
+        IGameRepository gameRepository,
+        IUserContextService userContextService
+    ) { 
         _gameRepository = gameRepository;
         _userContextService = userContextService;
     }
@@ -26,7 +35,7 @@ public class GetEndedGameRequestHandler : IRequestHandler<GetEndedGameRequest, G
         if (game.WhitePlayer.UserId != userId && game.BlackPlayer.UserId != userId)
             throw new UnauthorizedException("This is not user game.");
 
-        if (!game.HasEnded)
+        if (game.HasEnded == false)
             throw new BadRequestException("Game has not ended yet.");
 
         var endedGameDto = new GetEndedGameDto()

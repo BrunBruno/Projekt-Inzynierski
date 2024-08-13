@@ -15,7 +15,10 @@ public class GetFullUserRequestHandler : IRequestHandler<GetFullUserRequest, Get
     private readonly IUserContextService _userContextService;
     private readonly IUserRepository _userRepository;
 
-    public GetFullUserRequestHandler(IUserContextService userContextService, IUserRepository userRepository) {
+    public GetFullUserRequestHandler(
+        IUserContextService userContextService,
+        IUserRepository userRepository
+    ) {
         _userContextService = userContextService;
         _userRepository = userRepository;
     }
@@ -36,10 +39,15 @@ public class GetFullUserRequestHandler : IRequestHandler<GetFullUserRequest, Get
             ImageUrl = user.ImageUrl,
             Country = user.Country,
             Bio = user.Bio,
-            Wins = user.Stats.Wins,
-            Loses = user.Stats.Loses,
-            Draws = user.Stats.Draws,
-            GamesPlayed = user.Stats.GamesPlayed,
+      
+            WdlTotal = new Core.Abstraction.WinDrawLose()
+            {
+                Total = user.Stats.GamesPlayed,
+                Wins = user.Stats.Wins,
+                Loses = user.Stats.Loses,
+                Draws = user.Stats.Draws,
+            },
+
             WinsByCheckMate = user.Stats.WinsByCheckMate,
             WinsByTimeout = user.Stats.WinsByTimeout,
             WinsByResignation = user.Stats.WinsByResignation,
@@ -47,6 +55,7 @@ public class GetFullUserRequestHandler : IRequestHandler<GetFullUserRequest, Get
             LosesByTimeout = user.Stats.LosesByTimeout,
             LosesByResignation = user.Stats.LosesByResignation,
         };
+
 
         return userDto;
     }

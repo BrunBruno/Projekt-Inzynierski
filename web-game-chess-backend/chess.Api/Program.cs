@@ -1,3 +1,4 @@
+
 using chess.Api.Authorization;
 using chess.Api.Binders;
 using chess.Api.Hubs;
@@ -42,7 +43,7 @@ app.MapHub<GameHub>("/game-hub");
 
 app.UseCors("FrontEndClient");
 
-//app.UseHttpsRedirection();
+// app.UseHttpsRedirection();
 
 
 app.UseShared();

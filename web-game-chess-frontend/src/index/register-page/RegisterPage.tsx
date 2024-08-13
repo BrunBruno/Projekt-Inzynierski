@@ -43,16 +43,19 @@ function RegisterPage() {
 
   // get form class
   const getFormClass = (): string => {
-    switch (modal) {
-      case registrationInterface.signIn:
-        return classes["left-side-form"];
-      case registrationInterface.signUp:
-        return classes["right-side-form"];
-      case registrationInterface.verify:
-        return classes["right-side-form"];
-      default:
-        return "";
+    if (window.innerWidth > 700) {
+      switch (modal) {
+        case registrationInterface.signIn:
+          return classes["left-side-form"];
+        case registrationInterface.signUp:
+          return classes["right-side-form"];
+        case registrationInterface.verify:
+          return classes["right-side-form"];
+        default:
+          return "";
+      }
     }
+    return "";
   };
 
   return (

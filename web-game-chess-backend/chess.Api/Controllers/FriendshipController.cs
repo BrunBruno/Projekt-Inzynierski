@@ -48,11 +48,12 @@ public class FriendshipController : ControllerBase {
     /// </summary>
     /// <param name="model"></param>
     /// <returns></returns>
-    [HttpPut("respond")]
+    [HttpPut("{friendshipId}/respond")]
     [Authorize(Policy = "IsVerified")]
-    public async Task<IActionResult> RespondToFriendRequest([FromBody] RespondToFriendRequestModel model) {
+    public async Task<IActionResult> RespondToFriendRequest([FromRoute] Guid friendshipId, [FromBody] RespondToFriendRequestModel model) {
 
         var request = _mapper.Map<RespondToFriendRequestRequest>(model);
+        request.FriendshipId = friendshipId;
 
         await _mediator.Send(request);
 
@@ -115,13 +116,14 @@ public class FriendshipController : ControllerBase {
 
 
     /// <summary>
-    /// Removes rejected friendship record
+    /// Removes friendships
+    /// Remove rejected friendship to unblock user
     /// </summary>
-    /// <param name="model"></param>
+    /// <param name="friendshipId"></param>
     /// <returns></returns>
     [HttpDelete("{friendshipId}")]
     [Authorize(Policy = "IsVerified")]
-    public async Task<IActionResult> UnblockFriend([FromRoute] Guid friendshipId) {
+    public async Task<IActionResult> RemoveFriend([FromRoute] Guid friendshipId) {
 
         var request = new RemoveFriendRequest()
         {

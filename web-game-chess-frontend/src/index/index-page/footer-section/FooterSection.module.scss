@@ -21,6 +21,7 @@
 
   &__intro {
     padding-bottom: 8rem;
+
     .footer-title {
       @include flex(row, start, center, 2rem);
       @include secFont(6rem);
@@ -141,5 +142,34 @@
   &__outro {
     text-align: center;
     padding: 1rem;
+  }
+}
+
+@media (max-width: 700px) {
+  .footer {
+    padding: 2rem;
+
+    &::before {
+      border-bottom-right-radius: 10rem;
+    }
+
+    &__grid {
+      @include flex(row, space-between, start, 0);
+
+      &__col {
+        gap: 1rem;
+
+        h3 {
+          font-size: 3rem;
+          margin-bottom: 1rem;
+        }
+
+        .contact {
+          p {
+            font-size: 2rem;
+          }
+        }
+      }
+    }
   }
 }

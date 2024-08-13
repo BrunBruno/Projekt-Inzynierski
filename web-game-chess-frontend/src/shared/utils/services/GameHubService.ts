@@ -12,6 +12,7 @@ import { Guid } from "guid-typescript";
 // singalR hub service map from GameHub
 class GameHub {
   private gameHubUrl: string = "http://localhost:5125/game-hub";
+  // private gameHubUrl: string = "http://192.168.1.46:5125/game-hub";
   private token: string | null = null;
   private attempts: number = 0;
 

@@ -65,6 +65,7 @@ public class VerifyEmailTests : IClassFixture<TestWebApplicationFactory<Program>
 
         await _dbContext.Init();
         await _dbContext.AddUser();
+        // code not added
 
         var mdoel = new VerifyEmailModel
         {
@@ -94,7 +95,7 @@ public class VerifyEmailTests : IClassFixture<TestWebApplicationFactory<Program>
 
         var model = new VerifyEmailModel
         {
-            Code = "Incorrect"
+            Code = "000000" // incorrect code
         };
 
         var json = JsonConvert.SerializeObject(model);

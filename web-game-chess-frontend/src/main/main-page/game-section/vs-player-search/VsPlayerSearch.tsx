@@ -89,7 +89,7 @@ function VsPlayerSearch({ setSearchIds }: VsPlayerSearchProps) {
           <div key={index} className={classes.search__grid__row}>
             <div className={classes.search__grid__row__header}>
               <TimingTypesIcons iconName={control.header.toLocaleLowerCase()} iconClass={classes["header-icon"]} />
-              {control.header}
+              <span>{control.header}</span>
             </div>
             {control.tags.map((tag, i) => (
               <div

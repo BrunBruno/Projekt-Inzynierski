@@ -58,7 +58,7 @@ function VerifyEmail({ setModal }: VerifyEmailProps) {
       const tempUser: LogInUserModel = JSON.parse(localStorage.getItem("logUserTemp")!);
 
       //sign in user after sucessful veryfication
-      const logInResponse = await axios.post<LogInUserDto>(userControllerPaths.logIn(), tempUser);
+      const logInResponse = await axios.post<LogInUserDto>(userControllerPaths.logInUser(), tempUser);
 
       // remove user temp
       localStorage.removeItem("logUserTemp");

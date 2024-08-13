@@ -22,9 +22,9 @@ public class FriendshipRepository : IFriendshipRepository {
                     .ToListAsync();
 
     ///<inheritdoc/>
-    public async Task<List<Guid>> GetAllFriendIds(Guid userId) 
+    public async Task<List<Guid>> GetAllFriendIds(Guid userId, FriendshipStatus? status = null) 
         => await _dbContext.Friendships
-                    .Where(f => f.RequestorId == userId || f.ReceiverId == userId)
+                    .Where(f => (f.RequestorId == userId || f.ReceiverId == userId) && (status == null || status == f.Status))
                     .Select(f => f.RequestorId == userId ? f.ReceiverId : f.RequestorId)
                     .ToListAsync();
 

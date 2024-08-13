@@ -2,13 +2,20 @@
 using chess.Application.Repositories;
 using chess.Application.Services;
 using chess.Core.Entities;
+using chess.Core.Enums;
+using chess.Core.Maps.MapOfElo;
 using chess.Shared.Exceptions;
 using MediatR;
-using chess.Core.Extensions;
-using chess.Core.Enums;
 
 namespace chess.Application.Requests.GameRequests.CreateRematchGame;
 
+/// <summary>
+/// Checks of provided timing exists
+/// Checks if both users exists
+/// Ceates players for both users
+/// Creates new game and game states
+/// Returns game id
+/// </summary>
 public class CreateRematchGameRequestHandler : IRequestHandler<CreateRematchGameRequest, CreateRematchGameDto> {
 
     private readonly IGameTimingRepository _gameTimingRepository;

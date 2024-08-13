@@ -55,6 +55,7 @@ public class RegenerateCodeTests : IClassFixture<TestWebApplicationFactory<Progr
     public async Task RegenerateCode_Should_Returns_NotFound_On_Fail() {
         
         await _dbContext.Init();
+        // user not added
 
         var model = new RegenerateCodeModel() { };
 

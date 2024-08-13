@@ -2,12 +2,19 @@
 using chess.Application.Repositories;
 using chess.Application.Services;
 using chess.Core.Entities;
-using chess.Core.Extensions;
+using chess.Core.Maps.MapOfElo;
 using chess.Shared.Exceptions;
 using MediatR;
 
 namespace chess.Application.Requests.GameRequests.SearchGame;
 
+/// <summary>
+/// Checks if current user exists
+/// Checks if provided data is correct
+/// Checks if provided timing exists, otherwise creates it
+/// Checks if player for current user alreay exists and await for game, otherwise creates new player
+/// Reaturns timing id and player id
+/// </summary>
 public class SearchGameRequestHandler : IRequestHandler<SearchGameRequest, SearchGameDto> {
 
     private readonly IPlayerRepository _playerRepository;
@@ -33,9 +40,6 @@ public class SearchGameRequestHandler : IRequestHandler<SearchGameRequest, Searc
 
         var user = await _userRepository.GetById(userId)
             ?? throw new NotFoundException("User not found.");
-
-        if (request.Minutes == 0)
-            throw new BadRequestException("Incorrect minutes value.");
 
         var existingGameTiming = await _gameTimingRepository.FindTiming(request.Type, request.Minutes * 60, request.Increment);
 

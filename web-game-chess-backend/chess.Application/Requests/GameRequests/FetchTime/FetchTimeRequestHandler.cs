@@ -5,6 +5,12 @@ using MediatR;
 
 namespace chess.Application.Requests.GameRequests.FetchTime;
 
+/// <summary>
+/// Checks if game exists
+/// Calculates time based on game properties
+/// Calculates time foe either whiet or black player
+/// Returns times dto
+/// </summary>
 public class FetchTimeRequestHandler : IRequestHandler<FetchTimeRequest, FetchTimeDto> {
 
     private readonly IGameRepository _gameRepository;
@@ -18,7 +24,6 @@ public class FetchTimeRequestHandler : IRequestHandler<FetchTimeRequest, FetchTi
         var game = await _gameRepository.GetById(request.GameId)
             ?? throw new NotFoundException("Game not found.");
 
- 
 
         DateTime lastTimeRecorded = (game.Moves.Count == 0 ? game.StartedAt : game.Moves[game.Moves.Count - 1].DoneAt) 
             ?? throw new BadRequestException("Game was not started properly.");
@@ -27,6 +32,7 @@ public class FetchTimeRequestHandler : IRequestHandler<FetchTimeRequest, FetchTi
 
         if (currentTime < lastTimeRecorded)
             throw new BadRequestException("Current time cannot be earlier than the last recorded move time.");
+
 
         double timeDifference = (currentTime - lastTimeRecorded).TotalSeconds;
         double whiteTimeLeft;
@@ -46,8 +52,8 @@ public class FetchTimeRequestHandler : IRequestHandler<FetchTimeRequest, FetchTi
 
         var timeDto = new FetchTimeDto()
         {
-            WhiteTimeLeft = whiteTimeLeft,
-            BlackTimeLeft = blackTimeLeft,
+            WhiteTimeLeft = whiteTimeLeft > 0 ? whiteTimeLeft : 0,
+            BlackTimeLeft = blackTimeLeft > 0 ? blackTimeLeft : 0,
         };
 
         return timeDto;

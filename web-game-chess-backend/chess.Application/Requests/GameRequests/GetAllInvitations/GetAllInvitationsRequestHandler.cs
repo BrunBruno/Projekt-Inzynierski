@@ -6,12 +6,19 @@ using MediatR;
 
 namespace chess.Application.Requests.GameRequests.GetAllInvitations;
 
+/// <summary>
+/// Get all invitations that belongs to user
+/// Returns paged result of invitation dtos
+/// </summary>
 public class GetAllInvitationsRequestHandler : IRequestHandler<GetAllInvitationsRequest, PagedResult<GetAllInvitationsDto>> {
 
     private readonly IUserContextService _userContextService;
     private readonly IInvitationRepository _invitationRepository;
 
-    public GetAllInvitationsRequestHandler(IUserContextService userContextService, IInvitationRepository invitationRepository) {
+    public GetAllInvitationsRequestHandler(
+        IUserContextService userContextService,
+        IInvitationRepository invitationRepository
+    ) {
         _userContextService = userContextService;
         _invitationRepository = invitationRepository;
     }

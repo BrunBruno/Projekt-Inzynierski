@@ -43,17 +43,9 @@ function SignIn({ setModal }: SignInProps) {
     // user data
     const form = event.target as HTMLFormElement;
     const userData: LogInUserModel = {
-      email: form.email.value.trim(),
+      emailOrUsername: form.email.value.trim(),
       password: form.password.value,
     };
-
-    // Check for email format
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(userData.email)) {
-      emailInputRef.current.classList.add(classes.err);
-      setErrorMess("Email is not valid.");
-      return;
-    }
 
     // check for empty password
     if (userData.password.length === 0) {
@@ -66,7 +58,7 @@ function SignIn({ setModal }: SignInProps) {
       setProcessing(true);
 
       // Log in user
-      const signInResponse = await axios.post<LogInUserDto>(userControllerPaths.logIn(), userData);
+      const signInResponse = await axios.post<LogInUserDto>(userControllerPaths.logInUser(), userData);
 
       // set token
       localStorage.setItem("token", signInResponse.data.token);
@@ -93,7 +85,6 @@ function SignIn({ setModal }: SignInProps) {
       errorDisplay(err, setErrorMess);
 
       setProcessing(false);
-      console.log(err);
     }
   };
 

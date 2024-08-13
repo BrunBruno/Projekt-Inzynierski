@@ -225,7 +225,7 @@ public class GameHub : Hub<IGameHub> {
     /// <returns></returns>
     [HubMethodName("decline-invitation")]
     [Authorize(Policy = "IsVerified")]
-    [SignalRMethod("LeaveGame", Operation.Delete)]
+    [SignalRMethod("DeclineInvitation", Operation.Delete)]
     public async Task DeclineInvitation(DeclineInvitationModel model) {
 
         var request = _mapper.Map<DeclineInvitationRequest>(model);

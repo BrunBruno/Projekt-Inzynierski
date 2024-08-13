@@ -6,6 +6,12 @@ using MediatR;
 
 namespace chess.Application.Requests.GameRequests.AcceptInvitation;
 
+/// <summary>
+/// Checks if players for both users exists
+/// Checks if user is invitee
+/// Checks if invitation for game exists
+/// Updates players and invitation
+/// </summary>
 public class AcceptInvitationRequestHandler : IRequestHandler<AcceptInvitationRequest> {
 
     private readonly IPlayerRepository _playerRepository;
@@ -26,10 +32,10 @@ public class AcceptInvitationRequestHandler : IRequestHandler<AcceptInvitationRe
 
         var userId = _userContextService.GetUserId();
 
-        var invitor = await _playerRepository.GetByUserIdandGameId(request.InvitorId, request.GameId)
+        var invitor = await _playerRepository.GetByUserIdAndGameId(request.InvitorId, request.GameId)
             ?? throw new NotFoundException("Player not found.");
 
-        var invitee  = await _playerRepository.GetByUserIdandGameId(request.InviteeId, request.GameId)
+        var invitee  = await _playerRepository.GetByUserIdAndGameId(request.InviteeId, request.GameId)
             ?? throw new NotFoundException("Player not found.");
 
         if (userId != invitee.UserId)
@@ -47,6 +53,5 @@ public class AcceptInvitationRequestHandler : IRequestHandler<AcceptInvitationRe
         await _playerRepository.Update(invitor);
         await _playerRepository.Update(invitee);
         await _invitationRepository.Update(invitation);
-
     }
 }

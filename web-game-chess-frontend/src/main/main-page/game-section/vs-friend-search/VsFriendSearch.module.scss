@@ -65,3 +65,14 @@
     }
   }
 }
+
+@media (max-width: 700px) {
+  .search {
+    padding: 0;
+
+    &__split {
+      grid-template-columns: 1fr;
+      grid-template-rows: 30rem auto;
+    }
+  }
+}

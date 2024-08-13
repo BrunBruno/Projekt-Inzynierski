@@ -1,17 +1,27 @@
 ﻿
 using chess.Application.Repositories;
 using chess.Application.Services;
+using chess.Core.Dtos;
 using chess.Shared.Exceptions;
 using MediatR;
 
 namespace chess.Application.Requests.GameRequests.GetGame;
 
+/// <summary>
+/// Checks if game exists
+/// Checks if user is player of provided game
+/// Update start time if first get
+/// Creates and returns gamedto
+/// </summary>
 public class GetGameRequestHandler : IRequestHandler<GetGameRequest, GetGameDto> {
 
     private readonly IGameRepository _gameRepository;
     private readonly IUserContextService _userContextService;
 
-    public GetGameRequestHandler(IGameRepository gameRepository, IUserContextService userContextService) {
+    public GetGameRequestHandler(
+        IGameRepository gameRepository,
+        IUserContextService userContextService
+    ) {
         _gameRepository = gameRepository;
         _userContextService = userContextService;
     }
@@ -46,21 +56,21 @@ public class GetGameRequestHandler : IRequestHandler<GetGameRequest, GetGameDto>
             CanBlackShortRookCastle = game.GameState.CanBlackShortRookCastle,
             CanBlackLongRookCastle = game.GameState.CanBlackLongRookCastle,
 
-            WhitePlayer = new GetGamePlayerDto()
+            WhitePlayer = new PlayerDto()
             {
                 Name = game.WhitePlayer.Name,
                 ImageUrl = game.WhitePlayer.ImageUrl,
                 Elo = game.WhitePlayer.Elo,
             },
 
-            BlackPlayer = new GetGamePlayerDto()
+            BlackPlayer = new PlayerDto()
             {
                 Name = game.BlackPlayer.Name,
                 ImageUrl = game.BlackPlayer.ImageUrl,
                 Elo = game.BlackPlayer.Elo,
             },
 
-            Moves = game.Moves.Select(move => new GetGameMoveDto
+            Moves = game.Moves.Select(move => new MoveDto
             {
                 Move = move.DoneMove,
                 Turn = move.Turn,

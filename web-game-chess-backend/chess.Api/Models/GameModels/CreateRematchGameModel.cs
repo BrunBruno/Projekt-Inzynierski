@@ -1,11 +1,8 @@
 ﻿
-using chess.Core.Enums;
+using chess.Core.Abstraction;
 
 namespace chess.Api.Models.GameModels;
 
-public class CreateRematchGameModel {
-    public TimingTypes Type { get; set; }
-    public int Minutes { get; set; }
-    public int Increment { get; set; }
+public class CreateRematchGameModel : TimingType {
     public Guid OpponentId { get; set; }
 }

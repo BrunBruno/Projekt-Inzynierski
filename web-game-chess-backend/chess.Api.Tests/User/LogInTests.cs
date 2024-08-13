@@ -1,6 +1,6 @@
 ﻿
 using chess.Api.Models.UserModels;
-using chess.Application.Requests.UserRequests.LogIn;
+using chess.Application.Requests.UserRequests.LogInUser;
 using chess.Infrastructure.Contexts;
 using FluentAssertions;
 using Microsoft.Extensions.DependencyInjection;
@@ -33,11 +33,12 @@ public class LogInTests : IClassFixture<TestWebApplicationFactory<Program>> {
     public async Task LogIn_Should_Return_Token_On_Success() {
 
         await _dbContext.Init();
+        await _dbContext.AddUser();
 
         var model = new LogInUserModel()
         {
             EmailOrUsername = "test@test.com",
-            Password = "Password",
+            Password = "string",
         };
 
         var json = JsonConvert.SerializeObject(model);
@@ -68,7 +69,7 @@ public class LogInTests : IClassFixture<TestWebApplicationFactory<Program>> {
         var model = new LogInUserModel()
         {
             EmailOrUsername = userEmail,
-            Password = "Password",
+            Password = "Password", // incorrect (string)
         };
 
         var json = JsonConvert.SerializeObject(model);

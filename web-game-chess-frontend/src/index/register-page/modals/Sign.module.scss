@@ -198,3 +198,31 @@
   }
 }
 // end form
+
+@media (max-width: 700px) {
+  .registration-form {
+    gap: 2rem;
+
+    h2 {
+      font-size: 4rem;
+    }
+
+    .change-form {
+      font-size: 1.6rem;
+    }
+
+    .inputs {
+      gap: 2rem;
+
+      .form-row {
+        .form-input {
+          font-size: 2.4rem;
+        }
+      }
+    }
+
+    .registration-button {
+      font-size: 3rem;
+    }
+  }
+}

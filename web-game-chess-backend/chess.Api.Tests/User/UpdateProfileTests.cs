@@ -67,6 +67,7 @@ public class UpdateProfileTests : IClassFixture<TestWebApplicationFactory<Progra
     public async Task UpdateProfile_Should_Returns_NotFound_On_Fail() {
 
         await _dbContext.Init();
+        // user not added
 
         var model = new UpdateProfileModel()
         {

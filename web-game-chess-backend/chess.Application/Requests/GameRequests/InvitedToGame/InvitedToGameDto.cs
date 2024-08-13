@@ -1,5 +1,6 @@
 ﻿
-using chess.Application.Requests.Abstraction;
+
+using chess.Core.Abstraction;
 
 namespace chess.Application.Requests.GameRequests.InvitedToGame;
 

@@ -28,14 +28,60 @@ export type PagedModel = {
 
 // most comment user data dto
 export type UserDto = {
+  // username
   username: string;
+  // full name
   name: string | null;
+  // profile picture
   imageUrl: string | null;
+  // country where acount has been registered
   country: string;
 };
 
+// general timing type model
 export type TimingTypeModel = {
+  // game timing type
   type: TimingType;
+  // time for one player
   minutes: number;
+  // increment after each move
   increment: number;
+};
+
+// game results representation
+export type WinDrawLose = {
+  // total games played
+  total: number;
+  // total wins
+  wins: number;
+  // total draws
+  draws: number;
+  // total loses
+  loses: number;
+};
+
+// general player dto
+export type PlayerDto = {
+  // username from user
+  name: string;
+  // profile picture
+  imageUrl: string | null;
+  // elo for current selected type
+  elo: number;
+  // color of a player
+  color: number;
+};
+
+// general move dto
+export type MoveDto = {
+  // done move
+  move: string;
+  // turn when move was done
+  turn: number;
+  // previous piece coordinates
+  oldCoor: string;
+  // new piece coordinates
+  newCoor: string;
+  // captured piece tag
+  capturedPiece: string;
 };

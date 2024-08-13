@@ -1,4 +1,5 @@
 ﻿
+using chess.Core.Abstraction;
 using chess.Core.Dtos;
 
 namespace chess.Application.Requests.FriendshipRequests.GetAllNonFriends;
@@ -17,4 +18,9 @@ public class GetAllNonFriendsDto : UserDto {
     /// User elo for all timing types
     /// </summary>
     public required EloDto Elo { get; set; }
+
+    /// <summary>
+    /// Win, loses nad draws in total
+    /// </summary>
+    public required WinDrawLose WdlTotal { get; set; }
 }

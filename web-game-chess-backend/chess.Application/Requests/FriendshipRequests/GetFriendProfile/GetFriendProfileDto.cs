@@ -1,4 +1,5 @@
 ﻿
+using chess.Core.Abstraction;
 using chess.Core.Dtos;
 
 namespace chess.Application.Requests.FriendshipRequests.GetFriendProfile;
@@ -24,32 +25,17 @@ public class GetFriendProfileDto : UserDto {
     public DateTime? FriendsSince { get; set; }
 
     /// <summary>
-    /// Wins for requestor of freindship
-    /// </summary>
-    public int RequestorWins { get; set; }
-
-    /// <summary>
-    /// Loses for requestor of freindship
-    /// </summary>
-    public int RequestorLoses { get; set; }
-
-    /// <summary>
-    /// Draws for requestor of freindship
-    /// </summary>
-    public int RequestorDraws { get; set; }
-
-    /// <summary>
-    /// All games that was played in friendship
-    /// </summary>
-    public int GamesPlayedTogether { get; set; }
-
-    /// <summary>
-    /// All games played in general by friend
-    /// </summary>
-    public int GamesPlayed { get; set; }
-
-    /// <summary>
     /// Friend elo for all timing types
     /// </summary>
     public required EloDto Elo { get; set; }
+
+    /// <summary>
+    /// Win, loses nad draws in total
+    /// </summary>
+    public required WinDrawLose WdlTotal { get; set; }
+
+    /// <summary>
+    ///  Win, loses nad draws in ralationship
+    /// </summary>
+    public required WinDrawLose WdlTogether { get; set; }
 }

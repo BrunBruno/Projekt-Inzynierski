@@ -6,6 +6,11 @@ using MediatR;
 
 namespace chess.Application.Requests.GameRequests.GetOpponent;
 
+/// <summary>
+/// Checks if previous game exists
+/// Checks if previous game was for current user
+/// Gets and returs opponent id
+/// </summary>
 public class GetOpponentRequestHandler : IRequestHandler<GetOpponentRequest, GetOpponentDto> {
 
     private readonly IUserContextService _userContextService;
@@ -27,7 +32,7 @@ public class GetOpponentRequestHandler : IRequestHandler<GetOpponentRequest, Get
             ?? throw new NotFoundException("Game not found.");
 
         if (game.WhitePlayer.UserId != userId && game.BlackPlayer.UserId != userId)
-            throw new BadRequestException("This is not user game.");
+            throw new UnauthorizedException("This is not user game.");
 
         Guid opponentId = game.WhitePlayer.UserId == userId ? game.BlackPlayer.UserId : game.WhitePlayer.UserId;
 

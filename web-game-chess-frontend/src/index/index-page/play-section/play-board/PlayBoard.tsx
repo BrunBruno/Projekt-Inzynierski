@@ -23,30 +23,39 @@ const PlayBoard = forwardRef<HandleOnScroll, PlayBoardProps>(
 
     // hadnle board on scroll
     const handleOnScroll = (): void => {
-      const element = boardRef.current;
-      if (element) {
-        const parentRect = element.getBoundingClientRect();
-        const y = parentRect.top;
+      const innerElement = innerBoardRef.current;
+      const outerElement = outerBoardRef.current;
 
-        if (y > -wh && y < wh) {
-          // lighting up board
-          const innerElement = innerBoardRef.current;
-          const outerElement = outerBoardRef.current;
-          if (innerElement && outerElement) {
-            if (y < wh * 0.5 && y > -wh * 0.5) {
-              innerElement.classList.add(classes["visible-inner"]);
-              outerElement.classList.add(classes["visible-outer"]);
-            } else {
-              innerElement.classList.remove(classes["visible-inner"]);
-              outerElement.classList.remove(classes["visible-outer"]);
+      if (window.innerWidth > 700) {
+        const element = boardRef.current;
+        if (element) {
+          const parentRect = element.getBoundingClientRect();
+          const y = parentRect.top;
+
+          if (y > -wh && y < wh) {
+            // lighting up board
+
+            if (innerElement && outerElement) {
+              if (y < wh * 0.5 && y > -wh * 0.5) {
+                innerElement.classList.add(classes["visible-inner"]);
+                outerElement.classList.add(classes["visible-outer"]);
+              } else {
+                innerElement.classList.remove(classes["visible-inner"]);
+                outerElement.classList.remove(classes["visible-outer"]);
+              }
             }
+
+            const scale: number = Math.pow(Math.E, -(1 / Math.pow(10, 6)) * Math.pow(y, 2));
+            const rotate: number = -(1 / 100) * y;
+
+            // roate board based on user position
+            element.style.transform = `scale(${scale}) rotateZ(${rotate}deg)`;
           }
-
-          const scale: number = Math.pow(Math.E, -(1 / Math.pow(10, 6)) * Math.pow(y, 2));
-          const rotate: number = -(1 / 100) * y;
-
-          // roate board based on user position
-          element.style.transform = `scale(${scale}) rotateZ(${rotate}deg)`;
+        }
+      } else {
+        if (innerElement && outerElement) {
+          innerElement.classList.add(classes["visible-inner"]);
+          outerElement.classList.add(classes["visible-outer"]);
         }
       }
     };
@@ -81,7 +90,7 @@ const PlayBoard = forwardRef<HandleOnScroll, PlayBoardProps>(
         boardRows.push(
           <div key={i} className={classes["grid-row"]}>
             {generateTiles()}
-          </div>
+          </div>,
         );
       }
 
@@ -193,7 +202,7 @@ const PlayBoard = forwardRef<HandleOnScroll, PlayBoardProps>(
         </div>
       </div>
     );
-  }
+  },
 );
 
 export default PlayBoard;

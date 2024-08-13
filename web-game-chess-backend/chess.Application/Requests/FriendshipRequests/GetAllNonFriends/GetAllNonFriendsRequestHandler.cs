@@ -2,11 +2,17 @@
 using chess.Application.Pagination;
 using chess.Application.Repositories;
 using chess.Application.Services;
+using chess.Core.Abstraction;
 using chess.Core.Dtos;
 using MediatR;
 
 namespace chess.Application.Requests.FriendshipRequests.GetAllNonFriends;
 
+/// <summary>
+/// Collents all users that have not estalished raltionship with current user
+/// Filters users with provided username
+/// Returns paged result of user dtos
+/// </summary>
 public class GetAllNonFriendsRequestHandler : IRequestHandler<GetAllNonFriendsRequest, PagedResult<GetAllNonFriendsDto>> {
 
     private readonly IFriendshipRepository _friendshipRepository;
@@ -46,6 +52,7 @@ public class GetAllNonFriendsRequestHandler : IRequestHandler<GetAllNonFriendsRe
             Name = nf.Name,
             ImageUrl = nf.ImageUrl,
             Country = nf.Country,
+
             Elo = new EloDto()
             {
                 Bullet = nf.Elo.Bullet,
@@ -54,6 +61,15 @@ public class GetAllNonFriendsRequestHandler : IRequestHandler<GetAllNonFriendsRe
                 Classic = nf.Elo.Classic,
                 Daily = nf.Elo.Daily,
             },
+
+            WdlTotal = new WinDrawLose()
+            {
+                Total = nf.Stats.GamesPlayed,
+                Wins = nf.Stats.Wins,
+                Draws = nf.Stats.Draws,
+                Loses = nf.Stats.Loses,
+            },
+
         }).ToList();
 
         var pagedResult = new PagedResult<GetAllNonFriendsDto>(nonFriendsDtos, nonFriendsDtos.Count, request.PageSize, request.PageNumber);

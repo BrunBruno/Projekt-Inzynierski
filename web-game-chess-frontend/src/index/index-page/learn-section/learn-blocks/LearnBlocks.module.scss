@@ -286,3 +286,35 @@
     }
   }
 }
+
+@media (max-width: 700px) {
+  .zpattern {
+    padding: 0;
+
+    &__row {
+      padding: 3rem;
+
+      &:nth-child(odd) {
+        @include flex(column-reverse, center, center, 2rem);
+      }
+      &:nth-child(even) {
+        @include flex(column, center, center, 2rem);
+      }
+
+      &__icon {
+        @include square(50% !important);
+      }
+
+      &__text {
+        text-align: justify;
+
+        .row-h3 {
+          font-size: 4rem;
+        }
+        .row-p {
+          font-size: 2.4rem;
+        }
+      }
+    }
+  }
+}

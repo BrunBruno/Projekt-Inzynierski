@@ -28,11 +28,10 @@ function FriendCard({ selectedList, friend, getAllUsers, setFriend }: FriendCard
   const onRespondToRequest = async (accept: boolean) => {
     try {
       const model: RespondToFriendRequestModel = {
-        friendshipId: friend.freindshpId,
         isAccepted: accept,
       };
 
-      await axios.put(friendshipControllerPaths.respondToFriendRequest(), model, getAuthorization());
+      await axios.put(friendshipControllerPaths.respondToFriendRequest(friend.freindshpId), model, getAuthorization());
 
       if (accept === true) {
         showPopup("User accepted", "success");

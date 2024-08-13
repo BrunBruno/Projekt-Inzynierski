@@ -32,6 +32,7 @@ public class GetFullUserTests : IClassFixture<TestWebApplicationFactory<Program>
 
         await _dbContext.Init();
         await _dbContext.AddUser();
+        await _dbContext.AddStatsForUser();
 
         var response = await _client.GetAsync("api/user/full");
 
@@ -40,8 +41,8 @@ public class GetFullUserTests : IClassFixture<TestWebApplicationFactory<Program>
 
 
         var result = JsonConvert.DeserializeObject<GetFullUserDto>(await response.Content.ReadAsStringAsync());
-        result.Email.Should().Be("test@gmail.com");
-        result.Wins.Should().Be(0);
+        result.Email.Should().Be("test@test.com");
+        result.WdlTotal.Wins.Should().Be(0);
     }
 
     /// <summary>
@@ -52,6 +53,7 @@ public class GetFullUserTests : IClassFixture<TestWebApplicationFactory<Program>
     public async Task GetFullUser_Returns_NotFound_On_Fail() {
 
         await _dbContext.Init();
+        // user not added
 
 
         var response = await _client.GetAsync("api/user/full");

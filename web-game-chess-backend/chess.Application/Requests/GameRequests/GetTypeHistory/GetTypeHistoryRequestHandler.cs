@@ -5,35 +5,33 @@ using chess.Application.Services;
 using chess.Core.Enums;
 using chess.Shared.Exceptions;
 using MediatR;
-using chess.Core.Extensions;
 
 namespace chess.Application.Requests.GameRequests.GetTypeHistory;
 
+/// <summary>
+/// Checks if user exists
+/// Checks if players for user exosts
+/// Creates hstory of games for selected and provided game timing type
+/// Returns type history
+/// </summary>
 public class GetTypeHistoryRequestHandler : IRequestHandler<GetTypeHistoryRequest, PagedResult<GetTypeHistoryDto>> {
 
     private readonly IUserContextService _userContextService;
     private readonly IPlayerRepository _playerRepository;
-    private readonly IUserRepository _userRepository;
 
     public GetTypeHistoryRequestHandler(
         IUserContextService userContextService,
-        IPlayerRepository playerRepository,
-        IUserRepository userRepository
+        IPlayerRepository playerRepository
     ) {
         _userContextService = userContextService;
         _playerRepository = playerRepository;
-        _userRepository = userRepository;
     }
 
     public async Task<PagedResult<GetTypeHistoryDto>> Handle(GetTypeHistoryRequest request, CancellationToken cancellationToken) {
 
         var userId = _userContextService.GetUserId();
 
-        var user = await _userRepository.GetById(userId)
-            ?? throw new NotFoundException("User not found.");
-
-        var players = await _playerRepository.GetAllForUser(userId)
-            ?? throw new NotFoundException("Players not found.");
+        var players = await _playerRepository.GetAllForUser(userId);
 
         var typeHistory = new List<GetTypeHistoryDto>();
 
@@ -54,7 +52,6 @@ public class GetTypeHistoryRequestHandler : IRequestHandler<GetTypeHistoryReques
                 };
 
                 typeHistory.Add(typeHistoryDto);
-
             }
 
             if (player.BlackGame != null && player.BlackGame.TimingType == request.Type) {
@@ -72,8 +69,6 @@ public class GetTypeHistoryRequestHandler : IRequestHandler<GetTypeHistoryReques
                 };
 
                 typeHistory.Add(typeHistoryDto);
-
-
             }
 
         }

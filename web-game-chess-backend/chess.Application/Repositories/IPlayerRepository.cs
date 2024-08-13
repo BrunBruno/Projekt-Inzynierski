@@ -28,7 +28,7 @@ public interface IPlayerRepository {
     /// <param name="userId"></param>
     /// <param name="gameId"></param>
     /// <returns></returns>
-    Task<Player?> GetByUserIdandGameId(Guid userId, Guid gameId);
+    Task<Player?> GetByUserIdAndGameId(Guid userId, Guid gameId);
 
     /// <summary>
     /// Gets player that is not in game yet

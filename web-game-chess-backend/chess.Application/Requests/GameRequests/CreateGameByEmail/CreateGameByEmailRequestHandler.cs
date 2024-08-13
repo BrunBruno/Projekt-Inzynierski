@@ -3,12 +3,23 @@ using chess.Application.Repositories;
 using chess.Application.Services;
 using chess.Core.Entities;
 using chess.Core.Enums;
-using chess.Core.Extensions;
+using chess.Core.Maps.MapOfElo;
 using chess.Shared.Exceptions;
 using MediatR;
 
 namespace chess.Application.Requests.GameRequests.CreateGameByEmail;
 
+/// <summary>
+/// Checks if current user exists
+/// Checks if user with provided email exists
+/// Checks if provided data is correct
+/// Checks if game timing exists and if not creates one
+/// Creates players for both current user and provided friend
+/// Creates new game and associated game state
+/// Creates new invitation for created game
+/// Sends invitaton to friend email
+/// Returns essentail for further actions
+/// </summary>
 public class CreateGameByEmailRequestHandler : IRequestHandler<CreateGameByEmailRequest, CreateGameByEmailDto> {
 
     private readonly IUserContextService _userContextService;
@@ -49,9 +60,6 @@ public class CreateGameByEmailRequestHandler : IRequestHandler<CreateGameByEmail
 
         var friend = await _userRepository.GetByEmail(request.Email)
              ?? throw new NotFoundException("Friend not found.");
-
-        if (request.Minutes == 0)
-            throw new BadRequestException("Incorrect minutes value.");
 
         var existingGameTiming = await _gameTimingRepository.FindTiming(request.Type, request.Minutes * 60, request.Increment);
 
@@ -158,7 +166,7 @@ public class CreateGameByEmailRequestHandler : IRequestHandler<CreateGameByEmail
         };
 
 
-        await _smtpService.SendGameInvitation(request.Email.ToLower(), friend.Username, user.Username);
+        await _smtpService.SendGameInvitation(friend.Email.ToLower(), friend.Username, user.Username);
 
 
         return privateGameDto;

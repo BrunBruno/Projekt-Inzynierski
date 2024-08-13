@@ -9,5 +9,11 @@
 @import "../shared/styles/commons-styles/animations.scss";
 
 @mixin forNav() {
-  padding-right: 6rem;
+  @media (min-width: 700px) {
+    padding-right: 6rem;
+  }
+
+  @media (max-width: 700px) {
+    padding-top: 6rem;
+  }
 }

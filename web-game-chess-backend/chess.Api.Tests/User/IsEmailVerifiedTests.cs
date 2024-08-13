@@ -51,6 +51,7 @@ public class IsEmailVerifiedTests : IClassFixture<TestWebApplicationFactory<Prog
     public async Task IsEmailVerified_Should_Return_NotFound_On_Fail() {
 
         await _dbContext.Init();
+        // user not added
 
 
         var response = await _client.GetAsync("api/user/is-verified");
