@@ -10,6 +10,11 @@ namespace chess.Application.Requests.GameRequests.GetPlayer;
 public class GetPlayerDto : PlayerDto {
 
     /// <summary>
+    /// Player id
+    /// </summary>
+    public Guid PlayerId { get; set; }
+
+    /// <summary>
     /// Color representing side of the board 
     /// </summary>
     public required Colors Color { get; set; }

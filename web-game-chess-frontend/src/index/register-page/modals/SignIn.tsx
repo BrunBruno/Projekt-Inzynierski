@@ -98,7 +98,7 @@ function SignIn({ setModal }: SignInProps) {
   };
 
   if (processing) {
-    return <LoadingPage />;
+    return <LoadingPage text="Logging in..." />;
   }
 
   return (

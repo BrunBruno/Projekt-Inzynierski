@@ -11,8 +11,9 @@
   overflow: hidden;
 }
 
-@media (max-width: 800px) {
+@media (max-width: 1000px) {
   .game-main {
-    grid-template-columns: 0 auto 0;
+    grid-template-columns: 100%;
+    grid-template-rows: 10rem auto 20rem;
   }
 }

@@ -26,7 +26,7 @@ class GameHub {
   }
 
   // initialize connection
-  private initializeConnection(token: string): void {
+  private initializeConnection(token: string) {
     this.connection = new signalR.HubConnectionBuilder()
       .withUrl(this.gameHubUrl, {
         skipNegotiation: true,
@@ -105,19 +105,19 @@ class GameHub {
     }
   }
 
-  // to accept game invitations
-  public async AcceptInvitation(model: AcceptInvitationModel) {
+  // add to group with game id
+  public async GameStarted(gameId: Guid): Promise<void> {
     try {
-      await this.connection?.invoke("accept-invitation", model);
+      await this.connection?.invoke("game-started", gameId);
     } catch (err) {
       console.error(err);
     }
   }
 
-  // add to group with game id
-  public async GameStarted(gameId: Guid): Promise<void> {
+  // to accept game invitations
+  public async AcceptInvitation(model: AcceptInvitationModel) {
     try {
-      await this.connection?.invoke("game-started", gameId);
+      await this.connection?.invoke("accept-invitation", model);
     } catch (err) {
       console.error(err);
     }

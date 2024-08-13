@@ -13,6 +13,7 @@ import AccountPage from "./account-page/AccountPage";
 import { PopupProvider } from "../shared/utils/hooks/usePopUp";
 import { getErrMessage } from "../shared/utils/functions/displayError";
 import ProfilePage from "./profile-page/ProfilePage";
+import { TimingTypeProvider } from "../shared/utils/hooks/useTimingType";
 
 function MainRouter() {
   const navigate = useNavigate();
@@ -79,15 +80,17 @@ function MainRouter() {
   }
 
   return (
-    <PopupProvider>
-      <Routes>
-        <Route path="/" element={<MainPage />} />
-        <Route path="/users" element={<UsersPage />} />
-        <Route path="/game/:gameId" element={<GamePage />} />
-        <Route path="/account" element={<AccountPage />} />
-        <Route path="/profile/:friendshipId" element={<ProfilePage />} />
-      </Routes>
-    </PopupProvider>
+    <TimingTypeProvider>
+      <PopupProvider>
+        <Routes>
+          <Route path="/" element={<MainPage />} />
+          <Route path="/users" element={<UsersPage />} />
+          <Route path="/game/:gameIdStr" element={<GamePage />} />
+          <Route path="/account" element={<AccountPage />} />
+          <Route path="/profile/:friendshipId" element={<ProfilePage />} />
+        </Routes>
+      </PopupProvider>
+    </TimingTypeProvider>
   );
 }
 

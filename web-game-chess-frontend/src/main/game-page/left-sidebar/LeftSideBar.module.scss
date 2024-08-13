@@ -65,6 +65,7 @@
         }
 
         span {
+          white-space: nowrap;
           font-size: 2rem;
           color: $gc5;
         }
@@ -72,6 +73,22 @@
         svg.list-icon {
           height: 3rem;
         }
+      }
+    }
+  }
+}
+
+@media (max-width: 1000px) {
+  .bar {
+    &::after {
+      display: none;
+    }
+
+    &__content {
+      @include flex(row, start, center, 0);
+
+      &__list {
+        flex-direction: row;
       }
     }
   }

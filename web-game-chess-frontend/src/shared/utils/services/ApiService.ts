@@ -93,6 +93,7 @@ interface GameControllerPaths {
   getAllFinishedGames: (model: GetAllFinishedGamesModel) => string;
   getTypeHistory: (model: GetTypeHistiryModel) => string;
   getAllInvitations: (model: GetAllInvitationsModel) => string;
+  getAllMessages: (gameId: Guid) => string;
   //DELETE
   abortSearch: (model: AbortSearchModel) => string;
 }
@@ -141,6 +142,9 @@ export const gameControllerPaths: GameControllerPaths = {
 
   // gets all previous inivations, taht were untouched
   getAllInvitations: (model: GetAllInvitationsModel): string => `${gameBaseUrl}/invitations?${stringifyModel(model)}`,
+
+  // gets all messages for current game
+  getAllMessages: (gameId: Guid): string => `${gameBaseUrl}/${gameId}/messages`,
 
   // removes player
   abortSearch: (model: AbortSearchModel): string => `${gameBaseUrl}/abort?${stringifyModel(model)}`,

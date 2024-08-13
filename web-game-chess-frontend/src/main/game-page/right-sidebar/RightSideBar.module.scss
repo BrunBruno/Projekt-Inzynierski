@@ -103,8 +103,53 @@
       }
     }
 
-    &__actions {
+    &__messages {
       @include block();
+
+      display: grid;
+      grid-template-rows: 80% 20%;
+
+      &__list {
+        overflow-y: scroll;
+
+        &::-webkit-scrollbar {
+          display: none;
+        }
+      }
+
+      &__actions {
+        @include flex(row, space-between, center, 0);
+
+        .message-input {
+          @include cInput(1.6rem);
+        }
+
+        .send-button {
+          @include button(1.6rem);
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 1000px) {
+  .bar {
+    &::after {
+      display: none;
+    }
+
+    &__content {
+      grid-template-rows: 100%;
+      grid-template-columns: 1fr 1fr;
+      gap: 20%;
+    }
+
+    &__history {
+      display: none;
+    }
+
+    &__messages {
+      display: none;
     }
   }
 }

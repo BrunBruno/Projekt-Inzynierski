@@ -1,1 +1,28 @@
 @import "../../../Main.scss";
+
+.message {
+  display: grid;
+  grid-template-columns: 4rem auto;
+  width: 100%;
+  margin-bottom: 1rem;
+
+  &__user {
+    @include circle(3rem);
+    overflow: hidden;
+
+    .sender-image {
+      height: 3rem;
+    }
+  }
+
+  &__content {
+    .sender-data {
+      color: $gc5;
+      font-size: 0.8rem;
+    }
+
+    .mess-text {
+      font-size: 1.2rem;
+    }
+  }
+}

@@ -1,6 +1,7 @@
 @import "../../../Main.scss";
 
 .clock {
+  @include flex();
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 2rem;
@@ -13,6 +14,7 @@
     font-size: 2rem;
     font-weight: 600;
     opacity: 0.5;
+    height: fit-content;
 
     &:nth-child(1) {
       color: #000;

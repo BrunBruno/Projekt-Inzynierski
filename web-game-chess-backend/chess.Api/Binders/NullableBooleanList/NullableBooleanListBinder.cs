@@ -8,6 +8,7 @@ namespace chess.Api.Binders.NullableBooleanList;
 /// </summary>
 public class NullableBooleanListBinder : IModelBinder {
     public Task BindModelAsync(ModelBindingContext bindingContext) {
+
         var value = bindingContext.ValueProvider.GetValue(bindingContext.ModelName).ToString();
 
         if (string.IsNullOrEmpty(value)) {

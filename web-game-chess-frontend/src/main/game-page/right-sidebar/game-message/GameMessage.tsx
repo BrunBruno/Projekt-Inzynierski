@@ -1,9 +1,30 @@
+import AvatarImage from "../../../../shared/components/avatar-image/AvatarImage";
+import { GetAllMessagesDto } from "../../../../shared/utils/types/gameDtos";
 import classes from "./GameMessage.module.scss";
 
-type GameMessageProps = {};
+type GameMessageProps = {
+  message: GetAllMessagesDto;
+};
 
-function GameMessage({}: GameMessageProps) {
-  return <div className={classes.message}></div>;
+function GameMessage({ message }: GameMessageProps) {
+  return (
+    <div className={classes.message}>
+      <div className={classes.message__user}>
+        <AvatarImage
+          username={message.senderName}
+          imageUrl={message.senderImage}
+          containerClass={classes.message__user}
+          imageClass={classes["sender-image"]}
+        />
+      </div>
+      <div className={classes.message__content}>
+        <p className={classes["sender-data"]}>
+          {message.senderName}: {new Date(message.sentAt).toDateString()}
+        </p>
+        <span className={classes["mess-text"]}>{message.message}</span>
+      </div>
+    </div>
+  );
 }
 
 export default GameMessage;

@@ -4,20 +4,19 @@ using chess.Core.Enums;
 
 namespace chess.Core.Maps.MapOfElo;
 
-public static class EloExtensions
-{
-    public static int GetElo(this Elo elo, TimingTypes type)
-    {
+public static class EloExtensions {
+
+    public static int GetElo(this Elo elo, TimingTypes type) { 
         return EloMap.EloMapping[type].Get(elo);
     }
 
-    public static void SetElo(this Elo elo, TimingTypes type, int value)
-    {
+    public static void SetElo(this Elo elo, TimingTypes type, int value) {
+
         EloMap.EloMapping[type].Set(elo, value);
     }
 
-    public static void UpdateElo(this Elo elo, TimingTypes type, int change)
-    {
+    public static void UpdateElo(this Elo elo, TimingTypes type, int change) {
+
         EloMap.EloMapping[type].Update(elo, change);
     }
 }

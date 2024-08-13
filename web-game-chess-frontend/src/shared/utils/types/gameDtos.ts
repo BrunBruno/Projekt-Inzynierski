@@ -40,6 +40,9 @@ export type GetEndedGameDto = {
 };
 
 export type GetPlayerDto = PlayerDto & {
+  // player id
+  playerId: Guid;
+  // color of a player
   color: PieceColor;
 };
 
@@ -153,4 +156,11 @@ export type GetAllInvitationsDto = {
   createdAt: Date;
   // game timing type for game
   type: TimingType;
+};
+
+export type GetAllMessagesDto = {
+  message: string;
+  senderName: string;
+  senderImage: string | null;
+  sentAt: Date;
 };

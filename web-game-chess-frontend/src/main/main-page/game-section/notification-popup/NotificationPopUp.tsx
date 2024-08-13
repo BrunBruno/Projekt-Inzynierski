@@ -12,7 +12,9 @@ import { getErrMessage } from "../../../../shared/utils/functions/displayError";
 import { useTimingType } from "../../../../shared/utils/hooks/useTimingType";
 
 type NotificationPopUpProps = {
+  //
   allowNotification: boolean;
+  //
   setAllowNotification: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
@@ -31,8 +33,6 @@ function NotificationPopUp({ allowNotification, setAllowNotification }: Notifica
       minutes: invitationDto.minutes,
       increment: invitationDto.increment,
     };
-
-    console.log(timing);
 
     setTimingType(timing);
 

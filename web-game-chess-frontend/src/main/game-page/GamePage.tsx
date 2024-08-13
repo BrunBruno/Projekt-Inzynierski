@@ -17,23 +17,35 @@ import GameBoard from "./game-board/GameBoard";
 import GameHubService from "../../shared/utils/services/GameHubService";
 import LeftSideBar from "./left-sidebar/LeftSideBar";
 import RightSideBar from "./right-sidebar/RightSideBar";
-import { HubConnectionState } from "@microsoft/signalr";
 import { CheckIfInGameModel, SearchGameModel } from "../../shared/utils/types/gameModels";
 import { usePopup } from "../../shared/utils/hooks/usePopUp";
 import { getErrMessage } from "../../shared/utils/functions/displayError";
 import MainPopUp from "../../shared/components/main-popup/MainPopUp";
 import { PopupType } from "../../shared/utils/types/commonTypes";
 import { Guid } from "guid-typescript";
+import { HubConnectionState } from "@microsoft/signalr";
 
 function GamePage() {
   ///
 
-  const { gameIdStr } = useParams<{ gameIdStr: string }>();
-  const [gameId, setGameId] = useState<Guid>(Guid.createEmpty());
-  useEffect(() => setGameId(Guid.parse(gameIdStr!)), [gameIdStr]);
-
   const location = useLocation();
   const navigate = useNavigate();
+
+  const { gameIdStr } = useParams<{ gameIdStr: string }>();
+  const [gameId, setGameId] = useState<Guid | null>(null);
+  useEffect(() => {
+    if (gameIdStr) {
+      const guid: Guid = Guid.parse(gameIdStr).toJSON().value;
+      setGameId(guid);
+    } else {
+      navigate("/main", {
+        state: {
+          popupText: "Error starting game",
+          popupType: "error",
+        },
+      });
+    }
+  }, [gameIdStr]);
 
   const [gameData, setGameData] = useState<GetGameDto | null>(null);
   const [playerData, setPlayerData] = useState<GetPlayerDto | null>(null);
@@ -62,7 +74,7 @@ function GamePage() {
   }, [location.state]);
 
   // get game data
-  const getGame = async () => {
+  const getGame = async (): Promise<void> => {
     try {
       if (gameId) {
         const getGameResponse = await axios.get<GetGameDto>(gameControllerPaths.getGame(gameId), getAuthorization());
@@ -75,7 +87,7 @@ function GamePage() {
   };
 
   // get player data
-  const getPlayer = async () => {
+  const getPlayer = async (): Promise<void> => {
     try {
       if (gameId) {
         const getPlayerResponse = await axios.get<GetPlayerDto>(
@@ -90,8 +102,18 @@ function GamePage() {
     }
   };
 
+  const startGame = async (): Promise<void> => {
+    if (!gameId) return;
+
+    if (sessionStorage.getItem("started") !== "true") {
+      await GameHubService.GameStarted(gameId);
+      sessionStorage.setItem("started", "true");
+      console.log("Game started.");
+    }
+  };
+
   // to finish the game
-  const endGame = (endGameData: EndGameDto) => {
+  const endGame = (endGameData: EndGameDto): void => {
     setWinner(endGameData);
 
     GameHubService.connection?.off("GameUpdated", getGame);
@@ -99,9 +121,7 @@ function GamePage() {
 
   // first feach for game data
   useEffect(() => {
-    if (!gameId) return;
-
-    GameHubService.GameStarted(gameId);
+    startGame();
     GameHubService.connection?.on("GameUpdated", getGame);
     GameHubService.connection?.on("GameEnded", endGame);
 
@@ -115,7 +135,7 @@ function GamePage() {
   }, [gameId]);
 
   // get players remining times
-  const fetchTime = async () => {
+  const fetchTime = async (): Promise<void> => {
     if (!gameId) return;
 
     try {
@@ -131,7 +151,7 @@ function GamePage() {
   useEffect(() => {
     if (!gameId || gameData === null) return;
 
-    const getWinner = async () => {
+    const getWinner = async (): Promise<void> => {
       try {
         const winnerResponse = await axios.get<GetEndedGameDto>(
           gameControllerPaths.getEndedGame(gameId),
@@ -224,6 +244,7 @@ function GamePage() {
       <RightSideBar
         gameId={gameId}
         gameData={gameData}
+        playerData={playerData}
         whitePlayerSeconds={whitePlayerSeconds}
         blackPlayerSeconds={blackPlayerSeconds}
         setWhitePlayerSeconds={setWhitePlayerSeconds}

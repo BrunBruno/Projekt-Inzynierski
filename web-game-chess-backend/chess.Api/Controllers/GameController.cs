@@ -19,6 +19,7 @@ using chess.Application.Requests.GameRequests.CreateGameByEmail;
 using chess.Application.Requests.GameRequests.GetAllInvitations;
 using chess.Application.Requests.GameRequests.GetGameTiming;
 using chess.Application.Requests.GameRequests.GetAllFinishedGames;
+using chess.Application.Requests.GameRequests.GetAllMessages;
 
 namespace chess.Api.Controllers;
 
@@ -295,6 +296,26 @@ public class GameController : ControllerBase {
 
 
     /// <summary>
+    /// Gets all messages for current game
+    /// </summary>
+    /// <param name="gameId"></param>
+    /// <returns></returns>
+    [HttpGet("{gameId}/messages")]
+    [Authorize(Policy = "IsVerified")]
+    public async Task<IActionResult> GetAllMessages([FromRoute] Guid gameId) {
+
+        var request = new GetAllMessagesRequest() 
+        { 
+            GameId = gameId,
+        };
+
+        var messages = await _mediator.Send(request);
+
+        return Ok(messages);
+    }
+
+
+    /// <summary>
     /// Removes player
     /// </summary>
     /// <param name="model"></param>
@@ -309,5 +330,4 @@ public class GameController : ControllerBase {
 
         return Ok();
     }
-
 }
