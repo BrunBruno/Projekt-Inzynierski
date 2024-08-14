@@ -132,10 +132,10 @@ public class GameHub : Hub<IGameHub> {
     /// </summary>
     /// <param name="gameId"></param>
     /// <returns></returns>
-    [HubMethodName("game-started")]
+    [HubMethodName("add-player")]
     [Authorize(Policy = "IsVerified")]
-    [SignalRMethod("GameStarted", Operation.Put)]
-    public async Task GameStarted(Guid gameId) {
+    [SignalRMethod("AddPlayer", Operation.Put)]
+    public async Task AddPlayer(Guid gameId) {
 
         await Groups.AddToGroupAsync(Context.ConnectionId, $"game-{gameId}");
     }

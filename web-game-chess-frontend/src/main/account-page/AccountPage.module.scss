@@ -8,3 +8,9 @@
   display: grid;
   grid-template-columns: 1fr 1fr;
 }
+
+@media (max-width: 1200px) {
+  .account-main {
+    grid-template-columns: 1fr;
+  }
+}

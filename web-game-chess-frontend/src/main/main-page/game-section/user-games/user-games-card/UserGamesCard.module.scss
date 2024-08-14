@@ -9,7 +9,6 @@
   border-radius: 1rem;
   border-bottom: solid 0.3rem $mc7;
   user-select: none;
-  flex-shrink: 0 !important;
 
   transform: scale(1);
   transition: transform 0.3s;
@@ -24,6 +23,7 @@
 
     width: 100%;
     padding: 2rem;
+    flex-shrink: 0;
 
     .timing-type {
       svg {
@@ -69,6 +69,7 @@
     grid-template-rows: repeat(8, 1fr);
     border-radius: 1rem;
     overflow: hidden;
+    flex-shrink: 0 !important;
 
     @mixin field($bgc) {
       background-size: contain;

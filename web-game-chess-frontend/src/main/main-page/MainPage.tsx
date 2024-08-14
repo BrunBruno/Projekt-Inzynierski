@@ -10,8 +10,6 @@ import { PopupType } from "../../shared/utils/types/commonTypes";
 function MainPage() {
   ///
 
-  sessionStorage.removeItem("started");
-
   const location = useLocation();
   const { showPopup } = usePopup();
 

@@ -1,3 +1,4 @@
+import { useEffect, useRef } from "react";
 import AvatarImage from "../../../../../shared/components/avatar-image/AvatarImage";
 import TimingTypesIcons from "../../../../../shared/svgs/TimingTypesIcons";
 import WinLoseIcons from "../../../../../shared/svgs/WinLoseIcons";
@@ -16,6 +17,31 @@ type UserGamesCardProps = {
 
 function UserGamesCard({ game }: UserGamesCardProps) {
   ///
+
+  const cardRef = useRef<HTMLDivElement>(null);
+  const gridRef = useRef<HTMLDivElement>(null);
+  const dataRef = useRef<HTMLDivElement>(null);
+
+  // updates card size on resize
+  useEffect(() => {
+    const resizeCard = () => {
+      const card = cardRef.current;
+      const grid = gridRef.current;
+      const data = dataRef.current;
+
+      if (card && grid && data) {
+        card.style.height = `${card.clientWidth + data.clientHeight}px`;
+        grid.style.height = `${grid.clientWidth}px`;
+      }
+    };
+
+    window.addEventListener("resize", resizeCard);
+    resizeCard();
+
+    return () => {
+      window.removeEventListener("resize", resizeCard);
+    };
+  }, []);
 
   // display players based on user player color
   const displayPlayer = (game: GetAllFinishedGamesDto): JSX.Element => {
@@ -131,14 +157,14 @@ function UserGamesCard({ game }: UserGamesCardProps) {
   };
 
   return (
-    <div className={classes.card}>
-      <div className={`${classes["mini-grid"]}`}>
+    <div ref={cardRef} className={classes.card}>
+      <div ref={gridRef} className={`${classes["mini-grid"]}`}>
         {mapFromPosition(game.position)}
         {displayPlayer(game)}
         <div className={classes.date}>{new Date(game.createdAt).toLocaleDateString()}</div>
       </div>
 
-      <div className={classes["game-data"]}>
+      <div ref={dataRef} className={classes["game-data"]}>
         <div className={classes["timing-type"]}>
           <TimingTypesIcons iconName={getEnumTypeByNumber(timingTypes, game.timingType)} iconClass="" />
         </div>

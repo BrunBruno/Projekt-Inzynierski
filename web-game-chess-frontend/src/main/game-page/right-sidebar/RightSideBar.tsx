@@ -1,5 +1,11 @@
 import { useEffect, useRef, useState } from "react";
-import { GetAllMessagesDto, GetGameDto, GetPlayerDto } from "../../../shared/utils/types/gameDtos";
+import {
+  EndGameDto,
+  FetchTimeDto,
+  GetAllMessagesDto,
+  GetEndedGameDto,
+  GetGameDto,
+} from "../../../shared/utils/types/gameDtos";
 import classes from "./RightSideBar.module.scss";
 import { EndGameModel, SendMessageModel } from "../../../shared/utils/types/gameModels";
 import GameHubService from "../../../shared/utils/services/GameHubService";
@@ -15,33 +21,22 @@ import axios from "axios";
 import { gameControllerPaths, getAuthorization } from "../../../shared/utils/services/ApiService";
 import GameMessage from "./game-message/GameMessage";
 import { HubConnectionState } from "@microsoft/signalr";
+import RightSideBarIcons from "./RightSideBarIcons";
 
 type RightSideBarProps = {
   // game id
   gameId: Guid;
   // game data
   gameData: GetGameDto;
-  // player data
-  playerData: GetPlayerDto;
-  // time left for white
-  whitePlayerSeconds: number | null;
-  // time left for black
-  blackPlayerSeconds: number | null;
-  // setter for white time
-  setWhitePlayerSeconds: React.Dispatch<React.SetStateAction<number | null>>;
-  // setter for black time
-  setBlackPlayerSeconds: React.Dispatch<React.SetStateAction<number | null>>;
+  // times left for players
+  playersTimes: FetchTimeDto | null;
+  // time left setter
+  setPlayersTimes: React.Dispatch<React.SetStateAction<FetchTimeDto | null>>;
+  // winner dto of the game
+  winner: EndGameDto | GetEndedGameDto | null;
 };
 
-function RightSideBar({
-  gameId,
-  gameData,
-  playerData,
-  whitePlayerSeconds,
-  blackPlayerSeconds,
-  setWhitePlayerSeconds,
-  setBlackPlayerSeconds,
-}: RightSideBarProps) {
+function RightSideBar({ gameId, gameData, playersTimes, setPlayersTimes, winner }: RightSideBarProps) {
   ///
 
   const { showPopup } = usePopup();
@@ -53,10 +48,27 @@ function RightSideBar({
 
   // sets time left for both players
   useEffect(() => {
-    if (whitePlayerSeconds === null || blackPlayerSeconds === null) return;
+    if (playersTimes === null || gameData.hasEnded || winner !== null) return;
 
-    const whiteTick = () => setWhitePlayerSeconds((prevSeconds) => (prevSeconds! > 0 ? prevSeconds! - 1 : 0));
-    const blackTick = () => setBlackPlayerSeconds((prevSeconds) => (prevSeconds! > 0 ? prevSeconds! - 1 : 0));
+    const whiteTick = () => {
+      setPlayersTimes((prevTimes) => {
+        if (!prevTimes) return null;
+        return {
+          ...prevTimes,
+          whiteTimeLeft: prevTimes.whiteTimeLeft > 0 ? prevTimes.whiteTimeLeft - 1 : 0,
+        };
+      });
+    };
+
+    const blackTick = () => {
+      setPlayersTimes((prevTimes) => {
+        if (!prevTimes) return null;
+        return {
+          ...prevTimes,
+          blackTimeLeft: prevTimes.blackTimeLeft > 0 ? prevTimes.blackTimeLeft - 1 : 0,
+        };
+      });
+    };
 
     let interval: number;
     if (gameData.turn % 2 === 0) {
@@ -68,7 +80,7 @@ function RightSideBar({
     return () => {
       clearInterval(interval);
     };
-  }, [gameData, whitePlayerSeconds, blackPlayerSeconds]);
+  }, [gameData, playersTimes, winner]);
 
   const endGame = async (loserColor: number | null, endGameType: number): Promise<void> => {
     const loserPlayer: EndGameModel = {
@@ -81,15 +93,13 @@ function RightSideBar({
   };
 
   useEffect(() => {
-    if (whitePlayerSeconds !== null && whitePlayerSeconds <= 0) {
+    if (playersTimes !== null && playersTimes.whiteTimeLeft <= 0) {
       endGame(pieceColor.white, endGameTypes.outOfTime);
     }
-  }, [whitePlayerSeconds]);
-  useEffect(() => {
-    if (blackPlayerSeconds !== null && blackPlayerSeconds <= 0) {
+    if (playersTimes !== null && playersTimes.blackTimeLeft <= 0) {
       endGame(pieceColor.black, endGameTypes.outOfTime);
     }
-  }, [blackPlayerSeconds]);
+  }, [playersTimes]);
 
   // gets all messages for current game
   const getMessages = async () => {
@@ -133,7 +143,6 @@ function RightSideBar({
     try {
       const model: SendMessageModel = {
         gameId: gameId,
-        playerId: playerData.playerId,
         message: newMessage,
       };
 
@@ -145,12 +154,12 @@ function RightSideBar({
     }
   };
 
-  const handleMessageInputChannge = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleMessageInputChannge = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     const inputValue = event.target.value;
     setNewMessage(inputValue);
   };
 
-  if (whitePlayerSeconds === null || blackPlayerSeconds === null) return <LoadingPage />;
+  if (playersTimes === null) return <LoadingPage />;
 
   return (
     <section className={classes.bar}>
@@ -191,8 +200,8 @@ function RightSideBar({
 
         <GameClock
           gameData={gameData}
-          whitePlayerSeconds={whitePlayerSeconds}
-          blackPlayerSeconds={blackPlayerSeconds}
+          whitePlayerSeconds={playersTimes.whiteTimeLeft}
+          blackPlayerSeconds={playersTimes.blackTimeLeft}
         />
 
         <div className={classes.bar__content__history}>
@@ -215,15 +224,15 @@ function RightSideBar({
               sendMessage(event);
             }}
           >
-            <input
+            <textarea
               className={classes["message-input"]}
               value={newMessage}
               onChange={(event) => {
                 handleMessageInputChannge(event);
               }}
-            />
+            ></textarea>
             <button className={classes["send-button"]} type="submit">
-              ^
+              <RightSideBarIcons iconName="send" />
             </button>
           </form>
         </div>

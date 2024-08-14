@@ -154,7 +154,7 @@ function UserSection({ getTypeHistory, setFriendSection }: UserSectionProps) {
       <div className={classes.user__data}>
         <div className={classes.user__data__stats}>
           <div className={classes.user__data__stats__header}>
-            Total games played: <span>{user.gamesPlayed}</span>
+            Total games played: <span>{user.wdlTotal.total}</span>
           </div>
           <div className={classes.user__data__stats__row}>
             <StatsRow type={"games"} user={user} />

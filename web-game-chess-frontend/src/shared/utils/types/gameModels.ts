@@ -51,8 +51,6 @@ export type MakeMoveModel = {
 export type SendMessageModel = {
   // game id where message was sent
   gameId: Guid;
-  // player id that sent message
-  playerId: Guid;
   // message content
   message: string;
 };

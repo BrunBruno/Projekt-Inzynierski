@@ -33,18 +33,17 @@ public class SendMessageRequestHandler : IRequestHandler<SendMessageRequest> {
         var game = await _gameRepository.GetById(request.GameId)
             ?? throw new NotFoundException("Game not found.");
 
-        if (game.WhitePlayerId != request.PlayerId && game.BlackPlayerId != request.PlayerId)
-            throw new BadRequestException("Player is not in selected game.");
-
         if(game.WhitePlayer.UserId != userId && game.BlackPlayer.UserId != userId)
             throw new BadRequestException("This is not user player.");
 
+
+        var playerId = game.WhitePlayer.UserId == userId ? game.WhitePlayerId : game.BlackPlayerId;
 
         var message = new Message()
         {
             Id = Guid.NewGuid(),
             Content = request.Message,
-            PlayerId = request.PlayerId,
+            PlayerId = playerId,
         };
 
 

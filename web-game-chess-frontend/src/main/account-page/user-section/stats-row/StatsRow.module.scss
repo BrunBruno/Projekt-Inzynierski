@@ -59,3 +59,41 @@
     }
   }
 }
+
+@media (max-width: 700px) {
+  .stats {
+    $bwh: 12rem;
+    margin: 2rem 0;
+
+    &__title {
+      font-size: 3rem;
+      width: calc(3 * $bwh + 4rem);
+    }
+
+    &__data {
+      grid-template-columns: repeat(3, $bwh);
+
+      .games {
+        span {
+          &:nth-child(1) {
+            font-size: 2.4rem;
+          }
+          &:nth-child(2) {
+            font-size: 5rem;
+          }
+
+          svg {
+            height: 2.4rem;
+          }
+        }
+      }
+    }
+
+    &__chart {
+      @include circle(36rem);
+      @include absCenter();
+
+      left: 90%;
+    }
+  }
+}

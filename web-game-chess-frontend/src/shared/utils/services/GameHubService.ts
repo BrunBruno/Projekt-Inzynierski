@@ -106,9 +106,9 @@ class GameHub {
   }
 
   // add to group with game id
-  public async GameStarted(gameId: Guid): Promise<void> {
+  public async AddPlayer(gameId: Guid): Promise<void> {
     try {
-      await this.connection?.invoke("game-started", gameId);
+      await this.connection?.invoke("add-player", gameId);
     } catch (err) {
       console.error(err);
     }

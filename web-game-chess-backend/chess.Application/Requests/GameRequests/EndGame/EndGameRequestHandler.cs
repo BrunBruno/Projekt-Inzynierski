@@ -199,6 +199,7 @@ public class EndGameRequestHandler : IRequestHandler<EndGameRequest, EndGameDto>
 
         game.WhitePlayer.FinishedGame = true;
         game.BlackPlayer.FinishedGame = true;
+        game.EndedAt = DateTime.UtcNow;
 
 
         await _gameRepository.Update(game);

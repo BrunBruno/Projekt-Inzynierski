@@ -3,11 +3,13 @@
 .winner {
   @include absCenter();
   @include wh100();
+  @include flex();
+
   z-index: 100;
   background-color: rgba(#000, 0.7);
 
   &__content {
-    @include absCenter();
+    @include emergeAni();
 
     background-color: $gc9;
     border-radius: 4rem;
@@ -21,6 +23,7 @@
       padding: 2rem 8rem;
       font-weight: bold;
       text-align: center;
+      text-shadow: 0.2rem 0 $mc9;
 
       @mixin subEle() {
         @include subCl(2rem);
@@ -83,10 +86,9 @@
 
           @mixin playerImg() {
             @include flex();
-            @include square(5rem);
+            @include circle(10rem);
 
-            padding: 0.6rem;
-            border-radius: 100%;
+            padding: 1rem;
 
             .player-img {
               @include wh100();
@@ -108,7 +110,8 @@
             @include flex($direction: column, $gap: 0.2rem);
 
             span {
-              font-size: 1.6rem;
+              font-size: 2rem;
+
               span {
                 color: $mc3;
               }

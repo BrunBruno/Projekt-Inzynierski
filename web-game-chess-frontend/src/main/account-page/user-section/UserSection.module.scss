@@ -18,12 +18,7 @@
       @include absCenter();
 
       z-index: 0;
-      background-image: radial-gradient(
-          circle at 00%,
-          rgba($gc9, 0.5) 0%,
-          $gc9 40%,
-          #111 100%
-        ),
+      background-image: radial-gradient(circle at 00%, rgba($gc9, 0.5) 0%, $gc9 40%, #111 100%),
         url("/images/account-bg.jpg");
       background-size: contain;
       background-repeat: no-repeat;
@@ -228,6 +223,59 @@
         span {
           width: 100%;
           font-size: 3rem;
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 700px) {
+  .user {
+    height: fit-content;
+
+    &__data {
+      grid-template-columns: 1fr;
+      gap: 2rem;
+
+      &__stats {
+        border-right: none;
+
+        &__header {
+          font-size: 4rem;
+        }
+      }
+
+      &__elo {
+        position: relative;
+        flex-direction: row;
+        padding: 0;
+        padding-top: 6rem;
+        gap: 0;
+
+        &__header {
+          position: absolute;
+          left: 0;
+          top: 0;
+        }
+
+        &__type {
+          grid-template-columns: 4rem auto;
+          gap: 0.6rem;
+          padding: 1rem !important;
+
+          &:hover {
+            cursor: pointer;
+            background-color: $gc8;
+          }
+
+          .elo-icon {
+            height: 4rem;
+          }
+
+          span {
+            width: 100%;
+            font-size: 3.6rem;
+          }
         }
       }
     }

@@ -37,7 +37,6 @@ public class GetPlayerRequestHandler : IRequestHandler<GetPlayerRequest, GetPlay
 
         var playerDto = new GetPlayerDto()
         {
-            PlayerId = player.Id,
             Name = player.Name,
             ImageUrl = player.ImageUrl,
             Elo = player.Elo,

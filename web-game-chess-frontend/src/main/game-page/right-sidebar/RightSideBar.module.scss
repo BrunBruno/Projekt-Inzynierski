@@ -27,7 +27,7 @@
     background-color: $gc9;
     display: grid;
     grid-template-columns: 1fr;
-    grid-template-rows: 8rem 4rem auto 24rem;
+    grid-template-rows: 8rem 4rem calc((100% - 18rem) / 2) calc((100% - 18rem) / 2);
     gap: 2rem;
 
     &__header {
@@ -107,7 +107,8 @@
       @include block();
 
       display: grid;
-      grid-template-rows: 80% 20%;
+      grid-template-rows: auto 6rem;
+      gap: 1rem;
 
       &__list {
         overflow-y: scroll;
@@ -118,14 +119,41 @@
       }
 
       &__actions {
-        @include flex(row, space-between, center, 0);
+        @include flex(row, start, center, 1rem);
 
         .message-input {
-          @include cInput(1.6rem);
+          @include tInput(1.6rem);
+          @include rounded(1rem);
+
+          width: 100% !important;
+          height: calc(3 * 1.6rem) !important;
+          resize: none;
+
+          border: solid 0.2rem $gc8;
+
+          &:focus {
+            border-color: $gc7;
+          }
+
+          &::-webkit-scrollbar {
+            display: none;
+          }
         }
 
         .send-button {
-          @include button(1.6rem);
+          @include flex();
+          @include circle(fit-content);
+          background-color: #0000;
+          border: none;
+
+          &:hover {
+            cursor: pointer;
+            filter: brightness(80%);
+          }
+
+          .send-svg {
+            height: 3rem;
+          }
         }
       }
     }

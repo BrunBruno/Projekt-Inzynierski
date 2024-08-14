@@ -28,6 +28,8 @@ export type EndGameDto = {
 };
 
 export type FetchTimeDto = {
+  // turn for player
+  turn: number;
   // white player time left
   whiteTimeLeft: number;
   // black player time left
@@ -40,8 +42,6 @@ export type GetEndedGameDto = {
 };
 
 export type GetPlayerDto = PlayerDto & {
-  // player id
-  playerId: Guid;
   // color of a player
   color: PieceColor;
 };

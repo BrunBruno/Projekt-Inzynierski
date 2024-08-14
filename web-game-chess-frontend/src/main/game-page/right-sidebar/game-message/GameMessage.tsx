@@ -3,6 +3,7 @@ import { GetAllMessagesDto } from "../../../../shared/utils/types/gameDtos";
 import classes from "./GameMessage.module.scss";
 
 type GameMessageProps = {
+  // message dto
   message: GetAllMessagesDto;
 };
 
@@ -19,7 +20,7 @@ function GameMessage({ message }: GameMessageProps) {
       </div>
       <div className={classes.message__content}>
         <p className={classes["sender-data"]}>
-          {message.senderName}: {new Date(message.sentAt).toDateString()}
+          {message.senderName}: {new Date(message.sentAt).toLocaleTimeString()}
         </p>
         <span className={classes["mess-text"]}>{message.message}</span>
       </div>

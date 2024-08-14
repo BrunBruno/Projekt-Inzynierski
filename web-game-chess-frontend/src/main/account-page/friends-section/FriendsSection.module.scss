@@ -64,3 +64,10 @@
     z-index: 1;
   }
 }
+
+@media (max-width: 700px) {
+  .friends {
+    padding-top: 5rem;
+    overflow: visible;
+  }
+}

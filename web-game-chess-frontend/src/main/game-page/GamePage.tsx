@@ -33,6 +33,8 @@ function GamePage() {
 
   const { gameIdStr } = useParams<{ gameIdStr: string }>();
   const [gameId, setGameId] = useState<Guid | null>(null);
+
+  // set game id as Guid
   useEffect(() => {
     if (gameIdStr) {
       const guid: Guid = Guid.parse(gameIdStr).toJSON().value;
@@ -51,8 +53,7 @@ function GamePage() {
   const [playerData, setPlayerData] = useState<GetPlayerDto | null>(null);
   const [winner, setWinner] = useState<EndGameDto | GetEndedGameDto | null>(null);
 
-  const [whitePlayerSeconds, setWhitePlayerSeconds] = useState<number | null>(null);
-  const [blackPlayerSeconds, setBlackPlayerSeconds] = useState<number | null>(null);
+  const [playersTimes, setPlayersTimes] = useState<FetchTimeDto | null>(null);
 
   const [selectedTiming, setSelectedTiming] = useState<SearchGameModel | null>(null);
   const [searchIds, setSearchIds] = useState<SearchGameDto | null>(null);
@@ -60,16 +61,24 @@ function GamePage() {
   const { showPopup } = usePopup();
 
   // return if no timing set
+  // display enter popups
   useEffect(() => {
-    if (location.state.timing !== null) {
-      setSelectedTiming(location.state.timing);
-    } else {
-      navigate("/main", {
-        state: {
-          popupText: "Error starting game",
-          popupType: "error",
-        },
-      });
+    if (location.state) {
+      if (location.state.timing !== null) {
+        setSelectedTiming(location.state.timing);
+      } else {
+        navigate("/main", {
+          state: {
+            popupText: "Error starting game",
+            popupType: "error",
+          },
+        });
+      }
+
+      const state = location.state as PopupType;
+      if (state.popupText && state.popupType) {
+        showPopup(state.popupText, state.popupType);
+      }
     }
   }, [location.state]);
 
@@ -77,9 +86,9 @@ function GamePage() {
   const getGame = async (): Promise<void> => {
     try {
       if (gameId) {
-        const getGameResponse = await axios.get<GetGameDto>(gameControllerPaths.getGame(gameId), getAuthorization());
+        const response = await axios.get<GetGameDto>(gameControllerPaths.getGame(gameId), getAuthorization());
 
-        setGameData(getGameResponse.data);
+        setGameData(response.data);
       }
     } catch (err) {
       showPopup(getErrMessage(err), "warning");
@@ -90,26 +99,21 @@ function GamePage() {
   const getPlayer = async (): Promise<void> => {
     try {
       if (gameId) {
-        const getPlayerResponse = await axios.get<GetPlayerDto>(
-          gameControllerPaths.getPlayer(gameId),
-          getAuthorization()
-        );
+        const response = await axios.get<GetPlayerDto>(gameControllerPaths.getPlayer(gameId), getAuthorization());
 
-        setPlayerData(getPlayerResponse.data);
+        setPlayerData(response.data);
       }
     } catch (err) {
       showPopup(getErrMessage(err), "warning");
     }
   };
 
-  const startGame = async (): Promise<void> => {
+  // starts game - adds player to hub group
+  // must run eafter each refresh
+  const addPlayerToGameGroup = async (): Promise<void> => {
     if (!gameId) return;
 
-    if (sessionStorage.getItem("started") !== "true") {
-      await GameHubService.GameStarted(gameId);
-      sessionStorage.setItem("started", "true");
-      console.log("Game started.");
-    }
+    await GameHubService.AddPlayer(gameId);
   };
 
   // to finish the game
@@ -119,9 +123,10 @@ function GamePage() {
     GameHubService.connection?.off("GameUpdated", getGame);
   };
 
+  // add game hub listners
   // first feach for game data
   useEffect(() => {
-    startGame();
+    addPlayerToGameGroup();
     GameHubService.connection?.on("GameUpdated", getGame);
     GameHubService.connection?.on("GameEnded", endGame);
 
@@ -139,53 +144,49 @@ function GamePage() {
     if (!gameId) return;
 
     try {
-      const timeResponse = await axios.get<FetchTimeDto>(gameControllerPaths.fetchTime(gameId), getAuthorization());
+      const response = await axios.get<FetchTimeDto>(gameControllerPaths.fetchTime(gameId), getAuthorization());
 
-      setWhitePlayerSeconds(timeResponse.data.whiteTimeLeft);
-      setBlackPlayerSeconds(timeResponse.data.blackTimeLeft);
+      setPlayersTimes(response.data);
     } catch (err) {
       showPopup(getErrMessage(err), "warning");
     }
   };
 
+  // to get winner if game has ended
   useEffect(() => {
-    if (!gameId || gameData === null) return;
+    if (!gameId || !gameData) return;
 
     const getWinner = async (): Promise<void> => {
       try {
-        const winnerResponse = await axios.get<GetEndedGameDto>(
-          gameControllerPaths.getEndedGame(gameId),
-          getAuthorization()
-        );
+        const response = await axios.get<GetEndedGameDto>(gameControllerPaths.getEndedGame(gameId), getAuthorization());
 
-        setWinner(winnerResponse.data);
+        setWinner(response.data);
       } catch (err) {
         showPopup(getErrMessage(err), "warning");
       }
     };
 
-    if (gameData.hasEnded) {
-      getWinner();
-    }
+    if (gameData.hasEnded) getWinner();
 
     fetchTime();
   }, [gameData]);
 
   // handle hub service game changed event
+  // to redirect to new game
   const handleGamesChanged = async (): Promise<void> => {
     if (searchIds !== null) {
       try {
-        const isInGameModel: CheckIfInGameModel = {
+        const model: CheckIfInGameModel = {
           playerId: searchIds.playerId,
         };
 
-        const isInGameResponse = await axios.get<CheckIfInGameDto>(
-          gameControllerPaths.checkIfInGame(isInGameModel),
+        const response = await axios.get<CheckIfInGameDto>(
+          gameControllerPaths.checkIfInGame(model),
           getAuthorization()
         );
 
-        if (isInGameResponse.data.isInGame) {
-          navigate(`/main/game/${isInGameResponse.data.gameId}`, {
+        if (response.data.isInGame) {
+          navigate(`/main/game/${response.data.gameId}`, {
             state: {
               timing: selectedTiming,
               popupText: "Game started",
@@ -201,7 +202,7 @@ function GamePage() {
     }
   };
 
-  // connect game hub methods
+  // to enable new matches and rematches
   useEffect(() => {
     if (GameHubService.connection && GameHubService.connection.state === HubConnectionState.Connected) {
       GameHubService.connection.on("GamesChanged", handleGamesChanged);
@@ -213,17 +214,6 @@ function GamePage() {
       }
     };
   }, [searchIds]);
-
-  // display enter popups
-  useEffect(() => {
-    if (location.state) {
-      const state = location.state as PopupType;
-
-      if (state.popupText && state.popupType) {
-        showPopup(state.popupText, state.popupType);
-      }
-    }
-  }, [location.state]);
 
   if (!gameId || !gameData || !playerData) return <LoadingPage />;
 
@@ -244,11 +234,9 @@ function GamePage() {
       <RightSideBar
         gameId={gameId}
         gameData={gameData}
-        playerData={playerData}
-        whitePlayerSeconds={whitePlayerSeconds}
-        blackPlayerSeconds={blackPlayerSeconds}
-        setWhitePlayerSeconds={setWhitePlayerSeconds}
-        setBlackPlayerSeconds={setBlackPlayerSeconds}
+        playersTimes={playersTimes}
+        setPlayersTimes={setPlayersTimes}
+        winner={winner}
       />
 
       <MainPopUp />

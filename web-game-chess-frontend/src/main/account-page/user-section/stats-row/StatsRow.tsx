@@ -2,8 +2,7 @@ import { PieChart } from "@mui/x-charts";
 import classes from "./StatsRow.module.scss";
 import { GetFullUserDto } from "../../../../shared/utils/types/userDtos";
 import { useEffect, useState } from "react";
-import { ChartObject } from "../../../../shared/utils/types/commonTypes";
-import { getStatsConfig } from "./StatsRowData";
+import { getStatsConfig, StatsConfig } from "./StatsRowData";
 
 type StatsRowProps = {
   type: string;
@@ -11,12 +10,7 @@ type StatsRowProps = {
 };
 
 function StatsRow({ type, user }: StatsRowProps) {
-  const [config, setConfig] = useState<{
-    title: string;
-    data: ChartObject[];
-    colors: string[];
-    stats: { label: string; value: number; icon: JSX.Element }[];
-  } | null>(null);
+  const [config, setConfig] = useState<StatsConfig | null>(null);
 
   useEffect(() => {
     setConfig(getStatsConfig(type, user));
