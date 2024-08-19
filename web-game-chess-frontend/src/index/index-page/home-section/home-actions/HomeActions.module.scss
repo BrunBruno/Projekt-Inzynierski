@@ -206,9 +206,7 @@
         &:hover > p {
           opacity: 1;
           height: 8rem;
-          transition:
-            height 0.1s 0s,
-            opacity 0.3s 0.1s;
+          transition: height 0.1s 0s, opacity 0.3s 0.1s;
         }
 
         .img-pawn-container {
@@ -236,9 +234,7 @@
           opacity: 0;
           text-align: center;
 
-          transition:
-            height 0.3s,
-            opacity 0.1s;
+          transition: height 0.3s, opacity 0.1s;
         }
       }
       // end pawn settings
@@ -274,7 +270,7 @@
 }
 // end extra hero content
 
-@media (max-width: 700px) {
+@media (max-width: 1250px) {
   .actions {
     top: unset;
     bottom: 10rem;

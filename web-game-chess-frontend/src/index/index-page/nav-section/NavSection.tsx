@@ -4,26 +4,30 @@ import NavSectionIcons from "./NavSectionIcons";
 import { HandleOnScroll } from "../../../shared/utils/types/commonTypes";
 
 type NavSectionProps = {
+  heroSectionRef: React.RefObject<HTMLElement>;
   indicators: readonly ["home", "play", "learn", "faq"];
 };
 
 const NavSection = forwardRef<HandleOnScroll, NavSectionProps>(
-  ({ indicators }: NavSectionProps, ref: React.ForwardedRef<HandleOnScroll>) => {
+  ({ heroSectionRef, indicators }: NavSectionProps, ref: React.ForwardedRef<HandleOnScroll>) => {
     ///
 
     // handle navbar onscroll
     const navRef = useRef<HTMLDivElement>(null);
     const handleOnScroll = (): void => {
-      if (navRef.current) {
-        const navRefClasses = navRef.current.classList;
+      const heroElement = heroSectionRef.current;
+      const navElement = navRef.current;
 
-        if (window.scrollY > 1.2 * window.innerHeight) {
+      if (navElement && heroElement) {
+        const navRefClasses = navElement.classList;
+
+        if (window.scrollY > 0.8 * heroElement.clientHeight) {
           navRefClasses.remove(classes["nav-none"]);
         } else {
           navRefClasses.add(classes["nav-none"]);
         }
 
-        if (window.scrollY <= 1.8 * window.innerHeight) {
+        if (window.scrollY <= 1.5 * heroElement.clientHeight) {
           navRefClasses.remove(classes["nav-sticky"]);
         } else {
           navRefClasses.add(classes["nav-sticky"]);

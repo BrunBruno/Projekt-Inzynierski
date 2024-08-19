@@ -143,11 +143,15 @@
   }
 }
 
-@media (max-width: 700px) {
+@media (max-width: 500px) {
   .register {
+    height: unset;
+
     &__content {
       position: relative;
-      top: 60%;
+      top: 50rem;
+      left: unset;
+      transform: none;
       padding: 2rem;
       width: 100%;
       height: unset;
@@ -174,9 +178,9 @@
       &__form {
         width: calc(100% - 4rem);
         height: calc(100% - 4rem);
-        left: 2rem !important;
-        top: 2rem !important;
-        transform: translateX(0);
+        top: 2rem;
+        left: 2rem;
+        transform: translate(0, 0);
       }
     }
   }

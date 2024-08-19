@@ -1,9 +1,9 @@
-type questionsType = {
+export type QuestionsType = {
   question: string;
   answer: string;
 };
 
-export const accountAndUserProfileFAQs: questionsType[] = [
+export const accountAndUserProfileFAQs: QuestionsType[] = [
   {
     question: "How do I create an account on this chess web app?",
     answer:
@@ -41,7 +41,7 @@ export const accountAndUserProfileFAQs: questionsType[] = [
   },
 ];
 
-export const gameplayAndFeaturesFAQs: questionsType[] = [
+export const gameplayAndFeaturesFAQs: QuestionsType[] = [
   {
     question: "How do I make a move in the chess game?",
     answer:

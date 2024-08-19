@@ -141,3 +141,38 @@
     }
   }
 }
+
+@media (max-height: 350px) {
+  .hero {
+    &__container {
+      &__content {
+        padding: 2rem;
+        gap: 1rem;
+
+        h1 {
+          font-size: 5rem;
+          line-height: 5rem;
+        }
+        h2 {
+          font-size: 2rem;
+        }
+      }
+    }
+  }
+}
+
+@media (min-width: 3000px) {
+  .hero {
+    &__container {
+      &__bg {
+        background-image: radial-gradient(ellipse at 50% 50%, #0000 60%, #000 70%, #000 100%) !important;
+      }
+
+      &__content {
+        .begin {
+          display: none;
+        }
+      }
+    }
+  }
+}

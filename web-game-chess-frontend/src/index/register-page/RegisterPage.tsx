@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import classes from "./RegisterPage.module.scss";
 import SignUp from "./modals/SignUp";
 import SignIn from "./modals/SignIn";
@@ -16,8 +16,10 @@ function RegisterPage() {
   const location = useLocation();
   const navigate = useNavigate();
 
-  // React node modal set to be displayed
+  const registerRef = useRef<HTMLDivElement>(null);
+
   const [modal, setModal] = useState<number>(0);
+  const [modalClass, setModalClass] = useState<string>("");
 
   useEffect(() => {
     if (location.state && location.state.regOption) {
@@ -43,7 +45,7 @@ function RegisterPage() {
 
   // get form class
   const getFormClass = (): string => {
-    if (window.innerWidth > 700) {
+    if (window.innerWidth > 500) {
       switch (modal) {
         case registrationInterface.signIn:
           return classes["left-side-form"];
@@ -58,9 +60,22 @@ function RegisterPage() {
     return "";
   };
 
+  useEffect(() => {
+    const handleResize = () => {
+      setModalClass(getFormClass());
+    };
+
+    window.addEventListener("resize", handleResize);
+    handleResize();
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, [modal]);
+
   return (
     <main className={classes.register}>
-      <div className={classes.register__content}>
+      <div ref={registerRef} className={classes.register__content}>
         {modal === registrationInterface.signIn ? (
           <div className={`${classes.register__content__split} ${classes["left-side-content"]}`}>
             <div className={classes.form}></div>
@@ -101,7 +116,7 @@ function RegisterPage() {
           </div>
         )}
 
-        <div className={`${classes.register__content__form} ${getFormClass()}`}>
+        <div className={`${classes.register__content__form} ${modalClass}`}>
           <PasswordIconSvg color={mainColor.c7} iconClass={classes["lock-svg"]} />
           {renderModal()}
         </div>

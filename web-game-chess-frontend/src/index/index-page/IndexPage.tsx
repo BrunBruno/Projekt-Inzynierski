@@ -48,6 +48,7 @@ function IndexPage() {
   // navbar ref
   const navForRef = useRef<HandleOnScroll>(null);
   const heroForRef = useRef<HandleOnScroll>(null);
+  const heroSectionRef = useRef<HTMLElement>(null);
 
   const { showPopup } = usePopup();
 
@@ -163,9 +164,9 @@ function IndexPage() {
         </div>
       </div>
 
-      <NavSection ref={navForRef} indicators={indicators} />
+      <NavSection ref={navForRef} heroSectionRef={heroSectionRef} indicators={indicators} />
 
-      <HeroSection ref={heroForRef} />
+      <HeroSection ref={heroForRef} heroSectionRef={heroSectionRef} />
 
       {sections.map((section) => (
         <React.Fragment key={section.id}>

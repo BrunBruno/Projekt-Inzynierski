@@ -12,24 +12,19 @@ const HomeSection = forwardRef<HandleOnScroll, HomeSectionProps>(
   ({ sectionRef }: HomeSectionProps, ref: React.ForwardedRef<HandleOnScroll>) => {
     ///
 
-    const h = window.innerHeight * 0.7;
-
     const introRef = useRef<HTMLDivElement>(null);
 
     // handle home on scroll
     const homeRef = useRef<HTMLDivElement>(null);
     const handleOnScroll = () => {
-      const homeElement = homeRef.current;
-
-      if (homeElement) {
-        const y = window.scrollY - 1.7 * window.innerHeight;
-
-        if (y < 1.7 * homeElement.clientHeight) {
-          const brightness = -100 / (1 + Math.pow(Math.E, -(y - h) / 100)) + 100;
-
-          homeElement.style.filter = `brightness(${brightness}%)`;
-        }
-      }
+      // const homeElement = homeRef.current;
+      // if (homeElement) {
+      //   const y = window.scrollY - 1.7 * window.innerHeight;
+      //   if (y < 1.7 * homeElement.clientHeight) {
+      //     const brightness = -100 / (1 + Math.pow(Math.E, -(y - h) / 100)) + 100;
+      //     homeElement.style.filter = `brightness(${brightness}%)`;
+      //   }
+      // }
     };
 
     useImperativeHandle(ref, () => ({
