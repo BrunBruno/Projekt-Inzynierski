@@ -44,6 +44,7 @@ export type ChartObject = {
   label: string;
 };
 
+// popup data object
 export type PopupType = {
   popupText: string;
   popupType: typeof popupIconTypes[number];

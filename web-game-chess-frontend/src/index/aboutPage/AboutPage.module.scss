@@ -1,6 +1,192 @@
 @import "../Index.scss";
 
+// about container
 .about-main {
-  @include wh100();
-  @include gridBg();
+  position: relative;
+
+  height: 100vh;
+
+  &::before {
+    @include subCl();
+    @include gridBg(16rem, $mc9, $mc0, 0.1);
+    position: fixed;
+    top: 0;
+    z-index: 0;
+  }
+
+  .grid {
+    position: inherit;
+    height: 100%;
+    display: grid;
+    grid-template-columns: 25vw auto;
+    z-index: 1;
+
+    &__column {
+      height: 100%;
+
+      &:nth-child(1) {
+        border-right: solid 0.2rem $gc0;
+        box-shadow: 0 0 1rem 0.2rem $gc0;
+      }
+      &:nth-child(2) {
+        background-color: rgba(#111, 0.8);
+      }
+
+      &__nav {
+        @include flex(column, space-between, start, 0);
+
+        position: fixed;
+        height: 100vh;
+        width: 25vw;
+        top: 0;
+        padding: 2rem;
+
+        ul {
+          @include flex(column, start, start, 1rem);
+
+          list-style-type: none;
+          width: 100%;
+
+          .content-button {
+            @include flex(row, start, center, 1rem);
+
+            width: 100%;
+            font-size: 2.4rem;
+            font-weight: bold;
+            background-color: $mc9;
+            user-select: none;
+            white-space: nowrap;
+            overflow: hidden;
+            border-radius: 1rem;
+
+            $iconWh: 3.6rem;
+            $conPad: 1.2rem;
+
+            &:hover {
+              cursor: pointer;
+              background-color: $mc8;
+
+              .arrow-icon {
+                width: calc($iconWh + 2 * $conPad);
+              }
+            }
+
+            &.active {
+              .arrow-icon {
+                animation: buttonAni 0.6s;
+              }
+
+              span {
+                display: none;
+              }
+
+              @keyframes buttonAni {
+                0% {
+                  width: calc($iconWh + 2 * $conPad);
+                }
+                50% {
+                  width: 100%;
+                }
+                100% {
+                  width: 0;
+                }
+              }
+            }
+
+            span {
+              font-size: calc($iconWh * 0.7);
+            }
+
+            .arrow-icon {
+              @include flex(row, end, center, 0);
+              background-color: $mc5;
+              height: 100%;
+              padding: $conPad;
+              width: 0;
+              transition: width 0.3s;
+
+              svg {
+                @include square($iconWh);
+                padding: 0.2rem;
+              }
+
+              .arror-svg-left {
+                transform: rotate(0deg);
+              }
+              .arror-svg-right {
+                transform: rotate(180deg);
+              }
+            }
+          }
+        }
+      }
+
+      &__content {
+        height: 100%;
+        padding: 0 3rem;
+      }
+    }
+  }
+}
+// end about container
+
+@media (max-width: 800px) {
+  .about-main {
+    height: 100% !important;
+
+    .grid {
+      display: block;
+
+      &__column {
+        &:nth-child(1) {
+          height: 0;
+
+          overflow: hidden;
+        }
+
+        &:nth-child(2) {
+          height: fit-content;
+        }
+
+        &__nav {
+          display: block;
+          padding: 0;
+
+          ul {
+            padding: 2rem;
+            width: 100vw;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1rem;
+
+            &:nth-child(2) {
+              display: none;
+            }
+
+            li {
+              width: 100%;
+              font-size: 1.4rem;
+              white-space: nowrap;
+              text-align: center;
+              justify-content: center;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 400px) {
+  .about-main {
+    .grid {
+      &__column {
+        &__nav {
+          ul {
+            grid-template-columns: repeat(2, 1fr);
+          }
+        }
+      }
+    }
+  }
 }

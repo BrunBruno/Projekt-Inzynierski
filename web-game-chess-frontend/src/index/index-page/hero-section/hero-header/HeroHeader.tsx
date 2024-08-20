@@ -23,7 +23,7 @@ function HeroHeader({}: HeroHeaderProps) {
         <button
           className={classes["hero-button"]}
           onClick={() => {
-            navigate("/about");
+            navigate("/about/introduction");
           }}
         >
           <span>About</span>

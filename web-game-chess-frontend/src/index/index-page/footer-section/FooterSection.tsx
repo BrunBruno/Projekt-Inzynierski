@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom";
 import LogoIconSvg from "../../../shared/svgs/LogoIconSvg";
 import RoundArrowSvg from "../../../shared/svgs/RoundArrowSvg";
 import { mainColor } from "../../../shared/utils/enums/colorMaps";
@@ -10,6 +11,8 @@ type FooterSectionProps = {};
 
 function FooterSection({}: FooterSectionProps) {
   ///
+
+  const navigate = useNavigate();
 
   return (
     <footer className={classes.footer}>
@@ -54,16 +57,26 @@ function FooterSection({}: FooterSectionProps) {
         <div className={classes.footer__grid__col}>
           <h3>Legal</h3>
 
-          <a href="" target="blank" className={classes.link}>
-            <div className={classes.element}>
+          <a href="" className={classes.link}>
+            <div
+              className={classes.element}
+              onClick={() => {
+                navigate("about/privacy");
+              }}
+            >
               <FooterSectionIcons iconName="privacy" />
               <p>Privacy Policy</p>
               <RoundArrowSvg color={mainColor.c0} iconClass={classes["r-arr"]} />
             </div>
           </a>
 
-          <a href="" target="blank" className={classes.link}>
-            <div className={classes.element}>
+          <a href="" className={classes.link}>
+            <div
+              className={classes.element}
+              onClick={() => {
+                navigate("about/terms");
+              }}
+            >
               <FooterSectionIcons iconName="terms" />
               <p>Terms & Conditions</p>
               <RoundArrowSvg color={mainColor.c0} iconClass={classes["r-arr"]} />

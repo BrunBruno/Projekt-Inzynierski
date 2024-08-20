@@ -163,3 +163,39 @@
     }
   }
 }
+
+@media (max-width: 360px) {
+  .home {
+    &__content {
+      &__intro {
+        &__h1 {
+          span {
+            font-size: 5rem;
+          }
+        }
+
+        &__text {
+          font-size: 1.8rem;
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 280px) {
+  .home {
+    &__content {
+      &__intro {
+        &__h1 {
+          span {
+            font-size: 4rem;
+          }
+        }
+
+        &__text {
+          font-size: 1.6rem;
+        }
+      }
+    }
+  }
+}

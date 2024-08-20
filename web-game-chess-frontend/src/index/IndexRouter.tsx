@@ -10,7 +10,7 @@ function IndexRouter() {
       <Routes>
         <Route path="/" element={<IndexPage />} />
         <Route path="/registration" element={<RegisterPage />} />
-        <Route path="/about" element={<AboutPage />} />
+        <Route path="/about/:content" element={<AboutPage />} />
       </Routes>
     </PopupProvider>
   );
