@@ -29,6 +29,6 @@ const checkError = (error: any): boolean => {
     error.response &&
     error.response.data &&
     typeof error.response.data === "string" &&
-    (error.code === "400" || error.code === "401" || error.code === "404")
+    (error.response.status === 400 || error.response.status === 401 || error.response.status === 404)
   );
 };

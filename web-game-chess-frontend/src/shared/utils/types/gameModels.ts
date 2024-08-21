@@ -7,7 +7,7 @@ import { Guid } from "guid-typescript";
 
 /** POST models */
 
-export type SearchGameModel = TimingTypeModel;
+export type SearchGameModel = TimingTypeModel & {};
 
 export type CreatePrivateGameModel = TimingTypeModel & {
   // freindship id
@@ -118,3 +118,5 @@ export type DeclineInvitationModel = {
   // invitor id
   friendId: Guid;
 };
+
+export type CreateGameWithLinkModel = TimingTypeModel & {};

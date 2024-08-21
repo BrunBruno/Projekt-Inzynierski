@@ -26,17 +26,6 @@
     flex-shrink: 0;
     padding: 1rem 1.5rem;
 
-    // transform: translateX(10rem);
-    // opacity: 0;
-    // animation: showAni 0.3s forwards;
-
-    // @keyframes showAni {
-    //   to {
-    //     transform: translateX(0);
-    //     opacity: 1;
-    //   }
-    // }
-
     &:hover > .invite {
       opacity: 1;
     }

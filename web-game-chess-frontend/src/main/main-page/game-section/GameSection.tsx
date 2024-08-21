@@ -54,7 +54,7 @@ function GameSection() {
 
         const isInGameResponse = await axios.get<CheckIfInGameDto>(
           gameControllerPaths.checkIfInGame(isInGameModel),
-          getAuthorization(),
+          getAuthorization()
         );
 
         if (isInGameResponse.data.isInGame) {
@@ -77,24 +77,24 @@ function GameSection() {
   };
 
   // to handle when frind accepeted the invitation
-  const handleGameAccepted = (gameId: string) => {
-    if (timingType) {
-      navigate(`game/${gameId}`, {
-        state: {
-          timing: timingType,
-          popupText: "Game started",
-          popupType: "info",
-        },
-      });
-    } else {
-      console.error("Type not set");
-    }
-  };
+  // const handleGameAccepted = (gameId: string) => {
+  //   if (timingType) {
+  //     navigate(`game/${gameId}`, {
+  //       state: {
+  //         timing: timingType,
+  //         popupText: "Game started",
+  //         popupType: "info",
+  //       },
+  //     });
+  //   } else {
+  //     console.error("Type not set");
+  //   }
+  // };
 
   // to handle when frind declinded the invitation
-  const handleGameDeclined = () => {
-    showPopup("Invitation declined", "error");
-  };
+  // const handleGameDeclined = () => {
+  //   showPopup("Invitation declined", "error");
+  // };
 
   // connect game hub handlers
   useEffect(() => {
@@ -104,8 +104,8 @@ function GameSection() {
 
     if (GameHubService.connection && GameHubService.connection.state === HubConnectionState.Connected) {
       GameHubService.connection.on("GamesChanged", handleGamesChanged);
-      GameHubService.connection.on("GameAccepted", handleGameAccepted);
-      GameHubService.connection.on("InvitationDeclined", handleGameDeclined);
+      // GameHubService.connection.on("GameAccepted", handleGameAccepted);
+      // GameHubService.connection.on("InvitationDeclined", handleGameDeclined);
 
       setAllowNotification(true);
     }
@@ -113,8 +113,8 @@ function GameSection() {
     return () => {
       if (GameHubService.connection) {
         GameHubService.connection.off("GamesChanged", handleGamesChanged);
-        GameHubService.connection.off("GameAccepted", handleGameAccepted);
-        GameHubService.connection.off("InvitationDeclined", handleGameDeclined);
+        // GameHubService.connection.off("GameAccepted", handleGameAccepted);
+        // GameHubService.connection.off("InvitationDeclined", handleGameDeclined);
       }
     };
   }, [searchIds, timingType]);
@@ -136,7 +136,7 @@ function GameSection() {
 
       case gameSearchInterface.searching:
         setInterfaceContent(
-          <Searching setInterfaceById={setInterfaceById} searchIds={searchIds} setSearchIds={setSearchIds} />,
+          <Searching setInterfaceById={setInterfaceById} searchIds={searchIds} setSearchIds={setSearchIds} />
         );
         break;
 

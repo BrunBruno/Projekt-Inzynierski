@@ -1,6 +1,6 @@
 ﻿
 using chess.Application.Repositories;
-using chess.Application.Requests.GameRequests.SendMessage;
+using chess.Application.Requests.GameRequests.GetAllMessages;
 using chess.Application.Services;
 using chess.Core.Entities;
 using chess.Shared.Exceptions;
@@ -9,63 +9,74 @@ using Moq;
 
 namespace chess.Core.Tests.Game;
 
-public class SendMessageRequestHandlerTests {
+public class GetAllMessagesRequestHandlerTests {
 
     private readonly Mock<IMessageRepository> _mockMessageRepository;
     private readonly Mock<IGameRepository> _mockGameRepository;
     private readonly Mock<IUserContextService> _mockUserContextService;
 
-    public SendMessageRequestHandlerTests() {
+    public GetAllMessagesRequestHandlerTests() {
         _mockMessageRepository = new Mock<IMessageRepository>();
         _mockGameRepository = new Mock<IGameRepository>();
         _mockUserContextService = new Mock<IUserContextService>();
     }
 
     [Fact]
-    public async Task Handle_Should_Create_Message_On_Success() {
+    public async Task Handle_Returns_List_Of_Messages_On_Success() {
 
         var userId = Guid.NewGuid();
         var gameId = Guid.NewGuid();
+        var whitePlayerId = Guid.NewGuid();
+        var blackPlayerId = Guid.NewGuid();
 
         var game = new Entities.Game()
         {
             Id = gameId,
+            WhitePlayerId = whitePlayerId,
             WhitePlayer = new Player() { 
+                Id = whitePlayerId,
                 Name = "Username",
                 UserId = userId,
                 GameId = gameId,
             },
+            BlackPlayerId = blackPlayerId,
             BlackPlayer = new Player() { 
+                Id = blackPlayerId,
                 Name = "Other",
                 UserId = Guid.NewGuid(),
                 GameId = gameId,
-            },
+            }
         };
 
-        var request = new SendMessageRequest()
+        var messages = returnExampleMessages(game.WhitePlayer, game.BlackPlayer);
+
+
+        var request = new GetAllMessagesRequest()
         {
             GameId = gameId,
-            Message = "Message",
         };
 
 
         _mockUserContextService.Setup(x => x.GetUserId()).Returns(userId);
         _mockGameRepository.Setup(x => x.GetById(gameId)).ReturnsAsync(game);
+        _mockMessageRepository.Setup(x => x.GetAllByPlayers(game.WhitePlayerId, game.BlackPlayerId)).ReturnsAsync(messages);
 
 
-        var handler = new SendMessageRequestHandler(
-            _mockMessageRepository.Object,
+        var handler = new GetAllMessagesRequestHandler(
             _mockGameRepository.Object,
+            _mockMessageRepository.Object,
             _mockUserContextService.Object
         );
 
-        var act = () => handler.Handle(request, CancellationToken.None);
+        var result = await handler.Handle(request, CancellationToken.None);
+
+        
+        result.Count.Should().Be(10);
 
 
-        await act.Should().NotThrowAsync();
         _mockUserContextService.Verify(x => x.GetUserId(), Times.Once);
         _mockGameRepository.Verify(x => x.GetById(gameId), Times.Once);
-        _mockMessageRepository.Verify(x => x.Create(It.IsAny<Message>()), Times.Once);
+        _mockMessageRepository.Verify(x => x.GetAllByPlayers(game.WhitePlayerId, game.BlackPlayerId), Times.Once);
     }
 
     [Fact]
@@ -74,19 +85,18 @@ public class SendMessageRequestHandlerTests {
         var userId = Guid.NewGuid();
         var gameId = Guid.NewGuid();
 
-        var request = new SendMessageRequest()
+        var request = new GetAllMessagesRequest()
         {
             GameId = gameId,
-            Message = "Message",
         };
 
 
         _mockUserContextService.Setup(x => x.GetUserId()).Returns(userId);
 
 
-        var handler = new SendMessageRequestHandler(
-            _mockMessageRepository.Object,
+        var handler = new GetAllMessagesRequestHandler(
             _mockGameRepository.Object,
+            _mockMessageRepository.Object,
             _mockUserContextService.Object
         );
 
@@ -96,7 +106,7 @@ public class SendMessageRequestHandlerTests {
         await act.Should().ThrowAsync<NotFoundException>();
         _mockUserContextService.Verify(x => x.GetUserId(), Times.Once);
         _mockGameRepository.Verify(x => x.GetById(gameId), Times.Once);
-        _mockMessageRepository.Verify(x => x.Create(It.IsAny<Message>()), Times.Never);
+        _mockMessageRepository.Verify(x => x.GetAllByPlayers(It.IsAny<Guid>(), It.IsAny<Guid>()), Times.Never);
     }
 
     [Fact]
@@ -104,28 +114,33 @@ public class SendMessageRequestHandlerTests {
 
         var userId = Guid.NewGuid();
         var gameId = Guid.NewGuid();
+        var whitePlayerId = Guid.NewGuid();
+        var blackPlayerId = Guid.NewGuid();
 
         var game = new Entities.Game()
         {
             Id = gameId,
+            WhitePlayerId = whitePlayerId,
             WhitePlayer = new Player()
             {
+                Id = whitePlayerId,
                 Name = "Username",
                 UserId = Guid.NewGuid(),
                 GameId = gameId,
             },
+            BlackPlayerId = blackPlayerId,
             BlackPlayer = new Player()
             {
+                Id = blackPlayerId,
                 Name = "Other",
                 UserId = Guid.NewGuid(),
                 GameId = gameId,
-            },
+            }
         };
 
-        var request = new SendMessageRequest()
+        var request = new GetAllMessagesRequest()
         {
             GameId = gameId,
-            Message = "Message",
         };
 
 
@@ -133,9 +148,9 @@ public class SendMessageRequestHandlerTests {
         _mockGameRepository.Setup(x => x.GetById(gameId)).ReturnsAsync(game);
 
 
-        var handler = new SendMessageRequestHandler(
-            _mockMessageRepository.Object,
+        var handler = new GetAllMessagesRequestHandler(
             _mockGameRepository.Object,
+            _mockMessageRepository.Object,
             _mockUserContextService.Object
         );
 
@@ -145,6 +160,23 @@ public class SendMessageRequestHandlerTests {
         await act.Should().ThrowAsync<UnauthorizedException>();
         _mockUserContextService.Verify(x => x.GetUserId(), Times.Once);
         _mockGameRepository.Verify(x => x.GetById(gameId), Times.Once);
-        _mockMessageRepository.Verify(x => x.Create(It.IsAny<Message>()), Times.Never);
+        _mockMessageRepository.Verify(x => x.GetAllByPlayers(game.WhitePlayerId, game.BlackPlayerId), Times.Never);
     }
+
+    private List<Message> returnExampleMessages(Player whitePlayer, Player blackPlayer) {
+
+        var messages = new List<Message>();
+
+        for(int i = 0; i < 10; i++) {
+            messages.Add(new Message() { 
+                Id = Guid.NewGuid(),
+                Content = "Message",
+                PlayerId = i % 2 == 0 ? whitePlayer.Id : blackPlayer.Id,
+                Player = i % 2 == 0 ? whitePlayer : blackPlayer,
+            });
+        }
+
+        return messages;
+    }
+
 }

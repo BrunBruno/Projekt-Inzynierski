@@ -30,7 +30,7 @@ public class GetAllMessagesRequestHandler : IRequestHandler<GetAllMessagesReques
             ?? throw new NotFoundException("Game not found.");
 
         if (game.WhitePlayer.UserId != userId && game.BlackPlayer.UserId != userId)
-            throw new BadRequestException("This is not user game.");
+            throw new UnauthorizedException("This is not user game.");
 
         var messages = await _messageRepository.GetAllByPlayers(game.WhitePlayerId, game.BlackPlayerId);
 

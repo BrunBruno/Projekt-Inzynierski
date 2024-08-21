@@ -80,6 +80,7 @@ interface GameControllerPaths {
   startSearch: () => string;
   createPrivateGame: () => string;
   createGameByEmail: () => string;
+  createGameWithLink: () => string;
   createRematchGame: () => string;
   //PUT
   //GET
@@ -108,6 +109,9 @@ export const gameControllerPaths: GameControllerPaths = {
 
   // creates private game by proving opponent email
   createGameByEmail: (): string => `${gameBaseUrl}/by-email`,
+
+  // creates private game with link and returns it
+  createGameWithLink: (): string => `${gameBaseUrl}/by-link`,
 
   // creates new game for two same users taht has already played one game
   createRematchGame: (): string => `${gameBaseUrl}/remacth`,

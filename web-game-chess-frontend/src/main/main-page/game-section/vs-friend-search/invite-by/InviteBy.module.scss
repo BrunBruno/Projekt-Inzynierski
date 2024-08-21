@@ -1,0 +1,48 @@
+@import "../../../../Main.scss";
+
+.invite {
+  @include flex(column, center, center, 1rem);
+
+  .input-holder {
+    @include flex();
+    position: relative;
+
+    input {
+      @include cInput();
+    }
+
+    .input-search {
+      margin: none;
+    }
+
+    .input-mail {
+      padding-right: 4rem;
+    }
+
+    .send-icon {
+      @include circle(4rem);
+
+      position: absolute;
+      right: -0.2rem;
+
+      &:hover {
+        cursor: pointer;
+        filter: brightness(80%);
+      }
+
+      svg.arrow-svg {
+        height: 100%;
+      }
+    }
+
+    button.generate-button {
+      @include button(2rem);
+      @include secMButton();
+    }
+  }
+
+  .text {
+    font-size: 1.8rem;
+    text-align: center;
+  }
+}

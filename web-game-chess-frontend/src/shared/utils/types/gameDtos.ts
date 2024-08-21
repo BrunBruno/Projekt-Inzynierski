@@ -164,3 +164,8 @@ export type GetAllMessagesDto = {
   senderImage: string | null;
   sentAt: Date;
 };
+
+export type CreateGameWithLinkDto = {
+  GameId: Guid;
+  GameUrl: string;
+};

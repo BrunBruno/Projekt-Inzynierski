@@ -100,9 +100,11 @@ function FriendList({ selectedUsername, setSelectedFriend }: FriendListProps) {
                 </span>
               </div>
               <div className={classes["previous-games"]}>
-                <p>{friend.wdlTogether.total} games played </p>
+                <p>You played {friend.wdlTogether.total} games together </p>
                 <span>{friend.wdlTogether.wins}W</span>
+                {" - "}
                 <span>{friend.wdlTogether.draws}D</span>
+                {" - "}
                 <span>{friend.wdlTogether.loses}L</span>
               </div>
             </div>

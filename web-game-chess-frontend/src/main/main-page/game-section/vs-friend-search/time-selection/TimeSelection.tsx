@@ -11,41 +11,56 @@ type TimeSelectionProps = {
   selectedFriend: GetAllFriendsByStatusDto | null;
   // user data when friend selected by email
   selectedUser: GetByEmailDto | null;
+  // if url should be displayed
+  selectedByUrl: boolean;
   // to unseclec friend
   setSelectedFriend: React.Dispatch<React.SetStateAction<GetAllFriendsByStatusDto | null>>;
   // to unseclec friend
   setSelectedUser: React.Dispatch<React.SetStateAction<GetByEmailDto | null>>;
+  // to unselect url option
+  setSelectedByUrl: React.Dispatch<React.SetStateAction<boolean>>;
   // to invite to private game via click
-  onInviteFriendToGame: (friendshipId: Guid, header: string, values: number[]) => Promise<void>;
+  onInviteBySelection: (friendshipId: Guid, header: string, values: number[]) => void;
   // to inviate to private game by email
-  onInviteByEmail: (email: string, header: string, values: number[]) => Promise<void>;
+  onInviteByEmail: (email: string, header: string, values: number[]) => void;
+  // to inviate to private game by url
+  onInviteByUrl: (header: string, values: number[]) => void;
 };
 
 function TimeSelection({
   selectedFriend,
   selectedUser,
+  selectedByUrl,
   setSelectedFriend,
   setSelectedUser,
-  onInviteFriendToGame,
+  setSelectedByUrl,
+  onInviteBySelection,
   onInviteByEmail,
+  onInviteByUrl,
 }: TimeSelectionProps) {
   ///
 
   // to invite user base on selection
   const onInvite = (control: TimeControl, index: number) => {
     if (selectedFriend !== null) {
-      onInviteFriendToGame(selectedFriend.freindshpId, control.header, control.values[index]);
+      onInviteBySelection(selectedFriend.freindshpId, control.header, control.values[index]);
     }
 
     if (selectedUser !== null) {
       onInviteByEmail(selectedUser.email, control.header, control.values[index]);
+    }
+
+    if (selectedByUrl !== false) {
+      onInviteByUrl(control.header, control.values[index]);
     }
   };
 
   const clearSelections = () => {
     setSelectedFriend(null);
     setSelectedUser(null);
+    setSelectedByUrl(false);
   };
+  //*/
 
   // to display timing type tag
   const transformTag = (tag: string): JSX.Element => {
@@ -76,6 +91,7 @@ function TimeSelection({
 
     return <div className={classes["timing-tag"]}>{transformedTag}</div>;
   };
+  //*/
 
   return (
     <div className={classes.time}>

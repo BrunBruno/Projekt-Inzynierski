@@ -15,6 +15,7 @@ using chess.Application.Requests.GameRequests.GetTypeHistory;
 using chess.Application.Requests.GameRequests.MakeMove;
 using chess.Application.Requests.GameRequests.SearchGame;
 using chess.Application.Requests.GameRequests.SendMessage;
+using chess.Application.Requests.GameRequests.CreateGameWithLink;
 
 namespace chess.Api.Maps.MappingProfiles;
 
@@ -38,5 +39,6 @@ public class GameMappingProfile : Profile {
         CreateMap<CreateGameByEmailModel, CreateGameByEmailRequest>();
         CreateMap<DeclineInvitationModel, DeclineInvitationRequest>();
         CreateMap<GetAllInvitationsModel, GetAllInvitationsRequest>();
+        CreateMap<CreateGameWithLinkModel, CreateGameWithLinkRequest>();
     }
 }

@@ -34,7 +34,7 @@ public class SendMessageRequestHandler : IRequestHandler<SendMessageRequest> {
             ?? throw new NotFoundException("Game not found.");
 
         if(game.WhitePlayer.UserId != userId && game.BlackPlayer.UserId != userId)
-            throw new BadRequestException("This is not user player.");
+            throw new UnauthorizedException("This is not user player.");
 
 
         var playerId = game.WhitePlayer.UserId == userId ? game.WhitePlayerId : game.BlackPlayerId;

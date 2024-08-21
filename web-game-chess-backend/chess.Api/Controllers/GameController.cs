@@ -20,6 +20,7 @@ using chess.Application.Requests.GameRequests.GetAllInvitations;
 using chess.Application.Requests.GameRequests.GetGameTiming;
 using chess.Application.Requests.GameRequests.GetAllFinishedGames;
 using chess.Application.Requests.GameRequests.GetAllMessages;
+using chess.Application.Requests.GameRequests.CreateGameWithLink;
 
 namespace chess.Api.Controllers;
 
@@ -83,6 +84,23 @@ public class GameController : ControllerBase {
     public async Task<IActionResult> CreateGameByEmail([FromBody] CreateGameByEmailModel model) {
 
         var request = _mapper.Map<CreateGameByEmailRequest>(model);
+
+        var gameData = await _mediator.Send(request);
+
+        return Ok(gameData);
+    }
+
+
+    /// <summary>
+    /// Creates private game with link and returns it
+    /// </summary>
+    /// <param name="model"></param>
+    /// <returns></returns>
+    [HttpPost("by-link")]
+    [Authorize(Policy = "IsVerified")]
+    public async Task<IActionResult> CreateGameWithLink([FromBody] CreateGameWithLinkModel model) {
+
+        var request = _mapper.Map<CreateGameWithLinkRequest>(model);
 
         var gameData = await _mediator.Send(request);
 

@@ -3,24 +3,12 @@ using chess.Application.Repositories;
 using chess.Application.Services;
 using chess.Core.Entities;
 using chess.Core.Enums;
-using chess.Core.Maps.MapOfElo;
 using chess.Shared.Exceptions;
 using MediatR;
 
-namespace chess.Application.Requests.GameRequests.CreateGameByEmail;
+namespace chess.Application.Requests.GameRequests.CreateGameWithLink;
 
-/// <summary>
-/// Checks if current user exists
-/// Checks if user with provided email exists
-/// Checks if provided data is correct
-/// Checks if game timing exists and if not creates one
-/// Creates players for both current user and provided friend
-/// Creates new game and associated game state
-/// Creates new invitation for created game
-/// Sends invitaton to friend email
-/// Returns essentail for further actions
-/// </summary>
-public class CreateGameByEmailRequestHandler : IRequestHandler<CreateGameByEmailRequest, CreateGameByEmailDto> {
+public class CreateGameWithLinkRequestHandler : IRequestHandler<CreateGameWithLinkRequest, CreateGameWithLinkDto>{
 
     private readonly IUserContextService _userContextService;
     private readonly IUserRepository _userRepository;
@@ -28,18 +16,14 @@ public class CreateGameByEmailRequestHandler : IRequestHandler<CreateGameByEmail
     private readonly IGameTimingRepository _gameTimingRepository;
     private readonly IGameStateRepository _gameStateRepository;
     private readonly IPlayerRepository _playerRepository;
-    private readonly IInvitationRepository _invitationRepository;
-    private readonly ISmtpService _smtpService;
 
-    public CreateGameByEmailRequestHandler(
+    public CreateGameWithLinkRequestHandler(
         IUserContextService userContextService,
         IUserRepository userRepository,
         IGameRepository gameRepository,
         IGameTimingRepository gameTimingRepository,
         IGameStateRepository gameStateRepository,
-        IPlayerRepository playerRepository,
-        IInvitationRepository invitationRepository,
-        ISmtpService smtpService
+        IPlayerRepository playerRepository
     ) {
         _userContextService = userContextService;
         _userRepository = userRepository;
@@ -47,21 +31,17 @@ public class CreateGameByEmailRequestHandler : IRequestHandler<CreateGameByEmail
         _gameTimingRepository = gameTimingRepository;
         _gameStateRepository = gameStateRepository;
         _playerRepository = playerRepository;
-        _invitationRepository = invitationRepository;
-        _smtpService = smtpService;
     }
 
-    public async Task<CreateGameByEmailDto> Handle(CreateGameByEmailRequest request, CancellationToken cancellationToken) {
+    public async Task<CreateGameWithLinkDto> Handle(CreateGameWithLinkRequest request, CancellationToken cancellationToken) {
 
         var userId = _userContextService.GetUserId();
 
         var user = await _userRepository.GetById(userId)
             ?? throw new NotFoundException("User not found.");
 
-        var friend = await _userRepository.GetByEmail(request.Email)
-             ?? throw new NotFoundException("Friend not found.");
-
         var existingGameTiming = await _gameTimingRepository.FindTiming(request.Type, request.Minutes * 60, request.Increment);
+
 
         var timing = existingGameTiming;
         if (existingGameTiming is null) {
@@ -77,30 +57,21 @@ public class CreateGameByEmailRequestHandler : IRequestHandler<CreateGameByEmail
             await _gameTimingRepository.Create(gameTiming);
 
             timing = gameTiming;
-
         }
 
-        int userElo = user.Elo.GetElo(request.Type);
         var userPlayer = new Player()
         {
             Id = Guid.NewGuid(),
-            Name = user.Username,
-            ImageUrl = user.ImageUrl,
-            Elo = userElo,
+            Name = "",
             TimeLeft = request.Minutes * 60,
-            UserId = userId,
             TimingId = timing!.Id,
         };
 
-        int friendElo = friend.Elo.GetElo(request.Type);
         var friendPlayer = new Player()
         {
             Id = Guid.NewGuid(),
-            Name = friend.Username,
-            ImageUrl = friend.ImageUrl,
-            Elo = friendElo,
+            Name = "",
             TimeLeft = request.Minutes * 60,
-            UserId = friend.Id,
             TimingId = timing!.Id,
         };
 
@@ -113,7 +84,7 @@ public class CreateGameByEmailRequestHandler : IRequestHandler<CreateGameByEmail
         {
             Id = Guid.NewGuid(),
             IsPrivate = true,
-            TimingType = timing.Type,
+            TimingType = timing!.Type,
             GameTimingId = timing!.Id,
         };
 
@@ -134,32 +105,16 @@ public class CreateGameByEmailRequestHandler : IRequestHandler<CreateGameByEmail
             GameId = game.Id,
         };
 
-        var invitation = new Invitation()
-        {
-            Id = Guid.NewGuid(),
-            InvitorId = userId,
-            InvitorName = user.Username,
-            InviteeId = friend.Id,
-            InviteeName = friend.Username,
-            Type = request.Type,
-            GameId = game.Id,
-        };
-
 
         await _gameRepository.Create(game);
         await _gameStateRepository.Create(gameState);
-        await _invitationRepository.Create(invitation);
 
 
-        var privateGameDto = new CreateGameByEmailDto()
+        var privateGameDto = new CreateGameWithLinkDto()
         {
-            FriendId = friend.Id,
             GameId = game.Id,
-            Inviter = user.Username,
+            GameUrl = $"{game.Id}"
         };
-
-
-        await _smtpService.SendGameInvitation(friend.Email.ToLower(), friend.Username, user.Username);
 
 
         return privateGameDto;
