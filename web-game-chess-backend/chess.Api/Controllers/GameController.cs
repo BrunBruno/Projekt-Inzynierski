@@ -21,6 +21,7 @@ using chess.Application.Requests.GameRequests.GetGameTiming;
 using chess.Application.Requests.GameRequests.GetAllFinishedGames;
 using chess.Application.Requests.GameRequests.GetAllMessages;
 using chess.Application.Requests.GameRequests.CreateGameWithLink;
+using chess.Application.Requests.GameRequests.CheckIfUpdateRequired;
 
 namespace chess.Api.Controllers;
 
@@ -139,6 +140,26 @@ public class GameController : ControllerBase {
         var isInGame = await _mediator.Send(request);
 
         return Ok(isInGame);
+    }
+
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="gameId"></param>
+    /// <returns></returns>
+    [HttpGet("{gameId}/check-if-update-required")]
+    [Authorize(Policy = "IsVerified")]
+    public async Task<IActionResult> CheckIfUpdateRequired([FromRoute] Guid gameId) {
+
+        var request = new CheckIfUpdateRequiredRequest()
+        { 
+            GameId = gameId,
+        };
+
+        var isRequired = await _mediator.Send(request);
+
+        return Ok(isRequired);
     }
 
 

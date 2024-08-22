@@ -1,24 +1,33 @@
 ﻿
 using chess.Application.Repositories;
+using chess.Application.Services;
 using chess.Core.Entities;
 using chess.Core.Enums;
+using chess.Shared.Exceptions;
 using MediatR;
+using chess.Core.Maps.MapOfElo;
 
 namespace chess.Application.Requests.GameRequests.CreateGameWithLink;
 
-public class CreateGameWithLinkRequestHandler : IRequestHandler<CreateGameWithLinkRequest, CreateGameWithLinkDto>{
+public class CreateGameWithLinkRequestHandler : IRequestHandler<CreateGameWithLinkRequest, CreateGameWithLinkDto> {
 
+    private readonly IUserContextService _userContextService;
+    private readonly IUserRepository _userRepository;
     private readonly IGameRepository _gameRepository;
     private readonly IGameTimingRepository _gameTimingRepository;
     private readonly IGameStateRepository _gameStateRepository;
     private readonly IPlayerRepository _playerRepository;
 
     public CreateGameWithLinkRequestHandler(
+        IUserContextService userContextService,
+        IUserRepository userRepository,
         IGameRepository gameRepository,
         IGameTimingRepository gameTimingRepository,
         IGameStateRepository gameStateRepository,
         IPlayerRepository playerRepository
     ) {
+        _userContextService = userContextService;
+        _userRepository = userRepository;
         _gameRepository = gameRepository;
         _gameTimingRepository = gameTimingRepository;
         _gameStateRepository = gameStateRepository;
@@ -27,12 +36,16 @@ public class CreateGameWithLinkRequestHandler : IRequestHandler<CreateGameWithLi
 
     public async Task<CreateGameWithLinkDto> Handle(CreateGameWithLinkRequest request, CancellationToken cancellationToken) {
 
+        var userId = _userContextService.GetUserId();
+
+        var user = await _userRepository.GetById(userId)
+            ?? throw new NotFoundException("User not found.");
 
         var existingGameTiming = await _gameTimingRepository.FindTiming(request.Type, request.Minutes * 60, request.Increment);
 
 
         var timing = existingGameTiming;
-        if (existingGameTiming is null) {
+        if (timing is null) {
 
             var gameTiming = new GameTiming()
             {
@@ -47,25 +60,34 @@ public class CreateGameWithLinkRequestHandler : IRequestHandler<CreateGameWithLi
             timing = gameTiming;
         }
 
+        int userElo = user.Elo.GetElo(request.Type);
         var userPlayer = new Player()
         {
             Id = Guid.NewGuid(),
-            Name = "",
+            IsPrivate = true,
+            Name = user.Username,
+            ImageUrl = user.ImageUrl,
+            Elo = userElo,
             TimeLeft = request.Minutes * 60,
-            TimingId = timing!.Id,
+            UserId = userId,
+            TimingId = timing.Id,
         };
 
-        var friendPlayer = new Player()
+        var placeholderPlayer = new Player()
         {
             Id = Guid.NewGuid(),
-            Name = "",
+            IsPrivate = true,
             TimeLeft = request.Minutes * 60,
-            TimingId = timing!.Id,
+            TimingId = timing.Id,
+
+            // update this on start
+            Name = "",
+            UserId = userId,
         };
 
 
         await _playerRepository.Create(userPlayer);
-        await _playerRepository.Create(friendPlayer);
+        await _playerRepository.Create(placeholderPlayer);
 
 
         var game = new Game()
@@ -77,15 +99,15 @@ public class CreateGameWithLinkRequestHandler : IRequestHandler<CreateGameWithLi
         };
 
         userPlayer.GameId = game.Id;
-        friendPlayer.GameId = game.Id;
+        placeholderPlayer.GameId = game.Id;
 
         var random = new Random();
         var randomChoice = random.Next(2) == 0;
-        game.WhitePlayerId = randomChoice ? userPlayer.Id : friendPlayer.Id;
-        game.BlackPlayerId = randomChoice ? friendPlayer.Id : userPlayer.Id;
+        game.WhitePlayerId = randomChoice ? userPlayer.Id : placeholderPlayer.Id;
+        game.BlackPlayerId = randomChoice ? placeholderPlayer.Id : userPlayer.Id;
 
         userPlayer.Color = randomChoice ? Colors.White : Colors.Black;
-        friendPlayer.Color = randomChoice ? Colors.Black : Colors.White;
+        placeholderPlayer.Color = randomChoice ? Colors.Black : Colors.White;
 
         var gameState = new GameState()
         {
@@ -101,7 +123,7 @@ public class CreateGameWithLinkRequestHandler : IRequestHandler<CreateGameWithLi
         var privateGameDto = new CreateGameWithLinkDto()
         {
             GameId = game.Id,
-            GameUrl = $"{game.Id}"
+            GameUrl = $"http://localhost:5173/main/await/{game.Id}"
         };
 
 

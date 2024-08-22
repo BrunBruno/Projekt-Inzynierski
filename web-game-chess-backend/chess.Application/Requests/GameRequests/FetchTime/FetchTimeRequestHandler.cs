@@ -25,8 +25,6 @@ public class FetchTimeRequestHandler : IRequestHandler<FetchTimeRequest, FetchTi
             ?? throw new NotFoundException("Game not found.");
 
 
-
-
         DateTime lastTimeRecorded = (game.Moves.Count == 0 ? game.StartedAt : game.Moves[game.Moves.Count - 1].DoneAt) 
             ?? throw new BadRequestException("Game was not started properly.");
 

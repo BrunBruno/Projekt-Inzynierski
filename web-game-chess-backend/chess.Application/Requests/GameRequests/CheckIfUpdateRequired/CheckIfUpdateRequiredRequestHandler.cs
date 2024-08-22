@@ -1,0 +1,39 @@
+﻿
+using chess.Application.Repositories;
+using chess.Shared.Exceptions;
+using MediatR;
+
+namespace chess.Application.Requests.GameRequests.CheckIfUpdateRequired;
+
+public class CheckIfUpdateRequiredRequestHandler : IRequestHandler<CheckIfUpdateRequiredRequest, CheckIfUpdateRequiredDto> {
+
+    private readonly IGameRepository _gameRepository;
+    private readonly IGameTimingRepository _gameTimingRepository;
+
+    public CheckIfUpdateRequiredRequestHandler(
+        IGameRepository gameRepository,
+        IGameTimingRepository gameTimingRepository
+    ) {
+        _gameRepository = gameRepository;
+        _gameTimingRepository = gameTimingRepository;
+    }
+
+    public async Task<CheckIfUpdateRequiredDto> Handle(CheckIfUpdateRequiredRequest request, CancellationToken cancellationToken) {
+
+        var game = await _gameRepository.GetById(request.GameId)
+            ?? throw new NotFoundException("Game not found.");
+
+        var gameTiming = await _gameTimingRepository.GetById(game.GameTimingId)
+            ?? throw new NotFoundException("Game timing not found.");
+
+        var isReuired = new CheckIfUpdateRequiredDto()
+        {
+            IsRequired = game.WhitePlayer.UserId == game.BlackPlayer.UserId,
+            Type = gameTiming.Type,
+            Minutes = gameTiming.Seconds / 60,
+            Increment = gameTiming.Increment,
+        };
+
+        return isReuired;
+    }
+}

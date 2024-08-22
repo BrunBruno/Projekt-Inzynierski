@@ -84,6 +84,7 @@ public class CreateGameByEmailRequestHandler : IRequestHandler<CreateGameByEmail
         var userPlayer = new Player()
         {
             Id = Guid.NewGuid(),
+            IsPrivate = true,
             Name = user.Username,
             ImageUrl = user.ImageUrl,
             Elo = userElo,
@@ -96,6 +97,7 @@ public class CreateGameByEmailRequestHandler : IRequestHandler<CreateGameByEmail
         var friendPlayer = new Player()
         {
             Id = Guid.NewGuid(),
+            IsPrivate = true,
             Name = friend.Username,
             ImageUrl = friend.ImageUrl,
             Elo = friendElo,

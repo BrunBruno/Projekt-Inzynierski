@@ -120,3 +120,7 @@ export type DeclineInvitationModel = {
 };
 
 export type CreateGameWithLinkModel = TimingTypeModel & {};
+
+export type UpdatePrivateGameModel = {
+  gameId: Guid;
+};

@@ -59,6 +59,7 @@ public class CreateRematchGameRequestHandler : IRequestHandler<CreateRematchGame
         var userPlayer = new Player()
         {
             Id = Guid.NewGuid(),
+            IsPrivate = true,
             Name = user.Username,
             ImageUrl = user.ImageUrl,
             Elo = userElo,
@@ -72,6 +73,7 @@ public class CreateRematchGameRequestHandler : IRequestHandler<CreateRematchGame
         var opponentPlayer = new Player()
         {
             Id = Guid.NewGuid(),
+            IsPrivate = true,
             Name = opponent.Username,
             ImageUrl = opponent.ImageUrl,
             Elo = opponentElo,

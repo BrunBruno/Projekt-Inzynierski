@@ -22,7 +22,7 @@ const InviteByUrl = forwardRef<InviteByUrlRef, InviteByUrlProps>(
     const { showPopup } = usePopup();
     const { setTimingType } = useTimingType();
 
-    const [newGameLink, setNewGameLink] = useState<string | null>(null);
+    const [newGameLink, setNewGameLink] = useState<CreateGameWithLinkDto | null>(null);
 
     const onInviteByUrl = async (header: string, values: number[]): Promise<void> => {
       try {
@@ -49,7 +49,7 @@ const InviteByUrl = forwardRef<InviteByUrlRef, InviteByUrlProps>(
         );
 
         showPopup("Game created", "success");
-        setNewGameLink(response.data.GameUrl);
+        setNewGameLink(response.data);
       } catch (err) {
         showPopup(getErrMessage(err), "warning");
       }
@@ -69,8 +69,8 @@ const InviteByUrl = forwardRef<InviteByUrlRef, InviteByUrlProps>(
         <div className={classes["input-holder"]}>
           {newGameLink ? (
             <div className={classes["game-link"]}>
-              <a href={newGameLink} className={classes.link}>
-                {newGameLink}
+              <a href={newGameLink.gameUrl} className={classes.link}>
+                {newGameLink.gameUrl}
               </a>
               <span>Send this email to your friend and enter it to start the game.</span>
             </div>

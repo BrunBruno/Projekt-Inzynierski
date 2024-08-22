@@ -17,6 +17,8 @@ import { TimingTypeProvider } from "../shared/utils/hooks/useTimingType";
 import AwaitingPage from "./awaiting-page/AwaitingPage";
 
 function MainRouter() {
+  ///
+
   const navigate = useNavigate();
 
   const [authorize, setAuthorize] = useState<boolean>(false);
@@ -64,7 +66,7 @@ function MainRouter() {
           setAuthorize(true);
         }
       } catch (err) {
-        navigate("/", {
+        navigate("/registration", {
           state: {
             popupText: getErrMessage(err),
             popupType: "warning",
@@ -75,10 +77,9 @@ function MainRouter() {
 
     verifyUsersToken();
   }, []);
+  //*/
 
-  if (!authorize) {
-    return <LoadingPage />;
-  }
+  if (!authorize) return <LoadingPage />;
 
   return (
     <TimingTypeProvider>

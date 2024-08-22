@@ -39,6 +39,23 @@
       @include button(2rem);
       @include secMButton();
     }
+
+    .game-link {
+      @include flex(column, start, center, 1rem);
+
+      a.link {
+        @include rounded(1rem);
+        background-color: $gc9;
+        font-size: 1.6rem;
+        color: $mc5;
+      }
+
+      span {
+        text-align: center;
+        font-size: 1.4rem;
+        color: $gc4;
+      }
+    }
   }
 
   .text {

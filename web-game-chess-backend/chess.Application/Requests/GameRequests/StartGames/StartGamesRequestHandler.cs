@@ -9,7 +9,7 @@ namespace chess.Application.Requests.GameRequests.StartGames;
 
 /// <summary>
 /// Checks if provided timing exists
-/// Gets all awaiting players
+/// Gets all awaiting players (not playing and not private)
 /// Maches players and creates games for each mach
 /// </summary>
 public class StartGamesRequestHandler : IRequestHandler<StartGamesRequest> {
@@ -40,7 +40,7 @@ public class StartGamesRequestHandler : IRequestHandler<StartGamesRequest> {
 
         var matchedPlayers = new List<Player>();
         var random = new Random();
-        var eloRange = getRange(players.Count);
+        var eloRange = GetRange(players.Count);
 
         foreach (var player in players) {
             if (matchedPlayers.Contains(player))
@@ -90,7 +90,7 @@ public class StartGamesRequestHandler : IRequestHandler<StartGamesRequest> {
         }
     }
 
-    private int getRange(int x) {
+    private static int GetRange(int x) {
         return (int)Math.Pow(1.01, -(x - 500)) + 10;
     }
 }

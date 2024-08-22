@@ -97,6 +97,7 @@ public class CreatePrivateGameRequestHandler : IRequestHandler<CreatePrivateGame
         var userPlayer = new Player()
         {
             Id = Guid.NewGuid(),
+            IsPrivate = true,
             Name = user.Username,
             ImageUrl = user.ImageUrl,
             Elo = userElo,
@@ -109,6 +110,7 @@ public class CreatePrivateGameRequestHandler : IRequestHandler<CreatePrivateGame
         var friendPlayer = new Player()
         {
             Id = Guid.NewGuid(),
+            IsPrivate = true,
             Name = friend.Username,
             ImageUrl = friend.ImageUrl,
             Elo = friendElo,

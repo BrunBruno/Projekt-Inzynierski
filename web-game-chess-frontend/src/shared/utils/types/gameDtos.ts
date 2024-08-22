@@ -166,6 +166,10 @@ export type GetAllMessagesDto = {
 };
 
 export type CreateGameWithLinkDto = {
-  GameId: Guid;
-  GameUrl: string;
+  gameId: Guid;
+  gameUrl: string;
+};
+
+export type CheckIfUpdateRequiredDto = TimingTypeModel & {
+  isRequired: boolean;
 };

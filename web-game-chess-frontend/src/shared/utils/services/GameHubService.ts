@@ -6,14 +6,18 @@ import {
   MakeMoveModel,
   NotifyUserModel,
   SendMessageModel,
+  UpdatePrivateGameModel,
 } from "../types/gameModels";
 import { Guid } from "guid-typescript";
 
 // singalR hub service map from GameHub
 class GameHub {
+  // hub url
   private gameHubUrl: string = "http://localhost:5125/game-hub";
   // private gameHubUrl: string = "http://192.168.1.46:5125/game-hub";
+  // verification token
   private token: string | null = null;
+  // attemps take to establish connection
   private attempts: number = 0;
 
   public connection: signalR.HubConnection | null = null;
@@ -118,6 +122,15 @@ class GameHub {
   public async AcceptInvitation(model: AcceptInvitationModel) {
     try {
       await this.connection?.invoke("accept-invitation", model);
+    } catch (err) {
+      console.error(err);
+    }
+  }
+
+  // updates game creatined with link
+  public async UpdatePrivateGame(model: UpdatePrivateGameModel) {
+    try {
+      await this.connection?.invoke("update-private-game", model);
     } catch (err) {
       console.error(err);
     }

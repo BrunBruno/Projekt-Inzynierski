@@ -37,6 +37,11 @@ public class Player {
     public Colors? Color { get; set; } = null;
 
     /// <summary>
+    /// Determines if player can be used in global search or is only for private game
+    /// </summary>
+    public bool IsPrivate { get; set; } = false;
+
+    /// <summary>
     /// Flag if player is still searching
     /// </summary>
     public bool IsPlaying { get; set; } = false;

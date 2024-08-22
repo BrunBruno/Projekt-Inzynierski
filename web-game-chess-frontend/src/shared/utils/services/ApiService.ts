@@ -1,3 +1,5 @@
+// api paths and function
+
 import { Guid } from "guid-typescript";
 import { GetAllFriendsByStatusModel, GetAllNonFriendsModel } from "../types/friendshipModels";
 import {
@@ -9,10 +11,10 @@ import {
 } from "../types/gameModels";
 import { GetByEmailModel, GetOtherUserModel, GetRegisterConfModel } from "../types/userModels";
 
-// api paths and function
 const baseUrl: string = "http://localhost:5125/api";
 // const baseUrl: string = "http://192.168.1.46:5125/api";
 
+// user controller
 const userBaseUrl: string = baseUrl + "/user";
 
 interface UserControllerPaths {
@@ -72,7 +74,9 @@ export const userControllerPaths: UserControllerPaths = {
   // gets registration configurations
   getRegisterConf: (model: GetRegisterConfModel): string => `${userBaseUrl}/configuration/?${stringifyModel(model)}`,
 };
+//*/
 
+// game controller
 const gameBaseUrl: string = baseUrl + "/game";
 
 interface GameControllerPaths {
@@ -85,6 +89,7 @@ interface GameControllerPaths {
   //PUT
   //GET
   checkIfInGame: (model: CheckIfInGameModel) => string;
+  checkIfUpdateRequired: (gameId: Guid) => string;
   getGame: (gameId: Guid) => string;
   getPlayer: (gameId: Guid) => string;
   fetchTime: (gameId: Guid) => string;
@@ -118,6 +123,8 @@ export const gameControllerPaths: GameControllerPaths = {
 
   // check if player was matched and the game has started
   checkIfInGame: (model: CheckIfInGameModel): string => `${gameBaseUrl}/check-if-in-game/?${stringifyModel(model)}`,
+
+  checkIfUpdateRequired: (gameId: Guid): string => `${gameBaseUrl}/${gameId}/check-if-update-required`,
 
   // gets all data for one game
   getGame: (gameId: Guid): string => `${gameBaseUrl}/${gameId}`,
@@ -153,7 +160,9 @@ export const gameControllerPaths: GameControllerPaths = {
   // removes player
   abortSearch: (model: AbortSearchModel): string => `${gameBaseUrl}/abort?${stringifyModel(model)}`,
 };
+//*/
 
+// friendship controller
 const friendshipBaseUrl: string = baseUrl + "/friendship";
 
 interface FriendshipControllerPaths {
@@ -190,6 +199,7 @@ export const friendshipControllerPaths: FriendshipControllerPaths = {
   // removes friendships
   removeFriend: (friendshipId: Guid): string => `${friendshipBaseUrl}/${friendshipId}`,
 };
+//*/
 
 type Headers = {
   headers: {

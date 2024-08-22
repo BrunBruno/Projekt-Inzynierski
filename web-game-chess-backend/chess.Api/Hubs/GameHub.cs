@@ -9,6 +9,7 @@ using chess.Application.Requests.GameRequests.InvitedToGame;
 using chess.Application.Requests.GameRequests.MakeMove;
 using chess.Application.Requests.GameRequests.SendMessage;
 using chess.Application.Requests.GameRequests.StartGames;
+using chess.Application.Requests.GameRequests.UpdatePrivateGame;
 using chess.Application.Services;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -159,6 +160,27 @@ public class GameHub : Hub<IGameHub> {
 
         await Clients.Groups($"user-{model.InvitorId}").GameAccepted(model.GameId);
         await Clients.Groups($"user-{model.InviteeId}").GameAccepted(model.GameId);
+    }
+
+
+    /// <summary>
+    /// Updates game creatined with link
+    /// </summary>
+    /// <param name="model"></param>
+    /// <returns></returns>
+    [HubMethodName("update-private-game")]
+    [Authorize(Policy = "IsVerified")]
+    [SignalRMethod("UpdatePrivateGame", Operation.Put)]
+    public async Task UpdatePrivateGame(UpdatePrivateGameModel model) {
+
+        var request = _mapper.Map<UpdatePrivateGameRequest>(model);
+
+        var startGameDto = await _mediator.Send(request);
+
+        if (startGameDto.ShouldStart) {
+            await Clients.Groups($"user-{startGameDto.WhitePlayerUserId}").GameAccepted(model.GameId);
+            await Clients.Groups($"user-{startGameDto.BlackPlayerUserId}").GameAccepted(model.GameId);
+        }
     }
 
 

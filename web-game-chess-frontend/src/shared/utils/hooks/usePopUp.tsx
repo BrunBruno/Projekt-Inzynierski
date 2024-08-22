@@ -44,10 +44,12 @@ export const PopupProvider = ({ children }: PopUpProviderProps) => {
     }, 10);
 
     // clear location states for popups
-    delete location.state.popupText;
-    delete location.state.popupType;
-    window.history.replaceState(location.state.popupText, "", location.pathname);
-    window.history.replaceState(location.state.popupType, "", location.pathname);
+    if (location.state) {
+      delete location.state.popupText;
+      delete location.state.popupType;
+      window.history.replaceState(location.state.popupText, "", location.pathname);
+      window.history.replaceState(location.state.popupType, "", location.pathname);
+    }
   };
 
   // hide popup
