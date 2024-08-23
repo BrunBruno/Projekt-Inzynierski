@@ -63,7 +63,7 @@ const PlayBoard = forwardRef<HandleOnScroll, PlayBoardProps>(
     useImperativeHandle(ref, () => ({
       handleOnScroll,
     }));
-    // end hadnle board on scroll
+    //*/
 
     // genrate board
     const generateGrid = (): JSX.Element[] => {
@@ -90,15 +90,16 @@ const PlayBoard = forwardRef<HandleOnScroll, PlayBoardProps>(
         boardRows.push(
           <div key={i} className={classes["grid-row"]}>
             {generateTiles()}
-          </div>,
+          </div>
         );
       }
 
       return boardRows;
     };
-    // end generate board
+    //*/
 
     // handle on click
+    // to create wave pattern
     const handleBoardOnClick = (event: React.MouseEvent<HTMLDivElement, MouseEvent>): string => {
       // get cor of tiles based on cursor position
       const getPosition = (cpos: number, ppos: number, psize: number): number => {
@@ -151,9 +152,10 @@ const PlayBoard = forwardRef<HandleOnScroll, PlayBoardProps>(
         }, time);
       }
     };
-    // end handle on click
+    //*/
 
     // handle board hover
+    // to move "flashlight" over board
     const handleOnGridHover = (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
       const parentRect = event.currentTarget.getBoundingClientRect();
       const offsetX = event.clientX - parentRect.left;
@@ -165,33 +167,37 @@ const PlayBoard = forwardRef<HandleOnScroll, PlayBoardProps>(
         indicator.style.top = `${offsetY}px`;
       }
     };
-    // end handle board hover
+    //*/
+
+    // to show or hide indicator flashlight
+    const handleIndicatorVisibility = (opacity: number) => {
+      const indicator = document.getElementById("indicator");
+      if (indicator) {
+        indicator.style.opacity = opacity.toString();
+      }
+    };
+    //*/
 
     return (
       <div ref={boardRef} className={classes.board}>
         <div className={classes.board__grid}>
-          {/* inner */}
+          {/* inner board */}
           <div ref={innerBoardRef} className={classes.board__grid__inner}>
             <div id="indicator" className={classes.indicator} />
             {generateGrid()}
           </div>
+          {/* --- */}
 
-          {/* outer */}
+          {/* outer board */}
           <div
             ref={outerBoardRef}
             className={classes.board__grid__outer}
             onMouseMove={(event) => handleOnGridHover(event)}
             onMouseEnter={() => {
-              const indicator = document.getElementById("indicator");
-              if (indicator) {
-                indicator.style.opacity = "1";
-              }
+              handleIndicatorVisibility(1);
             }}
             onMouseLeave={() => {
-              const indicator = document.getElementById("indicator");
-              if (indicator) {
-                indicator.style.opacity = "0";
-              }
+              handleIndicatorVisibility(0);
             }}
             onClick={(event) => {
               makeWave(handleBoardOnClick(event));
@@ -199,10 +205,11 @@ const PlayBoard = forwardRef<HandleOnScroll, PlayBoardProps>(
           >
             <LogoIconSvg iconClass={classes["board-svg"]} />
           </div>
+          {/* --- */}
         </div>
       </div>
     );
-  },
+  }
 );
 
 export default PlayBoard;

@@ -1,9 +1,10 @@
 @import "../../Main.scss";
 
+// right side bar container
 .bar {
   @include wh100();
-  max-height: 100vh;
 
+  max-height: 100vh;
   position: relative;
 
   &::after {
@@ -19,6 +20,7 @@
     pointer-events: none;
   }
 
+  // reight side bar content
   &__content {
     position: inherit;
     z-index: 2;
@@ -158,8 +160,11 @@
       }
     }
   }
+  //*/
 }
+//*/
 
+// resize
 @media (max-width: 1000px) {
   .bar {
     &::after {
@@ -181,3 +186,4 @@
     }
   }
 }
+//*/

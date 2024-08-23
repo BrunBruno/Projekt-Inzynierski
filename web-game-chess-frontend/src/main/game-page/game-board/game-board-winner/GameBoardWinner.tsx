@@ -11,9 +11,13 @@ import { usePopup } from "../../../../shared/utils/hooks/usePopUp";
 import AvatarImage from "../../../../shared/components/avatar-image/AvatarImage";
 
 type GameBoardWinnerProps = {
+  // current game data
   gameData: GetGameDto;
+  // game result data data
   winner: EndGameDto | GetEndedGameDto | null;
+  // to start new game search
   setSearchIds: React.Dispatch<React.SetStateAction<SearchGameDto | null>>;
+  //
   selectedTiming: SearchGameModel | null;
 };
 
@@ -24,8 +28,7 @@ function GameBoardWinner({ winner, gameData, setSearchIds, selectedTiming }: Gam
 
   const { showPopup } = usePopup();
 
-  if (!winner) return;
-
+  // to search for new game
   const onSearchForGame = async () => {
     if (selectedTiming === null) return;
 
@@ -45,6 +48,9 @@ function GameBoardWinner({ winner, gameData, setSearchIds, selectedTiming }: Gam
       showPopup(getErrMessage(err), "warning");
     }
   };
+  //*/
+
+  if (!winner) return;
 
   return (
     <div className={classes.winner}>
@@ -78,7 +84,9 @@ function GameBoardWinner({ winner, gameData, setSearchIds, selectedTiming }: Gam
                 </span>
               </div>
             </div>
+
             <p>vs</p>
+
             <div className={`${classes.player} ${classes["black-player"]}`}>
               <AvatarImage
                 username={gameData.blackPlayer.name}
@@ -105,6 +113,7 @@ function GameBoardWinner({ winner, gameData, setSearchIds, selectedTiming }: Gam
             >
               New Game
             </button>
+
             <button className={classes["re-game"]}>Remach</button>
           </div>
 

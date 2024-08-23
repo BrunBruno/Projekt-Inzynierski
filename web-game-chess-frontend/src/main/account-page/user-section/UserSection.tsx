@@ -14,7 +14,10 @@ import { getErrMessage } from "../../../shared/utils/functions/displayError";
 import AvatarImage from "../../../shared/components/avatar-image/AvatarImage";
 
 type UserSectionProps = {
+  // to obtaine game timing history by selection timing type
+  // sends right column view to type history chart
   getTypeHistory: (type: number) => void;
+  // to view send to friend list
   setFriendSection: () => void;
 };
 
@@ -29,6 +32,7 @@ function UserSection({ getTypeHistory, setFriendSection }: UserSectionProps) {
 
   const { showPopup } = usePopup();
 
+  // to gat user data
   const getUser = async () => {
     try {
       const userResponse = await axios.get<GetFullUserDto>(userControllerPaths.getFullUser(), getAuthorization());
@@ -64,7 +68,9 @@ function UserSection({ getTypeHistory, setFriendSection }: UserSectionProps) {
   useEffect(() => {
     fetchData();
   }, []);
+  //*/
 
+  // to change and update user personal data
   const updateUser = async () => {
     const profileModel: UpdateProfileModel = {
       name: name === "" ? null : name,
@@ -80,13 +86,13 @@ function UserSection({ getTypeHistory, setFriendSection }: UserSectionProps) {
       showPopup(getErrMessage(err), "warning");
     }
   };
+  //*/
 
-  if (!user || !elo) {
-    return <LoadingPage text="Loading data" />;
-  }
+  if (!user || !elo) return <LoadingPage text="Loading data" />;
 
   return (
     <section className={classes.user}>
+      {/* user profile */}
       <div className={classes.user__profile}>
         <div className={classes.user__profile__avatar}>
           <AvatarImage username={user.username} imageUrl={user.imageUrl} imageClass={classes["avatar-img"]} />
@@ -151,6 +157,9 @@ function UserSection({ getTypeHistory, setFriendSection }: UserSectionProps) {
           </div>
         </div>
       </div>
+      {/* --- */}
+
+      {/* user stats */}
       <div className={classes.user__data}>
         <div className={classes.user__data__stats}>
           <div className={classes.user__data__stats__header}>
@@ -215,6 +224,7 @@ function UserSection({ getTypeHistory, setFriendSection }: UserSectionProps) {
           </div>
         </div>
       </div>
+      {/* --- */}
     </section>
   );
 }

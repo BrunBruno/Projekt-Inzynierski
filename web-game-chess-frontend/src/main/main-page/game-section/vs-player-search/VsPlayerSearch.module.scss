@@ -1,5 +1,6 @@
 @import "../../MainPage.module.scss";
 
+// vs-player search container
 .search {
   @include wh100();
 
@@ -122,7 +123,9 @@
     }
   }
 }
+//*/
 
+// resize
 @media (max-width: 700px) {
   .search {
     padding: 0 !important;
@@ -198,3 +201,4 @@
     }
   }
 }
+//*/

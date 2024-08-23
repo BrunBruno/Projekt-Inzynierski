@@ -1,5 +1,6 @@
 @import "../../../Main.scss";
 
+// winner window conatiner
 .winner {
   @include absCenter();
   @include wh100();
@@ -66,6 +67,7 @@
       }
     }
 
+    // end game result data
     &__info {
       @include flex($direction: column);
 
@@ -170,5 +172,7 @@
         }
       }
     }
+    //*/
   }
 }
+//*/

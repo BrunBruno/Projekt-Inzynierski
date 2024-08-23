@@ -19,6 +19,7 @@ function ProfileSection({ userProfile, friendProfile, closeProfile }: ProfileSec
 
   return (
     <section className={classes.profile}>
+      {/* display user or friend based on list selection */}
       {userProfile !== null ? (
         <div className={classes.profile__content}>
           <div className={classes.profile__content__bg} />
@@ -73,6 +74,7 @@ function ProfileSection({ userProfile, friendProfile, closeProfile }: ProfileSec
       ) : (
         <></>
       )}
+      {/* --- */}
     </section>
   );
 }

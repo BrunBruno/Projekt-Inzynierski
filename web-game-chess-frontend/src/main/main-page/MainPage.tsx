@@ -13,6 +13,7 @@ function MainPage() {
   const location = useLocation();
   const { showPopup } = usePopup();
 
+  // to display main page popups
   useEffect(() => {
     if (location.state) {
       const state = location.state as PopupType;
@@ -22,6 +23,7 @@ function MainPage() {
       }
     }
   }, [location.state]);
+  //*/
 
   return (
     <main className={classes.main}>

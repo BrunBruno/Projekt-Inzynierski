@@ -21,6 +21,7 @@ function RegisterPage() {
   const [modal, setModal] = useState<number>(0);
   const [modalClass, setModalClass] = useState<string>("");
 
+  // to set form modal
   useEffect(() => {
     if (location.state && location.state.regOption) {
       setModal(location.state.regOption);
@@ -29,7 +30,6 @@ function RegisterPage() {
     }
   }, [location.state]);
 
-  // set form modal
   const renderModal = (): JSX.Element => {
     switch (modal) {
       case registrationInterface.signIn:
@@ -42,8 +42,9 @@ function RegisterPage() {
         return <></>;
     }
   };
+  //*/
 
-  // get form class
+  // to set right class of form
   const getFormClass = (): string => {
     if (window.innerWidth > 500) {
       switch (modal) {
@@ -72,10 +73,12 @@ function RegisterPage() {
       window.removeEventListener("resize", handleResize);
     };
   }, [modal]);
+  //*/
 
   return (
     <main className={classes.register}>
       <div ref={registerRef} className={classes.register__content}>
+        {/* intro */}
         {modal === registrationInterface.signIn ? (
           <div className={`${classes.register__content__split} ${classes["left-side-content"]}`}>
             <div className={classes.form}></div>
@@ -115,11 +118,14 @@ function RegisterPage() {
             <div className={classes.form}></div>
           </div>
         )}
+        {/* --- */}
 
+        {/* form */}
         <div className={`${classes.register__content__form} ${modalClass}`}>
           <PasswordIconSvg color={mainColor.c7} iconClass={classes["lock-svg"]} />
           {renderModal()}
         </div>
+        {/* --- */}
       </div>
 
       <MainPopUp />

@@ -18,10 +18,12 @@ function UsersPage() {
   const [userProfile, setUserProfile] = useState<GetOtherUserDto | null>(null);
   const [friendProfile, setFriendProfile] = useState<GetFriendProfileDto | null>(null);
 
+  // to hide profile window
   const closeProfile = () => {
     setUserProfile(null);
     setFriendProfile(null);
   };
+  //*/
 
   return (
     <main className={classes["users-main"]}>

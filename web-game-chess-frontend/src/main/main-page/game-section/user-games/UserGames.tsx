@@ -29,13 +29,7 @@ function UserGames({}: UserGamesProps) {
 
   const { scrollRef, pageSize, totalItemsCount, setDefPageSize, setTotalItemsCount } = usePagination();
 
-  // useEffect(() => {
-  //   console.log(scrollRef.current?.clientWidth);
-  //   console.log(scrollRef.current?.clientHeight);
-
-  //   setDefPageSize(6);
-  // }, []);
-
+  // send set defalut pagination page size
   useEffect(() => {
     const setDefSize = () => {
       let elemCount: number;
@@ -68,40 +62,42 @@ function UserGames({}: UserGamesProps) {
       window.removeEventListener("resize", setDefSize);
     };
   }, [games]);
+  //*/
 
   // get all finished games
-  const getGames = async () => {
-    const getGamesOptions: GetAllFinishedGamesModel = {
-      pageNumber: 1,
-      pageSize: pageSize,
-      timingTypeFilters: timingTypeFilters,
-      resultFilters: resultFilters,
+  useEffect(() => {
+    const getGames = async () => {
+      const getGamesOptions: GetAllFinishedGamesModel = {
+        pageNumber: 1,
+        pageSize: pageSize,
+        timingTypeFilters: timingTypeFilters,
+        resultFilters: resultFilters,
+      };
+
+      try {
+        const gamesRespones = await axios.get<PagedResult<GetAllFinishedGamesDto>>(
+          gameControllerPaths.getAllFinishedGames(getGamesOptions),
+          getAuthorization()
+        );
+
+        setGames(gamesRespones.data.items);
+
+        setTotalItemsCount(gamesRespones.data.totalItemsCount);
+
+        const count =
+          gamesRespones.data.itemsTo < gamesRespones.data.totalItemsCount
+            ? gamesRespones.data.itemsTo
+            : gamesRespones.data.totalItemsCount;
+
+        setItemsCount(count);
+      } catch (err) {
+        showPopup(getErrMessage(err), "warning");
+      }
     };
 
-    try {
-      const gamesRespones = await axios.get<PagedResult<GetAllFinishedGamesDto>>(
-        gameControllerPaths.getAllFinishedGames(getGamesOptions),
-        getAuthorization()
-      );
-
-      setGames(gamesRespones.data.items);
-
-      setTotalItemsCount(gamesRespones.data.totalItemsCount);
-
-      const count =
-        gamesRespones.data.itemsTo < gamesRespones.data.totalItemsCount
-          ? gamesRespones.data.itemsTo
-          : gamesRespones.data.totalItemsCount;
-
-      setItemsCount(count);
-    } catch (err) {
-      showPopup(getErrMessage(err), "warning");
-    }
-  };
-
-  useEffect(() => {
     getGames();
   }, [pageSize, timingTypeFilters, resultFilters]);
+  //*/
 
   if (!games) return <LoadingPage text="Loading games" />;
 
@@ -124,6 +120,7 @@ function UserGames({}: UserGamesProps) {
           </button>
         </div>
       </div>
+
       <div ref={scrollRef} className={classes.games__list}>
         {games.map((game, i) => (
           <UserGamesCard key={`game-${i}`} game={game} />

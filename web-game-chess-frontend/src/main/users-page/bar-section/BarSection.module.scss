@@ -1,6 +1,7 @@
 @import "../../Main.scss";
 @import "../../../shared/components/action-button/ActionButton.module.scss";
 
+// center bar container
 .bar {
   @include wh100();
 
@@ -106,3 +107,7 @@
     }
   }
 }
+//*/
+
+// resize
+//*/

@@ -44,8 +44,10 @@ function FriendCard({ selectedList, friend, getAllUsers, setFriend }: FriendCard
       showPopup(getErrMessage(err), "warning");
     }
   };
+  //*/
 
   // delete friend /  remove freindship
+  // used to unblock blocked friends
   const onRemoveFriend = async (action: boolean) => {
     try {
       await axios.delete(friendshipControllerPaths.removeFriend(friend.freindshpId), getAuthorization());
@@ -61,6 +63,7 @@ function FriendCard({ selectedList, friend, getAllUsers, setFriend }: FriendCard
       showPopup(getErrMessage(err), "warning");
     }
   };
+  //*/
 
   // get friend data to display in profile
   const onShowProfile = async () => {
@@ -75,6 +78,7 @@ function FriendCard({ selectedList, friend, getAllUsers, setFriend }: FriendCard
       showPopup(getErrMessage(err), "warning");
     }
   };
+  //*/
 
   // return correct button based on selected list
   const generateButtons = (): JSX.Element => {
@@ -150,6 +154,7 @@ function FriendCard({ selectedList, friend, getAllUsers, setFriend }: FriendCard
         return <></>;
     }
   };
+  //*/
 
   return (
     <div className={classes.card}>

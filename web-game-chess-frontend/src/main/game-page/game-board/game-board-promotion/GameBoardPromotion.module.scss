@@ -1,8 +1,10 @@
 @import "../../../Main.scss";
 
+// pawn promotion container
 .promotion {
   @include absCenter();
   @include wh100();
+
   z-index: 100;
   background-color: rgba(#000, 0.7);
 
@@ -28,3 +30,4 @@
     }
   }
 }
+//*/

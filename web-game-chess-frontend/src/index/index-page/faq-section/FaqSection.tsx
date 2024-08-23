@@ -8,6 +8,7 @@ import { HandleOnScroll } from "../../../shared/utils/types/commonTypes";
 import FaqSectionCard from "./faq-section-card/FaqSectionCard";
 
 type FaqSectionProps = {
+  // section container ref
   sectionRef: React.RefObject<HTMLElement>;
 };
 
@@ -23,6 +24,7 @@ const FaqSection = forwardRef<HandleOnScroll, FaqSectionProps>(
     const [arrR2A1, setArrR2A1] = useState<boolean>(false);
     const [arrR2A2, setArrR2A2] = useState<boolean>(true);
 
+    // to controll scroll buttons
     const handleScrollOnClick = (containerRow: number, direction: number) => {
       const cardCount = window.innerWidth < 700 ? 1 : 2;
       let element: HTMLDivElement | null;
@@ -83,13 +85,14 @@ const FaqSection = forwardRef<HandleOnScroll, FaqSectionProps>(
         }
       }
     };
+    //*/
 
     // handle faq onscroll
     const handleOnScroll = () => {};
     useImperativeHandle(ref, () => ({
       handleOnScroll,
     }));
-    // end handle faq onscroll
+    //*/
 
     return (
       <section id="faq-section" ref={sectionRef} className={classes.faq}>
@@ -144,7 +147,7 @@ const FaqSection = forwardRef<HandleOnScroll, FaqSectionProps>(
           >
             {arrR2A2 && <ArrowRightSvg iconClass="" color={mainColor.c0} />}
           </div>
-          {/* end question sections */}
+          {/* --- */}
         </div>
       </section>
     );

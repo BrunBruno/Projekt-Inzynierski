@@ -42,8 +42,8 @@ function SignUp({ setModal }: SignUpProps) {
   // state if something is processing
   const [processing, setProcessing] = useState<boolean>(true);
 
+  // to get register configuration
   useEffect(() => {
-    // gets configuractions
     const getDataConfigurations = async (): Promise<void> => {
       try {
         const userRegisterConf: GetRegisterConfModel = {
@@ -76,6 +76,7 @@ function SignUp({ setModal }: SignUpProps) {
 
     getDataConfigurations();
   }, []);
+  //*/
 
   // creates user account
   const signUpUser = async (event: React.FormEvent<HTMLFormElement>): Promise<void> => {
@@ -180,6 +181,7 @@ function SignUp({ setModal }: SignUpProps) {
       console.log(err);
     }
   };
+  //*/
 
   // handle on change
   // change passsword strength indicator
@@ -207,6 +209,7 @@ function SignUp({ setModal }: SignUpProps) {
       indRef.current.style.backgroundColor = color;
     }
   };
+  //*/
 
   // handle on click
   // focus on input
@@ -216,17 +219,14 @@ function SignUp({ setModal }: SignUpProps) {
       inputRef.current.classList.remove(classes.err);
     }
   };
+  //*/
 
-  if (processing) {
-    return <LoadingPage text="Loading data" />;
-  }
+  if (processing) return <LoadingPage text="Loading data" />;
 
   return (
     <form className={classes["registration-form"]} onSubmit={(event) => signUpUser(event)}>
-      {/* bg */}
       <DetailPawnIconSvg color={mainColor.c0} iconClass={classes["bg-svg"]} />
 
-      {/* header */}
       <h2>Create Account</h2>
       <div className={classes["change-form"]}>
         Already have an account? <span onClick={() => setModal(registrationInterface.signIn)}>Sing In</span>
@@ -306,14 +306,12 @@ function SignUp({ setModal }: SignUpProps) {
           <SignArrowSvg iconClass={classes.arrow} />
         </div>
       </div>
-      {/* end inputs */}
+      {/* --- */}
 
-      {/* errors */}
       <div className={classes.error}>
         <span>{errorMess}</span>
       </div>
 
-      {/* button */}
       <button type="submit" className={classes["registration-button"]}>
         <span>Sign Up</span>
       </button>

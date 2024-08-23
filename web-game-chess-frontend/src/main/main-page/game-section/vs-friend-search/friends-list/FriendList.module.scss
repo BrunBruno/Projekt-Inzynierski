@@ -1,5 +1,6 @@
 @import "../../../../Main.scss";
 
+// vs-friend search friend list container
 .list {
   @include flex(column, start, center, 1rem);
 
@@ -154,3 +155,7 @@
     font-size: 1.4rem;
   }
 }
+//*/
+
+// resize
+//*/

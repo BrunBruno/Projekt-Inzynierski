@@ -159,17 +159,24 @@ export type GetAllInvitationsDto = {
 };
 
 export type GetAllMessagesDto = {
+  // message content
   message: string;
+  // sender name
   senderName: string;
+  // sender profile picture url
   senderImage: string | null;
+  // date of message creation
   sentAt: Date;
 };
 
 export type CreateGameWithLinkDto = {
+  // game id
   gameId: Guid;
+  // obtaine url to awaiting page
   gameUrl: string;
 };
 
 export type CheckIfUpdateRequiredDto = TimingTypeModel & {
+  // is update on players required
   isRequired: boolean;
 };

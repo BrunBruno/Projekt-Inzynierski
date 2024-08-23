@@ -1,4 +1,4 @@
-// enums for changing page content based on user selection
+/* enums for changing page content based on user selection */
 
 type EnumType = {
   [key: string]: number;

@@ -4,7 +4,9 @@ import NavSectionIcons from "./NavSectionIcons";
 import { HandleOnScroll } from "../../../shared/utils/types/commonTypes";
 
 type NavSectionProps = {
+  // hero section container ref
   heroSectionRef: React.RefObject<HTMLElement>;
+  // sections names
   indicators: readonly ["home", "play", "learn", "faq"];
 };
 
@@ -12,8 +14,9 @@ const NavSection = forwardRef<HandleOnScroll, NavSectionProps>(
   ({ heroSectionRef, indicators }: NavSectionProps, ref: React.ForwardedRef<HandleOnScroll>) => {
     ///
 
-    // handle navbar onscroll
     const navRef = useRef<HTMLDivElement>(null);
+
+    // handle navbar onscroll
     const handleOnScroll = (): void => {
       const heroElement = heroSectionRef.current;
       const navElement = navRef.current;
@@ -38,7 +41,7 @@ const NavSection = forwardRef<HandleOnScroll, NavSectionProps>(
     useImperativeHandle(ref, () => ({
       handleOnScroll,
     }));
-    // end handle navbar onscoll
+    //*/
 
     return (
       <div ref={navRef} className={`${classes.nav} ${classes["nav-none"]}`}>

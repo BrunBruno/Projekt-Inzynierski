@@ -44,6 +44,7 @@ function UserCards({ user, getAllUsers, setNonFriend }: UserCardsProps) {
       showPopup(getErrMessage(err), "warning");
     }
   };
+  //*/
 
   // get non friend profile to display
   const onShowProfile = async () => {
@@ -59,6 +60,7 @@ function UserCards({ user, getAllUsers, setNonFriend }: UserCardsProps) {
       showPopup(getErrMessage(err), "warning");
     }
   };
+  //*/
 
   return (
     <div className={classes.card}>

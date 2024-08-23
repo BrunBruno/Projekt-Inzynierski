@@ -18,41 +18,43 @@ function FriendsSection() {
   ///
 
   const [friendList, setFriendList] = useState<GetAllFriendsByStatusDto[] | null>(null);
-
   const [selectedFriend, setSelectedFriend] = useState<HTMLElement | null>(null);
 
   const { showPopup } = usePopup();
-
   const { scrollRef, totalItemsCount, setTotalItemsCount } = usePagination();
 
-  const getFriends = async () => {
-    try {
-      const frindsModel: GetAllFriendsByStatusModel = {
-        username: "",
-        status: friendshipStatus.accepted,
-        pageNumber: 1,
-        pageSize: 100,
-      };
-
-      const friendsResponse = await axios.get<PagedResult<GetAllFriendsByStatusDto>>(
-        friendshipControllerPaths.getAllFriendsByStatus(frindsModel),
-        getAuthorization()
-      );
-
-      setFriendList(friendsResponse.data.items);
-      setTotalItemsCount(friendsResponse.data.totalItemsCount);
-    } catch (err) {
-      showPopup(getErrMessage(err), "warning");
-    }
-  };
-
+  // to get friend list
   useEffect(() => {
+    const getFriends = async () => {
+      try {
+        const frindsModel: GetAllFriendsByStatusModel = {
+          username: "",
+          status: friendshipStatus.accepted,
+          pageNumber: 1,
+          pageSize: 100,
+        };
+
+        const friendsResponse = await axios.get<PagedResult<GetAllFriendsByStatusDto>>(
+          friendshipControllerPaths.getAllFriendsByStatus(frindsModel),
+          getAuthorization()
+        );
+
+        setFriendList(friendsResponse.data.items);
+        setTotalItemsCount(friendsResponse.data.totalItemsCount);
+      } catch (err) {
+        showPopup(getErrMessage(err), "warning");
+      }
+    };
+
     getFriends();
   }, []);
+  //*/
 
+  // to deactive friend selection
   const clearSelection = () => {
     if (selectedFriend !== null) selectedFriend.classList.remove(cardClasses.active);
   };
+  //*/
 
   if (!friendList) return <LoadingPage text="Loading data" />;
 

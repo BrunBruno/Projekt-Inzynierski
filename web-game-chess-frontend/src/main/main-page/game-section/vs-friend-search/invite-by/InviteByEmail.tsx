@@ -22,6 +22,7 @@ import { GetByEmailDto } from "../../../../../shared/utils/types/userDtos";
 import { TimingTypeModel } from "../../../../../shared/utils/types/abstracDtosAndModels";
 
 type InviteByEmailProps = {
+  // to set obtained user from email
   setSelectedUser: React.Dispatch<React.SetStateAction<GetByEmailDto | null>>;
 };
 
@@ -82,6 +83,7 @@ const InviteByEmail = forwardRef<InviteByEmailRef, InviteByEmailProps>(
     useImperativeHandle(ref, () => ({
       onInviteByEmail,
     }));
+    //*/
 
     // to get user data by provide emial
     const getByEmail = async () => {
@@ -106,6 +108,7 @@ const InviteByEmail = forwardRef<InviteByEmailRef, InviteByEmailProps>(
         showPopup(getErrMessage(err), "warning");
       }
     };
+    //*/
 
     // to set email address
     const setEmail = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -113,6 +116,7 @@ const InviteByEmail = forwardRef<InviteByEmailRef, InviteByEmailProps>(
       const email = target.value.toLocaleLowerCase();
       setSelectedEmail(email);
     };
+    //*/
 
     return (
       <div className={classes.invite}>

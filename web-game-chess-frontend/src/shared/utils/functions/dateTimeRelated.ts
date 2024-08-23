@@ -1,3 +1,5 @@
+/* time and date global functions */
+
 // format time for colck display
 // get total time in minutes and converts to dd:hh:mm:ss
 export const makeTimeFromMinutes = (minutes: number): string => {

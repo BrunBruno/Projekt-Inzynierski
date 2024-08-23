@@ -1,5 +1,6 @@
 @import "../../../Main.scss";
 
+// game starts rows
 .stats {
   position: relative;
   width: 100%;
@@ -59,7 +60,9 @@
     }
   }
 }
+//*/
 
+// resize
 @media (max-width: 700px) {
   .stats {
     $bwh: 12rem;
@@ -97,3 +100,4 @@
     }
   }
 }
+//*/

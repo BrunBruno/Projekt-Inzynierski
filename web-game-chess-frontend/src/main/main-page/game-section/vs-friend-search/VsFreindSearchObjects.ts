@@ -1,3 +1,5 @@
+// invite options
+
 import { Guid } from "guid-typescript";
 
 export type InviteBySelectionRef = {

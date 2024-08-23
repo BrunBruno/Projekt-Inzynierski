@@ -37,21 +37,21 @@
       @include secFont(3rem);
     }
   }
-  // end logo
+  //*/
 
+  // actions
   .hero-actions {
     @include flex(row, center, center, 0);
 
     height: 100%;
     padding: 0.6rem 1.2rem;
     pointer-events: all;
-
     transition: top 0.5s, right 0.5s, background-color 0s 0s, box-shadow 0s 0s;
 
     .hero-button {
       @include button(1.6rem);
-      background-color: #0000;
 
+      background-color: #0000;
       transition: all 0.5s;
 
       &:hover {
@@ -88,9 +88,11 @@
       }
     }
   }
+  //*/
 }
-// end side bar
+//*/
 
+// resize
 @media (max-width: 700px) {
   .header {
     width: calc(100% - 4rem);
@@ -140,3 +142,4 @@
     }
   }
 }
+//*/

@@ -1,4 +1,4 @@
-// types for representing essentail states that are used during game
+/* types for representing essentail states that are used during game */
 
 import { Guid } from "guid-typescript";
 import { GetGameDto, GetPlayerDto } from "./gameDtos";

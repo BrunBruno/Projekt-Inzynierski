@@ -1,3 +1,5 @@
+/* general function shared in game page components */
+
 import { pieceColor } from "../enums/entitiesEnums";
 import { PieceTagMap, pieceTagMap } from "../enums/piecesMaps";
 import { GetPlayerDto } from "../types/gameDtos";

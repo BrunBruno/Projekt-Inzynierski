@@ -26,6 +26,7 @@ function LeftSideBar({ gameId, playerData, gameData }: LeftSideBarProps) {
 
   const { showPopup } = usePopup();
 
+  // to finish the game by some action option
   const endGame = async (loserColor: number | null, endGameType: number) => {
     try {
       const loserPlayer: EndGameModel = {
@@ -39,6 +40,7 @@ function LeftSideBar({ gameId, playerData, gameData }: LeftSideBarProps) {
       showPopup(getErrMessage(err), "warning");
     }
   };
+  //*/
 
   // to abort from game
   const onAbort = () => {
@@ -50,14 +52,17 @@ function LeftSideBar({ gameId, playerData, gameData }: LeftSideBarProps) {
 
     navigate("/main");
   };
+  //*/
 
   // to resign the game
   const onResign = () => {
     endGame(playerData.color, endGameTypes.resignation);
   };
+  //*/
 
   // to offer a draw
   const onDrawOffer = () => {};
+  //*/
 
   return (
     <section className={classes.bar}>

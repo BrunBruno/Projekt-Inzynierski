@@ -8,6 +8,8 @@ type GameMessageProps = {
 };
 
 function GameMessage({ message }: GameMessageProps) {
+  ///
+
   return (
     <div className={classes.message}>
       <div className={classes.message__user}>

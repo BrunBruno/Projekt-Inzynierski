@@ -3,6 +3,7 @@
 @import "../../styles/commons-styles/elements.scss";
 @import "../../styles/commons-styles/texts.scss";
 
+// popup window
 .popup {
   @include rounded(1rem);
   @include flex($gap: 1rem);
@@ -55,3 +56,4 @@
     opacity: 1;
   }
 }
+//*/

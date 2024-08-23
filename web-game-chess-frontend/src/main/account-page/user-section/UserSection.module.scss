@@ -1,10 +1,13 @@
 @import "../../Main.scss";
 
+// user profile container
 .user {
   height: 100%;
   background-color: rgba($gc9, 0.5);
   box-shadow: 0.1rem 0 1rem 0 $gc0;
 
+  // profile
+  // personal data content
   &__profile {
     position: relative;
     padding: 2rem 4rem;
@@ -156,7 +159,9 @@
       }
     }
   }
+  //*/
 
+  // user statistics content
   &__data {
     display: grid;
     grid-template-columns: 60% 40%;
@@ -227,8 +232,11 @@
       }
     }
   }
+  //*/
 }
+//*/
 
+// resize
 @media (max-width: 700px) {
   .user {
     height: fit-content;
@@ -281,3 +289,4 @@
     }
   }
 }
+//*/

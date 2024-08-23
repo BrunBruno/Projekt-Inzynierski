@@ -1,5 +1,6 @@
 @import "../../../Main.scss";
 
+// friend card
 .friend {
   position: relative;
   z-index: 0;
@@ -40,6 +41,7 @@
 
       .avatar {
         @include circle(10rem);
+
         object-fit: cover;
       }
 
@@ -66,12 +68,14 @@
 
       span {
         @include longText();
+
         text-align: center;
 
         &:nth-child(1) {
           font-size: 2rem;
           font-weight: 500;
         }
+
         &:nth-child(2) {
           font-size: 1.6rem;
           color: $gc5;
@@ -131,3 +135,7 @@
     border-color: $gc0;
   }
 }
+//*/
+
+// resize
+//*/

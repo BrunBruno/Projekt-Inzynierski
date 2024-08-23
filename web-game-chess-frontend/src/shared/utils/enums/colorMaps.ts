@@ -1,4 +1,4 @@
-// different colors maps
+/* shared colors maps */
 
 type colorMap = {
   [key: string]: string;

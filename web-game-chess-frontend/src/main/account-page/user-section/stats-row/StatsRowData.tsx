@@ -1,3 +1,5 @@
+// stats chart data and options
+
 import WinLoseIcons from "../../../../shared/svgs/WinLoseIcons";
 import WinTypesIcons from "../../../../shared/svgs/WinTypesIcons";
 import { dangerColor, greyColor, mainColor, successColor } from "../../../../shared/utils/enums/colorMaps";

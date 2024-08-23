@@ -42,6 +42,7 @@ function ListSection({ selectedUsername, selectedList, setUserProfile, setFriend
 
   const { showPopup } = usePopup();
 
+  // get users, according to selecttion
   // get all friends and non friends for user based on choice
   const getAllUsers = async () => {
     try {
@@ -85,10 +86,10 @@ function ListSection({ selectedUsername, selectedList, setUserProfile, setFriend
     }
   };
 
-  // get users, according to selecttion
   useEffect(() => {
     getAllUsers();
   }, [selectedUsername, selectedList, pageSize, pageNumber]);
+  //*/
 
   // set empty list class
   useEffect(() => {
@@ -101,6 +102,7 @@ function ListSection({ selectedUsername, selectedList, setUserProfile, setFriend
       }
     }
   }, [users, friends, listRef]);
+  //*/
 
   // set default page size based on list to elemts size ratio
   // add resize handler to update default size
@@ -127,6 +129,7 @@ function ListSection({ selectedUsername, selectedList, setUserProfile, setFriend
       window.removeEventListener("resize", setDefSize);
     };
   }, [users, friends, listRef]);
+  //*/
 
   // setter for profile data
   const setNonFriend = (user: GetOtherUserDto) => {
@@ -137,6 +140,7 @@ function ListSection({ selectedUsername, selectedList, setUserProfile, setFriend
     setUserProfile(null);
     setFriendProfile(friend);
   };
+  //*/
 
   // to display loading on scroll
   const handleLoading = (event: React.WheelEvent<HTMLDivElement>) => {
@@ -157,6 +161,7 @@ function ListSection({ selectedUsername, selectedList, setUserProfile, setFriend
       }
     }
   };
+  //*/
 
   return (
     <section ref={listRef} className={classes.list}>
@@ -167,6 +172,7 @@ function ListSection({ selectedUsername, selectedList, setUserProfile, setFriend
         <LoadingPage />
       </div>
 
+      {/* users map */}
       {users.length > 0 ? (
         <div
           ref={scrollRef}
@@ -208,6 +214,7 @@ function ListSection({ selectedUsername, selectedList, setUserProfile, setFriend
           <span>found</span>
         </div>
       )}
+      {/* --- */}
 
       <div className={classes.list__indicatior}>
         {users.length > 0 && (

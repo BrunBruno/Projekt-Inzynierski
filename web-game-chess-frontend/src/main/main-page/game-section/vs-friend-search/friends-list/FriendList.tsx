@@ -36,30 +36,32 @@ function FriendList({ selectedUsername, setSelectedFriend }: FriendListProps) {
   });
 
   // get all friends to display for invitations
-  const getFriends = async () => {
-    try {
-      const model: GetAllFriendsByStatusModel = {
-        username: selectedUsername,
-        status: friendshipStatus.accepted,
-        pageSize: pageSize,
-        pageNumber: pageNumber,
-      };
-
-      const friendsResponse = await axios.get<PagedResult<GetAllFriendsByStatusDto>>(
-        friendshipControllerPaths.getAllFriendsByStatus(model),
-        getAuthorization()
-      );
-
-      setFriends(friendsResponse.data.items);
-      setTotalItemsCount(friendsResponse.data.totalItemsCount);
-    } catch (err) {
-      showPopup(getErrMessage(err), "warning");
-    }
-  };
 
   useEffect(() => {
+    const getFriends = async () => {
+      try {
+        const model: GetAllFriendsByStatusModel = {
+          username: selectedUsername,
+          status: friendshipStatus.accepted,
+          pageSize: pageSize,
+          pageNumber: pageNumber,
+        };
+
+        const friendsResponse = await axios.get<PagedResult<GetAllFriendsByStatusDto>>(
+          friendshipControllerPaths.getAllFriendsByStatus(model),
+          getAuthorization()
+        );
+
+        setFriends(friendsResponse.data.items);
+        setTotalItemsCount(friendsResponse.data.totalItemsCount);
+      } catch (err) {
+        showPopup(getErrMessage(err), "warning");
+      }
+    };
+
     getFriends();
   }, [selectedUsername, pageSize]);
+  //*/
 
   if (!friends) return <LoadingPage text="Loading data" />;
 
@@ -77,6 +79,7 @@ function FriendList({ selectedUsername, setSelectedFriend }: FriendListProps) {
 
             <div className={classes.data}>
               <h3>{friend.username}</h3>
+
               <div className={classes.elo}>
                 <span>
                   <TimingTypesIcons iconClass={classes.icon} iconName="bullet" color={mainColor.c0} />
@@ -99,6 +102,7 @@ function FriendList({ selectedUsername, setSelectedFriend }: FriendListProps) {
                   {friend.elo.daily}
                 </span>
               </div>
+
               <div className={classes["previous-games"]}>
                 <p>You played {friend.wdlTogether.total} games together </p>
                 <span>{friend.wdlTogether.wins}W</span>
@@ -108,6 +112,7 @@ function FriendList({ selectedUsername, setSelectedFriend }: FriendListProps) {
                 <span>{friend.wdlTogether.loses}L</span>
               </div>
             </div>
+
             <div className={classes.invite}>
               <button
                 onClick={() => {

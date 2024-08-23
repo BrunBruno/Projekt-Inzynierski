@@ -1,8 +1,10 @@
 @import "../../../Main.scss";
 
+// seacrh in game container
 .searching {
   @include absCenter();
   @include wh100();
+
   z-index: 100;
   background-color: rgba(#000, 0.8);
 
@@ -41,10 +43,7 @@
               $translate-y: $row * 8 - 8;
 
               &:nth-child(#{$i}) {
-                transform: translate(
-                  #{$translate-x}#{"%"},
-                  #{$translate-y}#{"%"}
-                );
+                transform: translate(#{$translate-x}#{"%"}, #{$translate-y}#{"%"});
               }
             }
           }
@@ -84,3 +83,4 @@
     }
   }
 }
+//*/

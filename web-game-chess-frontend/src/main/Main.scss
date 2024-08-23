@@ -1,3 +1,5 @@
+/* shared styles for all subcomponents*/
+
 @import "../shared/styles/variables/color.scss";
 @import "../shared/styles/variables/spacing.scss";
 @import "../shared/styles/commons-styles/backgrounds.scss";
@@ -8,6 +10,7 @@
 @import "../shared/styles/common-components/srcollbars.scss";
 @import "../shared/styles/commons-styles/animations.scss";
 
+// spce for shared navigation panel
 @mixin forNav() {
   @media (min-width: 700px) {
     padding-right: 6rem;
@@ -17,3 +20,4 @@
     padding-top: 6rem;
   }
 }
+//*/

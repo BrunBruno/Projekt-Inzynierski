@@ -12,13 +12,16 @@ function HeroHeader({}: HeroHeaderProps) {
 
   return (
     <header className={classes.header}>
+      {/* logo */}
       <div className={classes["hero-logo"]}>
         <a href="/">
           <LogoIconSvg iconClass={classes["logo-svg"]} />
         </a>
         <p>Chess</p>
       </div>
+      {/* --- */}
 
+      {/* action buttons */}
       <div className={classes["hero-actions"]}>
         <button
           className={classes["hero-button"]}
@@ -49,6 +52,7 @@ function HeroHeader({}: HeroHeaderProps) {
           <span>Sign Up</span>
         </button>
       </div>
+      {/* --- */}
     </header>
   );
 }

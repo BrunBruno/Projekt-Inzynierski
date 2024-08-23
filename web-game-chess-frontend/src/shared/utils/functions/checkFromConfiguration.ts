@@ -1,3 +1,5 @@
+/* functions user in register page */
+
 import { ConfigurationDto } from "../types/userDtos";
 
 export type ValidationResult = {

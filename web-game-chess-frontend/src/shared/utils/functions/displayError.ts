@@ -1,3 +1,5 @@
+/* error related global functions */
+
 import { AxiosError } from "axios";
 
 // Gets messages for registration errors to display

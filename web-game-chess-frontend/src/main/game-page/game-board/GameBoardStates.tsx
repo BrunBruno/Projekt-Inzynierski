@@ -1,3 +1,5 @@
+/* game states */
+
 import { Guid } from "guid-typescript";
 import { GetGameDto, GetPlayerDto } from "../../../shared/utils/types/gameDtos";
 import { GameStates, SelectionStates } from "../../../shared/utils/types/gameStates";

@@ -58,6 +58,7 @@ function VsFriendSearch({}: VsFriendSearchProps) {
 
           <InviteByUrl ref={inviteByUrlRef} setSelectedByUrl={setSelectedByUrl} />
         </div>
+        {/* --- */}
 
         {/* right side content */}
         {selectedFriend || selectedUser || selectedByUrl ? (
@@ -75,6 +76,7 @@ function VsFriendSearch({}: VsFriendSearchProps) {
         ) : (
           <FriendList selectedUsername={selectedUsername} setSelectedFriend={setSelectedFriend} />
         )}
+        {/* --- */}
       </div>
     </div>
   );

@@ -1,3 +1,5 @@
+/* singalR hub service map from GameHub */
+
 import * as signalR from "@microsoft/signalr";
 import {
   AcceptInvitationModel,
@@ -10,7 +12,6 @@ import {
 } from "../types/gameModels";
 import { Guid } from "guid-typescript";
 
-// singalR hub service map from GameHub
 class GameHub {
   // hub url
   private gameHubUrl: string = "http://localhost:5125/game-hub";

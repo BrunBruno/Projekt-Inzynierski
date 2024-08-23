@@ -1,5 +1,6 @@
 @import "../../Index.scss";
 
+// faq container
 .faq {
   @include wh100();
 
@@ -11,6 +12,7 @@
 
   &::before {
     @include subCl($xl-br, $xl-br);
+
     top: calc(-2rem - $xl-br);
     left: -2rem;
 
@@ -81,7 +83,9 @@
     }
   }
 }
+//*/
 
+// resize
 @media (max-width: 700px) {
   .faq {
     border-top-right-radius: 10rem;
@@ -103,3 +107,4 @@
     }
   }
 }
+//*/

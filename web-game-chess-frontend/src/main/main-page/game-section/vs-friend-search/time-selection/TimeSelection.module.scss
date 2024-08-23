@@ -1,6 +1,7 @@
 @import "../../../../Main.scss";
 @import "../../../../../shared/components/action-button/ActionButton.module.scss";
 
+// bs-friend time selection container
 .time {
   @include flex(column, space-evenly, center, 0);
 
@@ -86,3 +87,7 @@
     margin-top: 2rem;
   }
 }
+//*/
+
+// resize
+//*/

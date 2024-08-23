@@ -12,11 +12,13 @@ import { registrationInterface } from "../../../shared/utils/enums/interfacesEnu
 import { LogInUserModel } from "../../../shared/utils/types/userModels";
 
 type SignInProps = {
-  // change displayed modal
+  // to change displayed modal
   setModal: React.Dispatch<React.SetStateAction<number>>;
 };
 
 function SignIn({ setModal }: SignInProps) {
+  ///
+
   const navigate = useNavigate();
 
   // inputs refs
@@ -87,6 +89,7 @@ function SignIn({ setModal }: SignInProps) {
       setProcessing(false);
     }
   };
+  //*/
 
   // handle click
   // focus to input
@@ -96,17 +99,14 @@ function SignIn({ setModal }: SignInProps) {
       inputRef.current.classList.remove(classes.err);
     }
   };
+  //*/
 
-  if (processing) {
-    return <LoadingPage text="Logging in..." />;
-  }
+  if (processing) return <LoadingPage text="Logging in..." />;
 
   return (
     <form className={classes["registration-form"]} onSubmit={(event) => signInUser(event)}>
-      {/* bg */}
       <DetailPawnIconSvg color={mainColor.c0} iconClass={classes["bg-svg"]} />
 
-      {/* header */}
       <h2>Login Now</h2>
       <div className={classes["change-form"]}>
         Don't have an accout? <span onClick={() => setModal(registrationInterface.signUp)}>Sing Up</span>
@@ -146,14 +146,12 @@ function SignIn({ setModal }: SignInProps) {
           />
         </div>
       </div>
-      {/* end inputs */}
+      {/* --- */}
 
-      {/* errors */}
       <div className={classes.error}>
         <span>{errorMess}</span>
       </div>
 
-      {/* button */}
       <button type="submit" className={classes["registration-button"]}>
         <span>Sign In</span>
       </button>

@@ -10,7 +10,9 @@ import { usePopup } from "../../../../shared/utils/hooks/usePopUp";
 import { getErrMessage } from "../../../../shared/utils/functions/displayError";
 
 type GameBoardSearchingProps = {
+  // ids obtained from new game search
   searchIds: SearchGameDto | null;
+  // to set obatined ids
   setSearchIds: React.Dispatch<React.SetStateAction<SearchGameDto | null>>;
 };
 
@@ -55,6 +57,7 @@ function GameBoardSearching({ searchIds, setSearchIds }: GameBoardSearchingProps
       // onCancelSearch();
     };
   }, []);
+  //*/
 
   // game search abort
   const onCancelSearch = async () => {
@@ -76,6 +79,7 @@ function GameBoardSearching({ searchIds, setSearchIds }: GameBoardSearchingProps
       showPopup(getErrMessage(err), "warning");
     }
   };
+  //*/
 
   return (
     <div className={classes.searching}>

@@ -50,9 +50,11 @@ function UserGamesFilters({
       return newTypes;
     });
   };
+  //*/
 
   return (
     <div className={classes.filters}>
+      {/* filter by types */}
       <div className={classes.filters__row}>
         {timingTypesList.map((element, i) => (
           <p
@@ -71,7 +73,9 @@ function UserGamesFilters({
           </p>
         ))}
       </div>
+      {/* --- */}
 
+      {/* filter by result */}
       <div className={classes.filters__row}>
         <div />
         {resultList.map((element, i) => (
@@ -87,6 +91,7 @@ function UserGamesFilters({
           </p>
         ))}
       </div>
+      {/* --- */}
     </div>
   );
 }

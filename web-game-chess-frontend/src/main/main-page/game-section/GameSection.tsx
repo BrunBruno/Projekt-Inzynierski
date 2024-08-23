@@ -34,6 +34,7 @@ function GameSection() {
 
   const { showPopup } = usePopup();
 
+  // to set content
   useEffect(() => {
     if (location.state) {
       const state = location.state;
@@ -43,6 +44,7 @@ function GameSection() {
       }
     }
   }, [location.state]);
+  //*/
 
   // to handle when joining queue has changed
   const handleGamesChanged = async () => {
@@ -75,6 +77,7 @@ function GameSection() {
       }
     }
   };
+  //*/
 
   // to handle when frind accepeted the invitation
   // const handleGameAccepted = (gameId: string) => {
@@ -118,6 +121,7 @@ function GameSection() {
       }
     };
   }, [searchIds, timingType]);
+  //*/
 
   // set game section content
   const setInterfaceById = (interfaceId: number) => {
@@ -149,6 +153,7 @@ function GameSection() {
         break;
     }
   };
+  //*/
 
   return (
     <section className={classes.game}>

@@ -1,5 +1,6 @@
 @import "../../../../Main.scss";
 
+// invite option styles
 .invite {
   @include flex(column, center, center, 1rem);
 
@@ -63,3 +64,4 @@
     text-align: center;
   }
 }
+//*/

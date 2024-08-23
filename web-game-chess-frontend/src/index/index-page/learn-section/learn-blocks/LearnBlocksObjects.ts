@@ -1,3 +1,5 @@
+// learn blocks rows data
+
 export type SectionData = {
   title: string;
   text: string;

@@ -50,9 +50,16 @@ const icons: IconMap = {
 };
 
 function BarSectionIcons({ iconName }: IconsMapProps) {
-  const icon = icons[iconName];
+  if (iconName === "") return <>i</>;
 
-  return icon ? icon : <></>;
+  try {
+    const icon = icons[iconName];
+    return icon ? icon : <></>;
+  } catch (err) {
+    console.error("Icon error.");
+  }
+
+  return <>i</>;
 }
 
 export default BarSectionIcons;

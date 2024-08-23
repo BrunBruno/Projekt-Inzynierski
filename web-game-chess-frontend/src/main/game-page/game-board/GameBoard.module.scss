@@ -1,5 +1,6 @@
 @import "../../Main.scss";
 
+// game board container
 .board-container {
   @include wh100();
   @include flex();
@@ -86,7 +87,7 @@
           width: 0;
         }
       }
-      // end inner board
+      //*/
 
       // outer board
       &__outer {
@@ -179,7 +180,7 @@
           }
         }
       }
-      // end outer board
+      //*/
 
       .white-board {
         transform: rotate(0deg);
@@ -199,7 +200,9 @@
     }
   }
 }
+//*/
 
+// resize
 @media (max-width: 1000px) {
   .board-container {
     box-shadow: none;
@@ -235,3 +238,4 @@
     }
   }
 }
+//*/

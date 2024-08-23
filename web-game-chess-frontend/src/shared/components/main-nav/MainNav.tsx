@@ -4,6 +4,8 @@ import MainNavIcons from "./MainNavIcons";
 import LogoIconSvg from "../../svgs/LogoIconSvg";
 
 function MainNav() {
+  ///
+
   const navigate = useNavigate();
 
   // log out user
@@ -18,6 +20,7 @@ function MainNav() {
       },
     });
   };
+  //*/
 
   return (
     <nav className={classes.nav}>

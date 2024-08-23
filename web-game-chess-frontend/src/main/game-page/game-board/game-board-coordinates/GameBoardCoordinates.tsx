@@ -13,6 +13,7 @@ function GameBoardCoordinates({ playerData }: GameBoardCoordinatesProps) {
 
   return (
     <div className={classes.coordinates}>
+      {/* /display ranks */}
       <div
         className={`${classes.coordinates__rows} ${
           playerData.color === pieceColor.black ? classes["black-indicators"] : classes["white-indicators"]
@@ -24,6 +25,9 @@ function GameBoardCoordinates({ playerData }: GameBoardCoordinatesProps) {
             <div key={`row${i}`}>{row}</div>
           ))}
       </div>
+      {/* --- */}
+
+      {/* display files */}
       <div
         className={`${classes.coordinates__columns} ${
           playerData.color === pieceColor.black ? classes["black-indicators"] : classes["white-indicators"]
@@ -33,6 +37,7 @@ function GameBoardCoordinates({ playerData }: GameBoardCoordinatesProps) {
           <div key={`col${i}`}>{row}</div>
         ))}
       </div>
+      {/* --- */}
     </div>
   );
 }

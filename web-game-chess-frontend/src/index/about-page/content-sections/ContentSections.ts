@@ -1,3 +1,5 @@
+// data for all about page sections
+
 export type ContentElements = {
   title: string;
   texts?: string[];

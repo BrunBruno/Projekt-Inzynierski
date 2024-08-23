@@ -36,12 +36,12 @@ function MainPopUpIcons({ iconName }: IconsMapProps) {
 
   try {
     const icon = icons[iconName];
-
     return icon ? icon : <></>;
   } catch (err) {
     console.error("Icon error");
-    return <>i</>;
   }
+
+  return <>i</>;
 }
 
 export default MainPopUpIcons;

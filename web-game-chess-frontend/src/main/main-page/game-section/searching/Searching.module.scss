@@ -1,5 +1,6 @@
 @import "../../../Main.scss";
 
+// serching for game container
 .searching {
   @include wh100();
 
@@ -38,10 +39,7 @@
               $translate-y: $row * 8 - 8;
 
               &:nth-child(#{$i}) {
-                transform: translate(
-                  #{$translate-x}#{"%"},
-                  #{$translate-y}#{"%"}
-                );
+                transform: translate(#{$translate-x}#{"%"}, #{$translate-y}#{"%"});
               }
             }
           }
@@ -81,3 +79,7 @@
     }
   }
 }
+//*/
+
+// resize
+//

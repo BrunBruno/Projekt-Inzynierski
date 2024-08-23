@@ -1,4 +1,4 @@
-// maps for kinds of pieces
+/* maps for kinds of pieces */
 
 type PiecesImageMap = {
   [key: string]: string;

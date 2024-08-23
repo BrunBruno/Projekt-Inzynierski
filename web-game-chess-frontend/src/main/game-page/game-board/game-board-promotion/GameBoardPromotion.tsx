@@ -16,6 +16,7 @@ function GameBoardPromotion({ playerData, onPerformPromotion }: GameBoardPromoti
   return (
     <div className={classes.promotion}>
       <div className={classes.promotion__pieces}>
+        {/* map pieces */}
         {playerData.color === pieceColor.white ? (
           piecePromotionMap.white.map((p, i) => (
             <div
@@ -43,6 +44,7 @@ function GameBoardPromotion({ playerData, onPerformPromotion }: GameBoardPromoti
         ) : (
           <></>
         )}
+        {/* --- */}
       </div>
     </div>
   );

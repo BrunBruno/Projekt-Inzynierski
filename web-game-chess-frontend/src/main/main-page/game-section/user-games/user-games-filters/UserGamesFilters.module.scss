@@ -1,5 +1,6 @@
 @import "../../../../Main.scss";
 
+// filters window
 .filters {
   @include rounded(2rem);
   @include flex(column, center, center, 2rem);
@@ -12,8 +13,8 @@
 
   &::after {
     @include subCl(6rem, 6rem);
-    background-color: $gc9;
 
+    background-color: $gc9;
     z-index: 1;
     top: calc(-3rem - 0.5rem);
     right: 6rem;
@@ -58,3 +59,7 @@
     }
   }
 }
+//*/
+
+// resize
+//

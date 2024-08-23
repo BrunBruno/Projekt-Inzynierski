@@ -1,5 +1,6 @@
 @import "../Main.scss";
 
+// account page container
 .account-main {
   @include wh100();
   @include gridBg();
@@ -8,9 +9,12 @@
   display: grid;
   grid-template-columns: 1fr 1fr;
 }
+//*/
 
+// resize
 @media (max-width: 1200px) {
   .account-main {
     grid-template-columns: 1fr;
   }
 }
+//*/

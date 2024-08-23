@@ -1,5 +1,6 @@
 @import "../../Index.scss";
 
+// footer section container
 .footer {
   position: relative;
   background-color: #000;
@@ -9,6 +10,7 @@
 
   &::before {
     @include subCl($xl-br, $xl-br);
+
     top: calc(-2rem - $xl-br);
     right: -2rem;
 
@@ -36,6 +38,7 @@
     }
   }
 
+  // footer grid content
   &__grid {
     display: grid;
     grid-template-columns: 50rem 1fr 1fr;
@@ -138,6 +141,7 @@
       }
     }
   }
+  //*/
 
   &__outro {
     text-align: center;
@@ -145,6 +149,7 @@
   }
 }
 
+// resize
 @media (max-width: 700px) {
   .footer {
     padding: 2rem;
@@ -173,3 +178,4 @@
     }
   }
 }
+//*/

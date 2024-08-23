@@ -1,3 +1,5 @@
+/* observer global functions */
+
 // function for creating one time use observer
 export const createOneTimeObserver = (
   // action to exectue on intersection

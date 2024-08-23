@@ -1,5 +1,6 @@
 @import "../../Main.scss";
 
+// default main page section conatiner
 .game {
   @include wh100();
 
@@ -103,7 +104,9 @@
     }
   }
 }
+//*/
 
+// resize
 @media (max-width: 700px) {
   .game {
     &__content {
@@ -146,3 +149,4 @@
     }
   }
 }
+//*/

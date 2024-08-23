@@ -12,6 +12,7 @@ import { getErrMessage } from "../../../../shared/utils/functions/displayError";
 import { useTimingType } from "../../../../shared/utils/hooks/useTimingType";
 
 type VsPlayerSearchProps = {
+  // to set obtained search ids
   setSearchIds: React.Dispatch<React.SetStateAction<SearchGameDto | null>>;
 };
 
@@ -19,7 +20,6 @@ function VsPlayerSearch({ setSearchIds }: VsPlayerSearchProps) {
   ///
 
   const { showPopup } = usePopup();
-
   const { setTimingType } = useTimingType();
 
   // API call search for game
@@ -48,6 +48,7 @@ function VsPlayerSearch({ setSearchIds }: VsPlayerSearchProps) {
       showPopup(getErrMessage(err), "warning");
     }
   };
+  //*/
 
   // display time controlls buttons
   const transformTag = (tag: string): JSX.Element => {
@@ -78,6 +79,7 @@ function VsPlayerSearch({ setSearchIds }: VsPlayerSearchProps) {
 
     return <div className={classes["timing-tag"]}>{transformedTag}</div>;
   };
+  //*/
 
   return (
     <div className={classes.search}>
@@ -85,6 +87,8 @@ function VsPlayerSearch({ setSearchIds }: VsPlayerSearchProps) {
         <div className={classes.search__grid__header}>
           <span>Select Time Control</span>
         </div>
+
+        {/* map game timing types */}
         {defaultTimeControls.map((control, index) => (
           <div key={index} className={classes.search__grid__row}>
             <div className={classes.search__grid__row__header}>
@@ -104,6 +108,7 @@ function VsPlayerSearch({ setSearchIds }: VsPlayerSearchProps) {
             ))}
           </div>
         ))}
+        {/* --- */}
       </div>
     </div>
   );

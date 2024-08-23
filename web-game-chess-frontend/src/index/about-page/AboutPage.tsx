@@ -16,22 +16,36 @@ import LoadingPage from "../../shared/components/loading-page/LoadingPage";
 function AboutPage() {
   ///
 
-  const { content } = useParams();
+  const { contentName } = useParams<{ contentName: string }>();
   const navigate = useNavigate();
 
-  type ContentType = { title: string; elements: ContentElements[] };
+  type ContentType = {
+    title: string;
+    elements: ContentElements[];
+  };
 
-  const pageOptions: { [key: string]: ContentType } = {
+  // page inteface options
+  const contentOptions: { [key: string]: ContentType } = {
     introduction: { title: "Introduction", elements: introductionElements },
     objectives: { title: "Objectives", elements: objectivesElements },
     terms: { title: "Terms", elements: termsElements },
     privacy: { title: "Privacy", elements: privacyElements },
   };
 
+  // content to display based on se;ection
   const [selectedContent, setSelectedContent] = useState<ContentType | null>(null);
+
+  // to set select content base on obtained params
   useEffect(() => {
-    if (content) setSelectedContent(pageOptions[content]);
-  }, [content]);
+    if (contentName) {
+      try {
+        setSelectedContent(contentOptions[contentName]);
+      } catch (err) {
+        setSelectedContent(contentOptions["Introduction"]);
+      }
+    }
+  }, [contentName]);
+  //*/
 
   // to change content
   const onSetSelectedContent = (content: ContentType, event: React.MouseEvent<HTMLLIElement, MouseEvent>) => {
@@ -40,6 +54,7 @@ function AboutPage() {
     const target = event.target as HTMLDivElement;
     target.classList.add(classes.active);
 
+    // refresh about page
     setTimeout(() => {
       navigate(`/about/${content.title.toLowerCase()}`);
 
@@ -48,15 +63,17 @@ function AboutPage() {
       }, 300);
     }, 300);
   };
+  //*/
 
   return (
     <main className={classes["about-main"]}>
-      <div className={classes.background} />
       <div className={classes.grid}>
+        {/* navigation column */}
         <div className={classes.grid__column}>
           <div className={classes.grid__column__nav}>
-            <ul>
-              {Object.entries(pageOptions).map(([key, content]) => (
+            {/* content action */}
+            <ul className={classes["content-list"]}>
+              {Object.entries(contentOptions).map(([key, content]) => (
                 <li
                   key={key}
                   className={classes["content-button"]}
@@ -71,6 +88,9 @@ function AboutPage() {
                 </li>
               ))}
             </ul>
+            {/* --- */}
+
+            {/* return actions */}
             <ul>
               <li
                 className={classes["content-button"]}
@@ -84,8 +104,12 @@ function AboutPage() {
                 <span>Home Page</span>
               </li>
             </ul>
+            {/* --- */}
           </div>
         </div>
+        {/* --- */}
+
+        {/* content column */}
         <div className={classes.grid__column}>
           <div className={classes.grid__column__content}>
             {selectedContent ? (
@@ -97,6 +121,7 @@ function AboutPage() {
             )}
           </div>
         </div>
+        {/* --- */}
       </div>
     </main>
   );

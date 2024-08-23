@@ -5,11 +5,15 @@ import { useEffect, useState } from "react";
 import { getStatsConfig, StatsConfig } from "./StatsRowData";
 
 type StatsRowProps = {
+  // name of stats cathegory
   type: string;
+  // current user data
   user: GetFullUserDto;
 };
 
 function StatsRow({ type, user }: StatsRowProps) {
+  ///
+
   const [config, setConfig] = useState<StatsConfig | null>(null);
 
   useEffect(() => {
@@ -22,6 +26,7 @@ function StatsRow({ type, user }: StatsRowProps) {
     <div className={classes.stats}>
       <h4 className={classes.stats__title}>{config.title}</h4>
 
+      {/* data display */}
       <div className={classes.stats__data}>
         {config.stats.map((stat, i) => (
           <div key={i} className={classes["games"]}>
@@ -32,7 +37,9 @@ function StatsRow({ type, user }: StatsRowProps) {
           </div>
         ))}
       </div>
+      {/* --- */}
 
+      {/* pie chart */}
       <div className={classes.stats__chart}>
         {config.data.reduce((sum, item) => sum + item.value, 0) !== 0 && (
           <PieChart
@@ -50,6 +57,7 @@ function StatsRow({ type, user }: StatsRowProps) {
           />
         )}
       </div>
+      {/* --- */}
     </div>
   );
 }

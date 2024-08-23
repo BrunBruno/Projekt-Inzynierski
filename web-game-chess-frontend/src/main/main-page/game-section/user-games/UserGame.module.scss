@@ -1,13 +1,15 @@
 @import "../../../Main.scss";
 
+// game section container
 .games {
   @include wh100();
-  padding: 4rem 8rem;
-
   @include showAni();
+
+  padding: 4rem 8rem;
 
   &__header {
     @include flex(row, space-between, center, 0);
+
     padding: 1rem;
     padding-right: 4rem;
 
@@ -45,7 +47,9 @@
     }
   }
 }
+//*/
 
+// resize
 @media (max-width: 700px) {
   .games {
     padding: 4rem 2rem;
@@ -67,3 +71,4 @@
     }
   }
 }
+//*/

@@ -1,6 +1,7 @@
 @import "../Index.scss";
 @import "../../shared/components/action-button/ActionButton.module.scss";
 
+// register page container
 .register {
   @include gridBg();
 
@@ -30,7 +31,6 @@
       border-radius: $md-br;
 
       background-image: linear-gradient(rgba(#000, 0.8), rgba(#000, 0.8)), url("images/register-bg.jpg");
-
       background-size: cover;
       background-repeat: no-repeat;
       background-position: right;
@@ -130,9 +130,10 @@
       left: 100%;
       transform: translateX(-100%);
     }
-    // end form container
+    //*/
   }
 }
+//*/
 
 @keyframes formAnimation {
   from {
@@ -143,6 +144,7 @@
   }
 }
 
+// resize
 @media (max-width: 500px) {
   .register {
     height: unset;
@@ -185,3 +187,4 @@
     }
   }
 }
+//*/

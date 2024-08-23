@@ -12,6 +12,7 @@ import { TimingTypeModel } from "../../../../../shared/utils/types/abstracDtosAn
 import { timingTypes } from "../../../../../shared/utils/enums/entitiesEnums";
 
 type InviteByUrlProps = {
+  // to set obatined game url
   setSelectedByUrl: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
@@ -24,6 +25,8 @@ const InviteByUrl = forwardRef<InviteByUrlRef, InviteByUrlProps>(
 
     const [newGameLink, setNewGameLink] = useState<CreateGameWithLinkDto | null>(null);
 
+    // invite to game by url
+    // obtains game link
     const onInviteByUrl = async (header: string, values: number[]): Promise<void> => {
       try {
         const typeValue = timingTypes[header.toLowerCase()];
@@ -58,10 +61,13 @@ const InviteByUrl = forwardRef<InviteByUrlRef, InviteByUrlProps>(
     useImperativeHandle(ref, () => ({
       onInviteByUrl,
     }));
+    //*/
 
+    // to display url
     const onSelectByUrl = () => {
       setSelectedByUrl(true);
     };
+    //*/
 
     return (
       <div className={classes.invite}>

@@ -1,4 +1,4 @@
-// user controller models to requests
+/* user controller models to requests */
 
 import { Guid } from "guid-typescript";
 

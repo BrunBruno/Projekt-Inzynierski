@@ -1,5 +1,6 @@
 @import "../../../Main.scss";
 
+// game message container
 .message {
   display: grid;
   grid-template-columns: 4rem auto;
@@ -8,6 +9,7 @@
 
   &__user {
     @include circle(3rem);
+
     overflow: hidden;
 
     .sender-image {
@@ -30,3 +32,4 @@
     }
   }
 }
+//*/

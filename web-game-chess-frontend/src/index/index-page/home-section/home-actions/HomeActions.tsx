@@ -47,7 +47,7 @@ function HomeActions({}: HomeActionsProps) {
 
     return pawns;
   };
-  // end generate elements
+  //*/
 
   return (
     <div className={classes.actions}>
@@ -73,7 +73,7 @@ function HomeActions({}: HomeActionsProps) {
             </div>
             <p className={classes["img-pawn-text"]}>Sign In</p>
           </div>
-          {/* end sign in pawn */}
+          {/* --- */}
 
           {/* sign up pawn */}
           <div
@@ -91,7 +91,7 @@ function HomeActions({}: HomeActionsProps) {
             </div>
             <p className={classes["img-pawn-text"]}>Sign Up</p>
           </div>
-          {/* end sign up pawn */}
+          {/* --- */}
         </div>
       </div>
     </div>

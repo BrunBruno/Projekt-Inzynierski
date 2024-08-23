@@ -19,19 +19,24 @@ function BarSection({ setSelectedUsername, selectedList, setSelectedList }: BarS
 
   const navigate = useNavigate();
 
+  // to filter friends by username
   const onSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
     const target = event.target as HTMLInputElement;
     const username = target.value.toLocaleLowerCase();
     setSelectedUsername(username);
   };
+  //*/
 
+  // to change displayed list
   const onSelectList = (listType: number) => {
     setSelectedList(listType);
   };
+  //*/
 
   return (
     <section className={classes.bar}>
       <div className={classes.bar__content}>
+        {/* list options */}
         <div className={classes.bar__content__intro}>
           <div className={classes.panel}>
             <div
@@ -76,6 +81,9 @@ function BarSection({ setSelectedUsername, selectedList, setSelectedList }: BarS
             </div>
           </div>
         </div>
+        {/* --- */}
+
+        {/* search panel */}
         <div className={classes.bar__content__search}>
           <input
             type="text"
@@ -88,6 +96,9 @@ function BarSection({ setSelectedUsername, selectedList, setSelectedList }: BarS
             }}
           />
         </div>
+        {/* --- */}
+
+        {/* return button */}
         <div className={classes.bar__content__outro}>
           <div
             className={classes["action-button"]}
@@ -98,6 +109,7 @@ function BarSection({ setSelectedUsername, selectedList, setSelectedList }: BarS
             <ActionButton text="Home page" />
           </div>
         </div>
+        {/* --- */}
       </div>
     </section>
   );

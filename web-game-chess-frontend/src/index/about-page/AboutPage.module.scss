@@ -1,19 +1,21 @@
 @import "../Index.scss";
 
-// about container
+// about page container
 .about-main {
   position: relative;
-
   height: 100vh;
 
+  // page background
   &::before {
     @include subCl();
     @include gridBg(16rem, $mc9, $mc0, 0.1);
+
     position: fixed;
     top: 0;
     z-index: 0;
   }
 
+  // split page
   .grid {
     position: inherit;
     height: 100%;
@@ -28,10 +30,12 @@
         border-right: solid 0.2rem $gc0;
         box-shadow: 0 0 1rem 0.2rem $gc0;
       }
+
       &:nth-child(2) {
         background-color: rgba(#111, 0.8);
       }
 
+      // left side navigation column
       &__nav {
         @include flex(column, space-between, start, 0);
 
@@ -41,13 +45,14 @@
         top: 0;
         padding: 2rem;
 
-        ul {
+        ul.content-list {
           @include flex(column, start, start, 1rem);
 
           list-style-type: none;
           width: 100%;
 
-          .content-button {
+          // navigation element
+          li.content-button {
             @include flex(row, start, center, 1rem);
 
             width: 100%;
@@ -113,23 +118,30 @@
               .arror-svg-left {
                 transform: rotate(0deg);
               }
+
               .arror-svg-right {
                 transform: rotate(180deg);
               }
             }
           }
+          //*/
         }
       }
+      //*/
 
+      // content container
       &__content {
         height: 100%;
         padding: 0 3rem;
       }
+      //*/
     }
   }
+  //*/
 }
-// end about container
+//*/
 
+// resize
 @media (max-width: 800px) {
   .about-main {
     height: 100% !important;
@@ -190,3 +202,4 @@
     }
   }
 }
+//*/

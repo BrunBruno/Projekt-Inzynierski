@@ -23,9 +23,11 @@ function AccountPage() {
 
   const { showPopup } = usePopup();
 
+  // to send fired list as section
   const setFriendSection = () => {
     setContent(<FriendsSection />);
   };
+  //*/
 
   // gets timing type history for selcted timg
   // to display time linechars
@@ -52,6 +54,7 @@ function AccountPage() {
       showPopup(getErrMessage(err), "warning");
     }
   };
+  //*/
 
   return (
     <main className={classes["account-main"]}>

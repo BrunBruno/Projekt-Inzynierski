@@ -1,3 +1,5 @@
+/* piece movement ralted options */
+
 type MovementMap = {
   knightMoves: number[][];
   bishopMoves: number[][];

@@ -42,6 +42,7 @@ function UserGamesCard({ game }: UserGamesCardProps) {
       window.removeEventListener("resize", resizeCard);
     };
   }, []);
+  //*/
 
   // display players based on user player color
   const displayPlayer = (game: GetAllFinishedGamesDto): JSX.Element => {
@@ -121,6 +122,7 @@ function UserGamesCard({ game }: UserGamesCardProps) {
 
     return <></>;
   };
+  //*/
 
   // create board from game position
   const mapFromPosition = (position: string): JSX.Element[] => {
@@ -155,6 +157,7 @@ function UserGamesCard({ game }: UserGamesCardProps) {
 
     return fields;
   };
+  //*/
 
   return (
     <div ref={cardRef} className={classes.card}>

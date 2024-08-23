@@ -1,4 +1,4 @@
-// game controller models to requests
+/* game controller models to requests */
 
 import { EndGameTypes, PieceColor, TimingType } from "../enums/entitiesEnums";
 import { BlackPieceType, WhitePieceType } from "../enums/piecesMaps";
@@ -55,6 +55,8 @@ export type SendMessageModel = {
   message: string;
 };
 
+export type CreateGameWithLinkModel = TimingTypeModel & {};
+
 /** PUT models */
 
 export type EndGameModel = {
@@ -73,6 +75,11 @@ export type AcceptInvitationModel = {
   invitorId: Guid;
   // invitee of game id
   inviteeId: Guid;
+};
+
+export type UpdatePrivateGameModel = {
+  // game id
+  gameId: Guid;
 };
 
 /** GET models */
@@ -117,10 +124,4 @@ export type DeclineInvitationModel = {
   gameId: Guid;
   // invitor id
   friendId: Guid;
-};
-
-export type CreateGameWithLinkModel = TimingTypeModel & {};
-
-export type UpdatePrivateGameModel = {
-  gameId: Guid;
 };

@@ -1,5 +1,6 @@
 @import "../../../Main.scss";
 
+// move record
 .record {
   @include flex(row, start, start, 0);
   margin-bottom: 1.2rem;
@@ -36,3 +37,4 @@
     border-bottom: solid 0.1rem $gc8;
   }
 }
+//*/

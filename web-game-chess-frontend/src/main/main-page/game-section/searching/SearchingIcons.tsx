@@ -20,6 +20,7 @@ const icons: SearchingIconsType = {
       />
     </svg>
   ),
+
   globe: (active: boolean) => (
     <svg
       version="1.0"

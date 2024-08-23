@@ -81,7 +81,9 @@ function RightSideBar({ gameId, gameData, playersTimes, setPlayersTimes, winner 
       clearInterval(interval);
     };
   }, [gameData, playersTimes, winner]);
+  //*/
 
+  // to finish game by time outage
   const endGame = async (loserColor: number | null, endGameType: number): Promise<void> => {
     const loserPlayer: EndGameModel = {
       gameId: gameId,
@@ -100,8 +102,10 @@ function RightSideBar({ gameId, gameData, playersTimes, setPlayersTimes, winner 
       endGame(pieceColor.black, endGameTypes.outOfTime);
     }
   }, [playersTimes]);
+  //*/
 
   // gets all messages for current game
+  // add hub service to send and received messages
   const getMessages = async () => {
     try {
       const response = await axios.get<GetAllMessagesDto[]>(
@@ -135,7 +139,9 @@ function RightSideBar({ gameId, gameData, playersTimes, setPlayersTimes, winner 
       }
     };
   }, []);
+  //*/
 
+  // to send new message
   const sendMessage = async (event: React.FormEvent<HTMLFormElement>): Promise<void> => {
     event.preventDefault();
     if (newMessage === "") return;
@@ -153,17 +159,21 @@ function RightSideBar({ gameId, gameData, playersTimes, setPlayersTimes, winner 
       showPopup(getErrMessage(err), "warning");
     }
   };
+  //*/
 
+  // handle message input
   const handleMessageInputChannge = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     const inputValue = event.target.value;
     setNewMessage(inputValue);
   };
+  //*/
 
   if (playersTimes === null) return <LoadingPage />;
 
   return (
     <section className={classes.bar}>
       <div className={classes.bar__content}>
+        {/* players data */}
         <div className={classes.bar__content__header}>
           <div className={`${classes.bar__content__header__player} ${classes["white-player"]}`}>
             <AvatarImage
@@ -197,13 +207,17 @@ function RightSideBar({ gameId, gameData, playersTimes, setPlayersTimes, winner 
             </div>
           </div>
         </div>
+        {/* --- */}
 
+        {/* game clock */}
         <GameClock
           gameData={gameData}
           whitePlayerSeconds={playersTimes.whiteTimeLeft}
           blackPlayerSeconds={playersTimes.blackTimeLeft}
         />
+        {/* --- */}
 
+        {/* game history records */}
         <div className={classes.bar__content__history}>
           <div className={classes.bar__content__history__list}>
             {gameData.moves.map((move, i) => (
@@ -211,7 +225,9 @@ function RightSideBar({ gameId, gameData, playersTimes, setPlayersTimes, winner 
             ))}
           </div>
         </div>
+        {/* --- */}
 
+        {/* game messanger */}
         <div className={classes.bar__content__messages}>
           <div ref={messagesRef} className={classes.bar__content__messages__list}>
             {messages.map((message, i) => (
@@ -236,6 +252,7 @@ function RightSideBar({ gameId, gameData, playersTimes, setPlayersTimes, winner 
             </button>
           </form>
         </div>
+        {/* --- */}
       </div>
     </section>
   );

@@ -1,6 +1,7 @@
 @import "../../../Index.scss";
 
-.faq-card {
+// card
+.card {
   @include flex(column, center, start, 2rem);
   @include rounded($sm-br);
 
@@ -16,7 +17,7 @@
   transform: scale(0.8);
   transition: all 0.3s;
 
-  h5 {
+  .question {
     font-size: 3.2rem;
     width: calc(100% - 4rem);
 
@@ -29,7 +30,7 @@
     }
   }
 
-  .text {
+  .answer {
     font-size: 2rem;
     opacity: 0;
     color: $gc3;
@@ -39,7 +40,7 @@
     transition: all 0.3s;
   }
 
-  .see {
+  .action {
     @include absCenter();
 
     top: unset;
@@ -51,29 +52,35 @@
     text-align: right;
   }
 
+  // card transformation on hover
   &:hover,
   &:active {
+    cursor: help;
     border-bottom-color: $mc7;
     transform: scale(1);
 
-    h5 {
+    .question {
       transform: scale(0.8);
     }
 
-    .text {
+    .answer {
       opacity: 1;
       transform: scaleY(1);
     }
 
-    .see {
+    .action {
       opacity: 0;
     }
   }
+  //*/
 }
+//*/
 
+// resize
 @media (max-width: 700px) {
-  .faq-card {
+  .card {
     width: 100%;
     transform: scale(1);
   }
 }
+//*/

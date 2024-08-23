@@ -10,11 +10,12 @@ import {
 import { usePopup } from "../../../../shared/utils/hooks/usePopUp";
 import { getErrMessage } from "../../../../shared/utils/functions/displayError";
 import { useTimingType } from "../../../../shared/utils/hooks/useTimingType";
+import { HubConnectionState } from "@microsoft/signalr";
 
 type NotificationPopUpProps = {
-  //
+  // if notification should be displayed
   allowNotification: boolean;
-  //
+  // to remove notifcation
   setAllowNotification: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
@@ -27,6 +28,7 @@ function NotificationPopUp({ allowNotification, setAllowNotification }: Notifica
 
   const { setTimingType } = useTimingType();
 
+  // to obtain notifications
   const handleNotificationChange = (invitationDto: InvitedToGameDto): void => {
     const timing: SearchGameModel = {
       type: invitationDto.type,
@@ -40,16 +42,25 @@ function NotificationPopUp({ allowNotification, setAllowNotification }: Notifica
   };
 
   useEffect(() => {
-    if (allowNotification && GameHubService.connection) {
+    if (
+      allowNotification &&
+      GameHubService.connection &&
+      GameHubService.connection.state === HubConnectionState.Connected
+    ) {
       GameHubService.connection.on("InvitedToGame", handleNotificationChange);
     }
 
     return () => {
-      if (allowNotification && GameHubService.connection) {
+      if (
+        allowNotification &&
+        GameHubService.connection &&
+        GameHubService.connection.state === HubConnectionState.Connected
+      ) {
         GameHubService.connection.off("InvitededToGame", handleNotificationChange);
       }
     };
   }, [allowNotification]);
+  //*/
 
   // to accept incoming game invitation
   const onAcceptInvitation = async (): Promise<void> => {
@@ -70,6 +81,7 @@ function NotificationPopUp({ allowNotification, setAllowNotification }: Notifica
       showPopup(getErrMessage(err), "warning");
     }
   };
+  //*/
 
   // to declain incoming game invitation
   const onDeclineInvitation = async (): Promise<void> => {
@@ -89,10 +101,9 @@ function NotificationPopUp({ allowNotification, setAllowNotification }: Notifica
       showPopup(getErrMessage(err), "warning");
     }
   };
+  //*/
 
-  if (!notification) {
-    return <></>;
-  }
+  if (!notification) return <></>;
 
   return (
     <div

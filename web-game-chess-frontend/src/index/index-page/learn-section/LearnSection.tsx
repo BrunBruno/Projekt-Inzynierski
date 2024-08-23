@@ -8,6 +8,7 @@ import { HandleOnScroll } from "../../../shared/utils/types/commonTypes";
 import { generateRandomColor } from "../../../shared/utils/functions/generateRandom";
 
 type LearnSectionProps = {
+  // section containe ref
   sectionRef: React.RefObject<HTMLElement>;
 };
 
@@ -15,12 +16,16 @@ const LearnSection = forwardRef<HandleOnScroll, LearnSectionProps>(
   ({ sectionRef }: LearnSectionProps, ref: React.ForwardedRef<HandleOnScroll>) => {
     ///
 
+    const cardRefs = useRef<HTMLDivElement[]>([]);
+
+    // to handle section on srcoll
     const handleOnScroll = () => {};
     useImperativeHandle(ref, () => ({
       handleOnScroll,
     }));
+    //*/
 
-    const cardRefs = useRef<HTMLDivElement[]>([]);
+    // to apply card open on intersection
     useEffect(() => {
       const observerAction = (entry: IntersectionObserverEntry): void => {
         entry.target.classList.add(classes["open-card"]);
@@ -35,7 +40,9 @@ const LearnSection = forwardRef<HandleOnScroll, LearnSectionProps>(
         observer.disconnect();
       };
     }, []);
+    //*/
 
+    // to generate cards
     const generateCards = (): JSX.Element[] => {
       const crads: JSX.Element[] = [];
 
@@ -62,14 +69,16 @@ const LearnSection = forwardRef<HandleOnScroll, LearnSectionProps>(
 
       return crads;
     };
+    //*/
 
     return (
       <section id="learn-section" ref={sectionRef} className={classes.learn}>
         <LearnBlocks />
+
+        {/* middle join button */}
         <div className={classes.learn__join}>
           {generateCards()}
 
-          {/* middle button */}
           <div className={classes.learn__join__button}>
             <h2>BRN CHESS</h2>
             <h3>
@@ -81,8 +90,8 @@ const LearnSection = forwardRef<HandleOnScroll, LearnSectionProps>(
               <button>JOIN NOW</button>
             </a>
           </div>
-          {/* end middle button */}
         </div>
+        {/* --- */}
       </section>
     );
   }

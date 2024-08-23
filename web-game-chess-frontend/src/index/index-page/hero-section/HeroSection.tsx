@@ -4,6 +4,7 @@ import HeroHeader from "./hero-header/HeroHeader";
 import { HandleOnScroll } from "../../../shared/utils/types/commonTypes";
 
 type HeroSectionProps = {
+  // section container ref
   heroSectionRef: React.RefObject<HTMLElement>;
 };
 
@@ -12,6 +13,8 @@ const HeroSection = forwardRef<HandleOnScroll, HeroSectionProps>(
     ///
 
     const heroBgRef = useRef<HTMLDivElement>(null);
+
+    // to handle elements on scroll
     const handleOnScroll = () => {
       const bgElement = heroBgRef.current;
 
@@ -35,6 +38,7 @@ const HeroSection = forwardRef<HandleOnScroll, HeroSectionProps>(
     useImperativeHandle(ref, () => ({
       handleOnScroll,
     }));
+    //*/
 
     return (
       <section ref={heroSectionRef} className={classes.hero}>
@@ -42,6 +46,7 @@ const HeroSection = forwardRef<HandleOnScroll, HeroSectionProps>(
           <div ref={heroBgRef} className={classes.hero__container__bg} />
           <HeroHeader />
 
+          {/* hero content */}
           <div className={classes.hero__container__content}>
             <div></div>
             <h1>
@@ -60,6 +65,7 @@ const HeroSection = forwardRef<HandleOnScroll, HeroSectionProps>(
               <p />
             </a>
           </div>
+          {/* --- */}
         </div>
       </section>
     );

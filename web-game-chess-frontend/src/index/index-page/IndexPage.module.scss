@@ -1,5 +1,6 @@
 @import "../Index.scss";
 
+// index page container
 .home-main {
   @include gridBg();
 
@@ -7,88 +8,10 @@
   max-width: 160rem;
   margin: auto;
   overflow: hidden;
-
-  .intro-background {
-    position: fixed;
-    top: 0;
-    left: 0;
-    z-index: 999;
-    width: 100%;
-    min-width: 160rem;
-    height: 100vh;
-    background-color: rgba(#000, 1);
-
-    .intro-logo {
-      @include absCenter();
-      @include flex($gap: 2rem);
-
-      opacity: 0;
-
-      animation: introInit 1s forwards;
-
-      @keyframes introInit {
-        to {
-          opacity: 1;
-        }
-      }
-
-      .intro-svg {
-        height: 16rem;
-        scale: 0.2;
-        animation: svgInit 0.5s 0s forwards;
-      }
-
-      @keyframes svgInit {
-        to {
-          scale: 1;
-        }
-      }
-
-      .intro-text {
-        @include secFont(12rem);
-
-        width: 0;
-        animation: textInit 0.5s 0.5s forwards;
-
-        @keyframes textInit {
-          to {
-            width: 32rem;
-          }
-        }
-      }
-    }
-  }
-
-  .intro-begin {
-    animation: introBegin 0.5s ease-in 1.5s forwards;
-
-    @keyframes introBegin {
-      to {
-        background-color: rgba(#000, 0);
-      }
-    }
-
-    .intro-logo {
-      transform-origin: left;
-      opacity: 1;
-      scale: 1;
-
-      animation: logoDissapear 0.5s ease-in 1.5s forwards;
-
-      @keyframes logoDissapear {
-        to {
-          scale: 0;
-          opacity: 0;
-        }
-      }
-    }
-  }
-
-  .intro-remove {
-    display: none;
-  }
 }
+//*/
 
+// observe pointer for observers work
 .observe {
   position: absolute;
   z-index: -999;
@@ -97,3 +20,4 @@
   // set the observer to middle of section
   transform: translateY(50vh);
 }
+//*/

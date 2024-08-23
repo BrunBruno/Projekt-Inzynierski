@@ -22,7 +22,7 @@ const PopupContext = createContext<PopupContextType>({
 });
 
 type PopUpProviderProps = {
-  // popup content
+  // page to include popup functionality
   children: ReactNode;
 };
 

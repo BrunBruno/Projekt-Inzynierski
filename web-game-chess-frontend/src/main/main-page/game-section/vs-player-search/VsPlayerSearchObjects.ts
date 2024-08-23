@@ -1,3 +1,5 @@
+// game timing options
+
 type TimeControl = {
   header: string;
   tags: string[];

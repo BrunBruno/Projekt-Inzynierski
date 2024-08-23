@@ -1,5 +1,6 @@
 @import "../../../Main.scss";
 
+// board coordinates
 .coordinates {
   @include absCenter();
   @include wh100();
@@ -52,5 +53,6 @@
       transform: rotate(180deg);
     }
   }
-  // end files indicators
+  //*/
 }
+//*/

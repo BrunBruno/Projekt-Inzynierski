@@ -13,8 +13,11 @@ import { usePopup } from "../../../../shared/utils/hooks/usePopUp";
 const numOfPawns = 8;
 
 type SearchingProps = {
+  // to set to player serach content after seraching cancelation
   setInterfaceById: (interfaceId: number) => void;
+  // obtained search ids
   searchIds: SearchGameDto | null;
+  // to clear search ids
   setSearchIds: React.Dispatch<React.SetStateAction<SearchGameDto | null>>;
 };
 
@@ -58,8 +61,10 @@ function Searching({ setInterfaceById, searchIds, setSearchIds }: SearchingProps
       // onCancelSearch();
     };
   }, []);
+  //*/
 
   // game search abort
+  // remove player, clear ids and go back to vs-player search
   const onCancelSearch = async () => {
     if (!searchIds) {
       return;
@@ -81,6 +86,7 @@ function Searching({ setInterfaceById, searchIds, setSearchIds }: SearchingProps
       showPopup(getErrMessage(err), "warning");
     }
   };
+  //*/
 
   return (
     <div className={classes.searching}>

@@ -1,10 +1,12 @@
 @import "../../../Main.scss";
 
+// default game section view container
 .default {
   @include wh100();
 
   position: relative;
 
+  // board element
   .board {
     @include square(50rem);
     @include absCenter();
@@ -94,4 +96,9 @@
       filter: blur(8rem);
     }
   }
+  //*/
 }
+//*/
+
+// resize
+//*/

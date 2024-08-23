@@ -1,5 +1,6 @@
 @import "../Main.scss";
 
+// main container
 .main {
   @include wh100();
   @include gridBg();
@@ -8,3 +9,4 @@
   position: relative;
   overflow: hidden; //
 }
+//*/

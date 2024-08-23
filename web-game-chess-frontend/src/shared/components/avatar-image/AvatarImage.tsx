@@ -2,13 +2,19 @@ import AvatarSvg from "../../svgs/AvatarSvg";
 import classes from "./AvatarImage.module.scss";
 
 type AvatarImageProps = {
+  // username
   username: string;
+  // profile picture url if exists
   imageUrl: string | null;
+  // image conatiner class (if needed)
   containerClass?: string;
+  // image class (if needed)
   imageClass?: string;
 };
 
 function AvatarImage({ username, imageUrl, containerClass, imageClass }: AvatarImageProps) {
+  ///
+
   return (
     <div className={`${classes["avatar-image"]} ${containerClass}`}>
       {imageUrl ? (

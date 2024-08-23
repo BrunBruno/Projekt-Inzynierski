@@ -69,7 +69,7 @@ function AwaitingPage() {
 
   // to navigate to game page
   // used for every private game
-  const handleGameAccepted = (gameId: string) => {
+  const handleGameAccepted = (gameId: Guid) => {
     if (timingType) {
       navigate(`game/${gameId}`, {
         state: {

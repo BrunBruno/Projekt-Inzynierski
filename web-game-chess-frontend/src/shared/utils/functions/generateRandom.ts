@@ -1,4 +1,4 @@
-// function for random generating
+/* function for random generating */
 
 // generate random id with given base
 export const generateRandomId = (base: number): string => {

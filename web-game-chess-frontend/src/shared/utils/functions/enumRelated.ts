@@ -1,3 +1,5 @@
+/* enumns related global functions */
+
 import { EnumType } from "../types/commonTypes";
 
 // gets enu type by its value

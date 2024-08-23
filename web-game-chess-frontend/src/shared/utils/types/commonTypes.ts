@@ -1,3 +1,5 @@
+/* commonly occured types */
+
 import { popupIconTypes } from "../enums/commonConstLists";
 
 // type from enums string to number

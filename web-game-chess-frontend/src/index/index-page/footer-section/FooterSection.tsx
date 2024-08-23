@@ -16,13 +16,16 @@ function FooterSection({}: FooterSectionProps) {
 
   return (
     <footer className={classes.footer}>
+      {/* footer intro */}
       <div className={classes.footer__intro}>
         <h2 className={classes["footer-title"]}>
           <LogoIconSvg iconClass={classes["footer-logo"]} />
           <span>BRN CHESS</span>
         </h2>
       </div>
+      {/* --- */}
 
+      {/* footer content */}
       <div className={classes.footer__grid}>
         <div className={classes.footer__grid__col}>
           <h3>Reach Us</h3>
@@ -84,6 +87,7 @@ function FooterSection({}: FooterSectionProps) {
           </a>
         </div>
       </div>
+      {/* --- */}
 
       <div className={classes.footer__outro}>2024</div>
     </footer>

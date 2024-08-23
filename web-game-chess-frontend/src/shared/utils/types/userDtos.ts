@@ -1,4 +1,4 @@
-// user controller dtos
+/* user controller dtos */
 
 import { Guid } from "guid-typescript";
 import { EloDto, UserDto, WinDrawLose } from "./abstracDtosAndModels";

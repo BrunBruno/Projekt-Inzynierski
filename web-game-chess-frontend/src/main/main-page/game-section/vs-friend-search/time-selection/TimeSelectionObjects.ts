@@ -1,3 +1,5 @@
+// game timing options
+
 export type TimeControl = {
   header: string;
   tags: string[];

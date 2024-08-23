@@ -4,7 +4,11 @@ import { MousePosition } from "../../../../shared/utils/types/commonTypes";
 
 let timer: number;
 
-function DefaultView() {
+type DefaultViewProps = {};
+
+function DefaultView({}: DefaultViewProps) {
+  ///
+
   const boardRef = useRef<HTMLDivElement>(null);
   const innerRef = useRef<HTMLDivElement>(null);
 
@@ -13,6 +17,7 @@ function DefaultView() {
     y: 0,
   });
 
+  // to handle mouse movement and map to baord movement
   useEffect(() => {
     const maxDeg = 20;
     const ww05 = window.innerWidth / 2;
@@ -40,6 +45,7 @@ function DefaultView() {
       window.removeEventListener("mousemove", handleMouseMove);
     };
   }, []);
+  //*/
 
   // genrate board
   const generateGrid = (): JSX.Element[] => {
@@ -69,7 +75,7 @@ function DefaultView() {
 
     return boardRows;
   };
-  // end generate board
+  //*/
 
   return (
     <div className={classes.default}>
@@ -83,21 +89,19 @@ function DefaultView() {
           <div ref={innerRef} className={classes.board__grid__inner}>
             {generateGrid()}
           </div>
+
           <div
             className={classes.board__grid__outer}
             style={{
-              transform: `translate(-50%, -50%) translateY(${
-                mousePosition.y
-              }px) translateX(${-mousePosition.x}px)`,
+              transform: `translate(-50%, -50%) translateY(${mousePosition.y}px) translateX(${-mousePosition.x}px)`,
             }}
           />
         </div>
+
         <div
           className={classes.board__shadow}
           style={{
-            transform: `translate(-50%, 10%) rotateX(${
-              88 - 0.1 * Math.abs(mousePosition.y)
-            }deg)`,
+            transform: `translate(-50%, 10%) rotateX(${88 - 0.1 * Math.abs(mousePosition.y)}deg)`,
             width: `${100 + Math.abs(mousePosition.x)}%`,
           }}
         />

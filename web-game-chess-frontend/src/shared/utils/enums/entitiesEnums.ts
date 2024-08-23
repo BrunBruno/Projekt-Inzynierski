@@ -1,4 +1,4 @@
-// from backend enums
+/* from backend enums representations */
 
 type EnumType = {
   [key: string]: number;

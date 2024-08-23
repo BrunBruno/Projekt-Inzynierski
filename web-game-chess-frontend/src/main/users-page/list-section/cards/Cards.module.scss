@@ -1,5 +1,6 @@
 @import "../../../Main.scss";
 
+// friend card
 .card {
   @include rounded(1rem);
   @include emergeAni(0.2s, 0s, -1rem);
@@ -127,3 +128,7 @@
     }
   }
 }
+//*/
+
+// resize
+//*/

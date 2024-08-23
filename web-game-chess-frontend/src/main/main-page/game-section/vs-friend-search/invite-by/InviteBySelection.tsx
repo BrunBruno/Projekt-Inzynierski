@@ -16,6 +16,7 @@ import { delayAction } from "../../../../../shared/utils/functions/eventsRelated
 import { TimingTypeModel } from "../../../../../shared/utils/types/abstracDtosAndModels";
 
 type InviteBySelectionProps = {
+  // to filter friend by username
   setSelectedUsername: React.Dispatch<React.SetStateAction<string>>;
 };
 
@@ -74,6 +75,7 @@ const InviteBySelection = forwardRef<InviteBySelectionRef, InviteBySelectionProp
     useImperativeHandle(ref, () => ({
       onInviteBySelection,
     }));
+    //*/
 
     // to filter users by names
     const onSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -81,6 +83,7 @@ const InviteBySelection = forwardRef<InviteBySelectionRef, InviteBySelectionProp
       const username = target.value.toLocaleLowerCase();
       setSelectedUsername(username);
     };
+    //*/
 
     return (
       <div className={classes.invite}>

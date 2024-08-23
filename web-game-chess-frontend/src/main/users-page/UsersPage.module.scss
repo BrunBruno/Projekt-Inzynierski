@@ -1,5 +1,6 @@
 @import "../Main.scss";
 
+// user page container
 .users-main {
   @include wh100();
   @include gridBg();
@@ -10,3 +11,4 @@
   grid-template-rows: 10rem auto;
   padding: 0 20rem;
 }
+//*/

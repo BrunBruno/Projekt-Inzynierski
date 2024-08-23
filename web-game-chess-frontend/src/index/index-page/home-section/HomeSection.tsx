@@ -5,6 +5,7 @@ import { createOneTimeObserver } from "../../../shared/utils/functions/createOne
 import { HandleOnScroll } from "../../../shared/utils/types/commonTypes";
 
 type HomeSectionProps = {
+  // section container ref
   sectionRef: React.RefObject<HTMLElement>;
 };
 
@@ -30,8 +31,9 @@ const HomeSection = forwardRef<HandleOnScroll, HomeSectionProps>(
     useImperativeHandle(ref, () => ({
       handleOnScroll,
     }));
-    // end handle home on scoll
+    //*/
 
+    // to observe home intro
     useEffect(() => {
       const introObserverAction = (entry: IntersectionObserverEntry): void => {
         entry.target.classList.add(classes["show"]);
@@ -46,6 +48,7 @@ const HomeSection = forwardRef<HandleOnScroll, HomeSectionProps>(
         introObserver.disconnect();
       };
     }, [introRef]);
+    //*/
 
     return (
       <section id="home-section" ref={sectionRef} className={classes.home}>
@@ -63,7 +66,7 @@ const HomeSection = forwardRef<HandleOnScroll, HomeSectionProps>(
               experience to outmaneuver their opponents and claim victory on the board.
             </span>
           </div>
-          {/* end intro senction */}
+          {/* --- */}
 
           <HomeActions />
         </div>

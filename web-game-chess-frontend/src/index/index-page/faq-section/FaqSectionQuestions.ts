@@ -1,3 +1,5 @@
+// data for faq section cards (questions and answers)
+
 export type QuestionsType = {
   question: string;
   answer: string;

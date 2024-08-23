@@ -6,6 +6,7 @@ import { createOneTimeObserver } from "../../../shared/utils/functions/createOne
 import { HandleOnScroll } from "../../../shared/utils/types/commonTypes";
 
 type PlaySectionProps = {
+  // section container ref
   sectionRef: React.RefObject<HTMLElement>;
 };
 
@@ -18,6 +19,7 @@ const PlaySection = forwardRef<HandleOnScroll, PlaySectionProps>(
     const actionRefs: React.RefObject<HTMLDivElement>[] = [];
     for (let i = 0; i < 4; i++) actionRefs[i] = useRef<HTMLDivElement>(null);
 
+    // to activate intro and actions on intersection
     useEffect(() => {
       const introObserverAction = (entry: IntersectionObserverEntry): void => {
         entry.target.classList.remove(classes["active-intro"]);
@@ -49,6 +51,7 @@ const PlaySection = forwardRef<HandleOnScroll, PlaySectionProps>(
         actionsObserver.disconnect();
       };
     }, [actionRefs]);
+    //*/
 
     return (
       <section id="play-section" ref={sectionRef} className={classes.play}>
@@ -61,13 +64,14 @@ const PlaySection = forwardRef<HandleOnScroll, PlaySectionProps>(
             <span>STARTED</span>
           </h2>
         </div>
-        {/* end intro */}
+        {/* --- */}
 
         <div className={classes.play__content}>
           {/* board */}
           <div className={classes.play__content__board}>
             <PlayBoard ref={ref} />
           </div>
+          {/* --- */}
 
           {/* actions */}
           <div className={classes.play__content__actions}>
@@ -97,11 +101,11 @@ const PlaySection = forwardRef<HandleOnScroll, PlaySectionProps>(
               </div>
             </div>
           </div>
-          {/* end actions */}
+          {/* --- */}
         </div>
       </section>
     );
-  },
+  }
 );
 
 export default PlaySection;

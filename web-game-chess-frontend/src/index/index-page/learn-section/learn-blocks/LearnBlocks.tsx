@@ -13,6 +13,7 @@ const LearnBlocks = ({}: LearnBlocksProps) => {
   const [wasActived, setWasActived] = useState(false);
   const [count, setCount] = useState<number>(0);
 
+  // to generate rows
   const generateSectionBlock = (data: SectionData) => {
     return {
       title: data.title,
@@ -25,6 +26,7 @@ const LearnBlocks = ({}: LearnBlocksProps) => {
   };
 
   const SectionBlocks = sectionData.map((data) => generateSectionBlock(data));
+  //*/
 
   // create learn section icons
   const createIcon = (iconName: string): JSX.Element => {
@@ -76,13 +78,14 @@ const LearnBlocks = ({}: LearnBlocksProps) => {
         return <></>;
     }
   };
-  // end create learn section icons
+  //*/
 
-  // observer block
+  // to observe blocks
   useEffect(() => {
     const textObserverAction = (entry: IntersectionObserverEntry): void => {
       entry.target.classList.add(classes["active-text"]);
     };
+
     const textObserver: IntersectionObserver = createOneTimeObserver(textObserverAction, {});
 
     const iconObserverAction = (entry: IntersectionObserverEntry): void => {
@@ -93,6 +96,7 @@ const LearnBlocks = ({}: LearnBlocksProps) => {
         setTimeout(() => incrementCount(0), 1000);
       }
     };
+
     const iconObserver: IntersectionObserver = createOneTimeObserver(iconObserverAction, {});
 
     const lineObserverAction = (entry: IntersectionObserverEntry): void => {
@@ -127,10 +131,11 @@ const LearnBlocks = ({}: LearnBlocksProps) => {
       }, 10);
     }
   };
-  // end observe block
+  //*/
 
   return (
     <div className={classes.zpattern}>
+      {/* map blocks */}
       {SectionBlocks.map((block, index) =>
         index % 2 !== 0 ? (
           <div className={classes.zpattern__row} key={index}>
@@ -164,6 +169,7 @@ const LearnBlocks = ({}: LearnBlocksProps) => {
           </div>
         )
       )}
+      {/* --- */}
     </div>
   );
 };

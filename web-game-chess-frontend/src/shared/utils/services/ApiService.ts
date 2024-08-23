@@ -1,4 +1,4 @@
-// api paths and function
+/* api paths and function */
 
 import { Guid } from "guid-typescript";
 import { GetAllFriendsByStatusModel, GetAllNonFriendsModel } from "../types/friendshipModels";

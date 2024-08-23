@@ -1,4 +1,4 @@
-// abstract types of dtos and models
+/* abstract types of dtos and models */
 
 import { TimingType } from "../enums/entitiesEnums";
 

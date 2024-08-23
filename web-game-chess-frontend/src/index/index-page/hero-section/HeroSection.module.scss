@@ -1,5 +1,6 @@
 @import "../../Index.scss";
 
+// hero section container
 .hero {
   position: relative;
   width: 100%;
@@ -19,11 +20,13 @@
     &__bg {
       @include absCenter();
       @include wh100();
+
       z-index: 2;
       background-color: rgba(#000, 0.1);
       pointer-events: none;
     }
 
+    // content
     &__content {
       @include flex(column, end, start, 4rem);
 
@@ -75,7 +78,6 @@
         right: 10rem;
         bottom: 4rem;
         text-decoration: none;
-
         font-size: 10rem;
         border: solid 0.2rem $mc0;
         transition: box-shadow 1s;
@@ -101,9 +103,12 @@
         }
       }
     }
+    //*/
   }
 }
+//*/
 
+// resize
 @media (max-width: 1000px) {
   .hero {
     &__container {
@@ -195,3 +200,4 @@
     }
   }
 }
+//*/

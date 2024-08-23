@@ -15,12 +15,15 @@ type HistorySectionProps = {
 };
 
 function HistorySection({ selectedType, typeHistory }: HistorySectionProps) {
+  ///
+
   const theme = createTheme({
     palette: {
       mode: "dark",
     },
   });
 
+  // to create line chart for selected game timing type
   const createChart = (history: GetTypeHistoryDto[]) => {
     type GroupedByCreatedAt = Record<string, GetTypeHistoryDto[]>;
     const groupedByCreatedAt: GroupedByCreatedAt = history.reduce((acc, currentItem) => {
@@ -69,7 +72,9 @@ function HistorySection({ selectedType, typeHistory }: HistorySectionProps) {
       </ThemeProvider>
     );
   };
+  //*/
 
+  // render placeholder
   if (typeHistory === null || selectedType === null || typeHistory.items.length === 0) {
     return (
       <div className={classes.empty}>
@@ -106,6 +111,7 @@ function HistorySection({ selectedType, typeHistory }: HistorySectionProps) {
       </div>
     );
   }
+  //*/
 
   return (
     <div className={classes.actions}>
@@ -120,8 +126,8 @@ function HistorySection({ selectedType, typeHistory }: HistorySectionProps) {
           <div
             key={index}
             className={`
-              ${classes.actions__items__record}
-              ${item.isWinner === null ? "" : item.isWinner === true ? classes.win : classes.lose}
+                ${classes.actions__items__record}
+                ${item.isWinner === null ? "" : item.isWinner === true ? classes.win : classes.lose}
               `}
           >
             <span>
