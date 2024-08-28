@@ -14,7 +14,7 @@ function IntroBackgroundSection({}: IntroBackgroundSectionProps) {
     // to play only on first entry
     const hasAnimationPlayed = sessionStorage.getItem("entry-animation-played");
 
-    if (!hasAnimationPlayed) {
+    if (hasAnimationPlayed === null) {
       const animationDuration = 2500;
       const bgElement = backgroundRef.current;
 

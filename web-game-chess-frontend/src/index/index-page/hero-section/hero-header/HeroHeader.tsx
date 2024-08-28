@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import classes from "./HeroHeader.module.scss";
 import LogoIconSvg from "../../../../shared/svgs/LogoIconSvg";
-import { registrationInterface } from "../../../../shared/utils/enums/interfacesEnums";
+import { RegistrationInterface } from "../../../../shared/utils/enums/interfacesEnums";
 
 type HeroHeaderProps = {};
 
@@ -13,16 +13,16 @@ function HeroHeader({}: HeroHeaderProps) {
   return (
     <header className={classes.header}>
       {/* logo */}
-      <div className={classes["hero-logo"]}>
-        <a href="/">
+      <div className={classes.header__logo}>
+        <a href="/" className={classes["logo-reload"]}>
           <LogoIconSvg iconClass={classes["logo-svg"]} />
         </a>
-        <p>Chess</p>
+        <p className={classes["logo-text"]}>Chess</p>
       </div>
       {/* --- */}
 
       {/* action buttons */}
-      <div className={classes["hero-actions"]}>
+      <div className={classes.header__actions}>
         <button
           className={classes["hero-button"]}
           onClick={() => {
@@ -31,21 +31,23 @@ function HeroHeader({}: HeroHeaderProps) {
         >
           <span>About</span>
         </button>
+
         <button
           className={classes["hero-button"]}
           onClick={() => {
             navigate("/registration", {
-              state: { regOption: registrationInterface.signIn },
+              state: { regOption: RegistrationInterface.signIn },
             });
           }}
         >
           <span>Sign In</span>
         </button>
+
         <button
           className={classes["hero-button"]}
           onClick={() => {
             navigate("/registration", {
-              state: { regOption: registrationInterface.signUp },
+              state: { regOption: RegistrationInterface.signUp },
             });
           }}
         >

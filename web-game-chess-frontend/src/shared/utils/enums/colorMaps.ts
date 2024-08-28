@@ -1,11 +1,11 @@
 /* shared colors maps */
 
-type colorMap = {
+type ColorMap = {
   [key: string]: string;
 };
 
 // main color list
-export const mainColor: colorMap = {
+export const mainColor: ColorMap = {
   c0: "#f3f0ff",
   c1: "#e5dbff",
   c2: "#d0bfff",
@@ -19,7 +19,7 @@ export const mainColor: colorMap = {
 };
 
 // grey color list
-export const greyColor: colorMap = {
+export const greyColor: ColorMap = {
   c0: "#f8f9fa",
   c1: "#f1f3f5",
   c2: "#e9ecef",
@@ -33,7 +33,7 @@ export const greyColor: colorMap = {
 };
 
 // password strenght colors map
-export const strengthColor: colorMap = {
+export const strengthColor: ColorMap = {
   c0: "#f03e3e",
   c1: "#ffa8a8",
   c2: "#ffe066",
@@ -42,22 +42,22 @@ export const strengthColor: colorMap = {
 };
 
 // other spacial colors maps
-export const successColor: colorMap = {
+export const successColor: ColorMap = {
   light: "#8ce99a",
   mid: "#51cf66",
   dark: "#2f9e44",
 };
-export const infoColor: colorMap = {
+export const infoColor: ColorMap = {
   light: "#a5d8ff",
   mid: "#339af0",
   dark: "#1864ab",
 };
-export const warningColor: colorMap = {
+export const warningColor: ColorMap = {
   light: "#ffe066",
   mid: "#fcc419",
   dark: "#f59f00",
 };
-export const dangerColor: colorMap = {
+export const dangerColor: ColorMap = {
   light: "#ffa8a8",
   mid: "#f03e3e",
   dark: "#c92a2a",

@@ -47,7 +47,7 @@
     &__col {
       @include flex(column, start, start, 2rem);
 
-      h3 {
+      h3.col-title {
         font-size: 4rem;
         margin-bottom: 2rem;
         border-bottom: dashed 0.1rem $mc0;
@@ -59,11 +59,11 @@
 
         position: relative;
 
-        p {
+        p.contact-data {
           font-size: 2.4rem;
         }
 
-        .flag {
+        svg.flag {
           height: 2rem;
         }
       }
@@ -84,7 +84,7 @@
           &:hover {
             cursor: pointer;
 
-            p {
+            p.action-text {
               &::after {
                 width: 100%;
               }
@@ -97,13 +97,14 @@
               circle {
                 fill: $mc0;
               }
+
               rect {
                 fill: #000;
               }
             }
           }
 
-          p {
+          p.action-text {
             font-size: 2rem;
 
             &::after {
@@ -132,6 +133,7 @@
               fill: #000;
               transition: all 0.3s;
             }
+
             rect {
               fill: $mc0;
               transition: all 0.3s;

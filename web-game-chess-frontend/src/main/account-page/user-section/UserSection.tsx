@@ -5,7 +5,7 @@ import LoadingPage from "../../../shared/components/loading-page/LoadingPage";
 import axios from "axios";
 import { getAuthorization, userControllerPaths } from "../../../shared/utils/services/ApiService";
 import TimingTypesIcons from "../../../shared/svgs/TimingTypesIcons";
-import { timingTypes } from "../../../shared/utils/enums/entitiesEnums";
+import { TimingTypes } from "../../../shared/utils/enums/entitiesEnums";
 import UserSectionIocns from "./UserSectionIcons";
 import { UpdateProfileModel } from "../../../shared/utils/types/userModels";
 import StatsRow from "./stats-row/StatsRow";
@@ -180,7 +180,7 @@ function UserSection({ getTypeHistory, setFriendSection }: UserSectionProps) {
           <div
             className={classes.user__data__elo__type}
             onClick={() => {
-              getTypeHistory(timingTypes.bullet);
+              getTypeHistory(TimingTypes.bullet);
             }}
           >
             <TimingTypesIcons iconName="bullet" iconClass={classes["elo-icon"]} />
@@ -189,7 +189,7 @@ function UserSection({ getTypeHistory, setFriendSection }: UserSectionProps) {
           <div
             className={classes.user__data__elo__type}
             onClick={() => {
-              getTypeHistory(timingTypes.blitz);
+              getTypeHistory(TimingTypes.blitz);
             }}
           >
             <TimingTypesIcons iconName="blitz" iconClass={classes["elo-icon"]} />
@@ -198,7 +198,7 @@ function UserSection({ getTypeHistory, setFriendSection }: UserSectionProps) {
           <div
             className={classes.user__data__elo__type}
             onClick={() => {
-              getTypeHistory(timingTypes.rapid);
+              getTypeHistory(TimingTypes.rapid);
             }}
           >
             <TimingTypesIcons iconName="rapid" iconClass={classes["elo-icon"]} />
@@ -207,7 +207,7 @@ function UserSection({ getTypeHistory, setFriendSection }: UserSectionProps) {
           <div
             className={classes.user__data__elo__type}
             onClick={() => {
-              getTypeHistory(timingTypes.classic);
+              getTypeHistory(TimingTypes.classic);
             }}
           >
             <TimingTypesIcons iconName="classic" iconClass={classes["elo-icon"]} />
@@ -216,7 +216,7 @@ function UserSection({ getTypeHistory, setFriendSection }: UserSectionProps) {
           <div
             className={classes.user__data__elo__type}
             onClick={() => {
-              getTypeHistory(timingTypes.daily);
+              getTypeHistory(TimingTypes.daily);
             }}
           >
             <TimingTypesIcons iconName="daily" iconClass={classes["elo-icon"]} />

@@ -10,7 +10,7 @@ import LoadingPage from "../../../shared/components/loading-page/LoadingPage";
 import { LogInUserDto } from "../../../shared/utils/types/userDtos";
 import { LogInUserModel, RegenerateCodeModel, VerifyEmailModel } from "../../../shared/utils/types/userModels";
 import PasteIconSvg from "../../../shared/svgs/PasteIconSvg";
-import { registrationInterface } from "../../../shared/utils/enums/interfacesEnums";
+import { RegistrationInterface } from "../../../shared/utils/enums/interfacesEnums";
 
 type VerifyEmailProps = {
   setModal: React.Dispatch<React.SetStateAction<number>>;
@@ -184,7 +184,7 @@ function VerifyEmail({ setModal }: VerifyEmailProps) {
       <p
         className={classes.cancel}
         onClick={() => {
-          setModal(registrationInterface.signUp);
+          setModal(RegistrationInterface.signUp);
         }}
       >
         Cancel

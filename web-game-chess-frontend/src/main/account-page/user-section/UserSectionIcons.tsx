@@ -1,10 +1,7 @@
 import { greyColor, mainColor } from "../../../shared/utils/enums/colorMaps";
-import {
-  IconMap,
-  IconsMapProps,
-} from "../../../shared/utils/types/commonTypes";
+import { IconMap } from "../../../shared/utils/types/commonTypes";
 
-const icons: IconMap = {
+export const userSectionIcons: IconMap = {
   image: (
     <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
       <path
@@ -16,6 +13,7 @@ const icons: IconMap = {
       />
     </svg>
   ),
+
   settings: (
     <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
       <path
@@ -32,6 +30,7 @@ const icons: IconMap = {
       />
     </svg>
   ),
+
   friends: (
     <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
       <circle cx="12" cy="9" r="3" stroke={greyColor.c0} strokeWidth="1.5" />
@@ -50,11 +49,3 @@ const icons: IconMap = {
     </svg>
   ),
 };
-
-function UserSectionIocns({ iconName }: IconsMapProps) {
-  const icon = icons[iconName];
-
-  return icon ? icon : <></>;
-}
-
-export default UserSectionIocns;

@@ -12,12 +12,12 @@
   border-bottom: solid 0.1rem $mc0;
 
   // logo
-  .hero-logo {
+  &__logo {
     @include flex(row, center, center, 2rem);
 
     pointer-events: all;
 
-    a {
+    a.logo-reload {
       display: block !important;
       text-decoration: none;
       width: fit-content;
@@ -33,14 +33,14 @@
       }
     }
 
-    p {
+    p.logo-text {
       @include secFont(3rem);
     }
   }
   //*/
 
   // actions
-  .hero-actions {
+  &__actions {
     @include flex(row, center, center, 0);
 
     height: 100%;
@@ -97,19 +97,19 @@
   .header {
     width: calc(100% - 4rem);
 
-    .hero-logo {
-      a {
+    &__logo {
+      a.logo-reload {
         .logo-svg {
           height: 6rem !important;
         }
       }
 
-      p {
+      p.logo-text {
         font-size: 4rem;
       }
     }
 
-    .hero-actions {
+    &__actions {
       .hero-button {
         span {
           font-size: 2.4rem;
@@ -121,19 +121,19 @@
 
 @media (max-width: 300px) {
   .header {
-    .hero-logo {
-      a {
+    &__logo {
+      a.logo-reload {
         .logo-svg {
           height: 4rem !important;
         }
       }
 
-      p {
+      p.logo-text {
         display: none;
       }
     }
 
-    .hero-actions {
+    &__actions {
       .hero-button {
         span {
           font-size: 2rem;

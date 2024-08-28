@@ -2,7 +2,7 @@ import { useNavigate } from "react-router-dom";
 import AvatarImage from "../../../../shared/components/avatar-image/AvatarImage";
 import { GetAllFriendsByStatusDto } from "../../../../shared/utils/types/friendshipDtos";
 import classes from "./FriendCard.module.scss";
-import { gameSearchInterface } from "../../../../shared/utils/enums/interfacesEnums";
+import { GameSearchInterface } from "../../../../shared/utils/enums/interfacesEnums";
 
 type FriendCardProps = {
   // friend data
@@ -24,7 +24,7 @@ function FriendCard({ friend, setSelectedFriend, clearSelection }: FriendCardPro
   const onInviteFriendToGame = async () => {
     navigate(`main/`, {
       state: {
-        interface: gameSearchInterface.vsFriend,
+        interface: GameSearchInterface.vsFriend,
       },
     });
   };

@@ -1,5 +1,5 @@
 import axios from "axios";
-import { friendshipStatus } from "../../../../shared/utils/enums/entitiesEnums";
+import { FriendshipStatus } from "../../../../shared/utils/enums/entitiesEnums";
 import { GetAllFriendsByStatusDto, GetFriendProfileDto } from "../../../../shared/utils/types/friendshipDtos";
 import { RespondToFriendRequestModel } from "../../../../shared/utils/types/friendshipModels";
 import classes from "./Cards.module.scss";
@@ -83,7 +83,7 @@ function FriendCard({ selectedList, friend, getAllUsers, setFriend }: FriendCard
   // return correct button based on selected list
   const generateButtons = (): JSX.Element => {
     switch (selectedList) {
-      case friendshipStatus.accepted:
+      case FriendshipStatus.accepted:
         return (
           <div className={classes.actions}>
             <button
@@ -104,7 +104,8 @@ function FriendCard({ selectedList, friend, getAllUsers, setFriend }: FriendCard
             </button>
           </div>
         );
-      case friendshipStatus.pending:
+
+      case FriendshipStatus.pending:
         return (
           <>
             {!friend.isRequestor ? (
@@ -131,7 +132,8 @@ function FriendCard({ selectedList, friend, getAllUsers, setFriend }: FriendCard
             )}
           </>
         );
-      case friendshipStatus.rejected:
+
+      case FriendshipStatus.rejected:
         return (
           <>
             {!friend.isRequestor ? (

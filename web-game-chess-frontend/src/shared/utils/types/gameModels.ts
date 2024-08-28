@@ -1,6 +1,6 @@
 /* game controller models to requests */
 
-import { EndGameTypes, PieceColor, TimingType } from "../enums/entitiesEnums";
+import { EndGameTypes, PieceColor, TimingTypes } from "../enums/entitiesEnums";
 import { BlackPieceType, WhitePieceType } from "../enums/piecesMaps";
 import { PagedModel, TimingTypeModel } from "./abstracDtosAndModels";
 import { Guid } from "guid-typescript";
@@ -91,14 +91,14 @@ export type CheckIfInGameModel = {
 
 export type GetAllFinishedGamesModel = PagedModel & {
   // to get only selected types of timing type
-  timingTypeFilters: TimingType[];
+  timingTypeFilters: TimingTypes[];
   // to get only selected results of the game
   resultFilters: (boolean | null)[];
 };
 
 export type GetTypeHistiryModel = PagedModel & {
   // selected timing to to display history of games
-  type: TimingType;
+  type: TimingTypes;
 };
 
 export type GetAllInvitationsModel = PagedModel;

@@ -1,8 +1,8 @@
 import { mainColor } from "../../../shared/utils/enums/colorMaps";
-import { IconMap, IconsMapProps } from "../../../shared/utils/types/commonTypes";
+import { IconMap } from "../../../shared/utils/types/commonTypes";
 import classes from "./FooterSection.module.scss";
 
-const icons: IconMap = {
+export const footerSectionIcons: IconMap = {
   facebook: (
     <svg fill={mainColor.c0} viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" className={classes["p-logo"]}>
       <path d="M22,3V21a1,1,0,0,1-1,1H15.8V14.255h2.6l.39-3.018H15.8V9.309c0-.874.242-1.469,1.5-1.469h1.6V5.14a21.311,21.311,0,0,0-2.329-.119A3.636,3.636,0,0,0,12.683,9.01v2.227H10.076v3.018h2.607V22H3a1,1,0,0,1-1-1V3A1,1,0,0,1,3,2H21A1,1,0,0,1,22,3Z" />
@@ -119,18 +119,3 @@ const icons: IconMap = {
     </svg>
   ),
 };
-
-function FooterSectionIcons({ iconName }: IconsMapProps) {
-  if (iconName === "") return <>i</>;
-
-  try {
-    const icon = icons[iconName];
-    return icon ? icon : <>i</>;
-  } catch (err) {
-    console.error("Icon error");
-  }
-
-  return <>i</>;
-}
-
-export default FooterSectionIcons;

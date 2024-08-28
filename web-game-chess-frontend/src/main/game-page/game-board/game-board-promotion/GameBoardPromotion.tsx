@@ -1,4 +1,4 @@
-import { pieceColor } from "../../../../shared/utils/enums/entitiesEnums";
+import { PieceColor } from "../../../../shared/utils/enums/entitiesEnums";
 import { pieceImageMap, piecePromotionMap } from "../../../../shared/utils/enums/piecesMaps";
 import { GetPlayerDto } from "../../../../shared/utils/types/gameDtos";
 import classes from "./GameBoardPromotion.module.scss";
@@ -17,7 +17,7 @@ function GameBoardPromotion({ playerData, onPerformPromotion }: GameBoardPromoti
     <div className={classes.promotion}>
       <div className={classes.promotion__pieces}>
         {/* map pieces */}
-        {playerData.color === pieceColor.white ? (
+        {playerData.color === PieceColor.white ? (
           piecePromotionMap.white.map((p, i) => (
             <div
               key={`promotion-${i}`}
@@ -29,7 +29,7 @@ function GameBoardPromotion({ playerData, onPerformPromotion }: GameBoardPromoti
               <img src={`/pieces/${pieceImageMap[p]}`} alt={`promote-to-${p}`} />
             </div>
           ))
-        ) : playerData.color === pieceColor.black ? (
+        ) : playerData.color === PieceColor.black ? (
           piecePromotionMap.black.map((p, i) => (
             <div
               key={`promotion-${i}`}

@@ -2,28 +2,21 @@
 
 import { popupIconTypes } from "../enums/commonConstLists";
 
-// type from enums string to number
-export type EnumType = {
-  [key: string]: number;
-};
-
 // type for svg icons
 export type IconSvgProps = {
   color?: string;
   iconClass: string;
 };
 
-// type for svg icons maps
+// type for svg icons maps and corresponding props
+// type for svg icons with params
 export type IconMap = {
   [key: string]: JSX.Element;
 };
-
-// type for props of icon maps
 export type IconsMapProps = {
+  icons: IconMap;
   iconName: string;
 };
-
-// type for svg icons with params
 export type IconParamMap = {
   [key: string]: (iconClass: string, color: string) => JSX.Element;
 };

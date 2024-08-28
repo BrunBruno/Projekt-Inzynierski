@@ -3,14 +3,13 @@ import DetailPawnIconSvg from "../../../shared/svgs/DetailPawnIconSvg";
 import { mainColor, strengthColor } from "../../../shared/utils/enums/colorMaps";
 import classes from "./Sign.module.scss";
 import axios from "axios";
-import { ValidationResult, checkFromConfiguration } from "../../../shared/utils/functions/checkFromConfiguration";
 import SignArrowSvg from "./SignArrow";
 import LoadingPage from "../../../shared/components/loading-page/LoadingPage";
 import { errorDisplay, getErrMessage } from "../../../shared/utils/functions/displayError";
 import { userControllerPaths } from "../../../shared/utils/services/ApiService";
 import { ConfigurationDto, LogInUserDto } from "../../../shared/utils/types/userDtos";
-import { dataConfigurations } from "../../../shared/utils/enums/entitiesEnums";
-import { registrationInterface } from "../../../shared/utils/enums/interfacesEnums";
+import { DataConfigurations } from "../../../shared/utils/enums/entitiesEnums";
+import { RegistrationInterface } from "../../../shared/utils/enums/interfacesEnums";
 import { GetRegisterConfModel, LogInUserModel, RegisterUserModel } from "../../../shared/utils/types/userModels";
 import { usePopup } from "../../../shared/utils/hooks/usePopUp";
 import { getCountry } from "../../../shared/utils/functions/externApi";
@@ -22,6 +21,11 @@ type SignUpProps = {
 
 function SignUp({ setModal }: SignUpProps) {
   ///
+
+  type ValidationResult = {
+    isValid: boolean;
+    message: string;
+  };
 
   const { showPopup } = usePopup();
 
@@ -47,7 +51,7 @@ function SignUp({ setModal }: SignUpProps) {
     const getDataConfigurations = async (): Promise<void> => {
       try {
         const userRegisterConf: GetRegisterConfModel = {
-          configurationId: dataConfigurations.userName,
+          configurationId: DataConfigurations.userName,
         };
 
         // get username configuration
@@ -58,7 +62,7 @@ function SignUp({ setModal }: SignUpProps) {
         setUserNameConf(userNameConfResp.data);
 
         const passwordRegisterConf: GetRegisterConfModel = {
-          configurationId: dataConfigurations.userPassword,
+          configurationId: DataConfigurations.userPassword,
         };
 
         // get password configuration
@@ -170,7 +174,7 @@ function SignUp({ setModal }: SignUpProps) {
       setProcessing(false);
 
       // change modal to email verification
-      setModal(registrationInterface.verify);
+      setModal(RegistrationInterface.verify);
 
       showPopup("Account created.", "success");
     } catch (err) {
@@ -182,6 +186,44 @@ function SignUp({ setModal }: SignUpProps) {
     }
   };
   //*/
+
+  // to check user input with db configuration record
+  const checkFromConfiguration = (field: string, data: string, configuration: ConfigurationDto): ValidationResult => {
+    let isValid = true;
+    let message = "";
+
+    if (configuration.minLength && data.length < configuration.minLength) {
+      message = `${field} must be longer than ${configuration.minLength} characters.`;
+      isValid = false;
+    }
+
+    if (configuration.maxLength && data.length > configuration.maxLength) {
+      message = `${field} must be shorter than ${configuration.maxLength} characters.`;
+      isValid = false;
+    }
+
+    if (configuration.requireLowercase && !/[a-z]/.test(data)) {
+      message = `${field} must contain at least one lowercase letter.`;
+      isValid = false;
+    }
+
+    if (configuration.requireUppercase && !/[A-Z]/.test(data)) {
+      message = `${field} must contain at least one uppercase letter.`;
+      isValid = false;
+    }
+
+    if (configuration.requireDigit && !/\d/.test(data)) {
+      message = `${field} must contain at least one digit.`;
+      isValid = false;
+    }
+
+    if (configuration.requireSpecialChar && !/[^a-zA-Z0-9]/.test(data)) {
+      message = `${field} must contain at least one special character.`;
+      isValid = false;
+    }
+
+    return { isValid, message };
+  };
 
   // handle on change
   // change passsword strength indicator
@@ -229,7 +271,7 @@ function SignUp({ setModal }: SignUpProps) {
 
       <h2>Create Account</h2>
       <div className={classes["change-form"]}>
-        Already have an account? <span onClick={() => setModal(registrationInterface.signIn)}>Sing In</span>
+        Already have an account? <span onClick={() => setModal(RegistrationInterface.signIn)}>Sing In</span>
       </div>
 
       {/* inputs */}

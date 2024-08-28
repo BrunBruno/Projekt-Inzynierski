@@ -4,6 +4,7 @@ import PlaySectionIcons from "./PlaySectionIcons";
 import PlayBoard from "./play-board/PlayBoard";
 import { createOneTimeObserver } from "../../../shared/utils/functions/createOneTimeObserver";
 import { HandleOnScroll } from "../../../shared/utils/types/commonTypes";
+import { useNavigate } from "react-router-dom";
 
 type PlaySectionProps = {
   // section container ref
@@ -13,6 +14,8 @@ type PlaySectionProps = {
 const PlaySection = forwardRef<HandleOnScroll, PlaySectionProps>(
   ({ sectionRef }: PlaySectionProps, ref: React.ForwardedRef<HandleOnScroll>) => {
     ///
+
+    const navigate = useNavigate();
 
     // section title ref
     const introRef = useRef<HTMLDivElement>(null);
@@ -54,9 +57,9 @@ const PlaySection = forwardRef<HandleOnScroll, PlaySectionProps>(
     //*/
 
     return (
-      <section id="play-section" ref={sectionRef} className={classes.play}>
+      <section id="play-section" ref={sectionRef} className={classes.section}>
         {/* intro */}
-        <div ref={introRef} className={`${classes.play__intro} ${classes["active-intro"]}`}>
+        <div ref={introRef} className={`${classes.section__intro} ${classes["active-intro"]}`}>
           <h2 className={`${classes["intro-h2"]} ${classes["active-h2"]}`}>
             <span>LET'S GET</span>
           </h2>
@@ -66,16 +69,16 @@ const PlaySection = forwardRef<HandleOnScroll, PlaySectionProps>(
         </div>
         {/* --- */}
 
-        <div className={classes.play__content}>
+        <div className={classes.section__content}>
           {/* board */}
-          <div className={classes.play__content__board}>
+          <div className={classes.section__content__board}>
             <PlayBoard ref={ref} />
           </div>
           {/* --- */}
 
           {/* actions */}
-          <div className={classes.play__content__actions}>
-            <div className={classes.play__content__actions__buttons}>
+          <div className={classes.section__content__actions}>
+            <div className={classes.section__content__actions__buttons}>
               <div ref={actionRefs[0]} className={classes["actions-row"]}>
                 <h3 className={classes["buttons-title"]}>Start playing now!</h3>
               </div>
@@ -87,14 +90,28 @@ const PlaySection = forwardRef<HandleOnScroll, PlaySectionProps>(
               </div>
 
               <div ref={actionRefs[2]} className={classes["actions-row"]}>
-                <button className={classes["vs-player-button"]}>
+                <button
+                  className={classes["vs-player-button"]}
+                  onClick={() => {
+                    navigate("/main", {
+                      state: {},
+                    });
+                  }}
+                >
                   <PlaySectionIcons iconName="online" />
                   <span>PLAY ONLINE</span>
                 </button>
               </div>
 
               <div ref={actionRefs[3]} className={classes["actions-row"]}>
-                <button className={classes["vs-computer-button"]}>
+                <button
+                  className={classes["vs-computer-button"]}
+                  onClick={() => {
+                    navigate("/main", {
+                      state: {},
+                    });
+                  }}
+                >
                   <PlaySectionIcons iconName="offline" />
                   <span>PLAY OFFLINE</span>
                 </button>

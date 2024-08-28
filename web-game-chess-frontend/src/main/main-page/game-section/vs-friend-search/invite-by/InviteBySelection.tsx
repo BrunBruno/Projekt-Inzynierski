@@ -9,11 +9,12 @@ import { getErrMessage } from "../../../../../shared/utils/functions/displayErro
 import { usePopup } from "../../../../../shared/utils/hooks/usePopUp";
 import { useNavigate } from "react-router-dom";
 import { useTimingType } from "../../../../../shared/utils/hooks/useTimingType";
-import { timingTypes } from "../../../../../shared/utils/enums/entitiesEnums";
+import { TimingTypes } from "../../../../../shared/utils/enums/entitiesEnums";
 import { forwardRef, useImperativeHandle } from "react";
 import { InviteBySelectionRef } from "../VsFreindSearchObjects";
 import { delayAction } from "../../../../../shared/utils/functions/eventsRelated";
 import { TimingTypeModel } from "../../../../../shared/utils/types/abstracDtosAndModels";
+import { getEnumValueByKey } from "../../../../../shared/utils/functions/enumRelated";
 
 type InviteBySelectionProps = {
   // to filter friend by username
@@ -31,7 +32,7 @@ const InviteBySelection = forwardRef<InviteBySelectionRef, InviteBySelectionProp
     // to inviate friend to game via selection from friend list
     const onInviteBySelection = async (friendshipId: Guid, header: string, values: number[]): Promise<void> => {
       try {
-        const typeValue = timingTypes[header.toLowerCase()];
+        const typeValue = getEnumValueByKey(TimingTypes, header.toLowerCase());
 
         const gameType: TimingTypeModel = {
           type: typeValue,

@@ -8,7 +8,7 @@ import {
 } from "../../../shared/utils/types/friendshipDtos";
 import { friendshipControllerPaths, getAuthorization } from "../../../shared/utils/services/ApiService";
 import { useEffect, useRef, useState } from "react";
-import { friendshipStatus } from "../../../shared/utils/enums/entitiesEnums";
+import { FriendshipStatus } from "../../../shared/utils/enums/entitiesEnums";
 import UserCards from "./cards/UserCards";
 import FriendCard from "./cards/FriendCard";
 import usePagination from "../../../shared/utils/hooks/usePagination";
@@ -47,7 +47,7 @@ function ListSection({ selectedUsername, selectedList, setUserProfile, setFriend
   const getAllUsers = async () => {
     try {
       // fetch for all other users
-      if (selectedList === friendshipStatus.all) {
+      if (selectedList === FriendshipStatus.all) {
         const model: GetAllNonFriendsModel = {
           username: selectedUsername,
           pageNumber: pageNumber,

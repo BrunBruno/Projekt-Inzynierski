@@ -1,8 +1,8 @@
 import { greyColor } from "../../../shared/utils/enums/colorMaps";
-import { IconMap, IconsMapProps } from "../../../shared/utils/types/commonTypes";
+import { IconMap } from "../../../shared/utils/types/commonTypes";
 import classes from "./RightSideBar.module.scss";
 
-const icons: IconMap = {
+export const rightSideBarIcons: IconMap = {
   send: (
     <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className={classes["send-svg"]}>
       <path
@@ -15,18 +15,3 @@ const icons: IconMap = {
     </svg>
   ),
 };
-
-function RightSideBarIcons({ iconName }: IconsMapProps) {
-  if (iconName === "") return <>i</>;
-
-  try {
-    const icon = icons[iconName];
-    return icon ? icon : <>i</>;
-  } catch (err) {
-    console.error("Icon error");
-  }
-
-  return <>i</>;
-}
-
-export default RightSideBarIcons;

@@ -1,4 +1,4 @@
-import { pieceColor } from "../enums/entitiesEnums";
+import { PieceColor } from "../enums/entitiesEnums";
 import { pieceTagMap } from "../enums/piecesMaps";
 import { movementMap, rankMap } from "../enums/piecesMovementMap";
 import { GameStates, SelectionStates } from "../types/gameStates";
@@ -111,7 +111,7 @@ class FindMoves {
     // if check exist then limit pieces moves to stop check
     if (this.checkedPiece !== pieceTagMap.white.king && this.checkedPiece !== pieceTagMap.black.king) {
       // if check exist for white
-      if (color === pieceColor.white && this.gameState.checkAreas.black.length > 0) {
+      if (color === PieceColor.white && this.gameState.checkAreas.black.length > 0) {
         // filter for those that eliminates check
 
         foundTips = foundTips.filter((tip) =>
@@ -120,7 +120,7 @@ class FindMoves {
       }
 
       // if check exist for black
-      if (color === pieceColor.black && this.gameState.checkAreas.white.length > 0) {
+      if (color === PieceColor.black && this.gameState.checkAreas.white.length > 0) {
         // filter for those that eliminates check
 
         foundTips = foundTips.filter((tip) =>
@@ -177,7 +177,7 @@ class FindMoves {
     // check for white pawns move
 
     switch (this.gameState?.playerData?.color) {
-      case pieceColor.white: {
+      case PieceColor.white: {
         let firstIsValid: boolean = false;
         let x: number;
         let y: number;
@@ -219,7 +219,7 @@ class FindMoves {
 
         break;
       }
-      case pieceColor.black: {
+      case PieceColor.black: {
         let firstIsValid: boolean = false;
         let x: number;
         let y: number;
@@ -447,7 +447,7 @@ class FindMoves {
     let direction: string = "";
 
     switch (this.gameState.playerData.color) {
-      case pieceColor.white:
+      case PieceColor.white:
         // check if king is in line
         const whiteKing = foundPieces.find((piece) => piece[0] === pieceTagMap.white.king);
 
@@ -479,7 +479,7 @@ class FindMoves {
         }
 
         break;
-      case pieceColor.black:
+      case PieceColor.black:
         // check if king is in line
         const blackKing = foundPieces.find((piece) => piece[0] === pieceTagMap.black.king);
 

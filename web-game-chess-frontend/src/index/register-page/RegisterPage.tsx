@@ -7,7 +7,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { mainColor } from "../../shared/utils/enums/colorMaps";
 import ActionButton from "../../shared/components/action-button/ActionButton";
 import VerifyEmail from "./modals/VerifyEmail";
-import { registrationInterface } from "../../shared/utils/enums/interfacesEnums";
+import { RegistrationInterface, StateWithRegOption } from "../../shared/utils/enums/interfacesEnums";
 import MainPopUp from "../../shared/components/main-popup/MainPopUp";
 
 function RegisterPage() {
@@ -23,20 +23,22 @@ function RegisterPage() {
 
   // to set form modal
   useEffect(() => {
-    if (location.state && location.state.regOption) {
-      setModal(location.state.regOption);
+    const state = location.state as StateWithRegOption;
+
+    if (state.regOption) {
+      setModal(state.regOption);
     } else {
-      setModal(registrationInterface.signIn);
+      setModal(RegistrationInterface.signIn);
     }
   }, [location.state]);
 
   const renderModal = (): JSX.Element => {
     switch (modal) {
-      case registrationInterface.signIn:
+      case RegistrationInterface.signIn:
         return <SignIn setModal={setModal} />;
-      case registrationInterface.signUp:
+      case RegistrationInterface.signUp:
         return <SignUp setModal={setModal} />;
-      case registrationInterface.verify:
+      case RegistrationInterface.verify:
         return <VerifyEmail setModal={setModal} />;
       default:
         return <></>;
@@ -48,11 +50,11 @@ function RegisterPage() {
   const getFormClass = (): string => {
     if (window.innerWidth > 500) {
       switch (modal) {
-        case registrationInterface.signIn:
+        case RegistrationInterface.signIn:
           return classes["left-side-form"];
-        case registrationInterface.signUp:
+        case RegistrationInterface.signUp:
           return classes["right-side-form"];
-        case registrationInterface.verify:
+        case RegistrationInterface.verify:
           return classes["right-side-form"];
         default:
           return "";
@@ -79,7 +81,7 @@ function RegisterPage() {
     <main className={classes.register}>
       <div ref={registerRef} className={classes.register__content}>
         {/* intro */}
-        {modal === registrationInterface.signIn ? (
+        {modal === RegistrationInterface.signIn ? (
           <div className={`${classes.register__content__split} ${classes["left-side-content"]}`}>
             <div className={classes.form}></div>
             <div className={classes.intro}>

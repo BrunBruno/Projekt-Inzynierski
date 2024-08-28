@@ -9,7 +9,7 @@ import {
 import classes from "./RightSideBar.module.scss";
 import { EndGameModel, SendMessageModel } from "../../../shared/utils/types/gameModels";
 import GameHubService from "../../../shared/utils/services/GameHubService";
-import { endGameTypes, pieceColor } from "../../../shared/utils/enums/entitiesEnums";
+import { EndGameTypes, PieceColor } from "../../../shared/utils/enums/entitiesEnums";
 import LoadingPage from "../../../shared/components/loading-page/LoadingPage";
 import MoveRecord from "./move-record/MoveRecord";
 import GameClock from "./game-clock/GameClock";
@@ -96,10 +96,10 @@ function RightSideBar({ gameId, gameData, playersTimes, setPlayersTimes, winner 
 
   useEffect(() => {
     if (playersTimes !== null && playersTimes.whiteTimeLeft <= 0) {
-      endGame(pieceColor.white, endGameTypes.outOfTime);
+      endGame(PieceColor.white, EndGameTypes.outOfTime);
     }
     if (playersTimes !== null && playersTimes.blackTimeLeft <= 0) {
-      endGame(pieceColor.black, endGameTypes.outOfTime);
+      endGame(PieceColor.black, EndGameTypes.outOfTime);
     }
   }, [playersTimes]);
   //*/

@@ -16,6 +16,12 @@
     // to create z pattern
     &:nth-child(odd) {
       grid-template-columns: 40rem auto;
+
+      .row-line-icon {
+        svg {
+          transform: rotateZ(1deg) rotateY(1deg);
+        }
+      }
     }
 
     &:nth-child(even) {
@@ -23,7 +29,7 @@
 
       .row-line-icon {
         svg {
-          transform: rotateY(180deg);
+          transform: rotateZ(-1deg) rotateY(180deg);
         }
       }
     }
@@ -170,6 +176,7 @@
           &:nth-child(odd) {
             stroke: $mc7;
           }
+
           &:nth-child(even) {
             stroke: $mc0;
           }

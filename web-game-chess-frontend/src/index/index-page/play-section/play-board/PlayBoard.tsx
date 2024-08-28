@@ -26,7 +26,7 @@ const PlayBoard = forwardRef<HandleOnScroll, PlayBoardProps>(
       const innerElement = innerBoardRef.current;
       const outerElement = outerBoardRef.current;
 
-      if (window.innerWidth > 700) {
+      if (window.innerWidth > 700 && window.innerWidth < 2000) {
         const element = boardRef.current;
         if (element) {
           const parentRect = element.getBoundingClientRect();
@@ -34,7 +34,6 @@ const PlayBoard = forwardRef<HandleOnScroll, PlayBoardProps>(
 
           if (y > -wh && y < wh) {
             // lighting up board
-
             if (innerElement && outerElement) {
               if (y < wh * 0.5 && y > -wh * 0.5) {
                 innerElement.classList.add(classes["visible-inner"]);
@@ -53,9 +52,15 @@ const PlayBoard = forwardRef<HandleOnScroll, PlayBoardProps>(
           }
         }
       } else {
+        // clear on too small and too big screens
         if (innerElement && outerElement) {
           innerElement.classList.add(classes["visible-inner"]);
           outerElement.classList.add(classes["visible-outer"]);
+
+          const element = boardRef.current;
+          if (element) {
+            element.style.transform = `scale(${1}) rotateZ(${0}deg)`;
+          }
         }
       }
     };
@@ -77,6 +82,7 @@ const PlayBoard = forwardRef<HandleOnScroll, PlayBoardProps>(
           const nCols = 8;
           for (let j = 0; j < nCols; j++) {
             const key = `${j + 1}-${i + 1}`;
+
             if (!elementRefs[key]) {
               elementRefs[key] = React.createRef<HTMLDivElement>();
             }
@@ -131,6 +137,7 @@ const PlayBoard = forwardRef<HandleOnScroll, PlayBoardProps>(
       const neighborElement = elementRefs[key];
       if (neighborElement && neighborElement.current) {
         neighborElement.current.style.filter = "brightness(200%)";
+
         setTimeout(() => {
           if (neighborElement.current) {
             neighborElement.current.style.filter = "brightness(50%)";

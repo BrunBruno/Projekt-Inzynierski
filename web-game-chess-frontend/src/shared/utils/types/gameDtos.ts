@@ -2,7 +2,7 @@
 
 import { Guid } from "guid-typescript";
 import { MoveDto, PlayerDto, TimingTypeModel } from "./abstracDtosAndModels";
-import { PieceColor, TimingType } from "../enums/entitiesEnums";
+import { PieceColor, TimingTypes } from "../enums/entitiesEnums";
 
 export type CheckIfInGameDto = {
   // has player be assigned to game
@@ -155,7 +155,7 @@ export type GetAllInvitationsDto = {
   // date of creation
   createdAt: Date;
   // game timing type for game
-  type: TimingType;
+  type: TimingTypes;
 };
 
 export type GetAllMessagesDto = {

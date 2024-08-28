@@ -8,7 +8,7 @@ import { useNavigate } from "react-router-dom";
 import LoadingPage from "../../../shared/components/loading-page/LoadingPage";
 import { errorDisplay } from "../../../shared/utils/functions/displayError";
 import { IsEmailVerifiedDto, LogInUserDto } from "../../../shared/utils/types/userDtos";
-import { registrationInterface } from "../../../shared/utils/enums/interfacesEnums";
+import { RegistrationInterface } from "../../../shared/utils/enums/interfacesEnums";
 import { LogInUserModel } from "../../../shared/utils/types/userModels";
 
 type SignInProps = {
@@ -77,7 +77,7 @@ function SignIn({ setModal }: SignInProps) {
       const isVerified = isVerifiedResponse.data.isEmailVerified;
       if (!isVerified) {
         // go to email verification
-        setModal(registrationInterface.verify);
+        setModal(RegistrationInterface.verify);
       } else {
         // navigate to main page
         navigate("/main");
@@ -109,7 +109,7 @@ function SignIn({ setModal }: SignInProps) {
 
       <h2>Login Now</h2>
       <div className={classes["change-form"]}>
-        Don't have an accout? <span onClick={() => setModal(registrationInterface.signUp)}>Sing Up</span>
+        Don't have an accout? <span onClick={() => setModal(RegistrationInterface.signUp)}>Sing Up</span>
       </div>
 
       {/* inpus */}

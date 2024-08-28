@@ -14,6 +14,7 @@ const NavSection = forwardRef<HandleOnScroll, NavSectionProps>(
   ({ heroSectionRef, indicators }: NavSectionProps, ref: React.ForwardedRef<HandleOnScroll>) => {
     ///
 
+    // hav section ref
     const navRef = useRef<HTMLDivElement>(null);
 
     // handle navbar onscroll
@@ -58,7 +59,8 @@ const NavSection = forwardRef<HandleOnScroll, NavSectionProps>(
               </span>
             </a>
           ))}
-          <div className={classes.indicator}></div>
+
+          <div className={classes.indicator} />
         </nav>
       </div>
     );

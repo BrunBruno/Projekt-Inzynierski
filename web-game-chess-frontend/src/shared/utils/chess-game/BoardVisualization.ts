@@ -1,4 +1,4 @@
-import { pieceColor } from "../enums/entitiesEnums";
+import { PieceColor } from "../enums/entitiesEnums";
 import { PosToIndex } from "../functions/gameRelated";
 import { GetPlayerDto } from "../types/gameDtos";
 
@@ -45,8 +45,8 @@ export const performMoveAnimation = (
 
     let translateX = tileWidth * xChange;
     let translateY = tileHeight * yChange;
-    if (playerData.color === pieceColor.white) translateX = translateX * -1;
-    if (playerData.color === pieceColor.black) translateY = translateY * -1;
+    if (playerData.color === PieceColor.white) translateX = translateX * -1;
+    if (playerData.color === PieceColor.black) translateY = translateY * -1;
 
     if (selectedTarget) {
       selectedTarget.style.transform = `translateX(${translateX}px) translateY(${translateY}px)`;

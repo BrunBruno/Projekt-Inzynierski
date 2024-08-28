@@ -1,4 +1,4 @@
-import { pieceColor } from "../enums/entitiesEnums";
+import { PieceColor } from "../enums/entitiesEnums";
 import { pieceTagMap } from "../enums/piecesMaps";
 import { movementMap } from "../enums/piecesMovementMap";
 
@@ -35,25 +35,25 @@ export const generateControlledAreas = (matrix: string[][]): [number[][], number
           break;
         case pieceTagMap.white.bishop:
           foundWhiteAreas = new Set(
-            checkPiecesControlledAreas(xCoor, yCoor, movementMap.bishopMoves, pieceColor.white)
+            checkPiecesControlledAreas(xCoor, yCoor, movementMap.bishopMoves, PieceColor.white)
           );
           break;
         case pieceTagMap.black.bishop:
           foundBlackAreas = new Set(
-            checkPiecesControlledAreas(xCoor, yCoor, movementMap.bishopMoves, pieceColor.black)
+            checkPiecesControlledAreas(xCoor, yCoor, movementMap.bishopMoves, PieceColor.black)
           );
           break;
         case pieceTagMap.white.rook:
-          foundWhiteAreas = new Set(checkPiecesControlledAreas(xCoor, yCoor, movementMap.rookMoves, pieceColor.white));
+          foundWhiteAreas = new Set(checkPiecesControlledAreas(xCoor, yCoor, movementMap.rookMoves, PieceColor.white));
           break;
         case pieceTagMap.black.rook:
-          foundBlackAreas = new Set(checkPiecesControlledAreas(xCoor, yCoor, movementMap.rookMoves, pieceColor.black));
+          foundBlackAreas = new Set(checkPiecesControlledAreas(xCoor, yCoor, movementMap.rookMoves, PieceColor.black));
           break;
         case pieceTagMap.white.queen:
-          foundWhiteAreas = new Set(checkPiecesControlledAreas(xCoor, yCoor, movementMap.queenMoves, pieceColor.white));
+          foundWhiteAreas = new Set(checkPiecesControlledAreas(xCoor, yCoor, movementMap.queenMoves, PieceColor.white));
           break;
         case pieceTagMap.black.queen:
-          foundBlackAreas = new Set(checkPiecesControlledAreas(xCoor, yCoor, movementMap.queenMoves, pieceColor.black));
+          foundBlackAreas = new Set(checkPiecesControlledAreas(xCoor, yCoor, movementMap.queenMoves, PieceColor.black));
           break;
         case pieceTagMap.white.king:
           foundWhiteAreas = new Set(checkKingControlledAreas(xCoor, yCoor));
@@ -176,8 +176,8 @@ const checkPiecesControlledAreas = (
       const piece = boardMatrix[y - 1][x - 1];
       let kingFound: boolean = false;
       if (
-        (piece === pieceTagMap.white.king && color === pieceColor.black) ||
-        (piece === pieceTagMap.black.king && color === pieceColor.white)
+        (piece === pieceTagMap.white.king && color === PieceColor.black) ||
+        (piece === pieceTagMap.black.king && color === PieceColor.white)
       ) {
         kingFound = true;
       }
@@ -266,7 +266,7 @@ export const checkChecks = (matrix: string[][]): [number[][], number[][]] => {
         matrix,
         wx,
         wy,
-        checkPiecesControlledAreas(wx, wy, movementMap.bishopMoves, pieceColor.black),
+        checkPiecesControlledAreas(wx, wy, movementMap.bishopMoves, PieceColor.black),
         pieceTagMap.black.bishop,
         true
       )
@@ -277,7 +277,7 @@ export const checkChecks = (matrix: string[][]): [number[][], number[][]] => {
         matrix,
         wx,
         wy,
-        checkPiecesControlledAreas(wx, wy, movementMap.rookMoves, pieceColor.black),
+        checkPiecesControlledAreas(wx, wy, movementMap.rookMoves, PieceColor.black),
         pieceTagMap.black.rook,
         true
       )
@@ -288,7 +288,7 @@ export const checkChecks = (matrix: string[][]): [number[][], number[][]] => {
         matrix,
         wx,
         wy,
-        checkPiecesControlledAreas(wx, wy, movementMap.queenMoves, pieceColor.black),
+        checkPiecesControlledAreas(wx, wy, movementMap.queenMoves, PieceColor.black),
         pieceTagMap.black.queen,
         true
       )
@@ -313,7 +313,7 @@ export const checkChecks = (matrix: string[][]): [number[][], number[][]] => {
         matrix,
         bx,
         by,
-        checkPiecesControlledAreas(bx, by, movementMap.bishopMoves, pieceColor.white),
+        checkPiecesControlledAreas(bx, by, movementMap.bishopMoves, PieceColor.white),
         pieceTagMap.white.bishop,
         true
       )
@@ -324,7 +324,7 @@ export const checkChecks = (matrix: string[][]): [number[][], number[][]] => {
         matrix,
         bx,
         by,
-        checkPiecesControlledAreas(bx, by, movementMap.rookMoves, pieceColor.white),
+        checkPiecesControlledAreas(bx, by, movementMap.rookMoves, PieceColor.white),
         pieceTagMap.white.rook,
         true
       )
@@ -335,7 +335,7 @@ export const checkChecks = (matrix: string[][]): [number[][], number[][]] => {
         matrix,
         bx,
         by,
-        checkPiecesControlledAreas(bx, by, movementMap.queenMoves, pieceColor.white),
+        checkPiecesControlledAreas(bx, by, movementMap.queenMoves, PieceColor.white),
         pieceTagMap.white.queen,
         true
       )

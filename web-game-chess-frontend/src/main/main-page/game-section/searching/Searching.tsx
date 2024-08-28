@@ -4,7 +4,7 @@ import axios from "axios";
 import { gameControllerPaths, getAuthorization } from "../../../../shared/utils/services/ApiService";
 import { SearchGameDto } from "../../../../shared/utils/types/gameDtos";
 import GameHubService from "../../../../shared/utils/services/GameHubService";
-import { gameSearchInterface } from "../../../../shared/utils/enums/interfacesEnums";
+import { GameSearchInterface } from "../../../../shared/utils/enums/interfacesEnums";
 import SearchingIcons from "./SearchingIcons";
 import { AbortSearchModel } from "../../../../shared/utils/types/gameModels";
 import { getErrMessage } from "../../../../shared/utils/functions/displayError";
@@ -81,7 +81,7 @@ function Searching({ setInterfaceById, searchIds, setSearchIds }: SearchingProps
 
       setSearchIds(null);
 
-      setInterfaceById(gameSearchInterface.vsPlayer);
+      setInterfaceById(GameSearchInterface.vsPlayer);
     } catch (err) {
       showPopup(getErrMessage(err), "warning");
     }

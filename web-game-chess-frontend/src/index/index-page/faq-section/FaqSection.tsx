@@ -19,10 +19,10 @@ const FaqSection = forwardRef<HandleOnScroll, FaqSectionProps>(
     const row1Ref = useRef<HTMLDivElement>(null);
     const row2Ref = useRef<HTMLDivElement>(null);
 
-    const [arrR1A1, setArrR1A1] = useState<boolean>(false);
-    const [arrR1A2, setArrR1A2] = useState<boolean>(true);
-    const [arrR2A1, setArrR2A1] = useState<boolean>(false);
-    const [arrR2A2, setArrR2A2] = useState<boolean>(true);
+    const [arrRow1Left, setArrRow1Left] = useState<boolean>(false);
+    const [arrRow1Right, setArrRow1Right] = useState<boolean>(true);
+    const [arrRow2Left, setArrRow2Left] = useState<boolean>(false);
+    const [arrRow2Right, setArrRow2Right] = useState<boolean>(true);
 
     // to controll scroll buttons
     const handleScrollOnClick = (containerRow: number, direction: number) => {
@@ -46,15 +46,15 @@ const FaqSection = forwardRef<HandleOnScroll, FaqSectionProps>(
           const scrollMax = element.scrollWidth - element.clientWidth;
 
           if (scrollPos <= 0) {
-            setArrR1A1(false);
+            setArrRow1Left(false);
           } else {
-            setArrR1A1(true);
+            setArrRow1Left(true);
           }
 
           if (scrollPos >= scrollMax) {
-            setArrR1A2(false);
+            setArrRow1Right(false);
           } else {
-            setArrR1A2(true);
+            setArrRow1Right(true);
           }
         }
       } else if (containerRow === 2) {
@@ -72,15 +72,15 @@ const FaqSection = forwardRef<HandleOnScroll, FaqSectionProps>(
           const scrollMax = element.scrollWidth - element.clientWidth;
 
           if (scrollPos <= 0) {
-            setArrR2A1(false);
+            setArrRow2Left(false);
           } else {
-            setArrR2A1(true);
+            setArrRow2Left(true);
           }
 
           if (scrollPos >= scrollMax) {
-            setArrR2A2(false);
+            setArrRow2Right(false);
           } else {
-            setArrR2A2(true);
+            setArrRow2Right(true);
           }
         }
       }
@@ -95,60 +95,70 @@ const FaqSection = forwardRef<HandleOnScroll, FaqSectionProps>(
     //*/
 
     return (
-      <section id="faq-section" ref={sectionRef} className={classes.faq}>
-        <div className={classes.faq__intro}>
+      <section id="faq-section" ref={sectionRef} className={classes.section}>
+        <div className={classes.section__intro}>
           <h2>Most Asked Questions</h2>
         </div>
+        {/* question cards */}
 
-        <div className={classes.faq__content}>
-          <div className={classes.faq__content__cathegory}>Account and User Profile FAQs</div>
+        <div className={classes.section__content}>
+          <div className={classes.section__content__cathegory}>Account and User Profile FAQs</div>
 
-          {/* question sections */}
+          {/* row 1 */}
           <div
-            className={classes.faq__content__arrow}
+            className={classes.section__content__arrow}
             onClick={() => {
               handleScrollOnClick(1, -1);
             }}
           >
-            {arrR1A1 && <ArrowLeftSvg iconClass="" color={mainColor.c0} />}
+            {arrRow1Left && <ArrowLeftSvg iconClass="" color={mainColor.c0} />}
           </div>
-          <div ref={row1Ref} className={classes.faq__content__row}>
+
+          <div ref={row1Ref} className={classes.section__content__row}>
             {accountAndUserProfileFAQs.map((faq, i) => (
               <FaqSectionCard key={`account-and-user-profile-${i}`} faq={faq} index={i} />
             ))}
           </div>
+
           <div
-            className={classes.faq__content__arrow}
+            className={classes.section__content__arrow}
             onClick={() => {
               handleScrollOnClick(1, 1);
             }}
           >
-            {arrR1A2 && <ArrowRightSvg iconClass="" color={mainColor.c0} />}
+            {arrRow1Right && <ArrowRightSvg iconClass="" color={mainColor.c0} />}
           </div>
-          <div className={classes.faq__content__cathegory}>Gameplay and Features FAQs</div>
+          {/* --- */}
+
+          <div className={classes.section__content__cathegory}>Gameplay and Features FAQs</div>
+
+          {/* row 2 */}
           <div
-            className={classes.faq__content__arrow}
+            className={classes.section__content__arrow}
             onClick={() => {
               handleScrollOnClick(2, -1);
             }}
           >
-            {arrR2A1 && <ArrowLeftSvg iconClass="" color={mainColor.c0} />}
+            {arrRow2Left && <ArrowLeftSvg iconClass="" color={mainColor.c0} />}
           </div>
-          <div ref={row2Ref} className={classes.faq__content__row}>
+
+          <div ref={row2Ref} className={classes.section__content__row}>
             {gameplayAndFeaturesFAQs.map((faq, i) => (
               <FaqSectionCard key={`{gameplay-and-features-${i}`} faq={faq} index={i} />
             ))}
           </div>
+
           <div
-            className={classes.faq__content__arrow}
+            className={classes.section__content__arrow}
             onClick={() => {
               handleScrollOnClick(2, 1);
             }}
           >
-            {arrR2A2 && <ArrowRightSvg iconClass="" color={mainColor.c0} />}
+            {arrRow2Right && <ArrowRightSvg iconClass="" color={mainColor.c0} />}
           </div>
           {/* --- */}
         </div>
+        {/* --- */}
       </section>
     );
   }

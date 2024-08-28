@@ -9,7 +9,8 @@ import { CreateGameWithLinkModel } from "../../../../../shared/utils/types/gameM
 import { CreateGameWithLinkDto } from "../../../../../shared/utils/types/gameDtos";
 import { useTimingType } from "../../../../../shared/utils/hooks/useTimingType";
 import { TimingTypeModel } from "../../../../../shared/utils/types/abstracDtosAndModels";
-import { timingTypes } from "../../../../../shared/utils/enums/entitiesEnums";
+import { TimingTypes } from "../../../../../shared/utils/enums/entitiesEnums";
+import { getEnumValueByKey } from "../../../../../shared/utils/functions/enumRelated";
 
 type InviteByUrlProps = {
   // to set obatined game url
@@ -29,7 +30,7 @@ const InviteByUrl = forwardRef<InviteByUrlRef, InviteByUrlProps>(
     // obtains game link
     const onInviteByUrl = async (header: string, values: number[]): Promise<void> => {
       try {
-        const typeValue = timingTypes[header.toLowerCase()];
+        const typeValue = getEnumValueByKey(TimingTypes, header.toLowerCase());
 
         const gameType: TimingTypeModel = {
           type: typeValue,

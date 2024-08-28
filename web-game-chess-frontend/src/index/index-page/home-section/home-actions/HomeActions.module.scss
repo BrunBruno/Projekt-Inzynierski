@@ -127,12 +127,15 @@
 
         &:nth-child(odd) {
           background-color: rgba(#000, 0.4);
+
           &::after {
             background-image: linear-gradient(rgba($mc0, 0.3), #0000);
           }
         }
+
         &:nth-child(even) {
           background-color: rgba(#fff, 0.4);
+
           &::after {
             background-image: linear-gradient(rgba($mc9, 0.3), #0000);
           }

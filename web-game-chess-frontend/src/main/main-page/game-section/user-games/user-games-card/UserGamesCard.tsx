@@ -3,9 +3,9 @@ import AvatarImage from "../../../../../shared/components/avatar-image/AvatarIma
 import TimingTypesIcons from "../../../../../shared/svgs/TimingTypesIcons";
 import WinLoseIcons from "../../../../../shared/svgs/WinLoseIcons";
 import WinTypesIcons from "../../../../../shared/svgs/WinTypesIcons";
-import { endGameTypes, timingTypes } from "../../../../../shared/utils/enums/entitiesEnums";
+import { EndGameTypes, TimingTypes } from "../../../../../shared/utils/enums/entitiesEnums";
 import { pieceImageMap } from "../../../../../shared/utils/enums/piecesMaps";
-import { getEnumTypeByNumber } from "../../../../../shared/utils/functions/enumRelated";
+import { getEnumKeyByEnumValue } from "../../../../../shared/utils/functions/enumRelated";
 import { PlayerDto } from "../../../../../shared/utils/types/abstracDtosAndModels";
 import { GetAllFinishedGamesDto } from "../../../../../shared/utils/types/gameDtos";
 import classes from "./UserGamesCard.module.scss";
@@ -169,7 +169,7 @@ function UserGamesCard({ game }: UserGamesCardProps) {
 
       <div ref={dataRef} className={classes["game-data"]}>
         <div className={classes["timing-type"]}>
-          <TimingTypesIcons iconName={getEnumTypeByNumber(timingTypes, game.timingType)} iconClass="" />
+          <TimingTypesIcons iconName={getEnumKeyByEnumValue(TimingTypes, game.timingType)} iconClass="" />
         </div>
         <div className={classes["is-winner"]}>
           {game.isWinner === null ? (
@@ -183,7 +183,7 @@ function UserGamesCard({ game }: UserGamesCardProps) {
 
         <div className={classes.moves}>{game.moves}</div>
         <div className={classes["win-type"]}>
-          <WinTypesIcons iconName={getEnumTypeByNumber(endGameTypes, game.endGameType)} />
+          <WinTypesIcons iconName={getEnumKeyByEnumValue(EndGameTypes, game.endGameType)} />
         </div>
       </div>
     </div>

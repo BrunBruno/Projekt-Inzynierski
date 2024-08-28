@@ -3,7 +3,7 @@ import classes from "./InviteBy.module.scss";
 import { usePopup } from "../../../../../shared/utils/hooks/usePopUp";
 import { useTimingType } from "../../../../../shared/utils/hooks/useTimingType";
 import { CreateGameByEmailModel, NotifyUserModel } from "../../../../../shared/utils/types/gameModels";
-import { timingTypes } from "../../../../../shared/utils/enums/entitiesEnums";
+import { TimingTypes } from "../../../../../shared/utils/enums/entitiesEnums";
 import { CreateGameByEmailDto } from "../../../../../shared/utils/types/gameDtos";
 import axios from "axios";
 import {
@@ -20,6 +20,7 @@ import { mainColor } from "../../../../../shared/utils/enums/colorMaps";
 import { GetByEmailModel } from "../../../../../shared/utils/types/userModels";
 import { GetByEmailDto } from "../../../../../shared/utils/types/userDtos";
 import { TimingTypeModel } from "../../../../../shared/utils/types/abstracDtosAndModels";
+import { getEnumValueByKey } from "../../../../../shared/utils/functions/enumRelated";
 
 type InviteByEmailProps = {
   // to set obtained user from email
@@ -39,7 +40,7 @@ const InviteByEmail = forwardRef<InviteByEmailRef, InviteByEmailProps>(
     // to invite friend to game by providing user emial
     const onInviteByEmail = async (email: string, header: string, values: number[]): Promise<void> => {
       try {
-        const typeValue = timingTypes[header.toLowerCase()];
+        const typeValue = getEnumValueByKey(TimingTypes, header.toLowerCase());
 
         const gameType: TimingTypeModel = {
           type: typeValue,

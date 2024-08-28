@@ -1,7 +1,7 @@
 import { mainColor } from "../../shared/utils/enums/colorMaps";
-import { IconMap, IconsMapProps } from "../../shared/utils/types/commonTypes";
+import { IconMap } from "../../shared/utils/types/commonTypes";
 
-const icons: IconMap = {
+export const aboutPageIcons: IconMap = {
   pawnLine: (
     <svg viewBox="0 0 3364 96" fill="none" xmlns="http://www.w3.org/2000/svg">
       <rect y="91" width="3000" height="5" rx="2.5" fill={mainColor.c0} />
@@ -29,18 +29,3 @@ const icons: IconMap = {
     </svg>
   ),
 };
-
-function AboutPageIcons({ iconName }: IconsMapProps) {
-  if (iconName === "") return <>i</>;
-
-  try {
-    const icon = icons[iconName];
-    return icon ? icon : <>i</>;
-  } catch (err) {
-    console.error("Icon error");
-  }
-
-  return <>i</>;
-}
-
-export default AboutPageIcons;

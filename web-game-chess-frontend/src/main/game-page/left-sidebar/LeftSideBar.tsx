@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import LogoIconSvg from "../../../shared/svgs/LogoIconSvg";
-import { endGameTypes } from "../../../shared/utils/enums/entitiesEnums";
+import { EndGameTypes, PieceColor } from "../../../shared/utils/enums/entitiesEnums";
 import GameHubService from "../../../shared/utils/services/GameHubService";
 import { GetGameDto, GetPlayerDto } from "../../../shared/utils/types/gameDtos";
 import { EndGameModel } from "../../../shared/utils/types/gameModels";
@@ -27,7 +27,7 @@ function LeftSideBar({ gameId, playerData, gameData }: LeftSideBarProps) {
   const { showPopup } = usePopup();
 
   // to finish the game by some action option
-  const endGame = async (loserColor: number | null, endGameType: number) => {
+  const endGame = async (loserColor: PieceColor | null, endGameType: EndGameTypes) => {
     try {
       const loserPlayer: EndGameModel = {
         gameId: gameId,
@@ -45,9 +45,9 @@ function LeftSideBar({ gameId, playerData, gameData }: LeftSideBarProps) {
   // to abort from game
   const onAbort = () => {
     if (gameData.turn === 0 || gameData.turn === 1) {
-      endGame(null, endGameTypes.agreement);
+      endGame(null, EndGameTypes.agreement);
     } else {
-      endGame(playerData.color, endGameTypes.resignation);
+      endGame(playerData.color, EndGameTypes.resignation);
     }
 
     navigate("/main");
@@ -56,7 +56,7 @@ function LeftSideBar({ gameId, playerData, gameData }: LeftSideBarProps) {
 
   // to resign the game
   const onResign = () => {
-    endGame(playerData.color, endGameTypes.resignation);
+    endGame(playerData.color, EndGameTypes.resignation);
   };
   //*/
 

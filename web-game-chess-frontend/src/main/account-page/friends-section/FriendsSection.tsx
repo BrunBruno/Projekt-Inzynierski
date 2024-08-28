@@ -4,7 +4,7 @@ import { GetAllFriendsByStatusDto } from "../../../shared/utils/types/friendship
 import axios from "axios";
 import { friendshipControllerPaths, getAuthorization } from "../../../shared/utils/services/ApiService";
 import { GetAllFriendsByStatusModel } from "../../../shared/utils/types/friendshipModels";
-import { friendshipStatus } from "../../../shared/utils/enums/entitiesEnums";
+import { FriendshipStatus } from "../../../shared/utils/enums/entitiesEnums";
 import LoadingPage from "../../../shared/components/loading-page/LoadingPage";
 import AvatarSvg from "../../../shared/svgs/AvatarSvg";
 import FriendCard from "./friend-card/FriendCard";
@@ -29,7 +29,7 @@ function FriendsSection() {
       try {
         const frindsModel: GetAllFriendsByStatusModel = {
           username: "",
-          status: friendshipStatus.accepted,
+          status: FriendshipStatus.accepted,
           pageNumber: 1,
           pageSize: 100,
         };

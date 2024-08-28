@@ -1,7 +1,7 @@
 @import "../../Index.scss";
 
 // play section container
-.play {
+.section {
   @include wh100();
 
   position: relative;
@@ -142,7 +142,7 @@
 
 // resize
 @media (max-width: 700px) {
-  .play {
+  .section {
     &__intro {
       margin: 0;
       margin-bottom: 10rem;

@@ -2,7 +2,7 @@ import { useNavigate } from "react-router-dom";
 import ActionButton from "../../../shared/components/action-button/ActionButton";
 import classes from "./BarSection.module.scss";
 import BarSectionIcons from "./BarSectionIcons";
-import { friendshipStatus } from "../../../shared/utils/enums/entitiesEnums";
+import { FriendshipStatus } from "../../../shared/utils/enums/entitiesEnums";
 import { delayAction } from "../../../shared/utils/functions/eventsRelated";
 
 type BarSectionProps = {
@@ -42,9 +42,9 @@ function BarSection({ setSelectedUsername, selectedList, setSelectedList }: BarS
             <div
               className={`
                 ${classes.option} 
-                ${selectedList === friendshipStatus.all ? classes.active : ""}`}
+                ${selectedList === FriendshipStatus.all ? classes.active : ""}`}
               onClick={() => {
-                onSelectList(friendshipStatus.all);
+                onSelectList(FriendshipStatus.all);
               }}
             >
               <BarSectionIcons iconName="all" />
@@ -52,9 +52,9 @@ function BarSection({ setSelectedUsername, selectedList, setSelectedList }: BarS
             <div
               className={`
                 ${classes.option} 
-                ${selectedList === friendshipStatus.accepted ? classes.active : ""}`}
+                ${selectedList === FriendshipStatus.accepted ? classes.active : ""}`}
               onClick={() => {
-                onSelectList(friendshipStatus.accepted);
+                onSelectList(FriendshipStatus.accepted);
               }}
             >
               <BarSectionIcons iconName="accepted" />
@@ -62,9 +62,9 @@ function BarSection({ setSelectedUsername, selectedList, setSelectedList }: BarS
             <div
               className={`
                 ${classes.option} 
-                ${selectedList === friendshipStatus.pending ? classes.active : ""}`}
+                ${selectedList === FriendshipStatus.pending ? classes.active : ""}`}
               onClick={() => {
-                onSelectList(friendshipStatus.pending);
+                onSelectList(FriendshipStatus.pending);
               }}
             >
               <BarSectionIcons iconName="pending" />
@@ -72,9 +72,9 @@ function BarSection({ setSelectedUsername, selectedList, setSelectedList }: BarS
             <div
               className={`
                 ${classes.option} 
-                ${selectedList === friendshipStatus.rejected ? classes.active : ""}`}
+                ${selectedList === FriendshipStatus.rejected ? classes.active : ""}`}
               onClick={() => {
-                onSelectList(friendshipStatus.rejected);
+                onSelectList(FriendshipStatus.rejected);
               }}
             >
               <BarSectionIcons iconName="rejected" />

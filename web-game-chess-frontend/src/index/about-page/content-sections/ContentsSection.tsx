@@ -1,5 +1,4 @@
 import { Fragment } from "react";
-import AboutPageIcons from "../AboutPageIcons";
 import classes from "./ContentSection.module.scss";
 import { ContentElements } from "./ContentSections";
 

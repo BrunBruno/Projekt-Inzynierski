@@ -10,7 +10,7 @@ import {
 import classes from "./GameBoard.module.scss";
 import { areCoorEqual, checkIfOwnPiece, checkIfPlayerTurn } from "../../../shared/utils/functions/gameRelated";
 import { generateControlledAreas, checkChecks } from "../../../shared/utils/chess-game/ControlledAreas";
-import { endGameTypes, pieceColor } from "../../../shared/utils/enums/entitiesEnums";
+import { EndGameTypes, PieceColor } from "../../../shared/utils/enums/entitiesEnums";
 import XSvg from "../../../shared/svgs/XSvg";
 import { generateRandomId } from "../../../shared/utils/functions/generateRandom";
 import { checkIfAnyMoveExists } from "../../../shared/utils/chess-game/CheckIfAnyMoveExists";
@@ -207,15 +207,15 @@ function GameBoard({ gameId, gameData, playerData, winner, searchIds, setSearchI
       const noMove = checkIfAnyMoveExists(gameStates, selectionStates);
 
       if (noMove) {
-        if (playerData.color === pieceColor.white && gameStates.checkAreas.black.length !== 0) {
+        if (playerData.color === PieceColor.white && gameStates.checkAreas.black.length !== 0) {
           // white has been check mated
-          endGame(playerData.color, endGameTypes.checkMate);
-        } else if (playerData.color === pieceColor.black && gameStates.checkAreas.white.length !== 0) {
+          endGame(playerData.color, EndGameTypes.checkMate);
+        } else if (playerData.color === PieceColor.black && gameStates.checkAreas.white.length !== 0) {
           // black has been check mated
-          endGame(playerData.color, endGameTypes.checkMate);
+          endGame(playerData.color, EndGameTypes.checkMate);
         } else {
           // draw
-          endGame(null, endGameTypes.staleMate);
+          endGame(null, EndGameTypes.staleMate);
         }
       }
     }
@@ -369,7 +369,7 @@ function GameBoard({ gameId, gameData, playerData, winner, searchIds, setSearchI
         ref={outerBoardRef}
         className={`
           ${classes.board__content__outer} 
-          ${playerData.color === pieceColor.black ? classes["black-board"] : classes["white-board"]}
+          ${playerData.color === PieceColor.black ? classes["black-board"] : classes["white-board"]}
         `}
       >
         {outerFields}
@@ -378,7 +378,7 @@ function GameBoard({ gameId, gameData, playerData, winner, searchIds, setSearchI
         ref={innerBoardRef}
         className={`
           ${classes.board__content__inner} 
-          ${playerData.color === pieceColor.black ? classes["black-board"] : classes["white-board"]}
+          ${playerData.color === PieceColor.black ? classes["black-board"] : classes["white-board"]}
         `}
       >
         {innerFields}

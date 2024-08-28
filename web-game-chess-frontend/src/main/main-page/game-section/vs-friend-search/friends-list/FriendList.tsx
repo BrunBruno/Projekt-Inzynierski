@@ -9,7 +9,7 @@ import usePagination from "../../../../../shared/utils/hooks/usePagination";
 import { GetAllFriendsByStatusModel } from "../../../../../shared/utils/types/friendshipModels";
 import { friendshipControllerPaths, getAuthorization } from "../../../../../shared/utils/services/ApiService";
 import axios from "axios";
-import { friendshipStatus } from "../../../../../shared/utils/enums/entitiesEnums";
+import { FriendshipStatus } from "../../../../../shared/utils/enums/entitiesEnums";
 import { usePopup } from "../../../../../shared/utils/hooks/usePopUp";
 import { getErrMessage } from "../../../../../shared/utils/functions/displayError";
 import { PagedResult } from "../../../../../shared/utils/types/abstracDtosAndModels";
@@ -42,7 +42,7 @@ function FriendList({ selectedUsername, setSelectedFriend }: FriendListProps) {
       try {
         const model: GetAllFriendsByStatusModel = {
           username: selectedUsername,
-          status: friendshipStatus.accepted,
+          status: FriendshipStatus.accepted,
           pageSize: pageSize,
           pageNumber: pageNumber,
         };

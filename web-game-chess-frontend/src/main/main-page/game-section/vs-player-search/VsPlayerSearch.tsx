@@ -4,12 +4,13 @@ import { gameControllerPaths, getAuthorization } from "../../../../shared/utils/
 import { defaultTimeControls } from "./VsPlayerSearchObjects";
 import { SearchGameDto } from "../../../../shared/utils/types/gameDtos";
 import GameHubService from "../../../../shared/utils/services/GameHubService";
-import { timingTypes } from "../../../../shared/utils/enums/entitiesEnums";
+import { TimingTypes } from "../../../../shared/utils/enums/entitiesEnums";
 import { SearchGameModel } from "../../../../shared/utils/types/gameModels";
 import TimingTypesIcons from "../../../../shared/svgs/TimingTypesIcons";
 import { usePopup } from "../../../../shared/utils/hooks/usePopUp";
 import { getErrMessage } from "../../../../shared/utils/functions/displayError";
 import { useTimingType } from "../../../../shared/utils/hooks/useTimingType";
+import { getEnumValueByKey } from "../../../../shared/utils/functions/enumRelated";
 
 type VsPlayerSearchProps = {
   // to set obtained search ids
@@ -24,7 +25,7 @@ function VsPlayerSearch({ setSearchIds }: VsPlayerSearchProps) {
 
   // API call search for game
   const onSearchForGame = async (header: string, values: number[]) => {
-    const typeValue = timingTypes[header.toLocaleLowerCase()];
+    const typeValue = getEnumValueByKey(TimingTypes, header.toLowerCase());
 
     const gameType: SearchGameModel = {
       type: typeValue,

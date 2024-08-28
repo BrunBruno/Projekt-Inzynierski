@@ -14,7 +14,7 @@ const HeroSection = forwardRef<HandleOnScroll, HeroSectionProps>(
 
     const heroBgRef = useRef<HTMLDivElement>(null);
 
-    // to handle elements on scroll
+    // to handle section background on scroll
     const handleOnScroll = () => {
       const bgElement = heroBgRef.current;
 
@@ -41,13 +41,13 @@ const HeroSection = forwardRef<HandleOnScroll, HeroSectionProps>(
     //*/
 
     return (
-      <section ref={heroSectionRef} className={classes.hero}>
-        <div className={classes.hero__container}>
-          <div ref={heroBgRef} className={classes.hero__container__bg} />
+      <section ref={heroSectionRef} className={classes.section}>
+        <div className={classes.section__container}>
+          <div ref={heroBgRef} className={classes.section__container__bg} />
           <HeroHeader />
 
           {/* hero content */}
-          <div className={classes.hero__container__content}>
+          <div className={classes.section__container__content}>
             <div></div>
             <h1>
               <span>

@@ -1,6 +1,6 @@
 /* abstract types of dtos and models */
 
-import { TimingType } from "../enums/entitiesEnums";
+import { TimingTypes } from "../enums/entitiesEnums";
 
 // pagination result type
 export type PagedResult<T> = {
@@ -41,7 +41,7 @@ export type UserDto = {
 // general timing type model
 export type TimingTypeModel = {
   // game timing type
-  type: TimingType;
+  type: TimingTypes;
   // time for one player
   minutes: number;
   // increment after each move
