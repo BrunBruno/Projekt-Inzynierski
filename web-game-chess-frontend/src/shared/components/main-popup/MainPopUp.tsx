@@ -1,7 +1,8 @@
 import classes from "./MainPopUp.module.scss";
 import { usePopup } from "../../utils/hooks/usePopUp";
-import MainPopUpIcons from "./MainPopUpIcons";
 import { useEffect } from "react";
+import IconCreator from "../icon-creator/IconCreator";
+import { mainPopUpIcons } from "./MainPopUpIcons";
 
 type MainPopUpProps = {};
 
@@ -27,7 +28,7 @@ function MainPopUp({}: MainPopUpProps) {
   return (
     <div className={classes.popup}>
       <div className={classes.popup__icon}>
-        <MainPopUpIcons iconName={popupType} />
+        <IconCreator icons={mainPopUpIcons} iconName={popupType} />
       </div>
 
       <div className={classes.popup__text}>

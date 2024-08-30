@@ -11,9 +11,9 @@ import { useNavigate } from "react-router-dom";
 import { useTimingType } from "../../../../../shared/utils/hooks/useTimingType";
 import { TimingTypes } from "../../../../../shared/utils/enums/entitiesEnums";
 import { forwardRef, useImperativeHandle } from "react";
-import { InviteBySelectionRef } from "../VsFreindSearchObjects";
+import { InviteBySelectionRef } from "../VsFriendSearchObjects";
 import { delayAction } from "../../../../../shared/utils/functions/eventsRelated";
-import { TimingTypeModel } from "../../../../../shared/utils/types/abstracDtosAndModels";
+import { TimingTypeModel } from "../../../../../shared/utils/types/abstractDtosAndModels";
 import { getEnumValueByKey } from "../../../../../shared/utils/functions/enumRelated";
 
 type InviteBySelectionProps = {
@@ -29,7 +29,7 @@ const InviteBySelection = forwardRef<InviteBySelectionRef, InviteBySelectionProp
     const { showPopup } = usePopup();
     const { setTimingType } = useTimingType();
 
-    // to inviate friend to game via selection from friend list
+    // to invite friend to game via selection from friend list
     const onInviteBySelection = async (friendshipId: Guid, header: string, values: number[]): Promise<void> => {
       try {
         const typeValue = getEnumValueByKey(TimingTypes, header.toLowerCase());

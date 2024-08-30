@@ -6,7 +6,7 @@ type AvatarImageProps = {
   username: string;
   // profile picture url if exists
   imageUrl: string | null;
-  // image conatiner class (if needed)
+  // image container class (if needed)
   containerClass?: string;
   // image class (if needed)
   imageClass?: string;

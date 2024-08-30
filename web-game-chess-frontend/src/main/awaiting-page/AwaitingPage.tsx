@@ -114,7 +114,7 @@ function AwaitingPage() {
   }, [timingType]);
   //*/
 
-  return <LoadingPage text="Waiting for oppoent..." />;
+  return <LoadingPage text="Waiting for opponent..." />;
 }
 
 export default AwaitingPage;

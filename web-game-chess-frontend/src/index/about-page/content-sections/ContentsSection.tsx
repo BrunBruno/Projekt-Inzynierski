@@ -1,6 +1,8 @@
 import { Fragment } from "react";
 import classes from "./ContentSection.module.scss";
 import { ContentElements } from "./ContentSections";
+import IconCreator from "../../../shared/components/icon-creator/IconCreator";
+import { aboutPageIcons } from "../AboutPageIcons";
 
 type ContentSectionProps = {
   // title of section
@@ -24,7 +26,7 @@ function ContentSection({ title, elements }: ContentSectionProps) {
             <span>{index + 1}.</span> <span>{element.title}</span>
           </h2>
 
-          {/* texts blakcs */}
+          {/* texts blocks */}
           {element.texts &&
             element.texts.map((text, i) => (
               <p key={`text-${index}-${i}`} className={classes["text"]}>
@@ -43,7 +45,7 @@ function ContentSection({ title, elements }: ContentSectionProps) {
             </ul>
           )}
 
-          <AboutPageIcons key={`icon-${index}`} iconName="pawnLine" />
+          <IconCreator icons={aboutPageIcons} iconName="pawnLine" />
         </Fragment>
       ))}
       {/* --- */}

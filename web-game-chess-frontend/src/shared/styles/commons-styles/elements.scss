@@ -1,4 +1,4 @@
-/* shared block stykes */
+/* shared block styles */
 
 // display flex implementation
 @mixin flex($direction: row, $justify: center, $align: center, $gap: 0) {
@@ -25,7 +25,7 @@
   height: $h;
 }
 
-// commone style for rounded blocks
+// common style for rounded blocks
 @mixin rounded($size) {
   border-radius: $size;
   padding: $size;

@@ -42,7 +42,7 @@ public class FetchTimeTests : IClassFixture<TestWebApplicationFactory<Program>> 
 
         await _dbContext.Init();
         await _dbContext.AddUser();
-        await _dbContext.AddUserWithEmail("freind@test.com");
+        await _dbContext.AddUserWithEmail("friend@test.com");
 
         var timingId = await _dbContext.CreateTiming(timingType);
 
@@ -74,7 +74,7 @@ public class FetchTimeTests : IClassFixture<TestWebApplicationFactory<Program>> 
 
         await _dbContext.Init();
         await _dbContext.AddUser();
-        await _dbContext.AddUserWithEmail("freind@test.com");
+        await _dbContext.AddUserWithEmail("friend@test.com");
 
         var timingId = await _dbContext.CreateTiming(new TimingType() {
             Type = TimingTypes.Daily,

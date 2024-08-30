@@ -2,13 +2,14 @@ import { useEffect, useRef, useState } from "react";
 import classes from "./RegisterPage.module.scss";
 import SignUp from "./modals/SignUp";
 import SignIn from "./modals/SignIn";
-import PasswordIconSvg from "../../shared/svgs/PasswordIconSvg";
 import { useLocation, useNavigate } from "react-router-dom";
 import { mainColor } from "../../shared/utils/enums/colorMaps";
 import ActionButton from "../../shared/components/action-button/ActionButton";
 import VerifyEmail from "./modals/VerifyEmail";
 import { RegistrationInterface, StateWithRegOption } from "../../shared/utils/enums/interfacesEnums";
 import MainPopUp from "../../shared/components/main-popup/MainPopUp";
+import IconCreator from "../../shared/components/icon-creator/IconCreator";
+import { registerPageIcons } from "./RegisterPageIcons";
 
 function RegisterPage() {
   ///
@@ -124,7 +125,7 @@ function RegisterPage() {
 
         {/* form */}
         <div className={`${classes.register__content__form} ${modalClass}`}>
-          <PasswordIconSvg color={mainColor.c7} iconClass={classes["lock-svg"]} />
+          <IconCreator icons={registerPageIcons} iconName="lock" color={mainColor.c7} iconClass={classes["lock-svg"]} />
           {renderModal()}
         </div>
         {/* --- */}

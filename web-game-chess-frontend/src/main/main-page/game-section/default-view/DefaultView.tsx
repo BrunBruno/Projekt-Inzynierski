@@ -17,7 +17,7 @@ function DefaultView({}: DefaultViewProps) {
     y: 0,
   });
 
-  // to handle mouse movement and map to baord movement
+  // to handle mouse movement and map to board movement
   useEffect(() => {
     const maxDeg = 20;
     const ww05 = window.innerWidth / 2;
@@ -47,7 +47,7 @@ function DefaultView({}: DefaultViewProps) {
   }, []);
   //*/
 
-  // genrate board
+  // generate board
   const generateGrid = (): JSX.Element[] => {
     const boardRows: JSX.Element[] = [];
 

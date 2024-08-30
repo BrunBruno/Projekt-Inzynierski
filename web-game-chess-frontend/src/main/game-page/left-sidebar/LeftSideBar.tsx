@@ -5,10 +5,11 @@ import GameHubService from "../../../shared/utils/services/GameHubService";
 import { GetGameDto, GetPlayerDto } from "../../../shared/utils/types/gameDtos";
 import { EndGameModel } from "../../../shared/utils/types/gameModels";
 import classes from "./LeftSideBar.module.scss";
-import LeftSideBarIcons from "./LeftSideBarIcons";
 import { usePopup } from "../../../shared/utils/hooks/usePopUp";
 import { getErrMessage } from "../../../shared/utils/functions/displayError";
 import { Guid } from "guid-typescript";
+import IconCreator from "../../../shared/components/icon-creator/IconCreator";
+import { leftSideBarIcons } from "./LeftSideBarIcons";
 
 type LeftSideBarProps = {
   // game id
@@ -83,7 +84,8 @@ function LeftSideBar({ gameId, playerData, gameData }: LeftSideBarProps) {
               onAbort();
             }}
           >
-            <LeftSideBarIcons iconName="abort" /> <span>Leave game</span>
+            <IconCreator icons={leftSideBarIcons} iconName="abort" />
+            <span>Leave game</span>
           </li>
           <li
             className={classes.bar__content__list__element}
@@ -91,7 +93,7 @@ function LeftSideBar({ gameId, playerData, gameData }: LeftSideBarProps) {
               onResign();
             }}
           >
-            <LeftSideBarIcons iconName="resign" />
+            <IconCreator icons={leftSideBarIcons} iconName="resign" />
             <span>Resign</span>
           </li>
           <li
@@ -100,7 +102,7 @@ function LeftSideBar({ gameId, playerData, gameData }: LeftSideBarProps) {
               onDrawOffer();
             }}
           >
-            <LeftSideBarIcons iconName="draw" />
+            <IconCreator icons={leftSideBarIcons} iconName="draw" />
             <span>Offer Draw</span>
           </li>
         </ul>

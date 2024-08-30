@@ -5,7 +5,7 @@ using chess.Core.Dtos;
 namespace chess.Application.Requests.FriendshipRequests.GetFriendProfile;
 
 /// <summary>
-/// Dto representing freinds of current user
+/// Dto representing friends of current user
 /// </summary>
 public class GetFriendProfileDto : UserDto {
 

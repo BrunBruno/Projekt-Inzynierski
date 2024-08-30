@@ -2,7 +2,7 @@ import { IconMap } from "../../../shared/utils/types/commonTypes";
 import classes from "./PlaySection.module.scss";
 
 export const playSectionIcons: IconMap = {
-  online: (
+  online: () => (
     <svg className={classes["vs-player-icon"]} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
       <path
         fillRule="evenodd"
@@ -12,7 +12,7 @@ export const playSectionIcons: IconMap = {
     </svg>
   ),
 
-  offline: (
+  offline: () => (
     <svg className={classes["vs-computer-icon"]} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
       <path
         fillRule="evenodd"

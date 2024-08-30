@@ -1,7 +1,8 @@
 import { useNavigate } from "react-router-dom";
 import classes from "./MainNav.module.scss";
-import MainNavIcons from "./MainNavIcons";
 import LogoIconSvg from "../../svgs/LogoIconSvg";
+import IconCreator from "../icon-creator/IconCreator";
+import { mainNavIcons } from "./MainNavIcons";
 
 function MainNav() {
   ///
@@ -40,7 +41,7 @@ function MainNav() {
             navigate("/main/account");
           }}
         >
-          <MainNavIcons iconName="account" />
+          <IconCreator icons={mainNavIcons} iconName="account" />
           <span className={classes.ind}>Account</span>
         </div>
 
@@ -50,7 +51,7 @@ function MainNav() {
             navigate("/main/users");
           }}
         >
-          <MainNavIcons iconName="addFriend" />
+          <IconCreator icons={mainNavIcons} iconName="addFriend" />
           <span className={classes.ind}>Add friend</span>
         </div>
 
@@ -69,7 +70,7 @@ function MainNav() {
             onLogOut();
           }}
         >
-          <MainNavIcons iconName="logOut" />
+          <IconCreator icons={mainNavIcons} iconName="logOut" />
           <span className={classes.ind}>Log out</span>
         </div>
       </div>

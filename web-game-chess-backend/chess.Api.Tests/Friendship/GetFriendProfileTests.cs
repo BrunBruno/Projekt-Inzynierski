@@ -90,7 +90,7 @@ public class GetFriendProfileTests : IClassFixture<TestWebApplicationFactory<Pro
     }
 
     /// <summary>
-    /// Get someones freindship
+    /// Get someones friendship
     /// </summary>
     /// <returns></returns>
     [Fact]

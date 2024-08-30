@@ -1,7 +1,8 @@
 import { forwardRef, useImperativeHandle, useRef } from "react";
 import classes from "./NavSection.module.scss";
-import NavSectionIcons from "./NavSectionIcons";
+import { navSectionIcons } from "./NavSectionIcons";
 import { HandleOnScroll } from "../../../shared/utils/types/commonTypes";
+import IconCreator from "../../../shared/components/icon-creator/IconCreator";
 
 type NavSectionProps = {
   // hero section container ref
@@ -55,7 +56,7 @@ const NavSection = forwardRef<HandleOnScroll, NavSectionProps>(
             >
               <span className={classes.text}>{element.toUpperCase()}</span>
               <span className={classes.icon}>
-                <NavSectionIcons iconName={element} />
+                <IconCreator icons={navSectionIcons} iconName={element} />
               </span>
             </a>
           ))}

@@ -1,6 +1,6 @@
 import { forwardRef, useImperativeHandle, useState } from "react";
 import classes from "./InviteBy.module.scss";
-import { InviteByUrlRef } from "../VsFreindSearchObjects";
+import { InviteByUrlRef } from "../VsFriendSearchObjects";
 import { usePopup } from "../../../../../shared/utils/hooks/usePopUp";
 import { getErrMessage } from "../../../../../shared/utils/functions/displayError";
 import axios from "axios";
@@ -8,12 +8,12 @@ import { gameControllerPaths, getAuthorization } from "../../../../../shared/uti
 import { CreateGameWithLinkModel } from "../../../../../shared/utils/types/gameModels";
 import { CreateGameWithLinkDto } from "../../../../../shared/utils/types/gameDtos";
 import { useTimingType } from "../../../../../shared/utils/hooks/useTimingType";
-import { TimingTypeModel } from "../../../../../shared/utils/types/abstracDtosAndModels";
+import { TimingTypeModel } from "../../../../../shared/utils/types/abstractDtosAndModels";
 import { TimingTypes } from "../../../../../shared/utils/enums/entitiesEnums";
 import { getEnumValueByKey } from "../../../../../shared/utils/functions/enumRelated";
 
 type InviteByUrlProps = {
-  // to set obatined game url
+  // to set obtained game url
   setSelectedByUrl: React.Dispatch<React.SetStateAction<boolean>>;
 };
 

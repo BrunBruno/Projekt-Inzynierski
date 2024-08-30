@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import AvatarSvg from "../../../../../shared/svgs/AvatarSvg";
 import { GetAllFriendsByStatusDto } from "../../../../../shared/utils/types/friendshipDtos";
 import classes from "./FriendList.module.scss";
-import TimingTypesIcons from "../../../../../shared/svgs/TimingTypesIcons";
 import { mainColor } from "../../../../../shared/utils/enums/colorMaps";
 import LoadingPage from "../../../../../shared/components/loading-page/LoadingPage";
 import usePagination from "../../../../../shared/utils/hooks/usePagination";
@@ -12,11 +11,13 @@ import axios from "axios";
 import { FriendshipStatus } from "../../../../../shared/utils/enums/entitiesEnums";
 import { usePopup } from "../../../../../shared/utils/hooks/usePopUp";
 import { getErrMessage } from "../../../../../shared/utils/functions/displayError";
-import { PagedResult } from "../../../../../shared/utils/types/abstracDtosAndModels";
+import { PagedResult } from "../../../../../shared/utils/types/abstractDtosAndModels";
 import AvatarImage from "../../../../../shared/components/avatar-image/AvatarImage";
+import IconCreator from "../../../../../shared/components/icon-creator/IconCreator";
+import { timingTypesIcons } from "../../../../../shared/svgs/TimingTypesIcons";
 
 type FriendListProps = {
-  // usernam provided in input to filter
+  // username provided in input to filter
   selectedUsername: string;
   // to select user on "invite" button click
   setSelectedFriend: React.Dispatch<React.SetStateAction<GetAllFriendsByStatusDto | null>>;
@@ -69,7 +70,7 @@ function FriendList({ selectedUsername, setSelectedFriend }: FriendListProps) {
     <div ref={scrollRef} className={classes.list}>
       {friends.length > 0 ? (
         friends.map((friend) => (
-          <div key={friend.freindshpId.toString()} className={classes.list__element}>
+          <div key={friend.friendshipId.toString()} className={classes.list__element}>
             <AvatarImage
               username={friend.username}
               imageUrl={friend.imageUrl}
@@ -82,24 +83,53 @@ function FriendList({ selectedUsername, setSelectedFriend }: FriendListProps) {
 
               <div className={classes.elo}>
                 <span>
-                  <TimingTypesIcons iconClass={classes.icon} iconName="bullet" color={mainColor.c0} />
-                  {friend.elo.bullet}
+                  <IconCreator
+                    icons={timingTypesIcons}
+                    iconClass={classes.icon}
+                    iconName="bullet"
+                    color={mainColor.c0}
+                  />
+                  <span>{friend.elo.bullet}</span>
                 </span>
+
                 <span>
-                  <TimingTypesIcons iconClass={classes.icon} iconName="blitz" color={mainColor.c0} />
-                  {friend.elo.blitz}
+                  <IconCreator
+                    icons={timingTypesIcons}
+                    iconClass={classes.icon}
+                    iconName="blitz"
+                    color={mainColor.c0}
+                  />
+                  <span>{friend.elo.blitz}</span>
                 </span>
+
                 <span>
-                  <TimingTypesIcons iconClass={classes.icon} iconName="rapid" color={mainColor.c0} />
-                  {friend.elo.rapid}
+                  <IconCreator
+                    icons={timingTypesIcons}
+                    iconClass={classes.icon}
+                    iconName="rapid"
+                    color={mainColor.c0}
+                  />
+                  <span>{friend.elo.rapid}</span>
                 </span>
+
                 <span>
-                  <TimingTypesIcons iconClass={classes.icon} iconName="classic" color={mainColor.c0} />
-                  {friend.elo.classic}
+                  <IconCreator
+                    icons={timingTypesIcons}
+                    iconClass={classes.icon}
+                    iconName="classic"
+                    color={mainColor.c0}
+                  />
+                  <span>{friend.elo.classic}</span>
                 </span>
+
                 <span>
-                  <TimingTypesIcons iconClass={classes.icon} iconName="daily" color={mainColor.c0} />
-                  {friend.elo.daily}
+                  <IconCreator
+                    icons={timingTypesIcons}
+                    iconClass={classes.icon}
+                    iconName="daily"
+                    color={mainColor.c0}
+                  />
+                  <span>{friend.elo.daily}</span>
                 </span>
               </div>
 

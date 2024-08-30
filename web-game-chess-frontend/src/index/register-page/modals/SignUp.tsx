@@ -1,9 +1,7 @@
 import { useEffect, useRef, useState } from "react";
-import DetailPawnIconSvg from "../../../shared/svgs/DetailPawnIconSvg";
 import { mainColor, strengthColor } from "../../../shared/utils/enums/colorMaps";
 import classes from "./Sign.module.scss";
 import axios from "axios";
-import SignArrowSvg from "./SignArrow";
 import LoadingPage from "../../../shared/components/loading-page/LoadingPage";
 import { errorDisplay, getErrMessage } from "../../../shared/utils/functions/displayError";
 import { userControllerPaths } from "../../../shared/utils/services/ApiService";
@@ -13,6 +11,8 @@ import { RegistrationInterface } from "../../../shared/utils/enums/interfacesEnu
 import { GetRegisterConfModel, LogInUserModel, RegisterUserModel } from "../../../shared/utils/types/userModels";
 import { usePopup } from "../../../shared/utils/hooks/usePopUp";
 import { getCountry } from "../../../shared/utils/functions/externApi";
+import IconCreator from "../../../shared/components/icon-creator/IconCreator";
+import { registerPageIcons } from "../RegisterPageIcons";
 
 type SignUpProps = {
   // change displayed modal
@@ -267,7 +267,7 @@ function SignUp({ setModal }: SignUpProps) {
 
   return (
     <form className={classes["registration-form"]} onSubmit={(event) => signUpUser(event)}>
-      <DetailPawnIconSvg color={mainColor.c0} iconClass={classes["bg-svg"]} />
+      <IconCreator icons={registerPageIcons} iconName="bgPawn" color={mainColor.c0} iconClass={classes["bg-svg"]} />
 
       <h2>Create Account</h2>
       <div className={classes["change-form"]}>
@@ -290,7 +290,8 @@ function SignUp({ setModal }: SignUpProps) {
             autoComplete="e-mail"
             className={classes["form-input"]}
           />
-          <SignArrowSvg iconClass={classes.arrow} />
+
+          <IconCreator icons={registerPageIcons} iconName="arrow" color={"none"} iconClass={classes.arrow} />
         </div>
 
         <div
@@ -307,7 +308,8 @@ function SignUp({ setModal }: SignUpProps) {
             autoComplete="username"
             className={classes["form-input"]}
           />
-          <SignArrowSvg iconClass={classes.arrow} />
+
+          <IconCreator icons={registerPageIcons} iconName="arrow" color={"none"} iconClass={classes.arrow} />
         </div>
 
         <div
@@ -327,7 +329,8 @@ function SignUp({ setModal }: SignUpProps) {
               changePassInd(event);
             }}
           />
-          <SignArrowSvg iconClass={classes.arrow} />
+
+          <IconCreator icons={registerPageIcons} iconName="arrow" color={"none"} iconClass={classes.arrow} />
           <span ref={indRef} className={classes["reg-pass-ind"]} />
         </div>
 
@@ -345,7 +348,8 @@ function SignUp({ setModal }: SignUpProps) {
             autoComplete="off"
             className={classes["form-input"]}
           />
-          <SignArrowSvg iconClass={classes.arrow} />
+
+          <IconCreator icons={registerPageIcons} iconName="arrow" color={"none"} iconClass={classes.arrow} />
         </div>
       </div>
       {/* --- */}

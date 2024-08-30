@@ -6,11 +6,13 @@ import { SearchGameDto } from "../../../../shared/utils/types/gameDtos";
 import GameHubService from "../../../../shared/utils/services/GameHubService";
 import { TimingTypes } from "../../../../shared/utils/enums/entitiesEnums";
 import { SearchGameModel } from "../../../../shared/utils/types/gameModels";
-import TimingTypesIcons from "../../../../shared/svgs/TimingTypesIcons";
 import { usePopup } from "../../../../shared/utils/hooks/usePopUp";
 import { getErrMessage } from "../../../../shared/utils/functions/displayError";
 import { useTimingType } from "../../../../shared/utils/hooks/useTimingType";
 import { getEnumValueByKey } from "../../../../shared/utils/functions/enumRelated";
+import IconCreator from "../../../../shared/components/icon-creator/IconCreator";
+import { timingTypesIcons } from "../../../../shared/svgs/TimingTypesIcons";
+import { mainColor } from "../../../../shared/utils/enums/colorMaps";
 
 type VsPlayerSearchProps = {
   // to set obtained search ids
@@ -51,7 +53,7 @@ function VsPlayerSearch({ setSearchIds }: VsPlayerSearchProps) {
   };
   //*/
 
-  // display time controlls buttons
+  // display time controls buttons
   const transformTag = (tag: string): JSX.Element => {
     const transformedTag: JSX.Element[] = [];
 
@@ -93,7 +95,12 @@ function VsPlayerSearch({ setSearchIds }: VsPlayerSearchProps) {
         {defaultTimeControls.map((control, index) => (
           <div key={index} className={classes.search__grid__row}>
             <div className={classes.search__grid__row__header}>
-              <TimingTypesIcons iconName={control.header.toLocaleLowerCase()} iconClass={classes["header-icon"]} />
+              <IconCreator
+                icons={timingTypesIcons}
+                iconName={control.header.toLocaleLowerCase()}
+                iconClass={classes["header-icon"]}
+                color={mainColor.c5}
+              />
               <span>{control.header}</span>
             </div>
             {control.tags.map((tag, i) => (

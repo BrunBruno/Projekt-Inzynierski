@@ -9,8 +9,8 @@ namespace chess.Application.Requests.FriendshipRequests.RemoveFriend;
 /// <summary>
 /// Checks if friendship exists
 /// Checks if current users is one of friendship counterparty
-/// Removes freindship
-/// By removing freindship with status "rejected" it unblocks blocked freind
+/// Removes friendship
+/// By removing friendship with status "rejected" it unblocks blocked friend
 /// </summary>
 public class RemoveFriendRequestHandler : IRequestHandler<RemoveFriendRequest> {
 

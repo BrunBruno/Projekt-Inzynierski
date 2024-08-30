@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import GameBoardSearchingIcons from "./GameBoadrSearchingIcons";
 import classes from "./GameBoardSearching.module.scss";
 import GameHubService from "../../../../shared/utils/services/GameHubService";
 import { gameControllerPaths, getAuthorization } from "../../../../shared/utils/services/ApiService";
@@ -8,11 +7,13 @@ import { AbortSearchModel } from "../../../../shared/utils/types/gameModels";
 import { SearchGameDto } from "../../../../shared/utils/types/gameDtos";
 import { usePopup } from "../../../../shared/utils/hooks/usePopUp";
 import { getErrMessage } from "../../../../shared/utils/functions/displayError";
+import IconCreator from "../../../../shared/components/icon-creator/IconCreator";
+import { gameBoardSearchingIcons } from "./GameBoardSearchingIcons";
 
 type GameBoardSearchingProps = {
   // ids obtained from new game search
   searchIds: SearchGameDto | null;
-  // to set obatined ids
+  // to set obtained ids
   setSearchIds: React.Dispatch<React.SetStateAction<SearchGameDto | null>>;
 };
 
@@ -28,29 +29,29 @@ function GameBoardSearching({ searchIds, setSearchIds }: GameBoardSearchingProps
   // searching animation
   useEffect(() => {
     const delay = 100;
-    const firstintervalId = setInterval(() => {
+    const firstIntervalId = setInterval(() => {
       setActiveIndex((prevIndex) => (prevIndex + 1) % numOfPawns);
     }, delay);
 
     setTimeout(() => {
       setPause(true);
 
-      clearInterval(firstintervalId);
+      clearInterval(firstIntervalId);
     }, delay * numOfPawns);
 
     const intervalId = setInterval(() => {
       setPause(false);
-      const innerintervalId = setInterval(() => {
+      const innerIntervalId = setInterval(() => {
         setActiveIndex((prevIndex) => (prevIndex + 1) % numOfPawns);
       }, delay);
       setTimeout(() => {
         setPause(true);
-        clearInterval(innerintervalId);
+        clearInterval(innerIntervalId);
       }, delay * numOfPawns);
     }, 1000 + delay * numOfPawns);
 
     return () => {
-      clearInterval(firstintervalId);
+      clearInterval(firstIntervalId);
       clearInterval(intervalId);
 
       // add here onCancelSearch when not strick mode ??
@@ -89,7 +90,13 @@ function GameBoardSearching({ searchIds, setSearchIds }: GameBoardSearchingProps
         </div>
         <div className={classes.searching__content__indicator}>
           {Array.from({ length: numOfPawns }).map((_, index) => (
-            <GameBoardSearchingIcons key={index} iconName="pawn" active={index === activeIndex && !pause} />
+            <IconCreator
+              key={index}
+              icons={gameBoardSearchingIcons}
+              iconName="pawn"
+              iconClass=""
+              active={index === activeIndex && !pause}
+            />
           ))}
         </div>
         <button

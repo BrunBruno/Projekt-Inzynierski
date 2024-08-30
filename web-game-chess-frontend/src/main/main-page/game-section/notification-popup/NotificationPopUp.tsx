@@ -15,7 +15,7 @@ import { HubConnectionState } from "@microsoft/signalr";
 type NotificationPopUpProps = {
   // if notification should be displayed
   allowNotification: boolean;
-  // to remove notifcation
+  // to remove notification
   setAllowNotification: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
@@ -56,7 +56,7 @@ function NotificationPopUp({ allowNotification, setAllowNotification }: Notifica
         GameHubService.connection &&
         GameHubService.connection.state === HubConnectionState.Connected
       ) {
-        GameHubService.connection.off("InvitededToGame", handleNotificationChange);
+        GameHubService.connection.off("InvitedToGame", handleNotificationChange);
       }
     };
   }, [allowNotification]);
@@ -70,7 +70,7 @@ function NotificationPopUp({ allowNotification, setAllowNotification }: Notifica
       const model: AcceptInvitationModel = {
         gameId: notification.gameId,
         inviteeId: notification.inviteeId,
-        invitorId: notification.inviterId,
+        inviterId: notification.inviterId,
       };
 
       await GameHubService.AcceptInvitation(model);
@@ -83,7 +83,7 @@ function NotificationPopUp({ allowNotification, setAllowNotification }: Notifica
   };
   //*/
 
-  // to declain incoming game invitation
+  // to decline incoming game invitation
   const onDeclineInvitation = async (): Promise<void> => {
     if (!notification) return;
 

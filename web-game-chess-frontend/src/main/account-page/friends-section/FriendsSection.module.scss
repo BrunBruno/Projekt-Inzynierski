@@ -2,7 +2,7 @@
 
 // friend list container
 .friends {
-  @include mainScrollbar($bgcolor: #0000);
+  @include mainScrollbar($bgColor: #0000);
 
   position: relative;
   height: 100%;
@@ -15,7 +15,7 @@
   grid-auto-rows: max-content;
 
   // empty list fill
-  &.tamplate {
+  &.template {
     overflow: hidden;
   }
 

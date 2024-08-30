@@ -25,7 +25,7 @@ export const makeMove = (
   gameState.matrix[oldY - 1][oldX - 1] = "";
   gameState.matrix[newY - 1][newX - 1] = promotedPiece ? promotedPiece : selectionState.piece;
 
-  // remove enpassanted pawn
+  // remove en passant pawn
   let enPassantCoor: number[] | null = null;
   if (gameState.gameData?.enPassant) {
     enPassantCoor = gameState.gameData.enPassant.split(",").map(Number);
@@ -51,7 +51,7 @@ export const makeMove = (
     }
     // long castling
     if (newX === rankMap.white.kingLongFile) {
-      gameState.matrix[rankMap.white.backRank - 1][rankMap.white.longtRookFile - 1] = "";
+      gameState.matrix[rankMap.white.backRank - 1][rankMap.white.longRookFile - 1] = "";
       gameState.matrix[rankMap.white.backRank - 1][rankMap.white.kingLongFile + 1 - 1] = pieceTagMap.white.rook;
     }
   }
@@ -65,7 +65,7 @@ export const makeMove = (
     }
     // long castling
     if (newX === rankMap.black.kingLongFile) {
-      gameState.matrix[rankMap.black.backRank - 1][rankMap.black.longtRookFile - 1] = "";
+      gameState.matrix[rankMap.black.backRank - 1][rankMap.black.longRookFile - 1] = "";
       gameState.matrix[rankMap.black.backRank - 1][rankMap.black.kingLongFile + 1 - 1] = pieceTagMap.black.rook;
     }
   }
@@ -74,7 +74,7 @@ export const makeMove = (
 
   const move = selectionState.piece + capture + intToChar(newX) + newY;
 
-  // check for white enpassant possibility
+  // check for white en passant possibility
   let newEnPassant: string | null = null;
   if (
     selectionState.piece === pieceTagMap.white.pawn &&
@@ -84,7 +84,7 @@ export const makeMove = (
     newEnPassant = newX + "," + rankMap.white.enPassantRank;
   }
 
-  // check for black enpassant possibility
+  // check for black en passant possibility
   if (
     selectionState.piece === pieceTagMap.black.pawn &&
     oldY === rankMap.black.pawnStartRank &&
@@ -93,14 +93,14 @@ export const makeMove = (
     newEnPassant = newX + "," + rankMap.black.enPassantRank;
   }
 
-  // remove castling posibility when pices moved
+  // remove castling possibility when piece moved
   const wkm = selectionState.piece === pieceTagMap.white.king;
   const wsrm =
     selectionState.piece === pieceTagMap.white.rook &&
     areCoorEqual([oldX, oldY], [rankMap.white.shortRookFile, rankMap.white.backRank]);
   const wlrm =
     selectionState.piece === pieceTagMap.white.rook &&
-    areCoorEqual([oldX, oldY], [rankMap.white.longtRookFile, rankMap.white.backRank]);
+    areCoorEqual([oldX, oldY], [rankMap.white.longRookFile, rankMap.white.backRank]);
 
   const bkm = selectionState.piece === pieceTagMap.black.king;
   const bsrm =
@@ -108,7 +108,7 @@ export const makeMove = (
     areCoorEqual([oldX, oldY], [rankMap.black.shortRookFile, rankMap.white.backRank]);
   const blrm =
     selectionState.piece === pieceTagMap.black.rook &&
-    areCoorEqual([oldX, oldY], [rankMap.black.longtRookFile, rankMap.white.backRank]);
+    areCoorEqual([oldX, oldY], [rankMap.black.longRookFile, rankMap.white.backRank]);
 
   const makeMoveModel: MakeMoveModel = {
     gameId: gameState.gameId,
@@ -129,7 +129,7 @@ export const makeMove = (
   GameHubService.MakeMove(makeMoveModel);
 };
 
-// update string positio after move was dane
+// update string position after move was dane
 const makeNewPosition = (oldMatrix: string[][]): string => {
   const newMatrix = oldMatrix.reverse();
   let newPosition: string = "";

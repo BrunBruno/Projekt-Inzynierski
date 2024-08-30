@@ -2,7 +2,7 @@ import { mainColor } from "../../shared/utils/enums/colorMaps";
 import { IconMap } from "../../shared/utils/types/commonTypes";
 
 export const aboutPageIcons: IconMap = {
-  pawnLine: (
+  pawnLine: () => (
     <svg viewBox="0 0 3364 96" fill="none" xmlns="http://www.w3.org/2000/svg">
       <rect y="91" width="3000" height="5" rx="2.5" fill={mainColor.c0} />
       <rect x="3064" y="90" width="300" height="5" rx="2.5" fill={mainColor.c0} />

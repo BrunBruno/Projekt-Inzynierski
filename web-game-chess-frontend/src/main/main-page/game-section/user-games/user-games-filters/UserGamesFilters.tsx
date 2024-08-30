@@ -1,8 +1,9 @@
-import TimingTypesIcons from "../../../../../shared/svgs/TimingTypesIcons";
-import WinLoseIcons from "../../../../../shared/svgs/WinLoseIcons";
+import IconCreator from "../../../../../shared/components/icon-creator/IconCreator";
+import { timingTypesIcons } from "../../../../../shared/svgs/TimingTypesIcons";
+import { winLoseIcons } from "../../../../../shared/svgs/WinLoseIcons";
 import { mainColor } from "../../../../../shared/utils/enums/colorMaps";
 import classes from "./UserGamesFilters.module.scss";
-import { resultList, timingTypesList } from "./UserGamesFiltersObects";
+import { resultList, timingTypesList } from "./UserGamesFiltersObjects";
 
 type UserGamesFiltersProps = {
   // list to filter timing types
@@ -64,11 +65,12 @@ function UserGamesFilters({
               activateTimingTypeFilter(element.value);
             }}
           >
-            {element.label}
-            <TimingTypesIcons
-              iconClass={classes["filter-svg"]}
+            <span>{element.label}</span>
+            <IconCreator
+              icons={timingTypesIcons}
               iconName={element.label.toLocaleLowerCase()}
               color={mainColor.c0}
+              iconClass={classes["filter-svg"]}
             />
           </p>
         ))}
@@ -86,8 +88,11 @@ function UserGamesFilters({
               activateResultFilter(element.value);
             }}
           >
-            {element.label}
-            <WinLoseIcons iconName={element.label.toLocaleLowerCase().substring(0, element.label.length - 1)} />
+            <span>{element.label}</span>
+            <IconCreator
+              icons={winLoseIcons}
+              iconName={element.label.toLocaleLowerCase().substring(0, element.label.length - 1)}
+            />
           </p>
         ))}
       </div>

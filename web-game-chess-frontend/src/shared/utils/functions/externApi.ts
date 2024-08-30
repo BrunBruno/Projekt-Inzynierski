@@ -1,4 +1,4 @@
-/* exter api functions */
+/* extern api functions */
 
 import axios from "axios";
 

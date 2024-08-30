@@ -64,7 +64,7 @@ internal static partial class DbFilter {
         await dbContext.SaveChangesAsync();
     }
 
-    internal static async Task AddUsersAndFreindships(this ChessAppDbContext dbContext) {
+    internal static async Task AddUsersAndFriendships(this ChessAppDbContext dbContext) {
 
         var users = new List<Core.Entities.User>();
         var friendships = new List<Core.Entities.Friendship>();

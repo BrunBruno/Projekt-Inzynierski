@@ -52,7 +52,7 @@ function IndexPage() {
   ];
   //*/
 
-  // navbar srcoll event ref
+  // navbar scroll event ref
   const navScrollRef = useRef<HandleOnScroll>(null);
   // hero scroll event ref
   const heroScrollRef = useRef<HandleOnScroll>(null);
@@ -79,7 +79,7 @@ function IndexPage() {
   }, []);
   //*/
 
-  // navbar funnctionality
+  // navbar functionality
   useEffect(() => {
     const observer = new IntersectionObserver((entries: IntersectionObserverEntry[]) => {
       entries.forEach((entry) => {

@@ -1,9 +1,10 @@
 import { useNavigate } from "react-router-dom";
 import ActionButton from "../../../shared/components/action-button/ActionButton";
 import classes from "./BarSection.module.scss";
-import BarSectionIcons from "./BarSectionIcons";
 import { FriendshipStatus } from "../../../shared/utils/enums/entitiesEnums";
 import { delayAction } from "../../../shared/utils/functions/eventsRelated";
+import IconCreator from "../../../shared/components/icon-creator/IconCreator";
+import { barSectionIcons } from "./BarSectionIcons";
 
 type BarSectionProps = {
   // to provide username to filters users
@@ -47,7 +48,7 @@ function BarSection({ setSelectedUsername, selectedList, setSelectedList }: BarS
                 onSelectList(FriendshipStatus.all);
               }}
             >
-              <BarSectionIcons iconName="all" />
+              <IconCreator icons={barSectionIcons} iconName="all" />
             </div>
             <div
               className={`
@@ -57,7 +58,7 @@ function BarSection({ setSelectedUsername, selectedList, setSelectedList }: BarS
                 onSelectList(FriendshipStatus.accepted);
               }}
             >
-              <BarSectionIcons iconName="accepted" />
+              <IconCreator icons={barSectionIcons} iconName="accepted" />
             </div>
             <div
               className={`
@@ -67,7 +68,7 @@ function BarSection({ setSelectedUsername, selectedList, setSelectedList }: BarS
                 onSelectList(FriendshipStatus.pending);
               }}
             >
-              <BarSectionIcons iconName="pending" />
+              <IconCreator icons={barSectionIcons} iconName="pending" />
             </div>
             <div
               className={`
@@ -77,7 +78,7 @@ function BarSection({ setSelectedUsername, selectedList, setSelectedList }: BarS
                 onSelectList(FriendshipStatus.rejected);
               }}
             >
-              <BarSectionIcons iconName="rejected" />
+              <IconCreator icons={barSectionIcons} iconName="rejected" />
             </div>
           </div>
         </div>

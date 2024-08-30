@@ -10,7 +10,7 @@ import usePagination from "../../../../shared/utils/hooks/usePagination";
 import UserGamesCard from "./user-games-card/UserGamesCard";
 import { usePopup } from "../../../../shared/utils/hooks/usePopUp";
 import { getErrMessage } from "../../../../shared/utils/functions/displayError";
-import { PagedResult } from "../../../../shared/utils/types/abstracDtosAndModels";
+import { PagedResult } from "../../../../shared/utils/types/abstractDtosAndModels";
 
 type UserGamesProps = {};
 
@@ -29,7 +29,7 @@ function UserGames({}: UserGamesProps) {
 
   const { scrollRef, pageSize, totalItemsCount, setDefPageSize, setTotalItemsCount } = usePagination();
 
-  // send set defalut pagination page size
+  // send set default pagination page size
   useEffect(() => {
     const setDefSize = () => {
       let elemCount: number;
@@ -75,19 +75,17 @@ function UserGames({}: UserGamesProps) {
       };
 
       try {
-        const gamesRespones = await axios.get<PagedResult<GetAllFinishedGamesDto>>(
+        const response = await axios.get<PagedResult<GetAllFinishedGamesDto>>(
           gameControllerPaths.getAllFinishedGames(getGamesOptions),
           getAuthorization()
         );
 
-        setGames(gamesRespones.data.items);
+        setGames(response.data.items);
 
-        setTotalItemsCount(gamesRespones.data.totalItemsCount);
+        setTotalItemsCount(response.data.totalItemsCount);
 
         const count =
-          gamesRespones.data.itemsTo < gamesRespones.data.totalItemsCount
-            ? gamesRespones.data.itemsTo
-            : gamesRespones.data.totalItemsCount;
+          response.data.itemsTo < response.data.totalItemsCount ? response.data.itemsTo : response.data.totalItemsCount;
 
         setItemsCount(count);
       } catch (err) {

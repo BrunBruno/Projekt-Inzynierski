@@ -63,7 +63,7 @@ type RankType = {
   kingShortFile: number;
   kingLongFile: number;
   shortRookFile: number;
-  longtRookFile: number;
+  longRookFile: number;
 };
 
 type RankMap = {
@@ -82,7 +82,7 @@ export const rankMap: RankMap = {
     kingShortFile: 7,
     kingLongFile: 3,
     shortRookFile: 8,
-    longtRookFile: 1,
+    longRookFile: 1,
   },
   black: {
     pawnStartRank: 7,
@@ -93,6 +93,6 @@ export const rankMap: RankMap = {
     kingShortFile: 7,
     kingLongFile: 3,
     shortRookFile: 8,
-    longtRookFile: 1,
+    longRookFile: 1,
   },
 };

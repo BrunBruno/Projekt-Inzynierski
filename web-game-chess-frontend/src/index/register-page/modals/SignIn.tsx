@@ -1,5 +1,4 @@
 import { useRef, useState } from "react";
-import DetailPawnIconSvg from "../../../shared/svgs/DetailPawnIconSvg";
 import { mainColor } from "../../../shared/utils/enums/colorMaps";
 import classes from "./Sign.module.scss";
 import axios from "axios";
@@ -10,6 +9,8 @@ import { errorDisplay } from "../../../shared/utils/functions/displayError";
 import { IsEmailVerifiedDto, LogInUserDto } from "../../../shared/utils/types/userDtos";
 import { RegistrationInterface } from "../../../shared/utils/enums/interfacesEnums";
 import { LogInUserModel } from "../../../shared/utils/types/userModels";
+import IconCreator from "../../../shared/components/icon-creator/IconCreator";
+import { registerPageIcons } from "../RegisterPageIcons";
 
 type SignInProps = {
   // to change displayed modal
@@ -105,7 +106,7 @@ function SignIn({ setModal }: SignInProps) {
 
   return (
     <form className={classes["registration-form"]} onSubmit={(event) => signInUser(event)}>
-      <DetailPawnIconSvg color={mainColor.c0} iconClass={classes["bg-svg"]} />
+      <IconCreator icons={registerPageIcons} iconName="bgPawn" color={mainColor.c0} iconClass={classes["bg-svg"]} />
 
       <h2>Login Now</h2>
       <div className={classes["change-form"]}>
@@ -128,6 +129,8 @@ function SignIn({ setModal }: SignInProps) {
             autoComplete="e-mail"
             className={classes["form-input"]}
           />
+
+          <IconCreator icons={registerPageIcons} iconName="arrow" color={"none"} iconClass={classes.arrow} />
         </div>
 
         <div
@@ -144,6 +147,8 @@ function SignIn({ setModal }: SignInProps) {
             autoComplete="off"
             className={classes["form-input"]}
           />
+
+          <IconCreator icons={registerPageIcons} iconName="arrow" color={"none"} iconClass={classes.arrow} />
         </div>
       </div>
       {/* --- */}

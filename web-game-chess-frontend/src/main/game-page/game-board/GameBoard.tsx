@@ -11,7 +11,6 @@ import classes from "./GameBoard.module.scss";
 import { areCoorEqual, checkIfOwnPiece, checkIfPlayerTurn } from "../../../shared/utils/functions/gameRelated";
 import { generateControlledAreas, checkChecks } from "../../../shared/utils/chess-game/ControlledAreas";
 import { EndGameTypes, PieceColor } from "../../../shared/utils/enums/entitiesEnums";
-import XSvg from "../../../shared/svgs/XSvg";
 import { generateRandomId } from "../../../shared/utils/functions/generateRandom";
 import { checkIfAnyMoveExists } from "../../../shared/utils/chess-game/CheckIfAnyMoveExists";
 import { EndGameModel, SearchGameModel } from "../../../shared/utils/types/gameModels";
@@ -31,6 +30,8 @@ import { onClearHighlights, onHighlightFile } from "../../../shared/utils/chess-
 import GameBoardSearching from "./game-board-searching/GameBoardSearching";
 import { dangerColor } from "../../../shared/utils/enums/colorMaps";
 import { Guid } from "guid-typescript";
+import IconCreator from "../../../shared/components/icon-creator/IconCreator";
+import { symbolIcons } from "../../../shared/svgs/SymbolIcons";
 
 type GameBoardProps = {
   // game id
@@ -160,7 +161,7 @@ function GameBoard({ gameId, gameData, playerData, winner, searchIds, setSearchI
       payload: { white: wChecked, black: bChecked },
     });
 
-    // clear selected piece and available fields (clear beform mapping board)
+    // clear selected piece and available fields (clear before mapping board)
     setSelectionStates({
       type: "SET_AVAILABLE_FIELDS",
       payload: [],
@@ -202,7 +203,7 @@ function GameBoard({ gameId, gameData, playerData, winner, searchIds, setSearchI
       GameHubService.EndGame(loserPlayer);
     };
 
-    // end game if it has not been eneded yet
+    // end game if it has not been ended yet
     if (!gameData.hasEnded && gameStates.matrix.length > 0) {
       const noMove = checkIfAnyMoveExists(gameStates, selectionStates);
 
@@ -226,7 +227,7 @@ function GameBoard({ gameId, gameData, playerData, winner, searchIds, setSearchI
     const [oBoard, iBoard] = mapFromGamePosition(gameData.position);
     setBoard(oBoard);
     setInnerBoard(iBoard);
-  }, [selectionStates.availableFelds, selectionStates.isDragging]);
+  }, [selectionStates.availableFields, selectionStates.isDragging]);
 
   // create field based on position
   const displayField = (
@@ -238,7 +239,7 @@ function GameBoard({ gameId, gameData, playerData, winner, searchIds, setSearchI
     const coordinates = [(coor % 8) + 1, 8 - Math.floor(coor / 8)];
 
     // to check if clicked on tip fields
-    const isInTipFields = selectionStates.availableFelds.some((coordinate) => areCoorEqual(coordinate, coordinates));
+    const isInTipFields = selectionStates.availableFields.some((coordinate) => areCoorEqual(coordinate, coordinates));
 
     // to check if selected piece was selected again
     const sameCoor = areCoorEqual(coordinates, selectionStates.coordinates);
@@ -311,16 +312,12 @@ function GameBoard({ gameId, gameData, playerData, winner, searchIds, setSearchI
             <img src={`/pieces/${pieceImageMap[char]}`} draggable={false} alt={`piece-${char}`} />
             {showCapture && (
               <div className={classes.capture}>
-                <XSvg iconClass={classes.x} color={dangerColor.mid} />
+                <IconCreator icons={symbolIcons} iconName="x" iconClass={classes.x} color={dangerColor.mid} />
                 <img src={`/pieces/${pieceImageMap[capturedPiece]}`} alt={`captured-piece-${capturedPiece}`} />
               </div>
             )}
           </div>
         )}
-
-        {/* {wCon && <p style={{ backgroundColor: "red" }}></p>}
-        {bCon && <p style={{ backgroundColor: "blue" }}></p>}
-        {wCon && bCon && <p style={{ backgroundColor: "orange" }}></p>} */}
       </div>
     );
 
@@ -493,7 +490,7 @@ function GameBoard({ gameId, gameData, playerData, winner, searchIds, setSearchI
     });
   }, [selectionStates.coordinates]);
 
-  // promote pawn to choosen piece
+  // promote pawn to chosen piece
   const onPerformPromotion = (promotedPiece: string): void => {
     if (selectionStates.promotionCoor) {
       makeMove(gameStates, selectionStates, selectionStates.promotionCoor, promotedPiece);

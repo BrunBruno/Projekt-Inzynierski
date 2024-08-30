@@ -1,5 +1,4 @@
 import { useState } from "react";
-import DetailPawnIconSvg from "../../../shared/svgs/DetailPawnIconSvg";
 import { mainColor } from "../../../shared/utils/enums/colorMaps";
 import classes from "./Sign.module.scss";
 import axios from "axios";
@@ -9,8 +8,9 @@ import { errorDisplay } from "../../../shared/utils/functions/displayError";
 import LoadingPage from "../../../shared/components/loading-page/LoadingPage";
 import { LogInUserDto } from "../../../shared/utils/types/userDtos";
 import { LogInUserModel, RegenerateCodeModel, VerifyEmailModel } from "../../../shared/utils/types/userModels";
-import PasteIconSvg from "../../../shared/svgs/PasteIconSvg";
 import { RegistrationInterface } from "../../../shared/utils/enums/interfacesEnums";
+import { registerPageIcons } from "../RegisterPageIcons";
+import IconCreator from "../../../shared/components/icon-creator/IconCreator";
 
 type VerifyEmailProps = {
   setModal: React.Dispatch<React.SetStateAction<number>>;
@@ -127,7 +127,7 @@ function VerifyEmail({ setModal }: VerifyEmailProps) {
   return (
     <form className={classes["registration-form"]} onSubmit={(event) => verifyUser(event)}>
       {/* bg */}
-      <DetailPawnIconSvg color={mainColor.c0} iconClass={classes["bg-svg"]} />
+      <IconCreator icons={registerPageIcons} iconName="bgPawn" color={mainColor.c0} iconClass={classes["bg-svg"]} />
 
       {/* header */}
       <h2>Verify Email</h2>
@@ -157,7 +157,12 @@ function VerifyEmail({ setModal }: VerifyEmailProps) {
               onPasteCode();
             }}
           >
-            <PasteIconSvg color={mainColor.c5} iconClass={classes["paste-svg"]} />
+            <IconCreator
+              icons={registerPageIcons}
+              iconName="paste"
+              color={mainColor.c5}
+              iconClass={classes["paste-svg"]}
+            />
           </p>
         </div>
         <p

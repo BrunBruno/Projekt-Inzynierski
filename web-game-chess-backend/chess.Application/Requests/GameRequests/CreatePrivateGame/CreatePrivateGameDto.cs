@@ -7,7 +7,7 @@ namespace chess.Application.Requests.GameRequests.CreatePrivateGame;
 public class CreatePrivateGameDto {
 
     /// <summary>
-    /// Obtained freind id
+    /// Obtained friend id
     /// </summary>
     public Guid FriendId { get; set; }
 

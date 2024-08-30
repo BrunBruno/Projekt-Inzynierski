@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import { getStatsConfig, StatsConfig } from "./StatsRowData";
 
 type StatsRowProps = {
-  // name of stats cathegory
+  // name of stats category
   type: string;
   // current user data
   user: GetFullUserDto;

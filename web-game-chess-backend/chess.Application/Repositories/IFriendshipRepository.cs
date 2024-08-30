@@ -32,7 +32,7 @@ public interface IFriendshipRepository {
     Task<Friendship?> GetById(Guid friendshipId);
 
     /// <summary>
-    /// To get freindship by both counterparty ids
+    /// To get friendship by both counterparty ids
     /// </summary>
     /// <returns></returns>
     Task<Friendship?> GetByUsersIds(Guid requesotId, Guid receiverId);

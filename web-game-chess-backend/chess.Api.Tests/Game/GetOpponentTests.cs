@@ -33,11 +33,11 @@ public class GetOpponentTests : IClassFixture<TestWebApplicationFactory<Program>
     [Fact]
     public async Task GetOpponent_Should_Return_PlayerDto_On_Success() {
 
-        Guid freindId = Guid.NewGuid();
+        Guid friendId = Guid.NewGuid();
 
         await _dbContext.Init();
         await _dbContext.AddUser();
-        await _dbContext.AddUserWithEmail("freind@test.com");
+        await _dbContext.AddUserWithEmail("friend@test.com");
 
         var timingId = await _dbContext.CreateTiming(new TimingType() {
             Type = TimingTypes.Bullet,
@@ -46,7 +46,7 @@ public class GetOpponentTests : IClassFixture<TestWebApplicationFactory<Program>
         });
 
         var userPlayerId = await _dbContext.AddPlayer(Guid.Parse(Constants.UserId), Constants.Username);
-        var friendPlayerId = await _dbContext.AddPlayer(freindId, "FriendUsername");
+        var friendPlayerId = await _dbContext.AddPlayer(friendId, "FriendUsername");
 
         var gameId = await _dbContext.AddGame(userPlayerId, friendPlayerId, timingId);
 
@@ -57,7 +57,7 @@ public class GetOpponentTests : IClassFixture<TestWebApplicationFactory<Program>
         response.StatusCode.Should().Be(HttpStatusCode.OK);
 
         var result = JsonConvert.DeserializeObject<GetOpponentDto>(await response.Content.ReadAsStringAsync());
-        result.OppeonetId.Should().Be(freindId);
+        result.OppeonetId.Should().Be(friendId);
     }
 
     /// <summary>

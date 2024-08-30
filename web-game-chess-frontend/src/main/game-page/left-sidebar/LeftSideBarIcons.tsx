@@ -3,7 +3,7 @@ import { IconMap } from "../../../shared/utils/types/commonTypes";
 import classes from "./LeftSideBar.module.scss";
 
 export const leftSideBarIcons: IconMap = {
-  abort: (
+  abort: () => (
     <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className={classes["list-icon"]}>
       <g>
         <path
@@ -17,7 +17,7 @@ export const leftSideBarIcons: IconMap = {
     </svg>
   ),
 
-  resign: (
+  resign: () => (
     <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className={classes["list-icon"]}>
       <path
         fillRule="evenodd"
@@ -32,7 +32,7 @@ export const leftSideBarIcons: IconMap = {
     </svg>
   ),
 
-  draw: (
+  draw: () => (
     <svg
       version="1.1"
       xmlns="http://www.w3.org/2000/svg"

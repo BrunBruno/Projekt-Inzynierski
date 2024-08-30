@@ -65,9 +65,9 @@
     opacity: 1;
     scale: 1;
 
-    animation: logoDissapear 0.5s ease-in 1.5s forwards;
+    animation: logoDisappear 0.5s ease-in 1.5s forwards;
 
-    @keyframes logoDissapear {
+    @keyframes logoDisappear {
       to {
         scale: 0;
         opacity: 0;

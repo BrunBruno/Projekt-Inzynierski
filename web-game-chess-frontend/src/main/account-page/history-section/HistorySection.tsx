@@ -4,13 +4,14 @@ import { LineChart } from "@mui/x-charts";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import { mainColor } from "../../../shared/utils/enums/colorMaps";
 import { formatDate } from "../../../shared/utils/functions/dateTimeRelated";
-import TimingTypesIcons from "../../../shared/svgs/TimingTypesIcons";
-import { PagedResult } from "../../../shared/utils/types/abstracDtosAndModels";
+import { PagedResult } from "../../../shared/utils/types/abstractDtosAndModels";
+import IconCreator from "../../../shared/components/icon-creator/IconCreator";
+import { timingTypesIcons } from "../../../shared/svgs/TimingTypesIcons";
 
 type HistorySectionProps = {
   // game type name
   selectedType: string | null;
-  // paged result of type histoy dtos
+  // paged result of type history dtos
   typeHistory: PagedResult<GetTypeHistoryDto> | null;
 };
 
@@ -116,7 +117,12 @@ function HistorySection({ selectedType, typeHistory }: HistorySectionProps) {
   return (
     <div className={classes.actions}>
       <h2>
-        <TimingTypesIcons iconName={selectedType.toLocaleLowerCase()} iconClass={classes["type-icon"]} /> {selectedType}
+        <IconCreator
+          icons={timingTypesIcons}
+          iconName={selectedType.toLocaleLowerCase()}
+          iconClass={classes["type-icon"]}
+        />
+        <span>{selectedType}</span>
       </h2>
 
       <div className={classes.actions__chart}>{createChart(typeHistory.items)}</div>

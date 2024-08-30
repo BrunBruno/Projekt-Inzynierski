@@ -7,7 +7,7 @@ import {
   CheckIfInGameModel,
   GetAllInvitationsModel,
   GetAllFinishedGamesModel,
-  GetTypeHistiryModel,
+  GetTypeHistoryModel,
 } from "../types/gameModels";
 import { GetByEmailModel, GetOtherUserModel, GetRegisterConfModel } from "../types/userModels";
 
@@ -50,7 +50,7 @@ export const userControllerPaths: UserControllerPaths = {
   // verifies email address
   verifyEmail: (): string => `${userBaseUrl}/verify-email`,
 
-  // pdates updateable data for user
+  // updates updatable data for user
   updateProfile: (): string => `${userBaseUrl}/profile`,
 
   // gets basic user info
@@ -97,7 +97,7 @@ interface GameControllerPaths {
   getEndedGame: (gameId: Guid) => string;
   getGameTiming: (gameId: Guid) => string;
   getAllFinishedGames: (model: GetAllFinishedGamesModel) => string;
-  getTypeHistory: (model: GetTypeHistiryModel) => string;
+  getTypeHistory: (model: GetTypeHistoryModel) => string;
   getAllInvitations: (model: GetAllInvitationsModel) => string;
   getAllMessages: (gameId: Guid) => string;
   //DELETE
@@ -106,7 +106,7 @@ interface GameControllerPaths {
 
 // paths in game controller
 export const gameControllerPaths: GameControllerPaths = {
-  // reates player if player not exists
+  // creates player if player not exists
   startSearch: (): string => `${gameBaseUrl}/search`,
 
   // creates private game
@@ -118,8 +118,8 @@ export const gameControllerPaths: GameControllerPaths = {
   // creates private game with link and returns it
   createGameWithLink: (): string => `${gameBaseUrl}/by-link`,
 
-  // creates new game for two same users taht has already played one game
-  createRematchGame: (): string => `${gameBaseUrl}/remacth`,
+  // creates new game for two same users that has already played one game
+  createRematchGame: (): string => `${gameBaseUrl}/rematch`,
 
   // check if player was matched and the game has started
   checkIfInGame: (model: CheckIfInGameModel): string => `${gameBaseUrl}/check-if-in-game/?${stringifyModel(model)}`,
@@ -148,10 +148,10 @@ export const gameControllerPaths: GameControllerPaths = {
   getAllFinishedGames: (model: GetAllFinishedGamesModel): string =>
     `${gameBaseUrl}/all-finished?${stringifyModel(model)}`,
 
-  // get all previous games for choosen timing type
-  getTypeHistory: (model: GetTypeHistiryModel): string => `${gameBaseUrl}/type-history?${stringifyModel(model)}`,
+  // get all previous games for chosen timing type
+  getTypeHistory: (model: GetTypeHistoryModel): string => `${gameBaseUrl}/type-history?${stringifyModel(model)}`,
 
-  // gets all previous inivations, taht were untouched
+  // gets all previous invitations, that were untouched
   getAllInvitations: (model: GetAllInvitationsModel): string => `${gameBaseUrl}/invitations?${stringifyModel(model)}`,
 
   // gets all messages for current game
@@ -179,13 +179,13 @@ interface FriendshipControllerPaths {
 }
 
 export const friendshipControllerPaths: FriendshipControllerPaths = {
-  // creates new frendship, with pending status
+  // creates new friendship, with pending status
   inviteFriend: (): string => `${friendshipBaseUrl}/invite`,
 
   // changes status of pending friendship
   respondToFriendRequest: (friendshipId: Guid): string => `${friendshipBaseUrl}/${friendshipId}/respond`,
 
-  // gets all users with choosen relation to user
+  // gets all users with chosen relation to user
   getAllFriendsByStatus: (model: GetAllFriendsByStatusModel): string =>
     `${friendshipBaseUrl}/all-by-status?${stringifyModel(model)}`,
 

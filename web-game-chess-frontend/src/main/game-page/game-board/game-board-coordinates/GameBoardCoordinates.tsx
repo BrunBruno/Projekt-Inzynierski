@@ -1,5 +1,5 @@
 import { intToChar } from "../../../../shared/utils/functions/gameRelated";
-import { pieceColor } from "../../../../shared/utils/enums/entitiesEnums";
+import { PieceColor } from "../../../../shared/utils/enums/entitiesEnums";
 import classes from "./GameBoardCoordinates.module.scss";
 import { GetPlayerDto } from "../../../../shared/utils/types/gameDtos";
 
@@ -16,7 +16,7 @@ function GameBoardCoordinates({ playerData }: GameBoardCoordinatesProps) {
       {/* /display ranks */}
       <div
         className={`${classes.coordinates__rows} ${
-          playerData.color === pieceColor.black ? classes["black-indicators"] : classes["white-indicators"]
+          playerData.color === PieceColor.black ? classes["black-indicators"] : classes["white-indicators"]
         }`}
       >
         {Array.from({ length: 8 }, (_, i) => i + 1)
@@ -30,7 +30,7 @@ function GameBoardCoordinates({ playerData }: GameBoardCoordinatesProps) {
       {/* display files */}
       <div
         className={`${classes.coordinates__columns} ${
-          playerData.color === pieceColor.black ? classes["black-indicators"] : classes["white-indicators"]
+          playerData.color === PieceColor.black ? classes["black-indicators"] : classes["white-indicators"]
         }`}
       >
         {Array.from({ length: 8 }, (_, i) => intToChar(i + 1)).map((row, i) => (

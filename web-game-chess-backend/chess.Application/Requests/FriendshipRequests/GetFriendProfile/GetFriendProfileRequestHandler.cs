@@ -9,9 +9,9 @@ using MediatR;
 namespace chess.Application.Requests.FriendshipRequests.GetFriendProfile;
 
 /// <summary>
-/// Checks if freindships exists
+/// Checks if friendships exists
 /// Checks if found friendship belongs to current user
-/// Checks if freindship is accepted
+/// Checks if friendship is accepted
 /// Creates and returns user profile dto
 /// </summary>
 public class GetFriendProfileRequestHandler : IRequestHandler<GetFriendProfileRequest, GetFriendProfileDto> {
@@ -38,7 +38,7 @@ public class GetFriendProfileRequestHandler : IRequestHandler<GetFriendProfileRe
             ?? throw new NotFoundException("Friendship not found.");
 
         if (friendship.RequestorId != userId && friendship.ReceiverId != userId)
-            throw new UnauthorizedException("This is not user freindship");
+            throw new UnauthorizedException("This is not user friendship");
 
         if (friendship.Status != Core.Enums.FriendshipStatus.Accepted)
             throw new BadRequestException("This friendship is not accepted.");

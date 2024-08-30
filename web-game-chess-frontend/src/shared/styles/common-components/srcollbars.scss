@@ -1,18 +1,18 @@
-/* shared scrollbars settings */
+/* shared scrollbar settings */
 
 @import "../variables/color.scss";
 
 // default setting for main scrollbar
-@mixin mainScrollbar($bgcolor: #000, $mainColor: #343a40, $sideColor: #495057) {
-  $mainrgb: map-get($colorMap, $mainColor);
-  $sidergb: map-get($colorMap, $sideColor);
+@mixin mainScrollbar($bgColor: #000, $mainColor: #343a40, $sideColor: #495057) {
+  $mainRGB: map-get($colorMap, $mainColor);
+  $sideRGB: map-get($colorMap, $sideColor);
 
   &::-webkit-scrollbar {
     width: 1.2rem;
     z-index: 999;
 
     &-track {
-      background-color: $bgcolor;
+      background-color: $bgColor;
     }
 
     &-thumb {
@@ -29,7 +29,7 @@
     &-button:single-button {
       display: block;
       height: 1.2rem;
-      background-color: $bgcolor;
+      background-color: $bgColor;
       background-size: 0.8rem;
       background-repeat: no-repeat;
       background-position: center 0.4rem;
@@ -39,18 +39,18 @@
       }
 
       &:vertical:decrement {
-        background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='100' height='100' fill='#{$mainrgb}'><polygon points='50,00 0,50 100,50'/></svg>");
+        background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='100' height='100' fill='#{$mainRGB}'><polygon points='50,00 0,50 100,50'/></svg>");
 
         &:hover {
-          background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='100' height='100' fill='#{$sidergb}'><polygon points='50,00 0,50 100,50'/></svg>");
+          background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='100' height='100' fill='#{$sideRGB}'><polygon points='50,00 0,50 100,50'/></svg>");
         }
       }
 
       &:vertical:increment {
-        background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='100' height='100' fill='#{$mainrgb}'><polygon points='0,0 100,0 50,50'/></svg>");
+        background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='100' height='100' fill='#{$mainRGB}'><polygon points='0,0 100,0 50,50'/></svg>");
 
         &:hover {
-          background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='100' height='100' fill='#{$sidergb}'><polygon points='0,0 100,0 50,50'/></svg>");
+          background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='100' height='100' fill='#{$sideRGB}'><polygon points='0,0 100,0 50,50'/></svg>");
         }
       }
     }

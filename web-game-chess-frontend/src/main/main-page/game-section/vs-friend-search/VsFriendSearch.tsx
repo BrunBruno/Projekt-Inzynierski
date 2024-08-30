@@ -4,7 +4,7 @@ import { GetAllFriendsByStatusDto } from "../../../../shared/utils/types/friends
 import TimeSelection from "./time-selection/TimeSelection";
 import FriendList from "./friends-list/FriendList";
 import { GetByEmailDto } from "../../../../shared/utils/types/userDtos";
-import { InviteByEmailRef, InviteBySelectionRef, InviteByUrlRef } from "./VsFreindSearchObjects";
+import { InviteByEmailRef, InviteBySelectionRef, InviteByUrlRef } from "./VsFriendSearchObjects";
 import { Guid } from "guid-typescript";
 import InviteBySelection from "./invite-by/InviteBySelection";
 import InviteByEmail from "./invite-by/InviteByEmail";
@@ -50,7 +50,7 @@ function VsFriendSearch({}: VsFriendSearchProps) {
       <div className={classes.search__split}>
         {/* left side bar */}
         <div className={classes.search__split__bar}>
-          <h2>Invate to play</h2>
+          <h2 className={classes["invite-title"]}>Invite to play</h2>
 
           <InviteBySelection ref={inviteBySelectionRef} setSelectedUsername={setSelectedUsername} />
 

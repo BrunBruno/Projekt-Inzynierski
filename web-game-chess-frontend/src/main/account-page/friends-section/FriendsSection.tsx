@@ -12,7 +12,7 @@ import cardClasses from "./friend-card/FriendCard.module.scss";
 import { usePopup } from "../../../shared/utils/hooks/usePopUp";
 import usePagination from "../../../shared/utils/hooks/usePagination";
 import { getErrMessage } from "../../../shared/utils/functions/displayError";
-import { PagedResult } from "../../../shared/utils/types/abstracDtosAndModels";
+import { PagedResult } from "../../../shared/utils/types/abstractDtosAndModels";
 
 function FriendsSection() {
   ///
@@ -27,7 +27,7 @@ function FriendsSection() {
   useEffect(() => {
     const getFriends = async () => {
       try {
-        const frindsModel: GetAllFriendsByStatusModel = {
+        const model: GetAllFriendsByStatusModel = {
           username: "",
           status: FriendshipStatus.accepted,
           pageNumber: 1,
@@ -35,7 +35,7 @@ function FriendsSection() {
         };
 
         const friendsResponse = await axios.get<PagedResult<GetAllFriendsByStatusDto>>(
-          friendshipControllerPaths.getAllFriendsByStatus(frindsModel),
+          friendshipControllerPaths.getAllFriendsByStatus(model),
           getAuthorization()
         );
 
@@ -50,7 +50,7 @@ function FriendsSection() {
   }, []);
   //*/
 
-  // to deactive friend selection
+  // to deactivate friend selection
   const clearSelection = () => {
     if (selectedFriend !== null) selectedFriend.classList.remove(cardClasses.active);
   };
@@ -69,7 +69,7 @@ function FriendsSection() {
       {friendList.length > 0 ? (
         friendList.map((friend) => (
           <FriendCard
-            key={friend.freindshpId.toString()}
+            key={friend.friendshipId.toString()}
             friend={friend}
             setSelectedFriend={setSelectedFriend}
             clearSelection={clearSelection}

@@ -35,7 +35,7 @@ public class GetAllFriendsByStatusTests : IClassFixture<TestWebApplicationFactor
 
         await _dbContext.Init();
         await _dbContext.AddUser();
-        await _dbContext.AddUsersAndFreindships();
+        await _dbContext.AddUsersAndFriendships();
 
 
         // requet for each friendship status

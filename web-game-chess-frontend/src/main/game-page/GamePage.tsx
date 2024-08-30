@@ -109,7 +109,7 @@ function GamePage() {
   };
 
   // starts game - adds player to hub group
-  // must run eafter each refresh
+  // must run after each refresh
   const addPlayerToGameGroup = async (): Promise<void> => {
     if (!gameId) return;
 
@@ -123,8 +123,8 @@ function GamePage() {
     GameHubService.connection?.off("GameUpdated", getGame);
   };
 
-  // add game hub listners
-  // first feach for game data
+  // add game hub listeners
+  // first fetch for game data
   useEffect(() => {
     addPlayerToGameGroup();
     GameHubService.connection?.on("GameUpdated", getGame);
@@ -139,7 +139,7 @@ function GamePage() {
     };
   }, [gameId]);
 
-  // get players remining times
+  // get players remaining times
   const fetchTime = async (): Promise<void> => {
     if (!gameId) return;
 

@@ -1,7 +1,6 @@
 import { useNavigate, useParams } from "react-router-dom";
 import classes from "./AboutPage.module.scss";
 import { useEffect, useState } from "react";
-import RoundArrowSvg from "../../shared/svgs/RoundArrowSvg";
 import { mainColor } from "../../shared/utils/enums/colorMaps";
 import {
   ContentElements,
@@ -12,6 +11,8 @@ import {
 } from "./content-sections/ContentSections";
 import ContentSection from "./content-sections/ContentsSection";
 import LoadingPage from "../../shared/components/loading-page/LoadingPage";
+import IconCreator from "../../shared/components/icon-creator/IconCreator";
+import { symbolIcons } from "../../shared/svgs/SymbolIcons";
 
 function AboutPage() {
   ///
@@ -24,7 +25,7 @@ function AboutPage() {
     elements: ContentElements[];
   };
 
-  // page inteface options
+  // page interface options
   const contentOptions: { [key: string]: ContentType } = {
     introduction: { title: "Introduction", elements: introductionElements },
     objectives: { title: "Objectives", elements: objectivesElements },
@@ -32,7 +33,7 @@ function AboutPage() {
     privacy: { title: "Privacy", elements: privacyElements },
   };
 
-  // content to display based on se;ection
+  // content to display based on selection
   const [selectedContent, setSelectedContent] = useState<ContentType | null>(null);
 
   // to set select content base on obtained params
@@ -82,7 +83,12 @@ function AboutPage() {
                   }}
                 >
                   <div className={classes["arrow-icon"]}>
-                    <RoundArrowSvg color={mainColor.c0} secColor={mainColor.c5} iconClass={classes["arror-svg-left"]} />
+                    <IconCreator
+                      icons={symbolIcons}
+                      iconName="roundArrow"
+                      color={mainColor.c0}
+                      iconClass={classes["arrow-svg-left"]}
+                    />
                   </div>
                   <span>{content.title}</span>
                 </li>
@@ -99,7 +105,12 @@ function AboutPage() {
                 }}
               >
                 <div className={classes["arrow-icon"]}>
-                  <RoundArrowSvg color={mainColor.c0} secColor={mainColor.c5} iconClass={classes["arror-svg-right"]} />
+                  <IconCreator
+                    icons={symbolIcons}
+                    iconName="roundArrow"
+                    color={mainColor.c0}
+                    iconClass={classes["arrow-svg-right"]}
+                  />
                 </div>
                 <span>Home Page</span>
               </li>

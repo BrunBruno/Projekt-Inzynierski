@@ -152,7 +152,7 @@
         filter: invert(1) blur(0.4rem);
       }
 
-      .enigne-svg {
+      .engine-svg {
         height: 80%;
         transform: rotate(0);
         transition: transform 1s 1s;
@@ -184,7 +184,7 @@
       }
 
       &.active-icon {
-        .enigne-svg {
+        .engine-svg {
           animation: engineAni 2s linear 1s forwards;
 
           @keyframes engineAni {

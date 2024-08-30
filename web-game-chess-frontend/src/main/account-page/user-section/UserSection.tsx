@@ -4,17 +4,18 @@ import { GetEloDto, GetFullUserDto } from "../../../shared/utils/types/userDtos"
 import LoadingPage from "../../../shared/components/loading-page/LoadingPage";
 import axios from "axios";
 import { getAuthorization, userControllerPaths } from "../../../shared/utils/services/ApiService";
-import TimingTypesIcons from "../../../shared/svgs/TimingTypesIcons";
 import { TimingTypes } from "../../../shared/utils/enums/entitiesEnums";
-import UserSectionIocns from "./UserSectionIcons";
 import { UpdateProfileModel } from "../../../shared/utils/types/userModels";
 import StatsRow from "./stats-row/StatsRow";
 import { usePopup } from "../../../shared/utils/hooks/usePopUp";
 import { getErrMessage } from "../../../shared/utils/functions/displayError";
 import AvatarImage from "../../../shared/components/avatar-image/AvatarImage";
+import IconCreator from "../../../shared/components/icon-creator/IconCreator";
+import { userSectionIcons } from "./UserSectionIcons";
+import { timingTypesIcons } from "../../../shared/svgs/TimingTypesIcons";
 
 type UserSectionProps = {
-  // to obtaine game timing history by selection timing type
+  // to obtain game timing history by selection timing type
   // sends right column view to type history chart
   getTypeHistory: (type: number) => void;
   // to view send to friend list
@@ -98,7 +99,7 @@ function UserSection({ getTypeHistory, setFriendSection }: UserSectionProps) {
           <AvatarImage username={user.username} imageUrl={user.imageUrl} imageClass={classes["avatar-img"]} />
 
           <div className={classes["set-img"]}>
-            <UserSectionIocns iconName="image" />
+            <IconCreator icons={userSectionIcons} iconName="image" />
           </div>
         </div>
 
@@ -132,26 +133,26 @@ function UserSection({ getTypeHistory, setFriendSection }: UserSectionProps) {
         </div>
 
         <div className={classes.user__profile__icons}>
-          <div className={classes["iocn-con"]}>
+          <div className={classes["icon-con"]}>
             <div className={`${classes.icon} ${classes["country"]}`}>
               <img src={`https://flagsapi.com/${user.country}/flat/64.png`} />
             </div>
             <span>{user.country}</span>
           </div>
-          <div className={classes["iocn-con"]}>
+          <div className={classes["icon-con"]}>
             <div
               className={`${classes.icon} ${classes["friends"]}`}
               onClick={() => {
                 setFriendSection();
               }}
             >
-              <UserSectionIocns iconName="friends" />
+              <IconCreator icons={userSectionIcons} iconName="friends" />
             </div>
             <span>Friends</span>
           </div>
-          <div className={classes["iocn-con"]}>
+          <div className={classes["icon-con"]}>
             <div className={`${classes.icon} ${classes["settings"]}`}>
-              <UserSectionIocns iconName="settings" />
+              <IconCreator icons={userSectionIcons} iconName="settings" />
             </div>
             <span>Settings</span>
           </div>
@@ -183,7 +184,7 @@ function UserSection({ getTypeHistory, setFriendSection }: UserSectionProps) {
               getTypeHistory(TimingTypes.bullet);
             }}
           >
-            <TimingTypesIcons iconName="bullet" iconClass={classes["elo-icon"]} />
+            <IconCreator icons={timingTypesIcons} iconName="bullet" iconClass={classes["elo-icon"]} />
             <span>{elo.bullet}</span>
           </div>
           <div
@@ -192,7 +193,7 @@ function UserSection({ getTypeHistory, setFriendSection }: UserSectionProps) {
               getTypeHistory(TimingTypes.blitz);
             }}
           >
-            <TimingTypesIcons iconName="blitz" iconClass={classes["elo-icon"]} />
+            <IconCreator icons={timingTypesIcons} iconName="blitz" iconClass={classes["elo-icon"]} />
             <span>{elo.blitz}</span>
           </div>
           <div
@@ -201,7 +202,7 @@ function UserSection({ getTypeHistory, setFriendSection }: UserSectionProps) {
               getTypeHistory(TimingTypes.rapid);
             }}
           >
-            <TimingTypesIcons iconName="rapid" iconClass={classes["elo-icon"]} />
+            <IconCreator icons={timingTypesIcons} iconName="rapid" iconClass={classes["elo-icon"]} />
             <span>{elo.rapid}</span>
           </div>
           <div
@@ -210,7 +211,7 @@ function UserSection({ getTypeHistory, setFriendSection }: UserSectionProps) {
               getTypeHistory(TimingTypes.classic);
             }}
           >
-            <TimingTypesIcons iconName="classic" iconClass={classes["elo-icon"]} />
+            <IconCreator icons={timingTypesIcons} iconName="classic" iconClass={classes["elo-icon"]} />
             <span>{elo.classic}</span>
           </div>
           <div
@@ -219,7 +220,7 @@ function UserSection({ getTypeHistory, setFriendSection }: UserSectionProps) {
               getTypeHistory(TimingTypes.daily);
             }}
           >
-            <TimingTypesIcons iconName="daily" iconClass={classes["elo-icon"]} />
+            <IconCreator icons={timingTypesIcons} iconName="daily" iconClass={classes["elo-icon"]} />
             <span>{elo.daily}</span>
           </div>
         </div>

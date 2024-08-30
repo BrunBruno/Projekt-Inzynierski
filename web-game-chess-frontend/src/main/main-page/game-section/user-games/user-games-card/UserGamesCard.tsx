@@ -1,14 +1,16 @@
 import { useEffect, useRef } from "react";
 import AvatarImage from "../../../../../shared/components/avatar-image/AvatarImage";
-import TimingTypesIcons from "../../../../../shared/svgs/TimingTypesIcons";
-import WinLoseIcons from "../../../../../shared/svgs/WinLoseIcons";
-import WinTypesIcons from "../../../../../shared/svgs/WinTypesIcons";
 import { EndGameTypes, TimingTypes } from "../../../../../shared/utils/enums/entitiesEnums";
 import { pieceImageMap } from "../../../../../shared/utils/enums/piecesMaps";
 import { getEnumKeyByEnumValue } from "../../../../../shared/utils/functions/enumRelated";
-import { PlayerDto } from "../../../../../shared/utils/types/abstracDtosAndModels";
+import { PlayerDto } from "../../../../../shared/utils/types/abstractDtosAndModels";
 import { GetAllFinishedGamesDto } from "../../../../../shared/utils/types/gameDtos";
 import classes from "./UserGamesCard.module.scss";
+import IconCreator from "../../../../../shared/components/icon-creator/IconCreator";
+import { timingTypesIcons } from "../../../../../shared/svgs/TimingTypesIcons";
+import { winLoseIcons } from "../../../../../shared/svgs/WinLoseIcons";
+import { winTypesIcons } from "../../../../../shared/svgs/WinTypesIcons";
+import { mainColor } from "../../../../../shared/utils/enums/colorMaps";
 
 type UserGamesCardProps = {
   // finished game data
@@ -169,21 +171,26 @@ function UserGamesCard({ game }: UserGamesCardProps) {
 
       <div ref={dataRef} className={classes["game-data"]}>
         <div className={classes["timing-type"]}>
-          <TimingTypesIcons iconName={getEnumKeyByEnumValue(TimingTypes, game.timingType)} iconClass="" />
+          <IconCreator
+            icons={timingTypesIcons}
+            iconName={getEnumKeyByEnumValue(TimingTypes, game.timingType)}
+            iconClass=""
+            color={mainColor.c5}
+          />
         </div>
         <div className={classes["is-winner"]}>
           {game.isWinner === null ? (
-            <WinLoseIcons iconName="draw" />
+            <IconCreator icons={winLoseIcons} iconName="draw" />
           ) : game.isWinner === true ? (
-            <WinLoseIcons iconName="win" />
+            <IconCreator icons={winLoseIcons} iconName="win" />
           ) : (
-            <WinLoseIcons iconName="lose" />
+            <IconCreator icons={winLoseIcons} iconName="lose" />
           )}
         </div>
 
         <div className={classes.moves}>{game.moves}</div>
         <div className={classes["win-type"]}>
-          <WinTypesIcons iconName={getEnumKeyByEnumValue(EndGameTypes, game.endGameType)} />
+          <IconCreator icons={winTypesIcons} iconName={getEnumKeyByEnumValue(EndGameTypes, game.endGameType)} />
         </div>
       </div>
     </div>

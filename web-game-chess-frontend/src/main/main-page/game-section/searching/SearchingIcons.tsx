@@ -1,17 +1,13 @@
-import { IconsMapProps } from "../../../../shared/utils/types/commonTypes";
+import { IconMap } from "../../../../shared/utils/types/commonTypes";
 import classes from "./Searching.module.scss";
 
-type SearchingIconsType = {
-  [key: string]: (active: boolean) => JSX.Element;
-};
-
-const icons: SearchingIconsType = {
-  pawn: (active: boolean) => (
+export const searchingIcons: IconMap = {
+  pawn: (iconClass?: string | undefined, color?: string | undefined, active?: boolean | undefined) => (
     <svg
       viewBox="-4 0 24 24"
-      fill="none"
       xmlns="http://www.w3.org/2000/svg"
-      className={`${classes.pawn} ${active ? classes.active : ""}`}
+      className={`${iconClass} ${classes.pawn} ${active ? classes.active : ""}`}
+      fill={color}
     >
       <path
         fillRule="evenodd"
@@ -21,7 +17,7 @@ const icons: SearchingIconsType = {
     </svg>
   ),
 
-  globe: (active: boolean) => (
+  globe: (iconClass?: string | undefined, color?: string | undefined, active?: boolean | undefined) => (
     <svg
       version="1.0"
       xmlns="http://www.w3.org/2000/svg"
@@ -29,7 +25,8 @@ const icons: SearchingIconsType = {
       viewBox="0 0 96 96"
       enableBackground="new 0 0 64 64"
       xmlSpace="preserve"
-      className={active ? classes["active-bg"] : ""}
+      className={`${iconClass} ${active ? classes["active-bg"] : ""}`}
+      fill={color}
     >
       <g>
         <path d="M18.521,13.606c2.761-5.293,6.67-9.885,11.397-13.457c-7.757,0.499-14.757,3.76-20.035,8.812 C12.53,10.859,15.427,12.432,18.521,13.606z" />
@@ -52,15 +49,3 @@ const icons: SearchingIconsType = {
     </svg>
   ),
 };
-
-type SearchingPawnProps = IconsMapProps & {
-  active: boolean;
-};
-
-function SearchingIcons({ active, iconName }: SearchingPawnProps) {
-  const icon = icons[iconName](active);
-
-  return icon ? icon : <>i</>;
-}
-
-export default SearchingIcons;

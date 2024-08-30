@@ -12,6 +12,7 @@ class FindMoves {
     btd: "btd",
     tbd: "tbd",
   };
+
   // vectors for pins
   private readonly directionMap: { [key: string]: number[][] } = {
     hor: [
@@ -67,7 +68,7 @@ class FindMoves {
     switch (this.checkedPiece) {
       case pieceTagMap.white.pawn:
       case pieceTagMap.black.pawn:
-        // no horzontal moves for pinned pawns
+        // no horizontal moves for pinned pawns
         if (direction !== this.directions.hor) foundTips = this.checkPawnMove([xCoor, yCoor], directionVector);
 
         break;
@@ -79,7 +80,7 @@ class FindMoves {
         break;
       case pieceTagMap.white.bishop:
       case pieceTagMap.black.bishop:
-        // no streights moves for pinned bishops
+        // no straights moves for pinned bishops
         if (direction !== this.directions.ver && direction !== this.directions.hor) {
           foundTips = this.checkPiecesMoves([xCoor, yCoor], movementMap.bishopMoves, directionVector);
         }
@@ -164,7 +165,7 @@ class FindMoves {
     const availableMoves: number[][] = [];
 
     const pawnDirectionMap = {
-      streight: 0,
+      straight: 0,
       diagL: 1,
       diagR: -1,
     };
@@ -186,7 +187,7 @@ class FindMoves {
         y = yCoor + 1;
 
         // check pawn forward move
-        if (this.isValidPawnMove([x, y], dir, pawnDirectionMap.streight)) {
+        if (this.isValidPawnMove([x, y], dir, pawnDirectionMap.straight)) {
           firstIsValid = true;
           availableMoves.push([x, y]);
         }
@@ -212,7 +213,7 @@ class FindMoves {
           x = xCoor;
           y = yCoor + 2;
 
-          if (this.isValidPawnMove([x, y], dir, pawnDirectionMap.streight)) {
+          if (this.isValidPawnMove([x, y], dir, pawnDirectionMap.straight)) {
             availableMoves.push([x, y]);
           }
         }
@@ -228,7 +229,7 @@ class FindMoves {
         y = yCoor - 1;
 
         // check pawn forward move
-        if (this.isValidPawnMove([x, y], dir, pawnDirectionMap.streight)) {
+        if (this.isValidPawnMove([x, y], dir, pawnDirectionMap.straight)) {
           firstIsValid = true;
           availableMoves.push([x, y]);
         }
@@ -254,7 +255,7 @@ class FindMoves {
           x = xCoor;
           y = yCoor - 2;
 
-          if (this.isValidPawnMove([x, y], dir, pawnDirectionMap.streight)) {
+          if (this.isValidPawnMove([x, y], dir, pawnDirectionMap.straight)) {
             availableMoves.push([x, y]);
           }
         }
@@ -308,7 +309,7 @@ class FindMoves {
   ): number[][] => {
     const availableMoves: number[][] = [];
 
-    // set availabe moves to all or to limited when pinned
+    // set available moves to all or to limited when pinned
     const moves: number[][] = directions ? directions : pieceMoves;
 
     let [isValid, isEmpty]: boolean[] = [];
@@ -352,7 +353,7 @@ class FindMoves {
       }
     }
 
-    // check castlings and king not in check
+    // check castling and king not in check
     if (!areas.some((coord) => areCoorEqual([xCoor, yCoor], coord)) && this.gameState && this.gameState.gameData) {
       // short castle possible and king not in check
       if (
@@ -386,7 +387,7 @@ class FindMoves {
           this.gameState.gameData.canBlackLongRookCastle &&
           piece === pieceTagMap.black.king)
       ) {
-        // if areas where king is passing are empty and not in enemies controll
+        // if areas where king is passing are empty and not in enemies control
         if (
           // first field empty and not in check
           this.gameState.matrix[yCoor - 1][xCoor - 1 - 1] === "" &&

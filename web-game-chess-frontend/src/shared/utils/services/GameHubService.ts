@@ -1,4 +1,4 @@
-/* singalR hub service map from GameHub */
+/* signalR hub service map from GameHub */
 
 import * as signalR from "@microsoft/signalr";
 import {
@@ -18,7 +18,7 @@ class GameHub {
   // private gameHubUrl: string = "http://192.168.1.46:5125/game-hub";
   // verification token
   private token: string | null = null;
-  // attemps take to establish connection
+  // attempts take to establish connection
   private attempts: number = 0;
 
   public connection: signalR.HubConnection | null = null;
@@ -65,7 +65,7 @@ class GameHub {
     }
   }
 
-  // add user to self gropu
+  // add user to self group
   public async AddSelfNotification(): Promise<void> {
     try {
       await this.connection?.invoke("add-self-notification");
@@ -102,9 +102,9 @@ class GameHub {
   }
 
   // change game to finished
-  public async EndGame(elsendGameModel: EndGameModel): Promise<void> {
+  public async EndGame(model: EndGameModel): Promise<void> {
     try {
-      await this.connection?.invoke("end-game", elsendGameModel);
+      await this.connection?.invoke("end-game", model);
     } catch (err) {
       console.error(err);
     }
@@ -128,7 +128,7 @@ class GameHub {
     }
   }
 
-  // updates game creatined with link
+  // updates game created with link
   public async UpdatePrivateGame(model: UpdatePrivateGameModel) {
     try {
       await this.connection?.invoke("update-private-game", model);

@@ -1,4 +1,3 @@
-import TimingTypesIcons from "../../../../../shared/svgs/TimingTypesIcons";
 import GameHubService from "../../../../../shared/utils/services/GameHubService";
 import { GetAllInvitationsDto } from "../../../../../shared/utils/types/gameDtos";
 import { AcceptInvitationModel, DeclineInvitationModel } from "../../../../../shared/utils/types/gameModels";
@@ -6,9 +5,11 @@ import classes from "./InvitationCard.module.scss";
 import { timingTypesNames } from "../../../../../shared/utils/enums/commonConstLists";
 import { usePopup } from "../../../../../shared/utils/hooks/usePopUp";
 import { getErrMessage } from "../../../../../shared/utils/functions/displayError";
+import IconCreator from "../../../../../shared/components/icon-creator/IconCreator";
+import { timingTypesIcons } from "../../../../../shared/svgs/TimingTypesIcons";
 
 type InvitationCardProps = {
-  // inviation data
+  // invitation data
   invitation: GetAllInvitationsDto;
   // to refresh invitation list
   updateInvitations: () => void;
@@ -27,7 +28,7 @@ function InvitationCard({ invitation, updateInvitations }: InvitationCardProps) 
       const model: AcceptInvitationModel = {
         gameId: invitation.gameId,
         inviteeId: invitation.inviteeId,
-        invitorId: invitation.invitorId,
+        inviterId: invitation.inviterId,
       };
 
       await GameHubService.AcceptInvitation(model);
@@ -42,7 +43,7 @@ function InvitationCard({ invitation, updateInvitations }: InvitationCardProps) 
     try {
       const model: DeclineInvitationModel = {
         gameId: invitation.gameId,
-        friendId: invitation.invitorId,
+        friendId: invitation.inviterId,
       };
 
       await GameHubService.DeclineInvitation(model);
@@ -59,11 +60,11 @@ function InvitationCard({ invitation, updateInvitations }: InvitationCardProps) 
   return (
     <div className={classes.invitation}>
       <div className={classes.invitation__icon}>
-        <TimingTypesIcons iconClass={classes["type-icon"]} iconName={timingTypesNames[invitation.type].toLowerCase()} />
+        <IconCreator icons={timingTypesIcons} iconName={timingTypesNames[invitation.type].toLowerCase()} />
       </div>
       <div className={classes.invitation__title}>
         <span>User </span>
-        <b>{invitation.invitorName}</b>
+        <b>{invitation.inviterName}</b>
         <span> has invited you to new </span>
         <br />
         <b>{timingTypesNames[invitation.type]}</b>

@@ -1,7 +1,8 @@
 // stats chart data and options
 
-import WinLoseIcons from "../../../../shared/svgs/WinLoseIcons";
-import WinTypesIcons from "../../../../shared/svgs/WinTypesIcons";
+import IconCreator from "../../../../shared/components/icon-creator/IconCreator";
+import { winLoseIcons } from "../../../../shared/svgs/WinLoseIcons";
+import { winTypesIcons } from "../../../../shared/svgs/WinTypesIcons";
 import { dangerColor, greyColor, mainColor, successColor } from "../../../../shared/utils/enums/colorMaps";
 import { ChartObject } from "../../../../shared/utils/types/commonTypes";
 import { GetFullUserDto } from "../../../../shared/utils/types/userDtos";
@@ -29,19 +30,19 @@ export const getStatsConfig = (type: string, user: GetFullUserDto): StatsConfig 
             id: 0,
             label: "Wins",
             value: user.wdlTotal.wins,
-            icon: <WinLoseIcons iconName="win" />,
+            icon: <IconCreator icons={winLoseIcons} iconName="win" />,
           },
           {
             id: 1,
             label: "Draws",
             value: user.wdlTotal.draws,
-            icon: <WinLoseIcons iconName="draw" />,
+            icon: <IconCreator icons={winLoseIcons} iconName="draw" />,
           },
           {
             id: 2,
             label: "Loses",
             value: user.wdlTotal.loses,
-            icon: <WinLoseIcons iconName="lose" />,
+            icon: <IconCreator icons={winLoseIcons} iconName="lose" />,
           },
         ],
       };
@@ -60,19 +61,19 @@ export const getStatsConfig = (type: string, user: GetFullUserDto): StatsConfig 
             id: 0,
             label: "Mate",
             value: user.winsByCheckMate,
-            icon: <WinTypesIcons iconName="checkmate" />,
+            icon: <IconCreator icons={winTypesIcons} iconName="checkmate" />,
           },
           {
             id: 1,
             label: "Resign",
             value: user.winsByResignation,
-            icon: <WinTypesIcons iconName="resignation" />,
+            icon: <IconCreator icons={winTypesIcons} iconName="resignation" />,
           },
           {
             id: 2,
             label: "Timeout",
             value: user.winsByTimeout,
-            icon: <WinTypesIcons iconName="outoftime" />,
+            icon: <IconCreator icons={winTypesIcons} iconName="outOfTime" />,
           },
         ],
       };
@@ -91,19 +92,19 @@ export const getStatsConfig = (type: string, user: GetFullUserDto): StatsConfig 
             id: 0,
             label: "Mate",
             value: user.losesByCheckMate,
-            icon: <WinTypesIcons iconName="checkmate" />,
+            icon: <IconCreator icons={winTypesIcons} iconName="checkmate" />,
           },
           {
             id: 1,
             label: "Resign",
             value: user.losesByResignation,
-            icon: <WinTypesIcons iconName="resignation" />,
+            icon: <IconCreator icons={winTypesIcons} iconName="resignation" />,
           },
           {
             id: 2,
             label: "Timeout",
             value: user.losesByTimeout,
-            icon: <WinTypesIcons iconName="outoftime" />,
+            icon: <IconCreator icons={winTypesIcons} iconName="outOfTime" />,
           },
         ],
       };

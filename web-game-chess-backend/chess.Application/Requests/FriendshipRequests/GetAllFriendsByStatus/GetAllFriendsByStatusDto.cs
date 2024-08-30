@@ -12,7 +12,7 @@ public class GetAllFriendsByStatusDto : UserDto {
     /// <summary>
     /// Id of friendship
     /// </summary>
-    public Guid FreindshpId { get; set; }
+    public Guid FriendshpId { get; set; }
 
     /// <summary>
     /// Is friend a requstor or not

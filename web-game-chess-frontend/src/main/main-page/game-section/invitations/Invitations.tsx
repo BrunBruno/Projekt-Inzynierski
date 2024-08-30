@@ -8,7 +8,7 @@ import InvitationCard from "./invitation-card/InvitationCard";
 import LoadingPage from "../../../../shared/components/loading-page/LoadingPage";
 import { getErrMessage } from "../../../../shared/utils/functions/displayError";
 import { usePopup } from "../../../../shared/utils/hooks/usePopUp";
-import { PagedResult } from "../../../../shared/utils/types/abstracDtosAndModels";
+import { PagedResult } from "../../../../shared/utils/types/abstractDtosAndModels";
 
 const defaultSize = 10;
 
@@ -50,7 +50,7 @@ function Invitations({}: InvitationsProps) {
     updateInvitations();
   }, [pageSize]);
 
-  // icrease page size on scroll
+  // increase page size on scroll
   const handleListOnScroll = () => {
     const listElement = listRef.current;
     if (listElement && invitations) {

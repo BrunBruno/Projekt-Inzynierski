@@ -24,14 +24,14 @@ function FriendCard({ selectedList, friend, getAllUsers, setFriend }: FriendCard
 
   const { showPopup } = usePopup();
 
-  // response to friendshi request
+  // response to friendship request
   const onRespondToRequest = async (accept: boolean) => {
     try {
       const model: RespondToFriendRequestModel = {
         isAccepted: accept,
       };
 
-      await axios.put(friendshipControllerPaths.respondToFriendRequest(friend.freindshpId), model, getAuthorization());
+      await axios.put(friendshipControllerPaths.respondToFriendRequest(friend.friendshipId), model, getAuthorization());
 
       if (accept === true) {
         showPopup("User accepted", "success");
@@ -46,11 +46,11 @@ function FriendCard({ selectedList, friend, getAllUsers, setFriend }: FriendCard
   };
   //*/
 
-  // delete friend /  remove freindship
+  // delete friend /  remove friendship
   // used to unblock blocked friends
   const onRemoveFriend = async (action: boolean) => {
     try {
-      await axios.delete(friendshipControllerPaths.removeFriend(friend.freindshpId), getAuthorization());
+      await axios.delete(friendshipControllerPaths.removeFriend(friend.friendshipId), getAuthorization());
 
       if (action === true) {
         showPopup("Friend removed", "error");
@@ -69,7 +69,7 @@ function FriendCard({ selectedList, friend, getAllUsers, setFriend }: FriendCard
   const onShowProfile = async () => {
     try {
       const response = await axios.get<GetFriendProfileDto>(
-        friendshipControllerPaths.getFriendProfile(friend.freindshpId),
+        friendshipControllerPaths.getFriendProfile(friend.friendshipId),
         getAuthorization()
       );
 

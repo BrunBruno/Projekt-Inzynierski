@@ -12,7 +12,7 @@ export enum PieceColor {
   black = 1,
 }
 
-// from back-end game timining type enum
+// from back-end game timing type enum
 export enum TimingTypes {
   bullet = 0,
   blitz = 1,
@@ -21,7 +21,7 @@ export enum TimingTypes {
   daily = 4,
 }
 
-// from back-end reasons why game has eneded
+// from back-end reasons why game has ended
 export enum EndGameTypes {
   checkMate = 1,
   outOfTime = 2,

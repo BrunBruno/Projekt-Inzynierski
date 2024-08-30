@@ -21,7 +21,7 @@ const PlayBoard = forwardRef<HandleOnScroll, PlayBoardProps>(
     // ref for each tile in board
     const elementRefs: { [key: string]: React.RefObject<HTMLDivElement> } = {};
 
-    // hadnle board on scroll
+    // handle board on scroll
     const handleOnScroll = (): void => {
       const innerElement = innerBoardRef.current;
       const outerElement = outerBoardRef.current;
@@ -47,7 +47,7 @@ const PlayBoard = forwardRef<HandleOnScroll, PlayBoardProps>(
             const scale: number = Math.pow(Math.E, -(1 / Math.pow(10, 6)) * Math.pow(y, 2));
             const rotate: number = -(1 / 100) * y;
 
-            // roate board based on user position
+            // rotate board based on user position
             element.style.transform = `scale(${scale}) rotateZ(${rotate}deg)`;
           }
         }
@@ -70,7 +70,7 @@ const PlayBoard = forwardRef<HandleOnScroll, PlayBoardProps>(
     }));
     //*/
 
-    // genrate board
+    // generate board
     const generateGrid = (): JSX.Element[] => {
       const boardRows: JSX.Element[] = [];
 
@@ -108,8 +108,8 @@ const PlayBoard = forwardRef<HandleOnScroll, PlayBoardProps>(
     // to create wave pattern
     const handleBoardOnClick = (event: React.MouseEvent<HTMLDivElement, MouseEvent>): string => {
       // get cor of tiles based on cursor position
-      const getPosition = (cpos: number, ppos: number, psize: number): number => {
-        return Math.floor((cpos - ppos) / (psize / 8)) + 1;
+      const getPosition = (c_pos: number, p_pos: number, p_size: number): number => {
+        return Math.floor((c_pos - p_pos) / (p_size / 8)) + 1;
       };
 
       const parentRect = event.currentTarget.getBoundingClientRect();

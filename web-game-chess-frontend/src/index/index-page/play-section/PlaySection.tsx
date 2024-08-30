@@ -1,10 +1,11 @@
 import React, { forwardRef, useEffect, useRef } from "react";
 import classes from "./PlaySection.module.scss";
-import PlaySectionIcons from "./PlaySectionIcons";
 import PlayBoard from "./play-board/PlayBoard";
 import { createOneTimeObserver } from "../../../shared/utils/functions/createOneTimeObserver";
 import { HandleOnScroll } from "../../../shared/utils/types/commonTypes";
 import { useNavigate } from "react-router-dom";
+import IconCreator from "../../../shared/components/icon-creator/IconCreator";
+import { playSectionIcons } from "./PlaySectionIcons";
 
 type PlaySectionProps = {
   // section container ref
@@ -98,7 +99,7 @@ const PlaySection = forwardRef<HandleOnScroll, PlaySectionProps>(
                     });
                   }}
                 >
-                  <PlaySectionIcons iconName="online" />
+                  <IconCreator icons={playSectionIcons} iconName="online" />
                   <span>PLAY ONLINE</span>
                 </button>
               </div>
@@ -112,7 +113,7 @@ const PlaySection = forwardRef<HandleOnScroll, PlaySectionProps>(
                     });
                   }}
                 >
-                  <PlaySectionIcons iconName="offline" />
+                  <IconCreator icons={playSectionIcons} iconName="offline" />
                   <span>PLAY OFFLINE</span>
                 </button>
               </div>

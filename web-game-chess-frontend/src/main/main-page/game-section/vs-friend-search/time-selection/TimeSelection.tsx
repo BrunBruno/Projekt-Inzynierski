@@ -1,29 +1,31 @@
 import { Guid } from "guid-typescript";
 import ActionButton from "../../../../../shared/components/action-button/ActionButton";
-import TimingTypesIcons from "../../../../../shared/svgs/TimingTypesIcons";
 import { GetAllFriendsByStatusDto } from "../../../../../shared/utils/types/friendshipDtos";
 import { GetByEmailDto } from "../../../../../shared/utils/types/userDtos";
 import classes from "./TimeSelection.module.scss";
 import { defaultTimeControls, TimeControl } from "./TimeSelectionObjects";
+import IconCreator from "../../../../../shared/components/icon-creator/IconCreator";
+import { timingTypesIcons } from "../../../../../shared/svgs/TimingTypesIcons";
+import { mainColor } from "../../../../../shared/utils/enums/colorMaps";
 
 type TimeSelectionProps = {
-  // user data when friend selected manualy
+  // user data when friend selected manually
   selectedFriend: GetAllFriendsByStatusDto | null;
   // user data when friend selected by email
   selectedUser: GetByEmailDto | null;
   // if url should be displayed
   selectedByUrl: boolean;
-  // to unseclec friend
+  // to unselect friend
   setSelectedFriend: React.Dispatch<React.SetStateAction<GetAllFriendsByStatusDto | null>>;
-  // to unseclec friend
+  // to unselect friend
   setSelectedUser: React.Dispatch<React.SetStateAction<GetByEmailDto | null>>;
   // to unselect url option
   setSelectedByUrl: React.Dispatch<React.SetStateAction<boolean>>;
   // to invite to private game via click
   onInviteBySelection: (friendshipId: Guid, header: string, values: number[]) => void;
-  // to inviate to private game by email
+  // to invite to private game by email
   onInviteByEmail: (email: string, header: string, values: number[]) => void;
-  // to inviate to private game by url
+  // to invite to private game by url
   onInviteByUrl: (header: string, values: number[]) => void;
 };
 
@@ -43,7 +45,7 @@ function TimeSelection({
   // to invite user base on selection
   const onInvite = (control: TimeControl, index: number) => {
     if (selectedFriend !== null) {
-      onInviteBySelection(selectedFriend.freindshpId, control.header, control.values[index]);
+      onInviteBySelection(selectedFriend.friendshipId, control.header, control.values[index]);
     }
 
     if (selectedUser !== null) {
@@ -98,8 +100,13 @@ function TimeSelection({
       {defaultTimeControls.map((control, index) => (
         <div key={index} className={classes.time__row}>
           <div className={classes.time__row__header}>
-            <TimingTypesIcons iconName={control.header.toLocaleLowerCase()} iconClass={classes["header-icon"]} />
-            {control.header}
+            <IconCreator
+              icons={timingTypesIcons}
+              iconName={control.header.toLocaleLowerCase()}
+              iconClass={classes["header-icon"]}
+              color={mainColor.c5}
+            />
+            <span>{control.header}</span>
           </div>
           {control.tags.map((tag, i) => (
             <div

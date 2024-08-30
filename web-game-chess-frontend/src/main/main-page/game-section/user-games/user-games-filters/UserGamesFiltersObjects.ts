@@ -1,4 +1,4 @@
-// fiters options
+// filters options
 
 export const timingTypesList = [
   { value: 0, label: "Bullet" },

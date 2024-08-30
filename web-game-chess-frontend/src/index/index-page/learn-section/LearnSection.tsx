@@ -8,7 +8,7 @@ import { HandleOnScroll } from "../../../shared/utils/types/commonTypes";
 import { generateRandomColor } from "../../../shared/utils/functions/generateRandom";
 
 type LearnSectionProps = {
-  // section containe ref
+  // section container ref
   sectionRef: React.RefObject<HTMLElement>;
 };
 
@@ -19,7 +19,7 @@ const LearnSection = forwardRef<HandleOnScroll, LearnSectionProps>(
     // side cards refs, for opening
     const cardRefs = useRef<HTMLDivElement[]>([]);
 
-    // to handle section on srcoll
+    // to handle section on scroll
     const handleOnScroll = () => {};
     useImperativeHandle(ref, () => ({
       handleOnScroll,
@@ -47,7 +47,7 @@ const LearnSection = forwardRef<HandleOnScroll, LearnSectionProps>(
 
     // to generate cards
     const generateCards = (): JSX.Element[] => {
-      const crads: JSX.Element[] = [];
+      const cards: JSX.Element[] = [];
 
       const numberOfCards = 6;
       for (let i = 0; i < numberOfCards; i++) {
@@ -56,7 +56,7 @@ const LearnSection = forwardRef<HandleOnScroll, LearnSectionProps>(
           borderColor: generateRandomColor(mainColor),
         };
 
-        crads.push(
+        cards.push(
           <div
             ref={(ref) => (cardRefs.current[i] = ref!)}
             key={`card-${i}`}
@@ -71,7 +71,7 @@ const LearnSection = forwardRef<HandleOnScroll, LearnSectionProps>(
         );
       }
 
-      return crads;
+      return cards;
     };
     //*/
 

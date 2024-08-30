@@ -2,7 +2,7 @@ import { PieceColor } from "../enums/entitiesEnums";
 import { PosToIndex } from "../functions/gameRelated";
 import { GetPlayerDto } from "../types/gameDtos";
 
-// to highling selected file
+// to highlighting selected file
 export const onHighlightFile = (
   ref: React.RefObject<HTMLDivElement>,
   coordinates: number[],

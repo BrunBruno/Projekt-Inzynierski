@@ -1,4 +1,4 @@
-/* types for representing essentail states that are used during game */
+/* types for representing essential states that are used during game */
 
 import { Guid } from "guid-typescript";
 import { GetGameDto, GetPlayerDto } from "./gameDtos";
@@ -24,5 +24,5 @@ export type SelectionStates = {
   target: HTMLElement | null;
   coordinates: number[];
   promotionCoor: number[];
-  availableFelds: number[][];
+  availableFields: number[][];
 };

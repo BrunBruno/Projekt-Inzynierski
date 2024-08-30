@@ -9,7 +9,7 @@ using MediatR;
 namespace chess.Application.Requests.FriendshipRequests.GetAllFriendsByStatus;
 
 /// <summary>
-/// Gets all friends based on provided freindship status
+/// Gets all friends based on provided friendship status
 /// Filters users by provided username
 /// Creates new user dto
 /// Returns paged result of users
@@ -62,7 +62,7 @@ public class GetAllFriendsByStatusRequestHandler : IRequestHandler<GetAllFriends
             if (friend is not null) {
                 friendsDtos.Add(new GetAllFriendsByStatusDto()
                 {
-                    FreindshpId = friendship.Id,
+                    FriendshpId = friendship.Id,
                     Username = friend.Username,
                     Name = friend.Name,
                     ImageUrl = friend.ImageUrl,

@@ -1,4 +1,4 @@
-/* commonly occured types */
+/* commonly occurred types */
 
 import { popupIconTypes } from "../enums/commonConstLists";
 
@@ -11,17 +11,17 @@ export type IconSvgProps = {
 // type for svg icons maps and corresponding props
 // type for svg icons with params
 export type IconMap = {
-  [key: string]: JSX.Element;
+  [key: string]: (iconClass?: string, color?: string, active?: boolean) => JSX.Element;
 };
 export type IconsMapProps = {
   icons: IconMap;
   iconName: string;
-};
-export type IconParamMap = {
-  [key: string]: (iconClass: string, color: string) => JSX.Element;
+  iconClass?: string;
+  color?: string;
+  active?: boolean;
 };
 
-// handle on scoll function type
+// handle on scroll function type
 export type HandleOnScroll = {
   handleOnScroll: () => void;
 };

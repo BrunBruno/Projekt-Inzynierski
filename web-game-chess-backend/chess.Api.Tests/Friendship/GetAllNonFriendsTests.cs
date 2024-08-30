@@ -34,7 +34,7 @@ public class GetAllNonFriendsTests : IClassFixture<TestWebApplicationFactory<Pro
 
         await _dbContext.Init();
         await _dbContext.AddUser();
-        await _dbContext.AddUsersAndFreindships();
+        await _dbContext.AddUsersAndFriendships();
 
 
         // request without and with name filtering

@@ -1,7 +1,7 @@
 // game controller dtos
 
 import { Guid } from "guid-typescript";
-import { MoveDto, PlayerDto, TimingTypeModel } from "./abstracDtosAndModels";
+import { MoveDto, PlayerDto, TimingTypeModel } from "./abstractDtosAndModels";
 import { PieceColor, TimingTypes } from "../enums/entitiesEnums";
 
 export type CheckIfInGameDto = {
@@ -12,18 +12,18 @@ export type CheckIfInGameDto = {
 };
 
 export type CreatePrivateGameDto = {
-  // obtained freind id
+  // obtained friend id
   friendId: Guid;
   // created game id
   gameId: Guid;
-  // invitor name
+  // inviter name
   inviter: string;
 };
 
 export type EndGameDto = {
   // winner of the game
   winnerColor: PieceColor | null;
-  // elo gaind or lost
+  // elo gained or lost
   eloGained: number;
 };
 
@@ -61,7 +61,7 @@ export type GetAllFinishedGamesDto = {
   createdAt: Date;
   // type of game timing
   timingType: number;
-  // reasult of the ga,e
+  // result of the ga,e
   endGameType: number;
   // white payer data
   whitePlayer: PlayerDto;
@@ -95,7 +95,7 @@ export type GetGameDto = {
   whitePlayer: PlayerDto;
   // black player data
   blackPlayer: PlayerDto;
-  // all done moves dureing game
+  // all done moves during game
   moves: MoveDto[];
 };
 
@@ -119,9 +119,9 @@ export type InvitedToGameDto = TimingTypeModel & {
   gameId: Guid;
   // invitee user id
   inviteeId: Guid;
-  // invitor user id
+  // inviter user id
   inviterId: Guid;
-  // invitor username
+  // inviter username
   inviter: string;
 };
 
@@ -133,11 +133,11 @@ export type SearchGameDto = {
 };
 
 export type CreateGameByEmailDto = {
-  // obtained firnd user id
+  // obtained friend user id
   friendId: Guid;
   // created game id
   gameId: Guid;
-  // invitor username
+  // inviter username
   inviter: string;
 };
 
@@ -146,10 +146,10 @@ export type GetAllInvitationsDto = {
   gameId: Guid;
   // invitee user id
   inviteeId: Guid;
-  // invitor user id
-  invitorId: Guid;
-  // invitir username
-  invitorName: string;
+  // inviter user id
+  inviterId: Guid;
+  // inviter username
+  inviterName: string;
   // invitee username
   inviteeName: string;
   // date of creation
@@ -172,7 +172,7 @@ export type GetAllMessagesDto = {
 export type CreateGameWithLinkDto = {
   // game id
   gameId: Guid;
-  // obtaine url to awaiting page
+  // obtained url to awaiting page
   gameUrl: string;
 };
 

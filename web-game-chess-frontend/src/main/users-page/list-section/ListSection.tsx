@@ -16,12 +16,12 @@ import { usePopup } from "../../../shared/utils/hooks/usePopUp";
 import LoadingPage from "../../../shared/components/loading-page/LoadingPage";
 import { GetOtherUserDto } from "../../../shared/utils/types/userDtos";
 import { getErrMessage } from "../../../shared/utils/functions/displayError";
-import { PagedResult } from "../../../shared/utils/types/abstracDtosAndModels";
+import { PagedResult } from "../../../shared/utils/types/abstractDtosAndModels";
 
 type ListSectionProps = {
   // provided username to match
   selectedUsername: string;
-  // type of user/freind list to get
+  // type of user/friend list to get
   selectedList: number;
   // set non friend data for profile
   setUserProfile: React.Dispatch<React.SetStateAction<GetOtherUserDto | null>>;
@@ -42,7 +42,7 @@ function ListSection({ selectedUsername, selectedList, setUserProfile, setFriend
 
   const { showPopup } = usePopup();
 
-  // get users, according to selecttion
+  // get users, according to selection
   // get all friends and non friends for user based on choice
   const getAllUsers = async () => {
     try {
@@ -63,7 +63,7 @@ function ListSection({ selectedUsername, selectedList, setUserProfile, setFriend
         setUsers(friendsResponse.data.items);
         setTotalItemsCount(friendsResponse.data.totalItemsCount);
 
-        // fetch for user with relationship establshied
+        // fetch for user with relationship established
       } else {
         const model: GetAllFriendsByStatusModel = {
           username: selectedUsername,
@@ -104,7 +104,7 @@ function ListSection({ selectedUsername, selectedList, setUserProfile, setFriend
   }, [users, friends, listRef]);
   //*/
 
-  // set default page size based on list to elemts size ratio
+  // set default page size based on list to elements size ratio
   // add resize handler to update default size
   useEffect(() => {
     const setDefSize = () => {
@@ -216,7 +216,7 @@ function ListSection({ selectedUsername, selectedList, setUserProfile, setFriend
       )}
       {/* --- */}
 
-      <div className={classes.list__indicatior}>
+      <div className={classes.list__indicator}>
         {users.length > 0 && (
           <p>
             {users.length} / {totalItemsCount}

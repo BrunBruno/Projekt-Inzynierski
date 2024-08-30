@@ -14,13 +14,14 @@ import {
 import GameHubService from "../../../../../shared/utils/services/GameHubService";
 import { getErrMessage } from "../../../../../shared/utils/functions/displayError";
 import { forwardRef, useImperativeHandle, useState } from "react";
-import { InviteByEmailRef } from "../VsFreindSearchObjects";
-import RoundArrowSvg from "../../../../../shared/svgs/RoundArrowSvg";
+import { InviteByEmailRef } from "../VsFriendSearchObjects";
 import { mainColor } from "../../../../../shared/utils/enums/colorMaps";
 import { GetByEmailModel } from "../../../../../shared/utils/types/userModels";
 import { GetByEmailDto } from "../../../../../shared/utils/types/userDtos";
-import { TimingTypeModel } from "../../../../../shared/utils/types/abstracDtosAndModels";
+import { TimingTypeModel } from "../../../../../shared/utils/types/abstractDtosAndModels";
 import { getEnumValueByKey } from "../../../../../shared/utils/functions/enumRelated";
+import IconCreator from "../../../../../shared/components/icon-creator/IconCreator";
+import { symbolIcons } from "../../../../../shared/svgs/SymbolIcons";
 
 type InviteByEmailProps = {
   // to set obtained user from email
@@ -37,7 +38,7 @@ const InviteByEmail = forwardRef<InviteByEmailRef, InviteByEmailProps>(
 
     const [selectedEmail, setSelectedEmail] = useState<string>("");
 
-    // to invite friend to game by providing user emial
+    // to invite friend to game by providing user email
     const onInviteByEmail = async (email: string, header: string, values: number[]): Promise<void> => {
       try {
         const typeValue = getEnumValueByKey(TimingTypes, header.toLowerCase());
@@ -86,7 +87,7 @@ const InviteByEmail = forwardRef<InviteByEmailRef, InviteByEmailProps>(
     }));
     //*/
 
-    // to get user data by provide emial
+    // to get user data by provide email
     const getByEmail = async () => {
       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
       if (!emailRegex.test(selectedEmail)) {
@@ -139,7 +140,12 @@ const InviteByEmail = forwardRef<InviteByEmailRef, InviteByEmailProps>(
               getByEmail();
             }}
           >
-            <RoundArrowSvg color={mainColor.c9} secColor={mainColor.c0} iconClass={classes["arrow-svg"]} />
+            <IconCreator
+              icons={symbolIcons}
+              iconName="roundArrow"
+              color={mainColor.c9}
+              iconClass={classes["arrow-svg"]}
+            />
           </div>
         </div>
       </div>

@@ -2,8 +2,9 @@ import classes from "./LearnBlocks.module.scss";
 import { Fragment, useEffect, useRef, useState } from "react";
 import { createOneTimeObserver } from "../../../../shared/utils/functions/createOneTimeObserver";
 import { mainColor } from "../../../../shared/utils/enums/colorMaps";
-import LearnBlocksIcons from "./LearnBlocksIcons";
 import { SectionData, sectionData } from "./LearnBlocksObjects";
+import IconCreator from "../../../../shared/components/icon-creator/IconCreator";
+import { learnBlocksIcons } from "./LearnBlocksIcons";
 
 type LearnBlocksProps = {};
 
@@ -11,7 +12,7 @@ const LearnBlocks = ({}: LearnBlocksProps) => {
   ///
 
   // for counter animation activation
-  const [wasActived, setWasActived] = useState(false);
+  const [wasActive, setWasActive] = useState(false);
   // for counter animation
   const [count, setCount] = useState<number>(0);
 
@@ -52,7 +53,7 @@ const LearnBlocks = ({}: LearnBlocksProps) => {
         return (
           <Fragment>
             {images}
-            <LearnBlocksIcons iconName="board" />
+            <IconCreator icons={learnBlocksIcons} iconName="board" />
           </Fragment>
         );
 
@@ -71,21 +72,21 @@ const LearnBlocks = ({}: LearnBlocksProps) => {
 
         return (
           <Fragment>
-            <LearnBlocksIcons iconName="trophy" />
+            <IconCreator icons={learnBlocksIcons} iconName="trophy" />
             <div className={classes.screen}>{elements}</div>
           </Fragment>
         );
 
       case "engine-icon":
-        return <LearnBlocksIcons iconName="engine" />;
+        return <IconCreator icons={learnBlocksIcons} iconName="engine" />;
 
       case "message-icon":
         return (
           <div className={classes["message-con"]}>
-            <LearnBlocksIcons iconName="message" />
-            <LearnBlocksIcons iconName="message" />
-            <LearnBlocksIcons iconName="message" />
-            <LearnBlocksIcons iconName="community" />
+            <IconCreator icons={learnBlocksIcons} iconName="message" />
+            <IconCreator icons={learnBlocksIcons} iconName="message" />
+            <IconCreator icons={learnBlocksIcons} iconName="message" />
+            <IconCreator icons={learnBlocksIcons} iconName="community" />
           </div>
         );
 
@@ -108,8 +109,8 @@ const LearnBlocks = ({}: LearnBlocksProps) => {
     const iconObserverAction = (entry: IntersectionObserverEntry): void => {
       entry.target.classList.add(classes["active-icon"]);
 
-      if (!wasActived && entry.target.classList.contains(classes["counter-icon"])) {
-        setWasActived(true);
+      if (!wasActive && entry.target.classList.contains(classes["counter-icon"])) {
+        setWasActive(true);
         setTimeout(() => incrementCount(0), 1000);
       }
     };
@@ -169,7 +170,7 @@ const LearnBlocks = ({}: LearnBlocksProps) => {
             </div>
 
             <div ref={block.lineRef} className={classes["row-line-icon"]}>
-              <LearnBlocksIcons iconName="pawnLine" />
+              <IconCreator icons={learnBlocksIcons} iconName="pawnLine" />
             </div>
           </div>
         ) : (
@@ -184,7 +185,7 @@ const LearnBlocks = ({}: LearnBlocksProps) => {
             </div>
 
             <div ref={block.lineRef} className={classes["row-line-icon"]}>
-              <LearnBlocksIcons iconName="pawnLine" />
+              <IconCreator icons={learnBlocksIcons} iconName="pawnLine" />
             </div>
           </div>
         )

@@ -41,7 +41,7 @@
     grid-template-rows: 2rem 1fr 2rem 1fr;
     padding-bottom: 6rem;
 
-    &__cathegory {
+    &__category {
       grid-column: 1 / -1;
       padding-left: 8rem;
 
@@ -58,6 +58,13 @@
       svg {
         height: 4rem;
         transition: all 0.3s;
+      }
+
+      .arrow-left {
+        transform: rotateZ(180deg);
+      }
+      .arrow-right {
+        transform: rotateZ(0deg);
       }
 
       &:hover {
@@ -101,7 +108,7 @@
     }
 
     &__content {
-      &__cathegory {
+      &__category {
         font-size: 3rem;
       }
     }

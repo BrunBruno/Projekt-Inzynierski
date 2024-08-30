@@ -34,7 +34,7 @@ export type UserDto = {
   name: string | null;
   // profile picture
   imageUrl: string | null;
-  // country where acount has been registered
+  // country where account has been registered
   country: string;
 };
 

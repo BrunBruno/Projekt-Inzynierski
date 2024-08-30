@@ -40,8 +40,8 @@ public class GetEndedGameTests : IClassFixture<TestWebApplicationFactory<Program
             Increment = 1,
         };
 
-        Guid freindId = Guid.NewGuid();
-        string friendEmail = "freind@test.com";
+        Guid friendId = Guid.NewGuid();
+        string friendEmail = "friend@test.com";
         string friendUsername = "FriendUsername";
 
         await _dbContext.Init();
@@ -50,7 +50,7 @@ public class GetEndedGameTests : IClassFixture<TestWebApplicationFactory<Program
 
         var timingId = await _dbContext.CreateTiming(timingType);
         var userPlayerId = await _dbContext.AddPlayer(Guid.Parse(Constants.UserId), Constants.Username);
-        var friendPlayerId = await _dbContext.AddPlayer(freindId, friendUsername);
+        var friendPlayerId = await _dbContext.AddPlayer(friendId, friendUsername);
 
         var gameId = await _dbContext.AddGame(userPlayerId, friendPlayerId, timingId);
 
@@ -84,7 +84,7 @@ public class GetEndedGameTests : IClassFixture<TestWebApplicationFactory<Program
 
         await _dbContext.Init();
         await _dbContext.AddUser();
-        await _dbContext.AddUserWithEmail("freind@test.com");
+        await _dbContext.AddUserWithEmail("friend@test.com");
 
         var timingId = await _dbContext.CreateTiming(timingType);
         var userPlayerId = await _dbContext.AddPlayer(Guid.Parse(Constants.UserId), Constants.Username);

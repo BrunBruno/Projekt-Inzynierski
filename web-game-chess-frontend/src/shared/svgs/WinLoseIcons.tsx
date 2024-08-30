@@ -1,8 +1,8 @@
 import { dangerColor, greyColor, successColor } from "../utils/enums/colorMaps";
-import { IconMap, IconsMapProps } from "../utils/types/commonTypes";
+import { IconMap } from "../utils/types/commonTypes";
 
-const icons: IconMap = {
-  win: (
+export const winLoseIcons: IconMap = {
+  win: (): JSX.Element => (
     <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
       <circle
         cx="12"
@@ -23,7 +23,7 @@ const icons: IconMap = {
     </svg>
   ),
 
-  draw: (
+  draw: (): JSX.Element => (
     <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
       <circle
         cx="12"
@@ -39,7 +39,7 @@ const icons: IconMap = {
     </svg>
   ),
 
-  lose: (
+  lose: (): JSX.Element => (
     <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
       <circle
         cx="12"
@@ -55,18 +55,3 @@ const icons: IconMap = {
     </svg>
   ),
 };
-
-function WinLoseIcons({ iconName }: IconsMapProps) {
-  if (iconName === "") return <>i</>;
-
-  try {
-    const icon = icons[iconName];
-    return icon ? icon : <>i</>;
-  } catch (err) {
-    console.error("Icon error");
-  }
-
-  return <>i</>;
-}
-
-export default WinLoseIcons;

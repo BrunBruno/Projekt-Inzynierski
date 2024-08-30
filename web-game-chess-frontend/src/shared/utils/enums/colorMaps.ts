@@ -32,7 +32,7 @@ export const greyColor: ColorMap = {
   c9: "#212529",
 };
 
-// password strenght colors map
+// password strength colors map
 export const strengthColor: ColorMap = {
   c0: "#f03e3e",
   c1: "#ffa8a8",

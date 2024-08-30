@@ -21,7 +21,8 @@ import axios from "axios";
 import { gameControllerPaths, getAuthorization } from "../../../shared/utils/services/ApiService";
 import GameMessage from "./game-message/GameMessage";
 import { HubConnectionState } from "@microsoft/signalr";
-import RightSideBarIcons from "./RightSideBarIcons";
+import IconCreator from "../../../shared/components/icon-creator/IconCreator";
+import { rightSideBarIcons } from "./RightSideBarIcons";
 
 type RightSideBarProps = {
   // game id
@@ -162,7 +163,7 @@ function RightSideBar({ gameId, gameData, playersTimes, setPlayersTimes, winner 
   //*/
 
   // handle message input
-  const handleMessageInputChannge = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
+  const handleMessageInputChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     const inputValue = event.target.value;
     setNewMessage(inputValue);
   };
@@ -227,7 +228,7 @@ function RightSideBar({ gameId, gameData, playersTimes, setPlayersTimes, winner 
         </div>
         {/* --- */}
 
-        {/* game messanger */}
+        {/* game messenger */}
         <div className={classes.bar__content__messages}>
           <div ref={messagesRef} className={classes.bar__content__messages__list}>
             {messages.map((message, i) => (
@@ -244,11 +245,11 @@ function RightSideBar({ gameId, gameData, playersTimes, setPlayersTimes, winner 
               className={classes["message-input"]}
               value={newMessage}
               onChange={(event) => {
-                handleMessageInputChannge(event);
+                handleMessageInputChange(event);
               }}
             ></textarea>
             <button className={classes["send-button"]} type="submit">
-              <RightSideBarIcons iconName="send" />
+              <IconCreator icons={rightSideBarIcons} iconName="send" />
             </button>
           </form>
         </div>

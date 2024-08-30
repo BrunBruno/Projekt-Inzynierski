@@ -58,7 +58,7 @@ export const selectionInitialStates: SelectionStates = {
   target: null,
   coordinates: [],
   promotionCoor: [],
-  availableFelds: [],
+  availableFields: [],
 };
 
 type SelectionAction =
@@ -82,7 +82,7 @@ export const selectionStatesReducer = (state: SelectionStates, action: Selection
     case "SET_PROMOTION_COOR":
       return { ...state, promotionCoor: action.payload };
     case "SET_AVAILABLE_FIELDS":
-      return { ...state, availableFelds: action.payload };
+      return { ...state, availableFields: action.payload };
     default:
       return state;
   }

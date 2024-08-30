@@ -1,5 +1,5 @@
 import { createContext, ReactNode, useContext, useState } from "react";
-import { TimingTypeModel } from "../types/abstracDtosAndModels";
+import { TimingTypeModel } from "../types/abstractDtosAndModelss";
 
 type TimingTypeContextType = {
   // selected or obtained timing type
@@ -19,7 +19,7 @@ type TimingTypeContextProps = {
   children: ReactNode;
 };
 
-// used to obtaion chosen timing time to multiple components
+// used to obtain chosen timing time to multiple components
 // set or get game timing type
 export const TimingTypeProvider = ({ children }: TimingTypeContextProps) => {
   const [timingType, setTimingType] = useState<TimingTypeModel | null>(null);

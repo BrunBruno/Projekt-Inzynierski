@@ -1,4 +1,4 @@
-/* enumns related global functions */
+/* enums related global functions */
 
 // gets enu type by its value
 

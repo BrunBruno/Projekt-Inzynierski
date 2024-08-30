@@ -1,7 +1,7 @@
 /* user controller dtos */
 
 import { Guid } from "guid-typescript";
-import { EloDto, UserDto, WinDrawLose } from "./abstracDtosAndModels";
+import { EloDto, UserDto, WinDrawLose } from "./abstractDtosAndModels";
 
 export type ConfigurationDto = {
   // minimal length of input

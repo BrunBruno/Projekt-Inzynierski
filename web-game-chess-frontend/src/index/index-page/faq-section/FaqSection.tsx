@@ -1,11 +1,11 @@
 import React, { forwardRef, useImperativeHandle, useRef, useState } from "react";
 import classes from "./FaqSection.module.scss";
-import ArrowLeftSvg from "../../../shared/svgs/ArrowLeftSvg";
 import { mainColor } from "../../../shared/utils/enums/colorMaps";
-import ArrowRightSvg from "../../../shared/svgs/ArrowRightSvg";
 import { accountAndUserProfileFAQs, gameplayAndFeaturesFAQs } from "./FaqSectionQuestions";
 import { HandleOnScroll } from "../../../shared/utils/types/commonTypes";
 import FaqSectionCard from "./faq-section-card/FaqSectionCard";
+import IconCreator from "../../../shared/components/icon-creator/IconCreator";
+import { symbolIcons } from "../../../shared/svgs/SymbolIcons";
 
 type FaqSectionProps = {
   // section container ref
@@ -24,7 +24,7 @@ const FaqSection = forwardRef<HandleOnScroll, FaqSectionProps>(
     const [arrRow2Left, setArrRow2Left] = useState<boolean>(false);
     const [arrRow2Right, setArrRow2Right] = useState<boolean>(true);
 
-    // to controll scroll buttons
+    // to control scroll buttons
     const handleScrollOnClick = (containerRow: number, direction: number) => {
       const cardCount = window.innerWidth < 700 ? 1 : 2;
       let element: HTMLDivElement | null;
@@ -102,7 +102,7 @@ const FaqSection = forwardRef<HandleOnScroll, FaqSectionProps>(
         {/* question cards */}
 
         <div className={classes.section__content}>
-          <div className={classes.section__content__cathegory}>Account and User Profile FAQs</div>
+          <div className={classes.section__content__category}>Account and User Profile FAQs</div>
 
           {/* row 1 */}
           <div
@@ -111,7 +111,14 @@ const FaqSection = forwardRef<HandleOnScroll, FaqSectionProps>(
               handleScrollOnClick(1, -1);
             }}
           >
-            {arrRow1Left && <ArrowLeftSvg iconClass="" color={mainColor.c0} />}
+            {arrRow1Left && (
+              <IconCreator
+                icons={symbolIcons}
+                iconName="arrow"
+                color={mainColor.c0}
+                iconClass={classes["arrow-left"]}
+              />
+            )}
           </div>
 
           <div ref={row1Ref} className={classes.section__content__row}>
@@ -126,11 +133,18 @@ const FaqSection = forwardRef<HandleOnScroll, FaqSectionProps>(
               handleScrollOnClick(1, 1);
             }}
           >
-            {arrRow1Right && <ArrowRightSvg iconClass="" color={mainColor.c0} />}
+            {arrRow1Right && (
+              <IconCreator
+                icons={symbolIcons}
+                iconName="arrow"
+                color={mainColor.c0}
+                iconClass={classes["arrow-right"]}
+              />
+            )}
           </div>
           {/* --- */}
 
-          <div className={classes.section__content__cathegory}>Gameplay and Features FAQs</div>
+          <div className={classes.section__content__category}>Gameplay and Features FAQs</div>
 
           {/* row 2 */}
           <div
@@ -139,7 +153,14 @@ const FaqSection = forwardRef<HandleOnScroll, FaqSectionProps>(
               handleScrollOnClick(2, -1);
             }}
           >
-            {arrRow2Left && <ArrowLeftSvg iconClass="" color={mainColor.c0} />}
+            {arrRow2Left && (
+              <IconCreator
+                icons={symbolIcons}
+                iconName="arrow"
+                color={mainColor.c0}
+                iconClass={classes["arrow-left"]}
+              />
+            )}
           </div>
 
           <div ref={row2Ref} className={classes.section__content__row}>
@@ -154,7 +175,14 @@ const FaqSection = forwardRef<HandleOnScroll, FaqSectionProps>(
               handleScrollOnClick(2, 1);
             }}
           >
-            {arrRow2Right && <ArrowRightSvg iconClass="" color={mainColor.c0} />}
+            {arrRow2Right && (
+              <IconCreator
+                icons={symbolIcons}
+                iconName="arrow"
+                color={mainColor.c0}
+                iconClass={classes["arrow-right"]}
+              />
+            )}
           </div>
           {/* --- */}
         </div>
