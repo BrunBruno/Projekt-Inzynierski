@@ -26,7 +26,7 @@ public class CheckIfUpdateRequiredRequestHandler : IRequestHandler<CheckIfUpdate
         var gameTiming = await _gameTimingRepository.GetById(game.GameTimingId)
             ?? throw new NotFoundException("Game timing not found.");
 
-        var isReuired = new CheckIfUpdateRequiredDto()
+        var isRequired = new CheckIfUpdateRequiredDto()
         {
             IsRequired = game.WhitePlayer.UserId == game.BlackPlayer.UserId,
             Type = gameTiming.Type,
@@ -34,6 +34,6 @@ public class CheckIfUpdateRequiredRequestHandler : IRequestHandler<CheckIfUpdate
             Increment = gameTiming.Increment,
         };
 
-        return isReuired;
+        return isRequired;
     }
 }

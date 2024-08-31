@@ -8,8 +8,8 @@ namespace chess.Application.Requests.GameRequests.AbortSearch;
 
 /// <summary>
 /// Checks if player exists
-/// Checks if player is ownd by current user
-/// Checks if player is not in playeing state
+/// Checks if player is owed by current user
+/// Checks if player is not in playing state
 /// Removes player
 /// </summary>
 public class AbortSearchRequestHandler : IRequestHandler<AbortSearchRequest> {

@@ -4,7 +4,7 @@ using chess.Core.Entities;
 namespace chess.Application.Services;
 
 /// <summary>
-/// Service for handlig jwt tokens
+/// Service for handling jwt tokens
 /// </summary>
 public interface IJwtService {
 

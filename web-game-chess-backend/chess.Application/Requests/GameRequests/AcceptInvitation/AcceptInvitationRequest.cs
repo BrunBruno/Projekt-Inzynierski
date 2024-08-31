@@ -5,7 +5,7 @@ namespace chess.Application.Requests.GameRequests.AcceptInvitation;
 
 /// <summary>
 /// Request to update player and invitation status
-/// Incdrectly starts the game
+/// Indirectly starts the game
 /// </summary>
 public class AcceptInvitationRequest : IRequest {
 
@@ -15,9 +15,9 @@ public class AcceptInvitationRequest : IRequest {
     public Guid GameId { get; set; }
 
     /// <summary>
-    /// Invitor id
+    /// Inviter id
     /// </summary>
-    public Guid InvitorId { get; set; }
+    public Guid InviterId { get; set; }
 
     /// <summary>
     /// Invitee id

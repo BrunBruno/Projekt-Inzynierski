@@ -72,11 +72,11 @@ public static class Extensions {
             {
                 OnMessageReceived = context => {
 
-                    var accesToken = context.Request.Query["access_token"];
+                    var accessToken = context.Request.Query["access_token"];
                     var path = context.HttpContext.Request.Path;
 
-                    if (!string.IsNullOrEmpty(accesToken) && (path.StartsWithSegments("/game-hub"))) {
-                        context.Token = accesToken;
+                    if (!string.IsNullOrEmpty(accessToken) && (path.StartsWithSegments("/game-hub"))) {
+                        context.Token = accessToken;
                     }
 
                     return Task.CompletedTask;

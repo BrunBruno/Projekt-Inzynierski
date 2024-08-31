@@ -35,7 +35,7 @@ public class User {
     public string PasswordHash { get; set; }
 
     /// <summary>
-    /// Day on which user joied
+    /// Day on which user joined
     /// </summary>
     public DateTime JoinDate { get; set; } = DateTime.UtcNow;
 
@@ -55,7 +55,7 @@ public class User {
     public string Country { get; set; } = string.Empty;
 
     /// <summary>
-    /// Short description/biograpth of user
+    /// Short description/biography of user
     /// </summary>
     public string? Bio { get; set; }
 
@@ -75,7 +75,7 @@ public class User {
     public Role Role { get; set; }
 
     /// <summary>
-    /// Score poitns of player for different types
+    /// Score points of player for different types
     /// </summary>
     public Elo Elo { get; set; }
 

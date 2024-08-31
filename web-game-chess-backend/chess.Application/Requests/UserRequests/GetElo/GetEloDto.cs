@@ -7,5 +7,4 @@ namespace chess.Application.Requests.UserRequests.GetElo;
 /// 
 /// </summary>
 public class GetEloDto : EloDto {
-    
 }

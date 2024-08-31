@@ -110,7 +110,7 @@ public class GameController : ControllerBase {
 
 
     /// <summary>
-    /// Creates new game for two same users taht has already played one game
+    /// Creates new game for two same users that has already played one game
     /// </summary>
     /// <param name="model"></param>
     /// <returns> Essential for game creation </returns>
@@ -301,13 +301,13 @@ public class GameController : ControllerBase {
 
 
     /// <summary>
-    /// Get all previous games for choosen timing type
+    /// Get all previous games for chosen timing type
     /// </summary>
     /// <param name="model"></param>
     /// <returns> Page result of games </returns>
     [HttpGet("type-history")]
     [Authorize(Policy = "IsVerified")]
-    public async Task<IActionResult> GetTypeHitory([FromQuery] GetTypeHistoryModel model) {
+    public async Task<IActionResult> GetTypeHistory([FromQuery] GetTypeHistoryModel model) {
 
         var request = _mapper.Map<GetTypeHistoryRequest>(model);
 
@@ -318,7 +318,7 @@ public class GameController : ControllerBase {
 
 
     /// <summary>
-    /// Gets all previous inivations, taht were untouched
+    /// Gets all previous invitations, that were untouched
     /// </summary>
     /// <param name="model"></param>
     /// <returns> Paged result of invitations </returns>

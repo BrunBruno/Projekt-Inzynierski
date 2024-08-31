@@ -85,7 +85,7 @@ public class GetPlayerTests : IClassFixture<TestWebApplicationFactory<Program>> 
         await _dbContext.AddPlayerToGame(userPlayerId, gameId, Colors.Black);
         await _dbContext.AddPlayerToGame(otherPlayerId, gameId, Colors.White);
         await _dbContext.ChangePlayerToNotPlaying(userPlayerId);
-        // no player assigneant
+        // no player assignment
 
 
         var response = await _client.GetAsync($"api/game/{gameId}/player");

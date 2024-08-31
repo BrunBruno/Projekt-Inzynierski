@@ -79,9 +79,9 @@ public class GetGameTimingTests : IClassFixture<TestWebApplicationFactory<Progra
 
         await _dbContext.AddPlayer(Guid.Parse(Constants.UserId), Constants.Username);
         var otherPlayerId = await _dbContext.AddPlayer(Guid.NewGuid(), "OtherUser");
-        var otherPlyaer2Id = await _dbContext.AddPlayer(Guid.NewGuid(), "OtherUser2");
+        var otherPlayer2Id = await _dbContext.AddPlayer(Guid.NewGuid(), "OtherUser2");
 
-        var gameId = await _dbContext.AddGame(otherPlayerId, otherPlyaer2Id, timingId); // not owned game
+        var gameId = await _dbContext.AddGame(otherPlayerId, otherPlayer2Id, timingId); // not owned game
 
 
         var response = await _client.GetAsync($"api/game/{gameId}/timing");
@@ -91,7 +91,7 @@ public class GetGameTimingTests : IClassFixture<TestWebApplicationFactory<Progra
     }
 
     /// <summary>
-    /// Gets timing from not exissting game
+    /// Gets timing from not existing game
     /// </summary>
     /// <returns></returns>
     [Fact]

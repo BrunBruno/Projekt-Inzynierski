@@ -182,7 +182,7 @@ function GamePage() {
 
         const response = await axios.get<CheckIfInGameDto>(
           gameControllerPaths.checkIfInGame(model),
-          getAuthorization()
+          getAuthorization(),
         );
 
         if (response.data.isInGame) {

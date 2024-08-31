@@ -234,7 +234,7 @@ function GameBoard({ gameId, gameData, playerData, winner, searchIds, setSearchI
     outerFields: JSX.Element[],
     innerFields: JSX.Element[],
     coor: number,
-    char: string | null
+    char: string | null,
   ): number => {
     const coordinates = [(coor % 8) + 1, 8 - Math.floor(coor / 8)];
 
@@ -318,7 +318,7 @@ function GameBoard({ gameId, gameData, playerData, winner, searchIds, setSearchI
             )}
           </div>
         )}
-      </div>
+      </div>,
     );
 
     innerFields.push(
@@ -330,7 +330,7 @@ function GameBoard({ gameId, gameData, playerData, winner, searchIds, setSearchI
         ${isOldFiled ? classes.old : ""} 
         ${isNewField ? classes.new : ""}
       `}
-      />
+      />,
     );
 
     coor++;
@@ -388,7 +388,7 @@ function GameBoard({ gameId, gameData, playerData, winner, searchIds, setSearchI
     piece: string | null,
     coordinates: number[],
     isInTipFields: boolean,
-    samePiece: boolean
+    samePiece: boolean,
   ): void => {
     // unselect piece when clicked on same piece
 

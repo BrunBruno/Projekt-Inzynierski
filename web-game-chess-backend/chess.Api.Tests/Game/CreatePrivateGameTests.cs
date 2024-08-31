@@ -34,7 +34,7 @@ public class CreatePrivateGameTests : IClassFixture<TestWebApplicationFactory<Pr
     }
 
     [Fact]
-    public async Task CreatePrivateGame_Should_Create_Essentail_For_Private_Game() {
+    public async Task CreatePrivateGame_Should_Create_Essentials_For_Private_Game() {
 
         Guid friendId = Guid.NewGuid();
         Guid friendshipId = Guid.NewGuid();
@@ -75,7 +75,7 @@ public class CreatePrivateGameTests : IClassFixture<TestWebApplicationFactory<Pr
     }
 
     /// <summary>
-    /// Create withou friendship existsing
+    /// Create without friendship existing
     /// </summary>
     /// <returns></returns>
     [Fact]

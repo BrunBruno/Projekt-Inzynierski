@@ -98,7 +98,7 @@ public class UserController : ControllerBase {
 
 
     /// <summary>
-    /// Updates updateable data for user
+    /// Updates updatable data for user
     /// </summary>
     /// <param name="model"></param>
     /// <returns></returns>

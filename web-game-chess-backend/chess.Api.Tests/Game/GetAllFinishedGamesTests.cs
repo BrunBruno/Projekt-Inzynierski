@@ -31,7 +31,7 @@ public class GetAllFinishedGamesTests : IClassFixture<TestWebApplicationFactory<
     }
 
     [Fact]
-    public async Task GetFinishedGames_Should_Return_Paged_GameDtos_On_Seccess() {
+    public async Task GetFinishedGames_Should_Return_Paged_GameDtos_On_Success() {
 
         await _dbContext.Init();
         await _dbContext.AddUser();
@@ -93,7 +93,7 @@ public class GetAllFinishedGamesTests : IClassFixture<TestWebApplicationFactory<
         resultWithResult2.Items.Count.Should().Be(100);
 
 
-        // all finters
+        // all filters
         var responseWithFilter = await _client.GetAsync($"api/game/all-finished?pageNumber=1&pageSize=100&timingTypeFilters={ TimingTypes.Rapid }&resultFilters=true");
 
         responseWithFilter.StatusCode.Should().Be(HttpStatusCode.OK);

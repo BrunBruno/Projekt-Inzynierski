@@ -17,8 +17,8 @@ namespace chess.Application.Requests.GameRequests.CreateGameByEmail;
 /// Creates players for both current user and provided friend
 /// Creates new game and associated game state
 /// Creates new invitation for created game
-/// Sends invitaton to friend email
-/// Returns essentail for further actions
+/// Sends invitation to friend email
+/// Returns essential for further actions
 /// </summary>
 public class CreateGameByEmailRequestHandler : IRequestHandler<CreateGameByEmailRequest, CreateGameByEmailDto> {
 
@@ -139,8 +139,8 @@ public class CreateGameByEmailRequestHandler : IRequestHandler<CreateGameByEmail
         var invitation = new Invitation()
         {
             Id = Guid.NewGuid(),
-            InvitorId = userId,
-            InvitorName = user.Username,
+            InviterId = userId,
+            InviterName = user.Username,
             InviteeId = friend.Id,
             InviteeName = friend.Username,
             Type = request.Type,

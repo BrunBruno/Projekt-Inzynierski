@@ -9,7 +9,7 @@ namespace chess.Application.Repositories;
 public interface IInvitationRepository {
 
     /// <summary>
-    /// Gets all previous invitatons for current user
+    /// Gets all previous invitations for current user
     /// </summary>
     /// <param name="userId"></param>
     /// <returns></returns>

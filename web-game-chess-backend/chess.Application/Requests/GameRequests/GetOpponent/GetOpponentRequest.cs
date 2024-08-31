@@ -4,8 +4,8 @@ using MediatR;
 namespace chess.Application.Requests.GameRequests.GetOpponent;
 
 /// <summary>
-/// Request used in remach game creations
-/// Gets opponets data
+/// Request used in rematch game creations
+/// Gets opponents data
 /// </summary>
 public class GetOpponentRequest : IRequest<GetOpponentDto> {
 

@@ -9,7 +9,7 @@ namespace chess.Application.Repositories;
 public interface IGameStateRepository {
 
     /// <summary>
-    /// Creates new game stata for game
+    /// Creates new game stats for game
     /// </summary>
     /// <param name="gameState"></param>
     /// <returns></returns>

@@ -12,9 +12,9 @@ public interface IMessageRepository {
     /// Gets all messages for players of the game
     /// </summary>
     /// <param name="whitePlayerId"></param>
-    /// <param name="blackPlayerrId"></param>
+    /// <param name="blackPlayerId"></param>
     /// <returns></returns>
-    Task<List<Message>> GetAllByPlayers(Guid whitePlayerId, Guid blackPlayerrId);
+    Task<List<Message>> GetAllByPlayers(Guid whitePlayerId, Guid blackPlayerId);
 
     /// <summary>
     /// Creates new message

@@ -109,7 +109,7 @@ public class GetAllMessagesTests : IClassFixture<TestWebApplicationFactory<Progr
         });
 
         // players not owned
-        var otherPlayerId = await _dbContext.AddPlayer(Guid.NewGuid(), "otheruser");
+        var otherPlayerId = await _dbContext.AddPlayer(Guid.NewGuid(), "other");
         var friendPlayerId = await _dbContext.AddPlayer(Guid.NewGuid(), "opponent");
 
         var gameId = await _dbContext.AddGame(otherPlayerId, friendPlayerId, timingId);

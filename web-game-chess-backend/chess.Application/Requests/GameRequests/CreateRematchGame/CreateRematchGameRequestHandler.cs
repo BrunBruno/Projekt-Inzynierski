@@ -12,7 +12,7 @@ namespace chess.Application.Requests.GameRequests.CreateRematchGame;
 /// <summary>
 /// Checks of provided timing exists
 /// Checks if both users exists
-/// Ceates players for both users
+/// Creates players for both users
 /// Creates new game and game states
 /// Returns game id
 /// </summary>

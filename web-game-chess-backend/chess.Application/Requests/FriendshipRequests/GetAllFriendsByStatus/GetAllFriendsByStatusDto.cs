@@ -12,10 +12,10 @@ public class GetAllFriendsByStatusDto : UserDto {
     /// <summary>
     /// Id of friendship
     /// </summary>
-    public Guid FriendshpId { get; set; }
+    public Guid FriendshipId { get; set; }
 
     /// <summary>
-    /// Is friend a requstor or not
+    /// Is friend a requestor or not
     /// </summary>
     public bool IsRequestor { get; set; }
 
@@ -30,7 +30,7 @@ public class GetAllFriendsByStatusDto : UserDto {
     public required WinDrawLose WdlTotal { get; set; }
 
     /// <summary>
-    ///  Win, loses nad draws in ralationship
+    ///  Win, loses nad draws in relationship
     /// </summary>
     public required WinDrawLose WdlTogether { get; set; }
 }

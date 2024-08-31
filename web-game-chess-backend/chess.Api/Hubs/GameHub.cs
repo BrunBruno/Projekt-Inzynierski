@@ -50,8 +50,8 @@ public class GameHub : Hub<IGameHub> {
 
     /// <summary>
     /// Adds user to queue for each timing
-    /// Starts all games, that meet requiriment for start
-    /// Calls to all grups, to check if awaiting players are not in game.
+    /// Starts all games, that meet requirement for start
+    /// Calls to all groups, to check if awaiting players are not in game.
     /// </summary>
     /// <param name="typeId"> Game timing id </param>
     /// <returns></returns>
@@ -74,7 +74,7 @@ public class GameHub : Hub<IGameHub> {
 
 
     /// <summary>
-    /// Creats moves
+    /// Creates moves
     /// Updates game state
     /// </summary>
     /// <param name="model"></param>
@@ -93,7 +93,7 @@ public class GameHub : Hub<IGameHub> {
 
 
     /// <summary>
-    /// Creates new message for currect users and current game
+    /// Creates new message for current users and current game
     /// </summary>
     /// <param name="model"></param>
     /// <returns></returns>
@@ -111,7 +111,7 @@ public class GameHub : Hub<IGameHub> {
 
 
     /// <summary>
-    /// Changels all necessary parameters to end the game
+    /// Changes all necessary parameters to end the game
     /// </summary>
     /// <param name="model"></param>
     /// <returns></returns>
@@ -129,7 +129,7 @@ public class GameHub : Hub<IGameHub> {
 
 
     /// <summary>
-    /// Adds user to 2-user grups to perform game
+    /// Adds user to 2-user groups to perform game
     /// </summary>
     /// <param name="gameId"></param>
     /// <returns></returns>
@@ -144,7 +144,7 @@ public class GameHub : Hub<IGameHub> {
 
     /// <summary>
     ///  To accept new received invitation
-    ///  Notify both counterpartiens and starts the game
+    ///  Notify both counterparts and starts the game
     /// </summary>
     /// <param name="model"></param>
     /// <returns></returns>
@@ -158,13 +158,13 @@ public class GameHub : Hub<IGameHub> {
 
         await _mediator.Send(request);
 
-        await Clients.Groups($"user-{model.InvitorId}").GameAccepted(model.GameId);
+        await Clients.Groups($"user-{model.InviterId}").GameAccepted(model.GameId);
         await Clients.Groups($"user-{model.InviteeId}").GameAccepted(model.GameId);
     }
 
 
     /// <summary>
-    /// Updates game creatined with link
+    /// Updates game created with link
     /// </summary>
     /// <param name="model"></param>
     /// <returns></returns>
@@ -185,7 +185,7 @@ public class GameHub : Hub<IGameHub> {
 
 
     /// <summary>
-    /// Provides invited user with essentail data to accept newly creacted game
+    /// Provides invited user with essential data to accept newly created game
     /// </summary>
     /// <param name="model"></param>
     /// <returns></returns>
@@ -241,7 +241,7 @@ public class GameHub : Hub<IGameHub> {
 
 
     /// <summary>
-    /// To decline invitations and notify invitor
+    /// To decline invitations and notify inviter
     /// </summary>
     /// <param name="gameId"></param>
     /// <returns></returns>

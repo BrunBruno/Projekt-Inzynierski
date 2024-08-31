@@ -17,7 +17,7 @@ builder.Services.AddApplication();
 builder.Services.AddInfrastructure(builder.Configuration);
 builder.Services.AddControllers();
 builder.Services.AddCustomAuthorization();
-builder.Services.AddCustomContollers();
+builder.Services.AddCustomControllers();
 builder.Services.AddMappingProfiles();
 
 builder.Services.AddEndpointsApiExplorer();

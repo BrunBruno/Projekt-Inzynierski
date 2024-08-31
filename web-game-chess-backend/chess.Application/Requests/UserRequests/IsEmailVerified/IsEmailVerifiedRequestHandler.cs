@@ -30,11 +30,11 @@ public class IsEmailVerifiedRequestHandler : IRequestHandler<IsEmailVerifiedRequ
         var user = await _userRepository.GetById(userId)
             ?? throw new NotFoundException("User was not found.");
 
-        var isVerfiedDto = new IsEmailVerifiedDto
+        var isVerifiedDto = new IsEmailVerifiedDto
         {
             IsEmailVerified = user.IsVerified
         };
 
-        return isVerfiedDto;
+        return isVerifiedDto;
     }
 }

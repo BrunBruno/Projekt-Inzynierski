@@ -4,7 +4,7 @@ using MediatR;
 namespace chess.Application.Requests.GameRequests.CheckIfInGame;
 
 /// <summary>
-/// Request for chechking is playe has beed added to game
+/// Request for checking if player has been added to game
 /// </summary>
 public class CheckIfInGameRequest : IRequest<CheckIfInGameDto> {
 

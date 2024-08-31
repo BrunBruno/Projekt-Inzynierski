@@ -62,7 +62,7 @@ public class GetAllFriendsByStatusRequestHandler : IRequestHandler<GetAllFriends
             if (friend is not null) {
                 friendsDtos.Add(new GetAllFriendsByStatusDto()
                 {
-                    FriendshpId = friendship.Id,
+                    FriendshipId = friendship.Id,
                     Username = friend.Username,
                     Name = friend.Name,
                     ImageUrl = friend.ImageUrl,

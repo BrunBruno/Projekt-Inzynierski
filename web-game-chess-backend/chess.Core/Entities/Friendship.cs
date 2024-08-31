@@ -15,12 +15,12 @@ public class Friendship {
     public Guid Id { get; set; }
 
     /// <summary>
-    /// Status of frendihip
+    /// Status of friendship
     /// </summary>
     public FriendshipStatus Status { get; set; }
 
     /// <summary>
-    /// When friendship was created/rquested
+    /// When friendship was created/requested
     /// </summary>
     public DateTime RequestCreatedAt { get; set; }
 
@@ -60,7 +60,7 @@ public class Friendship {
     public User Requestor { get; set; }
 
     /// <summary>
-    /// Reciver id
+    /// Receiver id
     /// </summary>
     public Guid ReceiverId { get; set; }
 

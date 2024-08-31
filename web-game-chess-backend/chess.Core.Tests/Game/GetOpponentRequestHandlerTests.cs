@@ -61,7 +61,7 @@ public class GetOpponentRequestHandlerTests {
         var result = await handler.Handle(request, CancellationToken.None);
 
 
-        result.OppeonetId.Should().Be(opponentId);
+        result.OpponentId.Should().Be(opponentId);
 
         _mockUserContextService.Verify(x => x.GetUserId(), Times.Once);
         _mockGameRepository.Verify(x => x.GetById(gameId), Times.Once);

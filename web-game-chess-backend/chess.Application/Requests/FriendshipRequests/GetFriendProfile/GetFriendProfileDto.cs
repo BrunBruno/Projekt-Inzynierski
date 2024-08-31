@@ -35,7 +35,7 @@ public class GetFriendProfileDto : UserDto {
     public required WinDrawLose WdlTotal { get; set; }
 
     /// <summary>
-    ///  Win, loses nad draws in ralationship
+    ///  Win, loses nad draws in relationship
     /// </summary>
     public required WinDrawLose WdlTogether { get; set; }
 }

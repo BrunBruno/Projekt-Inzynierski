@@ -8,7 +8,7 @@ namespace chess.Application.Requests.GameRequests.FetchTime;
 /// <summary>
 /// Checks if game exists
 /// Calculates time based on game properties
-/// Calculates time foe either whiet or black player
+/// Calculates time foe either white or black player
 /// Returns times dto
 /// </summary>
 public class FetchTimeRequestHandler : IRequestHandler<FetchTimeRequest, FetchTimeDto> {

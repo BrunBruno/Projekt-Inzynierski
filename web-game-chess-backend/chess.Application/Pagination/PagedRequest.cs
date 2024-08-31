@@ -7,7 +7,7 @@ namespace chess.Application.Pagination;
 public abstract class PagedRequest {
 
     /// <summary>
-    /// Page number to returen
+    /// Page number to return
     /// </summary>
     public int PageNumber { get; set; }
 

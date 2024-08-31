@@ -101,7 +101,7 @@ public class GetEndedGameTests : IClassFixture<TestWebApplicationFactory<Program
     }
 
     /// <summary>
-    /// Get not existsing game
+    /// Get not existing game
     /// </summary>
     /// <returns></returns>
     [Fact]

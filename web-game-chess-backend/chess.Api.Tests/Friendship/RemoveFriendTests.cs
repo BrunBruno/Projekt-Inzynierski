@@ -3,7 +3,6 @@ using chess.Api.Tests.User;
 using chess.Core.Enums;
 using chess.Infrastructure.Contexts;
 using FluentAssertions;
-using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using System.Net;

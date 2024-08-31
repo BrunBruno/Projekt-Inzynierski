@@ -9,7 +9,7 @@ namespace chess.Application.Requests.GameRequests.GetOpponent;
 /// <summary>
 /// Checks if previous game exists
 /// Checks if previous game was for current user
-/// Gets and returs opponent id
+/// Gets and returns opponent id
 /// </summary>
 public class GetOpponentRequestHandler : IRequestHandler<GetOpponentRequest, GetOpponentDto> {
 
@@ -38,7 +38,7 @@ public class GetOpponentRequestHandler : IRequestHandler<GetOpponentRequest, Get
 
         var getOpponentDto = new GetOpponentDto()
         {
-            OppeonetId = opponentId,
+            OpponentId = opponentId,
         };
 
         return getOpponentDto;

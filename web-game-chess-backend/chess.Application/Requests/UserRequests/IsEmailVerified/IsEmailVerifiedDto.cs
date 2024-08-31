@@ -2,7 +2,7 @@
 namespace chess.Application.Requests.UserRequests.IsEmailVerified;
 
 /// <summary>
-/// DTO for checking if user emial is verfied
+/// DTO for checking if user email is verified
 /// </summary>
 public class IsEmailVerifiedDto {
 

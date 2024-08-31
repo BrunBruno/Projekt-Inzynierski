@@ -70,7 +70,7 @@ public class UserStats {
     public Guid UserId { get; set; }
 
     /// <summary>
-    /// User that stats belogs to
+    /// User that stats belongs to
     /// </summary>
     public User User { get; set; }
 

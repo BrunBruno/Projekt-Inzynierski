@@ -11,7 +11,7 @@ namespace chess.Application.Requests.FriendshipRequests.RespondToFriendRequest;
 /// Checks if friendship exists
 /// Checks if user is receiver
 /// Checks if user owns friendship
-/// Updates friendship status basedon provided answer
+/// Updates friendship status based on provided answer
 /// </summary>
 public class RespondToFriendRequestRequestHandler : IRequestHandler<RespondToFriendRequestRequest> {
 

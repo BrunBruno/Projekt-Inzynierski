@@ -66,7 +66,7 @@ public class InviteFriendRequestHandlerTests {
     }
 
     [Fact]
-    public async Task Hendle_Throws_BadRequestExeption_When_User_Invites_Itself() {
+    public async Task Handle_Throws_BadRequestException_When_User_Invites_Itself() {
 
         var userId = Guid.NewGuid();
 

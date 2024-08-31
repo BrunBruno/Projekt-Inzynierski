@@ -2,7 +2,7 @@
 namespace chess.Core.Enums;
 
 /// <summary>
-/// Reasones types why game has eneded
+/// Reasons types why game has ended
 /// </summary>
 public enum EndGameTypes {
     CheckMate = 1,

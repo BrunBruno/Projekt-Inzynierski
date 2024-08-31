@@ -73,7 +73,7 @@ public class InviteFriendTests : IClassFixture<TestWebApplicationFactory<Program
 
         var model = new InviteFriendModel()
         {
-            ReceiverId = Guid.Parse(Constants.UserId), // user id as reciver id
+            ReceiverId = Guid.Parse(Constants.UserId), // user id as receiver id
         };
 
         var json = JsonConvert.SerializeObject(model);
@@ -86,7 +86,7 @@ public class InviteFriendTests : IClassFixture<TestWebApplicationFactory<Program
     }
 
     /// <summary>
-    /// Invite not existng user
+    /// Invite not existing user
     /// </summary>
     /// <returns></returns>
     [Fact]
@@ -97,7 +97,7 @@ public class InviteFriendTests : IClassFixture<TestWebApplicationFactory<Program
 
         var model = new InviteFriendModel()
         {
-            ReceiverId = Guid.NewGuid(), // not existsing user
+            ReceiverId = Guid.NewGuid(), // not existing user
         };
 
         var json = JsonConvert.SerializeObject(model);

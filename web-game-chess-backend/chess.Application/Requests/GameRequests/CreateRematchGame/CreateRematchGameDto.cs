@@ -2,7 +2,7 @@
 namespace chess.Application.Requests.GameRequests.CreateRematchGame;
 
 /// <summary>
-/// Ids returne ater reateing remach
+/// Ids returned after taking rematch
 /// </summary>
 public class CreateRematchGameDto {
 

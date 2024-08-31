@@ -9,7 +9,7 @@ namespace chess.Application.Requests.GameRequests.StartGames;
 public class StartGamesRequest : IRequest {
 
     /// <summary>
-    /// Timing for whch games should be started
+    /// Timing for which games should be started
     /// </summary>
     public Guid TimingId { get; set; }
 }

@@ -65,7 +65,7 @@ public class RegisterUserRequestHandlerTests {
     }
 
     [Fact]
-    public async Task Handle_Throws_BadRequestExeption_When_Email_Format_Is_Incorrect() {
+    public async Task Handle_Throws_BadRequestException_When_Email_Format_Is_Incorrect() {
 
         var request = new RegisterUserRequest()
         {

@@ -22,7 +22,7 @@ public class GetTypeHistoryDto {
     public int Moves { get; set; }
 
     /// <summary>
-    /// Is curret user a winner
+    /// Is current user a winner
     /// </summary>
     public bool? IsWinner { get; set; }
 
@@ -32,7 +32,7 @@ public class GetTypeHistoryDto {
     public int PrevElo { get; set; }
 
     /// <summary>
-    /// Creeation date
+    /// Creation date
     /// </summary>
     public DateTime CreatedAt { get; set; }
 }

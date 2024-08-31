@@ -96,7 +96,7 @@ public class FetchTimeTests : IClassFixture<TestWebApplicationFactory<Program>> 
     }
 
     /// <summary>
-    /// Get time from not existsing game
+    /// Get time from not existing game
     /// </summary>
     /// <returns></returns>
     [Fact]

@@ -4,7 +4,7 @@ using MediatR;
 namespace chess.Application.Requests.UserRequests.GetRegisterConf;
 
 /// <summary>
-/// Request for getting register configuuration
+/// Request for getting register configuration
 /// </summary>
 public class GetRegisterConfRequest : IRequest<GetRegisterConfDto> {
 

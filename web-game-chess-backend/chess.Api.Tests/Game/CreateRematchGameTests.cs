@@ -34,7 +34,7 @@ public class CreateRematchGameTests : IClassFixture<TestWebApplicationFactory<Pr
     }
 
     [Fact]
-    public async Task CreateRematchGame_Should_Create_Game_Essentails_And_Return_Game_Id() {
+    public async Task CreateRematchGame_Should_Create_Game_Essentials_And_Return_Game_Id() {
 
         var timingType = new TimingType()
         {
@@ -76,7 +76,7 @@ public class CreateRematchGameTests : IClassFixture<TestWebApplicationFactory<Pr
     }
 
     /// <summary>
-    /// Create reamtach for not existing timing
+    /// Create rematch for not existing timing
     /// </summary>
     /// <returns></returns>
     [Fact]

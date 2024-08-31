@@ -4,7 +4,7 @@ using chess.Core.Enums;
 namespace chess.Application.Requests.GameRequests.GetEndedGame;
 
 /// <summary>
-/// Dtp returned to get winner color for just eneded game
+/// Dtp returned to get winner color for just ended game
 /// </summary>
 public class GetEndedGameDto {
 

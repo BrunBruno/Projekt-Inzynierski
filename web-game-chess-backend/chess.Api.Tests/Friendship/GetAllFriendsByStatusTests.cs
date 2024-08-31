@@ -38,7 +38,7 @@ public class GetAllFriendsByStatusTests : IClassFixture<TestWebApplicationFactor
         await _dbContext.AddUsersAndFriendships();
 
 
-        // requet for each friendship status
+        // request for each friendship status
         var responseForAccepted = await _client.GetAsync($"api/friendship/all-by-status?pageNumber=1&pageSize=20&Status={FriendshipStatus.Accepted}");
         var responseForPending = await _client.GetAsync($"api/friendship/all-by-status?pageNumber=1&pageSize=20&Status={FriendshipStatus.Pending}");
         var responseForRejected = await _client.GetAsync($"api/friendship/all-by-status?pageNumber=1&pageSize=20&Status={FriendshipStatus.Rejected}");

@@ -10,7 +10,7 @@ namespace chess.Application.Requests.GameRequests.CreatePrivateGame;
 public class CreatePrivateGameRequest : TimingType, IRequest<CreatePrivateGameDto> {
 
     /// <summary>
-    /// Id of frienship between user and selected friend
+    /// Id of friendship between user and selected friend
     /// </summary>
     public Guid FriendshipId { get; set; }
 }

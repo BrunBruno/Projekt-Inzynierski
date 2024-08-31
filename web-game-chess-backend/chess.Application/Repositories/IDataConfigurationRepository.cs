@@ -4,7 +4,7 @@ using chess.Core.Entities;
 namespace chess.Application.Repositories;
 
 /// <summary>
-/// Data configuration nterface
+/// Data configuration interface
 /// </summary>
 public interface IDataConfigurationRepository {
 

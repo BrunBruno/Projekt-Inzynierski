@@ -5,7 +5,7 @@ using chess.Core.Dtos;
 namespace chess.Application.Requests.FriendshipRequests.GetAllNonFriends;
 
 /// <summary>
-/// Dto represent user, that dont have relation with current user
+/// Dto represent user, that don't have relation with current user
 /// </summary>
 public class GetAllNonFriendsDto : UserDto {
 

@@ -13,7 +13,7 @@ public class GameState {
     public Guid Id { get; set; }
 
     /// <summary>
-    /// Coordinates of enpassant if it is possible in form x,y
+    /// Coordinates of en passant if it is possible in form x,y
     /// </summary>
     public string? EnPassant { get; set; } = null;
 
@@ -38,7 +38,7 @@ public class GameState {
     public bool CanBlackKingCastle { get; set; } = true;
 
     /// <summary>
-    /// If black can caslt short
+    /// If black can castle short
     /// </summary>
     public bool CanBlackShortRookCastle { get; set; } = true;
 

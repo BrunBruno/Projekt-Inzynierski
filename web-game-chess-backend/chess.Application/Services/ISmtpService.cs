@@ -20,7 +20,7 @@ public interface ISmtpService {
     /// </summary>
     /// <param name="email"></param>
     /// <param name="recipientName"></param>
-    /// <param name="invitorName"></param>
+    /// <param name="inviterName"></param>
     /// <returns></returns>
-    Task SendGameInvitation(string email, string recipientName, string invitorName);
+    Task SendGameInvitation(string email, string recipientName, string inviterName);
 }

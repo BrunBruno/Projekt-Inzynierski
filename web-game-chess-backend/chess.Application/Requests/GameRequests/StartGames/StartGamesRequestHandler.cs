@@ -10,7 +10,7 @@ namespace chess.Application.Requests.GameRequests.StartGames;
 /// <summary>
 /// Checks if provided timing exists
 /// Gets all awaiting players (not playing and not private)
-/// Maches players and creates games for each mach
+/// Matches players and creates games for each mach
 /// </summary>
 public class StartGamesRequestHandler : IRequestHandler<StartGamesRequest> {
 

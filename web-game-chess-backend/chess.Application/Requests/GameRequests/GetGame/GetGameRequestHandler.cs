@@ -11,7 +11,7 @@ namespace chess.Application.Requests.GameRequests.GetGame;
 /// Checks if game exists
 /// Checks if user is player of provided game
 /// Update start time if first get
-/// Creates and returns gamedto
+/// Creates and returns game dto
 /// </summary>
 public class GetGameRequestHandler : IRequestHandler<GetGameRequest, GetGameDto> {
 

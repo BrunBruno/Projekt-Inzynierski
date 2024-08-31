@@ -80,7 +80,7 @@ public class AbortSearchTests : IClassFixture<TestWebApplicationFactory<Program>
     }
 
     /// <summary>
-    /// Try to remove non exisstignplayer
+    /// Try to remove non existing player
     /// </summary>
     /// <returns></returns>
     [Fact]

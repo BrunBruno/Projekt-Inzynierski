@@ -263,8 +263,8 @@ internal static partial class DbFilter {
             if (withInvitation) {
                 invitations.Add(new Invitation() {
                     Id = Guid.NewGuid(),
-                    InvitorId = i % 2 == 0 ? userPlayer.UserId : enemyPlayer.UserId,
-                    InvitorName = i % 2 == 0 ? userPlayer.Name : enemyPlayer.Name,
+                    InviterId = i % 2 == 0 ? userPlayer.UserId : enemyPlayer.UserId,
+                    InviterName = i % 2 == 0 ? userPlayer.Name : enemyPlayer.Name,
                     InviteeId = i % 2 == 0 ? enemyPlayer.UserId : userPlayer.UserId,
                     InviteeName = i % 2 == 0 ? enemyPlayer.Name : userPlayer.Name,
                     GameId = game.Id,
