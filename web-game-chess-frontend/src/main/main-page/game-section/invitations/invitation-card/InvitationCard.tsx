@@ -7,6 +7,8 @@ import { usePopup } from "../../../../../shared/utils/hooks/usePopUp";
 import { getErrMessage } from "../../../../../shared/utils/functions/displayError";
 import IconCreator from "../../../../../shared/components/icon-creator/IconCreator";
 import { timingTypesIcons } from "../../../../../shared/svgs/TimingTypesIcons";
+import { mainColor } from "../../../../../shared/utils/enums/colorMaps";
+import { timeSpanLongerThan } from "../../../../../shared/utils/functions/dateTimeRelated";
 
 type InvitationCardProps = {
   // invitation data
@@ -60,7 +62,11 @@ function InvitationCard({ invitation, updateInvitations }: InvitationCardProps) 
   return (
     <div className={classes.invitation}>
       <div className={classes.invitation__icon}>
-        <IconCreator icons={timingTypesIcons} iconName={timingTypesNames[invitation.type].toLowerCase()} />
+        <IconCreator
+          icons={timingTypesIcons}
+          iconName={timingTypesNames[invitation.type].toLowerCase()}
+          color={mainColor.c5}
+        />
       </div>
       <div className={classes.invitation__title}>
         <span>User </span>
@@ -72,22 +78,28 @@ function InvitationCard({ invitation, updateInvitations }: InvitationCardProps) 
       </div>
 
       <div className={classes.invitation__actions}>
-        <button
-          className={classes["inv-button"]}
-          onClick={() => {
-            onAcceptInvitation();
-          }}
-        >
-          Accept
-        </button>
-        <button
-          className={classes["inv-button"]}
-          onClick={() => {
-            onDeclineInvitation();
-          }}
-        >
-          Decline
-        </button>
+        {timeSpanLongerThan(new Date(invitation.createdAt), new Date(), 60 * 60 * 24) ? (
+          <p className={classes["inv-expired"]}>Expired...</p>
+        ) : (
+          <>
+            <button
+              className={classes["inv-button"]}
+              onClick={() => {
+                onAcceptInvitation();
+              }}
+            >
+              Accept
+            </button>
+            <button
+              className={classes["inv-button"]}
+              onClick={() => {
+                onDeclineInvitation();
+              }}
+            >
+              Decline
+            </button>
+          </>
+        )}
       </div>
 
       <div className={classes.invitation__date}>

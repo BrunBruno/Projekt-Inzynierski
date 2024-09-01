@@ -7,12 +7,14 @@ import IconCreator from "../../../shared/components/icon-creator/IconCreator";
 type NavSectionProps = {
   // hero section container ref
   heroSectionRef: React.RefObject<HTMLElement>;
+  // home content container ref
+  homeContentRef: React.RefObject<HTMLElement>;
   // sections names
   indicators: readonly ["home", "play", "learn", "faq"];
 };
 
 const NavSection = forwardRef<HandleOnScroll, NavSectionProps>(
-  ({ heroSectionRef, indicators }: NavSectionProps, ref: React.ForwardedRef<HandleOnScroll>) => {
+  ({ heroSectionRef, homeContentRef, indicators }: NavSectionProps, ref: React.ForwardedRef<HandleOnScroll>) => {
     ///
 
     // hav section ref
@@ -21,9 +23,10 @@ const NavSection = forwardRef<HandleOnScroll, NavSectionProps>(
     // handle navbar onscroll
     const handleOnScroll = (): void => {
       const heroElement = heroSectionRef.current;
+      const homeElement = homeContentRef.current;
       const navElement = navRef.current;
 
-      if (navElement && heroElement) {
+      if (navElement && heroElement && homeElement) {
         const navRefClasses = navElement.classList;
 
         if (window.scrollY > 0.8 * heroElement.clientHeight) {
@@ -32,7 +35,9 @@ const NavSection = forwardRef<HandleOnScroll, NavSectionProps>(
           navRefClasses.add(classes["nav-none"]);
         }
 
-        if (window.scrollY <= 1.5 * heroElement.clientHeight) {
+        const navIntersection = homeElement.clientHeight + heroElement.clientHeight - 4 * navElement.clientHeight;
+
+        if (window.scrollY <= navIntersection) {
           navRefClasses.remove(classes["nav-sticky"]);
         } else {
           navRefClasses.add(classes["nav-sticky"]);
@@ -65,7 +70,7 @@ const NavSection = forwardRef<HandleOnScroll, NavSectionProps>(
         </nav>
       </div>
     );
-  }
+  },
 );
 
 export default NavSection;

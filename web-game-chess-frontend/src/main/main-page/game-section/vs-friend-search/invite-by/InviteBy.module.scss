@@ -6,17 +6,19 @@
 
   .input-holder {
     @include flex();
+
     position: relative;
+    width: fit-content;
 
     input {
       @include cInput();
     }
 
-    .input-search {
+    input.input-search {
       margin: none;
     }
 
-    .input-mail {
+    input.input-mail {
       padding-right: 4rem;
     }
 
@@ -44,11 +46,40 @@
     .game-link {
       @include flex(column, start, center, 1rem);
 
-      a.link {
+      max-width: 100%;
+
+      .link-display {
         @include rounded(1rem);
+
+        width: 100%;
+        position: relative;
         background-color: $gc9;
-        font-size: 1.6rem;
-        color: $mc5;
+
+        &:hover {
+          cursor: pointer;
+          filter: brightness(80%);
+        }
+
+        p.link {
+          word-break: break-all;
+          font-size: 1.4rem;
+          color: $mc5;
+          user-select: none;
+        }
+
+        span {
+          @include rounded(0.6rem);
+
+          position: absolute;
+          color: $gc4;
+          background-color: #111;
+          display: none;
+          transform: translateX(-50%);
+
+          &.show {
+            display: block;
+          }
+        }
       }
 
       span {

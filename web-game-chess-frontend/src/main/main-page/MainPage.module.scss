@@ -7,6 +7,14 @@
   @include forNav();
 
   position: relative;
-  overflow: hidden; //
+  overflow: hidden;
+}
+//*/
+
+// resize
+@media (max-width: 700px) {
+  .main {
+    overflow: visible;
+  }
 }
 //*/

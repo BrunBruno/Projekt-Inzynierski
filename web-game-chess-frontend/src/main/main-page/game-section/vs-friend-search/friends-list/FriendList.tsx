@@ -26,15 +26,14 @@ type FriendListProps = {
 function FriendList({ selectedUsername, setSelectedFriend }: FriendListProps) {
   ///
 
-  const [friends, setFriends] = useState<GetAllFriendsByStatusDto[] | null>(null);
-
   const { showPopup } = usePopup();
-
   const { scrollRef, pageSize, pageNumber, totalItemsCount, setTotalItemsCount, setDefPageSize } = usePagination();
+
+  const [friends, setFriends] = useState<GetAllFriendsByStatusDto[] | null>(null);
 
   useEffect(() => {
     setDefPageSize(10);
-  });
+  }, []);
 
   // get all friends to display for invitations
 
@@ -50,7 +49,7 @@ function FriendList({ selectedUsername, setSelectedFriend }: FriendListProps) {
 
         const friendsResponse = await axios.get<PagedResult<GetAllFriendsByStatusDto>>(
           friendshipControllerPaths.getAllFriendsByStatus(model),
-          getAuthorization()
+          getAuthorization(),
         );
 
         setFriends(friendsResponse.data.items);
@@ -155,8 +154,8 @@ function FriendList({ selectedUsername, setSelectedFriend }: FriendListProps) {
           </div>
         ))
       ) : (
-        <div className={classes.empty}>
-          {Array.from({ length: 8 }).map((_, i) => (
+        <div className={classes.list__empty}>
+          {Array.from({ length: pageSize }).map((_, i) => (
             <div key={i} className={classes["empty-card"]}>
               <AvatarSvg iconClass={classes["blank-avatar"]} />
               <div className={classes.texts}>

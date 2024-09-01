@@ -2,7 +2,7 @@ import { greyColor } from "../utils/enums/colorMaps";
 import { IconMap } from "../utils/types/commonTypes";
 
 export const winTypesIcons: IconMap = {
-  checkmate: (): JSX.Element => (
+  checkMate: (): JSX.Element => (
     <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
       <path d="M11 7L8 17" stroke={greyColor.c0} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
       <path d="M16 7L13 17" stroke={greyColor.c0} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />

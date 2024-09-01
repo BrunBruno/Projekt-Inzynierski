@@ -61,21 +61,23 @@ function VsFriendSearch({}: VsFriendSearchProps) {
         {/* --- */}
 
         {/* right side content */}
-        {selectedFriend || selectedUser || selectedByUrl ? (
-          <TimeSelection
-            selectedFriend={selectedFriend}
-            selectedUser={selectedUser}
-            selectedByUrl={selectedByUrl}
-            setSelectedFriend={setSelectedFriend}
-            setSelectedUser={setSelectedUser}
-            setSelectedByUrl={setSelectedByUrl}
-            onInviteBySelection={onInviteBySelection}
-            onInviteByEmail={onInviteByEmail}
-            onInviteByUrl={onInviteByUrl}
-          />
-        ) : (
-          <FriendList selectedUsername={selectedUsername} setSelectedFriend={setSelectedFriend} />
-        )}
+        <div className={classes.search__split__list}>
+          {selectedFriend || selectedUser || selectedByUrl ? (
+            <TimeSelection
+              selectedFriend={selectedFriend}
+              selectedUser={selectedUser}
+              selectedByUrl={selectedByUrl}
+              setSelectedFriend={setSelectedFriend}
+              setSelectedUser={setSelectedUser}
+              setSelectedByUrl={setSelectedByUrl}
+              onInviteBySelection={onInviteBySelection}
+              onInviteByEmail={onInviteByEmail}
+              onInviteByUrl={onInviteByUrl}
+            />
+          ) : (
+            <FriendList selectedUsername={selectedUsername} setSelectedFriend={setSelectedFriend} />
+          )}
+        </div>
         {/* --- */}
       </div>
     </div>

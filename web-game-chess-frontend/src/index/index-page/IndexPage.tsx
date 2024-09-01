@@ -58,6 +58,9 @@ function IndexPage() {
   const heroScrollRef = useRef<HandleOnScroll>(null);
   // hero section ref
   const heroSectionRef = useRef<HTMLElement>(null);
+  // home content ref
+  // for making nav sticky
+  const homeContentRef = useRef<HTMLDivElement>(null);
 
   // scroll events handling
   const handleScroll = () => {
@@ -133,11 +136,11 @@ function IndexPage() {
   const renderSection = (
     name: string,
     scrollRef: React.RefObject<HandleOnScroll>,
-    sectionRef: React.RefObject<HTMLElement>
+    sectionRef: React.RefObject<HTMLElement>,
   ): JSX.Element => {
     switch (name) {
       case "home":
-        return <HomeSection ref={scrollRef} sectionRef={sectionRef} />;
+        return <HomeSection ref={scrollRef} sectionRef={sectionRef} homeContentRef={homeContentRef} />;
       case "play":
         return <PlaySection ref={scrollRef} sectionRef={sectionRef} />;
       case "learn":
@@ -166,7 +169,12 @@ function IndexPage() {
     <main className={classes["home-main"]}>
       <IntroBackgroundSection />
 
-      <NavSection ref={navScrollRef} heroSectionRef={heroSectionRef} indicators={indicators} />
+      <NavSection
+        ref={navScrollRef}
+        heroSectionRef={heroSectionRef}
+        homeContentRef={homeContentRef}
+        indicators={indicators}
+      />
 
       <HeroSection ref={heroScrollRef} heroSectionRef={heroSectionRef} />
 

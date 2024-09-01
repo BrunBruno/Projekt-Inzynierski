@@ -2,10 +2,10 @@
 
 // vs-friend search friend list container
 .list {
+  @include wh100();
   @include flex(column, start, center, 1rem);
 
   padding-left: 2rem;
-
   overflow-y: scroll;
 
   &::-webkit-scrollbar {
@@ -107,10 +107,9 @@
     }
   }
 
-  .empty {
+  &__empty {
     @include wh100();
 
-    position: relative;
     overflow: hidden;
 
     .empty-card {
@@ -143,6 +142,7 @@
 
     .no-data {
       @include absCenter();
+
       font-size: 3rem;
       text-decoration: underline;
       font-weight: bold;
@@ -151,7 +151,7 @@
 
   &__indicator {
     position: absolute;
-    bottom: calc((3rem - 1.4rem) / 2);
+    bottom: calc(-1.4rem * 1.2);
     font-size: 1.4rem;
   }
 }

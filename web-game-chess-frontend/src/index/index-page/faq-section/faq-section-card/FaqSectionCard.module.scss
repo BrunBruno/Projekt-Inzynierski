@@ -13,6 +13,7 @@
   border-top: solid 0.4rem $mc7;
   border-bottom: solid 0.4rem #0000;
   background-image: conic-gradient(from 70deg at 30% 120%, rgba($mc7, 0.1), #0000);
+  overflow: hidden;
 
   transform: scale(0.8);
   transition: all 0.3s;

@@ -55,6 +55,8 @@ function TimeSelection({
     if (selectedByUrl !== false) {
       onInviteByUrl(control.header, control.values[index]);
     }
+
+    clearSelections();
   };
 
   const clearSelections = () => {
@@ -74,19 +76,19 @@ function TimeSelection({
         transformedTag.push(
           <p key={`tag${i}`} className={classes.sep}>
             {char}
-          </p>
+          </p>,
         );
       } else if (!isNaN(parseInt(char))) {
         transformedTag.push(
           <p key={`tag${i}`} className={classes.num}>
             {char}
-          </p>
+          </p>,
         );
       } else {
         transformedTag.push(
           <p key={`tag${i}`} className={classes.char}>
             {char}
-          </p>
+          </p>,
         );
       }
     }

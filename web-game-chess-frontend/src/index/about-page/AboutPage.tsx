@@ -97,7 +97,7 @@ function AboutPage() {
             {/* --- */}
 
             {/* return actions */}
-            <ul>
+            <ul className={classes["content-list"]}>
               <li
                 className={classes["content-button"]}
                 onClick={() => {

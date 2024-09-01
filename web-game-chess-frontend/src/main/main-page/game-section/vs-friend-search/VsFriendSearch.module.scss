@@ -19,8 +19,9 @@
     padding-bottom: 3rem;
 
     &__bar {
-      @include flex(column, start, center, 2rem);
+      @include flex(column, start, center, 3rem);
 
+      width: 100%;
       padding: 2rem 4rem;
       border-right: solid 0.3rem $gc9;
 
@@ -28,18 +29,50 @@
         font-size: 3.2rem;
       }
     }
+
+    &__list {
+      @include wh100();
+
+      position: relative;
+    }
+
+    .game-link {
+      @include absCenter();
+      @include rounded(2rem);
+
+      z-index: 1;
+      background-color: #111;
+
+      &:hover {
+        cursor: pointer;
+        filter: brightness(60%);
+      }
+
+      span {
+        font-size: 2rem;
+      }
+    }
   }
 }
 //*/
 
 // resize
+@media (max-width: 1000px) {
+  .search {
+    padding: 6rem 8rem;
+  }
+}
+
 @media (max-width: 700px) {
   .search {
     padding: 0;
+    height: fit-content;
 
     &__split {
+      background-color: #0000;
+      border-radius: 0;
       grid-template-columns: 1fr;
-      grid-template-rows: 30rem auto;
+      grid-template-rows: 40rem auto;
     }
   }
 }

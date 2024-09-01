@@ -7,28 +7,32 @@ import { HandleOnScroll } from "../../../shared/utils/types/commonTypes";
 type HomeSectionProps = {
   // section container ref
   sectionRef: React.RefObject<HTMLElement>;
+  //
+  homeContentRef: React.RefObject<HTMLDivElement>;
 };
 
 const HomeSection = forwardRef<HandleOnScroll, HomeSectionProps>(
-  ({ sectionRef }: HomeSectionProps, ref: React.ForwardedRef<HandleOnScroll>) => {
+  ({ sectionRef, homeContentRef }: HomeSectionProps, ref: React.ForwardedRef<HandleOnScroll>) => {
     ///
 
-    // home content ref
-    const homeRef = useRef<HTMLDivElement>(null);
     // home intro ref
     const introRef = useRef<HTMLDivElement>(null);
 
     // handle home on scroll
     const handleOnScroll = () => {
-      const homeElement = homeRef.current;
+      const homeElement = homeContentRef.current;
 
-      if (homeElement && window.innerWidth > 800) {
-        const y = window.scrollY - 1.7 * window.innerHeight;
-        const h = window.innerHeight;
+      if (homeElement) {
+        if (window.innerWidth > 800) {
+          const y = window.scrollY - 1.7 * window.innerHeight;
+          const h = window.innerHeight;
 
-        if (y < 1.7 * homeElement.clientHeight) {
-          const brightness = -100 / (1 + Math.pow(Math.E, -(y - h) / 100)) + 100;
-          homeElement.style.filter = `brightness(${brightness}%)`;
+          if (y < 1.7 * homeElement.clientHeight) {
+            const brightness = -100 / (1 + Math.pow(Math.E, -(y - h) / 100)) + 100;
+            homeElement.style.filter = `brightness(${brightness}%)`;
+          }
+        } else {
+          homeElement.style.filter = `brightness(${100}%)`;
         }
       }
     };
@@ -59,8 +63,8 @@ const HomeSection = forwardRef<HandleOnScroll, HomeSectionProps>(
 
     return (
       <section id="home-section" ref={sectionRef} className={classes.section}>
-        <div ref={homeRef} className={classes.section__content}>
-          {/* intro senction */}
+        <div ref={homeContentRef} className={classes.section__content}>
+          {/* intro section */}
           <div ref={introRef} className={classes.section__content__intro}>
             <h1 className={classes["page-title"]}>
               <span>Welcome to</span>
@@ -80,7 +84,7 @@ const HomeSection = forwardRef<HandleOnScroll, HomeSectionProps>(
         </div>
       </section>
     );
-  }
+  },
 );
 
 export default HomeSection;

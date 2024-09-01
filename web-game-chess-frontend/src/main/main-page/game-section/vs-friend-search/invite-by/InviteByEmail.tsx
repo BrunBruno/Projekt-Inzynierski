@@ -61,7 +61,7 @@ const InviteByEmail = forwardRef<InviteByEmailRef, InviteByEmailProps>(
         const privateGameResponse = await axios.post<CreateGameByEmailDto>(
           gameControllerPaths.createGameByEmail(),
           gameByEmailModel,
-          getAuthorization()
+          getAuthorization(),
         );
 
         const notifyModel: NotifyUserModel = {
@@ -92,6 +92,7 @@ const InviteByEmail = forwardRef<InviteByEmailRef, InviteByEmailProps>(
       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
       if (!emailRegex.test(selectedEmail)) {
         setSelectedEmail("");
+        showPopup("Incorrect email.", "warning");
         return;
       }
 
@@ -102,7 +103,7 @@ const InviteByEmail = forwardRef<InviteByEmailRef, InviteByEmailProps>(
       try {
         const userResponse = await axios.get<GetByEmailDto>(
           userControllerPaths.getByEmail(getByEmailModel),
-          getAuthorization()
+          getAuthorization(),
         );
 
         setSelectedUser(userResponse.data);
@@ -150,7 +151,7 @@ const InviteByEmail = forwardRef<InviteByEmailRef, InviteByEmailProps>(
         </div>
       </div>
     );
-  }
+  },
 );
 
 export default InviteByEmail;
