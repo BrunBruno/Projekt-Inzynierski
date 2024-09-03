@@ -40,4 +40,11 @@ public class GameRepository : IGameRepository {
         _dbContext.Games.Update(game);
         await _dbContext.SaveChangesAsync();
     }
+
+
+    ///<inheritdoc/>
+    public async Task Delete(Game game) {
+        _dbContext.Games.Remove(game);
+        await _dbContext.SaveChangesAsync();
+    }
 }

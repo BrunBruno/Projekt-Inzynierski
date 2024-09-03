@@ -22,6 +22,7 @@ using chess.Application.Requests.GameRequests.GetAllFinishedGames;
 using chess.Application.Requests.GameRequests.GetAllMessages;
 using chess.Application.Requests.GameRequests.CreateGameWithLink;
 using chess.Application.Requests.GameRequests.CheckIfUpdateRequired;
+using chess.Application.Requests.GameRequests.CancelPrivateGame;
 
 namespace chess.Api.Controllers;
 
@@ -270,7 +271,7 @@ public class GameController : ControllerBase {
     /// <returns> Game timing </returns>
     [HttpGet("{gameId}/timing")]
     [Authorize(Policy = "IsVerified")]
-    public async Task<IActionResult> GetGameTiming(Guid gameId) {
+    public async Task<IActionResult> GetGameTiming([FromRoute] Guid gameId) {
 
         var request = new GetGameTimingRequest()
         {
@@ -364,6 +365,25 @@ public class GameController : ControllerBase {
     public async Task<IActionResult> AbortSearch([FromQuery] AbortSearchModel model) {
 
         var request = _mapper.Map<AbortSearchRequest>(model);
+
+        await _mediator.Send(request);
+
+        return Ok();
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="gameId"></param>
+    /// <returns></returns>
+    [HttpDelete("{gameId}/cancel")]
+    [Authorize(Policy = "IsVerified")]
+    public async Task<IActionResult> CancelPrivateGame([FromRoute] Guid gameId) {
+
+        var request = new CancelPrivateGameRequest() 
+        {
+            GameId = gameId,
+        };
 
         await _mediator.Send(request);
 

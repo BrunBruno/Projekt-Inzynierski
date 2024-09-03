@@ -1,7 +1,7 @@
-import { IconMap } from "../../../../shared/utils/types/commonTypes";
-import classes from "./Searching.module.scss";
+import { IconMap } from "../../utils/types/commonTypes";
+import classes from "./SearchingPage.module.scss";
 
-export const searchingIcons: IconMap = {
+export const searchingPageIcons: IconMap = {
   pawn: (iconClass?: string | undefined, color?: string | undefined, active?: boolean | undefined) => (
     <svg
       viewBox="-4 0 24 24"

@@ -29,24 +29,24 @@ function VsPlayerSearch({ setSearchIds }: VsPlayerSearchProps) {
   const onSearchForGame = async (header: string, values: number[]) => {
     const typeValue = getEnumValueByKey(TimingTypes, header.toLowerCase());
 
-    const gameType: SearchGameModel = {
+    const gameTimingType: SearchGameModel = {
       type: typeValue,
       minutes: values[0],
       increment: values[1],
     };
 
     try {
-      const searchGameResponse = await axios.post<SearchGameDto>(
+      const response = await axios.post<SearchGameDto>(
         gameControllerPaths.startSearch(),
-        gameType,
+        gameTimingType,
         getAuthorization()
       );
 
-      setTimingType(gameType);
+      setTimingType(gameTimingType);
 
-      setSearchIds(searchGameResponse.data);
+      setSearchIds(response.data);
 
-      await GameHubService.PlayerJoined(searchGameResponse.data.timingId);
+      await GameHubService.PlayerJoined(response.data.timingId);
     } catch (err) {
       showPopup(getErrMessage(err), "warning");
     }

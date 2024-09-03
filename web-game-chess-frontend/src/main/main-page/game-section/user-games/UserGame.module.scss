@@ -7,9 +7,12 @@
 
   padding: 4rem 8rem;
 
+  $header_w: 6rem;
+
   &__header {
     @include flex(row, space-between, center, 0);
 
+    height: $header_w;
     padding: 1rem;
     padding-right: 4rem;
 
@@ -27,8 +30,7 @@
 
   &__list {
     position: relative;
-    height: 100%;
-    max-height: calc(100vh - 2 * 4rem - 6rem);
+    height: calc(100% - $header_w);
     padding: 0.5rem;
     overflow-y: scroll;
     overflow-x: hidden;
@@ -52,6 +54,9 @@
 // resize
 @media (max-width: 700px) {
   .games {
+    // buttons and nav panels
+    height: calc(100% - 12rem - 6rem);
+    overflow: hidden;
     padding: 4rem 2rem;
 
     &__header {

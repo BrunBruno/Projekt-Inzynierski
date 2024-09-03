@@ -1,5 +1,4 @@
 import { useNavigate, useParams } from "react-router-dom";
-import LoadingPage from "../../shared/components/loading-page/LoadingPage";
 import { useEffect, useState } from "react";
 import { Guid } from "guid-typescript";
 import GameHubService from "../../shared/utils/services/GameHubService";
@@ -8,19 +7,22 @@ import { HubConnectionState } from "@microsoft/signalr";
 import { usePopup } from "../../shared/utils/hooks/usePopUp";
 import { getErrMessage } from "../../shared/utils/functions/displayError";
 import axios from "axios";
-import { CheckIfUpdateRequiredDto } from "../../shared/utils/types/gameDtos";
+import { CheckIfUpdateRequiredDto, GetGameTimingDto } from "../../shared/utils/types/gameDtos";
 import { gameControllerPaths, getAuthorization } from "../../shared/utils/services/ApiService";
 import { UpdatePrivateGameModel } from "../../shared/utils/types/gameModels";
+import SearchingPage from "../../shared/components/searching-page/SearchingPage";
 
 function AwaitingPage() {
   ///
 
   const navigate = useNavigate();
 
+  // game id from route
   const { gameIdStr } = useParams<{ gameIdStr: string }>();
+  // game id as Guid
   const [gameId, setGameId] = useState<Guid | null>(null);
 
-  const { timingType } = useTimingType();
+  const { timingType, setTimingType } = useTimingType();
   const { showPopup } = usePopup();
 
   // set game id as Guid
@@ -28,10 +30,12 @@ function AwaitingPage() {
     if (gameIdStr) {
       const guid: Guid = Guid.parse(gameIdStr).toJSON().value;
       setGameId(guid);
+
+      getTimingType(guid);
     } else {
       navigate("/main", {
         state: {
-          popupText: "Error starting game",
+          popupText: "Error starting game.",
           popupType: "warning",
         },
       });
@@ -71,17 +75,17 @@ function AwaitingPage() {
   // used for every private game
   const handleGameAccepted = (gameId: Guid) => {
     if (timingType) {
-      navigate(`game/${gameId}`, {
+      navigate(`/main/game/${gameId}`, {
         state: {
           timing: timingType,
-          popupText: "Game started",
+          popupText: "Game started.",
           popupType: "info",
         },
       });
     } else {
       navigate("/main", {
         state: {
-          popupText: "Error starting game",
+          popupText: "Error starting game.",
           popupType: "warning",
         },
       });
@@ -91,7 +95,7 @@ function AwaitingPage() {
   const handleGameDeclined = () => {
     navigate("/main", {
       state: {
-        popupText: "Invitation declined",
+        popupText: "Invitation declined.",
         popupType: "error",
       },
     });
@@ -114,7 +118,38 @@ function AwaitingPage() {
   }, [timingType]);
   //*/
 
-  return <LoadingPage text="Waiting for opponent..." />;
+  //
+  const getTimingType = async (gameId: Guid) => {
+    try {
+      const response = await axios.get<GetGameTimingDto>(gameControllerPaths.getGameTiming(gameId), getAuthorization());
+
+      setTimingType(response.data);
+    } catch (err) {
+      showPopup(getErrMessage(err), "warning");
+    }
+  };
+  //*/
+
+  //
+  const onCancelPrivateGame = async () => {
+    if (gameId) {
+      try {
+        await axios.delete(gameControllerPaths.cancelPrivateGame(gameId), getAuthorization());
+
+        navigate("/main", {
+          state: {
+            popupText: "Game canceled.",
+            popupType: "error",
+          },
+        });
+      } catch (err) {
+        showPopup(getErrMessage(err), "warning");
+      }
+    }
+  };
+  //*/
+
+  return <SearchingPage isPrivate={true} onCancel={onCancelPrivateGame} />;
 }
 
 export default AwaitingPage;

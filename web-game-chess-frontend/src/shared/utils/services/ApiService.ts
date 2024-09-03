@@ -102,6 +102,7 @@ interface GameControllerPaths {
   getAllMessages: (gameId: Guid) => string;
   //DELETE
   abortSearch: (model: AbortSearchModel) => string;
+  cancelPrivateGame: (gameId: Guid) => string;
 }
 
 // paths in game controller
@@ -159,6 +160,9 @@ export const gameControllerPaths: GameControllerPaths = {
 
   // removes player
   abortSearch: (model: AbortSearchModel): string => `${gameBaseUrl}/abort?${stringifyModel(model)}`,
+
+  //
+  cancelPrivateGame: (gameId: Guid): string => `${gameBaseUrl}/${gameId}/cancel`,
 };
 //*/
 

@@ -4,13 +4,12 @@ import VsPlayerSearch from "./vs-player-search/VsPlayerSearch";
 import axios from "axios";
 import { gameControllerPaths, getAuthorization } from "../../../shared/utils/services/ApiService";
 import { CheckIfInGameDto, SearchGameDto } from "../../../shared/utils/types/gameDtos";
-import Searching from "./searching/Searching";
 import { useNavigate } from "react-router-dom";
 import GameHubService from "../../../shared/utils/services/GameHubService";
 import { GameSearchInterface } from "../../../shared/utils/enums/interfacesEnums";
 import UserGames from "./user-games/UserGames";
 import VsFriendSearch from "./vs-friend-search/VsFriendSearch";
-import { CheckIfInGameModel } from "../../../shared/utils/types/gameModels";
+import { AbortSearchModel, CheckIfInGameModel } from "../../../shared/utils/types/gameModels";
 import NotificationPopUp from "./notification-popup/NotificationPopUp";
 import { HubConnectionState } from "@microsoft/signalr";
 import DefaultView from "./default-view/DefaultView";
@@ -20,6 +19,8 @@ import { usePopup } from "../../../shared/utils/hooks/usePopUp";
 import { useTimingType } from "../../../shared/utils/hooks/useTimingType";
 import IconCreator from "../../../shared/components/icon-creator/IconCreator";
 import { gameSectionIcons } from "./GameSectionIcons";
+import SearchingPage from "../../../shared/components/searching-page/SearchingPage";
+import { Guid } from "guid-typescript";
 
 type GameSectionProps = {
   providedInterface: GameSearchInterface | null;
@@ -35,7 +36,6 @@ function GameSection({ providedInterface }: GameSectionProps) {
   const [allowNotification, setAllowNotification] = useState<boolean>(false);
 
   const { timingType } = useTimingType();
-
   const { showPopup } = usePopup();
 
   // to set content
@@ -79,6 +79,27 @@ function GameSection({ providedInterface }: GameSectionProps) {
   };
   //*/
 
+  // to navigate to game page
+  // used for every private game
+  const handleGameAccepted = (gameId: Guid) => {
+    if (timingType) {
+      navigate(`/main/game/${gameId}`, {
+        state: {
+          timing: timingType,
+          popupText: "Game started.",
+          popupType: "info",
+        },
+      });
+    } else {
+      showPopup("Error starting game.", "warning");
+    }
+  };
+
+  const handleGameDeclined = () => {
+    showPopup("Invitation declined.", "error");
+  };
+  //*/
+
   // connect game hub handlers
   useEffect(() => {
     if (searchIds !== null) {
@@ -86,7 +107,12 @@ function GameSection({ providedInterface }: GameSectionProps) {
     }
 
     if (GameHubService.connection && GameHubService.connection.state === HubConnectionState.Connected) {
+      // for handling public search
       GameHubService.connection.on("GamesChanged", handleGamesChanged);
+      // for handling private game accepted
+      GameHubService.connection.on("GameAccepted", handleGameAccepted);
+      // for handling private game declined
+      GameHubService.connection.on("InvitationDeclined", handleGameDeclined);
 
       setAllowNotification(true);
     }
@@ -94,9 +120,36 @@ function GameSection({ providedInterface }: GameSectionProps) {
     return () => {
       if (GameHubService.connection) {
         GameHubService.connection.off("GamesChanged", handleGamesChanged);
+        GameHubService.connection.off("GameAccepted", handleGameAccepted);
+        GameHubService.connection.off("InvitationDeclined", handleGameDeclined);
       }
     };
   }, [searchIds, timingType]);
+  //*/
+
+  // public game search abort
+  // remove player, clear ids and go back to vs-player search
+  const onCancelSearch = async () => {
+    if (!searchIds) {
+      return;
+    }
+
+    try {
+      const abortSearchModel: AbortSearchModel = {
+        playerId: searchIds.playerId,
+      };
+
+      await axios.delete(gameControllerPaths.abortSearch(abortSearchModel), getAuthorization());
+
+      GameHubService.PlayerLeaved(searchIds.timingId);
+
+      setSearchIds(null);
+
+      setInterfaceById(GameSearchInterface.vsPlayer);
+    } catch (err) {
+      showPopup(getErrMessage(err), "warning");
+    }
+  };
   //*/
 
   // set game section content
@@ -115,9 +168,7 @@ function GameSection({ providedInterface }: GameSectionProps) {
         break;
 
       case GameSearchInterface.searching:
-        setInterfaceContent(
-          <Searching setInterfaceById={setInterfaceById} searchIds={searchIds} setSearchIds={setSearchIds} />
-        );
+        setInterfaceContent(<SearchingPage isPrivate={false} onCancel={onCancelSearch} />);
         break;
 
       case GameSearchInterface.userGames:

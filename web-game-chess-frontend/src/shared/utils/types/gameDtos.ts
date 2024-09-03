@@ -180,3 +180,5 @@ export type CheckIfUpdateRequiredDto = TimingTypeModel & {
   // is update on players required
   isRequired: boolean;
 };
+
+export type GetGameTimingDto = TimingTypeModel;

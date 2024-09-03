@@ -1,4 +1,7 @@
-@import "../../../Main.scss";
+@import "../../styles/common-components/buttons.scss";
+@import "../../styles/commons-styles/elements.scss";
+@import "../../styles/variables/color.scss";
+@import "../../styles/variables/spacing.scss";
 
 // searching for game container
 .searching {
@@ -48,7 +51,10 @@
     }
 
     &__text {
-      font-size: 2.6rem;
+      h1.h1-header {
+        font-size: 2.6rem;
+        color: $mc0;
+      }
     }
 
     &__indicator {
@@ -58,17 +64,18 @@
         height: 3rem;
         transition: transform 0.3s;
 
+        &.active {
+          transform: translateY(-2rem) scale(1.2);
+
+          path {
+            fill: $mc9;
+            transition: fill 0.1s;
+          }
+        }
+
         path {
           fill: $mc0;
           transition: fill 2s;
-        }
-      }
-
-      .active {
-        transform: translateY(-2rem) scale(1.2);
-        path {
-          fill: $mc9;
-          transition: fill 0.1s;
         }
       }
     }
