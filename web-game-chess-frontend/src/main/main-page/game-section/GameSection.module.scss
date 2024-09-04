@@ -118,6 +118,10 @@
           grid-row: 1;
         }
 
+        .game-interface {
+          height: calc(100vh - 12rem - 6rem);
+        }
+
         .game-buttons {
           flex-direction: row;
           padding: 2rem;

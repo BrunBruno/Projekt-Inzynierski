@@ -4,6 +4,14 @@
 .invite {
   @include flex(column, center, center, 1rem);
 
+  width: 100%;
+  padding-bottom: 2rem;
+  border-bottom: solid 0.3rem $gc9;
+
+  &:nth-last-child(1) {
+    border: none;
+  }
+
   .input-holder {
     @include flex();
 

@@ -9,9 +9,12 @@ type DefaultViewProps = {};
 function DefaultView({}: DefaultViewProps) {
   ///
 
-  const boardRef = useRef<HTMLDivElement>(null);
+  // default section ref
+  const defRef = useRef<HTMLDivElement>(null);
+  // inner board ref
   const innerRef = useRef<HTMLDivElement>(null);
 
+  // mouse position state
   const [mousePosition, setMousePosition] = useState<MousePosition>({
     x: 0,
     y: 0,
@@ -19,23 +22,33 @@ function DefaultView({}: DefaultViewProps) {
 
   // to handle mouse movement and map to board movement
   useEffect(() => {
-    const maxDeg = 20;
-    const ww05 = window.innerWidth / 2;
-    const wh05 = window.innerHeight / 2;
-
     const handleMouseMove = (event: MouseEvent) => {
-      const newX = (maxDeg / ww05) * event.clientX - maxDeg;
-      const newY = -(maxDeg / wh05) * event.clientY + maxDeg;
-      setMousePosition({ x: newX, y: newY });
+      const defElement = defRef.current;
 
-      const innerBoard = innerRef.current;
-      if (innerBoard) {
-        innerBoard.classList.add(classes.active);
-        clearTimeout(timer);
+      if (defElement) {
+        const maxDeg = 20;
 
-        timer = setTimeout(() => {
-          innerBoard.classList.remove(classes.active);
-        }, 100);
+        const defRec = defElement.getBoundingClientRect();
+        const def05W = defRec.width / 2;
+        const def05H = defRec.height / 2;
+
+        let newX: number = (maxDeg / def05W) * event.clientX - maxDeg;
+        let newY: number = -(maxDeg / def05H) * event.clientY + maxDeg;
+        newX = Math.abs(newX) < 20 ? newX : newX < 0 ? -20 : 20;
+        newY = Math.abs(newY) < 20 ? newY : newY < 0 ? -20 : 20;
+
+        setMousePosition({ x: newX, y: newY });
+
+        // set highlight
+        const innerBoard = innerRef.current;
+        if (innerBoard) {
+          innerBoard.classList.add(classes.active);
+          clearTimeout(timer);
+
+          timer = setTimeout(() => {
+            innerBoard.classList.remove(classes.active);
+          }, 100);
+        }
       }
     };
 
@@ -78,33 +91,51 @@ function DefaultView({}: DefaultViewProps) {
   //*/
 
   return (
-    <div className={classes.default}>
-      <div ref={boardRef} className={classes.board}>
-        <div
-          className={classes.board__grid}
-          style={{
-            transform: `rotateY(${mousePosition.x}deg) rotateX(${mousePosition.y}deg)`,
-          }}
-        >
-          <div ref={innerRef} className={classes.board__grid__inner}>
-            {generateGrid()}
+    <div ref={defRef} className={classes.default}>
+      {/* <div>
+        {Math.floor(mousePosition.x)} {Math.floor(mousePosition.y)}
+      </div> */}
+
+      <div className={classes.default__container}>
+        <div className={classes.board}>
+          <div
+            className={classes.board__grid}
+            style={{
+              transform: `
+                rotateY(${mousePosition.x}deg)
+                rotateX(${mousePosition.y}deg)
+              `,
+            }}
+          >
+            <div ref={innerRef} className={classes.board__grid__inner}>
+              {generateGrid()}
+            </div>
+
+            <div
+              className={classes.board__grid__outer}
+              style={{
+                transform: `
+                  translate(-50%, -50%)
+                  translateY(${mousePosition.y}px)
+                  translateX(${-mousePosition.x}px)
+                `,
+              }}
+            />
           </div>
 
           <div
-            className={classes.board__grid__outer}
+            className={classes.board__shadow}
             style={{
-              transform: `translate(-50%, -50%) translateY(${mousePosition.y}px) translateX(${-mousePosition.x}px)`,
+              transform: `
+                translate(-50%, 10%)
+                rotateX(${88 - 0.1 * Math.abs(mousePosition.y)}deg)
+              `,
+              width: `
+                ${100 + Math.abs(mousePosition.x)}%
+              `,
             }}
           />
         </div>
-
-        <div
-          className={classes.board__shadow}
-          style={{
-            transform: `translate(-50%, 10%) rotateX(${88 - 0.1 * Math.abs(mousePosition.y)}deg)`,
-            width: `${100 + Math.abs(mousePosition.x)}%`,
-          }}
-        />
       </div>
     </div>
   );

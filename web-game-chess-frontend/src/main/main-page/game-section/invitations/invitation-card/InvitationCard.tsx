@@ -60,24 +60,26 @@ function InvitationCard({ invitation, updateInvitations }: InvitationCardProps) 
   //*/
 
   return (
-    <div className={classes.invitation}>
-      <div className={classes.invitation__icon}>
+    <div className={classes.card}>
+      <div className={classes.card__icon}>
         <IconCreator
           icons={timingTypesIcons}
           iconName={timingTypesNames[invitation.type].toLowerCase()}
           color={mainColor.c5}
         />
       </div>
-      <div className={classes.invitation__title}>
+
+      <div className={classes.card__title}>
         <span>User </span>
-        <b>{invitation.inviterName}</b>
+        <b className={classes["imp-data"]}>{invitation.inviterName}</b>
         <span> has invited you to new </span>
         <br />
-        <b>{timingTypesNames[invitation.type]}</b>
+        <b className={classes["imp-data"]}>{timingTypesNames[invitation.type]}</b>
         <span> game.</span>
       </div>
 
-      <div className={classes.invitation__actions}>
+      {/* actions */}
+      <div className={classes.card__actions}>
         {timeSpanLongerThan(new Date(invitation.createdAt), new Date(), 60 * 60 * 24) ? (
           <p className={classes["inv-expired"]}>Expired...</p>
         ) : (
@@ -101,8 +103,9 @@ function InvitationCard({ invitation, updateInvitations }: InvitationCardProps) 
           </>
         )}
       </div>
+      {/* --- */}
 
-      <div className={classes.invitation__date}>
+      <div className={classes.card__date}>
         <span>{new Date(invitation.createdAt).toLocaleString()}</span>
       </div>
     </div>

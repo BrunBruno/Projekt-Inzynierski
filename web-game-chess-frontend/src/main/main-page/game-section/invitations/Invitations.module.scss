@@ -2,22 +2,54 @@
 
 // invitations container
 .invitations {
-  padding: 8rem;
-  height: 100%;
+  @include wh100();
+
+  padding: 4rem 8rem;
+  overflow: hidden;
+
+  $header_w: 6rem;
 
   &__header {
+    @include flex(row, start, center, 1rem);
+
     padding: 1rem;
-    font-size: 3rem;
-    font-weight: bold;
+    height: $header_w;
+
+    span {
+      font-size: 3rem;
+      font-weight: bold;
+    }
+
+    span.counter {
+      @include flex($gap: 0.5rem);
+      width: fit-content;
+
+      span.sym {
+        font-size: 2rem;
+        color: $gc4;
+      }
+    }
   }
 
-  &__cards {
-    height: 100%;
+  @mixin listMixin() {
+    position: relative;
+    height: calc(100% - $header_w);
+  }
+
+  &__list {
+    @include listMixin();
+
     overflow-y: scroll;
 
     &::-webkit-scrollbar {
       display: none;
     }
+  }
+
+  &__empty {
+    @include listMixin();
+
+    overflow: hidden;
   }
 }
 //*/

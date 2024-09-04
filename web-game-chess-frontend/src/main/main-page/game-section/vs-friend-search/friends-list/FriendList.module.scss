@@ -168,6 +168,8 @@
     grid-template-columns: 1fr 1fr;
 
     &__element {
+      height: 12rem;
+
       .invite {
         opacity: 1;
       }
@@ -180,76 +182,42 @@
     display: flex;
 
     &__element {
-      .avatar {
-        @include flex();
+      height: 14rem;
+      grid-template-columns: 8rem auto 8rem;
 
+      .avatar {
         .user-avatar {
-          @include circle(6rem);
-          object-fit: cover;
-          box-shadow: 0 0 0 0.5rem $gc8;
+          @include circle(8rem);
         }
       }
 
       .data {
-        @include flex(column, start, start, 0.8rem);
-
         h3 {
-          @include longText();
-          font-size: 2rem;
+          font-size: 3rem;
         }
 
         p {
-          font-size: 1.2rem;
+          font-size: 1.8rem;
         }
 
         .elo {
-          display: grid;
-          grid-template-columns: repeat(5, 1fr);
-          grid-column-gap: 0.5rem;
-
           span {
-            @include flex(row, start, center, 0.2rem);
-            color: $gc4;
-            white-space: nowrap;
-
             svg.icon {
-              height: 1.2rem;
+              height: 1.6rem;
             }
           }
         }
 
         .previous-games {
           p {
-            font-size: 1.4rem;
-            margin-bottom: 0.5rem;
-          }
-
-          span {
-            font-size: 1.6rem;
-
-            &:nth-child(2) {
-              color: $success-color-m;
-            }
-            &:nth-child(3) {
-              color: $gc5;
-            }
-            &:nth-child(4) {
-              color: $danger-color-m;
-            }
+            font-size: 1.8rem;
           }
         }
       }
 
       .invite {
-        position: absolute;
-        bottom: 1rem;
-        right: 1.5rem;
-        opacity: 0;
-        transition: opacity 0.1s;
-
         button {
-          @include button(1.6rem);
-          @include mainMButton();
+          font-size: 2.4rem;
         }
       }
     }

@@ -54,7 +54,7 @@
         @include flex(row, end, center, 0);
         @include wh100();
 
-        button {
+        button.action {
           position: relative;
           font-size: 1.6rem;
           padding: 0.6rem 1.2rem;

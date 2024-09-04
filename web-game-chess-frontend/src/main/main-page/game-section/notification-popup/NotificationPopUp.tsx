@@ -51,11 +51,7 @@ function NotificationPopUp({ allowNotification, setAllowNotification }: Notifica
     }
 
     return () => {
-      if (
-        allowNotification &&
-        GameHubService.connection &&
-        GameHubService.connection.state === HubConnectionState.Connected
-      ) {
+      if (GameHubService.connection && GameHubService.connection.state === HubConnectionState.Connected) {
         GameHubService.connection.off("InvitedToGame", handleNotificationChange);
       }
     };
@@ -113,31 +109,36 @@ function NotificationPopUp({ allowNotification, setAllowNotification }: Notifica
       `}
     >
       <div className={classes.notification__content}>
-        <div className={classes.notification__content__board}></div>
+        <div className={classes.notification__content__board} />
+
         <div className={classes.notification__content__data}>
           <div className={classes.notification__content__data__header}>
             <span>New game invitation from:</span>
             <br />
             <span className={classes.user}>{notification.inviter} </span>
           </div>
+
+          {/* invitation actions */}
           <div className={classes.notification__content__data__actions}>
             <button
-              className={classes.accept}
+              className={`${classes["action"]} ${classes["accept"]}`}
               onClick={() => {
                 onAcceptInvitation();
               }}
             >
-              accept
+              <span>accept</span>
             </button>
+
             <button
-              className={classes.decline}
+              className={`${classes["action"]} ${classes["decline"]}`}
               onClick={() => {
                 onDeclineInvitation();
               }}
             >
-              decline
+              <span>decline</span>
             </button>
           </div>
+          {/* --- */}
         </div>
       </div>
     </div>

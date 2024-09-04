@@ -109,13 +109,15 @@ function ListSection({ selectedUsername, selectedList, setUserProfile, setFriend
   useEffect(() => {
     const setDefSize = () => {
       const container = scrollRef.current;
+      const itemsPerRow = 2;
+
       if (container) {
         const containerHeight = container.clientHeight;
         const firstChild = container.firstChild as HTMLElement;
         const elementHeight = firstChild.clientHeight;
 
         if (elementHeight > 0) {
-          const count = Math.ceil(containerHeight / elementHeight) * 2;
+          const count = Math.ceil(containerHeight / elementHeight) * itemsPerRow;
 
           setDefPageSize(count);
         }
@@ -128,7 +130,7 @@ function ListSection({ selectedUsername, selectedList, setUserProfile, setFriend
     return () => {
       window.removeEventListener("resize", setDefSize);
     };
-  }, [users, friends, listRef]);
+  }, [users, friends]);
   //*/
 
   // setter for profile data

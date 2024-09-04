@@ -3,7 +3,6 @@ import AvatarSvg from "../../../../../shared/svgs/AvatarSvg";
 import { GetAllFriendsByStatusDto } from "../../../../../shared/utils/types/friendshipDtos";
 import classes from "./FriendList.module.scss";
 import { mainColor } from "../../../../../shared/utils/enums/colorMaps";
-import LoadingPage from "../../../../../shared/components/loading-page/LoadingPage";
 import usePagination from "../../../../../shared/utils/hooks/usePagination";
 import { GetAllFriendsByStatusModel } from "../../../../../shared/utils/types/friendshipModels";
 import { friendshipControllerPaths, getAuthorization } from "../../../../../shared/utils/services/ApiService";
@@ -49,7 +48,7 @@ function FriendList({ selectedUsername, setSelectedFriend }: FriendListProps) {
 
         const friendsResponse = await axios.get<PagedResult<GetAllFriendsByStatusDto>>(
           friendshipControllerPaths.getAllFriendsByStatus(model),
-          getAuthorization(),
+          getAuthorization()
         );
 
         setFriends(friendsResponse.data.items);
@@ -63,11 +62,54 @@ function FriendList({ selectedUsername, setSelectedFriend }: FriendListProps) {
   }, [selectedUsername, pageSize]);
   //*/
 
-  if (!friends) return <LoadingPage text="Loading data" />;
+  // set default page size based on list to elements size ratio
+  // add resize handler to update default size
+  useEffect(() => {
+    const setDefSize = () => {
+      const container = scrollRef.current;
+      const itemsPerRow = window.innerWidth < 1100 && window.innerWidth > 500 ? 2 : 1;
+
+      if (container) {
+        const containerHeight = container.clientHeight;
+        const firstChild = container.firstChild as HTMLElement;
+        const elementHeight = firstChild.clientHeight;
+
+        if (elementHeight > 0) {
+          const count = Math.ceil(containerHeight / elementHeight) * itemsPerRow;
+
+          setDefPageSize(count);
+        }
+      }
+    };
+
+    setDefSize();
+    window.addEventListener("resize", setDefSize);
+
+    return () => {
+      window.removeEventListener("resize", setDefSize);
+    };
+  }, [friends]);
+  //*/
 
   return (
     <div ref={scrollRef} className={classes.list}>
-      {friends.length > 0 ? (
+      {friends === null || friends.length === 0 ? (
+        // empty result
+        <div className={classes.list__empty}>
+          {Array.from({ length: pageSize }).map((_, i) => (
+            <div key={i} className={classes["empty-card"]}>
+              <AvatarSvg iconClass={classes["blank-avatar"]} />
+              <div className={classes.texts}>
+                <p />
+                <p />
+              </div>
+            </div>
+          ))}
+
+          <div className={classes["no-data"]}>No results. </div>
+        </div>
+      ) : (
+        // friends list
         friends.map((friend) => (
           <div key={friend.friendshipId.toString()} className={classes.list__element}>
             <AvatarImage
@@ -153,25 +195,14 @@ function FriendList({ selectedUsername, setSelectedFriend }: FriendListProps) {
             </div>
           </div>
         ))
-      ) : (
-        <div className={classes.list__empty}>
-          {Array.from({ length: pageSize }).map((_, i) => (
-            <div key={i} className={classes["empty-card"]}>
-              <AvatarSvg iconClass={classes["blank-avatar"]} />
-              <div className={classes.texts}>
-                <p />
-                <p />
-              </div>
-            </div>
-          ))}
-
-          <div className={classes["no-data"]}>No results. </div>
-        </div>
       )}
 
-      <div className={classes.list__indicator}>
-        {friends.length} / {totalItemsCount}
-      </div>
+      {/* indicator */}
+      {friends && (
+        <div className={classes.list__indicator}>
+          {friends.length} / {totalItemsCount}
+        </div>
+      )}
     </div>
   );
 }

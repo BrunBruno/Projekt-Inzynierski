@@ -61,7 +61,7 @@ const InviteByEmail = forwardRef<InviteByEmailRef, InviteByEmailProps>(
         const privateGameResponse = await axios.post<CreateGameByEmailDto>(
           gameControllerPaths.createGameByEmail(),
           gameByEmailModel,
-          getAuthorization(),
+          getAuthorization()
         );
 
         const notifyModel: NotifyUserModel = {
@@ -103,13 +103,18 @@ const InviteByEmail = forwardRef<InviteByEmailRef, InviteByEmailProps>(
       try {
         const userResponse = await axios.get<GetByEmailDto>(
           userControllerPaths.getByEmail(getByEmailModel),
-          getAuthorization(),
+          getAuthorization()
         );
 
         setSelectedUser(userResponse.data);
       } catch (err) {
         showPopup(getErrMessage(err), "warning");
       }
+    };
+
+    const submitEmail = (event: React.FormEvent<HTMLFormElement>) => {
+      event.preventDefault();
+      getByEmail();
     };
     //*/
 
@@ -124,34 +129,41 @@ const InviteByEmail = forwardRef<InviteByEmailRef, InviteByEmailProps>(
     return (
       <div className={classes.invite}>
         <p className={classes.text}>Invite using email:</p>
-        <div className={classes["input-holder"]}>
-          <input
-            className={classes["input-mail"]}
-            name="email"
-            placeholder="email"
-            value={selectedEmail}
-            onChange={(event) => {
-              setEmail(event);
-            }}
-          />
 
-          <div
-            className={classes["send-icon"]}
-            onClick={() => {
-              getByEmail();
-            }}
-          >
-            <IconCreator
-              icons={symbolIcons}
-              iconName="roundArrow"
-              color={mainColor.c9}
-              iconClass={classes["arrow-svg"]}
+        <form
+          onSubmit={(event) => {
+            submitEmail(event);
+          }}
+        >
+          <div className={classes["input-holder"]}>
+            <input
+              className={classes["input-mail"]}
+              name="email"
+              placeholder="email"
+              value={selectedEmail}
+              onChange={(event) => {
+                setEmail(event);
+              }}
             />
+
+            <div
+              className={classes["send-icon"]}
+              onClick={() => {
+                getByEmail();
+              }}
+            >
+              <IconCreator
+                icons={symbolIcons}
+                iconName="roundArrow"
+                color={mainColor.c9}
+                iconClass={classes["arrow-svg"]}
+              />
+            </div>
           </div>
-        </div>
+        </form>
       </div>
     );
-  },
+  }
 );
 
 export default InviteByEmail;
