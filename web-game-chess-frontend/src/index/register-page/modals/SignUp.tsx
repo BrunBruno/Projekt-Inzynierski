@@ -22,8 +22,11 @@ type SignUpProps = {
 function SignUp({ setModal }: SignUpProps) {
   ///
 
+  // result of input validation
   type ValidationResult = {
+    // is input valid
     isValid: boolean;
+    // optional message if input is not valid
     message: string;
   };
 
@@ -131,7 +134,7 @@ function SignUp({ setModal }: SignUpProps) {
     // check for white spaces in password
     if (userData.password.indexOf(" ") >= 0) {
       passwordInputRef.current.classList.add(classes.err);
-      setErrorMess("Password can't contain whitespaces.");
+      setErrorMess("Password can't contain whitespace.");
       return;
     }
 
@@ -162,7 +165,7 @@ function SignUp({ setModal }: SignUpProps) {
         password: form.password.value,
       };
 
-      // set temporarly user data
+      // set temporary user data
       localStorage.setItem("logUserTemp", JSON.stringify(logUserData));
 
       // login user, get unverified token
@@ -178,7 +181,7 @@ function SignUp({ setModal }: SignUpProps) {
 
       showPopup("Account created.", "success");
     } catch (err) {
-      // display backend erros
+      // display backend errors
       errorDisplay(err, setErrorMess);
 
       setProcessing(false);
@@ -226,7 +229,7 @@ function SignUp({ setModal }: SignUpProps) {
   };
 
   // handle on change
-  // change passsword strength indicator
+  // change password strength indicator
   const changePassInd = (event: React.ChangeEvent<HTMLInputElement>) => {
     let strength: number = 0;
 
@@ -322,7 +325,7 @@ function SignUp({ setModal }: SignUpProps) {
             ref={passwordInputRef}
             name="password"
             type="password"
-            placeholder="Passworrd"
+            placeholder="Password"
             autoComplete="off"
             className={classes["form-input"]}
             onChange={(event) => {

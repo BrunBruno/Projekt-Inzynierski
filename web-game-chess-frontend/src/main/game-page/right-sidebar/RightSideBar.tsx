@@ -191,7 +191,9 @@ function RightSideBar({ gameId, gameData, playersTimes, setPlayersTimes, winner 
               </span>
             </div>
           </div>
+
           <p>vs</p>
+
           <div className={`${classes.bar__content__header__player} ${classes["black-player"]}`}>
             <AvatarImage
               username={gameData.blackPlayer.name}
@@ -232,9 +234,10 @@ function RightSideBar({ gameId, gameData, playersTimes, setPlayersTimes, winner 
         <div className={classes.bar__content__messages}>
           <div ref={messagesRef} className={classes.bar__content__messages__list}>
             {messages.map((message, i) => (
-              <GameMessage key={i} message={message} />
+              <GameMessage key={i} gameId={gameId} message={message} />
             ))}
           </div>
+
           <form
             className={classes.bar__content__messages__actions}
             onSubmit={(event) => {
@@ -248,6 +251,7 @@ function RightSideBar({ gameId, gameData, playersTimes, setPlayersTimes, winner 
                 handleMessageInputChange(event);
               }}
             ></textarea>
+
             <button className={classes["send-button"]} type="submit">
               <IconCreator icons={rightSideBarIcons} iconName="send" />
             </button>

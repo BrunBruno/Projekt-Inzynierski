@@ -13,10 +13,13 @@ import { registerPageIcons } from "../RegisterPageIcons";
 import IconCreator from "../../../shared/components/icon-creator/IconCreator";
 
 type VerifyEmailProps = {
+  // path that user wanted
+  userPath: string;
+  // to set current modal
   setModal: React.Dispatch<React.SetStateAction<number>>;
 };
 
-function VerifyEmail({ setModal }: VerifyEmailProps) {
+function VerifyEmail({ userPath, setModal }: VerifyEmailProps) {
   const navigate = useNavigate();
 
   // error message content
@@ -27,7 +30,7 @@ function VerifyEmail({ setModal }: VerifyEmailProps) {
   const [processing, setProcessing] = useState<boolean>(false);
 
   // verify user email
-  // login user after sucessful veryfication
+  // login user after successful verification
   const verifyUser = async (event: React.FormEvent<HTMLFormElement>): Promise<void> => {
     event.preventDefault();
 
@@ -57,7 +60,7 @@ function VerifyEmail({ setModal }: VerifyEmailProps) {
 
       const tempUser: LogInUserModel = JSON.parse(localStorage.getItem("logUserTemp")!);
 
-      //sign in user after sucessful veryfication
+      //sign in user after successful verification
       const logInResponse = await axios.post<LogInUserDto>(userControllerPaths.logInUser(), tempUser);
 
       // remove user temp
@@ -68,15 +71,15 @@ function VerifyEmail({ setModal }: VerifyEmailProps) {
 
       setProcessing(false);
 
-      // navigae to main page
-      navigate("/main", {
+      // navigate to main page
+      navigate(userPath, {
         state: {
           popupText: "Verification successful",
           popupType: "success",
         },
       });
     } catch (err) {
-      // display backend erros
+      // display backend errors
       errorDisplay(err, setErrorMess);
 
       setProcessing(false);
@@ -93,7 +96,7 @@ function VerifyEmail({ setModal }: VerifyEmailProps) {
       // generate new code and delete previous
       await axios.post(userControllerPaths.regenerateCode(), regenerateCode, getAuthorization());
     } catch (err) {
-      // display backend erros
+      // display backend errors
       errorDisplay(err, setErrorMess);
 
       console.log(err);
@@ -107,7 +110,9 @@ function VerifyEmail({ setModal }: VerifyEmailProps) {
       setCodeValue(inputValue);
     }
   };
+  //*/
 
+  // auto pasting
   const onPasteCode = async () => {
     try {
       const code = await navigator.clipboard.readText();
@@ -119,10 +124,9 @@ function VerifyEmail({ setModal }: VerifyEmailProps) {
       console.error(err);
     }
   };
+  //*/
 
-  if (processing) {
-    return <LoadingPage />;
-  }
+  if (processing) return <LoadingPage />;
 
   return (
     <form className={classes["registration-form"]} onSubmit={(event) => verifyUser(event)}>
@@ -132,7 +136,7 @@ function VerifyEmail({ setModal }: VerifyEmailProps) {
       {/* header */}
       <h2>Verify Email</h2>
       <p className={classes["verify-text"]}>
-        We sent you verification code to your email. Please enter the code to verify your accout.
+        We sent you verification code to your email. Please enter the code to verify your account.
       </p>
 
       {/* input */}
@@ -174,14 +178,14 @@ function VerifyEmail({ setModal }: VerifyEmailProps) {
           Resend
         </p>
       </div>
-      {/* end innput */}
+      {/* --- */}
 
       {/* error */}
       <div className={classes.error}>
         <span>{errorMess}</span>
       </div>
 
-      {/* button */}
+      {/* buttons */}
       <button type="submit" className={classes["registration-button"]}>
         <span>Verify</span>
       </button>
@@ -194,6 +198,7 @@ function VerifyEmail({ setModal }: VerifyEmailProps) {
       >
         Cancel
       </p>
+      {/* --- */}
     </form>
   );
 }

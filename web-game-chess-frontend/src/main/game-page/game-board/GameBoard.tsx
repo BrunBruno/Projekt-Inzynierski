@@ -32,6 +32,7 @@ import { dangerColor } from "../../../shared/utils/enums/colorMaps";
 import { Guid } from "guid-typescript";
 import IconCreator from "../../../shared/components/icon-creator/IconCreator";
 import { symbolIcons } from "../../../shared/svgs/SymbolIcons";
+import GameBoardConfirm from "./game-board-confirm/GameBoardConfirm";
 
 type GameBoardProps = {
   // game id
@@ -48,9 +49,26 @@ type GameBoardProps = {
   setSearchIds: React.Dispatch<React.SetStateAction<SearchGameDto | null>>;
   // timing of current game
   selectedTiming: SearchGameModel | null;
+  //
+  showConfirm: boolean;
+  //
+  setShowConfirm: React.Dispatch<React.SetStateAction<boolean>>;
+  //
+  confirmAction: () => void;
 };
 
-function GameBoard({ gameId, gameData, playerData, winner, searchIds, setSearchIds, selectedTiming }: GameBoardProps) {
+function GameBoard({
+  gameId,
+  gameData,
+  playerData,
+  winner,
+  searchIds,
+  setSearchIds,
+  selectedTiming,
+  showConfirm,
+  setShowConfirm,
+  confirmAction,
+}: GameBoardProps) {
   ///
 
   const innerBoardRef = useRef<HTMLDivElement>(null);
@@ -234,7 +252,7 @@ function GameBoard({ gameId, gameData, playerData, winner, searchIds, setSearchI
     outerFields: JSX.Element[],
     innerFields: JSX.Element[],
     coor: number,
-    char: string | null,
+    char: string | null
   ): number => {
     const coordinates = [(coor % 8) + 1, 8 - Math.floor(coor / 8)];
 
@@ -318,7 +336,7 @@ function GameBoard({ gameId, gameData, playerData, winner, searchIds, setSearchI
             )}
           </div>
         )}
-      </div>,
+      </div>
     );
 
     innerFields.push(
@@ -330,7 +348,7 @@ function GameBoard({ gameId, gameData, playerData, winner, searchIds, setSearchI
         ${isOldFiled ? classes.old : ""} 
         ${isNewField ? classes.new : ""}
       `}
-      />,
+      />
     );
 
     coor++;
@@ -388,7 +406,7 @@ function GameBoard({ gameId, gameData, playerData, winner, searchIds, setSearchI
     piece: string | null,
     coordinates: number[],
     isInTipFields: boolean,
-    samePiece: boolean,
+    samePiece: boolean
   ): void => {
     // unselect piece when clicked on same piece
 
@@ -502,8 +520,8 @@ function GameBoard({ gameId, gameData, playerData, winner, searchIds, setSearchI
   return (
     <section className={classes["board-container"]}>
       <div className={classes.board}>
+        {/* game board */}
         <GameBoardCoordinates playerData={playerData} />
-
         <div className={classes.board__content}>
           {innerBoard}
           {board}
@@ -513,6 +531,9 @@ function GameBoard({ gameId, gameData, playerData, winner, searchIds, setSearchI
         {selectionStates.promotionCoor.length > 0 && (
           <GameBoardPromotion playerData={playerData} onPerformPromotion={onPerformPromotion} />
         )}
+
+        {/* confirm box */}
+        {showConfirm && <GameBoardConfirm confirmAction={confirmAction} setShowConfirm={setShowConfirm} />}
 
         {/* end game info*/}
         {winner && !searchIds && (
@@ -524,6 +545,7 @@ function GameBoard({ gameId, gameData, playerData, winner, searchIds, setSearchI
           />
         )}
 
+        {/* searching */}
         {winner && searchIds && <GameBoardSearching searchIds={searchIds} setSearchIds={setSearchIds} />}
       </div>
     </section>

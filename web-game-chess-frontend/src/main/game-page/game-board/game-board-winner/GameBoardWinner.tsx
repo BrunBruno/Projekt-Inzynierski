@@ -111,7 +111,7 @@ function GameBoardWinner({ winner, gameData, setSearchIds, selectedTiming }: Gam
                 onSearchForGame();
               }}
             >
-              New Game
+              <span>New Game</span>
             </button>
 
             <button className={classes["re-game"]}>Rematch</button>
@@ -123,7 +123,7 @@ function GameBoardWinner({ winner, gameData, setSearchIds, selectedTiming }: Gam
                 navigate("/main");
               }}
             >
-              Leave
+              <span>Leave</span>
             </button>
           </div>
         </div>

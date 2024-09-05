@@ -110,6 +110,10 @@
   .default {
     overflow-y: scroll;
 
+    &::-webkit-scrollbar {
+      display: none;
+    }
+
     &__container {
       margin-top: 10rem;
     }

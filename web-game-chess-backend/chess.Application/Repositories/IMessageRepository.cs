@@ -17,6 +17,13 @@ public interface IMessageRepository {
     Task<List<Message>> GetAllByPlayers(Guid whitePlayerId, Guid blackPlayerId);
 
     /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="gameId"></param>
+    /// <returns></returns>
+    Task<Message?> GetDrawMessage(Guid playerId);
+
+    /// <summary>
     /// Creates new message
     /// </summary>
     /// <param name="message"></param>

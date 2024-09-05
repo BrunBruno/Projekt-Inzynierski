@@ -372,7 +372,8 @@ public class GameController : ControllerBase {
     }
 
     /// <summary>
-    /// 
+    /// Removes private games 
+    /// Removes players
     /// </summary>
     /// <param name="gameId"></param>
     /// <returns></returns>

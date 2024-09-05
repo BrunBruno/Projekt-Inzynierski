@@ -31,5 +31,17 @@
       color: $gc3;
     }
   }
+
+  &__actions {
+    .draw-mess-btn {
+      &.accept-btn {
+      }
+      &.decline-btn {
+      }
+    }
+  }
 }
+//*/
+
+// resize
 //*/

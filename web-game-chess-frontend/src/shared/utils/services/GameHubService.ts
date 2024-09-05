@@ -93,9 +93,18 @@ class GameHub {
   }
 
   // to send new messages
-  public async SendMessage(model: SendMessageModel) {
+  public async SendMessage(model: SendMessageModel): Promise<void> {
     try {
       await this.connection?.invoke("send-message", model);
+    } catch (err) {
+      console.error(err);
+    }
+  }
+
+  // to send draw offer
+  public async SendDrawMessage(gameId: Guid): Promise<void> {
+    try {
+      await this.connection?.invoke("send-draw", gameId);
     } catch (err) {
       console.error(err);
     }
@@ -120,7 +129,7 @@ class GameHub {
   }
 
   // to accept game invitations
-  public async AcceptInvitation(model: AcceptInvitationModel) {
+  public async AcceptInvitation(model: AcceptInvitationModel): Promise<void> {
     try {
       await this.connection?.invoke("accept-invitation", model);
     } catch (err) {
@@ -129,7 +138,7 @@ class GameHub {
   }
 
   // updates game created with link
-  public async UpdatePrivateGame(model: UpdatePrivateGameModel) {
+  public async UpdatePrivateGame(model: UpdatePrivateGameModel): Promise<void> {
     try {
       await this.connection?.invoke("update-private-game", model);
     } catch (err) {
@@ -168,6 +177,15 @@ class GameHub {
   public async DeclineInvitation(model: DeclineInvitationModel): Promise<void> {
     try {
       await this.connection?.invoke("decline-invitation", model);
+    } catch (err) {
+      console.error(err);
+    }
+  }
+
+  // to decline draw
+  public async RemoveDrawMessage(gameId: Guid): Promise<void> {
+    try {
+      await this.connection?.invoke("remove-draw", gameId);
     } catch (err) {
       console.error(err);
     }

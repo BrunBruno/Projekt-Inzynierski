@@ -6,6 +6,14 @@ using MediatR;
 
 namespace chess.Application.Requests.GameRequests.CancelPrivateGame;
 
+/// <summary>
+/// Checks if game for provided id exists
+/// Checks if current user belongs to game
+/// Checks if game is private
+/// Checks if both players for obtained game exist
+/// Removes players
+/// Removes Private game
+/// </summary>
 public class CancelPrivateGameRequestHandler : IRequestHandler<CancelPrivateGameRequest> {
 
     private readonly IGameRepository _gameRepository;
@@ -32,6 +40,8 @@ public class CancelPrivateGameRequestHandler : IRequestHandler<CancelPrivateGame
         if (gameToDelete.WhitePlayer.UserId != userId && gameToDelete.BlackPlayer.UserId != userId)
             throw new UnauthorizedException("User is not player of game.");
 
+        if (!gameToDelete.IsPrivate)
+            throw new BadRequestException("Can not remove this game.");
 
         var whitePlayer = await _playerRepository.GetById(gameToDelete.WhitePlayerId)
              ?? throw new NotFoundException("White player not found.");

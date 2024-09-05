@@ -1,6 +1,7 @@
 ﻿
 using chess.Application.Repositories;
 using chess.Core.Entities;
+using chess.Core.Enums;
 using chess.Infrastructure.Contexts;
 using Microsoft.EntityFrameworkCore;
 
@@ -21,6 +22,11 @@ public class MessageRepository : IMessageRepository {
                     .Where(m => m.PlayerId == whitePlayerId || m.PlayerId == blackPlayerrId)
                     .OrderBy(m => m.SentAt)
                     .ToListAsync();
+
+    ///<inheritdoc/>
+    public async Task<Message?> GetDrawMessage(Guid playerId)
+        => await _dbContext.Messages
+                    .FirstOrDefaultAsync(m => m.PlayerId == playerId && m.Type == MessageType.DrawAction);
 
     ///<inheritdoc/>
     public async Task Create(Message message) {

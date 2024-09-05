@@ -1,6 +1,6 @@
 /* enums for changing page content based on user selection */
 
-// to disiniguish different type of content it main page
+// to distinguish different type of content it main page
 export enum GameSearchInterface {
   vsPlayer,
   vsComputer,
@@ -23,4 +23,12 @@ export enum RegistrationInterface {
 
 export type StateWithRegOption = {
   regOption: RegistrationInterface;
+  path: string;
 };
+
+// for displaying game board confirmation window
+export enum GameActionInterface {
+  abort,
+  resign,
+  draw,
+}

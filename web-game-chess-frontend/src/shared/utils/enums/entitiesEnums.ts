@@ -40,3 +40,9 @@ export enum FriendshipStatus {
   accepted = 1,
   rejected = 2,
 }
+
+// message type enum
+export enum MessageType {
+  normal = 0,
+  drawAction = 1,
+}

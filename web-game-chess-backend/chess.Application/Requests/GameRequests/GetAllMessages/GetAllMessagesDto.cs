@@ -1,4 +1,6 @@
 ﻿
+using chess.Core.Enums;
+
 namespace chess.Application.Requests.GameRequests.GetAllMessages;
 
 /// <summary>
@@ -25,4 +27,9 @@ public class GetAllMessagesDto {
     /// Date of creation
     /// </summary>
     public DateTime SentAt { get; set; }
+
+    /// <summary>
+    /// Message type
+    /// </summary>
+    public MessageType Type { get; set; }
 }

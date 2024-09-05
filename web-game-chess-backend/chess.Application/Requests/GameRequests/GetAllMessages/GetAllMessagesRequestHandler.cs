@@ -6,6 +6,12 @@ using MediatR;
 
 namespace chess.Application.Requests.GameRequests.GetAllMessages;
 
+/// <summary>
+/// Checks if game exists
+/// Checks if current user belongs to game
+/// Gets all messages for player of current user
+/// Returns messages list
+/// </summary>
 public class GetAllMessagesRequestHandler : IRequestHandler<GetAllMessagesRequest, List<GetAllMessagesDto>> {
 
     private readonly IGameRepository _gameRepository;
@@ -39,6 +45,7 @@ public class GetAllMessagesRequestHandler : IRequestHandler<GetAllMessagesReques
             SenderName = message.Player.Name,
             SenderImage = message.Player.ImageUrl,
             SentAt = message.SentAt,
+            Type = message.Type,
         }).ToList();
 
         return messagesDtos;

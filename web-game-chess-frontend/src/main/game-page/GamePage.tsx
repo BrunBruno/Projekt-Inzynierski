@@ -58,6 +58,10 @@ function GamePage() {
   const [selectedTiming, setSelectedTiming] = useState<SearchGameModel | null>(null);
   const [searchIds, setSearchIds] = useState<SearchGameDto | null>(null);
 
+  // state for displaying actions confirmation window
+  const [showConfirm, setShowConfirm] = useState<boolean>(false);
+  const [confirmAction, setConfirmAction] = useState<() => void>(() => {});
+
   const { showPopup } = usePopup();
 
   // return if no timing set
@@ -182,7 +186,7 @@ function GamePage() {
 
         const response = await axios.get<CheckIfInGameDto>(
           gameControllerPaths.checkIfInGame(model),
-          getAuthorization(),
+          getAuthorization()
         );
 
         if (response.data.isInGame) {
@@ -219,7 +223,13 @@ function GamePage() {
 
   return (
     <main className={classes["game-main"]}>
-      <LeftSideBar gameId={gameId} playerData={playerData} gameData={gameData} />
+      <LeftSideBar
+        gameId={gameId}
+        playerData={playerData}
+        gameData={gameData}
+        setShowConfirm={setShowConfirm}
+        setConfirmAction={setConfirmAction}
+      />
 
       <GameBoard
         gameId={gameId}
@@ -229,6 +239,9 @@ function GamePage() {
         searchIds={searchIds}
         setSearchIds={setSearchIds}
         selectedTiming={selectedTiming}
+        showConfirm={showConfirm}
+        setShowConfirm={setShowConfirm}
+        confirmAction={confirmAction}
       />
 
       <RightSideBar

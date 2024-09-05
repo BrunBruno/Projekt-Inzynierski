@@ -17,6 +17,7 @@ using chess.Application.Requests.GameRequests.SearchGame;
 using chess.Application.Requests.GameRequests.SendMessage;
 using chess.Application.Requests.GameRequests.CreateGameWithLink;
 using chess.Application.Requests.GameRequests.UpdatePrivateGame;
+using chess.Application.Requests.GameRequests.SendDrawMessage;
 
 namespace chess.Api.Maps.MappingProfiles;
 

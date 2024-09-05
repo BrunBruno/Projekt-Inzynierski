@@ -33,6 +33,7 @@ function MainNav() {
           }}
         >
           <LogoIconSvg iconClass={classes["nav-icon"]} />
+          <span className={classes.ind}>Main</span>
         </div>
 
         <div
@@ -57,8 +58,8 @@ function MainNav() {
 
         {/* placeholders */}
         {Array.from({ length: 6 }).map((_, i) => (
-          <div key={i} className={classes.element}>
-            <p>i</p>
+          <div key={i} className={classes.element} style={{ pointerEvents: "none" }}>
+            <p></p>
             <span className={classes.ind}>ind</span>
           </div>
         ))}

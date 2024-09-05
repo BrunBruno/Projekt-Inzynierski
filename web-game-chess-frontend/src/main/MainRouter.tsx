@@ -1,4 +1,4 @@
-import { Route, Routes, useNavigate } from "react-router-dom";
+import { Route, Routes, useLocation, useNavigate } from "react-router-dom";
 import MainPage from "./main-page/MainPage";
 import { useEffect, useState } from "react";
 import axios from "axios";
@@ -19,6 +19,7 @@ import AwaitingPage from "./awaiting-page/AwaitingPage";
 function MainRouter() {
   ///
 
+  const location = useLocation();
   const navigate = useNavigate();
 
   const [authorize, setAuthorize] = useState<boolean>(false);
@@ -26,6 +27,8 @@ function MainRouter() {
   // authorize user
   useEffect(() => {
     const verifyUsersToken = async () => {
+      const path = location.pathname;
+
       try {
         const isVerifiedResponse = await axios.get<IsEmailVerifiedDto>(
           userControllerPaths.isVerified(),
@@ -36,8 +39,9 @@ function MainRouter() {
         if (!isVerified) {
           navigate("/registration", {
             state: {
-              popupText: "Account not verified",
+              popupText: "Account not verified.",
               popupType: "error",
+              path: path,
             },
           });
           return;
@@ -51,8 +55,9 @@ function MainRouter() {
         if (token === null) {
           navigate("/registration", {
             state: {
-              popupText: "Please, log in",
+              popupText: "Please, log in.",
               popupType: "error",
+              path: path,
             },
           });
           return;
@@ -70,6 +75,7 @@ function MainRouter() {
           state: {
             popupText: getErrMessage(err),
             popupType: "warning",
+            path: path,
           },
         });
       }

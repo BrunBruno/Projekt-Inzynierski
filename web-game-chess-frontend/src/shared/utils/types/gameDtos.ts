@@ -2,7 +2,7 @@
 
 import { Guid } from "guid-typescript";
 import { MoveDto, PlayerDto, TimingTypeModel } from "./abstractDtosAndModels";
-import { PieceColor, TimingTypes } from "../enums/entitiesEnums";
+import { MessageType, PieceColor, TimingTypes } from "../enums/entitiesEnums";
 
 export type CheckIfInGameDto = {
   // has player be assigned to game
@@ -167,6 +167,8 @@ export type GetAllMessagesDto = {
   senderImage: string | null;
   // date of message creation
   sentAt: Date;
+  // message type
+  type: MessageType;
 };
 
 export type CreateGameWithLinkDto = {

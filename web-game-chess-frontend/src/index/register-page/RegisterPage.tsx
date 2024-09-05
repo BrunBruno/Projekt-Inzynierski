@@ -10,6 +10,8 @@ import { RegistrationInterface, StateWithRegOption } from "../../shared/utils/en
 import MainPopUp from "../../shared/components/main-popup/MainPopUp";
 import IconCreator from "../../shared/components/icon-creator/IconCreator";
 import { registerPageIcons } from "./RegisterPageIcons";
+import { PopupType } from "../../shared/utils/types/commonTypes";
+import { usePopup } from "../../shared/utils/hooks/usePopUp";
 
 function RegisterPage() {
   ///
@@ -17,30 +19,54 @@ function RegisterPage() {
   const location = useLocation();
   const navigate = useNavigate();
 
+  const { showPopup } = usePopup();
+
+  // register container ref
   const registerRef = useRef<HTMLDivElement>(null);
 
+  // current modal and side class
   const [modal, setModal] = useState<number>(0);
   const [modalClass, setModalClass] = useState<string>("");
+
+  const [userPath, setUserPath] = useState<string>("/main");
+
+  // to display main page popups
+  useEffect(() => {
+    if (location.state) {
+      const state = location.state as PopupType;
+
+      if (state.popupText && state.popupType) {
+        showPopup(state.popupText, state.popupType);
+      }
+    }
+  }, [location.state]);
+  //*/
 
   // to set form modal
   useEffect(() => {
     const state = location.state as StateWithRegOption;
 
-    if (state.regOption) {
-      setModal(state.regOption);
-    } else {
-      setModal(RegistrationInterface.signIn);
+    if (state) {
+      if (state.regOption) {
+        setModal(state.regOption);
+      } else {
+        setModal(RegistrationInterface.signIn);
+      }
+
+      if (state.path) {
+        setUserPath(state.path);
+      }
     }
   }, [location.state]);
 
   const renderModal = (): JSX.Element => {
     switch (modal) {
       case RegistrationInterface.signIn:
-        return <SignIn setModal={setModal} />;
+        return <SignIn setModal={setModal} userPath={userPath} />;
       case RegistrationInterface.signUp:
         return <SignUp setModal={setModal} />;
       case RegistrationInterface.verify:
-        return <VerifyEmail setModal={setModal} />;
+        return <VerifyEmail setModal={setModal} userPath={userPath} />;
       default:
         return <></>;
     }
@@ -48,6 +74,7 @@ function RegisterPage() {
   //*/
 
   // to set right class of form
+  // sets class based on selected interface and size of window
   const getFormClass = (): string => {
     if (window.innerWidth > 500) {
       switch (modal) {

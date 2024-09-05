@@ -7,6 +7,8 @@ using chess.Application.Requests.GameRequests.DeclineInvitation;
 using chess.Application.Requests.GameRequests.EndGame;
 using chess.Application.Requests.GameRequests.InvitedToGame;
 using chess.Application.Requests.GameRequests.MakeMove;
+using chess.Application.Requests.GameRequests.RemoveDrawMessage;
+using chess.Application.Requests.GameRequests.SendDrawMessage;
 using chess.Application.Requests.GameRequests.SendMessage;
 using chess.Application.Requests.GameRequests.StartGames;
 using chess.Application.Requests.GameRequests.UpdatePrivateGame;
@@ -107,6 +109,27 @@ public class GameHub : Hub<IGameHub> {
         await _mediator.Send(request);
 
         await Clients.Groups($"game-{model.GameId}").MessagesUpdated();
+    }
+
+
+    /// <summary>
+    /// To send draw offer
+    /// </summary>
+    /// <param name="gameId"></param>
+    /// <returns></returns>
+    [HubMethodName("send-draw")]
+    [Authorize(Policy = "IsVerified")]
+    [SignalRMethod("SendDraw", Operation.Post)]
+    public async Task SendDrawMessage(Guid gameId) {
+
+        var request = new SendDrawMessageRequest() 
+        { 
+            GameId = gameId,
+        };
+
+        await _mediator.Send(request);
+
+        await Clients.Groups($"game-{gameId}").MessagesUpdated();
     }
 
 
@@ -255,5 +278,26 @@ public class GameHub : Hub<IGameHub> {
         await _mediator.Send(request);
 
         await Clients.Groups($"user-{model.FriendId}").InvitationDeclined();
+    }
+
+
+    /// <summary>
+    /// To decline a draw
+    /// </summary>
+    /// <param name="gameId"></param>
+    /// <returns></returns>
+    [HubMethodName("remove-draw")]
+    [Authorize(Policy = "IsVerified")]
+    [SignalRMethod("RemoveDraw", Operation.Delete)]
+    public async Task RemoveDrawMessage(Guid gameId) {
+
+        var request = new RemoveDrawMessageRequest()
+        {
+            GameId = gameId,
+        };
+
+        await _mediator.Send(request);
+
+        await Clients.Groups($"game-{gameId}").MessagesUpdated();
     }
 }

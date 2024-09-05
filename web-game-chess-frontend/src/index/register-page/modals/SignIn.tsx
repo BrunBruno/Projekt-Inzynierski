@@ -13,11 +13,13 @@ import IconCreator from "../../../shared/components/icon-creator/IconCreator";
 import { registerPageIcons } from "../RegisterPageIcons";
 
 type SignInProps = {
+  // path that user wanted
+  userPath: string;
   // to change displayed modal
   setModal: React.Dispatch<React.SetStateAction<number>>;
 };
 
-function SignIn({ setModal }: SignInProps) {
+function SignIn({ userPath, setModal }: SignInProps) {
   ///
 
   const navigate = useNavigate();
@@ -81,10 +83,10 @@ function SignIn({ setModal }: SignInProps) {
         setModal(RegistrationInterface.verify);
       } else {
         // navigate to main page
-        navigate("/main");
+        navigate(userPath);
       }
     } catch (err) {
-      // display backend erros
+      // display backend errors
       errorDisplay(err, setErrorMess);
 
       setProcessing(false);
@@ -110,10 +112,10 @@ function SignIn({ setModal }: SignInProps) {
 
       <h2>Login Now</h2>
       <div className={classes["change-form"]}>
-        Don't have an accout? <span onClick={() => setModal(RegistrationInterface.signUp)}>Sing Up</span>
+        Don't have an account? <span onClick={() => setModal(RegistrationInterface.signUp)}>Sing Up</span>
       </div>
 
-      {/* inpus */}
+      {/* inputs */}
       <div className={classes.inputs}>
         <div
           className={classes["form-row"]}
@@ -143,7 +145,7 @@ function SignIn({ setModal }: SignInProps) {
             ref={passwordInputRef}
             name="password"
             type="password"
-            placeholder="Passworrd"
+            placeholder="Password"
             autoComplete="off"
             className={classes["form-input"]}
           />
