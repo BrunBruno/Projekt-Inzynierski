@@ -1,5 +1,5 @@
 import IconCreator from "../../../../shared/components/icon-creator/IconCreator";
-import { piecesSvgs } from "../../../../shared/svgs/PiecesSvgs";
+import { specialPiecesSvgs } from "../../../../shared/svgs/SpecialPiecesSvgs";
 import { mainColor } from "../../../../shared/utils/enums/colorMaps";
 import { MoveDto } from "../../../../shared/utils/types/abstractDtosAndModels";
 import classes from "./MoveRecord.module.scss";
@@ -21,7 +21,7 @@ function MoveRecord({ recordNum, move }: MoveRecordProps) {
       {recordNum % 2 === 0 ? <p className={classes.turn}>{turn + ". "}</p> : <p className={classes.sep}>:</p>}
       <p className={classes.move}>
         <IconCreator
-          icons={piecesSvgs}
+          icons={specialPiecesSvgs}
           iconName={move.move[0].toLowerCase()}
           color={recordNum % 2 === 0 ? mainColor.c0 : mainColor.c9}
         />
