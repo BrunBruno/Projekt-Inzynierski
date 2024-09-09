@@ -9,7 +9,7 @@ import {
   GetAllFinishedGamesModel,
   GetTypeHistoryModel,
 } from "../types/gameModels";
-import { GetByEmailModel, GetOtherUserModel, GetRegisterConfModel } from "../types/userModels";
+import { GetByEmailModel, GetRegisterConfModel } from "../types/userModels";
 
 const baseUrl: string = "http://localhost:5125/api";
 // const baseUrl: string = "http://192.168.1.46:5125/api";
@@ -28,7 +28,7 @@ interface UserControllerPaths {
   //GET
   getUser: () => string;
   getFullUser: () => string;
-  getOtherUser: (model: GetOtherUserModel) => string;
+  getOtherUser: (userId: Guid) => string;
   getElo: () => string;
   isVerified: () => string;
   getByEmail: (model: GetByEmailModel) => string;
@@ -60,7 +60,7 @@ export const userControllerPaths: UserControllerPaths = {
   getFullUser: (): string => `${userBaseUrl}/full`,
 
   // gets user info for other users
-  getOtherUser: (model): string => `${userBaseUrl}/other/?${stringifyModel(model)}`,
+  getOtherUser: (userId): string => `${userBaseUrl}/other/?${userId}`,
 
   // gets elo info
   getElo: (): string => `${userBaseUrl}/elo`,

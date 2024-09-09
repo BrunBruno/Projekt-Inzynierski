@@ -66,7 +66,7 @@ public class CancelPrivateGameTests : IClassFixture<TestWebApplicationFactory<Pr
     }
 
     /// <summary>
-    /// Cancel not existig game
+    /// Cancel not existing game
     /// </summary>
     /// <returns></returns>
     [Fact]

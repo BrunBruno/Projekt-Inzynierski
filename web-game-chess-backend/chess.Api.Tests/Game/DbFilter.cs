@@ -298,6 +298,13 @@ internal static partial class DbFilter {
         await dbContext.SaveChangesAsync();
     }
 
+    /// <summary>
+    /// To add many messages for game with provided id
+    /// </summary>
+    /// <param name="dbContext"></param>
+    /// <param name="gameId"></param>
+    /// <returns></returns>
+    /// <exception cref="InvalidOperationException"></exception>
     internal static async Task AddMessagesToGame(this ChessAppDbContext dbContext, Guid gameId) {
 
         var game = await dbContext.Games

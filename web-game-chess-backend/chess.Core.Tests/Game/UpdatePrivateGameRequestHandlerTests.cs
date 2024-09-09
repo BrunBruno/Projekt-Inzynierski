@@ -26,7 +26,7 @@ public class UpdatePrivateGameRequestHandlerTests {
     public async Task Handle_Updates_Joiner_Player_On_Success() {
 
         var userId = Guid.NewGuid();
-        var freindId = Guid.NewGuid();
+        var friendId = Guid.NewGuid();
         var gameId = Guid.NewGuid();
 
         var user = new Entities.User() { 
@@ -47,14 +47,14 @@ public class UpdatePrivateGameRequestHandlerTests {
                 Id = Guid.NewGuid(),
                 Name = "FriendName",
                 IsPrivate = true,
-                UserId = freindId,
+                UserId = friendId,
             },
             BlackPlayer = new Player()
             {
                 Id = Guid.NewGuid(),
                 Name = "",
                 IsPrivate = true,
-                UserId = freindId,
+                UserId = friendId,
             },
         };
 
@@ -90,7 +90,7 @@ public class UpdatePrivateGameRequestHandlerTests {
     public async Task Handle_Updates_Creator_Player_On_Success() {
 
         var userId = Guid.NewGuid();
-        var freindId = Guid.NewGuid();
+        var friendId = Guid.NewGuid();
         var gameId = Guid.NewGuid();
 
         var user = new Entities.User()

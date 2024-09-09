@@ -1,6 +1,5 @@
 ﻿
 using chess.Application.Repositories;
-using chess.Application.Requests.GameRequests.AbortSearch;
 using chess.Application.Requests.GameRequests.CancelPrivateGame;
 using chess.Application.Services;
 using chess.Core.Entities;

@@ -13,6 +13,7 @@ export enum GameSearchInterface {
 export type StateWithSearchInterface = {
   interface: GameSearchInterface;
 };
+//*/
 
 // to distinguish registration modals
 export enum RegistrationInterface {
@@ -25,6 +26,7 @@ export type StateWithRegOption = {
   regOption: RegistrationInterface;
   path: string;
 };
+//*/
 
 // for displaying game board confirmation window
 export enum GameActionInterface {

@@ -6,7 +6,6 @@ using chess.Core.Entities;
 using chess.Core.Enums;
 using FluentAssertions;
 using Moq;
-using System.Numerics;
 
 namespace chess.Core.Tests.Game;
 

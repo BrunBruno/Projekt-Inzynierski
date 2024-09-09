@@ -53,7 +53,9 @@ public class VerifyEmailTests : IClassFixture<TestWebApplicationFactory<Program>
         response.StatusCode.Should().Be(HttpStatusCode.OK);
 
         var user = await assertDbContext.Users.FirstOrDefaultAsync();
-        user.IsVerified.Should().BeTrue();
+
+        user.Should().NotBeNull();
+        user!.IsVerified.Should().BeTrue();
     }
 
     /// <summary>
@@ -67,12 +69,12 @@ public class VerifyEmailTests : IClassFixture<TestWebApplicationFactory<Program>
         await _dbContext.AddUser();
         // code not added
 
-        var mdoel = new VerifyEmailModel
+        var model = new VerifyEmailModel
         {
             Code = Constants.CodeValue
         };
 
-        var json = JsonConvert.SerializeObject(mdoel);
+        var json = JsonConvert.SerializeObject(model);
         var httpContent = new StringContent(json, Encoding.UTF8, "application/json");
 
 

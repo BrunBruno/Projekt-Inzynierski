@@ -37,5 +37,4 @@ public class BannedUser {
     /// User
     /// </summary>
     public User User { get; set; }
-
 }

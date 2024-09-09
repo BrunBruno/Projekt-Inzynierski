@@ -98,5 +98,4 @@ public class User {
     /// List of friendships that user received
     /// </summary>
     public List<Friendship> ReceivedFriendships { get; set; }
-
 }

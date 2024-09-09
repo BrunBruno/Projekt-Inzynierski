@@ -8,7 +8,6 @@ import {
   MakeMoveModel,
   NotifyUserModel,
   SendMessageModel,
-  UpdatePrivateGameModel,
 } from "../types/gameModels";
 import { Guid } from "guid-typescript";
 
@@ -138,9 +137,9 @@ class GameHub {
   }
 
   // updates game created with link
-  public async UpdatePrivateGame(model: UpdatePrivateGameModel): Promise<void> {
+  public async UpdatePrivateGame(gameId: Guid): Promise<void> {
     try {
-      await this.connection?.invoke("update-private-game", model);
+      await this.connection?.invoke("update-private-game", gameId);
     } catch (err) {
       console.error(err);
     }

@@ -1,5 +1,4 @@
 ﻿
-
 using chess.Core.Abstraction;
 
 namespace chess.Application.Requests.GameRequests.InvitedToGame;
@@ -7,8 +6,7 @@ namespace chess.Application.Requests.GameRequests.InvitedToGame;
 /// <summary>
 /// Data returned to invited user
 /// </summary>
-public class InvitedToGameDto : TimingType
-{
+public class InvitedToGameDto : TimingType {
 
     /// <summary>
     /// Created game id

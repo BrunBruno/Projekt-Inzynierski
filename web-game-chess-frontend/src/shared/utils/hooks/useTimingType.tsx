@@ -1,5 +1,5 @@
 import { createContext, ReactNode, useContext, useState } from "react";
-import { TimingTypeModel } from "../types/abstractDtosAndModelss";
+import { TimingTypeModel } from "../types/abstractDtosAndModels";
 
 type TimingTypeContextType = {
   // selected or obtained timing type

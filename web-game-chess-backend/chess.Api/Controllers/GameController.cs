@@ -371,6 +371,7 @@ public class GameController : ControllerBase {
         return Ok();
     }
 
+
     /// <summary>
     /// Removes private games 
     /// Removes players

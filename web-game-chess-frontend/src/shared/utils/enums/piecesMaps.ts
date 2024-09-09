@@ -2,6 +2,7 @@
 
 const pieceName = { p: "Pawn", n: "Knight", b: "Bishop", r: "Rook", q: "Queen", k: "King" };
 
+// to game piece name by piece tag
 export const getPieceName = (char: string): string => {
   return pieceName[char.toLowerCase() as keyof typeof pieceName] || "Unknown";
 };
@@ -35,20 +36,11 @@ export const pieceTagMap: PieceTagMap = {
     king: "k",
   },
 };
-export type WhitePieceType = typeof pieceTagMap.white[keyof typeof pieceTagMap.white];
-export type BlackPieceType = typeof pieceTagMap.black[keyof typeof pieceTagMap.black];
 
-export type PiecePromotionMap = {
-  white: string[];
-  black: string[];
-};
+export type WhitePieceType = (typeof pieceTagMap.white)[keyof typeof pieceTagMap.white];
+export type BlackPieceType = (typeof pieceTagMap.black)[keyof typeof pieceTagMap.black];
 
-// piece promotion tag maps
-export const piecePromotionMap: PiecePromotionMap = {
-  white: ["N", "B", "R", "Q"],
-  black: ["n", "b", "r", "q"],
-};
-
+// to gat side color name by piece tag
 export const getPiecesSideColor = (piece: string): string => {
   if (Object.values(pieceTagMap.white).includes(piece)) {
     return "white";
@@ -58,3 +50,15 @@ export const getPiecesSideColor = (piece: string): string => {
     return "";
   }
 };
+
+// piece promotion tag maps
+export type PiecePromotionMap = {
+  white: string[];
+  black: string[];
+};
+
+export const piecePromotionMap: PiecePromotionMap = {
+  white: ["N", "B", "R", "Q"],
+  black: ["n", "b", "r", "q"],
+};
+//*/

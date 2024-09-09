@@ -65,7 +65,7 @@ export type GetByEmailDto = {
 export type GetOtherUserDto = UserDto & {
   // date of creation
   joinDate: Date;
-  // desciption
+  // description
   bio: string | null;
   // total games played
   gamesPlayed: number;

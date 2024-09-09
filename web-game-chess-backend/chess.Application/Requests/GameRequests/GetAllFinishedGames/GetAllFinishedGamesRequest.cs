@@ -11,12 +11,12 @@ namespace chess.Application.Requests.GameRequests.GetAllFinishedGames;
 public class GetAllFinishedGamesRequest : PagedRequest, IRequest<PagedResult<GetAllFinishedGamesDto>> {
 
     /// <summary>
-    /// 
+    /// Filters by game timing type
     /// </summary>
     public List<TimingTypes>? TimingTypeFilters { get; set; }
 
     /// <summary>
-    /// 
+    /// Filters by result of the game
     /// </summary>
     public List <bool?>? ResultFilters { get; set; } 
 }

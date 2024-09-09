@@ -9,7 +9,6 @@ import { getErrMessage } from "../../shared/utils/functions/displayError";
 import axios from "axios";
 import { CheckIfUpdateRequiredDto, GetGameTimingDto } from "../../shared/utils/types/gameDtos";
 import { gameControllerPaths, getAuthorization } from "../../shared/utils/services/ApiService";
-import { UpdatePrivateGameModel } from "../../shared/utils/types/gameModels";
 import SearchingPage from "../../shared/components/searching-page/SearchingPage";
 
 function AwaitingPage() {
@@ -52,15 +51,11 @@ function AwaitingPage() {
       try {
         const response = await axios.get<CheckIfUpdateRequiredDto>(
           gameControllerPaths.checkIfUpdateRequired(gameId),
-          getAuthorization()
+          getAuthorization(),
         );
 
         if (response.data.isRequired) {
-          const model: UpdatePrivateGameModel = {
-            gameId: gameId,
-          };
-
-          await GameHubService.UpdatePrivateGame(model);
+          await GameHubService.UpdatePrivateGame(gameId);
         }
       } catch (err) {
         showPopup(getErrMessage(err), "warning");
