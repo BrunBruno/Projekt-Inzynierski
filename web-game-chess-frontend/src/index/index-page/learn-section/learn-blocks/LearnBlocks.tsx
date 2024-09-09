@@ -5,6 +5,8 @@ import { mainColor } from "../../../../shared/utils/enums/colorMaps";
 import { SectionData, sectionData } from "./LearnBlocksObjects";
 import IconCreator from "../../../../shared/components/icon-creator/IconCreator";
 import { learnBlocksIcons } from "./LearnBlocksIcons";
+import { defaultPiecesImages } from "../../../../shared/svgs/DefaultPieceImageSvgs";
+import { getPiecesSideColor } from "../../../../shared/utils/enums/piecesMaps";
 
 type LearnBlocksProps = {};
 
@@ -44,10 +46,16 @@ const LearnBlocks = ({}: LearnBlocksProps) => {
   const createIcon = (iconName: string): JSX.Element => {
     switch (iconName) {
       case "pieces-icon":
-        const links = ["white-rook", "black-queen", "white-pawn", "black-bishop", "white-king"] as const;
+        const pieces = ["R", "q", "P", "b", "K"] as const;
 
-        const images: JSX.Element[] = links.map((link) => (
-          <img key={link} src={`pieces/${link}.png`} alt={link} draggable={false} className={classes["piece-img"]} />
+        const images: JSX.Element[] = pieces.map((piece, i) => (
+          <IconCreator
+            key={`${i}-${piece}`}
+            icons={defaultPiecesImages}
+            iconName={piece.toLowerCase()}
+            iconClass={classes["piece-img"]}
+            color={getPiecesSideColor(piece)}
+          />
         ));
 
         return (

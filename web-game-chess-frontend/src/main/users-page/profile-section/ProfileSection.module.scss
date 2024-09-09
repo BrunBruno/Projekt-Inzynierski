@@ -54,10 +54,9 @@
       padding: 2rem;
 
       .avatar-img {
-        aspect-ratio: 1/1;
-        width: 100%;
+        @include circle(20rem);
+
         object-fit: cover;
-        border-radius: 100%;
         box-shadow: 0 0 0 2rem $mc9;
       }
     }

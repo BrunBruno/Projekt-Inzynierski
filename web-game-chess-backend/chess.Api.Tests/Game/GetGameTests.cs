@@ -48,7 +48,7 @@ public class GetGameTests : IClassFixture<TestWebApplicationFactory<Program>> {
         var userPlayerId = await _dbContext.AddPlayer(Guid.Parse(Constants.UserId), Constants.Username);
         var friendPlayerId = await _dbContext.AddPlayer(Guid.NewGuid(), friendUsername);
 
-        var gameId = await _dbContext.AddGame(userPlayerId, friendPlayerId, timingId);
+        var gameId = await _dbContext.AddGame(userPlayerId, friendPlayerId, timingId, false);
         await _dbContext.AddPlayerToGame(userPlayerId, gameId, Colors.White);
         await _dbContext.AddPlayerToGame(friendPlayerId, gameId, Colors.Black);
 
@@ -113,7 +113,7 @@ public class GetGameTests : IClassFixture<TestWebApplicationFactory<Program>> {
         var friendPlayerId = await _dbContext.AddPlayer(Guid.NewGuid(), "FriendUsername");
         var otherPlayerId = await _dbContext.AddPlayer(Guid.NewGuid(), "OtherUsername");
 
-        var gameId = await _dbContext.AddGame(otherPlayerId, friendPlayerId, timingId); // user is not in game
+        var gameId = await _dbContext.AddGame(otherPlayerId, friendPlayerId, timingId, false); // user is not in game
 
 
         var response = await _client.GetAsync($"api/game/{gameId}");

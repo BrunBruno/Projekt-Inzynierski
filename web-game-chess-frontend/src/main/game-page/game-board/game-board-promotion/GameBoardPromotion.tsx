@@ -1,5 +1,7 @@
+import IconCreator from "../../../../shared/components/icon-creator/IconCreator";
+import { defaultPiecesImages } from "../../../../shared/svgs/DefaultPieceImageSvgs";
 import { PieceColor } from "../../../../shared/utils/enums/entitiesEnums";
-import { pieceImageMap, piecePromotionMap } from "../../../../shared/utils/enums/piecesMaps";
+import { getPieceName, piecePromotionMap } from "../../../../shared/utils/enums/piecesMaps";
 import { GetPlayerDto } from "../../../../shared/utils/types/gameDtos";
 import classes from "./GameBoardPromotion.module.scss";
 
@@ -18,31 +20,45 @@ function GameBoardPromotion({ playerData, onPerformPromotion }: GameBoardPromoti
       <div className={classes.promotion__pieces}>
         {/* map pieces */}
         {playerData.color === PieceColor.white ? (
-          piecePromotionMap.white.map((p, i) => (
+          piecePromotionMap.white.map((piece, i) => (
             <div
               key={`promotion-${i}`}
               className={classes.piece}
               onClick={() => {
-                onPerformPromotion(p);
+                onPerformPromotion(piece);
               }}
             >
-              <img src={`/pieces/${pieceImageMap[p]}`} alt={`promote-to-${p}`} />
+              <IconCreator
+                icons={defaultPiecesImages}
+                iconName={piece.toLowerCase()}
+                iconClass={classes["promoted-pawn-svg"]}
+                color="white"
+              />
+
+              <span className={classes["indicator"]}>{getPieceName(piece)}</span>
             </div>
           ))
         ) : playerData.color === PieceColor.black ? (
-          piecePromotionMap.black.map((p, i) => (
+          piecePromotionMap.black.map((piece, i) => (
             <div
               key={`promotion-${i}`}
               className={classes.piece}
               onClick={() => {
-                onPerformPromotion(p);
+                onPerformPromotion(piece);
               }}
             >
-              <img src={`/pieces/${pieceImageMap[p]}`} alt={`promote-to-${p}`} />
+              <IconCreator
+                icons={defaultPiecesImages}
+                iconName={piece.toLowerCase()}
+                iconClass={classes["promoted-pawn-svg"]}
+                color="black"
+              />
+
+              <span className={classes["indicator"]}>{getPieceName(piece)}</span>
             </div>
           ))
         ) : (
-          <></>
+          <>x</>
         )}
         {/* --- */}
       </div>

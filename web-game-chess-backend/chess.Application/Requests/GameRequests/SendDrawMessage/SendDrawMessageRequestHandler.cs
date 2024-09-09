@@ -9,7 +9,10 @@ using MediatR;
 namespace chess.Application.Requests.GameRequests.SendDrawMessage;
 
 /// <summary>
-/// 
+/// Checks if game for provided id exists
+/// Checks if current user belgons to game
+/// Chekcs if any draw message exists
+/// Creates draw message if not exists
 /// </summary>
 public class SendDrawMessageRequestHandler : IRequestHandler<SendDrawMessageRequest> {
 
@@ -35,7 +38,7 @@ public class SendDrawMessageRequestHandler : IRequestHandler<SendDrawMessageRequ
             ?? throw new NotFoundException("Game not found.");
 
         if (game.WhitePlayer.UserId != userId && game.BlackPlayer.UserId != userId)
-            throw new UnauthorizedException("This is not user player.");
+            throw new UnauthorizedException("This is not user game.");
 
 
         var drawByWhite = await _messageRepository.GetDrawMessage(game.WhitePlayerId);

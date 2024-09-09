@@ -16,8 +16,18 @@
 
   &:hover {
     cursor: pointer;
-    transform: scale(0.95);
+    // transform: scale(0.95);
   }
+
+  // &:hover {
+  //   .mini-grid {
+  //     .field {
+  //       .bg-piece {
+  //         // display: block;
+  //       }
+  //     }
+  //   }
+  // }
 
   // game result data
   .game-data {
@@ -75,18 +85,23 @@
     overflow: hidden;
     flex-shrink: 0 !important;
 
-    @mixin field($bgc) {
+    .field {
       background-size: contain;
       background-repeat: no-repeat;
-      background-color: $bgc;
+
       opacity: 0.1;
+
+      .bg-piece {
+        // display: none;
+        transform: scale(0.8);
+      }
     }
 
     .light-f {
-      @include field($mc0);
+      background-color: $mc0;
     }
     .dark-f {
-      @include field($mc9);
+      background-color: $mc9;
     }
 
     .players {

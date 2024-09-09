@@ -5,6 +5,11 @@ using MediatR;
 
 namespace chess.Application.Requests.GameRequests.CheckIfUpdateRequired;
 
+/// <summary>
+/// Checks if game exists
+/// Checks if timing for obtained game exists
+/// Returns is required dto
+/// </summary>
 public class CheckIfUpdateRequiredRequestHandler : IRequestHandler<CheckIfUpdateRequiredRequest, CheckIfUpdateRequiredDto> {
 
     private readonly IGameRepository _gameRepository;

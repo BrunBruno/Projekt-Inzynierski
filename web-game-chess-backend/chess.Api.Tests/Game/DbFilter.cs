@@ -67,7 +67,7 @@ internal static partial class DbFilter {
     /// <param name="blackPlayerId"></param>
     /// <param name="timingId"></param>
     /// <returns> Game id </returns>
-    internal static async Task<Guid> AddGame(this ChessAppDbContext dbContext, Guid whitePlayerId, Guid blackPlayerId, Guid timingId) {
+    internal static async Task<Guid> AddGame(this ChessAppDbContext dbContext, Guid whitePlayerId, Guid blackPlayerId, Guid timingId, bool isPrivate) {
 
         Guid gameId = Guid.NewGuid();
 
@@ -77,6 +77,7 @@ internal static partial class DbFilter {
             WhitePlayerId = whitePlayerId,
             BlackPlayerId = blackPlayerId,
             GameTimingId = timingId,
+            IsPrivate = isPrivate,
         };
 
         var state = new GameState()

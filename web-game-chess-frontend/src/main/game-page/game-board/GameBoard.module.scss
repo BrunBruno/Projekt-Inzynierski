@@ -121,7 +121,7 @@
             // to display capture
             &:not(.selected) {
               &:has(.piece) {
-                img {
+                svg.piece-svg {
                   filter: drop-shadow(0 0 1rem $danger-color-m);
                 }
               }
@@ -130,7 +130,7 @@
 
           &.selected {
             .piece {
-              img {
+              svg.piece-svg {
                 filter: drop-shadow(0 0 1rem #000) brightness(60%);
               }
             }
@@ -151,13 +151,14 @@
               }
             }
 
-            img {
+            svg.piece-svg {
               height: calc(((64rem - 2rem) / 8) * 0.8);
               transform: translateZ(-1px);
               filter: drop-shadow(0 0 1rem #000);
               pointer-events: none;
             }
 
+            // capture icon
             .capture {
               @include square(3rem);
               position: absolute;
@@ -165,14 +166,16 @@
               top: 0;
               right: 0;
 
-              .x {
+              svg.x {
                 @include absCenter();
+
                 height: 3rem;
                 z-index: 21;
               }
 
-              img {
+              svg.capture-svg {
                 @include absCenter();
+
                 height: 2rem;
                 z-index: 20;
               }

@@ -7,6 +7,11 @@ using chess.Core.Maps.MapOfElo;
 
 namespace chess.Application.Requests.GameRequests.UpdatePrivateGame;
 
+/// <summary>
+/// Checks if current user exists
+/// Checks if game for provided id exists
+/// Updates player based on fact if user is a creator of the game or not
+/// </summary>
 public class UpdatePrivateGameRequestHandler : IRequestHandler<UpdatePrivateGameRequest, UpdatePrivateGameDto> {
 
     private readonly IUserContextService _userContextService;
@@ -35,7 +40,6 @@ public class UpdatePrivateGameRequestHandler : IRequestHandler<UpdatePrivateGame
 
         var game = await _gameRepository.GetById(request.GameId)
             ?? throw new NotFoundException("Game not found");
-
 
 
         if (game.WhitePlayer.UserId == userId || game.BlackPlayer.UserId == userId) {

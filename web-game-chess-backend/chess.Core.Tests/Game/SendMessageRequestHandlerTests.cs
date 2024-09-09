@@ -30,12 +30,14 @@ public class SendMessageRequestHandlerTests {
         var game = new Entities.Game()
         {
             Id = gameId,
-            WhitePlayer = new Player() { 
+            WhitePlayer = new Player() {
+                Id = Guid.NewGuid(),
                 Name = "Username",
                 UserId = userId,
                 GameId = gameId,
             },
-            BlackPlayer = new Player() { 
+            BlackPlayer = new Player() {
+                Id = Guid.NewGuid(),
                 Name = "Other",
                 UserId = Guid.NewGuid(),
                 GameId = gameId,
@@ -110,12 +112,14 @@ public class SendMessageRequestHandlerTests {
             Id = gameId,
             WhitePlayer = new Player()
             {
+                Id = Guid.NewGuid(),
                 Name = "Username",
                 UserId = Guid.NewGuid(),
                 GameId = gameId,
             },
             BlackPlayer = new Player()
             {
+                Id = Guid.NewGuid(),
                 Name = "Other",
                 UserId = Guid.NewGuid(),
                 GameId = gameId,

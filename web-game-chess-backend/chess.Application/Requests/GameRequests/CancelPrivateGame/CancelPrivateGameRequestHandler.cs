@@ -50,9 +50,9 @@ public class CancelPrivateGameRequestHandler : IRequestHandler<CancelPrivateGame
              ?? throw new NotFoundException("Black player not found.");
 
 
+        await _gameRepository.Delete(gameToDelete);
+
         await _playerRepository.Delete(whitePlayer);
         await _playerRepository.Delete(blackPlayer);
-
-        await _gameRepository.Delete(gameToDelete);
     }
 }

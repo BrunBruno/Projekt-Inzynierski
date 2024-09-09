@@ -52,7 +52,7 @@ public class GetEndedGameTests : IClassFixture<TestWebApplicationFactory<Program
         var userPlayerId = await _dbContext.AddPlayer(Guid.Parse(Constants.UserId), Constants.Username);
         var friendPlayerId = await _dbContext.AddPlayer(friendId, friendUsername);
 
-        var gameId = await _dbContext.AddGame(userPlayerId, friendPlayerId, timingId);
+        var gameId = await _dbContext.AddGame(userPlayerId, friendPlayerId, timingId, false);
 
         await _dbContext.StartGame(gameId);
         await _dbContext.EndGame(gameId, Colors.Black);
@@ -89,7 +89,7 @@ public class GetEndedGameTests : IClassFixture<TestWebApplicationFactory<Program
         var timingId = await _dbContext.CreateTiming(timingType);
         var userPlayerId = await _dbContext.AddPlayer(Guid.Parse(Constants.UserId), Constants.Username);
         var friendPlayerId = await _dbContext.AddPlayer(Guid.NewGuid(), "FriendUsername");
-        var gameId = await _dbContext.AddGame(userPlayerId, friendPlayerId, timingId);
+        var gameId = await _dbContext.AddGame(userPlayerId, friendPlayerId, timingId, false);
 
         await _dbContext.StartGame(gameId);
         // no ending of game
@@ -154,7 +154,7 @@ public class GetEndedGameTests : IClassFixture<TestWebApplicationFactory<Program
         var otherPlayerId = await _dbContext.AddPlayer(Guid.NewGuid(), "OtherUsername");
 
 
-        var gameId = await _dbContext.AddGame(otherPlayerId, friendPlayerId, timingId); // not owned game
+        var gameId = await _dbContext.AddGame(otherPlayerId, friendPlayerId, timingId, false); // not owned game
 
         await _dbContext.StartGame(gameId);
         await _dbContext.EndGame(gameId, Colors.Black);

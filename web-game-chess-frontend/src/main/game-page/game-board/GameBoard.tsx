@@ -1,5 +1,5 @@
 import { useEffect, useReducer, useRef, useState } from "react";
-import { pieceImageMap, pieceTagMap } from "../../../shared/utils/enums/piecesMaps";
+import { getPiecesSideColor, pieceTagMap } from "../../../shared/utils/enums/piecesMaps";
 import {
   EndGameDto,
   GetEndedGameDto,
@@ -33,6 +33,7 @@ import { Guid } from "guid-typescript";
 import IconCreator from "../../../shared/components/icon-creator/IconCreator";
 import { symbolIcons } from "../../../shared/svgs/SymbolIcons";
 import GameBoardConfirm from "./game-board-confirm/GameBoardConfirm";
+import { defaultPiecesImages } from "../../../shared/svgs/DefaultPieceImageSvgs";
 
 type GameBoardProps = {
   // game id
@@ -279,13 +280,6 @@ function GameBoard({
     const isNewField = areCoorEqual(coordinates, newCoordinates);
     const showCapture = wasCapture && isNewField;
 
-    // const bCon = gameStates.controlledAreas.black.some((coor) =>
-    //   areCoorEqual(coor, coordinates)
-    // );
-    // const wCon = gameStates.controlledAreas.white.some((coor) =>
-    //   areCoorEqual(coor, coordinates)
-    // );
-
     // add field
     outerFields.push(
       <div
@@ -327,11 +321,24 @@ function GameBoard({
             `}
             draggable={checkIfOwnPiece(char, playerData)}
           >
-            <img src={`/pieces/${pieceImageMap[char]}`} draggable={false} alt={`piece-${char}`} />
+            {/* piece icon */}
+            <IconCreator
+              icons={defaultPiecesImages}
+              iconName={char.toLowerCase()}
+              iconClass={classes["piece-svg"]}
+              color={getPiecesSideColor(char)}
+            />
+
+            {/* capture icon */}
             {showCapture && (
               <div className={classes.capture}>
                 <IconCreator icons={symbolIcons} iconName="x" iconClass={classes.x} color={dangerColor.mid} />
-                <img src={`/pieces/${pieceImageMap[capturedPiece]}`} alt={`captured-piece-${capturedPiece}`} />
+                <IconCreator
+                  icons={defaultPiecesImages}
+                  iconName={capturedPiece.toLowerCase()}
+                  iconClass={classes["capture-svg"]}
+                  color={getPiecesSideColor(capturedPiece)}
+                />
               </div>
             )}
           </div>
@@ -343,11 +350,11 @@ function GameBoard({
       <div
         key={`filed-${generateRandomId(10)}`}
         className={`
-        ${classes.field}
-        ${isInCheck ? classes.check : ""} 
-        ${isOldFiled ? classes.old : ""} 
-        ${isNewField ? classes.new : ""}
-      `}
+          ${classes.field}
+          ${isInCheck ? classes.check : ""} 
+          ${isOldFiled ? classes.old : ""} 
+          ${isNewField ? classes.new : ""}
+        `}
       />
     );
 

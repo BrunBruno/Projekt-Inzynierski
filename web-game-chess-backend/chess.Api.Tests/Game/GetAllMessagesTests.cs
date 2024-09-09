@@ -46,7 +46,7 @@ public class GetAllMessagesTests : IClassFixture<TestWebApplicationFactory<Progr
         var userPlayerId = await _dbContext.AddPlayer(Guid.Parse(Constants.UserId), Constants.Username);
         var friendPlayerId = await _dbContext.AddPlayer(Guid.NewGuid(), "opponent");
 
-        var gameId = await _dbContext.AddGame(userPlayerId, friendPlayerId, timingId);
+        var gameId = await _dbContext.AddGame(userPlayerId, friendPlayerId, timingId, false);
         await _dbContext.AddPlayerToGame(userPlayerId, gameId, Colors.White);
         await _dbContext.AddPlayerToGame(friendPlayerId, gameId, Colors.Black);
         await _dbContext.StartGame(gameId);
@@ -112,7 +112,7 @@ public class GetAllMessagesTests : IClassFixture<TestWebApplicationFactory<Progr
         var otherPlayerId = await _dbContext.AddPlayer(Guid.NewGuid(), "other");
         var friendPlayerId = await _dbContext.AddPlayer(Guid.NewGuid(), "opponent");
 
-        var gameId = await _dbContext.AddGame(otherPlayerId, friendPlayerId, timingId);
+        var gameId = await _dbContext.AddGame(otherPlayerId, friendPlayerId, timingId, false);
         await _dbContext.AddPlayerToGame(otherPlayerId, gameId, Colors.White);
         await _dbContext.AddPlayerToGame(friendPlayerId, gameId, Colors.Black);
         await _dbContext.StartGame(gameId);

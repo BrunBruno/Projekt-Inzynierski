@@ -1,6 +1,7 @@
 ﻿
 using chess.Api.Tests.User;
-using chess.Application.Requests.GameRequests.GetGameTiming;
+using chess.Application.Requests.GameRequests.CheckIfUpdateRequired;
+using chess.Application.Requests.GameRequests.GetGame;
 using chess.Core.Abstraction;
 using chess.Core.Enums;
 using chess.Infrastructure.Contexts;
@@ -11,13 +12,13 @@ using System.Net;
 
 namespace chess.Api.Tests.Game;
 
-public class GetGameTimingTests : IClassFixture<TestWebApplicationFactory<Program>> {
+public class CheckIfUpdateRequiredTests : IClassFixture<TestWebApplicationFactory<Program>> {
 
     private readonly HttpClient _client;
     private readonly TestWebApplicationFactory<Program> _factory;
     private readonly ChessAppDbContext _dbContext;
 
-    public GetGameTimingTests() {
+    public CheckIfUpdateRequiredTests() {
         _factory = new TestWebApplicationFactory<Program>();
 
         _client = _factory.CreateClient();
@@ -31,57 +32,57 @@ public class GetGameTimingTests : IClassFixture<TestWebApplicationFactory<Progra
     }
 
     [Fact]
-    public async Task GetGameTiming_Should_Return_TimingDto_On_Success() {
-
-        var timingType = new TimingType() 
-        { 
-            Type = TimingTypes.Rapid,
-            Minutes = 30,
-            Increment = 10,
-        };
+    public async Task CheckIfUpdateRequired_Returns_IsRequired_On_Success() {
 
         await _dbContext.Init();
         await _dbContext.AddUser();
+        await _dbContext.AddUserWithEmail("friend@test.com");
 
-        var timingId = await _dbContext.CreateTiming(timingType);
+        var timingId = await _dbContext.CreateTiming(new TimingType()
+        {
+            Type = TimingTypes.Classic,
+            Minutes = 120,
+            Increment = 0,
+        });
 
         var userPlayerId = await _dbContext.AddPlayer(Guid.Parse(Constants.UserId), Constants.Username);
-        var otherPlayerId = await _dbContext.AddPlayer(Guid.NewGuid(), "OtherPlayer");
-        var gameId = await _dbContext.AddGame(userPlayerId, otherPlayerId, timingId, false);
 
+        var gameId = await _dbContext.AddGame(userPlayerId, userPlayerId, timingId, true);
+        await _dbContext.AddPlayerToGame(userPlayerId, gameId, Colors.White);
 
-        var response = await _client.GetAsync($"api/game/{gameId}/timing");
+        var response = await _client.GetAsync($"api/game/{gameId}/check-if-update-required");
 
 
         response.StatusCode.Should().Be(HttpStatusCode.OK);
 
-        var result = JsonConvert.DeserializeObject<GetGameTimingDto>(await response.Content.ReadAsStringAsync());
-        result.Type.Should().Be(timingType.Type);
-        result.Minutes.Should().Be(timingType.Minutes);
-        result.Increment.Should().Be(timingType.Increment);
+
+        var result = JsonConvert.DeserializeObject<CheckIfUpdateRequiredDto>(await response.Content.ReadAsStringAsync());
+        result.IsRequired.Should().Be(true);
+        result.Type.Should().Be(TimingTypes.Classic);
     }
 
     /// <summary>
-    /// Gets timing from not existing game
+    /// Game not added
     /// </summary>
     /// <returns></returns>
     [Fact]
-    public async Task GetGameTiming_Should_Return_NotFound_On_Fail() {
+    public async Task CheckIfUpdateRequired_Returns_NotFound_On_Fail() {
 
         await _dbContext.Init();
         await _dbContext.AddUser();
+        await _dbContext.AddUserWithEmail("friend@test.com");
 
-        await _dbContext.CreateTiming(new TimingType() { 
-            Type = TimingTypes.Rapid,
-            Minutes = 30,
-            Increment = 10,
+        await _dbContext.CreateTiming(new TimingType() 
+        {
+            Type = TimingTypes.Classic,
+            Minutes = 120,
+            Increment = 0,
         });
 
         await _dbContext.AddPlayer(Guid.Parse(Constants.UserId), Constants.Username);
-        // game not added
 
 
-        var response = await _client.GetAsync($"api/game/{Guid.NewGuid()}/timing");
+        var response = await _client.GetAsync($"api/game/{Guid.NewGuid()}/check-if-update-required");
 
 
         response.StatusCode.Should().Be(HttpStatusCode.NotFound);

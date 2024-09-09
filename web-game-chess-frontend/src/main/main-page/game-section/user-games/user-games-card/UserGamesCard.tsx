@@ -1,7 +1,7 @@
 import { useEffect, useRef } from "react";
 import AvatarImage from "../../../../../shared/components/avatar-image/AvatarImage";
 import { EndGameTypes, TimingTypes } from "../../../../../shared/utils/enums/entitiesEnums";
-import { pieceImageMap } from "../../../../../shared/utils/enums/piecesMaps";
+import { getPiecesSideColor } from "../../../../../shared/utils/enums/piecesMaps";
 import { getEnumKeyByEnumValue } from "../../../../../shared/utils/functions/enumRelated";
 import { PlayerDto } from "../../../../../shared/utils/types/abstractDtosAndModels";
 import { GetAllFinishedGamesDto } from "../../../../../shared/utils/types/gameDtos";
@@ -11,6 +11,7 @@ import { timingTypesIcons } from "../../../../../shared/svgs/TimingTypesIcons";
 import { winLoseIcons } from "../../../../../shared/svgs/WinLoseIcons";
 import { winTypesIcons } from "../../../../../shared/svgs/WinTypesIcons";
 import { mainColor } from "../../../../../shared/utils/enums/colorMaps";
+import { defaultPiecesImages } from "../../../../../shared/svgs/DefaultPieceImageSvgs";
 
 type UserGamesCardProps = {
   // finished game data
@@ -165,7 +166,15 @@ function UserGamesCard({ game }: UserGamesCardProps) {
 
       if (!isNaN(parseInt(char))) {
         for (let j = 0; j < parseInt(char); j++) {
-          fields.push(<div key={ind} className={`${ind % 2 === 0 ? classes["light-f"] : classes["dark-f"]}`}></div>);
+          fields.push(
+            <div
+              key={ind}
+              className={`
+                ${classes.field} 
+                ${ind % 2 === 0 ? classes["light-f"] : classes["dark-f"]}
+              `}
+            ></div>
+          );
 
           ind++;
         }
@@ -173,9 +182,18 @@ function UserGamesCard({ game }: UserGamesCardProps) {
         fields.push(
           <div
             key={ind}
-            className={`${ind % 2 === 0 ? classes["light-f"] : classes["dark-f"]}`}
-            style={{ backgroundImage: `url("/pieces/${pieceImageMap[char]}")` }}
-          ></div>
+            className={`
+              ${classes.field}
+              ${ind % 2 === 0 ? classes["light-f"] : classes["dark-f"]}
+            `}
+          >
+            <IconCreator
+              icons={defaultPiecesImages}
+              iconName={char.toLowerCase()}
+              color={getPiecesSideColor(char)}
+              iconClass={classes["bg-piece"]}
+            />
+          </div>
         );
         ind++;
       }

@@ -9,6 +9,15 @@ using chess.Core.Maps.MapOfElo;
 
 namespace chess.Application.Requests.GameRequests.CreateGameWithLink;
 
+/// <summary>
+/// Checks is current user exists
+/// Checks is game timing with provided values exists
+/// Creates timing if nothing was found
+/// Creates player for current user
+/// Creates placeholder players for later update
+/// Creates game
+/// Reaturs dto with game url
+/// </summary>
 public class CreateGameWithLinkRequestHandler : IRequestHandler<CreateGameWithLinkRequest, CreateGameWithLinkDto> {
 
     private readonly IUserContextService _userContextService;

@@ -49,7 +49,7 @@ public class FetchTimeTests : IClassFixture<TestWebApplicationFactory<Program>> 
         var userPlayerId = await _dbContext.AddPlayer(Guid.Parse(Constants.UserId), Constants.Username);
         var friendPlayerId = await _dbContext.AddPlayer(Guid.NewGuid(), "FriendUsername");
 
-        var gameId = await _dbContext.AddGame(userPlayerId, friendPlayerId, timingId);
+        var gameId = await _dbContext.AddGame(userPlayerId, friendPlayerId, timingId, false);
         await _dbContext.StartGame(gameId);
 
 
@@ -85,7 +85,7 @@ public class FetchTimeTests : IClassFixture<TestWebApplicationFactory<Program>> 
         var userPlayerId = await _dbContext.AddPlayer(Guid.Parse(Constants.UserId), Constants.Username);
         var friendPlayerId = await _dbContext.AddPlayer(Guid.NewGuid(), "FriendUsername");
 
-        var gameId = await _dbContext.AddGame(userPlayerId, friendPlayerId, timingId);
+        var gameId = await _dbContext.AddGame(userPlayerId, friendPlayerId, timingId, false);
         // no game start
 
 
