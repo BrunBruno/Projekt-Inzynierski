@@ -24,15 +24,10 @@ type GameAction =
   | { type: "SET_GAME_DATA"; payload: GetGameDto }
   | { type: "SET_PLAYER_DATA"; payload: GetPlayerDto }
   | { type: "SET_MATRIX"; payload: string[][] }
-  | {
-      type: "SET_CONTROLLED_AREAS";
-      payload: { white: number[][]; black: number[][] };
-    }
-  | {
-      type: "SET_CHECK_AREAS";
-      payload: { white: number[][]; black: number[][] };
-    };
+  | { type: "SET_CONTROLLED_AREAS"; payload: { white: number[][]; black: number[][] } }
+  | { type: "SET_CHECK_AREAS"; payload: { white: number[][]; black: number[][] } };
 
+// states for game
 export const gameStatesReducer = (state: GameStates, action: GameAction): GameStates => {
   switch (action.type) {
     case "SET_GAME_ID":
@@ -69,6 +64,7 @@ type SelectionAction =
   | { type: "SET_PROMOTION_COOR"; payload: number[] }
   | { type: "SET_AVAILABLE_FIELDS"; payload: number[][] };
 
+// stats for user selections
 export const selectionStatesReducer = (state: SelectionStates, action: SelectionAction): SelectionStates => {
   switch (action.type) {
     case "SET_PIECE":

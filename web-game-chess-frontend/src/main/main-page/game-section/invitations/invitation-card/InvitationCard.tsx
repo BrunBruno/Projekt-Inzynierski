@@ -6,9 +6,9 @@ import { timingTypesNames } from "../../../../../shared/utils/enums/commonConstL
 import { usePopup } from "../../../../../shared/utils/hooks/usePopUp";
 import { getErrMessage } from "../../../../../shared/utils/functions/displayError";
 import IconCreator from "../../../../../shared/components/icon-creator/IconCreator";
-import { timingTypesIcons } from "../../../../../shared/svgs/TimingTypesIcons";
 import { mainColor } from "../../../../../shared/utils/enums/colorMaps";
 import { timeSpanLongerThan } from "../../../../../shared/utils/functions/dateTimeRelated";
+import { timingTypesIcons } from "../../../../../shared/svgs/iconsMap/TimingTypesIcons";
 
 type InvitationCardProps = {
   // invitation data

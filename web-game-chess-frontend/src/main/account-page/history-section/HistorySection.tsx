@@ -6,7 +6,7 @@ import { mainColor } from "../../../shared/utils/enums/colorMaps";
 import { formatDate } from "../../../shared/utils/functions/dateTimeRelated";
 import { PagedResult } from "../../../shared/utils/types/abstractDtosAndModels";
 import IconCreator from "../../../shared/components/icon-creator/IconCreator";
-import { timingTypesIcons } from "../../../shared/svgs/TimingTypesIcons";
+import { timingTypesIcons } from "../../../shared/svgs/iconsMap/TimingTypesIcons";
 
 type HistorySectionProps = {
   // game type name

@@ -1,6 +1,6 @@
 import AvatarImage from "../../../shared/components/avatar-image/AvatarImage";
 import IconCreator from "../../../shared/components/icon-creator/IconCreator";
-import { symbolIcons } from "../../../shared/svgs/SymbolIcons";
+import { symbolIcons } from "../../../shared/svgs/iconsMap/SymbolIcons";
 import { greyColor } from "../../../shared/utils/enums/colorMaps";
 import { GetFriendProfileDto } from "../../../shared/utils/types/friendshipDtos";
 import { GetOtherUserDto } from "../../../shared/utils/types/userDtos";

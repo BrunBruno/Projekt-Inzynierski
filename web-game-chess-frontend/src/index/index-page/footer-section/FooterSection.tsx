@@ -1,10 +1,10 @@
 import { useNavigate } from "react-router-dom";
-import LogoIconSvg from "../../../shared/svgs/LogoIconSvg";
+import LogoIcon from "../../../shared/svgs/icons/LogoIcon";
 import { mainColor } from "../../../shared/utils/enums/colorMaps";
 import classes from "./FooterSection.module.scss";
 import IconCreator from "../../../shared/components/icon-creator/IconCreator";
 import { footerSectionIcons } from "./FooterSectionIcons";
-import { symbolIcons } from "../../../shared/svgs/SymbolIcons";
+import { symbolIcons } from "../../../shared/svgs/iconsMap/SymbolIcons";
 
 const socials = ["Facebook", "Instagram", "Twitter", "TikTok", "YouTube"] as const;
 
@@ -20,7 +20,7 @@ function FooterSection({}: FooterSectionProps) {
       {/* footer intro */}
       <div className={classes.footer__intro}>
         <h2 className={classes["footer-title"]}>
-          <LogoIconSvg iconClass={classes["footer-logo"]} />
+          <LogoIcon iconClass={classes["footer-logo"]} />
           <span>BRN CHESS</span>
         </h2>
       </div>

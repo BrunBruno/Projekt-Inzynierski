@@ -1,11 +1,11 @@
 import { useEffect, useRef, useState } from "react";
 import classes from "./RegisterPage.module.scss";
-import SignUp from "./modals/SignUp";
-import SignIn from "./modals/SignIn";
+import SignUpModal from "./register-modals/SignUpModal";
+import SignInModal from "./register-modals/SignInModal";
 import { useLocation, useNavigate } from "react-router-dom";
 import { mainColor } from "../../shared/utils/enums/colorMaps";
 import ActionButton from "../../shared/components/action-button/ActionButton";
-import VerifyEmail from "./modals/VerifyEmail";
+import VerifyEmailModal from "./register-modals/VerifyEmailModal";
 import { RegistrationInterface, StateWithRegOption } from "../../shared/utils/enums/interfacesEnums";
 import MainPopUp from "../../shared/components/main-popup/MainPopUp";
 import IconCreator from "../../shared/components/icon-creator/IconCreator";
@@ -62,11 +62,11 @@ function RegisterPage() {
   const renderModal = (): JSX.Element => {
     switch (modal) {
       case RegistrationInterface.signIn:
-        return <SignIn setModal={setModal} userPath={userPath} />;
+        return <SignInModal setModal={setModal} userPath={userPath} />;
       case RegistrationInterface.signUp:
-        return <SignUp setModal={setModal} />;
+        return <SignUpModal setModal={setModal} />;
       case RegistrationInterface.verify:
-        return <VerifyEmail setModal={setModal} userPath={userPath} />;
+        return <VerifyEmailModal setModal={setModal} userPath={userPath} />;
       default:
         return <></>;
     }

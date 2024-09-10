@@ -9,8 +9,8 @@ import {
 import { friendshipControllerPaths, getAuthorization } from "../../../shared/utils/services/ApiService";
 import { useEffect, useRef, useState } from "react";
 import { FriendshipStatus } from "../../../shared/utils/enums/entitiesEnums";
-import UserCards from "./cards/UserCards";
-import FriendCard from "./cards/FriendCard";
+import UserCards from "./user-cards/UserCards";
+import FriendCard from "./user-cards/FriendCard";
 import usePagination from "../../../shared/utils/hooks/usePagination";
 import { usePopup } from "../../../shared/utils/hooks/usePopUp";
 import LoadingPage from "../../../shared/components/loading-page/LoadingPage";

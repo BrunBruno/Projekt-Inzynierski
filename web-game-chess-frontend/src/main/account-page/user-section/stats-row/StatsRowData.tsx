@@ -1,8 +1,8 @@
 // stats chart data and options
 
 import IconCreator from "../../../../shared/components/icon-creator/IconCreator";
-import { winLoseIcons } from "../../../../shared/svgs/WinLoseIcons";
-import { winTypesIcons } from "../../../../shared/svgs/WinTypesIcons";
+import { winLoseIcons } from "../../../../shared/svgs/iconsMap/WinLoseIcons";
+import { winTypesIcons } from "../../../../shared/svgs/iconsMap/WinTypesIcons";
 import { dangerColor, greyColor, mainColor, successColor } from "../../../../shared/utils/enums/colorMaps";
 import { ChartObject } from "../../../../shared/utils/types/commonTypes";
 import { GetFullUserDto } from "../../../../shared/utils/types/userDtos";
@@ -14,6 +14,7 @@ export type StatsConfig = {
   stats: (ChartObject & { icon: JSX.Element })[];
 };
 
+// to get row stats data
 export const getStatsConfig = (type: string, user: GetFullUserDto): StatsConfig | null => {
   switch (type) {
     case "games":

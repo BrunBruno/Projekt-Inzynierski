@@ -71,7 +71,7 @@ function RightSideBar({ gameId, gameData, playersTimes, setPlayersTimes, winner 
       });
     };
 
-    let interval: number;
+    let interval: NodeJS.Timeout;
     if (gameData.turn % 2 === 0) {
       interval = setInterval(whiteTick, 1000);
     } else {

@@ -8,11 +8,11 @@ import {
   objectivesElements,
   privacyElements,
   termsElements,
-} from "./content-sections/ContentSections";
-import ContentSection from "./content-sections/ContentsSection";
+} from "./content-sections/ContentSectionData";
+import ContentSection from "./content-sections/ContentSection";
 import LoadingPage from "../../shared/components/loading-page/LoadingPage";
 import IconCreator from "../../shared/components/icon-creator/IconCreator";
-import { symbolIcons } from "../../shared/svgs/SymbolIcons";
+import { symbolIcons } from "../../shared/svgs/iconsMap/SymbolIcons";
 
 function AboutPage() {
   ///

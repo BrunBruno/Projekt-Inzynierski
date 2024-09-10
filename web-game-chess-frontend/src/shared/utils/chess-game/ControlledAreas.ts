@@ -17,6 +17,7 @@ export const generateControlledAreas = (matrix: string[][]): [number[][], number
 
       const xCoor = parseInt(col) + 1;
       const yCoor = parseInt(row) + 1;
+
       let foundWhiteAreas: Set<number[]> = new Set();
       let foundBlackAreas: Set<number[]> = new Set();
 
@@ -24,43 +25,55 @@ export const generateControlledAreas = (matrix: string[][]): [number[][], number
         case pieceTagMap.white.pawn:
           foundWhiteAreas = new Set(checkPawnControlledAreas(xCoor, yCoor, pieceTagMap.white));
           break;
+
         case pieceTagMap.black.pawn:
           foundBlackAreas = new Set(checkPawnControlledAreas(xCoor, yCoor, pieceTagMap.black));
           break;
+
         case pieceTagMap.white.knight:
           foundWhiteAreas = new Set(checkKnightControlledAreas(xCoor, yCoor));
           break;
+
         case pieceTagMap.black.knight:
           foundBlackAreas = new Set(checkKnightControlledAreas(xCoor, yCoor));
           break;
+
         case pieceTagMap.white.bishop:
           foundWhiteAreas = new Set(
             checkPiecesControlledAreas(xCoor, yCoor, movementMap.bishopMoves, PieceColor.white)
           );
           break;
+
         case pieceTagMap.black.bishop:
           foundBlackAreas = new Set(
             checkPiecesControlledAreas(xCoor, yCoor, movementMap.bishopMoves, PieceColor.black)
           );
           break;
+
         case pieceTagMap.white.rook:
           foundWhiteAreas = new Set(checkPiecesControlledAreas(xCoor, yCoor, movementMap.rookMoves, PieceColor.white));
           break;
+
         case pieceTagMap.black.rook:
           foundBlackAreas = new Set(checkPiecesControlledAreas(xCoor, yCoor, movementMap.rookMoves, PieceColor.black));
           break;
+
         case pieceTagMap.white.queen:
           foundWhiteAreas = new Set(checkPiecesControlledAreas(xCoor, yCoor, movementMap.queenMoves, PieceColor.white));
           break;
+
         case pieceTagMap.black.queen:
           foundBlackAreas = new Set(checkPiecesControlledAreas(xCoor, yCoor, movementMap.queenMoves, PieceColor.black));
           break;
+
         case pieceTagMap.white.king:
           foundWhiteAreas = new Set(checkKingControlledAreas(xCoor, yCoor));
           break;
+
         case pieceTagMap.black.king:
           foundBlackAreas = new Set(checkKingControlledAreas(xCoor, yCoor));
           break;
+
         default:
           break;
       }
@@ -80,9 +93,8 @@ const isValidAndIsEmptyField = (x: number, y: number): boolean[] => {
 
   if (x >= 1 && x <= 8 && y >= 1 && y <= 8) {
     const piece = boardMatrix[y - 1][x - 1];
-    if (piece === "") {
-      isEmpty = true;
-    }
+
+    if (piece === "") isEmpty = true;
 
     isValid = true;
   }
@@ -155,7 +167,7 @@ const checkKnightControlledAreas = (xCoor: number, yCoor: number): number[][] =>
   return areas;
 };
 
-// controlled areas with rest of pieces
+// controlled areas with bishops, rooks and queens
 const checkPiecesControlledAreas = (
   xCoor: number,
   yCoor: number,
@@ -170,6 +182,7 @@ const checkPiecesControlledAreas = (
     let [isValid, isEmpty]: boolean[] = [];
 
     [isValid, isEmpty] = isValidAndIsEmptyField(x, y);
+
     while (isValid) {
       areas.push([x, y]);
 
@@ -214,7 +227,7 @@ const checkKingControlledAreas = (xCoor: number, yCoor: number): number[][] => {
   return areas;
 };
 
-// creates areas that are involved in checking
+// creates areas that are involved in checking the king
 export const checkChecks = (matrix: string[][]): [number[][], number[][]] => {
   const whiteCheckAreas: number[][] = [];
   const blackCheckAreas: number[][] = [];
@@ -345,7 +358,7 @@ export const checkChecks = (matrix: string[][]): [number[][], number[][]] => {
   return [whiteCheckAreas, blackCheckAreas];
 };
 
-// add checked areas
+// add checked areas for selected piece
 const checkAndAddCheckedAreas = (
   matrix: string[][],
   x: number,
@@ -358,13 +371,17 @@ const checkAndAddCheckedAreas = (
 
   areas.forEach((area) => {
     const piece = matrix[area[1] - 1][area[0] - 1];
+
     if (piece === pieceType) {
       if (isLinearMovement) {
         const distanceX = x - area[0];
         const distanceY = y - area[1];
+
         const stepX = distanceX > 0 ? -1 : distanceX < 0 ? 1 : 0;
         const stepY = distanceY > 0 ? -1 : distanceY < 0 ? 1 : 0;
+
         const steps = Math.max(Math.abs(distanceX), Math.abs(distanceY));
+
         for (let i = 1; i <= steps; i++) {
           foundCheckAreas.push([x + i * stepX, y + i * stepY]);
         }

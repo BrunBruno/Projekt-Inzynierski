@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import classes from "./MainNav.module.scss";
-import LogoIconSvg from "../../svgs/LogoIconSvg";
+import LogoIcon from "../../svgs/icons/LogoIcon";
 import IconCreator from "../icon-creator/IconCreator";
 import { mainNavIcons } from "./MainNavIcons";
 
@@ -32,7 +32,7 @@ function MainNav() {
             navigate("/main");
           }}
         >
-          <LogoIconSvg iconClass={classes["nav-icon"]} />
+          <LogoIcon iconClass={classes["nav-icon"]} />
           <span className={classes.ind}>Main</span>
         </div>
 

@@ -7,11 +7,11 @@ import { PlayerDto } from "../../../../../shared/utils/types/abstractDtosAndMode
 import { GetAllFinishedGamesDto } from "../../../../../shared/utils/types/gameDtos";
 import classes from "./UserGamesCard.module.scss";
 import IconCreator from "../../../../../shared/components/icon-creator/IconCreator";
-import { timingTypesIcons } from "../../../../../shared/svgs/TimingTypesIcons";
-import { winLoseIcons } from "../../../../../shared/svgs/WinLoseIcons";
-import { winTypesIcons } from "../../../../../shared/svgs/WinTypesIcons";
+import { winTypesIcons } from "../../../../../shared/svgs/iconsMap/WinTypesIcons";
 import { mainColor } from "../../../../../shared/utils/enums/colorMaps";
-import { defaultPiecesImages } from "../../../../../shared/svgs/DefaultPieceImageSvgs";
+import { defaultPiecesImages } from "../../../../../shared/svgs/iconsMap/DefaultPieceImageSvgs";
+import { winLoseIcons } from "../../../../../shared/svgs/iconsMap/WinLoseIcons";
+import { timingTypesIcons } from "../../../../../shared/svgs/iconsMap/TimingTypesIcons";
 
 type UserGamesCardProps = {
   // finished game data

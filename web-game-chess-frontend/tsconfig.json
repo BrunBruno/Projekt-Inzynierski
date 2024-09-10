@@ -24,7 +24,9 @@
     "esModuleInterop": false,
     "allowSyntheticDefaultImports": true,
     "forceConsistentCasingInFileNames": true,
-    "types": ["vitest/globals"]
+    // "types": ["vitest/globals"],
+
+    "types": ["jest", "node"]
   },
   "include": [".eslintrc.cjs", "vite.config.ts", "src"],
   "references": [{ "path": "./tsconfig.node.json" }]

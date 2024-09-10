@@ -1,8 +1,8 @@
-import { QuestionsType } from "../FaqSectionQuestions";
+import { QuestionsType } from "../FaqSectionData";
 import classes from "./FaqSectionCard.module.scss";
 
 type FaqSectionCardProps = {
-  // card data
+  // card data question/answer
   faq: QuestionsType;
   // card index
   index: number;

@@ -12,8 +12,8 @@ import { getErrMessage } from "../../../shared/utils/functions/displayError";
 import AvatarImage from "../../../shared/components/avatar-image/AvatarImage";
 import IconCreator from "../../../shared/components/icon-creator/IconCreator";
 import { userSectionIcons } from "./UserSectionIcons";
-import { timingTypesIcons } from "../../../shared/svgs/TimingTypesIcons";
 import { mainColor } from "../../../shared/utils/enums/colorMaps";
+import { timingTypesIcons } from "../../../shared/svgs/iconsMap/TimingTypesIcons";
 
 type UserSectionProps = {
   // to obtain game timing history by selection timing type

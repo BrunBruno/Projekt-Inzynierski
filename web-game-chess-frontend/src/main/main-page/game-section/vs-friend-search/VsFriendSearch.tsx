@@ -4,7 +4,7 @@ import { GetAllFriendsByStatusDto } from "../../../../shared/utils/types/friends
 import TimeSelection from "./time-selection/TimeSelection";
 import FriendList from "./friends-list/FriendList";
 import { GetByEmailDto } from "../../../../shared/utils/types/userDtos";
-import { InviteByEmailRef, InviteBySelectionRef, InviteByUrlRef } from "./VsFriendSearchObjects";
+import { InviteByEmailRef, InviteBySelectionRef, InviteByUrlRef } from "./VsFriendSearchData";
 import { Guid } from "guid-typescript";
 import InviteBySelection from "./invite-by/InviteBySelection";
 import InviteByEmail from "./invite-by/InviteByEmail";

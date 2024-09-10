@@ -19,6 +19,7 @@ export const areCoorEqual = (coordA: number[], coordB: number[]): boolean => {
 // to check if clicked piece is own or opponents piece
 export const checkIfOwnPiece = (char: string, playerData: GetPlayerDto): boolean => {
   let isOwn: boolean = false;
+
   for (const color in pieceTagMap) {
     const pieces = pieceTagMap[color as keyof PieceTagMap];
 

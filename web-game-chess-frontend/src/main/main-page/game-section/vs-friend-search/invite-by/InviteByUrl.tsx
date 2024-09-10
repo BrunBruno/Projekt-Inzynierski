@@ -1,6 +1,6 @@
 import { forwardRef, useImperativeHandle, useRef, useState } from "react";
 import classes from "./InviteBy.module.scss";
-import { InviteByUrlRef } from "../VsFriendSearchObjects";
+import { InviteByUrlRef } from "../VsFriendSearchData";
 import { usePopup } from "../../../../../shared/utils/hooks/usePopUp";
 import { getErrMessage } from "../../../../../shared/utils/functions/displayError";
 import axios from "axios";
@@ -51,7 +51,7 @@ const InviteByUrl = forwardRef<InviteByUrlRef, InviteByUrlProps>(
         const response = await axios.post<CreateGameWithLinkDto>(
           gameControllerPaths.createGameWithLink(),
           gameByEmailModel,
-          getAuthorization(),
+          getAuthorization()
         );
 
         showPopup("Game created", "success");
@@ -140,7 +140,7 @@ const InviteByUrl = forwardRef<InviteByUrlRef, InviteByUrlProps>(
         </div>
       </div>
     );
-  },
+  }
 );
 
 export default InviteByUrl;

@@ -11,7 +11,7 @@ import { useNavigate } from "react-router-dom";
 import { useTimingType } from "../../../../../shared/utils/hooks/useTimingType";
 import { TimingTypes } from "../../../../../shared/utils/enums/entitiesEnums";
 import { forwardRef, useImperativeHandle } from "react";
-import { InviteBySelectionRef } from "../VsFriendSearchObjects";
+import { InviteBySelectionRef } from "../VsFriendSearchData";
 import { delayAction } from "../../../../../shared/utils/functions/eventsRelated";
 import { TimingTypeModel } from "../../../../../shared/utils/types/abstractDtosAndModels";
 import { getEnumValueByKey } from "../../../../../shared/utils/functions/enumRelated";

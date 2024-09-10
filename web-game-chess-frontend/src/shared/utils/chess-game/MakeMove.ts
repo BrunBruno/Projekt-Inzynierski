@@ -6,12 +6,12 @@ import { GameStates, SelectionStates } from "../types/gameStates";
 import { areCoorEqual, intToChar } from "../functions/gameRelated";
 
 // make move
-export const makeMove = (
+export const makeMove = async (
   gameState: GameStates,
   selectionState: SelectionStates,
   moveToCoordinates: number[],
   promotedPiece: string | null = null
-): void => {
+): Promise<void> => {
   if (!gameState.gameData) return;
 
   const [newX, newY] = moveToCoordinates;
@@ -126,7 +126,7 @@ export const makeMove = (
     blrm: blrm,
   };
 
-  GameHubService.MakeMove(makeMoveModel);
+  await GameHubService.MakeMove(makeMoveModel);
 };
 
 // update string position after move was dane

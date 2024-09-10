@@ -1,5 +1,5 @@
 import { useEffect, useRef } from "react";
-import LogoIconSvg from "../../../shared/svgs/LogoIconSvg";
+import LogoIcon from "../../../shared/svgs/icons/LogoIcon";
 import classes from "./IntroBackgroundSection.module.scss";
 
 type IntroBackgroundSectionProps = {};
@@ -41,7 +41,7 @@ function IntroBackgroundSection({}: IntroBackgroundSectionProps) {
   return (
     <section ref={backgroundRef} className={`${classes["intro-background"]} ${classes["hidden-intro"]}`}>
       <div className={classes["intro-logo"]}>
-        <LogoIconSvg iconClass={classes["intro-svg"]} />
+        <LogoIcon iconClass={classes["intro-svg"]} />
         <p className={classes["intro-text"]}>Chess</p>
       </div>
     </section>

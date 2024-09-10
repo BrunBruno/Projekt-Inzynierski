@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import classes from "./DefaultView.module.scss";
 import { MousePosition } from "../../../../shared/utils/types/commonTypes";
 
-let timer: number;
+let timer: NodeJS.Timeout;
 
 type DefaultViewProps = {};
 

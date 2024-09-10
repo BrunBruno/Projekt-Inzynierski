@@ -1,9 +1,9 @@
 import IconCreator from "../../../../../shared/components/icon-creator/IconCreator";
-import { timingTypesIcons } from "../../../../../shared/svgs/TimingTypesIcons";
-import { winLoseIcons } from "../../../../../shared/svgs/WinLoseIcons";
+import { timingTypesIcons } from "../../../../../shared/svgs/iconsMap/TimingTypesIcons";
+import { winLoseIcons } from "../../../../../shared/svgs/iconsMap/WinLoseIcons";
 import { mainColor } from "../../../../../shared/utils/enums/colorMaps";
 import classes from "./UserGamesFilters.module.scss";
-import { resultList, timingTypesList } from "./UserGamesFiltersObjects";
+import { resultList, timingTypesList } from "./UserGamesFiltersData";
 
 type UserGamesFiltersProps = {
   // list to filter timing types

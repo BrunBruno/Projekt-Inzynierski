@@ -6,7 +6,7 @@ import { friendshipControllerPaths, getAuthorization } from "../../../shared/uti
 import { GetAllFriendsByStatusModel } from "../../../shared/utils/types/friendshipModels";
 import { FriendshipStatus } from "../../../shared/utils/enums/entitiesEnums";
 import LoadingPage from "../../../shared/components/loading-page/LoadingPage";
-import AvatarSvg from "../../../shared/svgs/AvatarSvg";
+import AvatarIcon from "../../../shared/svgs/icons/AvatarIcon";
 import FriendCard from "./friend-card/FriendCard";
 import cardClasses from "./friend-card/FriendCard.module.scss";
 import { usePopup } from "../../../shared/utils/hooks/usePopUp";
@@ -82,7 +82,7 @@ function FriendsSection() {
           </div>
           {Array.from({ length: 16 }).map((_, i) => (
             <div key={i} className={classes["empty-card"]}>
-              <AvatarSvg iconClass={classes["blank-avatar"]} />
+              <AvatarIcon iconClass={classes["blank-avatar"]} />
               <p />
               <p />
             </div>

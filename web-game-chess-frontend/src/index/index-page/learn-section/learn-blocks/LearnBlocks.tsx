@@ -2,10 +2,10 @@ import classes from "./LearnBlocks.module.scss";
 import { Fragment, useEffect, useRef, useState } from "react";
 import { createOneTimeObserver } from "../../../../shared/utils/functions/createOneTimeObserver";
 import { mainColor } from "../../../../shared/utils/enums/colorMaps";
-import { SectionData, sectionData } from "./LearnBlocksObjects";
+import { SectionData, sectionData } from "./LearnBlocksData";
 import IconCreator from "../../../../shared/components/icon-creator/IconCreator";
 import { learnBlocksIcons } from "./LearnBlocksIcons";
-import { defaultPiecesImages } from "../../../../shared/svgs/DefaultPieceImageSvgs";
+import { defaultPiecesImages } from "../../../../shared/svgs/iconsMap/DefaultPieceImageSvgs";
 import { getPiecesSideColor } from "../../../../shared/utils/enums/piecesMaps";
 
 type LearnBlocksProps = {};

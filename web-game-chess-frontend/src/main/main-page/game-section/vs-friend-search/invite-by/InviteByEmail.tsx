@@ -14,14 +14,14 @@ import {
 import GameHubService from "../../../../../shared/utils/services/GameHubService";
 import { getErrMessage } from "../../../../../shared/utils/functions/displayError";
 import { forwardRef, useImperativeHandle, useState } from "react";
-import { InviteByEmailRef } from "../VsFriendSearchObjects";
+import { InviteByEmailRef } from "../VsFriendSearchData";
 import { mainColor } from "../../../../../shared/utils/enums/colorMaps";
 import { GetByEmailModel } from "../../../../../shared/utils/types/userModels";
 import { GetByEmailDto } from "../../../../../shared/utils/types/userDtos";
 import { TimingTypeModel } from "../../../../../shared/utils/types/abstractDtosAndModels";
 import { getEnumValueByKey } from "../../../../../shared/utils/functions/enumRelated";
 import IconCreator from "../../../../../shared/components/icon-creator/IconCreator";
-import { symbolIcons } from "../../../../../shared/svgs/SymbolIcons";
+import { symbolIcons } from "../../../../../shared/svgs/iconsMap/SymbolIcons";
 
 type InviteByEmailProps = {
   // to set obtained user from email

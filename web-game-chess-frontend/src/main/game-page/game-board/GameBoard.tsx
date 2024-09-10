@@ -31,9 +31,9 @@ import GameBoardSearching from "./game-board-searching/GameBoardSearching";
 import { dangerColor } from "../../../shared/utils/enums/colorMaps";
 import { Guid } from "guid-typescript";
 import IconCreator from "../../../shared/components/icon-creator/IconCreator";
-import { symbolIcons } from "../../../shared/svgs/SymbolIcons";
+import { symbolIcons } from "../../../shared/svgs/iconsMap/SymbolIcons";
 import GameBoardConfirm from "./game-board-confirm/GameBoardConfirm";
-import { defaultPiecesImages } from "../../../shared/svgs/DefaultPieceImageSvgs";
+import { defaultPiecesImages } from "../../../shared/svgs/iconsMap/DefaultPieceImageSvgs";
 
 type GameBoardProps = {
   // game id

@@ -1,7 +1,7 @@
 import axios from "axios";
 import classes from "./VsPlayerSearch.module.scss";
 import { gameControllerPaths, getAuthorization } from "../../../../shared/utils/services/ApiService";
-import { defaultTimeControls } from "./VsPlayerSearchObjects";
+import { defaultTimeControls } from "./VsPlayerSearchData";
 import { SearchGameDto } from "../../../../shared/utils/types/gameDtos";
 import GameHubService from "../../../../shared/utils/services/GameHubService";
 import { TimingTypes } from "../../../../shared/utils/enums/entitiesEnums";
@@ -11,8 +11,8 @@ import { getErrMessage } from "../../../../shared/utils/functions/displayError";
 import { useTimingType } from "../../../../shared/utils/hooks/useTimingType";
 import { getEnumValueByKey } from "../../../../shared/utils/functions/enumRelated";
 import IconCreator from "../../../../shared/components/icon-creator/IconCreator";
-import { timingTypesIcons } from "../../../../shared/svgs/TimingTypesIcons";
 import { mainColor } from "../../../../shared/utils/enums/colorMaps";
+import { timingTypesIcons } from "../../../../shared/svgs/iconsMap/TimingTypesIcons";
 
 type VsPlayerSearchProps = {
   // to set obtained search ids

@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import classes from "./HeroHeader.module.scss";
-import LogoIconSvg from "../../../../shared/svgs/LogoIconSvg";
+import LogoIcon from "../../../../shared/svgs/icons/LogoIcon";
 import { RegistrationInterface } from "../../../../shared/utils/enums/interfacesEnums";
 
 type HeroHeaderProps = {};
@@ -15,7 +15,7 @@ function HeroHeader({}: HeroHeaderProps) {
       {/* logo */}
       <div className={classes.header__logo}>
         <a href="/" className={classes["logo-reload"]}>
-          <LogoIconSvg iconClass={classes["logo-svg"]} />
+          <LogoIcon iconClass={classes["logo-svg"]} />
         </a>
         <p className={classes["logo-text"]}>Chess</p>
       </div>

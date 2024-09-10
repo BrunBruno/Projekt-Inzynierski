@@ -1,5 +1,5 @@
 import IconCreator from "../../../../shared/components/icon-creator/IconCreator";
-import { defaultPiecesImages } from "../../../../shared/svgs/DefaultPieceImageSvgs";
+import { defaultPiecesImages } from "../../../../shared/svgs/iconsMap/DefaultPieceImageSvgs";
 import { PieceColor } from "../../../../shared/utils/enums/entitiesEnums";
 import { getPieceName, piecePromotionMap } from "../../../../shared/utils/enums/piecesMaps";
 import { GetPlayerDto } from "../../../../shared/utils/types/gameDtos";

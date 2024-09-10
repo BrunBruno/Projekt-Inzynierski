@@ -1,5 +1,5 @@
 import IconCreator from "../../../../shared/components/icon-creator/IconCreator";
-import { specialPiecesSvgs } from "../../../../shared/svgs/SpecialPiecesSvgs";
+import { specialPiecesSvgs } from "../../../../shared/svgs/iconsMap/SpecialPiecesSvgs";
 import { mainColor } from "../../../../shared/utils/enums/colorMaps";
 import { MoveDto } from "../../../../shared/utils/types/abstractDtosAndModels";
 import classes from "./MoveRecord.module.scss";

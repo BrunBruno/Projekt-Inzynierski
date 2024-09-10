@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import LogoIconSvg from "../../../shared/svgs/LogoIconSvg";
+import LogoIcon from "../../../shared/svgs/icons/LogoIcon";
 import { EndGameTypes, PieceColor } from "../../../shared/utils/enums/entitiesEnums";
 import GameHubService from "../../../shared/utils/services/GameHubService";
 import { GetGameDto, GetPlayerDto } from "../../../shared/utils/types/gameDtos";
@@ -115,7 +115,7 @@ function LeftSideBar({ gameId, playerData, gameData, setShowConfirm, setConfirmA
             location.reload();
           }}
         >
-          <LogoIconSvg iconClass={classes["logo-svg"]} />
+          <LogoIcon iconClass={classes["logo-svg"]} />
           <p>Chess</p>
         </div>
 

@@ -1,4 +1,4 @@
-import { symbolIcons } from "../../svgs/SymbolIcons";
+import { symbolIcons } from "../../svgs/iconsMap/SymbolIcons";
 import { greyColor } from "../../utils/enums/colorMaps";
 import IconCreator from "../icon-creator/IconCreator";
 import classes from "./ActionButton.module.scss";
@@ -8,7 +8,7 @@ type ActionButtonProps = {
   text: string;
 };
 
-const ActionButton = ({ text }: ActionButtonProps) => {
+const ActionButton = ({ text }: ActionButtonProps): JSX.Element => {
   ///
 
   return (

@@ -1,4 +1,4 @@
-import AvatarSvg from "../../svgs/AvatarSvg";
+import AvatarIcon from "../../svgs/icons/AvatarIcon";
 import classes from "./AvatarImage.module.scss";
 
 type AvatarImageProps = {
@@ -12,7 +12,7 @@ type AvatarImageProps = {
   imageClass?: string;
 };
 
-function AvatarImage({ username, imageUrl, containerClass, imageClass }: AvatarImageProps) {
+function AvatarImage({ username, imageUrl, containerClass, imageClass }: AvatarImageProps): JSX.Element {
   ///
 
   return (
@@ -20,7 +20,7 @@ function AvatarImage({ username, imageUrl, containerClass, imageClass }: AvatarI
       {imageUrl ? (
         <img className={`${classes.avatar} ${imageClass}`} src={imageUrl} alt={`${username}-profile-picture`} />
       ) : (
-        <AvatarSvg iconClass={`${classes.avatar} ${imageClass}`} />
+        <AvatarIcon iconClass={`${classes.avatar} ${imageClass}`} />
       )}
     </div>
   );

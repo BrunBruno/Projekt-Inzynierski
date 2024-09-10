@@ -3,6 +3,7 @@ import { PosToIndex } from "../functions/gameRelated";
 import { GetPlayerDto } from "../types/gameDtos";
 
 // to highlighting selected file
+// for tip displaying
 export const onHighlightFile = (
   ref: React.RefObject<HTMLDivElement>,
   coordinates: number[],
@@ -29,7 +30,7 @@ export const onClearHighlights = (highlightClass: string): void => {
   });
 };
 
-// to show movement animation
+// to show piece movement animation
 export const performMoveAnimation = (
   boardRef: HTMLDivElement | null,
   selectedTarget: HTMLElement | null,
@@ -45,6 +46,7 @@ export const performMoveAnimation = (
 
     let translateX = tileWidth * xChange;
     let translateY = tileHeight * yChange;
+
     if (playerData.color === PieceColor.white) translateX = translateX * -1;
     if (playerData.color === PieceColor.black) translateY = translateY * -1;
 

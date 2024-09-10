@@ -1,11 +1,11 @@
 import React, { forwardRef, useImperativeHandle, useRef, useState } from "react";
 import classes from "./FaqSection.module.scss";
 import { mainColor } from "../../../shared/utils/enums/colorMaps";
-import { accountAndUserProfileFAQs, gameplayAndFeaturesFAQs } from "./FaqSectionQuestions";
+import { accountAndUserProfileFAQs, gameplayAndFeaturesFAQs } from "./FaqSectionData";
 import { HandleOnScroll } from "../../../shared/utils/types/commonTypes";
 import FaqSectionCard from "./faq-section-card/FaqSectionCard";
 import IconCreator from "../../../shared/components/icon-creator/IconCreator";
-import { symbolIcons } from "../../../shared/svgs/SymbolIcons";
+import { symbolIcons } from "../../../shared/svgs/iconsMap/SymbolIcons";
 
 type FaqSectionProps = {
   // section container ref

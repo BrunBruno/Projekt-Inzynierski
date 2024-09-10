@@ -3,10 +3,10 @@ import ActionButton from "../../../../../shared/components/action-button/ActionB
 import { GetAllFriendsByStatusDto } from "../../../../../shared/utils/types/friendshipDtos";
 import { GetByEmailDto } from "../../../../../shared/utils/types/userDtos";
 import classes from "./TimeSelection.module.scss";
-import { defaultTimeControls, TimeControl } from "./TimeSelectionObjects";
+import { defaultTimeControls, TimeControl } from "./TimeSelectionData";
 import IconCreator from "../../../../../shared/components/icon-creator/IconCreator";
-import { timingTypesIcons } from "../../../../../shared/svgs/TimingTypesIcons";
 import { mainColor } from "../../../../../shared/utils/enums/colorMaps";
+import { timingTypesIcons } from "../../../../../shared/svgs/iconsMap/TimingTypesIcons";
 
 type TimeSelectionProps = {
   // user data when friend selected manually
@@ -76,19 +76,19 @@ function TimeSelection({
         transformedTag.push(
           <p key={`tag${i}`} className={classes.sep}>
             {char}
-          </p>,
+          </p>
         );
       } else if (!isNaN(parseInt(char))) {
         transformedTag.push(
           <p key={`tag${i}`} className={classes.num}>
             {char}
-          </p>,
+          </p>
         );
       } else {
         transformedTag.push(
           <p key={`tag${i}`} className={classes.char}>
             {char}
-          </p>,
+          </p>
         );
       }
     }
