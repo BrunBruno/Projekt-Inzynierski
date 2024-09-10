@@ -7,6 +7,11 @@ namespace chess.Api.Tests.User;
 
 internal static partial class DbFilter {
 
+    /// <summary>
+    /// Add static data for db
+    /// </summary>
+    /// <param name="dbContext"></param>
+    /// <returns></returns>
     internal static async Task Init(this ChessAppDbContext dbContext) {
 
         var roles = new List<Role>
@@ -54,6 +59,11 @@ internal static partial class DbFilter {
         await dbContext.SaveChangesAsync();
     }
 
+    /// <summary>
+    /// To add current user
+    /// </summary>
+    /// <param name="dbContext"></param>
+    /// <returns></returns>
     internal static async Task AddUser(this ChessAppDbContext dbContext) {
 
         var user = new Core.Entities.User
@@ -71,6 +81,12 @@ internal static partial class DbFilter {
         await dbContext.SaveChangesAsync();
     }
 
+    /// <summary>
+    /// To add user with selected email
+    /// </summary>
+    /// <param name="dbContext"></param>
+    /// <param name="email"></param>
+    /// <returns></returns>
     internal static async Task<Guid> AddUserWithEmail(this ChessAppDbContext dbContext, string email) {
 
         Guid id = Guid.NewGuid();
@@ -92,6 +108,11 @@ internal static partial class DbFilter {
         return id;
     }
 
+    /// <summary>
+    /// To add verification code for user
+    /// </summary>
+    /// <param name="dbContext"></param>
+    /// <returns></returns>
     internal static async Task AddCodeForUser(this ChessAppDbContext dbContext) {
 
         var code = new EmailVerificationCode()
@@ -106,6 +127,11 @@ internal static partial class DbFilter {
         await dbContext.SaveChangesAsync();
     }
 
+    /// <summary>
+    /// To add elo points for user
+    /// </summary>
+    /// <param name="dbContext"></param>
+    /// <returns></returns>
     internal static async Task AddEloForUser(this ChessAppDbContext dbContext) {
 
         var elo = new Elo()
@@ -118,6 +144,11 @@ internal static partial class DbFilter {
         await dbContext.SaveChangesAsync();
     }
 
+    /// <summary>
+    /// To add user stats
+    /// </summary>
+    /// <param name="dbContext"></param>
+    /// <returns></returns>
     internal static async Task AddStatsForUser(this ChessAppDbContext dbContext) {
 
         var stats = new UserStats() {

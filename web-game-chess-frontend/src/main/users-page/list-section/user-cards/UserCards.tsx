@@ -9,7 +9,6 @@ import {
 } from "../../../../shared/utils/services/ApiService";
 import { usePopup } from "../../../../shared/utils/hooks/usePopUp";
 import { GetOtherUserDto } from "../../../../shared/utils/types/userDtos";
-import { GetOtherUserModel } from "../../../../shared/utils/types/userModels";
 import { getErrMessage } from "../../../../shared/utils/functions/displayError";
 import AvatarImage from "../../../../shared/components/avatar-image/AvatarImage";
 import { Guid } from "guid-typescript";
@@ -49,11 +48,10 @@ function UserCards({ user, getAllUsers, setNonFriend }: UserCardsProps) {
   // get non friend profile to display
   const onShowProfile = async () => {
     try {
-      const model: GetOtherUserModel = {
-        userId: user.userId,
-      };
-
-      const response = await axios.get<GetOtherUserDto>(userControllerPaths.getOtherUser(model), getAuthorization());
+      const response = await axios.get<GetOtherUserDto>(
+        userControllerPaths.getOtherUser(user.userId),
+        getAuthorization(),
+      );
 
       setNonFriend(response.data);
     } catch (err) {

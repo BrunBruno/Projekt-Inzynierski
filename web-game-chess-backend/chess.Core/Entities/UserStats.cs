@@ -73,5 +73,4 @@ public class UserStats {
     /// User that stats belongs to
     /// </summary>
     public User User { get; set; }
-
 }

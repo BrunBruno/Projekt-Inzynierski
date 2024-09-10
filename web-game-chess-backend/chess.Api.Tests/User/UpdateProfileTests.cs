@@ -6,7 +6,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
 using System.Net;
-using System.Net.Http;
 using System.Text;
 
 namespace chess.Api.Tests.User;
@@ -56,7 +55,8 @@ public class UpdateProfileTests : IClassFixture<TestWebApplicationFactory<Progra
 
         var user = await assertDbContext.Users.FirstOrDefaultAsync();
 
-        user.Name.Should().Be(name);
+        user.Should().NotBeNull();
+        user!.Name.Should().Be(name);
     }
 
     /// <summary>

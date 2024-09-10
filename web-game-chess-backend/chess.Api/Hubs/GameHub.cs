@@ -194,15 +194,18 @@ public class GameHub : Hub<IGameHub> {
     [HubMethodName("update-private-game")]
     [Authorize(Policy = "IsVerified")]
     [SignalRMethod("UpdatePrivateGame", Operation.Put)]
-    public async Task UpdatePrivateGame(UpdatePrivateGameModel model) {
+    public async Task UpdatePrivateGame(Guid gameId) {
 
-        var request = _mapper.Map<UpdatePrivateGameRequest>(model);
+        var request = new UpdatePrivateGameRequest()
+        {
+            GameId = gameId,
+        };
 
         var startGameDto = await _mediator.Send(request);
 
         if (startGameDto.ShouldStart) {
-            await Clients.Groups($"user-{startGameDto.WhitePlayerUserId}").GameAccepted(model.GameId);
-            await Clients.Groups($"user-{startGameDto.BlackPlayerUserId}").GameAccepted(model.GameId);
+            await Clients.Groups($"user-{startGameDto.WhitePlayerUserId}").GameAccepted(gameId);
+            await Clients.Groups($"user-{startGameDto.BlackPlayerUserId}").GameAccepted(gameId);
         }
     }
 

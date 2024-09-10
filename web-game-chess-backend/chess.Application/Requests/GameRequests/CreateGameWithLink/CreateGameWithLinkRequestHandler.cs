@@ -16,7 +16,7 @@ namespace chess.Application.Requests.GameRequests.CreateGameWithLink;
 /// Creates player for current user
 /// Creates placeholder players for later update
 /// Creates game
-/// Reaturs dto with game url
+/// Returns dto with game url
 /// </summary>
 public class CreateGameWithLinkRequestHandler : IRequestHandler<CreateGameWithLinkRequest, CreateGameWithLinkDto> {
 

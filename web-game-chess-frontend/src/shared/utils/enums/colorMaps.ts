@@ -47,16 +47,19 @@ export const successColor: ColorMap = {
   mid: "#51cf66",
   dark: "#2f9e44",
 };
+
 export const infoColor: ColorMap = {
   light: "#a5d8ff",
   mid: "#339af0",
   dark: "#1864ab",
 };
+
 export const warningColor: ColorMap = {
   light: "#ffe066",
   mid: "#fcc419",
   dark: "#f59f00",
 };
+
 export const dangerColor: ColorMap = {
   light: "#ffa8a8",
   mid: "#f03e3e",

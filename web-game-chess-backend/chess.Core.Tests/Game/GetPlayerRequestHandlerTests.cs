@@ -1,6 +1,5 @@
 ﻿
 using chess.Application.Repositories;
-using chess.Application.Requests.GameRequests.GetGame;
 using chess.Application.Requests.GameRequests.GetPlayer;
 using chess.Application.Services;
 using chess.Core.Entities;
@@ -8,7 +7,6 @@ using chess.Core.Enums;
 using chess.Shared.Exceptions;
 using FluentAssertions;
 using Moq;
-using System.Numerics;
 
 namespace chess.Core.Tests.Game;
 

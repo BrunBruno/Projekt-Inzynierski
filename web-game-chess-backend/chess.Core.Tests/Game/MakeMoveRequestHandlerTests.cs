@@ -1,6 +1,5 @@
 ﻿
 using chess.Application.Repositories;
-using chess.Application.Requests.FriendshipRequests.InviteFriend;
 using chess.Application.Requests.GameRequests.MakeMove;
 using chess.Application.Services;
 using chess.Core.Entities;

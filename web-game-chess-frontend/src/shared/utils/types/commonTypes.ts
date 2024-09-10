@@ -2,17 +2,12 @@
 
 import { popupIconTypes } from "../enums/commonConstLists";
 
-// type for svg icons
-export type IconSvgProps = {
-  color?: string;
-  iconClass: string;
-};
-
 // type for svg icons maps and corresponding props
 // type for svg icons with params
 export type IconMap = {
   [key: string]: (iconClass?: string, color?: string, active?: boolean) => JSX.Element;
 };
+
 export type IconsMapProps = {
   icons: IconMap;
   iconName: string;
@@ -20,6 +15,7 @@ export type IconsMapProps = {
   color?: string;
   active?: boolean;
 };
+//*/
 
 // handle on scroll function type
 export type HandleOnScroll = {
@@ -42,5 +38,5 @@ export type ChartObject = {
 // popup data object
 export type PopupType = {
   popupText: string;
-  popupType: typeof popupIconTypes[number];
+  popupType: (typeof popupIconTypes)[number];
 };

@@ -27,6 +27,7 @@ export const formatDate = (date: Date): string => {
   return add0(date.getDate().toString()) + "." + add0((date.getMonth() + 1).toString()) + "." + date.getFullYear();
 };
 
+// checks if duration exceeds some period
 export const timeSpanLongerThan = (startDate: Date, endDate: Date, seconds: number): boolean => {
   const timeSpan = (endDate.valueOf() - startDate.valueOf()) / 1000;
 

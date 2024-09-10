@@ -1,7 +1,5 @@
 /* user controller models to requests */
 
-import { Guid } from "guid-typescript";
-
 /** POST models */
 
 export type RegisterUserModel = {
@@ -47,11 +45,6 @@ export type UpdateProfileModel = {
 export type GetByEmailModel = {
   // provided email
   email: string | null;
-};
-
-export type GetOtherUserModel = {
-  // other user id
-  userId: Guid;
 };
 
 export type GetRegisterConfModel = {

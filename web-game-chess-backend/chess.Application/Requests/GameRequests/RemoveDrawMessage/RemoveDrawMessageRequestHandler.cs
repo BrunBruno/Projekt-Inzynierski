@@ -7,7 +7,10 @@ using MediatR;
 namespace chess.Application.Requests.GameRequests.RemoveDrawMessage;
 
 /// <summary>
-/// 
+/// Checks if game for provided id exists
+/// Checks if user belong to the game
+/// Checks if draw offer already exists
+/// Removes draw offer if exists
 /// </summary>
 public class RemoveDrawMessageRequestHandler : IRequestHandler<RemoveDrawMessageRequest> {
 

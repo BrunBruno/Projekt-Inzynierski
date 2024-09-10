@@ -110,5 +110,4 @@ public class Game {
     /// List of moves that was done during game
     /// </summary>
     public List<Move> Moves { get; set; }
-
 }

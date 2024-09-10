@@ -10,8 +10,8 @@ namespace chess.Application.Requests.GameRequests.SendDrawMessage;
 
 /// <summary>
 /// Checks if game for provided id exists
-/// Checks if current user belgons to game
-/// Chekcs if any draw message exists
+/// Checks if current user belongs to game
+/// Checks if any draw message exists
 /// Creates draw message if not exists
 /// </summary>
 public class SendDrawMessageRequestHandler : IRequestHandler<SendDrawMessageRequest> {

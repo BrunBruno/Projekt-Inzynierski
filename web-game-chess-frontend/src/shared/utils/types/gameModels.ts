@@ -77,11 +77,6 @@ export type AcceptInvitationModel = {
   inviteeId: Guid;
 };
 
-export type UpdatePrivateGameModel = {
-  // game id
-  gameId: Guid;
-};
-
 /** GET models */
 
 export type CheckIfInGameModel = {
@@ -101,7 +96,7 @@ export type GetTypeHistoryModel = PagedModel & {
   type: TimingTypes;
 };
 
-export type GetAllInvitationsModel = PagedModel;
+export type GetAllInvitationsModel = PagedModel & {};
 
 export type NotifyUserModel = TimingTypeModel & {
   // friend to notify id

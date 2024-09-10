@@ -68,5 +68,4 @@ public class Friendship {
     /// User that gets friendship request
     /// </summary>
     public User Receiver { get; set; }
-
 }

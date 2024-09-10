@@ -1,5 +1,4 @@
 ﻿
-
 using chess.Application.Repositories;
 using chess.Application.Requests.GameRequests.CreatePrivateGame;
 using chess.Application.Services;

@@ -45,7 +45,7 @@ function FriendList({ selectedUsername, setSelectedFriend }: FriendListProps) {
 
         const friendsResponse = await axios.get<PagedResult<GetAllFriendsByStatusDto>>(
           friendshipControllerPaths.getAllFriendsByStatus(model),
-          getAuthorization()
+          getAuthorization(),
         );
 
         setFriends(friendsResponse.data.items);
@@ -110,7 +110,7 @@ function FriendList({ selectedUsername, setSelectedFriend }: FriendListProps) {
         friends.map((friend) => <FriendCard friend={friend} setSelectedFriend={setSelectedFriend} />)
       )}
 
-      {/* indicator */}
+      {/* count indicator */}
       {friends && (
         <div className={classes.list__indicator}>
           {friends.length} / {totalItemsCount}

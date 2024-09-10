@@ -42,6 +42,5 @@ public class GameMappingProfile : Profile {
         CreateMap<DeclineInvitationModel, DeclineInvitationRequest>();
         CreateMap<GetAllInvitationsModel, GetAllInvitationsRequest>();
         CreateMap<CreateGameWithLinkModel, CreateGameWithLinkRequest>();
-        CreateMap<UpdatePrivateGameModel, UpdatePrivateGameRequest>();
     }
 }

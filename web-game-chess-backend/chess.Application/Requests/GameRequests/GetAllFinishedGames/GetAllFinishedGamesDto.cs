@@ -30,7 +30,7 @@ public class GetAllFinishedGamesDto {
     public bool? IsWinner { get; set; }
 
     /// <summary>
-    /// 
+    /// Elo gained or lost after game
     /// </summary>
     public int EloGained { get; set; }
 

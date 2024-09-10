@@ -4,10 +4,15 @@ import { TimingTypes } from "../enums/entitiesEnums";
 
 // pagination result type
 export type PagedResult<T> = {
+  // page result elements
   items: T[];
+  // total page count
   totalPages: number;
+  // start page
   itemsFrom: number;
+  // end page
   itemsTo: number;
+  // total items count
   totalItemsCount: number;
 };
 
@@ -22,7 +27,9 @@ export type EloDto = {
 
 // pagination model
 export type PagedModel = {
+  // page number
   pageNumber: number;
+  // page size
   pageSize: number;
 };
 
