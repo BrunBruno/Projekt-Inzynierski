@@ -1,6 +1,7 @@
 @import "../../styles/variables/color.scss";
 @import "../../styles/commons-styles/elements.scss";
 
+// loading page container
 .loading {
   @include wh100();
 
@@ -51,3 +52,4 @@
     }
   }
 }
+//*/

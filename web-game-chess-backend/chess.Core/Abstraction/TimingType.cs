@@ -4,7 +4,7 @@ using chess.Core.Enums;
 namespace chess.Core.Abstraction;
 
 /// <summary>
-/// Abstrac class for all request that creates new game
+/// Abstract class for all request that creates new game
 /// </summary>
 public class TimingType {
 
@@ -59,7 +59,7 @@ public class TimingType {
                     throw new ArgumentException("Daily timing incorrect.");
                 break;
             default:
-                throw new ArgumentOutOfRangeException();
+                throw new ArgumentOutOfRangeException("Timing type not exists.");
         }
 
         _minutes = minutes;

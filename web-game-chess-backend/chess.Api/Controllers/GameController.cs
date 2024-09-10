@@ -19,6 +19,10 @@ using chess.Application.Requests.GameRequests.CreateGameByEmail;
 using chess.Application.Requests.GameRequests.GetAllInvitations;
 using chess.Application.Requests.GameRequests.GetGameTiming;
 using chess.Application.Requests.GameRequests.GetAllFinishedGames;
+using chess.Application.Requests.GameRequests.GetAllMessages;
+using chess.Application.Requests.GameRequests.CreateGameWithLink;
+using chess.Application.Requests.GameRequests.CheckIfUpdateRequired;
+using chess.Application.Requests.GameRequests.CancelPrivateGame;
 
 namespace chess.Api.Controllers;
 
@@ -90,7 +94,24 @@ public class GameController : ControllerBase {
 
 
     /// <summary>
-    /// Creates new game for two same users taht has already played one game
+    /// Creates private game with link and returns it
+    /// </summary>
+    /// <param name="model"></param>
+    /// <returns></returns>
+    [HttpPost("by-link")]
+    [Authorize(Policy = "IsVerified")]
+    public async Task<IActionResult> CreateGameWithLink([FromBody] CreateGameWithLinkModel model) {
+
+        var request = _mapper.Map<CreateGameWithLinkRequest>(model);
+
+        var gameData = await _mediator.Send(request);
+
+        return Ok(gameData);
+    }
+
+
+    /// <summary>
+    /// Creates new game for two same users that has already played one game
     /// </summary>
     /// <param name="model"></param>
     /// <returns> Essential for game creation </returns>
@@ -120,6 +141,26 @@ public class GameController : ControllerBase {
         var isInGame = await _mediator.Send(request);
 
         return Ok(isInGame);
+    }
+
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="gameId"></param>
+    /// <returns></returns>
+    [HttpGet("{gameId}/check-if-update-required")]
+    [Authorize(Policy = "IsVerified")]
+    public async Task<IActionResult> CheckIfUpdateRequired([FromRoute] Guid gameId) {
+
+        var request = new CheckIfUpdateRequiredRequest()
+        { 
+            GameId = gameId,
+        };
+
+        var isRequired = await _mediator.Send(request);
+
+        return Ok(isRequired);
     }
 
 
@@ -230,7 +271,7 @@ public class GameController : ControllerBase {
     /// <returns> Game timing </returns>
     [HttpGet("{gameId}/timing")]
     [Authorize(Policy = "IsVerified")]
-    public async Task<IActionResult> GetGameTiming(Guid gameId) {
+    public async Task<IActionResult> GetGameTiming([FromRoute] Guid gameId) {
 
         var request = new GetGameTimingRequest()
         {
@@ -261,13 +302,13 @@ public class GameController : ControllerBase {
 
 
     /// <summary>
-    /// Get all previous games for choosen timing type
+    /// Get all previous games for chosen timing type
     /// </summary>
     /// <param name="model"></param>
     /// <returns> Page result of games </returns>
     [HttpGet("type-history")]
     [Authorize(Policy = "IsVerified")]
-    public async Task<IActionResult> GetTypeHitory([FromQuery] GetTypeHistoryModel model) {
+    public async Task<IActionResult> GetTypeHistory([FromQuery] GetTypeHistoryModel model) {
 
         var request = _mapper.Map<GetTypeHistoryRequest>(model);
 
@@ -278,7 +319,7 @@ public class GameController : ControllerBase {
 
 
     /// <summary>
-    /// Gets all previous inivations, taht were untouched
+    /// Gets all previous invitations, that were untouched
     /// </summary>
     /// <param name="model"></param>
     /// <returns> Paged result of invitations </returns>
@@ -291,6 +332,26 @@ public class GameController : ControllerBase {
         var invitations = await _mediator.Send(request);
 
         return Ok(invitations);
+    }
+
+
+    /// <summary>
+    /// Gets all messages for current game
+    /// </summary>
+    /// <param name="gameId"></param>
+    /// <returns></returns>
+    [HttpGet("{gameId}/messages")]
+    [Authorize(Policy = "IsVerified")]
+    public async Task<IActionResult> GetAllMessages([FromRoute] Guid gameId) {
+
+        var request = new GetAllMessagesRequest() 
+        { 
+            GameId = gameId,
+        };
+
+        var messages = await _mediator.Send(request);
+
+        return Ok(messages);
     }
 
 
@@ -310,4 +371,24 @@ public class GameController : ControllerBase {
         return Ok();
     }
 
+
+    /// <summary>
+    /// Removes private games 
+    /// Removes players
+    /// </summary>
+    /// <param name="gameId"></param>
+    /// <returns></returns>
+    [HttpDelete("{gameId}/cancel")]
+    [Authorize(Policy = "IsVerified")]
+    public async Task<IActionResult> CancelPrivateGame([FromRoute] Guid gameId) {
+
+        var request = new CancelPrivateGameRequest() 
+        {
+            GameId = gameId,
+        };
+
+        await _mediator.Send(request);
+
+        return Ok();
+    }
 }

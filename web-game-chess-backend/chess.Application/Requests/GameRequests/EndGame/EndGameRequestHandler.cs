@@ -11,7 +11,7 @@ namespace chess.Application.Requests.GameRequests.EndGame;
 /// <summary>
 /// Checks if game with provided id exists
 /// Checks if current user was a participant of the game
-/// If game has been ginished returns end game dto
+/// If game has been finished returns end game dto
 /// Gets both players
 /// Sets all parameters for users (stats and elo points) and games according to result of the game
 /// Returns end game dto
@@ -199,6 +199,7 @@ public class EndGameRequestHandler : IRequestHandler<EndGameRequest, EndGameDto>
 
         game.WhitePlayer.FinishedGame = true;
         game.BlackPlayer.FinishedGame = true;
+        game.EndedAt = DateTime.UtcNow;
 
 
         await _gameRepository.Update(game);

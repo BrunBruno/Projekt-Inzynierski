@@ -1,9 +1,10 @@
 @import "../../../Main.scss";
 
+// vs-friend search container
 .search {
   @include wh100();
 
-  padding: 8rem 10rem;
+  padding: 6rem 10rem;
 
   &__split {
     @include rounded(2rem);
@@ -18,61 +19,64 @@
     padding-bottom: 3rem;
 
     &__bar {
-      @include flex(column, start, center, 2rem);
+      @include flex(column, start, center, 3rem);
 
+      width: 100%;
       padding: 2rem 4rem;
       border-right: solid 0.3rem $gc9;
 
-      h2 {
+      h2.invite-title {
         font-size: 3.2rem;
       }
+    }
 
-      .input-holder {
-        @include flex();
-        position: relative;
+    &__list {
+      @include wh100();
 
-        input {
-          @include cInput();
-        }
-        .input-search {
-          margin: none;
-        }
-        .input-mail {
-          padding-right: 4rem;
-        }
+      position: relative;
+      max-width: 100%;
+      overflow: hidden;
+      padding-bottom: 2rem;
+    }
 
-        .send-icon {
-          @include circle(4rem);
+    .game-link {
+      @include absCenter();
+      @include rounded(2rem);
 
-          position: absolute;
-          right: -0.2rem;
+      z-index: 1;
+      background-color: #111;
 
-          &:hover {
-            cursor: pointer;
-            filter: brightness(80%);
-          }
-
-          svg.arrow-svg {
-            height: 100%;
-          }
-        }
+      &:hover {
+        cursor: pointer;
+        filter: brightness(60%);
       }
 
-      .text {
-        font-size: 1.8rem;
-        text-align: center;
+      span {
+        font-size: 2rem;
       }
     }
   }
 }
+//*/
 
-@media (max-width: 700px) {
+// resize
+
+@media (max-width: 1100px) {
   .search {
+    height: 100%;
     padding: 0;
 
     &__split {
+      background-color: #0000;
+      border-radius: 0;
       grid-template-columns: 1fr;
-      grid-template-rows: 30rem auto;
+      grid-template-rows: 36rem auto;
+
+      &__bar {
+        border: none;
+        gap: 1rem;
+      }
     }
   }
 }
+//*/

@@ -25,7 +25,7 @@ public class SearchGameRequestHandlerTests {
     }
 
     [Fact]
-    public async Task Handle_Should_Optionaly_Create_GameTiming_And_Player_And_Return_TimingDto_On_Success() {
+    public async Task Handle_Should_Optionally_Create_GameTiming_And_Player_And_Return_TimingDto_On_Success() {
 
         var userId = Guid.NewGuid();
 

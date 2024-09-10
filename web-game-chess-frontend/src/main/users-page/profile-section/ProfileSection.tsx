@@ -1,5 +1,6 @@
 import AvatarImage from "../../../shared/components/avatar-image/AvatarImage";
-import XSvg from "../../../shared/svgs/XSvg";
+import IconCreator from "../../../shared/components/icon-creator/IconCreator";
+import { symbolIcons } from "../../../shared/svgs/iconsMap/SymbolIcons";
 import { greyColor } from "../../../shared/utils/enums/colorMaps";
 import { GetFriendProfileDto } from "../../../shared/utils/types/friendshipDtos";
 import { GetOtherUserDto } from "../../../shared/utils/types/userDtos";
@@ -19,6 +20,7 @@ function ProfileSection({ userProfile, friendProfile, closeProfile }: ProfileSec
 
   return (
     <section className={classes.profile}>
+      {/* display user or friend based on list selection */}
       {userProfile !== null ? (
         <div className={classes.profile__content}>
           <div className={classes.profile__content__bg} />
@@ -41,7 +43,7 @@ function ProfileSection({ userProfile, friendProfile, closeProfile }: ProfileSec
                 closeProfile();
               }}
             >
-              <XSvg iconClass={classes["close-svg"]} color={greyColor.c6} />
+              <IconCreator icons={symbolIcons} iconName="x" iconClass={classes["close-svg"]} color={greyColor.c6} />
             </div>
           </div>
         </div>
@@ -66,13 +68,14 @@ function ProfileSection({ userProfile, friendProfile, closeProfile }: ProfileSec
                 closeProfile();
               }}
             >
-              <XSvg iconClass={classes["close-svg"]} color={greyColor.c6} />
+              <IconCreator icons={symbolIcons} iconName="x" iconClass={classes["close-svg"]} color={greyColor.c6} />
             </div>
           </div>
         </div>
       ) : (
         <></>
       )}
+      {/* --- */}
     </section>
   );
 }

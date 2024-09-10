@@ -1,29 +1,43 @@
 import { forwardRef, useImperativeHandle, useRef } from "react";
 import classes from "./NavSection.module.scss";
-import NavSectionIcons from "./NavSectionIcons";
+import { navSectionIcons } from "./NavSectionIcons";
 import { HandleOnScroll } from "../../../shared/utils/types/commonTypes";
+import IconCreator from "../../../shared/components/icon-creator/IconCreator";
 
 type NavSectionProps = {
+  // hero section container ref
+  heroSectionRef: React.RefObject<HTMLElement>;
+  // home content container ref
+  homeContentRef: React.RefObject<HTMLElement>;
+  // sections names
   indicators: readonly ["home", "play", "learn", "faq"];
 };
 
 const NavSection = forwardRef<HandleOnScroll, NavSectionProps>(
-  ({ indicators }: NavSectionProps, ref: React.ForwardedRef<HandleOnScroll>) => {
+  ({ heroSectionRef, homeContentRef, indicators }: NavSectionProps, ref: React.ForwardedRef<HandleOnScroll>) => {
     ///
 
-    // handle navbar onscroll
+    // hav section ref
     const navRef = useRef<HTMLDivElement>(null);
-    const handleOnScroll = (): void => {
-      if (navRef.current) {
-        const navRefClasses = navRef.current.classList;
 
-        if (window.scrollY > 1.2 * window.innerHeight) {
+    // handle navbar onscroll
+    const handleOnScroll = (): void => {
+      const heroElement = heroSectionRef.current;
+      const homeElement = homeContentRef.current;
+      const navElement = navRef.current;
+
+      if (navElement && heroElement && homeElement) {
+        const navRefClasses = navElement.classList;
+
+        if (window.scrollY > 0.8 * heroElement.clientHeight) {
           navRefClasses.remove(classes["nav-none"]);
         } else {
           navRefClasses.add(classes["nav-none"]);
         }
 
-        if (window.scrollY <= 1.8 * window.innerHeight) {
+        const navIntersection = homeElement.clientHeight + heroElement.clientHeight - 4 * navElement.clientHeight;
+
+        if (window.scrollY <= navIntersection) {
           navRefClasses.remove(classes["nav-sticky"]);
         } else {
           navRefClasses.add(classes["nav-sticky"]);
@@ -34,7 +48,7 @@ const NavSection = forwardRef<HandleOnScroll, NavSectionProps>(
     useImperativeHandle(ref, () => ({
       handleOnScroll,
     }));
-    // end handle navbar onscoll
+    //*/
 
     return (
       <div ref={navRef} className={`${classes.nav} ${classes["nav-none"]}`}>
@@ -47,15 +61,16 @@ const NavSection = forwardRef<HandleOnScroll, NavSectionProps>(
             >
               <span className={classes.text}>{element.toUpperCase()}</span>
               <span className={classes.icon}>
-                <NavSectionIcons iconName={element} />
+                <IconCreator icons={navSectionIcons} iconName={element} />
               </span>
             </a>
           ))}
-          <div className={classes.indicator}></div>
+
+          <div className={classes.indicator} />
         </nav>
       </div>
     );
-  }
+  },
 );
 
 export default NavSection;

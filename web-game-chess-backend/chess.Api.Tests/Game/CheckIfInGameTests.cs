@@ -57,7 +57,7 @@ public class CheckIfInGameTests : IClassFixture<TestWebApplicationFactory<Progra
         result_false.GameId.Should().Be(null);
 
 
-        var gameId = await _dbContext.AddGame(userPlayerId, otherPlayerId, timingId);
+        var gameId = await _dbContext.AddGame(userPlayerId, otherPlayerId, timingId, false);
         await _dbContext.AddPlayerToGame(userPlayerId, gameId, Colors.White);
         await _dbContext.AddPlayerToGame(otherPlayerId, gameId, Colors.Black);
 

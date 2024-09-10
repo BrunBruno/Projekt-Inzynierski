@@ -34,7 +34,7 @@ public class Move {
     public string Position { get; set; }
 
     /// <summary>
-    /// Turn when moved happended
+    /// Turn when moved happened
     /// </summary>
     public int Turn { get; set; }
 

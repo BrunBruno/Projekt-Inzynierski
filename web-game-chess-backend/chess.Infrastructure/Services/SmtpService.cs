@@ -44,7 +44,7 @@ public class SmtpService : ISmtpService {
     }
 
     ///<inheritdoc/>
-    public async Task SendGameInvitation(string email, string recipientName, string invitorName) {
+    public async Task SendGameInvitation(string email, string recipientName, string inviterName) {
         string fromMail = _smtpOptions.FromMail!;
         string fromPassword = _smtpOptions.FromPassword!;
 
@@ -59,7 +59,7 @@ public class SmtpService : ISmtpService {
 
         mailMessage.To.Add(new MailAddress(email));
 
-        mailMessage.Body = $"<b>Hello {recipientName},</b> <br/> {invitorName} has invited you to new game. <br/> <a href='http://localhost:5173/main'>Click here to accept invitation.</a>";
+        mailMessage.Body = $"<b>Hello {recipientName},</b> <br/> {inviterName} has invited you to new game. <br/> <a href='http://localhost:5173/main'>Click here to accept invitation.</a>";
 
         using (var smtpClient = new SmtpClient(_smtpOptions.Host, _smtpOptions.Port)) {
 

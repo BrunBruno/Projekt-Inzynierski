@@ -1,4 +1,6 @@
 ﻿
+using chess.Core.Enums;
+
 namespace chess.Core.Entities;
 #pragma warning disable CS8618
 
@@ -21,6 +23,11 @@ public class Message {
     /// When message was sent/created
     /// </summary>
     public DateTime SentAt { get; set; } = DateTime.UtcNow;
+
+    /// <summary>
+    /// Determines purpose of message
+    /// </summary>
+    public MessageType Type { get; set; }
 
     /// <summary>
     /// Player id

@@ -7,7 +7,7 @@ namespace chess.Application.Requests.GameRequests.CreateGameByEmail;
 public class CreateGameByEmailDto {
 
     /// <summary>
-    /// Obtained freind id
+    /// Obtained friend id
     /// </summary>
     public Guid FriendId { get; set; }
 

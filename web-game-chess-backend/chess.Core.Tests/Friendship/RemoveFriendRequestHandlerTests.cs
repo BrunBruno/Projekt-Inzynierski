@@ -20,7 +20,7 @@ public class RemoveFriendRequestHandlerTests {
     }
 
     [Fact]
-    public async Task Handle_Should_Create_Pending_Freindship_On_Success() {
+    public async Task Handle_Should_Create_Pending_Friendship_On_Success() {
 
         var userId = Guid.NewGuid();
         var friendshipId = Guid.NewGuid();

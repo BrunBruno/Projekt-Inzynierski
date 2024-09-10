@@ -1,0 +1,87 @@
+@import "../../../Index.scss";
+
+// card
+.card {
+  @include flex(column, center, start, 2rem);
+  @include rounded($sm-br);
+
+  position: relative;
+  width: 50%;
+  aspect-ratio: 16/9;
+  flex-shrink: 0;
+
+  border-top: solid 0.4rem $mc7;
+  border-bottom: solid 0.4rem #0000;
+  background-image: conic-gradient(from 70deg at 30% 120%, rgba($mc7, 0.1), #0000);
+  overflow: hidden;
+
+  transform: scale(0.8);
+  transition: all 0.3s;
+
+  .question {
+    font-size: 3.2rem;
+    width: calc(100% - 4rem);
+
+    transform-origin: 0 0;
+    transform: scale(1);
+    transition: transform 0.3s;
+
+    span {
+      color: $mc5;
+    }
+  }
+
+  .answer {
+    font-size: 2rem;
+    opacity: 0;
+    color: $gc3;
+
+    transform-origin: 50% 0;
+    transform: scaleY(0);
+    transition: all 0.3s;
+  }
+
+  .action {
+    @include absCenter();
+
+    top: unset;
+    bottom: 2rem;
+    width: 80%;
+
+    font-size: 3rem;
+    color: $gc5;
+    text-align: right;
+  }
+
+  // card transformation on hover
+  &:hover,
+  &:active {
+    cursor: help;
+    border-bottom-color: $mc7;
+    transform: scale(1);
+
+    .question {
+      transform: scale(0.8);
+    }
+
+    .answer {
+      opacity: 1;
+      transform: scaleY(1);
+    }
+
+    .action {
+      opacity: 0;
+    }
+  }
+  //*/
+}
+//*/
+
+// resize
+@media (max-width: 700px) {
+  .card {
+    width: 100%;
+    transform: scale(1);
+  }
+}
+//*/

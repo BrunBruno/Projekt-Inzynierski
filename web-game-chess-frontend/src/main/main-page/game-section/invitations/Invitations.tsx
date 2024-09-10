@@ -8,7 +8,8 @@ import InvitationCard from "./invitation-card/InvitationCard";
 import LoadingPage from "../../../../shared/components/loading-page/LoadingPage";
 import { getErrMessage } from "../../../../shared/utils/functions/displayError";
 import { usePopup } from "../../../../shared/utils/hooks/usePopUp";
-import { PagedResult } from "../../../../shared/utils/types/abstracDtosAndModels";
+import { PagedResult } from "../../../../shared/utils/types/abstractDtosAndModels";
+import InvitationEmptyCard from "./invitation-empty-card/InvitationEmptyCard";
 
 const defaultSize = 10;
 
@@ -50,7 +51,7 @@ function Invitations({}: InvitationsProps) {
     updateInvitations();
   }, [pageSize]);
 
-  // icrease page size on scroll
+  // increase page size on scroll
   const handleListOnScroll = () => {
     const listElement = listRef.current;
     if (listElement && invitations) {
@@ -62,25 +63,42 @@ function Invitations({}: InvitationsProps) {
     }
   };
 
-  if (!invitations) return <LoadingPage text="Loading invitations" />;
-
   return (
     <div className={classes.invitations}>
       <div className={classes.invitations__header}>
-        Your invitations ({invitations.itemsTo}/{invitations.totalItemsCount}
-        ):
+        <span>Your invitations: </span>
+        {invitations && (
+          <span className={classes["counter"]}>
+            <span className={classes["sym"]}>(</span>
+            {invitations.itemsTo}
+            <span className={classes["sym"]}>/</span>
+            {invitations.totalItemsCount}
+            <span className={classes["sym"]}>)</span>
+          </span>
+        )}
       </div>
-      <div
-        ref={listRef}
-        className={classes.invitations__cards}
-        onWheel={() => {
-          handleListOnScroll();
-        }}
-      >
-        {invitations.items.map((invitation, i) => (
-          <InvitationCard key={i} invitation={invitation} updateInvitations={updateInvitations} />
-        ))}
-      </div>
+
+      {!invitations ? (
+        <LoadingPage text="Loading invitations" />
+      ) : invitations.items.length === 0 ? (
+        <div className={classes.invitations__empty}>
+          {Array.from({ length: pageSize }).map((_, i) => (
+            <InvitationEmptyCard key={i} />
+          ))}
+        </div>
+      ) : (
+        <div
+          ref={listRef}
+          className={classes.invitations__list}
+          onWheel={() => {
+            handleListOnScroll();
+          }}
+        >
+          {invitations.items.map((invitation, i) => (
+            <InvitationCard key={i} invitation={invitation} updateInvitations={updateInvitations} />
+          ))}
+        </div>
+      )}
     </div>
   );
 }

@@ -20,7 +20,7 @@ public class GetOtherUserRequestHandler : IRequestHandler<GetOtherUserRequest, G
     public async Task<GetOtherUserDto> Handle(GetOtherUserRequest request, CancellationToken cancellationToken) {
 
         var user = await _userRepository.GetById(request.UserId)
-            ?? throw new NotFoundException("User not found");
+            ?? throw new NotFoundException("User not found.");
 
         var userDto = new GetOtherUserDto()
         {

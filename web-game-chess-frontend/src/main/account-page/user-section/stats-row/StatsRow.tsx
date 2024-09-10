@@ -2,21 +2,19 @@ import { PieChart } from "@mui/x-charts";
 import classes from "./StatsRow.module.scss";
 import { GetFullUserDto } from "../../../../shared/utils/types/userDtos";
 import { useEffect, useState } from "react";
-import { ChartObject } from "../../../../shared/utils/types/commonTypes";
-import { getStatsConfig } from "./StatsRowData";
+import { getStatsConfig, StatsConfig } from "./StatsRowData";
 
 type StatsRowProps = {
+  // name of stats category
   type: string;
+  // current user data
   user: GetFullUserDto;
 };
 
 function StatsRow({ type, user }: StatsRowProps) {
-  const [config, setConfig] = useState<{
-    title: string;
-    data: ChartObject[];
-    colors: string[];
-    stats: { label: string; value: number; icon: JSX.Element }[];
-  } | null>(null);
+  ///
+
+  const [config, setConfig] = useState<StatsConfig | null>(null);
 
   useEffect(() => {
     setConfig(getStatsConfig(type, user));
@@ -28,6 +26,7 @@ function StatsRow({ type, user }: StatsRowProps) {
     <div className={classes.stats}>
       <h4 className={classes.stats__title}>{config.title}</h4>
 
+      {/* data display */}
       <div className={classes.stats__data}>
         {config.stats.map((stat, i) => (
           <div key={i} className={classes["games"]}>
@@ -38,7 +37,9 @@ function StatsRow({ type, user }: StatsRowProps) {
           </div>
         ))}
       </div>
+      {/* --- */}
 
+      {/* pie chart */}
       <div className={classes.stats__chart}>
         {config.data.reduce((sum, item) => sum + item.value, 0) !== 0 && (
           <PieChart
@@ -56,6 +57,7 @@ function StatsRow({ type, user }: StatsRowProps) {
           />
         )}
       </div>
+      {/* --- */}
     </div>
   );
 }

@@ -33,11 +33,11 @@ public class GetOpponentTests : IClassFixture<TestWebApplicationFactory<Program>
     [Fact]
     public async Task GetOpponent_Should_Return_PlayerDto_On_Success() {
 
-        Guid freindId = Guid.NewGuid();
+        Guid friendId = Guid.NewGuid();
 
         await _dbContext.Init();
         await _dbContext.AddUser();
-        await _dbContext.AddUserWithEmail("freind@test.com");
+        await _dbContext.AddUserWithEmail("friend@test.com");
 
         var timingId = await _dbContext.CreateTiming(new TimingType() {
             Type = TimingTypes.Bullet,
@@ -46,9 +46,9 @@ public class GetOpponentTests : IClassFixture<TestWebApplicationFactory<Program>
         });
 
         var userPlayerId = await _dbContext.AddPlayer(Guid.Parse(Constants.UserId), Constants.Username);
-        var friendPlayerId = await _dbContext.AddPlayer(freindId, "FriendUsername");
+        var friendPlayerId = await _dbContext.AddPlayer(friendId, "FriendUsername");
 
-        var gameId = await _dbContext.AddGame(userPlayerId, friendPlayerId, timingId);
+        var gameId = await _dbContext.AddGame(userPlayerId, friendPlayerId, timingId, false);
 
 
         var response = await _client.GetAsync($"api/game/{gameId}/opponent");
@@ -57,11 +57,11 @@ public class GetOpponentTests : IClassFixture<TestWebApplicationFactory<Program>
         response.StatusCode.Should().Be(HttpStatusCode.OK);
 
         var result = JsonConvert.DeserializeObject<GetOpponentDto>(await response.Content.ReadAsStringAsync());
-        result.OppeonetId.Should().Be(freindId);
+        result.OpponentId.Should().Be(friendId);
     }
 
     /// <summary>
-    /// Gets oppones from not user game
+    /// Gets opponent from not user game
     /// </summary>
     /// <returns></returns>
     [Fact]
@@ -77,12 +77,12 @@ public class GetOpponentTests : IClassFixture<TestWebApplicationFactory<Program>
         });
 
         await _dbContext.AddPlayer(Guid.Parse(Constants.UserId), Constants.Username);
-        var otherPlaywerId = await _dbContext.AddPlayer(Guid.NewGuid(), "OtherUsername");
-        var otherPlaywer2Id = await _dbContext.AddPlayer(Guid.NewGuid(), "OtherUsername2");
+        var otherPlayerId = await _dbContext.AddPlayer(Guid.NewGuid(), "OtherUsername");
+        var otherPlayer2Id = await _dbContext.AddPlayer(Guid.NewGuid(), "OtherUsername2");
 
-        var gameId = await _dbContext.AddGame(otherPlaywerId, otherPlaywer2Id, timingId); // not user game
-        await _dbContext.AddPlayerToGame(otherPlaywerId, gameId, Colors.White);
-        await _dbContext.AddPlayerToGame(otherPlaywer2Id, gameId, Colors.Black);
+        var gameId = await _dbContext.AddGame(otherPlayerId, otherPlayer2Id, timingId, false); // not user game
+        await _dbContext.AddPlayerToGame(otherPlayerId, gameId, Colors.White);
+        await _dbContext.AddPlayerToGame(otherPlayer2Id, gameId, Colors.Black);
 
 
         var response = await _client.GetAsync($"api/game/{gameId}/opponent");
@@ -92,7 +92,7 @@ public class GetOpponentTests : IClassFixture<TestWebApplicationFactory<Program>
     }
 
     /// <summary>
-    /// Gets not existsing game
+    /// Gets not existing game
     /// </summary>
     /// <returns></returns>
     [Fact]

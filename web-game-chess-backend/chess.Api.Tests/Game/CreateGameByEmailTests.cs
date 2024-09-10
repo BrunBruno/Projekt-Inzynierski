@@ -33,7 +33,7 @@ public class CreateGameByEmailTests : IClassFixture<TestWebApplicationFactory<Pr
     }
 
     [Fact]
-    public async Task CreateGameByEmail_Should_Create_Essentail_For_Private_Game() {
+    public async Task CreateGameByEmail_Should_Create_Essentials_For_Private_Game() {
 
         string friendEmail = "friend@test.com";
 
@@ -73,7 +73,7 @@ public class CreateGameByEmailTests : IClassFixture<TestWebApplicationFactory<Pr
     }
 
     /// <summary>
-    /// Create for user that not existss
+    /// Create for user that not exists
     /// </summary>
     /// <returns></returns>
     [Fact]

@@ -14,7 +14,7 @@ public class UpdateProfileRequest : IRequest {
     public string? Name { get; set; }
 
     /// <summary>
-    /// Provided profile decription/biography
+    /// Provided profile decryption/biography
     /// </summary>
     public string? Bio { get; set; }
 

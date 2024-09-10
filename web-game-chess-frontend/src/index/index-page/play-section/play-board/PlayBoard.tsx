@@ -1,6 +1,6 @@
 import React, { forwardRef, useImperativeHandle, useRef } from "react";
 import classes from "./PlayBoard.module.scss";
-import LogoIconSvg from "../../../../shared/svgs/LogoIconSvg";
+import LogoIcon from "../../../../shared/svgs/icons/LogoIcon";
 import { HandleOnScroll } from "../../../../shared/utils/types/commonTypes";
 
 type PlayBoardProps = {};
@@ -21,12 +21,12 @@ const PlayBoard = forwardRef<HandleOnScroll, PlayBoardProps>(
     // ref for each tile in board
     const elementRefs: { [key: string]: React.RefObject<HTMLDivElement> } = {};
 
-    // hadnle board on scroll
+    // handle board on scroll
     const handleOnScroll = (): void => {
       const innerElement = innerBoardRef.current;
       const outerElement = outerBoardRef.current;
 
-      if (window.innerWidth > 700) {
+      if (window.innerWidth > 700 && window.innerWidth < 2000) {
         const element = boardRef.current;
         if (element) {
           const parentRect = element.getBoundingClientRect();
@@ -34,7 +34,6 @@ const PlayBoard = forwardRef<HandleOnScroll, PlayBoardProps>(
 
           if (y > -wh && y < wh) {
             // lighting up board
-
             if (innerElement && outerElement) {
               if (y < wh * 0.5 && y > -wh * 0.5) {
                 innerElement.classList.add(classes["visible-inner"]);
@@ -48,14 +47,20 @@ const PlayBoard = forwardRef<HandleOnScroll, PlayBoardProps>(
             const scale: number = Math.pow(Math.E, -(1 / Math.pow(10, 6)) * Math.pow(y, 2));
             const rotate: number = -(1 / 100) * y;
 
-            // roate board based on user position
+            // rotate board based on user position
             element.style.transform = `scale(${scale}) rotateZ(${rotate}deg)`;
           }
         }
       } else {
+        // clear on too small and too big screens
         if (innerElement && outerElement) {
           innerElement.classList.add(classes["visible-inner"]);
           outerElement.classList.add(classes["visible-outer"]);
+
+          const element = boardRef.current;
+          if (element) {
+            element.style.transform = `scale(${1}) rotateZ(${0}deg)`;
+          }
         }
       }
     };
@@ -63,9 +68,9 @@ const PlayBoard = forwardRef<HandleOnScroll, PlayBoardProps>(
     useImperativeHandle(ref, () => ({
       handleOnScroll,
     }));
-    // end hadnle board on scroll
+    //*/
 
-    // genrate board
+    // generate board
     const generateGrid = (): JSX.Element[] => {
       const boardRows: JSX.Element[] = [];
 
@@ -77,6 +82,7 @@ const PlayBoard = forwardRef<HandleOnScroll, PlayBoardProps>(
           const nCols = 8;
           for (let j = 0; j < nCols; j++) {
             const key = `${j + 1}-${i + 1}`;
+
             if (!elementRefs[key]) {
               elementRefs[key] = React.createRef<HTMLDivElement>();
             }
@@ -90,19 +96,20 @@ const PlayBoard = forwardRef<HandleOnScroll, PlayBoardProps>(
         boardRows.push(
           <div key={i} className={classes["grid-row"]}>
             {generateTiles()}
-          </div>,
+          </div>
         );
       }
 
       return boardRows;
     };
-    // end generate board
+    //*/
 
     // handle on click
+    // to create wave pattern
     const handleBoardOnClick = (event: React.MouseEvent<HTMLDivElement, MouseEvent>): string => {
       // get cor of tiles based on cursor position
-      const getPosition = (cpos: number, ppos: number, psize: number): number => {
-        return Math.floor((cpos - ppos) / (psize / 8)) + 1;
+      const getPosition = (c_pos: number, p_pos: number, p_size: number): number => {
+        return Math.floor((c_pos - p_pos) / (p_size / 8)) + 1;
       };
 
       const parentRect = event.currentTarget.getBoundingClientRect();
@@ -130,6 +137,7 @@ const PlayBoard = forwardRef<HandleOnScroll, PlayBoardProps>(
       const neighborElement = elementRefs[key];
       if (neighborElement && neighborElement.current) {
         neighborElement.current.style.filter = "brightness(200%)";
+
         setTimeout(() => {
           if (neighborElement.current) {
             neighborElement.current.style.filter = "brightness(50%)";
@@ -151,9 +159,10 @@ const PlayBoard = forwardRef<HandleOnScroll, PlayBoardProps>(
         }, time);
       }
     };
-    // end handle on click
+    //*/
 
     // handle board hover
+    // to move "flashlight" over board
     const handleOnGridHover = (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
       const parentRect = event.currentTarget.getBoundingClientRect();
       const offsetX = event.clientX - parentRect.left;
@@ -165,44 +174,49 @@ const PlayBoard = forwardRef<HandleOnScroll, PlayBoardProps>(
         indicator.style.top = `${offsetY}px`;
       }
     };
-    // end handle board hover
+    //*/
+
+    // to show or hide indicator flashlight
+    const handleIndicatorVisibility = (opacity: number) => {
+      const indicator = document.getElementById("indicator");
+      if (indicator) {
+        indicator.style.opacity = opacity.toString();
+      }
+    };
+    //*/
 
     return (
       <div ref={boardRef} className={classes.board}>
         <div className={classes.board__grid}>
-          {/* inner */}
+          {/* inner board */}
           <div ref={innerBoardRef} className={classes.board__grid__inner}>
             <div id="indicator" className={classes.indicator} />
             {generateGrid()}
           </div>
+          {/* --- */}
 
-          {/* outer */}
+          {/* outer board */}
           <div
             ref={outerBoardRef}
             className={classes.board__grid__outer}
             onMouseMove={(event) => handleOnGridHover(event)}
             onMouseEnter={() => {
-              const indicator = document.getElementById("indicator");
-              if (indicator) {
-                indicator.style.opacity = "1";
-              }
+              handleIndicatorVisibility(1);
             }}
             onMouseLeave={() => {
-              const indicator = document.getElementById("indicator");
-              if (indicator) {
-                indicator.style.opacity = "0";
-              }
+              handleIndicatorVisibility(0);
             }}
             onClick={(event) => {
               makeWave(handleBoardOnClick(event));
             }}
           >
-            <LogoIconSvg iconClass={classes["board-svg"]} />
+            <LogoIcon iconClass={classes["board-svg"]} />
           </div>
+          {/* --- */}
         </div>
       </div>
     );
-  },
+  }
 );
 
 export default PlayBoard;

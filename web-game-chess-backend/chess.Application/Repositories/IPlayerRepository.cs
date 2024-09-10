@@ -16,7 +16,7 @@ public interface IPlayerRepository {
     Task<List<Player>> GetAllForUser(Guid userId);
 
     /// <summary>
-    /// Get all awaiting players for specifing timing
+    /// Get all awaiting players for specifying timing
     /// </summary>
     /// <param name="timingId"></param>
     /// <returns></returns>

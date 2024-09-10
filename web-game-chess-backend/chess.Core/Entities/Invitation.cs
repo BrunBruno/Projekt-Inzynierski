@@ -15,14 +15,14 @@ public class Invitation {
     public Guid Id { get; set; }
 
     /// <summary>
-    /// User as invitor id
+    /// User as inviter id
     /// </summary>
-    public Guid InvitorId { get; set; }
+    public Guid InviterId { get; set; }
 
     /// <summary>
-    /// Invitor username
+    /// Inviter username
     /// </summary>
-    public string InvitorName { get; set; }
+    public string InviterName { get; set; }
 
     /// <summary>
     /// User as invitee id
@@ -55,7 +55,7 @@ public class Invitation {
     public Guid GameId { get; set; }
 
     /// <summary>
-    /// Game to which invitation blengos to
+    /// Game to which invitation belongs to
     /// </summary>
     public Game Game { get; set; }
 }

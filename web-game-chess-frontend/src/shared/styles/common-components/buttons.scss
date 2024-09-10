@@ -1,5 +1,8 @@
+/* shared buttons settings */
+
 @import "../variables/color.scss";
 
+// default button styles
 @mixin button($size: 2rem) {
   width: fit-content;
   padding: calc($size / 4) $size;
@@ -21,6 +24,7 @@
   }
 }
 
+// default button, main main colored
 @mixin mainMButton() {
   color: $mc0;
   background-color: $mc9;
@@ -36,6 +40,7 @@
   }
 }
 
+// default button, secondary main colored
 @mixin secMButton() {
   background-color: $mc0;
   color: $mc9;
@@ -52,6 +57,7 @@
   }
 }
 
+// default button, main grey colored
 @mixin mainGButton() {
   color: $gc2;
   background-color: $gc9;
@@ -68,6 +74,7 @@
   }
 }
 
+// default button, secondary grey colored
 @mixin secGButton() {
   background-color: $gc2;
   color: $gc9;

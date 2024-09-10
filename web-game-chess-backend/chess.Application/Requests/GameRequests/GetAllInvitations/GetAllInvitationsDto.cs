@@ -9,14 +9,14 @@ namespace chess.Application.Requests.GameRequests.GetAllInvitations;
 public class GetAllInvitationsDto {
 
     /// <summary>
-    /// Game id that invitation realtes to
+    /// Game id that invitation relates to
     /// </summary>
     public Guid GameId { get; set; }
 
     /// <summary>
-    /// Invitor id
+    /// Inviter id
     /// </summary>
-    public Guid InvitorId { get; set; }
+    public Guid InviterId { get; set; }
 
     /// <summary>
     /// Invitee id
@@ -24,9 +24,9 @@ public class GetAllInvitationsDto {
     public Guid InviteeId { get; set; }
 
     /// <summary>
-    /// Initor username
+    /// Inviter username
     /// </summary>
-    public required string InvitorName { get; set; }
+    public required string InviterName { get; set; }
 
     /// <summary>
     /// Invitee username

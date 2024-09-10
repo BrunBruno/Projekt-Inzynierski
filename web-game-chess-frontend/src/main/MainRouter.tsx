@@ -1,4 +1,4 @@
-import { Route, Routes, useNavigate } from "react-router-dom";
+import { Route, Routes, useLocation, useNavigate } from "react-router-dom";
 import MainPage from "./main-page/MainPage";
 import { useEffect, useState } from "react";
 import axios from "axios";
@@ -13,8 +13,13 @@ import AccountPage from "./account-page/AccountPage";
 import { PopupProvider } from "../shared/utils/hooks/usePopUp";
 import { getErrMessage } from "../shared/utils/functions/displayError";
 import ProfilePage from "./profile-page/ProfilePage";
+import { TimingTypeProvider } from "../shared/utils/hooks/useTimingType";
+import AwaitingPage from "./awaiting-page/AwaitingPage";
 
 function MainRouter() {
+  ///
+
+  const location = useLocation();
   const navigate = useNavigate();
 
   const [authorize, setAuthorize] = useState<boolean>(false);
@@ -22,6 +27,8 @@ function MainRouter() {
   // authorize user
   useEffect(() => {
     const verifyUsersToken = async () => {
+      const path = location.pathname;
+
       try {
         const isVerifiedResponse = await axios.get<IsEmailVerifiedDto>(
           userControllerPaths.isVerified(),
@@ -32,8 +39,9 @@ function MainRouter() {
         if (!isVerified) {
           navigate("/registration", {
             state: {
-              popupText: "Account not verified",
+              popupText: "Account not verified.",
               popupType: "error",
+              path: path,
             },
           });
           return;
@@ -47,8 +55,9 @@ function MainRouter() {
         if (token === null) {
           navigate("/registration", {
             state: {
-              popupText: "Please, log in",
+              popupText: "Please, log in.",
               popupType: "error",
+              path: path,
             },
           });
           return;
@@ -62,10 +71,11 @@ function MainRouter() {
           setAuthorize(true);
         }
       } catch (err) {
-        navigate("/", {
+        navigate("/registration", {
           state: {
             popupText: getErrMessage(err),
             popupType: "warning",
+            path: path,
           },
         });
       }
@@ -73,21 +83,23 @@ function MainRouter() {
 
     verifyUsersToken();
   }, []);
+  //*/
 
-  if (!authorize) {
-    return <LoadingPage />;
-  }
+  if (!authorize) return <LoadingPage />;
 
   return (
-    <PopupProvider>
-      <Routes>
-        <Route path="/" element={<MainPage />} />
-        <Route path="/users" element={<UsersPage />} />
-        <Route path="/game/:gameId" element={<GamePage />} />
-        <Route path="/account" element={<AccountPage />} />
-        <Route path="/profile/:friendshipId" element={<ProfilePage />} />
-      </Routes>
-    </PopupProvider>
+    <TimingTypeProvider>
+      <PopupProvider>
+        <Routes>
+          <Route path="/" element={<MainPage />} />
+          <Route path="/users" element={<UsersPage />} />
+          <Route path="/await/:gameIdStr" element={<AwaitingPage />} />
+          <Route path="/game/:gameIdStr" element={<GamePage />} />
+          <Route path="/account" element={<AccountPage />} />
+          <Route path="/profile/:friendshipId" element={<ProfilePage />} />
+        </Routes>
+      </PopupProvider>
+    </TimingTypeProvider>
   );
 }
 

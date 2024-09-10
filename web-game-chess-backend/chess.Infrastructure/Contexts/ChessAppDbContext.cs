@@ -11,57 +11,57 @@ namespace chess.Infrastructure.Contexts;
 public class ChessAppDbContext : DbContext {
 
     /// <summary>
-    /// User dbset
+    /// User dbSet
     /// </summary>
     public DbSet<User> Users { get; set; }
 
     /// <summary>
-    /// Roles dbset (one to many users)
+    /// Roles dbSet (one to many users)
     /// </summary>
     public DbSet<Role> Roles { get; set; }
 
     /// <summary>
-    /// EmailVerificationCode dbset (one to one user)
+    /// EmailVerificationCode dbSet (one to one user)
     /// </summary>
     public DbSet<EmailVerificationCode> EmailVerificationCodes { get; set; }
 
     /// <summary>
-    /// DataConfiguration dbset
+    /// DataConfiguration dbSet
     /// </summary>
     public DbSet<DataConfiguration> DataConfigurations { get; set; }
 
     /// <summary>
-    /// BannedUser dbset
+    /// BannedUser dbSet
     /// </summary>
     public DbSet<BannedUser> BannedUsers { get; set; }
 
     /// <summary>
-    /// Games dbset
+    /// Games dbSet
     /// </summary>
     public DbSet<Game> Games { get; set; }
 
     /// <summary>
-    /// Game timing dbset (one to many games)
+    /// Game timing dbSet (one to many games)
     /// </summary>
     public DbSet<GameTiming> GameTimings { get; set; }
 
     /// <summary>
-    /// Game states  dbset (one to one game)
+    /// Game states  dbSet (one to one game)
     /// </summary>
     public DbSet<GameState> GameStates { get; set; }
 
     /// <summary>
-    /// plaers dbset (two to one game)
+    /// Plyers dbSet (two to one game)
     /// </summary>
     public DbSet<Player> Players { get; set; }
 
     /// <summary>
-    /// moves dbset (many to one game)
+    /// moves dbSet (many to one game)
     /// </summary>
     public DbSet<Move> Moves { get; set; }
 
     /// <summary>
-    /// Friendships dbset
+    /// Friendships dbSet
     /// </summary>
     public DbSet<Friendship> Friendships { get; set; }
 

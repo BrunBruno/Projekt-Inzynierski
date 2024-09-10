@@ -8,9 +8,9 @@ public class FakeUserFilter : IAsyncActionFilter {
 
     public async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next) {
 
-        var claimsPrinicpal = new ClaimsPrincipal();
+        var claimsPrincipal = new ClaimsPrincipal();
 
-        claimsPrinicpal.AddIdentity(new ClaimsIdentity(
+        claimsPrincipal.AddIdentity(new ClaimsIdentity(
             new[]
             {
                 new Claim(ClaimTypes.NameIdentifier, Constants.UserId),
@@ -19,7 +19,7 @@ public class FakeUserFilter : IAsyncActionFilter {
             }
         ));
 
-        context.HttpContext.User = claimsPrinicpal;
+        context.HttpContext.User = claimsPrincipal;
 
         await next();
     }

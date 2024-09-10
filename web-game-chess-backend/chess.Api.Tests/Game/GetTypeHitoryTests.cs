@@ -11,13 +11,13 @@ using System.Net;
 
 namespace chess.Api.Tests.Game;
 
-public class GetTypeHitoryTests : IClassFixture<TestWebApplicationFactory<Program>> {
+public class GetTypeHistoryTests : IClassFixture<TestWebApplicationFactory<Program>> {
 
     private readonly HttpClient _client;
     private readonly TestWebApplicationFactory<Program> _factory;
     private readonly ChessAppDbContext _dbContext;
 
-    public GetTypeHitoryTests() {
+    public GetTypeHistoryTests() {
         _factory = new TestWebApplicationFactory<Program>();
 
         _client = _factory.CreateClient();

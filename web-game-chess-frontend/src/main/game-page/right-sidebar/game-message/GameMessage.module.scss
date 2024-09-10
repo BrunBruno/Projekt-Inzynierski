@@ -1,1 +1,47 @@
 @import "../../../Main.scss";
+
+// game message container
+.message {
+  display: grid;
+  grid-template-columns: 4rem auto;
+  width: 100%;
+  margin-bottom: 1rem;
+
+  &__user {
+    @include circle(3rem);
+
+    overflow: hidden;
+
+    .sender-image {
+      height: 3rem;
+    }
+  }
+
+  &__content {
+    .sender-data {
+      color: $gc5;
+      font-size: 1rem;
+    }
+
+    .mess-text {
+      font-size: 1.4rem;
+      word-break: break-word;
+      overflow-wrap: break-word;
+      hyphens: none;
+      color: $gc3;
+    }
+  }
+
+  &__actions {
+    .draw-mess-btn {
+      &.accept-btn {
+      }
+      &.decline-btn {
+      }
+    }
+  }
+}
+//*/
+
+// resize
+//*/

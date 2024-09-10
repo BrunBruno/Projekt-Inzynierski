@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import classes from "./HeroHeader.module.scss";
-import LogoIconSvg from "../../../../shared/svgs/LogoIconSvg";
-import { registrationInterface } from "../../../../shared/utils/enums/interfacesEnums";
+import LogoIcon from "../../../../shared/svgs/icons/LogoIcon";
+import { RegistrationInterface } from "../../../../shared/utils/enums/interfacesEnums";
 
 type HeroHeaderProps = {};
 
@@ -12,43 +12,49 @@ function HeroHeader({}: HeroHeaderProps) {
 
   return (
     <header className={classes.header}>
-      <div className={classes["hero-logo"]}>
-        <a href="/">
-          <LogoIconSvg iconClass={classes["logo-svg"]} />
+      {/* logo */}
+      <div className={classes.header__logo}>
+        <a href="/" className={classes["logo-reload"]}>
+          <LogoIcon iconClass={classes["logo-svg"]} />
         </a>
-        <p>Chess</p>
+        <p className={classes["logo-text"]}>Chess</p>
       </div>
+      {/* --- */}
 
-      <div className={classes["hero-actions"]}>
+      {/* action buttons */}
+      <div className={classes.header__actions}>
         <button
           className={classes["hero-button"]}
           onClick={() => {
-            navigate("/about");
+            navigate("/about/introduction");
           }}
         >
           <span>About</span>
         </button>
+
         <button
           className={classes["hero-button"]}
           onClick={() => {
             navigate("/registration", {
-              state: { regOption: registrationInterface.signIn },
+              state: { regOption: RegistrationInterface.signIn },
             });
           }}
         >
           <span>Sign In</span>
         </button>
+
         <button
           className={classes["hero-button"]}
           onClick={() => {
             navigate("/registration", {
-              state: { regOption: registrationInterface.signUp },
+              state: { regOption: RegistrationInterface.signUp },
             });
           }}
         >
           <span>Sign Up</span>
         </button>
       </div>
+      {/* --- */}
     </header>
   );
 }

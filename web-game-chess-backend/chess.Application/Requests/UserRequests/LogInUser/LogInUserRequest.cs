@@ -4,7 +4,7 @@ using MediatR;
 namespace chess.Application.Requests.UserRequests.LogInUser; 
 
 /// <summary>
-/// Request for geting jwt token
+/// Request for getting jwt token
 /// </summary>
 public class LogInUserRequest : IRequest<LogInUserDto> {
 

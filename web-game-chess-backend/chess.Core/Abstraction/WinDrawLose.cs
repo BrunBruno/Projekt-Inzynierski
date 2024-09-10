@@ -2,7 +2,7 @@
 namespace chess.Core.Abstraction;
 
 /// <summary>
-/// Abstrac class to represent all results
+/// Abstract class to represent all results
 /// </summary>
 public class WinDrawLose {
 

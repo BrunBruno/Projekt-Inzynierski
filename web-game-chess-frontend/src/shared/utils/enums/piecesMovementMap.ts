@@ -1,3 +1,6 @@
+/* piece movement ralted options */
+
+// pieces movement directions vectors lists
 type MovementMap = {
   knightMoves: number[][];
   bishopMoves: number[][];
@@ -6,7 +9,6 @@ type MovementMap = {
   kingMoves: number[][];
 };
 
-// pieces movement directions vectors lists
 export const movementMap: MovementMap = {
   knightMoves: [
     [1, 2],
@@ -51,7 +53,9 @@ export const movementMap: MovementMap = {
     [-1, -1],
   ],
 };
+//*/
 
+// all special ranks and files
 type RankType = {
   pawnStartRank: number;
   pawnDoublePushRank: number;
@@ -61,7 +65,7 @@ type RankType = {
   kingShortFile: number;
   kingLongFile: number;
   shortRookFile: number;
-  longtRookFile: number;
+  longRookFile: number;
 };
 
 type RankMap = {
@@ -69,7 +73,6 @@ type RankMap = {
   black: RankType;
 };
 
-// all special ranks and files
 export const rankMap: RankMap = {
   white: {
     pawnStartRank: 2,
@@ -80,7 +83,7 @@ export const rankMap: RankMap = {
     kingShortFile: 7,
     kingLongFile: 3,
     shortRookFile: 8,
-    longtRookFile: 1,
+    longRookFile: 1,
   },
   black: {
     pawnStartRank: 7,
@@ -91,6 +94,7 @@ export const rankMap: RankMap = {
     kingShortFile: 7,
     kingLongFile: 3,
     shortRookFile: 8,
-    longtRookFile: 1,
+    longRookFile: 1,
   },
 };
+//*/

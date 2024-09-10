@@ -1,12 +1,14 @@
 import React, { forwardRef, useImperativeHandle, useRef, useState } from "react";
 import classes from "./FaqSection.module.scss";
-import ArrowLeftSvg from "../../../shared/svgs/ArrowLeftSvg";
 import { mainColor } from "../../../shared/utils/enums/colorMaps";
-import ArrowRightSvg from "../../../shared/svgs/ArrowRightSvg";
-import { accountAndUserProfileFAQs, gameplayAndFeaturesFAQs } from "./FaqSectionQuestions";
+import { accountAndUserProfileFAQs, gameplayAndFeaturesFAQs } from "./FaqSectionData";
 import { HandleOnScroll } from "../../../shared/utils/types/commonTypes";
+import FaqSectionCard from "./faq-section-card/FaqSectionCard";
+import IconCreator from "../../../shared/components/icon-creator/IconCreator";
+import { symbolIcons } from "../../../shared/svgs/iconsMap/SymbolIcons";
 
 type FaqSectionProps = {
+  // section container ref
   sectionRef: React.RefObject<HTMLElement>;
 };
 
@@ -14,21 +16,27 @@ const FaqSection = forwardRef<HandleOnScroll, FaqSectionProps>(
   ({ sectionRef }: FaqSectionProps, ref: React.ForwardedRef<HandleOnScroll>) => {
     ///
 
-    const scrollSize = window.innerWidth / 2;
     const row1Ref = useRef<HTMLDivElement>(null);
     const row2Ref = useRef<HTMLDivElement>(null);
 
-    const [arrR1A1, setArrR1A1] = useState<boolean>(false);
-    const [arrR1A2, setArrR1A2] = useState<boolean>(true);
-    const [arrR2A1, setArrR2A1] = useState<boolean>(false);
-    const [arrR2A2, setArrR2A2] = useState<boolean>(true);
+    const [arrRow1Left, setArrRow1Left] = useState<boolean>(false);
+    const [arrRow1Right, setArrRow1Right] = useState<boolean>(true);
+    const [arrRow2Left, setArrRow2Left] = useState<boolean>(false);
+    const [arrRow2Right, setArrRow2Right] = useState<boolean>(true);
 
-    // handle faq onscroll
-    const handleScrollOnClick = (containerRow: number, scrollAmount: number) => {
-      let element;
+    // to control scroll buttons
+    const handleScrollOnClick = (containerRow: number, direction: number) => {
+      const cardCount = window.innerWidth < 700 ? 1 : 2;
+      let element: HTMLDivElement | null;
+      let child;
+      let scrollAmount: number;
+
       if (containerRow === 1) {
         element = row1Ref.current;
         if (element) {
+          child = element.firstChild as HTMLDivElement;
+          scrollAmount = cardCount * direction * child.clientWidth;
+
           element.scrollBy({
             left: scrollAmount,
             behavior: "smooth",
@@ -38,20 +46,23 @@ const FaqSection = forwardRef<HandleOnScroll, FaqSectionProps>(
           const scrollMax = element.scrollWidth - element.clientWidth;
 
           if (scrollPos <= 0) {
-            setArrR1A1(false);
+            setArrRow1Left(false);
           } else {
-            setArrR1A1(true);
+            setArrRow1Left(true);
           }
 
           if (scrollPos >= scrollMax) {
-            setArrR1A2(false);
+            setArrRow1Right(false);
           } else {
-            setArrR1A2(true);
+            setArrRow1Right(true);
           }
         }
       } else if (containerRow === 2) {
         element = row2Ref.current;
         if (element) {
+          child = element.firstChild as HTMLDivElement;
+          scrollAmount = cardCount * direction * child.clientWidth;
+
           element.scrollBy({
             left: scrollAmount,
             behavior: "smooth",
@@ -61,95 +72,121 @@ const FaqSection = forwardRef<HandleOnScroll, FaqSectionProps>(
           const scrollMax = element.scrollWidth - element.clientWidth;
 
           if (scrollPos <= 0) {
-            setArrR2A1(false);
+            setArrRow2Left(false);
           } else {
-            setArrR2A1(true);
+            setArrRow2Left(true);
           }
 
           if (scrollPos >= scrollMax) {
-            setArrR2A2(false);
+            setArrRow2Right(false);
           } else {
-            setArrR2A2(true);
+            setArrRow2Right(true);
           }
         }
       }
     };
+    //*/
 
+    // handle faq onscroll
     const handleOnScroll = () => {};
     useImperativeHandle(ref, () => ({
       handleOnScroll,
     }));
-    // end handle faq onscroll
+    //*/
 
     return (
-      <section id="faq-section" ref={sectionRef} className={classes.faq}>
-        <div className={classes.faq__intro}>
+      <section id="faq-section" ref={sectionRef} className={classes.section}>
+        <div className={classes.section__intro}>
           <h2>Most Asked Questions</h2>
         </div>
+        {/* question cards */}
 
-        <div className={classes.faq__content}>
-          <div className={classes.faq__content__cathegory}>Account and User Profile FAQs</div>
+        <div className={classes.section__content}>
+          <div className={classes.section__content__category}>Account and User Profile FAQs</div>
 
-          {/* question sections */}
+          {/* row 1 */}
           <div
-            className={classes.faq__content__arrow}
+            className={classes.section__content__arrow}
             onClick={() => {
-              handleScrollOnClick(1, -scrollSize);
+              handleScrollOnClick(1, -1);
             }}
           >
-            {arrR1A1 && <ArrowLeftSvg iconClass="" color={mainColor.c0} />}
+            {arrRow1Left && (
+              <IconCreator
+                icons={symbolIcons}
+                iconName="arrow"
+                color={mainColor.c0}
+                iconClass={classes["arrow-left"]}
+              />
+            )}
           </div>
-          <div ref={row1Ref} className={classes.faq__content__row}>
+
+          <div ref={row1Ref} className={classes.section__content__row}>
             {accountAndUserProfileFAQs.map((faq, i) => (
-              <div key={i} className={classes.faq__content__row__block}>
-                <h5>
-                  <span>#{i + 1} </span>
-                  {faq.question}
-                </h5>
-                <p className={classes.text}>{faq.answer}</p>
-                <p className={classes.see}>Check the Answer</p>
-              </div>
+              <FaqSectionCard key={`account-and-user-profile-${i}`} faq={faq} index={i} />
             ))}
           </div>
+
           <div
-            className={classes.faq__content__arrow}
+            className={classes.section__content__arrow}
             onClick={() => {
-              handleScrollOnClick(1, scrollSize);
+              handleScrollOnClick(1, 1);
             }}
           >
-            {arrR1A2 && <ArrowRightSvg iconClass="" color={mainColor.c0} />}
+            {arrRow1Right && (
+              <IconCreator
+                icons={symbolIcons}
+                iconName="arrow"
+                color={mainColor.c0}
+                iconClass={classes["arrow-right"]}
+              />
+            )}
           </div>
-          <div className={classes.faq__content__cathegory}>Gameplay and Features FAQs</div>
+          {/* --- */}
+
+          <div className={classes.section__content__category}>Gameplay and Features FAQs</div>
+
+          {/* row 2 */}
           <div
-            className={classes.faq__content__arrow}
+            className={classes.section__content__arrow}
             onClick={() => {
-              handleScrollOnClick(2, -scrollSize);
+              handleScrollOnClick(2, -1);
             }}
           >
-            {arrR2A1 && <ArrowLeftSvg iconClass="" color={mainColor.c0} />}
+            {arrRow2Left && (
+              <IconCreator
+                icons={symbolIcons}
+                iconName="arrow"
+                color={mainColor.c0}
+                iconClass={classes["arrow-left"]}
+              />
+            )}
           </div>
-          <div ref={row2Ref} className={classes.faq__content__row}>
+
+          <div ref={row2Ref} className={classes.section__content__row}>
             {gameplayAndFeaturesFAQs.map((faq, i) => (
-              <div key={i} className={classes.faq__content__row__block}>
-                <h5>
-                  <span>#{i + 1} </span>
-                  {faq.question}
-                </h5>
-                <p className={classes.text}>{faq.answer}</p>
-                <p className={classes.see}>Check the Answer</p>
-              </div>
+              <FaqSectionCard key={`{gameplay-and-features-${i}`} faq={faq} index={i} />
             ))}
           </div>
+
           <div
-            className={classes.faq__content__arrow}
+            className={classes.section__content__arrow}
             onClick={() => {
-              handleScrollOnClick(2, scrollSize);
+              handleScrollOnClick(2, 1);
             }}
           >
-            {arrR2A2 && <ArrowRightSvg iconClass="" color={mainColor.c0} />}
+            {arrRow2Right && (
+              <IconCreator
+                icons={symbolIcons}
+                iconName="arrow"
+                color={mainColor.c0}
+                iconClass={classes["arrow-right"]}
+              />
+            )}
           </div>
-          {/* end question sections */}
+          {/* --- */}
         </div>
+        {/* --- */}
       </section>
     );
   }

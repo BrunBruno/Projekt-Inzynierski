@@ -1,9 +1,9 @@
 import { greyColor } from "../../utils/enums/colorMaps";
-import { IconMap, IconsMapProps } from "../../utils/types/commonTypes";
+import { IconMap } from "../../utils/types/commonTypes";
 import classes from "./MainNav.module.scss";
 
-const icons: IconMap = {
-  account: (
+export const mainNavIcons: IconMap = {
+  account: () => (
     <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill={greyColor.c0} className={classes["nav-icon"]}>
       <path
         d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z
@@ -13,7 +13,7 @@ const icons: IconMap = {
     </svg>
   ),
 
-  addFriend: (
+  addFriend: () => (
     <svg fill={greyColor.c0} viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" className={classes["nav-icon"]}>
       <path
         d="M13,7.13A3.66,3.66,0,0,0,12,7a4,4,0,1,0,3.46,6"
@@ -43,7 +43,7 @@ const icons: IconMap = {
     </svg>
   ),
 
-  home: (
+  home: () => (
     <svg
       fill={greyColor.c0}
       viewBox="0 0 512 512"
@@ -61,7 +61,7 @@ const icons: IconMap = {
     </svg>
   ),
 
-  logOut: (
+  logOut: () => (
     <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className={classes["nav-icon"]}>
       <path
         d="M18 8L22 12M22 12L18 16M22 12H9M15 4.20404C13.7252 3.43827 12.2452 3 10.6667 3C5.8802 3 2 7.02944 2 12C2 16.9706 5.8802 21 10.6667 21C12.2452 21 13.7252 20.5617 15 19.796"
@@ -73,18 +73,3 @@ const icons: IconMap = {
     </svg>
   ),
 };
-
-function MainNavIcons({ iconName }: IconsMapProps) {
-  if (iconName === "") return <>i</>;
-
-  try {
-    const icon = icons[iconName];
-    return icon ? icon : <>i</>;
-  } catch (err) {
-    console.error("Icon error");
-  }
-
-  return <>i</>;
-}
-
-export default MainNavIcons;

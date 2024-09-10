@@ -1,5 +1,6 @@
 import { createContext, ReactNode, useContext, useState } from "react";
 import { popupIconTypes } from "../enums/commonConstLists";
+import { useLocation } from "react-router-dom";
 
 interface PopupContextType {
   // to show MainPopup, set content and icon
@@ -21,11 +22,13 @@ const PopupContext = createContext<PopupContextType>({
 });
 
 type PopUpProviderProps = {
-  // popup content
+  // page to include popup functionality
   children: ReactNode;
 };
 
 export const PopupProvider = ({ children }: PopUpProviderProps) => {
+  const location = useLocation();
+
   // state for popup content
   const [popupContent, setPopupContent] = useState<string>("");
   // state for popup icon type
@@ -39,6 +42,14 @@ export const PopupProvider = ({ children }: PopUpProviderProps) => {
       setPopupContent(content);
       setPopupType(type);
     }, 10);
+
+    // clear location states for popups
+    if (location.state) {
+      delete location.state.popupText;
+      delete location.state.popupType;
+      window.history.replaceState(location.state.popupText, "", location.pathname);
+      window.history.replaceState(location.state.popupType, "", location.pathname);
+    }
   };
 
   // hide popup

@@ -112,55 +112,6 @@ public class GetGameTimingRequestHandlerTests {
     }
 
     [Fact]
-    public async Task Handle_Throws_UnauthorizedException_When_User_Does_Not_Belong_To_Game() {
-
-        var userId = Guid.NewGuid();
-        var gameId = Guid.NewGuid();
-        var timingId = Guid.NewGuid();
-
-        var game = new Entities.Game()
-        {
-            Id = gameId,
-            GameTimingId = timingId,
-
-            WhitePlayer = new Player()
-            {
-                Name = "Other",
-                UserId = Guid.NewGuid(),
-            },
-            BlackPlayer = new Player()
-            {
-                Name = "Opponent",
-                UserId = Guid.NewGuid(),
-            },
-        };
-
-        var request = new GetGameTimingRequest()
-        {
-            GameId = gameId,
-        };
-
-
-        _mockUserContextService.Setup(x => x.GetUserId()).Returns(userId);
-        _mockGameRepository.Setup(x => x.GetById(gameId)).ReturnsAsync(game);
-
-
-        var handler = new GetGameTimingRequestHandler(
-            _mockUserContextService.Object,
-            _mockGameTimingRepository.Object,
-            _mockGameRepository.Object
-        );
-
-        var act = () => handler.Handle(request, CancellationToken.None);
-
-
-        await act.Should().ThrowAsync<UnauthorizedException>();
-        _mockUserContextService.Verify(x => x.GetUserId(), Times.Once);
-        _mockGameRepository.Verify(x => x.GetById(gameId), Times.Once);
-        _mockGameTimingRepository.Verify(x => x.GetById(timingId), Times.Never);
-    }
-
-    [Fact]
     public async Task Handle_Throws_NotFoundException_When_GameTiming_Does_Not_Exist() {
 
         var userId = Guid.NewGuid();

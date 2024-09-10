@@ -214,6 +214,9 @@ namespace chess.Infrastructure.Migrations
                     b.Property<int?>("EndGameType")
                         .HasColumnType("integer");
 
+                    b.Property<DateTime?>("EndedAt")
+                        .HasColumnType("timestamp with time zone");
+
                     b.Property<Guid>("GameTimingId")
                         .HasColumnType("uuid");
 
@@ -335,10 +338,10 @@ namespace chess.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<Guid>("InvitorId")
+                    b.Property<Guid>("InviterId")
                         .HasColumnType("uuid");
 
-                    b.Property<string>("InvitorName")
+                    b.Property<string>("InviterName")
                         .IsRequired()
                         .HasColumnType("text");
 
@@ -371,6 +374,9 @@ namespace chess.Infrastructure.Migrations
 
                     b.Property<DateTime>("SentAt")
                         .HasColumnType("timestamp with time zone");
+
+                    b.Property<int>("Type")
+                        .HasColumnType("integer");
 
                     b.HasKey("Id");
 
@@ -451,6 +457,9 @@ namespace chess.Infrastructure.Migrations
                         .HasColumnType("text");
 
                     b.Property<bool>("IsPlaying")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("IsPrivate")
                         .HasColumnType("boolean");
 
                     b.Property<string>("Name")

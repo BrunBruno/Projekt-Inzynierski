@@ -98,7 +98,7 @@ public class CreateRematchGameRequestHandlerTests {
     }
 
     [Fact]
-    public async Task Handle_Throws_NotFoundExcepton_When_GameTiming_Does_Not_Exist() {
+    public async Task Handle_Throws_NotFoundException_When_GameTiming_Does_Not_Exist() {
 
         var userId = Guid.NewGuid();
         var friendId = Guid.NewGuid();
@@ -147,7 +147,7 @@ public class CreateRematchGameRequestHandlerTests {
     }
 
     [Fact]
-    public async Task Handle_Throws_NotFoundExcepton_When_User_Does_Not_Exist() {
+    public async Task Handle_Throws_NotFoundException_When_User_Does_Not_Exist() {
 
         var userId = Guid.NewGuid();
         var friendId = Guid.NewGuid();
@@ -197,7 +197,7 @@ public class CreateRematchGameRequestHandlerTests {
     }
 
     [Fact]
-    public async Task Handle_Throws_NotFoundExcepton_When_Friend_Does_Not_Exist() {
+    public async Task Handle_Throws_NotFoundException_When_Friend_Does_Not_Exist() {
 
         var userId = Guid.NewGuid();
         var friendId = Guid.NewGuid();

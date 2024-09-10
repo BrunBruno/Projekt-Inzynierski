@@ -5,7 +5,7 @@ using chess.Core.Dtos;
 namespace chess.Application.Requests.FriendshipRequests.GetFriendProfile;
 
 /// <summary>
-/// Dto representing freinds of current user
+/// Dto representing friends of current user
 /// </summary>
 public class GetFriendProfileDto : UserDto {
 
@@ -35,7 +35,7 @@ public class GetFriendProfileDto : UserDto {
     public required WinDrawLose WdlTotal { get; set; }
 
     /// <summary>
-    ///  Win, loses nad draws in ralationship
+    ///  Win, loses nad draws in relationship
     /// </summary>
     public required WinDrawLose WdlTogether { get; set; }
 }

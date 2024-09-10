@@ -1,9 +1,12 @@
 @import "../../Index.scss";
 
-.play {
+// play section container
+.section {
   @include wh100();
+
   position: relative;
 
+  // play section intro
   &__intro {
     @include textBg();
 
@@ -50,6 +53,7 @@
       }
     }
   }
+  //*/
 
   // board content
   &__content {
@@ -62,7 +66,7 @@
       position: relative;
       padding-left: 12rem;
     }
-    // end board
+    //*/
 
     // play actions
     &__actions {
@@ -130,13 +134,15 @@
         }
       }
     }
-    // end actions
+    //*/
   }
-  // end board content
+  //*/
 }
+//*/
 
+// resize
 @media (max-width: 700px) {
-  .play {
+  .section {
     &__intro {
       margin: 0;
       margin-bottom: 10rem;
@@ -170,3 +176,4 @@
     }
   }
 }
+//*/

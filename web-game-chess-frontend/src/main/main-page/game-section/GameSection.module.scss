@@ -1,5 +1,6 @@
 @import "../../Main.scss";
 
+// default main page section container
 .game {
   @include wh100();
 
@@ -103,7 +104,9 @@
     }
   }
 }
+//*/
 
+// resize
 @media (max-width: 700px) {
   .game {
     &__content {
@@ -113,6 +116,10 @@
       &__col {
         &:nth-child(2) {
           grid-row: 1;
+        }
+
+        .game-interface {
+          height: calc(100vh - 12rem - 6rem);
         }
 
         .game-buttons {
@@ -146,3 +153,4 @@
     }
   }
 }
+//*/

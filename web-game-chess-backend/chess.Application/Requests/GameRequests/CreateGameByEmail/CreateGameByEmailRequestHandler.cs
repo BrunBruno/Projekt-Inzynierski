@@ -17,8 +17,8 @@ namespace chess.Application.Requests.GameRequests.CreateGameByEmail;
 /// Creates players for both current user and provided friend
 /// Creates new game and associated game state
 /// Creates new invitation for created game
-/// Sends invitaton to friend email
-/// Returns essentail for further actions
+/// Sends invitation to friend email
+/// Returns essential for further actions
 /// </summary>
 public class CreateGameByEmailRequestHandler : IRequestHandler<CreateGameByEmailRequest, CreateGameByEmailDto> {
 
@@ -84,6 +84,7 @@ public class CreateGameByEmailRequestHandler : IRequestHandler<CreateGameByEmail
         var userPlayer = new Player()
         {
             Id = Guid.NewGuid(),
+            IsPrivate = true,
             Name = user.Username,
             ImageUrl = user.ImageUrl,
             Elo = userElo,
@@ -92,13 +93,11 @@ public class CreateGameByEmailRequestHandler : IRequestHandler<CreateGameByEmail
             TimingId = timing!.Id,
         };
 
-
-        await _playerRepository.Create(userPlayer);
-
         int friendElo = friend.Elo.GetElo(request.Type);
         var friendPlayer = new Player()
         {
             Id = Guid.NewGuid(),
+            IsPrivate = true,
             Name = friend.Username,
             ImageUrl = friend.ImageUrl,
             Elo = friendElo,
@@ -108,6 +107,7 @@ public class CreateGameByEmailRequestHandler : IRequestHandler<CreateGameByEmail
         };
 
 
+        await _playerRepository.Create(userPlayer);
         await _playerRepository.Create(friendPlayer);
 
 
@@ -130,24 +130,17 @@ public class CreateGameByEmailRequestHandler : IRequestHandler<CreateGameByEmail
         userPlayer.Color = randomChoice ? Colors.White : Colors.Black;
         friendPlayer.Color = randomChoice ? Colors.Black : Colors.White;
 
-
-        await _gameRepository.Create(game);
-
         var gameState = new GameState()
         {
             Id = Guid.NewGuid(),
             GameId = game.Id,
         };
 
-
-        await _gameStateRepository.Create(gameState);
-
-
         var invitation = new Invitation()
         {
             Id = Guid.NewGuid(),
-            InvitorId = userId,
-            InvitorName = user.Username,
+            InviterId = userId,
+            InviterName = user.Username,
             InviteeId = friend.Id,
             InviteeName = friend.Username,
             Type = request.Type,
@@ -155,6 +148,8 @@ public class CreateGameByEmailRequestHandler : IRequestHandler<CreateGameByEmail
         };
 
 
+        await _gameRepository.Create(game);
+        await _gameStateRepository.Create(gameState);
         await _invitationRepository.Create(invitation);
 
 

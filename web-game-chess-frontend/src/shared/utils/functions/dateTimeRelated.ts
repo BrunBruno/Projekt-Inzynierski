@@ -1,4 +1,6 @@
-// format time for colck display
+/* time and date global functions */
+
+// format time for clock display
 // get total time in minutes and converts to dd:hh:mm:ss
 export const makeTimeFromMinutes = (minutes: number): string => {
   const totalSeconds = minutes * 60;
@@ -23,4 +25,15 @@ export const formatDate = (date: Date): string => {
   };
 
   return add0(date.getDate().toString()) + "." + add0((date.getMonth() + 1).toString()) + "." + date.getFullYear();
+};
+
+// checks if duration exceeds some period
+export const timeSpanLongerThan = (startDate: Date, endDate: Date, seconds: number): boolean => {
+  const timeSpan = (endDate.valueOf() - startDate.valueOf()) / 1000;
+
+  if (timeSpan >= seconds) {
+    return true;
+  }
+
+  return false;
 };

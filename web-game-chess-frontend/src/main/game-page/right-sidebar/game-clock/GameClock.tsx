@@ -30,6 +30,7 @@ function GameClock({ gameData, whitePlayerSeconds, blackPlayerSeconds }: GameClo
 
     return elements;
   };
+  //*/
 
   return (
     <div className={classes.clock}>

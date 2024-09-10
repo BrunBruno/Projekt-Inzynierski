@@ -18,7 +18,7 @@ export const checkIfAnyMoveExists = (gameState: GameStates, selectionState: Sele
       if (checkIfOwnPiece(piece, gameState.playerData)) {
         const coor = [parseInt(col) + 1, parseInt(row) + 1];
 
-        // check if any posible move exists
+        // check if any possible move exists
         const availableAreas = FindMoves.find(gameState, selectionState, piece, coor);
 
         // more then 1 to not include piece itself

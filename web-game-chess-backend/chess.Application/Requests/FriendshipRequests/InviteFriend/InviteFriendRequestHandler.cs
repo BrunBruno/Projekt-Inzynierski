@@ -12,7 +12,7 @@ namespace chess.Application.Requests.FriendshipRequests.InviteFriend;
 /// Check if provided id is correct
 /// Check if user is not already accepted
 /// Check if friendship is already pending
-/// Check if counterparty has not block current user
+/// Check if counterpart has not block current user
 /// Creates new friendship
 /// </summary>
 public class InviteFriendRequestHandler : IRequestHandler<InviteFriendRequest> {
@@ -61,8 +61,8 @@ public class InviteFriendRequestHandler : IRequestHandler<InviteFriendRequest> {
             throw new BadRequestException("Friend request is still pending.");
 
 
-        var usersBloeckedFriends = await _friendshipRepository.GetAllForUserByStatus(userId, FriendshipStatus.Rejected);
-        var blockedFriendIds = usersBloeckedFriends
+        var usersBlockedFriends = await _friendshipRepository.GetAllForUserByStatus(userId, FriendshipStatus.Rejected);
+        var blockedFriendIds = usersBlockedFriends
             .Select(f => f.RequestorId == userId ? f.ReceiverId : f.RequestorId)
             .ToList();
 

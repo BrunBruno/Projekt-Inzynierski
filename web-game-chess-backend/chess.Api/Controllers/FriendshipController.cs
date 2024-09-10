@@ -27,7 +27,7 @@ public class FriendshipController : ControllerBase {
 
 
     /// <summary>
-    /// Creates new frendship, with pending status
+    /// Creates new friendship, with pending status
     /// </summary>
     /// <param name="model"></param>
     /// <returns></returns>
@@ -62,7 +62,7 @@ public class FriendshipController : ControllerBase {
 
 
     /// <summary>
-    /// Gets all users with choosen relation to user
+    /// Gets all users with chosen relation to user
     /// </summary>
     /// <param name="model"></param>
     /// <returns></returns>

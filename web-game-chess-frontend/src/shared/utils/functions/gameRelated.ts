@@ -1,4 +1,6 @@
-import { pieceColor } from "../enums/entitiesEnums";
+/* general function shared in game page components */
+
+import { PieceColor } from "../enums/entitiesEnums";
 import { PieceTagMap, pieceTagMap } from "../enums/piecesMaps";
 import { GetPlayerDto } from "../types/gameDtos";
 
@@ -6,7 +8,7 @@ import { GetPlayerDto } from "../types/gameDtos";
 export const checkIfPlayerTurn = (turn: number, color: number | null): boolean => {
   if (color === null) return false;
 
-  return (turn % 2 === 0 && color === pieceColor.white) || (turn % 2 === 1 && color === pieceColor.black);
+  return (turn % 2 === 0 && color === PieceColor.white) || (turn % 2 === 1 && color === PieceColor.black);
 };
 
 // check if coordinates are the same
@@ -17,11 +19,12 @@ export const areCoorEqual = (coordA: number[], coordB: number[]): boolean => {
 // to check if clicked piece is own or opponents piece
 export const checkIfOwnPiece = (char: string, playerData: GetPlayerDto): boolean => {
   let isOwn: boolean = false;
+
   for (const color in pieceTagMap) {
     const pieces = pieceTagMap[color as keyof PieceTagMap];
 
     if (Object.values(pieces).includes(char)) {
-      if (playerData.color === pieceColor[color]) {
+      if (playerData.color === PieceColor[color as keyof typeof PieceColor]) {
         isOwn = true;
         break;
       }

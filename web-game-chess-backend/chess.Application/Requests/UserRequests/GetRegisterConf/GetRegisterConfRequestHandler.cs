@@ -7,7 +7,7 @@ using chess.Shared.Exceptions;
 namespace chess.Application.Requests.UserRequests.GetRegisterConf;
 
 /// <summary>
-/// Checks if provided conviguration id is correct
+/// Checks if provided configuration id is correct
 /// Checks if configuration exists
 /// Returns data configuration
 /// </summary>

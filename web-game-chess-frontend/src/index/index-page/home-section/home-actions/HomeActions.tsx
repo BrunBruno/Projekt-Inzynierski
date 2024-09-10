@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import classes from "./HomeActions.module.scss";
-import { registrationInterface } from "../../../../shared/utils/enums/interfacesEnums";
+import { RegistrationInterface } from "../../../../shared/utils/enums/interfacesEnums";
 
 type HomeActionsProps = {};
 
@@ -47,7 +47,7 @@ function HomeActions({}: HomeActionsProps) {
 
     return pawns;
   };
-  // end generate elements
+  //*/
 
   return (
     <div className={classes.actions}>
@@ -55,13 +55,14 @@ function HomeActions({}: HomeActionsProps) {
         <div className={classes["board-grid"]}>{generateGrid()}</div>
         {generatePawns()}
       </div>
+
       <div className={classes.actions__content}>
         <div className={classes["actions-pawns"]}>
           {/* sign in pawn */}
           <div
             onClick={() => {
               navigate("/registration", {
-                state: { regOption: registrationInterface.signIn },
+                state: { regOption: RegistrationInterface.signIn },
               });
             }}
             className={`${classes["signin-pawn"]} ${classes["pawn-container"]}`}
@@ -71,15 +72,16 @@ function HomeActions({}: HomeActionsProps) {
                 <div key={index} className={classes.pb} />
               ))}
             </div>
+
             <p className={classes["img-pawn-text"]}>Sign In</p>
           </div>
-          {/* end sign in pawn */}
+          {/* --- */}
 
           {/* sign up pawn */}
           <div
             onClick={() => {
               navigate("/registration", {
-                state: { regOption: registrationInterface.signUp },
+                state: { regOption: RegistrationInterface.signUp },
               });
             }}
             className={`${classes["signup-pawn"]} ${classes["pawn-container"]}`}
@@ -89,9 +91,10 @@ function HomeActions({}: HomeActionsProps) {
                 <div key={index} className={classes.pb} />
               ))}
             </div>
+
             <p className={classes["img-pawn-text"]}>Sign Up</p>
           </div>
-          {/* end sign up pawn */}
+          {/* --- */}
         </div>
       </div>
     </div>

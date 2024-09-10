@@ -36,7 +36,7 @@ const usePagination = () => {
     }
   };
 
-  // add scroll listner
+  // add scroll listener
   useEffect(() => {
     const scrollingElement = scrollRef.current;
     if (scrollingElement) {

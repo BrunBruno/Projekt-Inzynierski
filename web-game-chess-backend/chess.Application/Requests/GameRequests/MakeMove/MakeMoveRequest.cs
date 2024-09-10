@@ -40,7 +40,7 @@ public class MakeMoveRequest : IRequest {
     public string? CapturedPiece { get; set; }
 
     /// <summary>
-    /// Coordinates for enpassatng if possible (else null)
+    /// Coordinates for en passant if possible (else null)
     /// </summary>
     public string? EnPassant { get; set; }
 

@@ -1,4 +1,4 @@
-/* colors */
+/* color variables */
 
 // main colors
 $mc0: #f3f0ff;
@@ -64,6 +64,7 @@ $info-color-l: #a5d8ff;
 $info-color-m: #339af0;
 $info-color-d: #1864ab;
 
+// hex to rgba map
 $colorMap: (
   $gc0: $gcrgb0,
   $gc1: $gcrgb1,

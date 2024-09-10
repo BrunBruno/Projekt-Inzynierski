@@ -2,7 +2,7 @@ import { useState } from "react";
 import classes from "./UsersPage.module.scss";
 import BarSection from "./bar-section/BarSection";
 import ListSection from "./list-section/ListSection";
-import { friendshipStatus } from "../../shared/utils/enums/entitiesEnums";
+import { FriendshipStatus } from "../../shared/utils/enums/entitiesEnums";
 import MainNav from "../../shared/components/main-nav/MainNav";
 import MainPopUp from "../../shared/components/main-popup/MainPopUp";
 import ProfileSection from "./profile-section/ProfileSection";
@@ -13,15 +13,17 @@ function UsersPage() {
   ///
 
   const [selectedUsername, setSelectedUsername] = useState<string>("");
-  const [selectedList, setSelectedList] = useState<number>(friendshipStatus.all);
+  const [selectedList, setSelectedList] = useState<number>(FriendshipStatus.all);
 
   const [userProfile, setUserProfile] = useState<GetOtherUserDto | null>(null);
   const [friendProfile, setFriendProfile] = useState<GetFriendProfileDto | null>(null);
 
+  // to hide profile window
   const closeProfile = () => {
     setUserProfile(null);
     setFriendProfile(null);
   };
+  //*/
 
   return (
     <main className={classes["users-main"]}>

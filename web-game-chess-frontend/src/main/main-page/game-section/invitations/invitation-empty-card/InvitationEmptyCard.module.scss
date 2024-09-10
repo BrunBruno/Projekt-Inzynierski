@@ -1,0 +1,86 @@
+@import "../../../../Main.scss";
+
+// invitation card
+.card {
+  @include flex(row, space-between, center, 0);
+  @include rounded(1rem);
+
+  overflow: hidden;
+  position: relative;
+  padding: 2rem 4rem;
+  margin-bottom: 1rem;
+  background-color: rgba($gc9, 0.5);
+  background-image: linear-gradient(60deg, #0000 calc(100% - 30rem), $gc9 0%, $gc9 100%);
+  filter: brightness(80%);
+
+  &__title {
+    @include flex(row, start, center, 4rem);
+
+    &__icon {
+      @include circle(4rem);
+
+      box-shadow: 0 0 0 1rem $gc9;
+    }
+
+    &__text {
+      @include flex(column, start, start, 1rem);
+
+      width: 40rem;
+      height: 4rem;
+
+      p.t-filler {
+        @include rounded(0.5rem);
+
+        width: 100%;
+        height: 1rem;
+        background-color: $gc9;
+      }
+    }
+  }
+
+  &__actions {
+    @include flex(row, center, center, 2rem);
+
+    width: 20rem;
+
+    p.a-filler {
+      @include rounded(0.5rem);
+
+      position: relative;
+      width: 100%;
+      height: 2rem;
+      background-color: rgba($gc8, 0.5);
+
+      &::after {
+        @include subCl();
+
+        height: 0.4rem;
+        left: 0;
+        bottom: -1rem;
+        border-radius: 1rem;
+        background-color: rgba($gc8, 0.5);
+      }
+    }
+  }
+}
+//*/
+
+// resize
+@media (max-width: 500px) {
+  .card {
+    background-image: linear-gradient(60deg, #0000 calc(100% - 20rem), $gc9 0%, $gc9 100%);
+
+    &__title {
+      &__text {
+        width: 20rem;
+      }
+    }
+
+    &__actions {
+      @include flex(row, center, center, 2rem);
+
+      width: 12rem;
+    }
+  }
+}
+//*/

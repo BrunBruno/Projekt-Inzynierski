@@ -9,5 +9,5 @@ public class GetOpponentDto {
     /// <summary>
     /// Opponent id
     /// </summary>
-    public Guid OppeonetId { get; set; }
+    public Guid OpponentId { get; set; }
 }

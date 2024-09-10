@@ -40,8 +40,8 @@ public class GetEndedGameTests : IClassFixture<TestWebApplicationFactory<Program
             Increment = 1,
         };
 
-        Guid freindId = Guid.NewGuid();
-        string friendEmail = "freind@test.com";
+        Guid friendId = Guid.NewGuid();
+        string friendEmail = "friend@test.com";
         string friendUsername = "FriendUsername";
 
         await _dbContext.Init();
@@ -50,9 +50,9 @@ public class GetEndedGameTests : IClassFixture<TestWebApplicationFactory<Program
 
         var timingId = await _dbContext.CreateTiming(timingType);
         var userPlayerId = await _dbContext.AddPlayer(Guid.Parse(Constants.UserId), Constants.Username);
-        var friendPlayerId = await _dbContext.AddPlayer(freindId, friendUsername);
+        var friendPlayerId = await _dbContext.AddPlayer(friendId, friendUsername);
 
-        var gameId = await _dbContext.AddGame(userPlayerId, friendPlayerId, timingId);
+        var gameId = await _dbContext.AddGame(userPlayerId, friendPlayerId, timingId, false);
 
         await _dbContext.StartGame(gameId);
         await _dbContext.EndGame(gameId, Colors.Black);
@@ -84,12 +84,12 @@ public class GetEndedGameTests : IClassFixture<TestWebApplicationFactory<Program
 
         await _dbContext.Init();
         await _dbContext.AddUser();
-        await _dbContext.AddUserWithEmail("freind@test.com");
+        await _dbContext.AddUserWithEmail("friend@test.com");
 
         var timingId = await _dbContext.CreateTiming(timingType);
         var userPlayerId = await _dbContext.AddPlayer(Guid.Parse(Constants.UserId), Constants.Username);
         var friendPlayerId = await _dbContext.AddPlayer(Guid.NewGuid(), "FriendUsername");
-        var gameId = await _dbContext.AddGame(userPlayerId, friendPlayerId, timingId);
+        var gameId = await _dbContext.AddGame(userPlayerId, friendPlayerId, timingId, false);
 
         await _dbContext.StartGame(gameId);
         // no ending of game
@@ -101,7 +101,7 @@ public class GetEndedGameTests : IClassFixture<TestWebApplicationFactory<Program
     }
 
     /// <summary>
-    /// Get not existsing game
+    /// Get not existing game
     /// </summary>
     /// <returns></returns>
     [Fact]
@@ -154,7 +154,7 @@ public class GetEndedGameTests : IClassFixture<TestWebApplicationFactory<Program
         var otherPlayerId = await _dbContext.AddPlayer(Guid.NewGuid(), "OtherUsername");
 
 
-        var gameId = await _dbContext.AddGame(otherPlayerId, friendPlayerId, timingId); // not owned game
+        var gameId = await _dbContext.AddGame(otherPlayerId, friendPlayerId, timingId, false); // not owned game
 
         await _dbContext.StartGame(gameId);
         await _dbContext.EndGame(gameId, Colors.Black);

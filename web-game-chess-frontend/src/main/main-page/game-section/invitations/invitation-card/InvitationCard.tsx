@@ -1,4 +1,3 @@
-import TimingTypesIcons from "../../../../../shared/svgs/TimingTypesIcons";
 import GameHubService from "../../../../../shared/utils/services/GameHubService";
 import { GetAllInvitationsDto } from "../../../../../shared/utils/types/gameDtos";
 import { AcceptInvitationModel, DeclineInvitationModel } from "../../../../../shared/utils/types/gameModels";
@@ -6,9 +5,13 @@ import classes from "./InvitationCard.module.scss";
 import { timingTypesNames } from "../../../../../shared/utils/enums/commonConstLists";
 import { usePopup } from "../../../../../shared/utils/hooks/usePopUp";
 import { getErrMessage } from "../../../../../shared/utils/functions/displayError";
+import IconCreator from "../../../../../shared/components/icon-creator/IconCreator";
+import { mainColor } from "../../../../../shared/utils/enums/colorMaps";
+import { timeSpanLongerThan } from "../../../../../shared/utils/functions/dateTimeRelated";
+import { timingTypesIcons } from "../../../../../shared/svgs/iconsMap/TimingTypesIcons";
 
 type InvitationCardProps = {
-  // inviation data
+  // invitation data
   invitation: GetAllInvitationsDto;
   // to refresh invitation list
   updateInvitations: () => void;
@@ -27,7 +30,7 @@ function InvitationCard({ invitation, updateInvitations }: InvitationCardProps) 
       const model: AcceptInvitationModel = {
         gameId: invitation.gameId,
         inviteeId: invitation.inviteeId,
-        invitorId: invitation.invitorId,
+        inviterId: invitation.inviterId,
       };
 
       await GameHubService.AcceptInvitation(model);
@@ -35,13 +38,14 @@ function InvitationCard({ invitation, updateInvitations }: InvitationCardProps) 
       showPopup(getErrMessage(err), "warning");
     }
   };
+  //*/
 
   // to decline previous invitations
   const onDeclineInvitation = async (): Promise<void> => {
     try {
       const model: DeclineInvitationModel = {
         gameId: invitation.gameId,
-        friendId: invitation.invitorId,
+        friendId: invitation.inviterId,
       };
 
       await GameHubService.DeclineInvitation(model);
@@ -53,41 +57,55 @@ function InvitationCard({ invitation, updateInvitations }: InvitationCardProps) 
       showPopup(getErrMessage(err), "warning");
     }
   };
+  //*/
 
   return (
-    <div className={classes.invitation}>
-      <div className={classes.invitation__icon}>
-        <TimingTypesIcons iconClass={classes["type-icon"]} iconName={timingTypesNames[invitation.type].toLowerCase()} />
+    <div className={classes.card}>
+      <div className={classes.card__icon}>
+        <IconCreator
+          icons={timingTypesIcons}
+          iconName={timingTypesNames[invitation.type].toLowerCase()}
+          color={mainColor.c5}
+        />
       </div>
-      <div className={classes.invitation__title}>
+
+      <div className={classes.card__title}>
         <span>User </span>
-        <b>{invitation.invitorName}</b>
+        <b className={classes["imp-data"]}>{invitation.inviterName}</b>
         <span> has invited you to new </span>
         <br />
-        <b>{timingTypesNames[invitation.type]}</b>
+        <b className={classes["imp-data"]}>{timingTypesNames[invitation.type]}</b>
         <span> game.</span>
       </div>
 
-      <div className={classes.invitation__actions}>
-        <button
-          className={classes["inv-button"]}
-          onClick={() => {
-            onAcceptInvitation();
-          }}
-        >
-          Accept
-        </button>
-        <button
-          className={classes["inv-button"]}
-          onClick={() => {
-            onDeclineInvitation();
-          }}
-        >
-          Decline
-        </button>
+      {/* actions */}
+      <div className={classes.card__actions}>
+        {timeSpanLongerThan(new Date(invitation.createdAt), new Date(), 60 * 60 * 24) ? (
+          <p className={classes["inv-expired"]}>Expired...</p>
+        ) : (
+          <>
+            <button
+              className={classes["inv-button"]}
+              onClick={() => {
+                onAcceptInvitation();
+              }}
+            >
+              Accept
+            </button>
+            <button
+              className={classes["inv-button"]}
+              onClick={() => {
+                onDeclineInvitation();
+              }}
+            >
+              Decline
+            </button>
+          </>
+        )}
       </div>
+      {/* --- */}
 
-      <div className={classes.invitation__date}>
+      <div className={classes.card__date}>
         <span>{new Date(invitation.createdAt).toLocaleString()}</span>
       </div>
     </div>

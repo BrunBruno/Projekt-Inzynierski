@@ -10,9 +10,12 @@ import {
 import { usePopup } from "../../../../shared/utils/hooks/usePopUp";
 import { getErrMessage } from "../../../../shared/utils/functions/displayError";
 import { useTimingType } from "../../../../shared/utils/hooks/useTimingType";
+import { HubConnectionState } from "@microsoft/signalr";
 
 type NotificationPopUpProps = {
+  // if notification should be displayed
   allowNotification: boolean;
+  // to remove notification
   setAllowNotification: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
@@ -25,6 +28,7 @@ function NotificationPopUp({ allowNotification, setAllowNotification }: Notifica
 
   const { setTimingType } = useTimingType();
 
+  // to obtain notifications
   const handleNotificationChange = (invitationDto: InvitedToGameDto): void => {
     const timing: SearchGameModel = {
       type: invitationDto.type,
@@ -32,24 +36,27 @@ function NotificationPopUp({ allowNotification, setAllowNotification }: Notifica
       increment: invitationDto.increment,
     };
 
-    console.log(timing);
-
     setTimingType(timing);
 
     setNotification(invitationDto);
   };
 
   useEffect(() => {
-    if (allowNotification && GameHubService.connection) {
+    if (
+      allowNotification &&
+      GameHubService.connection &&
+      GameHubService.connection.state === HubConnectionState.Connected
+    ) {
       GameHubService.connection.on("InvitedToGame", handleNotificationChange);
     }
 
     return () => {
-      if (allowNotification && GameHubService.connection) {
-        GameHubService.connection.off("InvitededToGame", handleNotificationChange);
+      if (GameHubService.connection && GameHubService.connection.state === HubConnectionState.Connected) {
+        GameHubService.connection.off("InvitedToGame", handleNotificationChange);
       }
     };
   }, [allowNotification]);
+  //*/
 
   // to accept incoming game invitation
   const onAcceptInvitation = async (): Promise<void> => {
@@ -59,7 +66,7 @@ function NotificationPopUp({ allowNotification, setAllowNotification }: Notifica
       const model: AcceptInvitationModel = {
         gameId: notification.gameId,
         inviteeId: notification.inviteeId,
-        invitorId: notification.inviterId,
+        inviterId: notification.inviterId,
       };
 
       await GameHubService.AcceptInvitation(model);
@@ -70,8 +77,9 @@ function NotificationPopUp({ allowNotification, setAllowNotification }: Notifica
       showPopup(getErrMessage(err), "warning");
     }
   };
+  //*/
 
-  // to declain incoming game invitation
+  // to decline incoming game invitation
   const onDeclineInvitation = async (): Promise<void> => {
     if (!notification) return;
 
@@ -89,10 +97,9 @@ function NotificationPopUp({ allowNotification, setAllowNotification }: Notifica
       showPopup(getErrMessage(err), "warning");
     }
   };
+  //*/
 
-  if (!notification) {
-    return <></>;
-  }
+  if (!notification) return <></>;
 
   return (
     <div
@@ -102,31 +109,36 @@ function NotificationPopUp({ allowNotification, setAllowNotification }: Notifica
       `}
     >
       <div className={classes.notification__content}>
-        <div className={classes.notification__content__board}></div>
+        <div className={classes.notification__content__board} />
+
         <div className={classes.notification__content__data}>
           <div className={classes.notification__content__data__header}>
             <span>New game invitation from:</span>
             <br />
             <span className={classes.user}>{notification.inviter} </span>
           </div>
+
+          {/* invitation actions */}
           <div className={classes.notification__content__data__actions}>
             <button
-              className={classes.accept}
+              className={`${classes["action"]} ${classes["accept"]}`}
               onClick={() => {
                 onAcceptInvitation();
               }}
             >
-              accept
+              <span>accept</span>
             </button>
+
             <button
-              className={classes.decline}
+              className={`${classes["action"]} ${classes["decline"]}`}
               onClick={() => {
                 onDeclineInvitation();
               }}
             >
-              decline
+              <span>decline</span>
             </button>
           </div>
+          {/* --- */}
         </div>
       </div>
     </div>

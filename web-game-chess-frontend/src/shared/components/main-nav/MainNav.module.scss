@@ -3,6 +3,7 @@
 @import "../../styles/commons-styles/elements.scss";
 @import "../../styles/commons-styles/texts.scss";
 
+// shared navigation used in main pages
 .nav {
   position: fixed;
   z-index: 10;
@@ -11,6 +12,7 @@
   width: 6rem;
   height: 100vh;
   padding: 4rem 0;
+
   background-color: #111;
   box-shadow: -0.2rem 0 1rem 0 rgba($mc9, 0.5);
 
@@ -27,6 +29,7 @@
 
       &:hover {
         cursor: pointer;
+
         &::after {
           background-color: rgba($mc0, 0.1);
         }
@@ -42,9 +45,10 @@
 
         z-index: -1;
         border-radius: 100%;
-        transform: translate(-50%, -50%) scale(0.8);
+
         filter: blur(1rem);
 
+        transform: translate(-50%, -50%) scale(0.8);
         transition: all 0.3s;
       }
 
@@ -57,6 +61,7 @@
 
         position: absolute;
         right: 100%;
+
         white-space: nowrap;
         font-size: 1.4rem;
         background-color: $gc9;
@@ -72,7 +77,9 @@
     }
   }
 }
+//*/
 
+// resize
 @media (max-width: 700px) {
   .nav {
     width: 100vw;
@@ -92,3 +99,4 @@
     }
   }
 }
+//*/

@@ -6,7 +6,6 @@ using chess.Core.Enums;
 using chess.Shared.Exceptions;
 using FluentAssertions;
 using Moq;
-using System;
 
 namespace chess.Core.Tests.Game;
 

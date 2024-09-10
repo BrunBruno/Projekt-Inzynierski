@@ -9,7 +9,7 @@ namespace chess.Application.Requests.UserRequests.GetOtherUser;
 public class GetOtherUserRequest : IRequest<GetOtherUserDto> {
 
     /// <summary>
-    /// Provided userid to get other user
+    /// Provided userId to get other user
     /// </summary>
     public Guid UserId { get; set; }
 }

@@ -4,23 +4,27 @@ import { LineChart } from "@mui/x-charts";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import { mainColor } from "../../../shared/utils/enums/colorMaps";
 import { formatDate } from "../../../shared/utils/functions/dateTimeRelated";
-import TimingTypesIcons from "../../../shared/svgs/TimingTypesIcons";
-import { PagedResult } from "../../../shared/utils/types/abstracDtosAndModels";
+import { PagedResult } from "../../../shared/utils/types/abstractDtosAndModels";
+import IconCreator from "../../../shared/components/icon-creator/IconCreator";
+import { timingTypesIcons } from "../../../shared/svgs/iconsMap/TimingTypesIcons";
 
 type HistorySectionProps = {
   // game type name
   selectedType: string | null;
-  // paged result of type histoy dtos
+  // paged result of type history dtos
   typeHistory: PagedResult<GetTypeHistoryDto> | null;
 };
 
 function HistorySection({ selectedType, typeHistory }: HistorySectionProps) {
+  ///
+
   const theme = createTheme({
     palette: {
       mode: "dark",
     },
   });
 
+  // to create line chart for selected game timing type
   const createChart = (history: GetTypeHistoryDto[]) => {
     type GroupedByCreatedAt = Record<string, GetTypeHistoryDto[]>;
     const groupedByCreatedAt: GroupedByCreatedAt = history.reduce((acc, currentItem) => {
@@ -69,7 +73,9 @@ function HistorySection({ selectedType, typeHistory }: HistorySectionProps) {
       </ThemeProvider>
     );
   };
+  //*/
 
+  // render placeholder
   if (typeHistory === null || selectedType === null || typeHistory.items.length === 0) {
     return (
       <div className={classes.empty}>
@@ -106,11 +112,17 @@ function HistorySection({ selectedType, typeHistory }: HistorySectionProps) {
       </div>
     );
   }
+  //*/
 
   return (
     <div className={classes.actions}>
       <h2>
-        <TimingTypesIcons iconName={selectedType.toLocaleLowerCase()} iconClass={classes["type-icon"]} /> {selectedType}
+        <IconCreator
+          icons={timingTypesIcons}
+          iconName={selectedType.toLocaleLowerCase()}
+          iconClass={classes["type-icon"]}
+        />
+        <span>{selectedType}</span>
       </h2>
 
       <div className={classes.actions__chart}>{createChart(typeHistory.items)}</div>
@@ -120,8 +132,8 @@ function HistorySection({ selectedType, typeHistory }: HistorySectionProps) {
           <div
             key={index}
             className={`
-              ${classes.actions__items__record}
-              ${item.isWinner === null ? "" : item.isWinner === true ? classes.win : classes.lose}
+                ${classes.actions__items__record}
+                ${item.isWinner === null ? "" : item.isWinner === true ? classes.win : classes.lose}
               `}
           >
             <span>

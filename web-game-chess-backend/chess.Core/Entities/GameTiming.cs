@@ -21,7 +21,7 @@ public class GameTiming {
     public TimingTypes Type { get; set; }
 
     /// <summary>
-    /// Duretion of the game
+    /// Duration of the game
     /// </summary>
     public int Seconds { get; set; }
 
@@ -31,7 +31,7 @@ public class GameTiming {
     public int Increment { get; set; }
 
     /// <summary>
-    /// Games with this timeing type
+    /// Games with this timing type
     /// </summary>
     public List<Game> Games { get; set; }
 }

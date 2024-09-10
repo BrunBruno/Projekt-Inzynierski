@@ -25,8 +25,6 @@ public class GetAllInvitationsRequestHandlerTests {
         var userId = Guid.NewGuid();
         var invitations = ReturnExampleInvitations(userId);
 
-        _mockUserContextService.Setup(x => x.GetUserId()).Returns(userId);
-
         var request = new GetAllInvitationsRequest()
         {
             PageNumber = 1,
@@ -61,8 +59,8 @@ public class GetAllInvitationsRequestHandlerTests {
 
         for(int i = 0; i < 20; i++) {
             invitations.Add(new Invitation() { 
-                InvitorId = Guid.NewGuid(),
-                InvitorName = "Invitor",
+                InviterId = Guid.NewGuid(),
+                InviterName = "Inviter",
                 InviteeId = userId,
                 InviteeName = "Username",
                 GameId = Guid.NewGuid(),

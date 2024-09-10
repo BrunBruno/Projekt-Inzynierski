@@ -1,7 +1,8 @@
 @import "../../Main.scss";
 
+// friend list container
 .friends {
-  @include mainScrollbar($bgcolor: #0000);
+  @include mainScrollbar($bgColor: #0000);
 
   position: relative;
   height: 100%;
@@ -13,7 +14,8 @@
   grid-gap: 2rem;
   grid-auto-rows: max-content;
 
-  &.tamplate {
+  // empty list fill
+  &.template {
     overflow: hidden;
   }
 
@@ -49,6 +51,7 @@
       background-color: $gc8;
     }
   }
+  //*/
 
   &__indicator {
     @include rounded(1rem);
@@ -64,3 +67,13 @@
     z-index: 1;
   }
 }
+//*/
+
+// resize
+@media (max-width: 700px) {
+  .friends {
+    padding-top: 5rem;
+    overflow: visible;
+  }
+}
+//*/

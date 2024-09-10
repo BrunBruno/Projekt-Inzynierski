@@ -1,8 +1,9 @@
-import TimingTypesIcons from "../../../../../shared/svgs/TimingTypesIcons";
-import WinLoseIcons from "../../../../../shared/svgs/WinLoseIcons";
+import IconCreator from "../../../../../shared/components/icon-creator/IconCreator";
+import { timingTypesIcons } from "../../../../../shared/svgs/iconsMap/TimingTypesIcons";
+import { winLoseIcons } from "../../../../../shared/svgs/iconsMap/WinLoseIcons";
 import { mainColor } from "../../../../../shared/utils/enums/colorMaps";
 import classes from "./UserGamesFilters.module.scss";
-import { resultList, timingTypesList } from "./UserGamesFiltersObects";
+import { resultList, timingTypesList } from "./UserGamesFiltersData";
 
 type UserGamesFiltersProps = {
   // list to filter timing types
@@ -50,9 +51,11 @@ function UserGamesFilters({
       return newTypes;
     });
   };
+  //*/
 
   return (
     <div className={classes.filters}>
+      {/* filter by types */}
       <div className={classes.filters__row}>
         {timingTypesList.map((element, i) => (
           <p
@@ -62,16 +65,19 @@ function UserGamesFilters({
               activateTimingTypeFilter(element.value);
             }}
           >
-            {element.label}
-            <TimingTypesIcons
-              iconClass={classes["filter-svg"]}
+            <span>{element.label}</span>
+            <IconCreator
+              icons={timingTypesIcons}
               iconName={element.label.toLocaleLowerCase()}
               color={mainColor.c0}
+              iconClass={classes["filter-svg"]}
             />
           </p>
         ))}
       </div>
+      {/* --- */}
 
+      {/* filter by result */}
       <div className={classes.filters__row}>
         <div />
         {resultList.map((element, i) => (
@@ -82,11 +88,15 @@ function UserGamesFilters({
               activateResultFilter(element.value);
             }}
           >
-            {element.label}
-            <WinLoseIcons iconName={element.label.toLocaleLowerCase().substring(0, element.label.length - 1)} />
+            <span>{element.label}</span>
+            <IconCreator
+              icons={winLoseIcons}
+              iconName={element.label.toLocaleLowerCase().substring(0, element.label.length - 1)}
+            />
           </p>
         ))}
       </div>
+      {/* --- */}
     </div>
   );
 }

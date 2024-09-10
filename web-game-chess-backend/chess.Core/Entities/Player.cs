@@ -37,12 +37,17 @@ public class Player {
     public Colors? Color { get; set; } = null;
 
     /// <summary>
+    /// Determines if player can be used in global search or is only for private game
+    /// </summary>
+    public bool IsPrivate { get; set; } = false;
+
+    /// <summary>
     /// Flag if player is still searching
     /// </summary>
     public bool IsPlaying { get; set; } = false;
 
     /// <summary>
-    /// Flag if game for player has beed eneded
+    /// Flag if game for player has been ended
     /// </summary>
     public bool FinishedGame { get; set; } = false;
 
@@ -53,7 +58,7 @@ public class Player {
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 
     /// <summary>
-    /// Time left fro all moves accordint to game timing
+    /// Time left fro all moves according to game timing
     /// </summary>
     public double TimeLeft { get; set; }
 
@@ -80,7 +85,7 @@ public class Player {
 
     /// <summary>
     /// Game in which player is playing as black
-    /// null is playign as white
+    /// Null if playing as white
     /// </summary>
     public Game BlackGame { get; set; }
 

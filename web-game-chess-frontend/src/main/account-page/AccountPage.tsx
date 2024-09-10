@@ -2,7 +2,7 @@ import axios from "axios";
 import classes from "./AccountPage.module.scss";
 import HistorySection from "./history-section/HistorySection";
 import UserSection from "./user-section/UserSection";
-import { GetTypeHistiryModel } from "../../shared/utils/types/gameModels";
+import { GetTypeHistoryModel } from "../../shared/utils/types/gameModels";
 import { gameControllerPaths, getAuthorization } from "../../shared/utils/services/ApiService";
 import React, { useState } from "react";
 import { GetTypeHistoryDto } from "../../shared/utils/types/gameDtos";
@@ -12,7 +12,7 @@ import FriendsSection from "./friends-section/FriendsSection";
 import MainPopUp from "../../shared/components/main-popup/MainPopUp";
 import { getErrMessage } from "../../shared/utils/functions/displayError";
 import { usePopup } from "../../shared/utils/hooks/usePopUp";
-import { PagedResult } from "../../shared/utils/types/abstracDtosAndModels";
+import { PagedResult } from "../../shared/utils/types/abstractDtosAndModels";
 import { timingTypesNames } from "../../shared/utils/enums/commonConstLists";
 
 function AccountPage() {
@@ -23,15 +23,17 @@ function AccountPage() {
 
   const { showPopup } = usePopup();
 
+  // to send fired list as section
   const setFriendSection = () => {
     setContent(<FriendsSection />);
   };
+  //*/
 
-  // gets timing type history for selcted timg
-  // to display time linechars
+  // gets timing type history for selected timing
+  // to display time line charts
   const getTypeHistory = async (type: number) => {
     try {
-      const model: GetTypeHistiryModel = {
+      const model: GetTypeHistoryModel = {
         pageNumber: 1,
         pageSize: 100,
         type: type,
@@ -52,6 +54,7 @@ function AccountPage() {
       showPopup(getErrMessage(err), "warning");
     }
   };
+  //*/
 
   return (
     <main className={classes["account-main"]}>

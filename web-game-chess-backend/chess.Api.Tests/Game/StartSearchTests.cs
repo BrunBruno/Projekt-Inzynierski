@@ -67,11 +67,11 @@ public class StartSearchTests : IClassFixture<TestWebApplicationFactory<Program>
     }
 
     /// <summary>
-    /// Search for non existsig user
+    /// Search for non existing user
     /// </summary>
     /// <returns></returns>
     [Fact]
-    public async Task StartSearch_Should_Return_Notound_On_Fail() {
+    public async Task StartSearch_Should_Return_NotFound_On_Fail() {
 
         await _dbContext.Init();
 

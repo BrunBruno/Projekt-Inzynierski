@@ -1,9 +1,9 @@
 import { mainColor } from "../../../shared/utils/enums/colorMaps";
-import { IconMap, IconsMapProps } from "../../../shared/utils/types/commonTypes";
+import { IconMap } from "../../../shared/utils/types/commonTypes";
 import classes from "./LeftSideBar.module.scss";
 
-const icons: IconMap = {
-  abort: (
+export const leftSideBarIcons: IconMap = {
+  abort: () => (
     <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className={classes["list-icon"]}>
       <g>
         <path
@@ -17,7 +17,7 @@ const icons: IconMap = {
     </svg>
   ),
 
-  resign: (
+  resign: () => (
     <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className={classes["list-icon"]}>
       <path
         fillRule="evenodd"
@@ -32,7 +32,7 @@ const icons: IconMap = {
     </svg>
   ),
 
-  draw: (
+  draw: () => (
     <svg
       version="1.1"
       xmlns="http://www.w3.org/2000/svg"
@@ -48,18 +48,3 @@ const icons: IconMap = {
     </svg>
   ),
 };
-
-function LeftSideBarIcons({ iconName }: IconsMapProps) {
-  if (iconName === "") return <>i</>;
-
-  try {
-    const icon = icons[iconName];
-    return icon ? icon : <>i</>;
-  } catch (err) {
-    console.error("Icon error");
-  }
-
-  return <>i</>;
-}
-
-export default LeftSideBarIcons;

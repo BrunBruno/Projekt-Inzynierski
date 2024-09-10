@@ -1,5 +1,4 @@
 import { useNavigate } from "react-router-dom";
-import { pieceColor } from "../../../../shared/utils/enums/entitiesEnums";
 import { EndGameDto, GetEndedGameDto, GetGameDto, SearchGameDto } from "../../../../shared/utils/types/gameDtos";
 import classes from "./GameBoardWinner.module.scss";
 import { SearchGameModel } from "../../../../shared/utils/types/gameModels";
@@ -9,11 +8,16 @@ import GameHubService from "../../../../shared/utils/services/GameHubService";
 import { getErrMessage } from "../../../../shared/utils/functions/displayError";
 import { usePopup } from "../../../../shared/utils/hooks/usePopUp";
 import AvatarImage from "../../../../shared/components/avatar-image/AvatarImage";
+import { PieceColor } from "../../../../shared/utils/enums/entitiesEnums";
 
 type GameBoardWinnerProps = {
+  // current game data
   gameData: GetGameDto;
+  // game result data data
   winner: EndGameDto | GetEndedGameDto | null;
+  // to start new game search
   setSearchIds: React.Dispatch<React.SetStateAction<SearchGameDto | null>>;
+  //
   selectedTiming: SearchGameModel | null;
 };
 
@@ -24,8 +28,7 @@ function GameBoardWinner({ winner, gameData, setSearchIds, selectedTiming }: Gam
 
   const { showPopup } = usePopup();
 
-  if (!winner) return;
-
+  // to search for new game
   const onSearchForGame = async () => {
     if (selectedTiming === null) return;
 
@@ -45,6 +48,9 @@ function GameBoardWinner({ winner, gameData, setSearchIds, selectedTiming }: Gam
       showPopup(getErrMessage(err), "warning");
     }
   };
+  //*/
+
+  if (!winner) return;
 
   return (
     <div className={classes.winner}>
@@ -53,13 +59,13 @@ function GameBoardWinner({ winner, gameData, setSearchIds, selectedTiming }: Gam
           className={`
             ${classes.title}
             ${winner.winnerColor === null ? classes["draw"] : ""}
-            ${winner.winnerColor === pieceColor.white ? classes["white-winner"] : ""}
-            ${winner.winnerColor === pieceColor.black ? classes["black-winner"] : ""}
+            ${winner.winnerColor === PieceColor.white ? classes["white-winner"] : ""}
+            ${winner.winnerColor === PieceColor.black ? classes["black-winner"] : ""}
           `}
         >
           {winner.winnerColor === null && <span>Draw</span>}
-          {winner.winnerColor === pieceColor.white && <span>White Wins</span>}
-          {winner.winnerColor === pieceColor.black && <span>Black Wins</span>}
+          {winner.winnerColor === PieceColor.white && <span>White Wins</span>}
+          {winner.winnerColor === PieceColor.black && <span>Black Wins</span>}
         </h2>
         <div className={classes.winner__content__info}>
           <div className={classes.winner__content__info__players}>
@@ -78,7 +84,9 @@ function GameBoardWinner({ winner, gameData, setSearchIds, selectedTiming }: Gam
                 </span>
               </div>
             </div>
+
             <p>vs</p>
+
             <div className={`${classes.player} ${classes["black-player"]}`}>
               <AvatarImage
                 username={gameData.blackPlayer.name}
@@ -103,9 +111,10 @@ function GameBoardWinner({ winner, gameData, setSearchIds, selectedTiming }: Gam
                 onSearchForGame();
               }}
             >
-              New Game
+              <span>New Game</span>
             </button>
-            <button className={classes["re-game"]}>Remach</button>
+
+            <button className={classes["re-game"]}>Rematch</button>
           </div>
 
           <div className={classes.leave}>
@@ -114,7 +123,7 @@ function GameBoardWinner({ winner, gameData, setSearchIds, selectedTiming }: Gam
                 navigate("/main");
               }}
             >
-              Leave
+              <span>Leave</span>
             </button>
           </div>
         </div>

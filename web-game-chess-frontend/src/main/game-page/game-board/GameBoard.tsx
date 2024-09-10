@@ -1,5 +1,5 @@
 import { useEffect, useReducer, useRef, useState } from "react";
-import { pieceImageMap, pieceTagMap } from "../../../shared/utils/enums/piecesMaps";
+import { getPiecesSideColor, pieceTagMap } from "../../../shared/utils/enums/piecesMaps";
 import {
   EndGameDto,
   GetEndedGameDto,
@@ -10,8 +10,7 @@ import {
 import classes from "./GameBoard.module.scss";
 import { areCoorEqual, checkIfOwnPiece, checkIfPlayerTurn } from "../../../shared/utils/functions/gameRelated";
 import { generateControlledAreas, checkChecks } from "../../../shared/utils/chess-game/ControlledAreas";
-import { endGameTypes, pieceColor } from "../../../shared/utils/enums/entitiesEnums";
-import XSvg from "../../../shared/svgs/XSvg";
+import { EndGameTypes, PieceColor } from "../../../shared/utils/enums/entitiesEnums";
 import { generateRandomId } from "../../../shared/utils/functions/generateRandom";
 import { checkIfAnyMoveExists } from "../../../shared/utils/chess-game/CheckIfAnyMoveExists";
 import { EndGameModel, SearchGameModel } from "../../../shared/utils/types/gameModels";
@@ -31,6 +30,10 @@ import { onClearHighlights, onHighlightFile } from "../../../shared/utils/chess-
 import GameBoardSearching from "./game-board-searching/GameBoardSearching";
 import { dangerColor } from "../../../shared/utils/enums/colorMaps";
 import { Guid } from "guid-typescript";
+import IconCreator from "../../../shared/components/icon-creator/IconCreator";
+import { symbolIcons } from "../../../shared/svgs/iconsMap/SymbolIcons";
+import GameBoardConfirm from "./game-board-confirm/GameBoardConfirm";
+import { defaultPiecesImages } from "../../../shared/svgs/iconsMap/DefaultPieceImageSvgs";
 
 type GameBoardProps = {
   // game id
@@ -47,9 +50,26 @@ type GameBoardProps = {
   setSearchIds: React.Dispatch<React.SetStateAction<SearchGameDto | null>>;
   // timing of current game
   selectedTiming: SearchGameModel | null;
+  //
+  showConfirm: boolean;
+  //
+  setShowConfirm: React.Dispatch<React.SetStateAction<boolean>>;
+  //
+  confirmAction: () => void;
 };
 
-function GameBoard({ gameId, gameData, playerData, winner, searchIds, setSearchIds, selectedTiming }: GameBoardProps) {
+function GameBoard({
+  gameId,
+  gameData,
+  playerData,
+  winner,
+  searchIds,
+  setSearchIds,
+  selectedTiming,
+  showConfirm,
+  setShowConfirm,
+  confirmAction,
+}: GameBoardProps) {
   ///
 
   const innerBoardRef = useRef<HTMLDivElement>(null);
@@ -160,7 +180,7 @@ function GameBoard({ gameId, gameData, playerData, winner, searchIds, setSearchI
       payload: { white: wChecked, black: bChecked },
     });
 
-    // clear selected piece and available fields (clear beform mapping board)
+    // clear selected piece and available fields (clear before mapping board)
     setSelectionStates({
       type: "SET_AVAILABLE_FIELDS",
       payload: [],
@@ -202,20 +222,20 @@ function GameBoard({ gameId, gameData, playerData, winner, searchIds, setSearchI
       GameHubService.EndGame(loserPlayer);
     };
 
-    // end game if it has not been eneded yet
+    // end game if it has not been ended yet
     if (!gameData.hasEnded && gameStates.matrix.length > 0) {
       const noMove = checkIfAnyMoveExists(gameStates, selectionStates);
 
       if (noMove) {
-        if (playerData.color === pieceColor.white && gameStates.checkAreas.black.length !== 0) {
+        if (playerData.color === PieceColor.white && gameStates.checkAreas.black.length !== 0) {
           // white has been check mated
-          endGame(playerData.color, endGameTypes.checkMate);
-        } else if (playerData.color === pieceColor.black && gameStates.checkAreas.white.length !== 0) {
+          endGame(playerData.color, EndGameTypes.checkMate);
+        } else if (playerData.color === PieceColor.black && gameStates.checkAreas.white.length !== 0) {
           // black has been check mated
-          endGame(playerData.color, endGameTypes.checkMate);
+          endGame(playerData.color, EndGameTypes.checkMate);
         } else {
           // draw
-          endGame(null, endGameTypes.staleMate);
+          endGame(null, EndGameTypes.staleMate);
         }
       }
     }
@@ -226,7 +246,7 @@ function GameBoard({ gameId, gameData, playerData, winner, searchIds, setSearchI
     const [oBoard, iBoard] = mapFromGamePosition(gameData.position);
     setBoard(oBoard);
     setInnerBoard(iBoard);
-  }, [selectionStates.availableFelds, selectionStates.isDragging]);
+  }, [selectionStates.availableFields, selectionStates.isDragging]);
 
   // create field based on position
   const displayField = (
@@ -238,7 +258,7 @@ function GameBoard({ gameId, gameData, playerData, winner, searchIds, setSearchI
     const coordinates = [(coor % 8) + 1, 8 - Math.floor(coor / 8)];
 
     // to check if clicked on tip fields
-    const isInTipFields = selectionStates.availableFelds.some((coordinate) => areCoorEqual(coordinate, coordinates));
+    const isInTipFields = selectionStates.availableFields.some((coordinate) => areCoorEqual(coordinate, coordinates));
 
     // to check if selected piece was selected again
     const sameCoor = areCoorEqual(coordinates, selectionStates.coordinates);
@@ -259,13 +279,6 @@ function GameBoard({ gameId, gameData, playerData, winner, searchIds, setSearchI
     const isOldFiled = areCoorEqual(coordinates, oldCoordinates);
     const isNewField = areCoorEqual(coordinates, newCoordinates);
     const showCapture = wasCapture && isNewField;
-
-    // const bCon = gameStates.controlledAreas.black.some((coor) =>
-    //   areCoorEqual(coor, coordinates)
-    // );
-    // const wCon = gameStates.controlledAreas.white.some((coor) =>
-    //   areCoorEqual(coor, coordinates)
-    // );
 
     // add field
     outerFields.push(
@@ -308,19 +321,28 @@ function GameBoard({ gameId, gameData, playerData, winner, searchIds, setSearchI
             `}
             draggable={checkIfOwnPiece(char, playerData)}
           >
-            <img src={`/pieces/${pieceImageMap[char]}`} draggable={false} alt={`piece-${char}`} />
+            {/* piece icon */}
+            <IconCreator
+              icons={defaultPiecesImages}
+              iconName={char.toLowerCase()}
+              iconClass={classes["piece-svg"]}
+              color={getPiecesSideColor(char)}
+            />
+
+            {/* capture icon */}
             {showCapture && (
               <div className={classes.capture}>
-                <XSvg iconClass={classes.x} color={dangerColor.mid} />
-                <img src={`/pieces/${pieceImageMap[capturedPiece]}`} alt={`captured-piece-${capturedPiece}`} />
+                <IconCreator icons={symbolIcons} iconName="x" iconClass={classes.x} color={dangerColor.mid} />
+                <IconCreator
+                  icons={defaultPiecesImages}
+                  iconName={capturedPiece.toLowerCase()}
+                  iconClass={classes["capture-svg"]}
+                  color={getPiecesSideColor(capturedPiece)}
+                />
               </div>
             )}
           </div>
         )}
-
-        {/* {wCon && <p style={{ backgroundColor: "red" }}></p>}
-        {bCon && <p style={{ backgroundColor: "blue" }}></p>}
-        {wCon && bCon && <p style={{ backgroundColor: "orange" }}></p>} */}
       </div>
     );
 
@@ -328,11 +350,11 @@ function GameBoard({ gameId, gameData, playerData, winner, searchIds, setSearchI
       <div
         key={`filed-${generateRandomId(10)}`}
         className={`
-        ${classes.field}
-        ${isInCheck ? classes.check : ""} 
-        ${isOldFiled ? classes.old : ""} 
-        ${isNewField ? classes.new : ""}
-      `}
+          ${classes.field}
+          ${isInCheck ? classes.check : ""} 
+          ${isOldFiled ? classes.old : ""} 
+          ${isNewField ? classes.new : ""}
+        `}
       />
     );
 
@@ -369,7 +391,7 @@ function GameBoard({ gameId, gameData, playerData, winner, searchIds, setSearchI
         ref={outerBoardRef}
         className={`
           ${classes.board__content__outer} 
-          ${playerData.color === pieceColor.black ? classes["black-board"] : classes["white-board"]}
+          ${playerData.color === PieceColor.black ? classes["black-board"] : classes["white-board"]}
         `}
       >
         {outerFields}
@@ -378,7 +400,7 @@ function GameBoard({ gameId, gameData, playerData, winner, searchIds, setSearchI
         ref={innerBoardRef}
         className={`
           ${classes.board__content__inner} 
-          ${playerData.color === pieceColor.black ? classes["black-board"] : classes["white-board"]}
+          ${playerData.color === PieceColor.black ? classes["black-board"] : classes["white-board"]}
         `}
       >
         {innerFields}
@@ -493,7 +515,7 @@ function GameBoard({ gameId, gameData, playerData, winner, searchIds, setSearchI
     });
   }, [selectionStates.coordinates]);
 
-  // promote pawn to choosen piece
+  // promote pawn to chosen piece
   const onPerformPromotion = (promotedPiece: string): void => {
     if (selectionStates.promotionCoor) {
       makeMove(gameStates, selectionStates, selectionStates.promotionCoor, promotedPiece);
@@ -505,8 +527,8 @@ function GameBoard({ gameId, gameData, playerData, winner, searchIds, setSearchI
   return (
     <section className={classes["board-container"]}>
       <div className={classes.board}>
+        {/* game board */}
         <GameBoardCoordinates playerData={playerData} />
-
         <div className={classes.board__content}>
           {innerBoard}
           {board}
@@ -516,6 +538,9 @@ function GameBoard({ gameId, gameData, playerData, winner, searchIds, setSearchI
         {selectionStates.promotionCoor.length > 0 && (
           <GameBoardPromotion playerData={playerData} onPerformPromotion={onPerformPromotion} />
         )}
+
+        {/* confirm box */}
+        {showConfirm && <GameBoardConfirm confirmAction={confirmAction} setShowConfirm={setShowConfirm} />}
 
         {/* end game info*/}
         {winner && !searchIds && (
@@ -527,6 +552,7 @@ function GameBoard({ gameId, gameData, playerData, winner, searchIds, setSearchI
           />
         )}
 
+        {/* searching */}
         {winner && searchIds && <GameBoardSearching searchIds={searchIds} setSearchIds={setSearchIds} />}
       </div>
     </section>

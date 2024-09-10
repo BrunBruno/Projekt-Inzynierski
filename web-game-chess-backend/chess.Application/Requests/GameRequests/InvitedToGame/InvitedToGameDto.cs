@@ -1,14 +1,12 @@
 ﻿
-
 using chess.Core.Abstraction;
 
 namespace chess.Application.Requests.GameRequests.InvitedToGame;
 
 /// <summary>
-/// Data returnet to invited user
+/// Data returned to invited user
 /// </summary>
-public class InvitedToGameDto : TimingType
-{
+public class InvitedToGameDto : TimingType {
 
     /// <summary>
     /// Created game id
@@ -16,17 +14,17 @@ public class InvitedToGameDto : TimingType
     public Guid GameId { get; set; }
 
     /// <summary>
-    /// Invetee id
+    /// Invitee id
     /// </summary>
     public Guid InviteeId { get; set; }
 
     /// <summary>
-    /// Invitor id
+    /// Inviter id
     /// </summary>
     public Guid InviterId { get; set; }
 
     /// <summary>
-    /// Invitre username
+    /// Inviter username
     /// </summary>
     public required string Inviter { get; set; }
 }

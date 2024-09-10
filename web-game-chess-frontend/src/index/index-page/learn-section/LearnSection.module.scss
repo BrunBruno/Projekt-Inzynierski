@@ -1,9 +1,11 @@
 @import "../../Index.scss";
 
-.learn {
+// learn section container
+.section {
   @include wh100();
   margin-bottom: 30rem;
 
+  // join button container
   &__join {
     position: relative;
     z-index: 0;
@@ -12,6 +14,7 @@
     aspect-ratio: 7/5;
     margin-top: 20rem;
 
+    // cards
     &__card {
       position: absolute;
       z-index: 0;
@@ -77,8 +80,10 @@
         }
       }
     }
+    //*/
 
-    &__button {
+    // button
+    &__content {
       @include absCenter;
       @include flex(column, center, center, 4rem);
 
@@ -87,62 +92,69 @@
       padding-top: 10rem;
       pointer-events: all;
 
-      h2 {
+      h2.join-header {
         font-size: 4rem;
         font-family: "Knewave";
         user-select: none;
         text-align: center;
         color: $mc5;
       }
-      h3 {
+
+      h3.join-text {
         font-size: 2.4rem;
         color: $mc3;
         text-align: center;
         user-select: none;
       }
 
-      button {
-        @include button(4rem);
-        @include secMButton;
+      a.join-action {
+        button.join-button {
+          @include button(4rem);
+          @include secMButton;
 
-        position: relative;
-        margin-top: 4rem;
+          position: relative;
+          margin-top: 4rem;
 
-        &::after {
-          @include subCl(0, 0);
-          @include absCenter;
-          @include circle(40rem);
-
-          z-index: -1;
-          background-color: rgba($mc0, 0.1);
-          filter: blur(4rem) brightness(80%);
-        }
-
-        &:hover {
           &::after {
-            animation: buttonAnimation 2s infinite;
+            @include subCl(0, 0);
+            @include absCenter;
+            @include circle(40rem);
+
+            z-index: -1;
+            background-color: rgba($mc0, 0.1);
+            filter: blur(4rem) brightness(80%);
           }
 
-          @keyframes buttonAnimation {
-            0% {
-              width: 40rem;
-              height: 40rem;
+          &:hover {
+            &::after {
+              animation: buttonAnimation 2s infinite;
             }
-            50% {
-              width: 30rem;
-              height: 30rem;
-            }
-            100% {
-              width: 40rem;
-              height: 40rem;
+
+            @keyframes buttonAnimation {
+              0% {
+                width: 40rem;
+                height: 40rem;
+              }
+              50% {
+                width: 30rem;
+                height: 30rem;
+              }
+              100% {
+                width: 40rem;
+                height: 40rem;
+              }
             }
           }
         }
       }
     }
+    //*/
   }
+  //*/
 }
+//*/
 
+// resize
 @media (max-width: 700px) {
   .learn {
     &__join {
@@ -150,3 +162,4 @@
     }
   }
 }
+//*/

@@ -33,9 +33,9 @@ public class GetAllInvitationsRequestHandler : IRequestHandler<GetAllInvitations
         {
             GameId = invitation.GameId,
             InviteeId = invitation.InviteeId,
-            InvitorId = invitation.InvitorId,
+            InviterId = invitation.InviterId,
             InviteeName = invitation.InviteeName,
-            InvitorName = invitation.InvitorName,
+            InviterName = invitation.InviterName,
             CreatedAt = invitation.CreatedAt,
             Type = invitation.Type,
         }).ToList();

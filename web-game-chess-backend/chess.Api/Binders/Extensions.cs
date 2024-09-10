@@ -4,7 +4,7 @@ using chess.Api.Binders.NullableBooleanList;
 namespace chess.Api.Binders;
 
 public static class Extensions {
-    public static IServiceCollection AddCustomContollers(this IServiceCollection services) {
+    public static IServiceCollection AddCustomControllers(this IServiceCollection services) {
 
         services.AddControllers(options =>
         {

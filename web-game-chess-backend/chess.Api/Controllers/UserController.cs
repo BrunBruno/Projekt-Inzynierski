@@ -98,7 +98,7 @@ public class UserController : ControllerBase {
 
 
     /// <summary>
-    /// Updates updateable data for user
+    /// Updates updatable data for user
     /// </summary>
     /// <param name="model"></param>
     /// <returns></returns>
@@ -128,12 +128,13 @@ public class UserController : ControllerBase {
         return Ok(user);
     }
 
+
     /// <summary>
     /// Gets complete user info for account page
     /// </summary>
     /// <returns></returns>
     [HttpGet("full")]
-    [Authorize]
+    [Authorize(Policy = "IsVerified")]
     public async Task<IActionResult> GetFullUser() {
 
         var request = new GetFullUserRequest();
@@ -147,12 +148,16 @@ public class UserController : ControllerBase {
     /// <summary>
     /// Gets user info for other users
     /// </summary>
+    /// <param name="userId"></param>
     /// <returns></returns>
-    [HttpGet("other")]
-    [Authorize]
-    public async Task<IActionResult> GetOtherUser([FromQuery] GetOtherUserModel model) {
+    [HttpGet("{userId}/other")]
+    [Authorize(Policy = "IsVerified")]
+    public async Task<IActionResult> GetOtherUser([FromRoute] Guid userId) {
 
-        var request = _mapper.Map<GetOtherUserRequest>(model);
+        var request = new GetOtherUserRequest()
+        {
+            UserId = userId,
+        };
 
         var user = await _mediator.Send(request);
 

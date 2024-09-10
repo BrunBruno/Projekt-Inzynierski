@@ -25,6 +25,5 @@ public class UserMappingProfile : Profile {
         CreateMap<RegenerateCodeModel, RegenerateCodeRequest>();
         CreateMap<UpdateProfileModel, UpdateProfileRequest>();
         CreateMap<GetByEmailModel, GetByEmailRequest>();
-        CreateMap<GetOtherUserModel, GetOtherUserRequest>();
     }
 }

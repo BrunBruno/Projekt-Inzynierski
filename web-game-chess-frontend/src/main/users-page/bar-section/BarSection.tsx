@@ -1,9 +1,10 @@
 import { useNavigate } from "react-router-dom";
 import ActionButton from "../../../shared/components/action-button/ActionButton";
 import classes from "./BarSection.module.scss";
-import BarSectionIcons from "./BarSectionIcons";
-import { friendshipStatus } from "../../../shared/utils/enums/entitiesEnums";
+import { FriendshipStatus } from "../../../shared/utils/enums/entitiesEnums";
 import { delayAction } from "../../../shared/utils/functions/eventsRelated";
+import IconCreator from "../../../shared/components/icon-creator/IconCreator";
+import { barSectionIcons } from "./BarSectionIcons";
 
 type BarSectionProps = {
   // to provide username to filters users
@@ -19,63 +20,71 @@ function BarSection({ setSelectedUsername, selectedList, setSelectedList }: BarS
 
   const navigate = useNavigate();
 
+  // to filter friends by username
   const onSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
     const target = event.target as HTMLInputElement;
     const username = target.value.toLocaleLowerCase();
     setSelectedUsername(username);
   };
+  //*/
 
+  // to change displayed list
   const onSelectList = (listType: number) => {
     setSelectedList(listType);
   };
+  //*/
 
   return (
     <section className={classes.bar}>
       <div className={classes.bar__content}>
+        {/* list options */}
         <div className={classes.bar__content__intro}>
           <div className={classes.panel}>
             <div
               className={`
                 ${classes.option} 
-                ${selectedList === friendshipStatus.all ? classes.active : ""}`}
+                ${selectedList === FriendshipStatus.all ? classes.active : ""}`}
               onClick={() => {
-                onSelectList(friendshipStatus.all);
+                onSelectList(FriendshipStatus.all);
               }}
             >
-              <BarSectionIcons iconName="all" />
+              <IconCreator icons={barSectionIcons} iconName="all" />
             </div>
             <div
               className={`
                 ${classes.option} 
-                ${selectedList === friendshipStatus.accepted ? classes.active : ""}`}
+                ${selectedList === FriendshipStatus.accepted ? classes.active : ""}`}
               onClick={() => {
-                onSelectList(friendshipStatus.accepted);
+                onSelectList(FriendshipStatus.accepted);
               }}
             >
-              <BarSectionIcons iconName="accepted" />
+              <IconCreator icons={barSectionIcons} iconName="accepted" />
             </div>
             <div
               className={`
                 ${classes.option} 
-                ${selectedList === friendshipStatus.pending ? classes.active : ""}`}
+                ${selectedList === FriendshipStatus.pending ? classes.active : ""}`}
               onClick={() => {
-                onSelectList(friendshipStatus.pending);
+                onSelectList(FriendshipStatus.pending);
               }}
             >
-              <BarSectionIcons iconName="pending" />
+              <IconCreator icons={barSectionIcons} iconName="pending" />
             </div>
             <div
               className={`
                 ${classes.option} 
-                ${selectedList === friendshipStatus.rejected ? classes.active : ""}`}
+                ${selectedList === FriendshipStatus.rejected ? classes.active : ""}`}
               onClick={() => {
-                onSelectList(friendshipStatus.rejected);
+                onSelectList(FriendshipStatus.rejected);
               }}
             >
-              <BarSectionIcons iconName="rejected" />
+              <IconCreator icons={barSectionIcons} iconName="rejected" />
             </div>
           </div>
         </div>
+        {/* --- */}
+
+        {/* search panel */}
         <div className={classes.bar__content__search}>
           <input
             type="text"
@@ -88,6 +97,9 @@ function BarSection({ setSelectedUsername, selectedList, setSelectedList }: BarS
             }}
           />
         </div>
+        {/* --- */}
+
+        {/* return button */}
         <div className={classes.bar__content__outro}>
           <div
             className={classes["action-button"]}
@@ -98,6 +110,7 @@ function BarSection({ setSelectedUsername, selectedList, setSelectedList }: BarS
             <ActionButton text="Home page" />
           </div>
         </div>
+        {/* --- */}
       </div>
     </section>
   );

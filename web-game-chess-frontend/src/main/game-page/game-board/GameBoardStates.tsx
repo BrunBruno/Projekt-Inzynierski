@@ -1,3 +1,5 @@
+/* game states */
+
 import { Guid } from "guid-typescript";
 import { GetGameDto, GetPlayerDto } from "../../../shared/utils/types/gameDtos";
 import { GameStates, SelectionStates } from "../../../shared/utils/types/gameStates";
@@ -22,15 +24,10 @@ type GameAction =
   | { type: "SET_GAME_DATA"; payload: GetGameDto }
   | { type: "SET_PLAYER_DATA"; payload: GetPlayerDto }
   | { type: "SET_MATRIX"; payload: string[][] }
-  | {
-      type: "SET_CONTROLLED_AREAS";
-      payload: { white: number[][]; black: number[][] };
-    }
-  | {
-      type: "SET_CHECK_AREAS";
-      payload: { white: number[][]; black: number[][] };
-    };
+  | { type: "SET_CONTROLLED_AREAS"; payload: { white: number[][]; black: number[][] } }
+  | { type: "SET_CHECK_AREAS"; payload: { white: number[][]; black: number[][] } };
 
+// states for game
 export const gameStatesReducer = (state: GameStates, action: GameAction): GameStates => {
   switch (action.type) {
     case "SET_GAME_ID":
@@ -56,7 +53,7 @@ export const selectionInitialStates: SelectionStates = {
   target: null,
   coordinates: [],
   promotionCoor: [],
-  availableFelds: [],
+  availableFields: [],
 };
 
 type SelectionAction =
@@ -67,6 +64,7 @@ type SelectionAction =
   | { type: "SET_PROMOTION_COOR"; payload: number[] }
   | { type: "SET_AVAILABLE_FIELDS"; payload: number[][] };
 
+// stats for user selections
 export const selectionStatesReducer = (state: SelectionStates, action: SelectionAction): SelectionStates => {
   switch (action.type) {
     case "SET_PIECE":
@@ -80,7 +78,7 @@ export const selectionStatesReducer = (state: SelectionStates, action: Selection
     case "SET_PROMOTION_COOR":
       return { ...state, promotionCoor: action.payload };
     case "SET_AVAILABLE_FIELDS":
-      return { ...state, availableFelds: action.payload };
+      return { ...state, availableFields: action.payload };
     default:
       return state;
   }

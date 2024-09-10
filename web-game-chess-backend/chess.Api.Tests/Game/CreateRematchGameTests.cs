@@ -34,7 +34,7 @@ public class CreateRematchGameTests : IClassFixture<TestWebApplicationFactory<Pr
     }
 
     [Fact]
-    public async Task CreateRematchGame_Should_Create_Game_Essentails_And_Return_Game_Id() {
+    public async Task CreateRematchGame_Should_Create_Game_Essentials_And_Return_Game_Id() {
 
         var timingType = new TimingType()
         {
@@ -47,12 +47,12 @@ public class CreateRematchGameTests : IClassFixture<TestWebApplicationFactory<Pr
 
         await _dbContext.Init();
         await _dbContext.AddUser();
-        var freindId = await _dbContext.AddUserWithEmail(friendEmail);
+        var friendId = await _dbContext.AddUserWithEmail(friendEmail);
         await _dbContext.CreateTiming(timingType);
 
         var model = new CreateRematchGameModel()
         {
-            OpponentId = freindId,
+            OpponentId = friendId,
             Type = timingType.Type,
             Minutes = timingType.Minutes,
             Increment = timingType.Increment,
@@ -76,7 +76,7 @@ public class CreateRematchGameTests : IClassFixture<TestWebApplicationFactory<Pr
     }
 
     /// <summary>
-    /// Create reamtach for not existing timing
+    /// Create rematch for not existing timing
     /// </summary>
     /// <returns></returns>
     [Fact]
@@ -86,12 +86,12 @@ public class CreateRematchGameTests : IClassFixture<TestWebApplicationFactory<Pr
 
         await _dbContext.Init();
         await _dbContext.AddUser();
-        var freindId = await _dbContext.AddUserWithEmail(friendEmail);
+        var friendId = await _dbContext.AddUserWithEmail(friendEmail);
         // no timing added
 
         var model = new CreateRematchGameModel()
         {
-            OpponentId = freindId,
+            OpponentId = friendId,
             Type = TimingTypes.Classic,
             Minutes = 60,
             Increment = 0,

@@ -6,7 +6,7 @@ namespace chess.Application.Requests.GameRequests.CreateGameByEmail;
 
 /// <summary>
 /// Request to create new private game
-/// Select opponent by provideing email address by current user
+/// Select opponent by providing email address by current user
 /// </summary>
 public class CreateGameByEmailRequest : TimingType, IRequest<CreateGameByEmailDto> {
 

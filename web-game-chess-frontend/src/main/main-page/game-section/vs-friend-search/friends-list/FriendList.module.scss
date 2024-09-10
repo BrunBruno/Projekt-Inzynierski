@@ -1,126 +1,21 @@
 @import "../../../../Main.scss";
 
+// vs-friend search friend list container
 .list {
+  @include wh100();
   @include flex(column, start, center, 1rem);
 
   padding-left: 2rem;
-
   overflow-y: scroll;
+  overflow-x: hidden;
 
   &::-webkit-scrollbar {
     display: none;
   }
 
-  &__element {
-    @include rounded(1rem);
-
-    position: relative;
-    width: 100%;
-    max-width: 100%;
-    overflow: hidden;
-    display: grid;
-    grid-template-columns: 6rem auto 8rem;
-    gap: 2rem;
-    background-color: $gc9;
-    background-image: linear-gradient(60deg, #0000 60%, rgba($mc9, 0.1) 0%);
-    flex-shrink: 0;
-    padding: 1rem 1.5rem;
-
-    // transform: translateX(10rem);
-    // opacity: 0;
-    // animation: showAni 0.3s forwards;
-
-    // @keyframes showAni {
-    //   to {
-    //     transform: translateX(0);
-    //     opacity: 1;
-    //   }
-    // }
-
-    &:hover > .invite {
-      opacity: 1;
-    }
-
-    .avatar {
-      @include flex();
-
-      .user-avatar {
-        @include circle(6rem);
-        object-fit: cover;
-        box-shadow: 0 0 0 0.5rem $gc8;
-      }
-    }
-
-    .data {
-      @include flex(column, start, start, 0.8rem);
-
-      h3 {
-        @include longText();
-        font-size: 2rem;
-      }
-
-      p {
-        font-size: 1.2rem;
-      }
-
-      .elo {
-        display: grid;
-        grid-template-columns: repeat(5, 1fr);
-        grid-column-gap: 0.5rem;
-
-        span {
-          @include flex(row, start, center, 0.2rem);
-          color: $gc4;
-          white-space: nowrap;
-
-          svg.icon {
-            height: 1.2rem;
-          }
-        }
-      }
-
-      .previous-games {
-        p {
-          font-size: 1.4rem;
-          margin-bottom: 0.5rem;
-        }
-
-        span {
-          font-size: 1.6rem;
-
-          &:nth-child(2) {
-            color: $success-color-m;
-          }
-          &:nth-child(3) {
-            color: $gc5;
-          }
-          &:nth-child(4) {
-            color: $danger-color-m;
-          }
-        }
-      }
-    }
-
-    .invite {
-      @include flex(column, end, center, 0);
-
-      position: absolute;
-      bottom: 1rem;
-      right: 1.5rem;
-      opacity: 0;
-      transition: opacity 0.1s;
-
-      button {
-        @include button(1.6rem);
-        @include mainMButton();
-      }
-    }
-  }
-
-  .empty {
+  &__empty {
     @include wh100();
 
-    position: relative;
     overflow: hidden;
 
     .empty-card {
@@ -153,6 +48,7 @@
 
     .no-data {
       @include absCenter();
+
       font-size: 3rem;
       text-decoration: underline;
       font-weight: bold;
@@ -161,7 +57,26 @@
 
   &__indicator {
     position: absolute;
-    bottom: calc((3rem - 1.4rem) / 2);
+    width: 100%;
+    bottom: 0;
     font-size: 1.4rem;
+    text-align: center;
   }
 }
+//*/
+
+// resize
+@media (max-width: 1100px) {
+  .list {
+    padding: 0;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 500px) {
+  .list {
+    display: flex;
+  }
+}
+//*/

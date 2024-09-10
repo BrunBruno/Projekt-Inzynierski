@@ -1,5 +1,6 @@
 @import "../../../Main.scss";
 
+// notification popup window
 .notification {
   position: absolute;
   right: 8rem;
@@ -20,7 +21,6 @@
 
       position: relative;
       overflow: hidden;
-      //   background-color: $mc0;
       opacity: 0.5;
 
       &::after {
@@ -54,7 +54,7 @@
         @include flex(row, end, center, 0);
         @include wh100();
 
-        button {
+        button.action {
           position: relative;
           font-size: 1.6rem;
           padding: 0.6rem 1.2rem;
@@ -106,7 +106,12 @@
     }
   }
 
+  // to show new game notification
   &.show-notification {
     transform: scaleY(1);
   }
 }
+//*/
+
+// resize
+//*/

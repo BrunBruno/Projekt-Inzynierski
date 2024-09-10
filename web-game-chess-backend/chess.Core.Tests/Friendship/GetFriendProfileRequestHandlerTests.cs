@@ -1,7 +1,6 @@
 ﻿
 using chess.Application.Repositories;
 using chess.Application.Requests.FriendshipRequests.GetFriendProfile;
-using chess.Application.Requests.FriendshipRequests.InviteFriend;
 using chess.Application.Services;
 using chess.Core.Entities;
 using chess.Core.Enums;

@@ -14,11 +14,6 @@ public class SendMessageRequest : IRequest {
     public Guid GameId { get; set; }
 
     /// <summary>
-    /// Id of current player
-    /// </summary>
-    public Guid PlayerId { get; set; }
-
-    /// <summary>
     /// Message content
     /// </summary>
     public required string Message { get; set; }

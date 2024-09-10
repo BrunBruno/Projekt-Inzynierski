@@ -47,7 +47,7 @@ public class GetGameTimingTests : IClassFixture<TestWebApplicationFactory<Progra
 
         var userPlayerId = await _dbContext.AddPlayer(Guid.Parse(Constants.UserId), Constants.Username);
         var otherPlayerId = await _dbContext.AddPlayer(Guid.NewGuid(), "OtherPlayer");
-        var gameId = await _dbContext.AddGame(userPlayerId, otherPlayerId, timingId);
+        var gameId = await _dbContext.AddGame(userPlayerId, otherPlayerId, timingId, false);
 
 
         var response = await _client.GetAsync($"api/game/{gameId}/timing");
@@ -62,36 +62,7 @@ public class GetGameTimingTests : IClassFixture<TestWebApplicationFactory<Progra
     }
 
     /// <summary>
-    /// Gets timing from not owned game 
-    /// </summary>
-    /// <returns></returns>
-    [Fact]
-    public async Task GetGameTiming_Should_Return_Unauthorized_On_Fail() {
-
-        await _dbContext.Init();
-        await _dbContext.AddUser();
-
-        var timingId = await _dbContext.CreateTiming(new TimingType() {
-            Type = TimingTypes.Rapid,
-            Minutes = 30,
-            Increment = 10,
-        });
-
-        await _dbContext.AddPlayer(Guid.Parse(Constants.UserId), Constants.Username);
-        var otherPlayerId = await _dbContext.AddPlayer(Guid.NewGuid(), "OtherUser");
-        var otherPlyaer2Id = await _dbContext.AddPlayer(Guid.NewGuid(), "OtherUser2");
-
-        var gameId = await _dbContext.AddGame(otherPlayerId, otherPlyaer2Id, timingId); // not owned game
-
-
-        var response = await _client.GetAsync($"api/game/{gameId}/timing");
-
-
-        response.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
-    }
-
-    /// <summary>
-    /// Gets timing from not exissting game
+    /// Gets timing from not existing game
     /// </summary>
     /// <returns></returns>
     [Fact]

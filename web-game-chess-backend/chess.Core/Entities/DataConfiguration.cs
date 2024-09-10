@@ -44,5 +44,4 @@ public class DataConfiguration {
     /// Is special character required
     /// </summary>
     public bool RequireSpecialChar { get; set; }
-
 }

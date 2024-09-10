@@ -31,7 +31,15 @@ public class Game {
     /// </summary>
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 
+    /// <summary>
+    /// Time when game started
+    /// </summary>
     public DateTime? StartedAt { get; set; } = null;
+
+    /// <summary>
+    /// Time when game has ended
+    /// </summary>
+    public DateTime? EndedAt {  get; set; } = null;
 
     /// <summary>
     /// Turn of game
@@ -102,5 +110,4 @@ public class Game {
     /// List of moves that was done during game
     /// </summary>
     public List<Move> Moves { get; set; }
-
 }

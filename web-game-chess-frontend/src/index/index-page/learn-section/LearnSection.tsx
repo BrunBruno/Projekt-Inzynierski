@@ -1,4 +1,4 @@
-import React from "react";
+import React, { CSSProperties } from "react";
 import { forwardRef, useEffect, useImperativeHandle, useRef } from "react";
 import classes from "./LearnSection.module.scss";
 import LearnBlocks from "./learn-blocks/LearnBlocks";
@@ -8,6 +8,7 @@ import { HandleOnScroll } from "../../../shared/utils/types/commonTypes";
 import { generateRandomColor } from "../../../shared/utils/functions/generateRandom";
 
 type LearnSectionProps = {
+  // section container ref
   sectionRef: React.RefObject<HTMLElement>;
 };
 
@@ -15,17 +16,24 @@ const LearnSection = forwardRef<HandleOnScroll, LearnSectionProps>(
   ({ sectionRef }: LearnSectionProps, ref: React.ForwardedRef<HandleOnScroll>) => {
     ///
 
+    // side cards refs, for opening
+    const cardRefs = useRef<HTMLDivElement[]>([]);
+
+    // to handle section on scroll
     const handleOnScroll = () => {};
     useImperativeHandle(ref, () => ({
       handleOnScroll,
     }));
+    //*/
 
-    const cardRefs = useRef<HTMLDivElement[]>([]);
+    // to apply card open on intersection
     useEffect(() => {
+      const options: IntersectionObserverInit = {};
       const observerAction = (entry: IntersectionObserverEntry): void => {
         entry.target.classList.add(classes["open-card"]);
       };
-      const observer: IntersectionObserver = createOneTimeObserver(observerAction, {});
+
+      const observer: IntersectionObserver = createOneTimeObserver(observerAction, options);
 
       cardRefs.current.forEach((cardRef) => {
         observer.observe(cardRef);
@@ -35,54 +43,65 @@ const LearnSection = forwardRef<HandleOnScroll, LearnSectionProps>(
         observer.disconnect();
       };
     }, []);
+    //*/
 
+    // to generate cards
     const generateCards = (): JSX.Element[] => {
-      const crads: JSX.Element[] = [];
+      const cards: JSX.Element[] = [];
 
       const numberOfCards = 6;
       for (let i = 0; i < numberOfCards; i++) {
-        const randomColor = generateRandomColor(mainColor);
-        crads.push(
+        const cardStyle: CSSProperties = {
+          top: `${Math.floor(i / 2) * 30}rem`,
+          borderColor: generateRandomColor(mainColor),
+        };
+
+        cards.push(
           <div
             ref={(ref) => (cardRefs.current[i] = ref!)}
             key={`card-${i}`}
-            className={classes.learn__join__card}
-            style={{
-              top: `${Math.floor(i / 2) * 30}rem`,
-              borderColor: randomColor,
-            }}
+            className={classes.section__join__card}
+            style={cardStyle}
           >
             <div
-              className={classes.learn__join__card__inner}
+              className={classes.section__join__card__inner}
               style={{ backgroundImage: `url('images/learn-bg${i}.jpg')` }}
             />
           </div>
         );
       }
 
-      return crads;
+      return cards;
     };
+    //*/
 
     return (
-      <section id="learn-section" ref={sectionRef} className={classes.learn}>
+      <section id="learn-section" ref={sectionRef} className={classes.section}>
         <LearnBlocks />
-        <div className={classes.learn__join}>
+
+        {/* middle join button */}
+        <div className={classes.section__join}>
           {generateCards()}
 
-          {/* middle button */}
-          <div className={classes.learn__join__button}>
-            <h2>BRN CHESS</h2>
-            <h3>
-              In the heart of the chessboard, where kings reign and pawns dream, we find ourselves in a realm where
-              intellect meets strategy, where every move is a step towards victory, where each decision carries the
-              weight of kingdoms.
+          <div className={classes.section__join__content}>
+            <h2 className={classes["join-header"]}>
+              <span>BRN CHESS</span>
+            </h2>
+
+            <h3 className={classes["join-text"]}>
+              <span>
+                In the heart of the chessboard, where kings reign and pawns dream, we find ourselves in a realm where
+                intellect meets strategy, where every move is a step towards victory, where each decision carries the
+                weight of kingdoms.
+              </span>
             </h3>
-            <a href="#home-section">
-              <button>JOIN NOW</button>
+
+            <a href="#home-section" className={classes["join-action"]}>
+              <button className={classes["join-button"]}>JOIN NOW</button>
             </a>
           </div>
-          {/* end middle button */}
         </div>
+        {/* --- */}
       </section>
     );
   }

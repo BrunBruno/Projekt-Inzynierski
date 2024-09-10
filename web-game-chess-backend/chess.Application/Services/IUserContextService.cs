@@ -4,7 +4,7 @@ using System.Security.Claims;
 namespace chess.Application.Services;
 
 /// <summary>
-/// Service used for getting informations from user context
+/// Service used for getting information from user context
 /// </summary>
 public interface IUserContextService {
 

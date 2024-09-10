@@ -35,4 +35,11 @@ public interface IGameRepository {
     /// <param name="game"></param>
     /// <returns></returns>
     Task Update(Game game);
+
+    /// <summary>
+    /// Removes game
+    /// </summary>
+    /// <param name="game"></param>
+    /// <returns></returns>
+    Task Delete(Game game);
 }

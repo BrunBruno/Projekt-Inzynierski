@@ -4,7 +4,7 @@ using MediatR;
 namespace chess.Application.Requests.FriendshipRequests.RespondToFriendRequest;
 
 /// <summary>
-/// Request to accept or decline pending friendship rquests
+/// Request to accept or decline pending friendship requests
 /// </summary>
 public class RespondToFriendRequestRequest : IRequest {
 

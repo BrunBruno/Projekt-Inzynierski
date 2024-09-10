@@ -1,10 +1,20 @@
 @import "../Main.scss";
 
+// main container
 .main {
   @include wh100();
   @include gridBg();
   @include forNav();
 
   position: relative;
-  overflow: hidden; //
+  overflow: hidden;
 }
+//*/
+
+// resize
+// @media (max-width: 700px) {
+//   .main {
+//     overflow: visible;
+//   }
+// }
+//*/

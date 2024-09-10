@@ -1,9 +1,9 @@
 import { mainColor } from "../../../shared/utils/enums/colorMaps";
-import { IconMap, IconsMapProps } from "../../../shared/utils/types/commonTypes";
+import { IconMap } from "../../../shared/utils/types/commonTypes";
 import classes from "./NavSection.module.scss";
 
-const icons: IconMap = {
-  home: (
+export const navSectionIcons: IconMap = {
+  home: () => (
     <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className={classes.icon}>
       <path
         d="M19 10L19 20H9M5 20L5 10L12 3L15.5 6.5"
@@ -14,7 +14,7 @@ const icons: IconMap = {
     </svg>
   ),
 
-  learn: (
+  learn: () => (
     <svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" fill="none" className={classes.icon}>
       <path
         fill={mainColor.c0}
@@ -25,30 +25,15 @@ const icons: IconMap = {
     </svg>
   ),
 
-  play: (
+  play: () => (
     <svg fill={mainColor.c0} viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" className={classes.icon}>
       <path d="M19.97,17.758A1,1,0,0,0,19,17h-.536c-1.377-1.76-1.87-5.044-2-7H17a1,1,0,0,0,0-2h-.064a5.145,5.145,0,0,0,.314-1.75,5.25,5.25,0,0,0-10.5,0A5.145,5.145,0,0,0,7.064,8H7a1,1,0,0,0,0,2h.533c-.127,1.956-.62,5.24-2,7H5a1,1,0,0,0-.97.758l-1,4A1,1,0,0,0,4,23H20a1,1,0,0,0,.97-1.242ZM12,3a3.254,3.254,0,0,1,3.25,3.25A3.158,3.158,0,0,1,14.72,8H9.28a3.158,3.158,0,0,1-.53-1.75A3.254,3.254,0,0,1,12,3ZM9.536,10h4.928a18.915,18.915,0,0,0,1.641,7H7.9A18.915,18.915,0,0,0,9.536,10ZM5.281,21l.5-2H18.219l.5,2Z" />
     </svg>
   ),
 
-  faq: (
+  faq: () => (
     <svg fill={mainColor.c0} viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" className={classes.icon}>
       <path d="M12,1A11,11,0,1,0,23,12,11.013,11.013,0,0,0,12,1Zm0,20a9,9,0,1,1,9-9A9.011,9.011,0,0,1,12,21Zm1-4.5v2H11v-2Zm3-7a3.984,3.984,0,0,1-1.5,3.122A3.862,3.862,0,0,0,13.063,15H11.031a5.813,5.813,0,0,1,2.219-3.936A2,2,0,0,0,13.1,7.832a2.057,2.057,0,0,0-2-.14A1.939,1.939,0,0,0,10,9.5,1,1,0,0,1,8,9.5V9.5a3.909,3.909,0,0,1,2.319-3.647,4.061,4.061,0,0,1,3.889.315A4,4,0,0,1,16,9.5Z" />
     </svg>
   ),
 };
-
-function NavSectionIcons({ iconName }: IconsMapProps) {
-  if (iconName === "") return <>i</>;
-
-  try {
-    const icon = icons[iconName];
-    return icon ? icon : <>i</>;
-  } catch (err) {
-    console.error("Icon error");
-  }
-
-  return <>i</>;
-}
-
-export default NavSectionIcons;

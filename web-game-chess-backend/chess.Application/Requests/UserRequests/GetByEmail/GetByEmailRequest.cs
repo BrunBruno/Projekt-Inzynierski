@@ -4,7 +4,7 @@ using MediatR;
 namespace chess.Application.Requests.UserRequests.GetByEmail;
 
 /// <summary>
-/// Gets basic user data by previded email
+/// Gets basic user data by provided email
 /// </summary>
 public class GetByEmailRequest : IRequest<GetByEmailDto> {
 

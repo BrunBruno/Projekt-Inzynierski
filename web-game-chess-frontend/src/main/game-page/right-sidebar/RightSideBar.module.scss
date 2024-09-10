@@ -1,9 +1,10 @@
 @import "../../Main.scss";
 
+// right side bar container
 .bar {
   @include wh100();
-  max-height: 100vh;
 
+  max-height: 100vh;
   position: relative;
 
   &::after {
@@ -19,6 +20,7 @@
     pointer-events: none;
   }
 
+  // right side bar content
   &__content {
     position: inherit;
     z-index: 2;
@@ -27,7 +29,7 @@
     background-color: $gc9;
     display: grid;
     grid-template-columns: 1fr;
-    grid-template-rows: 8rem 4rem auto 24rem;
+    grid-template-rows: 8rem 4rem calc((100% - 18rem) / 2) calc((100% - 18rem) / 2);
     gap: 2rem;
 
     &__header {
@@ -103,8 +105,85 @@
       }
     }
 
-    &__actions {
+    &__messages {
       @include block();
+
+      display: grid;
+      grid-template-rows: auto 6rem;
+      gap: 1rem;
+
+      &__list {
+        overflow-y: scroll;
+
+        &::-webkit-scrollbar {
+          display: none;
+        }
+      }
+
+      &__actions {
+        @include flex(row, start, center, 1rem);
+
+        .message-input {
+          @include tInput(1.6rem);
+          @include rounded(1rem);
+
+          width: 100% !important;
+          height: calc(3 * 1.6rem) !important;
+          resize: none;
+
+          border: solid 0.2rem $gc8;
+
+          &:focus {
+            border-color: $gc7;
+          }
+
+          &::-webkit-scrollbar {
+            display: none;
+          }
+        }
+
+        .send-button {
+          @include flex();
+          @include circle(fit-content);
+          background-color: #0000;
+          border: none;
+
+          &:hover {
+            cursor: pointer;
+            filter: brightness(80%);
+          }
+
+          .send-svg {
+            height: 3rem;
+          }
+        }
+      }
+    }
+  }
+  //*/
+}
+//*/
+
+// resize
+@media (max-width: 1000px) {
+  .bar {
+    &::after {
+      display: none;
+    }
+
+    &__content {
+      grid-template-rows: 100%;
+      grid-template-columns: 1fr 1fr;
+      gap: 20%;
+    }
+
+    &__history {
+      display: none;
+    }
+
+    &__messages {
+      display: none;
     }
   }
 }
+//*/

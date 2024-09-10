@@ -9,7 +9,7 @@ using MediatR;
 namespace chess.Application.Requests.FriendshipRequests.GetAllNonFriends;
 
 /// <summary>
-/// Collents all users that have not estalished raltionship with current user
+/// Collects all users that have not established relationship with current user
 /// Filters users with provided username
 /// Returns paged result of user dtos
 /// </summary>

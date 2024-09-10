@@ -1,6 +1,7 @@
 @import "../../../../Main.scss";
 
-.invitation {
+// invitation card
+.card {
   @include flex(row, space-between, center, 4rem);
   @include rounded(1rem);
 
@@ -9,12 +10,7 @@
   padding: 2rem 4rem;
   margin-bottom: 1rem;
   background-color: rgba($gc9, 0.5);
-  background-image: linear-gradient(
-    60deg,
-    #0000 calc(100% - 30rem),
-    $gc9 0%,
-    $gc9 100%
-  );
+  background-image: linear-gradient(60deg, #0000 calc(100% - 30rem), $gc9 0%, $gc9 100%);
 
   &__icon {
     @include square(4rem);
@@ -28,7 +24,7 @@
     font-size: 2.2rem;
     color: $gc3;
 
-    b {
+    b.imp-data {
       color: $mc5;
     }
   }
@@ -37,6 +33,11 @@
     @include flex(row, center, center, 2rem);
 
     width: 30rem;
+
+    .inv-expired {
+      font-size: 2rem;
+      color: $gc5;
+    }
 
     .inv-button {
       background-color: #0000;
@@ -69,3 +70,16 @@
     padding: 0.5rem;
   }
 }
+//*/
+
+// resize
+@media (max-width: 500px) {
+  .card {
+    background-image: linear-gradient(60deg, #0000 calc(100% - 26rem), $gc9 0%, $gc9 100%);
+
+    &__icon {
+      display: none;
+    }
+  }
+}
+//*/

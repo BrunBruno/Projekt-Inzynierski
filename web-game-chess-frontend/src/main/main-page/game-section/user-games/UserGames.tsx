@@ -10,40 +10,32 @@ import usePagination from "../../../../shared/utils/hooks/usePagination";
 import UserGamesCard from "./user-games-card/UserGamesCard";
 import { usePopup } from "../../../../shared/utils/hooks/usePopUp";
 import { getErrMessage } from "../../../../shared/utils/functions/displayError";
-import { PagedResult } from "../../../../shared/utils/types/abstracDtosAndModels";
+import { PagedResult } from "../../../../shared/utils/types/abstractDtosAndModels";
+import UserGamesEmptyCard from "./user-games-empty-card/UserGamesEmptyCard";
 
 type UserGamesProps = {};
 
 function UserGames({}: UserGamesProps) {
   ///
 
+  // obtained game list
   const [games, setGames] = useState<GetAllFinishedGamesDto[] | null>(null);
   const [itemsCount, setItemsCount] = useState<number>(0);
 
+  // list for setting up search filters
   const [timingTypeFilters, setTimingTypeFilters] = useState<number[]>([]);
   const [resultFilters, setResultFilters] = useState<(boolean | null)[]>([]);
 
+  // to display filters options
   const [showFilters, setShowFilters] = useState<boolean>(false);
 
   const { showPopup } = usePopup();
-
   const { scrollRef, pageSize, totalItemsCount, setDefPageSize, setTotalItemsCount } = usePagination();
 
-  // useEffect(() => {
-  //   console.log(scrollRef.current?.clientWidth);
-  //   console.log(scrollRef.current?.clientHeight);
-
-  //   setDefPageSize(6);
-  // }, []);
-
+  // send set default pagination page size
   useEffect(() => {
     const setDefSize = () => {
-      let elemCount: number;
-      if (window.innerWidth > 700) {
-        elemCount = 3;
-      } else {
-        elemCount = 2;
-      }
+      const elemCount = window.innerWidth > 700 ? 3 : 2;
 
       const container = scrollRef.current;
       if (container) {
@@ -68,67 +60,94 @@ function UserGames({}: UserGamesProps) {
       window.removeEventListener("resize", setDefSize);
     };
   }, [games]);
+  //*/
 
   // get all finished games
-  const getGames = async () => {
-    const getGamesOptions: GetAllFinishedGamesModel = {
-      pageNumber: 1,
-      pageSize: pageSize,
-      timingTypeFilters: timingTypeFilters,
-      resultFilters: resultFilters,
+  useEffect(() => {
+    const getGames = async () => {
+      const getGamesOptions: GetAllFinishedGamesModel = {
+        pageNumber: 1,
+        pageSize: pageSize,
+        timingTypeFilters: timingTypeFilters,
+        resultFilters: resultFilters,
+      };
+
+      try {
+        const response = await axios.get<PagedResult<GetAllFinishedGamesDto>>(
+          gameControllerPaths.getAllFinishedGames(getGamesOptions),
+          getAuthorization()
+        );
+
+        setGames(response.data.items);
+
+        setTotalItemsCount(response.data.totalItemsCount);
+
+        const count =
+          response.data.itemsTo < response.data.totalItemsCount ? response.data.itemsTo : response.data.totalItemsCount;
+
+        setItemsCount(count);
+      } catch (err) {
+        showPopup(getErrMessage(err), "warning");
+      }
     };
 
-    try {
-      const gamesRespones = await axios.get<PagedResult<GetAllFinishedGamesDto>>(
-        gameControllerPaths.getAllFinishedGames(getGamesOptions),
-        getAuthorization()
-      );
-
-      setGames(gamesRespones.data.items);
-
-      setTotalItemsCount(gamesRespones.data.totalItemsCount);
-
-      const count =
-        gamesRespones.data.itemsTo < gamesRespones.data.totalItemsCount
-          ? gamesRespones.data.itemsTo
-          : gamesRespones.data.totalItemsCount;
-
-      setItemsCount(count);
-    } catch (err) {
-      showPopup(getErrMessage(err), "warning");
-    }
-  };
-
-  useEffect(() => {
     getGames();
   }, [pageSize, timingTypeFilters, resultFilters]);
+  //*/
 
-  if (!games) return <LoadingPage text="Loading games" />;
+  // to display filters
+  const onShowFilters = () => {
+    if (games && games.length > 0) {
+      setShowFilters((prev) => !prev);
+    }
+  };
+  //*/
 
   return (
     <div className={classes.games}>
       <div className={classes.games__header}>
-        <h2>
+        <h2 className={classes["header-title"]}>
           <span>Your previous games: </span>
-          <span>
-            ({itemsCount}/{totalItemsCount})
+
+          <span className={classes["counter"]}>
+            <span className={classes["sym"]}>(</span>
+            {itemsCount}
+            <span className={classes["sym"]}>/</span>
+            {totalItemsCount}
+            <span className={classes["sym"]}>)</span>
           </span>
         </h2>
+
         <div className={classes.filters}>
           <button
+            className={`
+                ${classes["filter-button"]} 
+                ${!games || games.length === 0 ? classes["disabled"] : classes["enabled"]}
+              `}
             onClick={() => {
-              setShowFilters((prev) => !prev);
+              onShowFilters();
             }}
           >
             Filters
           </button>
         </div>
       </div>
-      <div ref={scrollRef} className={classes.games__list}>
-        {games.map((game, i) => (
-          <UserGamesCard key={`game-${i}`} game={game} />
-        ))}
-      </div>
+
+      {!games ? (
+        <LoadingPage text="Loading games" />
+      ) : games.length === 0 ? (
+        <div ref={scrollRef} className={`${classes.games__list} ${classes.empty}`}>
+          {Array.from({ length: pageSize }).map((_, i) => (
+            <UserGamesEmptyCard key={i} />
+          ))}
+        </div>
+      ) : (
+        <div ref={scrollRef} className={classes.games__list}>
+          {games.map((game, i) => (
+            <UserGamesCard key={`game-${i}`} game={game} />
+          ))}
+        </div>
+      )}
 
       {showFilters && (
         <UserGamesFilters

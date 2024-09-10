@@ -2,12 +2,17 @@ import { useEffect, useRef, useState } from "react";
 import classes from "./LoadingPage.module.scss";
 
 type LoadingPageProps = {
+  // text to display (if provided)
   text?: string;
 };
 
 function LoadingPage({ text = "" }: LoadingPageProps) {
+  ///
+
+  // loading container ref - to set content sizes
   const loadingRef = useRef<HTMLDivElement>(null);
 
+  // size of spinning circles
   const [size, setSize] = useState<number>(0);
 
   // set size of loading circles
@@ -19,6 +24,7 @@ function LoadingPage({ text = "" }: LoadingPageProps) {
       setSize(borderWidth);
     }
   }, []);
+  //*/
 
   return (
     <div ref={loadingRef} className={classes.loading}>

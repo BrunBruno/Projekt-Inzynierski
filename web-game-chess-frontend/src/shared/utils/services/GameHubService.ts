@@ -1,3 +1,5 @@
+/* signalR hub service map from GameHub */
+
 import * as signalR from "@microsoft/signalr";
 import {
   AcceptInvitationModel,
@@ -9,11 +11,13 @@ import {
 } from "../types/gameModels";
 import { Guid } from "guid-typescript";
 
-// singalR hub service map from GameHub
 class GameHub {
+  // hub url
   private gameHubUrl: string = "http://localhost:5125/game-hub";
   // private gameHubUrl: string = "http://192.168.1.46:5125/game-hub";
+  // verification token
   private token: string | null = null;
+  // attempts take to establish connection
   private attempts: number = 0;
 
   public connection: signalR.HubConnection | null = null;
@@ -26,7 +30,7 @@ class GameHub {
   }
 
   // initialize connection
-  private initializeConnection(token: string): void {
+  private initializeConnection(token: string) {
     this.connection = new signalR.HubConnectionBuilder()
       .withUrl(this.gameHubUrl, {
         skipNegotiation: true,
@@ -60,7 +64,7 @@ class GameHub {
     }
   }
 
-  // add user to self gropu
+  // add user to self group
   public async AddSelfNotification(): Promise<void> {
     try {
       await this.connection?.invoke("add-self-notification");
@@ -88,7 +92,7 @@ class GameHub {
   }
 
   // to send new messages
-  public async SendMessage(model: SendMessageModel) {
+  public async SendMessage(model: SendMessageModel): Promise<void> {
     try {
       await this.connection?.invoke("send-message", model);
     } catch (err) {
@@ -96,17 +100,35 @@ class GameHub {
     }
   }
 
-  // change game to finished
-  public async EndGame(elsendGameModel: EndGameModel): Promise<void> {
+  // to send draw offer
+  public async SendDrawMessage(gameId: Guid): Promise<void> {
     try {
-      await this.connection?.invoke("end-game", elsendGameModel);
+      await this.connection?.invoke("send-draw", gameId);
+    } catch (err) {
+      console.error(err);
+    }
+  }
+
+  // change game to finished
+  public async EndGame(model: EndGameModel): Promise<void> {
+    try {
+      await this.connection?.invoke("end-game", model);
+    } catch (err) {
+      console.error(err);
+    }
+  }
+
+  // add to group with game id
+  public async AddPlayer(gameId: Guid): Promise<void> {
+    try {
+      await this.connection?.invoke("add-player", gameId);
     } catch (err) {
       console.error(err);
     }
   }
 
   // to accept game invitations
-  public async AcceptInvitation(model: AcceptInvitationModel) {
+  public async AcceptInvitation(model: AcceptInvitationModel): Promise<void> {
     try {
       await this.connection?.invoke("accept-invitation", model);
     } catch (err) {
@@ -114,10 +136,10 @@ class GameHub {
     }
   }
 
-  // add to group with game id
-  public async GameStarted(gameId: Guid): Promise<void> {
+  // updates game created with link
+  public async UpdatePrivateGame(gameId: Guid): Promise<void> {
     try {
-      await this.connection?.invoke("game-started", gameId);
+      await this.connection?.invoke("update-private-game", gameId);
     } catch (err) {
       console.error(err);
     }
@@ -154,6 +176,15 @@ class GameHub {
   public async DeclineInvitation(model: DeclineInvitationModel): Promise<void> {
     try {
       await this.connection?.invoke("decline-invitation", model);
+    } catch (err) {
+      console.error(err);
+    }
+  }
+
+  // to decline draw
+  public async RemoveDrawMessage(gameId: Guid): Promise<void> {
+    try {
+      await this.connection?.invoke("remove-draw", gameId);
     } catch (err) {
       console.error(err);
     }

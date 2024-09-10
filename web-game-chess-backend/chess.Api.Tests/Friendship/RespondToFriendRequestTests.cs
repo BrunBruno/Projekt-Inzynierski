@@ -94,7 +94,7 @@ public class RespondToFriendRequestTests : IClassFixture<TestWebApplicationFacto
     }
 
     /// <summary>
-    /// Request to not existsing friendship
+    /// Request to not existing friendship
     /// </summary>
     /// <returns></returns>
     [Fact]

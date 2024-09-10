@@ -3,17 +3,22 @@ import classes from "./HeroSection.module.scss";
 import HeroHeader from "./hero-header/HeroHeader";
 import { HandleOnScroll } from "../../../shared/utils/types/commonTypes";
 
-type HeroSectionProps = {};
+type HeroSectionProps = {
+  // section container ref
+  heroSectionRef: React.RefObject<HTMLElement>;
+};
 
 const HeroSection = forwardRef<HandleOnScroll, HeroSectionProps>(
-  ({}: HeroSectionProps, ref: React.ForwardedRef<HandleOnScroll>) => {
+  ({ heroSectionRef }: HeroSectionProps, ref: React.ForwardedRef<HandleOnScroll>) => {
     ///
 
     const heroBgRef = useRef<HTMLDivElement>(null);
-    const handleOnScroll = () => {
-      if (window.innerWidth > 700) {
-        const bgElement = heroBgRef.current;
 
+    // to handle section background on scroll
+    const handleOnScroll = () => {
+      const bgElement = heroBgRef.current;
+
+      if (window.innerWidth > 700 && window.innerWidth < 3000) {
         if (bgElement) {
           const y = 100 - (window.scrollY / (1.5 * window.innerHeight)) * 100;
 
@@ -23,20 +28,26 @@ const HeroSection = forwardRef<HandleOnScroll, HeroSectionProps>(
             }%, #000 100%)`;
           }
         }
+      } else {
+        if (bgElement) {
+          bgElement.style.backgroundImage = "none";
+        }
       }
     };
 
     useImperativeHandle(ref, () => ({
       handleOnScroll,
     }));
+    //*/
 
     return (
-      <section className={classes.hero}>
-        <div className={classes.hero__container}>
-          <div ref={heroBgRef} className={classes.hero__container__bg} />
+      <section ref={heroSectionRef} className={classes.section}>
+        <div className={classes.section__container}>
+          <div ref={heroBgRef} className={classes.section__container__bg} />
           <HeroHeader />
 
-          <div className={classes.hero__container__content}>
+          {/* hero content */}
+          <div className={classes.section__container__content}>
             <div></div>
             <h1>
               <span>
@@ -54,10 +65,11 @@ const HeroSection = forwardRef<HandleOnScroll, HeroSectionProps>(
               <p />
             </a>
           </div>
+          {/* --- */}
         </div>
       </section>
     );
-  },
+  }
 );
 
 export default HeroSection;

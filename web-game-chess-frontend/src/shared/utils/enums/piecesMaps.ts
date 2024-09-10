@@ -1,23 +1,10 @@
-// maps for kinds of pieces
+/* maps for kinds of pieces */
 
-type PiecesImageMap = {
-  [key: string]: string;
-};
+const pieceName = { p: "Pawn", n: "Knight", b: "Bishop", r: "Rook", q: "Queen", k: "King" };
 
-// map from key letter to image path
-export const pieceImageMap: PiecesImageMap = {
-  R: "white-rook.png",
-  N: "white-knight.png",
-  B: "white-bishop.png",
-  Q: "white-queen.png",
-  K: "white-king.png",
-  P: "white-pawn.png",
-  r: "black-rook.png",
-  n: "black-knight.png",
-  b: "black-bishop.png",
-  q: "black-queen.png",
-  k: "black-king.png",
-  p: "black-pawn.png",
+// to game piece name by piece tag
+export const getPieceName = (char: string): string => {
+  return pieceName[char.toLowerCase() as keyof typeof pieceName] || "Unknown";
 };
 
 type PieceTagType = "pawn" | "knight" | "bishop" | "rook" | "queen" | "king";
@@ -49,16 +36,29 @@ export const pieceTagMap: PieceTagMap = {
     king: "k",
   },
 };
-export type WhitePieceType = typeof pieceTagMap.white[keyof typeof pieceTagMap.white];
-export type BlackPieceType = typeof pieceTagMap.black[keyof typeof pieceTagMap.black];
 
+export type WhitePieceType = (typeof pieceTagMap.white)[keyof typeof pieceTagMap.white];
+export type BlackPieceType = (typeof pieceTagMap.black)[keyof typeof pieceTagMap.black];
+
+// to gat side color name by piece tag
+export const getPiecesSideColor = (piece: string): string => {
+  if (Object.values(pieceTagMap.white).includes(piece)) {
+    return "white";
+  } else if (Object.values(pieceTagMap.black).includes(piece)) {
+    return "black";
+  } else {
+    return "";
+  }
+};
+
+// piece promotion tag maps
 export type PiecePromotionMap = {
   white: string[];
   black: string[];
 };
 
-// piece promotion tag maps
 export const piecePromotionMap: PiecePromotionMap = {
   white: ["N", "B", "R", "Q"],
   black: ["n", "b", "r", "q"],
 };
+//*/

@@ -7,21 +7,25 @@ import HomeSection from "./home-section/HomeSection";
 import PlaySection from "./play-section/PlaySection";
 import LearnSection from "./learn-section/LearnSection";
 import FaqSection from "./faq-section/FaqSection";
-import LogoIconSvg from "../../shared/svgs/LogoIconSvg";
 import FooterSection from "./footer-section/FooterSection";
 import HeroSection from "./hero-section/HeroSection";
 import { HandleOnScroll, PopupType } from "../../shared/utils/types/commonTypes";
 import MainPopUp from "../../shared/components/main-popup/MainPopUp";
 import { useLocation } from "react-router-dom";
 import { usePopup } from "../../shared/utils/hooks/usePopUp";
+import IntroBackgroundSection from "./intro-background-section/IntroBackgroundSection";
 
 // sections indicators
 const indicators = ["home", "play", "learn", "faq"] as const;
 
 interface Section {
-  id: string;
-  indRef: React.MutableRefObject<HTMLDivElement | null>;
-  forRef: React.MutableRefObject<HandleOnScroll | null>;
+  // section name
+  name: string;
+  // ref for indicator element
+  indicatorRef: React.MutableRefObject<HTMLDivElement | null>;
+  // ref for scroll event
+  scrollRef: React.MutableRefObject<HandleOnScroll | null>;
+  // ref for section
   sectionRef: React.MutableRefObject<HTMLElement | null>;
 }
 
@@ -29,12 +33,14 @@ function IndexPage() {
   ///
 
   const location = useLocation();
+  const { showPopup } = usePopup();
 
   // create section map
-  const createSection = (sectionId: string): Section => ({
-    id: sectionId,
-    indRef: useRef<HTMLDivElement>(null),
-    forRef: useRef<HandleOnScroll>(null),
+  // use for navigation work
+  const createSection = (sectionName: string): Section => ({
+    name: sectionName,
+    indicatorRef: useRef<HTMLDivElement>(null),
+    scrollRef: useRef<HandleOnScroll>(null),
     sectionRef: useRef<HTMLElement>(null),
   });
 
@@ -44,21 +50,26 @@ function IndexPage() {
     createSection("learn"),
     createSection("faq"),
   ];
+  //*/
 
-  // navbar ref
-  const navForRef = useRef<HandleOnScroll>(null);
-  const heroForRef = useRef<HandleOnScroll>(null);
+  // navbar scroll event ref
+  const navScrollRef = useRef<HandleOnScroll>(null);
+  // hero scroll event ref
+  const heroScrollRef = useRef<HandleOnScroll>(null);
+  // hero section ref
+  const heroSectionRef = useRef<HTMLElement>(null);
+  // home content ref
+  // for making nav sticky
+  const homeContentRef = useRef<HTMLDivElement>(null);
 
-  const { showPopup } = usePopup();
-
-  // scroll events
+  // scroll events handling
   const handleScroll = () => {
-    if (navForRef.current) navForRef.current.handleOnScroll();
-    if (heroForRef.current) heroForRef.current.handleOnScroll();
+    if (navScrollRef.current) navScrollRef.current.handleOnScroll();
+    if (heroScrollRef.current) heroScrollRef.current.handleOnScroll();
 
     sections.forEach((section) => {
-      if (section.forRef.current) {
-        section.forRef.current.handleOnScroll();
+      if (section.scrollRef.current) {
+        section.scrollRef.current.handleOnScroll();
       }
     });
   };
@@ -69,8 +80,9 @@ function IndexPage() {
       window.removeEventListener("scroll", handleScroll);
     };
   }, []);
+  //*/
 
-  // navbar funnctionality
+  // navbar functionality
   useEffect(() => {
     const observer = new IntersectionObserver((entries: IntersectionObserverEntry[]) => {
       entries.forEach((entry) => {
@@ -89,8 +101,8 @@ function IndexPage() {
     });
 
     sections.forEach((section) => {
-      if (section.indRef.current) {
-        observer.observe(section.indRef.current);
+      if (section.indicatorRef.current) {
+        observer.observe(section.indicatorRef.current);
       }
     });
 
@@ -98,52 +110,50 @@ function IndexPage() {
       observer.disconnect();
     };
   }, [sections]);
+  //*/
 
-  // intro animation
-  const bgRef = useRef<HTMLDivElement>(null);
-  useEffect(() => {
-    const hasAnimationPlayed = sessionStorage.getItem("animationPlayed");
-
-    if (!hasAnimationPlayed) {
-      const bgElement = bgRef.current;
-      if (bgElement) {
-        bgElement.classList.remove(classes["intro-remove"]);
-        bgElement.classList.add(classes["intro-begin"]);
-      }
-
-      const timeoutId = setTimeout(() => {
-        if (bgElement) {
-          bgElement.classList.add(classes["intro-remove"]);
-
-          sessionStorage.setItem("animationPlayed", "true");
-        }
-      }, 2500);
-
-      return () => {
-        clearTimeout(timeoutId);
-      };
-    }
-  }, []);
-
-  // set indicators heights
+  // set section indicators heights
   useEffect(() => {
     const wH = window.innerHeight;
 
     for (let i = 0; i < sections.length; i++) {
       const sectionElement = sections[i].sectionRef.current;
-      const sectionIndicator = sections[i].indRef.current;
+      const sectionIndicator = sections[i].indicatorRef.current;
 
       if (sectionElement && sectionIndicator) {
         const sH = sectionElement.offsetHeight;
         const indH = sH - wH;
 
-        // set indicators heights to sections height - 100vh
+        // set indicators heights to sections height - 100vh ?
         sectionIndicator.style.height = `${indH}px`;
       }
     }
   }, [sections]);
+  //*/
 
-  // handle popups
+  // to render section from map
+  // pass section refs
+  const renderSection = (
+    name: string,
+    scrollRef: React.RefObject<HandleOnScroll>,
+    sectionRef: React.RefObject<HTMLElement>,
+  ): JSX.Element => {
+    switch (name) {
+      case "home":
+        return <HomeSection ref={scrollRef} sectionRef={sectionRef} homeContentRef={homeContentRef} />;
+      case "play":
+        return <PlaySection ref={scrollRef} sectionRef={sectionRef} />;
+      case "learn":
+        return <LearnSection ref={scrollRef} sectionRef={sectionRef} />;
+      case "faq":
+        return <FaqSection ref={scrollRef} sectionRef={sectionRef} />;
+      default:
+        return <></>;
+    }
+  };
+  //*/
+
+  // handle page popups
   useEffect(() => {
     if (location.state) {
       const state = location.state as PopupType;
@@ -153,47 +163,38 @@ function IndexPage() {
       }
     }
   }, [location.state]);
+  //*/
 
   return (
     <main className={classes["home-main"]}>
-      <div ref={bgRef} className={`${classes["intro-background"]} ${classes["intro-remove"]}`}>
-        <div className={classes["intro-logo"]}>
-          <LogoIconSvg iconClass={classes["intro-svg"]} />
-          <p className={classes["intro-text"]}>Chess</p>
-        </div>
-      </div>
+      <IntroBackgroundSection />
 
-      <NavSection ref={navForRef} indicators={indicators} />
+      <NavSection
+        ref={navScrollRef}
+        heroSectionRef={heroSectionRef}
+        homeContentRef={homeContentRef}
+        indicators={indicators}
+      />
 
-      <HeroSection ref={heroForRef} />
+      <HeroSection ref={heroScrollRef} heroSectionRef={heroSectionRef} />
 
+      {/* map sections */}
       {sections.map((section) => (
-        <React.Fragment key={section.id}>
-          <div id={`obs-${section.id}`} ref={section.indRef} className={classes.observe} />
-          {renderSection(section.id, section.forRef, section.sectionRef)}
+        <React.Fragment key={section.name}>
+          {/* point to observe */}
+          <div id={`obs-${section.name}`} ref={section.indicatorRef} className={classes.observe} />
+
+          {/* section */}
+          {renderSection(section.name, section.scrollRef, section.sectionRef)}
         </React.Fragment>
       ))}
+      {/* --- */}
 
       <FooterSection />
 
       <MainPopUp />
     </main>
   );
-}
-
-function renderSection(id: string, forRef: React.RefObject<HandleOnScroll>, sectionRef: React.RefObject<HTMLElement>) {
-  switch (id) {
-    case "home":
-      return <HomeSection ref={forRef} sectionRef={sectionRef} />;
-    case "play":
-      return <PlaySection ref={forRef} sectionRef={sectionRef} />;
-    case "learn":
-      return <LearnSection ref={forRef} sectionRef={sectionRef} />;
-    case "faq":
-      return <FaqSection ref={forRef} sectionRef={sectionRef} />;
-    default:
-      return null;
-  }
 }
 
 export default IndexPage;

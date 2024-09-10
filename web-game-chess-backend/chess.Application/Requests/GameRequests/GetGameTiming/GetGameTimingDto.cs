@@ -7,5 +7,4 @@ namespace chess.Application.Requests.GameRequests.GetGameTiming;
 /// Dto of timing type
 /// </summary>
 public class GetGameTimingDto : TimingType {
-
 }

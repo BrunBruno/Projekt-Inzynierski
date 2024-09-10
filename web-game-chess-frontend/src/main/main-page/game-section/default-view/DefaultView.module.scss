@@ -1,97 +1,123 @@
 @import "../../../Main.scss";
 
+// default game section view container
 .default {
   @include wh100();
 
-  position: relative;
+  &__container {
+    position: relative;
+    width: 100%;
+    min-height: 50rem;
+    height: 100%;
 
-  .board {
-    @include square(50rem);
-    @include absCenter();
+    // board element
+    .board {
+      @include square(50rem);
+      @include absCenter();
 
-    &__grid {
-      position: relative;
-
-      border-radius: $md-br;
-      background-color: $gc9;
-
-      transform-style: preserve-3d;
-
-      // inner
-      &__inner {
+      &__grid {
         position: relative;
-        display: grid;
-        grid-template-columns: auto;
-        grid-template-rows: repeat(8, 1fr);
-        gap: 0.5rem;
 
-        overflow: hidden;
         border-radius: $md-br;
-        border: solid 1rem #0000;
-        box-shadow: inset 0 0 1rem 0.5rem #0000;
-        transition: box-shadow 1s, border-color 1s;
+        background-color: $gc9;
 
-        &.active {
-          box-shadow: inset 0 0 1rem 0.5rem $gc0;
-          border-color: $gc0;
-          transition: box-shadow 0.3s, border-color 0.3s;
-        }
+        transform-style: preserve-3d;
 
-        .grid-row {
+        // inner
+        &__inner {
+          position: relative;
           display: grid;
-          grid-template-columns: repeat(8, 1fr);
+          grid-template-columns: auto;
+          grid-template-rows: repeat(8, 1fr);
           gap: 0.5rem;
-          z-index: -1;
 
-          .tile {
-            @include square(100%);
+          overflow: hidden;
+          border-radius: $md-br;
+          border: solid 1rem #0000;
+          box-shadow: inset 0 0 1rem 0.5rem #0000;
+          transition: box-shadow 1s, border-color 1s;
 
-            filter: brightness(70%);
-            border-radius: 0.5rem;
+          &.active {
+            box-shadow: inset 0 0 1rem 0.5rem $gc0;
+            border-color: $gc0;
+            transition: box-shadow 0.3s, border-color 0.3s;
           }
 
-          &:nth-child(even) {
+          .grid-row {
+            display: grid;
+            grid-template-columns: repeat(8, 1fr);
+            gap: 0.5rem;
+            z-index: -1;
+
             .tile {
-              &:nth-child(odd) {
-                background-color: rgba($mc1, 0.5);
+              @include square(100%);
+
+              filter: brightness(70%);
+              border-radius: 0.5rem;
+            }
+
+            &:nth-child(even) {
+              .tile {
+                &:nth-child(odd) {
+                  background-color: rgba($mc1, 0.5);
+                }
+                &:nth-child(even) {
+                  background-color: rgba($mc9, 0.5);
+                }
               }
-              &:nth-child(even) {
-                background-color: rgba($mc9, 0.5);
+            }
+            &:nth-child(odd) {
+              .tile {
+                &:nth-child(even) {
+                  background-color: rgba($mc1, 0.5);
+                }
+                &:nth-child(odd) {
+                  background-color: rgba($mc9, 0.5);
+                }
               }
             }
           }
-          &:nth-child(odd) {
-            .tile {
-              &:nth-child(even) {
-                background-color: rgba($mc1, 0.5);
-              }
-              &:nth-child(odd) {
-                background-color: rgba($mc9, 0.5);
-              }
-            }
-          }
+        }
+        // end inner
+
+        &__outer {
+          @include wh100();
+          @include absCenter();
+
+          z-index: -2;
+          background-color: $gc9;
+          border-radius: $md-br;
         }
       }
-      // end inner
 
-      &__outer {
+      &__shadow {
         @include wh100();
         @include absCenter();
 
         z-index: -2;
-        background-color: $gc9;
-        border-radius: $md-br;
+        background-color: rgba(#000, 0.6);
+        border-radius: 100%;
+        filter: blur(8rem);
       }
     }
+    //*/
+  }
+}
+//*/
 
-    &__shadow {
-      @include wh100();
-      @include absCenter();
+// resize
+@media (max-height: 500px) {
+  .default {
+    overflow-y: scroll;
 
-      z-index: -2;
-      background-color: rgba(#000, 0.6);
-      border-radius: 100%;
-      filter: blur(8rem);
+    &::-webkit-scrollbar {
+      display: none;
+    }
+
+    &__container {
+      margin-top: 10rem;
     }
   }
 }
+
+//*/

@@ -67,7 +67,7 @@ internal static partial class DbFilter {
     /// <param name="blackPlayerId"></param>
     /// <param name="timingId"></param>
     /// <returns> Game id </returns>
-    internal static async Task<Guid> AddGame(this ChessAppDbContext dbContext, Guid whitePlayerId, Guid blackPlayerId, Guid timingId) {
+    internal static async Task<Guid> AddGame(this ChessAppDbContext dbContext, Guid whitePlayerId, Guid blackPlayerId, Guid timingId, bool isPrivate) {
 
         Guid gameId = Guid.NewGuid();
 
@@ -77,6 +77,7 @@ internal static partial class DbFilter {
             WhitePlayerId = whitePlayerId,
             BlackPlayerId = blackPlayerId,
             GameTimingId = timingId,
+            IsPrivate = isPrivate,
         };
 
         var state = new GameState()
@@ -124,7 +125,6 @@ internal static partial class DbFilter {
     /// <returns></returns>
     /// <exception cref="InvalidOperationException"></exception>
     internal static async Task ChangePlayerToNotPlaying(this ChessAppDbContext dbContext, Guid playerId) {
-
 
         var player = await dbContext.Players.FirstOrDefaultAsync(p => p.Id == playerId)
             ?? throw new InvalidOperationException("Player not added.");
@@ -264,8 +264,8 @@ internal static partial class DbFilter {
             if (withInvitation) {
                 invitations.Add(new Invitation() {
                     Id = Guid.NewGuid(),
-                    InvitorId = i % 2 == 0 ? userPlayer.UserId : enemyPlayer.UserId,
-                    InvitorName = i % 2 == 0 ? userPlayer.Name : enemyPlayer.Name,
+                    InviterId = i % 2 == 0 ? userPlayer.UserId : enemyPlayer.UserId,
+                    InviterName = i % 2 == 0 ? userPlayer.Name : enemyPlayer.Name,
                     InviteeId = i % 2 == 0 ? enemyPlayer.UserId : userPlayer.UserId,
                     InviteeName = i % 2 == 0 ? enemyPlayer.Name : userPlayer.Name,
                     GameId = game.Id,
@@ -295,6 +295,41 @@ internal static partial class DbFilter {
         await dbContext.Invitations.AddRangeAsync(invitations);
         await dbContext.Players.AddRangeAsync(players);
         await dbContext.Games.AddRangeAsync(games);
+        await dbContext.SaveChangesAsync();
+    }
+
+    /// <summary>
+    /// To add many messages for game with provided id
+    /// </summary>
+    /// <param name="dbContext"></param>
+    /// <param name="gameId"></param>
+    /// <returns></returns>
+    /// <exception cref="InvalidOperationException"></exception>
+    internal static async Task AddMessagesToGame(this ChessAppDbContext dbContext, Guid gameId) {
+
+        var game = await dbContext.Games
+                .Include(g => g.WhitePlayer)
+                .ThenInclude(p => p.Messages)
+                .Include(g => g.BlackPlayer)
+                .ThenInclude(p => p.Messages)
+                .FirstOrDefaultAsync(g => g.Id == gameId)
+            ?? throw new InvalidOperationException("Game not added.");
+
+
+        for(int i = 0; i < 10; i++) {
+            game.WhitePlayer.Messages.Add(new Message()
+            {
+                Content = "Message",
+                PlayerId = game.WhitePlayerId,
+            });
+            game.BlackPlayer.Messages.Add(new Message()
+            {
+                Content = "Message",
+                PlayerId = game.BlackPlayerId,
+            });
+        }
+
+        dbContext.Games.Update(game);
         await dbContext.SaveChangesAsync();
     }
 }

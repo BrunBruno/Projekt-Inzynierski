@@ -1,32 +1,61 @@
 @import "../../../Main.scss";
 
+// game section container
 .games {
   @include wh100();
+  @include showAni();
+
   padding: 4rem 8rem;
 
-  @include showAni();
+  $header_w: 6rem;
 
   &__header {
     @include flex(row, space-between, center, 0);
+
+    height: $header_w;
     padding: 1rem;
     padding-right: 4rem;
 
-    h2 {
-      font-size: 3rem;
+    h2.header-title {
+      @include flex(row, start, center, 1rem);
+
+      span {
+        font-size: 3rem;
+        font-weight: bold;
+      }
+
+      span.counter {
+        @include flex($gap: 0.5rem);
+        width: fit-content;
+
+        span.sym {
+          font-size: 2rem;
+          color: $gc4;
+        }
+      }
     }
 
     .filters {
-      button {
-        @include mainMButton();
+      button.filter-button {
         @include button(2rem);
+        @include mainMButton();
+
+        &.disabled {
+          filter: grayscale(100%);
+          pointer-events: none;
+        }
+
+        &.enabled {
+          filter: grayscale(0%);
+          pointer-events: all;
+        }
       }
     }
   }
 
   &__list {
     position: relative;
-    height: 100%;
-    max-height: calc(100vh - 2 * 4rem - 6rem);
+    height: calc(100% - $header_w);
     padding: 0.5rem;
     overflow-y: scroll;
     overflow-x: hidden;
@@ -43,27 +72,41 @@
         border-radius: 1rem;
       }
     }
+
+    &.empty {
+      overflow: hidden;
+    }
   }
 }
+//*/
 
+// resize
 @media (max-width: 700px) {
   .games {
+    height: 100%;
+    overflow: hidden;
     padding: 4rem 2rem;
 
+    $header_w: 10rem;
+
     &__header {
+      height: $header_w;
+
       h2 {
         font-size: 3.6rem;
       }
 
       .filters {
-        button {
-          @include button(2.6rem);
+        button.filter-button {
+          font-size: 2.6rem;
         }
       }
     }
 
     &__list {
+      height: calc(100% - $header_w);
       grid-template-columns: repeat(2, 1fr);
     }
   }
 }
+//*/

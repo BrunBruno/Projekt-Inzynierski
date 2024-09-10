@@ -4,55 +4,57 @@ import { GetAllFriendsByStatusDto } from "../../../shared/utils/types/friendship
 import axios from "axios";
 import { friendshipControllerPaths, getAuthorization } from "../../../shared/utils/services/ApiService";
 import { GetAllFriendsByStatusModel } from "../../../shared/utils/types/friendshipModels";
-import { friendshipStatus } from "../../../shared/utils/enums/entitiesEnums";
+import { FriendshipStatus } from "../../../shared/utils/enums/entitiesEnums";
 import LoadingPage from "../../../shared/components/loading-page/LoadingPage";
-import AvatarSvg from "../../../shared/svgs/AvatarSvg";
+import AvatarIcon from "../../../shared/svgs/icons/AvatarIcon";
 import FriendCard from "./friend-card/FriendCard";
 import cardClasses from "./friend-card/FriendCard.module.scss";
 import { usePopup } from "../../../shared/utils/hooks/usePopUp";
 import usePagination from "../../../shared/utils/hooks/usePagination";
 import { getErrMessage } from "../../../shared/utils/functions/displayError";
-import { PagedResult } from "../../../shared/utils/types/abstracDtosAndModels";
+import { PagedResult } from "../../../shared/utils/types/abstractDtosAndModels";
 
 function FriendsSection() {
   ///
 
   const [friendList, setFriendList] = useState<GetAllFriendsByStatusDto[] | null>(null);
-
   const [selectedFriend, setSelectedFriend] = useState<HTMLElement | null>(null);
 
   const { showPopup } = usePopup();
-
   const { scrollRef, totalItemsCount, setTotalItemsCount } = usePagination();
 
-  const getFriends = async () => {
-    try {
-      const frindsModel: GetAllFriendsByStatusModel = {
-        username: "",
-        status: friendshipStatus.accepted,
-        pageNumber: 1,
-        pageSize: 100,
-      };
-
-      const friendsResponse = await axios.get<PagedResult<GetAllFriendsByStatusDto>>(
-        friendshipControllerPaths.getAllFriendsByStatus(frindsModel),
-        getAuthorization()
-      );
-
-      setFriendList(friendsResponse.data.items);
-      setTotalItemsCount(friendsResponse.data.totalItemsCount);
-    } catch (err) {
-      showPopup(getErrMessage(err), "warning");
-    }
-  };
-
+  // to get friend list
   useEffect(() => {
+    const getFriends = async () => {
+      try {
+        const model: GetAllFriendsByStatusModel = {
+          username: "",
+          status: FriendshipStatus.accepted,
+          pageNumber: 1,
+          pageSize: 100,
+        };
+
+        const friendsResponse = await axios.get<PagedResult<GetAllFriendsByStatusDto>>(
+          friendshipControllerPaths.getAllFriendsByStatus(model),
+          getAuthorization()
+        );
+
+        setFriendList(friendsResponse.data.items);
+        setTotalItemsCount(friendsResponse.data.totalItemsCount);
+      } catch (err) {
+        showPopup(getErrMessage(err), "warning");
+      }
+    };
+
     getFriends();
   }, []);
+  //*/
 
+  // to deactivate friend selection
   const clearSelection = () => {
     if (selectedFriend !== null) selectedFriend.classList.remove(cardClasses.active);
   };
+  //*/
 
   if (!friendList) return <LoadingPage text="Loading data" />;
 
@@ -67,7 +69,7 @@ function FriendsSection() {
       {friendList.length > 0 ? (
         friendList.map((friend) => (
           <FriendCard
-            key={friend.freindshpId.toString()}
+            key={friend.friendshipId.toString()}
             friend={friend}
             setSelectedFriend={setSelectedFriend}
             clearSelection={clearSelection}
@@ -80,7 +82,7 @@ function FriendsSection() {
           </div>
           {Array.from({ length: 16 }).map((_, i) => (
             <div key={i} className={classes["empty-card"]}>
-              <AvatarSvg iconClass={classes["blank-avatar"]} />
+              <AvatarIcon iconClass={classes["blank-avatar"]} />
               <p />
               <p />
             </div>

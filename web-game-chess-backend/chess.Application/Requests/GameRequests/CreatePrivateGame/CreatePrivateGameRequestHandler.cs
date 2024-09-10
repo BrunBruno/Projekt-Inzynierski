@@ -17,8 +17,8 @@ namespace chess.Application.Requests.GameRequests.CreatePrivateGame;
 /// Creates players for both current user and provided friend
 /// Creates new game and associated game state
 /// Creates new invitation for created game
-/// Sends invitaton to friend email
-/// Returns essentail for further actions
+/// Sends invitation to friend email
+/// Returns essential for further actions
 /// </summary>
 public class CreatePrivateGameRequestHandler : IRequestHandler<CreatePrivateGameRequest, CreatePrivateGameDto> {
 
@@ -75,6 +75,7 @@ public class CreatePrivateGameRequestHandler : IRequestHandler<CreatePrivateGame
 
         var existingGameTiming = await _gameTimingRepository.FindTiming(request.Type, request.Minutes * 60, request.Increment);
 
+
         var timing = existingGameTiming;
         if (existingGameTiming is null) {
 
@@ -96,6 +97,7 @@ public class CreatePrivateGameRequestHandler : IRequestHandler<CreatePrivateGame
         var userPlayer = new Player()
         {
             Id = Guid.NewGuid(),
+            IsPrivate = true,
             Name = user.Username,
             ImageUrl = user.ImageUrl,
             Elo = userElo,
@@ -104,13 +106,11 @@ public class CreatePrivateGameRequestHandler : IRequestHandler<CreatePrivateGame
             TimingId = timing!.Id,
         };
 
-
-        await _playerRepository.Create(userPlayer);
-
         int friendElo = friend.Elo.GetElo(request.Type);
         var friendPlayer = new Player()
         {
             Id = Guid.NewGuid(),
+            IsPrivate = true,
             Name = friend.Username,
             ImageUrl = friend.ImageUrl,
             Elo = friendElo,
@@ -120,6 +120,7 @@ public class CreatePrivateGameRequestHandler : IRequestHandler<CreatePrivateGame
         };
 
 
+        await _playerRepository.Create(userPlayer);
         await _playerRepository.Create(friendPlayer);
 
 
@@ -142,24 +143,17 @@ public class CreatePrivateGameRequestHandler : IRequestHandler<CreatePrivateGame
         userPlayer.Color = randomChoice ? Colors.White : Colors.Black;
         friendPlayer.Color = randomChoice ? Colors.Black : Colors.White;
 
-
-        await _gameRepository.Create(game);
-
         var gameState = new GameState()
         {
             Id = Guid.NewGuid(),
             GameId = game.Id,
         };
 
-
-        await _gameStateRepository.Create(gameState);
-
-
         var invitation = new Invitation()
         {
             Id = Guid.NewGuid(),
-            InvitorId = userId,
-            InvitorName = user.Username,
+            InviterId = userId,
+            InviterName = user.Username,
             InviteeId = friend.Id,
             InviteeName = friend.Username,
             Type = request.Type,
@@ -167,6 +161,8 @@ public class CreatePrivateGameRequestHandler : IRequestHandler<CreatePrivateGame
         };
 
 
+        await _gameRepository.Create(game);
+        await _gameStateRepository.Create(gameState);
         await _invitationRepository.Create(invitation);
 
 

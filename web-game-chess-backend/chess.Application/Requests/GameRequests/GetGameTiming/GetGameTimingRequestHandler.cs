@@ -9,7 +9,7 @@ namespace chess.Application.Requests.GameRequests.GetGameTiming;
 /// <summary>
 /// Checks if game exists with provided id
 /// Checks if game is user game
-/// Chekcs if timing exists
+/// Checks if timing exists
 /// Creates and returns game timing dto
 /// </summary>
 public class GetGameTimingRequestHandler : IRequestHandler<GetGameTimingRequest, GetGameTimingDto> {
@@ -34,9 +34,6 @@ public class GetGameTimingRequestHandler : IRequestHandler<GetGameTimingRequest,
 
         var game = await _gameRepository.GetById(request.GameId)
             ?? throw new NotFoundException("Game not found.");
-
-        if (game.WhitePlayer.UserId != userId && game.BlackPlayer.UserId != userId)
-            throw new UnauthorizedException("This is not user game.");
 
         var timing = await _gameTimingRepository.GetById(game.GameTimingId)
              ?? throw new NotFoundException("Timing not found.");

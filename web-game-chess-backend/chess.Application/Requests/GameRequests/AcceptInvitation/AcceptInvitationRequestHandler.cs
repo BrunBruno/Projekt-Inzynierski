@@ -32,25 +32,25 @@ public class AcceptInvitationRequestHandler : IRequestHandler<AcceptInvitationRe
 
         var userId = _userContextService.GetUserId();
 
-        var invitor = await _playerRepository.GetByUserIdAndGameId(request.InvitorId, request.GameId)
+        var inviter = await _playerRepository.GetByUserIdAndGameId(request.InviterId, request.GameId)
             ?? throw new NotFoundException("Player not found.");
 
         var invitee  = await _playerRepository.GetByUserIdAndGameId(request.InviteeId, request.GameId)
             ?? throw new NotFoundException("Player not found.");
 
         if (userId != invitee.UserId)
-            throw new BadRequestException("This user can not accept choosen game.");
+            throw new BadRequestException("This user can not accept chosen game.");
 
         var invitation = await _invitationRepository.GetByGameId(request.GameId)
               ?? throw new NotFoundException("Invitation not found.");
 
 
-        invitor.IsPlaying = true;
+        inviter.IsPlaying = true;
         invitee.IsPlaying = true;
         invitation.IsAccepted = true;
 
 
-        await _playerRepository.Update(invitor);
+        await _playerRepository.Update(inviter);
         await _playerRepository.Update(invitee);
         await _invitationRepository.Update(invitation);
     }

@@ -1,9 +1,8 @@
 @import "../../../../Main.scss";
 
+// user game card
 .card {
   @include flex(column, start, center, 0);
-
-  border: solid 1rem red;
 
   position: relative;
   overflow: hidden;
@@ -11,21 +10,32 @@
   border-radius: 1rem;
   border-bottom: solid 0.3rem $mc7;
   user-select: none;
-  flex-shrink: 0 !important;
 
   transform: scale(1);
   transition: transform 0.3s;
 
   &:hover {
     cursor: pointer;
-    transform: scale(0.95);
+    // transform: scale(0.95);
   }
 
+  // &:hover {
+  //   .mini-grid {
+  //     .field {
+  //       .bg-piece {
+  //         // display: block;
+  //       }
+  //     }
+  //   }
+  // }
+
+  // game result data
   .game-data {
     @include flex(row, space-evenly, center, 0);
 
     width: 100%;
     padding: 2rem;
+    flex-shrink: 0;
 
     .timing-type {
       svg {
@@ -61,7 +71,9 @@
       }
     }
   }
+  //*/
 
+  // board grid position background
   .mini-grid {
     width: 100%;
     aspect-ratio: 1/1 !important;
@@ -71,19 +83,25 @@
     grid-template-rows: repeat(8, 1fr);
     border-radius: 1rem;
     overflow: hidden;
+    flex-shrink: 0 !important;
 
-    @mixin field($bgc) {
+    .field {
       background-size: contain;
       background-repeat: no-repeat;
-      background-color: $bgc;
+
       opacity: 0.1;
+
+      .bg-piece {
+        // display: none;
+        transform: scale(0.8);
+      }
     }
 
     .light-f {
-      @include field($mc0);
+      background-color: $mc0;
     }
     .dark-f {
-      @include field($mc9);
+      background-color: $mc9;
     }
 
     .players {
@@ -190,8 +208,11 @@
       color: $gc5;
     }
   }
+  //*/
 }
+//*/
 
+// resize
 @media (max-width: 700px) {
   .card {
     .game-data {
@@ -232,3 +253,4 @@
     }
   }
 }
+//*/

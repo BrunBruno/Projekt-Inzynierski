@@ -1,9 +1,13 @@
-import { EnumType } from "../types/commonTypes";
+/* enums related global functions */
 
 // gets enu type by its value
-export const getEnumTypeByNumber = (enumElements: EnumType, typeN: number): string => {
-  const type = Object.entries(enumElements).find(([, value]) => value === typeN)?.[0];
+export const getEnumKeyByEnumValue = <T extends object>(enumObj: T, enumValue: T[keyof T]): string => {
+  const key = Object.keys(enumObj).find((key) => enumObj[key as keyof T] === enumValue);
 
-  if (type) return type.toLocaleLowerCase();
-  return "";
+  return key ? key : "";
+};
+
+// get enum value by key
+export const getEnumValueByKey = <T>(enumObj: T, key: string): T[keyof T] => {
+  return enumObj[key as keyof typeof enumObj];
 };

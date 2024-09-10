@@ -12,9 +12,9 @@ public interface IGameTimingRepository {
     /// <summary>
     /// Get timing by id
     /// </summary>
-    /// <param name="timigId"></param>
+    /// <param name="timingId"></param>
     /// <returns></returns>
-    Task<GameTiming?> GetById(Guid timigId);
+    Task<GameTiming?> GetById(Guid timingId);
 
     /// <summary>
     /// Gets timing by type and times

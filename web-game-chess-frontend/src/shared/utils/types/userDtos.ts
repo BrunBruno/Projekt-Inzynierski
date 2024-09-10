@@ -1,7 +1,7 @@
-// user controller dtos
+/* user controller dtos */
 
 import { Guid } from "guid-typescript";
-import { EloDto, UserDto, WinDrawLose } from "./abstracDtosAndModels";
+import { EloDto, UserDto, WinDrawLose } from "./abstractDtosAndModels";
 
 export type ConfigurationDto = {
   // minimal length of input
@@ -65,7 +65,7 @@ export type GetByEmailDto = {
 export type GetOtherUserDto = UserDto & {
   // date of creation
   joinDate: Date;
-  // desciption
+  // description
   bio: string | null;
   // total games played
   gamesPlayed: number;

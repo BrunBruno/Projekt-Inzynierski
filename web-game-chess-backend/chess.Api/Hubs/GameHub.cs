@@ -7,8 +7,11 @@ using chess.Application.Requests.GameRequests.DeclineInvitation;
 using chess.Application.Requests.GameRequests.EndGame;
 using chess.Application.Requests.GameRequests.InvitedToGame;
 using chess.Application.Requests.GameRequests.MakeMove;
+using chess.Application.Requests.GameRequests.RemoveDrawMessage;
+using chess.Application.Requests.GameRequests.SendDrawMessage;
 using chess.Application.Requests.GameRequests.SendMessage;
 using chess.Application.Requests.GameRequests.StartGames;
+using chess.Application.Requests.GameRequests.UpdatePrivateGame;
 using chess.Application.Services;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -49,8 +52,8 @@ public class GameHub : Hub<IGameHub> {
 
     /// <summary>
     /// Adds user to queue for each timing
-    /// Starts all games, that meet requiriment for start
-    /// Calls to all grups, to check if awaiting players are not in game.
+    /// Starts all games, that meet requirement for start
+    /// Calls to all groups, to check if awaiting players are not in game.
     /// </summary>
     /// <param name="typeId"> Game timing id </param>
     /// <returns></returns>
@@ -73,7 +76,7 @@ public class GameHub : Hub<IGameHub> {
 
 
     /// <summary>
-    /// Creats moves
+    /// Creates moves
     /// Updates game state
     /// </summary>
     /// <param name="model"></param>
@@ -92,7 +95,7 @@ public class GameHub : Hub<IGameHub> {
 
 
     /// <summary>
-    /// Creates new message for currect users and current game
+    /// Creates new message for current users and current game
     /// </summary>
     /// <param name="model"></param>
     /// <returns></returns>
@@ -110,7 +113,28 @@ public class GameHub : Hub<IGameHub> {
 
 
     /// <summary>
-    /// Changels all necessary parameters to end the game
+    /// To send draw offer
+    /// </summary>
+    /// <param name="gameId"></param>
+    /// <returns></returns>
+    [HubMethodName("send-draw")]
+    [Authorize(Policy = "IsVerified")]
+    [SignalRMethod("SendDraw", Operation.Post)]
+    public async Task SendDrawMessage(Guid gameId) {
+
+        var request = new SendDrawMessageRequest() 
+        { 
+            GameId = gameId,
+        };
+
+        await _mediator.Send(request);
+
+        await Clients.Groups($"game-{gameId}").MessagesUpdated();
+    }
+
+
+    /// <summary>
+    /// Changes all necessary parameters to end the game
     /// </summary>
     /// <param name="model"></param>
     /// <returns></returns>
@@ -128,14 +152,14 @@ public class GameHub : Hub<IGameHub> {
 
 
     /// <summary>
-    /// Adds user to 2-user grups to perform game
+    /// Adds user to 2-user groups to perform game
     /// </summary>
     /// <param name="gameId"></param>
     /// <returns></returns>
-    [HubMethodName("game-started")]
+    [HubMethodName("add-player")]
     [Authorize(Policy = "IsVerified")]
-    [SignalRMethod("GameStarted", Operation.Put)]
-    public async Task GameStarted(Guid gameId) {
+    [SignalRMethod("AddPlayer", Operation.Put)]
+    public async Task AddPlayer(Guid gameId) {
 
         await Groups.AddToGroupAsync(Context.ConnectionId, $"game-{gameId}");
     }
@@ -143,7 +167,7 @@ public class GameHub : Hub<IGameHub> {
 
     /// <summary>
     ///  To accept new received invitation
-    ///  Notify both counterpartiens and starts the game
+    ///  Notify both counterparts and starts the game
     /// </summary>
     /// <param name="model"></param>
     /// <returns></returns>
@@ -157,13 +181,37 @@ public class GameHub : Hub<IGameHub> {
 
         await _mediator.Send(request);
 
-        await Clients.Groups($"user-{model.InvitorId}").GameAccepted(model.GameId);
+        await Clients.Groups($"user-{model.InviterId}").GameAccepted(model.GameId);
         await Clients.Groups($"user-{model.InviteeId}").GameAccepted(model.GameId);
     }
 
 
     /// <summary>
-    /// Provides invited user with essentail data to accept newly creacted game
+    /// Updates game created with link
+    /// </summary>
+    /// <param name="model"></param>
+    /// <returns></returns>
+    [HubMethodName("update-private-game")]
+    [Authorize(Policy = "IsVerified")]
+    [SignalRMethod("UpdatePrivateGame", Operation.Put)]
+    public async Task UpdatePrivateGame(Guid gameId) {
+
+        var request = new UpdatePrivateGameRequest()
+        {
+            GameId = gameId,
+        };
+
+        var startGameDto = await _mediator.Send(request);
+
+        if (startGameDto.ShouldStart) {
+            await Clients.Groups($"user-{startGameDto.WhitePlayerUserId}").GameAccepted(gameId);
+            await Clients.Groups($"user-{startGameDto.BlackPlayerUserId}").GameAccepted(gameId);
+        }
+    }
+
+
+    /// <summary>
+    /// Provides invited user with essential data to accept newly created game
     /// </summary>
     /// <param name="model"></param>
     /// <returns></returns>
@@ -219,7 +267,7 @@ public class GameHub : Hub<IGameHub> {
 
 
     /// <summary>
-    /// To decline invitations and notify invitor
+    /// To decline invitations and notify inviter
     /// </summary>
     /// <param name="gameId"></param>
     /// <returns></returns>
@@ -233,5 +281,26 @@ public class GameHub : Hub<IGameHub> {
         await _mediator.Send(request);
 
         await Clients.Groups($"user-{model.FriendId}").InvitationDeclined();
+    }
+
+
+    /// <summary>
+    /// To decline a draw
+    /// </summary>
+    /// <param name="gameId"></param>
+    /// <returns></returns>
+    [HubMethodName("remove-draw")]
+    [Authorize(Policy = "IsVerified")]
+    [SignalRMethod("RemoveDraw", Operation.Delete)]
+    public async Task RemoveDrawMessage(Guid gameId) {
+
+        var request = new RemoveDrawMessageRequest()
+        {
+            GameId = gameId,
+        };
+
+        await _mediator.Send(request);
+
+        await Clients.Groups($"game-{gameId}").MessagesUpdated();
     }
 }

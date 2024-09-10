@@ -1,9 +1,12 @@
 import { useNavigate } from "react-router-dom";
 import classes from "./MainNav.module.scss";
-import MainNavIcons from "./MainNavIcons";
-import LogoIconSvg from "../../svgs/LogoIconSvg";
+import LogoIcon from "../../svgs/icons/LogoIcon";
+import IconCreator from "../icon-creator/IconCreator";
+import { mainNavIcons } from "./MainNavIcons";
 
 function MainNav() {
+  ///
+
   const navigate = useNavigate();
 
   // log out user
@@ -18,6 +21,7 @@ function MainNav() {
       },
     });
   };
+  //*/
 
   return (
     <nav className={classes.nav}>
@@ -28,7 +32,8 @@ function MainNav() {
             navigate("/main");
           }}
         >
-          <LogoIconSvg iconClass={classes["nav-icon"]} />
+          <LogoIcon iconClass={classes["nav-icon"]} />
+          <span className={classes.ind}>Main</span>
         </div>
 
         <div
@@ -37,7 +42,7 @@ function MainNav() {
             navigate("/main/account");
           }}
         >
-          <MainNavIcons iconName="account" />
+          <IconCreator icons={mainNavIcons} iconName="account" />
           <span className={classes.ind}>Account</span>
         </div>
 
@@ -47,14 +52,14 @@ function MainNav() {
             navigate("/main/users");
           }}
         >
-          <MainNavIcons iconName="addFriend" />
+          <IconCreator icons={mainNavIcons} iconName="addFriend" />
           <span className={classes.ind}>Add friend</span>
         </div>
 
         {/* placeholders */}
         {Array.from({ length: 6 }).map((_, i) => (
-          <div key={i} className={classes.element}>
-            <p>i</p>
+          <div key={i} className={classes.element} style={{ pointerEvents: "none" }}>
+            <p></p>
             <span className={classes.ind}>ind</span>
           </div>
         ))}
@@ -66,7 +71,7 @@ function MainNav() {
             onLogOut();
           }}
         >
-          <MainNavIcons iconName="logOut" />
+          <IconCreator icons={mainNavIcons} iconName="logOut" />
           <span className={classes.ind}>Log out</span>
         </div>
       </div>

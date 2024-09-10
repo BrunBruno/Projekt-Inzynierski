@@ -1,32 +1,23 @@
+/* commonly occurred types */
+
 import { popupIconTypes } from "../enums/commonConstLists";
 
-// type from enums string to number
-export type EnumType = {
-  [key: string]: number;
-};
-
-// type for svg icons
-export type IconSvgProps = {
-  color?: string;
-  iconClass: string;
-};
-
-// type for svg icons maps
-export type IconMap = {
-  [key: string]: JSX.Element;
-};
-
-// type for props of icon maps
-export type IconsMapProps = {
-  iconName: string;
-};
-
+// type for svg icons maps and corresponding props
 // type for svg icons with params
-export type IconParamMap = {
-  [key: string]: (iconClass: string, color: string) => JSX.Element;
+export type IconMap = {
+  [key: string]: (iconClass?: string, color?: string, active?: boolean) => JSX.Element;
 };
 
-// handle on scoll function type
+export type IconsMapProps = {
+  icons: IconMap;
+  iconName: string;
+  iconClass?: string;
+  color?: string;
+  active?: boolean;
+};
+//*/
+
+// handle on scroll function type
 export type HandleOnScroll = {
   handleOnScroll: () => void;
 };
@@ -44,7 +35,8 @@ export type ChartObject = {
   label: string;
 };
 
+// popup data object
 export type PopupType = {
   popupText: string;
-  popupType: typeof popupIconTypes[number];
+  popupType: (typeof popupIconTypes)[number];
 };

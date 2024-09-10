@@ -9,8 +9,8 @@ namespace chess.Application.Requests.GameRequests.StartGames;
 
 /// <summary>
 /// Checks if provided timing exists
-/// Gets all awaiting players
-/// Maches players and creates games for each mach
+/// Gets all awaiting players (not playing and not private)
+/// Matches players and creates games for each mach
 /// </summary>
 public class StartGamesRequestHandler : IRequestHandler<StartGamesRequest> {
 
@@ -40,12 +40,13 @@ public class StartGamesRequestHandler : IRequestHandler<StartGamesRequest> {
 
         var matchedPlayers = new List<Player>();
         var random = new Random();
+        var eloRange = GetRange(players.Count);
 
         foreach (var player in players) {
             if (matchedPlayers.Contains(player))
                 continue;
          
-            var possiblePlayers = players.Where(p => p.UserId != player.UserId && Math.Abs(p.Elo - player.Elo) <= 200).Except(matchedPlayers); // 200 ??
+            var possiblePlayers = players.Where(p => p.UserId != player.UserId && Math.Abs(p.Elo - player.Elo) <= eloRange).Except(matchedPlayers);
             var closestPlayer = possiblePlayers.OrderBy(pp => Math.Abs(pp.Elo - player.Elo)).FirstOrDefault();
 
             if (closestPlayer is not null) {
@@ -74,9 +75,6 @@ public class StartGamesRequestHandler : IRequestHandler<StartGamesRequest> {
                 player.Color = randomChoice ? Colors.White : Colors.Black;
                 closestPlayer.Color = randomChoice ? Colors.Black : Colors.White;
 
-
-                await _gameRepository.Create(game);
-
                 var gameState = new GameState()
                 {
                     Id = Guid.NewGuid(),
@@ -84,10 +82,15 @@ public class StartGamesRequestHandler : IRequestHandler<StartGamesRequest> {
                 };
 
 
+                await _playerRepository.Update(player);
+                await _playerRepository.Update(closestPlayer);
+                await _gameRepository.Create(game);
                 await _gameStateRepository.Create(gameState);
-
-                // break ???
             }
         }
+    }
+
+    private static int GetRange(int x) {
+        return (int)Math.Pow(1.01, -(x - 500)) + 10;
     }
 }

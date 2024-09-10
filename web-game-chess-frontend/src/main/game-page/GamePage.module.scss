@@ -1,5 +1,6 @@
 @import "../Main.scss";
 
+// game page container
 .game-main {
   @include gridBg();
 
@@ -10,9 +11,13 @@
   grid-template-columns: 20rem auto 40rem;
   overflow: hidden;
 }
+//*/
 
-@media (max-width: 800px) {
+// resize
+@media (max-width: 1000px) {
   .game-main {
-    grid-template-columns: 0 auto 0;
+    grid-template-columns: 100%;
+    grid-template-rows: 10rem auto 20rem;
   }
 }
+//*/

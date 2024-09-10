@@ -9,18 +9,18 @@ using Moq;
 
 namespace chess.Core.Tests.Friendship;
 
-public class RespondToFriendRequestRequestHadnlerTests {
+public class RespondToFriendRequestRequestHandlerTests {
 
     private readonly Mock<IUserContextService> _mockUserContextService;
     private readonly Mock<IFriendshipRepository> _mockFriendshipRepository;
 
-    public RespondToFriendRequestRequestHadnlerTests() {
+    public RespondToFriendRequestRequestHandlerTests() {
         _mockUserContextService = new Mock<IUserContextService>();
         _mockFriendshipRepository = new Mock<IFriendshipRepository>();
     }
 
     [Fact]
-    public async Task Handle_Should_Update_Freindship_On_Success() {
+    public async Task Handle_Should_Update_Friendship_On_Success() {
 
         var userId = Guid.NewGuid();
         var friendshipId = Guid.NewGuid();

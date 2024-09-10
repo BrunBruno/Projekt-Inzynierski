@@ -1,16 +1,16 @@
-// game controller models to requests
+/* game controller models to requests */
 
-import { EndGameTypes, PieceColor, TimingType } from "../enums/entitiesEnums";
+import { EndGameTypes, PieceColor, TimingTypes } from "../enums/entitiesEnums";
 import { BlackPieceType, WhitePieceType } from "../enums/piecesMaps";
-import { PagedModel, TimingTypeModel } from "./abstracDtosAndModels";
+import { PagedModel, TimingTypeModel } from "./abstractDtosAndModels";
 import { Guid } from "guid-typescript";
 
 /** POST models */
 
-export type SearchGameModel = TimingTypeModel;
+export type SearchGameModel = TimingTypeModel & {};
 
 export type CreatePrivateGameModel = TimingTypeModel & {
-  // freindship id
+  // friendship id
   friendshipId: Guid;
 };
 
@@ -35,9 +35,9 @@ export type MakeMoveModel = {
   oldCoor: string;
   // new coordinates
   newCoor: string;
-  // piece that was capured or nothing
+  // piece that was capered or nothing
   capturedPiece: WhitePieceType | BlackPieceType | null;
-  // enpassant coordinates if possible
+  // en passant coordinates if possible
   enPassant: string | null;
   // castling options
   wkm: boolean;
@@ -51,11 +51,11 @@ export type MakeMoveModel = {
 export type SendMessageModel = {
   // game id where message was sent
   gameId: Guid;
-  // player id that sent message
-  playerId: Guid;
   // message content
   message: string;
 };
+
+export type CreateGameWithLinkModel = TimingTypeModel & {};
 
 /** PUT models */
 
@@ -71,8 +71,8 @@ export type EndGameModel = {
 export type AcceptInvitationModel = {
   // game id of invitation
   gameId: Guid;
-  // invitor of game id
-  invitorId: Guid;
+  // inviter of game id
+  inviterId: Guid;
   // invitee of game id
   inviteeId: Guid;
 };
@@ -86,17 +86,17 @@ export type CheckIfInGameModel = {
 
 export type GetAllFinishedGamesModel = PagedModel & {
   // to get only selected types of timing type
-  timingTypeFilters: TimingType[];
+  timingTypeFilters: TimingTypes[];
   // to get only selected results of the game
   resultFilters: (boolean | null)[];
 };
 
-export type GetTypeHistiryModel = PagedModel & {
+export type GetTypeHistoryModel = PagedModel & {
   // selected timing to to display history of games
-  type: TimingType;
+  type: TimingTypes;
 };
 
-export type GetAllInvitationsModel = PagedModel;
+export type GetAllInvitationsModel = PagedModel & {};
 
 export type NotifyUserModel = TimingTypeModel & {
   // friend to notify id
@@ -110,13 +110,13 @@ export type NotifyUserModel = TimingTypeModel & {
 /** DELETE models */
 
 export type AbortSearchModel = {
-  // plyaer to remove id
+  // player to remove id
   playerId: Guid;
 };
 
 export type DeclineInvitationModel = {
   // game to decline id
   gameId: Guid;
-  // invitor id
+  // inviter id
   friendId: Guid;
 };

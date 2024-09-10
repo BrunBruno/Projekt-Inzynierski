@@ -1,3 +1,5 @@
+/* shared const list */
+
 // list of timing types
 export const timingTypesNames = ["Bullet", "Blitz", "Rapid", "Classic", "Daily"] as const;
 

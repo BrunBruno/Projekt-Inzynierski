@@ -33,7 +33,7 @@ public class GetPlayerRequestHandler : IRequestHandler<GetPlayerRequest, GetPlay
             ?? throw new NotFoundException("Player not found.");
 
         if (player.Color is null || !player.IsPlaying)
-            throw new BadRequestException("Player has not been asigned to game yet.");
+            throw new BadRequestException("Player has not been aligned to game yet.");
 
         var playerDto = new GetPlayerDto()
         {

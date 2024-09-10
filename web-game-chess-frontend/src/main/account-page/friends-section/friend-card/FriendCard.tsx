@@ -2,11 +2,14 @@ import { useNavigate } from "react-router-dom";
 import AvatarImage from "../../../../shared/components/avatar-image/AvatarImage";
 import { GetAllFriendsByStatusDto } from "../../../../shared/utils/types/friendshipDtos";
 import classes from "./FriendCard.module.scss";
-import { gameSearchInterface } from "../../../../shared/utils/enums/interfacesEnums";
+import { GameSearchInterface } from "../../../../shared/utils/enums/interfacesEnums";
 
 type FriendCardProps = {
+  // friend data
   friend: GetAllFriendsByStatusDto;
+  // to select friend
   setSelectedFriend: React.Dispatch<React.SetStateAction<HTMLElement | null>>;
+  // to clear selection
   clearSelection: () => void;
 };
 
@@ -17,14 +20,17 @@ function FriendCard({ friend, setSelectedFriend, clearSelection }: FriendCardPro
 
   const checkProfile = () => {};
 
+  // to navigate to vs-friend search
   const onInviteFriendToGame = async () => {
     navigate(`main/`, {
       state: {
-        interface: gameSearchInterface.vsFriend,
+        interface: GameSearchInterface.vsFriend,
       },
     });
   };
+  //*/
 
+  // to activate card
   const setActive = (event: React.MouseEvent<HTMLDivElement, MouseEvent>): void => {
     const target = event.target as HTMLElement;
 
@@ -34,6 +40,7 @@ function FriendCard({ friend, setSelectedFriend, clearSelection }: FriendCardPro
 
     target.classList.add(classes.active);
   };
+  //*/
 
   return (
     <div
@@ -42,6 +49,7 @@ function FriendCard({ friend, setSelectedFriend, clearSelection }: FriendCardPro
         setActive(event);
       }}
     >
+      {/* card content */}
       <div className={classes.friend__content}>
         <div className={classes.friend__content__avatar}>
           <AvatarImage username={friend.username} imageUrl={friend.imageUrl} imageClass={classes.avatar} />
@@ -61,7 +69,9 @@ function FriendCard({ friend, setSelectedFriend, clearSelection }: FriendCardPro
           <span>{friend.wdlTotal.loses}</span>
         </div>{" "}
       </div>
+      {/* --- */}
 
+      {/* friend related actions */}
       <div className={classes.friend__actions}>
         <button
           onClick={() => {
@@ -78,6 +88,7 @@ function FriendCard({ friend, setSelectedFriend, clearSelection }: FriendCardPro
           Play
         </button>
       </div>
+      {/* --- */}
     </div>
   );
 }

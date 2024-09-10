@@ -3,15 +3,14 @@ using chess.Application.Pagination;
 using chess.Application.Repositories;
 using chess.Application.Services;
 using chess.Core.Enums;
-using chess.Shared.Exceptions;
 using MediatR;
 
 namespace chess.Application.Requests.GameRequests.GetTypeHistory;
 
 /// <summary>
 /// Checks if user exists
-/// Checks if players for user exosts
-/// Creates hstory of games for selected and provided game timing type
+/// Checks if players for user exists
+/// Creates history of games for selected and provided game timing type
 /// Returns type history
 /// </summary>
 public class GetTypeHistoryRequestHandler : IRequestHandler<GetTypeHistoryRequest, PagedResult<GetTypeHistoryDto>> {

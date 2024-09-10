@@ -2,6 +2,8 @@
 @import "../../styles//variables/spacing.scss";
 @import "../../styles//commons-styles/elements.scss";
 
+// action button styles
+// include in component where action button should be applied
 @mixin actionButton($size: 2rem) {
   width: fit-content;
   height: fit-content;
@@ -46,3 +48,4 @@
     }
   }
 }
+//*/
