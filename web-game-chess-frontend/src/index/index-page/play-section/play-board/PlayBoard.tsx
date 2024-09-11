@@ -1,4 +1,4 @@
-import React, { forwardRef, useImperativeHandle, useRef } from "react";
+import React, { ForwardedRef, forwardRef, useImperativeHandle, useRef } from "react";
 import classes from "./PlayBoard.module.scss";
 import LogoIcon from "../../../../shared/svgs/icons/LogoIcon";
 import { HandleOnScroll } from "../../../../shared/utils/types/commonTypes";
@@ -6,7 +6,7 @@ import { HandleOnScroll } from "../../../../shared/utils/types/commonTypes";
 type PlayBoardProps = {};
 
 const PlayBoard = forwardRef<HandleOnScroll, PlayBoardProps>(
-  ({}: PlayBoardProps, ref: React.ForwardedRef<HandleOnScroll>) => {
+  ({}: PlayBoardProps, ref: ForwardedRef<HandleOnScroll>) => {
     ///
 
     const wh = window.innerHeight;

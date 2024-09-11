@@ -9,7 +9,7 @@ import {
 import { friendshipControllerPaths, getAuthorization } from "../../../shared/utils/services/ApiService";
 import { useEffect, useRef, useState } from "react";
 import { FriendshipStatus } from "../../../shared/utils/enums/entitiesEnums";
-import UserCards from "./user-cards/UserCards";
+import UserCard from "./user-cards/UserCard";
 import FriendCard from "./user-cards/FriendCard";
 import usePagination from "../../../shared/utils/hooks/usePagination";
 import { usePopup } from "../../../shared/utils/hooks/usePopUp";
@@ -184,7 +184,7 @@ function ListSection({ selectedUsername, selectedList, setUserProfile, setFriend
           }}
         >
           {users.map((user, i) => (
-            <UserCards
+            <UserCard
               key={`user-card-${user.username}-${i}`}
               user={user}
               getAllUsers={getAllUsers}

@@ -13,7 +13,7 @@ import { getErrMessage } from "../../../../shared/utils/functions/displayError";
 import AvatarImage from "../../../../shared/components/avatar-image/AvatarImage";
 import { Guid } from "guid-typescript";
 
-type UserCardsProps = {
+type UserCardProps = {
   // user data to create card
   user: GetAllNonFriendsDto;
   // to updated list when action was performed
@@ -22,7 +22,7 @@ type UserCardsProps = {
   setNonFriend: (user: GetOtherUserDto) => void;
 };
 
-function UserCards({ user, getAllUsers, setNonFriend }: UserCardsProps) {
+function UserCard({ user, getAllUsers, setNonFriend }: UserCardProps) {
   ///
 
   const { showPopup } = usePopup();
@@ -50,7 +50,7 @@ function UserCards({ user, getAllUsers, setNonFriend }: UserCardsProps) {
     try {
       const response = await axios.get<GetOtherUserDto>(
         userControllerPaths.getOtherUser(user.userId),
-        getAuthorization(),
+        getAuthorization()
       );
 
       setNonFriend(response.data);
@@ -103,4 +103,4 @@ function UserCards({ user, getAllUsers, setNonFriend }: UserCardsProps) {
   );
 }
 
-export default UserCards;
+export default UserCard;

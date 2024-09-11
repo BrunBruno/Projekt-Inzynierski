@@ -1,4 +1,4 @@
-import React, { CSSProperties } from "react";
+import { CSSProperties, ForwardedRef } from "react";
 import { forwardRef, useEffect, useImperativeHandle, useRef } from "react";
 import classes from "./LearnSection.module.scss";
 import LearnBlocks from "./learn-blocks/LearnBlocks";
@@ -13,7 +13,7 @@ type LearnSectionProps = {
 };
 
 const LearnSection = forwardRef<HandleOnScroll, LearnSectionProps>(
-  ({ sectionRef }: LearnSectionProps, ref: React.ForwardedRef<HandleOnScroll>) => {
+  ({ sectionRef }: LearnSectionProps, ref: ForwardedRef<HandleOnScroll>) => {
     ///
 
     // side cards refs, for opening

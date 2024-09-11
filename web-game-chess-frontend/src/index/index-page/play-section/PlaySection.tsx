@@ -1,4 +1,4 @@
-import React, { forwardRef, useEffect, useRef } from "react";
+import React, { ForwardedRef, forwardRef, useEffect, useRef } from "react";
 import classes from "./PlaySection.module.scss";
 import PlayBoard from "./play-board/PlayBoard";
 import { createOneTimeObserver } from "../../../shared/utils/functions/createOneTimeObserver";
@@ -13,7 +13,7 @@ type PlaySectionProps = {
 };
 
 const PlaySection = forwardRef<HandleOnScroll, PlaySectionProps>(
-  ({ sectionRef }: PlaySectionProps, ref: React.ForwardedRef<HandleOnScroll>) => {
+  ({ sectionRef }: PlaySectionProps, ref: ForwardedRef<HandleOnScroll>) => {
     ///
 
     const navigate = useNavigate();
