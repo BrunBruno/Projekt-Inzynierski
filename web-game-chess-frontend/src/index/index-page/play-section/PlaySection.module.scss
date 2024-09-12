@@ -2,14 +2,12 @@
 
 // play section container
 .section {
-  @include wh100();
-
   position: relative;
+
+  @include wh100();
 
   // play section intro
   &__intro {
-    @include textBg();
-
     position: relative;
     width: 100%;
     margin: 10rem 0;
@@ -20,6 +18,8 @@
     filter: drop-shadow(0 0 0.4rem $mc0);
 
     transition: all 1s 0.3s;
+
+    @include textBg();
 
     .intro-h2 {
       transition: margin-left 1s 0.3s;
@@ -70,54 +70,57 @@
 
     // play actions
     &__actions {
-      @include flex(column, end, end, 0);
-
       height: 100%;
       padding-right: 12rem;
       pointer-events: none;
 
-      &__buttons {
-        @include flex($direction: column, $gap: 4rem);
+      @include flex(column, end, end, 0);
 
+      &__buttons {
         width: 100%;
         height: 60rem;
         pointer-events: all;
+
+        @include flex($direction: column, $gap: 4rem);
 
         .actions-row {
           &.show {
             @include emergeAni(1s, 0s, 6rem);
           }
 
-          h3 {
+          h3.buttons-title {
             font-size: 4.4rem;
             text-shadow: 0.2rem 0.1rem $mc5;
           }
 
-          h4 {
+          h4.buttons-text {
             font-size: 2.2rem;
             color: $gc4;
             text-align: center;
           }
 
-          button {
-            @include button(4rem);
+          button.play-button {
             @include flex(row, space-between, center, 2rem);
+            @include button(4rem);
 
-            svg {
+            svg.button-icon {
               height: 6rem;
             }
           }
 
           .vs-player-button {
-            @include mainMButton;
+            @include mainMButton();
+
             .vs-player-icon {
               path {
                 fill: $mc0;
               }
             }
           }
+
           .vs-computer-button {
-            @include secMButton;
+            @include secMButton();
+
             .vs-computer-icon {
               path {
                 fill: $mc9;
@@ -167,7 +170,8 @@
         &__buttons {
           .actions-row {
             @include flex();
-            h4 {
+
+            h4.buttons-text {
               max-width: 80%;
             }
           }

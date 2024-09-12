@@ -24,9 +24,6 @@
   }
 
   &__content {
-    @include flex(column, center, center, 1rem);
-    @include rounded(1rem);
-
     position: relative;
     pointer-events: none;
     border: solid 0.5rem #0000;
@@ -34,37 +31,41 @@
     background-color: $gc9;
     transition: all 0.3s;
 
-    &__avatar {
-      @include flex();
+    @include flex(column, center, center, 1rem);
+    @include rounded(1rem);
 
+    &__avatar {
       position: relative;
 
-      .avatar {
-        @include circle(10rem);
+      @include flex();
 
+      .avatar {
         object-fit: cover;
+
+        @include circle(10rem);
       }
 
       .country {
-        @include circle(2.4rem);
-        @include flex();
-
         position: absolute;
         top: 0;
         right: 0;
         overflow: hidden;
 
-        img {
+        @include circle(2.4rem);
+        @include flex();
+
+        img.country-flag {
+          // for circle shape
           height: 160%;
         }
       }
     }
 
     &__name {
-      @include flex($direction: column);
-
       width: 100%;
       pointer-events: none;
+
+      @include flex($direction: column);
 
       span {
         @include longText();
@@ -88,6 +89,7 @@
 
       span {
         font-size: 1.6rem;
+
         &:nth-child(1) {
           color: $success-color-m;
         }
@@ -102,9 +104,6 @@
   }
 
   &__actions {
-    @include rounded(1rem);
-    @include flex(column, center, center, 0.5rem);
-
     position: absolute;
     top: 100%;
     background-color: $gc9;
@@ -116,12 +115,16 @@
     border: solid 0.5rem #0000;
     border-top: none;
 
+    @include rounded(1rem);
+    @include flex(column, center, center, 0.5rem);
+
     button {
       @include button(1.4rem);
 
       &:nth-child(1) {
         @include mainMButton();
       }
+
       &:nth-child(2) {
         @include secMButton();
       }

@@ -1,13 +1,9 @@
 @import "../../styles/variables/color.scss";
-@import "../../styles/variables/spacing.scss";
 @import "../../styles/commons-styles/elements.scss";
 @import "../../styles/commons-styles/texts.scss";
 
 // popup window
 .popup {
-  @include rounded(1rem);
-  @include flex($gap: 1rem);
-
   position: absolute;
   z-index: 999;
   top: 2rem;
@@ -17,6 +13,9 @@
   background-color: $mc0;
   border-bottom: solid 0.5rem $mc9;
   animation: showPopup 0.3s forwards;
+
+  @include rounded(1rem);
+  @include flex($gap: 1rem);
 
   &:hover {
     display: none;
@@ -32,16 +31,19 @@
     .success {
       fill: $success-color-m;
     }
+
     .info {
       path {
         fill: $info-color-m;
       }
     }
+
     .warning {
       path {
         fill: $warning-color-m;
       }
     }
+
     .error {
       fill: $danger-color-m;
     }

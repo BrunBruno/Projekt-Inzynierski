@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { mainColor, strengthColor } from "../../../shared/utils/enums/colorMaps";
-import classes from "./Modal.module.scss";
+import classes from "./RegisterModal.module.scss";
 import axios from "axios";
 import LoadingPage from "../../../shared/components/loading-page/LoadingPage";
 import { errorDisplay, getErrMessage } from "../../../shared/utils/functions/displayError";
@@ -272,7 +272,8 @@ function SignUpModal({ setModal }: SignUpModalProps) {
     <form className={classes["registration-form"]} onSubmit={(event) => signUpUser(event)}>
       <IconCreator icons={registerPageIcons} iconName="bgPawn" color={mainColor.c0} iconClass={classes["bg-svg"]} />
 
-      <h2>Create Account</h2>
+      <h2 className={classes["form-title"]}>Create Account</h2>
+
       <div className={classes["change-form"]}>
         Already have an account? <span onClick={() => setModal(RegistrationInterface.signIn)}>Sing In</span>
       </div>

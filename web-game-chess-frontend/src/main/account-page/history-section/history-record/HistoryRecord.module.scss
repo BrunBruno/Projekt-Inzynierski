@@ -1,0 +1,33 @@
+@import "../../../Main.scss";
+
+// history record card
+.record {
+  width: 100%;
+  background-color: rgba($gc9, 0.5);
+  display: grid;
+  grid-template-columns: 45% 15% 10% 30%;
+
+  @include rounded(0.5rem);
+
+  &.win {
+    background-color: rgba($success-color-m, 0.5);
+  }
+
+  &.lose {
+    background-color: rgba($danger-color-m, 0.5);
+  }
+
+  span {
+    padding-left: 2rem;
+    font-size: 1.6rem;
+    border-right: solid 0.2rem $gc0;
+
+    &:last-child {
+      border: none;
+    }
+  }
+}
+//*/
+
+// resize
+//*/

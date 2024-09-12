@@ -1,5 +1,4 @@
 @import "../../styles/variables/color.scss";
-@import "../../styles/variables/spacing.scss";
 @import "../../styles/commons-styles/elements.scss";
 @import "../../styles/commons-styles/texts.scss";
 
@@ -17,15 +16,15 @@
   box-shadow: -0.2rem 0 1rem 0 rgba($mc9, 0.5);
 
   &__elements {
-    @include flex(column, space-evenly, center, 0);
-
     height: 100%;
 
+    @include flex(column, space-evenly, center, 0);
+
     .element {
+      position: relative;
+
       @include circle(5rem);
       @include flex();
-
-      position: relative;
 
       &:hover {
         cursor: pointer;
@@ -40,16 +39,15 @@
       }
 
       &::after {
-        @include subCl();
-        @include absCenter();
-
         z-index: -1;
         border-radius: 100%;
-
         filter: blur(1rem);
 
         transform: translate(-50%, -50%) scale(0.8);
         transition: all 0.3s;
+
+        @include subCl();
+        @include absCenter();
       }
 
       .nav-icon {
@@ -57,8 +55,6 @@
       }
 
       span.ind {
-        @include rounded(0.6rem);
-
         position: absolute;
         right: 100%;
 
@@ -69,10 +65,13 @@
         opacity: 0;
 
         transition: opacity 0.3s;
+
+        @include rounded(0.6rem);
       }
 
       p {
-        @include secFont(3rem);
+        // placeholder
+        display: block;
       }
     }
   }

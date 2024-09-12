@@ -65,7 +65,7 @@ function HomeActions({}: HomeActionsProps) {
                 state: { regOption: RegistrationInterface.signIn },
               });
             }}
-            className={`${classes["signin-pawn"]} ${classes["pawn-container"]}`}
+            className={`${classes["sign-in-pawn"]} ${classes["pawn-container"]}`}
           >
             <div className={classes["img-pawn-container"]}>
               {Array.from({ length: partOfPawn }).map((_, index) => (
@@ -84,7 +84,7 @@ function HomeActions({}: HomeActionsProps) {
                 state: { regOption: RegistrationInterface.signUp },
               });
             }}
-            className={`${classes["signup-pawn"]} ${classes["pawn-container"]}`}
+            className={`${classes["sign-up-pawn"]} ${classes["pawn-container"]}`}
           >
             <div className={classes["img-pawn-container"]}>
               {Array.from({ length: partOfPawn }).map((_, index) => (

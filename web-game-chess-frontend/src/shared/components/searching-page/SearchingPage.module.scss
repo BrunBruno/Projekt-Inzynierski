@@ -1,26 +1,25 @@
 @import "../../styles/common-components/buttons.scss";
 @import "../../styles/commons-styles/elements.scss";
 @import "../../styles/variables/color.scss";
-@import "../../styles/variables/spacing.scss";
 
 // searching for game container
 .searching {
   @include wh100();
 
   &__content {
-    @include flex($direction: column, $gap: 3rem);
-    @include rounded(2rem);
-
     position: relative;
     z-index: 10;
     height: 100%;
     background-color: rgba($gc9, 0.3);
 
-    &__background {
-      @include square(60rem);
+    @include flex($direction: column, $gap: 3rem);
+    @include rounded(2rem);
 
+    &__background {
       position: absolute;
       z-index: -1;
+
+      @include square(60rem);
 
       svg {
         g {
@@ -82,7 +81,9 @@
 
     button.cancel {
       @include button(2.6rem);
-      @include mainMButton();
+      & {
+        @include mainMButton();
+      }
     }
   }
 }

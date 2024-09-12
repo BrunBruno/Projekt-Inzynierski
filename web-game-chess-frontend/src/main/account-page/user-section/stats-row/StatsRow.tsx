@@ -33,6 +33,7 @@ function StatsRow({ type, user }: StatsRowProps) {
             <span>
               {stat.label} {stat.icon}
             </span>
+
             <span>{stat.value}</span>
           </div>
         ))}
@@ -43,6 +44,7 @@ function StatsRow({ type, user }: StatsRowProps) {
       <div className={classes.stats__chart}>
         {config.data.reduce((sum, item) => sum + item.value, 0) !== 0 && (
           <PieChart
+            className={classes["pie-chart"]}
             series={[
               {
                 data: config.data,

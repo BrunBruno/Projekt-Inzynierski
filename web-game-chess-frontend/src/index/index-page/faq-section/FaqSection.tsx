@@ -1,4 +1,4 @@
-import React, { forwardRef, useImperativeHandle, useRef, useState } from "react";
+import React, { forwardRef, useEffect, useImperativeHandle, useRef, useState } from "react";
 import classes from "./FaqSection.module.scss";
 import { mainColor } from "../../../shared/utils/enums/colorMaps";
 import { accountAndUserProfileFAQs, gameplayAndFeaturesFAQs } from "./FaqSectionData";
@@ -6,6 +6,7 @@ import { HandleOnScroll } from "../../../shared/utils/types/commonTypes";
 import FaqSectionCard from "./faq-section-card/FaqSectionCard";
 import IconCreator from "../../../shared/components/icon-creator/IconCreator";
 import { symbolIcons } from "../../../shared/svgs/iconsMap/SymbolIcons";
+import { faqSectionIcons } from "./FaqSectionIcons";
 
 type FaqSectionProps = {
   // section container ref
@@ -19,20 +20,38 @@ const FaqSection = forwardRef<HandleOnScroll, FaqSectionProps>(
     const row1Ref = useRef<HTMLDivElement>(null);
     const row2Ref = useRef<HTMLDivElement>(null);
 
+    const [cardCount, setCardCount] = useState<number>(2);
+
     const [arrRow1Left, setArrRow1Left] = useState<boolean>(false);
     const [arrRow1Right, setArrRow1Right] = useState<boolean>(true);
     const [arrRow2Left, setArrRow2Left] = useState<boolean>(false);
     const [arrRow2Right, setArrRow2Right] = useState<boolean>(true);
 
+    const [row1Indicator, setRow1Indicator] = useState<number>(0);
+    const [row2Indicator, setRow2Indicator] = useState<number>(0);
+
+    useEffect(() => {
+      const handleCardCountOnResize = () => {
+        const count = window.innerWidth < 700 ? 1 : 2;
+        setCardCount(count);
+      };
+
+      window.addEventListener("resize", handleCardCountOnResize);
+
+      return () => {
+        window.removeEventListener("resize", handleCardCountOnResize);
+      };
+    }, []);
+
     // to control scroll buttons
     const handleScrollOnClick = (containerRow: number, direction: number) => {
-      const cardCount = window.innerWidth < 700 ? 1 : 2;
       let element: HTMLDivElement | null;
       let child;
       let scrollAmount: number;
 
       if (containerRow === 1) {
         element = row1Ref.current;
+
         if (element) {
           child = element.firstChild as HTMLDivElement;
           scrollAmount = cardCount * direction * child.clientWidth;
@@ -44,6 +63,13 @@ const FaqSection = forwardRef<HandleOnScroll, FaqSectionProps>(
 
           const scrollPos = element.scrollLeft + scrollAmount;
           const scrollMax = element.scrollWidth - element.clientWidth;
+
+          const maxPos = Math.ceil(accountAndUserProfileFAQs.length / cardCount) - 1;
+          setRow1Indicator((prev) => {
+            let newPos = prev + direction;
+            newPos = newPos < 0 ? 0 : newPos > maxPos ? maxPos : newPos;
+            return newPos;
+          });
 
           if (scrollPos <= 0) {
             setArrRow1Left(false);
@@ -59,6 +85,7 @@ const FaqSection = forwardRef<HandleOnScroll, FaqSectionProps>(
         }
       } else if (containerRow === 2) {
         element = row2Ref.current;
+
         if (element) {
           child = element.firstChild as HTMLDivElement;
           scrollAmount = cardCount * direction * child.clientWidth;
@@ -70,6 +97,13 @@ const FaqSection = forwardRef<HandleOnScroll, FaqSectionProps>(
 
           const scrollPos = element.scrollLeft + scrollAmount;
           const scrollMax = element.scrollWidth - element.clientWidth;
+
+          const maxPos = Math.ceil(accountAndUserProfileFAQs.length / cardCount);
+          setRow2Indicator((prev) => {
+            let newPos = prev + direction;
+            newPos = newPos < 0 ? 0 : newPos > maxPos ? maxPos : newPos;
+            return newPos;
+          });
 
           if (scrollPos <= 0) {
             setArrRow2Left(false);
@@ -102,11 +136,18 @@ const FaqSection = forwardRef<HandleOnScroll, FaqSectionProps>(
         {/* question cards */}
 
         <div className={classes.section__content}>
-          <div className={classes.section__content__category}>Account and User Profile FAQs</div>
-
           {/* row 1 */}
+          <div className={classes.section__content__category}>
+            <IconCreator icons={faqSectionIcons} iconName="account" iconClass={classes["account-category-icon"]} />
+            <h3 className={classes["cat-text"]}>Account and User Profile FAQs</h3>
+          </div>
+
           <div
-            className={classes.section__content__arrow}
+            className={`
+          ${classes.section__content__arrow}
+          ${classes["left-side"]} 
+          ${!arrRow1Left ? classes["inactive-arrow"] : ""}
+        `}
             onClick={() => {
               handleScrollOnClick(1, -1);
             }}
@@ -128,7 +169,11 @@ const FaqSection = forwardRef<HandleOnScroll, FaqSectionProps>(
           </div>
 
           <div
-            className={classes.section__content__arrow}
+            className={`
+              ${classes.section__content__arrow}
+              ${classes["right-side"]} 
+              ${!arrRow1Right ? classes["inactive-arrow"] : ""}
+            `}
             onClick={() => {
               handleScrollOnClick(1, 1);
             }}
@@ -142,13 +187,26 @@ const FaqSection = forwardRef<HandleOnScroll, FaqSectionProps>(
               />
             )}
           </div>
+
+          <div className={classes.section__content__indicator}>
+            {Array.from({ length: Math.ceil(accountAndUserProfileFAQs.length / cardCount) }).map((_, i) => (
+              <p key={i} className={`${classes["ind-point"]} ${row1Indicator === i ? classes.active : ""}`} />
+            ))}
+          </div>
           {/* --- */}
 
-          <div className={classes.section__content__category}>Gameplay and Features FAQs</div>
-
           {/* row 2 */}
+          <div className={classes.section__content__category}>
+            <IconCreator icons={faqSectionIcons} iconName="gameplay" iconClass={classes["gameplay-category-icon"]} />
+            <h3 className={classes["cat-text"]}>Gameplay and Features FAQs</h3>
+          </div>
+
           <div
-            className={classes.section__content__arrow}
+            className={`
+              ${classes.section__content__arrow}
+              ${classes["left-side"]} 
+              ${!arrRow2Left ? classes["inactive-arrow"] : ""}
+            `}
             onClick={() => {
               handleScrollOnClick(2, -1);
             }}
@@ -170,7 +228,11 @@ const FaqSection = forwardRef<HandleOnScroll, FaqSectionProps>(
           </div>
 
           <div
-            className={classes.section__content__arrow}
+            className={`
+              ${classes.section__content__arrow}
+              ${classes["right-side"]} 
+              ${!arrRow2Right ? classes["inactive-arrow"] : ""}
+            `}
             onClick={() => {
               handleScrollOnClick(2, 1);
             }}
@@ -183,6 +245,12 @@ const FaqSection = forwardRef<HandleOnScroll, FaqSectionProps>(
                 iconClass={classes["arrow-right"]}
               />
             )}
+          </div>
+
+          <div className={classes.section__content__indicator}>
+            {Array.from({ length: Math.ceil(gameplayAndFeaturesFAQs.length / cardCount) }).map((_, i) => (
+              <p key={i} className={`${classes["ind-point"]} ${row2Indicator === i ? classes.active : ""}`} />
+            ))}
           </div>
           {/* --- */}
         </div>

@@ -12,11 +12,11 @@
   background-color: rgba(#000, 1);
 
   .intro-logo {
-    @include absCenter();
-    @include flex($gap: 2rem);
-
     opacity: 0;
     animation: introInit 1s forwards;
+
+    @include absCenter();
+    @include flex($gap: 2rem);
 
     @keyframes introInit {
       to {
@@ -37,10 +37,10 @@
     }
 
     .intro-text {
-      @include secFont(12rem);
-
       width: 0;
       animation: textInit 0.5s 0.5s forwards;
+
+      @include secFont(12rem);
 
       @keyframes textInit {
         to {

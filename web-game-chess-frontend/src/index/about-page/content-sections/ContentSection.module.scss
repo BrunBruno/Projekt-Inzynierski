@@ -3,74 +3,98 @@
 // content container
 .content {
   @include flex(column, start, start, 1rem);
-  @include showAni();
 
+  position: relative;
   height: fit-content;
   text-align: justify;
   text-shadow: 1px 1px #000;
   padding-bottom: 10rem;
 
+  & {
+    @include showAni();
+  }
+
   h1.section-title {
     position: sticky;
     top: 0;
+    z-index: 1;
     width: 100%;
     font-size: 5rem;
     padding: 1rem 5rem;
     text-shadow: 2px 2px #000;
     background-color: #111;
-    margin: 2rem 0;
   }
 
-  h2.paragraph-title {
-    @include flex(row, start, center, 2rem);
+  &__elements {
+    padding: 0 3rem;
+    overflow: hidden;
 
-    font-size: 3rem;
-    width: 100%;
-    height: fit-content;
-    border-bottom: solid 0.5rem $mc5;
-    text-shadow: 2px 2px #000;
+    h2.paragraph-title {
+      @include flex(row, start, center, 2rem);
 
-    &:not(:nth-child(2)) {
-      margin-top: 8rem;
-    }
-
-    span {
-      padding: 1rem;
+      font-size: 3rem;
+      width: 100%;
+      height: fit-content;
+      border-bottom: solid 0.5rem $mc5;
+      text-shadow: 2px 2px #000;
 
       &:nth-child(1) {
-        @include square(6rem);
-        @include flex();
+        margin-top: 4rem;
+      }
 
-        background-color: $mc5;
-        border-top-left-radius: 1rem;
-        border-top-right-radius: 1rem;
+      span {
+        padding: 1rem;
+
+        &:nth-child(1) {
+          @include square(6rem);
+          @include flex();
+
+          background-color: $mc5;
+          border-top-left-radius: 1rem;
+          border-top-right-radius: 1rem;
+        }
       }
     }
-  }
 
-  p.text {
-    width: 100%;
-    padding: 1rem;
-    font-size: 2rem;
-    color: $gc3;
-  }
-
-  ul.bullet-points {
-    @include flex(column, start, start, 1rem);
-
-    width: 100%;
-    padding: 1rem;
-    padding-left: 4rem;
-
-    li.point {
+    p.text {
+      width: 100%;
+      padding: 1rem;
       font-size: 2rem;
       color: $gc3;
     }
-  }
 
-  svg.pawn-line {
-    margin-top: 4rem;
-    margin-bottom: 12rem;
+    ul.bullet-points {
+      @include flex(column, start, start, 1rem);
+
+      width: 100%;
+      padding: 1rem;
+      padding-left: 4rem;
+      list-style-type: none;
+
+      li.point {
+        $line-h: 2.6rem;
+
+        position: relative;
+
+        svg.bullet-point {
+          position: absolute;
+          top: calc($line-h * 0.4 / 2);
+          left: -$line-h;
+          height: calc($line-h * 0.6);
+        }
+
+        span {
+          font-size: 2rem;
+          line-height: $line-h;
+          color: $gc3;
+        }
+      }
+    }
+
+    svg.pawn-line {
+      margin: 4rem 0;
+      opacity: 0.1;
+    }
   }
 }
 //*/
@@ -78,7 +102,7 @@
 // resize
 @media (max-width: 800px) {
   .content {
-    margin-top: 10rem;
+    margin-top: 2rem;
 
     h1.section-title {
       position: unset;
@@ -87,9 +111,4 @@
   }
 }
 
-@media (max-width: 400px) {
-  .content {
-    margin-top: 20rem;
-  }
-}
 //*/

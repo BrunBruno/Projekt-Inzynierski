@@ -18,14 +18,14 @@
     &:nth-child(1) {
       top: calc(8rem - 4rem);
       left: calc(12rem - 4rem);
-      border-top-left-radius: $md-br;
+      border-top-left-radius: 4rem;
       border-left: solid 2rem rgba($mc7, 0.2);
       border-top: solid 2rem rgba($mc7, 0.2);
     }
     &:nth-child(2) {
       top: calc(100% - 24rem - 8rem + 4rem);
       left: calc(100% - 24rem - 12rem + 4rem);
-      border-bottom-right-radius: $md-br;
+      border-bottom-right-radius: 4rem;
       border-right: solid 2rem rgba($mc7, 0.2);
       border-bottom: solid 2rem rgba($mc7, 0.2);
     }

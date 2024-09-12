@@ -1,5 +1,7 @@
 @import "../../../Index.scss";
 
+$line-width: 0.2rem;
+
 // side bar
 .header {
   @include flex(row, space-between, center, 0);
@@ -9,7 +11,7 @@
   z-index: 100;
   width: calc(100% - 2 * 10rem);
   height: 8rem;
-  border-bottom: solid 0.1rem $mc0;
+  border-bottom: solid $line-width $mc0;
 
   // logo
   &__logo {
@@ -49,10 +51,12 @@
     transition: top 0.5s, right 0.5s, background-color 0s 0s, box-shadow 0s 0s;
 
     .hero-button {
-      @include button(1.6rem);
-
       background-color: #0000;
       transition: all 0.5s;
+
+      & {
+        @include button(1.6rem);
+      }
 
       &:hover {
         span {

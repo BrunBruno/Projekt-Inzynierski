@@ -7,6 +7,7 @@ import IconCreator from "../../../../shared/components/icon-creator/IconCreator"
 import { learnBlocksIcons } from "./LearnBlocksIcons";
 import { defaultPiecesImages } from "../../../../shared/svgs/iconsMap/DefaultPieceImageSvgs";
 import { getPiecesSideColor } from "../../../../shared/utils/enums/piecesMaps";
+import { symbolIcons } from "../../../../shared/svgs/iconsMap/SymbolIcons";
 
 type LearnBlocksProps = {};
 
@@ -72,9 +73,13 @@ const LearnBlocks = ({}: LearnBlocksProps) => {
             .slice(-1);
 
           return (
-            <div key={i} style={{ color: value === "3" ? mainColor.c3 : mainColor.c0 }}>
+            <p
+              key={i}
+              style={{ color: value === "3" ? mainColor.c3 : mainColor.c0 }}
+              className={classes["counter-number"]}
+            >
               {value}
-            </div>
+            </p>
           );
         });
 
@@ -169,7 +174,15 @@ const LearnBlocks = ({}: LearnBlocksProps) => {
         index % 2 !== 0 ? (
           <div key={index} className={classes.zpattern__row}>
             <div ref={block.textRef} className={classes.zpattern__row__text}>
-              <h3 className={classes["row-h3"]}>{block.title}</h3>
+              <h3 className={classes["row-h3"]}>
+                <IconCreator
+                  icons={symbolIcons}
+                  iconName="roundArrow"
+                  color={mainColor.c0}
+                  iconClass={classes["text-icon"]}
+                />
+                <span>{block.title}</span>
+              </h3>
               <p className={classes["row-p"]}>{block.text}</p>
             </div>
 
@@ -178,7 +191,7 @@ const LearnBlocks = ({}: LearnBlocksProps) => {
             </div>
 
             <div ref={block.lineRef} className={classes["row-line-icon"]}>
-              <IconCreator icons={learnBlocksIcons} iconName="pawnLine" />
+              <IconCreator icons={learnBlocksIcons} iconName="pawnLine" iconClass={classes["pawn-line"]} />
             </div>
           </div>
         ) : (
@@ -188,12 +201,20 @@ const LearnBlocks = ({}: LearnBlocksProps) => {
             </div>
 
             <div ref={block.textRef} className={classes.zpattern__row__text}>
-              <h3 className={classes["row-h3"]}>{block.title}</h3>
+              <h3 className={classes["row-h3"]}>
+                <IconCreator
+                  icons={symbolIcons}
+                  iconName="roundArrow"
+                  color={mainColor.c0}
+                  iconClass={classes["text-icon"]}
+                />
+                <span>{block.title}</span>
+              </h3>
               <p className={classes["row-p"]}>{block.text}</p>
             </div>
 
             <div ref={block.lineRef} className={classes["row-line-icon"]}>
-              <IconCreator icons={learnBlocksIcons} iconName="pawnLine" />
+              <IconCreator icons={learnBlocksIcons} iconName="pawnLine" iconClass={classes["pawn-line"]} />
             </div>
           </div>
         )

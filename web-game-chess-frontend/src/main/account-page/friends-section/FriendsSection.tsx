@@ -6,13 +6,13 @@ import { friendshipControllerPaths, getAuthorization } from "../../../shared/uti
 import { GetAllFriendsByStatusModel } from "../../../shared/utils/types/friendshipModels";
 import { FriendshipStatus } from "../../../shared/utils/enums/entitiesEnums";
 import LoadingPage from "../../../shared/components/loading-page/LoadingPage";
-import AvatarIcon from "../../../shared/svgs/icons/AvatarIcon";
 import FriendCard from "./friend-card/FriendCard";
 import cardClasses from "./friend-card/FriendCard.module.scss";
 import { usePopup } from "../../../shared/utils/hooks/usePopUp";
 import usePagination from "../../../shared/utils/hooks/usePagination";
 import { getErrMessage } from "../../../shared/utils/functions/displayError";
 import { PagedResult } from "../../../shared/utils/types/abstractDtosAndModels";
+import FriendEmptyCard from "./friend-empty-card/FriendEmptyCard";
 
 function FriendsSection() {
   ///
@@ -76,22 +76,14 @@ function FriendsSection() {
           />
         ))
       ) : (
-        <>
-          <div className={classes["no-data"]}>
-            <span>You don't have any friends yet.</span>
-          </div>
-          {Array.from({ length: 16 }).map((_, i) => (
-            <div key={i} className={classes["empty-card"]}>
-              <AvatarIcon iconClass={classes["blank-avatar"]} />
-              <p />
-              <p />
-            </div>
-          ))}
-        </>
+        <FriendEmptyCard />
       )}
-      <div className={classes.friends__indicator}>
-        {friendList.length} of {totalItemsCount}
-      </div>
+
+      {friendList.length > 0 && (
+        <div className={classes.friends__indicator}>
+          {friendList.length} of {totalItemsCount}
+        </div>
+      )}
     </div>
   );
 }

@@ -55,7 +55,7 @@ function FriendCard({ friend, setSelectedFriend, clearSelection }: FriendCardPro
           <AvatarImage username={friend.username} imageUrl={friend.imageUrl} imageClass={classes.avatar} />
 
           <div className={classes["country"]}>
-            <img src={`https://flagsapi.com/${friend.country}/flat/64.png`} />
+            <img src={`https://flagsapi.com/${friend.country}/flat/64.png`} className={classes["country-flag"]} />
           </div>
         </div>
         <div className={classes.friend__content__name}>

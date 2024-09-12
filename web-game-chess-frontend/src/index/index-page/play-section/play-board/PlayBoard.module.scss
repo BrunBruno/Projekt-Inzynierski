@@ -37,7 +37,7 @@
     position: relative;
     overflow: hidden;
 
-    border-radius: $md-br;
+    border-radius: 4rem;
     background-color: $gc9;
     box-shadow: -2rem 2rem 0 0 $gc9;
 
@@ -53,7 +53,7 @@
       gap: 0.5rem;
 
       overflow: hidden;
-      border-radius: $md-br;
+      border-radius: 4rem;
       border: solid 1rem $gc8;
 
       transition: box-shadow 1s, border-color 1s;

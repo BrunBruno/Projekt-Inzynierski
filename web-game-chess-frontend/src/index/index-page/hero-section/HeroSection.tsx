@@ -48,21 +48,21 @@ const HeroSection = forwardRef<HandleOnScroll, HeroSectionProps>(
 
           {/* hero content */}
           <div className={classes.section__container__content}>
-            <div></div>
-            <h1>
+            <h1 className={classes["hero-title"]}>
               <span>
                 <span className={classes["span-n"]}>Enter the</span> <span className={classes["span-f"]}>realm</span>
               </span>
               <br />
               <span>
-                <span className={classes["span-n"]}>where every</span> <span className={classes["span-f"]}>move</span>{" "}
+                <span className={classes["span-n"]}>where every</span> <span className={classes["span-f"]}>move </span>
                 <span className={classes["span-n"]}> shapes destiny</span>
               </span>
             </h1>
 
-            <h2>Are you ready to conquer the board?</h2>
-            <a href="#home-section" className={classes.begin}>
-              <p />
+            <h2 className={classes["hero-subtitle"]}>Are you ready to conquer the board?</h2>
+
+            <a href="#home-section" className={classes["begin-button"]}>
+              <p className={classes["arrow-zoom"]} />
             </a>
           </div>
           {/* --- */}

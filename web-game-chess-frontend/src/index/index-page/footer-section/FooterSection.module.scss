@@ -9,28 +9,28 @@
   box-shadow: -2rem -2rem 0 0 rgb(67, 43, 137);
 
   &::before {
-    @include subCl($xl-br, $xl-br);
-
-    top: calc(-2rem - $xl-br);
+    top: calc(-2rem - 16rem);
     right: -2rem;
 
     border: solid 2rem rgb(67, 43, 137);
     border-top: none;
     border-left: none;
-    border-bottom-right-radius: $xl-br;
+    border-bottom-right-radius: 16rem;
     box-shadow: 0rem 10rem 0 #000;
+
+    @include subCl(16rem, 16rem);
   }
 
   &__intro {
     padding-bottom: 8rem;
 
     .footer-title {
-      @include flex(row, start, center, 2rem);
-      @include secFont(6rem);
-
       font-size: 6rem;
       color: $mc5;
       font-weight: 600;
+
+      @include flex(row, start, center, 2rem);
+      @include secFont(6rem);
 
       .footer-logo {
         height: 6rem;
@@ -55,9 +55,9 @@
       }
 
       .contact {
-        @include flex(row, start, center, 2rem);
-
         position: relative;
+
+        @include flex(row, start, center, 2rem);
 
         p.contact-data {
           font-size: 2.4rem;
@@ -81,9 +81,9 @@
         }
 
         .element {
-          @include flex(row, start, center, 2rem);
-
           position: relative;
+
+          @include flex(row, start, center, 2rem);
 
           &:hover {
             cursor: pointer;

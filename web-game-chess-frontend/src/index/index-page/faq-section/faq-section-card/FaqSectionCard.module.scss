@@ -3,7 +3,7 @@
 // card
 .card {
   @include flex(column, center, start, 2rem);
-  @include rounded($sm-br);
+  @include rounded(2rem);
 
   position: relative;
   width: 50%;

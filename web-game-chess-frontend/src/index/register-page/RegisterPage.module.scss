@@ -3,16 +3,16 @@
 
 // register page container
 .register {
-  @include gridBg();
-
   position: relative;
   height: 100%;
 
-  &__content {
-    @include absCenter();
+  @include gridBg();
 
+  &__content {
     width: 100rem;
     height: 60rem;
+
+    @include absCenter();
 
     @keyframes introAnimation {
       from {
@@ -24,16 +24,16 @@
     }
 
     &__split {
-      @include wh100();
-
       display: grid;
       overflow: hidden;
-      border-radius: $md-br;
+      border-radius: 4rem;
 
       background-image: linear-gradient(rgba(#000, 0.8), rgba(#000, 0.8)), url("images/register-bg.jpg");
       background-size: cover;
       background-repeat: no-repeat;
       background-position: right;
+
+      @include wh100();
 
       &.left-side-content {
         grid-template-columns: 60rem auto;
@@ -56,10 +56,10 @@
       }
 
       .intro {
-        @include flex(column, space-evenly, center, 4rem);
-
         padding: 12rem 4rem;
         text-align: center;
+
+        @include flex(column, space-evenly, center, 4rem);
 
         h1.title {
           font-size: 4rem;
@@ -80,9 +80,6 @@
 
     // form container
     &__form {
-      @include rounded($md-br);
-      @include square(60rem);
-
       position: absolute;
       top: 0;
       left: 50%;
@@ -95,9 +92,10 @@
       transform: translateX(-50%);
       transition: transform 0.5s, left 0.5s;
 
-      &::after {
-        @include subCl(8rem, 8rem);
+      @include rounded(4rem);
+      @include square(60rem);
 
+      &::after {
         position: absolute;
         top: 0;
         left: 50%;
@@ -109,15 +107,18 @@
         border-bottom-color: $gc8;
         border-right-color: $gc8;
         box-shadow: 0.5rem 0.5rem 1rem $gc8;
+
+        @include subCl(8rem, 8rem);
       }
 
       .lock-svg {
-        @include circle(6rem);
         position: absolute;
         top: 0;
         left: 50%;
         transform: translate(calc(-50% + 0.5rem), calc(-50% - 0.5rem));
         z-index: 1;
+
+        @include circle(6rem);
       }
     }
 

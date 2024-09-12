@@ -92,28 +92,34 @@ const PlaySection = forwardRef<HandleOnScroll, PlaySectionProps>(
 
               <div ref={actionRefs[2]} className={classes["actions-row"]}>
                 <button
-                  className={classes["vs-player-button"]}
+                  className={`
+                    ${classes["play-button"]} 
+                    ${classes["vs-player-button"]}
+                  `}
                   onClick={() => {
                     navigate("/main", {
                       state: {},
                     });
                   }}
                 >
-                  <IconCreator icons={playSectionIcons} iconName="online" />
+                  <IconCreator icons={playSectionIcons} iconName="online" iconClass={classes["button-icon"]} />
                   <span>PLAY ONLINE</span>
                 </button>
               </div>
 
               <div ref={actionRefs[3]} className={classes["actions-row"]}>
                 <button
-                  className={classes["vs-computer-button"]}
+                  className={`
+                    ${classes["play-button"]} 
+                    ${classes["vs-computer-button"]}
+                  `}
                   onClick={() => {
                     navigate("/main", {
                       state: {},
                     });
                   }}
                 >
-                  <IconCreator icons={playSectionIcons} iconName="offline" />
+                  <IconCreator icons={playSectionIcons} iconName="offline" iconClass={classes["button-icon"]} />
                   <span>PLAY OFFLINE</span>
                 </button>
               </div>

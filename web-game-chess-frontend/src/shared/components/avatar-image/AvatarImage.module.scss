@@ -2,8 +2,9 @@
 
 // avatar image default styles
 .avatar-image {
-  @include flex();
   border-radius: 100%;
+
+  @include flex();
 
   .avatar {
     height: 2rem;

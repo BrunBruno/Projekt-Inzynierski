@@ -7,19 +7,19 @@
   position: relative;
   padding-top: 10rem;
   background-color: #000;
-  border-top-right-radius: $xl-br;
+  border-top-right-radius: 16rem;
   box-shadow: 2rem -2rem 0 0 rgb(67, 43, 137);
 
   &::before {
-    @include subCl($xl-br, $xl-br);
+    @include subCl(16rem, 16rem);
 
-    top: calc(-2rem - $xl-br);
+    top: calc(-2rem - 16rem);
     left: -2rem;
 
     border: solid 2rem rgb(67, 43, 137);
     border-top: none;
     border-right: none;
-    border-bottom-left-radius: $xl-br;
+    border-bottom-left-radius: 16rem;
     box-shadow: 0rem 10rem 0 #000;
   }
 
@@ -36,59 +36,123 @@
   }
 
   &__content {
+    $category-size: 8rem;
+    $indicator-size: 2rem;
+
     display: grid;
     grid-template-columns: 10rem auto 10rem;
-    grid-template-rows: 2rem 1fr 2rem 1fr;
+    grid-template-rows: $category-size 1fr $indicator-size $category-size 1fr $indicator-size;
     padding-bottom: 6rem;
 
     &__category {
+      // border: solid 1rem red;
+
+      @include flex(row, start, center, 2rem);
       @include longText();
 
-      height: fit-content;
+      height: $category-size;
       grid-column: 1 / -1;
       padding-left: 8rem;
 
-      color: $mc2;
-      font-size: 4rem;
-      user-select: none;
+      h3.cat-text {
+        font-size: calc($category-size * 0.5);
+        user-select: none;
+        color: $mc3;
+      }
+
+      @mixin catIcon() {
+        @include flex();
+        @include circle(calc($category-size * 0.7));
+
+        padding: 1rem;
+        background-color: rgba($mc9, 0.5);
+      }
+
+      .account-category-icon {
+        @include catIcon();
+      }
+      .gameplay-category-icon {
+        @include catIcon();
+      }
     }
 
     &__arrow {
+      // border: solid 1rem red;
+
       @include flex();
 
       filter: brightness(60%);
 
-      svg {
+      &.left-side {
+        border-top-right-radius: 4rem;
+        border-bottom-right-radius: 4rem;
+      }
+
+      &.right-side {
+        border-top-left-radius: 4rem;
+        border-bottom-left-radius: 4rem;
+      }
+
+      @mixin arrowSvg($deg) {
         height: 4rem;
         transition: all 0.3s;
+        transform: rotateZ($deg);
       }
 
       .arrow-left {
-        transform: rotateZ(180deg);
+        @include arrowSvg(180deg);
       }
+
       .arrow-right {
-        transform: rotateZ(0deg);
+        @include arrowSvg(0deg);
       }
 
       &:hover {
+        cursor: pointer;
         filter: brightness(100%);
+        background-color: rgba($gc9, 0.2);
 
         svg {
-          cursor: pointer;
           height: 6rem;
+        }
+      }
+
+      &.inactive-arrow {
+        &:hover {
+          cursor: default;
+          background-color: #0000;
         }
       }
     }
 
     &__row {
+      // border: solid 1rem red;
+
       @include flex(row, space-evenly, center, 0);
 
       overflow-x: scroll;
       overflow-y: hidden;
-      padding: 6rem 0;
+      padding: calc($category-size / 2) 0;
 
       &::-webkit-scrollbar {
         display: none;
+      }
+    }
+
+    &__indicator {
+      @include flex($gap: 1rem);
+
+      height: $indicator-size;
+      grid-column: 1 / -1;
+
+      .ind-point {
+        @include circle(calc($indicator-size * 0.6));
+        background-color: $mc7;
+        opacity: 0.2;
+
+        &.active {
+          opacity: 1;
+        }
       }
     }
   }

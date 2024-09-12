@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { mainColor } from "../../../shared/utils/enums/colorMaps";
-import classes from "./Modal.module.scss";
+import classes from "./RegisterModal.module.scss";
 import axios from "axios";
 import { getAuthorization, userControllerPaths } from "../../../shared/utils/services/ApiService";
 import { useNavigate } from "react-router-dom";
@@ -134,7 +134,8 @@ function VerifyEmailModal({ userPath, setModal }: VerifyEmailModalProps) {
       <IconCreator icons={registerPageIcons} iconName="bgPawn" color={mainColor.c0} iconClass={classes["bg-svg"]} />
 
       {/* header */}
-      <h2>Verify Email</h2>
+      <h2 className={classes["form-title"]}>Verify Email</h2>
+
       <p className={classes["verify-text"]}>
         We sent you verification code to your email. Please enter the code to verify your account.
       </p>

@@ -7,6 +7,7 @@ import { formatDate } from "../../../shared/utils/functions/dateTimeRelated";
 import { PagedResult } from "../../../shared/utils/types/abstractDtosAndModels";
 import IconCreator from "../../../shared/components/icon-creator/IconCreator";
 import { timingTypesIcons } from "../../../shared/svgs/iconsMap/TimingTypesIcons";
+import HistoryRecord from "./history-record/HistoryRecord";
 
 type HistorySectionProps = {
   // game type name
@@ -105,9 +106,10 @@ function HistorySection({ selectedType, typeHistory }: HistorySectionProps) {
             />
           </ThemeProvider>
         </div>
+
         <div className={classes.empty__text}>
-          <p>No games found.</p>
-          <p>Play one now!</p>
+          <span>No games found.</span>
+          <span>Play one now!</span>
         </div>
       </div>
     );
@@ -116,7 +118,7 @@ function HistorySection({ selectedType, typeHistory }: HistorySectionProps) {
 
   return (
     <div className={classes.actions}>
-      <h2>
+      <h2 className={classes["history-title"]}>
         <IconCreator
           icons={timingTypesIcons}
           iconName={selectedType.toLocaleLowerCase()}
@@ -129,20 +131,7 @@ function HistorySection({ selectedType, typeHistory }: HistorySectionProps) {
 
       <div className={classes.actions__items}>
         {typeHistory.items.reverse().map((item, index) => (
-          <div
-            key={index}
-            className={`
-                ${classes.actions__items__record}
-                ${item.isWinner === null ? "" : item.isWinner === true ? classes.win : classes.lose}
-              `}
-          >
-            <span>
-              {item.whitePlayer} vs {item.blackPlayer}
-            </span>
-            <span>{item.prevElo}</span>
-            <span>{item.moves}</span>
-            <span>{new Date(item.createdAt).toDateString()}</span>
-          </div>
+          <HistoryRecord key={index} item={item} />
         ))}
       </div>
     </div>

@@ -6,6 +6,8 @@ import { createOneTimeObserver } from "../../../shared/utils/functions/createOne
 import { mainColor } from "../../../shared/utils/enums/colorMaps";
 import { HandleOnScroll } from "../../../shared/utils/types/commonTypes";
 import { generateRandomColor } from "../../../shared/utils/functions/generateRandom";
+import IconCreator from "../../../shared/components/icon-creator/IconCreator";
+import { specialPiecesSvgs } from "../../../shared/svgs/iconsMap/SpecialPiecesSvgs";
 
 type LearnSectionProps = {
   // section container ref
@@ -85,7 +87,19 @@ const LearnSection = forwardRef<HandleOnScroll, LearnSectionProps>(
 
           <div className={classes.section__join__content}>
             <h2 className={classes["join-header"]}>
+              <IconCreator
+                icons={specialPiecesSvgs}
+                iconName="n"
+                color={mainColor.c7}
+                iconClass={classes["join-l-horse"]}
+              />
               <span>BRN CHESS</span>
+              <IconCreator
+                icons={specialPiecesSvgs}
+                iconName="n"
+                color={mainColor.c7}
+                iconClass={classes["join-r-horse"]}
+              />
             </h2>
 
             <h3 className={classes["join-text"]}>

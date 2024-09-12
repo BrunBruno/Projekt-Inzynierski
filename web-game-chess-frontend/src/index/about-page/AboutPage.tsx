@@ -57,11 +57,17 @@ function AboutPage() {
 
     // refresh about page
     setTimeout(() => {
-      navigate(`/about/${content.title.toLowerCase()}`);
+      if (selectedContent) {
+        if (content.title === selectedContent.title) {
+          setSelectedContent(content);
+        } else {
+          navigate(`/about/${content.title.toLowerCase()}`);
+        }
 
-      setTimeout(() => {
-        target.classList.remove(classes.active);
-      }, 300);
+        setTimeout(() => {
+          target.classList.remove(classes.active);
+        }, 300);
+      }
     }, 300);
   };
   //*/

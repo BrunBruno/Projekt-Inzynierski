@@ -1,5 +1,4 @@
 @import "../../styles/variables/color.scss";
-@import "../../styles//variables/spacing.scss";
 @import "../../styles//commons-styles/elements.scss";
 
 // action button styles
@@ -9,8 +8,6 @@
   height: fit-content;
 
   button {
-    @include flex(row, center, center, $size);
-
     background: #0000;
     overflow: hidden;
     outline: none;
@@ -25,6 +22,8 @@
     color: $gc0;
 
     transition: border 0.5s ease 0s;
+
+    @include flex(row, center, center, $size);
 
     &:hover {
       cursor: pointer;

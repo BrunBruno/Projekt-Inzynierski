@@ -1,6 +1,6 @@
 import { useRef, useState } from "react";
 import { mainColor } from "../../../shared/utils/enums/colorMaps";
-import classes from "./Modal.module.scss";
+import classes from "./RegisterModal.module.scss";
 import axios from "axios";
 import { getAuthorization, userControllerPaths } from "../../../shared/utils/services/ApiService";
 import { useNavigate } from "react-router-dom";
@@ -110,7 +110,8 @@ function SignInModal({ userPath, setModal }: SignInModalProps) {
     <form className={classes["registration-form"]} onSubmit={(event) => signInUser(event)}>
       <IconCreator icons={registerPageIcons} iconName="bgPawn" color={mainColor.c0} iconClass={classes["bg-svg"]} />
 
-      <h2>Login Now</h2>
+      <h2 className={classes["form-title"]}>Login Now</h2>
+
       <div className={classes["change-form"]}>
         Don't have an account? <span onClick={() => setModal(RegistrationInterface.signUp)}>Sing Up</span>
       </div>

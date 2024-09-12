@@ -1,17 +1,7 @@
-<<<<<<< HEAD:web-game-chess-frontend/src/shared/svgs/icons/AvatarIcon.tsx
 import { mainColor } from "../../utils/enums/colorMaps";
 import { IconSvgProps } from "../../utils/types/commonTypes";
 
 function AvatarIcon({ iconClass }: IconSvgProps): JSX.Element {
-=======
-import { mainColor } from "../utils/enums/colorMaps";
-
-type AvatarSvgProps = {
-  iconClass: string;
-};
-
-function AvatarSvg({ iconClass }: AvatarSvgProps) {
->>>>>>> ff00e3705d78645a86a21ecc8fd829ab3590ffeb:web-game-chess-frontend/src/shared/svgs/AvatarSvg.tsx
   return (
     <svg
       viewBox="0 0 1024 1024"
