@@ -11,25 +11,27 @@ $line-width: 0.2rem;
   overflow: hidden;
 
   &__container {
+    @include wh100();
+
     position: relative;
     background-image: linear-gradient(to bottom, rgba(#000, 0.6) 0%, rgba(#000, 0.6) 100%), url("images/hero-bg.jpg");
     background-size: cover;
     background-position: center;
     background-color: #000;
 
-    @include wh100();
-
     &__bg {
+      @include absCenter();
+      @include wh100();
+
       z-index: 2;
       background-color: rgba(#000, 0.1);
       pointer-events: none;
-
-      @include absCenter();
-      @include wh100();
     }
 
     // content
     &__content {
+      @include flex(column, end, start, 4rem);
+
       position: absolute;
       top: 0;
       left: 0;
@@ -39,8 +41,6 @@ $line-width: 0.2rem;
       max-height: 80rem;
       padding: 4rem 10rem;
       user-select: none;
-
-      @include flex(column, end, start, 4rem);
 
       h1.hero-title {
         width: 100%;
@@ -63,16 +63,19 @@ $line-width: 0.2rem;
       }
 
       h2.hero-subtitle {
+        @include rounded(1rem);
+
         font-size: 4rem;
         font-weight: 100;
         color: $gc3;
         text-shadow: 0.2rem 0.1rem $gc7;
         background-color: rgba(#000, 0.6);
-
-        @include rounded(1rem);
       }
 
       .begin-button {
+        @include circle(12rem);
+        @include flex();
+
         position: absolute;
         right: 10rem;
         bottom: 4rem;
@@ -81,17 +84,14 @@ $line-width: 0.2rem;
         border: solid $line-width $mc0;
         transition: box-shadow 1s;
 
-        @include circle(12rem);
-        @include flex();
-
         p.arrow-zoom {
+          @include square(5rem);
+
           border-bottom-right-radius: 1rem;
           box-shadow: $line-width $line-width 0 0 $gc0;
           rotate: 45deg;
           transform: translate(-20%, -20%);
           transition: all 1s;
-
-          @include square(5rem);
         }
 
         &:hover {
@@ -127,10 +127,10 @@ $line-width: 0.2rem;
 
     &__container {
       &__content {
+        @include flex(column, end, start, 4rem);
+
         height: 100%;
         padding: 10rem 2rem;
-
-        @include flex(column, end, start, 4rem);
 
         h1.hero-title {
           font-size: 7rem;

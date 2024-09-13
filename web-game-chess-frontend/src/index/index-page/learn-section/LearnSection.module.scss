@@ -127,13 +127,13 @@
 
       a.join-action {
         button.join-button {
-          position: relative;
-          margin-top: 4rem;
-
           @include button(4rem);
-
           & {
             @include secMButton();
+            & {
+              position: relative;
+              margin-top: 4rem;
+            }
           }
 
           &::after {

@@ -1,5 +1,5 @@
 import classes from "./LearnBlocks.module.scss";
-import { Fragment, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { createOneTimeObserver } from "../../../../shared/utils/functions/createOneTimeObserver";
 import { mainColor } from "../../../../shared/utils/enums/colorMaps";
 import { SectionData, sectionData } from "./LearnBlocksData";
@@ -44,7 +44,7 @@ const LearnBlocks = ({}: LearnBlocksProps) => {
   //*/
 
   // create learn section icons
-  const createIcon = (iconName: string): JSX.Element => {
+  const createIcon = (iconName: string, ref: React.RefObject<HTMLDivElement>): JSX.Element => {
     switch (iconName) {
       case "pieces-icon":
         const pieces = ["R", "q", "P", "b", "K"] as const;
@@ -60,10 +60,10 @@ const LearnBlocks = ({}: LearnBlocksProps) => {
         ));
 
         return (
-          <Fragment>
+          <div ref={ref} className={classes["pieces-con"]}>
             {images}
             <IconCreator icons={learnBlocksIcons} iconName="board" />
-          </Fragment>
+          </div>
         );
 
       case "counter-icon":
@@ -84,18 +84,23 @@ const LearnBlocks = ({}: LearnBlocksProps) => {
         });
 
         return (
-          <Fragment>
+          <div ref={ref} className={classes["counter-con"]}>
             <IconCreator icons={learnBlocksIcons} iconName="trophy" />
             <div className={classes.screen}>{elements}</div>
-          </Fragment>
+          </div>
         );
 
       case "engine-icon":
-        return <IconCreator icons={learnBlocksIcons} iconName="engine" />;
+        return (
+          <div ref={ref} className={classes["engine-con"]}>
+            <IconCreator icons={learnBlocksIcons} iconName="engine" />
+            <IconCreator icons={learnBlocksIcons} iconName="motherBoard" />
+          </div>
+        );
 
       case "message-icon":
         return (
-          <div className={classes["message-con"]}>
+          <div ref={ref} className={classes["message-con"]}>
             <IconCreator icons={learnBlocksIcons} iconName="message" />
             <IconCreator icons={learnBlocksIcons} iconName="message" />
             <IconCreator icons={learnBlocksIcons} iconName="message" />
@@ -122,7 +127,7 @@ const LearnBlocks = ({}: LearnBlocksProps) => {
     const iconObserverAction = (entry: IntersectionObserverEntry): void => {
       entry.target.classList.add(classes["active-icon"]);
 
-      if (!wasActive && entry.target.classList.contains(classes["counter-icon"])) {
+      if (!wasActive && entry.target.classList.contains(classes["counter-con"])) {
         setWasActive(true);
         setTimeout(() => incrementCount(0), 1000);
       }
@@ -173,6 +178,7 @@ const LearnBlocks = ({}: LearnBlocksProps) => {
       {sectionBlocks.map((block, index) =>
         index % 2 !== 0 ? (
           <div key={index} className={classes.zpattern__row}>
+            {/* text */}
             <div ref={block.textRef} className={classes.zpattern__row__text}>
               <h3 className={classes["row-h3"]}>
                 <IconCreator
@@ -186,20 +192,34 @@ const LearnBlocks = ({}: LearnBlocksProps) => {
               <p className={classes["row-p"]}>{block.text}</p>
             </div>
 
-            <div ref={block.iconRef} className={`${classes.zpattern__row__icon} ${classes[block.iconName]}`}>
-              {createIcon(block.iconName)}
+            {/* icon */}
+            <div
+              className={`
+                ${classes.zpattern__row__icon} 
+                ${classes[block.iconName]}
+              `}
+            >
+              {createIcon(block.iconName, block.iconRef)}
             </div>
 
+            {/* line */}
             <div ref={block.lineRef} className={classes["row-line-icon"]}>
-              <IconCreator icons={learnBlocksIcons} iconName="pawnLine" iconClass={classes["pawn-line"]} />
+              <IconCreator icons={learnBlocksIcons} iconName="pawnLine" />
             </div>
           </div>
         ) : (
           <div key={index} className={classes.zpattern__row}>
-            <div ref={block.iconRef} className={`${classes.zpattern__row__icon} ${classes[block.iconName!]}`}>
-              {createIcon(block.iconName)}
+            {/* icon */}
+            <div
+              className={`
+                ${classes.zpattern__row__icon} 
+                ${classes[block.iconName]}
+              `}
+            >
+              {createIcon(block.iconName, block.iconRef)}
             </div>
 
+            {/* text */}
             <div ref={block.textRef} className={classes.zpattern__row__text}>
               <h3 className={classes["row-h3"]}>
                 <IconCreator
@@ -213,8 +233,9 @@ const LearnBlocks = ({}: LearnBlocksProps) => {
               <p className={classes["row-p"]}>{block.text}</p>
             </div>
 
+            {/* line */}
             <div ref={block.lineRef} className={classes["row-line-icon"]}>
-              <IconCreator icons={learnBlocksIcons} iconName="pawnLine" iconClass={classes["pawn-line"]} />
+              <IconCreator icons={learnBlocksIcons} iconName="pawnLine" />
             </div>
           </div>
         )

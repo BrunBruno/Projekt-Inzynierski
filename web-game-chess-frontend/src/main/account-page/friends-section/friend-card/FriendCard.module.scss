@@ -24,6 +24,9 @@
   }
 
   &__content {
+    @include flex(column, center, center, 1rem);
+    @include rounded(1rem);
+
     position: relative;
     pointer-events: none;
     border: solid 0.5rem #0000;
@@ -31,28 +34,25 @@
     background-color: $gc9;
     transition: all 0.3s;
 
-    @include flex(column, center, center, 1rem);
-    @include rounded(1rem);
-
     &__avatar {
-      position: relative;
-
       @include flex();
 
-      .avatar {
-        object-fit: cover;
+      position: relative;
 
+      .avatar {
         @include circle(10rem);
+
+        object-fit: cover;
       }
 
       .country {
+        @include circle(2.4rem);
+        @include flex();
+
         position: absolute;
         top: 0;
         right: 0;
         overflow: hidden;
-
-        @include circle(2.4rem);
-        @include flex();
 
         img.country-flag {
           // for circle shape
@@ -62,10 +62,10 @@
     }
 
     &__name {
+      @include flex($direction: column);
+
       width: 100%;
       pointer-events: none;
-
-      @include flex($direction: column);
 
       span {
         @include longText();
@@ -104,6 +104,9 @@
   }
 
   &__actions {
+    @include rounded(1rem);
+    @include flex(column, center, center, 0.5rem);
+
     position: absolute;
     top: 100%;
     background-color: $gc9;
@@ -115,10 +118,7 @@
     border: solid 0.5rem #0000;
     border-top: none;
 
-    @include rounded(1rem);
-    @include flex(column, center, center, 0.5rem);
-
-    button {
+    button.card-button {
       @include button(1.4rem);
 
       &:nth-child(1) {

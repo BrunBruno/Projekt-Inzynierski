@@ -116,7 +116,7 @@ function LeftSideBar({ gameId, playerData, gameData, setShowConfirm, setConfirmA
           }}
         >
           <LogoIcon iconClass={classes["logo-svg"]} />
-          <p>Chess</p>
+          <p className={classes["logo-text"]}>Chess</p>
         </div>
 
         {/* game options */}

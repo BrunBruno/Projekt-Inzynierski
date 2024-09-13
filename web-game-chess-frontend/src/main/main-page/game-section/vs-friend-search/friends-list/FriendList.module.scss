@@ -37,7 +37,7 @@
       .texts {
         @include flex(column, start, start, 1rem);
 
-        p {
+        p.blank-text {
           @include rounded(1rem);
 
           width: 80%;

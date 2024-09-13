@@ -79,7 +79,10 @@
 
     button.cancel {
       @include button(2.6rem);
-      @include mainMButton();
+
+      & {
+        @include mainMButton();
+      }
     }
   }
 }

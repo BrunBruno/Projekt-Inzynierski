@@ -84,7 +84,9 @@
   &__cancel {
     @include actionButton(1.4rem);
 
-    margin-top: 2rem;
+    & {
+      margin-top: 2rem;
+    }
   }
 }
 //*/

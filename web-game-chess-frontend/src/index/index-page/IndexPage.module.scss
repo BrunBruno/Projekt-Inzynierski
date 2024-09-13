@@ -2,12 +2,12 @@
 
 // index page container
 .home-main {
+  @include gridBg();
+
   width: 100vw;
   max-width: 160rem;
   margin: auto;
   overflow: hidden;
-
-  @include gridBg();
 }
 //*/
 

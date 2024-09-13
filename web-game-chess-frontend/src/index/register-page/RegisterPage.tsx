@@ -23,10 +23,12 @@ function RegisterPage() {
 
   // register container ref
   const registerRef = useRef<HTMLDivElement>(null);
+  const formRef = useRef<HTMLDivElement>(null);
 
   // current modal and side class
   const [modal, setModal] = useState<number>(0);
-  const [modalClass, setModalClass] = useState<string>("");
+  const [modalClass, setModalClass] = useState<string | null>(null);
+  const [formActive, setFormActive] = useState<boolean>(false);
 
   const [userPath, setUserPath] = useState<string>("/main");
 
@@ -103,55 +105,87 @@ function RegisterPage() {
       window.removeEventListener("resize", handleResize);
     };
   }, [modal]);
+
+  useEffect(() => {
+    const addFormTransform = () => {
+      const formEle = formRef.current;
+
+      if (formEle) {
+        setFormActive(true);
+      }
+    };
+
+    setTimeout(() => {
+      addFormTransform();
+    }, 300);
+  }, []);
   //*/
+
+  if (!modalClass) return <></>;
 
   return (
     <main className={classes.register}>
       <div ref={registerRef} className={classes.register__content}>
         {/* intro */}
-        {modal === RegistrationInterface.signIn ? (
-          <div className={`${classes.register__content__split} ${classes["left-side-content"]}`}>
-            <div className={classes.form}></div>
-            <div className={classes.intro}>
-              <h1 className={classes.title}>Welcome Back</h1>
-              <p className={classes.text}>
-                We're thrilled to see you again! Sign in to access your personalized dashboard, manage your preferences,
-                and stay updated with the latest features and updates.
-              </p>
-              <div
-                className={classes["action-button"]}
-                onClick={() => {
-                  navigate("/");
-                }}
-              >
-                <ActionButton text="Home Page" />
-              </div>
-            </div>
+
+        <div
+          className={`
+            ${classes.register__content__intro}
+            ${modal !== RegistrationInterface.signIn && classes.active}
+          `}
+        >
+          <h1 className={classes["title"]}>Get on Board</h1>
+
+          <p className={classes["text"]}>
+            Join us today to unlock a world of benefits! Create an account to access exclusive content, connect with a
+            vibrant community, and get personalized recommendations.
+          </p>
+
+          <div
+            className={classes["action-button"]}
+            onClick={() => {
+              navigate("/");
+            }}
+          >
+            <ActionButton text="Home Page" />
           </div>
-        ) : (
-          <div className={`${classes.register__content__split} ${classes["right-side-content"]}`}>
-            <div className={classes.intro}>
-              <h1 className={classes.title}>Get on Board</h1>
-              <p className={classes.text}>
-                Join us today to unlock a world of benefits! Create an account to access exclusive content, connect with
-                a vibrant community, and get personalized recommendations.
-              </p>
-              <div
-                className={classes["action-button"]}
-                onClick={() => {
-                  navigate("/");
-                }}
-              >
-                <ActionButton text="Home Page" />
-              </div>
-            </div>
-            <div className={classes.form}></div>
+        </div>
+
+        <div className={classes["div-placeholder"]} />
+
+        <div
+          className={`
+            ${classes.register__content__intro}
+            ${modal === RegistrationInterface.signIn && classes.active}
+          `}
+        >
+          <h1 className={classes["title"]}>Welcome Back</h1>
+
+          <p className={classes["text"]}>
+            We're thrilled to see you again! Sign in to access your personalized dashboard, manage your preferences, and
+            stay updated with the latest features and updates.
+          </p>
+
+          <div
+            className={classes["action-button"]}
+            onClick={() => {
+              navigate("/");
+            }}
+          >
+            <ActionButton text="Home Page" />
           </div>
-        )}
+        </div>
         {/* --- */}
 
         {/* form */}
-        <div className={`${classes.register__content__form} ${modalClass}`}>
+        <div
+          ref={formRef}
+          className={`
+            ${classes.register__form}
+            ${formActive && classes["form-transform"]}
+            ${modalClass}
+          `}
+        >
           <IconCreator icons={registerPageIcons} iconName="lock" color={mainColor.c7} iconClass={classes["lock-svg"]} />
           {renderModal()}
         </div>

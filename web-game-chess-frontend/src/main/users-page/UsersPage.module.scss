@@ -6,9 +6,11 @@
   @include gridBg();
   @include forNav();
 
-  display: grid;
-  grid-template-columns: 1fr;
-  grid-template-rows: 10rem auto;
-  padding: 0 20rem;
+  & {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 10rem auto;
+    padding: 0 20rem;
+  }
 }
 //*/

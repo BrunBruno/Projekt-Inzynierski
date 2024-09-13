@@ -53,12 +53,13 @@
       gap: 2rem;
 
       .player {
-        @mixin playerImg() {
+        @mixin playerImg($bg_color) {
           @include flex();
           @include square(6rem);
 
           padding: 0.6rem;
           border-radius: 100%;
+          background-color: $bg_color;
 
           .player-img {
             @include wh100();
@@ -68,13 +69,11 @@
         }
 
         .white-player-img {
-          @include playerImg();
-          background-color: #fff;
+          @include playerImg(#fff);
         }
 
         .black-player-img {
-          @include playerImg();
-          background-color: #000;
+          @include playerImg(#000);
         }
       }
 

@@ -48,7 +48,10 @@
 
     button.generate-button {
       @include button(2rem);
-      @include secMButton();
+
+      & {
+        @include secMButton();
+      }
     }
 
     .game-link {

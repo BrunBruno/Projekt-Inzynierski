@@ -9,6 +9,7 @@
 
   &::after {
     @include subCl();
+
     z-index: 1;
     top: 0;
     right: 100%;
@@ -38,28 +39,28 @@
       &__player {
         @include flex($direction: column, $gap: 0.5rem);
 
-        @mixin playerImg() {
+        @mixin playerImg($bg_color) {
           @include flex();
           @include circle(5rem);
 
           padding: 0.6rem;
           border-radius: 100%;
           overflow: hidden;
+          background-color: $bg_color;
 
           .player-img {
             @include wh100();
+
             border-radius: 100%;
           }
         }
 
         .white-player-img {
-          @include playerImg();
-          background-color: #fff;
+          @include playerImg(#fff);
         }
 
         .black-player-img {
-          @include playerImg();
-          background-color: #000;
+          @include playerImg(#000);
         }
 
         .player-data {
@@ -67,6 +68,7 @@
 
           span {
             font-size: 1.2rem;
+
             span {
               color: $mc3;
             }
@@ -74,7 +76,7 @@
         }
       }
 
-      p {
+      p.vs {
         font-size: 2rem;
         font-weight: bold;
       }
@@ -124,14 +126,15 @@
         @include flex(row, start, center, 1rem);
 
         .message-input {
-          @include tInput(1.6rem);
           @include rounded(1rem);
+          @include tInput(1.6rem);
 
-          width: 100% !important;
-          height: calc(3 * 1.6rem) !important;
-          resize: none;
-
-          border: solid 0.2rem $gc8;
+          & {
+            width: 100% !important;
+            height: calc(3 * 1.6rem) !important;
+            resize: none;
+            border: solid 0.2rem $gc8;
+          }
 
           &:focus {
             border-color: $gc7;
@@ -145,6 +148,7 @@
         .send-button {
           @include flex();
           @include circle(fit-content);
+
           background-color: #0000;
           border: none;
 

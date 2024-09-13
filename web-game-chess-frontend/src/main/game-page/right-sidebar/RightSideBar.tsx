@@ -192,7 +192,7 @@ function RightSideBar({ gameId, gameData, playersTimes, setPlayersTimes, winner 
             </div>
           </div>
 
-          <p>vs</p>
+          <p className={classes.vs}>vs</p>
 
           <div className={`${classes.bar__content__header__player} ${classes["black-player"]}`}>
             <AvatarImage

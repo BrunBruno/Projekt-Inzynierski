@@ -2,7 +2,6 @@ import { useEffect, useRef, useState } from "react";
 import { mainColor, strengthColor } from "../../../shared/utils/enums/colorMaps";
 import classes from "./RegisterModal.module.scss";
 import axios from "axios";
-import LoadingPage from "../../../shared/components/loading-page/LoadingPage";
 import { errorDisplay, getErrMessage } from "../../../shared/utils/functions/displayError";
 import { userControllerPaths } from "../../../shared/utils/services/ApiService";
 import { ConfigurationDto, LogInUserDto } from "../../../shared/utils/types/userDtos";
@@ -13,6 +12,7 @@ import { usePopup } from "../../../shared/utils/hooks/usePopUp";
 import { getCountry } from "../../../shared/utils/functions/externApi";
 import IconCreator from "../../../shared/components/icon-creator/IconCreator";
 import { registerPageIcons } from "../RegisterPageIcons";
+import LoadingPage from "../../../shared/components/loading-page/LoadingPage";
 
 type SignUpModalProps = {
   // change displayed modal
@@ -47,7 +47,7 @@ function SignUpModal({ setModal }: SignUpModalProps) {
   // password configuration
   const [userPassConf, setUserPassConf] = useState<ConfigurationDto | null>(null);
   // state if something is processing
-  const [processing, setProcessing] = useState<boolean>(true);
+  const [processing, setProcessing] = useState<boolean>(false);
 
   // to get register configuration
   useEffect(() => {
@@ -266,7 +266,7 @@ function SignUpModal({ setModal }: SignUpModalProps) {
   };
   //*/
 
-  if (processing) return <LoadingPage text="Loading data" />;
+  if (processing) return <LoadingPage text="Creating account..." />;
 
   return (
     <form className={classes["registration-form"]} onSubmit={(event) => signUpUser(event)}>

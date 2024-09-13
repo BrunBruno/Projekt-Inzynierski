@@ -2,12 +2,14 @@
 
 // play section container
 .section {
-  position: relative;
-
   @include wh100();
+
+  position: relative;
 
   // play section intro
   &__intro {
+    @include textBg();
+
     position: relative;
     width: 100%;
     margin: 10rem 0;
@@ -18,8 +20,6 @@
     filter: drop-shadow(0 0 0.4rem $mc0);
 
     transition: all 1s 0.3s;
-
-    @include textBg();
 
     .intro-h2 {
       transition: margin-left 1s 0.3s;
@@ -70,18 +70,18 @@
 
     // play actions
     &__actions {
+      @include flex(column, end, end, 0);
+
       height: 100%;
       padding-right: 12rem;
       pointer-events: none;
 
-      @include flex(column, end, end, 0);
-
       &__buttons {
+        @include flex($direction: column, $gap: 4rem);
+
         width: 100%;
         height: 60rem;
         pointer-events: all;
-
-        @include flex($direction: column, $gap: 4rem);
 
         .actions-row {
           &.show {

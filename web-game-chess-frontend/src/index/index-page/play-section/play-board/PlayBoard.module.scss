@@ -60,6 +60,7 @@
 
       .indicator {
         @include circle(20rem);
+
         z-index: -2;
         position: absolute;
 
@@ -93,6 +94,7 @@
             }
           }
         }
+
         &:nth-child(odd) {
           .tile {
             &:nth-child(even) {

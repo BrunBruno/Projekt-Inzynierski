@@ -35,6 +35,7 @@
 
       .avatar-img {
         @include circle(20rem);
+
         border: solid 1rem $mc9;
         object-fit: cover;
       }
@@ -75,9 +76,11 @@
       input.name {
         @include tInput();
 
-        border: none;
-        font-size: 2rem;
-        color: $gc3;
+        & {
+          border: none;
+          font-size: 2rem;
+          color: $gc3;
+        }
 
         &::placeholder {
           color: $gc5;
@@ -96,10 +99,12 @@
       textarea.bio {
         @include tInput();
 
-        width: 80%;
-        height: 12rem;
-        font-size: 1.4rem;
-        resize: none;
+        & {
+          width: 80%;
+          height: 12rem;
+          font-size: 1.4rem;
+          resize: none;
+        }
 
         &::-webkit-scrollbar {
           display: none;
@@ -118,6 +123,7 @@
 
     &__icons {
       @include flex($gap: 0.5rem);
+
       position: absolute;
       top: 0;
       right: 0;
@@ -126,6 +132,7 @@
 
       .icon-con {
         @include flex();
+
         position: relative;
 
         &:hover {

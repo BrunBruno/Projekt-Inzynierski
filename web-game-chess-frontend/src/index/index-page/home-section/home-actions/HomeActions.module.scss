@@ -75,24 +75,26 @@
 
   // extra hero content
   @mixin actions {
+    @include square(60rem);
+
     position: relative;
     position: absolute;
     z-index: 9;
-
-    @include square(60rem);
   }
 
   // extra bg
   &__background {
+    @include actions();
+
     overflow: hidden;
     border-bottom-left-radius: 4rem;
     border-top-left-radius: 4rem;
     box-shadow: 0 0 0 2rem rgb(67, 43, 137);
     background-image: linear-gradient(#000, #000, $mc7);
 
-    @include actions();
-
     .board-grid {
+      @include square(200%);
+
       position: absolute;
       z-index: -1;
       top: -80%;
@@ -108,12 +110,10 @@
       transform-style: preserve-3d;
       transform: rotateX(70deg) rotateZ(45deg);
 
-      @include square(200%);
-
       &::after {
-        background-image: linear-gradient(to top left, #0000 0%, rgba($mc7, 0.95) 60%);
-
         @include subCl();
+
+        background-image: linear-gradient(to top left, #0000 0%, rgba($mc7, 0.95) 60%);
       }
 
       .p-tile {
@@ -122,9 +122,9 @@
         border: solid 0.5rem $gc0;
 
         &::after {
-          rotate: 15deg;
-
           @include subCl(200%, 30%);
+
+          rotate: 15deg;
         }
 
         &:nth-child(odd) {
@@ -146,9 +146,11 @@
     }
 
     .img-pawn-container {
-      filter: blur(0.3rem) brightness(70%);
-
       @include imagePawn(2);
+
+      & {
+        filter: blur(0.3rem) brightness(70%);
+      }
     }
 
     .pawn-white {
@@ -163,9 +165,9 @@
 
   // extra actions
   &__content {
-    padding: 6rem;
-
     @include actions();
+
+    padding: 6rem;
 
     .actions-pawns {
       @include wh100();
@@ -173,12 +175,12 @@
 
       // pawn settings
       .pawn-container {
+        @include flex(row, center, start, 0);
+
         position: relative;
         width: 50%;
         height: calc(6rem + 10rem + 12rem);
         user-select: none;
-
-        @include flex(row, center, start, 0);
 
         &:hover {
           cursor: pointer;
@@ -190,6 +192,8 @@
         }
 
         &::after {
+          @include subCl(22rem, 4rem);
+
           z-index: -1;
           left: 50%;
           top: calc(6rem + 10rem + 12rem - 5rem);
@@ -201,8 +205,6 @@
 
           transform: translateZ(-1px) translateX(-50%);
           transition: all 0.3s;
-
-          @include subCl(22rem, 4rem);
         }
 
         &:hover > .img-pawn-container {
@@ -216,12 +218,13 @@
         }
 
         .img-pawn-container {
-          z-index: 3;
-          top: 0rem;
-          width: 100%;
-          height: calc(6rem + 10rem + 12rem);
-
           @include imagePawn(1);
+          & {
+            z-index: 3;
+            top: 0rem;
+            width: 100%;
+            height: calc(6rem + 10rem + 12rem);
+          }
         }
 
         .img-pawn-text {

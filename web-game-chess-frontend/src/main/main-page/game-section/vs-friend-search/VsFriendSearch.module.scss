@@ -10,13 +10,15 @@
     @include rounded(2rem);
     @include showAni();
 
-    position: relative;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    grid-template-rows: 100%;
-    height: 100%;
-    background-color: rgba($gc9, 0.3);
-    padding-bottom: 3rem;
+    & {
+      position: relative;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: 100%;
+      height: 100%;
+      background-color: rgba($gc9, 0.3);
+      padding-bottom: 3rem;
+    }
 
     &__bar {
       @include flex(column, start, center, 3rem);

@@ -5,11 +5,11 @@
   @include wh100();
 
   .no-data {
+    @include absCenter();
+
     z-index: 1;
     text-align: center;
     user-select: none;
-
-    @include absCenter();
 
     span {
       font-size: 4rem;
@@ -18,12 +18,12 @@
   }
 
   .empty-card {
+    @include flex($direction: column, $gap: 1rem);
+
     background-color: $gc9;
     aspect-ratio: 3 / 4;
     opacity: 0.3;
     border-radius: 1rem;
-
-    @include flex($direction: column, $gap: 1rem);
 
     .blank-avatar {
       height: 10rem;
@@ -31,10 +31,10 @@
     }
 
     p.blank-text {
+      @include rounded(1rem);
+
       width: 80%;
       background-color: $gc8;
-
-      @include rounded(1rem);
     }
   }
 }

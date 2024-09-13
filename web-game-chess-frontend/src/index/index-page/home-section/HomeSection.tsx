@@ -67,9 +67,11 @@ const HomeSection = forwardRef<HandleOnScroll, HomeSectionProps>(
           {/* intro section */}
           <div ref={introRef} className={classes.section__content__intro}>
             <h1 className={classes["page-title"]}>
-              <span>Welcome to</span>
+              {/* <span>Welcome to</span>
               <br />
-              <span>BRN Chess</span>
+              <span>BRN Chess</span> */}
+                <span>Welcome to
+              BRN Chess</span>
             </h1>
 
             <p className={classes["home-text"]}>

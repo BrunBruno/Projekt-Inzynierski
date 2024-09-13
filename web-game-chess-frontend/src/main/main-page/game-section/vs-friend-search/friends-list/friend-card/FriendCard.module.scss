@@ -25,6 +25,7 @@
 
     .user-avatar {
       @include circle(6rem);
+
       object-fit: cover;
       box-shadow: 0 0 0 0.5rem $gc8;
     }
@@ -33,13 +34,10 @@
   .data {
     @include flex(column, start, start, 0.8rem);
 
-    h3 {
+    h3.username {
       @include longText();
-      font-size: 2rem;
-    }
 
-    p {
-      font-size: 1.2rem;
+      font-size: 2rem;
     }
 
     .elo {
@@ -59,7 +57,7 @@
     }
 
     .previous-games {
-      p {
+      p.wdl-total {
         font-size: 1.4rem;
         margin-bottom: 0.5rem;
       }
@@ -89,9 +87,12 @@
     opacity: 0;
     transition: opacity 0.1s;
 
-    button {
+    button.invite-button {
       @include button(1.6rem);
-      @include mainMButton();
+
+      & {
+        @include mainMButton();
+      }
     }
   }
 }
@@ -120,12 +121,8 @@
     }
 
     .data {
-      h3 {
+      h3.username {
         font-size: 3rem;
-      }
-
-      p {
-        font-size: 1.8rem;
       }
 
       .elo {
@@ -137,14 +134,14 @@
       }
 
       .previous-games {
-        p {
+        p.wdl-total {
           font-size: 1.8rem;
         }
       }
     }
 
     .invite {
-      button {
+      button.invite-button {
         font-size: 2.4rem;
       }
     }

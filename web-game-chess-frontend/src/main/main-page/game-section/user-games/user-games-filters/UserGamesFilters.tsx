@@ -58,9 +58,12 @@ function UserGamesFilters({
       {/* filter by types */}
       <div className={classes.filters__row}>
         {timingTypesList.map((element, i) => (
-          <p
+          <div
             key={`type-${i}`}
-            className={timingTypeFilters.includes(element.value) ? classes.active : ""}
+            className={`
+              ${classes.option} 
+              ${timingTypeFilters.includes(element.value) ? classes.active : ""}
+            `}
             onClick={() => {
               activateTimingTypeFilter(element.value);
             }}
@@ -70,9 +73,9 @@ function UserGamesFilters({
               icons={timingTypesIcons}
               iconName={element.label.toLocaleLowerCase()}
               color={mainColor.c0}
-              iconClass={classes["filter-svg"]}
+              iconClass={classes["option-icon"]}
             />
-          </p>
+          </div>
         ))}
       </div>
       {/* --- */}
@@ -81,9 +84,12 @@ function UserGamesFilters({
       <div className={classes.filters__row}>
         <div />
         {resultList.map((element, i) => (
-          <p
+          <div
             key={`result-${i}`}
-            className={resultFilters.includes(element.value) ? classes.active : ""}
+            className={`
+              ${classes.option} 
+              ${resultFilters.includes(element.value) ? classes.active : ""}
+            `}
             onClick={() => {
               activateResultFilter(element.value);
             }}
@@ -92,8 +98,9 @@ function UserGamesFilters({
             <IconCreator
               icons={winLoseIcons}
               iconName={element.label.toLocaleLowerCase().substring(0, element.label.length - 1)}
+              iconClass={classes["option-icon"]}
             />
-          </p>
+          </div>
         ))}
       </div>
       {/* --- */}

@@ -16,18 +16,7 @@
 
   &:hover {
     cursor: pointer;
-    // transform: scale(0.95);
   }
-
-  // &:hover {
-  //   .mini-grid {
-  //     .field {
-  //       .bg-piece {
-  //         // display: block;
-  //       }
-  //     }
-  //   }
-  // }
 
   // game result data
   .game-data {
@@ -61,8 +50,10 @@
     .win-type {
       position: relative;
 
+      // placeholder icon
       p {
         @include secFont(3rem);
+
         padding-right: 0.2rem;
       }
 
@@ -116,28 +107,28 @@
         grid-template-rows: 6rem auto;
         gap: 1rem;
 
-        @mixin playerImg() {
+        @mixin playerImg($bg_color) {
           @include flex();
           @include square(6rem);
 
           padding: 0.6rem;
           border-radius: 100%;
+          background-color: $bg_color;
 
           .player-img {
             @include wh100();
+
             border-radius: 100%;
             object-fit: cover;
           }
         }
 
         .white-player-img {
-          @include playerImg();
-          background-color: #fff;
+          @include playerImg(#fff);
         }
 
         .black-player-img {
-          @include playerImg();
-          background-color: #000;
+          @include playerImg(#000);
         }
 
         .player-data {
@@ -145,6 +136,7 @@
 
           span {
             font-size: 1.6rem;
+
             span {
               color: $mc3;
             }

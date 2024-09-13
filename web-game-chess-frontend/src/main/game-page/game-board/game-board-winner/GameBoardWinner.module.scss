@@ -12,9 +12,11 @@
   &__content {
     @include emergeAni();
 
-    background-color: $gc9;
-    border-radius: 4rem;
-    overflow: hidden;
+    & {
+      background-color: $gc9;
+      border-radius: 4rem;
+      overflow: hidden;
+    }
 
     .title {
       position: relative;
@@ -56,6 +58,7 @@
           box-shadow: 0.1rem -4rem 0 0 #fff;
         }
       }
+
       &.black-winner {
         background-color: #000;
         &::after {
@@ -86,11 +89,12 @@
         .player {
           @include flex($direction: column, $gap: 0.5rem);
 
-          @mixin playerImg() {
+          @mixin playerImg($bg-color) {
             @include flex();
             @include circle(10rem);
 
             padding: 1rem;
+            background-color: $bg-color;
 
             .player-img {
               @include wh100();
@@ -99,13 +103,11 @@
           }
 
           .white-player-img {
-            @include playerImg();
-            background-color: #fff;
+            @include playerImg(#fff);
           }
 
           .black-player-img {
-            @include playerImg();
-            background-color: #000;
+            @include playerImg(#000);
           }
 
           .player-data {
@@ -135,25 +137,36 @@
 
         @mixin gameActionButton() {
           @include button(2.4rem);
-          border-radius: 0;
-          width: 50%;
-          padding: 1rem 4rem;
+
+          & {
+            border-radius: 0;
+            width: 50%;
+            padding: 1rem 4rem;
+          }
         }
 
         .new-game {
           @include gameActionButton();
-          @include mainMButton();
+          & {
+            @include mainMButton();
 
-          border-top-left-radius: 1rem;
-          border-bottom-left-radius: 1rem;
+            & {
+              border-top-left-radius: 1rem;
+              border-bottom-left-radius: 1rem;
+            }
+          }
         }
 
         .re-game {
           @include gameActionButton();
-          @include secMButton();
+          & {
+            @include secMButton();
 
-          border-top-right-radius: 1rem;
-          border-bottom-right-radius: 1rem;
+            & {
+              border-top-right-radius: 1rem;
+              border-bottom-right-radius: 1rem;
+            }
+          }
         }
       }
 
@@ -161,9 +174,11 @@
         button {
           @include button(1.6rem);
 
-          color: $mc0;
-          background-color: #0000;
-          border-radius: 0;
+          & {
+            color: $mc0;
+            background-color: #0000;
+            border-radius: 0;
+          }
 
           &:hover {
             color: $mc4;

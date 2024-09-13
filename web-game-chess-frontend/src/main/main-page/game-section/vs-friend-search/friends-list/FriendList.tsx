@@ -45,7 +45,7 @@ function FriendList({ selectedUsername, setSelectedFriend }: FriendListProps) {
 
         const friendsResponse = await axios.get<PagedResult<GetAllFriendsByStatusDto>>(
           friendshipControllerPaths.getAllFriendsByStatus(model),
-          getAuthorization(),
+          getAuthorization()
         );
 
         setFriends(friendsResponse.data.items);
@@ -97,8 +97,8 @@ function FriendList({ selectedUsername, setSelectedFriend }: FriendListProps) {
             <div key={i} className={classes["empty-card"]}>
               <AvatarIcon iconClass={classes["blank-avatar"]} />
               <div className={classes.texts}>
-                <p />
-                <p />
+                <p className={classes["blank-text"]} />
+                <p className={classes["blank-text"]} />
               </div>
             </div>
           ))}
@@ -111,7 +111,7 @@ function FriendList({ selectedUsername, setSelectedFriend }: FriendListProps) {
       )}
 
       {/* count indicator */}
-      {friends && (
+      {friends && friends.length > 0 && (
         <div className={classes.list__indicator}>
           {friends.length} / {totalItemsCount}
         </div>

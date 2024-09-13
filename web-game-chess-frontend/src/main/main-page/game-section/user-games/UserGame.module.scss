@@ -2,12 +2,14 @@
 
 // game section container
 .games {
+  $header_w: 6rem;
+
   @include wh100();
   @include showAni();
 
-  padding: 4rem 8rem;
-
-  $header_w: 6rem;
+  & {
+    padding: 4rem 8rem;
+  }
 
   &__header {
     @include flex(row, space-between, center, 0);
@@ -26,6 +28,7 @@
 
       span.counter {
         @include flex($gap: 0.5rem);
+
         width: fit-content;
 
         span.sym {
@@ -38,7 +41,10 @@
     .filters {
       button.filter-button {
         @include button(2rem);
-        @include mainMButton();
+
+        & {
+          @include mainMButton();
+        }
 
         &.disabled {
           filter: grayscale(100%);

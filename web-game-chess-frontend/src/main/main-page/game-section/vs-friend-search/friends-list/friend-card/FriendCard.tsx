@@ -25,7 +25,7 @@ function FriendCard({ friend, setSelectedFriend }: FriendCardProps) {
       />
 
       <div className={classes.data}>
-        <h3>{friend.username}</h3>
+        <h3 className={classes["username"]}>{friend.username}</h3>
 
         <div className={classes.elo}>
           <span>
@@ -55,7 +55,7 @@ function FriendCard({ friend, setSelectedFriend }: FriendCardProps) {
         </div>
 
         <div className={classes["previous-games"]}>
-          <p>You played {friend.wdlTogether.total} games together </p>
+          <p className={classes["wdl-total"]}>You played {friend.wdlTogether.total} games together </p>
           <span>{friend.wdlTogether.wins}W</span>
           {" - "}
           <span>{friend.wdlTogether.draws}D</span>
@@ -66,6 +66,7 @@ function FriendCard({ friend, setSelectedFriend }: FriendCardProps) {
 
       <div className={classes.invite}>
         <button
+          className={classes["invite-button"]}
           onClick={() => {
             setSelectedFriend(friend);
           }}

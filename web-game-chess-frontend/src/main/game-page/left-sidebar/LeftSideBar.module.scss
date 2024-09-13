@@ -36,7 +36,7 @@
         cursor: pointer;
       }
 
-      p {
+      p.logo-text {
         @include secFont(2rem);
       }
     }

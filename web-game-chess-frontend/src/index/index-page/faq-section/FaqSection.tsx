@@ -32,8 +32,22 @@ const FaqSection = forwardRef<HandleOnScroll, FaqSectionProps>(
 
     useEffect(() => {
       const handleCardCountOnResize = () => {
+        const resetRow = (element: HTMLDivElement | null, setInd: React.Dispatch<React.SetStateAction<number>>) => {
+          if (element) {
+            element.scrollTo({
+              left: 0,
+              behavior: "smooth",
+            });
+
+            setInd(0);
+          }
+        };
+
         const count = window.innerWidth < 700 ? 1 : 2;
         setCardCount(count);
+
+        resetRow(row1Ref.current, setRow1Indicator);
+        resetRow(row2Ref.current, setRow2Indicator);
       };
 
       window.addEventListener("resize", handleCardCountOnResize);
@@ -223,7 +237,7 @@ const FaqSection = forwardRef<HandleOnScroll, FaqSectionProps>(
 
           <div ref={row2Ref} className={classes.section__content__row}>
             {gameplayAndFeaturesFAQs.map((faq, i) => (
-              <FaqSectionCard key={`{gameplay-and-features-${i}`} faq={faq} index={i} />
+              <FaqSectionCard key={`gameplay-and-features-${i}`} faq={faq} index={i} />
             ))}
           </div>
 

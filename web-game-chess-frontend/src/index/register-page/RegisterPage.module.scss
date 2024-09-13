@@ -3,16 +3,24 @@
 
 // register page container
 .register {
+  @include gridBg();
+
   position: relative;
   height: 100%;
 
-  @include gridBg();
-
   &__content {
+    @include absCenter();
+
     width: 100rem;
     height: 60rem;
+    display: grid;
+    grid-template-columns: calc(100% - 60rem) auto calc(100% - 60rem);
 
-    @include absCenter();
+    border-radius: 4rem;
+    background-image: linear-gradient(rgba(#000, 0.8), rgba(#000, 0.8)), url("images/register-bg.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: right;
 
     @keyframes introAnimation {
       from {
@@ -23,116 +31,91 @@
       }
     }
 
-    &__split {
-      display: grid;
-      overflow: hidden;
-      border-radius: 4rem;
+    &__intro {
+      @include flex(column, space-evenly, center, 4rem);
 
-      background-image: linear-gradient(rgba(#000, 0.8), rgba(#000, 0.8)), url("images/register-bg.jpg");
-      background-size: cover;
-      background-repeat: no-repeat;
-      background-position: right;
+      padding: 12rem 4rem;
+      text-align: center;
+      opacity: 0;
+      transition: opacity 1s;
+      animation: introAnimation 1s;
 
-      @include wh100();
-
-      &.left-side-content {
-        grid-template-columns: 60rem auto;
-
-        .intro {
-          animation: introAnimation 1s;
-        }
+      &.active {
+        opacity: 1;
       }
 
-      &.right-side-content {
-        grid-template-columns: auto 60rem;
-
-        .intro {
-          animation: introAnimation 1s;
-        }
+      h1.title {
+        font-size: 4rem;
+        font-weight: bold;
+        filter: drop-shadow(0 0 1rem $mc8);
       }
 
-      .form {
-        background-color: #0000;
+      p.text {
+        color: $gc4;
+        font-size: 1.6rem;
       }
 
-      .intro {
-        padding: 12rem 4rem;
-        text-align: center;
-
-        @include flex(column, space-evenly, center, 4rem);
-
-        h1.title {
-          font-size: 4rem;
-          font-weight: bold;
-          filter: drop-shadow(0 0 1rem $mc8);
-        }
-
-        p.text {
-          color: $gc4;
-          font-size: 1.6rem;
-        }
-
-        .action-button {
-          @include actionButton(1.6rem);
-        }
+      .action-button {
+        @include actionButton(1.6rem);
       }
     }
+  }
 
-    // form container
-    &__form {
+  // form container
+  &__form {
+    @include rounded(4rem);
+    @include square(60rem);
+
+    position: absolute;
+    top: 0;
+
+    background-color: $gc9;
+    border: solid 0.5rem $gc8;
+    box-shadow: inset 0 0 1rem 0.5rem $gc8;
+    background-image: repeating-conic-gradient(from 0deg at 25% 75%, #0000 20%, rgba($mc6, 0.1) 35%);
+
+    &::after {
+      @include subCl(8rem, 8rem);
+
       position: absolute;
       top: 0;
       left: 50%;
+      transform: translate(-50%, calc(-50% - 0.4rem)) rotate(45deg);
 
       background-color: $gc9;
-      border: solid 0.5rem $gc8;
-      box-shadow: inset 0 0 1rem 0.5rem $gc8;
-      background-image: repeating-conic-gradient(from 0deg at 25% 75%, #0000 20%, rgba($mc6, 0.1) 35%);
-
-      transform: translateX(-50%);
-      transition: transform 0.5s, left 0.5s;
-
-      @include rounded(4rem);
-      @include square(60rem);
-
-      &::after {
-        position: absolute;
-        top: 0;
-        left: 50%;
-        transform: translate(-50%, calc(-50% - 0.4rem)) rotate(45deg);
-
-        background-color: $gc9;
-        border-radius: 100%;
-        border: solid 0.5rem #0000;
-        border-bottom-color: $gc8;
-        border-right-color: $gc8;
-        box-shadow: 0.5rem 0.5rem 1rem $gc8;
-
-        @include subCl(8rem, 8rem);
-      }
-
-      .lock-svg {
-        position: absolute;
-        top: 0;
-        left: 50%;
-        transform: translate(calc(-50% + 0.5rem), calc(-50% - 0.5rem));
-        z-index: 1;
-
-        @include circle(6rem);
-      }
+      border-radius: 100%;
+      border: solid 0.5rem #0000;
+      border-bottom-color: $gc8;
+      border-right-color: $gc8;
+      box-shadow: 0.5rem 0.5rem 1rem $gc8;
     }
 
-    .left-side-form {
+    &.form-transform {
+      transition: transform 0.5s linear, left 0.5s linear;
+    }
+
+    &.left-side-form {
       left: 0;
       transform: translateX(0);
     }
 
-    .right-side-form {
+    &.right-side-form {
       left: 100%;
       transform: translateX(-100%);
     }
-    //*/
+
+    .lock-svg {
+      @include circle(6rem);
+
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translate(calc(-50% + 0.5rem), calc(-50% - 0.5rem));
+      z-index: 1;
+    }
   }
+
+  //*/
 }
 //*/
 

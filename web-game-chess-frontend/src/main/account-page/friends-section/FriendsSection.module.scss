@@ -20,6 +20,9 @@
   }
 
   &__indicator {
+    @include rounded(1rem);
+    @include flex();
+
     position: fixed;
     bottom: 1rem;
     left: 75%;
@@ -28,9 +31,6 @@
     opacity: 0.5;
     font-size: 1.2rem;
     z-index: 1;
-
-    @include rounded(1rem);
-    @include flex();
   }
 }
 //*/

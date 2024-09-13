@@ -5,12 +5,14 @@
   @include rounded(1rem);
   @include emergeAni(0.2s, 0s, -1rem);
 
-  position: relative;
-  min-height: fit-content;
-  overflow: hidden;
-  background-color: $gc9;
-  height: 14rem;
-  border-bottom: solid 0.3rem $mc9;
+  & {
+    position: relative;
+    min-height: fit-content;
+    overflow: hidden;
+    background-color: $gc9;
+    height: 14rem;
+    border-bottom: solid 0.3rem $mc9;
+  }
 
   &::after {
     @include subCl(60rem, 60rem);

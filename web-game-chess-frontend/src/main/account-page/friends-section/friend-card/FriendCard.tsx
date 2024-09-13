@@ -74,13 +74,16 @@ function FriendCard({ friend, setSelectedFriend, clearSelection }: FriendCardPro
       {/* friend related actions */}
       <div className={classes.friend__actions}>
         <button
+          className={classes["card-button"]}
           onClick={() => {
             checkProfile();
           }}
         >
           Profile
         </button>
+
         <button
+          className={classes["card-button"]}
           onClick={() => {
             onInviteFriendToGame();
           }}

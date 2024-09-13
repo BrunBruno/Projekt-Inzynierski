@@ -3,6 +3,8 @@
 // all modal styles
 // register container form
 .registration-form {
+  @include flex(column, center, center, 1rem);
+
   position: relative;
   height: 100%;
   padding: 0 6rem;
@@ -13,8 +15,6 @@
   background-color: $gc9;
 
   animation: formAnimation 0.5s;
-
-  @include flex(column, center, center, 1rem);
 
   .bg-svg {
     position: absolute;
@@ -86,11 +86,11 @@
       }
 
       .reg-pass-ind {
+        @include circle(2rem);
+
         position: absolute;
         right: 0;
         opacity: 0;
-
-        @include circle(2rem);
       }
     }
   }
@@ -104,11 +104,11 @@
   }
 
   .verify {
+    @include flex(column, start, center, 1rem);
+
     position: relative;
     z-index: 1;
     margin: 2rem;
-
-    @include flex(column, start, center, 1rem);
 
     span {
       font-size: 2rem;
@@ -119,11 +119,12 @@
       position: relative;
 
       .verify-input {
-        width: 18rem;
-        text-align: start;
-        letter-spacing: 0.5rem;
-
         @include cInput(2.4rem, $gc0, $mc9);
+        & {
+          width: 18rem;
+          text-align: start;
+          letter-spacing: 0.5rem;
+        }
       }
 
       input[type="number"]::-webkit-inner-spin-button,
@@ -132,12 +133,12 @@
       }
 
       .paste {
+        @include circle(4.5rem);
+        @include flex();
+
         position: absolute;
         top: 0;
         right: 0;
-
-        @include circle(4.5rem);
-        @include flex();
 
         &:hover {
           cursor: pointer;
@@ -148,15 +149,15 @@
         }
 
         &::after {
+          @include rounded(0.2rem);
+          @include subCl(fit-content, fit-content);
+
           display: none;
           content: "Paste";
           left: 120%;
           color: $gc9;
           background-color: $gc1;
           font-size: 1.2rem;
-
-          @include rounded(0.2rem);
-          @include subCl(fit-content, fit-content);
         }
 
         svg.paste-svg {
@@ -188,15 +189,19 @@
   //*/
 
   // buttons
-  .registration-button {
-    position: relative;
-    margin: 1rem;
-    z-index: 1;
-    padding: 1rem 6rem;
-
+  button.registration-button {
     @include button(2rem);
+
     & {
       @include mainMButton();
+
+      & {
+        position: relative;
+        position: relative;
+        margin: 1rem;
+        z-index: 1;
+        padding: 1rem 9rem;
+      }
     }
   }
 
@@ -237,7 +242,7 @@
       }
     }
 
-    .registration-button {
+    button.registration-button {
       font-size: 3rem;
     }
   }

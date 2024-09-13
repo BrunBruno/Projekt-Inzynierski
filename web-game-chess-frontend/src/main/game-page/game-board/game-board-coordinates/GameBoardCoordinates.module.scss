@@ -23,21 +23,25 @@
   &__rows {
     @include filesIndicators();
 
-    top: 2rem;
-    left: 0;
-    width: 2rem;
-    height: calc(100% - 2 * 2rem);
-    grid-template-rows: repeat(8, 1fr);
+    & {
+      top: 2rem;
+      left: 0;
+      width: 2rem;
+      height: calc(100% - 2 * 2rem);
+      grid-template-rows: repeat(8, 1fr);
+    }
   }
 
   &__columns {
     @include filesIndicators();
 
-    bottom: 0;
-    left: 2rem;
-    width: calc(100% - 2 * 2rem);
-    height: 2rem;
-    grid-template-columns: repeat(8, 1fr);
+    & {
+      bottom: 0;
+      left: 2rem;
+      width: calc(100% - 2 * 2rem);
+      height: 2rem;
+      grid-template-columns: repeat(8, 1fr);
+    }
   }
 
   .white-indicators {
