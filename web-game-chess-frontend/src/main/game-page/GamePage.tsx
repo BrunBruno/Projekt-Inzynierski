@@ -24,6 +24,7 @@ import MainPopUp from "../../shared/components/main-popup/MainPopUp";
 import { PopupType } from "../../shared/utils/types/commonTypes";
 import { Guid } from "guid-typescript";
 import { HubConnectionState } from "@microsoft/signalr";
+import { GameActionInterface } from "../../shared/utils/enums/interfacesEnums";
 
 function GamePage() {
   ///
@@ -59,7 +60,7 @@ function GamePage() {
   const [searchIds, setSearchIds] = useState<SearchGameDto | null>(null);
 
   // state for displaying actions confirmation window
-  const [showConfirm, setShowConfirm] = useState<boolean>(false);
+  const [showConfirm, setShowConfirm] = useState<GameActionInterface | null>(null);
   const [confirmAction, setConfirmAction] = useState<() => void>(() => {});
 
   const { showPopup } = usePopup();

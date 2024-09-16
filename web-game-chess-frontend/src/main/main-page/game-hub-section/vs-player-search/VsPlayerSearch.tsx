@@ -103,6 +103,7 @@ function VsPlayerSearch({ setSearchIds }: VsPlayerSearchProps) {
               />
               <span>{control.header}</span>
             </div>
+
             {control.tags.map((tag, i) => (
               <div
                 key={i}

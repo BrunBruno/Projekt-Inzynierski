@@ -1,13 +1,7 @@
-import { useEffect, useRef, useState } from "react";
-import {
-  EndGameDto,
-  FetchTimeDto,
-  GetAllMessagesDto,
-  GetEndedGameDto,
-  GetGameDto,
-} from "../../../shared/utils/types/gameDtos";
+import { useEffect } from "react";
+import { EndGameDto, FetchTimeDto, GetEndedGameDto, GetGameDto } from "../../../shared/utils/types/gameDtos";
 import classes from "./RightSideBar.module.scss";
-import { EndGameModel, SendMessageModel } from "../../../shared/utils/types/gameModels";
+import { EndGameModel } from "../../../shared/utils/types/gameModels";
 import GameHubService from "../../../shared/utils/services/GameHubService";
 import { EndGameTypes, PieceColor } from "../../../shared/utils/enums/entitiesEnums";
 import LoadingPage from "../../../shared/components/loading-page/LoadingPage";
@@ -15,14 +9,7 @@ import MoveRecord from "./move-record/MoveRecord";
 import GameClock from "./game-clock/GameClock";
 import AvatarImage from "../../../shared/components/avatar-image/AvatarImage";
 import { Guid } from "guid-typescript";
-import { usePopup } from "../../../shared/utils/hooks/usePopUp";
-import { getErrMessage } from "../../../shared/utils/functions/displayError";
-import axios from "axios";
-import { gameControllerPaths, getAuthorization } from "../../../shared/utils/services/ApiService";
-import GameMessage from "./game-message/GameMessage";
-import { HubConnectionState } from "@microsoft/signalr";
-import IconCreator from "../../../shared/components/icon-creator/IconCreator";
-import { rightSideBarIcons } from "./RightSideBarIcons";
+import GameMessages from "./game-messages/GameMessages";
 
 type RightSideBarProps = {
   // game id
@@ -39,13 +26,6 @@ type RightSideBarProps = {
 
 function RightSideBar({ gameId, gameData, playersTimes, setPlayersTimes, winner }: RightSideBarProps) {
   ///
-
-  const { showPopup } = usePopup();
-
-  const messagesRef = useRef<HTMLDivElement>(null);
-
-  const [newMessage, setNewMessage] = useState<string>("");
-  const [messages, setMessages] = useState<GetAllMessagesDto[]>([]);
 
   // sets time left for both players
   useEffect(() => {
@@ -105,72 +85,6 @@ function RightSideBar({ gameId, gameData, playersTimes, setPlayersTimes, winner 
   }, [playersTimes]);
   //*/
 
-  // gets all messages for current game
-  // add hub service to send and received messages
-  const getMessages = async () => {
-    try {
-      const response = await axios.get<GetAllMessagesDto[]>(
-        gameControllerPaths.getAllMessages(gameId),
-        getAuthorization()
-      );
-
-      setMessages(response.data);
-
-      setTimeout(() => {
-        const elements = messagesRef.current;
-        if (elements) {
-          elements.scrollTop = elements.scrollHeight;
-        }
-      }, 10);
-    } catch (err) {
-      showPopup(getErrMessage(err), "warning");
-    }
-  };
-
-  useEffect(() => {
-    getMessages();
-
-    if (GameHubService.connection && GameHubService.connection.state === HubConnectionState.Connected) {
-      GameHubService.connection.on("MessagesUpdated", getMessages);
-    }
-
-    return () => {
-      if (GameHubService.connection) {
-        GameHubService.connection.off("MessagesUpdated", getMessages);
-      }
-    };
-  }, []);
-  //*/
-
-  // to send new message
-  const sendMessage = async (event: React.FormEvent<HTMLFormElement>): Promise<void> => {
-    event.preventDefault();
-    if (newMessage === "") return;
-
-    try {
-      const model: SendMessageModel = {
-        gameId: gameId,
-        message: newMessage,
-      };
-
-      await GameHubService.SendMessage(model);
-
-      setNewMessage("");
-    } catch (err) {
-      showPopup(getErrMessage(err), "warning");
-    }
-  };
-  //*/
-
-  // handle message input
-  const handleMessageInputChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
-    const inputValue = event.target.value;
-    setNewMessage(inputValue);
-  };
-  //*/
-
-  if (playersTimes === null) return <LoadingPage />;
-
   return (
     <section className={classes.bar}>
       <div className={classes.bar__content}>
@@ -213,49 +127,30 @@ function RightSideBar({ gameId, gameData, playersTimes, setPlayersTimes, winner 
         {/* --- */}
 
         {/* game clock */}
-        <GameClock
-          gameData={gameData}
-          whitePlayerSeconds={playersTimes.whiteTimeLeft}
-          blackPlayerSeconds={playersTimes.blackTimeLeft}
-        />
+        {playersTimes === null ? (
+          <LoadingPage text="Fetching time..." />
+        ) : (
+          <GameClock
+            gameData={gameData}
+            whitePlayerSeconds={playersTimes.whiteTimeLeft}
+            blackPlayerSeconds={playersTimes.blackTimeLeft}
+          />
+        )}
         {/* --- */}
 
         {/* game history records */}
-        <div className={classes.bar__content__history}>
-          <div className={classes.bar__content__history__list}>
-            {gameData.moves.map((move, i) => (
-              <MoveRecord key={i} recordNum={i} move={move} />
-            ))}
+        <div className={classes.bar__content__block}>
+          <div className={classes.bar__content__block__list}>
+            {gameData.moves.length > 0
+              ? gameData.moves.map((move, i) => <MoveRecord key={i} recordNum={i} move={move} />)
+              : Array.from({ length: 10 }).map((_, i) => <MoveRecord key={i} recordNum={i} move={null} />)}
           </div>
         </div>
         {/* --- */}
 
         {/* game messenger */}
-        <div className={classes.bar__content__messages}>
-          <div ref={messagesRef} className={classes.bar__content__messages__list}>
-            {messages.map((message, i) => (
-              <GameMessage key={i} gameId={gameId} message={message} />
-            ))}
-          </div>
-
-          <form
-            className={classes.bar__content__messages__actions}
-            onSubmit={(event) => {
-              sendMessage(event);
-            }}
-          >
-            <textarea
-              className={classes["message-input"]}
-              value={newMessage}
-              onChange={(event) => {
-                handleMessageInputChange(event);
-              }}
-            ></textarea>
-
-            <button className={classes["send-button"]} type="submit">
-              <IconCreator icons={rightSideBarIcons} iconName="send" />
-            </button>
-          </form>
+        <div className={classes.bar__content__block}>
+          <GameMessages gameId={gameId} />
         </div>
         {/* --- */}
       </div>

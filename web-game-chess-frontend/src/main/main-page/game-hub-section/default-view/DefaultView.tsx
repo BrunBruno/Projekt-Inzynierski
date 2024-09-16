@@ -92,10 +92,6 @@ function DefaultView({}: DefaultViewProps) {
 
   return (
     <div ref={defRef} className={classes.default}>
-      {/* <div>
-        {Math.floor(mousePosition.x)} {Math.floor(mousePosition.y)}
-      </div> */}
-
       <div className={classes.default__container}>
         <div className={classes.board}>
           <div

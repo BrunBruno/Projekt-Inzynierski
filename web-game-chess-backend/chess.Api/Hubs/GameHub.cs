@@ -51,6 +51,20 @@ public class GameHub : Hub<IGameHub> {
 
 
     /// <summary>
+    /// Adds user to 2-user groups to perform game
+    /// </summary>
+    /// <param name="gameId"></param>
+    /// <returns></returns>
+    [HubMethodName("add-player")]
+    [Authorize(Policy = "IsVerified")]
+    [SignalRMethod("AddPlayer", Operation.Post)]
+    public async Task AddPlayer(Guid gameId) {
+
+        await Groups.AddToGroupAsync(Context.ConnectionId, $"game-{gameId}");
+    }
+
+
+    /// <summary>
     /// Adds user to queue for each timing
     /// Starts all games, that meet requirement for start
     /// Calls to all groups, to check if awaiting players are not in game.
@@ -151,18 +165,7 @@ public class GameHub : Hub<IGameHub> {
     }
 
 
-    /// <summary>
-    /// Adds user to 2-user groups to perform game
-    /// </summary>
-    /// <param name="gameId"></param>
-    /// <returns></returns>
-    [HubMethodName("add-player")]
-    [Authorize(Policy = "IsVerified")]
-    [SignalRMethod("AddPlayer", Operation.Put)]
-    public async Task AddPlayer(Guid gameId) {
-
-        await Groups.AddToGroupAsync(Context.ConnectionId, $"game-{gameId}");
-    }
+   
 
 
     /// <summary>
@@ -207,6 +210,20 @@ public class GameHub : Hub<IGameHub> {
             await Clients.Groups($"user-{startGameDto.WhitePlayerUserId}").GameAccepted(gameId);
             await Clients.Groups($"user-{startGameDto.BlackPlayerUserId}").GameAccepted(gameId);
         }
+    }
+
+
+    /// <summary>
+    /// For typing indicator update
+    /// </summary>
+    /// <param name="model"></param>
+    /// <returns></returns>
+    [HubMethodName("typing-status")]
+    [Authorize(Policy = "IsVerified")]
+    [SignalRMethod("TypingStatus", Operation.Put)]
+    public async Task TypingStatus(TypingStatusModel model) {
+
+        await Clients.OthersInGroup($"game-{model.GameId}").TypingStatus(model.IsTyping);
     }
 
 

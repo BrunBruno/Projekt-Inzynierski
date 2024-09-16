@@ -54,12 +54,12 @@
     font-weight: bold;
     color: $gc9;
   }
-}
 
-@keyframes showPopup {
-  to {
-    right: 2rem;
-    opacity: 1;
+  @keyframes showPopup {
+    to {
+      right: 2rem;
+      opacity: 1;
+    }
   }
 }
 //*/

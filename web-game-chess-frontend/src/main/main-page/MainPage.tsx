@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import MainNav from "../../shared/components/main-nav/MainNav";
 import MainPopUp from "../../shared/components/main-popup/MainPopUp";
 import classes from "./MainPage.module.scss";
-import GameSection from "./game-section/GameSection";
+import GameHubSection from "./game-hub-section/GameHubSection";
 import { useLocation } from "react-router-dom";
 import { usePopup } from "../../shared/utils/hooks/usePopUp";
 import { PopupType } from "../../shared/utils/types/commonTypes";
@@ -44,7 +44,7 @@ function MainPage() {
     <main className={classes.main}>
       <MainNav />
 
-      <GameSection providedInterface={providedInterface} />
+      <GameHubSection providedInterface={providedInterface} />
 
       <MainPopUp />
     </main>

@@ -1,8 +1,8 @@
 import { mainColor } from "../../../shared/utils/enums/colorMaps";
 import { IconMap } from "../../../shared/utils/types/commonTypes";
-import classes from "./GameSection.module.scss";
+import classes from "./GameHubSection.module.scss";
 
-export const gameSectionIcons: IconMap = {
+export const gameHubSectionIcons: IconMap = {
   vsPlayer: () => (
     <svg
       className={classes["vs-player-icon"]}

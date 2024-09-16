@@ -20,7 +20,7 @@ type LeftSideBarProps = {
   // current game data
   gameData: GetGameDto;
   // to show confirm window
-  setShowConfirm: React.Dispatch<React.SetStateAction<boolean>>;
+  setShowConfirm: React.Dispatch<React.SetStateAction<GameActionInterface | null>>;
   // to set confirm action
   setConfirmAction: React.Dispatch<React.SetStateAction<() => void>>;
 };
@@ -84,7 +84,7 @@ function LeftSideBar({ gameId, playerData, gameData, setShowConfirm, setConfirmA
 
   // to show confirm window and select chosen action
   const onSelectAction = (action: GameActionInterface): void => {
-    setShowConfirm(true);
+    setShowConfirm(action);
 
     switch (action) {
       case GameActionInterface.abort:
@@ -101,7 +101,7 @@ function LeftSideBar({ gameId, playerData, gameData, setShowConfirm, setConfirmA
 
       default:
         setConfirmAction(() => {});
-        setShowConfirm(false);
+        setShowConfirm(null);
     }
   };
   //*/

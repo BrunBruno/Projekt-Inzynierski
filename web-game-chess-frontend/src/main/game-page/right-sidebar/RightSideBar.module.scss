@@ -82,16 +82,12 @@
       }
     }
 
-    @mixin block() {
+    &__block {
       @include rounded(2rem);
 
       border: solid 0.3rem $gc8;
       box-shadow: inset 0 0 1rem 0.3rem $gc8;
       background-color: rgba(#000, 0.1);
-    }
-
-    &__history {
-      @include block();
 
       overflow-y: scroll;
 
@@ -99,68 +95,18 @@
         display: none;
       }
 
+      &:nth-child(1) {
+        border: solid blue 1rem;
+      }
+      &:nth-child(2) {
+        border: solid red 1rem;
+      }
+
       &__list {
         display: grid;
         grid-template-columns: 1fr 1fr;
         grid-template-rows: auto;
         height: fit-content;
-      }
-    }
-
-    &__messages {
-      @include block();
-
-      display: grid;
-      grid-template-rows: auto 6rem;
-      gap: 1rem;
-
-      &__list {
-        overflow-y: scroll;
-
-        &::-webkit-scrollbar {
-          display: none;
-        }
-      }
-
-      &__actions {
-        @include flex(row, start, center, 1rem);
-
-        .message-input {
-          @include rounded(1rem);
-          @include tInput(1.6rem);
-
-          & {
-            width: 100% !important;
-            height: calc(3 * 1.6rem) !important;
-            resize: none;
-            border: solid 0.2rem $gc8;
-          }
-
-          &:focus {
-            border-color: $gc7;
-          }
-
-          &::-webkit-scrollbar {
-            display: none;
-          }
-        }
-
-        .send-button {
-          @include flex();
-          @include circle(fit-content);
-
-          background-color: #0000;
-          border: none;
-
-          &:hover {
-            cursor: pointer;
-            filter: brightness(80%);
-          }
-
-          .send-svg {
-            height: 3rem;
-          }
-        }
       }
     }
   }
@@ -181,11 +127,7 @@
       gap: 20%;
     }
 
-    &__history {
-      display: none;
-    }
-
-    &__messages {
+    &__block {
       display: none;
     }
   }

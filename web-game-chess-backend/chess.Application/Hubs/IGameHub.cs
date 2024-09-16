@@ -52,4 +52,7 @@ public interface IGameHub {
     /// </summary>
     /// <returns></returns>
     Task InvitationDeclined();
+
+
+    Task TypingStatus(bool IsTyping);
 }

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import classes from "./GameSection.module.scss";
+import classes from "./GameHubSection.module.scss";
 import VsPlayerSearch from "./vs-player-search/VsPlayerSearch";
 import axios from "axios";
 import { gameControllerPaths, getAuthorization } from "../../../shared/utils/services/ApiService";
@@ -18,15 +18,15 @@ import { getErrMessage } from "../../../shared/utils/functions/displayError";
 import { usePopup } from "../../../shared/utils/hooks/usePopUp";
 import { useTimingType } from "../../../shared/utils/hooks/useTimingType";
 import IconCreator from "../../../shared/components/icon-creator/IconCreator";
-import { gameSectionIcons } from "./GameSectionIcons";
+import { gameHubSectionIcons } from "./GameHubSectionIcons";
 import SearchingPage from "../../../shared/components/searching-page/SearchingPage";
 import { Guid } from "guid-typescript";
 
-type GameSectionProps = {
+type GameHubSectionProps = {
   providedInterface: GameSearchInterface | null;
 };
 
-function GameSection({ providedInterface }: GameSectionProps) {
+function GameHubSection({ providedInterface }: GameHubSectionProps) {
   ///
 
   const navigate = useNavigate();
@@ -196,7 +196,7 @@ function GameSection({ providedInterface }: GameSectionProps) {
                 setInterfaceById(GameSearchInterface.vsPlayer);
               }}
             >
-              <IconCreator icons={gameSectionIcons} iconName="vsPlayer" />
+              <IconCreator icons={gameHubSectionIcons} iconName="vsPlayer" />
               <span>Play vs Player</span>
             </button>
 
@@ -206,7 +206,7 @@ function GameSection({ providedInterface }: GameSectionProps) {
                 setInterfaceById(GameSearchInterface.vsComputer);
               }}
             >
-              <IconCreator icons={gameSectionIcons} iconName="vsComputer" />
+              <IconCreator icons={gameHubSectionIcons} iconName="vsComputer" />
               <span>Play vs Computer</span>
             </button>
 
@@ -216,7 +216,7 @@ function GameSection({ providedInterface }: GameSectionProps) {
                 setInterfaceById(GameSearchInterface.vsFriend);
               }}
             >
-              <IconCreator icons={gameSectionIcons} iconName="vsFriend" />
+              <IconCreator icons={gameHubSectionIcons} iconName="vsFriend" />
               <span>Play vs Friend</span>
             </button>
 
@@ -226,7 +226,7 @@ function GameSection({ providedInterface }: GameSectionProps) {
                 setInterfaceById(GameSearchInterface.userGames);
               }}
             >
-              <IconCreator icons={gameSectionIcons} iconName="userGames" />
+              <IconCreator icons={gameHubSectionIcons} iconName="userGames" />
               <span>My Games</span>
             </button>
 
@@ -236,7 +236,7 @@ function GameSection({ providedInterface }: GameSectionProps) {
                 setInterfaceById(GameSearchInterface.invitations);
               }}
             >
-              <IconCreator icons={gameSectionIcons} iconName="invitations" />
+              <IconCreator icons={gameHubSectionIcons} iconName="invitations" />
               <span>Invitations</span>
             </button>
           </div>
@@ -248,4 +248,4 @@ function GameSection({ providedInterface }: GameSectionProps) {
   );
 }
 
-export default GameSection;
+export default GameHubSection;

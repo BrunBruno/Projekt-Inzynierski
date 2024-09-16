@@ -1,11 +1,11 @@
 import { Guid } from "guid-typescript";
-import AvatarImage from "../../../../shared/components/avatar-image/AvatarImage";
-import { EndGameTypes, MessageType } from "../../../../shared/utils/enums/entitiesEnums";
-import { getErrMessage } from "../../../../shared/utils/functions/displayError";
-import { usePopup } from "../../../../shared/utils/hooks/usePopUp";
-import GameHubService from "../../../../shared/utils/services/GameHubService";
-import { GetAllMessagesDto } from "../../../../shared/utils/types/gameDtos";
-import { EndGameModel } from "../../../../shared/utils/types/gameModels";
+import AvatarImage from "../../../../../shared/components/avatar-image/AvatarImage";
+import { EndGameTypes, MessageType } from "../../../../../shared/utils/enums/entitiesEnums";
+import { getErrMessage } from "../../../../../shared/utils/functions/displayError";
+import { usePopup } from "../../../../../shared/utils/hooks/usePopUp";
+import GameHubService from "../../../../../shared/utils/services/GameHubService";
+import { GetAllMessagesDto } from "../../../../../shared/utils/types/gameDtos";
+import { EndGameModel } from "../../../../../shared/utils/types/gameModels";
 import classes from "./GameMessage.module.scss";
 
 type GameMessageProps = {

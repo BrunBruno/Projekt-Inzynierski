@@ -8,6 +8,7 @@ import {
   MakeMoveModel,
   NotifyUserModel,
   SendMessageModel,
+  TypingStatusModel,
 } from "../types/gameModels";
 import { Guid } from "guid-typescript";
 
@@ -73,6 +74,15 @@ class GameHub {
     }
   }
 
+  // add to group with game id
+  public async AddPlayer(gameId: Guid): Promise<void> {
+    try {
+      await this.connection?.invoke("add-player", gameId);
+    } catch (err) {
+      console.error(err);
+    }
+  }
+
   // add player to queue | create game
   public async PlayerJoined(typeId: Guid): Promise<void> {
     try {
@@ -118,15 +128,6 @@ class GameHub {
     }
   }
 
-  // add to group with game id
-  public async AddPlayer(gameId: Guid): Promise<void> {
-    try {
-      await this.connection?.invoke("add-player", gameId);
-    } catch (err) {
-      console.error(err);
-    }
-  }
-
   // to accept game invitations
   public async AcceptInvitation(model: AcceptInvitationModel): Promise<void> {
     try {
@@ -140,6 +141,15 @@ class GameHub {
   public async UpdatePrivateGame(gameId: Guid): Promise<void> {
     try {
       await this.connection?.invoke("update-private-game", gameId);
+    } catch (err) {
+      console.error(err);
+    }
+  }
+
+  // for typing indicator update
+  public async TypingStatus(model: TypingStatusModel): Promise<void> {
+    try {
+      await this.connection?.invoke("typing-status", model);
     } catch (err) {
       console.error(err);
     }

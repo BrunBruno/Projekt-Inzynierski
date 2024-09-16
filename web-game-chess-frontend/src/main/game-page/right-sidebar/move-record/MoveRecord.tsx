@@ -8,17 +8,34 @@ type MoveRecordProps = {
   // turn number
   recordNum: number;
   // done move dto
-  move: MoveDto;
+  move: MoveDto | null;
 };
 
 function MoveRecord({ recordNum, move }: MoveRecordProps) {
   ///
 
-  const turn = Math.floor((move.turn - 1) / 2) + 1;
+  if (!move) {
+    return (
+      <div className={`${classes.record} ${classes.empty}`}>
+        {recordNum % 2 === 0 ? (
+          <p className={classes.turn}>{Math.floor(recordNum / 2) + 1 + ". "}</p>
+        ) : (
+          <p className={classes.sep}>:</p>
+        )}
+        <p className={classes.move}>
+          <span>---</span>
+        </p>
+      </div>
+    );
+  }
 
   return (
     <div className={classes.record}>
-      {recordNum % 2 === 0 ? <p className={classes.turn}>{turn + ". "}</p> : <p className={classes.sep}>:</p>}
+      {recordNum % 2 === 0 ? (
+        <p className={classes.turn}>{Math.floor((move.turn - 1) / 2) + 1 + ". "}</p>
+      ) : (
+        <p className={classes.sep}>:</p>
+      )}
       <p className={classes.move}>
         <IconCreator
           icons={specialPiecesSvgs}

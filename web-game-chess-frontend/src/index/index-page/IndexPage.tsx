@@ -113,8 +113,9 @@ function IndexPage() {
   //*/
 
   // set section indicators heights
+  // for correct navbar indicator transition
   useEffect(() => {
-    const wH = window.innerHeight;
+    const wHF = window.innerHeight;
 
     for (let i = 0; i < sections.length; i++) {
       const sectionElement = sections[i].sectionRef.current;
@@ -122,7 +123,7 @@ function IndexPage() {
 
       if (sectionElement && sectionIndicator) {
         const sH = sectionElement.offsetHeight;
-        const indH = sH - wH;
+        const indH = sH - wHF;
 
         // set indicators heights to sections height - 100vh ?
         sectionIndicator.style.height = `${indH}px`;
@@ -136,7 +137,7 @@ function IndexPage() {
   const renderSection = (
     name: string,
     scrollRef: React.RefObject<HandleOnScroll>,
-    sectionRef: React.RefObject<HTMLElement>,
+    sectionRef: React.RefObject<HTMLElement>
   ): JSX.Element => {
     switch (name) {
       case "home":

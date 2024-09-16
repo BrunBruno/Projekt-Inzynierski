@@ -18,21 +18,15 @@
     opacity: 0;
     animation: introInit 1s forwards;
 
-    @keyframes introInit {
-      to {
-        opacity: 1;
-      }
-    }
-
     .intro-svg {
       height: 16rem;
       scale: 0.2;
       animation: svgInit 0.5s 0s forwards;
-    }
 
-    @keyframes svgInit {
-      to {
-        scale: 1;
+      @keyframes svgInit {
+        to {
+          scale: 1;
+        }
       }
     }
 
@@ -46,6 +40,12 @@
         to {
           width: 32rem;
         }
+      }
+    }
+
+    @keyframes introInit {
+      to {
+        opacity: 1;
       }
     }
   }
@@ -79,7 +79,5 @@
 .hidden-intro {
   display: none;
 }
-//*/
 
-// resize
 //*/

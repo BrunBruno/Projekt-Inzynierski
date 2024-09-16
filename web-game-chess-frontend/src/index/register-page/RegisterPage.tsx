@@ -90,19 +90,20 @@ function RegisterPage() {
           return "";
       }
     }
-    return "";
+
+    return classes["static-form"];
   };
 
   useEffect(() => {
-    const handleResize = () => {
+    const handleRegisterPageResize = () => {
       setModalClass(getFormClass());
     };
 
-    window.addEventListener("resize", handleResize);
-    handleResize();
+    window.addEventListener("resize", handleRegisterPageResize);
+    handleRegisterPageResize();
 
     return () => {
-      window.removeEventListener("resize", handleResize);
+      window.removeEventListener("resize", handleRegisterPageResize);
     };
   }, [modal]);
 

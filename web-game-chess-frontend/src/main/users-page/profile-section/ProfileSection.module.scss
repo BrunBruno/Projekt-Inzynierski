@@ -22,12 +22,6 @@
 
     animation: openProfile 0.1s linear forwards;
 
-    @keyframes openProfile {
-      to {
-        transform: scale(1);
-      }
-    }
-
     &__bg {
       @include wh100();
 
@@ -106,6 +100,12 @@
           cursor: pointer;
           filter: brightness(80%);
         }
+      }
+    }
+
+    @keyframes openProfile {
+      to {
+        transform: scale(1);
       }
     }
   }

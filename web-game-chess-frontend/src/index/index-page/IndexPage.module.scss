@@ -14,7 +14,7 @@
 // observe pointer for observers work
 .observe {
   position: absolute;
-  z-index: -999;
+  z-index: 999;
   width: 0;
 
   // set the observer to middle of section

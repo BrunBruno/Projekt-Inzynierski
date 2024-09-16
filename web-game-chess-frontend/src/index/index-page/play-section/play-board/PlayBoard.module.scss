@@ -153,9 +153,9 @@
     &__grid {
       .visible-outer {
         .board-svg {
-          animation: svgAni 3s infinite linear 1s;
+          animation: boardLogoAni 3s infinite linear 1s;
 
-          @keyframes svgAni {
+          @keyframes boardLogoAni {
             0% {
               filter: brightness(80%) drop-shadow(0 0 1rem $mc0);
             }

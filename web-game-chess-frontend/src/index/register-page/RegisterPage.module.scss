@@ -22,15 +22,6 @@
     background-repeat: no-repeat;
     background-position: right;
 
-    @keyframes introAnimation {
-      from {
-        opacity: 0;
-      }
-      to {
-        opacity: 1;
-      }
-    }
-
     &__intro {
       @include flex(column, space-evenly, center, 4rem);
 
@@ -58,11 +49,22 @@
       .action-button {
         @include actionButton(1.6rem);
       }
+
+      @keyframes introAnimation {
+        from {
+          opacity: 0;
+        }
+        to {
+          opacity: 1;
+        }
+      }
     }
   }
 
   // form container
   &__form {
+    $icon-up: 1rem;
+
     @include rounded(4rem);
     @include square(60rem);
 
@@ -80,18 +82,16 @@
       position: absolute;
       top: 0;
       left: 50%;
-      transform: translate(-50%, calc(-50% - 0.4rem)) rotate(45deg);
+      transform: translate(-50%, calc(-50% - $icon-up)) rotate(45deg);
 
       background-color: $gc9;
       border-radius: 100%;
-      border: solid 0.5rem #0000;
-      border-bottom-color: $gc8;
-      border-right-color: $gc8;
+      border: solid 0.1rem $gc8;
       box-shadow: 0.5rem 0.5rem 1rem $gc8;
     }
 
     &.form-transform {
-      transition: transform 0.5s linear, left 0.5s linear;
+      transition: transform 0.3s linear, left 0.3s linear;
     }
 
     &.left-side-form {
@@ -104,13 +104,17 @@
       transform: translateX(-100%);
     }
 
-    .lock-svg {
+    &.static-form {
+      position: relative;
+    }
+
+    svg.lock-svg {
       @include circle(6rem);
 
       position: absolute;
       top: 0;
       left: 50%;
-      transform: translate(calc(-50% + 0.5rem), calc(-50% - 0.5rem));
+      transform: translate(calc(-50% + calc($icon-up / 2)), calc(-50% - $icon-up));
       z-index: 1;
     }
   }
@@ -119,56 +123,47 @@
 }
 //*/
 
-@keyframes formAnimation {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
-
 // resize
 @media (max-width: 500px) {
   .register {
-    height: unset;
+    position: relative;
+    height: 100dvh;
 
     &__content {
+      $content_space: 8rem;
+
+      @include flex(column-reverse, start, center, 0);
+
       position: relative;
-      top: 50rem;
+      top: 0;
       left: unset;
       transform: none;
-      padding: 2rem;
       width: 100%;
-      height: unset;
-      aspect-ratio: 1/1 !important;
+      height: 100%;
+      background-image: none;
+      border-radius: 0;
+      padding-top: $content_space;
 
-      &__split {
-        background: none;
-        grid-template-columns: 100% !important;
+      &__intro {
+        position: absolute;
+        top: calc(100vw + $content_space);
 
-        .intro {
-          position: absolute;
-          bottom: 100%;
+        p.text {
+          font-size: 2rem;
+        }
 
-          p.text {
-            font-size: 2rem;
-          }
-
-          .action-button {
-            @include actionButton(2rem);
-          }
+        .action-button {
+          @include actionButton(2rem);
         }
       }
+    }
 
-      &__form {
-        width: calc(100% - 4rem);
-        height: calc(100% - 4rem);
-        top: 2rem;
-        left: 2rem;
-        transform: translate(0, 0);
-      }
+    &__form {
+      width: calc(100vw - 2rem);
+      height: calc(100vw - 2rem);
+      flex-shrink: 0;
     }
   }
 }
+
 //*/

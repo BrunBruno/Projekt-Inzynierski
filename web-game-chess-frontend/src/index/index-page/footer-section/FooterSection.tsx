@@ -32,11 +32,12 @@ function FooterSection({}: FooterSectionProps) {
           <h3 className={classes["col-title"]}>Reach Us</h3>
 
           <div className={classes.contact}>
-            <p className={classes["contact-data"]}>+48 000 000 000</p>
             <IconCreator icons={footerSectionIcons} iconName="flag" />
+            <p className={classes["contact-data"]}>+48 000 000 000</p>
           </div>
 
           <div className={classes.contact}>
+            <IconCreator icons={footerSectionIcons} iconName="at" />
             <p className={classes["contact-data"]}>chess8rn@gmail.com</p>
           </div>
         </div>
@@ -52,12 +53,18 @@ function FooterSection({}: FooterSectionProps) {
               className={classes.link}
             >
               <div className={classes.element}>
-                <IconCreator icons={footerSectionIcons} iconName={social.toLocaleLowerCase()} />
+                <IconCreator
+                  icons={footerSectionIcons}
+                  iconName={social.toLocaleLowerCase()}
+                  iconClass={classes["social-svg"]}
+                />
+
                 <p className={classes["action-text"]}>{social}</p>
+
                 <IconCreator
                   icons={symbolIcons}
                   iconName="roundArrow"
-                  color={mainColor.c0}
+                  color={mainColor.c2}
                   iconClass={classes["r-arr"]}
                 />
               </div>
@@ -75,8 +82,10 @@ function FooterSection({}: FooterSectionProps) {
                 navigate("about/privacy");
               }}
             >
-              <IconCreator icons={footerSectionIcons} iconName="privacy" />
+              <IconCreator icons={footerSectionIcons} iconName="privacy" iconClass={classes["social-svg"]} />
+
               <p className={classes["action-text"]}>Privacy Policy</p>
+
               <IconCreator
                 icons={symbolIcons}
                 iconName="roundArrow"
@@ -93,8 +102,10 @@ function FooterSection({}: FooterSectionProps) {
                 navigate("about/terms");
               }}
             >
-              <IconCreator icons={footerSectionIcons} iconName="terms" />
+              <IconCreator icons={footerSectionIcons} iconName="terms" iconClass={classes["social-svg"]} />
+
               <p className={classes["action-text"]}>Terms & Conditions</p>
+
               <IconCreator
                 icons={symbolIcons}
                 iconName="roundArrow"

@@ -34,6 +34,7 @@ import IconCreator from "../../../shared/components/icon-creator/IconCreator";
 import { symbolIcons } from "../../../shared/svgs/iconsMap/SymbolIcons";
 import GameBoardConfirm from "./game-board-confirm/GameBoardConfirm";
 import { defaultPiecesImages } from "../../../shared/svgs/iconsMap/DefaultPieceImageSvgs";
+import { GameActionInterface } from "../../../shared/utils/enums/interfacesEnums";
 
 type GameBoardProps = {
   // game id
@@ -51,9 +52,9 @@ type GameBoardProps = {
   // timing of current game
   selectedTiming: SearchGameModel | null;
   //
-  showConfirm: boolean;
+  showConfirm: GameActionInterface | null;
   //
-  setShowConfirm: React.Dispatch<React.SetStateAction<boolean>>;
+  setShowConfirm: React.Dispatch<React.SetStateAction<GameActionInterface | null>>;
   //
   confirmAction: () => void;
 };
@@ -540,7 +541,9 @@ function GameBoard({
         )}
 
         {/* confirm box */}
-        {showConfirm && <GameBoardConfirm confirmAction={confirmAction} setShowConfirm={setShowConfirm} />}
+        {showConfirm !== null && (
+          <GameBoardConfirm confirmAction={confirmAction} showConfirm={showConfirm} setShowConfirm={setShowConfirm} />
+        )}
 
         {/* end game info*/}
         {winner && !searchIds && (

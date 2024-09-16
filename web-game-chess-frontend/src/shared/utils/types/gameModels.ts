@@ -120,3 +120,10 @@ export type DeclineInvitationModel = {
   // inviter id
   friendId: Guid;
 };
+
+export type TypingStatusModel = {
+  // game id
+  gameId: Guid;
+  // typing status
+  isTyping: boolean;
+};

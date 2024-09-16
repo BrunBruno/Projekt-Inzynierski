@@ -6,31 +6,31 @@
   background-color: #000;
   padding: 8rem;
   padding-bottom: 0;
-  box-shadow: -2rem -2rem 0 0 rgb(67, 43, 137);
+  box-shadow: calc(-1 * $index-border-width) calc(-1 * $index-border-width) 0 0 $index-border-color;
 
   &::before {
+    @include subCl(16rem, 16rem);
+
     top: calc(-2rem - 16rem);
     right: -2rem;
 
-    border: solid 2rem rgb(67, 43, 137);
+    border: solid $index-border-width $index-border-color;
     border-top: none;
     border-left: none;
-    border-bottom-right-radius: 16rem;
+    border-bottom-right-radius: $index-border-radius;
     box-shadow: 0rem 10rem 0 #000;
-
-    @include subCl(16rem, 16rem);
   }
 
   &__intro {
     padding-bottom: 8rem;
 
     .footer-title {
+      @include flex(row, start, center, 2rem);
+      @include secFont(6rem);
+
       font-size: 6rem;
       color: $mc5;
       font-weight: 600;
-
-      @include flex(row, start, center, 2rem);
-      @include secFont(6rem);
 
       .footer-logo {
         height: 6rem;
@@ -43,9 +43,16 @@
     display: grid;
     grid-template-columns: 50rem 1fr 1fr;
     padding-bottom: 8rem;
+    gap: 2rem;
 
     &__col {
       @include flex(column, start, start, 2rem);
+
+      border-right: solid 0.1rem #111;
+
+      &:last-child {
+        border: none;
+      }
 
       h3.col-title {
         font-size: 4rem;
@@ -55,9 +62,9 @@
       }
 
       .contact {
-        position: relative;
+        @include flex(row, start, center, 1rem);
 
-        @include flex(row, start, center, 2rem);
+        position: relative;
 
         p.contact-data {
           font-size: 2.4rem;
@@ -72,7 +79,7 @@
         }
       }
 
-      .link {
+      a.link {
         color: $gc0;
         text-decoration: none;
 
@@ -80,10 +87,42 @@
           color: $gc5;
         }
 
-        .element {
-          position: relative;
+        &:hover {
+          .facebook-svg {
+            fill: rgba(#3b5998, 0.8);
+          }
 
+          .instagram-svg {
+            g {
+              g {
+                fill: rgba(#833ab4, 0.8);
+              }
+            }
+          }
+
+          .tiktok-svg {
+            fill: rgba(#ff0050, 0.8);
+          }
+
+          .youtube-svg {
+            g {
+              g {
+                fill: rgba(#ff0000, 0.8);
+              }
+            }
+          }
+
+          .twitter-svg {
+            path {
+              fill: rgba(#1da1f2, 0.8);
+            }
+          }
+        }
+
+        .element {
           @include flex(row, start, center, 2rem);
+
+          position: relative;
 
           &:hover {
             cursor: pointer;
@@ -94,12 +133,12 @@
               }
             }
 
-            .r-arr {
+            svg.r-arr {
               transform: translateX(0);
               opacity: 1;
 
               circle {
-                fill: $mc0;
+                fill: $gc0;
               }
 
               rect {
@@ -122,13 +161,22 @@
             }
           }
 
-          .p-logo {
+          @mixin rowSvg() {
             height: 2rem;
             width: 2rem;
           }
 
+          svg.social-svg {
+            @include rowSvg();
+          }
+
+          svg.legal-svg {
+            @include rowSvg();
+          }
+
           .r-arr {
-            height: 2rem;
+            @include rowSvg();
+
             opacity: 0;
             transform: translateX(-2rem);
             transition: all 0.3s;

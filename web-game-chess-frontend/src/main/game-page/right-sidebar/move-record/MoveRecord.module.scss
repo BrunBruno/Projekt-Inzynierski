@@ -7,6 +7,25 @@
   margin-bottom: 1.2rem;
   font-size: 1.6rem;
 
+  &.empty {
+    .move {
+      border-color: $gc9;
+
+      span {
+        color: $gc8;
+      }
+    }
+
+    .turn {
+      color: $gc8;
+    }
+
+    .sep {
+      color: $gc8;
+      border-color: $gc9;
+    }
+  }
+
   .move {
     @include flex(row, start, center, 0.5rem);
 

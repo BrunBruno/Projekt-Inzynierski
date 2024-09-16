@@ -89,7 +89,7 @@
     overflow: hidden;
     border-bottom-left-radius: 4rem;
     border-top-left-radius: 4rem;
-    box-shadow: 0 0 0 2rem rgb(67, 43, 137);
+    box-shadow: 0 0 0 $index-border-width $index-border-color;
     background-image: linear-gradient(#000, #000, $mc7);
 
     .board-grid {
