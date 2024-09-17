@@ -48,6 +48,9 @@ function FriendCard({ friend, setSelectedFriend, clearSelection }: FriendCardPro
       onMouseEnter={(event) => {
         setActive(event);
       }}
+      onMouseLeave={() => {
+        clearSelection();
+      }}
     >
       {/* card content */}
       <div className={classes.friend__content}>

@@ -9,6 +9,19 @@
   display: grid;
   grid-template-columns: 45% 15% 10% 30%;
 
+  &:hover {
+    cursor: pointer;
+    filter: brightness(120%);
+  }
+
+  &.header {
+    position: sticky;
+    top: 0;
+    z-index: 1;
+    background-color: #111;
+    border-radius: 0;
+  }
+
   &.win {
     background-color: rgba($success-color-m, 0.5);
   }
@@ -17,10 +30,16 @@
     background-color: rgba($danger-color-m, 0.5);
   }
 
-  span {
-    padding-left: 2rem;
+  p.record-data {
+    text-align: center;
     font-size: 1.6rem;
     border-right: solid 0.2rem $gc0;
+
+    &:first-child {
+      padding-left: 2rem;
+
+      text-align: left;
+    }
 
     &:last-child {
       border: none;
@@ -30,4 +49,9 @@
 //*/
 
 // resize
+@media (max-width: 700px) {
+  .record {
+    @include rounded(1rem);
+  }
+}
 //*/

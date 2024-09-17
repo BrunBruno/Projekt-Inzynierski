@@ -2,17 +2,20 @@
 
 // friend list container
 .friends {
-  position: relative;
-  height: 100%;
-  padding: 2rem 4rem;
-  padding-bottom: 16rem;
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  overflow-y: scroll;
-  grid-gap: 2rem;
-  grid-auto-rows: max-content;
-
   @include mainScrollbar($bgColor: #0000);
+
+  & {
+    position: relative;
+    height: 100%;
+    padding: 2rem 4rem;
+    padding-bottom: 16rem;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    overflow-y: scroll;
+    overflow-x: hidden;
+    grid-gap: 2rem;
+    grid-auto-rows: max-content;
+  }
 
   // empty list fill
   &.template {
@@ -36,7 +39,8 @@
 //*/
 
 // resize
-@media (max-width: 700px) {
+// resize
+@media (max-width: 1200px) {
   .friends {
     padding-top: 5rem;
     overflow: visible;

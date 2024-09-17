@@ -1,7 +1,7 @@
 @import "../../Main.scss";
 
 // type history container
-.actions {
+.history {
   max-height: 100vh;
   height: 100%;
   display: grid;
@@ -28,6 +28,7 @@
   &__items {
     @include flex(column, start, center, 1rem);
 
+    position: relative;
     padding: 0 8rem;
     overflow-y: scroll;
     padding-bottom: 2rem;
@@ -71,9 +72,16 @@
 //*/
 
 // resize
-@media (max-width: 700px) {
-  .actions {
-    padding-top: 5rem;
+@media (max-width: 1200px) {
+  .history {
+    height: 100%;
+    max-height: unset;
+    padding-top: 10rem;
+    grid-template-rows: 4rem 50rem auto;
+
+    &__chart {
+      height: 100%;
+    }
 
     &__items {
       overflow: visible;

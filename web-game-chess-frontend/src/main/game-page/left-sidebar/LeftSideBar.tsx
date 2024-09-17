@@ -11,6 +11,7 @@ import { Guid } from "guid-typescript";
 import IconCreator from "../../../shared/components/icon-creator/IconCreator";
 import { leftSideBarIcons } from "./LeftSideBarIcons";
 import { GameActionInterface } from "../../../shared/utils/enums/interfacesEnums";
+import { Dispatch, SetStateAction } from "react";
 
 type LeftSideBarProps = {
   // game id
@@ -20,9 +21,9 @@ type LeftSideBarProps = {
   // current game data
   gameData: GetGameDto;
   // to show confirm window
-  setShowConfirm: React.Dispatch<React.SetStateAction<GameActionInterface | null>>;
+  setShowConfirm: Dispatch<SetStateAction<GameActionInterface | null>>;
   // to set confirm action
-  setConfirmAction: React.Dispatch<React.SetStateAction<() => void>>;
+  setConfirmAction: Dispatch<SetStateAction<() => void>>;
 };
 
 function LeftSideBar({ gameId, playerData, gameData, setShowConfirm, setConfirmAction }: LeftSideBarProps) {

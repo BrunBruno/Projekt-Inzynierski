@@ -29,7 +29,7 @@ function StatsRow({ type, user }: StatsRowProps) {
       {/* data display */}
       <div className={classes.stats__data}>
         {config.stats.map((stat, i) => (
-          <div key={i} className={classes["games"]}>
+          <div key={i} className={classes.games}>
             <span>
               {stat.label} {stat.icon}
             </span>
@@ -37,27 +37,28 @@ function StatsRow({ type, user }: StatsRowProps) {
             <span>{stat.value}</span>
           </div>
         ))}
-      </div>
-      {/* --- */}
 
-      {/* pie chart */}
-      <div className={classes.stats__chart}>
-        {config.data.reduce((sum, item) => sum + item.value, 0) !== 0 && (
-          <PieChart
-            className={classes["pie-chart"]}
-            series={[
-              {
-                data: config.data,
-              },
-            ]}
-            colors={config.colors}
-            slotProps={{
-              legend: {
-                hidden: true,
-              },
-            }}
-          />
-        )}
+        <div className={classes["chart-con"]}>
+          <div className={classes.chart}>
+            {config.data.reduce((sum, item) => sum + item.value, 0) !== 0 && (
+              <PieChart
+                className={classes["pie-chart"]}
+                series={[
+                  {
+                    data: config.data,
+                  },
+                ]}
+                colors={config.colors}
+                slotProps={{
+                  legend: {
+                    hidden: true,
+                  },
+                }}
+                margin={{ top: 2, right: 2, bottom: 2, left: 2 }}
+              />
+            )}
+          </div>
+        </div>
       </div>
       {/* --- */}
     </div>

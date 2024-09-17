@@ -1,13 +1,14 @@
+import { Dispatch, SetStateAction } from "react";
 import { GameActionInterface } from "../../../../shared/utils/enums/interfacesEnums";
 import classes from "./GameBoardConfirm.module.scss";
 
 type GameBoardConfirmProps = {
   // action to execution on confirm
   confirmAction: () => void;
-  //
+  // to select correct action to confirm
   showConfirm: GameActionInterface | null;
   // to display confirm window
-  setShowConfirm: React.Dispatch<React.SetStateAction<GameActionInterface | null>>;
+  setShowConfirm: Dispatch<SetStateAction<GameActionInterface | null>>;
 };
 
 function GameBoardConfirm({ confirmAction, showConfirm, setShowConfirm }: GameBoardConfirmProps) {

@@ -1,4 +1,4 @@
-import { useEffect, useReducer, useRef, useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useReducer, useRef, useState } from "react";
 import { getPiecesSideColor, pieceTagMap } from "../../../shared/utils/enums/piecesMaps";
 import {
   EndGameDto,
@@ -48,13 +48,13 @@ type GameBoardProps = {
   // obtained ids for rematch game
   searchIds: SearchGameDto | null;
   // setter of obtained ids
-  setSearchIds: React.Dispatch<React.SetStateAction<SearchGameDto | null>>;
+  setSearchIds: Dispatch<SetStateAction<SearchGameDto | null>>;
   // timing of current game
   selectedTiming: SearchGameModel | null;
   //
   showConfirm: GameActionInterface | null;
   //
-  setShowConfirm: React.Dispatch<React.SetStateAction<GameActionInterface | null>>;
+  setShowConfirm: Dispatch<SetStateAction<GameActionInterface | null>>;
   //
   confirmAction: () => void;
 };

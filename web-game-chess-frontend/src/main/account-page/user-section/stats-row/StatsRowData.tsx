@@ -62,7 +62,7 @@ export const getStatsConfig = (type: string, user: GetFullUserDto): StatsConfig 
             id: 0,
             label: "Mate",
             value: user.winsByCheckMate,
-            icon: <IconCreator icons={winTypesIcons} iconName="checkmate" />,
+            icon: <IconCreator icons={winTypesIcons} iconName="checkMate" />,
           },
           {
             id: 1,
@@ -93,7 +93,7 @@ export const getStatsConfig = (type: string, user: GetFullUserDto): StatsConfig 
             id: 0,
             label: "Mate",
             value: user.losesByCheckMate,
-            icon: <IconCreator icons={winTypesIcons} iconName="checkmate" />,
+            icon: <IconCreator icons={winTypesIcons} iconName="checkMate" />,
           },
           {
             id: 1,

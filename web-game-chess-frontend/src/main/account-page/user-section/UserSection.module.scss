@@ -5,6 +5,11 @@
   height: 100%;
   background-color: rgba($gc9, 0.5);
   box-shadow: 0.1rem 0 1rem 0 $gc0;
+  overflow-y: scroll;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
 
   // profile
   // personal data content
@@ -170,9 +175,11 @@
 
   // user statistics content
   &__data {
+    $data-gaps: 2rem;
+
     display: grid;
-    grid-template-columns: 60% 40%;
-    padding: 2rem;
+    grid-template-columns: 66% 34%;
+    padding: $data-gaps;
 
     &__stats {
       @include wh100();
@@ -180,6 +187,7 @@
 
       position: relative;
       border-right: solid 0.3rem $gc1;
+      padding-right: $data-gaps;
 
       &__header {
         font-size: 2.8rem;
@@ -198,7 +206,7 @@
     }
 
     &__elo {
-      @include flex(column, center, center, 0);
+      @include flex(column, start, center, 0);
 
       padding: 0 2rem;
       z-index: 2;
@@ -206,8 +214,10 @@
       &__header {
         @include rounded(1rem);
 
+        width: 100%;
         font-size: 2.2rem;
         font-weight: 600;
+        text-align: center;
 
         color: $gc4;
         background-color: rgba($gc8, 0.5);
@@ -216,25 +226,28 @@
 
       &__type {
         @include rounded(1rem);
+        @include flex();
 
         width: 100%;
-        display: grid;
-        grid-template-columns: 4rem auto;
-        gap: 2rem;
-        padding-left: 2rem;
 
         &:hover {
           cursor: pointer;
           background-color: $gc8;
         }
 
-        .elo-icon {
-          height: 4rem;
-        }
+        .elo-points {
+          @include flex($gap: 2rem);
 
-        span {
-          width: 100%;
-          font-size: 3rem;
+          width: 16rem;
+
+          .elo-icon {
+            height: 4.5rem;
+          }
+
+          span {
+            width: 100%;
+            font-size: 3rem;
+          }
         }
       }
     }
@@ -244,6 +257,45 @@
 //*/
 
 // resize
+@media (max-width: 1200px) {
+  .user {
+    overflow: visible;
+    box-shadow: none;
+
+    &__profile {
+      background-size: cover !important;
+    }
+
+    &__data {
+      &__stats {
+        &__header {
+          font-size: 5rem;
+        }
+      }
+
+      &__elo {
+        &__header {
+          font-size: 4rem;
+        }
+
+        &__type {
+          .elo-points {
+            width: 20rem;
+
+            .elo-icon {
+              height: 6.6rem;
+            }
+
+            span {
+              font-size: 4.4rem;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
 @media (max-width: 700px) {
   .user {
     height: fit-content;
@@ -263,9 +315,9 @@
       &__elo {
         position: relative;
         flex-direction: row;
-        padding: 0;
-        padding-top: 6rem;
+        padding-top: 10rem;
         gap: 0;
+        width: 100vw;
 
         &__header {
           position: absolute;

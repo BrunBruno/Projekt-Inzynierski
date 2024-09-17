@@ -117,19 +117,22 @@ function HistorySection({ selectedType, typeHistory }: HistorySectionProps) {
   //*/
 
   return (
-    <div className={classes.actions}>
+    <div className={classes.history}>
       <h2 className={classes["history-title"]}>
         <IconCreator
           icons={timingTypesIcons}
           iconName={selectedType.toLocaleLowerCase()}
           iconClass={classes["type-icon"]}
+          color={mainColor.c0}
         />
         <span>{selectedType}</span>
       </h2>
 
-      <div className={classes.actions__chart}>{createChart(typeHistory.items)}</div>
+      <div className={classes.history__chart}>{createChart(typeHistory.items)}</div>
 
-      <div className={classes.actions__items}>
+      <div className={classes.history__items}>
+        <HistoryRecord item={null} />
+
         {typeHistory.items.reverse().map((item, index) => (
           <HistoryRecord key={index} item={item} />
         ))}

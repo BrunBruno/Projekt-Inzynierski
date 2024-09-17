@@ -1,5 +1,55 @@
 @import "../../../Main.scss";
 
+@mixin setStatDimensions($row-font-size) {
+  $row-gap: calc(0.5 * $row-font-size);
+  $data-size: calc(5 * $row-font-size);
+
+  .stats {
+    &__title {
+      font-size: calc(1.2 * $row-font-size);
+      width: calc(3 * $data-size + 2 * $row-gap);
+    }
+
+    &__data {
+      grid-template-columns: repeat(4, $data-size);
+      gap: $row-gap;
+
+      .games {
+        @include square($data-size);
+
+        span {
+          &:nth-child(1) {
+            font-size: $row-font-size;
+          }
+
+          &:nth-child(2) {
+            font-size: calc(2 * $row-font-size);
+          }
+
+          svg {
+            height: $row-font-size;
+          }
+        }
+      }
+
+      .chart-con {
+        @include square($data-size);
+
+        .chart {
+          left: calc(5 * $row-gap);
+
+          .pie-chart {
+            @include square(calc(1.2 * $data-size));
+          }
+        }
+      }
+    }
+  }
+}
+
+$row-font-size: 1.6rem;
+@include setStatDimensions($row-font-size);
+
 // game starts rows
 .stats {
   position: relative;
@@ -8,8 +58,6 @@
   &__title {
     @include rounded(0.5rem);
 
-    width: calc(3 * 8rem + 4rem);
-    font-size: 2rem;
     font-weight: bold;
     color: $gc3;
     padding-left: 2rem;
@@ -18,10 +66,8 @@
 
   &__data {
     display: grid;
-    grid-template-columns: repeat(3, 8rem);
-    gap: 1rem;
-    margin-top: 0.8rem;
-    margin-bottom: 0.4rem;
+    margin-top: 1rem;
+    margin-bottom: 2rem;
 
     .games {
       @include flex($direction: column);
@@ -30,79 +76,46 @@
         &:nth-child(1) {
           @include flex($gap: 0.3rem);
 
-          font-size: 1.6rem;
           color: $gc5;
         }
+      }
+    }
 
-        &:nth-child(2) {
-          font-size: 3.2rem;
-        }
+    // pie chart
+    .chart-con {
+      position: relative;
 
-        svg {
-          height: 1.6rem;
+      .chart {
+        position: absolute;
+        bottom: 0;
+        pointer-events: none;
+
+        .pie-chart {
+          pointer-events: all;
+
+          &:hover {
+            z-index: 1;
+          }
+
+          title {
+            display: none;
+          }
         }
       }
     }
-  }
-
-  &__chart {
-    @include circle(18rem);
-
-    position: absolute;
-    top: -5rem;
-    right: -8rem;
-    pointer-events: none;
-
-    svg.pie-chart {
-      @include absCenter();
-
-      pointer-events: all;
-
-      &:hover {
-        z-index: 1;
-      }
-    }
+    //*/
   }
 }
 //*/
 
 // resize
+@media (max-width: 1200px) {
+  $row-font-size: 2.6rem;
+  @include setStatDimensions($row-font-size);
+}
+
 @media (max-width: 700px) {
-  .stats {
-    $bwh: 12rem;
-
-    margin: 2rem 0;
-
-    &__title {
-      font-size: 3rem;
-      width: calc(3 * $bwh + 4rem);
-    }
-
-    &__data {
-      grid-template-columns: repeat(3, $bwh);
-
-      .games {
-        span {
-          &:nth-child(1) {
-            font-size: 2.4rem;
-          }
-          &:nth-child(2) {
-            font-size: 5rem;
-          }
-
-          svg {
-            height: 2.4rem;
-          }
-        }
-      }
-    }
-
-    &__chart {
-      @include circle(36rem);
-      @include absCenter();
-
-      left: 90%;
-    }
-  }
+  $row-font-size: 3rem;
+  @include setStatDimensions($row-font-size);
 }
 //*/
