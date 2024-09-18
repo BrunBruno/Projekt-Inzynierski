@@ -10,6 +10,9 @@ import { getErrMessage } from "../../../../shared/utils/functions/displayError";
 import { usePopup } from "../../../../shared/utils/hooks/usePopUp";
 import { PagedResult } from "../../../../shared/utils/types/abstractDtosAndModels";
 import InvitationEmptyCard from "./invitation-empty-card/InvitationEmptyCard";
+import InvitationsFilters from "./invitations-filters/InvitationsFilters";
+import GameHubService from "../../../../shared/utils/services/GameHubService";
+import { HubConnectionState } from "@microsoft/signalr";
 
 const defaultSize = 10;
 
@@ -23,8 +26,14 @@ function Invitations({}: InvitationsProps) {
   const [invitations, setInvitations] = useState<PagedResult<GetAllInvitationsDto> | null>(null);
   const [pageSize, setPageSize] = useState<number>(defaultSize);
 
+  // for filtering results
+  const [showFilters, setShowFilters] = useState<boolean>(false);
+  // for setting up filters by expiration status
+  const [expirationFilters, setExpirationFilters] = useState<boolean | null>(null);
+
   const { showPopup } = usePopup();
 
+  // to get all awaiting and expired invitations
   const getInvitations = async () => {
     try {
       const invitationsModel: GetAllInvitationsModel = {
@@ -50,6 +59,21 @@ function Invitations({}: InvitationsProps) {
   useEffect(() => {
     updateInvitations();
   }, [pageSize]);
+  //*/
+
+  // to update invitation when new one was recently received
+  useEffect(() => {
+    if (GameHubService.connection && GameHubService.connection.state === HubConnectionState.Connected) {
+      GameHubService.connection.on("InvitedToGame", updateInvitations);
+    }
+
+    return () => {
+      if (GameHubService.connection && GameHubService.connection.state === HubConnectionState.Connected) {
+        GameHubService.connection.off("InvitedToGame", updateInvitations);
+      }
+    };
+  }, []);
+  //*/
 
   // increase page size on scroll
   const handleListOnScroll = () => {
@@ -62,20 +86,46 @@ function Invitations({}: InvitationsProps) {
       }
     }
   };
+  //*/
+
+  // to display filters
+  const onShowFilters = () => {
+    if (invitations && invitations.items.length > 0) {
+      setShowFilters((prev) => !prev);
+    }
+  };
+  //*/
 
   return (
     <div className={classes.invitations}>
       <div className={classes.invitations__header}>
-        <span>Your invitations: </span>
-        {invitations && (
-          <span className={classes["counter"]}>
-            <span className={classes["sym"]}>(</span>
-            {invitations.itemsTo}
-            <span className={classes["sym"]}>/</span>
-            {invitations.totalItemsCount}
-            <span className={classes["sym"]}>)</span>
-          </span>
-        )}
+        <h2 className={classes["header-title"]}>
+          <span>Your invitations: </span>
+
+          {invitations && (
+            <span className={classes["counter"]}>
+              <span className={classes["sym"]}>(</span>
+              {invitations.itemsTo}
+              <span className={classes["sym"]}>/</span>
+              {invitations.totalItemsCount}
+              <span className={classes["sym"]}>)</span>
+            </span>
+          )}
+        </h2>
+
+        <div className={classes.filters}>
+          <button
+            className={`
+                ${classes["filter-button"]} 
+                ${!invitations || invitations.items.length === 0 ? classes["disabled"] : classes["enabled"]}
+              `}
+            onClick={() => {
+              onShowFilters();
+            }}
+          >
+            Filters
+          </button>
+        </div>
       </div>
 
       {!invitations ? (
@@ -98,6 +148,10 @@ function Invitations({}: InvitationsProps) {
             <InvitationCard key={i} invitation={invitation} updateInvitations={updateInvitations} />
           ))}
         </div>
+      )}
+
+      {showFilters && (
+        <InvitationsFilters expirationFilters={expirationFilters} setExpirationFilters={setExpirationFilters} />
       )}
     </div>
   );

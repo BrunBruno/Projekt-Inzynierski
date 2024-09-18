@@ -22,12 +22,11 @@ function UserGames({}: UserGamesProps) {
   const [games, setGames] = useState<GetAllFinishedGamesDto[] | null>(null);
   const [itemsCount, setItemsCount] = useState<number>(0);
 
+  // to display filters options
+  const [showFilters, setShowFilters] = useState<boolean>(false);
   // list for setting up search filters
   const [timingTypeFilters, setTimingTypeFilters] = useState<number[]>([]);
   const [resultFilters, setResultFilters] = useState<(boolean | null)[]>([]);
-
-  // to display filters options
-  const [showFilters, setShowFilters] = useState<boolean>(false);
 
   const { showPopup } = usePopup();
   const { scrollRef, pageSize, totalItemsCount, setDefPageSize, setTotalItemsCount } = usePagination();

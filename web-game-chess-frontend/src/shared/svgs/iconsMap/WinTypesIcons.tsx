@@ -1,7 +1,17 @@
 import { greyColor } from "../../utils/enums/colorMaps";
 import { IconMap } from "../../utils/types/commonTypes";
 
-export const winTypesIcons: IconMap = {
+type IconNames =
+  | "checkMate"
+  | "outOfTime"
+  | "resignation"
+  | "stalemate"
+  | "threefold"
+  | "agreement"
+  | "fiftyMovesRule"
+  | "insufficientMaterial";
+
+export const winTypesIcons: IconMap<IconNames> = {
   checkMate: (): JSX.Element => (
     <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
       <path d="M11 7L8 17" stroke={greyColor.c0} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
@@ -49,3 +59,5 @@ export const winTypesIcons: IconMap = {
 
   insufficientMaterial: (): JSX.Element => <p>x</p>,
 };
+
+//todotodo

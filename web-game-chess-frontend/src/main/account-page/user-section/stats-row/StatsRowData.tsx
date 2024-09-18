@@ -1,7 +1,7 @@
 // stats chart data and options
 
 import IconCreator from "../../../../shared/components/icon-creator/IconCreator";
-import { winLoseIcons } from "../../../../shared/svgs/iconsMap/WinLoseIcons";
+import { winLoseIcons } from "../../../../shared/svgs/iconsMap/GameResultIcons";
 import { winTypesIcons } from "../../../../shared/svgs/iconsMap/WinTypesIcons";
 import { dangerColor, greyColor, mainColor, successColor } from "../../../../shared/utils/enums/colorMaps";
 import { ChartObject } from "../../../../shared/utils/types/commonTypes";

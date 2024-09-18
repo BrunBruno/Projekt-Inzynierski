@@ -1,6 +1,6 @@
 import IconCreator from "../../../../../shared/components/icon-creator/IconCreator";
 import { timingTypesIcons } from "../../../../../shared/svgs/iconsMap/TimingTypesIcons";
-import { winLoseIcons } from "../../../../../shared/svgs/iconsMap/WinLoseIcons";
+import { winLoseIcons } from "../../../../../shared/svgs/iconsMap/GameResultIcons";
 import { mainColor } from "../../../../../shared/utils/enums/colorMaps";
 import classes from "./UserGamesFilters.module.scss";
 import { resultList, timingTypesList } from "./UserGamesFiltersData";
@@ -73,7 +73,7 @@ function UserGamesFilters({
               icons={timingTypesIcons}
               iconName={element.label.toLocaleLowerCase()}
               color={mainColor.c0}
-              iconClass={classes["option-icon"]}
+              iconClass={classes["option-svg"]}
             />
           </div>
         ))}
@@ -98,7 +98,7 @@ function UserGamesFilters({
             <IconCreator
               icons={winLoseIcons}
               iconName={element.label.toLocaleLowerCase().substring(0, element.label.length - 1)}
-              iconClass={classes["option-icon"]}
+              iconClass={classes["option-svg"]}
             />
           </div>
         ))}

@@ -24,7 +24,7 @@
   &__icon {
     @include square(4rem);
 
-    svg {
+    svg.popup-icon {
       height: 4rem;
     }
 

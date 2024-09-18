@@ -1,6 +1,6 @@
 /* game controller models to requests */
 
-import { EndGameTypes, PieceColor, TimingTypes } from "../enums/entitiesEnums";
+import { TimingType, PieceColor, GameEndReason } from "../enums/entitiesEnums";
 import { BlackPieceType, WhitePieceType } from "../enums/piecesMaps";
 import { PagedModel, TimingTypeModel } from "./abstractDtosAndModels";
 import { Guid } from "guid-typescript";
@@ -65,7 +65,7 @@ export type EndGameModel = {
   // the loser color
   loserColor: PieceColor | null;
   // reason hwy game has ended
-  endGameType: EndGameTypes;
+  endGameType: GameEndReason;
 };
 
 export type AcceptInvitationModel = {
@@ -86,14 +86,14 @@ export type CheckIfInGameModel = {
 
 export type GetAllFinishedGamesModel = PagedModel & {
   // to get only selected types of timing type
-  timingTypeFilters: TimingTypes[];
+  timingTypeFilters: TimingType[];
   // to get only selected results of the game
   resultFilters: (boolean | null)[];
 };
 
 export type GetTypeHistoryModel = PagedModel & {
   // selected timing to to display history of games
-  type: TimingTypes;
+  type: TimingType;
 };
 
 export type GetAllInvitationsModel = PagedModel & {};

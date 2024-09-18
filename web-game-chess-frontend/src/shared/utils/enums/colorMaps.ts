@@ -1,11 +1,9 @@
 /* shared colors maps */
 
-type ColorMap = {
-  [key: string]: string;
-};
+import { SideColor } from "./commonConstLists";
 
 // main color list
-export const mainColor: ColorMap = {
+export const mainColor = {
   c0: "#f3f0ff",
   c1: "#e5dbff",
   c2: "#d0bfff",
@@ -16,10 +14,11 @@ export const mainColor: ColorMap = {
   c7: "#7048e8",
   c8: "#6741d9",
   c9: "#5f3dc4",
-};
+} as const;
+type MainColorValue = typeof mainColor[keyof typeof mainColor];
 
 // grey color list
-export const greyColor: ColorMap = {
+export const greyColor = {
   c0: "#f8f9fa",
   c1: "#f1f3f5",
   c2: "#e9ecef",
@@ -30,38 +29,54 @@ export const greyColor: ColorMap = {
   c7: "#495057",
   c8: "#343a40",
   c9: "#212529",
-};
+} as const;
+type GreyColorValue = typeof greyColor[keyof typeof greyColor];
 
 // password strength colors map
-export const strengthColor: ColorMap = {
+export const strengthColor = {
   c0: "#f03e3e",
   c1: "#ffa8a8",
   c2: "#ffe066",
   c3: "#8ce99a",
   c4: "#51cf66",
-};
+} as const;
+type StrengthColorValue = typeof strengthColor[keyof typeof strengthColor];
 
 // other spacial colors maps
-export const successColor: ColorMap = {
+export const successColor = {
   light: "#8ce99a",
   mid: "#51cf66",
   dark: "#2f9e44",
-};
+} as const;
+type SuccessColorValue = typeof successColor[keyof typeof successColor];
 
-export const infoColor: ColorMap = {
+export const infoColor = {
   light: "#a5d8ff",
   mid: "#339af0",
   dark: "#1864ab",
-};
+} as const;
+type InfoColorValue = typeof infoColor[keyof typeof infoColor];
 
-export const warningColor: ColorMap = {
+export const warningColor = {
   light: "#ffe066",
   mid: "#fcc419",
   dark: "#f59f00",
-};
+} as const;
+type WarningColorValue = typeof warningColor[keyof typeof warningColor];
 
-export const dangerColor: ColorMap = {
+export const dangerColor = {
   light: "#ffa8a8",
   mid: "#f03e3e",
   dark: "#c92a2a",
-};
+} as const;
+type DangerColorValue = typeof dangerColor[keyof typeof dangerColor];
+
+export type ColorValue =
+  | MainColorValue
+  | GreyColorValue
+  | StrengthColorValue
+  | SuccessColorValue
+  | InfoColorValue
+  | WarningColorValue
+  | DangerColorValue
+  | SideColor;

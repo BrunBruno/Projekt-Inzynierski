@@ -10,7 +10,7 @@ import IconCreator from "../../../../../shared/components/icon-creator/IconCreat
 import { winTypesIcons } from "../../../../../shared/svgs/iconsMap/WinTypesIcons";
 import { mainColor } from "../../../../../shared/utils/enums/colorMaps";
 import { defaultPiecesImages } from "../../../../../shared/svgs/iconsMap/DefaultPieceImageSvgs";
-import { winLoseIcons } from "../../../../../shared/svgs/iconsMap/WinLoseIcons";
+import { winLoseIcons } from "../../../../../shared/svgs/iconsMap/GameResultIcons";
 import { timingTypesIcons } from "../../../../../shared/svgs/iconsMap/TimingTypesIcons";
 
 type UserGamesCardProps = {

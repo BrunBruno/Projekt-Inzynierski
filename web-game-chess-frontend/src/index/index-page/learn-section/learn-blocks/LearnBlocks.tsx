@@ -6,8 +6,9 @@ import { SectionData, sectionData } from "./LearnBlocksData";
 import IconCreator from "../../../../shared/components/icon-creator/IconCreator";
 import { learnBlocksIcons } from "./LearnBlocksIcons";
 import { defaultPiecesImages } from "../../../../shared/svgs/iconsMap/DefaultPieceImageSvgs";
-import { getPiecesSideColor } from "../../../../shared/utils/enums/piecesMaps";
 import { symbolIcons } from "../../../../shared/svgs/iconsMap/SymbolIcons";
+import { BlackPieceTag, PieceTag, WhitePieceTag } from "../../../../shared/utils/enums/commonConstLists";
+import { getPieceSideColor } from "../../../../shared/utils/enums/piecesMaps";
 
 type LearnBlocksProps = {};
 
@@ -47,15 +48,15 @@ const LearnBlocks = ({}: LearnBlocksProps) => {
   const createIcon = (iconName: string, ref: React.RefObject<HTMLDivElement>): JSX.Element => {
     switch (iconName) {
       case "pieces-icon":
-        const pieces = ["R", "q", "P", "b", "K"] as const;
+        const pieces: (WhitePieceTag | BlackPieceTag)[] = ["R", "q", "P", "b", "K"];
 
         const images: JSX.Element[] = pieces.map((piece, i) => (
           <IconCreator
             key={`${i}-${piece}`}
             icons={defaultPiecesImages}
-            iconName={piece.toLowerCase()}
+            iconName={piece.toLowerCase() as PieceTag}
             iconClass={classes["piece-img"]}
-            color={getPiecesSideColor(piece)}
+            color={getPieceSideColor(piece as PieceTag)}
           />
         ));
 
@@ -183,8 +184,8 @@ const LearnBlocks = ({}: LearnBlocksProps) => {
               <h3 className={classes["row-h3"]}>
                 <IconCreator
                   icons={symbolIcons}
-                  iconName="roundArrow"
-                  color={mainColor.c0}
+                  iconName={"roundArrow"}
+                  color={"dupa"}
                   iconClass={classes["text-icon"]}
                 />
                 <span>{block.title}</span>

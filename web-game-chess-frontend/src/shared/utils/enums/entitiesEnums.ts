@@ -1,7 +1,7 @@
 /* from backend enums representations */
 
 // from back end data configuration enum
-export enum DataConfigurations {
+export enum DataConfiguration {
   userPassword = 1,
   userName = 2,
 }
@@ -13,7 +13,7 @@ export enum PieceColor {
 }
 
 // from back-end game timing type enum
-export enum TimingTypes {
+export enum TimingType {
   bullet = 0,
   blitz = 1,
   rapid = 2,
@@ -22,7 +22,7 @@ export enum TimingTypes {
 }
 
 // from back-end reasons why game has ended
-export enum EndGameTypes {
+export enum GameEndReason {
   checkMate = 1,
   outOfTime = 2,
   resignation = 3,

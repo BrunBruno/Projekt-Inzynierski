@@ -1,5 +1,7 @@
 /* maps for kinds of pieces */
 
+import { BlackPieceTag, PieceName, PieceTag, SideColor, WhitePieceTag } from "./commonConstLists";
+
 const pieceName = { p: "Pawn", n: "Knight", b: "Bishop", r: "Rook", q: "Queen", k: "King" };
 
 // to game piece name by piece tag
@@ -7,13 +9,12 @@ export const getPieceName = (char: string): string => {
   return pieceName[char.toLowerCase() as keyof typeof pieceName] || "Unknown";
 };
 
-type PieceTagType = "pawn" | "knight" | "bishop" | "rook" | "queen" | "king";
 export type PieceTagMap = {
   white: {
-    [key in PieceTagType]: string;
+    [key in PieceName]: WhitePieceTag;
   };
   black: {
-    [key in PieceTagType]: string;
+    [key in PieceName]: BlackPieceTag;
   };
 };
 
@@ -37,24 +38,33 @@ export const pieceTagMap: PieceTagMap = {
   },
 };
 
-export type WhitePieceType = (typeof pieceTagMap.white)[keyof typeof pieceTagMap.white];
-export type BlackPieceType = (typeof pieceTagMap.black)[keyof typeof pieceTagMap.black];
+export type WhitePieceType = typeof pieceTagMap.white[keyof typeof pieceTagMap.white];
+export type BlackPieceType = typeof pieceTagMap.black[keyof typeof pieceTagMap.black];
 
 // to gat side color name by piece tag
-export const getPiecesSideColor = (piece: string): string => {
-  if (Object.values(pieceTagMap.white).includes(piece)) {
+// export const getPiecesSideColor = (piece: WhitePieceTag | BlackPieceTag): string => {
+//   if (Object.values(pieceTagMap.white).includes(piece)) {
+//     return "white";
+//   } else if (Object.values(pieceTagMap.black).includes(piece)) {
+//     return "black";
+//   } else {
+//     return "";
+//   }
+// };
+export function getPieceSideColor(tag: PieceTag): SideColor | undefined {
+  if (tag === tag.toUpperCase()) {
     return "white";
-  } else if (Object.values(pieceTagMap.black).includes(piece)) {
+  } else if (tag === tag.toLowerCase()) {
     return "black";
   } else {
-    return "";
+    return undefined;
   }
-};
+}
 
 // piece promotion tag maps
 export type PiecePromotionMap = {
-  white: string[];
-  black: string[];
+  white: WhitePieceTag[];
+  black: BlackPieceTag[];
 };
 
 export const piecePromotionMap: PiecePromotionMap = {

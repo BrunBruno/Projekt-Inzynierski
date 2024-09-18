@@ -1,5 +1,6 @@
 /* commonly occurred types */
 
+import { ColorValue } from "../enums/colorMaps";
 import { popupIconTypes } from "../enums/commonConstLists";
 
 // type for svg icons maps and corresponding props
@@ -8,17 +9,10 @@ export type IconSvgProps = {
   iconClass: string;
 };
 
-export type IconMap = {
-  [key: string]: (iconClass?: string, color?: string, active?: boolean) => JSX.Element;
+export type IconMap<T extends string> = {
+  [key in T]: (iconClass?: string, color?: ColorValue, active?: boolean) => JSX.Element;
 };
 
-export type IconsMapProps = {
-  icons: IconMap;
-  iconName: string;
-  iconClass?: string;
-  color?: string;
-  active?: boolean;
-};
 //*/
 
 // handle on scroll function type

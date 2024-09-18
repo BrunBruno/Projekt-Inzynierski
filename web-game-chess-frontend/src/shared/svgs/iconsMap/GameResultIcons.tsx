@@ -1,9 +1,12 @@
 import { dangerColor, greyColor, successColor } from "../../utils/enums/colorMaps";
+import { GameResultName } from "../../utils/enums/commonConstLists";
 import { IconMap } from "../../utils/types/commonTypes";
 
-export const winLoseIcons: IconMap = {
-  win: (): JSX.Element => (
-    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+type IconNames = GameResultName;
+
+export const gameResultIcons: IconMap<IconNames> = {
+  win: (iconClass?: string): JSX.Element => (
+    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className={iconClass}>
       <circle
         cx="12"
         cy="12"
@@ -23,8 +26,8 @@ export const winLoseIcons: IconMap = {
     </svg>
   ),
 
-  draw: (): JSX.Element => (
-    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+  draw: (iconClass?: string): JSX.Element => (
+    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className={iconClass}>
       <circle
         cx="12"
         cy="12"
@@ -39,8 +42,8 @@ export const winLoseIcons: IconMap = {
     </svg>
   ),
 
-  lose: (): JSX.Element => (
-    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+  lose: (iconClass?: string): JSX.Element => (
+    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className={iconClass}>
       <circle
         cx="12"
         cy="12"

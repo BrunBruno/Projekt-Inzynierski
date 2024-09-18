@@ -1,7 +1,11 @@
+import { ColorValue } from "../../utils/enums/colorMaps";
+import { PieceTag } from "../../utils/enums/commonConstLists";
 import { IconMap } from "../../utils/types/commonTypes";
 
-export const defaultPiecesImages: IconMap = {
-  p: (iconClass?: string, color?: string): JSX.Element => {
+type IconNames = PieceTag;
+
+export const defaultPiecesImages: IconMap<IconNames> = {
+  p: (iconClass?: string, color?: ColorValue): JSX.Element => {
     const mColor = color === "white" ? "#fff" : color === "black" ? "#000" : "null";
     const sColor = color === "white" ? "#000" : color === "black" ? "#fff" : "null";
 
@@ -33,7 +37,7 @@ export const defaultPiecesImages: IconMap = {
     );
   },
 
-  n: (iconClass?: string, color?: string): JSX.Element => {
+  n: (iconClass?: string, color?: ColorValue): JSX.Element => {
     const mColor = color === "white" ? "#fff" : color === "black" ? "#000" : "null";
     const sColor = color === "white" ? "#000" : color === "black" ? "#fff" : "null";
 
@@ -65,7 +69,7 @@ export const defaultPiecesImages: IconMap = {
     );
   },
 
-  b: (iconClass?: string, color?: string): JSX.Element => {
+  b: (iconClass?: string, color?: ColorValue): JSX.Element => {
     const mColor = color === "white" ? "#fff" : color === "black" ? "#000" : "null";
     const sColor = color === "white" ? "#000" : color === "black" ? "#fff" : "null";
 
@@ -97,7 +101,7 @@ export const defaultPiecesImages: IconMap = {
     );
   },
 
-  r: (iconClass?: string, color?: string): JSX.Element => {
+  r: (iconClass?: string, color?: ColorValue): JSX.Element => {
     const mColor = color === "white" ? "#fff" : color === "black" ? "#000" : "null";
     const sColor = color === "white" ? "#000" : color === "black" ? "#fff" : "null";
 
@@ -129,7 +133,7 @@ export const defaultPiecesImages: IconMap = {
     );
   },
 
-  q: (iconClass?: string, color?: string): JSX.Element => {
+  q: (iconClass?: string, color?: ColorValue): JSX.Element => {
     const mColor = color === "white" ? "#fff" : color === "black" ? "#000" : "null";
     const sColor = color === "white" ? "#000" : color === "black" ? "#fff" : "null";
 
@@ -161,7 +165,7 @@ export const defaultPiecesImages: IconMap = {
     );
   },
 
-  k: (iconClass?: string, color?: string): JSX.Element => {
+  k: (iconClass?: string, color?: ColorValue): JSX.Element => {
     const mColor = color === "white" ? "#fff" : color === "black" ? "#000" : "null";
     const sColor = color === "white" ? "#000" : color === "black" ? "#fff" : "null";
 

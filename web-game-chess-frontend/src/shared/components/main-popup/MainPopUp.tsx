@@ -2,7 +2,7 @@ import classes from "./MainPopUp.module.scss";
 import { usePopup } from "../../utils/hooks/usePopUp";
 import { useEffect } from "react";
 import IconCreator from "../icon-creator/IconCreator";
-import { mainPopUpIcons } from "./MainPopUpIcons";
+import { symbolIcons } from "../../svgs/iconsMap/SymbolIcons";
 
 type MainPopUpProps = {};
 
@@ -28,7 +28,7 @@ function MainPopUp({}: MainPopUpProps) {
   return (
     <div className={classes.popup}>
       <div className={classes.popup__icon}>
-        <IconCreator icons={mainPopUpIcons} iconName={popupType} />
+        <IconCreator icons={symbolIcons} iconName={popupType} />
       </div>
 
       <div className={classes.popup__text}>

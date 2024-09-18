@@ -7,37 +7,65 @@
   padding: 4rem 8rem;
   overflow: hidden;
 
-  $header_w: 6rem;
+  $header_height: 6rem;
 
+  // invitations section header
   &__header {
-    @include flex(row, start, center, 1rem);
+    @include flex(row, space-between, center, 0);
 
+    height: $header_height;
     padding: 1rem;
-    height: $header_w;
+    padding-right: 4rem;
 
-    span {
-      font-size: 3rem;
-      font-weight: bold;
+    h2.header-title {
+      @include flex(row, start, center, 1rem);
+
+      span {
+        font-size: 3rem;
+        font-weight: bold;
+      }
+
+      span.counter {
+        @include flex($gap: 0.5rem);
+        width: fit-content;
+
+        span.sym {
+          font-size: 2rem;
+          color: $gc4;
+        }
+      }
     }
 
-    span.counter {
-      @include flex($gap: 0.5rem);
-      width: fit-content;
+    .filters {
+      button.filter-button {
+        @include button(2rem);
 
-      span.sym {
-        font-size: 2rem;
-        color: $gc4;
+        & {
+          @include mainMButton();
+        }
+
+        &.disabled {
+          filter: grayscale(100%);
+          pointer-events: none;
+        }
+
+        &.enabled {
+          filter: grayscale(0%);
+          pointer-events: all;
+        }
       }
     }
   }
+  //*/
 
-  @mixin listMixin() {
+  // lists of invitations cards or empty cards
+  @mixin invitationsList() {
     position: relative;
-    height: calc(100% - $header_w);
+    height: calc(100% - $header_height);
   }
 
   &__list {
-    @include listMixin();
+    @include invitationsList();
 
     overflow-y: scroll;
 
@@ -47,12 +75,40 @@
   }
 
   &__empty {
-    @include listMixin();
+    @include invitationsList();
 
     overflow: hidden;
   }
+  //*/
 }
 //*/
 
 // resize
+@media (max-width: 700px) {
+  .games {
+    height: 100%;
+    overflow: hidden;
+    padding: 4rem 2rem;
+
+    $header_height: 10rem;
+
+    &__header {
+      height: $header_height;
+
+      h2 {
+        font-size: 3.6rem;
+      }
+
+      .filters {
+        button.filter-button {
+          font-size: 2.6rem;
+        }
+      }
+    }
+
+    &__list {
+      height: calc(100% - $header_height);
+    }
+  }
+}
 //*/
