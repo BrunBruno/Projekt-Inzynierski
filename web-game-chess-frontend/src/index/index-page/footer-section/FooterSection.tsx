@@ -1,12 +1,13 @@
 import { useNavigate } from "react-router-dom";
 import LogoIcon from "../../../shared/svgs/icons/LogoIcon";
-import { mainColor } from "../../../shared/utils/enums/colorMaps";
+import { mainColor } from "../../../shared/utils/objects/colorMaps";
 import classes from "./FooterSection.module.scss";
 import IconCreator from "../../../shared/components/icon-creator/IconCreator";
 import { footerSectionIcons } from "./FooterSectionIcons";
 import { symbolIcons } from "../../../shared/svgs/iconsMap/SymbolIcons";
 
 const socials = ["Facebook", "Instagram", "Twitter", "TikTok", "YouTube"] as const;
+type SocialNames = Lowercase<typeof socials[number]>;
 
 type FooterSectionProps = {};
 
@@ -32,12 +33,12 @@ function FooterSection({}: FooterSectionProps) {
           <h3 className={classes["col-title"]}>Reach Us</h3>
 
           <div className={classes.contact}>
-            <IconCreator icons={footerSectionIcons} iconName="flag" />
+            <IconCreator icons={footerSectionIcons} iconName={"countryFlag"} />
             <p className={classes["contact-data"]}>+48 000 000 000</p>
           </div>
 
           <div className={classes.contact}>
-            <IconCreator icons={footerSectionIcons} iconName="at" />
+            <IconCreator icons={footerSectionIcons} iconName={"atSymbol"} />
             <p className={classes["contact-data"]}>chess8rn@gmail.com</p>
           </div>
         </div>
@@ -55,7 +56,7 @@ function FooterSection({}: FooterSectionProps) {
               <div className={classes.element}>
                 <IconCreator
                   icons={footerSectionIcons}
-                  iconName={social.toLocaleLowerCase()}
+                  iconName={social.toLocaleLowerCase() as SocialNames}
                   iconClass={classes["social-svg"]}
                 />
 
@@ -63,7 +64,7 @@ function FooterSection({}: FooterSectionProps) {
 
                 <IconCreator
                   icons={symbolIcons}
-                  iconName="roundArrow"
+                  iconName={"roundArrow"}
                   color={mainColor.c2}
                   iconClass={classes["r-arr"]}
                 />
@@ -82,13 +83,13 @@ function FooterSection({}: FooterSectionProps) {
                 navigate("about/privacy");
               }}
             >
-              <IconCreator icons={footerSectionIcons} iconName="privacy" iconClass={classes["social-svg"]} />
+              <IconCreator icons={footerSectionIcons} iconName={"privacy"} iconClass={classes["social-svg"]} />
 
               <p className={classes["action-text"]}>Privacy Policy</p>
 
               <IconCreator
                 icons={symbolIcons}
-                iconName="roundArrow"
+                iconName={"roundArrow"}
                 color={mainColor.c0}
                 iconClass={classes["r-arr"]}
               />
@@ -102,13 +103,13 @@ function FooterSection({}: FooterSectionProps) {
                 navigate("about/terms");
               }}
             >
-              <IconCreator icons={footerSectionIcons} iconName="terms" iconClass={classes["social-svg"]} />
+              <IconCreator icons={footerSectionIcons} iconName={"terms"} iconClass={classes["social-svg"]} />
 
               <p className={classes["action-text"]}>Terms & Conditions</p>
 
               <IconCreator
                 icons={symbolIcons}
-                iconName="roundArrow"
+                iconName={"roundArrow"}
                 color={mainColor.c0}
                 iconClass={classes["r-arr"]}
               />

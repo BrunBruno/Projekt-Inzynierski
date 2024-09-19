@@ -19,12 +19,12 @@ import LeftSideBar from "./left-sidebar/LeftSideBar";
 import RightSideBar from "./right-sidebar/RightSideBar";
 import { CheckIfInGameModel, SearchGameModel } from "../../shared/utils/types/gameModels";
 import { usePopup } from "../../shared/utils/hooks/usePopUp";
-import { getErrMessage } from "../../shared/utils/functions/displayError";
+import { getErrMessage } from "../../shared/utils/functions/errors";
 import MainPopUp from "../../shared/components/main-popup/MainPopUp";
 import { PopupType } from "../../shared/utils/types/commonTypes";
 import { Guid } from "guid-typescript";
 import { HubConnectionState } from "@microsoft/signalr";
-import { GameActionInterface } from "../../shared/utils/enums/interfacesEnums";
+import { GameActionInterface } from "../../shared/utils/objects/interfacesEnums";
 
 function GamePage() {
   ///
@@ -32,6 +32,7 @@ function GamePage() {
   const location = useLocation();
   const navigate = useNavigate();
 
+  // obtained game id from url
   const { gameIdStr } = useParams<{ gameIdStr: string }>();
   const [gameId, setGameId] = useState<Guid | null>(null);
 
@@ -50,20 +51,25 @@ function GamePage() {
     }
   }, [gameIdStr]);
 
-  const [gameData, setGameData] = useState<GetGameDto | null>(null);
-  const [playerData, setPlayerData] = useState<GetPlayerDto | null>(null);
-  const [winner, setWinner] = useState<EndGameDto | GetEndedGameDto | null>(null);
+  const { showPopup } = usePopup();
 
+  // obtained game data
+  const [gameData, setGameData] = useState<GetGameDto | null>(null);
+  // obtained current player data
+  const [playerData, setPlayerData] = useState<GetPlayerDto | null>(null);
+  // winner data
+  const [winner, setWinner] = useState<EndGameDto | GetEndedGameDto | null>(null);
+  // time left for both players
   const [playersTimes, setPlayersTimes] = useState<FetchTimeDto | null>(null);
 
+  // selected timing in case of new game or rematch
   const [selectedTiming, setSelectedTiming] = useState<SearchGameModel | null>(null);
+  // ids for new game
   const [searchIds, setSearchIds] = useState<SearchGameDto | null>(null);
 
   // state for displaying actions confirmation window
   const [showConfirm, setShowConfirm] = useState<GameActionInterface | null>(null);
   const [confirmAction, setConfirmAction] = useState<() => void>(() => {});
-
-  const { showPopup } = usePopup();
 
   // return if no timing set
   // display enter popups

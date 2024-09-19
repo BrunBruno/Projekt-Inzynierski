@@ -1,8 +1,10 @@
-import { mainColor } from "../../../shared/utils/enums/colorMaps";
+import { mainColor } from "../../../shared/utils/objects/colorMaps";
 import { IconMap } from "../../../shared/utils/types/commonTypes";
 import classes from "./GameHubSection.module.scss";
 
-export const gameHubSectionIcons: IconMap = {
+type IconNames = "vsPlayer" | "vsComputer" | "vsFriend" | "userGames" | "gameInvitations";
+
+export const gameHubSectionIcons: IconMap<IconNames> = {
   vsPlayer: () => (
     <svg
       className={classes["vs-player-icon"]}
@@ -81,7 +83,7 @@ export const gameHubSectionIcons: IconMap = {
     </svg>
   ),
 
-  invitations: () => (
+  gameInvitations: () => (
     <svg
       fill={mainColor.c7}
       viewBox="0 0 1920 1920"

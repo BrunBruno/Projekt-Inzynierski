@@ -1,15 +1,15 @@
-import { forwardRef, useImperativeHandle, useRef } from "react";
+import { ForwardedRef, forwardRef, RefObject, useImperativeHandle, useRef } from "react";
 import classes from "./HeroSection.module.scss";
 import HeroHeader from "./hero-header/HeroHeader";
 import { HandleOnScroll } from "../../../shared/utils/types/commonTypes";
 
 type HeroSectionProps = {
   // section container ref
-  heroSectionRef: React.RefObject<HTMLElement>;
+  heroSectionRef: RefObject<HTMLElement>;
 };
 
 const HeroSection = forwardRef<HandleOnScroll, HeroSectionProps>(
-  ({ heroSectionRef }: HeroSectionProps, ref: React.ForwardedRef<HandleOnScroll>) => {
+  ({ heroSectionRef }: HeroSectionProps, ref: ForwardedRef<HandleOnScroll>) => {
     ///
 
     const heroBgRef = useRef<HTMLDivElement>(null);

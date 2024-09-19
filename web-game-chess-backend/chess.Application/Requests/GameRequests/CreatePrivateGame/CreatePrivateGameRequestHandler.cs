@@ -140,8 +140,8 @@ public class CreatePrivateGameRequestHandler : IRequestHandler<CreatePrivateGame
         game.WhitePlayerId = randomChoice ? userPlayer.Id : friendPlayer.Id;
         game.BlackPlayerId = randomChoice ? friendPlayer.Id : userPlayer.Id;
 
-        userPlayer.Color = randomChoice ? Colors.White : Colors.Black;
-        friendPlayer.Color = randomChoice ? Colors.Black : Colors.White;
+        userPlayer.Color = randomChoice ? PieceColor.White : PieceColor.Black;
+        friendPlayer.Color = randomChoice ? PieceColor.Black : PieceColor.White;
 
         var gameState = new GameState()
         {

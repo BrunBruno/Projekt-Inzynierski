@@ -4,24 +4,24 @@ import HistorySection from "./history-section/HistorySection";
 import UserSection from "./user-section/UserSection";
 import { GetTypeHistoryModel } from "../../shared/utils/types/gameModels";
 import { gameControllerPaths, getAuthorization } from "../../shared/utils/services/ApiService";
-import React, { useState } from "react";
+import { Fragment, useState } from "react";
 import { GetTypeHistoryDto } from "../../shared/utils/types/gameDtos";
 import MainNav from "../../shared/components/main-nav/MainNav";
 import LoadingPage from "../../shared/components/loading-page/LoadingPage";
 import FriendsSection from "./friends-section/FriendsSection";
 import MainPopUp from "../../shared/components/main-popup/MainPopUp";
-import { getErrMessage } from "../../shared/utils/functions/displayError";
+import { getErrMessage } from "../../shared/utils/functions/errors";
 import { usePopup } from "../../shared/utils/hooks/usePopUp";
 import { PagedResult } from "../../shared/utils/types/abstractDtosAndModels";
-import { timingTypesNames } from "../../shared/utils/enums/commonConstLists";
+import { timingTypeNames } from "../../shared/utils/objects/constantLists";
 
 function AccountPage() {
   ///
 
+  const { showPopup } = usePopup();
+
   // content of right side of account page
   const [content, setContent] = useState<JSX.Element>(<FriendsSection />);
-
-  const { showPopup } = usePopup();
 
   // to send fired list as section
   const setFriendSection = () => {
@@ -48,7 +48,7 @@ function AccountPage() {
       setContent(<LoadingPage text="Loading data" />);
 
       setTimeout(() => {
-        setContent(<HistorySection selectedType={timingTypesNames[type]} typeHistory={typeHistoryResponse.data} />);
+        setContent(<HistorySection selectedType={timingTypeNames[type]} typeHistory={typeHistoryResponse.data} />);
       }, 100);
     } catch (err) {
       showPopup(getErrMessage(err), "warning");
@@ -62,7 +62,7 @@ function AccountPage() {
 
       <UserSection getTypeHistory={getTypeHistory} setFriendSection={setFriendSection} />
 
-      <React.Fragment>{content}</React.Fragment>
+      <Fragment>{content}</Fragment>
 
       <MainPopUp />
     </main>

@@ -2,13 +2,13 @@ import GameHubService from "../../../../../shared/utils/services/GameHubService"
 import { GetAllInvitationsDto } from "../../../../../shared/utils/types/gameDtos";
 import { AcceptInvitationModel, DeclineInvitationModel } from "../../../../../shared/utils/types/gameModels";
 import classes from "./InvitationCard.module.scss";
-import { timingTypesNames } from "../../../../../shared/utils/enums/commonConstLists";
+import { TimingTypeName, timingTypeNames } from "../../../../../shared/utils/objects/constantLists";
 import { usePopup } from "../../../../../shared/utils/hooks/usePopUp";
-import { getErrMessage } from "../../../../../shared/utils/functions/displayError";
+import { getErrMessage } from "../../../../../shared/utils/functions/errors";
 import IconCreator from "../../../../../shared/components/icon-creator/IconCreator";
-import { mainColor } from "../../../../../shared/utils/enums/colorMaps";
-import { timeSpanLongerThan } from "../../../../../shared/utils/functions/dateTimeRelated";
-import { timingTypesIcons } from "../../../../../shared/svgs/iconsMap/TimingTypesIcons";
+import { mainColor } from "../../../../../shared/utils/objects/colorMaps";
+import { timingTypeIcons } from "../../../../../shared/svgs/iconsMap/TimingTypeIcons";
+import { timeSpanLongerThan } from "../../../../../shared/utils/functions/dateTime";
 
 type InvitationCardProps = {
   // invitation data
@@ -63,8 +63,8 @@ function InvitationCard({ invitation, updateInvitations }: InvitationCardProps) 
     <div className={classes.card}>
       <div className={classes.card__icon}>
         <IconCreator
-          icons={timingTypesIcons}
-          iconName={timingTypesNames[invitation.type].toLowerCase()}
+          icons={timingTypeIcons}
+          iconName={timingTypeNames[invitation.type].toLowerCase() as TimingTypeName}
           color={mainColor.c5}
         />
       </div>
@@ -74,7 +74,7 @@ function InvitationCard({ invitation, updateInvitations }: InvitationCardProps) 
         <b className={classes["imp-data"]}>{invitation.inviterName}</b>
         <span> has invited you to new </span>
         <br />
-        <b className={classes["imp-data"]}>{timingTypesNames[invitation.type]}</b>
+        <b className={classes["imp-data"]}>{timingTypeNames[invitation.type]}</b>
         <span> game.</span>
       </div>
 

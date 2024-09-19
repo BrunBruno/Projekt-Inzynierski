@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import classes from "./HomeActions.module.scss";
-import { RegistrationInterface } from "../../../../shared/utils/enums/interfacesEnums";
+import { RegistrationInterface } from "../../../../shared/utils/objects/interfacesEnums";
 
 type HomeActionsProps = {};
 

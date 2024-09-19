@@ -1,7 +1,7 @@
 /* commonly occurred types */
 
-import { ColorValue } from "../enums/colorMaps";
-import { popupIconTypes } from "../enums/commonConstLists";
+import { ColorValue } from "../objects/colorMaps";
+import { popupIconTypes } from "../objects/constantLists";
 
 // type for svg icons maps and corresponding props
 // type for svg icons with params
@@ -38,3 +38,6 @@ export type PopupType = {
   popupText: string;
   popupType: typeof popupIconTypes[number];
 };
+
+export type SMatrix = string[][];
+export type NMatrix = number[][];

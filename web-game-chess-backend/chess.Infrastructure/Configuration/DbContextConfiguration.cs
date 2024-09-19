@@ -13,7 +13,7 @@ public class DbContextConfiguration :
     IEntityTypeConfiguration<User>,
     IEntityTypeConfiguration<Role>,
     IEntityTypeConfiguration<EmailVerificationCode>,
-    IEntityTypeConfiguration<DataConfiguration>,
+    IEntityTypeConfiguration<Core.Entities.DataConfiguration>,
     IEntityTypeConfiguration<BannedUser>,
     IEntityTypeConfiguration<Game>,
     IEntityTypeConfiguration<GameTiming>,
@@ -55,7 +55,7 @@ public class DbContextConfiguration :
             .HasForeignKey<EmailVerificationCode>(evc => evc.UserId);
     }
 
-    public void Configure(EntityTypeBuilder<DataConfiguration> builder) {
+    public void Configure(EntityTypeBuilder<Core.Entities.DataConfiguration> builder) {
         builder
             .HasKey(dc => dc.Id);
 
@@ -203,12 +203,12 @@ public class DbContextConfiguration :
         return roles;
     }
 
-    private static IEnumerable<DataConfiguration> GetConfiguration() {
-        var configurations = new List<DataConfiguration>
+    private static IEnumerable<Core.Entities.DataConfiguration> GetConfiguration() {
+        var configurations = new List<Core.Entities.DataConfiguration>
         {
             new()
             {
-                Id = (int)DataConfigurations.UserPassword,
+                Id = (int)Core.Enums.DataConfiguration.UserPassword,
                 MinLength = 5,
                 MaxLength = null,
                 RequireUppercase = false,
@@ -218,7 +218,7 @@ public class DbContextConfiguration :
             },
             new()
             {
-                Id = (int)DataConfigurations.UserName,
+                Id = (int)Core.Enums.DataConfiguration.UserName,
                 MinLength = 5,
                 MaxLength = 30,
                 RequireUppercase = false,

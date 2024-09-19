@@ -1,5 +1,5 @@
 import { createContext, ReactNode, useContext, useState } from "react";
-import { popupIconTypes } from "../enums/commonConstLists";
+import { popupIconTypes } from "../objects/constantLists";
 import { useLocation } from "react-router-dom";
 
 interface PopupContextType {

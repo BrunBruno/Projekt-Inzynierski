@@ -4,7 +4,7 @@ import { ContentElements } from "./ContentSectionData";
 import IconCreator from "../../../shared/components/icon-creator/IconCreator";
 import { aboutPageIcons } from "../AboutPageIcons";
 import { symbolIcons } from "../../../shared/svgs/iconsMap/SymbolIcons";
-import { mainColor } from "../../../shared/utils/enums/colorMaps";
+import { mainColor } from "../../../shared/utils/objects/colorMaps";
 
 type ContentSectionProps = {
   // title of section
@@ -44,7 +44,7 @@ function ContentSection({ title, elements }: ContentSectionProps) {
                   <li key={`point-${index}-${i}`} className={classes["point"]}>
                     <IconCreator
                       icons={symbolIcons}
-                      iconName="roundArrow"
+                      iconName={"roundArrow"}
                       iconClass={classes["bullet-point"]}
                       color={mainColor.c5}
                     />
@@ -54,7 +54,7 @@ function ContentSection({ title, elements }: ContentSectionProps) {
               </ul>
             )}
 
-            <IconCreator icons={aboutPageIcons} iconName="pawnLine" iconClass={classes["pawn-line"]} />
+            <IconCreator icons={aboutPageIcons} iconName={"pawnLine"} iconClass={classes["pawn-line"]} />
           </Fragment>
         ))}
       </div>

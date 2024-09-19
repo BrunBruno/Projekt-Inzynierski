@@ -1,9 +1,9 @@
-import { pieceTagMap } from "../enums/piecesMaps";
-import { rankMap } from "../enums/piecesMovementMap";
+import { pieceTagMap } from "../objects/piecesNameMaps";
+import { rankMap } from "../objects/piecesMovementMap";
 import GameHubService from "../services/GameHubService";
 import { MakeMoveModel } from "../types/gameModels";
 import { GameStates, SelectionStates } from "../types/gameStates";
-import { areCoorEqual, intToChar } from "../functions/gameRelated";
+import { areCoorEqual, intToChar } from "./gameRelated";
 
 // make move
 export const makeMove = async (

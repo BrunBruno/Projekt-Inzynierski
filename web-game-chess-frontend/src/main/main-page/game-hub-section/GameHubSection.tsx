@@ -6,7 +6,7 @@ import { gameControllerPaths, getAuthorization } from "../../../shared/utils/ser
 import { CheckIfInGameDto, SearchGameDto } from "../../../shared/utils/types/gameDtos";
 import { useNavigate } from "react-router-dom";
 import GameHubService from "../../../shared/utils/services/GameHubService";
-import { GameSearchInterface } from "../../../shared/utils/enums/interfacesEnums";
+import { GameSearchInterface } from "../../../shared/utils/objects/interfacesEnums";
 import UserGames from "./user-games/UserGames";
 import VsFriendSearch from "./vs-friend-search/VsFriendSearch";
 import { AbortSearchModel, CheckIfInGameModel } from "../../../shared/utils/types/gameModels";
@@ -14,7 +14,7 @@ import NotificationPopUp from "./notification-popup/NotificationPopUp";
 import { HubConnectionState } from "@microsoft/signalr";
 import DefaultView from "./default-view/DefaultView";
 import Invitations from "./invitations/Invitations";
-import { getErrMessage } from "../../../shared/utils/functions/displayError";
+import { getErrMessage } from "../../../shared/utils/functions/errors";
 import { usePopup } from "../../../shared/utils/hooks/usePopUp";
 import { useTimingType } from "../../../shared/utils/hooks/useTimingType";
 import IconCreator from "../../../shared/components/icon-creator/IconCreator";
@@ -23,6 +23,7 @@ import SearchingPage from "../../../shared/components/searching-page/SearchingPa
 import { Guid } from "guid-typescript";
 
 type GameHubSectionProps = {
+  // in case of entering page with already chosen interface by user
   providedInterface: GameSearchInterface | null;
 };
 
@@ -196,7 +197,7 @@ function GameHubSection({ providedInterface }: GameHubSectionProps) {
                 setInterfaceById(GameSearchInterface.vsPlayer);
               }}
             >
-              <IconCreator icons={gameHubSectionIcons} iconName="vsPlayer" />
+              <IconCreator icons={gameHubSectionIcons} iconName={"vsPlayer"} />
               <span>Play vs Player</span>
             </button>
 
@@ -206,7 +207,7 @@ function GameHubSection({ providedInterface }: GameHubSectionProps) {
                 setInterfaceById(GameSearchInterface.vsComputer);
               }}
             >
-              <IconCreator icons={gameHubSectionIcons} iconName="vsComputer" />
+              <IconCreator icons={gameHubSectionIcons} iconName={"vsComputer"} />
               <span>Play vs Computer</span>
             </button>
 
@@ -216,7 +217,7 @@ function GameHubSection({ providedInterface }: GameHubSectionProps) {
                 setInterfaceById(GameSearchInterface.vsFriend);
               }}
             >
-              <IconCreator icons={gameHubSectionIcons} iconName="vsFriend" />
+              <IconCreator icons={gameHubSectionIcons} iconName={"vsFriend"} />
               <span>Play vs Friend</span>
             </button>
 
@@ -226,7 +227,7 @@ function GameHubSection({ providedInterface }: GameHubSectionProps) {
                 setInterfaceById(GameSearchInterface.userGames);
               }}
             >
-              <IconCreator icons={gameHubSectionIcons} iconName="userGames" />
+              <IconCreator icons={gameHubSectionIcons} iconName={"userGames"} />
               <span>My Games</span>
             </button>
 
@@ -236,7 +237,7 @@ function GameHubSection({ providedInterface }: GameHubSectionProps) {
                 setInterfaceById(GameSearchInterface.invitations);
               }}
             >
-              <IconCreator icons={gameHubSectionIcons} iconName="invitations" />
+              <IconCreator icons={gameHubSectionIcons} iconName={"gameInvitations"} />
               <span>Invitations</span>
             </button>
           </div>

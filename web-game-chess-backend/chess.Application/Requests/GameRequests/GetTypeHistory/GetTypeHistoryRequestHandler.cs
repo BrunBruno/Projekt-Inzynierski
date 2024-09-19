@@ -38,7 +38,7 @@ public class GetTypeHistoryRequestHandler : IRequestHandler<GetTypeHistoryReques
 
             if (player.WhiteGame != null && player.WhiteGame.TimingType == request.Type) {
 
-                bool? isWinner = player.WhiteGame.WinnerColor != null ? player.WhiteGame.WinnerColor == Colors.White : null;
+                bool? isWinner = player.WhiteGame.WinnerColor != null ? player.WhiteGame.WinnerColor == PieceColor.White : null;
 
                 var typeHistoryDto = new GetTypeHistoryDto()
                 {
@@ -55,7 +55,7 @@ public class GetTypeHistoryRequestHandler : IRequestHandler<GetTypeHistoryReques
 
             if (player.BlackGame != null && player.BlackGame.TimingType == request.Type) {
 
-                bool? isWinner = player.BlackGame.WinnerColor != null ? player.BlackGame.WinnerColor == Colors.Black : null;
+                bool? isWinner = player.BlackGame.WinnerColor != null ? player.BlackGame.WinnerColor == PieceColor.Black : null;
 
                 var typeHistoryDto = new GetTypeHistoryDto()
                 {

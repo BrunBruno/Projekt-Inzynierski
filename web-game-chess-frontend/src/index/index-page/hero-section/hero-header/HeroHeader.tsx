@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import classes from "./HeroHeader.module.scss";
 import LogoIcon from "../../../../shared/svgs/icons/LogoIcon";
-import { RegistrationInterface } from "../../../../shared/utils/enums/interfacesEnums";
+import { RegistrationInterface } from "../../../../shared/utils/objects/interfacesEnums";
 
 type HeroHeaderProps = {};
 

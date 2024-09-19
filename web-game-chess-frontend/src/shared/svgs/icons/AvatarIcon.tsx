@@ -1,4 +1,4 @@
-import { mainColor } from "../../utils/enums/colorMaps";
+import { mainColor } from "../../utils/objects/colorMaps";
 import { IconSvgProps } from "../../utils/types/commonTypes";
 
 function AvatarIcon({ iconClass }: IconSvgProps): JSX.Element {

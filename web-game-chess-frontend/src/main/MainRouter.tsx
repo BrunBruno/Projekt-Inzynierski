@@ -11,7 +11,7 @@ import GameHubService from "../shared/utils/services/GameHubService";
 import { HubConnectionState } from "@microsoft/signalr";
 import AccountPage from "./account-page/AccountPage";
 import { PopupProvider } from "../shared/utils/hooks/usePopUp";
-import { getErrMessage } from "../shared/utils/functions/displayError";
+import { getErrMessage } from "../shared/utils/functions/errors";
 import ProfilePage from "./profile-page/ProfilePage";
 import { TimingTypeProvider } from "../shared/utils/hooks/useTimingType";
 import AwaitingPage from "./awaiting-page/AwaitingPage";

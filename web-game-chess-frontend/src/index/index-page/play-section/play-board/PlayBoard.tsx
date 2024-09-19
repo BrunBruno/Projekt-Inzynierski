@@ -1,15 +1,15 @@
-import React, { ForwardedRef, forwardRef, useImperativeHandle, useRef } from "react";
+import { ForwardedRef, forwardRef, useImperativeHandle, useRef, MouseEvent, RefObject, createRef } from "react";
 import classes from "./PlayBoard.module.scss";
 import LogoIcon from "../../../../shared/svgs/icons/LogoIcon";
 import { HandleOnScroll } from "../../../../shared/utils/types/commonTypes";
+
+const wh = window.innerHeight;
 
 type PlayBoardProps = {};
 
 const PlayBoard = forwardRef<HandleOnScroll, PlayBoardProps>(
   ({}: PlayBoardProps, ref: ForwardedRef<HandleOnScroll>) => {
     ///
-
-    const wh = window.innerHeight;
 
     // whole board div ref
     // for handle on scroll
@@ -19,7 +19,7 @@ const PlayBoard = forwardRef<HandleOnScroll, PlayBoardProps>(
     const innerBoardRef = useRef<HTMLDivElement>(null);
     const outerBoardRef = useRef<HTMLDivElement>(null);
     // ref for each tile in board
-    const elementRefs: { [key: string]: React.RefObject<HTMLDivElement> } = {};
+    const elementRefs: { [key: string]: RefObject<HTMLDivElement> } = {};
 
     // handle board on scroll
     const handleOnScroll = (): void => {
@@ -84,7 +84,7 @@ const PlayBoard = forwardRef<HandleOnScroll, PlayBoardProps>(
             const key = `${j + 1}-${i + 1}`;
 
             if (!elementRefs[key]) {
-              elementRefs[key] = React.createRef<HTMLDivElement>();
+              elementRefs[key] = createRef<HTMLDivElement>();
             }
 
             rowTiles.push(<div ref={elementRefs[key]} key={key} className={classes.tile} />);
@@ -106,7 +106,7 @@ const PlayBoard = forwardRef<HandleOnScroll, PlayBoardProps>(
 
     // handle on click
     // to create wave pattern
-    const handleBoardOnClick = (event: React.MouseEvent<HTMLDivElement, MouseEvent>): string => {
+    const handleBoardOnClick = (event: MouseEvent<HTMLDivElement>): string => {
       // get cor of tiles based on cursor position
       const getPosition = (c_pos: number, p_pos: number, p_size: number): number => {
         return Math.floor((c_pos - p_pos) / (p_size / 8)) + 1;
@@ -163,7 +163,7 @@ const PlayBoard = forwardRef<HandleOnScroll, PlayBoardProps>(
 
     // handle board hover
     // to move "flashlight" over board
-    const handleOnGridHover = (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    const handleOnGridHover = (event: MouseEvent<HTMLDivElement>) => {
       const parentRect = event.currentTarget.getBoundingClientRect();
       const offsetX = event.clientX - parentRect.left;
       const offsetY = event.clientY - parentRect.top;

@@ -1,24 +1,33 @@
-import { forwardRef, useImperativeHandle, useRef, useState } from "react";
+import {
+  Dispatch,
+  ForwardedRef,
+  forwardRef,
+  SetStateAction,
+  useImperativeHandle,
+  useRef,
+  useState,
+  MouseEvent,
+} from "react";
 import classes from "./InviteBy.module.scss";
 import { InviteByUrlRef } from "../VsFriendSearchData";
 import { usePopup } from "../../../../../shared/utils/hooks/usePopUp";
-import { getErrMessage } from "../../../../../shared/utils/functions/displayError";
+import { getErrMessage } from "../../../../../shared/utils/functions/errors";
 import axios from "axios";
 import { gameControllerPaths, getAuthorization } from "../../../../../shared/utils/services/ApiService";
 import { CreateGameWithLinkModel } from "../../../../../shared/utils/types/gameModels";
 import { CreateGameWithLinkDto } from "../../../../../shared/utils/types/gameDtos";
 import { useTimingType } from "../../../../../shared/utils/hooks/useTimingType";
 import { TimingTypeModel } from "../../../../../shared/utils/types/abstractDtosAndModels";
-import { TimingTypes } from "../../../../../shared/utils/enums/entitiesEnums";
-import { getEnumValueByKey } from "../../../../../shared/utils/functions/enumRelated";
+import { getEnumValueByKey } from "../../../../../shared/utils/functions/enums";
+import { TimingType } from "../../../../../shared/utils/objects/entitiesEnums";
 
 type InviteByUrlProps = {
-  //
-  setSelectedByUrl: React.Dispatch<React.SetStateAction<boolean>>;
+  // to set obtained url
+  setSelectedByUrl: Dispatch<SetStateAction<boolean>>;
 };
 
 const InviteByUrl = forwardRef<InviteByUrlRef, InviteByUrlProps>(
-  ({ setSelectedByUrl }: InviteByUrlProps, ref: React.ForwardedRef<InviteByUrlRef>) => {
+  ({ setSelectedByUrl }: InviteByUrlProps, ref: ForwardedRef<InviteByUrlRef>) => {
     ///
 
     const { showPopup } = usePopup();
@@ -30,9 +39,9 @@ const InviteByUrl = forwardRef<InviteByUrlRef, InviteByUrlProps>(
 
     // invite to game by url
     // obtains game link
-    const onInviteByUrl = async (header: string, values: number[]): Promise<void> => {
+    const onInviteByUrl = async (header: string, values: [number, number]): Promise<void> => {
       try {
-        const typeValue = getEnumValueByKey(TimingTypes, header.toLowerCase());
+        const typeValue = getEnumValueByKey(TimingType, header.toLowerCase());
 
         const gameType: TimingTypeModel = {
           type: typeValue,
@@ -72,7 +81,7 @@ const InviteByUrl = forwardRef<InviteByUrlRef, InviteByUrlProps>(
     };
     //*/
 
-    const showUrlIndicator = (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    const showUrlIndicator = (event: MouseEvent<HTMLDivElement>) => {
       const indEle = indRef.current;
       const parentContainer = event.currentTarget;
 

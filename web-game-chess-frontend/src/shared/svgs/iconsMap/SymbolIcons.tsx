@@ -1,5 +1,5 @@
-import { ColorValue, dangerColor, infoColor, successColor, warningColor } from "../../utils/enums/colorMaps";
-import { PopupIconName } from "../../utils/enums/commonConstLists";
+import { ColorValue, dangerColor, infoColor, successColor, warningColor } from "../../utils/objects/colorMaps";
+import { PopupIconName } from "../../utils/objects/constantLists";
 import { IconMap } from "../../utils/types/commonTypes";
 
 type IconNames = "arrow" | "roundArrow" | "x" | PopupIconName;

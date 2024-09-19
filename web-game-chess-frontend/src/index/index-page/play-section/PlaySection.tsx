@@ -1,7 +1,7 @@
-import React, { ForwardedRef, forwardRef, useEffect, useRef } from "react";
+import { ForwardedRef, forwardRef, RefObject, useEffect, useRef } from "react";
 import classes from "./PlaySection.module.scss";
 import PlayBoard from "./play-board/PlayBoard";
-import { createOneTimeObserver } from "../../../shared/utils/functions/createOneTimeObserver";
+import { createOneTimeObserver } from "../../../shared/utils/functions/observers";
 import { HandleOnScroll } from "../../../shared/utils/types/commonTypes";
 import { useNavigate } from "react-router-dom";
 import IconCreator from "../../../shared/components/icon-creator/IconCreator";
@@ -9,7 +9,7 @@ import { playSectionIcons } from "./PlaySectionIcons";
 
 type PlaySectionProps = {
   // section container ref
-  sectionRef: React.RefObject<HTMLElement>;
+  sectionRef: RefObject<HTMLElement>;
 };
 
 const PlaySection = forwardRef<HandleOnScroll, PlaySectionProps>(
@@ -20,7 +20,8 @@ const PlaySection = forwardRef<HandleOnScroll, PlaySectionProps>(
 
     // section title ref
     const introRef = useRef<HTMLDivElement>(null);
-    const actionRefs: React.RefObject<HTMLDivElement>[] = [];
+    // ref for observe section components
+    const actionRefs: RefObject<HTMLDivElement>[] = [];
     for (let i = 0; i < 4; i++) actionRefs[i] = useRef<HTMLDivElement>(null);
 
     // to activate intro and actions on intersection
@@ -102,7 +103,7 @@ const PlaySection = forwardRef<HandleOnScroll, PlaySectionProps>(
                     });
                   }}
                 >
-                  <IconCreator icons={playSectionIcons} iconName="online" iconClass={classes["button-icon"]} />
+                  <IconCreator icons={playSectionIcons} iconName={"online"} iconClass={classes["button-icon"]} />
                   <span>PLAY ONLINE</span>
                 </button>
               </div>
@@ -119,7 +120,7 @@ const PlaySection = forwardRef<HandleOnScroll, PlaySectionProps>(
                     });
                   }}
                 >
-                  <IconCreator icons={playSectionIcons} iconName="offline" iconClass={classes["button-icon"]} />
+                  <IconCreator icons={playSectionIcons} iconName={"offline"} iconClass={classes["button-icon"]} />
                   <span>PLAY OFFLINE</span>
                 </button>
               </div>

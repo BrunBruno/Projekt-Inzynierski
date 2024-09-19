@@ -1,5 +1,5 @@
 import { symbolIcons } from "../../svgs/iconsMap/SymbolIcons";
-import { greyColor } from "../../utils/enums/colorMaps";
+import { greyColor } from "../../utils/objects/colorMaps";
 import IconCreator from "../icon-creator/IconCreator";
 import classes from "./ActionButton.module.scss";
 

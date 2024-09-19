@@ -5,18 +5,18 @@ export const sideColors = ["White", "Black"] as const;
 export type SideColor = Lowercase<typeof sideColors[number]>;
 
 // list and type for piece tags
-export const piecesTags = ["p", "n", "b", "r", "q", "k"] as const;
-export type PieceTag = typeof piecesTags[number];
+export const pieceTags = ["p", "n", "b", "r", "q", "k"] as const;
+export type PieceTag = typeof pieceTags[number];
 export type WhitePieceTag = Uppercase<PieceTag>;
 export type BlackPieceTag = Lowercase<PieceTag>;
 
 // list for pieces name
-export const piecesNames = ["Pawn", "Knight", "Bishop", "Rook", "Queen", "King"] as const;
-export type PieceName = Lowercase<typeof piecesNames[number]>;
+export const pieceNames = ["Pawn", "Knight", "Bishop", "Rook", "Queen", "King"] as const;
+export type PieceName = Lowercase<typeof pieceNames[number]>;
 
 // list for timing types
-export const timingTypesNames = ["Bullet", "Blitz", "Rapid", "Classic", "Daily"] as const;
-export type TimingTypeName = Lowercase<typeof timingTypesNames[number]>;
+export const timingTypeNames = ["Bullet", "Blitz", "Rapid", "Classic", "Daily"] as const;
+export type TimingTypeName = Lowercase<typeof timingTypeNames[number]>;
 
 // list for end game possible results
 export const gameResults = ["Win", "Draw", "Lose"] as const;

@@ -1,7 +1,7 @@
 /* Friendship controller models */
 
 import { Guid } from "guid-typescript";
-import { FriendshipStatus } from "../enums/entitiesEnums";
+import { FriendshipStatus } from "../objects/entitiesEnums";
 import { PagedModel } from "./abstractDtosAndModels";
 
 /** POST models */

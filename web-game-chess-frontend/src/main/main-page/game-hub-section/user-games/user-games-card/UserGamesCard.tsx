@@ -1,17 +1,18 @@
 import { useEffect, useRef } from "react";
 import AvatarImage from "../../../../../shared/components/avatar-image/AvatarImage";
-import { EndGameTypes, TimingTypes } from "../../../../../shared/utils/enums/entitiesEnums";
-import { getPiecesSideColor } from "../../../../../shared/utils/enums/piecesMaps";
-import { getEnumKeyByEnumValue } from "../../../../../shared/utils/functions/enumRelated";
+import { getEnumKeyByEnumValue } from "../../../../../shared/utils/functions/enums";
 import { PlayerDto } from "../../../../../shared/utils/types/abstractDtosAndModels";
 import { GetAllFinishedGamesDto } from "../../../../../shared/utils/types/gameDtos";
 import classes from "./UserGamesCard.module.scss";
 import IconCreator from "../../../../../shared/components/icon-creator/IconCreator";
-import { winTypesIcons } from "../../../../../shared/svgs/iconsMap/WinTypesIcons";
-import { mainColor } from "../../../../../shared/utils/enums/colorMaps";
+import { mainColor } from "../../../../../shared/utils/objects/colorMaps";
 import { defaultPiecesImages } from "../../../../../shared/svgs/iconsMap/DefaultPieceImageSvgs";
-import { winLoseIcons } from "../../../../../shared/svgs/iconsMap/GameResultIcons";
-import { timingTypesIcons } from "../../../../../shared/svgs/iconsMap/TimingTypesIcons";
+import { timingTypeIcons } from "../../../../../shared/svgs/iconsMap/TimingTypeIcons";
+import { PieceTag, TimingTypeName } from "../../../../../shared/utils/objects/constantLists";
+import { gameEndReasonIcons } from "../../../../../shared/svgs/iconsMap/GameEndReasonIcons";
+import { GameEndReason, TimingType } from "../../../../../shared/utils/objects/entitiesEnums";
+import { gameResultIcons } from "../../../../../shared/svgs/iconsMap/GameResultIcons";
+import { getPieceSideColor } from "../../../../../shared/utils/objects/piecesNameMaps";
 
 type UserGamesCardProps = {
   // finished game data
@@ -159,7 +160,7 @@ function UserGamesCard({ game }: UserGamesCardProps) {
     for (let i = 0; i < position.length; i++) {
       const char = position[i];
 
-      if (char == "/") {
+      if (char === "/") {
         ind++;
         continue;
       }
@@ -189,8 +190,8 @@ function UserGamesCard({ game }: UserGamesCardProps) {
           >
             <IconCreator
               icons={defaultPiecesImages}
-              iconName={char.toLowerCase()}
-              color={getPiecesSideColor(char)}
+              iconName={char.toLowerCase() as PieceTag}
+              color={getPieceSideColor(char as PieceTag)}
               iconClass={classes["bg-piece"]}
             />
           </div>
@@ -215,9 +216,8 @@ function UserGamesCard({ game }: UserGamesCardProps) {
         {/* game timing type */}
         <div className={classes["timing-type"]}>
           <IconCreator
-            icons={timingTypesIcons}
-            iconName={getEnumKeyByEnumValue(TimingTypes, game.timingType)}
-            iconClass=""
+            icons={timingTypeIcons}
+            iconName={getEnumKeyByEnumValue(TimingType, game.timingType) as TimingTypeName}
             color={mainColor.c5}
           />
         </div>
@@ -225,11 +225,11 @@ function UserGamesCard({ game }: UserGamesCardProps) {
         {/* game result */}
         <div className={classes["is-winner"]}>
           {game.isWinner === null ? (
-            <IconCreator icons={winLoseIcons} iconName="draw" />
+            <IconCreator icons={gameResultIcons} iconName={"draw"} />
           ) : game.isWinner === true ? (
-            <IconCreator icons={winLoseIcons} iconName="win" />
+            <IconCreator icons={gameResultIcons} iconName={"win"} />
           ) : (
-            <IconCreator icons={winLoseIcons} iconName="lose" />
+            <IconCreator icons={gameResultIcons} iconName={"lose"} />
           )}
         </div>
 
@@ -238,7 +238,7 @@ function UserGamesCard({ game }: UserGamesCardProps) {
 
         {/* cause of ending */}
         <div className={classes["win-type"]}>
-          <IconCreator icons={winTypesIcons} iconName={getEnumKeyByEnumValue(EndGameTypes, game.endGameType)} />
+          <IconCreator icons={gameEndReasonIcons} iconName={getEnumKeyByEnumValue(GameEndReason, game.endGameType)} />
         </div>
       </div>
     </div>

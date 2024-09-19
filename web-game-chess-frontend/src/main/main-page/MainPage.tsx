@@ -6,7 +6,7 @@ import GameHubSection from "./game-hub-section/GameHubSection";
 import { useLocation } from "react-router-dom";
 import { usePopup } from "../../shared/utils/hooks/usePopUp";
 import { PopupType } from "../../shared/utils/types/commonTypes";
-import { StateWithSearchInterface } from "../../shared/utils/enums/interfacesEnums";
+import { StateWithSearchInterface } from "../../shared/utils/objects/interfacesEnums";
 
 function MainPage() {
   ///

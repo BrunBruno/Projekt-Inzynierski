@@ -1,10 +1,10 @@
-import { ColorValue } from "../../utils/enums/colorMaps";
-import { TimingTypeName } from "../../utils/enums/commonConstLists";
+import { ColorValue } from "../../utils/objects/colorMaps";
+import { TimingTypeName } from "../../utils/objects/constantLists";
 import { IconMap } from "../../utils/types/commonTypes";
 
 type IconNames = TimingTypeName;
 
-export const timingTypesIcons: IconMap<IconNames> = {
+export const timingTypeIcons: IconMap<IconNames> = {
   bullet: (iconClass?: string, color?: ColorValue): JSX.Element => (
     <svg
       version="1.1"

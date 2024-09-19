@@ -1,11 +1,12 @@
-import { PieceColor } from "../enums/entitiesEnums";
-import { PosToIndex } from "../functions/gameRelated";
+import { PieceColor } from "../objects/entitiesEnums";
+import { PosToIndex } from "./gameRelated";
 import { GetPlayerDto } from "../types/gameDtos";
+import { RefObject } from "react";
 
 // to highlighting selected file
 // for tip displaying
 export const onHighlightFile = (
-  ref: React.RefObject<HTMLDivElement>,
+  ref: RefObject<HTMLDivElement>,
   coordinates: number[],
   highlightClass: string,
   filedClass: string

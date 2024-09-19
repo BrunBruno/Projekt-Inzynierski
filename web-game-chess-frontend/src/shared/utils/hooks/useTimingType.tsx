@@ -1,11 +1,11 @@
-import { createContext, ReactNode, useContext, useState } from "react";
+import { createContext, Dispatch, ReactNode, SetStateAction, useContext, useState } from "react";
 import { TimingTypeModel } from "../types/abstractDtosAndModels";
 
 type TimingTypeContextType = {
   // selected or obtained timing type
   timingType: TimingTypeModel | null;
   // to set game timing
-  setTimingType: React.Dispatch<React.SetStateAction<TimingTypeModel | null>>;
+  setTimingType: Dispatch<SetStateAction<TimingTypeModel | null>>;
 };
 
 // default context

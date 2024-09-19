@@ -1,8 +1,10 @@
 import { IconMap } from "../../utils/types/commonTypes";
 import classes from "./SearchingPage.module.scss";
 
-export const searchingPageIcons: IconMap = {
-  pawn: (iconClass?: string | undefined, color?: string | undefined, active?: boolean | undefined) => (
+type IconNames = "pawn" | "globe";
+
+export const searchingPageIcons: IconMap<IconNames> = {
+  pawn: (iconClass?: string, color?: string, active?: boolean) => (
     <svg
       viewBox="-4 0 24 24"
       xmlns="http://www.w3.org/2000/svg"
@@ -17,7 +19,7 @@ export const searchingPageIcons: IconMap = {
     </svg>
   ),
 
-  globe: (iconClass?: string | undefined, color?: string | undefined, active?: boolean | undefined) => (
+  globe: (iconClass?: string, color?: string, active?: boolean) => (
     <svg
       version="1.0"
       xmlns="http://www.w3.org/2000/svg"

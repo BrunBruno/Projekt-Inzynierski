@@ -1,8 +1,10 @@
-import { greyColor, mainColor } from "../../../../shared/utils/enums/colorMaps";
+import { greyColor, mainColor } from "../../../../shared/utils/objects/colorMaps";
 import { IconMap } from "../../../../shared/utils/types/commonTypes";
 import classes from "./LearnBlocks.module.scss";
 
-export const learnBlocksIcons: IconMap = {
+type IconNames = "pawnLine" | "engine" | "message" | "trophy" | "community" | "gameBoard" | "motherBoard";
+
+export const learnBlocksIcons: IconMap<IconNames> = {
   pawnLine: () => (
     <svg viewBox="0 0 3364 96" fill="none" xmlns="http://www.w3.org/2000/svg" className={classes["pawn-line"]}>
       <rect y="91" width="3000" height="5" rx="2.5" fill={mainColor.c0} />
@@ -126,7 +128,7 @@ export const learnBlocksIcons: IconMap = {
     </svg>
   ),
 
-  board: () => (
+  gameBoard: () => (
     <svg
       version="1.1"
       xmlns="http://www.w3.org/2000/svg"

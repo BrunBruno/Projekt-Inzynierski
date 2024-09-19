@@ -1,5 +1,5 @@
 import { Dispatch, SetStateAction, useEffect, useReducer, useRef, useState } from "react";
-import { getPiecesSideColor, pieceTagMap } from "../../../shared/utils/enums/piecesMaps";
+import { getPieceSideColor, pieceTagMap } from "../../../shared/utils/objects/piecesNameMaps";
 import {
   EndGameDto,
   GetEndedGameDto,
@@ -8,10 +8,10 @@ import {
   SearchGameDto,
 } from "../../../shared/utils/types/gameDtos";
 import classes from "./GameBoard.module.scss";
-import { areCoorEqual, checkIfOwnPiece, checkIfPlayerTurn } from "../../../shared/utils/functions/gameRelated";
+import { areCoorEqual, checkIfOwnPiece, checkIfPlayerTurn } from "../../../shared/utils/chess-game/gameRelated";
 import { generateControlledAreas, checkChecks } from "../../../shared/utils/chess-game/ControlledAreas";
-import { EndGameTypes, PieceColor } from "../../../shared/utils/enums/entitiesEnums";
-import { generateRandomId } from "../../../shared/utils/functions/generateRandom";
+import { GameEndReason, PieceColor } from "../../../shared/utils/objects/entitiesEnums";
+import { generateRandomId } from "../../../shared/utils/functions/random";
 import { checkIfAnyMoveExists } from "../../../shared/utils/chess-game/CheckIfAnyMoveExists";
 import { EndGameModel, SearchGameModel } from "../../../shared/utils/types/gameModels";
 import GameHubService from "../../../shared/utils/services/GameHubService";
@@ -28,13 +28,15 @@ import FindMoves from "../../../shared/utils/chess-game/FindMoves";
 import { makeMove } from "../../../shared/utils/chess-game/MakeMove";
 import { onClearHighlights, onHighlightFile } from "../../../shared/utils/chess-game/BoardVisualization";
 import GameBoardSearching from "./game-board-searching/GameBoardSearching";
-import { dangerColor } from "../../../shared/utils/enums/colorMaps";
+import { dangerColor } from "../../../shared/utils/objects/colorMaps";
 import { Guid } from "guid-typescript";
 import IconCreator from "../../../shared/components/icon-creator/IconCreator";
 import { symbolIcons } from "../../../shared/svgs/iconsMap/SymbolIcons";
 import GameBoardConfirm from "./game-board-confirm/GameBoardConfirm";
 import { defaultPiecesImages } from "../../../shared/svgs/iconsMap/DefaultPieceImageSvgs";
-import { GameActionInterface } from "../../../shared/utils/enums/interfacesEnums";
+import { GameActionInterface } from "../../../shared/utils/objects/interfacesEnums";
+import { PieceTag } from "../../../shared/utils/objects/constantLists";
+import { SMatrix } from "../../../shared/utils/types/commonTypes";
 
 type GameBoardProps = {
   // game id
@@ -140,7 +142,8 @@ function GameBoard({
 
   const updateStates = () => {
     const setMatrix = (position: string): string[][] => {
-      const matrix: string[][] = [[]];
+      const matrix: SMatrix = [[]]; // containing first for
+
       let row: number = 0;
       for (let i = 0; i < position.length; i++) {
         const char = position[i];
@@ -230,13 +233,13 @@ function GameBoard({
       if (noMove) {
         if (playerData.color === PieceColor.white && gameStates.checkAreas.black.length !== 0) {
           // white has been check mated
-          endGame(playerData.color, EndGameTypes.checkMate);
+          endGame(playerData.color, GameEndReason.checkMate);
         } else if (playerData.color === PieceColor.black && gameStates.checkAreas.white.length !== 0) {
           // black has been check mated
-          endGame(playerData.color, EndGameTypes.checkMate);
+          endGame(playerData.color, GameEndReason.checkMate);
         } else {
           // draw
-          endGame(null, EndGameTypes.staleMate);
+          endGame(null, GameEndReason.staleMate);
         }
       }
     }
@@ -325,20 +328,20 @@ function GameBoard({
             {/* piece icon */}
             <IconCreator
               icons={defaultPiecesImages}
-              iconName={char.toLowerCase()}
+              iconName={char.toLowerCase() as PieceTag}
               iconClass={classes["piece-svg"]}
-              color={getPiecesSideColor(char)}
+              color={getPieceSideColor(char as PieceTag)}
             />
 
             {/* capture icon */}
             {showCapture && (
               <div className={classes.capture}>
-                <IconCreator icons={symbolIcons} iconName="x" iconClass={classes.x} color={dangerColor.mid} />
+                <IconCreator icons={symbolIcons} iconName={"x"} iconClass={classes.x} color={dangerColor.mid} />
                 <IconCreator
                   icons={defaultPiecesImages}
-                  iconName={capturedPiece.toLowerCase()}
+                  iconName={capturedPiece.toLowerCase() as PieceTag}
                   iconClass={classes["capture-svg"]}
-                  color={getPiecesSideColor(capturedPiece)}
+                  color={getPieceSideColor(capturedPiece as PieceTag)}
                 />
               </div>
             )}

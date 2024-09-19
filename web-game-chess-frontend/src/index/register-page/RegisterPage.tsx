@@ -3,10 +3,10 @@ import classes from "./RegisterPage.module.scss";
 import SignUpModal from "./register-modals/SignUpModal";
 import SignInModal from "./register-modals/SignInModal";
 import { useLocation, useNavigate } from "react-router-dom";
-import { mainColor } from "../../shared/utils/enums/colorMaps";
+import { mainColor } from "../../shared/utils/objects/colorMaps";
 import ActionButton from "../../shared/components/action-button/ActionButton";
 import VerifyEmailModal from "./register-modals/VerifyEmailModal";
-import { RegistrationInterface, StateWithRegOption } from "../../shared/utils/enums/interfacesEnums";
+import { RegistrationInterface, StateWithRegOption } from "../../shared/utils/objects/interfacesEnums";
 import MainPopUp from "../../shared/components/main-popup/MainPopUp";
 import IconCreator from "../../shared/components/icon-creator/IconCreator";
 import { registerPageIcons } from "./RegisterPageIcons";
@@ -187,7 +187,12 @@ function RegisterPage() {
             ${modalClass}
           `}
         >
-          <IconCreator icons={registerPageIcons} iconName="lock" color={mainColor.c7} iconClass={classes["lock-svg"]} />
+          <IconCreator
+            icons={registerPageIcons}
+            iconName={"lock"}
+            color={mainColor.c7}
+            iconClass={classes["lock-svg"]}
+          />
           {renderModal()}
         </div>
         {/* --- */}

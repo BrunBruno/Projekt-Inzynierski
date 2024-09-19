@@ -1,9 +1,10 @@
 /* error related global functions */
 
 import { AxiosError } from "axios";
+import { SetStateAction } from "react";
 
 // Gets messages for registration errors to display
-export const errorDisplay = (error: any, action: (value: React.SetStateAction<string>) => void) => {
+export const errorDisplay = (error: any, action: (value: SetStateAction<string>) => void) => {
   console.log(error);
 
   if (error.response && checkError(error)) {

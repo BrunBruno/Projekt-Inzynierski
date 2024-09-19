@@ -1,5 +1,5 @@
-import { ColorValue } from "../../utils/enums/colorMaps";
-import { PieceTag } from "../../utils/enums/commonConstLists";
+import { ColorValue } from "../../utils/objects/colorMaps";
+import { PieceTag } from "../../utils/objects/constantLists";
 import { IconMap } from "../../utils/types/commonTypes";
 
 type IconNames = PieceTag;

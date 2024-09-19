@@ -6,7 +6,7 @@ import { GetAllInvitationsModel } from "../../../../shared/utils/types/gameModel
 import { useEffect, useRef, useState } from "react";
 import InvitationCard from "./invitation-card/InvitationCard";
 import LoadingPage from "../../../../shared/components/loading-page/LoadingPage";
-import { getErrMessage } from "../../../../shared/utils/functions/displayError";
+import { getErrMessage } from "../../../../shared/utils/functions/errors";
 import { usePopup } from "../../../../shared/utils/hooks/usePopUp";
 import { PagedResult } from "../../../../shared/utils/types/abstractDtosAndModels";
 import InvitationEmptyCard from "./invitation-empty-card/InvitationEmptyCard";

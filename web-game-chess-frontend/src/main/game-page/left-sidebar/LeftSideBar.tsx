@@ -1,16 +1,16 @@
 import { useNavigate } from "react-router-dom";
 import LogoIcon from "../../../shared/svgs/icons/LogoIcon";
-import { EndGameTypes, PieceColor } from "../../../shared/utils/enums/entitiesEnums";
+import { GameEndReason, PieceColor } from "../../../shared/utils/objects/entitiesEnums";
 import GameHubService from "../../../shared/utils/services/GameHubService";
 import { GetGameDto, GetPlayerDto } from "../../../shared/utils/types/gameDtos";
 import { EndGameModel } from "../../../shared/utils/types/gameModels";
 import classes from "./LeftSideBar.module.scss";
 import { usePopup } from "../../../shared/utils/hooks/usePopUp";
-import { getErrMessage } from "../../../shared/utils/functions/displayError";
+import { getErrMessage } from "../../../shared/utils/functions/errors";
 import { Guid } from "guid-typescript";
 import IconCreator from "../../../shared/components/icon-creator/IconCreator";
 import { leftSideBarIcons } from "./LeftSideBarIcons";
-import { GameActionInterface } from "../../../shared/utils/enums/interfacesEnums";
+import { GameActionInterface } from "../../../shared/utils/objects/interfacesEnums";
 import { Dispatch, SetStateAction } from "react";
 
 type LeftSideBarProps = {
@@ -34,7 +34,7 @@ function LeftSideBar({ gameId, playerData, gameData, setShowConfirm, setConfirmA
   const { showPopup } = usePopup();
 
   // to finish the game by some action option
-  const endGame = async (loserColor: PieceColor | null, endGameType: EndGameTypes): Promise<void> => {
+  const endGame = async (loserColor: PieceColor | null, endGameType: GameEndReason): Promise<void> => {
     try {
       const loserPlayer: EndGameModel = {
         gameId: gameId,
@@ -62,9 +62,9 @@ function LeftSideBar({ gameId, playerData, gameData, setShowConfirm, setConfirmA
   // to abort from game
   const onAbort = (): void => {
     if (gameData.turn === 0 || gameData.turn === 1) {
-      endGame(null, EndGameTypes.agreement);
+      endGame(null, GameEndReason.agreement);
     } else {
-      endGame(playerData.color, EndGameTypes.resignation);
+      endGame(playerData.color, GameEndReason.resignation);
     }
 
     navigate("/main");
@@ -73,7 +73,7 @@ function LeftSideBar({ gameId, playerData, gameData, setShowConfirm, setConfirmA
 
   // to resign the game
   const onResign = (): void => {
-    endGame(playerData.color, EndGameTypes.resignation);
+    endGame(playerData.color, GameEndReason.resignation);
   };
   //*/
 
@@ -128,7 +128,7 @@ function LeftSideBar({ gameId, playerData, gameData, setShowConfirm, setConfirmA
               onSelectAction(GameActionInterface.abort);
             }}
           >
-            <IconCreator icons={leftSideBarIcons} iconName="abort" />
+            <IconCreator icons={leftSideBarIcons} iconName={"abort"} />
             <span>Leave game</span>
           </li>
 
@@ -138,7 +138,7 @@ function LeftSideBar({ gameId, playerData, gameData, setShowConfirm, setConfirmA
               onSelectAction(GameActionInterface.resign);
             }}
           >
-            <IconCreator icons={leftSideBarIcons} iconName="resign" />
+            <IconCreator icons={leftSideBarIcons} iconName={"resign"} />
             <span>Resign</span>
           </li>
 
@@ -148,7 +148,7 @@ function LeftSideBar({ gameId, playerData, gameData, setShowConfirm, setConfirmA
               onSelectAction(GameActionInterface.draw);
             }}
           >
-            <IconCreator icons={leftSideBarIcons} iconName="draw" />
+            <IconCreator icons={leftSideBarIcons} iconName={"draw"} />
             <span>Offer Draw</span>
           </li>
         </ul>

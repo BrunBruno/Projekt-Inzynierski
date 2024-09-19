@@ -1,4 +1,4 @@
-import { ColorValue } from "../../utils/enums/colorMaps";
+import { ColorValue } from "../../utils/objects/colorMaps";
 import { IconMap } from "../../utils/types/commonTypes";
 
 type IconCreatorProps<T extends string> = {

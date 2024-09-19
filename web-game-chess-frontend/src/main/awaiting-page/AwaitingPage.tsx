@@ -5,7 +5,7 @@ import GameHubService from "../../shared/utils/services/GameHubService";
 import { useTimingType } from "../../shared/utils/hooks/useTimingType";
 import { HubConnectionState } from "@microsoft/signalr";
 import { usePopup } from "../../shared/utils/hooks/usePopUp";
-import { getErrMessage } from "../../shared/utils/functions/displayError";
+import { getErrMessage } from "../../shared/utils/functions/errors";
 import axios from "axios";
 import { CheckIfUpdateRequiredDto, GetGameTimingDto } from "../../shared/utils/types/gameDtos";
 import { gameControllerPaths, getAuthorization } from "../../shared/utils/services/ApiService";
@@ -51,7 +51,7 @@ function AwaitingPage() {
       try {
         const response = await axios.get<CheckIfUpdateRequiredDto>(
           gameControllerPaths.checkIfUpdateRequired(gameId),
-          getAuthorization(),
+          getAuthorization()
         );
 
         if (response.data.isRequired) {

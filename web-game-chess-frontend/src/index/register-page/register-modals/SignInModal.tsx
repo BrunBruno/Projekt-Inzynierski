@@ -1,13 +1,13 @@
-import { useRef, useState } from "react";
-import { mainColor } from "../../../shared/utils/enums/colorMaps";
+import { Dispatch, FormEvent, RefObject, SetStateAction, useRef, useState } from "react";
+import { mainColor } from "../../../shared/utils/objects/colorMaps";
 import classes from "./RegisterModal.module.scss";
 import axios from "axios";
 import { getAuthorization, userControllerPaths } from "../../../shared/utils/services/ApiService";
 import { useNavigate } from "react-router-dom";
 import LoadingPage from "../../../shared/components/loading-page/LoadingPage";
-import { errorDisplay } from "../../../shared/utils/functions/displayError";
+import { errorDisplay } from "../../../shared/utils/functions/errors";
 import { IsEmailVerifiedDto, LogInUserDto } from "../../../shared/utils/types/userDtos";
-import { RegistrationInterface } from "../../../shared/utils/enums/interfacesEnums";
+import { RegistrationInterface } from "../../../shared/utils/objects/interfacesEnums";
 import { LogInUserModel } from "../../../shared/utils/types/userModels";
 import IconCreator from "../../../shared/components/icon-creator/IconCreator";
 import { registerPageIcons } from "../RegisterPageIcons";
@@ -16,7 +16,7 @@ type SignInModalProps = {
   // path that user wanted
   userPath: string;
   // to change displayed modal
-  setModal: React.Dispatch<React.SetStateAction<number>>;
+  setModal: Dispatch<SetStateAction<number>>;
 };
 
 function SignInModal({ userPath, setModal }: SignInModalProps) {
@@ -37,7 +37,7 @@ function SignInModal({ userPath, setModal }: SignInModalProps) {
   // sign in user
   // set validation token
   // redirect to main
-  const signInUser = async (event: React.FormEvent<HTMLFormElement>): Promise<void> => {
+  const signInUser = async (event: FormEvent<HTMLFormElement>): Promise<void> => {
     event.preventDefault();
 
     if (!emailInputRef.current || !passwordInputRef.current) {
@@ -96,7 +96,7 @@ function SignInModal({ userPath, setModal }: SignInModalProps) {
 
   // handle click
   // focus to input
-  const focusOnClick = (inputRef: React.RefObject<HTMLInputElement>): void => {
+  const focusOnClick = (inputRef: RefObject<HTMLInputElement>): void => {
     if (inputRef.current) {
       inputRef.current.focus();
       inputRef.current.classList.remove(classes.err);
@@ -108,7 +108,7 @@ function SignInModal({ userPath, setModal }: SignInModalProps) {
 
   return (
     <form className={classes["registration-form"]} onSubmit={(event) => signInUser(event)}>
-      <IconCreator icons={registerPageIcons} iconName="bgPawn" color={mainColor.c0} iconClass={classes["bg-svg"]} />
+      <IconCreator icons={registerPageIcons} iconName={"bgPawn"} color={mainColor.c0} iconClass={classes["bg-svg"]} />
 
       <h2 className={classes["form-title"]}>Login Now</h2>
 
@@ -133,7 +133,7 @@ function SignInModal({ userPath, setModal }: SignInModalProps) {
             className={classes["form-input"]}
           />
 
-          <IconCreator icons={registerPageIcons} iconName="arrow" color={"none"} iconClass={classes.arrow} />
+          <IconCreator icons={registerPageIcons} iconName="arrow" iconClass={classes.arrow} />
         </div>
 
         <div
@@ -151,7 +151,7 @@ function SignInModal({ userPath, setModal }: SignInModalProps) {
             className={classes["form-input"]}
           />
 
-          <IconCreator icons={registerPageIcons} iconName="arrow" color={"none"} iconClass={classes.arrow} />
+          <IconCreator icons={registerPageIcons} iconName={"arrow"} iconClass={classes.arrow} />
         </div>
       </div>
       {/* --- */}

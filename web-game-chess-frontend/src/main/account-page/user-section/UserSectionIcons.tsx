@@ -1,7 +1,9 @@
-import { greyColor, mainColor } from "../../../shared/utils/enums/colorMaps";
+import { greyColor, mainColor } from "../../../shared/utils/objects/colorMaps";
 import { IconMap } from "../../../shared/utils/types/commonTypes";
 
-export const userSectionIcons: IconMap = {
+type IconNames = "image" | "settings" | "friends";
+
+export const userSectionIcons: IconMap<IconNames> = {
   image: () => (
     <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
       <path

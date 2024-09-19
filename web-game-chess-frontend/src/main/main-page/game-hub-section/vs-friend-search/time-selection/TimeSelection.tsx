@@ -5,8 +5,10 @@ import { GetByEmailDto } from "../../../../../shared/utils/types/userDtos";
 import classes from "./TimeSelection.module.scss";
 import { defaultTimeControls, TimeControl } from "./TimeSelectionData";
 import IconCreator from "../../../../../shared/components/icon-creator/IconCreator";
-import { mainColor } from "../../../../../shared/utils/enums/colorMaps";
-import { timingTypesIcons } from "../../../../../shared/svgs/iconsMap/TimingTypesIcons";
+import { mainColor } from "../../../../../shared/utils/objects/colorMaps";
+import { timingTypeIcons } from "../../../../../shared/svgs/iconsMap/TimingTypeIcons";
+import { TimingTypeName } from "../../../../../shared/utils/objects/constantLists";
+import { Dispatch, SetStateAction } from "react";
 
 type TimeSelectionProps = {
   // user data when friend selected manually
@@ -16,11 +18,11 @@ type TimeSelectionProps = {
   // if url should be displayed
   selectedByUrl: boolean;
   // to unselect friend
-  setSelectedFriend: React.Dispatch<React.SetStateAction<GetAllFriendsByStatusDto | null>>;
+  setSelectedFriend: Dispatch<SetStateAction<GetAllFriendsByStatusDto | null>>;
   // to unselect friend
-  setSelectedUser: React.Dispatch<React.SetStateAction<GetByEmailDto | null>>;
+  setSelectedUser: Dispatch<SetStateAction<GetByEmailDto | null>>;
   // to unselect url option
-  setSelectedByUrl: React.Dispatch<React.SetStateAction<boolean>>;
+  setSelectedByUrl: Dispatch<SetStateAction<boolean>>;
   // to invite to private game via click
   onInviteBySelection: (friendshipId: Guid, header: string, values: number[]) => void;
   // to invite to private game by email
@@ -103,8 +105,8 @@ function TimeSelection({
         <div key={index} className={classes.time__row}>
           <div className={classes.time__row__header}>
             <IconCreator
-              icons={timingTypesIcons}
-              iconName={control.header.toLocaleLowerCase()}
+              icons={timingTypeIcons}
+              iconName={control.header.toLocaleLowerCase() as TimingTypeName}
               iconClass={classes["header-icon"]}
               color={mainColor.c5}
             />

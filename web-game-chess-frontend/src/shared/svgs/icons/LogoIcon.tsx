@@ -1,4 +1,4 @@
-import { generateRandomId } from "../../utils/functions/generateRandom";
+import { generateRandomId } from "../../utils/functions/random";
 import { IconSvgProps } from "../../utils/types/commonTypes";
 
 function LogoIcon({ iconClass }: IconSvgProps): JSX.Element {

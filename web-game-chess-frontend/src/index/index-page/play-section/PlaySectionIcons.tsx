@@ -1,7 +1,9 @@
 import { IconMap } from "../../../shared/utils/types/commonTypes";
 import classes from "./PlaySection.module.scss";
 
-export const playSectionIcons: IconMap = {
+type IconNames = "online" | "offline";
+
+export const playSectionIcons: IconMap<IconNames> = {
   online: (iconClass?: string) => (
     <svg
       className={`${iconClass} ${classes["vs-player-icon"]}`}

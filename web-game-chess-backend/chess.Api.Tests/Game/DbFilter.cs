@@ -251,7 +251,7 @@ internal static partial class DbFilter {
                 TimingType = i >= 50 ? TimingTypes.Rapid : TimingTypes.Bullet,
                 GameTimingId = i >= 50 ? rapidTiming.Id : bulletTiming.Id,
 
-                EndGameType = i % 5 == 0 ? EndGameTypes.CheckMate : EndGameTypes.Resignation,
+                EndGameType = i % 5 == 0 ? GameEndReason.CheckMate : GameEndReason.Resignation,
                 WinnerColor = i % 4 == 0 ? Colors.White : Colors.Black,
 
                 GameState = new GameState() { },

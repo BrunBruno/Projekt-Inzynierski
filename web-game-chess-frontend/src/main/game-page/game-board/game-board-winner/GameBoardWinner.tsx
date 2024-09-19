@@ -5,10 +5,11 @@ import { SearchGameModel } from "../../../../shared/utils/types/gameModels";
 import { gameControllerPaths, getAuthorization } from "../../../../shared/utils/services/ApiService";
 import axios from "axios";
 import GameHubService from "../../../../shared/utils/services/GameHubService";
-import { getErrMessage } from "../../../../shared/utils/functions/displayError";
+import { getErrMessage } from "../../../../shared/utils/functions/errors";
 import { usePopup } from "../../../../shared/utils/hooks/usePopUp";
 import AvatarImage from "../../../../shared/components/avatar-image/AvatarImage";
-import { PieceColor } from "../../../../shared/utils/enums/entitiesEnums";
+import { PieceColor } from "../../../../shared/utils/objects/entitiesEnums";
+import { Dispatch, SetStateAction } from "react";
 
 type GameBoardWinnerProps = {
   // current game data
@@ -16,8 +17,8 @@ type GameBoardWinnerProps = {
   // game result data data
   winner: EndGameDto | GetEndedGameDto | null;
   // to start new game search
-  setSearchIds: React.Dispatch<React.SetStateAction<SearchGameDto | null>>;
-  //
+  setSearchIds: Dispatch<SetStateAction<SearchGameDto | null>>;
+  // timing for new game or rematch
   selectedTiming: SearchGameModel | null;
 };
 
@@ -29,7 +30,7 @@ function GameBoardWinner({ winner, gameData, setSearchIds, selectedTiming }: Gam
   const { showPopup } = usePopup();
 
   // to search for new game
-  const onSearchForGame = async () => {
+  const onSearchForGame = async (): Promise<void> => {
     if (selectedTiming === null) return;
 
     const gameType: SearchGameModel = selectedTiming;
@@ -50,7 +51,7 @@ function GameBoardWinner({ winner, gameData, setSearchIds, selectedTiming }: Gam
   };
   //*/
 
-  if (!winner) return;
+  if (!winner) return <></>;
 
   return (
     <div className={classes.winner}>

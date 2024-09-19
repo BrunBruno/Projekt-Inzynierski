@@ -2,12 +2,13 @@ import { GetTypeHistoryDto } from "../../../shared/utils/types/gameDtos";
 import classes from "./HistorySection.module.scss";
 import { LineChart } from "@mui/x-charts";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
-import { mainColor } from "../../../shared/utils/enums/colorMaps";
-import { formatDate } from "../../../shared/utils/functions/dateTimeRelated";
+import { mainColor } from "../../../shared/utils/objects/colorMaps";
+import { formatDate } from "../../../shared/utils/functions/dateTime";
 import { PagedResult } from "../../../shared/utils/types/abstractDtosAndModels";
 import IconCreator from "../../../shared/components/icon-creator/IconCreator";
-import { timingTypesIcons } from "../../../shared/svgs/iconsMap/TimingTypesIcons";
+import { timingTypeIcons } from "../../../shared/svgs/iconsMap/TimingTypeIcons";
 import HistoryRecord from "./history-record/HistoryRecord";
+import { TimingTypeName } from "../../../shared/utils/objects/constantLists";
 
 type HistorySectionProps = {
   // game type name
@@ -120,8 +121,8 @@ function HistorySection({ selectedType, typeHistory }: HistorySectionProps) {
     <div className={classes.history}>
       <h2 className={classes["history-title"]}>
         <IconCreator
-          icons={timingTypesIcons}
-          iconName={selectedType.toLocaleLowerCase()}
+          icons={timingTypeIcons}
+          iconName={selectedType.toLocaleLowerCase() as TimingTypeName}
           iconClass={classes["type-icon"]}
           color={mainColor.c0}
         />

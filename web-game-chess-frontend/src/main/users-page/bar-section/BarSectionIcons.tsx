@@ -1,8 +1,10 @@
-import { greyColor } from "../../../shared/utils/enums/colorMaps";
+import { greyColor } from "../../../shared/utils/objects/colorMaps";
 import { IconMap } from "../../../shared/utils/types/commonTypes";
 import classes from "./BarSection.module.scss";
 
-export const barSectionIcons: IconMap = {
+type IconNames = "all" | "accepted" | "pending" | "rejected";
+
+export const barSectionIcons: IconMap<IconNames> = {
   all: () => (
     <svg className={classes["panel-svg"]} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
       <path

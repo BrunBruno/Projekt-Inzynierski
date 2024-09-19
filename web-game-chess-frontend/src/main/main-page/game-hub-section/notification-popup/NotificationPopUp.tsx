@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import classes from "./NotificationPopUp.module.scss";
 import GameHubService from "../../../../shared/utils/services/GameHubService";
 import { InvitedToGameDto } from "../../../../shared/utils/types/gameDtos";
@@ -8,7 +8,7 @@ import {
   SearchGameModel,
 } from "../../../../shared/utils/types/gameModels";
 import { usePopup } from "../../../../shared/utils/hooks/usePopUp";
-import { getErrMessage } from "../../../../shared/utils/functions/displayError";
+import { getErrMessage } from "../../../../shared/utils/functions/errors";
 import { useTimingType } from "../../../../shared/utils/hooks/useTimingType";
 import { HubConnectionState } from "@microsoft/signalr";
 
@@ -16,17 +16,17 @@ type NotificationPopUpProps = {
   // if notification should be displayed
   allowNotification: boolean;
   // to remove notification
-  setAllowNotification: React.Dispatch<React.SetStateAction<boolean>>;
+  setAllowNotification: Dispatch<SetStateAction<boolean>>;
 };
 
 function NotificationPopUp({ allowNotification, setAllowNotification }: NotificationPopUpProps) {
   ///
 
-  const [notification, setNotification] = useState<InvitedToGameDto | null>(null);
-
   const { showPopup } = usePopup();
-
   const { setTimingType } = useTimingType();
+
+  // received notification content
+  const [notification, setNotification] = useState<InvitedToGameDto | null>(null);
 
   // to obtain notifications
   const handleNotificationChange = (invitationDto: InvitedToGameDto): void => {

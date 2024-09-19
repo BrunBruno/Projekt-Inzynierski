@@ -1,7 +1,7 @@
 /* game controller models to requests */
 
-import { TimingType, PieceColor, GameEndReason } from "../enums/entitiesEnums";
-import { BlackPieceType, WhitePieceType } from "../enums/piecesMaps";
+import { TimingType, PieceColor, GameEndReason } from "../objects/entitiesEnums";
+import { BlackPieceType, WhitePieceType } from "../objects/piecesNameMaps";
 import { PagedModel, TimingTypeModel } from "./abstractDtosAndModels";
 import { Guid } from "guid-typescript";
 

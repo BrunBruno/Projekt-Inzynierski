@@ -100,8 +100,8 @@ public class CreateRematchGameRequestHandler : IRequestHandler<CreateRematchGame
         game.WhitePlayerId = randomChoice ? userPlayer.Id : opponentPlayer.Id;
         game.BlackPlayerId = randomChoice ? opponentPlayer.Id : userPlayer.Id;
 
-        userPlayer.Color = randomChoice ? Colors.White : Colors.Black;
-        opponentPlayer.Color = randomChoice ? Colors.Black : Colors.White;
+        userPlayer.Color = randomChoice ? PieceColor.White : PieceColor.Black;
+        opponentPlayer.Color = randomChoice ? PieceColor.Black : PieceColor.White;
 
 
         var gameState = new GameState()

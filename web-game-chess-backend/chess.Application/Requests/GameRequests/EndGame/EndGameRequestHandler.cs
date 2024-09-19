@@ -38,16 +38,16 @@ public class EndGameRequestHandler : IRequestHandler<EndGameRequest, EndGameDto>
 
         if((
             request.LoserColor == null && 
-                (request.EndGameType == EndGameTypes.CheckMate ||
-                request.EndGameType == EndGameTypes.OutOfTime ||
-                request.EndGameType == EndGameTypes.Resignation)
+                (request.EndGameType == GameEndReason.CheckMate ||
+                request.EndGameType == GameEndReason.OutOfTime ||
+                request.EndGameType == GameEndReason.Resignation)
             ) || (
             request.LoserColor != null &&
-                (request.EndGameType == EndGameTypes.StaleMate ||
-                request.EndGameType == EndGameTypes.Threefold ||
-                request.EndGameType == EndGameTypes.Agreement ||
-                request.EndGameType == EndGameTypes.FiftyMovesRule ||
-                request.EndGameType == EndGameTypes.InsufficientMaterial)
+                (request.EndGameType == GameEndReason.StaleMate ||
+                request.EndGameType == GameEndReason.Threefold ||
+                request.EndGameType == GameEndReason.Agreement ||
+                request.EndGameType == GameEndReason.FiftyMovesRule ||
+                request.EndGameType == GameEndReason.InsufficientMaterial)
             )){
             throw new BadRequestException("Incorrect game result.");
         }
@@ -110,19 +110,19 @@ public class EndGameRequestHandler : IRequestHandler<EndGameRequest, EndGameDto>
             }
 
             switch (request.EndGameType) {
-                case EndGameTypes.CheckMate:
+                case GameEndReason.CheckMate:
 
                     whiteUser.Stats.LosesByCheckMate += 1;
                     blackUser.Stats.WinsByCheckMate += 1;
 
                     break;
-                case EndGameTypes.OutOfTime:
+                case GameEndReason.OutOfTime:
 
                     whiteUser.Stats.LosesByTimeout += 1;
                     blackUser.Stats.WinsByTimeout += 1;
 
                     break;
-                case EndGameTypes.Resignation:
+                case GameEndReason.Resignation:
 
                     whiteUser.Stats.LosesByResignation += 1;
                     blackUser.Stats.WinsByResignation += 1;
@@ -153,19 +153,19 @@ public class EndGameRequestHandler : IRequestHandler<EndGameRequest, EndGameDto>
             }
 
             switch (request.EndGameType) {
-                case EndGameTypes.CheckMate:
+                case GameEndReason.CheckMate:
 
                     whiteUser.Stats.WinsByCheckMate += 1;
                     blackUser.Stats.LosesByCheckMate += 1;
 
                     break;
-                case EndGameTypes.OutOfTime:
+                case GameEndReason.OutOfTime:
 
                     whiteUser.Stats.WinsByTimeout += 1;
                     blackUser.Stats.LosesByTimeout += 1;
 
                     break;
-                case EndGameTypes.Resignation:
+                case GameEndReason.Resignation:
 
                     whiteUser.Stats.WinsByResignation += 1;
                     blackUser.Stats.LosesByResignation += 1;

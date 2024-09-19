@@ -42,7 +42,7 @@ function MainNav() {
             navigate("/main/account");
           }}
         >
-          <IconCreator icons={mainNavIcons} iconName="account" />
+          <IconCreator icons={mainNavIcons} iconName={"accountPage"} />
           <span className={classes.ind}>Account</span>
         </div>
 
@@ -52,7 +52,7 @@ function MainNav() {
             navigate("/main/users");
           }}
         >
-          <IconCreator icons={mainNavIcons} iconName="addFriend" />
+          <IconCreator icons={mainNavIcons} iconName={"friendsPage"} />
           <span className={classes.ind}>Add friend</span>
         </div>
 
@@ -71,7 +71,7 @@ function MainNav() {
             onLogOut();
           }}
         >
-          <IconCreator icons={mainNavIcons} iconName="logOut" />
+          <IconCreator icons={mainNavIcons} iconName={"logOut"} />
           <span className={classes.ind}>Log out</span>
         </div>
       </div>

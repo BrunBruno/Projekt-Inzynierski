@@ -1,14 +1,24 @@
 import classes from "./LearnBlocks.module.scss";
-import { useEffect, useRef, useState } from "react";
-import { createOneTimeObserver } from "../../../../shared/utils/functions/createOneTimeObserver";
-import { mainColor } from "../../../../shared/utils/enums/colorMaps";
+import { RefObject, useEffect, useRef, useState } from "react";
+import { createOneTimeObserver } from "../../../../shared/utils/functions/observers";
+import { mainColor } from "../../../../shared/utils/objects/colorMaps";
 import { SectionData, sectionData } from "./LearnBlocksData";
 import IconCreator from "../../../../shared/components/icon-creator/IconCreator";
 import { learnBlocksIcons } from "./LearnBlocksIcons";
 import { defaultPiecesImages } from "../../../../shared/svgs/iconsMap/DefaultPieceImageSvgs";
 import { symbolIcons } from "../../../../shared/svgs/iconsMap/SymbolIcons";
-import { BlackPieceTag, PieceTag, WhitePieceTag } from "../../../../shared/utils/enums/commonConstLists";
-import { getPieceSideColor } from "../../../../shared/utils/enums/piecesMaps";
+import { BlackPieceTag, PieceTag, WhitePieceTag } from "../../../../shared/utils/objects/constantLists";
+import { getPieceSideColor } from "../../../../shared/utils/objects/piecesNameMaps";
+
+// row block components
+interface SectionBlock {
+  title: string;
+  text: string;
+  iconName: string;
+  iconRef: RefObject<HTMLDivElement>;
+  textRef: RefObject<HTMLDivElement>;
+  lineRef: RefObject<HTMLDivElement>;
+}
 
 type LearnBlocksProps = {};
 
@@ -19,16 +29,6 @@ const LearnBlocks = ({}: LearnBlocksProps) => {
   const [wasActive, setWasActive] = useState(false);
   // for counter animation
   const [count, setCount] = useState<number>(0);
-
-  // to generate rows
-  type SectionBlock = {
-    title: string;
-    text: string;
-    iconName: string;
-    iconRef: React.RefObject<HTMLDivElement>;
-    textRef: React.RefObject<HTMLDivElement>;
-    lineRef: React.RefObject<HTMLDivElement>;
-  };
 
   const generateSectionBlock = (data: SectionData): SectionBlock => {
     return {
@@ -45,7 +45,7 @@ const LearnBlocks = ({}: LearnBlocksProps) => {
   //*/
 
   // create learn section icons
-  const createIcon = (iconName: string, ref: React.RefObject<HTMLDivElement>): JSX.Element => {
+  const createIcon = (iconName: string, ref: RefObject<HTMLDivElement>): JSX.Element => {
     switch (iconName) {
       case "pieces-icon":
         const pieces: (WhitePieceTag | BlackPieceTag)[] = ["R", "q", "P", "b", "K"];
@@ -63,7 +63,7 @@ const LearnBlocks = ({}: LearnBlocksProps) => {
         return (
           <div ref={ref} className={classes["pieces-con"]}>
             {images}
-            <IconCreator icons={learnBlocksIcons} iconName="board" />
+            <IconCreator icons={learnBlocksIcons} iconName={"gameBoard"} />
           </div>
         );
 
@@ -86,7 +86,7 @@ const LearnBlocks = ({}: LearnBlocksProps) => {
 
         return (
           <div ref={ref} className={classes["counter-con"]}>
-            <IconCreator icons={learnBlocksIcons} iconName="trophy" />
+            <IconCreator icons={learnBlocksIcons} iconName={"trophy"} />
             <div className={classes.screen}>{elements}</div>
           </div>
         );
@@ -94,18 +94,18 @@ const LearnBlocks = ({}: LearnBlocksProps) => {
       case "engine-icon":
         return (
           <div ref={ref} className={classes["engine-con"]}>
-            <IconCreator icons={learnBlocksIcons} iconName="engine" />
-            <IconCreator icons={learnBlocksIcons} iconName="motherBoard" />
+            <IconCreator icons={learnBlocksIcons} iconName={"engine"} />
+            <IconCreator icons={learnBlocksIcons} iconName={"motherBoard"} />
           </div>
         );
 
       case "message-icon":
         return (
           <div ref={ref} className={classes["message-con"]}>
-            <IconCreator icons={learnBlocksIcons} iconName="message" />
-            <IconCreator icons={learnBlocksIcons} iconName="message" />
-            <IconCreator icons={learnBlocksIcons} iconName="message" />
-            <IconCreator icons={learnBlocksIcons} iconName="community" />
+            <IconCreator icons={learnBlocksIcons} iconName={"message"} />
+            <IconCreator icons={learnBlocksIcons} iconName={"message"} />
+            <IconCreator icons={learnBlocksIcons} iconName={"message"} />
+            <IconCreator icons={learnBlocksIcons} iconName={"community"} />
           </div>
         );
 
@@ -185,7 +185,7 @@ const LearnBlocks = ({}: LearnBlocksProps) => {
                 <IconCreator
                   icons={symbolIcons}
                   iconName={"roundArrow"}
-                  color={"dupa"}
+                  color={mainColor.c0}
                   iconClass={classes["text-icon"]}
                 />
                 <span>{block.title}</span>
@@ -205,7 +205,7 @@ const LearnBlocks = ({}: LearnBlocksProps) => {
 
             {/* line */}
             <div ref={block.lineRef} className={classes["row-line-icon"]}>
-              <IconCreator icons={learnBlocksIcons} iconName="pawnLine" />
+              <IconCreator icons={learnBlocksIcons} iconName={"pawnLine"} iconClass={classes["pawn-line"]} />
             </div>
           </div>
         ) : (
@@ -225,7 +225,7 @@ const LearnBlocks = ({}: LearnBlocksProps) => {
               <h3 className={classes["row-h3"]}>
                 <IconCreator
                   icons={symbolIcons}
-                  iconName="roundArrow"
+                  iconName={"roundArrow"}
                   color={mainColor.c0}
                   iconClass={classes["text-icon"]}
                 />
@@ -236,7 +236,7 @@ const LearnBlocks = ({}: LearnBlocksProps) => {
 
             {/* line */}
             <div ref={block.lineRef} className={classes["row-line-icon"]}>
-              <IconCreator icons={learnBlocksIcons} iconName="pawnLine" />
+              <IconCreator icons={learnBlocksIcons} iconName={"pawnLine"} iconClass={classes["pawn-line"]} />
             </div>
           </div>
         )

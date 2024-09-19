@@ -4,19 +4,21 @@ import { gameControllerPaths, getAuthorization } from "../../../../shared/utils/
 import { defaultTimeControls } from "./VsPlayerSearchData";
 import { SearchGameDto } from "../../../../shared/utils/types/gameDtos";
 import GameHubService from "../../../../shared/utils/services/GameHubService";
-import { TimingTypes } from "../../../../shared/utils/enums/entitiesEnums";
 import { SearchGameModel } from "../../../../shared/utils/types/gameModels";
 import { usePopup } from "../../../../shared/utils/hooks/usePopUp";
-import { getErrMessage } from "../../../../shared/utils/functions/displayError";
+import { getErrMessage } from "../../../../shared/utils/functions/errors";
 import { useTimingType } from "../../../../shared/utils/hooks/useTimingType";
-import { getEnumValueByKey } from "../../../../shared/utils/functions/enumRelated";
+import { getEnumValueByKey } from "../../../../shared/utils/functions/enums";
 import IconCreator from "../../../../shared/components/icon-creator/IconCreator";
-import { mainColor } from "../../../../shared/utils/enums/colorMaps";
-import { timingTypesIcons } from "../../../../shared/svgs/iconsMap/TimingTypesIcons";
+import { mainColor } from "../../../../shared/utils/objects/colorMaps";
+import { timingTypeIcons } from "../../../../shared/svgs/iconsMap/TimingTypeIcons";
+import { TimingTypeName } from "../../../../shared/utils/objects/constantLists";
+import { TimingType } from "../../../../shared/utils/objects/entitiesEnums";
+import { Dispatch, SetStateAction } from "react";
 
 type VsPlayerSearchProps = {
   // to set obtained search ids
-  setSearchIds: React.Dispatch<React.SetStateAction<SearchGameDto | null>>;
+  setSearchIds: Dispatch<SetStateAction<SearchGameDto | null>>;
 };
 
 function VsPlayerSearch({ setSearchIds }: VsPlayerSearchProps) {
@@ -26,8 +28,8 @@ function VsPlayerSearch({ setSearchIds }: VsPlayerSearchProps) {
   const { setTimingType } = useTimingType();
 
   // API call search for game
-  const onSearchForGame = async (header: string, values: number[]) => {
-    const typeValue = getEnumValueByKey(TimingTypes, header.toLowerCase());
+  const onSearchForGame = async (header: string, values: [number, number]) => {
+    const typeValue = getEnumValueByKey(TimingType, header.toLowerCase());
 
     const gameTimingType: SearchGameModel = {
       type: typeValue,
@@ -96,8 +98,8 @@ function VsPlayerSearch({ setSearchIds }: VsPlayerSearchProps) {
           <div key={index} className={classes.search__grid__row}>
             <div className={classes.search__grid__row__header}>
               <IconCreator
-                icons={timingTypesIcons}
-                iconName={control.header.toLocaleLowerCase()}
+                icons={timingTypeIcons}
+                iconName={control.header.toLocaleLowerCase() as TimingTypeName}
                 iconClass={classes["header-icon"]}
                 color={mainColor.c5}
               />

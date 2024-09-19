@@ -1,6 +1,16 @@
-import React, { forwardRef, useEffect, useImperativeHandle, useRef, useState } from "react";
+import {
+  Dispatch,
+  ForwardedRef,
+  forwardRef,
+  RefObject,
+  SetStateAction,
+  useEffect,
+  useImperativeHandle,
+  useRef,
+  useState,
+} from "react";
 import classes from "./FaqSection.module.scss";
-import { mainColor } from "../../../shared/utils/enums/colorMaps";
+import { mainColor } from "../../../shared/utils/objects/colorMaps";
 import { accountAndUserProfileFAQs, gameplayAndFeaturesFAQs } from "./FaqSectionData";
 import { HandleOnScroll } from "../../../shared/utils/types/commonTypes";
 import FaqSectionCard from "./faq-section-card/FaqSectionCard";
@@ -10,29 +20,33 @@ import { faqSectionIcons } from "./FaqSectionIcons";
 
 type FaqSectionProps = {
   // section container ref
-  sectionRef: React.RefObject<HTMLElement>;
+  sectionRef: RefObject<HTMLElement>;
 };
 
 const FaqSection = forwardRef<HandleOnScroll, FaqSectionProps>(
-  ({ sectionRef }: FaqSectionProps, ref: React.ForwardedRef<HandleOnScroll>) => {
+  ({ sectionRef }: FaqSectionProps, ref: ForwardedRef<HandleOnScroll>) => {
     ///
 
+    // cards rows refs
     const row1Ref = useRef<HTMLDivElement>(null);
     const row2Ref = useRef<HTMLDivElement>(null);
 
+    // cards per page / for resize adjustment
     const [cardCount, setCardCount] = useState<number>(2);
 
+    // for showing and hiding slider arrows
     const [arrRow1Left, setArrRow1Left] = useState<boolean>(false);
     const [arrRow1Right, setArrRow1Right] = useState<boolean>(true);
     const [arrRow2Left, setArrRow2Left] = useState<boolean>(false);
     const [arrRow2Right, setArrRow2Right] = useState<boolean>(true);
 
+    // for displaying slider indicator
     const [row1Indicator, setRow1Indicator] = useState<number>(0);
     const [row2Indicator, setRow2Indicator] = useState<number>(0);
 
     useEffect(() => {
       const handleCardCountOnResize = () => {
-        const resetRow = (element: HTMLDivElement | null, setInd: React.Dispatch<React.SetStateAction<number>>) => {
+        const resetRow = (element: HTMLDivElement | null, setInd: Dispatch<SetStateAction<number>>) => {
           if (element) {
             element.scrollTo({
               left: 0,
@@ -152,7 +166,7 @@ const FaqSection = forwardRef<HandleOnScroll, FaqSectionProps>(
         <div className={classes.section__content}>
           {/* row 1 */}
           <div className={classes.section__content__category}>
-            <IconCreator icons={faqSectionIcons} iconName="account" iconClass={classes["account-category-icon"]} />
+            <IconCreator icons={faqSectionIcons} iconName={"accountFaq"} iconClass={classes["account-category-icon"]} />
             <h3 className={classes["cat-text"]}>Account and User Profile FAQs</h3>
           </div>
 
@@ -169,7 +183,7 @@ const FaqSection = forwardRef<HandleOnScroll, FaqSectionProps>(
             {arrRow1Left && (
               <IconCreator
                 icons={symbolIcons}
-                iconName="arrow"
+                iconName={"arrow"}
                 color={mainColor.c0}
                 iconClass={classes["arrow-left"]}
               />
@@ -195,7 +209,7 @@ const FaqSection = forwardRef<HandleOnScroll, FaqSectionProps>(
             {arrRow1Right && (
               <IconCreator
                 icons={symbolIcons}
-                iconName="arrow"
+                iconName={"arrow"}
                 color={mainColor.c0}
                 iconClass={classes["arrow-right"]}
               />
@@ -211,8 +225,12 @@ const FaqSection = forwardRef<HandleOnScroll, FaqSectionProps>(
 
           {/* row 2 */}
           <div className={classes.section__content__category}>
-            <IconCreator icons={faqSectionIcons} iconName="gameplay" iconClass={classes["gameplay-category-icon"]} />
-            <h3 className={classes["cat-text"]}>Gameplay and Features FAQs</h3>
+            <IconCreator
+              icons={faqSectionIcons}
+              iconName={"gameplayFaq"}
+              iconClass={classes["gameplay-category-icon"]}
+            />
+            <h3 className={classes["cat-text"]}>Gameplay an Features FAQs</h3>
           </div>
 
           <div
@@ -228,7 +246,7 @@ const FaqSection = forwardRef<HandleOnScroll, FaqSectionProps>(
             {arrRow2Left && (
               <IconCreator
                 icons={symbolIcons}
-                iconName="arrow"
+                iconName={"arrow"}
                 color={mainColor.c0}
                 iconClass={classes["arrow-left"]}
               />
@@ -254,7 +272,7 @@ const FaqSection = forwardRef<HandleOnScroll, FaqSectionProps>(
             {arrRow2Right && (
               <IconCreator
                 icons={symbolIcons}
-                iconName="arrow"
+                iconName={"arrow"}
                 color={mainColor.c0}
                 iconClass={classes["arrow-right"]}
               />

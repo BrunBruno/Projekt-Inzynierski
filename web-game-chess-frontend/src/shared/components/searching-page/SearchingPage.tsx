@@ -59,13 +59,7 @@ function SearchingPage({ isPrivate, onCancel }: SearchingPageProps) {
     <div className={classes.searching}>
       <div className={classes.searching__content}>
         <div className={classes.searching__content__background}>
-          <IconCreator
-            icons={searchingPageIcons}
-            iconName="globe"
-            iconClass=""
-            color="none"
-            active={activeIndex !== 0}
-          />
+          <IconCreator icons={searchingPageIcons} iconName={"globe"} active={activeIndex !== 0} />
         </div>
 
         <div className={classes.searching__content__text}>
@@ -81,9 +75,7 @@ function SearchingPage({ isPrivate, onCancel }: SearchingPageProps) {
             <IconCreator
               key={index}
               icons={searchingPageIcons}
-              iconName="pawn"
-              iconClass=""
-              color="none"
+              iconName={"pawn"}
               active={index === activeIndex && !pause}
             />
           ))}

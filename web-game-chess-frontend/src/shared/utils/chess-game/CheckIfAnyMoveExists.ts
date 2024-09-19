@@ -1,5 +1,5 @@
 import { GameStates, SelectionStates } from "../types/gameStates";
-import { checkIfOwnPiece } from "../functions/gameRelated";
+import { checkIfOwnPiece } from "./gameRelated";
 import FindMoves from "./FindMoves";
 
 // to check for checkmates and stalemates

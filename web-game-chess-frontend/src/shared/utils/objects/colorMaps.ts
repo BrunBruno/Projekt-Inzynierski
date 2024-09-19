@@ -1,6 +1,6 @@
 /* shared colors maps */
 
-import { SideColor } from "./commonConstLists";
+import { SideColor } from "./constantLists";
 
 // main color list
 export const mainColor = {

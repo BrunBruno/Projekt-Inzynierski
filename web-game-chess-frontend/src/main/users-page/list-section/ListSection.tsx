@@ -7,15 +7,15 @@ import {
   GetFriendProfileDto,
 } from "../../../shared/utils/types/friendshipDtos";
 import { friendshipControllerPaths, getAuthorization } from "../../../shared/utils/services/ApiService";
-import { useEffect, useRef, useState } from "react";
-import { FriendshipStatus } from "../../../shared/utils/enums/entitiesEnums";
+import { Dispatch, SetStateAction, useEffect, useRef, useState, WheelEvent } from "react";
+import { FriendshipStatus } from "../../../shared/utils/objects/entitiesEnums";
 import UserCard from "./user-cards/UserCard";
 import FriendCard from "./user-cards/FriendCard";
 import usePagination from "../../../shared/utils/hooks/usePagination";
 import { usePopup } from "../../../shared/utils/hooks/usePopUp";
 import LoadingPage from "../../../shared/components/loading-page/LoadingPage";
 import { GetOtherUserDto } from "../../../shared/utils/types/userDtos";
-import { getErrMessage } from "../../../shared/utils/functions/displayError";
+import { getErrMessage } from "../../../shared/utils/functions/errors";
 import { PagedResult } from "../../../shared/utils/types/abstractDtosAndModels";
 
 type ListSectionProps = {
@@ -24,27 +24,29 @@ type ListSectionProps = {
   // type of user/friend list to get
   selectedList: number;
   // set non friend data for profile
-  setUserProfile: React.Dispatch<React.SetStateAction<GetOtherUserDto | null>>;
+  setUserProfile: Dispatch<SetStateAction<GetOtherUserDto | null>>;
   // set  friend data for profile
-  setFriendProfile: React.Dispatch<React.SetStateAction<GetFriendProfileDto | null>>;
+  setFriendProfile: Dispatch<SetStateAction<GetFriendProfileDto | null>>;
 };
 
 function ListSection({ selectedUsername, selectedList, setUserProfile, setFriendProfile }: ListSectionProps) {
   ///
 
+  const { scrollRef, pageNumber, pageSize, totalItemsCount, setDefPageSize, setTotalItemsCount } = usePagination();
+  const { showPopup } = usePopup();
+
+  // user list ref
   const listRef = useRef<HTMLDivElement>(null);
+  // loading list animation ref
   const loadingRef = useRef<HTMLDivElement>(null);
 
+  // users that are friends to current user or not
   const [users, setUsers] = useState<GetAllNonFriendsDto[]>([]);
   const [friends, setFriends] = useState<GetAllFriendsByStatusDto[]>([]);
 
-  const { scrollRef, pageNumber, pageSize, totalItemsCount, setDefPageSize, setTotalItemsCount } = usePagination();
-
-  const { showPopup } = usePopup();
-
   // get users, according to selection
   // get all friends and non friends for user based on choice
-  const getAllUsers = async () => {
+  const getAllUsers = async (): Promise<void> => {
     try {
       // fetch for all other users
       if (selectedList === FriendshipStatus.all) {
@@ -107,7 +109,7 @@ function ListSection({ selectedUsername, selectedList, setUserProfile, setFriend
   // set default page size based on list to elements size ratio
   // add resize handler to update default size
   useEffect(() => {
-    const setDefSize = () => {
+    const setDefSize = (): void => {
       const container = scrollRef.current;
       const itemsPerRow = 2;
 
@@ -145,7 +147,7 @@ function ListSection({ selectedUsername, selectedList, setUserProfile, setFriend
   //*/
 
   // to display loading on scroll
-  const handleLoading = (event: React.WheelEvent<HTMLDivElement>) => {
+  const handleLoading = (event: WheelEvent<HTMLDivElement>) => {
     const loadingElement = loadingRef.current;
     const scrollingElement = scrollRef.current;
 

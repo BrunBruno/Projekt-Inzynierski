@@ -1,7 +1,7 @@
 /* general function shared in game page components */
 
-import { PieceColor } from "../enums/entitiesEnums";
-import { PieceTagMap, pieceTagMap } from "../enums/piecesMaps";
+import { PieceColor } from "../objects/entitiesEnums";
+import { PieceTagMap, pieceTagMap } from "../objects/piecesNameMaps";
 import { GetPlayerDto } from "../types/gameDtos";
 
 // check if player can move

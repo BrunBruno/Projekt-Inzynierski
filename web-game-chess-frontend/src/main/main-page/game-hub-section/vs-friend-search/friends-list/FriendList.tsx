@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import AvatarIcon from "../../../../../shared/svgs/icons/AvatarIcon";
 import { GetAllFriendsByStatusDto } from "../../../../../shared/utils/types/friendshipDtos";
 import classes from "./FriendList.module.scss";
@@ -6,9 +6,9 @@ import usePagination from "../../../../../shared/utils/hooks/usePagination";
 import { GetAllFriendsByStatusModel } from "../../../../../shared/utils/types/friendshipModels";
 import { friendshipControllerPaths, getAuthorization } from "../../../../../shared/utils/services/ApiService";
 import axios from "axios";
-import { FriendshipStatus } from "../../../../../shared/utils/enums/entitiesEnums";
+import { FriendshipStatus } from "../../../../../shared/utils/objects/entitiesEnums";
 import { usePopup } from "../../../../../shared/utils/hooks/usePopUp";
-import { getErrMessage } from "../../../../../shared/utils/functions/displayError";
+import { getErrMessage } from "../../../../../shared/utils/functions/errors";
 import { PagedResult } from "../../../../../shared/utils/types/abstractDtosAndModels";
 import FriendCard from "./friend-card/FriendCard";
 
@@ -16,7 +16,7 @@ type FriendListProps = {
   // username provided in input to filter
   selectedUsername: string;
   // to select user on "invite" button click
-  setSelectedFriend: React.Dispatch<React.SetStateAction<GetAllFriendsByStatusDto | null>>;
+  setSelectedFriend: Dispatch<SetStateAction<GetAllFriendsByStatusDto | null>>;
 };
 
 function FriendList({ selectedUsername, setSelectedFriend }: FriendListProps) {

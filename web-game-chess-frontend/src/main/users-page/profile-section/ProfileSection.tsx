@@ -1,7 +1,7 @@
 import AvatarImage from "../../../shared/components/avatar-image/AvatarImage";
 import IconCreator from "../../../shared/components/icon-creator/IconCreator";
 import { symbolIcons } from "../../../shared/svgs/iconsMap/SymbolIcons";
-import { greyColor } from "../../../shared/utils/enums/colorMaps";
+import { greyColor } from "../../../shared/utils/objects/colorMaps";
 import { GetFriendProfileDto } from "../../../shared/utils/types/friendshipDtos";
 import { GetOtherUserDto } from "../../../shared/utils/types/userDtos";
 import classes from "./ProfileSection.module.scss";
@@ -43,7 +43,7 @@ function ProfileSection({ userProfile, friendProfile, closeProfile }: ProfileSec
                 closeProfile();
               }}
             >
-              <IconCreator icons={symbolIcons} iconName="x" iconClass={classes["close-svg"]} color={greyColor.c6} />
+              <IconCreator icons={symbolIcons} iconName={"x"} iconClass={classes["close-svg"]} color={greyColor.c6} />
             </div>
           </div>
         </div>
@@ -68,7 +68,7 @@ function ProfileSection({ userProfile, friendProfile, closeProfile }: ProfileSec
                 closeProfile();
               }}
             >
-              <IconCreator icons={symbolIcons} iconName="x" iconClass={classes["close-svg"]} color={greyColor.c6} />
+              <IconCreator icons={symbolIcons} iconName={"x"} iconClass={classes["close-svg"]} color={greyColor.c6} />
             </div>
           </div>
         </div>

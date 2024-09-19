@@ -11,7 +11,7 @@ public class EndGameDto {
     /// <summary>
     /// Winner color
     /// </summary>
-    public Colors? WinnerColor { get; set; }
+    public PieceColor? WinnerColor { get; set; }
 
     /// <summary>
     /// Elo gained or lost after the game

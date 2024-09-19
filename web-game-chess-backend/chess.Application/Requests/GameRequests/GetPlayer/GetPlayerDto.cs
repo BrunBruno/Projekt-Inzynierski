@@ -12,5 +12,5 @@ public class GetPlayerDto : PlayerDto {
     /// <summary>
     /// Color representing side of the board 
     /// </summary>
-    public required Colors Color { get; set; }
+    public required PieceColor Color { get; set; }
 }

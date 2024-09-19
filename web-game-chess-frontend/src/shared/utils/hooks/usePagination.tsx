@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { delayAction } from "../functions/eventsRelated";
+import { delayAction } from "../functions/events";
 
 const usePagination = () => {
   // ref to scrollable container

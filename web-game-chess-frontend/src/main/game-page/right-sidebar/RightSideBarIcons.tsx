@@ -1,7 +1,9 @@
-import { mainColor } from "../../../shared/utils/enums/colorMaps";
+import { mainColor } from "../../../shared/utils/objects/colorMaps";
 import { IconMap } from "../../../shared/utils/types/commonTypes";
 
-export const rightSideBarIcons: IconMap = {
+type IconNames = "send";
+
+export const rightSideBarIcons: IconMap<IconNames> = {
   send: (iconClass?: string) => (
     <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className={iconClass}>
       <path

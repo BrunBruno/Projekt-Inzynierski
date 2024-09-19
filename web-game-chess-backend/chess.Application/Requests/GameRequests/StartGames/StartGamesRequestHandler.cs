@@ -72,8 +72,8 @@ public class StartGamesRequestHandler : IRequestHandler<StartGamesRequest> {
                 game.WhitePlayerId = randomChoice ? player.Id : closestPlayer.Id;
                 game.BlackPlayerId = randomChoice ? closestPlayer.Id : player.Id;
 
-                player.Color = randomChoice ? Colors.White : Colors.Black;
-                closestPlayer.Color = randomChoice ? Colors.Black : Colors.White;
+                player.Color = randomChoice ? PieceColor.White : PieceColor.Black;
+                closestPlayer.Color = randomChoice ? PieceColor.Black : PieceColor.White;
 
                 var gameState = new GameState()
                 {

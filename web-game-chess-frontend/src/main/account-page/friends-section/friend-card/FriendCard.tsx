@@ -2,13 +2,14 @@ import { useNavigate } from "react-router-dom";
 import AvatarImage from "../../../../shared/components/avatar-image/AvatarImage";
 import { GetAllFriendsByStatusDto } from "../../../../shared/utils/types/friendshipDtos";
 import classes from "./FriendCard.module.scss";
-import { GameSearchInterface } from "../../../../shared/utils/enums/interfacesEnums";
+import { GameSearchInterface } from "../../../../shared/utils/objects/interfacesEnums";
+import { Dispatch, SetStateAction, MouseEvent } from "react";
 
 type FriendCardProps = {
   // friend data
   friend: GetAllFriendsByStatusDto;
   // to select friend
-  setSelectedFriend: React.Dispatch<React.SetStateAction<HTMLElement | null>>;
+  setSelectedFriend: Dispatch<SetStateAction<HTMLElement | null>>;
   // to clear selection
   clearSelection: () => void;
 };
@@ -18,10 +19,11 @@ function FriendCard({ friend, setSelectedFriend, clearSelection }: FriendCardPro
 
   const navigate = useNavigate();
 
+  //todotodo
   const checkProfile = () => {};
 
   // to navigate to vs-friend search
-  const onInviteFriendToGame = async () => {
+  const onInviteFriendToGame = async (): Promise<void> => {
     navigate(`main/`, {
       state: {
         interface: GameSearchInterface.vsFriend,
@@ -31,7 +33,7 @@ function FriendCard({ friend, setSelectedFriend, clearSelection }: FriendCardPro
   //*/
 
   // to activate card
-  const setActive = (event: React.MouseEvent<HTMLDivElement, MouseEvent>): void => {
+  const setActive = (event: MouseEvent<HTMLDivElement>): void => {
     const target = event.target as HTMLElement;
 
     setSelectedFriend(target);

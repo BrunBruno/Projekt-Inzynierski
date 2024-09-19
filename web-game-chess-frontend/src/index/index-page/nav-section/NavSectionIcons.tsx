@@ -1,8 +1,10 @@
-import { mainColor } from "../../../shared/utils/enums/colorMaps";
+import { mainColor } from "../../../shared/utils/objects/colorMaps";
 import { IconMap } from "../../../shared/utils/types/commonTypes";
 import classes from "./NavSection.module.scss";
 
-export const navSectionIcons: IconMap = {
+type IconNames = "home" | "learn" | "play" | "faq";
+
+export const navSectionIcons: IconMap<IconNames> = {
   home: () => (
     <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className={classes.icon}>
       <path

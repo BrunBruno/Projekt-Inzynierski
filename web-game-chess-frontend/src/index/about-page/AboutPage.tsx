@@ -1,7 +1,7 @@
 import { useNavigate, useParams } from "react-router-dom";
 import classes from "./AboutPage.module.scss";
-import { useEffect, useState } from "react";
-import { mainColor } from "../../shared/utils/enums/colorMaps";
+import { useEffect, useState, MouseEvent } from "react";
+import { mainColor } from "../../shared/utils/objects/colorMaps";
 import {
   ContentElements,
   introductionElements,
@@ -17,16 +17,19 @@ import { symbolIcons } from "../../shared/svgs/iconsMap/SymbolIcons";
 function AboutPage() {
   ///
 
-  const { contentName } = useParams<{ contentName: string }>();
+  const { contentName } = useParams<{ contentName: ContentNames }>();
   const navigate = useNavigate();
 
+  type ContentNames = "introduction" | "objectives" | "terms" | "privacy";
   type ContentType = {
+    // title of selected content
     title: string;
+    // list on sub sections of selected content
     elements: ContentElements[];
   };
 
   // page interface options
-  const contentOptions: { [key: string]: ContentType } = {
+  const contentOptions: { [key in ContentNames]: ContentType } = {
     introduction: { title: "Introduction", elements: introductionElements },
     objectives: { title: "Objectives", elements: objectivesElements },
     terms: { title: "Terms", elements: termsElements },
@@ -40,16 +43,16 @@ function AboutPage() {
   useEffect(() => {
     if (contentName) {
       try {
-        setSelectedContent(contentOptions[contentName]);
+        setSelectedContent(contentOptions[contentName.toLocaleLowerCase() as ContentNames]);
       } catch (err) {
-        setSelectedContent(contentOptions["Introduction"]);
+        setSelectedContent(contentOptions["introduction"]);
       }
     }
   }, [contentName]);
   //*/
 
   // to change content
-  const onSetSelectedContent = (content: ContentType, event: React.MouseEvent<HTMLLIElement, MouseEvent>) => {
+  const onSetSelectedContent = (content: ContentType, event: MouseEvent<HTMLLIElement>) => {
     setSelectedContent(null);
 
     const target = event.target as HTMLDivElement;
@@ -91,11 +94,12 @@ function AboutPage() {
                   <div className={classes["arrow-icon"]}>
                     <IconCreator
                       icons={symbolIcons}
-                      iconName="roundArrow"
+                      iconName={"roundArrow"}
                       color={mainColor.c0}
                       iconClass={classes["arrow-svg-left"]}
                     />
                   </div>
+
                   <span>{content.title}</span>
                 </li>
               ))}
@@ -113,11 +117,12 @@ function AboutPage() {
                 <div className={classes["arrow-icon"]}>
                   <IconCreator
                     icons={symbolIcons}
-                    iconName="roundArrow"
+                    iconName={"roundArrow"}
                     color={mainColor.c0}
                     iconClass={classes["arrow-svg-right"]}
                   />
                 </div>
+
                 <span>Home Page</span>
               </li>
             </ul>
@@ -129,6 +134,7 @@ function AboutPage() {
         {/* content column */}
         <div className={classes.grid__column}>
           <div className={classes.grid__column__content}>
+            {/* generate section */}
             {selectedContent ? (
               <ContentSection title={selectedContent.title} elements={selectedContent.elements} />
             ) : window.innerWidth > 800 ? (

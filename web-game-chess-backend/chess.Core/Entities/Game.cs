@@ -54,7 +54,7 @@ public class Game {
     /// <summary>
     /// Winner color (null is draw)
     /// </summary>
-    public Colors? WinnerColor { get; set; }  = null;
+    public PieceColor? WinnerColor { get; set; }  = null;
 
     /// <summary>
     /// Timing for game
@@ -64,7 +64,7 @@ public class Game {
     /// <summary>
     /// Reason why game has ended
     /// </summary>
-    public EndGameTypes? EndGameType { get; set; } = null;
+    public GameEndReason? EndGameType { get; set; } = null;
 
     /// <summary>
     /// Elo gained or lost after game has ended

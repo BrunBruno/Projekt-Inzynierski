@@ -20,14 +20,14 @@ public class GetRegisterConfRequestHandlerTests {
     [Fact]
     public async Task Handle_Returns_Register_Configuration_On_Success() {
 
-        var dataConfiguration = new DataConfiguration()
+        var dataConfiguration = new Entities.DataConfiguration()
         {
-            Id = (int)DataConfigurations.UserPassword,
+            Id = (int)Enums.DataConfiguration.UserPassword,
         };
 
         var request = new GetRegisterConfRequest()
         {
-            ConfigurationId = (int)DataConfigurations.UserPassword,
+            ConfigurationId = (int)Enums.DataConfiguration.UserPassword,
         };
 
 
@@ -70,7 +70,7 @@ public class GetRegisterConfRequestHandlerTests {
 
         var request = new GetRegisterConfRequest()
         {
-            ConfigurationId = (int)DataConfigurations.UserPassword,
+            ConfigurationId = (int)Enums.DataConfiguration.UserPassword,
         };
 
 

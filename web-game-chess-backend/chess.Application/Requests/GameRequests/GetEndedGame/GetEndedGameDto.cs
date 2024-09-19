@@ -11,5 +11,5 @@ public class GetEndedGameDto {
     /// <summary>
     /// Winner color (null when draw)
     /// </summary>
-    public Colors? WinnerColor { get; set; }
+    public PieceColor? WinnerColor { get; set; }
 }

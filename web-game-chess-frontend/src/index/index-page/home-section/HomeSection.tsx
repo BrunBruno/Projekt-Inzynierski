@@ -1,18 +1,18 @@
-import React, { forwardRef, useEffect, useImperativeHandle, useRef } from "react";
+import { ForwardedRef, forwardRef, RefObject, useEffect, useImperativeHandle, useRef } from "react";
 import classes from "./HomeSection.module.scss";
 import HomeActions from "./home-actions/HomeActions";
-import { createOneTimeObserver } from "../../../shared/utils/functions/createOneTimeObserver";
+import { createOneTimeObserver } from "../../../shared/utils/functions/observers";
 import { HandleOnScroll } from "../../../shared/utils/types/commonTypes";
 
 type HomeSectionProps = {
   // section container ref
-  sectionRef: React.RefObject<HTMLElement>;
-  //
-  homeContentRef: React.RefObject<HTMLDivElement>;
+  sectionRef: RefObject<HTMLElement>;
+  // section content ref
+  homeContentRef: RefObject<HTMLDivElement>;
 };
 
 const HomeSection = forwardRef<HandleOnScroll, HomeSectionProps>(
-  ({ sectionRef, homeContentRef }: HomeSectionProps, ref: React.ForwardedRef<HandleOnScroll>) => {
+  ({ sectionRef, homeContentRef }: HomeSectionProps, ref: ForwardedRef<HandleOnScroll>) => {
     ///
 
     // home intro ref
@@ -70,8 +70,7 @@ const HomeSection = forwardRef<HandleOnScroll, HomeSectionProps>(
               {/* <span>Welcome to</span>
               <br />
               <span>BRN Chess</span> */}
-                <span>Welcome to
-              BRN Chess</span>
+              <span>Welcome to BRN Chess</span>
             </h1>
 
             <p className={classes["home-text"]}>
@@ -86,7 +85,7 @@ const HomeSection = forwardRef<HandleOnScroll, HomeSectionProps>(
         </div>
       </section>
     );
-  },
+  }
 );
 
 export default HomeSection;

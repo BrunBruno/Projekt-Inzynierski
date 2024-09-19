@@ -115,8 +115,8 @@ public class CreateGameWithLinkRequestHandler : IRequestHandler<CreateGameWithLi
         game.WhitePlayerId = randomChoice ? userPlayer.Id : placeholderPlayer.Id;
         game.BlackPlayerId = randomChoice ? placeholderPlayer.Id : userPlayer.Id;
 
-        userPlayer.Color = randomChoice ? Colors.White : Colors.Black;
-        placeholderPlayer.Color = randomChoice ? Colors.Black : Colors.White;
+        userPlayer.Color = randomChoice ? PieceColor.White : PieceColor.Black;
+        placeholderPlayer.Color = randomChoice ? PieceColor.Black : PieceColor.White;
 
         var gameState = new GameState()
         {

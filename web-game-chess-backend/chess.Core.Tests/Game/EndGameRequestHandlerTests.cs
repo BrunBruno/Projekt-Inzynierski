@@ -71,7 +71,7 @@ public class EndGameRequestHandlerTests {
         {
             GameId = gameId,
             LoserColor = Colors.Black,
-            EndGameType = EndGameTypes.CheckMate,
+            EndGameType = GameEndReason.CheckMate,
         };
 
 
@@ -113,7 +113,7 @@ public class EndGameRequestHandlerTests {
         {
             GameId = gameId,
             LoserColor = Colors.Black,
-            EndGameType = EndGameTypes.StaleMate,
+            EndGameType = GameEndReason.StaleMate,
         };
 
 
@@ -149,7 +149,7 @@ public class EndGameRequestHandlerTests {
         {
             GameId = gameId,
             LoserColor = Colors.Black,
-            EndGameType = EndGameTypes.CheckMate,
+            EndGameType = GameEndReason.CheckMate,
         };
 
 
@@ -206,7 +206,7 @@ public class EndGameRequestHandlerTests {
         {
             GameId = gameId,
             LoserColor = Colors.Black,
-            EndGameType = EndGameTypes.CheckMate,
+            EndGameType = GameEndReason.CheckMate,
         };
 
 
@@ -264,7 +264,7 @@ public class EndGameRequestHandlerTests {
         {
             GameId = gameId,
             LoserColor = Colors.Black,
-            EndGameType = EndGameTypes.CheckMate,
+            EndGameType = GameEndReason.CheckMate,
         };
 
 
@@ -332,7 +332,7 @@ public class EndGameRequestHandlerTests {
         {
             GameId = gameId,
             LoserColor = Colors.Black,
-            EndGameType = EndGameTypes.CheckMate,
+            EndGameType = GameEndReason.CheckMate,
         };
 
 

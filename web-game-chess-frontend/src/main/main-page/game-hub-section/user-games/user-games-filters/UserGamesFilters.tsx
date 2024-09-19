@@ -1,19 +1,22 @@
+import { Dispatch, SetStateAction } from "react";
 import IconCreator from "../../../../../shared/components/icon-creator/IconCreator";
-import { timingTypesIcons } from "../../../../../shared/svgs/iconsMap/TimingTypesIcons";
-import { winLoseIcons } from "../../../../../shared/svgs/iconsMap/GameResultIcons";
-import { mainColor } from "../../../../../shared/utils/enums/colorMaps";
+import { timingTypeIcons } from "../../../../../shared/svgs/iconsMap/TimingTypeIcons";
+import { mainColor } from "../../../../../shared/utils/objects/colorMaps";
+import { GameResultName, TimingTypeName } from "../../../../../shared/utils/objects/constantLists";
 import classes from "./UserGamesFilters.module.scss";
-import { resultList, timingTypesList } from "./UserGamesFiltersData";
+import { resultList, timingTypeList } from "./UserGamesFiltersData";
+import { TimingType } from "../../../../../shared/utils/objects/entitiesEnums";
+import { gameResultIcons } from "../../../../../shared/svgs/iconsMap/GameResultIcons";
 
 type UserGamesFiltersProps = {
   // list to filter timing types
   timingTypeFilters: number[];
   // set timing list
-  setTimingTypeFilters: React.Dispatch<React.SetStateAction<number[]>>;
+  setTimingTypeFilters: Dispatch<SetStateAction<TimingType[]>>;
   // list to filter result of the game
   resultFilters: (boolean | null)[];
   // set result list
-  setResultFilters: React.Dispatch<React.SetStateAction<(boolean | null)[]>>;
+  setResultFilters: Dispatch<SetStateAction<(boolean | null)[]>>;
 };
 
 function UserGamesFilters({
@@ -57,7 +60,7 @@ function UserGamesFilters({
     <div className={classes.filters}>
       {/* filter by types */}
       <div className={classes.filters__row}>
-        {timingTypesList.map((element, i) => (
+        {timingTypeList.map((element, i) => (
           <div
             key={`type-${i}`}
             className={`
@@ -70,8 +73,8 @@ function UserGamesFilters({
           >
             <span>{element.label}</span>
             <IconCreator
-              icons={timingTypesIcons}
-              iconName={element.label.toLocaleLowerCase()}
+              icons={timingTypeIcons}
+              iconName={element.label.toLocaleLowerCase() as TimingTypeName}
               color={mainColor.c0}
               iconClass={classes["option-svg"]}
             />
@@ -96,8 +99,8 @@ function UserGamesFilters({
           >
             <span>{element.label}</span>
             <IconCreator
-              icons={winLoseIcons}
-              iconName={element.label.toLocaleLowerCase().substring(0, element.label.length - 1)}
+              icons={gameResultIcons}
+              iconName={element.label.toLocaleLowerCase().substring(0, element.label.length - 1) as GameResultName}
               iconClass={classes["option-svg"]}
             />
           </div>

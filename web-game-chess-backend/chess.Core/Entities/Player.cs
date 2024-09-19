@@ -34,7 +34,7 @@ public class Player {
     /// Color of player (black or white)
     /// Null when player is still searching for a game
     /// </summary>
-    public Colors? Color { get; set; } = null;
+    public PieceColor? Color { get; set; } = null;
 
     /// <summary>
     /// Determines if player can be used in global search or is only for private game

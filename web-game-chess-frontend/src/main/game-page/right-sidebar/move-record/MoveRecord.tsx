@@ -1,6 +1,7 @@
 import IconCreator from "../../../../shared/components/icon-creator/IconCreator";
 import { specialPiecesSvgs } from "../../../../shared/svgs/iconsMap/SpecialPiecesSvgs";
-import { mainColor } from "../../../../shared/utils/enums/colorMaps";
+import { mainColor } from "../../../../shared/utils/objects/colorMaps";
+import { PieceTag } from "../../../../shared/utils/objects/constantLists";
 import { MoveDto } from "../../../../shared/utils/types/abstractDtosAndModels";
 import classes from "./MoveRecord.module.scss";
 
@@ -14,6 +15,7 @@ type MoveRecordProps = {
 function MoveRecord({ recordNum, move }: MoveRecordProps) {
   ///
 
+  // case when game has not started yet
   if (!move) {
     return (
       <div className={`${classes.record} ${classes.empty}`}>
@@ -39,7 +41,7 @@ function MoveRecord({ recordNum, move }: MoveRecordProps) {
       <p className={classes.move}>
         <IconCreator
           icons={specialPiecesSvgs}
-          iconName={move.move[0].toLowerCase()}
+          iconName={move.move[0].toLowerCase() as PieceTag}
           color={recordNum % 2 === 0 ? mainColor.c0 : mainColor.c9}
         />
         <span>{move.move.charAt(0).toUpperCase() + move.move.slice(1).toLowerCase()}</span>

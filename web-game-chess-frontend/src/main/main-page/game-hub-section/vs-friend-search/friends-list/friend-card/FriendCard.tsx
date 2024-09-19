@@ -1,7 +1,8 @@
+import { Dispatch, SetStateAction } from "react";
 import AvatarImage from "../../../../../../shared/components/avatar-image/AvatarImage";
 import IconCreator from "../../../../../../shared/components/icon-creator/IconCreator";
-import { timingTypesIcons } from "../../../../../../shared/svgs/iconsMap/TimingTypesIcons";
-import { mainColor } from "../../../../../../shared/utils/enums/colorMaps";
+import { timingTypeIcons } from "../../../../../../shared/svgs/iconsMap/TimingTypeIcons";
+import { mainColor } from "../../../../../../shared/utils/objects/colorMaps";
 import { GetAllFriendsByStatusDto } from "../../../../../../shared/utils/types/friendshipDtos";
 import classes from "./FriendCard.module.scss";
 
@@ -9,7 +10,7 @@ type FriendCardProps = {
   // friend data
   friend: GetAllFriendsByStatusDto;
   // to select user on "invite" button click
-  setSelectedFriend: React.Dispatch<React.SetStateAction<GetAllFriendsByStatusDto | null>>;
+  setSelectedFriend: Dispatch<SetStateAction<GetAllFriendsByStatusDto | null>>;
 };
 
 function FriendCard({ friend, setSelectedFriend }: FriendCardProps) {
@@ -29,27 +30,27 @@ function FriendCard({ friend, setSelectedFriend }: FriendCardProps) {
 
         <div className={classes.elo}>
           <span>
-            <IconCreator icons={timingTypesIcons} iconClass={classes.icon} iconName="bullet" color={mainColor.c0} />
+            <IconCreator icons={timingTypeIcons} iconClass={classes.icon} iconName={"bullet"} color={mainColor.c0} />
             <span>{friend.elo.bullet}</span>
           </span>
 
           <span>
-            <IconCreator icons={timingTypesIcons} iconClass={classes.icon} iconName="blitz" color={mainColor.c0} />
+            <IconCreator icons={timingTypeIcons} iconClass={classes.icon} iconName={"blitz"} color={mainColor.c0} />
             <span>{friend.elo.blitz}</span>
           </span>
 
           <span>
-            <IconCreator icons={timingTypesIcons} iconClass={classes.icon} iconName="rapid" color={mainColor.c0} />
+            <IconCreator icons={timingTypeIcons} iconClass={classes.icon} iconName={"rapid"} color={mainColor.c0} />
             <span>{friend.elo.rapid}</span>
           </span>
 
           <span>
-            <IconCreator icons={timingTypesIcons} iconClass={classes.icon} iconName="classic" color={mainColor.c0} />
+            <IconCreator icons={timingTypeIcons} iconClass={classes.icon} iconName={"classic"} color={mainColor.c0} />
             <span>{friend.elo.classic}</span>
           </span>
 
           <span>
-            <IconCreator icons={timingTypesIcons} iconClass={classes.icon} iconName="daily" color={mainColor.c0} />
+            <IconCreator icons={timingTypeIcons} iconClass={classes.icon} iconName={"daily"} color={mainColor.c0} />
             <span>{friend.elo.daily}</span>
           </span>
         </div>

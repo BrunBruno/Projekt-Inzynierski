@@ -1,17 +1,17 @@
-import { CSSProperties, ForwardedRef } from "react";
+import { CSSProperties, ForwardedRef, RefObject } from "react";
 import { forwardRef, useEffect, useImperativeHandle, useRef } from "react";
 import classes from "./LearnSection.module.scss";
 import LearnBlocks from "./learn-blocks/LearnBlocks";
-import { createOneTimeObserver } from "../../../shared/utils/functions/createOneTimeObserver";
-import { mainColor } from "../../../shared/utils/enums/colorMaps";
+import { createOneTimeObserver } from "../../../shared/utils/functions/observers";
+import { mainColor } from "../../../shared/utils/objects/colorMaps";
 import { HandleOnScroll } from "../../../shared/utils/types/commonTypes";
-import { generateRandomColor } from "../../../shared/utils/functions/generateRandom";
+import { generateRandomColor } from "../../../shared/utils/functions/random";
 import IconCreator from "../../../shared/components/icon-creator/IconCreator";
 import { specialPiecesSvgs } from "../../../shared/svgs/iconsMap/SpecialPiecesSvgs";
 
 type LearnSectionProps = {
   // section container ref
-  sectionRef: React.RefObject<HTMLElement>;
+  sectionRef: RefObject<HTMLElement>;
 };
 
 const LearnSection = forwardRef<HandleOnScroll, LearnSectionProps>(
@@ -89,14 +89,16 @@ const LearnSection = forwardRef<HandleOnScroll, LearnSectionProps>(
             <h2 className={classes["join-header"]}>
               <IconCreator
                 icons={specialPiecesSvgs}
-                iconName="n"
+                iconName={"n"}
                 color={mainColor.c7}
                 iconClass={classes["join-l-horse"]}
               />
+
               <span>BRN CHESS</span>
+
               <IconCreator
                 icons={specialPiecesSvgs}
-                iconName="n"
+                iconName={"n"}
                 color={mainColor.c7}
                 iconClass={classes["join-r-horse"]}
               />

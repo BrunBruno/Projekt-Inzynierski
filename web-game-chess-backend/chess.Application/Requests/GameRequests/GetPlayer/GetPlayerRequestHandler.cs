@@ -40,7 +40,7 @@ public class GetPlayerRequestHandler : IRequestHandler<GetPlayerRequest, GetPlay
             Name = player.Name,
             ImageUrl = player.ImageUrl,
             Elo = player.Elo,
-            Color = (Colors)player.Color,
+            Color = (PieceColor)player.Color,
         };
 
         return playerDto;

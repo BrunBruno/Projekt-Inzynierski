@@ -9,7 +9,7 @@ import {
 } from "../../../../shared/utils/services/ApiService";
 import { usePopup } from "../../../../shared/utils/hooks/usePopUp";
 import { GetOtherUserDto } from "../../../../shared/utils/types/userDtos";
-import { getErrMessage } from "../../../../shared/utils/functions/displayError";
+import { getErrMessage } from "../../../../shared/utils/functions/errors";
 import AvatarImage from "../../../../shared/components/avatar-image/AvatarImage";
 import { Guid } from "guid-typescript";
 

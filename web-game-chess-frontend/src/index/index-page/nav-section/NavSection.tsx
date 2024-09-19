@@ -1,4 +1,4 @@
-import { forwardRef, useImperativeHandle, useRef } from "react";
+import { ForwardedRef, forwardRef, RefObject, useImperativeHandle, useRef } from "react";
 import classes from "./NavSection.module.scss";
 import { navSectionIcons } from "./NavSectionIcons";
 import { HandleOnScroll } from "../../../shared/utils/types/commonTypes";
@@ -6,15 +6,15 @@ import IconCreator from "../../../shared/components/icon-creator/IconCreator";
 
 type NavSectionProps = {
   // hero section container ref
-  heroSectionRef: React.RefObject<HTMLElement>;
+  heroSectionRef: RefObject<HTMLElement>;
   // home content container ref
-  homeContentRef: React.RefObject<HTMLElement>;
+  homeContentRef: RefObject<HTMLElement>;
   // sections names
   indicators: readonly ["home", "play", "learn", "faq"];
 };
 
 const NavSection = forwardRef<HandleOnScroll, NavSectionProps>(
-  ({ heroSectionRef, homeContentRef, indicators }: NavSectionProps, ref: React.ForwardedRef<HandleOnScroll>) => {
+  ({ heroSectionRef, homeContentRef, indicators }: NavSectionProps, ref: ForwardedRef<HandleOnScroll>) => {
     ///
 
     // hav section ref
@@ -70,7 +70,7 @@ const NavSection = forwardRef<HandleOnScroll, NavSectionProps>(
         </nav>
       </div>
     );
-  },
+  }
 );
 
 export default NavSection;

@@ -1,5 +1,5 @@
 import { Dispatch, SetStateAction } from "react";
-import { GameActionInterface } from "../../../../shared/utils/enums/interfacesEnums";
+import { GameActionInterface } from "../../../../shared/utils/objects/interfacesEnums";
 import classes from "./GameBoardConfirm.module.scss";
 
 type GameBoardConfirmProps = {
@@ -14,6 +14,7 @@ type GameBoardConfirmProps = {
 function GameBoardConfirm({ confirmAction, showConfirm, setShowConfirm }: GameBoardConfirmProps) {
   ///
 
+  // to render correct title based on user selection
   const renderText = (action: GameActionInterface): JSX.Element => {
     switch (action) {
       case GameActionInterface.resign:
@@ -24,6 +25,7 @@ function GameBoardConfirm({ confirmAction, showConfirm, setShowConfirm }: GameBo
         return <></>;
     }
   };
+  //*/
 
   // to confirm action
   const onYesClick = () => {

@@ -17,11 +17,11 @@ public class EndGameRequest : IRequest<EndGameDto> {
     /// <summary>
     /// Color of loser player (null if draw)
     /// </summary>
-    public Colors? LoserColor { get; set; }
+    public PieceColor? LoserColor { get; set; }
 
     /// <summary>
     /// The reason why game has ended
     /// </summary>
-    public EndGameTypes EndGameType { get; set; }
+    public GameEndReason EndGameType { get; set; }
 
 }

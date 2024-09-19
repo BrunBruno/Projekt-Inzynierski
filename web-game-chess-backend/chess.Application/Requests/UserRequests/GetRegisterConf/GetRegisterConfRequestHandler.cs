@@ -21,7 +21,7 @@ public class GetRegisterConfRequestHandler : IRequestHandler<GetRegisterConfRequ
 
     public async Task<GetRegisterConfDto> Handle(GetRegisterConfRequest request, CancellationToken cancellationToken) {
 
-        if (!Enum.IsDefined(typeof(DataConfigurations), request.ConfigurationId))
+        if (!Enum.IsDefined(typeof(DataConfiguration), request.ConfigurationId))
             throw new BadRequestException("Incorrect configuration id.");
 
         var dataConfiguration = await _dataConfigurationRepository.GetById(request.ConfigurationId) 

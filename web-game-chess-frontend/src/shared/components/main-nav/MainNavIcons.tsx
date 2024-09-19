@@ -1,9 +1,11 @@
-import { greyColor } from "../../utils/enums/colorMaps";
+import { greyColor } from "../../utils/objects/colorMaps";
 import { IconMap } from "../../utils/types/commonTypes";
 import classes from "./MainNav.module.scss";
 
-export const mainNavIcons: IconMap = {
-  account: () => (
+type IconNames = "accountPage" | "friendsPage" | "homePage" | "logOut";
+
+export const mainNavIcons: IconMap<IconNames> = {
+  accountPage: () => (
     <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill={greyColor.c0} className={classes["nav-icon"]}>
       <path
         d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z
@@ -13,7 +15,7 @@ export const mainNavIcons: IconMap = {
     </svg>
   ),
 
-  addFriend: () => (
+  friendsPage: () => (
     <svg fill={greyColor.c0} viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" className={classes["nav-icon"]}>
       <path
         d="M13,7.13A3.66,3.66,0,0,0,12,7a4,4,0,1,0,3.46,6"
@@ -43,7 +45,7 @@ export const mainNavIcons: IconMap = {
     </svg>
   ),
 
-  home: () => (
+  homePage: () => (
     <svg
       fill={greyColor.c0}
       viewBox="0 0 512 512"

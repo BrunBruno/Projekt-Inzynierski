@@ -1,4 +1,4 @@
-import { makeTimeFromMinutes } from "../../../../shared/utils/functions/dateTimeRelated";
+import { makeTimeFromMinutes } from "../../../../shared/utils/functions/dateTime";
 import { GetGameDto } from "../../../../shared/utils/types/gameDtos";
 import classes from "./GameClock.module.scss";
 
@@ -23,6 +23,7 @@ function GameClock({ gameData, whitePlayerSeconds, blackPlayerSeconds }: GameClo
     const elements = [];
     for (let i = 0; i < parts.length; i++) {
       elements.push(parts[i]);
+
       if (i < parts.length - 1) {
         elements.push(<span key={`colon-${i}`}>:</span>);
       }

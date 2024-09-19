@@ -1,22 +1,22 @@
-import { useEffect, useRef, useState } from "react";
-import { mainColor, strengthColor } from "../../../shared/utils/enums/colorMaps";
+import { ChangeEvent, Dispatch, FormEvent, RefObject, SetStateAction, useEffect, useRef, useState } from "react";
+import { mainColor, strengthColor } from "../../../shared/utils/objects/colorMaps";
 import classes from "./RegisterModal.module.scss";
 import axios from "axios";
-import { errorDisplay, getErrMessage } from "../../../shared/utils/functions/displayError";
+import { errorDisplay, getErrMessage } from "../../../shared/utils/functions/errors";
 import { userControllerPaths } from "../../../shared/utils/services/ApiService";
 import { ConfigurationDto, LogInUserDto } from "../../../shared/utils/types/userDtos";
-import { DataConfigurations } from "../../../shared/utils/enums/entitiesEnums";
-import { RegistrationInterface } from "../../../shared/utils/enums/interfacesEnums";
+import { RegistrationInterface } from "../../../shared/utils/objects/interfacesEnums";
 import { GetRegisterConfModel, LogInUserModel, RegisterUserModel } from "../../../shared/utils/types/userModels";
 import { usePopup } from "../../../shared/utils/hooks/usePopUp";
 import { getCountry } from "../../../shared/utils/functions/externApi";
 import IconCreator from "../../../shared/components/icon-creator/IconCreator";
 import { registerPageIcons } from "../RegisterPageIcons";
 import LoadingPage from "../../../shared/components/loading-page/LoadingPage";
+import { DataConfiguration } from "../../../shared/utils/objects/entitiesEnums";
 
 type SignUpModalProps = {
   // change displayed modal
-  setModal: React.Dispatch<React.SetStateAction<number>>;
+  setModal: Dispatch<SetStateAction<number>>;
 };
 
 function SignUpModal({ setModal }: SignUpModalProps) {
@@ -51,10 +51,10 @@ function SignUpModal({ setModal }: SignUpModalProps) {
 
   // to get register configuration
   useEffect(() => {
-    const getDataConfigurations = async (): Promise<void> => {
+    const getDataConfiguration = async (): Promise<void> => {
       try {
         const userRegisterConf: GetRegisterConfModel = {
-          configurationId: DataConfigurations.userName,
+          configurationId: DataConfiguration.userName,
         };
 
         // get username configuration
@@ -65,7 +65,7 @@ function SignUpModal({ setModal }: SignUpModalProps) {
         setUserNameConf(userNameConfResp.data);
 
         const passwordRegisterConf: GetRegisterConfModel = {
-          configurationId: DataConfigurations.userPassword,
+          configurationId: DataConfiguration.userPassword,
         };
 
         // get password configuration
@@ -81,12 +81,12 @@ function SignUpModal({ setModal }: SignUpModalProps) {
       }
     };
 
-    getDataConfigurations();
+    getDataConfiguration();
   }, []);
   //*/
 
   // creates user account
-  const signUpUser = async (event: React.FormEvent<HTMLFormElement>): Promise<void> => {
+  const signUpUser = async (event: FormEvent<HTMLFormElement>): Promise<void> => {
     event.preventDefault();
 
     if (
@@ -230,7 +230,7 @@ function SignUpModal({ setModal }: SignUpModalProps) {
 
   // handle on change
   // change password strength indicator
-  const changePassInd = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const changePassInd = (event: ChangeEvent<HTMLInputElement>) => {
     let strength: number = 0;
 
     const value = event.target.value;
@@ -248,7 +248,7 @@ function SignUpModal({ setModal }: SignUpModalProps) {
       strength += 1;
     }
 
-    const color = strengthColor[`c${strength}`];
+    const color = strengthColor[`c${strength}` as keyof typeof strengthColor];
 
     if (indRef.current) {
       indRef.current.style.backgroundColor = color;
@@ -258,7 +258,7 @@ function SignUpModal({ setModal }: SignUpModalProps) {
 
   // handle on click
   // focus on input
-  const focusOnClick = (inputRef: React.RefObject<HTMLInputElement>) => {
+  const focusOnClick = (inputRef: RefObject<HTMLInputElement>) => {
     if (inputRef.current) {
       inputRef.current.focus();
       inputRef.current.classList.remove(classes.err);
@@ -295,7 +295,7 @@ function SignUpModal({ setModal }: SignUpModalProps) {
             className={classes["form-input"]}
           />
 
-          <IconCreator icons={registerPageIcons} iconName="arrow" color={"none"} iconClass={classes.arrow} />
+          <IconCreator icons={registerPageIcons} iconName={"arrow"} iconClass={classes.arrow} />
         </div>
 
         <div
@@ -313,7 +313,7 @@ function SignUpModal({ setModal }: SignUpModalProps) {
             className={classes["form-input"]}
           />
 
-          <IconCreator icons={registerPageIcons} iconName="arrow" color={"none"} iconClass={classes.arrow} />
+          <IconCreator icons={registerPageIcons} iconName={"arrow"} iconClass={classes.arrow} />
         </div>
 
         <div
@@ -334,7 +334,7 @@ function SignUpModal({ setModal }: SignUpModalProps) {
             }}
           />
 
-          <IconCreator icons={registerPageIcons} iconName="arrow" color={"none"} iconClass={classes.arrow} />
+          <IconCreator icons={registerPageIcons} iconName={"arrow"} iconClass={classes.arrow} />
           <span ref={indRef} className={classes["reg-pass-ind"]} />
         </div>
 
@@ -353,7 +353,7 @@ function SignUpModal({ setModal }: SignUpModalProps) {
             className={classes["form-input"]}
           />
 
-          <IconCreator icons={registerPageIcons} iconName="arrow" color={"none"} iconClass={classes.arrow} />
+          <IconCreator icons={registerPageIcons} iconName={"arrow"} iconClass={classes.arrow} />
         </div>
       </div>
       {/* --- */}

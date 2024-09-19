@@ -5,24 +5,25 @@ import { CreatePrivateGameDto } from "../../../../../shared/utils/types/gameDtos
 import axios from "axios";
 import { gameControllerPaths, getAuthorization } from "../../../../../shared/utils/services/ApiService";
 import GameHubService from "../../../../../shared/utils/services/GameHubService";
-import { getErrMessage } from "../../../../../shared/utils/functions/displayError";
+import { getErrMessage } from "../../../../../shared/utils/functions/errors";
 import { usePopup } from "../../../../../shared/utils/hooks/usePopUp";
 import { useNavigate } from "react-router-dom";
 import { useTimingType } from "../../../../../shared/utils/hooks/useTimingType";
-import { TimingTypes } from "../../../../../shared/utils/enums/entitiesEnums";
-import { forwardRef, useImperativeHandle } from "react";
+import { ChangeEvent, Dispatch, ForwardedRef, forwardRef, SetStateAction, useImperativeHandle } from "react";
 import { InviteBySelectionRef } from "../VsFriendSearchData";
-import { delayAction } from "../../../../../shared/utils/functions/eventsRelated";
+import { delayAction } from "../../../../../shared/utils/functions/events";
 import { TimingTypeModel } from "../../../../../shared/utils/types/abstractDtosAndModels";
-import { getEnumValueByKey } from "../../../../../shared/utils/functions/enumRelated";
+import { getEnumValueByKey } from "../../../../../shared/utils/functions/enums";
+import { TimingType } from "../../../../../shared/utils/objects/entitiesEnums";
+import { TimingTypeName } from "../../../../../shared/utils/objects/constantLists";
 
 type InviteBySelectionProps = {
   // to filter friend by username
-  setSelectedUsername: React.Dispatch<React.SetStateAction<string>>;
+  setSelectedUsername: Dispatch<SetStateAction<string>>;
 };
 
 const InviteBySelection = forwardRef<InviteBySelectionRef, InviteBySelectionProps>(
-  ({ setSelectedUsername }: InviteBySelectionProps, ref: React.ForwardedRef<InviteBySelectionRef>) => {
+  ({ setSelectedUsername }: InviteBySelectionProps, ref: ForwardedRef<InviteBySelectionRef>) => {
     ///
 
     const navigate = useNavigate();
@@ -30,9 +31,13 @@ const InviteBySelection = forwardRef<InviteBySelectionRef, InviteBySelectionProp
     const { setTimingType } = useTimingType();
 
     // to invite friend to game via selection from friend list
-    const onInviteBySelection = async (friendshipId: Guid, header: string, values: number[]): Promise<void> => {
+    const onInviteBySelection = async (
+      friendshipId: Guid,
+      header: TimingTypeName,
+      values: [number, number]
+    ): Promise<void> => {
       try {
-        const typeValue = getEnumValueByKey(TimingTypes, header.toLowerCase());
+        const typeValue: TimingType = getEnumValueByKey(TimingType, header.toLowerCase());
 
         const gameType: TimingTypeModel = {
           type: typeValue,
@@ -79,9 +84,10 @@ const InviteBySelection = forwardRef<InviteBySelectionRef, InviteBySelectionProp
     //*/
 
     // to filter users by names
-    const onSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const onSearch = (event: ChangeEvent<HTMLInputElement>) => {
       const target = event.target as HTMLInputElement;
       const username = target.value.toLocaleLowerCase();
+
       setSelectedUsername(username);
     };
     //*/

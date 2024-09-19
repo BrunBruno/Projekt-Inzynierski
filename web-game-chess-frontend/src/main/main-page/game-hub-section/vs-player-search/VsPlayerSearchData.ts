@@ -3,7 +3,7 @@
 type TimeControl = {
   header: string;
   tags: string[];
-  values: number[][];
+  values: [number, number][];
 };
 
 // game timings data

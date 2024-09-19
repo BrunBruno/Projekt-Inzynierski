@@ -1,8 +1,19 @@
-import { greyColor } from "../../../shared/utils/enums/colorMaps";
+import { greyColor } from "../../../shared/utils/objects/colorMaps";
 import { IconMap } from "../../../shared/utils/types/commonTypes";
 import classes from "./FooterSection.module.scss";
 
-export const footerSectionIcons: IconMap = {
+type IconNames =
+  | "facebook"
+  | "instagram"
+  | "tiktok"
+  | "youtube"
+  | "twitter"
+  | "privacy"
+  | "terms"
+  | "countryFlag"
+  | "atSymbol";
+
+export const footerSectionIcons: IconMap<IconNames> = {
   facebook: (iconClass?: string) => (
     <svg
       fill={greyColor.c0}
@@ -115,7 +126,7 @@ export const footerSectionIcons: IconMap = {
     </svg>
   ),
 
-  flag: () => (
+  countryFlag: () => (
     <svg
       viewBox="0 0 64 64"
       xmlns="http://www.w3.org/2000/svg"
@@ -129,7 +140,7 @@ export const footerSectionIcons: IconMap = {
     </svg>
   ),
 
-  at: () => (
+  atSymbol: () => (
     <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className={classes["at-svg"]}>
       <path
         fillRule="evenodd"

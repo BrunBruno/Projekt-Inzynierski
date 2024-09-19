@@ -30,11 +30,11 @@ internal static partial class DbFilter {
 
         await dbContext.Roles.AddRangeAsync(roles);
 
-        var configurations = new List<DataConfiguration>
+        var configurations = new List<Core.Entities.DataConfiguration>
         {
             new()
             {
-                Id = (int)DataConfigurations.UserPassword,
+                Id = (int)Core.Enums.DataConfiguration.UserPassword,
                 MinLength = 5,
                 MaxLength = null,
                 RequireUppercase = false,
@@ -44,7 +44,7 @@ internal static partial class DbFilter {
             },
             new()
             {
-                Id = (int)DataConfigurations.UserName,
+                Id = (int)Core.Enums.DataConfiguration.UserName,
                 MinLength = 5,
                 MaxLength = 30,
                 RequireUppercase = false,

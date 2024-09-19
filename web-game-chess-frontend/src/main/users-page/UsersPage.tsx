@@ -2,7 +2,7 @@ import { useState } from "react";
 import classes from "./UsersPage.module.scss";
 import BarSection from "./bar-section/BarSection";
 import ListSection from "./list-section/ListSection";
-import { FriendshipStatus } from "../../shared/utils/enums/entitiesEnums";
+import { FriendshipStatus } from "../../shared/utils/objects/entitiesEnums";
 import MainNav from "../../shared/components/main-nav/MainNav";
 import MainPopUp from "../../shared/components/main-popup/MainPopUp";
 import ProfileSection from "./profile-section/ProfileSection";

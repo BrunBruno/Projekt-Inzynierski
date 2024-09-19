@@ -1,11 +1,11 @@
 import axios from "axios";
-import { FriendshipStatus } from "../../../../shared/utils/enums/entitiesEnums";
+import { FriendshipStatus } from "../../../../shared/utils/objects/entitiesEnums";
 import { GetAllFriendsByStatusDto, GetFriendProfileDto } from "../../../../shared/utils/types/friendshipDtos";
 import { RespondToFriendRequestModel } from "../../../../shared/utils/types/friendshipModels";
 import classes from "./Cards.module.scss";
 import { friendshipControllerPaths, getAuthorization } from "../../../../shared/utils/services/ApiService";
 import { usePopup } from "../../../../shared/utils/hooks/usePopUp";
-import { getErrMessage } from "../../../../shared/utils/functions/displayError";
+import { getErrMessage } from "../../../../shared/utils/functions/errors";
 import AvatarImage from "../../../../shared/components/avatar-image/AvatarImage";
 
 type FriendCardsProps = {

@@ -1,18 +1,19 @@
 import { useNavigate } from "react-router-dom";
 import ActionButton from "../../../shared/components/action-button/ActionButton";
 import classes from "./BarSection.module.scss";
-import { FriendshipStatus } from "../../../shared/utils/enums/entitiesEnums";
-import { delayAction } from "../../../shared/utils/functions/eventsRelated";
+import { FriendshipStatus } from "../../../shared/utils/objects/entitiesEnums";
+import { delayAction } from "../../../shared/utils/functions/events";
 import IconCreator from "../../../shared/components/icon-creator/IconCreator";
 import { barSectionIcons } from "./BarSectionIcons";
+import { ChangeEvent, Dispatch, SetStateAction } from "react";
 
 type BarSectionProps = {
   // to provide username to filters users
-  setSelectedUsername: React.Dispatch<React.SetStateAction<string>>;
+  setSelectedUsername: Dispatch<SetStateAction<string>>;
   // type of selected list
   selectedList: number;
   // to select list based on friendship status
-  setSelectedList: React.Dispatch<React.SetStateAction<number>>;
+  setSelectedList: Dispatch<SetStateAction<number>>;
 };
 
 function BarSection({ setSelectedUsername, selectedList, setSelectedList }: BarSectionProps) {
@@ -21,7 +22,7 @@ function BarSection({ setSelectedUsername, selectedList, setSelectedList }: BarS
   const navigate = useNavigate();
 
   // to filter friends by username
-  const onSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const onSearch = (event: ChangeEvent<HTMLInputElement>) => {
     const target = event.target as HTMLInputElement;
     const username = target.value.toLocaleLowerCase();
     setSelectedUsername(username);
@@ -48,7 +49,7 @@ function BarSection({ setSelectedUsername, selectedList, setSelectedList }: BarS
                 onSelectList(FriendshipStatus.all);
               }}
             >
-              <IconCreator icons={barSectionIcons} iconName="all" />
+              <IconCreator icons={barSectionIcons} iconName={"all"} />
             </div>
             <div
               className={`
@@ -58,7 +59,7 @@ function BarSection({ setSelectedUsername, selectedList, setSelectedList }: BarS
                 onSelectList(FriendshipStatus.accepted);
               }}
             >
-              <IconCreator icons={barSectionIcons} iconName="accepted" />
+              <IconCreator icons={barSectionIcons} iconName={"accepted"} />
             </div>
             <div
               className={`
@@ -68,7 +69,7 @@ function BarSection({ setSelectedUsername, selectedList, setSelectedList }: BarS
                 onSelectList(FriendshipStatus.pending);
               }}
             >
-              <IconCreator icons={barSectionIcons} iconName="pending" />
+              <IconCreator icons={barSectionIcons} iconName={"pending"} />
             </div>
             <div
               className={`
@@ -78,7 +79,7 @@ function BarSection({ setSelectedUsername, selectedList, setSelectedList }: BarS
                 onSelectList(FriendshipStatus.rejected);
               }}
             >
-              <IconCreator icons={barSectionIcons} iconName="rejected" />
+              <IconCreator icons={barSectionIcons} iconName={"rejected"} />
             </div>
           </div>
         </div>

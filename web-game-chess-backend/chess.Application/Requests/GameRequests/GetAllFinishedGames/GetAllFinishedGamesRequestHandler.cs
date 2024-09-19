@@ -49,7 +49,7 @@ public class GetAllFinishedGamesRequestHandler : IRequestHandler<GetAllFinishedG
                     continue;
 
 
-                bool? isWinner = player.WhiteGame.WinnerColor != null ? player.WhiteGame.WinnerColor == Colors.White : null;
+                bool? isWinner = player.WhiteGame.WinnerColor != null ? player.WhiteGame.WinnerColor == PieceColor.White : null;
 
                 if (request.ResultFilters is not null &&
                     !request.ResultFilters.IsNullOrEmpty() &&
@@ -99,7 +99,7 @@ public class GetAllFinishedGamesRequestHandler : IRequestHandler<GetAllFinishedG
                     !request.TimingTypeFilters.Contains(player.BlackGame.TimingType))
                     continue;
 
-                bool? isWinner = player.BlackGame.WinnerColor != null ? player.BlackGame.WinnerColor == Colors.Black : null;
+                bool? isWinner = player.BlackGame.WinnerColor != null ? player.BlackGame.WinnerColor == PieceColor.Black : null;
 
                 if (request.ResultFilters is not null &&
                     !request.ResultFilters.IsNullOrEmpty() &&

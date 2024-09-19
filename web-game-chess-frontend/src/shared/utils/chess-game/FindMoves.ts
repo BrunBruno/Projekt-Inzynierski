@@ -1,8 +1,8 @@
-import { PieceColor } from "../enums/entitiesEnums";
-import { pieceTagMap } from "../enums/piecesMaps";
-import { movementMap, rankMap } from "../enums/piecesMovementMap";
+import { PieceColor } from "../objects/entitiesEnums";
+import { pieceTagMap } from "../objects/piecesNameMaps";
+import { movementMap, rankMap } from "../objects/piecesMovementMap";
 import { GameStates, SelectionStates } from "../types/gameStates";
-import { areCoorEqual, checkIfOwnPiece } from "../functions/gameRelated";
+import { areCoorEqual, checkIfOwnPiece } from "./gameRelated";
 
 class FindMoves {
   // pins directions

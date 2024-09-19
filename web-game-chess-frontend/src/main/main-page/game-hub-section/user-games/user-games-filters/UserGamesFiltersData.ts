@@ -1,6 +1,6 @@
 // filters options
 
-export const timingTypesList = [
+export const timingTypeList = [
   { value: 0, label: "Bullet" },
   { value: 1, label: "Blitz" },
   { value: 2, label: "Rapid" },

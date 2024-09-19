@@ -1,7 +1,9 @@
-import { greyColor } from "../../shared/utils/enums/colorMaps";
+import { greyColor } from "../../shared/utils/objects/colorMaps";
 import { IconMap } from "../../shared/utils/types/commonTypes";
 
-export const registerPageIcons: IconMap = {
+type IconNames = "paste" | "lock" | "arrow" | "bgPawn";
+
+export const registerPageIcons: IconMap<IconNames> = {
   paste: (iconClass?: string | undefined, color?: string | undefined) => (
     <svg
       fill={color}

@@ -1,12 +1,12 @@
 /* maps for kinds of pieces */
 
-import { BlackPieceTag, PieceName, PieceTag, SideColor, WhitePieceTag } from "./commonConstLists";
+import { BlackPieceTag, PieceName, PieceTag, SideColor, WhitePieceTag } from "./constantLists";
 
-const pieceName = { p: "Pawn", n: "Knight", b: "Bishop", r: "Rook", q: "Queen", k: "King" };
+const pieceTagToName = { p: "Pawn", n: "Knight", b: "Bishop", r: "Rook", q: "Queen", k: "King" } as const;
 
 // to game piece name by piece tag
-export const getPieceName = (char: string): string => {
-  return pieceName[char.toLowerCase() as keyof typeof pieceName] || "Unknown";
+export const getPieceName = (char: PieceTag): string => {
+  return pieceTagToName[char.toLowerCase() as PieceTag] || "Unknown";
 };
 
 export type PieceTagMap = {
@@ -36,30 +36,10 @@ export const pieceTagMap: PieceTagMap = {
     queen: "q",
     king: "k",
   },
-};
+} as const;
 
 export type WhitePieceType = typeof pieceTagMap.white[keyof typeof pieceTagMap.white];
 export type BlackPieceType = typeof pieceTagMap.black[keyof typeof pieceTagMap.black];
-
-// to gat side color name by piece tag
-// export const getPiecesSideColor = (piece: WhitePieceTag | BlackPieceTag): string => {
-//   if (Object.values(pieceTagMap.white).includes(piece)) {
-//     return "white";
-//   } else if (Object.values(pieceTagMap.black).includes(piece)) {
-//     return "black";
-//   } else {
-//     return "";
-//   }
-// };
-export function getPieceSideColor(tag: PieceTag): SideColor | undefined {
-  if (tag === tag.toUpperCase()) {
-    return "white";
-  } else if (tag === tag.toLowerCase()) {
-    return "black";
-  } else {
-    return undefined;
-  }
-}
 
 // piece promotion tag maps
 export type PiecePromotionMap = {
@@ -72,3 +52,14 @@ export const piecePromotionMap: PiecePromotionMap = {
   black: ["n", "b", "r", "q"],
 };
 //*/
+
+// to gat side color name by piece tag
+export function getPieceSideColor(tag: PieceTag): SideColor | undefined {
+  if (tag === tag.toUpperCase()) {
+    return "white";
+  } else if (tag === tag.toLowerCase()) {
+    return "black";
+  } else {
+    return undefined;
+  }
+}

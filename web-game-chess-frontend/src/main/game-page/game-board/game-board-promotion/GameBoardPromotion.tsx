@@ -1,7 +1,8 @@
 import IconCreator from "../../../../shared/components/icon-creator/IconCreator";
 import { defaultPiecesImages } from "../../../../shared/svgs/iconsMap/DefaultPieceImageSvgs";
-import { PieceColor } from "../../../../shared/utils/enums/entitiesEnums";
-import { getPieceName, piecePromotionMap } from "../../../../shared/utils/enums/piecesMaps";
+import { PieceTag } from "../../../../shared/utils/objects/constantLists";
+import { PieceColor } from "../../../../shared/utils/objects/entitiesEnums";
+import { getPieceName, piecePromotionMap } from "../../../../shared/utils/objects/piecesNameMaps";
 import { GetPlayerDto } from "../../../../shared/utils/types/gameDtos";
 import classes from "./GameBoardPromotion.module.scss";
 
@@ -30,12 +31,12 @@ function GameBoardPromotion({ playerData, onPerformPromotion }: GameBoardPromoti
             >
               <IconCreator
                 icons={defaultPiecesImages}
-                iconName={piece.toLowerCase()}
+                iconName={piece.toLowerCase() as PieceTag}
                 iconClass={classes["promoted-pawn-svg"]}
                 color="white"
               />
 
-              <span className={classes["indicator"]}>{getPieceName(piece)}</span>
+              <span className={classes["indicator"]}>{getPieceName(piece as PieceTag)}</span>
             </div>
           ))
         ) : playerData.color === PieceColor.black ? (
@@ -49,7 +50,7 @@ function GameBoardPromotion({ playerData, onPerformPromotion }: GameBoardPromoti
             >
               <IconCreator
                 icons={defaultPiecesImages}
-                iconName={piece.toLowerCase()}
+                iconName={piece.toLowerCase() as PieceTag}
                 iconClass={classes["promoted-pawn-svg"]}
                 color="black"
               />

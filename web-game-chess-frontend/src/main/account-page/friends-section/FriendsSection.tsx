@@ -4,13 +4,13 @@ import { GetAllFriendsByStatusDto } from "../../../shared/utils/types/friendship
 import axios from "axios";
 import { friendshipControllerPaths, getAuthorization } from "../../../shared/utils/services/ApiService";
 import { GetAllFriendsByStatusModel } from "../../../shared/utils/types/friendshipModels";
-import { FriendshipStatus } from "../../../shared/utils/enums/entitiesEnums";
+import { FriendshipStatus } from "../../../shared/utils/objects/entitiesEnums";
 import LoadingPage from "../../../shared/components/loading-page/LoadingPage";
 import FriendCard from "./friend-card/FriendCard";
 import cardClasses from "./friend-card/FriendCard.module.scss";
 import { usePopup } from "../../../shared/utils/hooks/usePopUp";
 import usePagination from "../../../shared/utils/hooks/usePagination";
-import { getErrMessage } from "../../../shared/utils/functions/displayError";
+import { getErrMessage } from "../../../shared/utils/functions/errors";
 import { PagedResult } from "../../../shared/utils/types/abstractDtosAndModels";
 import FriendEmptyCard from "./friend-empty-card/FriendEmptyCard";
 

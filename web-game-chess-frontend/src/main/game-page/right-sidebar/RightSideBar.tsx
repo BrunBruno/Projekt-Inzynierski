@@ -1,9 +1,9 @@
-import { useEffect } from "react";
+import { Dispatch, SetStateAction, useEffect } from "react";
 import { EndGameDto, FetchTimeDto, GetEndedGameDto, GetGameDto } from "../../../shared/utils/types/gameDtos";
 import classes from "./RightSideBar.module.scss";
 import { EndGameModel } from "../../../shared/utils/types/gameModels";
 import GameHubService from "../../../shared/utils/services/GameHubService";
-import { EndGameTypes, PieceColor } from "../../../shared/utils/enums/entitiesEnums";
+import { GameEndReason, PieceColor } from "../../../shared/utils/objects/entitiesEnums";
 import LoadingPage from "../../../shared/components/loading-page/LoadingPage";
 import MoveRecord from "./move-record/MoveRecord";
 import GameClock from "./game-clock/GameClock";
@@ -19,7 +19,7 @@ type RightSideBarProps = {
   // times left for players
   playersTimes: FetchTimeDto | null;
   // time left setter
-  setPlayersTimes: React.Dispatch<React.SetStateAction<FetchTimeDto | null>>;
+  setPlayersTimes: Dispatch<SetStateAction<FetchTimeDto | null>>;
   // winner dto of the game
   winner: EndGameDto | GetEndedGameDto | null;
 };
@@ -31,7 +31,7 @@ function RightSideBar({ gameId, gameData, playersTimes, setPlayersTimes, winner 
   useEffect(() => {
     if (playersTimes === null || gameData.hasEnded || winner !== null) return;
 
-    const whiteTick = () => {
+    const whiteTick = (): void => {
       setPlayersTimes((prevTimes) => {
         if (!prevTimes) return null;
         return {
@@ -41,7 +41,7 @@ function RightSideBar({ gameId, gameData, playersTimes, setPlayersTimes, winner 
       });
     };
 
-    const blackTick = () => {
+    const blackTick = (): void => {
       setPlayersTimes((prevTimes) => {
         if (!prevTimes) return null;
         return {
@@ -77,10 +77,10 @@ function RightSideBar({ gameId, gameData, playersTimes, setPlayersTimes, winner 
 
   useEffect(() => {
     if (playersTimes !== null && playersTimes.whiteTimeLeft <= 0) {
-      endGame(PieceColor.white, EndGameTypes.outOfTime);
+      endGame(PieceColor.white, GameEndReason.outOfTime);
     }
     if (playersTimes !== null && playersTimes.blackTimeLeft <= 0) {
-      endGame(PieceColor.black, EndGameTypes.outOfTime);
+      endGame(PieceColor.black, GameEndReason.outOfTime);
     }
   }, [playersTimes]);
   //*/

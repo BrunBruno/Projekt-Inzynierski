@@ -2,7 +2,7 @@
 
 import { Guid } from "guid-typescript";
 import { MoveDto, PlayerDto, TimingTypeModel } from "./abstractDtosAndModels";
-import { MessageType, PieceColor, TimingType } from "../enums/entitiesEnums";
+import { MessageType, PieceColor, TimingType } from "../objects/entitiesEnums";
 
 export type CheckIfInGameDto = {
   // has player be assigned to game

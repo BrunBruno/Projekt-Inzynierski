@@ -7,9 +7,10 @@ type IntroBackgroundSectionProps = {};
 function IntroBackgroundSection({}: IntroBackgroundSectionProps) {
   ///
 
-  // intro animation
   // intro background ref
   const backgroundRef = useRef<HTMLElement>(null);
+
+  // intro animation
   useEffect(() => {
     // to play only on first entry
     const hasAnimationPlayed = sessionStorage.getItem("entry-animation-played");

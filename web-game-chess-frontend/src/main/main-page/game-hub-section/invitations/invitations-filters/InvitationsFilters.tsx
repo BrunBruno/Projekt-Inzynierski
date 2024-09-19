@@ -1,3 +1,4 @@
+import { Dispatch, SetStateAction } from "react";
 import IconCreator from "../../../../../shared/components/icon-creator/IconCreator";
 import { symbolIcons } from "../../../../../shared/svgs/iconsMap/SymbolIcons";
 import classes from "./InvitationsFilters.module.scss";
@@ -6,9 +7,10 @@ type InvitationsFiltersProps = {
   // list to filter invitations by expiration
   expirationFilters: boolean | null;
   // set expiration filters list
-  setExpirationFilters: React.Dispatch<React.SetStateAction<boolean | null>>;
+  setExpirationFilters: Dispatch<SetStateAction<boolean | null>>;
 };
 
+//todotodo
 function InvitationsFilters({ expirationFilters, setExpirationFilters }: InvitationsFiltersProps) {
   ///
 

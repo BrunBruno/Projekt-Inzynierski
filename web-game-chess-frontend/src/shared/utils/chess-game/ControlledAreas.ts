@@ -1,6 +1,6 @@
-import { PieceColor } from "../enums/entitiesEnums";
-import { pieceTagMap } from "../enums/piecesMaps";
-import { movementMap } from "../enums/piecesMovementMap";
+import { PieceColor } from "../objects/entitiesEnums";
+import { pieceTagMap } from "../objects/piecesNameMaps";
+import { movementMap } from "../objects/piecesMovementMap";
 
 let boardMatrix: string[][] = [];
 

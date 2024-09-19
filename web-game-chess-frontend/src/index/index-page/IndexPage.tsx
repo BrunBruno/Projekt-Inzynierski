@@ -1,4 +1,4 @@
-import React from "react";
+import { Fragment, MutableRefObject, RefObject } from "react";
 import { useEffect, useRef } from "react";
 import classes from "./IndexPage.module.scss";
 import navClasses from "./nav-section/NavSection.module.scss";
@@ -18,15 +18,16 @@ import IntroBackgroundSection from "./intro-background-section/IntroBackgroundSe
 // sections indicators
 const indicators = ["home", "play", "learn", "faq"] as const;
 
+// section interface
 interface Section {
   // section name
   name: string;
   // ref for indicator element
-  indicatorRef: React.MutableRefObject<HTMLDivElement | null>;
+  indicatorRef: MutableRefObject<HTMLDivElement | null>;
   // ref for scroll event
-  scrollRef: React.MutableRefObject<HandleOnScroll | null>;
+  scrollRef: MutableRefObject<HandleOnScroll | null>;
   // ref for section
-  sectionRef: React.MutableRefObject<HTMLElement | null>;
+  sectionRef: MutableRefObject<HTMLElement | null>;
 }
 
 function IndexPage() {
@@ -76,6 +77,7 @@ function IndexPage() {
 
   useEffect(() => {
     window.addEventListener("scroll", handleScroll);
+
     return () => {
       window.removeEventListener("scroll", handleScroll);
     };
@@ -136,8 +138,8 @@ function IndexPage() {
   // pass section refs
   const renderSection = (
     name: string,
-    scrollRef: React.RefObject<HandleOnScroll>,
-    sectionRef: React.RefObject<HTMLElement>
+    scrollRef: RefObject<HandleOnScroll>,
+    sectionRef: RefObject<HTMLElement>
   ): JSX.Element => {
     switch (name) {
       case "home":
@@ -181,13 +183,13 @@ function IndexPage() {
 
       {/* map sections */}
       {sections.map((section) => (
-        <React.Fragment key={section.name}>
+        <Fragment key={section.name}>
           {/* point to observe */}
           <div id={`obs-${section.name}`} ref={section.indicatorRef} className={classes.observe} />
 
           {/* section */}
           {renderSection(section.name, section.scrollRef, section.sectionRef)}
-        </React.Fragment>
+        </Fragment>
       ))}
       {/* --- */}
 

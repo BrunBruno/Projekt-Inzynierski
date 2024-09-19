@@ -4,7 +4,7 @@ namespace chess.Core.Enums;
 /// <summary>
 /// Reasons types why game has ended
 /// </summary>
-public enum EndGameTypes {
+public enum GameEndReason {
     // wins / loses causes
     CheckMate = 1,
     OutOfTime = 2,

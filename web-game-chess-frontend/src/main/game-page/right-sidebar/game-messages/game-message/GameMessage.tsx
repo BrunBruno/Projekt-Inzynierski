@@ -1,7 +1,7 @@
 import { Guid } from "guid-typescript";
 import AvatarImage from "../../../../../shared/components/avatar-image/AvatarImage";
-import { EndGameTypes, MessageType } from "../../../../../shared/utils/enums/entitiesEnums";
-import { getErrMessage } from "../../../../../shared/utils/functions/displayError";
+import { EndGameTypes, MessageType } from "../../../../../shared/utils/objects/entitiesEnums";
+import { getErrMessage } from "../../../../../shared/utils/functions/errors";
 import { usePopup } from "../../../../../shared/utils/hooks/usePopUp";
 import GameHubService from "../../../../../shared/utils/services/GameHubService";
 import { GetAllMessagesDto } from "../../../../../shared/utils/types/gameDtos";

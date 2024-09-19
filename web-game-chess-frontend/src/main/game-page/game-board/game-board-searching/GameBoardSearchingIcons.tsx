@@ -1,7 +1,9 @@
 import { IconMap } from "../../../../shared/utils/types/commonTypes";
 import classes from "./GameBoardSearching.module.scss";
 
-export const gameBoardSearchingIcons: IconMap = {
+type IconNames = "pawn";
+
+export const gameBoardSearchingIcons: IconMap<IconNames> = {
   pawn: (iconClass?: string | undefined, color?: string | undefined, active?: boolean | undefined) => (
     <svg
       viewBox="-4 0 24 24"

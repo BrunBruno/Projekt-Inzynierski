@@ -34,7 +34,7 @@ public class GetRegisterConfTests : IClassFixture<TestWebApplicationFactory<Prog
         await _dbContext.Init();
 
 
-        var response = await _client.GetAsync($"api/user/configuration?configurationId={(int)DataConfigurations.UserPassword}");
+        var response = await _client.GetAsync($"api/user/configuration?configurationId={(int)DataConfiguration.UserPassword}");
 
 
         response.StatusCode.Should().Be(HttpStatusCode.OK);

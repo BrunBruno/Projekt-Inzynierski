@@ -9,7 +9,7 @@ import UserGamesFilters from "./user-games-filters/UserGamesFilters";
 import usePagination from "../../../../shared/utils/hooks/usePagination";
 import UserGamesCard from "./user-games-card/UserGamesCard";
 import { usePopup } from "../../../../shared/utils/hooks/usePopUp";
-import { getErrMessage } from "../../../../shared/utils/functions/displayError";
+import { getErrMessage } from "../../../../shared/utils/functions/errors";
 import { PagedResult } from "../../../../shared/utils/types/abstractDtosAndModels";
 import UserGamesEmptyCard from "./user-games-empty-card/UserGamesEmptyCard";
 
