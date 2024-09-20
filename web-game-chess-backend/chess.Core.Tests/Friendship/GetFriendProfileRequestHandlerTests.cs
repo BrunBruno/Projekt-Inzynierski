@@ -42,7 +42,7 @@ public class GetFriendProfileRequestHandlerTests {
             Username = "Username",
             Country = "PL",
 
-            Elo = new Elo(),
+            Elo = new UserElo(),
             Stats = new UserStats(),
         };
 

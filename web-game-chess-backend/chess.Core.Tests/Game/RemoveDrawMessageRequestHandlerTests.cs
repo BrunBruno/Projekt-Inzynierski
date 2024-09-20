@@ -12,12 +12,12 @@ namespace chess.Core.Tests.Game;
 
 public class RemoveDrawMessageRequestHandlerTests {
 
-    private readonly Mock<IMessageRepository> _mockMessageRepository;
+    private readonly Mock<IPlayerMessageRepository> _mockPlayerMessageRepository;
     private readonly Mock<IGameRepository> _mockGameRepository;
     private readonly Mock<IUserContextService> _mockUserContextService;
 
     public RemoveDrawMessageRequestHandlerTests() {
-        _mockMessageRepository = new Mock<IMessageRepository>();
+        _mockPlayerMessageRepository = new Mock<IPlayerMessageRepository>();
         _mockGameRepository = new Mock<IGameRepository>();
         _mockUserContextService = new Mock<IUserContextService>();
     }
@@ -28,7 +28,7 @@ public class RemoveDrawMessageRequestHandlerTests {
         var userId = Guid.NewGuid();
         var gameId = Guid.NewGuid();
 
-        var drawMessage = new Message()
+        var drawMessage = new PlayerMessage()
         {
             Content = "User offered a draw.",
             Type = MessageType.DrawAction,
@@ -37,6 +37,9 @@ public class RemoveDrawMessageRequestHandlerTests {
         var game = new Entities.Game()
         {
             Id = gameId,
+
+            WhitePlayerRegistered = true,
+            BlackPlayerRegistered = true,
             WhitePlayerId = Guid.NewGuid(),
             WhitePlayer = new Player()
             {
@@ -72,11 +75,11 @@ public class RemoveDrawMessageRequestHandlerTests {
 
         _mockUserContextService.Setup(x => x.GetUserId()).Returns(userId);
         _mockGameRepository.Setup(x => x.GetById(gameId)).ReturnsAsync(game);
-        _mockMessageRepository.Setup(x => x.GetDrawMessage(game.WhitePlayerId)).ReturnsAsync(drawMessage);
+        _mockPlayerMessageRepository.Setup(x => x.GetDrawMessage(game.WhitePlayerId)).ReturnsAsync(drawMessage);
 
 
         var handler = new RemoveDrawMessageRequestHandler(
-            _mockMessageRepository.Object,
+            _mockPlayerMessageRepository.Object,
             _mockGameRepository.Object,
             _mockUserContextService.Object
         );
@@ -87,9 +90,9 @@ public class RemoveDrawMessageRequestHandlerTests {
         await act.Should().NotThrowAsync();
         _mockUserContextService.Verify(x => x.GetUserId(), Times.Once);
         _mockGameRepository.Verify(x => x.GetById(gameId), Times.Once);
-        _mockMessageRepository.Verify(x => x.GetDrawMessage(game.WhitePlayerId), Times.Once);
-        _mockMessageRepository.Verify(x => x.GetDrawMessage(game.BlackPlayerId), Times.Once);
-        _mockMessageRepository.Verify(x => x.Delete(drawMessage), Times.Once);
+        _mockPlayerMessageRepository.Verify(x => x.GetDrawMessage(game.WhitePlayerId), Times.Once);
+        _mockPlayerMessageRepository.Verify(x => x.GetDrawMessage(game.BlackPlayerId), Times.Once);
+        _mockPlayerMessageRepository.Verify(x => x.Delete(drawMessage), Times.Once);
     }
 
     [Fact]
@@ -108,7 +111,7 @@ public class RemoveDrawMessageRequestHandlerTests {
 
 
         var handler = new RemoveDrawMessageRequestHandler(
-            _mockMessageRepository.Object,
+            _mockPlayerMessageRepository.Object,
             _mockGameRepository.Object,
             _mockUserContextService.Object
         );
@@ -119,8 +122,8 @@ public class RemoveDrawMessageRequestHandlerTests {
         await act.Should().ThrowAsync<NotFoundException>();
         _mockUserContextService.Verify(x => x.GetUserId(), Times.Once);
         _mockGameRepository.Verify(x => x.GetById(gameId), Times.Once);
-        _mockMessageRepository.Verify(x => x.GetDrawMessage(It.IsAny<Guid>()), Times.Never);
-        _mockMessageRepository.Verify(x => x.Delete(It.IsAny<Message>()), Times.Never);
+        _mockPlayerMessageRepository.Verify(x => x.GetDrawMessage(It.IsAny<Guid>()), Times.Never);
+        _mockPlayerMessageRepository.Verify(x => x.Delete(It.IsAny<Message>()), Times.Never);
     }
 
     [Fact]
@@ -132,6 +135,9 @@ public class RemoveDrawMessageRequestHandlerTests {
         var game = new Entities.Game()
         {
             Id = gameId,
+
+            WhitePlayerRegistered = true,
+            BlackPlayerRegistered = true,
             WhitePlayerId = Guid.NewGuid(),
             WhitePlayer = new Player()
             {
@@ -168,7 +174,7 @@ public class RemoveDrawMessageRequestHandlerTests {
         _mockGameRepository.Setup(x => x.GetById(gameId)).ReturnsAsync(game);
 
         var handler = new RemoveDrawMessageRequestHandler(
-            _mockMessageRepository.Object,
+            _mockPlayerMessageRepository.Object,
             _mockGameRepository.Object,
             _mockUserContextService.Object
         );
@@ -179,9 +185,9 @@ public class RemoveDrawMessageRequestHandlerTests {
         await act.Should().ThrowAsync<UnauthorizedException>();
         _mockUserContextService.Verify(x => x.GetUserId(), Times.Once);
         _mockGameRepository.Verify(x => x.GetById(gameId), Times.Once);
-        _mockMessageRepository.Verify(x => x.GetDrawMessage(game.WhitePlayerId), Times.Never);
-        _mockMessageRepository.Verify(x => x.GetDrawMessage(game.BlackPlayerId), Times.Never);
-        _mockMessageRepository.Verify(x => x.Delete(It.IsAny<Message>()), Times.Never);
+        _mockPlayerMessageRepository.Verify(x => x.GetDrawMessage(game.WhitePlayerId), Times.Never);
+        _mockPlayerMessageRepository.Verify(x => x.GetDrawMessage(game.BlackPlayerId), Times.Never);
+        _mockPlayerMessageRepository.Verify(x => x.Delete(It.IsAny<Message>()), Times.Never);
     }
 
     [Fact]
@@ -193,6 +199,9 @@ public class RemoveDrawMessageRequestHandlerTests {
         var game = new Entities.Game()
         {
             Id = gameId,
+
+            WhitePlayerRegistered = true,
+            BlackPlayerRegistered = true,
             WhitePlayerId = Guid.NewGuid(),
             WhitePlayer = new Player()
             {
@@ -229,7 +238,7 @@ public class RemoveDrawMessageRequestHandlerTests {
         _mockGameRepository.Setup(x => x.GetById(gameId)).ReturnsAsync(game);
 
         var handler = new RemoveDrawMessageRequestHandler(
-            _mockMessageRepository.Object,
+            _mockPlayerMessageRepository.Object,
             _mockGameRepository.Object,
             _mockUserContextService.Object
         );
@@ -240,8 +249,8 @@ public class RemoveDrawMessageRequestHandlerTests {
         await act.Should().ThrowAsync<BadRequestException>();
         _mockUserContextService.Verify(x => x.GetUserId(), Times.Once);
         _mockGameRepository.Verify(x => x.GetById(gameId), Times.Once);
-        _mockMessageRepository.Verify(x => x.GetDrawMessage(game.WhitePlayerId), Times.Once);
-        _mockMessageRepository.Verify(x => x.GetDrawMessage(game.BlackPlayerId), Times.Once);
-        _mockMessageRepository.Verify(x => x.Delete(It.IsAny<Message>()), Times.Never);
+        _mockPlayerMessageRepository.Verify(x => x.GetDrawMessage(game.WhitePlayerId), Times.Once);
+        _mockPlayerMessageRepository.Verify(x => x.GetDrawMessage(game.BlackPlayerId), Times.Once);
+        _mockPlayerMessageRepository.Verify(x => x.Delete(It.IsAny<Message>()), Times.Never);
     }
 }

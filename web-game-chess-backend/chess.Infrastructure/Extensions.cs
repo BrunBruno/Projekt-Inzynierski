@@ -98,17 +98,17 @@ public static class Extensions {
         services.AddScoped<IUserRepository, UserRepository>();
         services.AddScoped<IEmailVerificationCodeRepository, EmailVerificationCodeRepository>();
         services.AddScoped<IDataConfigurationRepository, DataConfigurationRepository>();
-        services.AddScoped<IBannedUserRepository, BannedUserRepository>();
+        services.AddScoped<IUserBanRepository, UserBanRepository>();
         services.AddScoped<IGameRepository, GameRepository>();
         services.AddScoped<IGameTimingRepository, GameTimingRepository>();
         services.AddScoped<IGameStateRepository, GameStateRepository>();
         services.AddScoped<IPlayerRepository, PlayerRepository>();
         services.AddScoped<IMoveRepository, MoveRepository>();
         services.AddScoped<IFriendshipRepository, FriendshipRepository>();
-        services.AddScoped<IEloRepository, EloRepository>();
-        services.AddScoped<IMessageRepository, MessageRepository>();
+        services.AddScoped<IUserEloRepository, UserEloRepository>();
+        services.AddScoped<IPlayerMessageRepository, PlayerMessageRepository>();
         services.AddScoped<IUserStatsRepository, UserStatsRepository>();
-        services.AddScoped<IInvitationRepository, InvitationRepository>();
+        services.AddScoped<IGameInvitationRepository, GameInvitationRepository>();
 
         return services;
     }

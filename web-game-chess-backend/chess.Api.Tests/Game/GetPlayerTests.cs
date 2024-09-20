@@ -47,8 +47,8 @@ public class GetPlayerTests : IClassFixture<TestWebApplicationFactory<Program>> 
 
         var gameId = await _dbContext.AddGame(userPlayerId, otherPlayerId, timingId, false);
 
-        await _dbContext.AddPlayerToGame(userPlayerId, gameId, Colors.Black);
-        await _dbContext.AddPlayerToGame(otherPlayerId, gameId, Colors.White);
+        await _dbContext.AddPlayerToGame(userPlayerId, gameId, PieceColor.Black);
+        await _dbContext.AddPlayerToGame(otherPlayerId, gameId, PieceColor.White);
 
 
         var response = await _client.GetAsync($"api/game/{gameId}/player");
@@ -58,7 +58,7 @@ public class GetPlayerTests : IClassFixture<TestWebApplicationFactory<Program>> 
 
         var result = JsonConvert.DeserializeObject<GetPlayerDto>(await response.Content.ReadAsStringAsync());
         result.Name.Should().Be(Constants.Username);
-        result.Color.Should().Be(Colors.Black);
+        result.Color.Should().Be(PieceColor.Black);
     }
 
     /// <summary>
@@ -82,8 +82,8 @@ public class GetPlayerTests : IClassFixture<TestWebApplicationFactory<Program>> 
 
         var gameId = await _dbContext.AddGame(userPlayerId, otherPlayerId, timingId, false);
 
-        await _dbContext.AddPlayerToGame(userPlayerId, gameId, Colors.Black);
-        await _dbContext.AddPlayerToGame(otherPlayerId, gameId, Colors.White);
+        await _dbContext.AddPlayerToGame(userPlayerId, gameId, PieceColor.Black);
+        await _dbContext.AddPlayerToGame(otherPlayerId, gameId, PieceColor.White);
         await _dbContext.ChangePlayerToNotPlaying(userPlayerId);
         // no player assignment
 

@@ -47,10 +47,10 @@ public class GetAllMessagesTests : IClassFixture<TestWebApplicationFactory<Progr
         var friendPlayerId = await _dbContext.AddPlayer(Guid.NewGuid(), "opponent");
 
         var gameId = await _dbContext.AddGame(userPlayerId, friendPlayerId, timingId, false);
-        await _dbContext.AddPlayerToGame(userPlayerId, gameId, Colors.White);
-        await _dbContext.AddPlayerToGame(friendPlayerId, gameId, Colors.Black);
+        await _dbContext.AddPlayerToGame(userPlayerId, gameId, PieceColor.White);
+        await _dbContext.AddPlayerToGame(friendPlayerId, gameId, PieceColor.Black);
         await _dbContext.StartGame(gameId);
-        await _dbContext.AddMessagesToGame(gameId);
+        await _dbContext.AddPlayerMessagesToGame(gameId);
 
 
         var response = await _client.GetAsync($"api/game/{gameId}/messages");
@@ -113,10 +113,10 @@ public class GetAllMessagesTests : IClassFixture<TestWebApplicationFactory<Progr
         var friendPlayerId = await _dbContext.AddPlayer(Guid.NewGuid(), "opponent");
 
         var gameId = await _dbContext.AddGame(otherPlayerId, friendPlayerId, timingId, false);
-        await _dbContext.AddPlayerToGame(otherPlayerId, gameId, Colors.White);
-        await _dbContext.AddPlayerToGame(friendPlayerId, gameId, Colors.Black);
+        await _dbContext.AddPlayerToGame(otherPlayerId, gameId, PieceColor.White);
+        await _dbContext.AddPlayerToGame(friendPlayerId, gameId, PieceColor.Black);
         await _dbContext.StartGame(gameId);
-        await _dbContext.AddMessagesToGame(gameId);
+        await _dbContext.AddPlayerMessagesToGame(gameId);
 
 
         var response = await _client.GetAsync($"api/game/{gameId}/messages");

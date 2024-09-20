@@ -49,8 +49,8 @@ public class GetGameTests : IClassFixture<TestWebApplicationFactory<Program>> {
         var friendPlayerId = await _dbContext.AddPlayer(Guid.NewGuid(), friendUsername);
 
         var gameId = await _dbContext.AddGame(userPlayerId, friendPlayerId, timingId, false);
-        await _dbContext.AddPlayerToGame(userPlayerId, gameId, Colors.White);
-        await _dbContext.AddPlayerToGame(friendPlayerId, gameId, Colors.Black);
+        await _dbContext.AddPlayerToGame(userPlayerId, gameId, PieceColor.White);
+        await _dbContext.AddPlayerToGame(friendPlayerId, gameId, PieceColor.Black);
 
 
         var response = await _client.GetAsync($"api/game/{gameId}");

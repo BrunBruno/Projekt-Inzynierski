@@ -105,6 +105,9 @@ public class CreateGameWithLinkRequestHandler : IRequestHandler<CreateGameWithLi
             IsPrivate = true,
             TimingType = timing!.Type,
             GameTimingId = timing!.Id,
+
+            WhitePlayerRegistered = false,
+            BlackPlayerRegistered = false,
         };
 
         userPlayer.GameId = game.Id;

@@ -65,7 +65,7 @@ public class GetTypeHistoryRequestHandlerTests {
             {
                 Id = Guid.NewGuid(),
                 Name = "Username",
-                Color = Colors.White,
+                Color = PieceColor.White,
                 GameId = gameId,
                 UserId = userId,
                 IsPlaying = true,
@@ -74,7 +74,7 @@ public class GetTypeHistoryRequestHandlerTests {
             {
                 Id = Guid.NewGuid(),
                 Name = "Opponent",
-                Color = Colors.Black,
+                Color = PieceColor.Black,
                 GameId = gameId,
                 UserId = Guid.NewGuid(),
                 IsPlaying = true,
@@ -86,11 +86,13 @@ public class GetTypeHistoryRequestHandlerTests {
                 HasEnded = true,
                 CreatedAt = DateTime.UtcNow,
                 StartedAt = DateTime.UtcNow.AddMinutes(10),
-                WinnerColor = Colors.White,
+                WinnerColor = PieceColor.White,
                 TimingType = TimingTypes.Blitz,
 
                 WhitePlayer = whitePlayer,
                 BlackPlayer = blackPlayer,
+                WhitePlayerRegistered = true,
+                BlackPlayerRegistered = true,
             };
 
             players.Add(whitePlayer);

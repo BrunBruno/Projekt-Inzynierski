@@ -6,40 +6,40 @@ namespace chess.Application.Repositories;
 /// <summary>
 /// Invitation repository
 /// </summary>
-public interface IInvitationRepository {
+public interface IGameInvitationRepository {
 
     /// <summary>
     /// Gets all previous invitations for current user
     /// </summary>
     /// <param name="userId"></param>
     /// <returns></returns>
-    public Task<List<Invitation>> GetAllForUser(Guid userId);
+    public Task<List<GameInvitation>> GetAllForUser(Guid userId);
 
     /// <summary>
     /// Gets invitation linked to game
     /// </summary>
     /// <param name="gameId"></param>
     /// <returns></returns>
-    public Task<Invitation?> GetByGameId(Guid gameId);
+    public Task<GameInvitation?> GetByGameId(Guid gameId);
 
     /// <summary>
     /// Creates new invitation
     /// </summary>
     /// <param name="invitation"></param>
     /// <returns></returns>
-    public Task Create(Invitation invitation);
+    public Task Create(GameInvitation invitation);
 
     /// <summary>
     /// Updates invitation
     /// </summary>
     /// <param name="invitation"></param>
     /// <returns></returns>
-    public Task Update(Invitation invitation);
+    public Task Update(GameInvitation invitation);
 
     /// <summary>
     /// Removes invitation
     /// </summary>
     /// <param name="invitation"></param>
     /// <returns></returns>
-    public Task Delete(Invitation invitation);
+    public Task Delete(GameInvitation invitation);
 }

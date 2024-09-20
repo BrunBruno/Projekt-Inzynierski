@@ -48,6 +48,8 @@ public class CheckIfInGameRequestHandlerTests {
         _mockGameRepository.Setup(x => x.GetGameForPlayer(playerId)).ReturnsAsync(new Entities.Game()
         {
             Id = gameId,
+            WhitePlayerRegistered = true,
+            BlackPlayerRegistered = true,
         });
 
 

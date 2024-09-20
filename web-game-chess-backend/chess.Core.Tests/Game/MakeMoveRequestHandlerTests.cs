@@ -41,6 +41,8 @@ public class MakeMoveRequestHandlerTests {
             },
             GameState = new GameState(),
 
+            WhitePlayerRegistered = true,
+            BlackPlayerRegistered = true,
             WhitePlayer = new Player() 
             { 
                 Name = "Username",
@@ -133,6 +135,9 @@ public class MakeMoveRequestHandlerTests {
             Id = gameId,
             HasEnded = false,
             StartedAt = DateTime.UtcNow,
+            WhitePlayerRegistered = true,
+            BlackPlayerRegistered = true,
+
             GameTiming = new GameTiming()
             {
                 Type = TimingTypes.Rapid,
@@ -205,6 +210,8 @@ public class MakeMoveRequestHandlerTests {
             },
             GameState = new GameState(),
 
+            WhitePlayerRegistered = true,
+            BlackPlayerRegistered = true,
             WhitePlayer = new Player()
             {
                 Name = "Username",
@@ -260,6 +267,9 @@ public class MakeMoveRequestHandlerTests {
         {
             Id = gameId,
             HasEnded = false,
+
+              WhitePlayerRegistered = true,
+            BlackPlayerRegistered = true,
             GameTiming = new GameTiming()
             {
                 Type = TimingTypes.Rapid,

@@ -34,7 +34,7 @@ public class EndGameRequestHandlerTests {
             Id = userId,
             Email = "user@test.com",
             Username = "Username",
-            Elo = new Elo(),
+            Elo = new UserElo(),
             Stats = new UserStats(),
         };
         var opponent = new Entities.User()
@@ -42,7 +42,7 @@ public class EndGameRequestHandlerTests {
             Id = opponentId,
             Email = "opponent@test.com",
             Username = "Opponent",
-            Elo = new Elo(),
+            Elo = new UserElo(),
             Stats = new UserStats(),
         };
 
@@ -50,27 +50,29 @@ public class EndGameRequestHandlerTests {
         {
             Id = gameId,
             HasEnded = false,
+              WhitePlayerRegistered = true,
+            BlackPlayerRegistered = true,
 
             WhitePlayer = new Player()
             {
                 Id = Guid.NewGuid(),
                 Name = "Username",
                 UserId = userId,
-                Color = Colors.White,
+                Color = PieceColor.White,
             },
             BlackPlayer = new Player()
             {
                 Id = Guid.NewGuid(),
                 Name = "Opponent",
                 UserId = opponentId,
-                Color = Colors.Black,
+                Color = PieceColor.Black,
             }
         };
 
         var request = new EndGameRequest()
         {
             GameId = gameId,
-            LoserColor = Colors.Black,
+            LoserColor = PieceColor.Black,
             EndGameType = GameEndReason.CheckMate,
         };
 
@@ -92,7 +94,7 @@ public class EndGameRequestHandlerTests {
 
 
         result.Should().NotBeNull();
-        result.WinnerColor.Should().Be(Colors.White);
+        result.WinnerColor.Should().Be(PieceColor.White);
 
         _mockUserContextService.Verify(x => x.GetUserId(), Times.Once);
         _mockGameRepository.Verify(x => x.GetById(gameId), Times.Once);
@@ -112,7 +114,7 @@ public class EndGameRequestHandlerTests {
         var request = new EndGameRequest()
         {
             GameId = gameId,
-            LoserColor = Colors.Black,
+            LoserColor = PieceColor.Black,
             EndGameType = GameEndReason.StaleMate,
         };
 
@@ -148,7 +150,7 @@ public class EndGameRequestHandlerTests {
         var request = new EndGameRequest()
         {
             GameId = gameId,
-            LoserColor = Colors.Black,
+            LoserColor = PieceColor.Black,
             EndGameType = GameEndReason.CheckMate,
         };
 
@@ -186,26 +188,29 @@ public class EndGameRequestHandlerTests {
             Id = gameId,
             HasEnded = false,
 
+              WhitePlayerRegistered = true,
+            BlackPlayerRegistered = true,
+
             WhitePlayer = new Player()
             {
                 Id = Guid.NewGuid(),
                 Name = "Other",
                 UserId = Guid.NewGuid(),
-                Color = Colors.White,
+                Color = PieceColor.White,
             },
             BlackPlayer = new Player()
             {
                 Id = Guid.NewGuid(),
                 Name = "Opponent",
                 UserId = Guid.NewGuid(),
-                Color = Colors.Black,
+                Color = PieceColor.Black,
             }
         };
 
         var request = new EndGameRequest()
         {
             GameId = gameId,
-            LoserColor = Colors.Black,
+            LoserColor = PieceColor.Black,
             EndGameType = GameEndReason.CheckMate,
         };
 
@@ -244,26 +249,28 @@ public class EndGameRequestHandlerTests {
             Id = gameId,
             HasEnded = false,
 
+              WhitePlayerRegistered = true,
+            BlackPlayerRegistered = true,
             WhitePlayer = new Player()
             {
                 Id = Guid.NewGuid(),
                 Name = "Username",
                 UserId = userId,
-                Color = Colors.White,
+                Color = PieceColor.White,
             },
             BlackPlayer = new Player()
             {
                 Id = Guid.NewGuid(),
                 Name = "Opponent",
                 UserId = Guid.NewGuid(),
-                Color = Colors.Black,
+                Color = PieceColor.Black,
             }
         };
 
         var request = new EndGameRequest()
         {
             GameId = gameId,
-            LoserColor = Colors.Black,
+            LoserColor = PieceColor.Black,
             EndGameType = GameEndReason.CheckMate,
         };
 
@@ -303,7 +310,7 @@ public class EndGameRequestHandlerTests {
             Id = userId,
             Email = "user@test.com",
             Username = "Username",
-            Elo = new Elo(),
+            Elo = new UserElo(),
             Stats = new UserStats(),
         };
 
@@ -311,27 +318,28 @@ public class EndGameRequestHandlerTests {
         {
             Id = gameId,
             HasEnded = false,
-
+              WhitePlayerRegistered = true,
+            BlackPlayerRegistered = true,
             WhitePlayer = new Player()
             {
                 Id = Guid.NewGuid(),
                 Name = "Username",
                 UserId = userId,
-                Color = Colors.White,
+                Color = PieceColor.White,
             },
             BlackPlayer = new Player()
             {
                 Id = Guid.NewGuid(),
                 Name = "Opponent",
                 UserId = opponentId,
-                Color = Colors.Black,
+                Color = PieceColor.Black,
             }
         };
 
         var request = new EndGameRequest()
         {
             GameId = gameId,
-            LoserColor = Colors.Black,
+            LoserColor = PieceColor.Black,
             EndGameType = GameEndReason.CheckMate,
         };
 

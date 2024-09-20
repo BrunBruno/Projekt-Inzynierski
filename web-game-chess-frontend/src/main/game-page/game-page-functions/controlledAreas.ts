@@ -1,13 +1,17 @@
-import { PieceColor } from "../objects/entitiesEnums";
-import { pieceTagMap } from "../objects/piecesNameMaps";
-import { movementMap } from "../objects/piecesMovementMap";
+import { BlackPieceTag, PieceName, WhitePieceTag } from "../../../shared/utils/objects/constantLists";
+import { PieceColor } from "../../../shared/utils/objects/entitiesEnums";
+import { movementMap } from "../../../shared/utils/objects/piecesMovementMap";
+import { pieceTagMap } from "../../../shared/utils/objects/piecesNameMaps";
+import { NMatrix, SMatrix } from "../../../shared/utils/types/commonTypes";
+import { toCoor, toCoorNum } from "./general";
+import { Coordinate, CoorNumber } from "./types";
 
-let boardMatrix: string[][] = [];
+let boardMatrix: SMatrix = [];
 
 // create [white controlled areas, black Controlled areas]
-export const generateControlledAreas = (matrix: string[][]): [number[][], number[][]] => {
-  const whiteControlledAreas: Set<number[]> = new Set();
-  const blackControlledAreas: Set<number[]> = new Set();
+export const generateControlledAreas = (matrix: SMatrix): [Coordinate[], Coordinate[]] => {
+  const whiteControlledAreas: Set<Coordinate> = new Set();
+  const blackControlledAreas: Set<Coordinate> = new Set();
 
   boardMatrix = matrix;
 
@@ -15,11 +19,11 @@ export const generateControlledAreas = (matrix: string[][]): [number[][], number
     for (let col in matrix[row]) {
       const piece = matrix[row][col];
 
-      const xCoor = parseInt(col) + 1;
-      const yCoor = parseInt(row) + 1;
+      const xCoor = toCoorNum(parseInt(col) + 1);
+      const yCoor = toCoorNum(parseInt(row) + 1);
 
-      let foundWhiteAreas: Set<number[]> = new Set();
-      let foundBlackAreas: Set<number[]> = new Set();
+      let foundWhiteAreas: Set<Coordinate> = new Set();
+      let foundBlackAreas: Set<Coordinate> = new Set();
 
       switch (piece) {
         case pieceTagMap.white.pawn:
@@ -87,7 +91,7 @@ export const generateControlledAreas = (matrix: string[][]): [number[][], number
 };
 
 // isValid | isEmpty
-const isValidAndIsEmptyField = (x: number, y: number): boolean[] => {
+const isValidAndIsEmptyField = (x: number, y: number): [boolean, boolean] => {
   let isValid: boolean = false;
   let isEmpty: boolean = false;
 
@@ -103,46 +107,50 @@ const isValidAndIsEmptyField = (x: number, y: number): boolean[] => {
 };
 
 // controlled areas with pawns
-const checkPawnControlledAreas = (xCoor: number, yCoor: number, color: { [key: string]: string }): number[][] => {
-  const areas: number[][] = [];
+const checkPawnControlledAreas = (
+  xCoor: CoorNumber,
+  yCoor: CoorNumber,
+  color: { [key in PieceName]: WhitePieceTag | BlackPieceTag }
+): Coordinate[] => {
+  const areas: Coordinate[] = [];
 
   if (color === pieceTagMap.white) {
-    let x: number;
-    let y: number;
+    let x: CoorNumber;
+    let y: CoorNumber;
     let isValid: boolean;
 
     x = xCoor + 1;
     y = yCoor + 1;
     isValid = isValidAndIsEmptyField(x, y)[0];
     if (isValid) {
-      areas.push([x, y]);
+      areas.push(toCoor([x, y]));
     }
 
     x = xCoor - 1;
     y = yCoor + 1;
     isValid = isValidAndIsEmptyField(x, y)[0];
     if (isValid) {
-      areas.push([x, y]);
+      areas.push(toCoor([x, y]));
     }
   }
 
   if (color === pieceTagMap.black) {
-    let x: number;
-    let y: number;
+    let x: CoorNumber;
+    let y: CoorNumber;
     let isValid: boolean;
 
     x = xCoor + 1;
     y = yCoor - 1;
     isValid = isValidAndIsEmptyField(x, y)[0];
     if (isValid) {
-      areas.push([x, y]);
+      areas.push(toCoor([x, y]));
     }
 
     x = xCoor - 1;
     y = yCoor - 1;
     isValid = isValidAndIsEmptyField(x, y)[0];
     if (isValid) {
-      areas.push([x, y]);
+      areas.push(toCoor([x, y]));
     }
   }
 
@@ -150,8 +158,8 @@ const checkPawnControlledAreas = (xCoor: number, yCoor: number, color: { [key: s
 };
 
 // controlled areas with knights
-const checkKnightControlledAreas = (xCoor: number, yCoor: number): number[][] => {
-  const areas: number[][] = [];
+const checkKnightControlledAreas = (xCoor: CoorNumber, yCoor: CoorNumber): Coordinate[] => {
+  const areas: Coordinate[] = [];
   let isValid: boolean;
 
   for (const [dx, dy] of movementMap.knightMoves) {
@@ -160,7 +168,7 @@ const checkKnightControlledAreas = (xCoor: number, yCoor: number): number[][] =>
 
     isValid = isValidAndIsEmptyField(x, y)[0];
     if (isValid) {
-      areas.push([x, y]);
+      areas.push(toCoor([x, y]));
     }
   }
 
@@ -169,14 +177,15 @@ const checkKnightControlledAreas = (xCoor: number, yCoor: number): number[][] =>
 
 // controlled areas with bishops, rooks and queens
 const checkPiecesControlledAreas = (
-  xCoor: number,
-  yCoor: number,
-  pieceMoves: number[][],
-  color: number
-): number[][] => {
-  const areas: number[][] = [];
+  xCoor: CoorNumber,
+  yCoor: CoorNumber,
+  pieceMoves: NMatrix,
+  color: PieceColor
+): Coordinate[] => {
+  const areas: Coordinate[] = [];
 
-  for (const [dx, dy] of pieceMoves) {
+  for (const pieceMove of pieceMoves) {
+    const [dx, dy] = pieceMove;
     let x = xCoor + dx;
     let y = yCoor + dy;
     let [isValid, isEmpty]: boolean[] = [];
@@ -184,7 +193,8 @@ const checkPiecesControlledAreas = (
     [isValid, isEmpty] = isValidAndIsEmptyField(x, y);
 
     while (isValid) {
-      areas.push([x, y]);
+      const area = [x, y] as Coordinate;
+      areas.push(area);
 
       const piece = boardMatrix[y - 1][x - 1];
       let kingFound: boolean = false;
@@ -210,17 +220,17 @@ const checkPiecesControlledAreas = (
 };
 
 // controlled areas with kings
-const checkKingControlledAreas = (xCoor: number, yCoor: number): number[][] => {
-  const areas: number[][] = [];
-  let isValid: boolean;
+const checkKingControlledAreas = (xCoor: CoorNumber, yCoor: CoorNumber): Coordinate[] => {
+  const areas: Coordinate[] = [];
 
   for (const [dx, dy] of movementMap.kingMoves) {
     const x = xCoor + dx;
     const y = yCoor + dy;
 
-    isValid = isValidAndIsEmptyField(x, y)[0];
+    const isValid = isValidAndIsEmptyField(x, y)[0];
+
     if (isValid) {
-      areas.push([x, y]);
+      areas.push(toCoor([x, y]));
     }
   }
 
@@ -228,12 +238,12 @@ const checkKingControlledAreas = (xCoor: number, yCoor: number): number[][] => {
 };
 
 // creates areas that are involved in checking the king
-export const checkChecks = (matrix: string[][]): [number[][], number[][]] => {
-  const whiteCheckAreas: number[][] = [];
-  const blackCheckAreas: number[][] = [];
+export const checkChecks = (matrix: SMatrix): [Coordinate[], Coordinate[]] => {
+  const whiteCheckAreas: Coordinate[] = [];
+  const blackCheckAreas: Coordinate[] = [];
 
-  let whiteKingPosition: number[] | null = null;
-  let blackKingPosition: number[] | null = null;
+  let whiteKingPosition: Coordinate = null;
+  let blackKingPosition: Coordinate = null;
 
   for (let i = 0; i < matrix.length; i++) {
     if (whiteKingPosition !== null && blackKingPosition !== null) {
@@ -246,10 +256,10 @@ export const checkChecks = (matrix: string[][]): [number[][], number[][]] => {
       }
 
       if (matrix[i][j] === pieceTagMap.white.king) {
-        whiteKingPosition = [j + 1, i + 1];
+        whiteKingPosition = toCoor([j + 1, i + 1]);
       }
       if (matrix[i][j] === pieceTagMap.black.king) {
-        blackKingPosition = [j + 1, i + 1];
+        blackKingPosition = toCoor([j + 1, i + 1]);
       }
     }
   }
@@ -262,12 +272,12 @@ export const checkChecks = (matrix: string[][]): [number[][], number[][]] => {
 
     isValid = isValidAndIsEmptyField(wx - 1 + 1, wy - 1 + 1)[0];
     if (isValid && matrix[wy - 1 + 1][wx - 1 + 1] === pieceTagMap.black.pawn) {
-      blackCheckAreas.push([wx + 1, wy + 1]);
+      blackCheckAreas.push(toCoor([wx + 1, wy + 1]));
     }
 
     isValid = isValidAndIsEmptyField(wx - 1 - 1, wy - 1 + 1)[0];
     if (isValid && matrix[wy - 1 + 1][wx - 1 - 1] === pieceTagMap.black.pawn) {
-      blackCheckAreas.push([wx - 1, wy + 1]);
+      blackCheckAreas.push(toCoor([wx - 1, wy + 1]));
     }
 
     blackCheckAreas.push(
@@ -309,12 +319,12 @@ export const checkChecks = (matrix: string[][]): [number[][], number[][]] => {
 
     isValid = isValidAndIsEmptyField(bx - 1 + 1, by - 1 - 1)[0];
     if (isValid && matrix[by - 1 - 1][bx - 1 + 1] === pieceTagMap.white.pawn) {
-      whiteCheckAreas.push([bx + 1, by - 1]);
+      whiteCheckAreas.push(toCoor([bx + 1, by - 1]));
     }
 
     isValid = isValidAndIsEmptyField(bx - 1 - 1, by - 1 - 1)[0];
     if (isValid && matrix[by - 1 - 1][bx - 1 - 1] === pieceTagMap.white.pawn) {
-      whiteCheckAreas.push([bx - 1, by - 1]);
+      whiteCheckAreas.push(toCoor([bx - 1, by - 1]));
     }
 
     whiteCheckAreas.push(
@@ -360,33 +370,35 @@ export const checkChecks = (matrix: string[][]): [number[][], number[][]] => {
 
 // add checked areas for selected piece
 const checkAndAddCheckedAreas = (
-  matrix: string[][],
-  x: number,
-  y: number,
-  areas: number[][],
+  matrix: SMatrix,
+  x: CoorNumber,
+  y: CoorNumber,
+  areas: Coordinate[],
   pieceType: string,
   isLinearMovement: boolean
-): number[][] => {
-  const foundCheckAreas: number[][] = [];
+): Coordinate[] => {
+  const foundCheckAreas: Coordinate[] = [];
 
-  areas.forEach((area) => {
-    const piece = matrix[area[1] - 1][area[0] - 1];
+  areas.forEach((area: Coordinate) => {
+    if (area) {
+      const piece = matrix[area[1] - 1][area[0] - 1];
 
-    if (piece === pieceType) {
-      if (isLinearMovement) {
-        const distanceX = x - area[0];
-        const distanceY = y - area[1];
+      if (piece === pieceType) {
+        if (isLinearMovement) {
+          const distanceX = x - area[0];
+          const distanceY = y - area[1];
 
-        const stepX = distanceX > 0 ? -1 : distanceX < 0 ? 1 : 0;
-        const stepY = distanceY > 0 ? -1 : distanceY < 0 ? 1 : 0;
+          const stepX = distanceX > 0 ? -1 : distanceX < 0 ? 1 : 0;
+          const stepY = distanceY > 0 ? -1 : distanceY < 0 ? 1 : 0;
 
-        const steps = Math.max(Math.abs(distanceX), Math.abs(distanceY));
+          const steps = Math.max(Math.abs(distanceX), Math.abs(distanceY));
 
-        for (let i = 1; i <= steps; i++) {
-          foundCheckAreas.push([x + i * stepX, y + i * stepY]);
+          for (let i = 1; i <= steps; i++) {
+            foundCheckAreas.push(toCoor([x + i * stepX, y + i * stepY]));
+          }
+        } else {
+          foundCheckAreas.push(area);
         }
-      } else {
-        foundCheckAreas.push(area);
       }
     }
   });

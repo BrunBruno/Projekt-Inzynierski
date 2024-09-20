@@ -34,7 +34,7 @@ public class SearchGameRequestHandlerTests {
             Id = userId,
             Email = "user@test.com",
             Username = "Username",
-            Elo = new Elo(),
+            Elo = new UserElo(),
         };
 
         var request = new SearchGameRequest() 

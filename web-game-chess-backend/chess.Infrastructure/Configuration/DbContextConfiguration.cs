@@ -14,17 +14,18 @@ public class DbContextConfiguration :
     IEntityTypeConfiguration<Role>,
     IEntityTypeConfiguration<EmailVerificationCode>,
     IEntityTypeConfiguration<Core.Entities.DataConfiguration>,
-    IEntityTypeConfiguration<BannedUser>,
+    IEntityTypeConfiguration<UserBan>,
     IEntityTypeConfiguration<Game>,
     IEntityTypeConfiguration<GameTiming>,
     IEntityTypeConfiguration<GameState>,
     IEntityTypeConfiguration<Player>,
     IEntityTypeConfiguration<Move>,
     IEntityTypeConfiguration<Friendship>,
-    IEntityTypeConfiguration<Elo>,
-    IEntityTypeConfiguration<Message>,
+    IEntityTypeConfiguration<UserElo>,
+    IEntityTypeConfiguration<PlayerMessage>,
+    IEntityTypeConfiguration<GameMessage>,
     IEntityTypeConfiguration<UserStats>,
-    IEntityTypeConfiguration <Invitation>
+    IEntityTypeConfiguration <GameInvitation>
 {
 
     public void Configure(EntityTypeBuilder<User> builder) {
@@ -63,14 +64,14 @@ public class DbContextConfiguration :
             .HasData(GetConfiguration());
     }
 
-    public void Configure(EntityTypeBuilder<BannedUser> builder) {
+    public void Configure(EntityTypeBuilder<UserBan> builder) {
         builder
             .HasKey(bu => bu.Id);
 
         builder
             .HasOne(bu => bu.User)
             .WithOne()
-            .HasForeignKey<BannedUser>(bu => bu.UserId);
+            .HasForeignKey<UserBan>(bu => bu.UserId);
     }
 
     public void Configure(EntityTypeBuilder<Game> builder) {
@@ -143,17 +144,27 @@ public class DbContextConfiguration :
            .HasForeignKey(f => f.ReceiverId);
     }
 
-    public void Configure(EntityTypeBuilder<Elo> builder) {
+    public void Configure(EntityTypeBuilder<UserElo> builder) {
         builder
           .HasKey(e => e.Id);
 
         builder
             .HasOne(e => e.User)
             .WithOne(u => u.Elo)
-            .HasForeignKey<Elo>(e => e.UserId);
+            .HasForeignKey<UserElo>(e => e.UserId);
     }
 
-    public void Configure(EntityTypeBuilder<Message> builder) {
+    public void Configure(EntityTypeBuilder<GameMessage> builder) {
+        builder
+            .HasKey(m => m.Id);
+
+        builder
+            .HasOne(m => m.Game)
+            .WithMany(p => p.Messages)
+            .HasForeignKey(m => m.GameId);
+    }
+
+    public void Configure(EntityTypeBuilder<PlayerMessage> builder) {
         builder
             .HasKey(m => m.Id);
 
@@ -173,14 +184,14 @@ public class DbContextConfiguration :
             .HasForeignKey<UserStats>(us => us.UserId);
     }
 
-    public void Configure(EntityTypeBuilder<Invitation> builder) {
+    public void Configure(EntityTypeBuilder<GameInvitation> builder) {
         builder
             .HasKey(i => i.Id);
 
         builder
             .HasOne(i => i.Game)
             .WithOne()
-            .HasForeignKey<Invitation>(i => i.GameId);
+            .HasForeignKey<GameInvitation>(i => i.GameId);
     }
 
     private static IEnumerable<Role> GetRoles() {

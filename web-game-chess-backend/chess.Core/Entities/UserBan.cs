@@ -6,7 +6,7 @@ namespace chess.Core.Entities;
 /// <summary>
 /// Banned user entity
 /// </summary>
-public class BannedUser {
+public class UserBan {
 
     /// <summary>
     /// Banned user id

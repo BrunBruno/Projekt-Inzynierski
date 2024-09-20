@@ -38,7 +38,7 @@ public class CreateGameWithLinkRequestHandlerTests {
             Id = userId,
             Email = "user@test.com",
             Username = "Username",
-            Elo = new Elo(),
+            Elo = new UserElo(),
         };
 
         var gameTiming = new GameTiming()

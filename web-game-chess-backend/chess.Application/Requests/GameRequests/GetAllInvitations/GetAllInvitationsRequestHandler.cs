@@ -13,21 +13,21 @@ namespace chess.Application.Requests.GameRequests.GetAllInvitations;
 public class GetAllInvitationsRequestHandler : IRequestHandler<GetAllInvitationsRequest, PagedResult<GetAllInvitationsDto>> {
 
     private readonly IUserContextService _userContextService;
-    private readonly IInvitationRepository _invitationRepository;
+    private readonly IGameInvitationRepository _gameInvitationRepository;
 
     public GetAllInvitationsRequestHandler(
         IUserContextService userContextService,
-        IInvitationRepository invitationRepository
+        IGameInvitationRepository gameInvitationRepository
     ) {
         _userContextService = userContextService;
-        _invitationRepository = invitationRepository;
+        _gameInvitationRepository = gameInvitationRepository;
     }
 
     public async Task<PagedResult<GetAllInvitationsDto>> Handle(GetAllInvitationsRequest request, CancellationToken cancellationToken) {
 
         var userId = _userContextService.GetUserId();
 
-        var invitations = await _invitationRepository.GetAllForUser(userId);
+        var invitations = await _gameInvitationRepository.GetAllForUser(userId);
 
         var invitationsDtos = invitations.Select(invitation => new GetAllInvitationsDto()
         {

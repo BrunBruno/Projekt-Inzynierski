@@ -1,0 +1,181 @@
+@import "../../../Main.scss";
+
+.board {
+  @include wh100();
+
+  position: relative;
+
+  @mixin board() {
+    @include wh100();
+
+    position: relative;
+    aspect-ratio: 1/1;
+    display: grid;
+    grid-template-rows: repeat(8, 1fr);
+    overflow: hidden;
+  }
+
+  // inner board
+  &__inner {
+    @include board();
+
+    z-index: 10;
+    grid-template-columns: repeat(8, 1fr) 0;
+    gap: 0.4rem;
+
+    .field {
+      @include rounded(0.5rem);
+      @include flex();
+
+      position: relative;
+      z-index: 10;
+
+      &:nth-child(odd) {
+        background-color: rgba($mc0, 0.96);
+        &.old {
+          background-color: rgba($mc3, 0.96);
+        }
+        &.new {
+          background-color: rgba($mc3, 0.96);
+        }
+      }
+      &:nth-child(even) {
+        background-color: rgba($mc9, 0.96);
+        &.old {
+          background-color: rgba($mc4, 0.96);
+        }
+        &.new {
+          background-color: rgba($mc4, 0.96);
+        }
+      }
+
+      &.highlight {
+        background-color: rgba($danger-color-l, 0.96);
+      }
+
+      &.check {
+        background-image: radial-gradient(
+          circle at 50% 50%,
+          $danger-color-d 30%,
+          $danger-color-m 50%,
+          $danger-color-l 70%,
+          #0000 100%
+        );
+      }
+    }
+
+    .placeholder {
+      width: 0;
+    }
+  }
+  //*/
+
+  // outer board
+  &__outer {
+    @include board();
+
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 11;
+    grid-template-columns: repeat(8, 1fr);
+
+    .field {
+      @include flex();
+
+      position: relative;
+      z-index: 10;
+      aspect-ratio: 1/1;
+
+      &:hover {
+        filter: brightness(90%);
+      }
+
+      &.tip {
+        cursor: pointer;
+        background-image: radial-gradient(circle at 50% 50%, rgba(#000, 0.5) 30%, #0000 40%);
+
+        // to display capture
+        &:not(.selected) {
+          &:has(.piece) {
+            svg.piece-svg {
+              filter: drop-shadow(0 0 1rem $danger-color-m);
+            }
+          }
+        }
+      }
+
+      &.selected {
+        .piece {
+          svg.piece-svg {
+            filter: drop-shadow(0 0 1rem #000) brightness(60%);
+          }
+        }
+      }
+
+      .piece {
+        @include square(100%);
+        @include flex();
+
+        position: relative;
+        user-select: none;
+        transition: transform 0.1s;
+
+        &.own {
+          cursor: grab;
+          &:active {
+            cursor: grabbing;
+          }
+        }
+
+        svg.piece-svg {
+          height: calc(((64rem - 2rem) / 8) * 0.8);
+          transform: translateZ(-1px);
+          filter: drop-shadow(0 0 1rem #000);
+          pointer-events: none;
+        }
+
+        // capture icon
+        .capture {
+          @include square(3rem);
+
+          position: absolute;
+          z-index: 20;
+          top: 0;
+          right: 0;
+
+          svg.x {
+            @include absCenter();
+
+            height: 3rem;
+            z-index: 21;
+          }
+
+          svg.capture-svg {
+            @include absCenter();
+
+            height: 2rem;
+            z-index: 20;
+          }
+        }
+      }
+    }
+  }
+  //*/
+
+  .white-board {
+    transform: rotate(0deg);
+
+    .field {
+      transform: rotate(0deg);
+    }
+  }
+
+  .black-board {
+    transform: rotate(180deg);
+
+    .field {
+      transform: rotate(180deg);
+    }
+  }
+}

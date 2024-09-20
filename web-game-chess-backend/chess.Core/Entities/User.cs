@@ -77,7 +77,7 @@ public class User {
     /// <summary>
     /// Score points of player for different types
     /// </summary>
-    public Elo Elo { get; set; }
+    public UserElo Elo { get; set; }
 
     /// <summary>
     /// Statistics for users games

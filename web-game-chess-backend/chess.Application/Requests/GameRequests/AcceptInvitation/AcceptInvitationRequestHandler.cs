@@ -16,16 +16,16 @@ public class AcceptInvitationRequestHandler : IRequestHandler<AcceptInvitationRe
 
     private readonly IPlayerRepository _playerRepository;
     private readonly IUserContextService _userContextService;
-    private readonly IInvitationRepository _invitationRepository;
+    private readonly IGameInvitationRepository _gameInvitationRepository;
 
     public AcceptInvitationRequestHandler(
         IPlayerRepository playerRepository,
         IUserContextService userContextService,
-        IInvitationRepository invitationRepository
+        IGameInvitationRepository gameInvitationRepository
     ) {
         _playerRepository = playerRepository;
         _userContextService = userContextService;
-        _invitationRepository = invitationRepository;
+        _gameInvitationRepository = gameInvitationRepository;
     }
 
     public async Task Handle(AcceptInvitationRequest request, CancellationToken cancellationToken) {
@@ -41,7 +41,7 @@ public class AcceptInvitationRequestHandler : IRequestHandler<AcceptInvitationRe
         if (userId != invitee.UserId)
             throw new BadRequestException("This user can not accept chosen game.");
 
-        var invitation = await _invitationRepository.GetByGameId(request.GameId)
+        var invitation = await _gameInvitationRepository.GetByGameId(request.GameId)
               ?? throw new NotFoundException("Invitation not found.");
 
 
@@ -52,6 +52,6 @@ public class AcceptInvitationRequestHandler : IRequestHandler<AcceptInvitationRe
 
         await _playerRepository.Update(inviter);
         await _playerRepository.Update(invitee);
-        await _invitationRepository.Update(invitation);
+        await _gameInvitationRepository.Update(invitation);
     }
 }

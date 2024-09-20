@@ -29,9 +29,11 @@ public class GetEndedGameRequestHandlerTests {
         var game = new Entities.Game()
         {
             Id = gameId,
-            WinnerColor = Colors.Black,
+            WinnerColor = PieceColor.Black,
             HasEnded = true,
 
+              WhitePlayerRegistered = true,
+            BlackPlayerRegistered = true,
             WhitePlayer = new Player() { 
                 Name = "Username",
                 UserId = userId,
@@ -62,7 +64,7 @@ public class GetEndedGameRequestHandlerTests {
         var result = await handler.Handle(request, CancellationToken.None);
 
 
-        result.WinnerColor.Should().Be(Colors.Black);
+        result.WinnerColor.Should().Be(PieceColor.Black);
 
         _mockUserContextService.Verify(x => x.GetUserId(), Times.Once);
         _mockGameRepository.Verify(x => x.GetById(gameId), Times.Once);
@@ -105,9 +107,11 @@ public class GetEndedGameRequestHandlerTests {
         var game = new Entities.Game()
         {
             Id = gameId,
-            WinnerColor = Colors.Black,
+            WinnerColor = PieceColor.Black,
             HasEnded = true,
 
+              WhitePlayerRegistered = true,
+            BlackPlayerRegistered = true,
             WhitePlayer = new Player()
             {
                 Name = "Other",
@@ -153,9 +157,11 @@ public class GetEndedGameRequestHandlerTests {
         var game = new Entities.Game()
         {
             Id = gameId,
-            WinnerColor = Colors.Black,
+            WinnerColor = PieceColor.Black,
             HasEnded = false,
 
+              WhitePlayerRegistered = true,
+            BlackPlayerRegistered = true,
             WhitePlayer = new Player()
             {
                 Name = "Username",

@@ -34,6 +34,8 @@ public class GetGameTimingRequestHandlerTests {
             Id = gameId,
             GameTimingId = timingId,
 
+              WhitePlayerRegistered = true,
+            BlackPlayerRegistered = true,
             WhitePlayer = new Player()
             {
                 Name = "Username",
@@ -123,6 +125,8 @@ public class GetGameTimingRequestHandlerTests {
             Id = gameId,
             GameTimingId = timingId,
 
+              WhitePlayerRegistered = true,
+            BlackPlayerRegistered = true,
             WhitePlayer = new Player()
             {
                 Name = "Username",

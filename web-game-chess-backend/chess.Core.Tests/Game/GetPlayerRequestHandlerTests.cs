@@ -30,7 +30,7 @@ public class GetPlayerRequestHandlerTests {
         {
             Name = "Username",
             UserId = userId,
-            Color = Colors.White,
+            Color = PieceColor.White,
             IsPlaying = true,
         };
 

@@ -1,6 +1,6 @@
 import { Guid } from "guid-typescript";
 import AvatarImage from "../../../../../shared/components/avatar-image/AvatarImage";
-import { EndGameTypes, MessageType } from "../../../../../shared/utils/objects/entitiesEnums";
+import { GameEndReason, MessageType } from "../../../../../shared/utils/objects/entitiesEnums";
 import { getErrMessage } from "../../../../../shared/utils/functions/errors";
 import { usePopup } from "../../../../../shared/utils/hooks/usePopUp";
 import GameHubService from "../../../../../shared/utils/services/GameHubService";
@@ -25,7 +25,7 @@ function GameMessage({ gameId, message }: GameMessageProps) {
       const loserPlayer: EndGameModel = {
         gameId: gameId,
         loserColor: null,
-        endGameType: EndGameTypes.agreement,
+        endGameType: GameEndReason.agreement,
       };
 
       await GameHubService.EndGame(loserPlayer);

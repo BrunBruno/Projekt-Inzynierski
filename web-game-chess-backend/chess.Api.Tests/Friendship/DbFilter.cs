@@ -22,7 +22,7 @@ internal static partial class DbFilter {
             Username = "Requestor",
             PasswordHash = Constants.PasswordHash,
 
-            Elo = new Elo() {
+            Elo = new UserElo() {
                 Id = Guid.NewGuid(),
                 UserId = Guid.Parse(Constants.UserId),
             },
@@ -39,7 +39,7 @@ internal static partial class DbFilter {
             Username = "Receiver",
             PasswordHash = Constants.PasswordHash,
 
-            Elo = new Elo()
+            Elo = new UserElo()
             {
                 Id = Guid.NewGuid(),
                 UserId = friendId,
@@ -101,7 +101,7 @@ internal static partial class DbFilter {
                 PasswordHash = Constants.PasswordHash,
                 JoinDate = DateTime.UtcNow,
                 IsVerified = true,
-                Elo = new Elo() { },
+                Elo = new UserElo() { },
                 Stats = new UserStats { },
                
             });

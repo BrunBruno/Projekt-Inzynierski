@@ -1,7 +1,7 @@
-import { intToChar } from "../../../../shared/utils/chess-game/gameRelated";
 import { PieceColor } from "../../../../shared/utils/objects/entitiesEnums";
 import classes from "./GameBoardCoordinates.module.scss";
 import { GetPlayerDto } from "../../../../shared/utils/types/gameDtos";
+import { intToChar } from "../../game-page-functions/general";
 
 const fileAndRankSize = 8;
 

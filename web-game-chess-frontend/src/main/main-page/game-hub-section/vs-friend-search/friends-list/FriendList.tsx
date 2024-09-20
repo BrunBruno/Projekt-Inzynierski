@@ -107,7 +107,9 @@ function FriendList({ selectedUsername, setSelectedFriend }: FriendListProps) {
         </div>
       ) : (
         // friends list
-        friends.map((friend) => <FriendCard friend={friend} setSelectedFriend={setSelectedFriend} />)
+        friends.map((friend, i) => (
+          <FriendCard key={`friend-${i}`} friend={friend} setSelectedFriend={setSelectedFriend} />
+        ))
       )}
 
       {/* count indicator */}

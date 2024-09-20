@@ -6,12 +6,12 @@ namespace chess.Application.Repositories;
 /// <summary>
 /// Banned user interface
 /// </summary>
-public interface IBannedUserRepository {
+public interface IUserBanRepository {
 
     /// <summary>
     /// Create banned user
     /// </summary>
     /// <param name="bannedUser"> User </param>
     /// <returns></returns>
-    Task Create(BannedUser bannedUser);
+    Task Create(UserBan bannedUser);
 }

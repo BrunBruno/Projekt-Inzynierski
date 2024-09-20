@@ -2,12 +2,11 @@
 using chess.Core.Enums;
 
 namespace chess.Core.Entities;
-#pragma warning disable CS8618
 
 /// <summary>
 /// Message entity
 /// </summary>
-public class Message {
+public abstract class Message {
 
     /// <summary>
     /// Id
@@ -28,14 +27,4 @@ public class Message {
     /// Determines purpose of message
     /// </summary>
     public MessageType Type { get; set; }
-
-    /// <summary>
-    /// Player id
-    /// </summary>
-    public Guid PlayerId { get; set; }
-
-    /// <summary>
-    /// Player who sent the message
-    /// </summary>
-    public Player Player { get; set; }
 }

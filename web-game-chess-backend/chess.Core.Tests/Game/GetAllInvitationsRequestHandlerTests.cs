@@ -12,11 +12,11 @@ namespace chess.Core.Tests.Game;
 public class GetAllInvitationsRequestHandlerTests {
 
     private readonly Mock<IUserContextService> _mockUserContextService;
-    private readonly Mock<IInvitationRepository> _mockInvitationRepository;
+    private readonly Mock<IGameInvitationRepository> _mockGameInvitationRepository;
 
     public GetAllInvitationsRequestHandlerTests() {
         _mockUserContextService = new Mock<IUserContextService>();
-        _mockInvitationRepository = new Mock<IInvitationRepository>();
+        _mockGameInvitationRepository = new Mock<IGameInvitationRepository>();
     }
 
     [Fact]
@@ -33,12 +33,12 @@ public class GetAllInvitationsRequestHandlerTests {
 
 
         _mockUserContextService.Setup(x => x.GetUserId()).Returns(userId);
-        _mockInvitationRepository.Setup(x => x.GetAllForUser(userId)).ReturnsAsync(invitations);
+        _mockGameInvitationRepository.Setup(x => x.GetAllForUser(userId)).ReturnsAsync(invitations);
 
 
         var handler = new GetAllInvitationsRequestHandler(
             _mockUserContextService.Object,
-            _mockInvitationRepository.Object
+            _mockGameInvitationRepository.Object
         );
 
         var result = await handler.Handle(request, CancellationToken.None);
@@ -50,15 +50,15 @@ public class GetAllInvitationsRequestHandlerTests {
         result.ItemsTo = 10;
 
         _mockUserContextService.Verify(x => x.GetUserId(), Times.Once);
-        _mockInvitationRepository.Verify(x => x.GetAllForUser(userId), Times.Once);
+        _mockGameInvitationRepository.Verify(x => x.GetAllForUser(userId), Times.Once);
     }
 
-    private List<Invitation> ReturnExampleInvitations(Guid userId) {
+    private List<GameInvitation> ReturnExampleInvitations(Guid userId) {
 
-        var invitations = new List<Invitation>();
+        var invitations = new List<GameInvitation>();
 
         for(int i = 0; i < 20; i++) {
-            invitations.Add(new Invitation() { 
+            invitations.Add(new GameInvitation() { 
                 InviterId = Guid.NewGuid(),
                 InviterName = "Inviter",
                 InviteeId = userId,

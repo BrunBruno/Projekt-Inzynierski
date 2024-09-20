@@ -31,7 +31,7 @@ public class GetEloRequestHandlerTests {
             IsVerified = true,
             PasswordHash = "PasswordHash",
             RoleId = (int)Roles.User,
-            Elo = new Elo(),
+            Elo = new UserElo(),
         };
 
         var request = new GetEloRequest();

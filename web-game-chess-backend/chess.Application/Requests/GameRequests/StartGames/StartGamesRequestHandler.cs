@@ -60,6 +60,9 @@ public class StartGamesRequestHandler : IRequestHandler<StartGamesRequest> {
                     Id = Guid.NewGuid(),
                     TimingType = timing.Type,
                     GameTimingId = request.TimingId,
+
+                    WhitePlayerRegistered = false,
+                    BlackPlayerRegistered = false,
                 };
 
                 player.IsPlaying = true;
@@ -71,6 +74,9 @@ public class StartGamesRequestHandler : IRequestHandler<StartGamesRequest> {
                 var randomChoice = random.Next(2) == 0;
                 game.WhitePlayerId = randomChoice ? player.Id : closestPlayer.Id;
                 game.BlackPlayerId = randomChoice ? closestPlayer.Id : player.Id;
+
+                game.WhitePlayerRegistered = true;
+                game.BlackPlayerRegistered = true;
 
                 player.Color = randomChoice ? PieceColor.White : PieceColor.Black;
                 closestPlayer.Color = randomChoice ? PieceColor.Black : PieceColor.White;

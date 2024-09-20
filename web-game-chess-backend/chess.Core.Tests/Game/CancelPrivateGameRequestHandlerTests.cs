@@ -50,6 +50,8 @@ public class CancelPrivateGameRequestHandlerTests {
             WhitePlayer = whitePlayer,
             BlackPlayerId = blackPlayer.Id,
             BlackPlayer = blackPlayer,
+              WhitePlayerRegistered = true,
+            BlackPlayerRegistered = true,
 
             GameState = new GameState(),
         };
@@ -142,6 +144,8 @@ public class CancelPrivateGameRequestHandlerTests {
             Id = gameId,
             IsPrivate = true,
 
+              WhitePlayerRegistered = true,
+            BlackPlayerRegistered = true,
             WhitePlayerId = whitePlayer.Id,
             WhitePlayer = whitePlayer,
             BlackPlayerId = blackPlayer.Id,
@@ -206,6 +210,8 @@ public class CancelPrivateGameRequestHandlerTests {
             WhitePlayer = whitePlayer,
             BlackPlayerId = blackPlayer.Id,
             BlackPlayer = blackPlayer,
+              WhitePlayerRegistered = true,
+            BlackPlayerRegistered = true,
 
             GameState = new GameState(),
         };
@@ -262,10 +268,13 @@ public class CancelPrivateGameRequestHandlerTests {
             Id = gameId,
             IsPrivate = true,
 
+              WhitePlayerRegistered = true,
+            BlackPlayerRegistered = true,
             WhitePlayerId = whitePlayer.Id,
             WhitePlayer = whitePlayer,
             BlackPlayerId = blackPlayer.Id,
             BlackPlayer = blackPlayer,
+
 
             GameState = new GameState(),
         };
@@ -322,6 +331,8 @@ public class CancelPrivateGameRequestHandlerTests {
             Id = gameId,
             IsPrivate = true,
 
+              WhitePlayerRegistered = true,
+            BlackPlayerRegistered = true,
             WhitePlayerId = whitePlayer.Id,
             WhitePlayer = whitePlayer,
             BlackPlayerId = blackPlayer.Id,

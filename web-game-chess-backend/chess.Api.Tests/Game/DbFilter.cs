@@ -78,6 +78,8 @@ internal static partial class DbFilter {
             BlackPlayerId = blackPlayerId,
             GameTimingId = timingId,
             IsPrivate = isPrivate,
+            WhitePlayerRegistered = true,
+            BlackPlayerRegistered = true,
         };
 
         var state = new GameState()
@@ -103,7 +105,7 @@ internal static partial class DbFilter {
     /// <param name="color"></param>
     /// <returns></returns>
     /// <exception cref="InvalidOperationException"></exception>
-    internal static async Task AddPlayerToGame(this ChessAppDbContext dbContext, Guid playerId, Guid gameId, Colors color) {
+    internal static async Task AddPlayerToGame(this ChessAppDbContext dbContext, Guid playerId, Guid gameId, PieceColor color) {
 
         var player = await dbContext.Players.FirstOrDefaultAsync(p => p.Id == playerId)
             ?? throw new InvalidOperationException("Player not added.");
@@ -166,7 +168,7 @@ internal static partial class DbFilter {
     /// <param name="winner"></param>
     /// <returns></returns>
     /// <exception cref="InvalidOperationException"></exception>
-    internal static async Task EndGame(this ChessAppDbContext dbContext, Guid gameId, Colors winner) {
+    internal static async Task EndGame(this ChessAppDbContext dbContext, Guid gameId, PieceColor winner) {
 
         var game = await dbContext.Games.FirstOrDefaultAsync(g => g.Id == gameId)
            ?? throw new InvalidOperationException("Game not added.");
@@ -207,7 +209,7 @@ internal static partial class DbFilter {
 
         var games = new List<Core.Entities.Game>();
         var players = new List<Player>();
-        var invitations = new List<Invitation>();
+        var invitations = new List<GameInvitation>();
 
         int userPlayerBulletElo = 1000;
         int enemyPlayerBulletElo = 1000;
@@ -220,7 +222,7 @@ internal static partial class DbFilter {
                 Id = Guid.NewGuid(),
                 Name = Constants.Username,
                 Elo = i >= 50 ? userPlayerRapidElo : userPlayerBulletElo,
-                Color = i % 2 == 0 ? Colors.White : Colors.Black,
+                Color = i % 2 == 0 ? PieceColor.White : PieceColor.Black,
                 IsPlaying = true,
                 FinishedGame = isFinished,
                 UserId = Guid.Parse(Constants.UserId),
@@ -231,7 +233,7 @@ internal static partial class DbFilter {
                 Id = Guid.NewGuid(),
                 Name = "Enemy",
                 Elo = i >= 50 ? enemyPlayerRapidElo : enemyPlayerBulletElo,
-                Color = i % 2 == 0 ? Colors.Black : Colors.White,
+                Color = i % 2 == 0 ? PieceColor.Black : PieceColor.White,
                 IsPlaying = true,
                 FinishedGame = isFinished,
                 UserId = Guid.NewGuid(),
@@ -243,6 +245,8 @@ internal static partial class DbFilter {
                 HasEnded = isFinished,
                 CreatedAt = DateTime.UtcNow,
 
+                WhitePlayerRegistered = true,
+                BlackPlayerRegistered = true,
                 WhitePlayerId = i % 2 == 0 ? userPlayer.Id : enemyPlayer.Id,
                 WhitePlayer = i % 2 == 0 ? userPlayer : enemyPlayer,
                 BlackPlayerId = i % 2 == 0 ? enemyPlayer.Id : userPlayer.Id,
@@ -252,7 +256,7 @@ internal static partial class DbFilter {
                 GameTimingId = i >= 50 ? rapidTiming.Id : bulletTiming.Id,
 
                 EndGameType = i % 5 == 0 ? GameEndReason.CheckMate : GameEndReason.Resignation,
-                WinnerColor = i % 4 == 0 ? Colors.White : Colors.Black,
+                WinnerColor = i % 4 == 0 ? PieceColor.White : PieceColor.Black,
 
                 GameState = new GameState() { },
 
@@ -262,7 +266,7 @@ internal static partial class DbFilter {
             enemyPlayer.GameId = game.Id;
 
             if (withInvitation) {
-                invitations.Add(new Invitation() {
+                invitations.Add(new GameInvitation() {
                     Id = Guid.NewGuid(),
                     InviterId = i % 2 == 0 ? userPlayer.UserId : enemyPlayer.UserId,
                     InviterName = i % 2 == 0 ? userPlayer.Name : enemyPlayer.Name,
@@ -292,7 +296,7 @@ internal static partial class DbFilter {
             players.Add(enemyPlayer);
         }
 
-        await dbContext.Invitations.AddRangeAsync(invitations);
+        await dbContext.GameInvitations.AddRangeAsync(invitations);
         await dbContext.Players.AddRangeAsync(players);
         await dbContext.Games.AddRangeAsync(games);
         await dbContext.SaveChangesAsync();
@@ -305,7 +309,7 @@ internal static partial class DbFilter {
     /// <param name="gameId"></param>
     /// <returns></returns>
     /// <exception cref="InvalidOperationException"></exception>
-    internal static async Task AddMessagesToGame(this ChessAppDbContext dbContext, Guid gameId) {
+    internal static async Task AddPlayerMessagesToGame(this ChessAppDbContext dbContext, Guid gameId) {
 
         var game = await dbContext.Games
                 .Include(g => g.WhitePlayer)

@@ -1,12 +1,14 @@
 /* piece movement related options */
 
+import { NMatrix } from "../types/commonTypes";
+
 // pieces movement directions vectors lists
 type MovementMap = {
-  knightMoves: number[][];
-  bishopMoves: number[][];
-  rookMoves: number[][];
-  queenMoves: number[][];
-  kingMoves: number[][];
+  knightMoves: NMatrix;
+  bishopMoves: NMatrix;
+  rookMoves: NMatrix;
+  queenMoves: NMatrix;
+  kingMoves: NMatrix;
 };
 
 export const movementMap: MovementMap = {

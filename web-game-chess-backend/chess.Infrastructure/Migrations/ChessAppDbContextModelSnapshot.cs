@@ -205,6 +205,9 @@ namespace chess.Infrastructure.Migrations
                     b.Property<Guid>("BlackPlayerId")
                         .HasColumnType("uuid");
 
+                    b.Property<bool>("BlackPlayerReqistered")
+                        .HasColumnType("boolean");
+
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
 
@@ -244,6 +247,9 @@ namespace chess.Infrastructure.Migrations
 
                     b.Property<Guid>("WhitePlayerId")
                         .HasColumnType("uuid");
+
+                    b.Property<bool>("WhitePlayerReqistered")
+                        .HasColumnType("boolean");
 
                     b.Property<int?>("WinnerColor")
                         .HasColumnType("integer");

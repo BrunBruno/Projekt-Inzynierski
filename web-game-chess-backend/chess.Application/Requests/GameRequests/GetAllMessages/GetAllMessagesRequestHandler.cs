@@ -15,12 +15,12 @@ namespace chess.Application.Requests.GameRequests.GetAllMessages;
 public class GetAllMessagesRequestHandler : IRequestHandler<GetAllMessagesRequest, List<GetAllMessagesDto>> {
 
     private readonly IGameRepository _gameRepository;
-    private readonly IMessageRepository _messageRepository;
+    private readonly IPlayerMessageRepository _messageRepository;
     private readonly IUserContextService _userContextService;
 
     public GetAllMessagesRequestHandler(
         IGameRepository gameRepository,
-        IMessageRepository messageRepository,
+        IPlayerMessageRepository messageRepository,
         IUserContextService userContextService
     ) {
         _gameRepository = gameRepository;

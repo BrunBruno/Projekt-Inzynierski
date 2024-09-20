@@ -6,7 +6,7 @@ namespace chess.Core.Entities;
 /// Elo entity 
 /// One to one with each user
 /// </summary>
-public class Elo {
+public class UserElo {
 
     /// <summary>
     /// Id

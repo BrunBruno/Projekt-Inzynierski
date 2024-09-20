@@ -48,7 +48,7 @@ public class CheckIfUpdateRequiredTests : IClassFixture<TestWebApplicationFactor
         var userPlayerId = await _dbContext.AddPlayer(Guid.Parse(Constants.UserId), Constants.Username);
 
         var gameId = await _dbContext.AddGame(userPlayerId, userPlayerId, timingId, true);
-        await _dbContext.AddPlayerToGame(userPlayerId, gameId, Colors.White);
+        await _dbContext.AddPlayerToGame(userPlayerId, gameId, PieceColor.White);
 
         var response = await _client.GetAsync($"api/game/{gameId}/check-if-update-required");
 

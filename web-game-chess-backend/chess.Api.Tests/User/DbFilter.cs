@@ -73,7 +73,7 @@ internal static partial class DbFilter {
             Username = "TestUserName",
             PasswordHash = Constants.PasswordHash,
 
-            Elo = new Elo() { },
+            Elo = new UserElo() { },
             Stats = new UserStats() { },
         };
 
@@ -98,7 +98,7 @@ internal static partial class DbFilter {
             Username = "TestUserName",
             PasswordHash = Constants.PasswordHash,
 
-            Elo = new Elo() { },
+            Elo = new UserElo() { },
             Stats = new UserStats() { },
         };
 
@@ -134,13 +134,13 @@ internal static partial class DbFilter {
     /// <returns></returns>
     internal static async Task AddEloForUser(this ChessAppDbContext dbContext) {
 
-        var elo = new Elo()
+        var elo = new UserElo()
         {
             Id = Guid.NewGuid(),
             UserId = Guid.Parse(Constants.UserId),
         };
 
-        await dbContext.Elos.AddAsync(elo);
+        await dbContext.UserElos.AddAsync(elo);
         await dbContext.SaveChangesAsync();
     }
 

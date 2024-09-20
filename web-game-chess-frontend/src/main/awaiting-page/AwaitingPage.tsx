@@ -54,6 +54,8 @@ function AwaitingPage() {
           getAuthorization()
         );
 
+        console.log(response.data);
+
         if (response.data.isRequired) {
           await GameHubService.UpdatePrivateGame(gameId);
         }

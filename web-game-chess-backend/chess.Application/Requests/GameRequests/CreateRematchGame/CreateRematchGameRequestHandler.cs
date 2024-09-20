@@ -89,6 +89,9 @@ public class CreateRematchGameRequestHandler : IRequestHandler<CreateRematchGame
             IsPrivate = true,
             TimingType = timing.Type,
             GameTimingId = timing.Id,
+
+            WhitePlayerRegistered = true,
+            BlackPlayerRegistered = true,
         };
 
 

@@ -29,7 +29,7 @@ public class CreatePrivateGameRequestHandler : IRequestHandler<CreatePrivateGame
     private readonly IGameStateRepository _gameStateRepository;
     private readonly IPlayerRepository _playerRepository;
     private readonly IFriendshipRepository _friendshipRepository;
-    private readonly IInvitationRepository _invitationRepository;
+    private readonly IGameInvitationRepository _gameInvitationRepository;
     private readonly ISmtpService _smtpService;
 
     public CreatePrivateGameRequestHandler(
@@ -40,7 +40,7 @@ public class CreatePrivateGameRequestHandler : IRequestHandler<CreatePrivateGame
         IGameStateRepository gameStateRepository,
         IPlayerRepository playerRepository,
         IFriendshipRepository friendshipRepository,
-        IInvitationRepository invitationRepository,
+        IGameInvitationRepository gameInvitationRepository,
         ISmtpService smtpService
         
     ) {
@@ -51,7 +51,7 @@ public class CreatePrivateGameRequestHandler : IRequestHandler<CreatePrivateGame
         _gameStateRepository = gameStateRepository;
         _playerRepository = playerRepository;
         _friendshipRepository = friendshipRepository;
-        _invitationRepository = invitationRepository;
+        _gameInvitationRepository = gameInvitationRepository;
         _smtpService = smtpService;
     }
 
@@ -130,6 +130,9 @@ public class CreatePrivateGameRequestHandler : IRequestHandler<CreatePrivateGame
             IsPrivate = true,
             TimingType = timing.Type,
             GameTimingId = timing!.Id,
+
+            WhitePlayerRegistered = false,
+            BlackPlayerRegistered = false,
         };
 
         userPlayer.GameId = game.Id;
@@ -140,6 +143,9 @@ public class CreatePrivateGameRequestHandler : IRequestHandler<CreatePrivateGame
         game.WhitePlayerId = randomChoice ? userPlayer.Id : friendPlayer.Id;
         game.BlackPlayerId = randomChoice ? friendPlayer.Id : userPlayer.Id;
 
+        game.WhitePlayerRegistered = true;
+        game.BlackPlayerRegistered = true;
+
         userPlayer.Color = randomChoice ? PieceColor.White : PieceColor.Black;
         friendPlayer.Color = randomChoice ? PieceColor.Black : PieceColor.White;
 
@@ -149,7 +155,7 @@ public class CreatePrivateGameRequestHandler : IRequestHandler<CreatePrivateGame
             GameId = game.Id,
         };
 
-        var invitation = new Invitation()
+        var invitation = new GameInvitation()
         {
             Id = Guid.NewGuid(),
             InviterId = userId,
@@ -163,7 +169,7 @@ public class CreatePrivateGameRequestHandler : IRequestHandler<CreatePrivateGame
 
         await _gameRepository.Create(game);
         await _gameStateRepository.Create(gameState);
-        await _invitationRepository.Create(invitation);
+        await _gameInvitationRepository.Create(invitation);
 
 
         var privateGameDto = new CreatePrivateGameDto()

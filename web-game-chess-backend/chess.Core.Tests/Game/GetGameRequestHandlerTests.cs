@@ -30,6 +30,8 @@ public class GetGameRequestHandlerTests {
         {
             Id = gameId,
 
+            WhitePlayerRegistered = true,
+            BlackPlayerRegistered = true,
             WhitePlayer = new Player()
             {
                 Name = "Username",
@@ -111,6 +113,8 @@ public class GetGameRequestHandlerTests {
         {
             Id = gameId,
 
+            WhitePlayerRegistered = true,
+            BlackPlayerRegistered = true,
             WhitePlayer = new Player()
             {
                 Name = "Other",

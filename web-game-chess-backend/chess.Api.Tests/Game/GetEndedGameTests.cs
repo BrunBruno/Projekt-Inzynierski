@@ -55,7 +55,7 @@ public class GetEndedGameTests : IClassFixture<TestWebApplicationFactory<Program
         var gameId = await _dbContext.AddGame(userPlayerId, friendPlayerId, timingId, false);
 
         await _dbContext.StartGame(gameId);
-        await _dbContext.EndGame(gameId, Colors.Black);
+        await _dbContext.EndGame(gameId, PieceColor.Black);
 
 
         var response = await _client.GetAsync($"api/game/{gameId}/ended");
@@ -64,7 +64,7 @@ public class GetEndedGameTests : IClassFixture<TestWebApplicationFactory<Program
         response.StatusCode.Should().Be(HttpStatusCode.OK);
 
         var result = JsonConvert.DeserializeObject<GetEndedGameDto>(await response.Content.ReadAsStringAsync());
-        result.WinnerColor.Should().Be(Colors.Black);
+        result.WinnerColor.Should().Be(PieceColor.Black);
     }
 
     /// <summary>
@@ -157,7 +157,7 @@ public class GetEndedGameTests : IClassFixture<TestWebApplicationFactory<Program
         var gameId = await _dbContext.AddGame(otherPlayerId, friendPlayerId, timingId, false); // not owned game
 
         await _dbContext.StartGame(gameId);
-        await _dbContext.EndGame(gameId, Colors.Black);
+        await _dbContext.EndGame(gameId, PieceColor.Black);
 
 
         var response = await _client.GetAsync($"api/game/{gameId}/ended");

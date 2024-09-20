@@ -5,17 +5,17 @@ using chess.Infrastructure.Contexts;
 
 namespace chess.Infrastructure.Repositories;
 
-public class BannedUserRepository : IBannedUserRepository {
+public class UserEloRepository : IUserEloRepository {
 
     private readonly ChessAppDbContext _dbContext;
 
-    public BannedUserRepository(ChessAppDbContext dbContext) {
+    public UserEloRepository(ChessAppDbContext dbContext) {
         _dbContext = dbContext;
     }
 
     ///<inheritdoc/>
-    public async Task Create(BannedUser bannedUser) {
-        await _dbContext.BannedUsers.AddAsync(bannedUser);
+    public async Task Update(UserElo elo) {
+        _dbContext.UserElos.Update(elo);
         await _dbContext.SaveChangesAsync();
     }
 }

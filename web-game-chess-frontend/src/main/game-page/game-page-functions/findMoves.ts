@@ -1,8 +1,9 @@
-import { PieceColor } from "../objects/entitiesEnums";
-import { pieceTagMap } from "../objects/piecesNameMaps";
-import { movementMap, rankMap } from "../objects/piecesMovementMap";
-import { GameStates, SelectionStates } from "../types/gameStates";
-import { areCoorEqual, checkIfOwnPiece } from "./gameRelated";
+import { PieceColor } from "../../../shared/utils/objects/entitiesEnums";
+import { movementMap, rankMap } from "../../../shared/utils/objects/piecesMovementMap";
+import { pieceTagMap } from "../../../shared/utils/objects/piecesNameMaps";
+import { areCoorEqual, checkIfOwnPiece, toCoor } from "./general";
+import { Coordinate, CoorNumber, GameStates, PieceOption, SelectionStates } from "./types";
+import { BlackPieceTag, WhitePieceTag } from "../../../shared/utils/objects/constantLists";
 
 class FindMoves {
   // pins directions
@@ -40,16 +41,16 @@ class FindMoves {
   // selected piece
   private selectedPiece: string | null = null;
   // selected coor
-  private selectedCoor: number[] | null = null;
+  private selectedCoor: Coordinate | null = null;
 
   // generate areas when pieces can move to
   public find = (
     gameState: GameStates,
     selectionState: SelectionStates,
-    selectedPiece: string | null = null,
-    selectedCoor: number[] | null = null
-  ): number[][] => {
-    let foundTips: number[][] = [];
+    selectedPiece: PieceOption | null = null,
+    selectedCoor: Coordinate | null = null
+  ): Coordinate[] => {
+    let foundTips: Coordinate[] = [];
 
     this.gameState = gameState;
     this.selectionState = selectionState;
@@ -58,18 +59,19 @@ class FindMoves {
     this.selectedPiece = selectedPiece ? selectedPiece : this.selectionState.piece;
     this.selectedCoor = selectedCoor ? selectedCoor : this.selectionState.coordinates;
 
-    if (this.selectedPiece === "" && this.selectedCoor.length === 0) return [];
+    if (this.selectedPiece === "" && this.selectedCoor === null) return [];
     if (!this.gameState.playerData) return [];
 
     // add selected coordinates
-    let availableMoves: number[][] = [this.selectedCoor];
+    let availableMoves: Coordinate[] = [this.selectedCoor];
+    if (availableMoves[0] === null) return [];
 
     const color: number | null = this.gameState.playerData.color;
     const [xCoor, yCoor] = availableMoves[0];
 
     // check for pins
     const [isPinned, direction] = this.checkPin([xCoor, yCoor]);
-    const directionVector: number[][] | null = isPinned ? this.directionMap[direction] : null;
+    const directionVector: number[][] | null = isPinned && direction ? this.directionMap[direction] : null;
 
     switch (this.selectedPiece) {
       case pieceTagMap.white.pawn:
@@ -154,11 +156,11 @@ class FindMoves {
       y >= rankMap.white.backRank &&
       y <= rankMap.black.backRank
     ) {
-      const piece = this.gameState.matrix[y - 1][x - 1];
+      const piece = this.gameState.matrix[y - 1][x - 1] as PieceOption;
       isEmpty = piece === "";
       if (isEmpty) return [true, true];
 
-      const isOwnPiece = checkIfOwnPiece(piece, this.gameState.playerData);
+      const isOwnPiece = checkIfOwnPiece(piece as WhitePieceTag | BlackPieceTag, this.gameState.playerData);
 
       isValid = !isOwnPiece;
     }
@@ -167,14 +169,18 @@ class FindMoves {
   };
 
   // check for all available pawn moves
-  private checkPawnMove = ([xCoor, yCoor]: [number, number], directions: number[][] | null): number[][] => {
-    const availableMoves: number[][] = [];
+  private checkPawnMove = (coordinate: Coordinate, directions: number[][] | null): Coordinate[] => {
+    if (!coordinate) return [];
+
+    const [xCoor, yCoor] = coordinate;
+    const availableMoves: Coordinate[] = [];
 
     const pawnDirectionMap = {
       straight: 0,
       diagL: 1,
       diagR: -1,
     };
+
     const dir: number | null = directions ? directions[0][0] * directions[0][1] : null;
 
     const enPassantCoor: number[] | null = this.gameState?.gameData?.enPassant
@@ -186,8 +192,8 @@ class FindMoves {
     switch (this.gameState?.playerData?.color) {
       case PieceColor.white: {
         let firstIsValid: boolean = false;
-        let x: number;
-        let y: number;
+        let x: CoorNumber;
+        let y: CoorNumber;
 
         x = xCoor;
         y = yCoor + 1;
@@ -195,7 +201,7 @@ class FindMoves {
         // check pawn forward move
         if (this.isValidPawnMove([x, y], dir, pawnDirectionMap.straight)) {
           firstIsValid = true;
-          availableMoves.push([x, y]);
+          availableMoves.push(toCoor([x, y]));
         }
 
         x = xCoor + 1;
@@ -203,7 +209,7 @@ class FindMoves {
 
         // check pawn capture
         if (this.isValidPawnCapture([x, y], dir, pawnDirectionMap.diagL, enPassantCoor)) {
-          availableMoves.push([x, y]);
+          availableMoves.push(toCoor([x, y]));
         }
 
         x = xCoor - 1;
@@ -211,7 +217,7 @@ class FindMoves {
 
         // check pawn capture
         if (this.isValidPawnCapture([x, y], dir, pawnDirectionMap.diagR, enPassantCoor)) {
-          availableMoves.push([x, y]);
+          availableMoves.push(toCoor([x, y]));
         }
 
         // check forward move from starting position
@@ -220,7 +226,7 @@ class FindMoves {
           y = yCoor + 2;
 
           if (this.isValidPawnMove([x, y], dir, pawnDirectionMap.straight)) {
-            availableMoves.push([x, y]);
+            availableMoves.push(toCoor([x, y]));
           }
         }
 
@@ -229,8 +235,8 @@ class FindMoves {
 
       case PieceColor.black: {
         let firstIsValid: boolean = false;
-        let x: number;
-        let y: number;
+        let x: CoorNumber;
+        let y: CoorNumber;
 
         x = xCoor;
         y = yCoor - 1;
@@ -238,7 +244,7 @@ class FindMoves {
         // check pawn forward move
         if (this.isValidPawnMove([x, y], dir, pawnDirectionMap.straight)) {
           firstIsValid = true;
-          availableMoves.push([x, y]);
+          availableMoves.push(toCoor([x, y]));
         }
 
         x = xCoor + 1;
@@ -246,7 +252,7 @@ class FindMoves {
 
         // check pawn capture
         if (this.isValidPawnCapture([x, y], dir, pawnDirectionMap.diagR, enPassantCoor)) {
-          availableMoves.push([x, y]);
+          availableMoves.push(toCoor([x, y]));
         }
 
         x = xCoor - 1;
@@ -254,7 +260,7 @@ class FindMoves {
 
         // check pawn capture
         if (this.isValidPawnCapture([x, y], dir, pawnDirectionMap.diagL, enPassantCoor)) {
-          availableMoves.push([x, y]);
+          availableMoves.push(toCoor([x, y]));
         }
 
         // check forward move from starting position
@@ -263,7 +269,7 @@ class FindMoves {
           y = yCoor - 2;
 
           if (this.isValidPawnMove([x, y], dir, pawnDirectionMap.straight)) {
-            availableMoves.push([x, y]);
+            availableMoves.push(toCoor([x, y]));
           }
         }
 
@@ -291,21 +297,24 @@ class FindMoves {
     const [isValid, isEmpty] = this.isValidField([x, y]);
     return (
       isValid &&
-      (!isEmpty || (enPassantCoor !== null && areCoorEqual(enPassantCoor, [x, y]))) &&
+      (!isEmpty || (enPassantCoor !== null && areCoorEqual(toCoor(enPassantCoor), toCoor([x, y])))) &&
       (dir === null || dir === dirCheck)
     );
   }
 
   // check for all available knight moves
-  private checkKnightMoves = ([xCoor, yCoor]: [number, number]): number[][] => {
-    const availableMoves: number[][] = [];
+  private checkKnightMoves = (coordinates: Coordinate): Coordinate[] => {
+    if (!coordinates) return [];
+
+    const [xCoor, yCoor] = coordinates;
+    const availableMoves: Coordinate[] = [];
 
     for (const [dx, dy] of movementMap.knightMoves) {
       const x = xCoor + dx;
       const y = yCoor + dy;
 
       const isValid = this.isValidField([x, y])[0];
-      if (isValid) availableMoves.push([x, y]);
+      if (isValid) availableMoves.push(toCoor([x, y]));
     }
 
     return availableMoves;
@@ -313,11 +322,14 @@ class FindMoves {
 
   // check for all available rest of pieces moves
   private checkPiecesMoves = (
-    [xCoor, yCoor]: [number, number],
+    coordinates: Coordinate,
     pieceMoves: number[][],
     directions: number[][] | null
-  ): number[][] => {
-    const availableMoves: number[][] = [];
+  ): Coordinate[] => {
+    if (!coordinates) return [];
+
+    const [xCoor, yCoor] = coordinates;
+    const availableMoves: Coordinate[] = [];
 
     // set available moves to all or to limited when pinned
     const moves: number[][] = directions ? directions : pieceMoves;
@@ -331,7 +343,7 @@ class FindMoves {
       [isValid, isEmpty] = this.isValidField([x, y]);
       // check for all in line
       while (isValid) {
-        availableMoves.push([x, y]);
+        availableMoves.push(toCoor([x, y]));
 
         if (!isEmpty) break;
 
@@ -346,8 +358,11 @@ class FindMoves {
   };
 
   // check for all available king moves
-  private checkKingMoves = ([xCoor, yCoor]: [number, number], areas: number[][], piece: string): number[][] => {
-    const availableMoves: number[][] = [];
+  private checkKingMoves = (coordinates: Coordinate, areas: Coordinate[], piece: PieceOption): Coordinate[] => {
+    if (!coordinates) return [];
+
+    const [xCoor, yCoor] = coordinates;
+    const availableMoves: Coordinate[] = [];
 
     // check for all moves
     for (const [dx, dy] of movementMap.kingMoves) {
@@ -356,10 +371,10 @@ class FindMoves {
 
       const isValid = this.isValidField([x, y])[0];
 
-      const isInArea = areas.some((coord) => areCoorEqual([x, y], coord));
+      const isInArea = areas.some((coord) => areCoorEqual(toCoor([x, y]), coord));
 
       if (isValid && !isInArea) {
-        availableMoves.push([x, y]);
+        availableMoves.push(toCoor([x, y]));
       }
     }
 
@@ -375,16 +390,16 @@ class FindMoves {
           this.gameState.gameData.canBlackShortRookCastle &&
           piece === pieceTagMap.black.king)
       ) {
-        // if areas where king is passing are empty and not in enemies controll
+        // if areas where king is passing are empty and not in enemies control
         if (
           // first field empty and not in check
           this.gameState.matrix[yCoor - 1][xCoor - 1 + 1] === "" &&
-          !areas.some((coord) => areCoorEqual([xCoor + 1, yCoor], coord)) &&
+          !areas.some((coord) => areCoorEqual(toCoor([xCoor + 1, yCoor]), coord)) &&
           // second field empty and not in check
           this.gameState.matrix[yCoor - 1][xCoor - 1 + 2] === "" &&
-          !areas.some((coord) => areCoorEqual([xCoor + 2, yCoor], coord))
+          !areas.some((coord) => areCoorEqual(toCoor([xCoor + 2, yCoor]), coord))
         ) {
-          availableMoves.push([xCoor + 2, yCoor]);
+          availableMoves.push(toCoor([xCoor + 2, yCoor]));
         }
       }
 
@@ -402,14 +417,14 @@ class FindMoves {
         if (
           // first field empty and not in check
           this.gameState.matrix[yCoor - 1][xCoor - 1 - 1] === "" &&
-          !areas.some((coord) => areCoorEqual([xCoor - 1, yCoor], coord)) &&
+          !areas.some((coord) => areCoorEqual(toCoor([xCoor - 1, yCoor]), coord)) &&
           // second field empty and not in check
           this.gameState.matrix[yCoor - 1][xCoor - 1 - 2] === "" &&
-          !areas.some((coord) => areCoorEqual([xCoor - 2, yCoor], coord)) &&
+          !areas.some((coord) => areCoorEqual(toCoor([xCoor - 2, yCoor]), coord)) &&
           // third field empty
           this.gameState.matrix[yCoor - 1][xCoor - 1 - 3] === ""
         ) {
-          availableMoves.push([xCoor - 2, yCoor]);
+          availableMoves.push(toCoor([xCoor - 2, yCoor]));
         }
       }
     }
@@ -427,7 +442,11 @@ class FindMoves {
   };
 
   // check if piece is pinned (return isPinned, direction of pin)
-  private checkPin = ([xCoor, yCoor]: [number, number]): [boolean, string] => {
+  private checkPin = (coordinates: Coordinate): [boolean, string | null] => {
+    if (!coordinates) return [false, null];
+
+    const [xCoor, yCoor] = coordinates;
+
     if (!this.gameState || !this.gameState.playerData) return [false, ""];
 
     // no pines for king

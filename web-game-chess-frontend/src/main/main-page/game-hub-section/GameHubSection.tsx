@@ -84,7 +84,7 @@ function GameHubSection({ providedInterface }: GameHubSectionProps) {
   // used for every private game
   const handleGameAccepted = (gameId: Guid) => {
     if (timingType) {
-      navigate(`/main/game/${gameId}`, {
+      navigate(`/main/await/${gameId}`, {
         state: {
           timing: timingType,
           popupText: "Game started.",

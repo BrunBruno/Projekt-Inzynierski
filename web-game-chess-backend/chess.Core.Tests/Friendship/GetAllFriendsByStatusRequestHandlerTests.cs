@@ -32,7 +32,7 @@ public class GetAllFriendsByStatusRequestHandlerTests {
             Id = f.RequestorId == userId ? f.ReceiverId : f.RequestorId,
             Email = RandomString(5) + "@test.com",
             Username = RandomString(5),
-            Elo = new Elo(),
+            Elo = new UserElo(),
             Stats = new UserStats(),
         }).ToList();
 

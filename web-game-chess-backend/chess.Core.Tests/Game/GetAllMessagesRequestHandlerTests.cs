@@ -11,12 +11,12 @@ namespace chess.Core.Tests.Game;
 
 public class GetAllMessagesRequestHandlerTests {
 
-    private readonly Mock<IMessageRepository> _mockMessageRepository;
+    private readonly Mock<IPlayerMessageRepository> _mockPlayerMessageRepository;
     private readonly Mock<IGameRepository> _mockGameRepository;
     private readonly Mock<IUserContextService> _mockUserContextService;
 
     public GetAllMessagesRequestHandlerTests() {
-        _mockMessageRepository = new Mock<IMessageRepository>();
+        _mockPlayerMessageRepository = new Mock<IPlayerMessageRepository>();
         _mockGameRepository = new Mock<IGameRepository>();
         _mockUserContextService = new Mock<IUserContextService>();
     }
@@ -32,6 +32,8 @@ public class GetAllMessagesRequestHandlerTests {
         var game = new Entities.Game()
         {
             Id = gameId,
+              WhitePlayerRegistered = true,
+            BlackPlayerRegistered = true,
             WhitePlayerId = whitePlayerId,
             WhitePlayer = new Player() { 
                 Id = whitePlayerId,
@@ -59,12 +61,12 @@ public class GetAllMessagesRequestHandlerTests {
 
         _mockUserContextService.Setup(x => x.GetUserId()).Returns(userId);
         _mockGameRepository.Setup(x => x.GetById(gameId)).ReturnsAsync(game);
-        _mockMessageRepository.Setup(x => x.GetAllByPlayers(game.WhitePlayerId, game.BlackPlayerId)).ReturnsAsync(messages);
+        _mockPlayerMessageRepository.Setup(x => x.GetAllByPlayers(game.WhitePlayerId, game.BlackPlayerId)).ReturnsAsync(messages);
 
 
         var handler = new GetAllMessagesRequestHandler(
             _mockGameRepository.Object,
-            _mockMessageRepository.Object,
+            _mockPlayerMessageRepository.Object,
             _mockUserContextService.Object
         );
 
@@ -76,7 +78,7 @@ public class GetAllMessagesRequestHandlerTests {
 
         _mockUserContextService.Verify(x => x.GetUserId(), Times.Once);
         _mockGameRepository.Verify(x => x.GetById(gameId), Times.Once);
-        _mockMessageRepository.Verify(x => x.GetAllByPlayers(game.WhitePlayerId, game.BlackPlayerId), Times.Once);
+        _mockPlayerMessageRepository.Verify(x => x.GetAllByPlayers(game.WhitePlayerId, game.BlackPlayerId), Times.Once);
     }
 
     [Fact]
@@ -96,7 +98,7 @@ public class GetAllMessagesRequestHandlerTests {
 
         var handler = new GetAllMessagesRequestHandler(
             _mockGameRepository.Object,
-            _mockMessageRepository.Object,
+            _mockPlayerMessageRepository.Object,
             _mockUserContextService.Object
         );
 
@@ -106,7 +108,7 @@ public class GetAllMessagesRequestHandlerTests {
         await act.Should().ThrowAsync<NotFoundException>();
         _mockUserContextService.Verify(x => x.GetUserId(), Times.Once);
         _mockGameRepository.Verify(x => x.GetById(gameId), Times.Once);
-        _mockMessageRepository.Verify(x => x.GetAllByPlayers(It.IsAny<Guid>(), It.IsAny<Guid>()), Times.Never);
+        _mockPlayerMessageRepository.Verify(x => x.GetAllByPlayers(It.IsAny<Guid>(), It.IsAny<Guid>()), Times.Never);
     }
 
     [Fact]
@@ -120,6 +122,9 @@ public class GetAllMessagesRequestHandlerTests {
         var game = new Entities.Game()
         {
             Id = gameId,
+
+              WhitePlayerRegistered = true,
+            BlackPlayerRegistered = true,
             WhitePlayerId = whitePlayerId,
             WhitePlayer = new Player()
             {
@@ -150,7 +155,7 @@ public class GetAllMessagesRequestHandlerTests {
 
         var handler = new GetAllMessagesRequestHandler(
             _mockGameRepository.Object,
-            _mockMessageRepository.Object,
+            _mockPlayerMessageRepository.Object,
             _mockUserContextService.Object
         );
 
@@ -160,15 +165,15 @@ public class GetAllMessagesRequestHandlerTests {
         await act.Should().ThrowAsync<UnauthorizedException>();
         _mockUserContextService.Verify(x => x.GetUserId(), Times.Once);
         _mockGameRepository.Verify(x => x.GetById(gameId), Times.Once);
-        _mockMessageRepository.Verify(x => x.GetAllByPlayers(game.WhitePlayerId, game.BlackPlayerId), Times.Never);
+        _mockPlayerMessageRepository.Verify(x => x.GetAllByPlayers(game.WhitePlayerId, game.BlackPlayerId), Times.Never);
     }
 
-    private List<Message> returnExampleMessages(Player whitePlayer, Player blackPlayer) {
+    private List<PlayerMessage> returnExampleMessages(Player whitePlayer, Player blackPlayer) {
 
-        var messages = new List<Message>();
+        var messages = new List<PlayerMessage>();
 
         for(int i = 0; i < 10; i++) {
-            messages.Add(new Message() { 
+            messages.Add(new PlayerMessage() { 
                 Id = Guid.NewGuid(),
                 Content = "Message",
                 PlayerId = i % 2 == 0 ? whitePlayer.Id : blackPlayer.Id,

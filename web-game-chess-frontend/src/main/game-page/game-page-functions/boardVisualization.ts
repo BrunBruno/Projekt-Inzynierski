@@ -1,18 +1,19 @@
-import { PieceColor } from "../objects/entitiesEnums";
-import { PosToIndex } from "./gameRelated";
-import { GetPlayerDto } from "../types/gameDtos";
+import { posToIndex } from "./general";
 import { RefObject } from "react";
+import { Coordinate } from "./types";
+import { GetPlayerDto } from "../../../shared/utils/types/gameDtos";
+import { PieceColor } from "../../../shared/utils/objects/entitiesEnums";
 
 // to highlighting selected file
 // for tip displaying
 export const onHighlightFile = (
   ref: RefObject<HTMLDivElement>,
-  coordinates: number[],
+  coordinates: Coordinate,
   highlightClass: string,
   filedClass: string
 ) => {
   if (ref.current) {
-    const index = PosToIndex(coordinates);
+    const index = posToIndex(coordinates);
     const element = ref.current.querySelectorAll(`.${filedClass}`)[index];
 
     if (element.classList.contains(highlightClass)) {
@@ -36,10 +37,10 @@ export const performMoveAnimation = (
   boardRef: HTMLDivElement | null,
   selectedTarget: HTMLElement | null,
   playerData: GetPlayerDto,
-  coorFrom: number[],
-  coorTo: number[]
+  coorFrom: Coordinate,
+  coorTo: Coordinate
 ) => {
-  if (boardRef) {
+  if (boardRef && coorFrom && coorTo) {
     const tileWidth = boardRef.getBoundingClientRect().width / 8;
     const tileHeight = boardRef.getBoundingClientRect().height / 8;
     const xChange = coorFrom[0] - coorTo[0];

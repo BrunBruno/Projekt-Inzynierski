@@ -14,12 +14,12 @@ namespace chess.Application.Requests.GameRequests.RemoveDrawMessage;
 /// </summary>
 public class RemoveDrawMessageRequestHandler : IRequestHandler<RemoveDrawMessageRequest> {
 
-    private readonly IMessageRepository _messageRepository;
+    private readonly IPlayerMessageRepository _messageRepository;
     private readonly IGameRepository _gameRepository;
     private readonly IUserContextService _userContextService;
 
     public RemoveDrawMessageRequestHandler(
-        IMessageRepository messageRepository,
+        IPlayerMessageRepository messageRepository,
         IGameRepository gameRepository,
         IUserContextService userContextService
     ) {

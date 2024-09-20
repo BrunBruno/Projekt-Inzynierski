@@ -7,36 +7,36 @@ using Microsoft.EntityFrameworkCore;
 
 namespace chess.Infrastructure.Repositories;
 
-public class MessageRepository : IMessageRepository {
+public class PlayerMessageRepository : IPlayerMessageRepository {
 
     private readonly ChessAppDbContext _dbContext;
 
-    public MessageRepository(ChessAppDbContext dbContext) {
+    public PlayerMessageRepository(ChessAppDbContext dbContext) {
         _dbContext = dbContext;
     }
 
     ///<inheritdoc/>
-    public async Task<List<Message>> GetAllByPlayers(Guid whitePlayerId, Guid blackPlayerrId)
-        => await _dbContext.Messages
+    public async Task<List<PlayerMessage>> GetAllByPlayers(Guid whitePlayerId, Guid blackPlayerrId)
+        => await _dbContext.PlayerMessages
                     .Include(m => m.Player)
                     .Where(m => m.PlayerId == whitePlayerId || m.PlayerId == blackPlayerrId)
                     .OrderBy(m => m.SentAt)
                     .ToListAsync();
 
     ///<inheritdoc/>
-    public async Task<Message?> GetDrawMessage(Guid playerId)
-        => await _dbContext.Messages
+    public async Task<PlayerMessage?> GetDrawMessage(Guid playerId)
+        => await _dbContext.PlayerMessages
                     .FirstOrDefaultAsync(m => m.PlayerId == playerId && m.Type == MessageType.DrawAction);
 
     ///<inheritdoc/>
-    public async Task Create(Message message) {
-        await _dbContext.Messages.AddAsync(message);
+    public async Task Create(PlayerMessage message) {
+        await _dbContext.PlayerMessages.AddAsync(message);
         await _dbContext.SaveChangesAsync();
     }
 
     ///<inheritdoc/>
-    public async Task Delete(Message message) {
-        _dbContext.Messages.Remove(message);
+    public async Task Delete(PlayerMessage message) {
+        _dbContext.PlayerMessages.Remove(message);
         await _dbContext.SaveChangesAsync();
     }
 }

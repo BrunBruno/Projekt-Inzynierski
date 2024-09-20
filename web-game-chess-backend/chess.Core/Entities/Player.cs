@@ -97,5 +97,5 @@ public class Player {
     /// <summary>
     /// All messages sent durning game
     /// </summary>
-    public List<Message> Messages { get; set; }
+    public List<PlayerMessage> Messages { get; set; }
 }

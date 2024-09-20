@@ -81,8 +81,8 @@ public class GetOpponentTests : IClassFixture<TestWebApplicationFactory<Program>
         var otherPlayer2Id = await _dbContext.AddPlayer(Guid.NewGuid(), "OtherUsername2");
 
         var gameId = await _dbContext.AddGame(otherPlayerId, otherPlayer2Id, timingId, false); // not user game
-        await _dbContext.AddPlayerToGame(otherPlayerId, gameId, Colors.White);
-        await _dbContext.AddPlayerToGame(otherPlayer2Id, gameId, Colors.Black);
+        await _dbContext.AddPlayerToGame(otherPlayerId, gameId, PieceColor.White);
+        await _dbContext.AddPlayerToGame(otherPlayer2Id, gameId, PieceColor.Black);
 
 
         var response = await _client.GetAsync($"api/game/{gameId}/opponent");

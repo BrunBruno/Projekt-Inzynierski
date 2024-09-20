@@ -77,7 +77,7 @@ public class GetAllNonFriendsRequestHandlerTests {
                 Id = Guid.NewGuid(),
                 Email = RandomString(5) + "@test.com",
                 Username = RandomString(10),
-                Elo = new Elo(),
+                Elo = new UserElo(),
                 Stats = new UserStats(),
             }); 
         }

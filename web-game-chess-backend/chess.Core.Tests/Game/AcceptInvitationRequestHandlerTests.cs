@@ -13,12 +13,12 @@ public class AcceptInvitationRequestHandlerTests {
 
     private readonly Mock<IUserContextService> _mockUserContextService;
     private readonly Mock<IPlayerRepository> _mockPlayerRepository;
-    private readonly Mock<IInvitationRepository> _mockInvitationRepository;
+    private readonly Mock<IGameInvitationRepository> _mockGameInvitationRepository;
 
     public AcceptInvitationRequestHandlerTests() {
         _mockUserContextService = new Mock<IUserContextService>();
         _mockPlayerRepository = new Mock<IPlayerRepository>();
-        _mockInvitationRepository = new Mock<IInvitationRepository>();
+        _mockGameInvitationRepository = new Mock<IGameInvitationRepository>();
     }
 
     [Fact]
@@ -40,7 +40,7 @@ public class AcceptInvitationRequestHandlerTests {
             UserId = friendId,
         };
 
-        var gameInvitation = new Invitation()
+        var gameInvitation = new GameInvitation()
         {
             GameId = gameId,
             InviterId = friendId,
@@ -58,13 +58,13 @@ public class AcceptInvitationRequestHandlerTests {
         _mockUserContextService.Setup(x => x.GetUserId()).Returns(userId);
         _mockPlayerRepository.Setup(x => x.GetByUserIdAndGameId(request.InviterId, gameId)).ReturnsAsync(inviterPlayer);
         _mockPlayerRepository.Setup(x => x.GetByUserIdAndGameId(request.InviteeId, gameId)).ReturnsAsync(inviteePlayer);
-        _mockInvitationRepository.Setup(x => x.GetByGameId(gameId)).ReturnsAsync(gameInvitation);
+        _mockGameInvitationRepository.Setup(x => x.GetByGameId(gameId)).ReturnsAsync(gameInvitation);
 
 
         var handler = new AcceptInvitationRequestHandler(
             _mockPlayerRepository.Object,
             _mockUserContextService.Object,
-            _mockInvitationRepository.Object
+            _mockGameInvitationRepository.Object
         );
 
         var act = () => handler.Handle(request, CancellationToken.None);
@@ -74,10 +74,10 @@ public class AcceptInvitationRequestHandlerTests {
         _mockUserContextService.Verify(x => x.GetUserId(), Times.Once);
         _mockPlayerRepository.Verify(x => x.GetByUserIdAndGameId(request.InviterId, gameId), Times.Once);
         _mockPlayerRepository.Verify(x => x.GetByUserIdAndGameId(request.InviteeId, gameId), Times.Once);
-        _mockInvitationRepository.Verify(x => x.GetByGameId(gameId), Times.Once);
+        _mockGameInvitationRepository.Verify(x => x.GetByGameId(gameId), Times.Once);
         _mockPlayerRepository.Verify(x => x.Update(inviterPlayer), Times.Once);
         _mockPlayerRepository.Verify(x => x.Update(inviteePlayer), Times.Once);
-        _mockInvitationRepository.Verify(x => x.Update(gameInvitation), Times.Once);
+        _mockGameInvitationRepository.Verify(x => x.Update(gameInvitation), Times.Once);
     }
 
     [Fact]
@@ -101,7 +101,7 @@ public class AcceptInvitationRequestHandlerTests {
         var handler = new AcceptInvitationRequestHandler(
             _mockPlayerRepository.Object,
             _mockUserContextService.Object,
-            _mockInvitationRepository.Object
+            _mockGameInvitationRepository.Object
         );
 
         var act = () => handler.Handle(request, CancellationToken.None);
@@ -111,10 +111,10 @@ public class AcceptInvitationRequestHandlerTests {
         _mockUserContextService.Verify(x => x.GetUserId(), Times.Once);
         _mockPlayerRepository.Verify(x => x.GetByUserIdAndGameId(request.InviterId, gameId), Times.Once);
         _mockPlayerRepository.Verify(x => x.GetByUserIdAndGameId(request.InviteeId, gameId), Times.Never);
-        _mockInvitationRepository.Verify(x => x.GetByGameId(gameId), Times.Never);
+        _mockGameInvitationRepository.Verify(x => x.GetByGameId(gameId), Times.Never);
         _mockPlayerRepository.Verify(x => x.Update(It.IsAny<Player>()), Times.Never);
         _mockPlayerRepository.Verify(x => x.Update(It.IsAny<Player>()), Times.Never);
-        _mockInvitationRepository.Verify(x => x.Update(It.IsAny<Invitation>()), Times.Never);
+        _mockGameInvitationRepository.Verify(x => x.Update(It.IsAny<GameInvitation>()), Times.Never);
     }
 
     [Fact]
@@ -146,7 +146,7 @@ public class AcceptInvitationRequestHandlerTests {
         var handler = new AcceptInvitationRequestHandler(
             _mockPlayerRepository.Object,
             _mockUserContextService.Object,
-            _mockInvitationRepository.Object
+            _mockGameInvitationRepository.Object
         );
 
         var act = () => handler.Handle(request, CancellationToken.None);
@@ -156,10 +156,10 @@ public class AcceptInvitationRequestHandlerTests {
         _mockUserContextService.Verify(x => x.GetUserId(), Times.Once);
         _mockPlayerRepository.Verify(x => x.GetByUserIdAndGameId(request.InviterId, gameId), Times.Once);
         _mockPlayerRepository.Verify(x => x.GetByUserIdAndGameId(request.InviteeId, gameId), Times.Once);
-        _mockInvitationRepository.Verify(x => x.GetByGameId(gameId), Times.Never);
+        _mockGameInvitationRepository.Verify(x => x.GetByGameId(gameId), Times.Never);
         _mockPlayerRepository.Verify(x => x.Update(inviterPlayer), Times.Never);
         _mockPlayerRepository.Verify(x => x.Update(It.IsAny<Player>()), Times.Never);
-        _mockInvitationRepository.Verify(x => x.Update(It.IsAny<Invitation>()), Times.Never);
+        _mockGameInvitationRepository.Verify(x => x.Update(It.IsAny<GameInvitation>()), Times.Never);
     }
 
     [Fact]
@@ -197,7 +197,7 @@ public class AcceptInvitationRequestHandlerTests {
         var handler = new AcceptInvitationRequestHandler(
             _mockPlayerRepository.Object,
             _mockUserContextService.Object,
-            _mockInvitationRepository.Object
+            _mockGameInvitationRepository.Object
         );
 
         var act = () => handler.Handle(request, CancellationToken.None);
@@ -207,10 +207,10 @@ public class AcceptInvitationRequestHandlerTests {
         _mockUserContextService.Verify(x => x.GetUserId(), Times.Once);
         _mockPlayerRepository.Verify(x => x.GetByUserIdAndGameId(request.InviterId, gameId), Times.Once);
         _mockPlayerRepository.Verify(x => x.GetByUserIdAndGameId(request.InviteeId, gameId), Times.Once);
-        _mockInvitationRepository.Verify(x => x.GetByGameId(gameId), Times.Never);
+        _mockGameInvitationRepository.Verify(x => x.GetByGameId(gameId), Times.Never);
         _mockPlayerRepository.Verify(x => x.Update(inviterPlayer), Times.Never);
         _mockPlayerRepository.Verify(x => x.Update(inviteePlayer), Times.Never);
-        _mockInvitationRepository.Verify(x => x.Update(It.IsAny<Invitation>()), Times.Never);
+        _mockGameInvitationRepository.Verify(x => x.Update(It.IsAny<GameInvitation>()), Times.Never);
     }
 
     [Fact]
@@ -248,7 +248,7 @@ public class AcceptInvitationRequestHandlerTests {
         var handler = new AcceptInvitationRequestHandler(
             _mockPlayerRepository.Object,
             _mockUserContextService.Object,
-            _mockInvitationRepository.Object
+            _mockGameInvitationRepository.Object
         );
 
         var act = () => handler.Handle(request, CancellationToken.None);
@@ -258,9 +258,9 @@ public class AcceptInvitationRequestHandlerTests {
         _mockUserContextService.Verify(x => x.GetUserId(), Times.Once);
         _mockPlayerRepository.Verify(x => x.GetByUserIdAndGameId(request.InviterId, gameId), Times.Once);
         _mockPlayerRepository.Verify(x => x.GetByUserIdAndGameId(request.InviteeId, gameId), Times.Once);
-        _mockInvitationRepository.Verify(x => x.GetByGameId(gameId), Times.Once);
+        _mockGameInvitationRepository.Verify(x => x.GetByGameId(gameId), Times.Once);
         _mockPlayerRepository.Verify(x => x.Update(inviterPlayer), Times.Never);
         _mockPlayerRepository.Verify(x => x.Update(inviteePlayer), Times.Never);
-        _mockInvitationRepository.Verify(x => x.Update(It.IsAny<Invitation>()), Times.Never);
+        _mockGameInvitationRepository.Verify(x => x.Update(It.IsAny<GameInvitation>()), Times.Never);
     }
 }

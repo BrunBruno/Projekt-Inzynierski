@@ -9,7 +9,7 @@ namespace chess.Core.Maps.MapOfElo;
 /// </summary>
 public static class EloMap
 {
-    public static readonly Dictionary<TimingTypes, (Func<Elo, int> Get, Action<Elo, int> Set, Action<Elo, int> Update)> EloMapping = new()
+    public static readonly Dictionary<TimingTypes, (Func<UserElo, int> Get, Action<UserElo, int> Set, Action<UserElo, int> Update)> EloMapping = new()
     {
         {
             TimingTypes.Bullet,

@@ -43,27 +43,24 @@ public class UpdatePrivateGameRequestHandler : IRequestHandler<UpdatePrivateGame
 
 
         if (game.WhitePlayer.UserId == userId || game.BlackPlayer.UserId == userId) {
-
-            var userPlayer = game.WhitePlayer.Name == user.Username ? game.WhitePlayer : game.BlackPlayer;
+            bool playsAsWhite = game.WhitePlayer.Name == user.Username;
+            var userPlayer = playsAsWhite ? game.WhitePlayer : game.BlackPlayer;
 
             userPlayer.IsPlaying = true;
 
+            if (playsAsWhite)
+                game.WhitePlayerRegistered = true;
+            else
+                game.BlackPlayerRegistered = true;
 
+
+            await _gameRepository.Update(game);
             await _playerRepository.Update(userPlayer);
-
-
-            var updateDto = new UpdatePrivateGameDto()
-            {
-                ShouldStart = false,
-                WhitePlayerUserId = game.WhitePlayer.UserId,
-                BlackPlayerUserId = game.BlackPlayer.UserId,
-            };
-
-            return updateDto;
+        
 
         } else {
-
-            var userPlayer = game.WhitePlayer.Name == "" ? game.WhitePlayer : game.BlackPlayer;
+            bool playsAsWhite = game.WhitePlayer.Name == "";
+            var userPlayer = playsAsWhite ? game.WhitePlayer : game.BlackPlayer;
 
             int userElo = user.Elo.GetElo(game.TimingType);
 
@@ -74,17 +71,25 @@ public class UpdatePrivateGameRequestHandler : IRequestHandler<UpdatePrivateGame
             userPlayer.IsPlaying = true;
 
 
+
+            if (playsAsWhite)
+                game.WhitePlayerRegistered = true;
+            else
+                game.BlackPlayerRegistered = true;
+
+
+            await _gameRepository.Update(game);
             await _playerRepository.Update(userPlayer);
-
-
-            var updateDto = new UpdatePrivateGameDto()
-            {
-                ShouldStart = true,
-                WhitePlayerUserId = game.WhitePlayer.UserId,
-                BlackPlayerUserId = game.BlackPlayer.UserId,
-            };
-
-            return updateDto;
+         
         }
+
+        var updateDto = new UpdatePrivateGameDto()
+        {
+            ShouldStart = game.WhitePlayerRegistered && game.BlackPlayerRegistered,
+            WhitePlayerUserId = game.WhitePlayer.UserId,
+            BlackPlayerUserId = game.BlackPlayer.UserId,
+        };
+
+        return updateDto;
     }
 }

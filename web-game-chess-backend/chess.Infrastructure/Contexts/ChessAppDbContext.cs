@@ -33,7 +33,7 @@ public class ChessAppDbContext : DbContext {
     /// <summary>
     /// BannedUser dbSet
     /// </summary>
-    public DbSet<BannedUser> BannedUsers { get; set; }
+    public DbSet<UserBan> UserBans { get; set; }
 
     /// <summary>
     /// Games dbSet
@@ -66,14 +66,19 @@ public class ChessAppDbContext : DbContext {
     public DbSet<Friendship> Friendships { get; set; }
 
     /// <summary>
-    /// Elos db set (one to one user)
+    /// Elo db set (one to one user)
     /// </summary>
-    public DbSet<Elo> Elos { get; set; }
+    public DbSet<UserElo> UserElos { get; set; }
 
     /// <summary>
-    /// Messages db set (many to one player)
+    /// Player messages db set (many to one player)
     /// </summary>
-    public DbSet<Message> Messages { get; set; }
+    public DbSet<GameMessage> GameMessages { get; set; }
+
+    /// <summary>
+    /// Player messages db set (many to one player)
+    /// </summary>
+    public DbSet<PlayerMessage> PlayerMessages { get; set; }
 
     /// <summary>
     /// Stats db set (one to one user)
@@ -83,7 +88,7 @@ public class ChessAppDbContext : DbContext {
     /// <summary>
     /// Invitations db set (one to one game but not for all)
     /// </summary>
-    public DbSet<Invitation> Invitations { get; set; }
+    public DbSet<GameInvitation> GameInvitations { get; set; }
 
 
 
@@ -96,16 +101,17 @@ public class ChessAppDbContext : DbContext {
         builder.ApplyConfiguration<Role>(configuration);
         builder.ApplyConfiguration<EmailVerificationCode>(configuration);
         builder.ApplyConfiguration<DataConfiguration>(configuration);
-        builder.ApplyConfiguration<BannedUser>(configuration);
+        builder.ApplyConfiguration<UserBan>(configuration);
         builder.ApplyConfiguration<Game>(configuration);
         builder.ApplyConfiguration<GameTiming>(configuration);
         builder.ApplyConfiguration<GameState>(configuration);
         builder.ApplyConfiguration<Player>(configuration);
         builder.ApplyConfiguration<Move>(configuration);
         builder.ApplyConfiguration<Friendship>(configuration);
-        builder.ApplyConfiguration<Elo>(configuration);
-        builder.ApplyConfiguration<Message>(configuration);
+        builder.ApplyConfiguration<UserElo>(configuration);
+        builder.ApplyConfiguration<PlayerMessage>(configuration);
+        builder.ApplyConfiguration<GameMessage>(configuration);
         builder.ApplyConfiguration<UserStats>(configuration);
-        builder.ApplyConfiguration<Invitation>(configuration);
+        builder.ApplyConfiguration<GameInvitation>(configuration);
     }
 }

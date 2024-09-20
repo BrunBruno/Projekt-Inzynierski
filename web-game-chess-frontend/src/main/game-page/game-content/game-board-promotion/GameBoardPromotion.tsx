@@ -1,20 +1,38 @@
+import { Dispatch } from "react";
 import IconCreator from "../../../../shared/components/icon-creator/IconCreator";
 import { defaultPiecesImages } from "../../../../shared/svgs/iconsMap/DefaultPieceImageSvgs";
 import { PieceTag } from "../../../../shared/utils/objects/constantLists";
 import { PieceColor } from "../../../../shared/utils/objects/entitiesEnums";
 import { getPieceName, piecePromotionMap } from "../../../../shared/utils/objects/piecesNameMaps";
 import { GetPlayerDto } from "../../../../shared/utils/types/gameDtos";
+import { GameStates, PieceOption, SelectionStates } from "../../game-page-functions/types";
 import classes from "./GameBoardPromotion.module.scss";
+import { SelectionAction } from "../GameContentStates";
+import { makeMove } from "../../game-page-functions/makeMove";
 
 type GameBoardPromotionProps = {
   // player data
   playerData: GetPlayerDto;
-  // to perform pawn promotion by promoted piece code
-  onPerformPromotion: (promotedPiece: string) => void;
+  //
+  gameStates: GameStates;
+  //
+  selectionStates: SelectionStates;
+  //
+  setSelectionStates: Dispatch<SelectionAction>;
 };
 
-function GameBoardPromotion({ playerData, onPerformPromotion }: GameBoardPromotionProps) {
+function GameBoardPromotion({ playerData, gameStates, selectionStates, setSelectionStates }: GameBoardPromotionProps) {
   ///
+
+  // promote pawn to chosen piece
+  const onPerformPromotion = (promotedPiece: PieceOption): void => {
+    if (selectionStates.promotionCoor) {
+      makeMove(gameStates, selectionStates, selectionStates.promotionCoor, promotedPiece);
+    }
+
+    setSelectionStates({ type: "SET_PROMOTION_COOR", payload: null });
+  };
+  //*/
 
   return (
     <div className={classes.promotion}>
@@ -59,7 +77,7 @@ function GameBoardPromotion({ playerData, onPerformPromotion }: GameBoardPromoti
             </div>
           ))
         ) : (
-          <>x</>
+          <></>
         )}
         {/* --- */}
       </div>

@@ -16,16 +16,16 @@ namespace chess.Application.Requests.GameRequests.SendDrawMessage;
 /// </summary>
 public class SendDrawMessageRequestHandler : IRequestHandler<SendDrawMessageRequest> {
 
-    private readonly IMessageRepository _messageRepository;
+    private readonly IPlayerMessageRepository _playerMessageRepository;
     private readonly IGameRepository _gameRepository;
     private readonly IUserContextService _userContextService;
 
     public SendDrawMessageRequestHandler(
-        IMessageRepository messageRepository,
+        IPlayerMessageRepository playerMessageRepository,
         IGameRepository gameRepository,
         IUserContextService userContextService
     ) {
-        _messageRepository = messageRepository;
+        _playerMessageRepository = playerMessageRepository;
         _gameRepository = gameRepository;
         _userContextService = userContextService;
     }
@@ -41,8 +41,8 @@ public class SendDrawMessageRequestHandler : IRequestHandler<SendDrawMessageRequ
             throw new UnauthorizedException("This is not user game.");
 
 
-        var drawByWhite = await _messageRepository.GetDrawMessage(game.WhitePlayerId);
-        var drawByBlack = await _messageRepository.GetDrawMessage(game.BlackPlayerId);
+        var drawByWhite = await _playerMessageRepository.GetDrawMessage(game.WhitePlayerId);
+        var drawByBlack = await _playerMessageRepository.GetDrawMessage(game.BlackPlayerId);
 
         if (drawByWhite is not null || drawByBlack is not null)
             throw new BadRequestException("Draw offer already exists.");
@@ -51,7 +51,7 @@ public class SendDrawMessageRequestHandler : IRequestHandler<SendDrawMessageRequ
         var playerId = game.WhitePlayer.UserId == userId ? game.WhitePlayerId : game.BlackPlayerId;
         var userPlayer = game.WhitePlayer.UserId == userId ? game.WhitePlayer : game.BlackPlayer;
 
-        var message = new Message()
+        var message = new PlayerMessage()
         {
             Id = Guid.NewGuid(),
             Content = $"{userPlayer.Name} offered a draw.",
@@ -60,6 +60,6 @@ public class SendDrawMessageRequestHandler : IRequestHandler<SendDrawMessageRequ
         };
 
 
-        await _messageRepository.Create(message);
+        await _playerMessageRepository.Create(message);
     }
 }

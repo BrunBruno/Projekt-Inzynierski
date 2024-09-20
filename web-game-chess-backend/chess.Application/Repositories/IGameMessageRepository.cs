@@ -6,34 +6,34 @@ namespace chess.Application.Repositories;
 /// <summary>
 /// Message repository
 /// </summary>
-public interface IMessageRepository {
+public interface IGameMessageRepository {
 
     /// <summary>
-    /// Gets all messages for players of the game
+    /// Gets all auto messages for game
     /// </summary>
-    /// <param name="whitePlayerId"></param>
-    /// <param name="blackPlayerId"></param>
+    /// <param name="whiteGameId"></param>
+    /// <param name="blackGameId"></param>
     /// <returns></returns>
-    Task<List<Message>> GetAllByPlayers(Guid whitePlayerId, Guid blackPlayerId);
+    Task<List<GameMessage>> GetAll(Guid gameId);
 
     /// <summary>
     /// 
     /// </summary>
     /// <param name="gameId"></param>
     /// <returns></returns>
-    Task<Message?> GetDrawMessage(Guid playerId);
+    Task<GameMessage?> GetDrawMessage(Guid gameId);
 
     /// <summary>
     /// Creates new message
     /// </summary>
     /// <param name="message"></param>
     /// <returns></returns>
-    Task Create(Message message);
+    Task Create(GameMessage message);
 
     /// <summary>
     /// Removes message
     /// </summary>
     /// <param name="message"></param>
     /// <returns></returns>
-    Task Delete(Message message);
+    Task Delete(GameMessage message);
 }

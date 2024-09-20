@@ -40,6 +40,8 @@ public class CheckIfUpdateRequiredRequestHandlerTests {
 
             GameTimingId = gameTiming.Id,
 
+              WhitePlayerRegistered = true,
+            BlackPlayerRegistered = true,
             WhitePlayer = new Player()
             {
                 Name = "Username",
@@ -100,6 +102,8 @@ public class CheckIfUpdateRequiredRequestHandlerTests {
 
             GameTimingId = gameTiming.Id,
 
+              WhitePlayerRegistered = true,
+            BlackPlayerRegistered = true,
             WhitePlayer = new Player()
             {
                 Name = "Username",
@@ -153,6 +157,8 @@ public class CheckIfUpdateRequiredRequestHandlerTests {
 
             GameTimingId = gameTiming.Id,
 
+              WhitePlayerRegistered = true,
+            BlackPlayerRegistered = true,
             WhitePlayer = new Player()
             {
                 Name = "Username",

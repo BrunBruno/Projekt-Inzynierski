@@ -33,7 +33,7 @@ public class CheckIfUpdateRequiredRequestHandler : IRequestHandler<CheckIfUpdate
 
         var isRequired = new CheckIfUpdateRequiredDto()
         {
-            IsRequired = game.WhitePlayer.UserId == game.BlackPlayer.UserId,
+            IsRequired = !game.WhitePlayerRegistered || !game.BlackPlayerRegistered,
             Type = gameTiming.Type,
             Minutes = gameTiming.Seconds / 60,
             Increment = gameTiming.Increment,

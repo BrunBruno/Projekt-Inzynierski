@@ -18,7 +18,7 @@ public class CreateGameByEmailRequestHandlerTests {
     private readonly Mock<IGameRepository> _mockGameRepository;
     private readonly Mock<IGameTimingRepository> _mockGameTimingRepository;
     private readonly Mock<IGameStateRepository> _mockGameStateRepository;
-    private readonly Mock<IInvitationRepository> _mockInvitationRepository;
+    private readonly Mock<IGameInvitationRepository> _mockGameInvitationRepository;
     private readonly Mock<ISmtpService> _mockSmtpService;
 
     public CreateGameByEmailRequestHandlerTests() {
@@ -28,7 +28,7 @@ public class CreateGameByEmailRequestHandlerTests {
         _mockGameRepository = new Mock<IGameRepository>();
         _mockGameTimingRepository = new Mock<IGameTimingRepository>();
         _mockGameStateRepository = new Mock<IGameStateRepository>();
-        _mockInvitationRepository = new Mock<IInvitationRepository>();
+        _mockGameInvitationRepository = new Mock<IGameInvitationRepository>();
         _mockSmtpService = new Mock<ISmtpService>();
     }
 
@@ -42,14 +42,14 @@ public class CreateGameByEmailRequestHandlerTests {
             Id = userId,
             Email = "user@test.com",
             Username = "Username",
-            Elo = new Elo(),
+            Elo = new UserElo(),
         };
         var friend = new Entities.User() 
         {
             Id = Guid.NewGuid(),
             Email = "friend@test.com",
             Username = "Friend",
-            Elo = new Elo(),
+            Elo = new UserElo(),
         };
 
         var gameTiming = new GameTiming()
@@ -80,7 +80,7 @@ public class CreateGameByEmailRequestHandlerTests {
              _mockGameTimingRepository.Object,
              _mockGameStateRepository.Object,
              _mockPlayerRepository.Object,
-             _mockInvitationRepository.Object,
+             _mockGameInvitationRepository.Object,
              _mockSmtpService.Object
          );
 
@@ -98,7 +98,7 @@ public class CreateGameByEmailRequestHandlerTests {
         _mockPlayerRepository.Verify(x => x.Create(It.IsAny<Player>()), Times.Exactly(2));
         _mockGameRepository.Verify(x => x.Create(It.IsAny<Entities.Game>()), Times.Once);
         _mockGameStateRepository.Verify(x => x.Create(It.IsAny<GameState>()), Times.Once);
-        _mockInvitationRepository.Verify(x => x.Create(It.IsAny<Invitation>()), Times.Once);
+        _mockGameInvitationRepository.Verify(x => x.Create(It.IsAny<GameInvitation>()), Times.Once);
         _mockSmtpService.Verify(x => x.SendGameInvitation(friend.Email, friend.Username, user.Username), Times.Once);
     }
 
@@ -134,7 +134,7 @@ public class CreateGameByEmailRequestHandlerTests {
              _mockGameTimingRepository.Object,
              _mockGameStateRepository.Object,
              _mockPlayerRepository.Object,
-             _mockInvitationRepository.Object,
+             _mockGameInvitationRepository.Object,
              _mockSmtpService.Object
          );
 
@@ -150,7 +150,7 @@ public class CreateGameByEmailRequestHandlerTests {
         _mockPlayerRepository.Verify(x => x.Create(It.IsAny<Player>()), Times.Never);
         _mockGameRepository.Verify(x => x.Create(It.IsAny<Entities.Game>()), Times.Never);
         _mockGameStateRepository.Verify(x => x.Create(It.IsAny<GameState>()), Times.Never);
-        _mockInvitationRepository.Verify(x => x.Create(It.IsAny<Invitation>()), Times.Never);
+        _mockGameInvitationRepository.Verify(x => x.Create(It.IsAny<GameInvitation>()), Times.Never);
         _mockSmtpService.Verify(x => x.SendGameInvitation(request.Email, It.IsAny<string>(), It.IsAny<string>()), Times.Never);
     }
 
@@ -164,7 +164,7 @@ public class CreateGameByEmailRequestHandlerTests {
             Id = userId,
             Email = "user@test.com",
             Username = "Username",
-            Elo = new Elo(),
+            Elo = new UserElo(),
         };
 
         var gameTiming = new GameTiming()
@@ -194,7 +194,7 @@ public class CreateGameByEmailRequestHandlerTests {
              _mockGameTimingRepository.Object,
              _mockGameStateRepository.Object,
              _mockPlayerRepository.Object,
-             _mockInvitationRepository.Object,
+             _mockGameInvitationRepository.Object,
              _mockSmtpService.Object
          );
 
@@ -210,7 +210,7 @@ public class CreateGameByEmailRequestHandlerTests {
         _mockPlayerRepository.Verify(x => x.Create(It.IsAny<Player>()), Times.Never);
         _mockGameRepository.Verify(x => x.Create(It.IsAny<Entities.Game>()), Times.Never);
         _mockGameStateRepository.Verify(x => x.Create(It.IsAny<GameState>()), Times.Never);
-        _mockInvitationRepository.Verify(x => x.Create(It.IsAny<Invitation>()), Times.Never);
+        _mockGameInvitationRepository.Verify(x => x.Create(It.IsAny<GameInvitation>()), Times.Never);
         _mockSmtpService.Verify(x => x.SendGameInvitation(request.Email, It.IsAny<string>(), It.IsAny<string>()), Times.Never);
     }
 }

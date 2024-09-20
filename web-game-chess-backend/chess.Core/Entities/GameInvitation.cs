@@ -7,7 +7,7 @@ namespace chess.Core.Entities;
 /// <summary>
 /// Invitation entity
 /// </summary>
-public class Invitation {
+public class GameInvitation {
 
     /// <summary>
     /// Id

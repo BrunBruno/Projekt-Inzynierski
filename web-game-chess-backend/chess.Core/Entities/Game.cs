@@ -39,7 +39,7 @@ public class Game {
     /// <summary>
     /// Time when game has ended
     /// </summary>
-    public DateTime? EndedAt {  get; set; } = null;
+    public DateTime? EndedAt { get; set; } = null;
 
     /// <summary>
     /// Turn of game
@@ -54,7 +54,7 @@ public class Game {
     /// <summary>
     /// Winner color (null is draw)
     /// </summary>
-    public PieceColor? WinnerColor { get; set; }  = null;
+    public PieceColor? WinnerColor { get; set; } = null;
 
     /// <summary>
     /// Timing for game
@@ -76,6 +76,8 @@ public class Game {
     /// </summary>
     public Guid WhitePlayerId { get; set; }
 
+    public required bool WhitePlayerRegistered { get; set; }
+
     /// <summary>
     /// White player
     /// </summary>
@@ -85,6 +87,8 @@ public class Game {
     /// Id of player playing as black
     /// </summary>
     public Guid BlackPlayerId { get; set; }
+
+    public required bool BlackPlayerRegistered { get; set; }
 
     /// <summary>
     /// Black player
@@ -110,4 +114,9 @@ public class Game {
     /// List of moves that was done during game
     /// </summary>
     public List<Move> Moves { get; set; }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    public List<GameMessage> Messages { get; set; }
 }

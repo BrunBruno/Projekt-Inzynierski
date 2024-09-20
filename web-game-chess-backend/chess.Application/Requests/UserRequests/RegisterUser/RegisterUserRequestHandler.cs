@@ -62,7 +62,7 @@ public class RegisterUserRequestHandler : IRequestHandler<RegisterUserRequest> {
             Email = request.Email.ToLower(),
             Username = request.Username,
             Country = request.Country,
-            Elo = new Elo(),
+            Elo = new UserElo(),
             Stats = new UserStats(),
         };
 

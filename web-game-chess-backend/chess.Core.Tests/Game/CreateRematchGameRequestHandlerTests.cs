@@ -39,14 +39,14 @@ public class CreateRematchGameRequestHandlerTests {
             Id = userId,
             Email = "user@test.com",
             Username = "Username",
-            Elo = new Elo(),
+            Elo = new UserElo(),
         };
         var friend = new Entities.User()
         {
             Id = friendId,
             Email = "friend@test.com",
             Username = "Friend",
-            Elo = new Elo(),
+            Elo = new UserElo(),
         };
 
         var gameTiming = new GameTiming()
@@ -207,7 +207,7 @@ public class CreateRematchGameRequestHandlerTests {
             Id = userId,
             Email = "user@test.com",
             Username = "Username",
-            Elo = new Elo(),
+            Elo = new UserElo(),
         };
 
         var gameTiming = new GameTiming()

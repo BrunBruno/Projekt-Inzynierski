@@ -47,8 +47,8 @@ public class CancelPrivateGameTests : IClassFixture<TestWebApplicationFactory<Pr
         var friendPlayerId = await _dbContext.AddPlayer(Guid.NewGuid(), "friend");
 
         var gameId = await _dbContext.AddGame(userPlayerId, friendPlayerId, timingId, true);
-        await _dbContext.AddPlayerToGame(userPlayerId, gameId, Colors.White);
-        await _dbContext.AddPlayerToGame(friendPlayerId, gameId, Colors.Black);
+        await _dbContext.AddPlayerToGame(userPlayerId, gameId, PieceColor.White);
+        await _dbContext.AddPlayerToGame(friendPlayerId, gameId, PieceColor.Black);
 
 
         var response = await _client.DeleteAsync($"api/game/{gameId}/cancel");
@@ -116,8 +116,8 @@ public class CancelPrivateGameTests : IClassFixture<TestWebApplicationFactory<Pr
         var friendPlayerId = await _dbContext.AddPlayer(Guid.NewGuid(), "friend");
 
         var gameId = await _dbContext.AddGame(userPlayerId, friendPlayerId, timingId, false); // not private
-        await _dbContext.AddPlayerToGame(userPlayerId, gameId, Colors.White);
-        await _dbContext.AddPlayerToGame(friendPlayerId, gameId, Colors.Black);
+        await _dbContext.AddPlayerToGame(userPlayerId, gameId, PieceColor.White);
+        await _dbContext.AddPlayerToGame(friendPlayerId, gameId, PieceColor.Black);
 
 
         var response = await _client.DeleteAsync($"api/game/{gameId}/cancel");
@@ -150,8 +150,8 @@ public class CancelPrivateGameTests : IClassFixture<TestWebApplicationFactory<Pr
         var otherPlayerId = await _dbContext.AddPlayer(Guid.NewGuid(), "OtherUsername");
 
         var gameId = await _dbContext.AddGame(otherPlayerId, friendPlayerId, timingId, true); // user not in game
-        await _dbContext.AddPlayerToGame(otherPlayerId, gameId, Colors.White);
-        await _dbContext.AddPlayerToGame(friendPlayerId, gameId, Colors.Black);
+        await _dbContext.AddPlayerToGame(otherPlayerId, gameId, PieceColor.White);
+        await _dbContext.AddPlayerToGame(friendPlayerId, gameId, PieceColor.Black);
 
 
         var response = await _client.DeleteAsync($"api/game/{gameId}/cancel");

@@ -13,7 +13,7 @@ import {
 } from "../../shared/utils/types/gameDtos";
 import { gameControllerPaths, getAuthorization } from "../../shared/utils/services/ApiService";
 import LoadingPage from "../../shared/components/loading-page/LoadingPage";
-import GameBoard from "./game-board/GameBoard";
+import GameContent from "./game-content/GameContent";
 import GameHubService from "../../shared/utils/services/GameHubService";
 import LeftSideBar from "./left-sidebar/LeftSideBar";
 import RightSideBar from "./right-sidebar/RightSideBar";
@@ -238,7 +238,7 @@ function GamePage() {
         setConfirmAction={setConfirmAction}
       />
 
-      <GameBoard
+      <GameContent
         gameId={gameId}
         gameData={gameData}
         playerData={playerData}

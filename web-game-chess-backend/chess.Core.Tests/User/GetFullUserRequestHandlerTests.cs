@@ -32,7 +32,7 @@ public class GetFullUserRequestHandlerTests {
             IsVerified = true,
             PasswordHash = "PasswordHash",
             RoleId = (int)Roles.User,
-            Elo = new Elo(),
+            Elo = new UserElo(),
             Stats = new UserStats(),
         };
 

@@ -16,16 +16,16 @@ public class DeclineInvitationRequestHandler : IRequestHandler<DeclineInvitation
 
     private readonly IUserContextService _userContextService;
     private readonly IGameRepository _gameRepository;
-    private readonly IInvitationRepository _invitationRepository;
+    private readonly IGameInvitationRepository _gameInvitationRepository;
 
     public DeclineInvitationRequestHandler(
         IUserContextService userContextService,
         IGameRepository gameRepository,
-        IInvitationRepository invitationRepository
+        IGameInvitationRepository gameInvitationRepository
     ) {
         _userContextService = userContextService;
         _gameRepository = gameRepository;
-        _invitationRepository = invitationRepository;
+        _gameInvitationRepository = gameInvitationRepository;
     }
 
     public async Task Handle(DeclineInvitationRequest request, CancellationToken cancellationToken) {
@@ -38,9 +38,9 @@ public class DeclineInvitationRequestHandler : IRequestHandler<DeclineInvitation
         if (game.WhitePlayer.UserId != userId && game.BlackPlayer.UserId != userId)
             throw new BadRequestException("This is not user game.");
 
-        var invitation = await _invitationRepository.GetByGameId(request.GameId)
+        var invitation = await _gameInvitationRepository.GetByGameId(request.GameId)
              ?? throw new NotFoundException("Invitation not found.");
 
-        await _invitationRepository.Delete(invitation);
+        await _gameInvitationRepository.Delete(invitation);
     }
 }

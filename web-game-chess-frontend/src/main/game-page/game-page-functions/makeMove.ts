@@ -1,18 +1,18 @@
-import { pieceTagMap } from "../objects/piecesNameMaps";
-import { rankMap } from "../objects/piecesMovementMap";
-import GameHubService from "../services/GameHubService";
-import { MakeMoveModel } from "../types/gameModels";
-import { GameStates, SelectionStates } from "../types/gameStates";
-import { areCoorEqual, intToChar } from "./gameRelated";
+import { rankMap } from "../../../shared/utils/objects/piecesMovementMap";
+import { BlackPieceType, pieceTagMap, WhitePieceType } from "../../../shared/utils/objects/piecesNameMaps";
+import GameHubService from "../../../shared/utils/services/GameHubService";
+import { MakeMoveModel } from "../../../shared/utils/types/gameModels";
+import { areCoorEqual, intToChar, toCoor } from "./general";
+import { Coordinate, GameStates, PieceOption, SelectionStates } from "./types";
 
 // make move
 export const makeMove = async (
   gameState: GameStates,
   selectionState: SelectionStates,
-  moveToCoordinates: number[],
-  promotedPiece: string | null = null
+  moveToCoordinates: Coordinate,
+  promotedPiece: PieceOption | null = null
 ): Promise<void> => {
-  if (!gameState.gameData) return;
+  if (!gameState.gameData || !moveToCoordinates || !selectionState.coordinates) return;
 
   const [newX, newY] = moveToCoordinates;
   const newCoor = newX + "," + newY;
@@ -31,13 +31,13 @@ export const makeMove = async (
     enPassantCoor = gameState.gameData.enPassant.split(",").map(Number);
 
     if (selectionState.piece === pieceTagMap.white.pawn) {
-      if (areCoorEqual(enPassantCoor, [newX, newY])) {
+      if (areCoorEqual(toCoor(enPassantCoor), [newX, newY])) {
         gameState.matrix[newY - 1 - 1][newX - 1] = "";
       }
     }
 
     if (selectionState.piece === pieceTagMap.black.pawn) {
-      if (areCoorEqual(enPassantCoor, [newX, newY])) {
+      if (areCoorEqual(toCoor(enPassantCoor), [newX, newY])) {
         gameState.matrix[newY - 1 + 1][newX - 1] = "";
       }
     }
@@ -116,7 +116,7 @@ export const makeMove = async (
     move: move,
     oldCoor: oldCoor,
     newCoor: newCoor,
-    capturedPiece: capturedPiece,
+    capturedPiece: capturedPiece as WhitePieceType | BlackPieceType | null,
     enPassant: newEnPassant,
     wkm: wkm,
     wsrm: wsrm,
