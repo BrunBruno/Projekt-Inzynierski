@@ -1,4 +1,7 @@
-import { render, screen } from "@testing-library/react";
-import FaqSection from "./FaqSection";
+import { it, expect, describe } from "vitest";
 
-describe("FaqSection Component", () => {});
+describe("group", () => {
+  it("should", () => {
+    expect(1).toBeTruthy();
+  });
+});

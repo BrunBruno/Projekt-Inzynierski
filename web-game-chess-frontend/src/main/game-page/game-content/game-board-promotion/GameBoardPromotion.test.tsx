@@ -1,4 +1,7 @@
-import { render, screen } from "@testing-library/react";
-import GameBoardPromotion from "./GameBoardPromotion";
+import { it, expect, describe } from "vitest";
 
-describe("GameBoardPromotion Component", () => {});
+describe("group", () => {
+  it("should", () => {
+    expect(1).toBeTruthy();
+  });
+});

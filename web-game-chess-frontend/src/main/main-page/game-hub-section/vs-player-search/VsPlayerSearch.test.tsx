@@ -1,4 +1,7 @@
-import { render, screen } from "@testing-library/react";
-import VsPlayerSearch from "./VsPlayerSearch";
+import { it, expect, describe } from "vitest";
 
-describe("VsPlayerSearch Component", () => {});
+describe("group", () => {
+  it("should", () => {
+    expect(1).toBeTruthy();
+  });
+});

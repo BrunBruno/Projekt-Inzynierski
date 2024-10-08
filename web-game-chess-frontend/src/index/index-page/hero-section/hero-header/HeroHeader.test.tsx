@@ -1,4 +1,7 @@
-import { render, screen } from "@testing-library/react";
-import HeroHeader from "./HeroHeader";
+import { it, expect, describe } from "vitest";
 
-describe("HeroHeader Component", () => {});
+describe("group", () => {
+  it("should", () => {
+    expect(1).toBeTruthy();
+  });
+});

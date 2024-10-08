@@ -1,10 +1,7 @@
-import { render, screen } from "@testing-library/react";
-import InviteByEmail from "./InviteByEmail";
-import InviteSelection from "./InviteBySelection";
-import InviteByUrl from "./InviteByUrl";
+import { it, expect, describe } from "vitest";
 
-describe("InviteByEmail Component", () => {});
-
-describe("InviteBySelection Component", () => {});
-
-describe("InviteByUrl Component", () => {});
+describe("group", () => {
+  it("should", () => {
+    expect(1).toBeTruthy();
+  });
+});

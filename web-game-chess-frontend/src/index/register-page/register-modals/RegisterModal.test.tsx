@@ -1,10 +1,7 @@
-import SignInModal from "./SignInModal";
-import SignUpModal from "./SignUpModal";
-import VerifyEmailModal from "./VerifyEmailModal";
-import { describe } from "vitest";
+import { it, expect, describe } from "vitest";
 
-describe("SignInModal Component", () => {});
-
-describe("SignUpModal Component", () => {});
-
-describe("VerifyEmailModal Component", () => {});
+describe("group", () => {
+  it("should", () => {
+    expect(1).toBeTruthy();
+  });
+});

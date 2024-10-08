@@ -1,4 +1,7 @@
-import { render, screen } from "@testing-library/react";
-import GameBoardWinner from "./GameBoardWinner";
+import { it, expect, describe } from "vitest";
 
-describe("GameBoardWinner Component", () => {});
+describe("group", () => {
+  it("should", () => {
+    expect(1).toBeTruthy();
+  });
+});

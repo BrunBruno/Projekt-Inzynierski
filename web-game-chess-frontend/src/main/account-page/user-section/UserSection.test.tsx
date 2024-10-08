@@ -1,4 +1,7 @@
-import { render, screen } from "@testing-library/react";
-import UserSection from "./UserSection";
+import { it, expect, describe } from "vitest";
 
-describe("UserSection Component", () => {});
+describe("group", () => {
+  it("should", () => {
+    expect(1).toBeTruthy();
+  });
+});

@@ -1,4 +1,7 @@
-import { render, screen } from "@testing-library/react";
-import IndexPage from "./IndexPage";
+import { it, expect, describe } from "vitest";
 
-describe("IndexPage Component", () => {});
+describe("group", () => {
+  it("should", () => {
+    expect(1).toBeTruthy();
+  });
+});

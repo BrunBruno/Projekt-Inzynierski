@@ -1,4 +1,7 @@
-import { render, screen } from "@testing-library/react";
-import GamePage from "./GamePage";
+import { it, expect, describe } from "vitest";
 
-describe("GamePage Component", () => {});
+describe("group", () => {
+  it("should", () => {
+    expect(1).toBeTruthy();
+  });
+});

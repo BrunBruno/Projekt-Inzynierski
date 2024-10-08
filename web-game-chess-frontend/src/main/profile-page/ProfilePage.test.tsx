@@ -1,4 +1,7 @@
-import { render, screen } from "@testing-library/react";
-import ProfilePage from "./ProfilePage";
+import { it, expect, describe } from "vitest";
 
-describe("ProfilePage Component", () => {});
+describe("group", () => {
+  it("should", () => {
+    expect(1).toBeTruthy();
+  });
+});

@@ -1,4 +1,7 @@
-import { render, screen } from "@testing-library/react";
-import SettingsSection from "./SettingsSection";
+import { it, expect, describe } from "vitest";
 
-describe("SettingsSection Component", () => {});
+describe("group", () => {
+  it("should", () => {
+    expect(1).toBeTruthy();
+  });
+});

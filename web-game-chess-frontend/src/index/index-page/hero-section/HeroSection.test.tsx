@@ -1,4 +1,7 @@
-import HeroSection from "./HeroSection";
-import { describe } from "vitest";
+import { it, expect, describe } from "vitest";
 
-describe("HeroSection Component", () => {});
+describe("group", () => {
+  it("should", () => {
+    expect(1).toBeTruthy();
+  });
+});

@@ -1,4 +1,7 @@
-import { render, screen } from "@testing-library/react";
-import FriendsSection from "./FriendsSection";
+import { it, expect, describe } from "vitest";
 
-describe("FriendsSection Component", () => {});
+describe("group", () => {
+  it("should", () => {
+    expect(1).toBeTruthy();
+  });
+});

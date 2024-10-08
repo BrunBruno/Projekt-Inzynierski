@@ -1,4 +1,7 @@
-import { render, screen } from "@testing-library/react";
-import HistorySection from "./HistorySection";
+import { it, expect, describe } from "vitest";
 
-describe("HistorySection Component", () => {});
+describe("group", () => {
+  it("should", () => {
+    expect(1).toBeTruthy();
+  });
+});

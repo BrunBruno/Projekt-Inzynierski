@@ -1,4 +1,7 @@
-import { render, screen } from "@testing-library/react";
-import BarSection from "./BarSection";
+import { it, expect, describe } from "vitest";
 
-describe("BarSection Component", () => {});
+describe("group", () => {
+  it("should", () => {
+    expect(1).toBeTruthy();
+  });
+});

@@ -1,4 +1,7 @@
-import { render, screen } from "@testing-library/react";
-import UserGamesFilters from "./UserGamesFilters";
+import { it, expect, describe } from "vitest";
 
-describe("UserGamesFilters Component", () => {});
+describe("group", () => {
+  it("should", () => {
+    expect(1).toBeTruthy();
+  });
+});

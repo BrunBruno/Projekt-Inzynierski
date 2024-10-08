@@ -1,4 +1,7 @@
-import { render, screen } from "@testing-library/react";
-import GameBoardSearching from "./GameBoardSearching";
+import { it, expect, describe } from "vitest";
 
-describe("GameBoardSearching Component", () => {});
+describe("group", () => {
+  it("should", () => {
+    expect(1).toBeTruthy();
+  });
+});

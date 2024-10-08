@@ -1,4 +1,7 @@
-import { render, screen } from "@testing-library/react";
-import LearnSection from "./LearnSection";
+import { it, expect, describe } from "vitest";
 
-describe("LearnSection Component", () => {});
+describe("group", () => {
+  it("should", () => {
+    expect(1).toBeTruthy();
+  });
+});

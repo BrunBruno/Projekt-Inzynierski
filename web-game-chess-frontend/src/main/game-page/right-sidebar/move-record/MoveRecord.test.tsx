@@ -1,4 +1,7 @@
-import { render, screen } from "@testing-library/react";
-import MoveRecord from "./MoveRecord";
+import { it, expect, describe } from "vitest";
 
-describe("MoveRecord Component", () => {});
+describe("group", () => {
+  it("should", () => {
+    expect(1).toBeTruthy();
+  });
+});

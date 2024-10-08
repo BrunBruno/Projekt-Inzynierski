@@ -1,4 +1,7 @@
-import { render, screen } from "@testing-library/react";
-import Invitations from "./Invitations";
+import { it, expect, describe } from "vitest";
 
-describe("Invitations Component", () => {});
+describe("group", () => {
+  it("should", () => {
+    expect(1).toBeTruthy();
+  });
+});

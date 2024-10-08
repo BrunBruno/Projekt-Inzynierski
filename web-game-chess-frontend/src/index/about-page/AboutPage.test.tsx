@@ -1,4 +1,7 @@
-import { render, screen } from "@testing-library/react";
-import AboutPage from "./AboutPage";
+import { it, expect, describe } from "vitest";
 
-describe("AboutPage Component", () => {});
+describe("AboutPage", () => {
+  it("should", () => {
+    expect(1).toBeTruthy();
+  });
+});

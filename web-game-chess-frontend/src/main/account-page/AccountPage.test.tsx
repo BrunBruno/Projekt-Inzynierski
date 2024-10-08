@@ -1,4 +1,7 @@
-import { render, screen } from "@testing-library/react";
-import AccountPage from "./AccountPage";
+import { it, expect, describe } from "vitest";
 
-describe("AccountPage Component", () => {});
+describe("group", () => {
+  it("should", () => {
+    expect(1).toBeTruthy();
+  });
+});

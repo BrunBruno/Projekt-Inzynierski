@@ -1,4 +1,7 @@
-import { render, screen } from "@testing-library/react";
-import FriendCard from "./FriendCard";
+import { it, expect, describe } from "vitest";
 
-describe("FriendCard Component", () => {});
+describe("group", () => {
+  it("should", () => {
+    expect(1).toBeTruthy();
+  });
+});

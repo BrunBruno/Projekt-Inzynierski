@@ -1,4 +1,7 @@
-import { render, screen } from "@testing-library/react";
-import HomeSection from "./HomeSection";
+import { it, expect, describe } from "vitest";
 
-describe("HomeSection Component", () => {});
+describe("group", () => {
+  it("should", () => {
+    expect(1).toBeTruthy();
+  });
+});

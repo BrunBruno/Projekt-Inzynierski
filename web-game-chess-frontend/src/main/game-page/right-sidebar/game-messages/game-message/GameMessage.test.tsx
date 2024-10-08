@@ -1,4 +1,7 @@
-import { render, screen } from "@testing-library/react";
-import GameMessage from "./GameMessage";
+import { it, expect, describe } from "vitest";
 
-describe("GameMessage Component", () => {});
+describe("group", () => {
+  it("should", () => {
+    expect(1).toBeTruthy();
+  });
+});

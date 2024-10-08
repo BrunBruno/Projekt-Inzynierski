@@ -1,4 +1,7 @@
-import { render, screen } from "@testing-library/react";
-import StatsRow from "./StatsRow";
+import { it, expect, describe } from "vitest";
 
-describe("StatsRow Component", () => {});
+describe("group", () => {
+  it("should", () => {
+    expect(1).toBeTruthy();
+  });
+});

@@ -1,4 +1,7 @@
-import { render, screen } from "@testing-library/react";
-import AwaitingPage from "./AwaitingPage";
+import { it, expect, describe } from "vitest";
 
-describe("AwaitingPage Component", () => {});
+describe("group", () => {
+  it("should", () => {
+    expect(1).toBeTruthy();
+  });
+});

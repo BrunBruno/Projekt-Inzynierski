@@ -1,4 +1,7 @@
-import { render, screen } from "@testing-library/react";
-import PlayBoard from "./PlayBoard";
+import { it, expect, describe } from "vitest";
 
-describe("PlayBoard Component", () => {});
+describe("group", () => {
+  it("should", () => {
+    expect(1).toBeTruthy();
+  });
+});

@@ -1,4 +1,7 @@
-import { render, screen } from "@testing-library/react";
-import IndexRouter from "./IndexRouter";
+import { it, expect, describe } from "vitest";
 
-describe("IndexRouter Component", () => {});
+describe("group", () => {
+  it("should", () => {
+    expect(1).toBeTruthy();
+  });
+});

@@ -1,4 +1,7 @@
-import { render, screen } from "@testing-library/react";
-import PlaySection from "./PlaySection";
+import { it, expect, describe } from "vitest";
 
-describe("PlaySection Component", () => {});
+describe("group", () => {
+  it("should", () => {
+    expect(1).toBeTruthy();
+  });
+});

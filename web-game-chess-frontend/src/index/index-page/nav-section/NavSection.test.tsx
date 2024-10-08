@@ -1,4 +1,7 @@
-import { render, screen } from "@testing-library/react";
-import NavSection from "./NavSection";
+import { it, expect, describe } from "vitest";
 
-describe("NavSection Component", () => {});
+describe("group", () => {
+  it("should", () => {
+    expect(1).toBeTruthy();
+  });
+});

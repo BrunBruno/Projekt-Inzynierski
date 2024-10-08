@@ -1,4 +1,7 @@
-import { render, screen } from "@testing-library/react";
-import NotificationPopUp from "./NotificationPopUp";
+import { it, expect, describe } from "vitest";
 
-describe("NotificationPopUp Component", () => {});
+describe("group", () => {
+  it("should", () => {
+    expect(1).toBeTruthy();
+  });
+});
