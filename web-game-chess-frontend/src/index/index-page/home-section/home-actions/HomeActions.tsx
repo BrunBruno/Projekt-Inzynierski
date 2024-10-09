@@ -60,12 +60,13 @@ function HomeActions({}: HomeActionsProps) {
         <div className={classes["actions-pawns"]}>
           {/* sign in pawn */}
           <div
+            data-testid="home-pawn-button-sign-in"
+            className={`${classes["sign-in-pawn"]} ${classes["pawn-container"]}`}
             onClick={() => {
               navigate("/registration", {
                 state: { regOption: RegistrationInterface.signIn },
               });
             }}
-            className={`${classes["sign-in-pawn"]} ${classes["pawn-container"]}`}
           >
             <div className={classes["img-pawn-container"]}>
               {Array.from({ length: partOfPawn }).map((_, index) => (
@@ -79,12 +80,13 @@ function HomeActions({}: HomeActionsProps) {
 
           {/* sign up pawn */}
           <div
+            data-testid="home-pawn-button-sign-up"
+            className={`${classes["sign-up-pawn"]} ${classes["pawn-container"]}`}
             onClick={() => {
               navigate("/registration", {
                 state: { regOption: RegistrationInterface.signUp },
               });
             }}
-            className={`${classes["sign-up-pawn"]} ${classes["pawn-container"]}`}
           >
             <div className={classes["img-pawn-container"]}>
               {Array.from({ length: partOfPawn }).map((_, index) => (

@@ -13,7 +13,7 @@ type ContentSectionProps = {
   elements: ContentElements[];
 };
 
-const ContentSection = ({ title, elements }: ContentSectionProps) => {
+function ContentSection({ title, elements }: ContentSectionProps) {
   ///
 
   return (
@@ -61,6 +61,6 @@ const ContentSection = ({ title, elements }: ContentSectionProps) => {
       {/* --- */}
     </section>
   );
-};
+}
 
 export default ContentSection;

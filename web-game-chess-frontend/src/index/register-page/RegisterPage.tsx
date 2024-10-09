@@ -181,6 +181,7 @@ function RegisterPage() {
         {/* form */}
         <div
           ref={formRef}
+          data-testid="register-form-container"
           className={`
             ${classes.register__form}
             ${formActive && classes["form-transform"]}
@@ -193,6 +194,7 @@ function RegisterPage() {
             color={mainColor.c7}
             iconClass={classes["lock-svg"]}
           />
+
           {renderModal()}
         </div>
         {/* --- */}

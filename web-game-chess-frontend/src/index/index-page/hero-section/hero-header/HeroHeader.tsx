@@ -24,6 +24,7 @@ function HeroHeader({}: HeroHeaderProps) {
       {/* action buttons */}
       <div className={classes.header__actions}>
         <button
+          data-testid="hero-button-about"
           className={classes["hero-button"]}
           onClick={() => {
             navigate("/about/introduction");
@@ -33,6 +34,7 @@ function HeroHeader({}: HeroHeaderProps) {
         </button>
 
         <button
+          data-testid="hero-button-sign-in"
           className={classes["hero-button"]}
           onClick={() => {
             navigate("/registration", {
@@ -44,6 +46,7 @@ function HeroHeader({}: HeroHeaderProps) {
         </button>
 
         <button
+          data-testid="hero-button-sign-up"
           className={classes["hero-button"]}
           onClick={() => {
             navigate("/registration", {
