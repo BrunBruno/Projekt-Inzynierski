@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import classes from "./FriendsSection.module.scss";
 import { GetAllFriendsByStatusDto } from "../../../shared/utils/types/friendshipDtos";
 import axios from "axios";
-import { friendshipControllerPaths, getAuthorization } from "../../../shared/utils/services/ApiService";
+import { friendshipController, getAuthorization } from "../../../shared/utils/services/ApiService";
 import { GetAllFriendsByStatusModel } from "../../../shared/utils/types/friendshipModels";
 import { FriendshipStatus } from "../../../shared/utils/objects/entitiesEnums";
 import LoadingPage from "../../../shared/components/loading-page/LoadingPage";
@@ -35,7 +35,7 @@ function FriendsSection() {
         };
 
         const friendsResponse = await axios.get<PagedResult<GetAllFriendsByStatusDto>>(
-          friendshipControllerPaths.getAllFriendsByStatus(model),
+          friendshipController.getAllFriendsByStatus(model),
           getAuthorization()
         );
 
@@ -61,6 +61,7 @@ function FriendsSection() {
   return (
     <div
       ref={scrollRef}
+      data-testid="account-page-friends-section"
       className={classes.friends}
       onMouseLeave={() => {
         clearSelection();
@@ -69,7 +70,8 @@ function FriendsSection() {
       {friendList.length > 0 ? (
         friendList.map((friend) => (
           <FriendCard
-            key={friend.friendshipId.toString()}
+            // key={friend.friendshipId.toString()}
+            key={Math.random() + Math.random()}
             friend={friend}
             setSelectedFriend={setSelectedFriend}
             clearSelection={clearSelection}

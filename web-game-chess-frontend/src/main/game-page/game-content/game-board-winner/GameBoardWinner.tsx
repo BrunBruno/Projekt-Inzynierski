@@ -2,7 +2,7 @@ import { useNavigate } from "react-router-dom";
 import { EndGameDto, GetEndedGameDto, GetGameDto, SearchGameDto } from "../../../../shared/utils/types/gameDtos";
 import classes from "./GameBoardWinner.module.scss";
 import { SearchGameModel } from "../../../../shared/utils/types/gameModels";
-import { gameControllerPaths, getAuthorization } from "../../../../shared/utils/services/ApiService";
+import { gameController, getAuthorization } from "../../../../shared/utils/services/ApiService";
 import axios from "axios";
 import GameHubService from "../../../../shared/utils/services/GameHubService";
 import { getErrMessage } from "../../../../shared/utils/functions/errors";
@@ -37,7 +37,7 @@ function GameBoardWinner({ winner, gameData, setSearchIds, selectedTiming }: Gam
 
     try {
       const searchGameResponse = await axios.post<SearchGameDto>(
-        gameControllerPaths.startSearch(),
+        gameController.startSearch(),
         gameType,
         getAuthorization()
       );

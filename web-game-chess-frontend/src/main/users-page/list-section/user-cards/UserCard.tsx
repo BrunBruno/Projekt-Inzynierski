@@ -2,11 +2,7 @@ import axios from "axios";
 import { GetAllNonFriendsDto } from "../../../../shared/utils/types/friendshipDtos";
 import { InviteFriendModel } from "../../../../shared/utils/types/friendshipModels";
 import classes from "./Cards.module.scss";
-import {
-  friendshipControllerPaths,
-  getAuthorization,
-  userControllerPaths,
-} from "../../../../shared/utils/services/ApiService";
+import { friendshipController, getAuthorization, userController } from "../../../../shared/utils/services/ApiService";
 import { usePopup } from "../../../../shared/utils/hooks/usePopUp";
 import { GetOtherUserDto } from "../../../../shared/utils/types/userDtos";
 import { getErrMessage } from "../../../../shared/utils/functions/errors";
@@ -34,7 +30,7 @@ function UserCard({ user, getAllUsers, setNonFriend }: UserCardProps) {
         receiverId: userId,
       };
 
-      await axios.post(friendshipControllerPaths.inviteFriend(), model, getAuthorization());
+      await axios.post(friendshipController.inviteFriend(), model, getAuthorization());
 
       showPopup("Invitation sent", "success");
 
@@ -48,10 +44,7 @@ function UserCard({ user, getAllUsers, setNonFriend }: UserCardProps) {
   // get non friend profile to display
   const onShowProfile = async () => {
     try {
-      const response = await axios.get<GetOtherUserDto>(
-        userControllerPaths.getOtherUser(user.userId),
-        getAuthorization()
-      );
+      const response = await axios.get<GetOtherUserDto>(userController.getOtherUser(user.userId), getAuthorization());
 
       setNonFriend(response.data);
     } catch (err) {

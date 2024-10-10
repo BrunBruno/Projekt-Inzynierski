@@ -1,7 +1,7 @@
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import classes from "./GameBoardSearching.module.scss";
 import GameHubService from "../../../../shared/utils/services/GameHubService";
-import { gameControllerPaths, getAuthorization } from "../../../../shared/utils/services/ApiService";
+import { gameController, getAuthorization } from "../../../../shared/utils/services/ApiService";
 import axios from "axios";
 import { AbortSearchModel } from "../../../../shared/utils/types/gameModels";
 import { SearchGameDto } from "../../../../shared/utils/types/gameDtos";
@@ -71,7 +71,7 @@ function GameBoardSearching({ searchIds, setSearchIds }: GameBoardSearchingProps
         playerId: searchIds.playerId,
       };
 
-      await axios.delete(gameControllerPaths.abortSearch(abortSearchModel), getAuthorization());
+      await axios.delete(gameController.abortSearch(abortSearchModel), getAuthorization());
 
       GameHubService.PlayerLeaved(searchIds.timingId);
 

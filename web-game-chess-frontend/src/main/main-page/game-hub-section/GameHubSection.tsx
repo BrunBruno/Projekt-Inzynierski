@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import classes from "./GameHubSection.module.scss";
 import VsPlayerSearch from "./vs-player-search/VsPlayerSearch";
 import axios from "axios";
-import { gameControllerPaths, getAuthorization } from "../../../shared/utils/services/ApiService";
+import { gameController, getAuthorization } from "../../../shared/utils/services/ApiService";
 import { CheckIfInGameDto, SearchGameDto } from "../../../shared/utils/types/gameDtos";
 import { useNavigate } from "react-router-dom";
 import GameHubService from "../../../shared/utils/services/GameHubService";
@@ -56,7 +56,7 @@ function GameHubSection({ providedInterface }: GameHubSectionProps) {
         };
 
         const isInGameResponse = await axios.get<CheckIfInGameDto>(
-          gameControllerPaths.checkIfInGame(isInGameModel),
+          gameController.checkIfInGame(isInGameModel),
           getAuthorization()
         );
 
@@ -140,7 +140,7 @@ function GameHubSection({ providedInterface }: GameHubSectionProps) {
         playerId: searchIds.playerId,
       };
 
-      await axios.delete(gameControllerPaths.abortSearch(abortSearchModel), getAuthorization());
+      await axios.delete(gameController.abortSearch(abortSearchModel), getAuthorization());
 
       GameHubService.PlayerLeaved(searchIds.timingId);
 

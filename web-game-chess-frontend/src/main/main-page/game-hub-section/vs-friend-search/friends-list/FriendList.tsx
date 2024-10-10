@@ -4,7 +4,7 @@ import { GetAllFriendsByStatusDto } from "../../../../../shared/utils/types/frie
 import classes from "./FriendList.module.scss";
 import usePagination from "../../../../../shared/utils/hooks/usePagination";
 import { GetAllFriendsByStatusModel } from "../../../../../shared/utils/types/friendshipModels";
-import { friendshipControllerPaths, getAuthorization } from "../../../../../shared/utils/services/ApiService";
+import { friendshipController, getAuthorization } from "../../../../../shared/utils/services/ApiService";
 import axios from "axios";
 import { FriendshipStatus } from "../../../../../shared/utils/objects/entitiesEnums";
 import { usePopup } from "../../../../../shared/utils/hooks/usePopUp";
@@ -44,7 +44,7 @@ function FriendList({ selectedUsername, setSelectedFriend }: FriendListProps) {
         };
 
         const friendsResponse = await axios.get<PagedResult<GetAllFriendsByStatusDto>>(
-          friendshipControllerPaths.getAllFriendsByStatus(model),
+          friendshipController.getAllFriendsByStatus(model),
           getAuthorization()
         );
 

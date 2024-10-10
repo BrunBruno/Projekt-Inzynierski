@@ -2,7 +2,7 @@ import { ChangeEvent, Dispatch, FormEvent, SetStateAction, useState } from "reac
 import { mainColor } from "../../../shared/utils/objects/colorMaps";
 import classes from "./RegisterModal.module.scss";
 import axios from "axios";
-import { getAuthorization, userControllerPaths } from "../../../shared/utils/services/ApiService";
+import { getAuthorization, userController } from "../../../shared/utils/services/ApiService";
 import { useNavigate } from "react-router-dom";
 import { errorDisplay } from "../../../shared/utils/functions/errors";
 import LoadingPage from "../../../shared/components/loading-page/LoadingPage";
@@ -58,12 +58,12 @@ function VerifyEmailModal({ userPath, setModal }: VerifyEmailModalProps) {
       setProcessing(true);
 
       // verify user email
-      await axios.put(userControllerPaths.verifyEmail(), verificationCode, getAuthorization());
+      await axios.put(userController.verifyEmail(), verificationCode, getAuthorization());
 
       const tempUser: LogInUserModel = JSON.parse(localStorage.getItem("logUserTemp")!);
 
       //sign in user after successful verification
-      const logInResponse = await axios.post<LogInUserDto>(userControllerPaths.logInUser(), tempUser);
+      const logInResponse = await axios.post<LogInUserDto>(userController.logInUser(), tempUser);
 
       // remove user temp
       localStorage.removeItem("logUserTemp");
@@ -85,8 +85,6 @@ function VerifyEmailModal({ userPath, setModal }: VerifyEmailModalProps) {
       errorDisplay(err, setErrorMess);
 
       setProcessing(false);
-
-      console.log(err);
     }
   };
 
@@ -96,12 +94,10 @@ function VerifyEmailModal({ userPath, setModal }: VerifyEmailModalProps) {
       const regenerateCode: RegenerateCodeModel = {};
 
       // generate new code and delete previous
-      await axios.post(userControllerPaths.regenerateCode(), regenerateCode, getAuthorization());
+      await axios.post(userController.regenerateCode(), regenerateCode, getAuthorization());
     } catch (err) {
       // display backend errors
       errorDisplay(err, setErrorMess);
-
-      console.log(err);
     }
   };
 

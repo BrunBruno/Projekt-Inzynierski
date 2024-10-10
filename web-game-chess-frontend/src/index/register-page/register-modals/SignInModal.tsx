@@ -2,7 +2,7 @@ import { Dispatch, FormEvent, RefObject, SetStateAction, useRef, useState } from
 import { mainColor } from "../../../shared/utils/objects/colorMaps";
 import classes from "./RegisterModal.module.scss";
 import axios from "axios";
-import { getAuthorization, userControllerPaths } from "../../../shared/utils/services/ApiService";
+import { getAuthorization, userController } from "../../../shared/utils/services/ApiService";
 import { useNavigate } from "react-router-dom";
 import LoadingPage from "../../../shared/components/loading-page/LoadingPage";
 import { errorDisplay } from "../../../shared/utils/functions/errors";
@@ -63,16 +63,13 @@ function SignInModal({ userPath, setModal }: SignInModalProps) {
       setProcessing(true);
 
       // Log in user
-      const signInResponse = await axios.post<LogInUserDto>(userControllerPaths.logInUser(), userData);
+      const signInResponse = await axios.post<LogInUserDto>(userController.logInUser(), userData);
 
       // set token
       localStorage.setItem("token", signInResponse.data.token);
 
       // users email verification check
-      const isVerifiedResponse = await axios.get<IsEmailVerifiedDto>(
-        userControllerPaths.isVerified(),
-        getAuthorization()
-      );
+      const isVerifiedResponse = await axios.get<IsEmailVerifiedDto>(userController.isVerified(), getAuthorization());
 
       setProcessing(false);
 

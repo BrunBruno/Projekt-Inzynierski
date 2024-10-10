@@ -4,36 +4,43 @@ import IndexRouter from "../IndexRouter";
 import RegisterPage from "./RegisterPage";
 import { RegistrationInterface } from "../../shared/utils/objects/interfacesEnums";
 import classes from "./RegisterPage.module.scss";
+import { act } from "react";
 
 describe("RegisterPage Component", () => {
   it("should render without crashing and displays initial content", async () => {
-    render(
-      <MemoryRouter>
-        <RegisterPage />
-      </MemoryRouter>
-    );
+    await act(async () => {
+      render(
+        <MemoryRouter>
+          <RegisterPage />
+        </MemoryRouter>
+      );
+    });
 
     expect(await waitFor(() => screen.getByText("Login Now"))).toBeInTheDocument();
   });
 
   it("should display the sign-in modal when the state indicates signIn", async () => {
-    render(
-      <MemoryRouter
-        initialEntries={[{ pathname: "/registration", state: { regOption: RegistrationInterface.signUp } }]}
-      >
-        <RegisterPage />
-      </MemoryRouter>
-    );
+    await act(async () => {
+      render(
+        <MemoryRouter
+          initialEntries={[{ pathname: "/registration", state: { regOption: RegistrationInterface.signUp } }]}
+        >
+          <RegisterPage />
+        </MemoryRouter>
+      );
+    });
 
     expect(await waitFor(() => screen.getByText("Create Account"))).toBeInTheDocument();
   });
 
   it("should go to hame page on Home Page button click", async () => {
-    render(
-      <MemoryRouter initialEntries={["/registration"]}>
-        <IndexRouter />
-      </MemoryRouter>
-    );
+    await act(async () => {
+      render(
+        <MemoryRouter initialEntries={["/registration"]}>
+          <IndexRouter />
+        </MemoryRouter>
+      );
+    });
 
     const buttons = screen.getAllByText("Home Page");
     expect(buttons).toHaveLength(2);
@@ -48,11 +55,13 @@ describe("RegisterPage Component", () => {
   it("handles window resize and updates class correctly", async () => {
     global.innerWidth = 1200;
 
-    render(
-      <MemoryRouter initialEntries={[{ pathname: "/registration" }]}>
-        <RegisterPage />
-      </MemoryRouter>
-    );
+    await act(async () => {
+      render(
+        <MemoryRouter initialEntries={[{ pathname: "/registration" }]}>
+          <RegisterPage />
+        </MemoryRouter>
+      );
+    });
 
     global.innerWidth = 400;
     fireEvent.resize(window);

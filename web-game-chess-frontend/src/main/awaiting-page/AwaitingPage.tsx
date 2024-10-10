@@ -8,7 +8,7 @@ import { usePopup } from "../../shared/utils/hooks/usePopUp";
 import { getErrMessage } from "../../shared/utils/functions/errors";
 import axios from "axios";
 import { CheckIfUpdateRequiredDto, GetGameTimingDto } from "../../shared/utils/types/gameDtos";
-import { gameControllerPaths, getAuthorization } from "../../shared/utils/services/ApiService";
+import { gameController, getAuthorization } from "../../shared/utils/services/ApiService";
 import SearchingPage from "../../shared/components/searching-page/SearchingPage";
 
 function AwaitingPage() {
@@ -50,11 +50,10 @@ function AwaitingPage() {
 
       try {
         const response = await axios.get<CheckIfUpdateRequiredDto>(
-          gameControllerPaths.checkIfUpdateRequired(gameId),
+          gameController.checkIfUpdateRequired(gameId),
           getAuthorization()
         );
 
-        console.log(response.data);
 
         if (response.data.isRequired) {
           await GameHubService.UpdatePrivateGame(gameId);
@@ -118,7 +117,7 @@ function AwaitingPage() {
   //
   const getTimingType = async (gameId: Guid) => {
     try {
-      const response = await axios.get<GetGameTimingDto>(gameControllerPaths.getGameTiming(gameId), getAuthorization());
+      const response = await axios.get<GetGameTimingDto>(gameController.getGameTiming(gameId), getAuthorization());
 
       setTimingType(response.data);
     } catch (err) {
@@ -131,7 +130,7 @@ function AwaitingPage() {
   const onCancelPrivateGame = async () => {
     if (gameId) {
       try {
-        await axios.delete(gameControllerPaths.cancelPrivateGame(gameId), getAuthorization());
+        await axios.delete(gameController.cancelPrivateGame(gameId), getAuthorization());
 
         navigate("/main", {
           state: {

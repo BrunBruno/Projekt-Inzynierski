@@ -19,6 +19,25 @@ const userBaseUrl: string = baseUrl + "/user";
 
 interface UserControllerPaths {
   //POST
+  registerUser: string;
+  logInUser: string;
+  regenerateCode: string;
+  //PUT
+  verifyEmail: string;
+  updateProfile: string;
+  //GET
+  getUser: string;
+  getFullUser: string;
+  getOtherUser: string;
+  getElo: string;
+  isVerified: string;
+  getByEmail: string;
+  getRegisterConf: string;
+  //DELETE
+}
+
+interface UserController {
+  //POST
   registerUser: () => string;
   logInUser: () => string;
   regenerateCode: () => string;
@@ -38,6 +57,21 @@ interface UserControllerPaths {
 
 // paths in user controller
 export const userControllerPaths: UserControllerPaths = {
+  registerUser: `${userBaseUrl}/sign-up`,
+  logInUser: `${userBaseUrl}/sign-in`,
+  regenerateCode: `${userBaseUrl}/regenerate-code`,
+  verifyEmail: `${userBaseUrl}/verify-email`,
+  updateProfile: `${userBaseUrl}/profile`,
+  getUser: `${userBaseUrl}`,
+  getFullUser: `${userBaseUrl}/full`,
+  getOtherUser: `${userBaseUrl}/other`,
+  getElo: `${userBaseUrl}/elo`,
+  isVerified: `${userBaseUrl}/is-verified`,
+  getByEmail: `${userBaseUrl}/by-email`,
+  getRegisterConf: `${userBaseUrl}/configuration`,
+};
+
+export const userController: UserController = {
   // registers user and sends email verification code
   registerUser: (): string => `${userBaseUrl}/sign-up`,
 
@@ -60,7 +94,7 @@ export const userControllerPaths: UserControllerPaths = {
   getFullUser: (): string => `${userBaseUrl}/full`,
 
   // gets user info for other users
-  getOtherUser: (userId): string => `${userBaseUrl}/other/?${userId}`,
+  getOtherUser: (userId): string => `${userBaseUrl}/other?${userId}`,
 
   // gets elo info
   getElo: (): string => `${userBaseUrl}/elo`,
@@ -69,10 +103,10 @@ export const userControllerPaths: UserControllerPaths = {
   isVerified: (): string => `${userBaseUrl}/is-verified`,
 
   // gets user data by email address
-  getByEmail: (model: GetByEmailModel): string => `${userBaseUrl}/by-email/?${stringifyModel(model)}`,
+  getByEmail: (model: GetByEmailModel): string => `${userBaseUrl}/by-email?${stringifyModel(model)}`,
 
   // gets registration configurations
-  getRegisterConf: (model: GetRegisterConfModel): string => `${userBaseUrl}/configuration/?${stringifyModel(model)}`,
+  getRegisterConf: (model: GetRegisterConfModel): string => `${userBaseUrl}/configuration?${stringifyModel(model)}`,
 };
 //*/
 
@@ -80,6 +114,32 @@ export const userControllerPaths: UserControllerPaths = {
 const gameBaseUrl: string = baseUrl + "/game";
 
 interface GameControllerPaths {
+  //POST
+  startSearch: string;
+  createPrivateGame: string;
+  createGameByEmail: string;
+  createGameWithLink: string;
+  createRematchGame: string;
+  //PUT
+  //GET
+  checkIfInGame: string;
+  checkIfUpdateRequired: string;
+  getGame: string;
+  getPlayer: string;
+  fetchTime: string;
+  getOpponent: string;
+  getEndedGame: string;
+  getGameTiming: string;
+  getAllFinishedGames: string;
+  getTypeHistory: string;
+  getAllInvitations: string;
+  getAllMessages: string;
+  //DELETE
+  abortSearch: string;
+  cancelPrivateGame: string;
+}
+
+interface GameController {
   //POST
   startSearch: () => string;
   createPrivateGame: () => string;
@@ -107,6 +167,28 @@ interface GameControllerPaths {
 
 // paths in game controller
 export const gameControllerPaths: GameControllerPaths = {
+  startSearch: `${gameBaseUrl}/search`,
+  createPrivateGame: `${gameBaseUrl}/private`,
+  createGameByEmail: `${gameBaseUrl}/by-email`,
+  createGameWithLink: `${gameBaseUrl}/by-link`,
+  createRematchGame: `${gameBaseUrl}/rematch`,
+  checkIfInGame: `${gameBaseUrl}/check-if-in-game`,
+  checkIfUpdateRequired: `${gameBaseUrl}/:gameId/check-if-update-required`,
+  getGame: `${gameBaseUrl}/:gameId`,
+  getPlayer: `${gameBaseUrl}/:gameId/player`,
+  fetchTime: `${gameBaseUrl}/:gameId/time`,
+  getOpponent: `${gameBaseUrl}/:gameId/opponent`,
+  getEndedGame: `${gameBaseUrl}/:gameId/ended`,
+  getGameTiming: `${gameBaseUrl}/:gameId/timing`,
+  getAllFinishedGames: `${gameBaseUrl}/all-finished`,
+  getTypeHistory: `${gameBaseUrl}/type-history`,
+  getAllInvitations: `${gameBaseUrl}/invitations`,
+  getAllMessages: `${gameBaseUrl}/:gameId/messages`,
+  abortSearch: `${gameBaseUrl}/abort`,
+  cancelPrivateGame: `${gameBaseUrl}/:gameId/cancel`,
+};
+
+export const gameController: GameController = {
   // creates player if player not exists
   startSearch: (): string => `${gameBaseUrl}/search`,
 
@@ -123,8 +205,9 @@ export const gameControllerPaths: GameControllerPaths = {
   createRematchGame: (): string => `${gameBaseUrl}/rematch`,
 
   // check if player was matched and the game has started
-  checkIfInGame: (model: CheckIfInGameModel): string => `${gameBaseUrl}/check-if-in-game/?${stringifyModel(model)}`,
+  checkIfInGame: (model: CheckIfInGameModel): string => `${gameBaseUrl}/check-if-in-game?${stringifyModel(model)}`,
 
+  // check if for game created by url the update on players is required
   checkIfUpdateRequired: (gameId: Guid): string => `${gameBaseUrl}/${gameId}/check-if-update-required`,
 
   // gets all data for one game
@@ -171,6 +254,19 @@ const friendshipBaseUrl: string = baseUrl + "/friendship";
 
 interface FriendshipControllerPaths {
   //POST
+  inviteFriend: string;
+  //PUT
+  respondToFriendRequest: string;
+  //GET
+  getAllFriendsByStatus: string;
+  getAllNonFriends: string;
+  getFriendProfile: string;
+  //DELETE
+  removeFriend: string;
+}
+
+interface FriendshipController {
+  //POST
   inviteFriend: () => string;
   //PUT
   respondToFriendRequest: (friendshipId: Guid) => string;
@@ -183,6 +279,15 @@ interface FriendshipControllerPaths {
 }
 
 export const friendshipControllerPaths: FriendshipControllerPaths = {
+  inviteFriend: `${friendshipBaseUrl}/invite`,
+  respondToFriendRequest: `${friendshipBaseUrl}/:friendshipId/respond`,
+  getAllFriendsByStatus: `${friendshipBaseUrl}/all-by-status`,
+  getAllNonFriends: `${friendshipBaseUrl}/all-non-friends`,
+  getFriendProfile: `${friendshipBaseUrl}/:friendshipId`,
+  removeFriend: `${friendshipBaseUrl}/:friendshipId`,
+};
+
+export const friendshipController: FriendshipController = {
   // creates new friendship, with pending status
   inviteFriend: (): string => `${friendshipBaseUrl}/invite`,
 

@@ -3,7 +3,7 @@ import classes from "./UserSection.module.scss";
 import { GetEloDto, GetFullUserDto } from "../../../shared/utils/types/userDtos";
 import LoadingPage from "../../../shared/components/loading-page/LoadingPage";
 import axios from "axios";
-import { getAuthorization, userControllerPaths } from "../../../shared/utils/services/ApiService";
+import { getAuthorization, userController } from "../../../shared/utils/services/ApiService";
 import { UpdateProfileModel } from "../../../shared/utils/types/userModels";
 import StatsRow from "./stats-row/StatsRow";
 import { usePopup } from "../../../shared/utils/hooks/usePopUp";
@@ -37,7 +37,7 @@ function UserSection({ getTypeHistory, setFriendSection }: UserSectionProps) {
   // to gat user data
   const getUser = async () => {
     try {
-      const userResponse = await axios.get<GetFullUserDto>(userControllerPaths.getFullUser(), getAuthorization());
+      const userResponse = await axios.get<GetFullUserDto>(userController.getFullUser(), getAuthorization());
 
       setUser(userResponse.data);
 
@@ -54,7 +54,7 @@ function UserSection({ getTypeHistory, setFriendSection }: UserSectionProps) {
 
   const getElo = async () => {
     try {
-      const eloResponse = await axios.get<GetEloDto>(userControllerPaths.getElo(), getAuthorization());
+      const eloResponse = await axios.get<GetEloDto>(userController.getElo(), getAuthorization());
 
       setElo(eloResponse.data);
     } catch (err) {
@@ -81,7 +81,7 @@ function UserSection({ getTypeHistory, setFriendSection }: UserSectionProps) {
     };
 
     try {
-      await axios.put(userControllerPaths.updateProfile(), profileModel, getAuthorization());
+      await axios.put(userController.updateProfile(), profileModel, getAuthorization());
 
       fetchData();
     } catch (err) {
@@ -142,6 +142,7 @@ function UserSection({ getTypeHistory, setFriendSection }: UserSectionProps) {
           </div>
           <div className={classes["icon-con"]}>
             <div
+              data-testid="set-friends-button"
               className={`${classes.icon} ${classes["friends"]}`}
               onClick={() => {
                 setFriendSection();
@@ -180,6 +181,7 @@ function UserSection({ getTypeHistory, setFriendSection }: UserSectionProps) {
         <div className={classes.user__data__elo}>
           <div className={classes.user__data__elo__header}>Check history</div>
           <div
+            data-testid="set-history-bullet-button"
             className={classes.user__data__elo__type}
             onClick={() => {
               getTypeHistory(TimingType.bullet);
@@ -196,6 +198,7 @@ function UserSection({ getTypeHistory, setFriendSection }: UserSectionProps) {
             </div>
           </div>
           <div
+            data-testid="set-history-blitz-button"
             className={classes.user__data__elo__type}
             onClick={() => {
               getTypeHistory(TimingType.blitz);
@@ -212,6 +215,7 @@ function UserSection({ getTypeHistory, setFriendSection }: UserSectionProps) {
             </div>
           </div>
           <div
+            data-testid="set-history-rapid-button"
             className={classes.user__data__elo__type}
             onClick={() => {
               getTypeHistory(TimingType.rapid);
@@ -228,6 +232,7 @@ function UserSection({ getTypeHistory, setFriendSection }: UserSectionProps) {
             </div>
           </div>
           <div
+            data-testid="set-history-classic-button"
             className={classes.user__data__elo__type}
             onClick={() => {
               getTypeHistory(TimingType.classic);
@@ -244,6 +249,7 @@ function UserSection({ getTypeHistory, setFriendSection }: UserSectionProps) {
             </div>
           </div>
           <div
+            data-testid="set-history-daily-button"
             className={classes.user__data__elo__type}
             onClick={() => {
               getTypeHistory(TimingType.daily);

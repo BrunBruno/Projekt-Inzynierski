@@ -1,6 +1,6 @@
 import axios from "axios";
 import classes from "./VsPlayerSearch.module.scss";
-import { gameControllerPaths, getAuthorization } from "../../../../shared/utils/services/ApiService";
+import { gameController, getAuthorization } from "../../../../shared/utils/services/ApiService";
 import { defaultTimeControls } from "./VsPlayerSearchData";
 import { SearchGameDto } from "../../../../shared/utils/types/gameDtos";
 import GameHubService from "../../../../shared/utils/services/GameHubService";
@@ -39,7 +39,7 @@ function VsPlayerSearch({ setSearchIds }: VsPlayerSearchProps) {
 
     try {
       const response = await axios.post<SearchGameDto>(
-        gameControllerPaths.startSearch(),
+        gameController.startSearch(),
         gameTimingType,
         getAuthorization()
       );

@@ -3,14 +3,17 @@ import { render, fireEvent, screen, waitFor } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
 import IndexRouter from "../IndexRouter";
 import { introductionElements } from "./content-sections/ContentSectionData";
+import { act } from "react";
 
 describe("AboutPage Component Component", () => {
   it("renders the Introduction content by default", async () => {
-    render(
-      <MemoryRouter initialEntries={["/about/introduction"]}>
-        <IndexRouter />
-      </MemoryRouter>
-    );
+    await act(async () => {
+      render(
+        <MemoryRouter initialEntries={["/about/introduction"]}>
+          <IndexRouter />
+        </MemoryRouter>
+      );
+    });
 
     const titleElement = await waitFor(() => screen.getByRole("heading", { level: 1 }));
     expect(titleElement).toHaveTextContent(/Introduction/i);
@@ -21,11 +24,13 @@ describe("AboutPage Component Component", () => {
   });
 
   it("should display the correct content when a content button is clicked", async () => {
-    render(
-      <MemoryRouter initialEntries={["/about/introduction"]}>
-        <IndexRouter />
-      </MemoryRouter>
-    );
+    await act(async () => {
+      render(
+        <MemoryRouter initialEntries={["/about/introduction"]}>
+          <IndexRouter />
+        </MemoryRouter>
+      );
+    });
 
     const headingBefore = await waitFor(() => screen.getByRole("heading", { level: 1 }));
     expect(headingBefore).toBeInTheDocument();
@@ -40,11 +45,13 @@ describe("AboutPage Component Component", () => {
   });
 
   it("should navigate to the home page when the Home Page button is clicked", async () => {
-    render(
-      <MemoryRouter initialEntries={["/about/introduction"]}>
-        <IndexRouter />
-      </MemoryRouter>
-    );
+    await act(async () => {
+      render(
+        <MemoryRouter initialEntries={["/about/introduction"]}>
+          <IndexRouter />
+        </MemoryRouter>
+      );
+    });
 
     const homePageButton = screen.getByText("Home Page");
     fireEvent.click(homePageButton);

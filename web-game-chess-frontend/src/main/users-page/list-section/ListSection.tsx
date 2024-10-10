@@ -6,7 +6,7 @@ import {
   GetAllNonFriendsDto,
   GetFriendProfileDto,
 } from "../../../shared/utils/types/friendshipDtos";
-import { friendshipControllerPaths, getAuthorization } from "../../../shared/utils/services/ApiService";
+import { friendshipController, getAuthorization } from "../../../shared/utils/services/ApiService";
 import { Dispatch, SetStateAction, useEffect, useRef, useState, WheelEvent } from "react";
 import { FriendshipStatus } from "../../../shared/utils/objects/entitiesEnums";
 import UserCard from "./user-cards/UserCard";
@@ -57,7 +57,7 @@ function ListSection({ selectedUsername, selectedList, setUserProfile, setFriend
         };
 
         const friendsResponse = await axios.get<PagedResult<GetAllNonFriendsDto>>(
-          friendshipControllerPaths.getAllNonFriends(model),
+          friendshipController.getAllNonFriends(model),
           getAuthorization()
         );
 
@@ -75,7 +75,7 @@ function ListSection({ selectedUsername, selectedList, setUserProfile, setFriend
         };
 
         const friendsResponse = await axios.get<PagedResult<GetAllFriendsByStatusDto>>(
-          friendshipControllerPaths.getAllFriendsByStatus(model),
+          friendshipController.getAllFriendsByStatus(model),
           getAuthorization()
         );
 

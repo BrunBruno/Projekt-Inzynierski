@@ -5,11 +5,7 @@ import { useTimingType } from "../../../../../shared/utils/hooks/useTimingType";
 import { CreateGameByEmailModel, NotifyUserModel } from "../../../../../shared/utils/types/gameModels";
 import { CreateGameByEmailDto } from "../../../../../shared/utils/types/gameDtos";
 import axios from "axios";
-import {
-  gameControllerPaths,
-  getAuthorization,
-  userControllerPaths,
-} from "../../../../../shared/utils/services/ApiService";
+import { gameController, getAuthorization, userController } from "../../../../../shared/utils/services/ApiService";
 import GameHubService from "../../../../../shared/utils/services/GameHubService";
 import { getErrMessage } from "../../../../../shared/utils/functions/errors";
 import {
@@ -70,7 +66,7 @@ const InviteByEmail = forwardRef<InviteByEmailRef, InviteByEmailProps>(
         };
 
         const privateGameResponse = await axios.post<CreateGameByEmailDto>(
-          gameControllerPaths.createGameByEmail(),
+          gameController.createGameByEmail(),
           gameByEmailModel,
           getAuthorization()
         );
@@ -113,7 +109,7 @@ const InviteByEmail = forwardRef<InviteByEmailRef, InviteByEmailProps>(
 
       try {
         const userResponse = await axios.get<GetByEmailDto>(
-          userControllerPaths.getByEmail(getByEmailModel),
+          userController.getByEmail(getByEmailModel),
           getAuthorization()
         );
 

@@ -9,7 +9,7 @@ import { HubConnectionState } from "@microsoft/signalr";
 import { getErrMessage } from "../../../../shared/utils/functions/errors";
 import { usePopup } from "../../../../shared/utils/hooks/usePopUp";
 import axios from "axios";
-import { gameControllerPaths, getAuthorization } from "../../../../shared/utils/services/ApiService";
+import { gameController, getAuthorization } from "../../../../shared/utils/services/ApiService";
 import { SendMessageModel, TypingStatusModel } from "../../../../shared/utils/types/gameModels";
 import { Guid } from "guid-typescript";
 
@@ -52,10 +52,7 @@ function GameMessages({ gameId }: GameMessagesProps) {
 
   const getMessages = async (): Promise<void> => {
     try {
-      const response = await axios.get<GetAllMessagesDto[]>(
-        gameControllerPaths.getAllMessages(gameId),
-        getAuthorization()
-      );
+      const response = await axios.get<GetAllMessagesDto[]>(gameController.getAllMessages(gameId), getAuthorization());
 
       setMessages(response.data);
 

@@ -118,7 +118,7 @@ function HistorySection({ selectedType, typeHistory }: HistorySectionProps) {
   //*/
 
   return (
-    <div className={classes.history}>
+    <div data-testid="account-page-history-section" className={classes.history}>
       <h2 className={classes["history-title"]}>
         <IconCreator
           icons={timingTypeIcons}

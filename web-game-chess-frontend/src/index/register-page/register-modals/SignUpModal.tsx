@@ -3,7 +3,7 @@ import { mainColor, strengthColor } from "../../../shared/utils/objects/colorMap
 import classes from "./RegisterModal.module.scss";
 import axios from "axios";
 import { errorDisplay, getErrMessage } from "../../../shared/utils/functions/errors";
-import { userControllerPaths } from "../../../shared/utils/services/ApiService";
+import { userController } from "../../../shared/utils/services/ApiService";
 import { ConfigurationDto, LogInUserDto } from "../../../shared/utils/types/userDtos";
 import { RegistrationInterface } from "../../../shared/utils/objects/interfacesEnums";
 import { GetRegisterConfModel, LogInUserModel, RegisterUserModel } from "../../../shared/utils/types/userModels";
@@ -58,9 +58,7 @@ function SignUpModal({ setModal }: SignUpModalProps) {
         };
 
         // get username configuration
-        const userNameConfResp = await axios.get<ConfigurationDto>(
-          userControllerPaths.getRegisterConf(userRegisterConf)
-        );
+        const userNameConfResp = await axios.get<ConfigurationDto>(userController.getRegisterConf(userRegisterConf));
 
         setUserNameConf(userNameConfResp.data);
 
@@ -70,7 +68,7 @@ function SignUpModal({ setModal }: SignUpModalProps) {
 
         // get password configuration
         const userPassConfResp = await axios.get<ConfigurationDto>(
-          userControllerPaths.getRegisterConf(passwordRegisterConf)
+          userController.getRegisterConf(passwordRegisterConf)
         );
 
         setUserPassConf(userPassConfResp.data);
@@ -158,7 +156,7 @@ function SignUpModal({ setModal }: SignUpModalProps) {
     try {
       setProcessing(true);
       // create account
-      await axios.post(userControllerPaths.registerUser(), userData);
+      await axios.post(userController.registerUser(), userData);
 
       const logUserData: LogInUserModel = {
         emailOrUsername: form.email.value.trim(),
@@ -169,7 +167,7 @@ function SignUpModal({ setModal }: SignUpModalProps) {
       localStorage.setItem("logUserTemp", JSON.stringify(logUserData));
 
       // login user, get unverified token
-      const logInResponse = await axios.post<LogInUserDto>(userControllerPaths.logInUser(), logUserData);
+      const logInResponse = await axios.post<LogInUserDto>(userController.logInUser(), logUserData);
 
       // set unverified token
       localStorage.setItem("token", logInResponse.data.token);
@@ -185,7 +183,6 @@ function SignUpModal({ setModal }: SignUpModalProps) {
       errorDisplay(err, setErrorMess);
 
       setProcessing(false);
-      console.log(err);
     }
   };
   //*/

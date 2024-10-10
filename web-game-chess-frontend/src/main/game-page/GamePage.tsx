@@ -11,7 +11,7 @@ import {
   GetPlayerDto,
   SearchGameDto,
 } from "../../shared/utils/types/gameDtos";
-import { gameControllerPaths, getAuthorization } from "../../shared/utils/services/ApiService";
+import { gameController, getAuthorization } from "../../shared/utils/services/ApiService";
 import LoadingPage from "../../shared/components/loading-page/LoadingPage";
 import GameContent from "./game-content/GameContent";
 import GameHubService from "../../shared/utils/services/GameHubService";
@@ -97,7 +97,7 @@ function GamePage() {
   const getGame = async (): Promise<void> => {
     try {
       if (gameId) {
-        const response = await axios.get<GetGameDto>(gameControllerPaths.getGame(gameId), getAuthorization());
+        const response = await axios.get<GetGameDto>(gameController.getGame(gameId), getAuthorization());
 
         setGameData(response.data);
       }
@@ -110,7 +110,7 @@ function GamePage() {
   const getPlayer = async (): Promise<void> => {
     try {
       if (gameId) {
-        const response = await axios.get<GetPlayerDto>(gameControllerPaths.getPlayer(gameId), getAuthorization());
+        const response = await axios.get<GetPlayerDto>(gameController.getPlayer(gameId), getAuthorization());
 
         setPlayerData(response.data);
       }
@@ -155,7 +155,7 @@ function GamePage() {
     if (!gameId) return;
 
     try {
-      const response = await axios.get<FetchTimeDto>(gameControllerPaths.fetchTime(gameId), getAuthorization());
+      const response = await axios.get<FetchTimeDto>(gameController.fetchTime(gameId), getAuthorization());
 
       setPlayersTimes(response.data);
     } catch (err) {
@@ -169,7 +169,7 @@ function GamePage() {
 
     const getWinner = async (): Promise<void> => {
       try {
-        const response = await axios.get<GetEndedGameDto>(gameControllerPaths.getEndedGame(gameId), getAuthorization());
+        const response = await axios.get<GetEndedGameDto>(gameController.getEndedGame(gameId), getAuthorization());
 
         setWinner(response.data);
       } catch (err) {
@@ -191,10 +191,7 @@ function GamePage() {
           playerId: searchIds.playerId,
         };
 
-        const response = await axios.get<CheckIfInGameDto>(
-          gameControllerPaths.checkIfInGame(model),
-          getAuthorization()
-        );
+        const response = await axios.get<CheckIfInGameDto>(gameController.checkIfInGame(model), getAuthorization());
 
         if (response.data.isInGame) {
           navigate(`/main/game/${response.data.gameId}`, {

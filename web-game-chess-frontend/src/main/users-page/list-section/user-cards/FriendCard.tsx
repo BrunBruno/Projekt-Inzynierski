@@ -3,7 +3,7 @@ import { FriendshipStatus } from "../../../../shared/utils/objects/entitiesEnums
 import { GetAllFriendsByStatusDto, GetFriendProfileDto } from "../../../../shared/utils/types/friendshipDtos";
 import { RespondToFriendRequestModel } from "../../../../shared/utils/types/friendshipModels";
 import classes from "./Cards.module.scss";
-import { friendshipControllerPaths, getAuthorization } from "../../../../shared/utils/services/ApiService";
+import { friendshipController, getAuthorization } from "../../../../shared/utils/services/ApiService";
 import { usePopup } from "../../../../shared/utils/hooks/usePopUp";
 import { getErrMessage } from "../../../../shared/utils/functions/errors";
 import AvatarImage from "../../../../shared/components/avatar-image/AvatarImage";
@@ -31,7 +31,7 @@ function FriendCard({ selectedList, friend, getAllUsers, setFriend }: FriendCard
         isAccepted: accept,
       };
 
-      await axios.put(friendshipControllerPaths.respondToFriendRequest(friend.friendshipId), model, getAuthorization());
+      await axios.put(friendshipController.respondToFriendRequest(friend.friendshipId), model, getAuthorization());
 
       if (accept === true) {
         showPopup("User accepted", "success");
@@ -50,7 +50,7 @@ function FriendCard({ selectedList, friend, getAllUsers, setFriend }: FriendCard
   // used to unblock blocked friends
   const onRemoveFriend = async (action: boolean) => {
     try {
-      await axios.delete(friendshipControllerPaths.removeFriend(friend.friendshipId), getAuthorization());
+      await axios.delete(friendshipController.removeFriend(friend.friendshipId), getAuthorization());
 
       if (action === true) {
         showPopup("Friend removed", "error");
@@ -69,7 +69,7 @@ function FriendCard({ selectedList, friend, getAllUsers, setFriend }: FriendCard
   const onShowProfile = async () => {
     try {
       const response = await axios.get<GetFriendProfileDto>(
-        friendshipControllerPaths.getFriendProfile(friend.friendshipId),
+        friendshipController.getFriendProfile(friend.friendshipId),
         getAuthorization()
       );
 
