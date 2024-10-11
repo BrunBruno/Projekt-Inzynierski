@@ -169,7 +169,7 @@ function IndexPage() {
   //*/
 
   return (
-    <main className={classes["home-main"]}>
+    <main data-testid="main-index-page" className={classes["home-main"]}>
       <IntroBackgroundSection />
 
       <NavSection

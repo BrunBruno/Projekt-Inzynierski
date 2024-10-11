@@ -125,7 +125,7 @@ function RegisterPage() {
   if (!modalClass) return <></>;
 
   return (
-    <main className={classes.register}>
+    <main data-testid="main-register-page" className={classes.register}>
       <div ref={registerRef} className={classes.register__content}>
         {/* intro */}
 

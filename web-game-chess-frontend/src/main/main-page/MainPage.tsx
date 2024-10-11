@@ -41,7 +41,7 @@ function MainPage() {
   //*/
 
   return (
-    <main className={classes.main}>
+    <main data-testid="main-main-page" className={classes.main}>
       <MainNav />
 
       <GameHubSection providedInterface={providedInterface} />

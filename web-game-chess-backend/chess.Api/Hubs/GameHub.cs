@@ -164,10 +164,7 @@ public class GameHub : Hub<IGameHub> {
         await Clients.Groups($"game-{model.GameId}").GameEnded(endGameDto);
     }
 
-
    
-
-
     /// <summary>
     ///  To accept new received invitation
     ///  Notify both counterparts and starts the game
@@ -177,7 +174,6 @@ public class GameHub : Hub<IGameHub> {
     [HubMethodName("accept-invitation")]
     [Authorize(Policy = "IsVerified")]
     [SignalRMethod("AcceptInvitation", Operation.Put)]
-
     public async Task AcceptInvitation(AcceptInvitationModel model) {
 
         var request = _mapper.Map<AcceptInvitationRequest>(model);

@@ -48,7 +48,7 @@ const HeroSection = forwardRef<HandleOnScroll, HeroSectionProps>(
 
           {/* hero content */}
           <div className={classes.section__container__content}>
-            <h1 className={classes["hero-title"]} data-testid="hero-title">
+            <h1 className={classes["hero-title"]}>
               <span>
                 <span className={classes["span-n"]}>Enter the</span> <span className={classes["span-f"]}>realm</span>
               </span>

@@ -5,10 +5,12 @@ import { GetAllFriendsByStatusDto } from "../../shared/utils/types/friendshipDto
 import { Guid } from "guid-typescript";
 import { EloDto, WinDrawLose } from "../../shared/utils/types/abstractDtosAndModels";
 import { GetFullUserDto } from "../../shared/utils/types/userDtos";
-import { createMockServer } from "../../shared/utils/services/MockServerService";
 import { GetTypeHistoryDto } from "../../shared/utils/types/gameDtos";
-import { act } from "react";
+import { createMockFriendshipControllerServer } from "../../shared/utils/services/MockFriendshipControllerService";
+import { createGameControllerMockServer } from "../../shared/utils/services/MockGameControllerService";
+import { createMockUserControllerServer } from "../../shared/utils/services/MockUserControllerService";
 
+/** mocks */
 const mockElo: EloDto = {
   bullet: 1000,
   blitz: 1000,
@@ -84,40 +86,54 @@ const mockTypeHistory: GetTypeHistoryDto[] = [
     createdAt: new Date(),
   },
 ];
+//*/
 
-const server = createMockServer({
-  getAllFriendsByStatusDtoList: mockFriends,
+// set up server
+const userControllerServer = createMockUserControllerServer({
   getFullUserDto: mockFullUser,
   getEloDto: mockElo,
+});
+const gameControllerServer = createGameControllerMockServer({
   getTypeHistoryDtoList: mockTypeHistory,
 });
+const friendshipControllerServer = createMockFriendshipControllerServer({
+  getAllFriendsByStatusDtoList: mockFriends,
+});
 
-beforeAll(() => server.listen());
-afterEach(() => server.resetHandlers());
-afterAll(() => server.close());
+beforeAll(() => {
+  friendshipControllerServer.listen();
+  userControllerServer.listen();
+  gameControllerServer.listen();
+});
+afterEach(() => {
+  friendshipControllerServer.resetHandlers();
+  userControllerServer.resetHandlers();
+  gameControllerServer.resetHandlers();
+});
+afterAll(() => {
+  friendshipControllerServer.close();
+  userControllerServer.close();
+  gameControllerServer.close();
+});
+//*/
 
 describe("UserSection Component", () => {
   it("should renders FriendsSection by default without crashing", async () => {
-    await act(async () => {
-      render(
-        <MemoryRouter>
-          <AccountPage />
-        </MemoryRouter>
-      );
-    });
+    render(
+      <MemoryRouter>
+        <AccountPage />
+      </MemoryRouter>
+    );
 
-    const friendSection = await waitFor(() => screen.getByTestId("account-page-friends-section"));
-    expect(friendSection).toBeInTheDocument();
+    expect(await waitFor(() => screen.getByTestId("account-page-friends-section"))).toBeInTheDocument();
   });
 
   it("should renders correct content on content selection", async () => {
-    await act(async () => {
-      render(
-        <MemoryRouter>
-          <AccountPage />
-        </MemoryRouter>
-      );
-    });
+    render(
+      <MemoryRouter>
+        <AccountPage />
+      </MemoryRouter>
+    );
 
     const setHistoryButton = await waitFor(() => screen.getByTestId("set-history-blitz-button"));
     fireEvent.click(setHistoryButton);

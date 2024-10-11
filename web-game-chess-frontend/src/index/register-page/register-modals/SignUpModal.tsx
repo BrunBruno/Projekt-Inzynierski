@@ -4,7 +4,7 @@ import classes from "./RegisterModal.module.scss";
 import axios from "axios";
 import { errorDisplay, getErrMessage } from "../../../shared/utils/functions/errors";
 import { userController } from "../../../shared/utils/services/ApiService";
-import { ConfigurationDto, LogInUserDto } from "../../../shared/utils/types/userDtos";
+import { GetRegisterConfDto, LogInUserDto } from "../../../shared/utils/types/userDtos";
 import { RegistrationInterface } from "../../../shared/utils/objects/interfacesEnums";
 import { GetRegisterConfModel, LogInUserModel, RegisterUserModel } from "../../../shared/utils/types/userModels";
 import { usePopup } from "../../../shared/utils/hooks/usePopUp";
@@ -43,9 +43,9 @@ function SignUpModal({ setModal }: SignUpModalProps) {
   // error message content
   const [errorMess, setErrorMess] = useState<string>("");
   // user name configuration
-  const [userNameConf, setUserNameConf] = useState<ConfigurationDto | null>(null);
+  const [userNameConf, setUserNameConf] = useState<GetRegisterConfDto | null>(null);
   // password configuration
-  const [userPassConf, setUserPassConf] = useState<ConfigurationDto | null>(null);
+  const [userPassConf, setUserPassConf] = useState<GetRegisterConfDto | null>(null);
   // state if something is processing
   const [processing, setProcessing] = useState<boolean>(false);
 
@@ -58,7 +58,7 @@ function SignUpModal({ setModal }: SignUpModalProps) {
         };
 
         // get username configuration
-        const userNameConfResp = await axios.get<ConfigurationDto>(userController.getRegisterConf(userRegisterConf));
+        const userNameConfResp = await axios.get<GetRegisterConfDto>(userController.getRegisterConf(userRegisterConf));
 
         setUserNameConf(userNameConfResp.data);
 
@@ -67,7 +67,7 @@ function SignUpModal({ setModal }: SignUpModalProps) {
         };
 
         // get password configuration
-        const userPassConfResp = await axios.get<ConfigurationDto>(
+        const userPassConfResp = await axios.get<GetRegisterConfDto>(
           userController.getRegisterConf(passwordRegisterConf)
         );
 
@@ -103,11 +103,12 @@ function SignUpModal({ setModal }: SignUpModalProps) {
 
     // user data
     const form = event.target as HTMLFormElement;
+
     const userData: RegisterUserModel = {
-      email: form.email.value.trim(),
-      username: form.userName.value.trim(),
-      password: form.password.value,
-      confirmPassword: form.confirmPassword.value,
+      email: (form.elements.namedItem("email") as HTMLInputElement).value.trim(),
+      username: (form.elements.namedItem("userName") as HTMLInputElement).value.trim(),
+      password: (form.elements.namedItem("password") as HTMLInputElement).value,
+      confirmPassword: (form.elements.namedItem("confirmPassword") as HTMLInputElement).value,
       country: country === undefined ? "" : country,
     };
 
@@ -159,8 +160,8 @@ function SignUpModal({ setModal }: SignUpModalProps) {
       await axios.post(userController.registerUser(), userData);
 
       const logUserData: LogInUserModel = {
-        emailOrUsername: form.email.value.trim(),
-        password: form.password.value,
+        emailOrUsername: (form.elements.namedItem("email") as HTMLInputElement).value.trim(),
+        password: (form.elements.namedItem("password") as HTMLInputElement).value,
       };
 
       // set temporary user data
@@ -170,7 +171,7 @@ function SignUpModal({ setModal }: SignUpModalProps) {
       const logInResponse = await axios.post<LogInUserDto>(userController.logInUser(), logUserData);
 
       // set unverified token
-      localStorage.setItem("token", logInResponse.data.token);
+      localStorage.setItem("logged", logInResponse.data.token);
 
       setProcessing(false);
 
@@ -188,7 +189,7 @@ function SignUpModal({ setModal }: SignUpModalProps) {
   //*/
 
   // to check user input with db configuration record
-  const checkFromConfiguration = (field: string, data: string, configuration: ConfigurationDto): ValidationResult => {
+  const checkFromConfiguration = (field: string, data: string, configuration: GetRegisterConfDto): ValidationResult => {
     let isValid = true;
     let message = "";
 
@@ -266,7 +267,11 @@ function SignUpModal({ setModal }: SignUpModalProps) {
   if (processing) return <LoadingPage text="Creating account..." />;
 
   return (
-    <form className={classes["registration-form"]} onSubmit={(event) => signUpUser(event)}>
+    <form
+      data-testid="sign-up-form-modal"
+      className={classes["registration-form"]}
+      onSubmit={(event) => signUpUser(event)}
+    >
       <IconCreator icons={registerPageIcons} iconName="bgPawn" color={mainColor.c0} iconClass={classes["bg-svg"]} />
 
       <h2 className={classes["form-title"]}>Create Account</h2>

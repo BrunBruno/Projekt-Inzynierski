@@ -12,10 +12,48 @@ import {
 } from "../types/gameModels";
 import { Guid } from "guid-typescript";
 
+const gameHubUrl: string = "http://localhost:5125/game-hub";
+// const gameHubUrl: string = "http://192.168.1.46:5125/game-hub"
+
+interface GameHubServicePaths {
+  addSelfNotification: string;
+  addPlayer: string;
+  playerJoined: string;
+  makeMove: string;
+  sendMessage: string;
+  sendDraw: string;
+  endGame: string;
+  acceptInvitation: string;
+  updatePrivateGame: string;
+  typingStatus: string;
+  notifyUser: string;
+  playerLeaved: string;
+  leaveGame: string;
+  declineInvitation: string;
+  removeDraw: string;
+}
+
+export const GameHubServicePaths: GameHubServicePaths = {
+  addSelfNotification: `${gameHubUrl}/add-self-notification`,
+  addPlayer: `${gameHubUrl}/add-player`,
+  playerJoined: `${gameHubUrl}/player-joined`,
+  makeMove: `${gameHubUrl}/make-move`,
+  sendMessage: `${gameHubUrl}/send-message`,
+  sendDraw: `${gameHubUrl}/send-draw`,
+  endGame: `${gameHubUrl}/"end-game`,
+  acceptInvitation: `${gameHubUrl}/accept-invitation`,
+  updatePrivateGame: `${gameHubUrl}/update-private-game`,
+  typingStatus: `${gameHubUrl}/typing-status`,
+  notifyUser: `${gameHubUrl}/notify-user`,
+  playerLeaved: `${gameHubUrl}/player-leaved`,
+  leaveGame: `${gameHubUrl}/leave-game`,
+  declineInvitation: `${gameHubUrl}/decline-invitation`,
+  removeDraw: `${gameHubUrl}/remove-draw`,
+};
+
 class GameHub {
   // hub url
-  private gameHubUrl: string = "http://localhost:5125/game-hub";
-  // private gameHubUrl: string = "http://192.168.1.46:5125/game-hub";
+  private gameHubUrl: string = gameHubUrl;
   // verification token
   private token: string | null = null;
   // attempts take to establish connection

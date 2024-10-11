@@ -45,7 +45,7 @@ function VerifyEmailModal({ userPath, setModal }: VerifyEmailModalProps) {
     // code data
     const form = event.target as HTMLFormElement;
     const verificationCode: VerifyEmailModel = {
-      code: form.code.value,
+      code: (form.elements.namedItem("code") as HTMLInputElement).value.trim(),
     };
 
     // check if user inserted code
@@ -127,7 +127,11 @@ function VerifyEmailModal({ userPath, setModal }: VerifyEmailModalProps) {
   if (processing) return <LoadingPage />;
 
   return (
-    <form className={classes["registration-form"]} onSubmit={(event) => verifyUser(event)}>
+    <form
+      data-testid="verify-email-form-modal"
+      className={classes["registration-form"]}
+      onSubmit={(event) => verifyUser(event)}
+    >
       {/* bg */}
       <IconCreator icons={registerPageIcons} iconName={"bgPawn"} color={mainColor.c0} iconClass={classes["bg-svg"]} />
 

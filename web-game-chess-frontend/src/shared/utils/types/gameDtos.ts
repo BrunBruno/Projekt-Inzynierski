@@ -184,3 +184,8 @@ export type CheckIfUpdateRequiredDto = TimingTypeModel & {
 };
 
 export type GetGameTimingDto = TimingTypeModel;
+
+export type GetOpponentDto = {
+  // previous opponent id
+  opponentId: Guid;
+};

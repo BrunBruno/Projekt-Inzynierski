@@ -48,8 +48,8 @@ function SignInModal({ userPath, setModal }: SignInModalProps) {
     // user data
     const form = event.target as HTMLFormElement;
     const userData: LogInUserModel = {
-      emailOrUsername: form.email.value.trim(),
-      password: form.password.value,
+      emailOrUsername: (form.elements.namedItem("email") as HTMLInputElement).value.trim(),
+      password: (form.elements.namedItem("password") as HTMLInputElement).value,
     };
 
     // check for empty password
@@ -104,7 +104,11 @@ function SignInModal({ userPath, setModal }: SignInModalProps) {
   if (processing) return <LoadingPage text="Logging in..." />;
 
   return (
-    <form className={classes["registration-form"]} onSubmit={(event) => signInUser(event)}>
+    <form
+      data-testid="sign-in-form-modal"
+      className={classes["registration-form"]}
+      onSubmit={(event) => signInUser(event)}
+    >
       <IconCreator icons={registerPageIcons} iconName={"bgPawn"} color={mainColor.c0} iconClass={classes["bg-svg"]} />
 
       <h2 className={classes["form-title"]}>Login Now</h2>

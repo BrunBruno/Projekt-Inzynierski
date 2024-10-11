@@ -3,7 +3,7 @@
 import { Guid } from "guid-typescript";
 import { EloDto, UserDto, WinDrawLose } from "./abstractDtosAndModels";
 
-export type ConfigurationDto = {
+export type GetRegisterConfDto = {
   // minimal length of input
   minLength: number | null;
   // maximal length of input
