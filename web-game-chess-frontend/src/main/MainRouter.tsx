@@ -49,6 +49,7 @@ function MainRouter() {
         localStorage.setItem("userInfo", JSON.stringify(userInfoResponse.data));
 
         const token = localStorage.getItem("token");
+
         if (token === null) {
           navigate("/registration", {
             state: {
@@ -61,6 +62,8 @@ function MainRouter() {
         }
 
         await GameHubService.startConnectionWithToken(token);
+
+        console.log(GameHubService.connection?.state);
 
         if (GameHubService.connection?.state === HubConnectionState.Connected) {
           await GameHubService.AddSelfNotification();

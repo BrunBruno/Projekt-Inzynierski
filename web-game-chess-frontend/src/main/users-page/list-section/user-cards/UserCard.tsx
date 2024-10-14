@@ -70,6 +70,7 @@ function UserCard({ user, getAllUsers, setNonFriend }: UserCardProps) {
           </div>
           <div className={classes.actions}>
             <button
+              data-testid="users-page-user-card-invite-button"
               className={classes["main-button"]}
               onClick={() => {
                 onInviteFriend(user.userId);
@@ -78,6 +79,7 @@ function UserCard({ user, getAllUsers, setNonFriend }: UserCardProps) {
               Add to friends
             </button>
             <button
+              data-testid="users-page-user-card-profile-button"
               className={classes["sec-button"]}
               onClick={() => {
                 onShowProfile();

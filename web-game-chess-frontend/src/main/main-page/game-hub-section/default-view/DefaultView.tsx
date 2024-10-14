@@ -91,7 +91,7 @@ function DefaultView({}: DefaultViewProps) {
   //*/
 
   return (
-    <div ref={defRef} className={classes.default}>
+    <div ref={defRef} data-testid="main-page-default-view" className={classes.default}>
       <div className={classes.default__container}>
         <div className={classes.board}>
           <div

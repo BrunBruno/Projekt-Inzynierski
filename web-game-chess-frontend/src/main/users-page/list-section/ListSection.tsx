@@ -180,6 +180,7 @@ function ListSection({ selectedUsername, selectedList, setUserProfile, setFriend
       {users.length > 0 ? (
         <div
           ref={scrollRef}
+          data-testid="users-page-all-user-list"
           className={classes.list__grid}
           onWheel={(event) => {
             handleLoading(event);
@@ -197,6 +198,7 @@ function ListSection({ selectedUsername, selectedList, setUserProfile, setFriend
       ) : friends.length > 0 ? (
         <div
           ref={scrollRef}
+          data-testid="users-page-friends-list"
           className={classes.list__grid}
           onWheel={(event) => {
             handleLoading(event);

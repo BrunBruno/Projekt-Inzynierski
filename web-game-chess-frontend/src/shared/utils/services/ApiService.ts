@@ -167,25 +167,28 @@ interface GameController {
 
 // paths in game controller
 export const gameControllerPaths: GameControllerPaths = {
+  // static
   startSearch: `${gameBaseUrl}/search`,
   createPrivateGame: `${gameBaseUrl}/private`,
   createGameByEmail: `${gameBaseUrl}/by-email`,
   createGameWithLink: `${gameBaseUrl}/by-link`,
   createRematchGame: `${gameBaseUrl}/rematch`,
   checkIfInGame: `${gameBaseUrl}/check-if-in-game`,
-  checkIfUpdateRequired: `${gameBaseUrl}/:gameId/check-if-update-required`,
+  getAllFinishedGames: `${gameBaseUrl}/all-finished`,
+  getTypeHistory: `${gameBaseUrl}/type-history`,
+  getAllInvitations: `${gameBaseUrl}/invitations`,
+  abortSearch: `${gameBaseUrl}/abort`,
+
+  // dynamic
   getGame: `${gameBaseUrl}/:gameId`,
   getPlayer: `${gameBaseUrl}/:gameId/player`,
   fetchTime: `${gameBaseUrl}/:gameId/time`,
   getOpponent: `${gameBaseUrl}/:gameId/opponent`,
   getEndedGame: `${gameBaseUrl}/:gameId/ended`,
   getGameTiming: `${gameBaseUrl}/:gameId/timing`,
-  getAllFinishedGames: `${gameBaseUrl}/all-finished`,
-  getTypeHistory: `${gameBaseUrl}/type-history`,
-  getAllInvitations: `${gameBaseUrl}/invitations`,
   getAllMessages: `${gameBaseUrl}/:gameId/messages`,
-  abortSearch: `${gameBaseUrl}/abort`,
   cancelPrivateGame: `${gameBaseUrl}/:gameId/cancel`,
+  checkIfUpdateRequired: `${gameBaseUrl}/:gameId/check-if-update-required`,
 };
 
 export const gameController: GameController = {
@@ -279,10 +282,13 @@ interface FriendshipController {
 }
 
 export const friendshipControllerPaths: FriendshipControllerPaths = {
+  // static
   inviteFriend: `${friendshipBaseUrl}/invite`,
-  respondToFriendRequest: `${friendshipBaseUrl}/:friendshipId/respond`,
   getAllFriendsByStatus: `${friendshipBaseUrl}/all-by-status`,
   getAllNonFriends: `${friendshipBaseUrl}/all-non-friends`,
+
+  // dynamic
+  respondToFriendRequest: `${friendshipBaseUrl}/:friendshipId/respond`,
   getFriendProfile: `${friendshipBaseUrl}/:friendshipId`,
   removeFriend: `${friendshipBaseUrl}/:friendshipId`,
 };

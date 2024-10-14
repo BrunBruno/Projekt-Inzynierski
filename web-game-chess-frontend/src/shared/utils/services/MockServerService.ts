@@ -6,7 +6,6 @@ import {
   CreateGameByEmailDto,
   CreateGameWithLinkDto,
   CreatePrivateGameDto,
-  EndGameDto,
   FetchTimeDto,
   GetAllFinishedGamesDto,
   GetAllInvitationsDto,
@@ -17,7 +16,6 @@ import {
   GetOpponentDto,
   GetPlayerDto,
   GetTypeHistoryDto,
-  InvitedToGameDto,
   SearchGameDto,
 } from "../types/gameDtos";
 import { PagedResult } from "../types/abstractDtosAndModels";
@@ -34,8 +32,6 @@ import {
 } from "../types/userDtos";
 import { DataConfiguration } from "../objects/entitiesEnums";
 import { GetAllFriendsByStatusDto, GetAllNonFriendsDto, GetFriendProfileDto } from "../types/friendshipDtos";
-import { GameHubServicePaths } from "./GameHubService";
-import { Guid } from "guid-typescript";
 
 type UserControllerServerParams = {
   logInUserDto?: LogInUserDto;
@@ -63,7 +59,7 @@ type GameControllerServerParams = {
   getAllFinishedGamesDtoList?: GetAllFinishedGamesDto[];
   getTypeHistoryDtoList?: GetTypeHistoryDto[];
   getAllInvitationsDtoList?: GetAllInvitationsDto[];
-  getAllMessagesDtoList: GetAllMessagesDto[];
+  getAllMessagesDtoList?: GetAllMessagesDto[];
 };
 
 type FriendshipControllerServerParams = {
@@ -72,18 +68,12 @@ type FriendshipControllerServerParams = {
   getFriendProfileDto?: GetFriendProfileDto;
 };
 
-type GameHubServiceServerParams = {
-  endGameDto?: EndGameDto;
-  invitedToGameDto?: InvitedToGameDto;
-};
-
-type createMockServerParams = GameControllerServerParams &
+type CreateMockServerParams = GameControllerServerParams &
   UserControllerServerParams &
-  FriendshipControllerServerParams &
-  GameHubServiceServerParams;
+  FriendshipControllerServerParams;
 
 // function to create a mock server
-export const createMockServer = (mockResult: createMockServerParams) => {
+export const createMockServer = (mockResult: CreateMockServerParams) => {
   const externHandlers: RestHandler<MockedRequest<DefaultBodyType>>[] = [
     rest.get("https://ipinfo.io", (_, res, ctx) => {
       return res(ctx.status(200), ctx.json({ data: { country: "PL" } }));
@@ -222,30 +212,44 @@ export const createMockServer = (mockResult: createMockServerParams) => {
 
   // game controller handlers
   const gameControllerHandlers: RestHandler<MockedRequest<DefaultBodyType>>[] = [
+    /** STATIC */
+
     // start search
     rest.post(gameControllerPaths.startSearch, (_, res, ctx) => {
-      if (!mockResult.searchGameDto) return res(ctx.status(500), ctx.json(null));
+      if (!mockResult.searchGameDto) {
+        console.error("mock SearchGameDto not provided");
+        return res(ctx.status(500), ctx.json(null));
+      }
 
       return res(ctx.status(200), ctx.json<SearchGameDto>(mockResult.searchGameDto));
     }),
 
     // create private game
     rest.post(gameControllerPaths.createPrivateGame, (_, res, ctx) => {
-      if (!mockResult.createPrivateGameDto) return res(ctx.status(500), ctx.json(null));
+      if (!mockResult.createPrivateGameDto) {
+        console.error("mock CreatePrivateGameDto not provided");
+        return res(ctx.status(500), ctx.json(null));
+      }
 
       return res(ctx.status(200), ctx.json<CreatePrivateGameDto>(mockResult.createPrivateGameDto));
     }),
 
     // create game by email
     rest.post(gameControllerPaths.createGameByEmail, (_, res, ctx) => {
-      if (!mockResult.createGameByEmailDto) return res(ctx.status(500), ctx.json(null));
+      if (!mockResult.createGameByEmailDto) {
+        console.error("mock CreateGameByEmailDto not provided");
+        return res(ctx.status(500), ctx.json(null));
+      }
 
       return res(ctx.status(200), ctx.json<CreateGameByEmailDto>(mockResult.createGameByEmailDto));
     }),
 
     // create game with link
     rest.post(gameControllerPaths.createGameWithLink, (_, res, ctx) => {
-      if (!mockResult.createGameWithLinkDto) return res(ctx.status(500), ctx.json(null));
+      if (!mockResult.createGameWithLinkDto) {
+        console.error("mock CreateGameWithLinDto not provided");
+        return res(ctx.status(500), ctx.json(null));
+      }
 
       return res(ctx.status(200), ctx.json<CreateGameWithLinkDto>(mockResult.createGameWithLinkDto));
     }),
@@ -257,63 +261,20 @@ export const createMockServer = (mockResult: createMockServerParams) => {
 
     // check if in game
     rest.get(gameControllerPaths.checkIfInGame, (_, res, ctx) => {
-      if (!mockResult.checkIfInGameDto) return res(ctx.status(500), ctx.json(null));
+      if (!mockResult.checkIfInGameDto) {
+        console.error("mock CheckIfInGameDto not provided");
+        return res(ctx.status(500), ctx.json(null));
+      }
 
       return res(ctx.status(200), ctx.json<CheckIfInGameDto>(mockResult.checkIfInGameDto));
     }),
 
-    // check if update required
-    rest.get(gameControllerPaths.checkIfUpdateRequired, (_, res, ctx) => {
-      if (!mockResult.checkIfUpdateRequiredDto) return res(ctx.status(500), ctx.json(null));
-
-      return res(ctx.status(200), ctx.json<CheckIfUpdateRequiredDto>(mockResult.checkIfUpdateRequiredDto));
-    }),
-
-    // get game
-    rest.get(gameControllerPaths.getGame, (_, res, ctx) => {
-      if (!mockResult.getGameDto) return res(ctx.status(500), ctx.json(null));
-
-      return res(ctx.status(200), ctx.json<GetGameDto>(mockResult.getGameDto));
-    }),
-
-    // get player
-    rest.get(gameControllerPaths.getPlayer, (_, res, ctx) => {
-      if (!mockResult.getPlayerDto) return res(ctx.status(500), ctx.json(null));
-
-      return res(ctx.status(200), ctx.json<GetPlayerDto>(mockResult.getPlayerDto));
-    }),
-
-    // fetch time
-    rest.get(gameControllerPaths.fetchTime, (_, res, ctx) => {
-      if (!mockResult.fetchTimeDto) return res(ctx.status(500), ctx.json(null));
-
-      return res(ctx.status(200), ctx.json<FetchTimeDto>(mockResult.fetchTimeDto));
-    }),
-
-    // get opponent
-    rest.get(gameControllerPaths.getOpponent, (_, res, ctx) => {
-      if (!mockResult.getOpponentDto) return res(ctx.status(500), ctx.json(null));
-
-      return res(ctx.status(200), ctx.json<GetOpponentDto>(mockResult.getOpponentDto));
-    }),
-
-    // get ended game
-    rest.get(gameControllerPaths.getEndedGame, (_, res, ctx) => {
-      if (!mockResult.getEndedGameDto) return res(ctx.status(500), ctx.json(null));
-
-      return res(ctx.status(200), ctx.json<GetEndedGameDto>(mockResult.getEndedGameDto));
-    }),
-
-    // get game timing
-    rest.get(gameControllerPaths.getGameTiming, (_, res, ctx) => {
-      if (!mockResult.getGameTimingDto) return res(ctx.status(500), ctx.json(null));
-
-      return res(ctx.status(200), ctx.json<GetGameTimingDto>(mockResult.getGameTimingDto));
-    }),
-
     // get all finished games
     rest.get(gameControllerPaths.getAllFinishedGames, (_, res, ctx) => {
-      if (!mockResult.getAllFinishedGamesDtoList) return res(ctx.status(500), ctx.json(null));
+      if (!mockResult.getAllFinishedGamesDtoList) {
+        console.error("mock GetAllFinishedGamesDto not provided");
+        return res(ctx.status(500), ctx.json(null));
+      }
 
       const response: PagedResult<GetAllFinishedGamesDto> = createPagedResult(mockResult.getAllFinishedGamesDtoList);
 
@@ -322,7 +283,10 @@ export const createMockServer = (mockResult: createMockServerParams) => {
 
     // get type history
     rest.get(gameControllerPaths.getTypeHistory, (_, res, ctx) => {
-      if (!mockResult.getTypeHistoryDtoList) return res(ctx.status(500), ctx.json(null));
+      if (!mockResult.getTypeHistoryDtoList) {
+        console.error("mock GetTypeHistoryDto not provided");
+        return res(ctx.status(500), ctx.json(null));
+      }
 
       const response: PagedResult<GetTypeHistoryDto> = createPagedResult(mockResult.getTypeHistoryDtoList);
 
@@ -331,20 +295,14 @@ export const createMockServer = (mockResult: createMockServerParams) => {
 
     // get all invitations
     rest.get(gameControllerPaths.getAllInvitations, (_, res, ctx) => {
-      if (!mockResult.getAllInvitationsDtoList) return res(ctx.status(500), ctx.json(null));
+      if (!mockResult.getAllInvitationsDtoList) {
+        console.error("mock GetAllInvitationsDto not provided");
+        return res(ctx.status(500), ctx.json(null));
+      }
 
       const response: PagedResult<GetAllInvitationsDto> = createPagedResult(mockResult.getAllInvitationsDtoList);
 
       return res(ctx.status(200), ctx.json<PagedResult<GetAllInvitationsDto>>(response));
-    }),
-
-    // get all messages
-    rest.get(gameControllerPaths.getAllMessages, (_, res, ctx) => {
-      if (!mockResult.getAllMessagesDtoList) return res(ctx.status(500), ctx.json(null));
-
-      const response: PagedResult<GetAllMessagesDto> = createPagedResult(mockResult.getAllMessagesDtoList);
-
-      return res(ctx.status(200), ctx.json<PagedResult<GetAllMessagesDto>>(response));
     }),
 
     // abort search
@@ -352,27 +310,111 @@ export const createMockServer = (mockResult: createMockServerParams) => {
       return res(ctx.status(200));
     }),
 
+    /** DYNAMIC */
+
+    // get game
+    rest.get(gameControllerPaths.getGame, (_, res, ctx) => {
+      if (!mockResult.getGameDto) {
+        console.error("mock GetGameDto not provided");
+        return res(ctx.status(500), ctx.json(null));
+      }
+
+      return res(ctx.status(200), ctx.json<GetGameDto>(mockResult.getGameDto));
+    }),
+
+    // get player
+    rest.get(gameControllerPaths.getPlayer, (_, res, ctx) => {
+      if (!mockResult.getPlayerDto) {
+        console.error("mock GetPlayerDto not provided");
+        return res(ctx.status(500), ctx.json(null));
+      }
+
+      return res(ctx.status(200), ctx.json<GetPlayerDto>(mockResult.getPlayerDto));
+    }),
+
+    // fetch time
+    rest.get(gameControllerPaths.fetchTime, (_, res, ctx) => {
+      if (!mockResult.fetchTimeDto) {
+        console.error("mock FetchTimeDto not provided");
+        return res(ctx.status(500), ctx.json(null));
+      }
+
+      return res(ctx.status(200), ctx.json<FetchTimeDto>(mockResult.fetchTimeDto));
+    }),
+
+    // get opponent
+    rest.get(gameControllerPaths.getOpponent, (_, res, ctx) => {
+      if (!mockResult.getOpponentDto) {
+        console.error("mock GetOpponentDto not provided");
+        return res(ctx.status(500), ctx.json(null));
+      }
+
+      return res(ctx.status(200), ctx.json<GetOpponentDto>(mockResult.getOpponentDto));
+    }),
+
+    // get ended game
+    rest.get(gameControllerPaths.getEndedGame, (_, res, ctx) => {
+      if (!mockResult.getEndedGameDto) {
+        console.error("mock GetEndedGameDto not provided");
+        return res(ctx.status(500), ctx.json(null));
+      }
+
+      return res(ctx.status(200), ctx.json<GetEndedGameDto>(mockResult.getEndedGameDto));
+    }),
+
+    // get game timing
+    rest.get(gameControllerPaths.getGameTiming, (_, res, ctx) => {
+      if (!mockResult.getGameTimingDto) {
+        console.error("mock GetGameTimingDto not provided");
+        return res(ctx.status(500), ctx.json(null));
+      }
+
+      return res(ctx.status(200), ctx.json<GetGameTimingDto>(mockResult.getGameTimingDto));
+    }),
+
+    // get all messages
+    rest.get(gameControllerPaths.getAllMessages, (_, res, ctx) => {
+      if (!mockResult.getAllMessagesDtoList) {
+        console.error("mock GetAllMessagesDto not provided");
+        return res(ctx.status(500), ctx.json(null));
+      }
+
+      const response: PagedResult<GetAllMessagesDto> = createPagedResult(mockResult.getAllMessagesDtoList);
+
+      return res(ctx.status(200), ctx.json<PagedResult<GetAllMessagesDto>>(response));
+    }),
+
     // cancel private game
     rest.delete(gameControllerPaths.cancelPrivateGame, (_, res, ctx) => {
       return res(ctx.status(200));
+    }),
+
+    // check if update required
+    rest.get(gameControllerPaths.checkIfUpdateRequired, (_, res, ctx) => {
+      if (!mockResult.checkIfUpdateRequiredDto) {
+        console.error("mock CheckIfUpdateRequiredDto not provided");
+        return res(ctx.status(500), ctx.json(null));
+      }
+
+      return res(ctx.status(200), ctx.json<CheckIfUpdateRequiredDto>(mockResult.checkIfUpdateRequiredDto));
     }),
   ];
 
   // friendship controller handlers
   const friendshipControllerHandlers: RestHandler<MockedRequest<DefaultBodyType>>[] = [
+    /** STATIC */
+
     // invite friend
     rest.post(friendshipControllerPaths.inviteFriend, (_, res, ctx) => {
       return res(ctx.status(200));
     }),
 
-    // respond to friend request
-    rest.put(friendshipControllerPaths.respondToFriendRequest, (_, res, ctx) => {
-      return res(ctx.status(200));
-    }),
-
     // get all friends by status
     rest.get(friendshipControllerPaths.getAllFriendsByStatus, (_, res, ctx) => {
-      if (!mockResult.getAllFriendsByStatusDtoList) return res(ctx.status(500), ctx.json(null));
+      if (!mockResult.getAllFriendsByStatusDtoList) {
+        console.error("mock GetAllFriendsByStatusDto not provided");
+        return res(ctx.status(500), ctx.json(null));
+      }
 
       const response: PagedResult<GetAllFriendsByStatusDto> = createPagedResult(
         mockResult.getAllFriendsByStatusDtoList
@@ -383,16 +425,29 @@ export const createMockServer = (mockResult: createMockServerParams) => {
 
     // get all friends by status
     rest.get(friendshipControllerPaths.getAllNonFriends, (_, res, ctx) => {
-      if (!mockResult.getAllNonFriendsDtoList) return res(ctx.status(500), ctx.json(null));
+      if (!mockResult.getAllNonFriendsDtoList) {
+        console.error("mock GetAllNonFriendsDto not provided");
+        return res(ctx.status(500), ctx.json(null));
+      }
 
       const response: PagedResult<GetAllNonFriendsDto> = createPagedResult(mockResult.getAllNonFriendsDtoList);
 
       return res(ctx.status(200), ctx.json<PagedResult<GetAllNonFriendsDto>>(response));
     }),
 
+    /** DYNAMIC */
+
+    // respond to friend request
+    rest.put(friendshipControllerPaths.respondToFriendRequest, (_, res, ctx) => {
+      return res(ctx.status(200));
+    }),
+
     // get game timing
     rest.get(friendshipControllerPaths.getFriendProfile, (_, res, ctx) => {
-      if (!mockResult.getFriendProfileDto) return res(ctx.status(500), ctx.json(null));
+      if (!mockResult.getFriendProfileDto) {
+        console.error("mock GetFriendProfileDto not provided");
+        return res(ctx.status(500), ctx.json(null));
+      }
 
       return res(ctx.status(200), ctx.json<GetFriendProfileDto>(mockResult.getFriendProfileDto));
     }),
@@ -404,100 +459,8 @@ export const createMockServer = (mockResult: createMockServerParams) => {
   ];
   //*/
 
-  const gameHubServiceHandlers: RestHandler<MockedRequest<DefaultBodyType>>[] = [
-    // connection
-    rest.get("http://localhost:5125/game-hub", (_, res, ctx) => {
-      return res(ctx.status(200), ctx.json({ message: "WebSocket is connected" }));
-    }),
-
-    // add self notification
-    rest.post(GameHubServicePaths.addSelfNotification, (_, res, ctx) => {
-      return res(ctx.status(200));
-    }),
-
-    // add player
-    rest.post(GameHubServicePaths.addPlayer, (_, res, ctx) => {
-      return res(ctx.status(200));
-    }),
-
-    // player joined
-    rest.post(GameHubServicePaths.playerJoined, (_, res, ctx) => {
-      return res(ctx.status(200));
-    }),
-
-    // make move
-    rest.post(GameHubServicePaths.makeMove, (_, res, ctx) => {
-      return res(ctx.status(200));
-    }),
-
-    // send message
-    rest.post(GameHubServicePaths.sendMessage, (_, res, ctx) => {
-      return res(ctx.status(200));
-    }),
-
-    // send draw
-    rest.post(GameHubServicePaths.sendDraw, (_, res, ctx) => {
-      return res(ctx.status(200));
-    }),
-
-    // end game
-    rest.put(GameHubServicePaths.endGame, (_, res, ctx) => {
-      if (!mockResult.endGameDto) return res(ctx.status(500), ctx.json(null));
-
-      return res(ctx.status(200), ctx.json<EndGameDto>(mockResult.endGameDto));
-    }),
-
-    // accept invitation
-    rest.put(GameHubServicePaths.acceptInvitation, (_, res, ctx) => {
-      return res(ctx.status(200), ctx.json<Guid>(Guid.create()));
-    }),
-
-    // accept invitation
-    rest.put(GameHubServicePaths.updatePrivateGame, (_, res, ctx) => {
-      return res(ctx.status(200), ctx.json<Guid>(Guid.create()));
-    }),
-
-    // accept invitation
-    rest.put(GameHubServicePaths.typingStatus, (_, res, ctx) => {
-      return res(ctx.status(200), ctx.json<boolean>(true));
-    }),
-
-    // notify user
-    rest.get(GameHubServicePaths.notifyUser, (_, res, ctx) => {
-      if (!mockResult.invitedToGameDto) return res(ctx.status(500), ctx.json(null));
-
-      return res(ctx.status(200), ctx.json<InvitedToGameDto>(mockResult.invitedToGameDto));
-    }),
-
-    // player leaved
-    rest.delete(GameHubServicePaths.playerLeaved, (_, res, ctx) => {
-      return res(ctx.status(200));
-    }),
-
-    // leave game
-    rest.delete(GameHubServicePaths.leaveGame, (_, res, ctx) => {
-      return res(ctx.status(200));
-    }),
-
-    // decline invitation
-    rest.delete(GameHubServicePaths.declineInvitation, (_, res, ctx) => {
-      return res(ctx.status(200));
-    }),
-
-    // remove draw
-    rest.delete(GameHubServicePaths.removeDraw, (_, res, ctx) => {
-      return res(ctx.status(200));
-    }),
-  ];
-
   return setupServer(
-    ...[
-      ...externHandlers,
-      ...userControllerHandlers,
-      ...gameControllerHandlers,
-      ...friendshipControllerHandlers,
-      ...gameHubServiceHandlers,
-    ]
+    ...[...externHandlers, ...userControllerHandlers, ...gameControllerHandlers, ...friendshipControllerHandlers]
   );
 };
 

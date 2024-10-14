@@ -87,7 +87,7 @@ function VsPlayerSearch({ setSearchIds }: VsPlayerSearchProps) {
   //*/
 
   return (
-    <div className={classes.search}>
+    <div data-testid="main-page-vs-player-section" className={classes.search}>
       <div className={classes.search__grid}>
         <div className={classes.search__grid__header}>
           <span>Select Time Control</span>
@@ -95,7 +95,7 @@ function VsPlayerSearch({ setSearchIds }: VsPlayerSearchProps) {
 
         {/* map game timing types */}
         {defaultTimeControls.map((control, index) => (
-          <div key={index} className={classes.search__grid__row}>
+          <div key={`row-${index}`} className={classes.search__grid__row}>
             <div className={classes.search__grid__row__header}>
               <IconCreator
                 icons={timingTypeIcons}
@@ -108,7 +108,8 @@ function VsPlayerSearch({ setSearchIds }: VsPlayerSearchProps) {
 
             {control.tags.map((tag, i) => (
               <div
-                key={i}
+                key={`time-control-${index}-${i}`}
+                data-testid={`main-page-vs-player-time-control-${index}-${i}`}
                 className={classes.search__grid__row__block}
                 onClick={() => {
                   onSearchForGame(control.header, control.values[i]);

@@ -97,6 +97,7 @@ function GamePage() {
   const getGame = async (): Promise<void> => {
     try {
       if (gameId) {
+        console.log("here");
         const response = await axios.get<GetGameDto>(gameController.getGame(gameId), getAuthorization());
 
         setGameData(response.data);

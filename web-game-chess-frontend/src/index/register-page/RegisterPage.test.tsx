@@ -4,28 +4,17 @@ import IndexRouter from "../IndexRouter";
 import RegisterPage from "./RegisterPage";
 import { RegistrationInterface } from "../../shared/utils/objects/interfacesEnums";
 import { GetUserDto, IsEmailVerifiedDto, LogInUserDto } from "../../shared/utils/types/userDtos";
-import { JwtService, MockUser } from "../../shared/utils/services/MockJwtService";
+import { JwtService } from "../../shared/utils/services/MockJwtService";
 import { Guid } from "guid-typescript";
 import MainRouter from "../../main/MainRouter";
-import { createMockUserControllerServer } from "../../shared/utils/services/MockUserControllerService";
-import { createMockGameHubServer } from "../../shared/utils/services/MockGameHubService";
-import { createMockExternServer } from "../../shared/utils/services/MockExternApiService";
+import { createMockServer } from "../../shared/utils/services/MockServerService";
+import { mockUserForToken } from "../../shared/utils/objects/generalMocks";
 
 // mocks
-
 const jwtService = new JwtService();
 
-const userToCreateToken: MockUser = {
-  id: Guid.create(),
-  username: "Username",
-  role: {
-    name: "user",
-  },
-  isVerified: false,
-};
-
 const mockToken: LogInUserDto = {
-  token: jwtService.getJwtToken(userToCreateToken),
+  token: jwtService.getJwtToken(mockUserForToken),
 };
 
 const mockIsVerified: IsEmailVerifiedDto = {
@@ -43,32 +32,27 @@ const mockUser: GetUserDto = {
 //*/
 
 // set up server
-const userControllerServer = createMockUserControllerServer({
+const server = createMockServer({
   logInUserDto: mockToken,
   isEmailVerifiedDto: mockIsVerified,
   getUserDto: mockUser,
 });
-const gameHubServer = createMockGameHubServer({});
-const externApiServer = createMockExternServer({});
 
-beforeAll(() => {
-  userControllerServer.listen();
-  gameHubServer.listen();
-  externApiServer.listen();
-});
-afterEach(() => {
-  userControllerServer.resetHandlers();
-  gameHubServer.resetHandlers();
-  externApiServer.resetHandlers();
-});
-afterAll(() => {
-  userControllerServer.close();
-  gameHubServer.close();
-  externApiServer.close();
-});
+beforeAll(() => server.listen());
+afterEach(() => server.resetHandlers());
+afterAll(() => server.close());
+
+vi.mock("../shared/utils/services/GameHubService", () => ({
+  startConnectionWithToken: vi.fn().mockResolvedValueOnce(undefined),
+  AddSelfNotification: vi.fn().mockResolvedValueOnce(undefined),
+}));
 //*/
 
-describe("RegisterPage Component", () => {
+describe("RegisterPage Components", () => {
+  beforeEach(() => {
+    vi.clearAllMocks();
+  });
+
   // default render test
   it("should render without crashing and displays initial content", async () => {
     render(
@@ -108,7 +92,6 @@ describe("RegisterPage Component", () => {
       </MemoryRouter>
     );
 
-    // Check if the sign-in form is displayed
     await waitFor(() => {
       expect(screen.getByTestId("sign-in-form-modal")).toBeInTheDocument();
     });
@@ -117,14 +100,11 @@ describe("RegisterPage Component", () => {
       expect(screen.getByText(/Login Now/i)).toBeInTheDocument();
     });
 
-    // Fill in the form
     fireEvent.change(screen.getByPlaceholderText("E-mail"), { target: { value: "test@example.com" } });
     fireEvent.change(screen.getByPlaceholderText("Password"), { target: { value: "Password123" } });
 
-    // Submit the form
     fireEvent.submit(screen.getByTestId("sign-in-form-modal"));
 
-    // Wait for the main page to render
     await waitFor(() => {
       expect(screen.getByTestId("main-main-page")).toBeInTheDocument();
     });

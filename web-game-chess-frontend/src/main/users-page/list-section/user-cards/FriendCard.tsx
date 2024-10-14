@@ -87,6 +87,7 @@ function FriendCard({ selectedList, friend, getAllUsers, setFriend }: FriendCard
         return (
           <div className={classes.actions}>
             <button
+              data-testid="users-page-friend-card-profile-button"
               className={classes["main-button"]}
               onClick={() => {
                 onShowProfile();
@@ -95,6 +96,7 @@ function FriendCard({ selectedList, friend, getAllUsers, setFriend }: FriendCard
               See Profile
             </button>
             <button
+              data-testid="users-page-friend-card-remove-button"
               className={classes["sec-button"]}
               onClick={() => {
                 onRemoveFriend(true);
@@ -111,6 +113,7 @@ function FriendCard({ selectedList, friend, getAllUsers, setFriend }: FriendCard
             {!friend.isRequestor ? (
               <div className={classes.actions}>
                 <button
+                  data-testid="users-page-friend-card-accept-button"
                   className={classes["main-button"]}
                   onClick={() => {
                     onRespondToRequest(true);
@@ -119,6 +122,7 @@ function FriendCard({ selectedList, friend, getAllUsers, setFriend }: FriendCard
                   Accept
                 </button>
                 <button
+                  data-testid="users-page-friend-card-decline-button"
                   className={classes["sec-button"]}
                   onClick={() => {
                     onRespondToRequest(false);
@@ -139,6 +143,7 @@ function FriendCard({ selectedList, friend, getAllUsers, setFriend }: FriendCard
             {!friend.isRequestor ? (
               <div className={classes.actions}>
                 <button
+                  data-testid="users-page-friend-card-unblock-button"
                   className={classes["sec-button"]}
                   onClick={() => {
                     onRemoveFriend(false);

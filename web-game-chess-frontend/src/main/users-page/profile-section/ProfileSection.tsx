@@ -19,7 +19,7 @@ function ProfileSection({ userProfile, friendProfile, closeProfile }: ProfileSec
   ///
 
   return (
-    <section className={classes.profile}>
+    <section data-testid="users-page-profile-section" className={classes.profile}>
       {/* display user or friend based on list selection */}
       {userProfile !== null ? (
         <div className={classes.profile__content}>

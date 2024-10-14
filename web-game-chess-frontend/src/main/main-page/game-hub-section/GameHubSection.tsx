@@ -192,6 +192,7 @@ function GameHubSection({ providedInterface }: GameHubSectionProps) {
         <div className={classes.game__content__col}>
           <div className={classes["game-buttons"]}>
             <button
+              data-testid="main-page-game-hub-vs-player-button"
               className={classes["interface-button"]}
               onClick={() => {
                 setInterfaceById(GameSearchInterface.vsPlayer);
@@ -202,6 +203,7 @@ function GameHubSection({ providedInterface }: GameHubSectionProps) {
             </button>
 
             <button
+              data-testid="main-page-game-hub-vs-computer-button"
               className={classes["interface-button"]}
               onClick={() => {
                 setInterfaceById(GameSearchInterface.vsComputer);
@@ -212,6 +214,7 @@ function GameHubSection({ providedInterface }: GameHubSectionProps) {
             </button>
 
             <button
+              data-testid="main-page-game-hub-vs-friend-button"
               className={classes["interface-button"]}
               onClick={() => {
                 setInterfaceById(GameSearchInterface.vsFriend);
@@ -222,6 +225,7 @@ function GameHubSection({ providedInterface }: GameHubSectionProps) {
             </button>
 
             <button
+              data-testid="main-page-game-hub-user-games-button"
               className={classes["interface-button"]}
               onClick={() => {
                 setInterfaceById(GameSearchInterface.userGames);
@@ -232,6 +236,7 @@ function GameHubSection({ providedInterface }: GameHubSectionProps) {
             </button>
 
             <button
+              data-testid="main-page-game-hub-invitations-button"
               className={classes["interface-button"]}
               onClick={() => {
                 setInterfaceById(GameSearchInterface.invitations);

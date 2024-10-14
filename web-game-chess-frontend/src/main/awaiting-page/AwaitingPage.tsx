@@ -54,7 +54,6 @@ function AwaitingPage() {
           getAuthorization()
         );
 
-
         if (response.data.isRequired) {
           await GameHubService.UpdatePrivateGame(gameId);
         }
@@ -145,7 +144,7 @@ function AwaitingPage() {
   };
   //*/
 
-  return <SearchingPage isPrivate={true} onCancel={onCancelPrivateGame} />;
+  return <SearchingPage isPrivate={true} onCancel={onCancelPrivateGame} testId="main-awaiting-page" />;
 }
 
 export default AwaitingPage;

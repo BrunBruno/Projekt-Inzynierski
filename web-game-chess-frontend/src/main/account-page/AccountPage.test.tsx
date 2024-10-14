@@ -3,28 +3,12 @@ import AccountPage from "./AccountPage";
 import { MemoryRouter } from "react-router-dom";
 import { GetAllFriendsByStatusDto } from "../../shared/utils/types/friendshipDtos";
 import { Guid } from "guid-typescript";
-import { EloDto, WinDrawLose } from "../../shared/utils/types/abstractDtosAndModels";
 import { GetFullUserDto } from "../../shared/utils/types/userDtos";
 import { GetTypeHistoryDto } from "../../shared/utils/types/gameDtos";
-import { createMockFriendshipControllerServer } from "../../shared/utils/services/MockFriendshipControllerService";
-import { createGameControllerMockServer } from "../../shared/utils/services/MockGameControllerService";
-import { createMockUserControllerServer } from "../../shared/utils/services/MockUserControllerService";
+import { createMockServer } from "../../shared/utils/services/MockServerService";
+import { mockElo, mockWdl } from "../../shared/utils/objects/generalMocks";
 
 /** mocks */
-const mockElo: EloDto = {
-  bullet: 1000,
-  blitz: 1000,
-  rapid: 1000,
-  classic: 1000,
-  daily: 1000,
-};
-
-const mockWdl: WinDrawLose = {
-  total: 10,
-  wins: 5,
-  draws: 1,
-  loses: 4,
-};
 
 const mockFriends: GetAllFriendsByStatusDto[] = [
   {
@@ -89,32 +73,16 @@ const mockTypeHistory: GetTypeHistoryDto[] = [
 //*/
 
 // set up server
-const userControllerServer = createMockUserControllerServer({
+const server = createMockServer({
   getFullUserDto: mockFullUser,
   getEloDto: mockElo,
-});
-const gameControllerServer = createGameControllerMockServer({
   getTypeHistoryDtoList: mockTypeHistory,
-});
-const friendshipControllerServer = createMockFriendshipControllerServer({
   getAllFriendsByStatusDtoList: mockFriends,
 });
 
-beforeAll(() => {
-  friendshipControllerServer.listen();
-  userControllerServer.listen();
-  gameControllerServer.listen();
-});
-afterEach(() => {
-  friendshipControllerServer.resetHandlers();
-  userControllerServer.resetHandlers();
-  gameControllerServer.resetHandlers();
-});
-afterAll(() => {
-  friendshipControllerServer.close();
-  userControllerServer.close();
-  gameControllerServer.close();
-});
+beforeAll(() => server.listen());
+afterEach(() => server.resetHandlers());
+afterAll(() => server.close());
 //*/
 
 describe("UserSection Component", () => {

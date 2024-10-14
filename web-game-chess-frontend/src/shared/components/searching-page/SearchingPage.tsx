@@ -10,9 +10,11 @@ type SearchingPageProps = {
   isPrivate: boolean;
   // on cancel action
   onCancel: () => Promise<void>;
+  // id for tests
+  testId?: string;
 };
 
-function SearchingPage({ isPrivate, onCancel }: SearchingPageProps) {
+function SearchingPage({ isPrivate, onCancel, testId }: SearchingPageProps) {
   ///
 
   // states for searching animation
@@ -56,7 +58,7 @@ function SearchingPage({ isPrivate, onCancel }: SearchingPageProps) {
   //*/
 
   return (
-    <div className={classes.searching}>
+    <div data-testid={testId} className={classes.searching}>
       <div className={classes.searching__content}>
         <div className={classes.searching__content__background}>
           <IconCreator icons={searchingPageIcons} iconName={"globe"} active={activeIndex !== 0} />
