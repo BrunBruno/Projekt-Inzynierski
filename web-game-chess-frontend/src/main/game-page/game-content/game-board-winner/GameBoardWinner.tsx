@@ -26,12 +26,11 @@ function GameBoardWinner({ winner, gameData, setSearchIds, selectedTiming }: Gam
   ///
 
   const navigate = useNavigate();
-
   const { showPopup } = usePopup();
 
   // to search for new game
   const onSearchForGame = async (): Promise<void> => {
-    if (selectedTiming === null) return;
+    if (!selectedTiming) return;
 
     const gameType: SearchGameModel = selectedTiming;
 
@@ -44,7 +43,7 @@ function GameBoardWinner({ winner, gameData, setSearchIds, selectedTiming }: Gam
 
       setSearchIds(searchGameResponse.data);
 
-      GameHubService.PlayerJoined(searchGameResponse.data.timingId);
+      await GameHubService.PlayerJoined(searchGameResponse.data.timingId);
     } catch (err) {
       showPopup(getErrMessage(err), "warning");
     }

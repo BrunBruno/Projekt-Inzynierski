@@ -8,9 +8,10 @@ import { errorDisplay } from "../../../shared/utils/functions/errors";
 import LoadingPage from "../../../shared/components/loading-page/LoadingPage";
 import { LogInUserDto } from "../../../shared/utils/types/userDtos";
 import { LogInUserModel, RegenerateCodeModel, VerifyEmailModel } from "../../../shared/utils/types/userModels";
-import { RegistrationInterface } from "../../../shared/utils/objects/interfacesEnums";
+import { RegistrationInterface, StateOptions } from "../../../shared/utils/objects/interfacesEnums";
 import { registerPageIcons } from "../RegisterPageIcons";
 import IconCreator from "../../../shared/components/icon-creator/IconCreator";
+import { usePopup } from "../../../shared/utils/hooks/usePopUp";
 
 type VerifyEmailModalProps = {
   // path that user wanted
@@ -23,6 +24,7 @@ function VerifyEmailModal({ userPath, setModal }: VerifyEmailModalProps) {
   ///
 
   const navigate = useNavigate();
+  const { showPopup } = usePopup();
 
   // error message content
   const [errorMess, setErrorMess] = useState<string>("");
@@ -73,13 +75,14 @@ function VerifyEmailModal({ userPath, setModal }: VerifyEmailModalProps) {
 
       setProcessing(false);
 
-      // navigate to main page
-      navigate(userPath, {
-        state: {
-          popupText: "Verification successful",
-          popupType: "success",
+      const state: StateOptions = {
+        popup: {
+          text: "Verification successful",
+          type: "success",
         },
-      });
+      };
+      // navigate to main page
+      navigate(userPath, { state: state });
     } catch (err) {
       // display backend errors
       errorDisplay(err, setErrorMess);
@@ -87,6 +90,7 @@ function VerifyEmailModal({ userPath, setModal }: VerifyEmailModalProps) {
       setProcessing(false);
     }
   };
+  //*/
 
   // regenerates verification code
   const regenerateCode = async (): Promise<void> => {
@@ -100,6 +104,7 @@ function VerifyEmailModal({ userPath, setModal }: VerifyEmailModalProps) {
       errorDisplay(err, setErrorMess);
     }
   };
+  //*/
 
   // handle code input on change
   const handleCodeInputChange = (event: ChangeEvent<HTMLInputElement>): void => {
@@ -111,7 +116,7 @@ function VerifyEmailModal({ userPath, setModal }: VerifyEmailModalProps) {
   //*/
 
   // auto pasting
-  const onPasteCode = async () => {
+  const onPasteCode = async (): Promise<void> => {
     try {
       const code = await navigator.clipboard.readText();
 
@@ -119,7 +124,7 @@ function VerifyEmailModal({ userPath, setModal }: VerifyEmailModalProps) {
         setCodeValue(code);
       }
     } catch (err) {
-      console.error(err);
+      showPopup("ERROR PASTING CODE", "error");
     }
   };
   //*/
@@ -145,6 +150,7 @@ function VerifyEmailModal({ userPath, setModal }: VerifyEmailModalProps) {
       {/* input */}
       <div className={classes.verify}>
         <span>Enter code</span>
+
         <div className={classes["verify-con"]}>
           <input
             name="code"
@@ -178,7 +184,7 @@ function VerifyEmailModal({ userPath, setModal }: VerifyEmailModalProps) {
             regenerateCode();
           }}
         >
-          Resend
+          <span>Resend</span>
         </p>
       </div>
       {/* --- */}
@@ -199,7 +205,7 @@ function VerifyEmailModal({ userPath, setModal }: VerifyEmailModalProps) {
           setModal(RegistrationInterface.signUp);
         }}
       >
-        Cancel
+        <span>Cancel</span>
       </p>
       {/* --- */}
     </form>

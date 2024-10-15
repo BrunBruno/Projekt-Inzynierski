@@ -67,12 +67,13 @@ function FriendCard({ friend, setSelectedFriend }: FriendCardProps) {
 
       <div className={classes.invite}>
         <button
+          data-testid="vs-friend-invite-to-game-button"
           className={classes["invite-button"]}
           onClick={() => {
             setSelectedFriend(friend);
           }}
         >
-          Invite
+          <span>Invite</span>
         </button>
       </div>
     </div>

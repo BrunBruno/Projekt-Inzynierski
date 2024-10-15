@@ -21,9 +21,14 @@ type InvitationsProps = {};
 function Invitations({}: InvitationsProps) {
   ///
 
+  const { showPopup } = usePopup();
+
+  // list of invitations ref
   const listRef = useRef<HTMLDivElement>(null);
 
+  // all users invitation
   const [invitations, setInvitations] = useState<PagedResult<GetAllInvitationsDto> | null>(null);
+  // for pagination
   const [pageSize, setPageSize] = useState<number>(defaultSize);
 
   // for filtering results
@@ -31,10 +36,8 @@ function Invitations({}: InvitationsProps) {
   // for setting up filters by expiration status
   const [expirationFilters, setExpirationFilters] = useState<boolean | null>(null);
 
-  const { showPopup } = usePopup();
-
   // to get all awaiting and expired invitations
-  const getInvitations = async () => {
+  const getInvitations = async (): Promise<void> => {
     try {
       const invitationsModel: GetAllInvitationsModel = {
         pageNumber: 1,
@@ -52,7 +55,7 @@ function Invitations({}: InvitationsProps) {
     }
   };
 
-  const updateInvitations = () => {
+  const updateInvitations = (): void => {
     getInvitations();
   };
 
@@ -76,7 +79,7 @@ function Invitations({}: InvitationsProps) {
   //*/
 
   // increase page size on scroll
-  const handleListOnScroll = () => {
+  const handleListOnScroll = (): void => {
     const listElement = listRef.current;
     if (listElement && invitations) {
       if (listElement.scrollHeight - 1.1 * listElement.scrollTop <= listElement.clientHeight) {
@@ -89,7 +92,7 @@ function Invitations({}: InvitationsProps) {
   //*/
 
   // to display filters
-  const onShowFilters = () => {
+  const onShowFilters = (): void => {
     if (invitations && invitations.items.length > 0) {
       setShowFilters((prev) => !prev);
     }

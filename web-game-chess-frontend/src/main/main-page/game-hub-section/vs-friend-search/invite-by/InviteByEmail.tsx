@@ -82,8 +82,9 @@ const InviteByEmail = forwardRef<InviteByEmailRef, InviteByEmailProps>(
 
         await GameHubService.NotifyUser(notifyModel);
 
-        showPopup("User invited", "success");
-        navigate(`await/${privateGameResponse.data.gameId}`);
+        showPopup("USER INVITED", "success");
+
+        navigate(`/main/await/${privateGameResponse.data.gameId}`);
       } catch (err) {
         showPopup(getErrMessage(err), "warning");
       }
@@ -95,11 +96,11 @@ const InviteByEmail = forwardRef<InviteByEmailRef, InviteByEmailProps>(
     //*/
 
     // to get user data by provide email
-    const getByEmail = async () => {
+    const getByEmail = async (): Promise<void> => {
       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
       if (!emailRegex.test(selectedEmail)) {
         setSelectedEmail("");
-        showPopup("Incorrect email.", "warning");
+        showPopup("INCORRECT EMAIL", "warning");
         return;
       }
 
@@ -119,14 +120,14 @@ const InviteByEmail = forwardRef<InviteByEmailRef, InviteByEmailProps>(
       }
     };
 
-    const submitEmail = (event: FormEvent<HTMLFormElement>) => {
+    const submitEmail = (event: FormEvent<HTMLFormElement>): void => {
       event.preventDefault();
       getByEmail();
     };
     //*/
 
     // to set email address
-    const setEmail = (event: ChangeEvent<HTMLInputElement>) => {
+    const setEmail = (event: ChangeEvent<HTMLInputElement>): void => {
       const target = event.target as HTMLInputElement;
       const email = target.value.toLocaleLowerCase();
       setSelectedEmail(email);

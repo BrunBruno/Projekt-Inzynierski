@@ -15,6 +15,7 @@ import { getErrMessage } from "../shared/utils/functions/errors";
 import ProfilePage from "./profile-page/ProfilePage";
 import { TimingTypeProvider } from "../shared/utils/hooks/useTimingType";
 import AwaitingPage from "./awaiting-page/AwaitingPage";
+import { StateOptions } from "../shared/utils/objects/interfacesEnums";
 
 function MainRouter() {
   ///
@@ -22,28 +23,31 @@ function MainRouter() {
   const location = useLocation();
   const navigate = useNavigate();
 
+  // is users authorized
   const [authorize, setAuthorize] = useState<boolean>(false);
 
   // authorize user
   useEffect(() => {
-    const verifyUsersToken = async () => {
+    const verifyUsersToken = async (): Promise<void> => {
+      // for saving user entered path
       const path = location.pathname;
 
       try {
+        // check if email is verified
         const isVerifiedResponse = await axios.get<IsEmailVerifiedDto>(userController.isVerified(), getAuthorization());
 
         const isVerified = isVerifiedResponse.data.isEmailVerified;
         if (!isVerified) {
-          navigate("/registration", {
-            state: {
-              popupText: "Account not verified.",
-              popupType: "error",
-              path: path,
-            },
-          });
+          const state: StateOptions = {
+            popup: { text: "ACCOUNT NOT VERIFIED", type: "error" },
+            path: path,
+          };
+
+          navigate("/registration", { state: state });
           return;
         }
 
+        // getting user data and validating token
         const userInfoResponse = await axios.get<GetUserDto>(userController.getUser(), getAuthorization());
 
         localStorage.setItem("userInfo", JSON.stringify(userInfoResponse.data));
@@ -51,33 +55,32 @@ function MainRouter() {
         const token = localStorage.getItem("token");
 
         if (token === null) {
-          navigate("/registration", {
-            state: {
-              popupText: "Please, log in.",
-              popupType: "error",
-              path: path,
-            },
-          });
+          const state: StateOptions = {
+            popup: { text: "PLEASE, LOG IN", type: "error" },
+            path: path,
+          };
+
+          navigate("/registration", { state: state });
           return;
         }
 
+        // connect to gam hub and add self notifications
         await GameHubService.startConnectionWithToken(token);
-
-        console.log(GameHubService.connection?.state);
 
         if (GameHubService.connection?.state === HubConnectionState.Connected) {
           await GameHubService.AddSelfNotification();
 
+          // user is authorized
           setAuthorize(true);
         }
       } catch (err) {
-        navigate("/registration", {
-          state: {
-            popupText: getErrMessage(err),
-            popupType: "warning",
-            path: path,
-          },
-        });
+        // navigate to registration on error
+        const state: StateOptions = {
+          popup: { text: getErrMessage(err), type: "warning" },
+          path: path,
+        };
+
+        navigate("/registration", { state: state });
       }
     };
 

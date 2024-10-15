@@ -20,6 +20,7 @@ function GameMessage({ gameId, message }: GameMessageProps) {
 
   const { showPopup } = usePopup();
 
+  // accept/ decline draw offer
   const onAcceptDraw = async (): Promise<void> => {
     try {
       const loserPlayer: EndGameModel = {
@@ -41,6 +42,7 @@ function GameMessage({ gameId, message }: GameMessageProps) {
       showPopup(getErrMessage(err), "warning");
     }
   };
+  //*/
 
   return (
     <div className={classes.message}>
@@ -71,7 +73,7 @@ function GameMessage({ gameId, message }: GameMessageProps) {
               onAcceptDraw();
             }}
           >
-            V
+            <span>Accept</span>
           </button>
 
           <button
@@ -83,7 +85,7 @@ function GameMessage({ gameId, message }: GameMessageProps) {
               onDeclineDraw();
             }}
           >
-            X
+            <span>Decline</span>
           </button>
         </div>
       )}

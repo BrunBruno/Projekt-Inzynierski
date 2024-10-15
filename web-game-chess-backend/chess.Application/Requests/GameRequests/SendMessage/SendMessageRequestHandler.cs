@@ -42,7 +42,7 @@ public class SendMessageRequestHandler : IRequestHandler<SendMessageRequest> {
 
         var playerId = game.WhitePlayer.UserId == userId ? game.WhitePlayerId : game.BlackPlayerId;
 
-        var message = new Message()
+        var message = new PlayerMessage()
         {
             Id = Guid.NewGuid(),
             Content = request.Message,

@@ -17,15 +17,17 @@ import FriendEmptyCard from "./friend-empty-card/FriendEmptyCard";
 function FriendsSection() {
   ///
 
-  const [friendList, setFriendList] = useState<GetAllFriendsByStatusDto[] | null>(null);
-  const [selectedFriend, setSelectedFriend] = useState<HTMLElement | null>(null);
-
   const { showPopup } = usePopup();
   const { scrollRef, totalItemsCount, setTotalItemsCount } = usePagination();
 
+  // list of friends state
+  const [friendList, setFriendList] = useState<GetAllFriendsByStatusDto[] | null>(null);
+  // to activate friend card
+  const [selectedFriend, setSelectedFriend] = useState<HTMLElement | null>(null);
+
   // to get friend list
   useEffect(() => {
-    const getFriends = async () => {
+    const getFriends = async (): Promise<void> => {
       try {
         const model: GetAllFriendsByStatusModel = {
           username: "",
@@ -51,8 +53,8 @@ function FriendsSection() {
   //*/
 
   // to deactivate friend selection
-  const clearSelection = () => {
-    if (selectedFriend !== null) selectedFriend.classList.remove(cardClasses.active);
+  const clearSelection = (): void => {
+    if (selectedFriend) selectedFriend.classList.remove(cardClasses.active);
   };
   //*/
 
@@ -68,10 +70,9 @@ function FriendsSection() {
       }}
     >
       {friendList.length > 0 ? (
-        friendList.map((friend) => (
+        friendList.map((friend: GetAllFriendsByStatusDto, i: number) => (
           <FriendCard
-            // key={friend.friendshipId.toString()}
-            key={Math.random() + Math.random()}
+            key={`friendship-${i}-${friend.friendshipId.toString()}`}
             friend={friend}
             setSelectedFriend={setSelectedFriend}
             clearSelection={clearSelection}

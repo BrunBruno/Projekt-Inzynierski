@@ -54,16 +54,16 @@ const InviteBySelection = forwardRef<InviteBySelectionRef, InviteBySelectionProp
           increment: values[1],
         };
 
-        const privateGameResponse = await axios.post<CreatePrivateGameDto>(
+        const response = await axios.post<CreatePrivateGameDto>(
           gameController.createPrivateGame(),
           privateGameModel,
           getAuthorization()
         );
 
         const notifyModel: NotifyUserModel = {
-          friendId: privateGameResponse.data.friendId,
-          gameId: privateGameResponse.data.gameId,
-          inviter: privateGameResponse.data.inviter,
+          friendId: response.data.friendId,
+          gameId: response.data.gameId,
+          inviter: response.data.inviter,
           type: typeValue,
           minutes: values[0],
           increment: values[1],
@@ -71,8 +71,9 @@ const InviteBySelection = forwardRef<InviteBySelectionRef, InviteBySelectionProp
 
         await GameHubService.NotifyUser(notifyModel);
 
-        showPopup("User invited", "success");
-        navigate(`await/${privateGameResponse.data.gameId}`);
+        showPopup("USER INVITED", "success");
+
+        navigate(`/main/await/${response.data.gameId.toString()}`);
       } catch (err) {
         showPopup(getErrMessage(err), "warning");
       }
@@ -84,7 +85,7 @@ const InviteBySelection = forwardRef<InviteBySelectionRef, InviteBySelectionProp
     //*/
 
     // to filter users by names
-    const onSearch = (event: ChangeEvent<HTMLInputElement>) => {
+    const onSearch = (event: ChangeEvent<HTMLInputElement>): void => {
       const target = event.target as HTMLInputElement;
       const username = target.value.toLocaleLowerCase();
 

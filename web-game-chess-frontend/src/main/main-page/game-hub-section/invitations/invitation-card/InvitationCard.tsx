@@ -90,7 +90,7 @@ function InvitationCard({ invitation, updateInvitations }: InvitationCardProps) 
                 onAcceptInvitation();
               }}
             >
-              Accept
+              <span>Accept</span>
             </button>
             <button
               className={classes["inv-button"]}
@@ -98,7 +98,7 @@ function InvitationCard({ invitation, updateInvitations }: InvitationCardProps) 
                 onDeclineInvitation();
               }}
             >
-              Decline
+              <span>Decline</span>
             </button>
           </>
         )}

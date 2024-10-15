@@ -1,13 +1,13 @@
 import { useNavigate } from "react-router-dom";
 import classes from "./HomeActions.module.scss";
-import { RegistrationInterface } from "../../../../shared/utils/objects/interfacesEnums";
+import { RegistrationInterface, StateOptions } from "../../../../shared/utils/objects/interfacesEnums";
+
+const partOfPawn = 6;
 
 type HomeActionsProps = {};
 
 function HomeActions({}: HomeActionsProps) {
   ///
-
-  const partOfPawn = 6;
 
   const navigate = useNavigate();
 
@@ -15,8 +15,8 @@ function HomeActions({}: HomeActionsProps) {
   const generateGrid = (): JSX.Element[] => {
     const tiles: JSX.Element[] = [];
 
-    const numberOfTiles = 25;
-    for (let i = 0; i < numberOfTiles; i++) tiles.push(<p key={i} className={classes["p-tile"]} />);
+    const numberOfTiles = 24;
+    for (let i = 0; i <= numberOfTiles; i++) tiles.push(<p key={i} className={classes["p-tile"]} />);
 
     return tiles;
   };
@@ -24,8 +24,8 @@ function HomeActions({}: HomeActionsProps) {
   const generatePawns = (): JSX.Element[] => {
     const pawns: JSX.Element[] = [];
 
-    const numOfPawns = 7;
-    for (let i = 0; i < numOfPawns; i++) {
+    const numOfPawns = 6;
+    for (let i = 0; i <= numOfPawns; i++) {
       // position background pawn
       const leftP = (i * 100) / (numOfPawns - 1);
       const topP = (1 / 200) * Math.pow(-(leftP - 100 / 2), 2) - 8;
@@ -34,7 +34,7 @@ function HomeActions({}: HomeActionsProps) {
 
       pawns.push(
         <div
-          key={i}
+          key={`pawn-part-${i}`}
           className={`${classes["img-pawn-container"]} ${classes[pawnClass]}`}
           style={{ left: `${leftP}%`, top: `${topP}%` }}
         >
@@ -46,6 +46,16 @@ function HomeActions({}: HomeActionsProps) {
     }
 
     return pawns;
+  };
+  //*/
+
+  // to go to registration page
+  const navigateToRegistration = (regOptions: RegistrationInterface): void => {
+    const state: StateOptions = {
+      regOption: regOptions,
+    };
+
+    navigate("/registration", { state: state });
   };
   //*/
 
@@ -63,9 +73,7 @@ function HomeActions({}: HomeActionsProps) {
             data-testid="home-pawn-button-sign-in"
             className={`${classes["sign-in-pawn"]} ${classes["pawn-container"]}`}
             onClick={() => {
-              navigate("/registration", {
-                state: { regOption: RegistrationInterface.signIn },
-              });
+              navigateToRegistration(RegistrationInterface.signIn);
             }}
           >
             <div className={classes["img-pawn-container"]}>
@@ -74,7 +82,9 @@ function HomeActions({}: HomeActionsProps) {
               ))}
             </div>
 
-            <p className={classes["img-pawn-text"]}>Sign In</p>
+            <p className={classes["img-pawn-text"]}>
+              <span>Sign In</span>
+            </p>
           </div>
           {/* --- */}
 
@@ -83,18 +93,18 @@ function HomeActions({}: HomeActionsProps) {
             data-testid="home-pawn-button-sign-up"
             className={`${classes["sign-up-pawn"]} ${classes["pawn-container"]}`}
             onClick={() => {
-              navigate("/registration", {
-                state: { regOption: RegistrationInterface.signUp },
-              });
+              navigateToRegistration(RegistrationInterface.signUp);
             }}
           >
             <div className={classes["img-pawn-container"]}>
-              {Array.from({ length: partOfPawn }).map((_, index) => (
+              {Array.from({ length: partOfPawn }).map((_, index: number) => (
                 <div key={index} className={classes.pb} />
               ))}
             </div>
 
-            <p className={classes["img-pawn-text"]}>Sign Up</p>
+            <p className={classes["img-pawn-text"]}>
+              <span>Sign Up</span>
+            </p>
           </div>
           {/* --- */}
         </div>

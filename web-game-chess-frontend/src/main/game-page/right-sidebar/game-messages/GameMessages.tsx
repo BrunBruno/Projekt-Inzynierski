@@ -32,42 +32,43 @@ function GameMessages({ gameId }: GameMessagesProps) {
   const [newMessage, setNewMessage] = useState<string>("");
   // all messages created during game
   const [messages, setMessages] = useState<GetAllMessagesDto[]>([]);
-
+  // typing dots display
   const [isOpponentTyping, setIsOpponentTyping] = useState<boolean>(false);
 
   // gets all messages for current game
   // add hub service to send and received messages
   // to receive and update typing status
-  const handleMessagesScroll = (): void => {
-    setTimeout(() => {
-      const elements = listRef.current;
+  useEffect(() => {
+    const getMessages = async (): Promise<void> => {
+      try {
+        const response = await axios.get<GetAllMessagesDto[]>(
+          gameController.getAllMessages(gameId),
+          getAuthorization()
+        );
 
-      if (elements) {
-        if (elements.scrollTop > 0.9 * (elements.scrollHeight - elements.clientHeight)) {
+        setMessages(response.data);
+
+        handleMessagesScroll();
+      } catch (err) {
+        showPopup(getErrMessage(err), "warning");
+      }
+    };
+
+    const handleMessagesScroll = (): void => {
+      setTimeout(() => {
+        const elements = listRef.current;
+
+        if (elements && elements.scrollTop > 0.9 * (elements.scrollHeight - elements.clientHeight)) {
           elements.scrollTop = elements.scrollHeight;
         }
-      }
-    }, 10);
-  };
+      }, 10);
+    };
 
-  const getMessages = async (): Promise<void> => {
-    try {
-      const response = await axios.get<GetAllMessagesDto[]>(gameController.getAllMessages(gameId), getAuthorization());
-
-      setMessages(response.data);
-
+    const typingStatusChange = (isTyping: boolean): void => {
+      setIsOpponentTyping(isTyping);
       handleMessagesScroll();
-    } catch (err) {
-      showPopup(getErrMessage(err), "warning");
-    }
-  };
+    };
 
-  const typingStatusChange = (isTyping: boolean): void => {
-    setIsOpponentTyping(isTyping);
-    handleMessagesScroll();
-  };
-
-  useEffect(() => {
     getMessages();
 
     if (GameHubService.connection && GameHubService.connection.state === HubConnectionState.Connected) {

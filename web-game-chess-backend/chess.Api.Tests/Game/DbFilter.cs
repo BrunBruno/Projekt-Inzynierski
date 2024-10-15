@@ -321,12 +321,12 @@ internal static partial class DbFilter {
 
 
         for(int i = 0; i < 10; i++) {
-            game.WhitePlayer.Messages.Add(new Message()
+            game.WhitePlayer.Messages.Add(new PlayerMessage()
             {
                 Content = "Message",
                 PlayerId = game.WhitePlayerId,
             });
-            game.BlackPlayer.Messages.Add(new Message()
+            game.BlackPlayer.Messages.Add(new PlayerMessage()
             {
                 Content = "Message",
                 PlayerId = game.BlackPlayerId,

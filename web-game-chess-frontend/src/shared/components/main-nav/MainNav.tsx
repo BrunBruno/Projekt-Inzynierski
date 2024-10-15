@@ -3,6 +3,7 @@ import classes from "./MainNav.module.scss";
 import LogoIcon from "../../svgs/icons/LogoIcon";
 import IconCreator from "../icon-creator/IconCreator";
 import { mainNavIcons } from "./MainNavIcons";
+import { StateOptions } from "../../utils/objects/interfacesEnums";
 
 function MainNav() {
   ///
@@ -10,16 +11,15 @@ function MainNav() {
   const navigate = useNavigate();
 
   // log out user
-  const onLogOut = () => {
+  const onLogOut = (): void => {
     localStorage.removeItem("userInfo");
     localStorage.removeItem("token");
 
-    navigate("/", {
-      state: {
-        popupText: "Logged out",
-        popupType: "info",
-      },
-    });
+    const state: StateOptions = {
+      popup: { text: "LOGGED OUT", type: "info" },
+    };
+
+    navigate("/", { state: state });
   };
   //*/
 

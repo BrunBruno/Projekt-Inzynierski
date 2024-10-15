@@ -45,10 +45,8 @@ export const PopupProvider = ({ children }: PopUpProviderProps) => {
 
     // clear location states for popups
     if (location.state) {
-      delete location.state.popupText;
-      delete location.state.popupType;
-      window.history.replaceState(location.state.popupText, "", location.pathname);
-      window.history.replaceState(location.state.popupType, "", location.pathname);
+      delete location.state.popup;
+      window.history.replaceState(location.state.popup, "", location.pathname);
     }
   };
 

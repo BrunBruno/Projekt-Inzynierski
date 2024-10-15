@@ -1,7 +1,7 @@
-// game timing options
+import { TimingTypeName } from "./constantLists";
 
-type TimeControl = {
-  header: string;
+export type TimeControl = {
+  header: TimingTypeName;
   tags: string[];
   values: [number, number][];
 };
@@ -9,7 +9,7 @@ type TimeControl = {
 // game timings data
 export const defaultTimeControls: TimeControl[] = [
   {
-    header: "Bullet",
+    header: "bullet",
     tags: ["1min", "1m|1s", "2min"],
     values: [
       [1, 0],
@@ -18,7 +18,7 @@ export const defaultTimeControls: TimeControl[] = [
     ],
   },
   {
-    header: "Blitz",
+    header: "blitz",
     tags: ["3min", "3m|5s", "5min"],
     values: [
       [3, 0],
@@ -27,7 +27,7 @@ export const defaultTimeControls: TimeControl[] = [
     ],
   },
   {
-    header: "Rapid",
+    header: "rapid",
     tags: ["10min", "10m|10s", "30min"],
     values: [
       [10, 0],
@@ -36,7 +36,7 @@ export const defaultTimeControls: TimeControl[] = [
     ],
   },
   {
-    header: "Classic",
+    header: "classic",
     tags: ["1hour", "2hours", "3hours"],
     values: [
       [60, 0],
@@ -45,7 +45,7 @@ export const defaultTimeControls: TimeControl[] = [
     ],
   },
   {
-    header: "Daily",
+    header: "daily",
     tags: ["1day", "2days", "7days"],
     values: [
       [1440, 0],

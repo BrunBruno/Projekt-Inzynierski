@@ -26,16 +26,18 @@ type UserSectionProps = {
 function UserSection({ getTypeHistory, setFriendSection }: UserSectionProps) {
   ///
 
+  const { showPopup } = usePopup();
+
+  // all current user data
   const [user, setUser] = useState<GetFullUserDto | null>(null);
   const [elo, setElo] = useState<GetEloDto | null>(null);
 
+  // states for setting changeable data
   const [name, setName] = useState<string>("");
   const [bio, setBio] = useState<string>("");
 
-  const { showPopup } = usePopup();
-
   // to gat user data
-  const getUser = async () => {
+  const getUser = async (): Promise<void> => {
     try {
       const userResponse = await axios.get<GetFullUserDto>(userController.getFullUser(), getAuthorization());
 
@@ -44,6 +46,7 @@ function UserSection({ getTypeHistory, setFriendSection }: UserSectionProps) {
       if (userResponse.data.name !== null) {
         setName(userResponse.data.name);
       }
+
       if (userResponse.data.bio !== null) {
         setBio(userResponse.data.bio);
       }
@@ -52,7 +55,7 @@ function UserSection({ getTypeHistory, setFriendSection }: UserSectionProps) {
     }
   };
 
-  const getElo = async () => {
+  const getElo = async (): Promise<void> => {
     try {
       const eloResponse = await axios.get<GetEloDto>(userController.getElo(), getAuthorization());
 
@@ -62,18 +65,20 @@ function UserSection({ getTypeHistory, setFriendSection }: UserSectionProps) {
     }
   };
 
-  const fetchData = () => {
+  const fetchData = (): void => {
     getUser();
     getElo();
   };
+  //*/
 
+  // get data on load
   useEffect(() => {
     fetchData();
   }, []);
   //*/
 
   // to change and update user personal data
-  const updateUser = async () => {
+  const updateUser = async (): Promise<void> => {
     const profileModel: UpdateProfileModel = {
       name: name === "" ? null : name,
       bio: bio === "" ? null : bio,
@@ -83,6 +88,7 @@ function UserSection({ getTypeHistory, setFriendSection }: UserSectionProps) {
     try {
       await axios.put(userController.updateProfile(), profileModel, getAuthorization());
 
+      // refresh data
       fetchData();
     } catch (err) {
       showPopup(getErrMessage(err), "warning");

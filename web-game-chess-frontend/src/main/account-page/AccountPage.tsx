@@ -31,7 +31,7 @@ function AccountPage() {
 
   // gets timing type history for selected timing
   // to display time line charts
-  const getTypeHistory = async (type: number) => {
+  const getTypeHistory = async (type: number): Promise<void> => {
     try {
       const model: GetTypeHistoryModel = {
         pageNumber: 1,

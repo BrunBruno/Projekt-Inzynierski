@@ -10,34 +10,44 @@ import axios from "axios";
 import { CheckIfUpdateRequiredDto, GetGameTimingDto } from "../../shared/utils/types/gameDtos";
 import { gameController, getAuthorization } from "../../shared/utils/services/ApiService";
 import SearchingPage from "../../shared/components/searching-page/SearchingPage";
+import { GameSearchInterface, StateOptions } from "../../shared/utils/objects/interfacesEnums";
 
 function AwaitingPage() {
   ///
 
   const navigate = useNavigate();
+  const { timingType, setTimingType } = useTimingType();
+  const { showPopup } = usePopup();
 
   // game id from route
   const { gameIdStr } = useParams<{ gameIdStr: string }>();
   // game id as Guid
   const [gameId, setGameId] = useState<Guid | null>(null);
 
-  const { timingType, setTimingType } = useTimingType();
-  const { showPopup } = usePopup();
-
   // set game id as Guid
+  // get game timing for current game
   useEffect(() => {
-    if (gameIdStr) {
-      const guid: Guid = Guid.parse(gameIdStr).toJSON().value;
-      setGameId(guid);
+    const getTimingType = async (gameId: Guid): Promise<void> => {
+      try {
+        const response = await axios.get<GetGameTimingDto>(gameController.getGameTiming(gameId), getAuthorization());
 
-      getTimingType(guid);
+        setTimingType(response.data);
+      } catch (err) {
+        showPopup(getErrMessage(err), "warning");
+      }
+    };
+
+    if (gameIdStr) {
+      const guidGameId: Guid = Guid.parse(gameIdStr).toJSON().value;
+      setGameId(guidGameId);
+
+      getTimingType(guidGameId);
     } else {
-      navigate("/main", {
-        state: {
-          popupText: "Error starting game.",
-          popupType: "warning",
-        },
-      });
+      const state: StateOptions = {
+        popup: { text: "ERROR STARTING GAME", type: "warning" },
+      };
+
+      navigate("/main", { state: state });
     }
   }, [gameIdStr]);
   //*/
@@ -66,39 +76,36 @@ function AwaitingPage() {
   }, [gameId]);
   //*/
 
-  // to navigate to game page
-  // used for every private game
-  const handleGameAccepted = (gameId: Guid) => {
-    if (timingType) {
-      navigate(`/main/game/${gameId}`, {
-        state: {
-          timing: timingType,
-          popupText: "Game started.",
-          popupType: "info",
-        },
-      });
-    } else {
-      navigate("/main", {
-        state: {
-          popupText: "Error starting game.",
-          popupType: "warning",
-        },
-      });
-    }
-  };
-
-  const handleGameDeclined = () => {
-    navigate("/main", {
-      state: {
-        popupText: "Invitation declined.",
-        popupType: "error",
-      },
-    });
-  };
-  //*/
-
   // connect hub methods
   useEffect(() => {
+    // to navigate to game page
+
+    const handleGameAccepted = (gameId: Guid): void => {
+      if (timingType) {
+        const state: StateOptions = {
+          popup: { text: "GAME STARTED", type: "info" },
+          timing: timingType,
+        };
+
+        navigate(`/main/game/${gameId}`, { state: state });
+      } else {
+        const state: StateOptions = {
+          popup: { text: "ERROR STARTING GAME", type: "warning" },
+        };
+
+        navigate("/main", { state: state });
+      }
+    };
+
+    // used for every private game
+    const handleGameDeclined = (): void => {
+      const state: StateOptions = {
+        popup: { text: "INVITATION DECLINED.", type: "error" },
+      };
+
+      navigate("/main", { state: state });
+    };
+
     if (GameHubService.connection && GameHubService.connection.state === HubConnectionState.Connected) {
       GameHubService.connection.on("GameAccepted", handleGameAccepted);
       GameHubService.connection.on("InvitationDeclined", handleGameDeclined);
@@ -110,41 +117,38 @@ function AwaitingPage() {
         GameHubService.connection.off("InvitationDeclined", handleGameDeclined);
       }
     };
-  }, [timingType]);
+  }, [timingType, gameId]);
   //*/
 
-  //
-  const getTimingType = async (gameId: Guid) => {
-    try {
-      const response = await axios.get<GetGameTimingDto>(gameController.getGameTiming(gameId), getAuthorization());
+  // to remove created private game
+  const onCancelPrivateGame = async (): Promise<void> => {
+    if (!gameId) return;
 
-      setTimingType(response.data);
+    try {
+      await axios.delete(gameController.cancelPrivateGame(gameId), getAuthorization());
+
+      const state: StateOptions = {
+        popup: { text: "GAME CANCELED", type: "error" },
+        interface: GameSearchInterface.vsFriend,
+      };
+
+      navigate("/main", { state: state });
     } catch (err) {
       showPopup(getErrMessage(err), "warning");
     }
   };
   //*/
 
-  //
-  const onCancelPrivateGame = async () => {
-    if (gameId) {
-      try {
-        await axios.delete(gameController.cancelPrivateGame(gameId), getAuthorization());
+  if (!gameId) return <></>;
 
-        navigate("/main", {
-          state: {
-            popupText: "Game canceled.",
-            popupType: "error",
-          },
-        });
-      } catch (err) {
-        showPopup(getErrMessage(err), "warning");
-      }
-    }
-  };
-  //*/
-
-  return <SearchingPage isPrivate={true} onCancel={onCancelPrivateGame} testId="main-awaiting-page" />;
+  return (
+    <SearchingPage
+      isPrivate={true}
+      onCancel={onCancelPrivateGame}
+      containerTestId="main-awaiting-page-searching"
+      cancelButtonTestId="main-awaiting-page-cancel-button"
+    />
+  );
 }
 
 export default AwaitingPage;

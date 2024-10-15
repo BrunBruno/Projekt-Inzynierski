@@ -25,7 +25,7 @@ function FriendCard({ selectedList, friend, getAllUsers, setFriend }: FriendCard
   const { showPopup } = usePopup();
 
   // response to friendship request
-  const onRespondToRequest = async (accept: boolean) => {
+  const onRespondToRequest = async (accept: boolean): Promise<void> => {
     try {
       const model: RespondToFriendRequestModel = {
         isAccepted: accept,
@@ -48,7 +48,7 @@ function FriendCard({ selectedList, friend, getAllUsers, setFriend }: FriendCard
 
   // delete friend /  remove friendship
   // used to unblock blocked friends
-  const onRemoveFriend = async (action: boolean) => {
+  const onRemoveFriend = async (action: boolean): Promise<void> => {
     try {
       await axios.delete(friendshipController.removeFriend(friend.friendshipId), getAuthorization());
 
@@ -66,7 +66,7 @@ function FriendCard({ selectedList, friend, getAllUsers, setFriend }: FriendCard
   //*/
 
   // get friend data to display in profile
-  const onShowProfile = async () => {
+  const onShowProfile = async (): Promise<void> => {
     try {
       const response = await axios.get<GetFriendProfileDto>(
         friendshipController.getFriendProfile(friend.friendshipId),

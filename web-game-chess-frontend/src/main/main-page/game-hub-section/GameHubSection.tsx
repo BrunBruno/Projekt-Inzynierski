@@ -6,7 +6,7 @@ import { gameController, getAuthorization } from "../../../shared/utils/services
 import { CheckIfInGameDto, SearchGameDto } from "../../../shared/utils/types/gameDtos";
 import { useNavigate } from "react-router-dom";
 import GameHubService from "../../../shared/utils/services/GameHubService";
-import { GameSearchInterface } from "../../../shared/utils/objects/interfacesEnums";
+import { GameSearchInterface, StateOptions } from "../../../shared/utils/objects/interfacesEnums";
 import UserGames from "./user-games/UserGames";
 import VsFriendSearch from "./vs-friend-search/VsFriendSearch";
 import { AbortSearchModel, CheckIfInGameModel } from "../../../shared/utils/types/gameModels";
@@ -31,13 +31,15 @@ function GameHubSection({ providedInterface }: GameHubSectionProps) {
   ///
 
   const navigate = useNavigate();
-
-  const [interfaceContent, setInterfaceContent] = useState<JSX.Element>(<DefaultView />);
-  const [searchIds, setSearchIds] = useState<SearchGameDto | null>(null);
-  const [allowNotification, setAllowNotification] = useState<boolean>(false);
-
   const { timingType } = useTimingType();
   const { showPopup } = usePopup();
+
+  // current viewed interface
+  const [interfaceContent, setInterfaceContent] = useState<JSX.Element>(<DefaultView />);
+  // ids for online games
+  const [searchIds, setSearchIds] = useState<SearchGameDto | null>(null);
+  // to show new game invitation notification
+  const [allowNotification, setAllowNotification] = useState<boolean>(false);
 
   // to set content
   useEffect(() => {
@@ -48,62 +50,55 @@ function GameHubSection({ providedInterface }: GameHubSectionProps) {
   //*/
 
   // to handle when joining queue has changed
-  const handleGamesChanged = async () => {
-    if (searchIds !== null) {
-      try {
-        const isInGameModel: CheckIfInGameModel = {
-          playerId: searchIds.playerId,
+  const handleGamesChanged = async (): Promise<void> => {
+    if (!searchIds) return;
+    try {
+      const isInGameModel: CheckIfInGameModel = {
+        playerId: searchIds.playerId,
+      };
+
+      const isInGameResponse = await axios.get<CheckIfInGameDto>(
+        gameController.checkIfInGame(isInGameModel),
+        getAuthorization()
+      );
+
+      if (isInGameResponse.data.isInGame && timingType) {
+        const state: StateOptions = {
+          popup: { text: "GAME STARTED", type: "info" },
+          timing: timingType,
         };
 
-        const isInGameResponse = await axios.get<CheckIfInGameDto>(
-          gameController.checkIfInGame(isInGameModel),
-          getAuthorization()
-        );
-
-        if (isInGameResponse.data.isInGame) {
-          if (timingType) {
-            navigate(`game/${isInGameResponse.data.gameId}`, {
-              state: {
-                timing: timingType,
-                popupText: "Game started",
-                popupType: "info",
-              },
-            });
-          } else {
-            console.error("Type not set");
-          }
-        }
-      } catch (err) {
-        showPopup(getErrMessage(err), "warning");
+        navigate(`/main/game/${isInGameResponse.data.gameId}`, { state: state });
       }
+    } catch (err) {
+      showPopup(getErrMessage(err), "warning");
     }
   };
   //*/
 
   // to navigate to game page
   // used for every private game
-  const handleGameAccepted = (gameId: Guid) => {
+  const handleGameAccepted = (gameId: Guid): void => {
     if (timingType) {
-      navigate(`/main/await/${gameId}`, {
-        state: {
-          timing: timingType,
-          popupText: "Game started.",
-          popupType: "info",
-        },
-      });
+      const state: StateOptions = {
+        popup: { text: "GAME STARTED", type: "info" },
+        timing: timingType,
+      };
+
+      navigate(`/main/await/${gameId}`, { state: state });
     } else {
-      showPopup("Error starting game.", "warning");
+      showPopup("ERROR STARTING GAME.", "warning");
     }
   };
 
   const handleGameDeclined = () => {
-    showPopup("Invitation declined.", "error");
+    showPopup("INVITATION DECLINED", "error");
   };
   //*/
 
   // connect game hub handlers
   useEffect(() => {
-    if (searchIds !== null) {
+    if (searchIds) {
       setInterfaceById(GameSearchInterface.searching);
     }
 
@@ -130,10 +125,8 @@ function GameHubSection({ providedInterface }: GameHubSectionProps) {
 
   // public game search abort
   // remove player, clear ids and go back to vs-player search
-  const onCancelSearch = async () => {
-    if (!searchIds) {
-      return;
-    }
+  const onCancelSearch = async (): Promise<void> => {
+    if (!searchIds) return;
 
     try {
       const abortSearchModel: AbortSearchModel = {
@@ -142,7 +135,7 @@ function GameHubSection({ providedInterface }: GameHubSectionProps) {
 
       await axios.delete(gameController.abortSearch(abortSearchModel), getAuthorization());
 
-      GameHubService.PlayerLeaved(searchIds.timingId);
+      await GameHubService.PlayerLeaved(searchIds.timingId);
 
       setSearchIds(null);
 
@@ -169,7 +162,14 @@ function GameHubSection({ providedInterface }: GameHubSectionProps) {
         break;
 
       case GameSearchInterface.searching:
-        setInterfaceContent(<SearchingPage isPrivate={false} onCancel={onCancelSearch} />);
+        setInterfaceContent(
+          <SearchingPage
+            isPrivate={false}
+            onCancel={onCancelSearch}
+            containerTestId="searching-page-vs-player-search"
+            cancelButtonTestId="searching-page-vs-player-cancel-button"
+          />
+        );
         break;
 
       case GameSearchInterface.userGames:

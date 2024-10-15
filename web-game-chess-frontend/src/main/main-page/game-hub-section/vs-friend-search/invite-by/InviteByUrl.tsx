@@ -33,8 +33,10 @@ const InviteByUrl = forwardRef<InviteByUrlRef, InviteByUrlProps>(
     const { showPopup } = usePopup();
     const { setTimingType } = useTimingType();
 
+    // indicator ref
     const indRef = useRef<HTMLElement>(null);
 
+    // obtained data from creating game by link
     const [newGameLink, setNewGameLink] = useState<CreateGameWithLinkDto | null>(null);
 
     // invite to game by url
@@ -76,41 +78,41 @@ const InviteByUrl = forwardRef<InviteByUrlRef, InviteByUrlProps>(
     //*/
 
     // to display time selection for generating new game link
-    const onSelectByUrl = () => {
+    const onSelectByUrl = (): void => {
       setSelectedByUrl(true);
     };
     //*/
 
-    const showUrlIndicator = (event: MouseEvent<HTMLDivElement>) => {
+    const showUrlIndicator = (event: MouseEvent<HTMLDivElement>): void => {
       const indEle = indRef.current;
       const parentContainer = event.currentTarget;
 
-      if (indEle) {
-        if (indEle.classList.contains(classes.show)) {
-          indEle.classList.remove(classes.show);
-        } else {
-          indEle.classList.add(classes.show);
+      if (!indEle) return;
 
-          const rect = parentContainer.getBoundingClientRect();
+      if (indEle.classList.contains(classes.show)) {
+        indEle.classList.remove(classes.show);
+      } else {
+        indEle.classList.add(classes.show);
 
-          indEle.style.left = `${event.clientX - rect.left}px`;
-        }
+        const rect = parentContainer.getBoundingClientRect();
+
+        indEle.style.left = `${event.clientX - rect.left}px`;
       }
     };
 
-    const copyUrl = () => {
-      if (newGameLink !== null) {
-        const textToCopy = newGameLink.gameUrl;
+    const copyUrl = async (): Promise<void> => {
+      if (!newGameLink) return;
 
-        navigator.clipboard
-          .writeText(textToCopy)
-          .then(() => {
-            showPopup("Link copied.", "info");
-          })
-          .catch((err) => {
-            console.error("Failed to copy text:", err);
-          });
-      }
+      const textToCopy = newGameLink.gameUrl;
+
+      await navigator.clipboard
+        .writeText(textToCopy)
+        .then(() => {
+          showPopup("LINK COPIED", "info");
+        })
+        .catch(() => {
+          showPopup("ERROR COPING LINK", "warning");
+        });
     };
 
     return (
@@ -132,8 +134,10 @@ const InviteByUrl = forwardRef<InviteByUrlRef, InviteByUrlProps>(
                 }}
               >
                 <p className={classes.link}>{newGameLink.gameUrl}</p>
+
                 <span ref={indRef}>Copy</span>
               </div>
+
               <span>Send this email to your friend and enter it to start the game.</span>
             </div>
           ) : (
@@ -143,7 +147,7 @@ const InviteByUrl = forwardRef<InviteByUrlRef, InviteByUrlProps>(
                 onSelectByUrl();
               }}
             >
-              Generate
+              <span>Generate</span>
             </button>
           )}
         </div>

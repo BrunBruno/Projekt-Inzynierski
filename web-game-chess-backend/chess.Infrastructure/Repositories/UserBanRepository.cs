@@ -15,7 +15,7 @@ public class UserBanRepository : IUserBanRepository {
 
     ///<inheritdoc/>
     public async Task Create(UserBan bannedUser) {
-        await _dbContext.BannedUsers.AddAsync(bannedUser);
+        await _dbContext.UserBans.AddAsync(bannedUser);
         await _dbContext.SaveChangesAsync();
     }
 }

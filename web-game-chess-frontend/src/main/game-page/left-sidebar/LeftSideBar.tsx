@@ -30,7 +30,6 @@ function LeftSideBar({ gameId, playerData, gameData, setShowConfirm, setConfirmA
   ///
 
   const navigate = useNavigate();
-
   const { showPopup } = usePopup();
 
   // to finish the game by some action option
@@ -61,6 +60,7 @@ function LeftSideBar({ gameId, playerData, gameData, setShowConfirm, setConfirmA
 
   // to abort from game
   const onAbort = (): void => {
+    // draw on first moves
     if (gameData.turn === 0 || gameData.turn === 1) {
       endGame(null, GameEndReason.agreement);
     } else {

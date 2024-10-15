@@ -136,18 +136,19 @@ function ListSection({ selectedUsername, selectedList, setUserProfile, setFriend
   //*/
 
   // setter for profile data
-  const setNonFriend = (user: GetOtherUserDto) => {
+  const setNonFriend = (user: GetOtherUserDto): void => {
     setFriendProfile(null);
     setUserProfile(user);
   };
-  const setFriend = (friend: GetFriendProfileDto) => {
+
+  const setFriend = (friend: GetFriendProfileDto): void => {
     setUserProfile(null);
     setFriendProfile(friend);
   };
   //*/
 
   // to display loading on scroll
-  const handleLoading = (event: WheelEvent<HTMLDivElement>) => {
+  const handleLoading = (event: WheelEvent<HTMLDivElement>): void => {
     const loadingElement = loadingRef.current;
     const scrollingElement = scrollRef.current;
 

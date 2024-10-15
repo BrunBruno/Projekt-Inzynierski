@@ -18,6 +18,9 @@ type UserGamesProps = {};
 function UserGames({}: UserGamesProps) {
   ///
 
+  const { showPopup } = usePopup();
+  const { scrollRef, pageSize, totalItemsCount, setDefPageSize, setTotalItemsCount } = usePagination();
+
   // obtained game list
   const [games, setGames] = useState<GetAllFinishedGamesDto[] | null>(null);
   const [itemsCount, setItemsCount] = useState<number>(0);
@@ -28,12 +31,9 @@ function UserGames({}: UserGamesProps) {
   const [timingTypeFilters, setTimingTypeFilters] = useState<number[]>([]);
   const [resultFilters, setResultFilters] = useState<(boolean | null)[]>([]);
 
-  const { showPopup } = usePopup();
-  const { scrollRef, pageSize, totalItemsCount, setDefPageSize, setTotalItemsCount } = usePagination();
-
   // send set default pagination page size
   useEffect(() => {
-    const setDefSize = () => {
+    const setDefSize = (): void => {
       const elemCount = window.innerWidth > 700 ? 3 : 2;
 
       const container = scrollRef.current;
@@ -63,7 +63,7 @@ function UserGames({}: UserGamesProps) {
 
   // get all finished games
   useEffect(() => {
-    const getGames = async () => {
+    const getGames = async (): Promise<void> => {
       const getGamesOptions: GetAllFinishedGamesModel = {
         pageNumber: 1,
         pageSize: pageSize,
@@ -127,7 +127,7 @@ function UserGames({}: UserGamesProps) {
               onShowFilters();
             }}
           >
-            Filters
+            <span>Filters</span>
           </button>
         </div>
       </div>

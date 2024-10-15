@@ -2,7 +2,7 @@ import { useNavigate } from "react-router-dom";
 import AvatarImage from "../../../../shared/components/avatar-image/AvatarImage";
 import { GetAllFriendsByStatusDto } from "../../../../shared/utils/types/friendshipDtos";
 import classes from "./FriendCard.module.scss";
-import { GameSearchInterface } from "../../../../shared/utils/objects/interfacesEnums";
+import { GameSearchInterface, StateOptions } from "../../../../shared/utils/objects/interfacesEnums";
 import { Dispatch, SetStateAction, MouseEvent } from "react";
 
 type FriendCardProps = {
@@ -24,11 +24,11 @@ function FriendCard({ friend, setSelectedFriend, clearSelection }: FriendCardPro
 
   // to navigate to vs-friend search
   const onInviteFriendToGame = async (): Promise<void> => {
-    navigate(`main/`, {
-      state: {
-        interface: GameSearchInterface.vsFriend,
-      },
-    });
+    const state: StateOptions = {
+      interface: GameSearchInterface.vsFriend,
+    };
+
+    navigate(`/main`, { state: state });
   };
   //*/
 
@@ -84,7 +84,7 @@ function FriendCard({ friend, setSelectedFriend, clearSelection }: FriendCardPro
             checkProfile();
           }}
         >
-          Profile
+          <span>Profile</span>
         </button>
 
         <button
@@ -93,7 +93,7 @@ function FriendCard({ friend, setSelectedFriend, clearSelection }: FriendCardPro
             onInviteFriendToGame();
           }}
         >
-          Play
+          <span>Play</span>
         </button>
       </div>
       {/* --- */}

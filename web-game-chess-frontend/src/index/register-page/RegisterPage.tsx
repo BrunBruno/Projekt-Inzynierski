@@ -6,11 +6,10 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { mainColor } from "../../shared/utils/objects/colorMaps";
 import ActionButton from "../../shared/components/action-button/ActionButton";
 import VerifyEmailModal from "./register-modals/VerifyEmailModal";
-import { RegistrationInterface, StateWithRegOption } from "../../shared/utils/objects/interfacesEnums";
+import { StateOptions, RegistrationInterface } from "../../shared/utils/objects/interfacesEnums";
 import MainPopUp from "../../shared/components/main-popup/MainPopUp";
 import IconCreator from "../../shared/components/icon-creator/IconCreator";
 import { registerPageIcons } from "./RegisterPageIcons";
-import { PopupType } from "../../shared/utils/types/commonTypes";
 import { usePopup } from "../../shared/utils/hooks/usePopUp";
 
 function RegisterPage() {
@@ -18,7 +17,6 @@ function RegisterPage() {
 
   const location = useLocation();
   const navigate = useNavigate();
-
   const { showPopup } = usePopup();
 
   // register container ref
@@ -30,37 +28,32 @@ function RegisterPage() {
   const [modalClass, setModalClass] = useState<string | null>(null);
   const [formActive, setFormActive] = useState<boolean>(false);
 
+  // url if user provided link
   const [userPath, setUserPath] = useState<string>("/main");
 
   // to display main page popups
+  // to set form modal if provided
   useEffect(() => {
-    if (location.state) {
-      const state = location.state as PopupType;
+    const locationState = location.state as StateOptions;
+    if (!locationState) return;
 
-      if (state.popupText && state.popupType) {
-        showPopup(state.popupText, state.popupType);
-      }
+    if (locationState.popup) {
+      showPopup(locationState.popup.text, locationState.popup.type);
+    }
+
+    if (locationState.regOption) {
+      setModal(locationState.regOption);
+    } else {
+      setModal(RegistrationInterface.signIn);
+    }
+
+    if (locationState.path) {
+      setUserPath(locationState.path);
     }
   }, [location.state]);
   //*/
 
   // to set form modal
-  useEffect(() => {
-    const state = location.state as StateWithRegOption;
-
-    if (state) {
-      if (state.regOption) {
-        setModal(state.regOption);
-      } else {
-        setModal(RegistrationInterface.signIn);
-      }
-
-      if (state.path) {
-        setUserPath(state.path);
-      }
-    }
-  }, [location.state]);
-
   const renderModal = (): JSX.Element => {
     switch (modal) {
       case RegistrationInterface.signIn:
@@ -95,7 +88,7 @@ function RegisterPage() {
   };
 
   useEffect(() => {
-    const handleRegisterPageResize = () => {
+    const handleRegisterPageResize = (): void => {
       setModalClass(getFormClass());
     };
 
@@ -108,12 +101,10 @@ function RegisterPage() {
   }, [modal]);
 
   useEffect(() => {
-    const addFormTransform = () => {
+    const addFormTransform = (): void => {
       const formEle = formRef.current;
 
-      if (formEle) {
-        setFormActive(true);
-      }
+      if (formEle) setFormActive(true);
     };
 
     setTimeout(() => {

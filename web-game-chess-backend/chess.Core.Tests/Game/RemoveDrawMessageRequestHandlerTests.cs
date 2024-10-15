@@ -46,7 +46,7 @@ public class RemoveDrawMessageRequestHandlerTests {
                 Name = "Username",
                 UserId = userId,
                 GameId = gameId,
-                Messages = new List<Message>() {
+                Messages = new List<PlayerMessage>() {
                     new() {
                         Content = "Message"
                     },
@@ -59,7 +59,7 @@ public class RemoveDrawMessageRequestHandlerTests {
                 Name = "Other",
                 UserId = Guid.NewGuid(),
                 GameId = gameId,
-                Messages = new List<Message>() {
+                Messages = new List<PlayerMessage>() {
                     new() {
                         Content = "Message"
                     },
@@ -123,7 +123,7 @@ public class RemoveDrawMessageRequestHandlerTests {
         _mockUserContextService.Verify(x => x.GetUserId(), Times.Once);
         _mockGameRepository.Verify(x => x.GetById(gameId), Times.Once);
         _mockPlayerMessageRepository.Verify(x => x.GetDrawMessage(It.IsAny<Guid>()), Times.Never);
-        _mockPlayerMessageRepository.Verify(x => x.Delete(It.IsAny<Message>()), Times.Never);
+        _mockPlayerMessageRepository.Verify(x => x.Delete(It.IsAny<PlayerMessage>()), Times.Never);
     }
 
     [Fact]
@@ -144,7 +144,7 @@ public class RemoveDrawMessageRequestHandlerTests {
                 Name = "Friend",
                 UserId = Guid.NewGuid(),
                 GameId = gameId,
-                Messages = new List<Message>() {
+                Messages = new List<PlayerMessage>() {
                     new() {
                         Content = "Message"
                     },
@@ -156,7 +156,7 @@ public class RemoveDrawMessageRequestHandlerTests {
                 Name = "Other",
                 UserId = Guid.NewGuid(),
                 GameId = gameId,
-                Messages = new List<Message>() {
+                Messages = new List<PlayerMessage>() {
                     new() {
                         Content = "Message"
                     },
@@ -187,7 +187,7 @@ public class RemoveDrawMessageRequestHandlerTests {
         _mockGameRepository.Verify(x => x.GetById(gameId), Times.Once);
         _mockPlayerMessageRepository.Verify(x => x.GetDrawMessage(game.WhitePlayerId), Times.Never);
         _mockPlayerMessageRepository.Verify(x => x.GetDrawMessage(game.BlackPlayerId), Times.Never);
-        _mockPlayerMessageRepository.Verify(x => x.Delete(It.IsAny<Message>()), Times.Never);
+        _mockPlayerMessageRepository.Verify(x => x.Delete(It.IsAny<PlayerMessage>()), Times.Never);
     }
 
     [Fact]
@@ -208,7 +208,7 @@ public class RemoveDrawMessageRequestHandlerTests {
                 Name = "Username",
                 UserId = userId,
                 GameId = gameId,
-                Messages = new List<Message>() {
+                Messages = new List<PlayerMessage>() {
                     new() {
                         Content = "Message"
                     },
@@ -220,7 +220,7 @@ public class RemoveDrawMessageRequestHandlerTests {
                 Name = "Other",
                 UserId = Guid.NewGuid(),
                 GameId = gameId,
-                Messages = new List<Message>() {
+                Messages = new List<PlayerMessage>() {
                     new() {
                         Content = "Message"
                     },
@@ -251,6 +251,6 @@ public class RemoveDrawMessageRequestHandlerTests {
         _mockGameRepository.Verify(x => x.GetById(gameId), Times.Once);
         _mockPlayerMessageRepository.Verify(x => x.GetDrawMessage(game.WhitePlayerId), Times.Once);
         _mockPlayerMessageRepository.Verify(x => x.GetDrawMessage(game.BlackPlayerId), Times.Once);
-        _mockPlayerMessageRepository.Verify(x => x.Delete(It.IsAny<Message>()), Times.Never);
+        _mockPlayerMessageRepository.Verify(x => x.Delete(It.IsAny<PlayerMessage>()), Times.Never);
     }
 }

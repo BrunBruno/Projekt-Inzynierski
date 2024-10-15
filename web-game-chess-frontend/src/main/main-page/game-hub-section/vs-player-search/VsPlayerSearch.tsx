@@ -1,7 +1,6 @@
 import axios from "axios";
 import classes from "./VsPlayerSearch.module.scss";
 import { gameController, getAuthorization } from "../../../../shared/utils/services/ApiService";
-import { defaultTimeControls } from "./VsPlayerSearchData";
 import { SearchGameDto } from "../../../../shared/utils/types/gameDtos";
 import GameHubService from "../../../../shared/utils/services/GameHubService";
 import { SearchGameModel } from "../../../../shared/utils/types/gameModels";
@@ -15,6 +14,7 @@ import { timingTypeIcons } from "../../../../shared/svgs/iconsMap/TimingTypeIcon
 import { TimingTypeName } from "../../../../shared/utils/objects/constantLists";
 import { TimingType } from "../../../../shared/utils/objects/entitiesEnums";
 import { Dispatch, SetStateAction } from "react";
+import { defaultTimeControls, TimeControl } from "../../../../shared/utils/objects/gameTimingMaps";
 
 type VsPlayerSearchProps = {
   // to set obtained search ids
@@ -28,7 +28,7 @@ function VsPlayerSearch({ setSearchIds }: VsPlayerSearchProps) {
   const { setTimingType } = useTimingType();
 
   // API call search for game
-  const onSearchForGame = async (header: string, values: [number, number]) => {
+  const onSearchForGame = async (header: TimingTypeName, values: [number, number]): Promise<void> => {
     const typeValue = getEnumValueByKey(TimingType, header.toLowerCase());
 
     const gameTimingType: SearchGameModel = {
@@ -84,6 +84,10 @@ function VsPlayerSearch({ setSearchIds }: VsPlayerSearchProps) {
 
     return <div className={classes["timing-tag"]}>{transformedTag}</div>;
   };
+
+  const displayTimingName = (timing: TimingTypeName): string => {
+    return timing.charAt(0).toUpperCase() + timing.slice(1);
+  };
   //*/
 
   return (
@@ -94,7 +98,7 @@ function VsPlayerSearch({ setSearchIds }: VsPlayerSearchProps) {
         </div>
 
         {/* map game timing types */}
-        {defaultTimeControls.map((control, index) => (
+        {defaultTimeControls.map((control: TimeControl, index: number) => (
           <div key={`row-${index}`} className={classes.search__grid__row}>
             <div className={classes.search__grid__row__header}>
               <IconCreator
@@ -103,10 +107,10 @@ function VsPlayerSearch({ setSearchIds }: VsPlayerSearchProps) {
                 iconClass={classes["header-icon"]}
                 color={mainColor.c5}
               />
-              <span>{control.header}</span>
+              <span>{displayTimingName(control.header)}</span>
             </div>
 
-            {control.tags.map((tag, i) => (
+            {control.tags.map((tag: string, i: number) => (
               <div
                 key={`time-control-${index}-${i}`}
                 data-testid={`main-page-vs-player-time-control-${index}-${i}`}

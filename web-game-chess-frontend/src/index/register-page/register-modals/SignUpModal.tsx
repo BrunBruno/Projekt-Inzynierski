@@ -14,6 +14,14 @@ import { registerPageIcons } from "../RegisterPageIcons";
 import LoadingPage from "../../../shared/components/loading-page/LoadingPage";
 import { DataConfiguration } from "../../../shared/utils/objects/entitiesEnums";
 
+// result of input validation
+type ValidationResult = {
+  // is input valid
+  isValid: boolean;
+  // optional message if input is not valid
+  message: string;
+};
+
 type SignUpModalProps = {
   // change displayed modal
   setModal: Dispatch<SetStateAction<number>>;
@@ -21,14 +29,6 @@ type SignUpModalProps = {
 
 function SignUpModal({ setModal }: SignUpModalProps) {
   ///
-
-  // result of input validation
-  type ValidationResult = {
-    // is input valid
-    isValid: boolean;
-    // optional message if input is not valid
-    message: string;
-  };
 
   const { showPopup } = usePopup();
 
@@ -190,8 +190,8 @@ function SignUpModal({ setModal }: SignUpModalProps) {
 
   // to check user input with db configuration record
   const checkFromConfiguration = (field: string, data: string, configuration: GetRegisterConfDto): ValidationResult => {
-    let isValid = true;
-    let message = "";
+    let isValid: boolean = true;
+    let message: string = "";
 
     if (configuration.minLength && data.length < configuration.minLength) {
       message = `${field} must be longer than ${configuration.minLength} characters.`;
@@ -223,12 +223,15 @@ function SignUpModal({ setModal }: SignUpModalProps) {
       isValid = false;
     }
 
-    return { isValid, message };
-  };
+    const result: ValidationResult = { isValid, message };
 
-  // handle on change
+    return result;
+  };
+  //*/
+
+  // handle on password input change
   // change password strength indicator
-  const changePassInd = (event: ChangeEvent<HTMLInputElement>) => {
+  const changePassInd = (event: ChangeEvent<HTMLInputElement>): void => {
     let strength: number = 0;
 
     const value = event.target.value;
@@ -236,12 +239,15 @@ function SignUpModal({ setModal }: SignUpModalProps) {
     if (value.length >= 8) {
       strength += 1;
     }
+
     if (/[A-Z]/.test(value)) {
       strength += 1;
     }
+
     if (/\d/.test(value)) {
       strength += 1;
     }
+
     if (/[^a-zA-Z0-9]/.test(value)) {
       strength += 1;
     }
@@ -254,13 +260,13 @@ function SignUpModal({ setModal }: SignUpModalProps) {
   };
   //*/
 
-  // handle on click
-  // focus on input
-  const focusOnClick = (inputRef: RefObject<HTMLInputElement>) => {
-    if (inputRef.current) {
-      inputRef.current.focus();
-      inputRef.current.classList.remove(classes.err);
-    }
+  // handle on input click
+  // to focus on input
+  const focusOnClick = (inputRef: RefObject<HTMLInputElement>): void => {
+    if (!inputRef.current) return;
+
+    inputRef.current.focus();
+    inputRef.current.classList.remove(classes.err);
   };
   //*/
 

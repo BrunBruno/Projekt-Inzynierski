@@ -12,10 +12,13 @@ import { GetFriendProfileDto } from "../../shared/utils/types/friendshipDtos";
 function UsersPage() {
   ///
 
+  // to filter by username
   const [selectedUsername, setSelectedUsername] = useState<string>("");
-  const [selectedList, setSelectedList] = useState<number>(FriendshipStatus.all);
-
+  // to select displayed list type
+  const [selectedList, setSelectedList] = useState<FriendshipStatus>(FriendshipStatus.all);
+  // data of other user to show profile
   const [userProfile, setUserProfile] = useState<GetOtherUserDto | null>(null);
+  //  data of friend user to show profile
   const [friendProfile, setFriendProfile] = useState<GetFriendProfileDto | null>(null);
 
   // to hide profile window

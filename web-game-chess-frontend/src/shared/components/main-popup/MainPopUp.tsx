@@ -32,7 +32,7 @@ function MainPopUp({}: MainPopUpProps) {
       </div>
 
       <div className={classes.popup__text}>
-        <span>{popupContent}</span>
+        <span>{popupContent.toUpperCase()}</span>
       </div>
     </div>
   );

@@ -24,7 +24,7 @@ function UserCard({ user, getAllUsers, setNonFriend }: UserCardProps) {
   const { showPopup } = usePopup();
 
   // invite new friend
-  const onInviteFriend = async (userId: Guid) => {
+  const onInviteFriend = async (userId: Guid): Promise<void> => {
     try {
       const model: InviteFriendModel = {
         receiverId: userId,
@@ -32,7 +32,7 @@ function UserCard({ user, getAllUsers, setNonFriend }: UserCardProps) {
 
       await axios.post(friendshipController.inviteFriend(), model, getAuthorization());
 
-      showPopup("Invitation sent", "success");
+      showPopup("INVITATIOn SENT", "success");
 
       getAllUsers();
     } catch (err) {
@@ -42,7 +42,7 @@ function UserCard({ user, getAllUsers, setNonFriend }: UserCardProps) {
   //*/
 
   // get non friend profile to display
-  const onShowProfile = async () => {
+  const onShowProfile = async (): Promise<void> => {
     try {
       const response = await axios.get<GetOtherUserDto>(userController.getOtherUser(user.userId), getAuthorization());
 
