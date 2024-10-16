@@ -20,7 +20,7 @@ function FriendCard({ friend, setSelectedFriend }: FriendCardProps) {
     <div key={friend.friendshipId.toString()} className={classes.card}>
       <AvatarImage
         username={friend.username}
-        imageUrl={friend.imageUrl}
+        profilePicture={friend.profilePicture}
         containerClass={classes.avatar}
         imageClass={classes["user-avatar"]}
       />

@@ -5,7 +5,6 @@ import axios from "axios";
 import { friendshipController, getAuthorization } from "../../../shared/utils/services/ApiService";
 import { GetAllFriendsByStatusModel } from "../../../shared/utils/types/friendshipModels";
 import { FriendshipStatus } from "../../../shared/utils/objects/entitiesEnums";
-import LoadingPage from "../../../shared/components/loading-page/LoadingPage";
 import FriendCard from "./friend-card/FriendCard";
 import cardClasses from "./friend-card/FriendCard.module.scss";
 import { usePopup } from "../../../shared/utils/hooks/usePopUp";
@@ -58,18 +57,19 @@ function FriendsSection() {
   };
   //*/
 
-  if (!friendList) return <LoadingPage text="Loading data" />;
-
   return (
     <div
       ref={scrollRef}
       data-testid="account-page-friends-section"
-      className={classes.friends}
+      className={`
+        ${classes.friends} 
+        ${!friendList || friendList.length === 0 ? classes.template : ""}
+      `}
       onMouseLeave={() => {
         clearSelection();
       }}
     >
-      {friendList.length > 0 ? (
+      {friendList && friendList.length > 0 ? (
         friendList.map((friend: GetAllFriendsByStatusDto, i: number) => (
           <FriendCard
             key={`friendship-${i}-${friend.friendshipId.toString()}`}
@@ -79,10 +79,10 @@ function FriendsSection() {
           />
         ))
       ) : (
-        <FriendEmptyCard />
+        <FriendEmptyCard isLoaded={friendList !== null} />
       )}
 
-      {friendList.length > 0 && (
+      {friendList && friendList.length > 0 && (
         <div className={classes.friends__indicator}>
           {friendList.length} of {totalItemsCount}
         </div>

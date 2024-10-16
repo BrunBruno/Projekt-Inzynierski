@@ -40,7 +40,7 @@ export type UserDto = {
   // full name
   name: string | null;
   // profile picture
-  imageUrl: string | null;
+  profilePicture: UserImage | null;
   // country where account has been registered
   country: string;
 };
@@ -72,7 +72,7 @@ export type PlayerDto = {
   // username from user
   name: string;
   // profile picture
-  imageUrl: string | null;
+  profilePicture: UserImage | null;
   // elo for current selected type
   elo: number;
   // color of a player
@@ -91,4 +91,9 @@ export type MoveDto = {
   newCoor: string;
   // captured piece tag
   capturedPiece: string;
+};
+
+export type UserImage = {
+  data: Uint8Array;
+  contentType: string;
 };

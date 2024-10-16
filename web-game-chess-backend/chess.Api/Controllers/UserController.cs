@@ -104,7 +104,7 @@ public class UserController : ControllerBase {
     /// <returns></returns>
     [HttpPut("profile")]
     [Authorize(Policy = "IsVerified")]
-    public async Task<IActionResult> UpdateProfile([FromBody] UpdateProfileModel model) {
+    public async Task<IActionResult> UpdateProfile([FromForm] UpdateProfileModel model) {
 
         var request = _mapper.Map<UpdateProfileRequest>(model);
 

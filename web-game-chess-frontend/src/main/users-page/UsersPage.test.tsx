@@ -11,7 +11,7 @@ const mockAllUsers: GetAllNonFriendsDto[] = [
   {
     username: "User 1",
     name: null,
-    imageUrl: null,
+    profilePicture: null,
     country: "PL",
     userId: Guid.create(),
     elo: mockElo,
@@ -20,7 +20,7 @@ const mockAllUsers: GetAllNonFriendsDto[] = [
   {
     username: "User 2",
     name: null,
-    imageUrl: null,
+    profilePicture: null,
     country: "PL",
     userId: Guid.create(),
     elo: mockElo,
@@ -32,7 +32,7 @@ const mockFriends: GetAllFriendsByStatusDto[] = [
   {
     username: "Friend 1",
     name: null,
-    imageUrl: null,
+    profilePicture: null,
     country: "PL",
     friendshipId: Guid.create(),
     elo: mockElo,
@@ -43,7 +43,7 @@ const mockFriends: GetAllFriendsByStatusDto[] = [
   {
     username: "Friend 2",
     name: null,
-    imageUrl: null,
+    profilePicture: null,
     country: "PL",
     friendshipId: Guid.create(),
     elo: mockElo,
@@ -56,7 +56,7 @@ const mockFriends: GetAllFriendsByStatusDto[] = [
 const mockFriend: GetOtherUserDto = {
   username: "User 1",
   name: null,
-  imageUrl: null,
+  profilePicture: null,
   country: "PL",
   joinDate: new Date(),
   bio: null,

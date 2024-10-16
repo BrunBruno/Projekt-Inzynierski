@@ -14,11 +14,13 @@ public class GetAllMessagesRequestHandlerTests {
     private readonly Mock<IPlayerMessageRepository> _mockPlayerMessageRepository;
     private readonly Mock<IGameRepository> _mockGameRepository;
     private readonly Mock<IUserContextService> _mockUserContextService;
+    private readonly Mock<IUserImageRepository> _mockUserImageRepository;
 
     public GetAllMessagesRequestHandlerTests() {
         _mockPlayerMessageRepository = new Mock<IPlayerMessageRepository>();
         _mockGameRepository = new Mock<IGameRepository>();
         _mockUserContextService = new Mock<IUserContextService>();
+        _mockUserImageRepository = new Mock<IUserImageRepository>();
     }
 
     [Fact]
@@ -67,7 +69,8 @@ public class GetAllMessagesRequestHandlerTests {
         var handler = new GetAllMessagesRequestHandler(
             _mockGameRepository.Object,
             _mockPlayerMessageRepository.Object,
-            _mockUserContextService.Object
+            _mockUserContextService.Object,
+            _mockUserImageRepository.Object
         );
 
         var result = await handler.Handle(request, CancellationToken.None);
@@ -99,7 +102,8 @@ public class GetAllMessagesRequestHandlerTests {
         var handler = new GetAllMessagesRequestHandler(
             _mockGameRepository.Object,
             _mockPlayerMessageRepository.Object,
-            _mockUserContextService.Object
+            _mockUserContextService.Object,
+            _mockUserImageRepository.Object
         );
 
         var act = () => handler.Handle(request, CancellationToken.None);
@@ -156,7 +160,8 @@ public class GetAllMessagesRequestHandlerTests {
         var handler = new GetAllMessagesRequestHandler(
             _mockGameRepository.Object,
             _mockPlayerMessageRepository.Object,
-            _mockUserContextService.Object
+            _mockUserContextService.Object,
+            _mockUserImageRepository.Object
         );
 
         var act = () => handler.Handle(request, CancellationToken.None);

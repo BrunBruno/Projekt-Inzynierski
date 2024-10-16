@@ -67,9 +67,7 @@ public class UpdatePrivateGameRequestHandler : IRequestHandler<UpdatePrivateGame
             userPlayer.UserId = userId;
             userPlayer.Elo = userElo;
             userPlayer.Name = user.Username;
-            userPlayer.ImageUrl = user.ImageUrl;
             userPlayer.IsPlaying = true;
-
 
 
             if (playsAsWhite)

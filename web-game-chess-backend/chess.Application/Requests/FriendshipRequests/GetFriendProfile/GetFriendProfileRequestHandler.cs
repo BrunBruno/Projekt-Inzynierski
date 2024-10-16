@@ -53,14 +53,17 @@ public class GetFriendProfileRequestHandler : IRequestHandler<GetFriendProfileRe
         {
             Username = friend.Username,
             Name = friend.Name,
-            ImageUrl = friend.ImageUrl,
             Country = friend.Country,
             JoinDate = friend.JoinDate,
             Bio = friend.Bio,
             FriendsSince = friendship.RequestRespondedAt,
 
-            Elo = new EloDto()
-            {
+            ProfilePicture = friend.Image != null ? new ImageDto() {
+                Data = friend.Image.Data,
+                ContentType = friend.Image.ContentType,
+            } : null,
+
+            Elo = new EloDto() {
                 Bullet = friend.Elo.Bullet,
                 Blitz = friend.Elo.Blitz,
                 Rapid = friend.Elo.Rapid,
@@ -68,16 +71,14 @@ public class GetFriendProfileRequestHandler : IRequestHandler<GetFriendProfileRe
                 Daily = friend.Elo.Daily,
             },
 
-            WdlTotal = new WinDrawLose()
-            {
+            WdlTotal = new WinDrawLose() {
                 Total = friend.Stats.GamesPlayed,
                 Wins = friend.Stats.Wins,
                 Loses = friend.Stats.Loses,
                 Draws = friend.Stats.Draws,
             },
 
-            WdlTogether = new WinDrawLose()
-            {
+            WdlTogether = new WinDrawLose() {
                 Total = friendship.GamesPlayed,
                 Wins = friendship.RequestorId == userId ? friendship.RequestorWins : friendship.RequestorLoses,
                 Loses = friendship.RequestorId == userId ? friendship.RequestorLoses : friendship.RequestorWins,

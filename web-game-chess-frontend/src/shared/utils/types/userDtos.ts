@@ -69,4 +69,6 @@ export type GetOtherUserDto = UserDto & {
   bio: string | null;
   // total games played
   gamesPlayed: number;
+  // other user elo
+  elo: EloDto;
 };

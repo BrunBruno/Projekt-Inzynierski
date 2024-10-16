@@ -14,7 +14,7 @@ const mockFriends: GetAllFriendsByStatusDto[] = [
   {
     username: "User 1",
     name: "User 1",
-    imageUrl: null,
+    profilePicture: null,
     country: "PL",
     friendshipId: Guid.create(),
     elo: mockElo,
@@ -25,7 +25,7 @@ const mockFriends: GetAllFriendsByStatusDto[] = [
   {
     username: "User 2",
     name: "User 2",
-    imageUrl: null,
+    profilePicture: null,
     country: "PL",
     friendshipId: Guid.create(),
     elo: mockElo,
@@ -38,7 +38,7 @@ const mockFriends: GetAllFriendsByStatusDto[] = [
 const mockFullUser: GetFullUserDto = {
   username: "User",
   name: "User",
-  imageUrl: null,
+  profilePicture: null,
   country: "PL",
   email: "user@test.com",
   joinDate: new Date(),

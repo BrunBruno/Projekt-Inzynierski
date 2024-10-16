@@ -25,7 +25,8 @@ public class DbContextConfiguration :
     IEntityTypeConfiguration<PlayerMessage>,
     IEntityTypeConfiguration<GameMessage>,
     IEntityTypeConfiguration<UserStats>,
-    IEntityTypeConfiguration <GameInvitation>
+    IEntityTypeConfiguration<GameInvitation>,
+    IEntityTypeConfiguration<UserImage>
 {
 
     public void Configure(EntityTypeBuilder<User> builder) {
@@ -192,6 +193,16 @@ public class DbContextConfiguration :
             .HasOne(i => i.Game)
             .WithOne()
             .HasForeignKey<GameInvitation>(i => i.GameId);
+    }
+
+    public void Configure(EntityTypeBuilder<UserImage> builder) {
+        builder
+            .HasKey(ui => ui.Id);
+
+        builder
+            .HasOne(ui => ui.User)
+            .WithOne(u => u.Image)
+            .HasForeignKey<UserImage>(ui => ui.UserId);
     }
 
     private static IEnumerable<Role> GetRoles() {

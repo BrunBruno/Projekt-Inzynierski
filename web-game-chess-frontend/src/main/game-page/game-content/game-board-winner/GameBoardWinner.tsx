@@ -72,7 +72,7 @@ function GameBoardWinner({ winner, gameData, setSearchIds, selectedTiming }: Gam
             <div className={`${classes.player} ${classes["white-player"]}`}>
               <AvatarImage
                 username={gameData.whitePlayer.name}
-                imageUrl={gameData.whitePlayer.imageUrl}
+                profilePicture={gameData.whitePlayer.profilePicture}
                 containerClass={classes["white-player-img"]}
                 imageClass={classes["player-img"]}
               />
@@ -90,7 +90,7 @@ function GameBoardWinner({ winner, gameData, setSearchIds, selectedTiming }: Gam
             <div className={`${classes.player} ${classes["black-player"]}`}>
               <AvatarImage
                 username={gameData.blackPlayer.name}
-                imageUrl={gameData.blackPlayer.imageUrl}
+                profilePicture={gameData.blackPlayer.profilePicture}
                 containerClass={classes["black-player-img"]}
                 imageClass={classes["player-img"]}
               />

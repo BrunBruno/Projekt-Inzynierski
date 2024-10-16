@@ -1,6 +1,7 @@
 ﻿
 using chess.Application.Repositories;
 using chess.Application.Services;
+using chess.Core.Dtos;
 using chess.Shared.Exceptions;
 using MediatR;
 
@@ -36,8 +37,13 @@ public class GetUserRequestHandler : IRequestHandler<GetUserRequest, GetUserDto>
             Email = user.Email,
             Username = user.Username,
             Name = user.Name,
-            ImageUrl = user.ImageUrl,
             Country = user.Country,
+
+            ProfilePicture = user.Image != null ?  new ImageDto() 
+            {
+                Data = user.Image.Data,
+                ContentType = user.Image.ContentType,
+            } : null,
         };
 
         return userDto;

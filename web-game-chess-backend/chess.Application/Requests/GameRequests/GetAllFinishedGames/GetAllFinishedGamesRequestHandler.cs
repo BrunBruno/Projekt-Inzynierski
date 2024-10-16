@@ -72,16 +72,25 @@ public class GetAllFinishedGamesRequestHandler : IRequestHandler<GetAllFinishedG
                     WhitePlayer = new PlayerDto()
                     { 
                         Name = player.WhiteGame.WhitePlayer.Name,
-                        ImageUrl = player.WhiteGame.WhitePlayer.ImageUrl,
                         Elo = player.WhiteGame.WhitePlayer.Elo,
 
+                        ProfilePicture = player.WhiteGame.WhitePlayer.User.Image != null ? new ImageDto() 
+                        {
+                            Data = player.WhiteGame.WhitePlayer.User.Image.Data,
+                            ContentType = player.WhiteGame.WhitePlayer.User.Image.ContentType,
+                        } : null,
                     },
 
                     BlackPlayer = new PlayerDto()
                     {
                         Name = player.WhiteGame.BlackPlayer.Name,
-                        ImageUrl = player.WhiteGame.BlackPlayer.ImageUrl,
                         Elo = player.WhiteGame.BlackPlayer.Elo,
+
+                        ProfilePicture = player.WhiteGame.BlackPlayer.User.Image != null ? new ImageDto() 
+                        {
+                            Data = player.WhiteGame.BlackPlayer.User.Image.Data,
+                            ContentType = player.WhiteGame.BlackPlayer.User.Image.ContentType,
+                        } : null,
                     }
                     
                 };
@@ -122,15 +131,25 @@ public class GetAllFinishedGamesRequestHandler : IRequestHandler<GetAllFinishedG
                     WhitePlayer = new PlayerDto()
                     {
                         Name = player.BlackGame.WhitePlayer.Name,
-                        ImageUrl = player.BlackGame.WhitePlayer.ImageUrl,
                         Elo = player.BlackGame.WhitePlayer.Elo,
+
+                        ProfilePicture = player.BlackGame.WhitePlayer.User.Image != null ? new ImageDto() 
+                        {
+                            Data = player.BlackGame.WhitePlayer.User.Image.Data,
+                            ContentType = player.BlackGame.WhitePlayer.User.Image.ContentType,
+                        } : null,
                     },
 
                     BlackPlayer = new PlayerDto()
                     {
                         Name = player.BlackGame.BlackPlayer.Name,
-                        ImageUrl = player.BlackGame.BlackPlayer.ImageUrl,
                         Elo = player.BlackGame.BlackPlayer.Elo,
+
+                        ProfilePicture = player.BlackGame.BlackPlayer.User.Image != null ? new ImageDto() 
+                        {
+                            Data = player.BlackGame.BlackPlayer.User.Image.Data,
+                            ContentType = player.BlackGame.BlackPlayer.User.Image.ContentType,
+                        } : null,
                     }
                 };
 

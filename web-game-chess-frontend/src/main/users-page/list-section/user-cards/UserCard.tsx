@@ -32,7 +32,7 @@ function UserCard({ user, getAllUsers, setNonFriend }: UserCardProps) {
 
       await axios.post(friendshipController.inviteFriend(), model, getAuthorization());
 
-      showPopup("INVITATIOn SENT", "success");
+      showPopup("INVITATION SENT", "success");
 
       getAllUsers();
     } catch (err) {
@@ -58,7 +58,7 @@ function UserCard({ user, getAllUsers, setNonFriend }: UserCardProps) {
       <div className={classes.card__content}>
         <AvatarImage
           username={user.username}
-          imageUrl={user.imageUrl}
+          profilePicture={user.profilePicture}
           containerClass={classes.card__content__avatar}
           imageClass={classes["avatar-img"]}
         />

@@ -40,7 +40,6 @@ public class GetGameRequestHandler : IRequestHandler<GetGameRequest, GetGameDto>
             game.StartedAt = DateTime.UtcNow;
 
             await _gameRepository.Update(game);
-
         }
 
         var gameDto = new GetGameDto()
@@ -59,15 +58,25 @@ public class GetGameRequestHandler : IRequestHandler<GetGameRequest, GetGameDto>
             WhitePlayer = new PlayerDto()
             {
                 Name = game.WhitePlayer.Name,
-                ImageUrl = game.WhitePlayer.ImageUrl,
                 Elo = game.WhitePlayer.Elo,
+
+                ProfilePicture = game.WhitePlayer.User.Image != null ? new ImageDto() 
+                {
+                    Data = game.WhitePlayer.User.Image.Data,
+                    ContentType = game.WhitePlayer.User.Image.ContentType,
+                } : null,
             },
 
             BlackPlayer = new PlayerDto()
             {
                 Name = game.BlackPlayer.Name,
-                ImageUrl = game.BlackPlayer.ImageUrl,
                 Elo = game.BlackPlayer.Elo,
+
+                ProfilePicture = game.BlackPlayer.User.Image != null ? new ImageDto() 
+                {
+                    Data = game.BlackPlayer.User.Image.Data,
+                    ContentType = game.BlackPlayer.User.Image.ContentType,
+                } : null,
             },
 
             Moves = game.Moves.Select(move => new MoveDto

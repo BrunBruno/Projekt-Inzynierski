@@ -19,7 +19,7 @@ public class UserDto {
     /// <summary>
     /// Users profile picture
     /// </summary>
-    public string? ImageUrl { get; set; }
+    public ImageDto? ProfilePicture { get; set; }
 
     /// <summary>
     /// Country where user registered account

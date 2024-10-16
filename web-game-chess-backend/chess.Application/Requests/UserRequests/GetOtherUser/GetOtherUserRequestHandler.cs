@@ -1,5 +1,6 @@
 ﻿
 using chess.Application.Repositories;
+using chess.Core.Dtos;
 using chess.Shared.Exceptions;
 using MediatR;
 
@@ -27,10 +28,23 @@ public class GetOtherUserRequestHandler : IRequestHandler<GetOtherUserRequest, G
             Username = user.Username,
             Name = user.Name,
             JoinDate = user.JoinDate,
-            ImageUrl = user.ImageUrl,
             Country = user.Country,
             Bio = user.Bio,
             GamesPlayed = user.Stats.GamesPlayed,
+
+            ProfilePicture = user.Image != null ? new ImageDto(){
+                Data = user.Image.Data,
+                ContentType = user.Image.ContentType,
+            } : null,
+
+            Elo = new EloDto()
+            {
+                Bullet = user.Elo.Bullet,
+                Blitz = user.Elo.Blitz,
+                Rapid = user.Elo.Rapid,
+                Classic = user.Elo.Classic,
+                Daily = user.Elo.Daily,
+            }
         };
 
 

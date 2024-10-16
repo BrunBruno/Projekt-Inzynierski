@@ -94,7 +94,7 @@ export const userController: UserController = {
   getFullUser: (): string => `${userBaseUrl}/full`,
 
   // gets user info for other users
-  getOtherUser: (userId): string => `${userBaseUrl}/other?${userId}`,
+  getOtherUser: (userId): string => `${userBaseUrl}/${userId}/other`,
 
   // gets elo info
   getElo: (): string => `${userBaseUrl}/elo`,
@@ -319,17 +319,19 @@ export const friendshipController: FriendshipController = {
 type Headers = {
   headers: {
     Authorization: string;
+    "Content-Type"?: string;
   };
 };
 
 // get authorization token for api calls
-export const getAuthorization = (): Headers => {
+export const getAuthorization = (contentType?: string): Headers => {
   const token = localStorage.getItem("token");
 
   return token
     ? {
         headers: {
           Authorization: `Bearer ${token}`,
+          "Content-Type": contentType,
         },
       }
     : {

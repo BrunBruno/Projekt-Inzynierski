@@ -37,7 +37,7 @@ export type UpdateProfileModel = {
   // provided or not description
   bio: string | null;
   // provided or not url to account profile picture
-  imageUrl: string | null;
+  imageFile: File | null;
 };
 
 /** GET models */

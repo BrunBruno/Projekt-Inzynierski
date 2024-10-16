@@ -93,7 +93,7 @@ function RightSideBar({ gameId, gameData, playersTimes, setPlayersTimes, winner 
           <div className={`${classes.bar__content__header__player} ${classes["white-player"]}`}>
             <AvatarImage
               username={gameData.whitePlayer.name}
-              imageUrl={gameData.whitePlayer.imageUrl}
+              profilePicture={gameData.whitePlayer.profilePicture}
               containerClass={classes["white-player-img"]}
               imageClass={classes["player-img"]}
             />
@@ -111,7 +111,7 @@ function RightSideBar({ gameId, gameData, playersTimes, setPlayersTimes, winner 
           <div className={`${classes.bar__content__header__player} ${classes["black-player"]}`}>
             <AvatarImage
               username={gameData.blackPlayer.name}
-              imageUrl={gameData.blackPlayer.imageUrl}
+              profilePicture={gameData.blackPlayer.profilePicture}
               containerClass={classes["black-player-img"]}
               imageClass={classes["player-img"]}
             />

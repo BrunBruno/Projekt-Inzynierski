@@ -24,7 +24,11 @@ public class GameRepository : IGameRepository {
         => await _dbContext.Games
                     .Include(g => g.Moves)
                     .Include(g => g.WhitePlayer)
+                        .ThenInclude(p => p.User)
+                            .ThenInclude(u => u.Image)
                     .Include(g => g.BlackPlayer)
+                        .ThenInclude(p => p.User)
+                            .ThenInclude(u => u.Image)
                     .Include(g => g.GameTiming)
                     .Include(g => g.GameState)
                     .FirstOrDefaultAsync(g => g.Id == id);

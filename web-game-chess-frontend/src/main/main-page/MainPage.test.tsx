@@ -24,7 +24,7 @@ const mockIsVerified: IsEmailVerifiedDto = {
 const mockUser: GetUserDto = {
   username: "User",
   name: null,
-  imageUrl: null,
+  profilePicture: null,
   country: "PL",
   userId: Guid.create(),
   email: "user@test.com",
@@ -39,7 +39,7 @@ const mockFriends: GetAllFriendsByStatusDto[] = [
   {
     username: "Friend 1",
     name: null,
-    imageUrl: null,
+    profilePicture: null,
     country: "PL",
     friendshipId: Guid.create(),
     elo: mockElo,
@@ -50,7 +50,7 @@ const mockFriends: GetAllFriendsByStatusDto[] = [
   {
     username: "Friend 2",
     name: null,
-    imageUrl: null,
+    profilePicture: null,
     country: "PL",
     friendshipId: Guid.create(),
     elo: mockElo,

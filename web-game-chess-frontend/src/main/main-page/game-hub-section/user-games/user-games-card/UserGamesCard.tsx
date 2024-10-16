@@ -62,7 +62,7 @@ function UserGamesCard({ game }: UserGamesCardProps) {
       <div className={classes.player}>
         <AvatarImage
           username={player.name}
-          imageUrl={player.imageUrl}
+          profilePicture={player.profilePicture}
           containerClass={isWhite ? classes["white-player-img"] : classes["black-player-img"]}
           imageClass={classes["player-img"]}
         />

@@ -24,7 +24,7 @@ const mockIsVerified: IsEmailVerifiedDto = {
 const mockUser: GetUserDto = {
   username: "Username",
   name: "User",
-  imageUrl: null,
+  profilePicture: null,
   country: "PL",
   userId: Guid.create(),
   email: "user@test.com",

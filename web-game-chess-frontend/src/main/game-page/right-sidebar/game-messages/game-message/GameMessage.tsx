@@ -49,7 +49,7 @@ function GameMessage({ gameId, message }: GameMessageProps) {
       <div className={classes.message__user}>
         <AvatarImage
           username={message.senderName}
-          imageUrl={message.senderImage}
+          profilePicture={message.senderImage}
           containerClass={classes.message__user}
           imageClass={classes["sender-image"]}
         />

@@ -1,6 +1,7 @@
 ﻿
 using chess.Application.Repositories;
 using chess.Application.Services;
+using chess.Core.Dtos;
 using chess.Shared.Exceptions;
 using MediatR;
 
@@ -17,15 +18,18 @@ public class GetAllMessagesRequestHandler : IRequestHandler<GetAllMessagesReques
     private readonly IGameRepository _gameRepository;
     private readonly IPlayerMessageRepository _messageRepository;
     private readonly IUserContextService _userContextService;
+    private readonly IUserImageRepository _userImageRepository;
 
     public GetAllMessagesRequestHandler(
         IGameRepository gameRepository,
         IPlayerMessageRepository messageRepository,
-        IUserContextService userContextService
+        IUserContextService userContextService,
+        IUserImageRepository userImageRepository
     ) {
         _gameRepository = gameRepository;
         _messageRepository = messageRepository;
         _userContextService = userContextService;
+        _userImageRepository = userImageRepository;
     }
 
     public async Task<List<GetAllMessagesDto>> Handle(GetAllMessagesRequest request, CancellationToken cancellationToken) {
@@ -40,12 +44,24 @@ public class GetAllMessagesRequestHandler : IRequestHandler<GetAllMessagesReques
 
         var messages = await _messageRepository.GetAllByPlayers(game.WhitePlayerId, game.BlackPlayerId);
 
+        var whitePlayerImage = await _userImageRepository.GetByUserId(game.WhitePlayer.UserId);
+        var blackPlayerImage = await _userImageRepository.GetByUserId(game.BlackPlayer.UserId);
+
         var messagesDtos = messages.Select(message => new GetAllMessagesDto() { 
             Message = message.Content,
             SenderName = message.Player.Name,
-            SenderImage = message.Player.ImageUrl,
             SentAt = message.SentAt,
             Type = message.Type,
+
+            SenderImage = whitePlayerImage != null && whitePlayerImage.UserId == message.Player.UserId ? new ImageDto() 
+            {
+                Data = whitePlayerImage.Data,
+                ContentType = whitePlayerImage.ContentType,
+            } : blackPlayerImage != null && blackPlayerImage.UserId == message.Player.UserId ? new ImageDto()
+            {
+                Data = blackPlayerImage.Data,
+                ContentType = blackPlayerImage.ContentType,
+            } : null,
         }).ToList();
 
         return messagesDtos;

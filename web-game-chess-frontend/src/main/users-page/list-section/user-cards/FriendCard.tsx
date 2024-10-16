@@ -168,7 +168,7 @@ function FriendCard({ selectedList, friend, getAllUsers, setFriend }: FriendCard
       <div className={classes.card__content}>
         <AvatarImage
           username={friend.username}
-          imageUrl={friend.imageUrl}
+          profilePicture={friend.profilePicture}
           containerClass={classes.card__content__avatar}
           imageClass={classes["avatar-img"]}
         />

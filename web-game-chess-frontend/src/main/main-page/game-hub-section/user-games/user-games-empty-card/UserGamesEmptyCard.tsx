@@ -57,7 +57,7 @@ function UserGamesEmptyCard({}: UserGamesEmptyCardProps) {
           <div className={classes.player}>
             <AvatarImage
               username={""}
-              imageUrl={""}
+              profilePicture={null}
               containerClass={classes["white-player-img"]}
               imageClass={classes["player-img"]}
             />
@@ -70,7 +70,7 @@ function UserGamesEmptyCard({}: UserGamesEmptyCardProps) {
           <div className={classes.player}>
             <AvatarImage
               username={""}
-              imageUrl={""}
+              profilePicture={null}
               containerClass={classes["black-player-img"]}
               imageClass={classes["player-img"]}
             />

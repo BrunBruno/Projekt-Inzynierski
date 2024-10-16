@@ -1,5 +1,6 @@
 ﻿
 using MediatR;
+using Microsoft.AspNetCore.Http;
 
 namespace chess.Application.Requests.UserRequests.UpdateProfile;
 
@@ -21,5 +22,5 @@ public class UpdateProfileRequest : IRequest {
     /// <summary>
     /// Provided profile picture
     /// </summary>
-    public string? ImageUrl { get; set; }
+    public IFormFile? ImageFile { get; set; }
 }

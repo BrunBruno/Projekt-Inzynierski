@@ -17,6 +17,7 @@ public class UserRepository : IUserRepository {
     ///<inheritdoc/>
     public async Task<List<User>> GetAllNonFriends(List<Guid> ids, Guid userId)
         => await _dbContext.Users
+                    .Include(u => u.Image)
                     .Include(u => u.Elo)
                     .Include(u => u.Stats)
                     .Where(u => !ids.Contains(u.Id) && u.IsVerified && u.Id != userId)
@@ -25,6 +26,7 @@ public class UserRepository : IUserRepository {
     ///<inheritdoc/>
     public async Task<List<User>> GetAllFriends(List<Guid> ids, Guid userId)
         => await _dbContext.Users
+                    .Include(u => u.Image)
                     .Include(u => u.Elo)
                     .Include(u => u.Stats)
                     .Where(u => ids.Contains(u.Id) && u.IsVerified && u.Id != userId)
@@ -34,6 +36,7 @@ public class UserRepository : IUserRepository {
     public async Task<User?> GetById(Guid id)
         => await _dbContext.Users
                     .Include(u => u.Role)
+                    .Include(u => u.Image)
                     .Include(u => u.Elo)
                     .Include(u => u.Stats)
                     .FirstOrDefaultAsync(u => u.Id == id);
@@ -42,6 +45,7 @@ public class UserRepository : IUserRepository {
     public async Task<User?> GetByEmail(string email)
         => await _dbContext.Users
                     .Include(u => u.Role)
+                    .Include(u => u.Image)
                     .Include(u => u.Elo)
                     .Include(u => u.Stats)
                     .FirstOrDefaultAsync(u => u.Email == email);
@@ -50,12 +54,14 @@ public class UserRepository : IUserRepository {
     public async Task<User?> GetByUsername(string username)
         => await _dbContext.Users
                     .Include(u => u.Role)
+                    .Include(u => u.Image)
                     .FirstOrDefaultAsync(u => u.Username == username);
 
     ///<inheritdoc/>
     public async Task<User?> GetByEmailOrUsername(string value) 
         => await _dbContext.Users
                     .Include(u => u.Role)
+                    .Include(u => u.Image)
                     .FirstOrDefaultAsync(u => u.Email == value || u.Username == value);
 
     ///<inheritdoc/>

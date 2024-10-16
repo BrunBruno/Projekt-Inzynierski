@@ -14,7 +14,7 @@ public class PlayerDto {
     /// <summary>
     /// Avatar image
     /// </summary>
-    public string? ImageUrl { get; set; }
+    public ImageDto? ProfilePicture { get; set; }
 
     /// <summary>
     /// Elo points for one game timing type

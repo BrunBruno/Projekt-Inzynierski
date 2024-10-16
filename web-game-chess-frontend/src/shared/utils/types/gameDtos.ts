@@ -1,7 +1,7 @@
 // game controller dtos
 
 import { Guid } from "guid-typescript";
-import { MoveDto, PlayerDto, TimingTypeModel } from "./abstractDtosAndModels";
+import { MoveDto, PlayerDto, TimingTypeModel, UserImage } from "./abstractDtosAndModels";
 import { MessageType, PieceColor, TimingType } from "../objects/entitiesEnums";
 
 export type CheckIfInGameDto = {
@@ -164,7 +164,7 @@ export type GetAllMessagesDto = {
   // sender name
   senderName: string;
   // sender profile picture url
-  senderImage: string | null;
+  senderImage: UserImage | null;
   // date of message creation
   sentAt: Date;
   // message type
