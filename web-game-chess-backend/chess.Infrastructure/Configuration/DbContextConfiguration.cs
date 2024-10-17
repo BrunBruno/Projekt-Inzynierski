@@ -12,7 +12,7 @@ namespace chess.Infrastructure.Configuration;
 public class DbContextConfiguration : 
     IEntityTypeConfiguration<User>,
     IEntityTypeConfiguration<Role>,
-    IEntityTypeConfiguration<EmailVerificationCode>,
+    IEntityTypeConfiguration<UserVerificationCode>,
     IEntityTypeConfiguration<Core.Entities.DataConfiguration>,
     IEntityTypeConfiguration<UserBan>,
     IEntityTypeConfiguration<Game>,
@@ -47,14 +47,14 @@ public class DbContextConfiguration :
             .HasData(GetRoles());
     }
 
-    public void Configure(EntityTypeBuilder<EmailVerificationCode> builder) {
+    public void Configure(EntityTypeBuilder<UserVerificationCode> builder) {
         builder
             .HasKey(evc => evc.Id);
 
         builder
             .HasOne(evc => evc.User)
             .WithOne()
-            .HasForeignKey<EmailVerificationCode>(evc => evc.UserId);
+            .HasForeignKey<UserVerificationCode>(evc => evc.UserId);
     }
 
     public void Configure(EntityTypeBuilder<Core.Entities.DataConfiguration> builder) {

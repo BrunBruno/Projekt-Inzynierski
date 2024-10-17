@@ -78,8 +78,8 @@ internal static partial class DbFilter {
             BlackPlayerId = blackPlayerId,
             GameTimingId = timingId,
             IsPrivate = isPrivate,
-            WhitePlayerRegistered = true,
-            BlackPlayerRegistered = true,
+            WhitePlayerRegistered = false,
+            BlackPlayerRegistered = false,
         };
 
         var state = new GameState()
@@ -107,13 +107,23 @@ internal static partial class DbFilter {
     /// <exception cref="InvalidOperationException"></exception>
     internal static async Task AddPlayerToGame(this ChessAppDbContext dbContext, Guid playerId, Guid gameId, PieceColor color) {
 
+        var game = await dbContext.Games.FirstOrDefaultAsync(g => g.Id == gameId)
+            ?? throw new InvalidOperationException("Game not added.");
+
         var player = await dbContext.Players.FirstOrDefaultAsync(p => p.Id == playerId)
             ?? throw new InvalidOperationException("Player not added.");
+
+        if (player.Color == PieceColor.White)
+            game.WhitePlayerRegistered = true;
+        if (player.Color == PieceColor.Black)
+            game.BlackPlayerRegistered = true;
 
         player.GameId = gameId;
         player.IsPlaying = true;
         player.Color = color;
 
+
+        dbContext.Games.Update(game);
         dbContext.Players.Update(player);
         await dbContext.SaveChangesAsync();
     }
@@ -206,6 +216,21 @@ internal static partial class DbFilter {
             Increment = 0,
         };
 
+        var user = new Core.Entities.User()
+        {
+            Id = Guid.Parse(Constants.UserId),
+            Email = Constants.Email,
+            Username = Constants.Username,
+            PasswordHash = Constants.PasswordHash,
+        };
+
+        var enemy = new Core.Entities.User()
+        {
+            Id = Guid.NewGuid(),
+            Email = "enemy@test.com",
+            Username = "Enemy",
+            PasswordHash = Constants.PasswordHash,
+        };
 
         var games = new List<Core.Entities.Game>();
         var players = new List<Player>();
@@ -218,6 +243,8 @@ internal static partial class DbFilter {
 
         for (int i = 0; i < 100; i++) {
 
+
+
             var userPlayer = new Player() {
                 Id = Guid.NewGuid(),
                 Name = Constants.Username,
@@ -226,6 +253,7 @@ internal static partial class DbFilter {
                 IsPlaying = true,
                 FinishedGame = isFinished,
                 UserId = Guid.Parse(Constants.UserId),
+                User = user,
             };
 
             var enemyPlayer = new Player()
@@ -236,7 +264,8 @@ internal static partial class DbFilter {
                 Color = i % 2 == 0 ? PieceColor.Black : PieceColor.White,
                 IsPlaying = true,
                 FinishedGame = isFinished,
-                UserId = Guid.NewGuid(),
+                UserId = enemy.Id,
+                User = enemy,
             };
 
             var game = new Core.Entities.Game() {
@@ -290,12 +319,13 @@ internal static partial class DbFilter {
             }
 
 
-
             games.Add(game);
             players.Add(userPlayer);
             players.Add(enemyPlayer);
         }
 
+        await dbContext.Users.AddAsync(user);
+        await dbContext.Users.AddAsync(enemy);
         await dbContext.GameInvitations.AddRangeAsync(invitations);
         await dbContext.Players.AddRangeAsync(players);
         await dbContext.Games.AddRangeAsync(games);

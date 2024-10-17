@@ -29,9 +29,15 @@ public class GetPlayerRequestHandlerTests {
         var player = new Player()
         {
             Name = "Username",
-            UserId = userId,
             Color = PieceColor.White,
             IsPlaying = true,
+            UserId = userId,
+            User = new Entities.User()
+            {
+                Id = userId,
+                Email = "user@test.com",
+                Username = "User"
+            }
         };
 
         var request = new GetPlayerRequest()

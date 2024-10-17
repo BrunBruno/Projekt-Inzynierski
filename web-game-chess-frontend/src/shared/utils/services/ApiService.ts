@@ -24,6 +24,8 @@ interface UserControllerPaths {
   regenerateCode: string;
   //PUT
   verifyEmail: string;
+  sendResetPasswordCode: string;
+  resetPassword: string;
   updateProfile: string;
   //GET
   getUser: string;
@@ -43,6 +45,8 @@ interface UserController {
   regenerateCode: () => string;
   //PUT
   verifyEmail: () => string;
+  sendResetPasswordCode: () => string;
+  resetPassword: () => string;
   updateProfile: () => string;
   //GET
   getUser: () => string;
@@ -61,6 +65,8 @@ export const userControllerPaths: UserControllerPaths = {
   logInUser: `${userBaseUrl}/sign-in`,
   regenerateCode: `${userBaseUrl}/regenerate-code`,
   verifyEmail: `${userBaseUrl}/verify-email`,
+  sendResetPasswordCode: `${userBaseUrl}/send-password-code`,
+  resetPassword: `${userBaseUrl}/reset-password`,
   updateProfile: `${userBaseUrl}/profile`,
   getUser: `${userBaseUrl}`,
   getFullUser: `${userBaseUrl}/full`,
@@ -83,6 +89,12 @@ export const userController: UserController = {
 
   // verifies email address
   verifyEmail: (): string => `${userBaseUrl}/verify-email`,
+
+  // sends reset password code
+  sendResetPasswordCode: (): string => `${userBaseUrl}/send-password-code`,
+
+  // resets user password
+  resetPassword: (): string => `${userBaseUrl}/reset-password`,
 
   // updates updatable data for user
   updateProfile: (): string => `${userBaseUrl}/profile`,

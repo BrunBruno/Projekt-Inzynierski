@@ -17,12 +17,41 @@ function FriendsSection() {
   ///
 
   const { showPopup } = usePopup();
-  const { scrollRef, totalItemsCount, setTotalItemsCount } = usePagination();
+  const { scrollRef, pageNumber, pageSize, totalItemsCount, setDefPageSize, setTotalItemsCount } = usePagination();
 
   // list of friends state
   const [friendList, setFriendList] = useState<GetAllFriendsByStatusDto[] | null>(null);
   // to activate friend card
   const [selectedFriend, setSelectedFriend] = useState<HTMLElement | null>(null);
+
+  // set default page size based on list to elements size ratio
+  // add resize handler to update default size
+  useEffect(() => {
+    const setDefSize = (): void => {
+      const container = scrollRef.current;
+      const itemsPerRow = 4;
+
+      if (container) {
+        const containerHeight = container.clientHeight;
+        const firstChild = container.firstChild as HTMLElement;
+        const elementHeight = firstChild.clientHeight;
+
+        if (elementHeight > 0) {
+          const count = Math.ceil(containerHeight / elementHeight) * itemsPerRow;
+
+          setDefPageSize(count);
+        }
+      }
+    };
+
+    setDefSize();
+    window.addEventListener("resize", setDefSize);
+
+    return () => {
+      window.removeEventListener("resize", setDefSize);
+    };
+  }, [friendList]);
+  //*/
 
   // to get friend list
   useEffect(() => {
@@ -31,8 +60,8 @@ function FriendsSection() {
         const model: GetAllFriendsByStatusModel = {
           username: "",
           status: FriendshipStatus.accepted,
-          pageNumber: 1,
-          pageSize: 100,
+          pageNumber: pageNumber,
+          pageSize: pageSize,
         };
 
         const friendsResponse = await axios.get<PagedResult<GetAllFriendsByStatusDto>>(

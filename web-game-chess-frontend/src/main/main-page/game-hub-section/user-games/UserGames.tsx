@@ -19,7 +19,7 @@ function UserGames({}: UserGamesProps) {
   ///
 
   const { showPopup } = usePopup();
-  const { scrollRef, pageSize, totalItemsCount, setDefPageSize, setTotalItemsCount } = usePagination();
+  const { scrollRef, pageNumber, pageSize, totalItemsCount, setDefPageSize, setTotalItemsCount } = usePagination();
 
   // obtained game list
   const [games, setGames] = useState<GetAllFinishedGamesDto[] | null>(null);
@@ -65,7 +65,7 @@ function UserGames({}: UserGamesProps) {
   useEffect(() => {
     const getGames = async (): Promise<void> => {
       const getGamesOptions: GetAllFinishedGamesModel = {
-        pageNumber: 1,
+        pageNumber: pageNumber,
         pageSize: pageSize,
         timingTypeFilters: timingTypeFilters,
         resultFilters: resultFilters,
@@ -78,7 +78,6 @@ function UserGames({}: UserGamesProps) {
         );
 
         setGames(response.data.items);
-
         setTotalItemsCount(response.data.totalItemsCount);
 
         const count =
@@ -136,13 +135,13 @@ function UserGames({}: UserGamesProps) {
         <LoadingPage text="Loading games" />
       ) : games.length === 0 ? (
         <div ref={scrollRef} className={`${classes.games__list} ${classes.empty}`}>
-          {Array.from({ length: pageSize }).map((_, i) => (
+          {Array.from({ length: pageSize }).map((_, i: number) => (
             <UserGamesEmptyCard key={i} />
           ))}
         </div>
       ) : (
         <div ref={scrollRef} className={classes.games__list}>
-          {games.map((game, i) => (
+          {games.map((game: GetAllFinishedGamesDto, i: number) => (
             <UserGamesCard key={`game-${i}`} game={game} />
           ))}
         </div>

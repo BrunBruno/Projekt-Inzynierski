@@ -13,7 +13,16 @@ public interface ISmtpService {
     /// <param name="recipientName"> User nickname </param>
     /// <param name="code"> code value </param>
     /// <returns></returns>
-    Task SendVerificationCode(string email, string recipientName, string code);
+    Task SendEmailVerificationCode(string email, string recipientName, string code);
+
+    /// <summary>
+    /// Sends verification code for password reset
+    /// </summary>
+    /// <param name="email"></param>
+    /// <param name="recipientName"></param>
+    /// <param name="code"></param>
+    /// <returns></returns>
+    Task SendPasswordResetVerificationCode(string email, string recipientName, string code);
 
     /// <summary>
     /// Send game invitation

@@ -66,8 +66,12 @@ public class GetAllFinishedGamesRequestHandlerTests {
                 Name = "Username",
                 Color = PieceColor.White,
                 GameId = gameId,
-                UserId = userId,
                 IsPlaying = true,
+                UserId = userId,
+                User = new Entities.User() { 
+                    Email = "user@test.com",
+                    Username = "Username",
+                }
             };
             var blackPlayer = new Player()
             {
@@ -77,6 +81,11 @@ public class GetAllFinishedGamesRequestHandlerTests {
                 GameId = gameId,
                 UserId = Guid.NewGuid(),
                 IsPlaying = true,
+                User = new Entities.User()
+                {
+                    Email = "opponent@test.com",
+                    Username = "Opponent",
+                }
             };
 
             whitePlayer.WhiteGame = new Entities.Game()

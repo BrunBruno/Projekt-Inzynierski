@@ -17,12 +17,13 @@ public class PlayerRepository : IPlayerRepository {
     ///<inheritdoc/>
     public async Task<List<Player>> GetAllForUser(Guid userId) 
         => await _dbContext.Players
+                    .Include(p => p.User)
                     .Include(p => p.WhiteGame)
-                        .ThenInclude(g => g.BlackPlayer)
-                            .ThenInclude(bp => bp.User)
+                        .ThenInclude(g => g.BlackPlayer)  
+                            .ThenInclude(bp => bp.User)  
                     .Include(p => p.BlackGame)
-                        .ThenInclude(g => g.WhitePlayer)
-                             .ThenInclude(wp => wp.User)
+                        .ThenInclude(g => g.WhitePlayer)  
+                            .ThenInclude(wp => wp.User)   
                     .Where(p => p.UserId == userId && p.FinishedGame == true)
                     .OrderByDescending(p => p.CreatedAt)
                     .ToListAsync();

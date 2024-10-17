@@ -40,17 +40,26 @@ public class CheckIfUpdateRequiredRequestHandlerTests {
 
             GameTimingId = gameTiming.Id,
 
-              WhitePlayerRegistered = true,
-            BlackPlayerRegistered = true,
+            WhitePlayerRegistered = true,
+            BlackPlayerRegistered = false, // not registered
             WhitePlayer = new Player()
             {
                 Name = "Username",
                 UserId = userId,
+                User = new Entities.User() { 
+                    Email = "user@test.com", 
+                    Username = "Username",
+                }
             },
             BlackPlayer = new Player()
             {
                 Name = "Placeholder",
                 UserId = userId,
+                User = new Entities.User()
+                {
+                    Email = "test@test.com",
+                    Username = "Placeholder",
+                }
             },
             GameState = new GameState(),
         };

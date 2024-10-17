@@ -13,15 +13,15 @@ namespace chess.Core.Tests.User;
 
 public class VerifyEmailRequestHandlerTests {
 
-    private readonly Mock<IEmailVerificationCodeRepository> _mockEmailVerificationCodeRepository;
-    private readonly Mock<IPasswordHasher<EmailVerificationCode>> _mockCodeHasher;
+    private readonly Mock<IUserVerificationCodeRepository> _mockUserVerificationCodeRepository;
+    private readonly Mock<IPasswordHasher<UserVerificationCode>> _mockCodeHasher;
     private readonly Mock<IUserRepository> _mockUserRepository;
     private readonly Mock<IUserContextService> _mockUserContextService;
 
     public VerifyEmailRequestHandlerTests() {
         _mockUserRepository = new Mock<IUserRepository>();
-        _mockEmailVerificationCodeRepository = new Mock<IEmailVerificationCodeRepository>();
-        _mockCodeHasher = new Mock<IPasswordHasher<EmailVerificationCode>>();
+        _mockUserVerificationCodeRepository = new Mock<IUserVerificationCodeRepository>();
+        _mockCodeHasher = new Mock<IPasswordHasher<UserVerificationCode>>();
         _mockUserContextService = new Mock<IUserContextService>();
     }
 
@@ -38,11 +38,12 @@ public class VerifyEmailRequestHandlerTests {
             RoleId = (int)Roles.User
         };
 
-        var exampleCode = new EmailVerificationCode()
+        var exampleCode = new UserVerificationCode()
         {
             Id = Guid.NewGuid(),
             CodeHash = "CodeHash",
             ExpirationDate = DateTime.UtcNow.AddMinutes(15),
+            Type = UserCodesTypes.Email,
             UserId = exampleUser.Id
         };
 
@@ -53,13 +54,13 @@ public class VerifyEmailRequestHandlerTests {
 
 
         _mockUserContextService.Setup(x => x.GetUserId()).Returns(exampleUser.Id);
-        _mockEmailVerificationCodeRepository.Setup(x => x.GetByUserId(exampleUser.Id)).ReturnsAsync(exampleCode);
+        _mockUserVerificationCodeRepository.Setup(x => x.GetByUserId(exampleUser.Id)).ReturnsAsync(exampleCode);
         _mockCodeHasher.Setup(x => x.VerifyHashedPassword(exampleCode, exampleCode.CodeHash, request.Code)).Returns(PasswordVerificationResult.Success);
         _mockUserRepository.Setup(x => x.GetById(exampleUser.Id)).ReturnsAsync(exampleUser);
 
 
         var handler = new VerifyEmailRequestHandler (
-            _mockEmailVerificationCodeRepository.Object,
+            _mockUserVerificationCodeRepository.Object,
             _mockUserContextService.Object,
             _mockUserRepository.Object,
             _mockCodeHasher.Object
@@ -70,7 +71,7 @@ public class VerifyEmailRequestHandlerTests {
 
         await act.Should().NotThrowAsync();
         _mockUserContextService.Verify(x => x.GetUserId(), Times.Once);
-        _mockEmailVerificationCodeRepository.Verify(x => x.GetByUserId(exampleUser.Id), Times.Once);
+        _mockUserVerificationCodeRepository.Verify(x => x.GetByUserId(exampleUser.Id), Times.Once);
         _mockCodeHasher.Verify(x => x.VerifyHashedPassword(exampleCode, exampleCode.CodeHash, request.Code), Times.Once);
         _mockUserRepository.Verify(x => x.GetById(exampleUser.Id), Times.Once);
         _mockUserRepository.Verify(x => x.Update(exampleUser), Times.Once);
@@ -89,7 +90,7 @@ public class VerifyEmailRequestHandlerTests {
 
 
         var handler = new VerifyEmailRequestHandler(
-            _mockEmailVerificationCodeRepository.Object,
+            _mockUserVerificationCodeRepository.Object,
             _mockUserContextService.Object,
             _mockUserRepository.Object,
             _mockCodeHasher.Object
@@ -100,8 +101,8 @@ public class VerifyEmailRequestHandlerTests {
 
         await act.Should().ThrowAsync<NotFoundException>();
         _mockUserContextService.Verify(x => x.GetUserId(), Times.Once);
-        _mockEmailVerificationCodeRepository.Verify(x => x.GetByUserId(It.IsAny<Guid>()), Times.Once);
-        _mockCodeHasher.Verify(x => x.VerifyHashedPassword(It.IsAny<EmailVerificationCode>(), It.IsAny<string>(), It.IsAny<string>()), Times.Never);
+        _mockUserVerificationCodeRepository.Verify(x => x.GetByUserId(It.IsAny<Guid>()), Times.Once);
+        _mockCodeHasher.Verify(x => x.VerifyHashedPassword(It.IsAny<UserVerificationCode>(), It.IsAny<string>(), It.IsAny<string>()), Times.Never);
         _mockUserRepository.Verify(x => x.GetById(It.IsAny<Guid>()), Times.Never);
         _mockUserRepository.Verify(x => x.Update(It.IsAny<Entities.User>()), Times.Never);
     }
@@ -109,11 +110,12 @@ public class VerifyEmailRequestHandlerTests {
     [Fact]
     public async Task Handle_Throws_BadRequestException_When_Code_Is_Incorrect() {
 
-        var exampleCode = new EmailVerificationCode()
+        var exampleCode = new UserVerificationCode()
         {
             Id = Guid.NewGuid(),
             CodeHash = "CodeHash",
             ExpirationDate = DateTime.UtcNow.AddMinutes(15),
+            Type = UserCodesTypes.Email,
             UserId = Guid.NewGuid()
         };
 
@@ -124,12 +126,12 @@ public class VerifyEmailRequestHandlerTests {
 
 
         _mockUserContextService.Setup(x => x.GetUserId()).Returns(Guid.NewGuid());
-        _mockEmailVerificationCodeRepository.Setup(x => x.GetByUserId(It.IsAny<Guid>())).ReturnsAsync(exampleCode);
+        _mockUserVerificationCodeRepository.Setup(x => x.GetByUserId(It.IsAny<Guid>())).ReturnsAsync(exampleCode);
         _mockCodeHasher.Setup(x => x.VerifyHashedPassword(exampleCode, exampleCode.CodeHash, request.Code)).Returns(PasswordVerificationResult.Failed);
 
 
         var handler = new VerifyEmailRequestHandler(
-            _mockEmailVerificationCodeRepository.Object,
+            _mockUserVerificationCodeRepository.Object,
             _mockUserContextService.Object,
             _mockUserRepository.Object,
             _mockCodeHasher.Object
@@ -140,7 +142,7 @@ public class VerifyEmailRequestHandlerTests {
 
         await act.Should().ThrowAsync<BadRequestException>();
         _mockUserContextService.Verify(x => x.GetUserId(), Times.Once);
-        _mockEmailVerificationCodeRepository.Verify(x => x.GetByUserId(It.IsAny<Guid>()), Times.Once);
+        _mockUserVerificationCodeRepository.Verify(x => x.GetByUserId(It.IsAny<Guid>()), Times.Once);
         _mockCodeHasher.Verify(x => x.VerifyHashedPassword(exampleCode, exampleCode.CodeHash, request.Code), Times.Once);
         _mockUserRepository.Verify(x => x.GetById(It.IsAny<Guid>()), Times.Never);
         _mockUserRepository.Verify(x => x.Update(It.IsAny<Entities.User>()), Times.Never);
@@ -149,11 +151,12 @@ public class VerifyEmailRequestHandlerTests {
     [Fact]
     public async Task Handle_Throws_BadRequestException_When_Code_Expired() {
 
-        var exampleCode = new EmailVerificationCode()
+        var exampleCode = new UserVerificationCode()
         {
             Id = Guid.NewGuid(),
             CodeHash = "CodeHash",
             ExpirationDate = DateTime.UtcNow.AddMinutes(-15),
+            Type = UserCodesTypes.Email,
             UserId = Guid.NewGuid()
         };
 
@@ -164,12 +167,12 @@ public class VerifyEmailRequestHandlerTests {
 
 
         _mockUserContextService.Setup(x => x.GetUserId()).Returns(Guid.NewGuid());
-        _mockEmailVerificationCodeRepository.Setup(x => x.GetByUserId(It.IsAny<Guid>())).ReturnsAsync(exampleCode);
+        _mockUserVerificationCodeRepository.Setup(x => x.GetByUserId(It.IsAny<Guid>())).ReturnsAsync(exampleCode);
         _mockCodeHasher.Setup(x => x.VerifyHashedPassword(exampleCode, exampleCode.CodeHash, request.Code)).Returns(PasswordVerificationResult.Success);
 
 
         var handler = new VerifyEmailRequestHandler(
-            _mockEmailVerificationCodeRepository.Object,
+            _mockUserVerificationCodeRepository.Object,
             _mockUserContextService.Object,
             _mockUserRepository.Object,
             _mockCodeHasher.Object
@@ -180,7 +183,7 @@ public class VerifyEmailRequestHandlerTests {
 
         await act.Should().ThrowAsync<BadRequestException>();
         _mockUserContextService.Verify(x => x.GetUserId(), Times.Once);
-        _mockEmailVerificationCodeRepository.Verify(x => x.GetByUserId(It.IsAny<Guid>()), Times.Once);
+        _mockUserVerificationCodeRepository.Verify(x => x.GetByUserId(It.IsAny<Guid>()), Times.Once);
         _mockCodeHasher.Verify(x => x.VerifyHashedPassword(exampleCode, exampleCode.CodeHash, request.Code), Times.Once);
         _mockUserRepository.Verify(x => x.GetById(It.IsAny<Guid>()), Times.Never);
         _mockUserRepository.Verify(x => x.Update(It.IsAny<Entities.User>()), Times.Never);
@@ -189,11 +192,12 @@ public class VerifyEmailRequestHandlerTests {
     [Fact]
     public async Task Handle_Throws_NotFoundException_User_Was_Not_Found() {
 
-        var exampleCode = new EmailVerificationCode()
+        var exampleCode = new UserVerificationCode()
         {
             Id = Guid.NewGuid(),
             CodeHash = "CodeHash",
             ExpirationDate = DateTime.UtcNow.AddMinutes(15),
+            Type = UserCodesTypes.Email,
             UserId = Guid.NewGuid()
         };
 
@@ -204,12 +208,12 @@ public class VerifyEmailRequestHandlerTests {
 
 
         _mockUserContextService.Setup(x => x.GetUserId()).Returns(Guid.NewGuid());
-        _mockEmailVerificationCodeRepository.Setup(x => x.GetByUserId(It.IsAny<Guid>())).ReturnsAsync(exampleCode);
+        _mockUserVerificationCodeRepository.Setup(x => x.GetByUserId(It.IsAny<Guid>())).ReturnsAsync(exampleCode);
         _mockCodeHasher.Setup(x => x.VerifyHashedPassword(exampleCode, exampleCode.CodeHash, request.Code)).Returns(PasswordVerificationResult.Success);
 
 
         var handler = new VerifyEmailRequestHandler(
-            _mockEmailVerificationCodeRepository.Object,
+            _mockUserVerificationCodeRepository.Object,
             _mockUserContextService.Object,
             _mockUserRepository.Object,
             _mockCodeHasher.Object
@@ -220,7 +224,7 @@ public class VerifyEmailRequestHandlerTests {
 
         await act.Should().ThrowAsync<NotFoundException>();
         _mockUserContextService.Verify(x => x.GetUserId(), Times.Once);
-        _mockEmailVerificationCodeRepository.Verify(x => x.GetByUserId(It.IsAny<Guid>()), Times.Once);
+        _mockUserVerificationCodeRepository.Verify(x => x.GetByUserId(It.IsAny<Guid>()), Times.Once);
         _mockCodeHasher.Verify(x => x.VerifyHashedPassword(exampleCode, exampleCode.CodeHash, request.Code), Times.Once);
         _mockUserRepository.Verify(x => x.GetById(It.IsAny<Guid>()), Times.Once);
         _mockUserRepository.Verify(x => x.Update(It.IsAny<Entities.User>()), Times.Never);

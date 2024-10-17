@@ -68,6 +68,7 @@ public class AbortSearchRequestHandlerTests {
         };
 
         _mockUserContextService.Setup(x => x.GetUserId()).Returns(userId);
+        // player not exists
 
 
         var handler = new AbortSearchRequestHandler(
@@ -95,7 +96,7 @@ public class AbortSearchRequestHandlerTests {
         {
             Id = playerId,
             Name = "Username",
-            UserId = Guid.NewGuid(),
+            UserId = Guid.NewGuid(), // not owned player
             IsPlaying = false,
         };
 
@@ -134,7 +135,7 @@ public class AbortSearchRequestHandlerTests {
             Id = playerId,
             Name = "Username",
             UserId = userId,
-            IsPlaying = true,
+            IsPlaying = true, // is playing
         };
 
         var request = new AbortSearchRequest()

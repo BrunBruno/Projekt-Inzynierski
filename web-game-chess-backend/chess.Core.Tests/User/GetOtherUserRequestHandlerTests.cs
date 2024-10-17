@@ -24,6 +24,7 @@ public class GetOtherUserRequestHandlerTests {
             Id = Guid.NewGuid(),
             Email = "test@test.com",
             Username = "Username",
+            Elo = new UserElo(),
             Stats = new UserStats(),
         };
 

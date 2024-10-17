@@ -35,6 +35,7 @@ public class GetAllMessagesTests : IClassFixture<TestWebApplicationFactory<Progr
 
         await _dbContext.Init();
         await _dbContext.AddUser();
+        var friendId = await _dbContext.AddUserWithEmail("freind@test.com");
 
         var timingId = await _dbContext.CreateTiming(new TimingType()
         {
@@ -44,7 +45,7 @@ public class GetAllMessagesTests : IClassFixture<TestWebApplicationFactory<Progr
         });
 
         var userPlayerId = await _dbContext.AddPlayer(Guid.Parse(Constants.UserId), Constants.Username);
-        var friendPlayerId = await _dbContext.AddPlayer(Guid.NewGuid(), "opponent");
+        var friendPlayerId = await _dbContext.AddPlayer(friendId, "freind");
 
         var gameId = await _dbContext.AddGame(userPlayerId, friendPlayerId, timingId, false);
         await _dbContext.AddPlayerToGame(userPlayerId, gameId, PieceColor.White);
@@ -71,6 +72,7 @@ public class GetAllMessagesTests : IClassFixture<TestWebApplicationFactory<Progr
 
         await _dbContext.Init();
         await _dbContext.AddUser();
+        var friendId = await _dbContext.AddUserWithEmail("freind@test.com");
 
         await _dbContext.CreateTiming(new TimingType()
         {
@@ -80,7 +82,7 @@ public class GetAllMessagesTests : IClassFixture<TestWebApplicationFactory<Progr
         });
 
         await _dbContext.AddPlayer(Guid.Parse(Constants.UserId), Constants.Username);
-        await _dbContext.AddPlayer(Guid.NewGuid(), "opponent");
+        await _dbContext.AddPlayer(friendId, "freind");
 
         // game not added
 
@@ -100,6 +102,8 @@ public class GetAllMessagesTests : IClassFixture<TestWebApplicationFactory<Progr
 
         await _dbContext.Init();
         await _dbContext.AddUser();
+        var friendId = await _dbContext.AddUserWithEmail("freind@test.com");
+        var otherUserId = await _dbContext.AddUserWithEmail("other@test.com");
 
         var timingId = await _dbContext.CreateTiming(new TimingType()
         {
@@ -109,8 +113,8 @@ public class GetAllMessagesTests : IClassFixture<TestWebApplicationFactory<Progr
         });
 
         // players not owned
-        var otherPlayerId = await _dbContext.AddPlayer(Guid.NewGuid(), "other");
-        var friendPlayerId = await _dbContext.AddPlayer(Guid.NewGuid(), "opponent");
+        var friendPlayerId = await _dbContext.AddPlayer(friendId, "freind");
+        var otherPlayerId = await _dbContext.AddPlayer(otherUserId, "other");
 
         var gameId = await _dbContext.AddGame(otherPlayerId, friendPlayerId, timingId, false);
         await _dbContext.AddPlayerToGame(otherPlayerId, gameId, PieceColor.White);

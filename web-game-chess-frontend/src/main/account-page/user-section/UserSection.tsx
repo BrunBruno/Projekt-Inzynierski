@@ -18,7 +18,7 @@ import { TimingType } from "../../../shared/utils/objects/entitiesEnums";
 type UserSectionProps = {
   // to obtain game timing history by selection timing type
   // sends right column view to type history chart
-  getTypeHistory: (type: number) => void;
+  getTypeHistory: (type: TimingType) => void;
   // to view send to friend list
   setFriendSection: () => void;
 };

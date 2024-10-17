@@ -32,7 +32,6 @@ public class GetFullUserTests : IClassFixture<TestWebApplicationFactory<Program>
 
         await _dbContext.Init();
         await _dbContext.AddUser();
-        await _dbContext.AddStatsForUser();
 
         var response = await _client.GetAsync("api/user/full");
 

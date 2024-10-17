@@ -51,3 +51,14 @@ export type GetRegisterConfModel = {
   // configuration id
   configurationId: number;
 };
+
+export type SendResetPasswordCodeModel = {
+  // to for password recovery
+  email: string;
+};
+
+export type ResetPasswordModel = {
+  code: string;
+  newPassword: string;
+  passwordConfirm: string;
+};

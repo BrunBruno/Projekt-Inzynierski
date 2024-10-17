@@ -18,6 +18,7 @@ export enum RegistrationInterface {
   signIn,
   signUp,
   verify,
+  reset,
 }
 
 // for displaying game board confirmation window

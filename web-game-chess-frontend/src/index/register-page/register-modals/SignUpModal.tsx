@@ -2,32 +2,28 @@ import { ChangeEvent, Dispatch, FormEvent, RefObject, SetStateAction, useEffect,
 import { mainColor, strengthColor } from "../../../shared/utils/objects/colorMaps";
 import classes from "./RegisterModal.module.scss";
 import axios from "axios";
-import { errorDisplay, getErrMessage } from "../../../shared/utils/functions/errors";
+import { errorDisplay } from "../../../shared/utils/functions/errors";
 import { userController } from "../../../shared/utils/services/ApiService";
 import { GetRegisterConfDto, LogInUserDto } from "../../../shared/utils/types/userDtos";
 import { RegistrationInterface } from "../../../shared/utils/objects/interfacesEnums";
-import { GetRegisterConfModel, LogInUserModel, RegisterUserModel } from "../../../shared/utils/types/userModels";
+import { LogInUserModel, RegisterUserModel } from "../../../shared/utils/types/userModels";
 import { usePopup } from "../../../shared/utils/hooks/usePopUp";
 import { getCountry } from "../../../shared/utils/functions/externApi";
 import IconCreator from "../../../shared/components/icon-creator/IconCreator";
 import { registerPageIcons } from "../RegisterPageIcons";
 import LoadingPage from "../../../shared/components/loading-page/LoadingPage";
-import { DataConfiguration } from "../../../shared/utils/objects/entitiesEnums";
-
-// result of input validation
-type ValidationResult = {
-  // is input valid
-  isValid: boolean;
-  // optional message if input is not valid
-  message: string;
-};
+import { checkFromConfiguration, ValidationResult } from "./RegisterFunctions";
 
 type SignUpModalProps = {
   // change displayed modal
   setModal: Dispatch<SetStateAction<number>>;
+  //
+  userNameConf: GetRegisterConfDto | null;
+  //
+  userPassConf: GetRegisterConfDto | null;
 };
 
-function SignUpModal({ setModal }: SignUpModalProps) {
+function SignUpModal({ setModal, userNameConf, userPassConf }: SignUpModalProps) {
   ///
 
   const { showPopup } = usePopup();
@@ -42,54 +38,20 @@ function SignUpModal({ setModal }: SignUpModalProps) {
 
   // error message content
   const [errorMess, setErrorMess] = useState<string>("");
-  // user name configuration
-  const [userNameConf, setUserNameConf] = useState<GetRegisterConfDto | null>(null);
-  // password configuration
-  const [userPassConf, setUserPassConf] = useState<GetRegisterConfDto | null>(null);
   // state if something is processing
   const [processing, setProcessing] = useState<boolean>(false);
 
-  // to get register configuration
   useEffect(() => {
-    const getDataConfiguration = async (): Promise<void> => {
-      try {
-        const userRegisterConf: GetRegisterConfModel = {
-          configurationId: DataConfiguration.userName,
-        };
-
-        // get username configuration
-        const userNameConfResp = await axios.get<GetRegisterConfDto>(userController.getRegisterConf(userRegisterConf));
-
-        setUserNameConf(userNameConfResp.data);
-
-        const passwordRegisterConf: GetRegisterConfModel = {
-          configurationId: DataConfiguration.userPassword,
-        };
-
-        // get password configuration
-        const userPassConfResp = await axios.get<GetRegisterConfDto>(
-          userController.getRegisterConf(passwordRegisterConf)
-        );
-
-        setUserPassConf(userPassConfResp.data);
-
-        setProcessing(false);
-      } catch (err) {
-        showPopup(getErrMessage(err), "warning");
-      }
-    };
-
-    getDataConfiguration();
-  }, []);
-  //*/
+    if (userNameConf && userPassConf) setProcessing(false);
+  }, [userNameConf, userPassConf]);
 
   // creates user account
   const signUpUser = async (event: FormEvent<HTMLFormElement>): Promise<void> => {
     event.preventDefault();
 
     if (
-      userNameConf === null ||
-      userPassConf === null ||
+      !userNameConf ||
+      !userPassConf ||
       !emailInputRef.current ||
       !usernameInputRef.current ||
       !passwordInputRef.current ||
@@ -185,47 +147,6 @@ function SignUpModal({ setModal }: SignUpModalProps) {
 
       setProcessing(false);
     }
-  };
-  //*/
-
-  // to check user input with db configuration record
-  const checkFromConfiguration = (field: string, data: string, configuration: GetRegisterConfDto): ValidationResult => {
-    let isValid: boolean = true;
-    let message: string = "";
-
-    if (configuration.minLength && data.length < configuration.minLength) {
-      message = `${field} must be longer than ${configuration.minLength} characters.`;
-      isValid = false;
-    }
-
-    if (configuration.maxLength && data.length > configuration.maxLength) {
-      message = `${field} must be shorter than ${configuration.maxLength} characters.`;
-      isValid = false;
-    }
-
-    if (configuration.requireLowercase && !/[a-z]/.test(data)) {
-      message = `${field} must contain at least one lowercase letter.`;
-      isValid = false;
-    }
-
-    if (configuration.requireUppercase && !/[A-Z]/.test(data)) {
-      message = `${field} must contain at least one uppercase letter.`;
-      isValid = false;
-    }
-
-    if (configuration.requireDigit && !/\d/.test(data)) {
-      message = `${field} must contain at least one digit.`;
-      isValid = false;
-    }
-
-    if (configuration.requireSpecialChar && !/[^a-zA-Z0-9]/.test(data)) {
-      message = `${field} must contain at least one special character.`;
-      isValid = false;
-    }
-
-    const result: ValidationResult = { isValid, message };
-
-    return result;
   };
   //*/
 

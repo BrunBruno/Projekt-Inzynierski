@@ -109,7 +109,7 @@ public static class Extensions {
         services.AddScoped<IPlayerRepository, PlayerRepository>();
         services.AddScoped<IPlayerMessageRepository, PlayerMessageRepository>();
 
-        services.AddScoped<IEmailVerificationCodeRepository, EmailVerificationCodeRepository>();
+        services.AddScoped<IUserVerificationCodeRepository, UserVerificationCodeRepository>();
         services.AddScoped<IDataConfigurationRepository, DataConfigurationRepository>();
         services.AddScoped<IMoveRepository, MoveRepository>();
         services.AddScoped<IFriendshipRepository, FriendshipRepository>();

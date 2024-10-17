@@ -11,6 +11,8 @@ using chess.Application.Requests.UserRequests.IsEmailVerified;
 using chess.Application.Requests.UserRequests.LogInUser;
 using chess.Application.Requests.UserRequests.RegenerateCode;
 using chess.Application.Requests.UserRequests.RegisterUser;
+using chess.Application.Requests.UserRequests.ResetPassword;
+using chess.Application.Requests.UserRequests.SendResetPasswordCode;
 using chess.Application.Requests.UserRequests.UpdateProfile;
 using chess.Application.Requests.UserRequests.VerifyEmail;
 using MediatR;
@@ -91,6 +93,36 @@ public class UserController : ControllerBase {
     public async Task<IActionResult> VerifyEmail([FromBody] VerifyEmailModel model) {
 
         var request = _mapper.Map<VerifyEmailRequest>(model);
+
+        await _mediator.Send(request);
+        return Ok();
+    }
+
+
+    /// <summary>
+    /// Sends reset password code
+    /// </summary>
+    /// <param name="model"></param>
+    /// <returns></returns>
+    [HttpPut("send-password-code")]
+    public async Task<IActionResult> SendResetPasswordCode([FromBody] SendResetPasswordCodeModel model) {
+
+        var request = _mapper.Map<SendResetPasswordCodeRequest>(model);
+
+        await _mediator.Send(request);
+        return Ok();
+    }
+
+
+    /// <summary>
+    /// Resets user password
+    /// </summary>
+    /// <param name="model"></param>
+    /// <returns></returns>
+    [HttpPut("reset-password")]
+    public async Task<IActionResult> ResetPassword([FromBody] ResetPasswordModel model) {
+
+        var request = _mapper.Map<ResetPasswordRequest>(model);
 
         await _mediator.Send(request);
         return Ok();

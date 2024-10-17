@@ -2,6 +2,7 @@
 using chess.Application.Repositories;
 using chess.Application.Services;
 using chess.Core.Entities;
+using chess.Core.Enums;
 using chess.Shared.Exceptions;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
@@ -16,20 +17,20 @@ namespace chess.Application.Requests.UserRequests.RegenerateCode;
 /// </summary>
 public class RegenerateCodeRequestHandler : IRequestHandler<RegenerateCodeRequest> {
 
-    private readonly IEmailVerificationCodeRepository _emailVerificationCodeRepository;
+    private readonly IUserVerificationCodeRepository _userVerificationCodeRepository;
     private readonly IUserContextService _userContextService;
-    private readonly IPasswordHasher<EmailVerificationCode> _codeHasher;
+    private readonly IPasswordHasher<UserVerificationCode> _codeHasher;
     private readonly ISmtpService _smtpService;
     private readonly IUserRepository _userRepository;
 
     public RegenerateCodeRequestHandler(
-        IEmailVerificationCodeRepository emailVerificationCodeRepository,
+        IUserVerificationCodeRepository userVerificationCodeRepository,
         IUserContextService userContextService,
-        IPasswordHasher<EmailVerificationCode> codeHasher,
+        IPasswordHasher<UserVerificationCode> codeHasher,
         ISmtpService smtpService,
         IUserRepository userRepository
     ) {
-        _emailVerificationCodeRepository = emailVerificationCodeRepository;
+        _userVerificationCodeRepository = userVerificationCodeRepository;
         _userContextService = userContextService;
         _codeHasher = codeHasher;
         _smtpService = smtpService;
@@ -44,26 +45,26 @@ public class RegenerateCodeRequestHandler : IRequestHandler<RegenerateCodeReques
             ?? throw new NotFoundException("User not found.");
 
 
-        await _emailVerificationCodeRepository.RemoveByUserId(userId);
+        await _userVerificationCodeRepository.RemoveByUserId(userId);
 
 
         var codeValue = new Random().Next(100000, 999999).ToString();
 
-        var code = new EmailVerificationCode()
+        var code = new UserVerificationCode()
         {
             Id = Guid.NewGuid(),
             UserId = userId,
             ExpirationDate = DateTime.UtcNow.AddMinutes(15),
+            Type = UserCodesTypes.Email,
         };
 
         var codeHash = _codeHasher.HashPassword(code, codeValue);
-
         code.CodeHash = codeHash;
 
 
-        await _emailVerificationCodeRepository.Add(code);
+        await _userVerificationCodeRepository.Add(code);
 
 
-        await _smtpService.SendVerificationCode(user.Email, user.Username, codeValue);
+        await _smtpService.SendEmailVerificationCode(user.Email, user.Username, codeValue);
     }
 }

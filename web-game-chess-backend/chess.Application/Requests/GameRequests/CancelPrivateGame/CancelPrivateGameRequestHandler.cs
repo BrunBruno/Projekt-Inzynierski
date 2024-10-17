@@ -51,7 +51,6 @@ public class CancelPrivateGameRequestHandler : IRequestHandler<CancelPrivateGame
 
 
         await _gameRepository.Delete(gameToDelete);
-
         await _playerRepository.Delete(whitePlayer);
         await _playerRepository.Delete(blackPlayer);
     }

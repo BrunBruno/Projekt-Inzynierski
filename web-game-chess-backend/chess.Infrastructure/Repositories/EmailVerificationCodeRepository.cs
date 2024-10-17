@@ -6,22 +6,22 @@ using Microsoft.EntityFrameworkCore;
 
 namespace chess.Infrastructure.Repositories;
 
-public class EmailVerificationCodeRepository : IEmailVerificationCodeRepository {
+public class UserVerificationCodeRepository : IUserVerificationCodeRepository {
 
     private readonly ChessAppDbContext _dbContext;
 
-    public EmailVerificationCodeRepository(ChessAppDbContext dbContext) {
+    public UserVerificationCodeRepository(ChessAppDbContext dbContext) {
         _dbContext = dbContext;
     }
 
     ///<inheritdoc/>
-    public async Task<EmailVerificationCode?> GetByUserId(Guid userId)
-        => await _dbContext.EmailVerificationCodes
+    public async Task<UserVerificationCode?> GetByUserId(Guid userId)
+        => await _dbContext.UserVerificationCodes
                     .FirstOrDefaultAsync(c => c.UserId == userId);
 
     ///<inheritdoc/>
-    public async Task Add(EmailVerificationCode code) {
-        await _dbContext.EmailVerificationCodes.AddAsync(code);
+    public async Task Add(UserVerificationCode code) {
+        await _dbContext.UserVerificationCodes.AddAsync(code);
         await _dbContext.SaveChangesAsync();
     }
 
@@ -30,7 +30,7 @@ public class EmailVerificationCodeRepository : IEmailVerificationCodeRepository 
         var code = await GetByUserId(userId)
             ?? throw new NotFoundException("Code not found.");
 
-        _dbContext.EmailVerificationCodes.Remove(code);
+        _dbContext.UserVerificationCodes.Remove(code);
         await _dbContext.SaveChangesAsync();
     }
 }

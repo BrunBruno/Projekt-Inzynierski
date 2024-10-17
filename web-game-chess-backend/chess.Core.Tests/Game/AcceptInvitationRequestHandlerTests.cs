@@ -96,6 +96,7 @@ public class AcceptInvitationRequestHandlerTests {
 
 
         _mockUserContextService.Setup(x => x.GetUserId()).Returns(userId);
+        // first player not exists
 
 
         var handler = new AcceptInvitationRequestHandler(
@@ -112,7 +113,6 @@ public class AcceptInvitationRequestHandlerTests {
         _mockPlayerRepository.Verify(x => x.GetByUserIdAndGameId(request.InviterId, gameId), Times.Once);
         _mockPlayerRepository.Verify(x => x.GetByUserIdAndGameId(request.InviteeId, gameId), Times.Never);
         _mockGameInvitationRepository.Verify(x => x.GetByGameId(gameId), Times.Never);
-        _mockPlayerRepository.Verify(x => x.Update(It.IsAny<Player>()), Times.Never);
         _mockPlayerRepository.Verify(x => x.Update(It.IsAny<Player>()), Times.Never);
         _mockGameInvitationRepository.Verify(x => x.Update(It.IsAny<GameInvitation>()), Times.Never);
     }
@@ -140,6 +140,7 @@ public class AcceptInvitationRequestHandlerTests {
 
         _mockUserContextService.Setup(x => x.GetUserId()).Returns(userId);
         _mockPlayerRepository.Setup(x => x.GetByUserIdAndGameId(request.InviterId, gameId)).ReturnsAsync(inviterPlayer);
+        // second player not exists
 
 
 
@@ -172,13 +173,13 @@ public class AcceptInvitationRequestHandlerTests {
         var inviteePlayer = new Player()
         {
             Name = "Friend",
-            UserId = friendId,
+            UserId = friendId, // friend is invitee
         };
 
         var inviterPlayer = new Player()
         {
             Name = "Username",
-            UserId = userId,
+            UserId = userId, // user is inviter
         };
 
         var request = new AcceptInvitationRequest()
@@ -243,6 +244,7 @@ public class AcceptInvitationRequestHandlerTests {
         _mockUserContextService.Setup(x => x.GetUserId()).Returns(userId);
         _mockPlayerRepository.Setup(x => x.GetByUserIdAndGameId(request.InviterId, gameId)).ReturnsAsync(inviterPlayer);
         _mockPlayerRepository.Setup(x => x.GetByUserIdAndGameId(request.InviteeId, gameId)).ReturnsAsync(inviteePlayer);
+        // invitation not exists
 
 
         var handler = new AcceptInvitationRequestHandler(

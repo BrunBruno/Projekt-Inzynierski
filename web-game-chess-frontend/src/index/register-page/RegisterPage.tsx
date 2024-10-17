@@ -11,6 +11,13 @@ import MainPopUp from "../../shared/components/main-popup/MainPopUp";
 import IconCreator from "../../shared/components/icon-creator/IconCreator";
 import { registerPageIcons } from "./RegisterPageIcons";
 import { usePopup } from "../../shared/utils/hooks/usePopUp";
+import { GetRegisterConfModel } from "../../shared/utils/types/userModels";
+import { GetRegisterConfDto } from "../../shared/utils/types/userDtos";
+import axios from "axios";
+import { DataConfiguration } from "../../shared/utils/objects/entitiesEnums";
+import { userController } from "../../shared/utils/services/ApiService";
+import { getErrMessage } from "../../shared/utils/functions/errors";
+import ResetPasswordModal from "./register-modals/ResetPasswordModal";
 
 function RegisterPage() {
   ///
@@ -30,6 +37,11 @@ function RegisterPage() {
 
   // url if user provided link
   const [userPath, setUserPath] = useState<string>("/main");
+
+  // user name configuration
+  const [userNameConf, setUserNameConf] = useState<GetRegisterConfDto | null>(null);
+  // password configuration
+  const [userPassConf, setUserPassConf] = useState<GetRegisterConfDto | null>(null);
 
   // to display main page popups
   // to set form modal if provided
@@ -59,9 +71,11 @@ function RegisterPage() {
       case RegistrationInterface.signIn:
         return <SignInModal setModal={setModal} userPath={userPath} />;
       case RegistrationInterface.signUp:
-        return <SignUpModal setModal={setModal} />;
+        return <SignUpModal setModal={setModal} userNameConf={userNameConf} userPassConf={userPassConf} />;
       case RegistrationInterface.verify:
         return <VerifyEmailModal setModal={setModal} userPath={userPath} />;
+      case RegistrationInterface.reset:
+        return <ResetPasswordModal setModal={setModal} userPath={userPath} userPassConf={userPassConf} />;
       default:
         return <></>;
     }
@@ -74,6 +88,8 @@ function RegisterPage() {
     if (window.innerWidth > 500) {
       switch (modal) {
         case RegistrationInterface.signIn:
+          return classes["left-side-form"];
+        case RegistrationInterface.reset:
           return classes["left-side-form"];
         case RegistrationInterface.signUp:
           return classes["right-side-form"];
@@ -110,6 +126,38 @@ function RegisterPage() {
     setTimeout(() => {
       addFormTransform();
     }, 300);
+  }, []);
+  //*/
+
+  // to get register configuration
+  useEffect(() => {
+    const getDataConfiguration = async (): Promise<void> => {
+      try {
+        const userRegisterConf: GetRegisterConfModel = {
+          configurationId: DataConfiguration.userName,
+        };
+
+        // get username configuration
+        const userNameConfResp = await axios.get<GetRegisterConfDto>(userController.getRegisterConf(userRegisterConf));
+
+        setUserNameConf(userNameConfResp.data);
+
+        const passwordRegisterConf: GetRegisterConfModel = {
+          configurationId: DataConfiguration.userPassword,
+        };
+
+        // get password configuration
+        const userPassConfResp = await axios.get<GetRegisterConfDto>(
+          userController.getRegisterConf(passwordRegisterConf)
+        );
+
+        setUserPassConf(userPassConfResp.data);
+      } catch (err) {
+        showPopup(getErrMessage(err), "warning");
+      }
+    };
+
+    getDataConfiguration();
   }, []);
   //*/
 

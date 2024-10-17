@@ -100,7 +100,7 @@ public class UpdatePrivateGameRequestHandlerTests {
             Email = "user@test.com",
             Username = "Username",
 
-            Elo = new UserElo() { },
+            Elo = new UserElo(),
         };
 
         var game = new Entities.Game()
@@ -108,14 +108,15 @@ public class UpdatePrivateGameRequestHandlerTests {
             Id = gameId,
             IsPrivate = true,
 
-              WhitePlayerRegistered = true,
-            BlackPlayerRegistered = true,
+            WhitePlayerRegistered = true,
+            BlackPlayerRegistered = false,
             WhitePlayer = new Player()
             {
                 Id = Guid.NewGuid(),
                 Name = "Username",
                 IsPrivate = true,
                 UserId = userId,
+                User = user,
             },
             BlackPlayer = new Player()
             {
@@ -123,6 +124,11 @@ public class UpdatePrivateGameRequestHandlerTests {
                 Name = "",
                 IsPrivate = true,
                 UserId = userId,
+                User = new Entities.User() { 
+                    Id = userId,
+                    Email = "freind@test.com",
+                    Username = "Friend",
+                }
             },
         };
 

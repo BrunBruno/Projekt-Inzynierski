@@ -41,9 +41,9 @@ public class ChessAppDbContext : DbContext {
     public DbSet<UserBan> UserBans { get; set; }
 
     /// <summary>
-    /// EmailVerificationCode dbSet (one to one user)
+    /// UserVerificationCode dbSet (one to one user)
     /// </summary>
-    public DbSet<EmailVerificationCode> EmailVerificationCodes { get; set; }
+    public DbSet<UserVerificationCode> UserVerificationCodes { get; set; }
 
     /// <summary>
     /// DataConfiguration dbSet
@@ -103,7 +103,7 @@ public class ChessAppDbContext : DbContext {
 
         builder.ApplyConfiguration<User>(configuration);
         builder.ApplyConfiguration<Role>(configuration);
-        builder.ApplyConfiguration<EmailVerificationCode>(configuration);
+        builder.ApplyConfiguration<UserVerificationCode>(configuration);
         builder.ApplyConfiguration<DataConfiguration>(configuration);
         builder.ApplyConfiguration<UserBan>(configuration);
         builder.ApplyConfiguration<Game>(configuration);

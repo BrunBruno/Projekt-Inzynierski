@@ -12,17 +12,17 @@ namespace chess.Core.Tests.User;
 
 public class RegisterUserRequestHandlerTests {
 
-    private readonly Mock<IEmailVerificationCodeRepository> _mockEmailVerificationCodeRepository;
-    private readonly Mock<IPasswordHasher<EmailVerificationCode>> _mockCodeHasher;
+    private readonly Mock<IUserVerificationCodeRepository> _mockUserVerificationCodeRepository;
+    private readonly Mock<IPasswordHasher<UserVerificationCode>> _mockCodeHasher;
     private readonly Mock<IPasswordHasher<Entities.User>> _mockPasswordHasher;
     private readonly Mock<ISmtpService> _mockSmtpService;
     private readonly Mock<IUserRepository> _mockUserRepository;
 
     public RegisterUserRequestHandlerTests() {
         _mockUserRepository = new Mock<IUserRepository>();
-        _mockEmailVerificationCodeRepository = new Mock<IEmailVerificationCodeRepository>();
+        _mockUserVerificationCodeRepository = new Mock<IUserVerificationCodeRepository>();
         _mockPasswordHasher = new Mock<IPasswordHasher<Entities.User>>();
-        _mockCodeHasher = new Mock<IPasswordHasher<EmailVerificationCode>>();
+        _mockCodeHasher = new Mock<IPasswordHasher<UserVerificationCode>>();
         _mockSmtpService = new Mock<ISmtpService>();
     }
 
@@ -40,14 +40,14 @@ public class RegisterUserRequestHandlerTests {
 
 
         _mockPasswordHasher.Setup(x => x.HashPassword(It.IsAny<Entities.User>(), It.IsAny<string>())).Returns(It.IsAny<string>());
-        _mockCodeHasher.Setup(x => x.HashPassword(It.IsAny<EmailVerificationCode>(), It.IsAny<string>())).Returns(It.IsAny<string>());
+        _mockCodeHasher.Setup(x => x.HashPassword(It.IsAny<UserVerificationCode>(), It.IsAny<string>())).Returns(It.IsAny<string>());
 
 
         var handler = new RegisterUserRequestHandler(
             _mockUserRepository.Object,
             _mockPasswordHasher.Object,
             _mockSmtpService.Object,
-            _mockEmailVerificationCodeRepository.Object,
+            _mockUserVerificationCodeRepository.Object,
             _mockCodeHasher.Object
         );
 
@@ -59,9 +59,9 @@ public class RegisterUserRequestHandlerTests {
         _mockUserRepository.Verify(x => x.GetByUsername(request.Username), Times.Once);
         _mockPasswordHasher.Verify(x => x.HashPassword(It.IsAny<Entities.User>(), request.Password), Times.Once);
         _mockUserRepository.Verify(x => x.Add(It.IsAny<Entities.User>()), Times.Once);
-        _mockCodeHasher.Verify(x => x.HashPassword(It.IsAny<EmailVerificationCode>(), It.IsAny<string>()), Times.Once);
-        _mockEmailVerificationCodeRepository.Verify(x => x.Add(It.IsAny<EmailVerificationCode>()), Times.Once);
-        _mockSmtpService.Verify(x => x.SendVerificationCode(request.Email, It.IsAny<string>(), It.IsAny<string>()), Times.Once);
+        _mockCodeHasher.Verify(x => x.HashPassword(It.IsAny<UserVerificationCode>(), It.IsAny<string>()), Times.Once);
+        _mockUserVerificationCodeRepository.Verify(x => x.Add(It.IsAny<UserVerificationCode>()), Times.Once);
+        _mockSmtpService.Verify(x => x.SendEmailVerificationCode(request.Email, It.IsAny<string>(), It.IsAny<string>()), Times.Once);
     }
 
     [Fact]
@@ -81,7 +81,7 @@ public class RegisterUserRequestHandlerTests {
             _mockUserRepository.Object,
             _mockPasswordHasher.Object,
             _mockSmtpService.Object,
-            _mockEmailVerificationCodeRepository.Object,
+            _mockUserVerificationCodeRepository.Object,
             _mockCodeHasher.Object
         );
 
@@ -93,9 +93,9 @@ public class RegisterUserRequestHandlerTests {
         _mockUserRepository.Verify(x => x.GetByUsername(request.Username), Times.Never);
         _mockPasswordHasher.Verify(x => x.HashPassword(It.IsAny<Entities.User>(), request.Password), Times.Never);
         _mockUserRepository.Verify(x => x.Add(It.IsAny<Entities.User>()), Times.Never);
-        _mockCodeHasher.Verify(x => x.HashPassword(It.IsAny<EmailVerificationCode>(), It.IsAny<string>()), Times.Never);
-        _mockEmailVerificationCodeRepository.Verify(x => x.Add(It.IsAny<EmailVerificationCode>()), Times.Never);
-        _mockSmtpService.Verify(x => x.SendVerificationCode(request.Email, It.IsAny<string>(), It.IsAny<string>()), Times.Never);
+        _mockCodeHasher.Verify(x => x.HashPassword(It.IsAny<UserVerificationCode>(), It.IsAny<string>()), Times.Never);
+        _mockUserVerificationCodeRepository.Verify(x => x.Add(It.IsAny<UserVerificationCode>()), Times.Never);
+        _mockSmtpService.Verify(x => x.SendEmailVerificationCode(request.Email, It.IsAny<string>(), It.IsAny<string>()), Times.Never);
     }
 
     [Fact]
@@ -120,7 +120,7 @@ public class RegisterUserRequestHandlerTests {
             _mockUserRepository.Object,
             _mockPasswordHasher.Object,
             _mockSmtpService.Object,
-            _mockEmailVerificationCodeRepository.Object,
+            _mockUserVerificationCodeRepository.Object,
             _mockCodeHasher.Object
         );
 
@@ -132,9 +132,9 @@ public class RegisterUserRequestHandlerTests {
         _mockUserRepository.Verify(x => x.GetByUsername(request.Username), Times.Never);
         _mockPasswordHasher.Verify(x => x.HashPassword(It.IsAny<Entities.User>(), request.Password), Times.Never);
         _mockUserRepository.Verify(x => x.Add(It.IsAny<Entities.User>()), Times.Never);
-        _mockCodeHasher.Verify(x => x.HashPassword(It.IsAny<EmailVerificationCode>(), It.IsAny<string>()), Times.Never);
-        _mockEmailVerificationCodeRepository.Verify(x => x.Add(It.IsAny<EmailVerificationCode>()), Times.Never);
-        _mockSmtpService.Verify(x => x.SendVerificationCode(request.Email, It.IsAny<string>(), It.IsAny<string>()), Times.Never);
+        _mockCodeHasher.Verify(x => x.HashPassword(It.IsAny<UserVerificationCode>(), It.IsAny<string>()), Times.Never);
+        _mockUserVerificationCodeRepository.Verify(x => x.Add(It.IsAny<UserVerificationCode>()), Times.Never);
+        _mockSmtpService.Verify(x => x.SendEmailVerificationCode(request.Email, It.IsAny<string>(), It.IsAny<string>()), Times.Never);
     }
 
     [Fact]
@@ -160,7 +160,7 @@ public class RegisterUserRequestHandlerTests {
             _mockUserRepository.Object,
             _mockPasswordHasher.Object,
             _mockSmtpService.Object,
-            _mockEmailVerificationCodeRepository.Object,
+            _mockUserVerificationCodeRepository.Object,
             _mockCodeHasher.Object
         );
 
@@ -172,9 +172,9 @@ public class RegisterUserRequestHandlerTests {
         _mockUserRepository.Verify(x => x.GetByUsername(request.Username), Times.Once);
         _mockPasswordHasher.Verify(x => x.HashPassword(It.IsAny<Entities.User>(), request.Password), Times.Never);
         _mockUserRepository.Verify(x => x.Add(It.IsAny<Entities.User>()), Times.Never);
-        _mockCodeHasher.Verify(x => x.HashPassword(It.IsAny<EmailVerificationCode>(), It.IsAny<string>()), Times.Never);
-        _mockEmailVerificationCodeRepository.Verify(x => x.Add(It.IsAny<EmailVerificationCode>()), Times.Never);
-        _mockSmtpService.Verify(x => x.SendVerificationCode(request.Email, It.IsAny<string>(), It.IsAny<string>()), Times.Never);
+        _mockCodeHasher.Verify(x => x.HashPassword(It.IsAny<UserVerificationCode>(), It.IsAny<string>()), Times.Never);
+        _mockUserVerificationCodeRepository.Verify(x => x.Add(It.IsAny<UserVerificationCode>()), Times.Never);
+        _mockSmtpService.Verify(x => x.SendEmailVerificationCode(request.Email, It.IsAny<string>(), It.IsAny<string>()), Times.Never);
     }
 
     [Fact]
@@ -194,7 +194,7 @@ public class RegisterUserRequestHandlerTests {
             _mockUserRepository.Object,
             _mockPasswordHasher.Object,
             _mockSmtpService.Object,
-            _mockEmailVerificationCodeRepository.Object,
+            _mockUserVerificationCodeRepository.Object,
             _mockCodeHasher.Object
         );
 
@@ -206,8 +206,8 @@ public class RegisterUserRequestHandlerTests {
         _mockUserRepository.Verify(x => x.GetByUsername(request.Username), Times.Once);
         _mockPasswordHasher.Verify(x => x.HashPassword(It.IsAny<Entities.User>(), request.Password), Times.Never);
         _mockUserRepository.Verify(x => x.Add(It.IsAny<Entities.User>()), Times.Never);
-        _mockCodeHasher.Verify(x => x.HashPassword(It.IsAny<EmailVerificationCode>(), It.IsAny<string>()), Times.Never);
-        _mockEmailVerificationCodeRepository.Verify(x => x.Add(It.IsAny<EmailVerificationCode>()), Times.Never);
-        _mockSmtpService.Verify(x => x.SendVerificationCode(request.Email, It.IsAny<string>(), It.IsAny<string>()), Times.Never);
+        _mockCodeHasher.Verify(x => x.HashPassword(It.IsAny<UserVerificationCode>(), It.IsAny<string>()), Times.Never);
+        _mockUserVerificationCodeRepository.Verify(x => x.Add(It.IsAny<UserVerificationCode>()), Times.Never);
+        _mockSmtpService.Verify(x => x.SendEmailVerificationCode(request.Email, It.IsAny<string>(), It.IsAny<string>()), Times.Never);
     }
 }

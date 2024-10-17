@@ -109,9 +109,22 @@ function ListSection({ selectedUsername, selectedList, setUserProfile, setFriend
   // set default page size based on list to elements size ratio
   // add resize handler to update default size
   useEffect(() => {
+    const getItemsPerRow = (): number => {
+      const wh = window.innerWidth;
+      if (wh < 500) {
+        return 1;
+      } else if (wh < 1800) {
+        return 2;
+      } else if (wh < 3200) {
+        return 3;
+      } else {
+        return 4;
+      }
+    };
+
     const setDefSize = (): void => {
       const container = scrollRef.current;
-      const itemsPerRow = 2;
+      const itemsPerRow = getItemsPerRow();
 
       if (container) {
         const containerHeight = container.clientHeight;
@@ -187,7 +200,7 @@ function ListSection({ selectedUsername, selectedList, setUserProfile, setFriend
             handleLoading(event);
           }}
         >
-          {users.map((user, i) => (
+          {users.map((user: GetAllNonFriendsDto, i: number) => (
             <UserCard
               key={`user-card-${user.username}-${i}`}
               user={user}
@@ -205,7 +218,7 @@ function ListSection({ selectedUsername, selectedList, setUserProfile, setFriend
             handleLoading(event);
           }}
         >
-          {friends.map((friend, i) => (
+          {friends.map((friend: GetAllFriendsByStatusDto, i: number) => (
             <FriendCard
               key={`friend-card-${friend.username}-${i}`}
               selectedList={selectedList}
@@ -223,6 +236,7 @@ function ListSection({ selectedUsername, selectedList, setUserProfile, setFriend
       )}
       {/* --- */}
 
+      {/* indicator */}
       <div className={classes.list__indicator}>
         {users.length > 0 && (
           <p>

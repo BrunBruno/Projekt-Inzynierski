@@ -36,11 +36,20 @@ public class GetGameRequestHandlerTests {
             {
                 Name = "Username",
                 UserId = userId,
+                User = new Entities.User() { 
+                    Email = "user@test.com",
+                    Username = "User"
+                }
             },
             BlackPlayer = new Player()
             {
                 Name = "Opponent",
                 UserId = Guid.NewGuid(),
+                User = new Entities.User()
+                {
+                    Email = "opponent@test.com",
+                    Username = "Opponent"
+                }
             },
             Moves = new List<Move>() { new(), new(), new() },
             GameState = new GameState(),

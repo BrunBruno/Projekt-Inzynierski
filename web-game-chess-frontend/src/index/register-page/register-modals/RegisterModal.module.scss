@@ -1,5 +1,38 @@
 @import "../../Index.scss";
 
+@mixin inputButton() {
+  @include circle(4.5rem);
+  @include flex();
+
+  position: absolute;
+  top: 0;
+  right: 0;
+
+  &:hover {
+    cursor: pointer;
+
+    &::after {
+      display: block;
+    }
+  }
+
+  &::after {
+    @include rounded(0.2rem);
+    @include subCl(fit-content, fit-content);
+
+    display: none;
+    content: "Paste";
+    left: 120%;
+    color: $gc9;
+    background-color: $gc1;
+    font-size: 1.2rem;
+  }
+
+  svg.paste-svg {
+    height: 60%;
+  }
+}
+
 // all modal styles
 // register container form
 .registration-form {
@@ -71,6 +104,35 @@
         }
       }
 
+      .action-input {
+        @include tInput(2rem);
+
+        &:focus ~ .reg-pass-ind {
+          opacity: 1;
+        }
+
+        &:focus ~ .arrow {
+          opacity: 1;
+        }
+      }
+
+      input[type="number"]::-webkit-inner-spin-button,
+      input[type="number"]::-webkit-outer-spin-button {
+        -webkit-appearance: none;
+      }
+
+      .send {
+        @include inputButton();
+
+        &::after {
+          content: "Send";
+        }
+      }
+
+      .paste {
+        @include inputButton();
+      }
+
       .err {
         &::placeholder {
           color: $danger-color-m;
@@ -134,36 +196,7 @@
       }
 
       .paste {
-        @include circle(4.5rem);
-        @include flex();
-
-        position: absolute;
-        top: 0;
-        right: 0;
-
-        &:hover {
-          cursor: pointer;
-
-          &::after {
-            display: block;
-          }
-        }
-
-        &::after {
-          @include rounded(0.2rem);
-          @include subCl(fit-content, fit-content);
-
-          display: none;
-          content: "Paste";
-          left: 120%;
-          color: $gc9;
-          background-color: $gc1;
-          font-size: 1.2rem;
-        }
-
-        svg.paste-svg {
-          height: 60%;
-        }
+        @include inputButton();
       }
     }
 
@@ -197,11 +230,12 @@
       @include mainMButton();
 
       & {
+        width: 100%;
         position: relative;
         position: relative;
         margin: 1rem;
         z-index: 1;
-        padding: 1rem 9rem;
+        padding: 1rem 0;
       }
     }
   }

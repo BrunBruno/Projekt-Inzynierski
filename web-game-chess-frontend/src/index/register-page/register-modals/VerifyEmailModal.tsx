@@ -95,10 +95,10 @@ function VerifyEmailModal({ userPath, setModal }: VerifyEmailModalProps) {
   // regenerates verification code
   const regenerateCode = async (): Promise<void> => {
     try {
-      const regenerateCode: RegenerateCodeModel = {};
+      const model: RegenerateCodeModel = {};
 
       // generate new code and delete previous
-      await axios.post(userController.regenerateCode(), regenerateCode, getAuthorization());
+      await axios.post(userController.regenerateCode(), model, getAuthorization());
     } catch (err) {
       // display backend errors
       errorDisplay(err, setErrorMess);
@@ -178,6 +178,7 @@ function VerifyEmailModal({ userPath, setModal }: VerifyEmailModalProps) {
             />
           </p>
         </div>
+
         <p
           className={classes.resend}
           onClick={() => {

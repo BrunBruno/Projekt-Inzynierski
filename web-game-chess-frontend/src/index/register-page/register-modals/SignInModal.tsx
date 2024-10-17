@@ -117,6 +117,10 @@ function SignInModal({ userPath, setModal }: SignInModalProps) {
         Don't have an account? <span onClick={() => setModal(RegistrationInterface.signUp)}>Sing Up</span>
       </div>
 
+      <div className={classes["change-form"]}>
+        Don't remember password? <span onClick={() => setModal(RegistrationInterface.reset)}>Reset</span>
+      </div>
+
       {/* inputs */}
       <div className={classes.inputs}>
         <div
