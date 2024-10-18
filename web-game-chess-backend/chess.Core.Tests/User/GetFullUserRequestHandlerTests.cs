@@ -34,6 +34,10 @@ public class GetFullUserRequestHandlerTests {
             RoleId = (int)Roles.User,
             Elo = new UserElo(),
             Stats = new UserStats(),
+            Image = new UserImage() { 
+                ContentType = "Content-Type",
+                Data = ""u8.ToArray()
+            }
         };
 
         var request = new GetFullUserRequest();
@@ -52,6 +56,9 @@ public class GetFullUserRequestHandlerTests {
 
 
         result.Should().NotBeNull();
+        result.Email.Should().Be(exampleUser.Email);
+        result.ProfilePicture.Should().NotBeNull();
+
         _mockUserContextService.Verify(x => x.GetUserId(), Times.Once);
         _mockUserRepository.Verify(x => x.GetById(exampleUser.Id), Times.Once);
     }
@@ -64,6 +71,7 @@ public class GetFullUserRequestHandlerTests {
 
 
         _mockUserContextService.Setup(x => x.GetUserId()).Returns(userId);
+        // user not returned
 
 
         var handler = new GetFullUserRequestHandler(

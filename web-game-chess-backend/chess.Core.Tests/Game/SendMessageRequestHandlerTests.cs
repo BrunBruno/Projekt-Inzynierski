@@ -30,15 +30,16 @@ public class SendMessageRequestHandlerTests {
         var game = new Entities.Game()
         {
             Id = gameId,
-
             WhitePlayerRegistered = true,
             BlackPlayerRegistered = true,
+
             WhitePlayer = new Player() {
                 Id = Guid.NewGuid(),
                 Name = "Username",
                 UserId = userId,
                 GameId = gameId,
             },
+
             BlackPlayer = new Player() {
                 Id = Guid.NewGuid(),
                 Name = "Other",
@@ -87,6 +88,7 @@ public class SendMessageRequestHandlerTests {
 
 
         _mockUserContextService.Setup(x => x.GetUserId()).Returns(userId);
+        // game not returned
 
 
         var handler = new SendMessageRequestHandler(
@@ -120,14 +122,14 @@ public class SendMessageRequestHandlerTests {
             {
                 Id = Guid.NewGuid(),
                 Name = "Username",
-                UserId = Guid.NewGuid(),
+                UserId = Guid.NewGuid(), // user is not player
                 GameId = gameId,
             },
             BlackPlayer = new Player()
             {
                 Id = Guid.NewGuid(),
                 Name = "Other",
-                UserId = Guid.NewGuid(),
+                UserId = Guid.NewGuid(), // user is not player
                 GameId = gameId,
             },
         };

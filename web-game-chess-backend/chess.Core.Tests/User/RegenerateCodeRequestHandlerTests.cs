@@ -75,6 +75,7 @@ public class RegenerateCodeRequestHandlerTests {
 
 
         _mockUserContextService.Setup(x => x.GetUserId()).Returns(It.IsAny<Guid>());
+        // user not returned
 
 
         var handler = new RegenerateCodeRequestHandler(

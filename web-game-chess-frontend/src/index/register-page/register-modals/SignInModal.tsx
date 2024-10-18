@@ -8,9 +8,10 @@ import LoadingPage from "../../../shared/components/loading-page/LoadingPage";
 import { errorDisplay } from "../../../shared/utils/functions/errors";
 import { IsEmailVerifiedDto, LogInUserDto } from "../../../shared/utils/types/userDtos";
 import { RegistrationInterface } from "../../../shared/utils/objects/interfacesEnums";
-import { LogInUserModel } from "../../../shared/utils/types/userModels";
+import { LogInUserModel, RegenerateCodeModel } from "../../../shared/utils/types/userModels";
 import IconCreator from "../../../shared/components/icon-creator/IconCreator";
 import { registerPageIcons } from "../RegisterPageIcons";
+import { usePopup } from "../../../shared/utils/hooks/usePopUp";
 
 type SignInModalProps = {
   // path that user wanted
@@ -23,6 +24,7 @@ function SignInModal({ userPath, setModal }: SignInModalProps) {
   ///
 
   const navigate = useNavigate();
+  const { showPopup } = usePopup();
 
   // inputs refs
   const emailInputRef = useRef<HTMLInputElement>(null);
@@ -30,7 +32,6 @@ function SignInModal({ userPath, setModal }: SignInModalProps) {
 
   // error message content
   const [errorMess, setErrorMess] = useState<string>("");
-
   // state if something is processing
   const [processing, setProcessing] = useState<boolean>(false);
 
@@ -65,21 +66,22 @@ function SignInModal({ userPath, setModal }: SignInModalProps) {
       // Log in user
       const signInResponse = await axios.post<LogInUserDto>(userController.logInUser(), userData);
 
-      // set token
       localStorage.setItem("token", signInResponse.data.token);
 
       // users email verification check
       const isVerifiedResponse = await axios.get<IsEmailVerifiedDto>(userController.isVerified(), getAuthorization());
 
-      setProcessing(false);
-
-      // check if user email is verified
       const isVerified = isVerifiedResponse.data.isEmailVerified;
       if (!isVerified) {
-        // go to email verification
+        await regenerateCode();
+
+        showPopup("NEW CODE SENT", "success");
+
+        setProcessing(false);
+
         setModal(RegistrationInterface.verify);
       } else {
-        // navigate to main page
+        setProcessing(false);
         navigate(userPath);
       }
     } catch (err) {
@@ -87,6 +89,21 @@ function SignInModal({ userPath, setModal }: SignInModalProps) {
       errorDisplay(err, setErrorMess);
 
       setProcessing(false);
+    }
+  };
+  //*/
+
+  // regenerates verification code
+  // for logging again without verification
+  const regenerateCode = async (): Promise<void> => {
+    try {
+      const model: RegenerateCodeModel = {};
+
+      // generate new code and delete previous
+      await axios.post(userController.regenerateCode(), model, getAuthorization());
+    } catch (err) {
+      // display backend errors
+      errorDisplay(err, setErrorMess);
     }
   };
   //*/

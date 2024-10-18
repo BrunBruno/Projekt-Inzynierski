@@ -33,28 +33,33 @@ public class MakeMoveRequestHandlerTests {
             Id = gameId,
             HasEnded = false,
             StartedAt = DateTime.UtcNow,
+
             GameTiming = new GameTiming()
             {
                 Type = TimingTypes.Rapid,
                 Seconds = 10 * 60,
                 Increment = 0,
             },
+
             GameState = new GameState(),
 
             WhitePlayerRegistered = true,
             BlackPlayerRegistered = true,
+
             WhitePlayer = new Player() 
             { 
                 Name = "Username",
                 UserId = userId,
                 TimeLeft = 10 * 60,
             },
+
             BlackPlayer = new Player()
             {
                 Name = "Opponent",
                 UserId = Guid.NewGuid(),
                 TimeLeft = 10 * 60,
             },
+
             Moves = new List<Move>(),
         };
         
@@ -106,6 +111,7 @@ public class MakeMoveRequestHandlerTests {
 
 
         _mockUserContextService.Setup(x => x.GetUserId()).Returns(userId);
+        // game not returned
 
 
         var handler = new MakeMoveRequestHandler(
@@ -149,13 +155,13 @@ public class MakeMoveRequestHandlerTests {
             WhitePlayer = new Player()
             {
                 Name = "Other",
-                UserId = Guid.NewGuid(),
+                UserId = Guid.NewGuid(), // user is not player
                 TimeLeft = 10 * 60,
             },
             BlackPlayer = new Player()
             {
                 Name = "Opponent",
-                UserId = Guid.NewGuid(),
+                UserId = Guid.NewGuid(), // user is not player
                 TimeLeft = 10 * 60,
             },
             Moves = new List<Move>(),
@@ -200,14 +206,16 @@ public class MakeMoveRequestHandlerTests {
         var game = new Entities.Game()
         {
             Id = gameId,
-            HasEnded = true,
+            HasEnded = true, // has ended
             StartedAt = DateTime.UtcNow,
+
             GameTiming = new GameTiming()
             {
                 Type = TimingTypes.Rapid,
                 Seconds = 10 * 60,
                 Increment = 0,
             },
+
             GameState = new GameState(),
 
             WhitePlayerRegistered = true,
@@ -267,15 +275,18 @@ public class MakeMoveRequestHandlerTests {
         {
             Id = gameId,
             HasEnded = false,
+            // game not started
 
-              WhitePlayerRegistered = true,
+            WhitePlayerRegistered = true,
             BlackPlayerRegistered = true,
+
             GameTiming = new GameTiming()
             {
                 Type = TimingTypes.Rapid,
                 Seconds = 10 * 60,
                 Increment = 0,
             },
+
             GameState = new GameState(),
 
             WhitePlayer = new Player()
@@ -284,12 +295,14 @@ public class MakeMoveRequestHandlerTests {
                 UserId = userId,
                 TimeLeft = 10 * 60,
             },
+
             BlackPlayer = new Player()
             {
                 Name = "Opponent",
                 UserId = Guid.NewGuid(),
                 TimeLeft = 10 * 60,
             },
+
             Moves = new List<Move>(),
         };
 

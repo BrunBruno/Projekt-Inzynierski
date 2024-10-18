@@ -1,7 +1,7 @@
 @import "../../Index.scss";
 
-@mixin inputButton() {
-  @include circle(4.5rem);
+@mixin inputButton($size) {
+  @include circle($size);
   @include flex();
 
   position: absolute;
@@ -17,18 +17,18 @@
   }
 
   &::after {
-    @include rounded(0.2rem);
+    @include rounded(0.4rem);
     @include subCl(fit-content, fit-content);
 
     display: none;
-    content: "Paste";
+    content: "";
     left: 120%;
-    color: $gc9;
+    color: #000;
     background-color: $gc1;
     font-size: 1.2rem;
   }
 
-  svg.paste-svg {
+  svg.input-button-svg {
     height: 60%;
   }
 }
@@ -63,13 +63,13 @@
 
   h2.form-title {
     font-size: 3.2rem;
+    margin-bottom: 1rem;
   }
 
   .change-form {
     position: relative;
     z-index: 1;
     font-size: 1.4rem;
-    margin-bottom: 2rem;
     color: $gc1;
 
     span {
@@ -88,13 +88,23 @@
   .inputs {
     @include flex(column, start, center, 1.6rem);
 
+    margin-top: 2rem;
+
     .form-row {
       position: relative;
       z-index: 1;
+      width: 100%;
+      max-width: 26rem;
 
       .form-input {
         @include tInput(2rem);
 
+        & {
+          width: 100%;
+          max-width: 26rem;
+          padding-right: 4rem;
+        }
+
         &:focus ~ .reg-pass-ind {
           opacity: 1;
         }
@@ -102,17 +112,23 @@
         &:focus ~ .arrow {
           opacity: 1;
         }
-      }
 
-      .action-input {
-        @include tInput(2rem);
-
-        &:focus ~ .reg-pass-ind {
-          opacity: 1;
+        &:focus ~ .paste {
+          svg {
+            fill: $gc0;
+          }
         }
 
-        &:focus ~ .arrow {
-          opacity: 1;
+        &:focus ~ .send {
+          path {
+            stroke: $gc0;
+          }
+        }
+
+        &:focus ~ .eye {
+          path {
+            stroke: $gc0;
+          }
         }
       }
 
@@ -121,8 +137,21 @@
         -webkit-appearance: none;
       }
 
+      @mixin resetInputButton() {
+        & {
+          // background-color: $gc6;
+          border-radius: 0;
+          top: unset;
+          right: -1rem;
+          bottom: 0;
+          border-radius: 1rem;
+          border-bottom-left-radius: 0;
+        }
+      }
+
       .send {
-        @include inputButton();
+        @include inputButton(4rem);
+        @include resetInputButton();
 
         &::after {
           content: "Send";
@@ -130,7 +159,21 @@
       }
 
       .paste {
-        @include inputButton();
+        @include inputButton(4rem);
+        @include resetInputButton();
+
+        &::after {
+          content: "Paste";
+        }
+      }
+
+      .eye {
+        @include inputButton(4rem);
+        @include resetInputButton();
+
+        &::after {
+          content: "Show";
+        }
       }
 
       .err {
@@ -196,7 +239,7 @@
       }
 
       .paste {
-        @include inputButton();
+        @include inputButton(4.5rem);
       }
     }
 

@@ -16,10 +16,10 @@ public class PlayerMessageRepository : IPlayerMessageRepository {
     }
 
     ///<inheritdoc/>
-    public async Task<List<PlayerMessage>> GetAllByPlayers(Guid whitePlayerId, Guid blackPlayerrId)
+    public async Task<List<PlayerMessage>> GetAllByPlayers(Guid whitePlayerId, Guid blackPlayerId)
         => await _dbContext.PlayerMessages
                     .Include(m => m.Player)
-                    .Where(m => m.PlayerId == whitePlayerId || m.PlayerId == blackPlayerrId)
+                    .Where(m => m.PlayerId == whitePlayerId || m.PlayerId == blackPlayerId)
                     .OrderBy(m => m.SentAt)
                     .ToListAsync();
 

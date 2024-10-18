@@ -77,6 +77,9 @@ public class LogInUserRequestHandlerTests {
         };
 
 
+        // user not returned for provided email
+
+
         var handler = new LogInUserRequestHandler(
             _mockUserRepository.Object,
             _mockPasswordHasher.Object,
@@ -108,7 +111,7 @@ public class LogInUserRequestHandlerTests {
         var request = new LogInUserRequest()
         {
             EmailOrUsername = "test@test.com",
-            Password = "Password@123456",
+            Password = "Password@123456", // incorrect password
         };
 
 

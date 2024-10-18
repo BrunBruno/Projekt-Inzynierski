@@ -121,6 +121,7 @@ public class CreateRematchGameRequestHandlerTests {
 
 
         _mockUserContextService.Setup(x => x.GetUserId()).Returns(userId);
+        // game timing not returned
 
 
         var handler = new CreateRematchGameRequestHandler(
@@ -171,6 +172,7 @@ public class CreateRematchGameRequestHandlerTests {
 
         _mockUserContextService.Setup(x => x.GetUserId()).Returns(userId);
         _mockGameTimingRepository.Setup(x => x.FindTiming(request.Type, request.Minutes * 60, request.Increment)).ReturnsAsync(gameTiming);
+        // user not returned
 
 
         var handler = new CreateRematchGameRequestHandler(
@@ -230,6 +232,7 @@ public class CreateRematchGameRequestHandlerTests {
         _mockUserContextService.Setup(x => x.GetUserId()).Returns(userId);
         _mockGameTimingRepository.Setup(x => x.FindTiming(request.Type, request.Minutes * 60, request.Increment)).ReturnsAsync(gameTiming);
         _mockUserRepository.Setup(x => x.GetById(userId)).ReturnsAsync(user);
+        // opponent user not returned
 
 
         var handler = new CreateRematchGameRequestHandler(

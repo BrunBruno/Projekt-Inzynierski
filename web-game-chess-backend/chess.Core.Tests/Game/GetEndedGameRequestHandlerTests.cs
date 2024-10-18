@@ -83,6 +83,7 @@ public class GetEndedGameRequestHandlerTests {
 
 
         _mockUserContextService.Setup(x => x.GetUserId()).Returns(userId);
+        // game not returned
 
 
         var handler = new GetEndedGameRequestHandler(
@@ -115,12 +116,12 @@ public class GetEndedGameRequestHandlerTests {
             WhitePlayer = new Player()
             {
                 Name = "Other",
-                UserId = Guid.NewGuid(),
+                UserId = Guid.NewGuid(), // user is not player
             },
             BlackPlayer = new Player()
             {
                 Name = "Opponent",
-                UserId = Guid.NewGuid(),
+                UserId = Guid.NewGuid(), // user is not player
             },
 
         };
@@ -158,9 +159,9 @@ public class GetEndedGameRequestHandlerTests {
         {
             Id = gameId,
             WinnerColor = PieceColor.Black,
-            HasEnded = false,
+            HasEnded = false, // game has not ended
 
-              WhitePlayerRegistered = true,
+            WhitePlayerRegistered = true,
             BlackPlayerRegistered = true,
             WhitePlayer = new Player()
             {

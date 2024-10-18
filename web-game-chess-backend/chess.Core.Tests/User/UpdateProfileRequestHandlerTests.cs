@@ -25,15 +25,19 @@ public class UpdateProfileRequestHandlerTests {
 
         var request = new UpdateProfileRequest()
         {
+            Name = "NewName",
+        };
+
+        var user = new Entities.User()
+        {
             Name = "Name",
+            Email = "test@test.com",
+            Username = "Username",
         };
 
 
         _mockUserContextService.Setup(x => x.GetUserId()).Returns(userId);
-        _mockUserRepository.Setup(x => x.GetById(userId)).ReturnsAsync(new Entities.User() { 
-            Email = "test@test.com",
-            Username = "Username",
-        });
+        _mockUserRepository.Setup(x => x.GetById(userId)).ReturnsAsync(user);
 
 
         var handler = new UpdateProfileRequestHandler(
@@ -47,7 +51,7 @@ public class UpdateProfileRequestHandlerTests {
         await act.Should().NotThrowAsync();
         _mockUserContextService.Verify(x => x.GetUserId(), Times.Once);
         _mockUserRepository.Verify(x => x.GetById(userId), Times.Once);
-        _mockUserRepository.Verify(x => x.Update(It.IsAny<Entities.User>()), Times.Once);
+        _mockUserRepository.Verify(x => x.Update(user), Times.Once);
     }
 
     [Fact]
@@ -62,6 +66,7 @@ public class UpdateProfileRequestHandlerTests {
 
 
         _mockUserContextService.Setup(x => x.GetUserId()).Returns(userId);
+        // user not returned
 
 
         var handler = new UpdateProfileRequestHandler(

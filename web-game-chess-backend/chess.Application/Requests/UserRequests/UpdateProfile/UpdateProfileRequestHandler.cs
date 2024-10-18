@@ -37,7 +37,7 @@ public class UpdateProfileRequestHandler : IRequestHandler<UpdateProfileRequest>
         if (request.ImageFile is not null) {
             using var memoryStream = new MemoryStream();
 
-            await request.ImageFile.CopyToAsync(memoryStream);
+            await request.ImageFile.CopyToAsync(memoryStream, cancellationToken);
 
             var profilePicture = new UserImage
             {

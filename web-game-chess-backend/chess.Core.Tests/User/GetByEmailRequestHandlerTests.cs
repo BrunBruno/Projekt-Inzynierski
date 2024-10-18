@@ -43,7 +43,7 @@ public class GetByEmailRequestHandlerTests {
 
         var request = new GetByEmailRequest()
         {
-            Email = null,
+            Email = null, // invalid email
         };
 
 
@@ -63,6 +63,9 @@ public class GetByEmailRequestHandlerTests {
         {
             Email = "test@test.com",
         };
+
+
+        // user not returned
 
 
         var handler = new GetByEmailRequestHandler(_mockUserRepository.Object);

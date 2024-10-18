@@ -62,6 +62,7 @@ public class GetEloRequestHandlerTests {
 
 
         _mockUserContextService.Setup(x => x.GetUserId()).Returns(userId);
+        // elo not returned
 
 
         var handler = new GetEloRequestHandler(

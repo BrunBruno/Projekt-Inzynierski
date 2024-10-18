@@ -59,6 +59,7 @@ public class IsEmailVerifiedRequestHandlerTests {
 
 
         _mockUserContextService.Setup(x => x.GetUserId()).Returns(Guid.NewGuid());
+        // user not returned
 
 
         var handler = new IsEmailVerifiedRequestHandler(

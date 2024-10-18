@@ -54,7 +54,7 @@ public class GetTypeHistoryRequestHandlerTests {
         _mockPlayerRepository.Verify(x => x.GetAllForUser(userId), Times.Once);
     }
 
-    private List<Player> ReturnExamplePlayers(Guid userId) {
+    private static List<Player> ReturnExamplePlayers(Guid userId) {
 
         var players = new List<Player>();
 
@@ -70,6 +70,7 @@ public class GetTypeHistoryRequestHandlerTests {
                 UserId = userId,
                 IsPlaying = true,
             };
+
             var blackPlayer = new Player()
             {
                 Id = Guid.NewGuid(),

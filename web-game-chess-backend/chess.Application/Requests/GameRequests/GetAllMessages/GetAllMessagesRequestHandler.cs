@@ -16,20 +16,23 @@ namespace chess.Application.Requests.GameRequests.GetAllMessages;
 public class GetAllMessagesRequestHandler : IRequestHandler<GetAllMessagesRequest, List<GetAllMessagesDto>> {
 
     private readonly IGameRepository _gameRepository;
-    private readonly IPlayerMessageRepository _messageRepository;
+    private readonly IPlayerMessageRepository _playerMessageRepository;
+    private readonly IGameMessageRepository _gameMessageRepository;
     private readonly IUserContextService _userContextService;
     private readonly IUserImageRepository _userImageRepository;
 
     public GetAllMessagesRequestHandler(
         IGameRepository gameRepository,
-        IPlayerMessageRepository messageRepository,
+        IPlayerMessageRepository playerMessageRepository,
+        IGameMessageRepository gameMessageRepository,
         IUserContextService userContextService,
         IUserImageRepository userImageRepository
     ) {
         _gameRepository = gameRepository;
-        _messageRepository = messageRepository;
+        _playerMessageRepository = playerMessageRepository;
         _userContextService = userContextService;
         _userImageRepository = userImageRepository;
+        _gameMessageRepository = gameMessageRepository;
     }
 
     public async Task<List<GetAllMessagesDto>> Handle(GetAllMessagesRequest request, CancellationToken cancellationToken) {
@@ -42,12 +45,16 @@ public class GetAllMessagesRequestHandler : IRequestHandler<GetAllMessagesReques
         if (game.WhitePlayer.UserId != userId && game.BlackPlayer.UserId != userId)
             throw new UnauthorizedException("This is not user game.");
 
-        var messages = await _messageRepository.GetAllByPlayers(game.WhitePlayerId, game.BlackPlayerId);
+
+        var gameMessages = await _gameMessageRepository.GetAll(request.GameId);
+
+        var playerMessages = await _playerMessageRepository.GetAllByPlayers(game.WhitePlayerId, game.BlackPlayerId);
 
         var whitePlayerImage = await _userImageRepository.GetByUserId(game.WhitePlayer.UserId);
         var blackPlayerImage = await _userImageRepository.GetByUserId(game.BlackPlayer.UserId);
 
-        var messagesDtos = messages.Select(message => new GetAllMessagesDto() { 
+
+        var playerMessagesDtos = playerMessages.Select(message => new GetAllMessagesDto() { 
             Message = message.Content,
             SenderName = message.Player.Name,
             SentAt = message.SentAt,
@@ -63,6 +70,21 @@ public class GetAllMessagesRequestHandler : IRequestHandler<GetAllMessagesReques
                 ContentType = blackPlayerImage.ContentType,
             } : null,
         }).ToList();
+
+
+        var gameMessagesDtos = gameMessages.Select(message => new GetAllMessagesDto() { 
+            Message = message.Content,
+            SenderName = "Chess BRN",
+            SentAt = message.SentAt,
+            Type = message.Type,
+
+            SenderImage = null,
+        }).ToList();
+
+
+        var messagesDtos = playerMessagesDtos.Concat(gameMessagesDtos)
+                                                .OrderBy(m => m.SentAt) 
+                                                .ToList();
 
         return messagesDtos;
     }

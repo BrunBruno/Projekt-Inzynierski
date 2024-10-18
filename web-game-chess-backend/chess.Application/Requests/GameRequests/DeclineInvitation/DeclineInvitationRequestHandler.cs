@@ -41,6 +41,7 @@ public class DeclineInvitationRequestHandler : IRequestHandler<DeclineInvitation
         var invitation = await _gameInvitationRepository.GetByGameId(request.GameId)
              ?? throw new NotFoundException("Invitation not found.");
 
+
         await _gameInvitationRepository.Delete(invitation);
     }
 }

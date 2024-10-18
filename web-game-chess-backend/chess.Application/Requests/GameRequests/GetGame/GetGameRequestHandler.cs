@@ -36,7 +36,7 @@ public class GetGameRequestHandler : IRequestHandler<GetGameRequest, GetGameDto>
         if (game.WhitePlayer.UserId != userId && game.BlackPlayer.UserId != userId)
             throw new UnauthorizedException("This is not user game.");
 
-        if(game.StartedAt == null) {
+        if(game.StartedAt is null) {
             game.StartedAt = DateTime.UtcNow;
 
             await _gameRepository.Update(game);
@@ -88,6 +88,7 @@ public class GetGameRequestHandler : IRequestHandler<GetGameRequest, GetGameDto>
                 CapturedPiece = move.CapturedPiece,
             }).ToList(),
         };
+
 
         return gameDto;
     }

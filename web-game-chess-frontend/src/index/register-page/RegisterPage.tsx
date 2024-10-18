@@ -171,7 +171,7 @@ function RegisterPage() {
         <div
           className={`
             ${classes.register__content__intro}
-            ${modal !== RegistrationInterface.signIn && classes.active}
+            ${(modal === RegistrationInterface.signUp || modal === RegistrationInterface.verify) && classes.active}
           `}
         >
           <h1 className={classes["title"]}>Get on Board</h1>
@@ -196,7 +196,7 @@ function RegisterPage() {
         <div
           className={`
             ${classes.register__content__intro}
-            ${modal === RegistrationInterface.signIn && classes.active}
+            ${(modal === RegistrationInterface.signIn || modal === RegistrationInterface.reset) && classes.active}
           `}
         >
           <h1 className={classes["title"]}>Welcome Back</h1>

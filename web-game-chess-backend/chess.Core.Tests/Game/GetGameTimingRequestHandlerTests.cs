@@ -1,7 +1,6 @@
 ﻿
 using chess.Application.Repositories;
 using chess.Application.Requests.GameRequests.GetGameTiming;
-using chess.Application.Services;
 using chess.Core.Entities;
 using chess.Core.Enums;
 using chess.Shared.Exceptions;
@@ -12,12 +11,10 @@ namespace chess.Core.Tests.Game;
 
 public class GetGameTimingRequestHandlerTests {
 
-    private readonly Mock<IUserContextService> _mockUserContextService;
     private readonly Mock<IGameRepository> _mockGameRepository;
     private readonly Mock<IGameTimingRepository> _mockGameTimingRepository;
 
     public GetGameTimingRequestHandlerTests() {
-        _mockUserContextService = new Mock<IUserContextService>();
         _mockGameRepository = new Mock<IGameRepository>();
         _mockGameTimingRepository = new Mock<IGameTimingRepository>();
     }
@@ -62,13 +59,11 @@ public class GetGameTimingRequestHandlerTests {
         };
 
 
-        _mockUserContextService.Setup(x => x.GetUserId()).Returns(userId);
         _mockGameRepository.Setup(x => x.GetById(gameId)).ReturnsAsync(game);
         _mockGameTimingRepository.Setup(x => x.GetById(timingId)).ReturnsAsync(gameTiming);
 
 
         var handler = new GetGameTimingRequestHandler(
-            _mockUserContextService.Object,
             _mockGameTimingRepository.Object,
             _mockGameRepository.Object
         );
@@ -78,7 +73,6 @@ public class GetGameTimingRequestHandlerTests {
 
         result.Type.Should().Be(TimingTypes.Daily);
 
-        _mockUserContextService.Verify(x => x.GetUserId(), Times.Once);
         _mockGameRepository.Verify(x => x.GetById(gameId), Times.Once);
         _mockGameTimingRepository.Verify(x => x.GetById(timingId), Times.Once);
     }
@@ -86,7 +80,6 @@ public class GetGameTimingRequestHandlerTests {
     [Fact]
     public async Task Handle_Throws_NotFound_Exception_When_Game_Does_Not_Exist() {
 
-        var userId = Guid.NewGuid();
         var gameId = Guid.NewGuid();
 
         var request = new GetGameTimingRequest()
@@ -95,11 +88,10 @@ public class GetGameTimingRequestHandlerTests {
         };
 
 
-        _mockUserContextService.Setup(x => x.GetUserId()).Returns(userId);
+        // game not returned
 
 
         var handler = new GetGameTimingRequestHandler(
-            _mockUserContextService.Object,
             _mockGameTimingRepository.Object,
             _mockGameRepository.Object
         );
@@ -108,7 +100,6 @@ public class GetGameTimingRequestHandlerTests {
 
 
         await act.Should().ThrowAsync<NotFoundException>();
-        _mockUserContextService.Verify(x => x.GetUserId(), Times.Once);
         _mockGameRepository.Verify(x => x.GetById(gameId), Times.Once);
         _mockGameTimingRepository.Verify(x => x.GetById(It.IsAny<Guid>()), Times.Never);
     }
@@ -125,7 +116,7 @@ public class GetGameTimingRequestHandlerTests {
             Id = gameId,
             GameTimingId = timingId,
 
-              WhitePlayerRegistered = true,
+            WhitePlayerRegistered = true,
             BlackPlayerRegistered = true,
             WhitePlayer = new Player()
             {
@@ -145,12 +136,11 @@ public class GetGameTimingRequestHandlerTests {
         };
 
 
-        _mockUserContextService.Setup(x => x.GetUserId()).Returns(userId);
         _mockGameRepository.Setup(x => x.GetById(gameId)).ReturnsAsync(game);
+        // game timing not returned
 
 
         var handler = new GetGameTimingRequestHandler(
-            _mockUserContextService.Object,
             _mockGameTimingRepository.Object,
             _mockGameRepository.Object
         );
@@ -159,7 +149,6 @@ public class GetGameTimingRequestHandlerTests {
 
 
         await act.Should().ThrowAsync<NotFoundException>();
-        _mockUserContextService.Verify(x => x.GetUserId(), Times.Once);
         _mockGameRepository.Verify(x => x.GetById(gameId), Times.Once);
         _mockGameTimingRepository.Verify(x => x.GetById(timingId), Times.Once);
     }

@@ -131,6 +131,8 @@ public class CheckIfUpdateRequiredRequestHandlerTests {
             GameId = gameId,
         };
 
+        // game not returned
+
 
         var handler = new CheckIfUpdateRequiredRequestHandler(
             _mockGameRepository.Object,
@@ -166,7 +168,7 @@ public class CheckIfUpdateRequiredRequestHandlerTests {
 
             GameTimingId = gameTiming.Id,
 
-              WhitePlayerRegistered = true,
+            WhitePlayerRegistered = true,
             BlackPlayerRegistered = true,
             WhitePlayer = new Player()
             {
@@ -178,7 +180,6 @@ public class CheckIfUpdateRequiredRequestHandlerTests {
                 Name = "Placeholder",
                 UserId = userId,
             },
-            GameState = new GameState(),
         };
 
         var request = new CheckIfUpdateRequiredRequest()
@@ -188,6 +189,7 @@ public class CheckIfUpdateRequiredRequestHandlerTests {
 
 
         _mockGameRepository.Setup(x => x.GetById(gameId)).ReturnsAsync(game);
+        // game timing not returned
 
 
         var handler = new CheckIfUpdateRequiredRequestHandler(

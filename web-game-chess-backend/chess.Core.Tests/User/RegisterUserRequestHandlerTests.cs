@@ -69,7 +69,7 @@ public class RegisterUserRequestHandlerTests {
 
         var request = new RegisterUserRequest()
         {
-            Email = "incorrect",
+            Email = "incorrect", // invaide email format
             Password = "Password@123456",
             ConfirmPassword = "Password@123456",
             Username = "Username",
@@ -111,7 +111,7 @@ public class RegisterUserRequestHandlerTests {
         };
 
         _mockUserRepository.Setup(x => x.GetByEmail(request.Email)).ReturnsAsync(new Entities.User() { 
-            Email = "test@test.com",
+            Email = "test@test.com", // email already taken
             Username = "other", 
         });
 
@@ -152,7 +152,7 @@ public class RegisterUserRequestHandlerTests {
         _mockUserRepository.Setup(x => x.GetByUsername(request.Username)).ReturnsAsync(new Entities.User()
         {
             Email = "other@test.com",
-            Username = "Username",
+            Username = "Username", // username already taken
         });
 
 
@@ -184,7 +184,7 @@ public class RegisterUserRequestHandlerTests {
         {
             Email = "test@test.com",
             Password = "Password@123456",
-            ConfirmPassword = "Password",
+            ConfirmPassword = "Password", // passwords don't match
             Username = "Username",
             Country = "PL",
         };

@@ -53,7 +53,7 @@ public class GetAllFinishedGamesRequestHandlerTests {
         _mockPlayerRepository.Verify(x => x.GetAllForUser(userId), Times.Once);
     }
 
-    private List<Player> ReturnExamplePlayers(Guid userId) {
+    private static List<Player> ReturnExamplePlayers(Guid userId) {
 
         var players = new List<Player>();
 
@@ -68,11 +68,14 @@ public class GetAllFinishedGamesRequestHandlerTests {
                 GameId = gameId,
                 IsPlaying = true,
                 UserId = userId,
-                User = new Entities.User() { 
+
+                User = new Entities.User() 
+                { 
                     Email = "user@test.com",
                     Username = "Username",
                 }
             };
+
             var blackPlayer = new Player()
             {
                 Id = Guid.NewGuid(),
@@ -81,6 +84,7 @@ public class GetAllFinishedGamesRequestHandlerTests {
                 GameId = gameId,
                 UserId = Guid.NewGuid(),
                 IsPlaying = true,
+
                 User = new Entities.User()
                 {
                     Email = "opponent@test.com",

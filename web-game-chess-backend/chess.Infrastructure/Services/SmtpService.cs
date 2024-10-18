@@ -48,7 +48,7 @@ public class SmtpService : ISmtpService {
         string fromMail = _smtpOptions.FromMail!;
         string fromPassword = _smtpOptions.FromPassword!;
 
-        string subject = "Hello " + recipientName;
+        string subject = "Password reset";
 
         var mailMessage = new MailMessage
         {
@@ -59,15 +59,14 @@ public class SmtpService : ISmtpService {
 
         mailMessage.To.Add(new MailAddress(email));
 
-        mailMessage.AlternateViews.Add(GetWelcomeMailBody("../public/logo.png", string.Format(_smtpOptions.Body!, code)));
+        mailMessage.AlternateViews.Add(GetPasswordRecoveryMailBody(string.Format(_smtpOptions.Body!, code)));
 
-        using (var smtpClient = new SmtpClient(_smtpOptions.Host, _smtpOptions.Port)) {
+        using var smtpClient = new SmtpClient(_smtpOptions.Host, _smtpOptions.Port);
 
-            smtpClient.Credentials = new NetworkCredential(fromMail, fromPassword);
-            smtpClient.EnableSsl = _smtpOptions.EnableSsl;
+        smtpClient.Credentials = new NetworkCredential(fromMail, fromPassword);
+        smtpClient.EnableSsl = _smtpOptions.EnableSsl;
 
-            await smtpClient.SendMailAsync(mailMessage);
-        }
+        await smtpClient.SendMailAsync(mailMessage);
     }
 
     ///<inheritdoc/>
@@ -88,13 +87,12 @@ public class SmtpService : ISmtpService {
 
         mailMessage.Body = $"<b>Hello {recipientName},</b> <br/> {inviterName} has invited you to new game. <br/> <a href='http://localhost:5173/main'>Click here to accept invitation.</a>";
 
-        using (var smtpClient = new SmtpClient(_smtpOptions.Host, _smtpOptions.Port)) {
+        using var smtpClient = new SmtpClient(_smtpOptions.Host, _smtpOptions.Port);
 
-            smtpClient.Credentials = new NetworkCredential(fromMail, fromPassword);
-            smtpClient.EnableSsl = _smtpOptions.EnableSsl;
+        smtpClient.Credentials = new NetworkCredential(fromMail, fromPassword);
+        smtpClient.EnableSsl = _smtpOptions.EnableSsl;
 
-            await smtpClient.SendMailAsync(mailMessage);
-        }
+        await smtpClient.SendMailAsync(mailMessage);
     }
 
 

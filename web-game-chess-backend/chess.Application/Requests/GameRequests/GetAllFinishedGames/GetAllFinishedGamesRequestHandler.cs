@@ -35,8 +35,6 @@ public class GetAllFinishedGamesRequestHandler : IRequestHandler<GetAllFinishedG
 
         var finishedGames = new List<GetAllFinishedGamesDto>();
 
-        var x = players;
-
         foreach(var player in players) {
 
             // player is white

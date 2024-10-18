@@ -45,6 +45,8 @@ public class GetOtherUserRequestHandlerTests {
 
 
         result.Should().NotBeNull();
+        result.Username.Should().Be(exampleUser.Username);
+
         _mockUserRepository.Verify(x => x.GetById(request.UserId), Times.Once);
     }
 
@@ -54,6 +56,9 @@ public class GetOtherUserRequestHandlerTests {
         var request = new GetOtherUserRequest() { 
             UserId = Guid.NewGuid(),
         };
+
+
+        // user not returned
 
 
         var handler = new GetOtherUserRequestHandler(

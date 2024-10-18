@@ -28,7 +28,7 @@ public class StartGamesRequestHandlerTests {
     public async Task Handle_Should_Create_Game_On_Success() {
 
         var timingId = Guid.NewGuid();
-        var players = CreateAwaitingPlayer(timingId);
+        var players = CreateAwaitingPlayers(timingId);
 
         var gameTiming = new GameTiming()
         {
@@ -75,6 +75,9 @@ public class StartGamesRequestHandlerTests {
         };
 
 
+        // game timing not returned
+
+
         var handler = new StartGamesRequestHandler(
             _mockGameRepository.Object,
             _mockPlayerRepository.Object,
@@ -92,7 +95,7 @@ public class StartGamesRequestHandlerTests {
         _mockGameStateRepository.Verify(x => x.Create(It.IsAny<GameState>()), Times.Never);
     }
 
-    private List<Player> CreateAwaitingPlayer(Guid timingId) {
+    private static List<Player> CreateAwaitingPlayers(Guid timingId) {
 
         var players = new List<Player>();
 

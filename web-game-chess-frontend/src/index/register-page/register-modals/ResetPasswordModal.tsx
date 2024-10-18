@@ -1,5 +1,5 @@
 import { ChangeEvent, Dispatch, FormEvent, RefObject, SetStateAction, useRef, useState } from "react";
-import { mainColor } from "../../../shared/utils/objects/colorMaps";
+import { greyColor, mainColor } from "../../../shared/utils/objects/colorMaps";
 import classes from "./RegisterModal.module.scss";
 import axios from "axios";
 import { getAuthorization, userController } from "../../../shared/utils/services/ApiService";
@@ -8,7 +8,12 @@ import LoadingPage from "../../../shared/components/loading-page/LoadingPage";
 import { errorDisplay } from "../../../shared/utils/functions/errors";
 import { GetRegisterConfDto, IsEmailVerifiedDto, LogInUserDto } from "../../../shared/utils/types/userDtos";
 import { RegistrationInterface } from "../../../shared/utils/objects/interfacesEnums";
-import { LogInUserModel, ResetPasswordModel, SendResetPasswordCodeModel } from "../../../shared/utils/types/userModels";
+import {
+  LogInUserModel,
+  RegenerateCodeModel,
+  ResetPasswordModel,
+  SendResetPasswordCodeModel,
+} from "../../../shared/utils/types/userModels";
 import IconCreator from "../../../shared/components/icon-creator/IconCreator";
 import { registerPageIcons } from "../RegisterPageIcons";
 import { usePopup } from "../../../shared/utils/hooks/usePopUp";
@@ -51,17 +56,30 @@ function ResetPasswordModal({ userPath, setModal, userPassConf }: ResetPasswordM
   const resetPassword = async (event: FormEvent<HTMLFormElement>): Promise<void> => {
     event.preventDefault();
 
-    if (!userPassConf || !codeInputRef.current || !passwordInputRef.current || !confPassInputRef.current) {
+    if (
+      !userPassConf ||
+      !emailInputRef.current ||
+      !codeInputRef.current ||
+      !passwordInputRef.current ||
+      !confPassInputRef.current
+    ) {
       setErrorMess("Something went wrong.");
+      return;
+    }
+
+    if (emailValue === "") {
+      emailInputRef.current.classList.add(classes.err);
+      setErrorMess("Please provide email and click send to get verification code.");
       return;
     }
 
     // reset data
     const form = event.target as HTMLFormElement;
     const resetData: ResetPasswordModel = {
+      email: (form.elements.namedItem("email") as HTMLInputElement).value,
       code: (form.elements.namedItem("code") as HTMLInputElement).value.trim(),
       newPassword: (form.elements.namedItem("password") as HTMLInputElement).value,
-      passwordConfirm: (form.elements.namedItem("confirmPassword") as HTMLInputElement).value,
+      confirmPassword: (form.elements.namedItem("confirmPassword") as HTMLInputElement).value,
     };
 
     // check for white spaces in password
@@ -82,7 +100,7 @@ function ResetPasswordModal({ userPath, setModal, userPassConf }: ResetPasswordM
     }
 
     // check password match
-    if (resetData.newPassword !== resetData.passwordConfirm) {
+    if (resetData.newPassword !== resetData.confirmPassword) {
       confPassInputRef.current.classList.add(classes.err);
       setErrorMess("Passwords don't match.");
       return;
@@ -109,12 +127,17 @@ function ResetPasswordModal({ userPath, setModal, userPassConf }: ResetPasswordM
       // users email verification check
       const isVerifiedResponse = await axios.get<IsEmailVerifiedDto>(userController.isVerified(), getAuthorization());
 
-      setProcessing(false);
-
       const isVerified = isVerifiedResponse.data.isEmailVerified;
       if (!isVerified) {
+        await regenerateCode();
+
+        showPopup("NEW CODE SENT", "success");
+
+        setProcessing(false);
+
         setModal(RegistrationInterface.verify);
       } else {
+        setProcessing(false);
         navigate(userPath);
       }
     } catch (err) {
@@ -134,7 +157,24 @@ function ResetPasswordModal({ userPath, setModal, userPassConf }: ResetPasswordM
       };
 
       // generate new code and delete previous
-      await axios.post(userController.sendResetPasswordCode(), model, getAuthorization());
+      await axios.put(userController.sendResetPasswordCode(), model);
+
+      showPopup("CODE SENT", "success");
+    } catch (err) {
+      // display backend errors
+      errorDisplay(err, setErrorMess);
+    }
+  };
+  //*/
+
+  // regenerates verification code
+  // for logging again without verification
+  const regenerateCode = async (): Promise<void> => {
+    try {
+      const model: RegenerateCodeModel = {};
+
+      // generate new code and delete previous
+      await axios.post(userController.regenerateCode(), model, getAuthorization());
     } catch (err) {
       // display backend errors
       errorDisplay(err, setErrorMess);
@@ -209,12 +249,13 @@ function ResetPasswordModal({ userPath, setModal, userPassConf }: ResetPasswordM
             type="text"
             placeholder="Email"
             autoComplete="off"
-            value={codeValue}
-            className={classes["action-input"]}
+            value={emailValue}
+            className={classes["form-input"]}
             onChange={(event) => {
               handleEmailInputChange(event);
             }}
           />
+          
           <p
             className={classes.send}
             onClick={() => {
@@ -224,10 +265,12 @@ function ResetPasswordModal({ userPath, setModal, userPassConf }: ResetPasswordM
             <IconCreator
               icons={registerPageIcons}
               iconName={"send"}
-              color={mainColor.c5}
-              iconClass={classes["paste-svg"]}
+              color={greyColor.c6}
+              iconClass={classes["input-button-svg"]}
             />
           </p>
+
+          <IconCreator icons={registerPageIcons} iconName={"arrow"} iconClass={classes.arrow} />
         </div>
 
         {/* verification code */}
@@ -245,11 +288,12 @@ function ResetPasswordModal({ userPath, setModal, userPassConf }: ResetPasswordM
             placeholder="000000"
             autoComplete="off"
             value={codeValue}
-            className={classes["action-input"]}
+            className={classes["form-input"]}
             onChange={(event) => {
               handleCodeInputChange(event);
             }}
           />
+
           <p
             className={classes.paste}
             onClick={() => {
@@ -259,10 +303,12 @@ function ResetPasswordModal({ userPath, setModal, userPassConf }: ResetPasswordM
             <IconCreator
               icons={registerPageIcons}
               iconName={"paste"}
-              color={mainColor.c5}
-              iconClass={classes["paste-svg"]}
+              color={greyColor.c6}
+              iconClass={classes["input-button-svg"]}
             />
           </p>
+
+          <IconCreator icons={registerPageIcons} iconName={"arrow"} iconClass={classes.arrow} />
         </div>
 
         {/* password */}
@@ -280,6 +326,20 @@ function ResetPasswordModal({ userPath, setModal, userPassConf }: ResetPasswordM
             autoComplete="off"
             className={classes["form-input"]}
           />
+
+          <p
+            className={classes.eye}
+            onClick={() => {
+              onPasteCode();
+            }}
+          >
+            <IconCreator
+              icons={registerPageIcons}
+              iconName={"eyeOpen"}
+              color={greyColor.c6}
+              iconClass={classes["input-button-svg"]}
+            />
+          </p>
 
           <IconCreator icons={registerPageIcons} iconName={"arrow"} iconClass={classes.arrow} />
         </div>
@@ -316,7 +376,7 @@ function ResetPasswordModal({ userPath, setModal, userPassConf }: ResetPasswordM
       <p
         className={classes.cancel}
         onClick={() => {
-          setModal(RegistrationInterface.signUp);
+          setModal(RegistrationInterface.signIn);
         }}
       >
         <span>Cancel</span>

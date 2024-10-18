@@ -58,7 +58,8 @@ export type SendResetPasswordCodeModel = {
 };
 
 export type ResetPasswordModel = {
+  email: string;
   code: string;
   newPassword: string;
-  passwordConfirm: string;
+  confirmPassword: string;
 };

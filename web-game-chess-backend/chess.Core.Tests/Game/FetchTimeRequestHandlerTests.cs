@@ -78,6 +78,9 @@ public class FetchTimeRequestHandlerTests {
         };
 
 
+        // game is not returned
+
+
         var handler = new FetchTimeRequestHandler(
             _mockGameRepository.Object
         );
@@ -99,8 +102,9 @@ public class FetchTimeRequestHandlerTests {
         {
             Id = gameId,
             HasEnded = false,
-              WhitePlayerRegistered = true,
+            WhitePlayerRegistered = true,
             BlackPlayerRegistered = true,
+            // started at not set
 
             WhitePlayer = new Player()
             {
@@ -147,9 +151,9 @@ public class FetchTimeRequestHandlerTests {
         {
             Id = gameId,
             HasEnded = false,
-            StartedAt = DateTime.UtcNow.AddHours(1),
+            StartedAt = DateTime.UtcNow.AddHours(1), // start time incorrect
 
-              WhitePlayerRegistered = true,
+            WhitePlayerRegistered = true,
             BlackPlayerRegistered = true,
             WhitePlayer = new Player()
             {

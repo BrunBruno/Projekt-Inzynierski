@@ -50,7 +50,7 @@ public class GetRegisterConfRequestHandlerTests {
 
         var request = new GetRegisterConfRequest()
         {
-            ConfigurationId = 1000,
+            ConfigurationId = 1000, // incorrect id
         };
 
 
@@ -72,6 +72,9 @@ public class GetRegisterConfRequestHandlerTests {
         {
             ConfigurationId = (int)Enums.DataConfiguration.UserPassword,
         };
+
+
+        // configuration not returned
 
 
         var handler = new GetRegisterConfRequestHandler(

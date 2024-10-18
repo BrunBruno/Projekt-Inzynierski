@@ -41,8 +41,9 @@ public class UpdatePrivateGameRequestHandlerTests {
         {
             Id = gameId,
             IsPrivate = true,
-              WhitePlayerRegistered = true,
+            WhitePlayerRegistered = true,
             BlackPlayerRegistered = true,
+
             WhitePlayer = new Player() 
             { 
                 Id = Guid.NewGuid(),
@@ -50,12 +51,13 @@ public class UpdatePrivateGameRequestHandlerTests {
                 IsPrivate = true,
                 UserId = friendId,
             },
+
             BlackPlayer = new Player()
             {
                 Id = Guid.NewGuid(),
                 Name = "",
                 IsPrivate = true,
-                UserId = friendId,
+                UserId = friendId, // placeholder set for friend as friend is requiestor
             },
         };
 
@@ -114,16 +116,18 @@ public class UpdatePrivateGameRequestHandlerTests {
             {
                 Id = Guid.NewGuid(),
                 Name = "Username",
+                UserId = userId, 
                 IsPrivate = true,
-                UserId = userId,
+
                 User = user,
             },
             BlackPlayer = new Player()
             {
                 Id = Guid.NewGuid(),
                 Name = "",
+                UserId = userId, // placeholder set for user as user is requiestor
                 IsPrivate = true,
-                UserId = userId,
+
                 User = new Entities.User() { 
                     Id = userId,
                     Email = "freind@test.com",
@@ -173,6 +177,7 @@ public class UpdatePrivateGameRequestHandlerTests {
 
 
         _mockUserContextService.Setup(x => x.GetUserId()).Returns(userId);
+        // user not returned
 
 
         var handler = new UpdatePrivateGameRequestHandler(
@@ -215,6 +220,7 @@ public class UpdatePrivateGameRequestHandlerTests {
 
         _mockUserContextService.Setup(x => x.GetUserId()).Returns(userId);
         _mockUserRepository.Setup(x => x.GetById(userId)).ReturnsAsync(user);
+        // game not returned
 
 
         var handler = new UpdatePrivateGameRequestHandler(
