@@ -34,7 +34,7 @@ function Invitations({}: InvitationsProps) {
   // for filtering results
   const [showFilters, setShowFilters] = useState<boolean>(false);
   // for setting up filters by expiration status
-  const [expirationFilters, setExpirationFilters] = useState<boolean | null>(null);
+  const [expirationFilters, setExpirationFilters] = useState<boolean[]>([]);
 
   useEffect(() => {
     setDefPageSize(10);
@@ -46,6 +46,7 @@ function Invitations({}: InvitationsProps) {
       const invitationsModel: GetAllInvitationsModel = {
         pageNumber: pageNumber,
         pageSize: pageSize,
+        expirationFilters: expirationFilters,
       };
 
       const invitationsResponse = await axios.get<PagedResult<GetAllInvitationsDto>>(
@@ -65,7 +66,7 @@ function Invitations({}: InvitationsProps) {
 
   useEffect(() => {
     updateInvitations();
-  }, [pageSize]);
+  }, [pageSize, pageNumber, expirationFilters]);
   //*/
 
   // to update invitation when new one was recently received
@@ -142,7 +143,7 @@ function Invitations({}: InvitationsProps) {
       ) : invitations.items.length === 0 ? (
         <div className={classes.invitations__empty}>
           {Array.from({ length: pageSize }).map((_, i: number) => (
-            <InvitationEmptyCard key={`empty-invitation-card-${i}`} />
+            <InvitationEmptyCard key={`empty-invitation-card-${i}`} index={i} />
           ))}
         </div>
       ) : (

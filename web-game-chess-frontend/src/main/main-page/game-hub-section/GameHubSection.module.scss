@@ -54,6 +54,12 @@
           }
 
           &:hover {
+            .home-icon {
+              path {
+                stroke: $mc0;
+              }
+            }
+
             .vs-player-icon {
               fill: $mc0;
             }
@@ -88,6 +94,10 @@
 
           @mixin buttonIcon() {
             height: 4rem;
+          }
+
+          .home-icon {
+            @include buttonIcon();
           }
 
           .vs-player-icon {

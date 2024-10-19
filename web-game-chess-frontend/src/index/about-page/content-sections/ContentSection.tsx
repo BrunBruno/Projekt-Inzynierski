@@ -40,7 +40,7 @@ function ContentSection({ title, elements }: ContentSectionProps) {
             {/* bullet points */}
             {element.points && (
               <ul key={`list-${index}`} className={classes["bullet-points"]}>
-                {element.points.map((point, i) => (
+                {element.points.map((point: string, i: number) => (
                   <li key={`point-${index}-${i}`} className={classes["point"]}>
                     <IconCreator
                       icons={symbolIcons}

@@ -7,7 +7,7 @@ import { SearchGameModel } from "../../../../shared/utils/types/gameModels";
 import { usePopup } from "../../../../shared/utils/hooks/usePopUp";
 import { getErrMessage } from "../../../../shared/utils/functions/errors";
 import { useTimingType } from "../../../../shared/utils/hooks/useTimingType";
-import { getEnumValueByKey } from "../../../../shared/utils/functions/enums";
+import { displayTimingName, getEnumValueByKey } from "../../../../shared/utils/functions/enums";
 import IconCreator from "../../../../shared/components/icon-creator/IconCreator";
 import { mainColor } from "../../../../shared/utils/objects/colorMaps";
 import { timingTypeIcons } from "../../../../shared/svgs/iconsMap/TimingTypeIcons";
@@ -85,9 +85,6 @@ function VsPlayerSearch({ setSearchIds }: VsPlayerSearchProps) {
     return <div className={classes["timing-tag"]}>{transformedTag}</div>;
   };
 
-  const displayTimingName = (timing: TimingTypeName): string => {
-    return timing.charAt(0).toUpperCase() + timing.slice(1);
-  };
   //*/
 
   return (

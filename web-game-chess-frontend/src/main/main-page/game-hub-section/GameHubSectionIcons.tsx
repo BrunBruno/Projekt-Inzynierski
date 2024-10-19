@@ -2,9 +2,21 @@ import { mainColor } from "../../../shared/utils/objects/colorMaps";
 import { IconMap } from "../../../shared/utils/types/commonTypes";
 import classes from "./GameHubSection.module.scss";
 
-type IconNames = "vsPlayer" | "vsComputer" | "vsFriend" | "userGames" | "gameInvitations";
+type IconNames = "home" | "vsPlayer" | "vsComputer" | "vsFriend" | "userGames" | "gameInvitations";
 
 export const gameHubSectionIcons: IconMap<IconNames> = {
+  home: () => (
+    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className={classes["home-icon"]}>
+      <path
+        d="M19 10L19 20H9M5 20L5 10L12 3L15.5 6.5"
+        stroke={mainColor.c7}
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth={2}
+      />
+    </svg>
+  ),
+
   vsPlayer: () => (
     <svg
       className={classes["vs-player-icon"]}

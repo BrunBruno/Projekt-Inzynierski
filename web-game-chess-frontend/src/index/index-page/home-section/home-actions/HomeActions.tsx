@@ -38,7 +38,7 @@ function HomeActions({}: HomeActionsProps) {
           className={`${classes["img-pawn-container"]} ${classes[pawnClass]}`}
           style={{ left: `${leftP}%`, top: `${topP}%` }}
         >
-          {Array.from({ length: partOfPawn }).map((_, index) => (
+          {Array.from({ length: partOfPawn }).map((_, index: number) => (
             <div key={index} className={classes.pb} />
           ))}
         </div>
@@ -77,7 +77,7 @@ function HomeActions({}: HomeActionsProps) {
             }}
           >
             <div className={classes["img-pawn-container"]}>
-              {Array.from({ length: partOfPawn }).map((_, index) => (
+              {Array.from({ length: partOfPawn }).map((_, index: number) => (
                 <div key={index} className={classes.pb} />
               ))}
             </div>

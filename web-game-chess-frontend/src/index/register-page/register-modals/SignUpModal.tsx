@@ -1,5 +1,5 @@
 import { ChangeEvent, Dispatch, FormEvent, RefObject, SetStateAction, useEffect, useRef, useState } from "react";
-import { mainColor, strengthColor } from "../../../shared/utils/objects/colorMaps";
+import { greyColor, mainColor, strengthColor } from "../../../shared/utils/objects/colorMaps";
 import classes from "./RegisterModal.module.scss";
 import axios from "axios";
 import { errorDisplay } from "../../../shared/utils/functions/errors";
@@ -13,6 +13,11 @@ import IconCreator from "../../../shared/components/icon-creator/IconCreator";
 import { registerPageIcons } from "../RegisterPageIcons";
 import LoadingPage from "../../../shared/components/loading-page/LoadingPage";
 import { checkFromConfiguration, ValidationResult } from "./RegisterFunctions";
+
+type PasswordIconOption = {
+  name: "eyeOpen" | "eyeClosed";
+  class: typeof classes.open | typeof classes.close;
+};
 
 type SignUpModalProps = {
   // change displayed modal
@@ -40,6 +45,11 @@ function SignUpModal({ setModal, userNameConf, userPassConf }: SignUpModalProps)
   const [errorMess, setErrorMess] = useState<string>("");
   // state if something is processing
   const [processing, setProcessing] = useState<boolean>(false);
+
+  const [passwordIconOption, setPasswordIconOption] = useState<PasswordIconOption>({
+    name: "eyeOpen",
+    class: classes.open,
+  });
 
   useEffect(() => {
     if (userNameConf && userPassConf) setProcessing(false);
@@ -74,7 +84,7 @@ function SignUpModal({ setModal, userNameConf, userPassConf }: SignUpModalProps)
       country: country === undefined ? "" : country,
     };
 
-    // Check for email format
+    // check for email format
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(userData.email)) {
       emailInputRef.current.classList.add(classes.err);
@@ -191,6 +201,33 @@ function SignUpModal({ setModal, userNameConf, userPassConf }: SignUpModalProps)
   };
   //*/
 
+  // password show
+  const onShowPassword = (): void => {
+    const passwordInput = passwordInputRef.current;
+    const confPasswordInput = confPassInputRef.current;
+
+    if (!passwordInput || !confPasswordInput) return;
+
+    if (passwordInput.type === "password") {
+      passwordInput.type = "text";
+      confPasswordInput.type = "text";
+
+      setPasswordIconOption({
+        name: "eyeClosed",
+        class: classes.close,
+      });
+    } else {
+      passwordInput.type = "password";
+      confPasswordInput.type = "password";
+
+      setPasswordIconOption({
+        name: "eyeOpen",
+        class: classes.open,
+      });
+    }
+  };
+  //*/
+
   if (processing) return <LoadingPage text="Creating account..." />;
 
   return (
@@ -262,6 +299,23 @@ function SignUpModal({ setModal, userNameConf, userPassConf }: SignUpModalProps)
               changePassInd(event);
             }}
           />
+
+          <p
+            className={`
+              ${classes.eye} 
+              ${passwordIconOption.class}
+            `}
+            onClick={() => {
+              onShowPassword();
+            }}
+          >
+            <IconCreator
+              icons={registerPageIcons}
+              iconName={passwordIconOption.name}
+              color={greyColor.c6}
+              iconClass={classes["input-button-svg"]}
+            />
+          </p>
 
           <IconCreator icons={registerPageIcons} iconName={"arrow"} iconClass={classes.arrow} />
           <span ref={indRef} className={classes["reg-pass-ind"]} />

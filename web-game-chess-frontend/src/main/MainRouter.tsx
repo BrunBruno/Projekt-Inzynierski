@@ -15,7 +15,7 @@ import { getErrMessage } from "../shared/utils/functions/errors";
 import ProfilePage from "./profile-page/ProfilePage";
 import { TimingTypeProvider } from "../shared/utils/hooks/useTimingType";
 import AwaitingPage from "./awaiting-page/AwaitingPage";
-import { StateOptions } from "../shared/utils/objects/interfacesEnums";
+import { RegistrationInterface, StateOptions } from "../shared/utils/objects/interfacesEnums";
 
 function MainRouter() {
   ///
@@ -40,6 +40,7 @@ function MainRouter() {
         if (!isVerified) {
           const state: StateOptions = {
             popup: { text: "ACCOUNT NOT VERIFIED", type: "error" },
+            regOption: RegistrationInterface.verify,
             path: path,
           };
 
@@ -57,6 +58,7 @@ function MainRouter() {
         if (token === null) {
           const state: StateOptions = {
             popup: { text: "PLEASE, LOG IN", type: "error" },
+            regOption: RegistrationInterface.signIn,
             path: path,
           };
 

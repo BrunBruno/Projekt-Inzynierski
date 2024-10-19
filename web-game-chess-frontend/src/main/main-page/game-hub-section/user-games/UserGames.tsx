@@ -90,7 +90,7 @@ function UserGames({}: UserGamesProps) {
     };
 
     getGames();
-  }, [pageSize, timingTypeFilters, resultFilters]);
+  }, [pageSize, timingTypeFilters, resultFilters, pageNumber]);
   //*/
 
   // to display filters

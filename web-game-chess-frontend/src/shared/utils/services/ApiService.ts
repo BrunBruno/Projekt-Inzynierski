@@ -354,7 +354,7 @@ export const getAuthorization = (contentType?: string): Headers => {
 };
 
 // converts object to query string
-const stringifyModel = (model: Object): string => {
+const stringifyModel = (model: object): string => {
   const stringifiedModel = Object.entries(model).flatMap(([key, value]) => {
     if (Array.isArray(value)) return value.map((element) => [key, String(element)]);
 

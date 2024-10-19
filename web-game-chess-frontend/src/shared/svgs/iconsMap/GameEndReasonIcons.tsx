@@ -1,15 +1,8 @@
 import { greyColor } from "../../utils/objects/colorMaps";
+import { GameEndReasonName } from "../../utils/objects/constantLists";
 import { IconMap } from "../../utils/types/commonTypes";
 
-type IconNames =
-  | "checkMate"
-  | "outOfTime"
-  | "resignation"
-  | "stalemate"
-  | "threefold"
-  | "agreement"
-  | "fiftyMovesRule"
-  | "insufficientMaterial";
+type IconNames = GameEndReasonName;
 
 export const gameEndReasonIcons: IconMap<IconNames> = {
   checkMate: (): JSX.Element => (
@@ -42,7 +35,7 @@ export const gameEndReasonIcons: IconMap<IconNames> = {
     </svg>
   ),
 
-  stalemate: (): JSX.Element => <p>=</p>,
+  staleMate: (): JSX.Element => <p>=</p>,
 
   threefold: (): JSX.Element => <p>3</p>,
 

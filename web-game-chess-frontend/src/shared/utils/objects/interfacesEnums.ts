@@ -5,6 +5,7 @@ import { PopupType } from "../types/commonTypes";
 
 // to distinguish different type of content it main page
 export enum GameSearchInterface {
+  default,
   vsPlayer,
   vsComputer,
   vsFriend,

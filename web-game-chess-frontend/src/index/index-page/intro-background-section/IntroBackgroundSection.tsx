@@ -28,6 +28,7 @@ function IntroBackgroundSection({}: IntroBackgroundSectionProps) {
         if (bgElement) {
           bgElement.classList.add(classes["hidden-intro"]);
 
+          // save animation was played
           sessionStorage.setItem("entry-animation-played", "true");
         }
       }, animationDuration);

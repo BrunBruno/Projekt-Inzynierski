@@ -8,7 +8,7 @@ import { getErrMessage } from "../../../../../shared/utils/functions/errors";
 import IconCreator from "../../../../../shared/components/icon-creator/IconCreator";
 import { mainColor } from "../../../../../shared/utils/objects/colorMaps";
 import { timingTypeIcons } from "../../../../../shared/svgs/iconsMap/TimingTypeIcons";
-import { timeSpanLongerThan } from "../../../../../shared/utils/functions/dateTime";
+import { timeSpanLongerThan } from "../../../../../shared/utils/functions/datetime";
 
 type InvitationCardProps = {
   // invitation data

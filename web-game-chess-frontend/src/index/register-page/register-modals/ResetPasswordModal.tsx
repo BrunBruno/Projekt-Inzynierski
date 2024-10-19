@@ -1,5 +1,5 @@
-import { ChangeEvent, Dispatch, FormEvent, RefObject, SetStateAction, useRef, useState } from "react";
-import { greyColor, mainColor } from "../../../shared/utils/objects/colorMaps";
+import { ChangeEvent, Dispatch, FormEvent, RefObject, SetStateAction, useEffect, useRef, useState } from "react";
+import { greyColor, mainColor, strengthColor } from "../../../shared/utils/objects/colorMaps";
 import classes from "./RegisterModal.module.scss";
 import axios from "axios";
 import { getAuthorization, userController } from "../../../shared/utils/services/ApiService";
@@ -19,12 +19,17 @@ import { registerPageIcons } from "../RegisterPageIcons";
 import { usePopup } from "../../../shared/utils/hooks/usePopUp";
 import { checkFromConfiguration, ValidationResult } from "./RegisterFunctions";
 
+type PasswordIconOption = {
+  name: "eyeOpen" | "eyeClosed";
+  class: typeof classes.open | typeof classes.close;
+};
+
 type ResetPasswordModalProps = {
   // path that user wanted
   userPath: string;
   // to change displayed modal
   setModal: Dispatch<SetStateAction<number>>;
-  //
+  // for checking new password
   userPassConf: GetRegisterConfDto | null;
 };
 
@@ -39,6 +44,8 @@ function ResetPasswordModal({ userPath, setModal, userPassConf }: ResetPasswordM
   const codeInputRef = useRef<HTMLInputElement>(null);
   const passwordInputRef = useRef<HTMLInputElement>(null);
   const confPassInputRef = useRef<HTMLInputElement>(null);
+  // password strength indicator ref
+  const indRef = useRef<HTMLSpanElement>(null);
 
   // error message content
   const [errorMess, setErrorMess] = useState<string>("");
@@ -47,8 +54,29 @@ function ResetPasswordModal({ userPath, setModal, userPassConf }: ResetPasswordM
   // email input value
   const [emailValue, setEmailValue] = useState<string>("");
 
+  // for displaying other fields
+  const [isEmailValid, setIsEmailValid] = useState<boolean>(false);
+  const [codeWasSend, setCodeWasSend] = useState<boolean>(false);
+
   // state if something is processing
   const [processing, setProcessing] = useState<boolean>(false);
+  const [sendingCodeProcessing, setSendingCodeProcessing] = useState<boolean>(false);
+
+  // for password icon selection
+  const [passwordIconOption, setPasswordIconOption] = useState<PasswordIconOption>({
+    name: "eyeOpen",
+    class: classes.open,
+  });
+
+  useEffect(() => {
+    // check for email format
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (emailRegex.test(emailValue)) {
+      setIsEmailValid(true);
+    } else {
+      setIsEmailValid(false);
+    }
+  }, [emailValue]);
 
   // resets password
   // set validation token
@@ -122,6 +150,7 @@ function ResetPasswordModal({ userPath, setModal, userPassConf }: ResetPasswordM
 
       const signInResponse = await axios.post<LogInUserDto>(userController.logInUser(), userData);
 
+      // set token
       localStorage.setItem("token", signInResponse.data.token);
 
       // users email verification check
@@ -152,12 +181,25 @@ function ResetPasswordModal({ userPath, setModal, userPassConf }: ResetPasswordM
   // regenerates verification code
   const sendPasswordRecoveryCode = async (): Promise<void> => {
     try {
+      setErrorMess("");
+
+      // check email
+      if (!isEmailValid) {
+        setErrorMess("Email incorrect.");
+      }
+
+      setSendingCodeProcessing(true);
+
       const model: SendResetPasswordCodeModel = {
         email: emailValue,
       };
 
       // generate new code and delete previous
       await axios.put(userController.sendResetPasswordCode(), model);
+
+      setCodeWasSend(true);
+
+      setSendingCodeProcessing(false);
 
       showPopup("CODE SENT", "success");
     } catch (err) {
@@ -213,11 +255,62 @@ function ResetPasswordModal({ userPath, setModal, userPassConf }: ResetPasswordM
     try {
       const code = await navigator.clipboard.readText();
 
-      if (/^\d{0,6}$/.test(code)) {
-        setCodeValue(code);
-      }
+      if (/^\d{0,6}$/.test(code)) setCodeValue(code);
     } catch (err) {
       showPopup("ERROR PASTING CODE", "error");
+    }
+  };
+  //*/
+
+  // password show
+  const onShowPassword = (): void => {
+    const passwordInput = passwordInputRef.current;
+
+    if (!passwordInput) return;
+
+    if (passwordInput.type === "password") {
+      passwordInput.type = "text";
+      setPasswordIconOption({
+        name: "eyeClosed",
+        class: classes.close,
+      });
+    } else {
+      passwordInput.type = "password";
+      setPasswordIconOption({
+        name: "eyeOpen",
+        class: classes.open,
+      });
+    }
+  };
+  //*/
+
+  // handle on password input change
+  // change password strength indicator
+  const changePassInd = (event: ChangeEvent<HTMLInputElement>): void => {
+    let strength: number = 0;
+
+    const value = event.target.value;
+
+    if (value.length >= 8) {
+      strength += 1;
+    }
+
+    if (/[A-Z]/.test(value)) {
+      strength += 1;
+    }
+
+    if (/\d/.test(value)) {
+      strength += 1;
+    }
+
+    if (/[^a-zA-Z0-9]/.test(value)) {
+      strength += 1;
+    }
+
+    const color = strengthColor[`c${strength}` as keyof typeof strengthColor];
+
+    if (indRef.current) {
+      indRef.current.style.backgroundColor = color;
     }
   };
   //*/
@@ -238,7 +331,10 @@ function ResetPasswordModal({ userPath, setModal, userPassConf }: ResetPasswordM
       <div className={classes.inputs}>
         {/* email */}
         <div
-          className={classes["form-row"]}
+          className={`
+            ${classes["form-row"]} 
+            ${!sendingCodeProcessing ? "" : classes["row-disabled"]}
+          `}
           onClick={() => {
             focusOnClick(emailInputRef);
           }}
@@ -255,7 +351,7 @@ function ResetPasswordModal({ userPath, setModal, userPassConf }: ResetPasswordM
               handleEmailInputChange(event);
             }}
           />
-          
+
           <p
             className={classes.send}
             onClick={() => {
@@ -275,7 +371,10 @@ function ResetPasswordModal({ userPath, setModal, userPassConf }: ResetPasswordM
 
         {/* verification code */}
         <div
-          className={classes["form-row"]}
+          className={`
+            ${classes["form-row"]}
+            ${isEmailValid && codeWasSend ? "" : classes["row-disabled"]}
+          `}
           onClick={() => {
             focusOnClick(codeInputRef);
           }}
@@ -288,6 +387,7 @@ function ResetPasswordModal({ userPath, setModal, userPassConf }: ResetPasswordM
             placeholder="000000"
             autoComplete="off"
             value={codeValue}
+            tabIndex={isEmailValid && codeWasSend ? 0 : -1}
             className={classes["form-input"]}
             onChange={(event) => {
               handleCodeInputChange(event);
@@ -313,7 +413,10 @@ function ResetPasswordModal({ userPath, setModal, userPassConf }: ResetPasswordM
 
         {/* password */}
         <div
-          className={classes["form-row"]}
+          className={`
+            ${classes["form-row"]}
+            ${isEmailValid && codeWasSend ? "" : classes["row-disabled"]}
+          `}
           onClick={() => {
             focusOnClick(passwordInputRef);
           }}
@@ -324,29 +427,40 @@ function ResetPasswordModal({ userPath, setModal, userPassConf }: ResetPasswordM
             type="password"
             placeholder="Password"
             autoComplete="off"
+            tabIndex={isEmailValid && codeWasSend ? 0 : -1}
             className={classes["form-input"]}
+            onChange={(event) => {
+              changePassInd(event);
+            }}
           />
 
           <p
-            className={classes.eye}
+            className={`
+              ${classes.eye} 
+              ${passwordIconOption.class}
+            `}
             onClick={() => {
-              onPasteCode();
+              onShowPassword();
             }}
           >
             <IconCreator
               icons={registerPageIcons}
-              iconName={"eyeOpen"}
+              iconName={passwordIconOption.name}
               color={greyColor.c6}
               iconClass={classes["input-button-svg"]}
             />
           </p>
 
           <IconCreator icons={registerPageIcons} iconName={"arrow"} iconClass={classes.arrow} />
+          <span ref={indRef} className={classes["reg-pass-ind"]} />
         </div>
 
         {/* confirm password */}
         <div
-          className={classes["form-row"]}
+          className={`
+            ${classes["form-row"]}
+            ${isEmailValid && codeWasSend ? "" : classes["row-disabled"]}
+          `}
           onClick={() => {
             focusOnClick(confPassInputRef);
           }}
@@ -357,6 +471,7 @@ function ResetPasswordModal({ userPath, setModal, userPassConf }: ResetPasswordM
             type="password"
             placeholder="Confirm Password"
             autoComplete="off"
+            tabIndex={isEmailValid && codeWasSend ? 0 : -1}
             className={classes["form-input"]}
           />
 

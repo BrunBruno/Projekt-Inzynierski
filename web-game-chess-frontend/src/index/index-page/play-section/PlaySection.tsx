@@ -8,6 +8,8 @@ import IconCreator from "../../../shared/components/icon-creator/IconCreator";
 import { playSectionIcons } from "./PlaySectionIcons";
 import { GameSearchInterface, StateOptions } from "../../../shared/utils/objects/interfacesEnums";
 
+const actionRefs: RefObject<HTMLDivElement>[] = [];
+
 type PlaySectionProps = {
   // section container ref
   sectionRef: RefObject<HTMLElement>;
@@ -22,7 +24,6 @@ const PlaySection = forwardRef<HandleOnScroll, PlaySectionProps>(
     // section title ref
     const introRef = useRef<HTMLDivElement>(null);
     // ref for observe section components
-    const actionRefs: RefObject<HTMLDivElement>[] = [];
     for (let i = 0; i < 4; i++) actionRefs[i] = useRef<HTMLDivElement>(null);
 
     // to activate intro and actions on intersection

@@ -35,7 +35,7 @@ function GameHubSection({ providedInterface }: GameHubSectionProps) {
   const { showPopup } = usePopup();
 
   // current viewed interface
-  const [interfaceContent, setInterfaceContent] = useState<JSX.Element>(<DefaultView />);
+  const [interfaceContent, setInterfaceContent] = useState<JSX.Element>(<></>);
   // ids for online games
   const [searchIds, setSearchIds] = useState<SearchGameDto | null>(null);
   // to show new game invitation notification
@@ -149,6 +149,10 @@ function GameHubSection({ providedInterface }: GameHubSectionProps) {
   // set game section content
   const setInterfaceById = (interfaceId: GameSearchInterface): void => {
     switch (interfaceId) {
+      case GameSearchInterface.default:
+        setInterfaceContent(<DefaultView setInterfaceById={setInterfaceById} />);
+        break;
+
       case GameSearchInterface.vsPlayer:
         setInterfaceContent(<VsPlayerSearch setSearchIds={setSearchIds} />);
         break;
@@ -183,6 +187,12 @@ function GameHubSection({ providedInterface }: GameHubSectionProps) {
   };
   //*/
 
+  // set default interface
+  useEffect(() => {
+    setInterfaceById(GameSearchInterface.default);
+  }, []);
+  ///*
+
   return (
     <section className={classes.game}>
       <div className={classes.game__content}>
@@ -191,6 +201,17 @@ function GameHubSection({ providedInterface }: GameHubSectionProps) {
         </div>
         <div className={classes.game__content__col}>
           <div className={classes["game-buttons"]}>
+            <button
+              data-testid="main-page-game-hub-default-button"
+              className={classes["interface-button"]}
+              onClick={() => {
+                setInterfaceById(GameSearchInterface.default);
+              }}
+            >
+              <IconCreator icons={gameHubSectionIcons} iconName={"home"} />
+              <span>Home</span>
+            </button>
+
             <button
               data-testid="main-page-game-hub-vs-player-button"
               className={classes["interface-button"]}

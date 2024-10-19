@@ -1,12 +1,14 @@
 import classes from "./InvitationEmptyCard.module.scss";
 
-type InvitationEmptyCardProps = {};
+type InvitationEmptyCardProps = {
+  index: number;
+};
 
-function InvitationEmptyCard({}: InvitationEmptyCardProps) {
+function InvitationEmptyCard({ index }: InvitationEmptyCardProps) {
   ///
 
   return (
-    <div className={classes.card}>
+    <div key={`empty-card-${index}`} className={classes.card}>
       <div className={classes.card__title}>
         <div className={classes.card__title__icon} />
         <div className={classes.card__title__text}>

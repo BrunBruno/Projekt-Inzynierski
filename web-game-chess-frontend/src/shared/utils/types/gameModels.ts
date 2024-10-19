@@ -86,9 +86,9 @@ export type CheckIfInGameModel = {
 
 export type GetAllFinishedGamesModel = PagedModel & {
   // to get only selected types of timing type
-  timingTypeFilters: TimingType[];
+  timingTypeFilters?: TimingType[];
   // to get only selected results of the game
-  resultFilters: (boolean | null)[];
+  resultFilters?: (boolean | null)[];
 };
 
 export type GetTypeHistoryModel = PagedModel & {
@@ -96,7 +96,9 @@ export type GetTypeHistoryModel = PagedModel & {
   type: TimingType;
 };
 
-export type GetAllInvitationsModel = PagedModel & {};
+export type GetAllInvitationsModel = PagedModel & {
+  expirationFilters?: boolean[];
+};
 
 export type NotifyUserModel = TimingTypeModel & {
   // friend to notify id

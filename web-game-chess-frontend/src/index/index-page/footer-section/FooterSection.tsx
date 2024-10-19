@@ -7,7 +7,7 @@ import { footerSectionIcons } from "./FooterSectionIcons";
 import { symbolIcons } from "../../../shared/svgs/iconsMap/SymbolIcons";
 
 const socials = ["Facebook", "Instagram", "Twitter", "TikTok", "YouTube"] as const;
-type SocialNames = Lowercase<typeof socials[number]>;
+type SocialNames = Lowercase<(typeof socials)[number]>;
 
 type FooterSectionProps = {};
 

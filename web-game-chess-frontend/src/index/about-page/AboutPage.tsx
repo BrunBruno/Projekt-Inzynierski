@@ -41,12 +41,12 @@ function AboutPage() {
 
   // to set select content base on obtained params
   useEffect(() => {
-    if (contentName) {
-      try {
-        setSelectedContent(contentOptions[contentName.toLocaleLowerCase() as ContentNames]);
-      } catch (err) {
-        setSelectedContent(contentOptions["introduction"]);
-      }
+    if (!contentName) return;
+
+    try {
+      setSelectedContent(contentOptions[contentName.toLocaleLowerCase() as ContentNames]);
+    } catch (err) {
+      setSelectedContent(contentOptions["introduction"]);
     }
   }, [contentName]);
   //*/
@@ -83,7 +83,7 @@ function AboutPage() {
           <div className={classes.grid__column__nav}>
             {/* content action */}
             <ul className={classes["content-list"]}>
-              {Object.entries(contentOptions).map(([key, content]) => (
+              {Object.entries(contentOptions).map(([key, content]: [string, ContentType]) => (
                 <li
                   key={key}
                   className={classes["content-button"]}

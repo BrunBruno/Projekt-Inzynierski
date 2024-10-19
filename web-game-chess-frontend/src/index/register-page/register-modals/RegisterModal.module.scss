@@ -22,7 +22,9 @@
 
     display: none;
     content: "";
-    left: 120%;
+    left: 50%;
+    top: 100%;
+    transform: translateX(-50%);
     color: #000;
     background-color: $gc1;
     font-size: 1.2rem;
@@ -95,6 +97,14 @@
       z-index: 1;
       width: 100%;
       max-width: 26rem;
+
+      &.row-disabled {
+        filter: brightness(50%);
+        opacity: 0.5;
+        user-select: none;
+        pointer-events: none;
+        cursor: not-allowed;
+      }
 
       .form-input {
         @include tInput(2rem);
@@ -171,8 +181,15 @@
         @include inputButton(4rem);
         @include resetInputButton();
 
-        &::after {
-          content: "Show";
+        &.open {
+          &::after {
+            content: "Show";
+          }
+        }
+        &.close {
+          &::after {
+            content: "Hide";
+          }
         }
       }
 
@@ -195,7 +212,8 @@
         @include circle(2rem);
 
         position: absolute;
-        right: 0;
+        right: calc(-2rem - 1rem);
+        bottom: 1rem;
         opacity: 0;
       }
     }

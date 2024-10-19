@@ -46,12 +46,12 @@ function VerifyEmailModal({ userPath, setModal }: VerifyEmailModalProps) {
 
     // code data
     const form = event.target as HTMLFormElement;
-    const verificationCode: VerifyEmailModel = {
+    const model: VerifyEmailModel = {
       code: (form.elements.namedItem("code") as HTMLInputElement).value.trim(),
     };
 
     // check if user inserted code
-    if (verificationCode.code.length === 0) {
+    if (model.code.length === 0) {
       setErrorMess("Please enter the code.");
       return;
     }
@@ -60,7 +60,7 @@ function VerifyEmailModal({ userPath, setModal }: VerifyEmailModalProps) {
       setProcessing(true);
 
       // verify user email
-      await axios.put(userController.verifyEmail(), verificationCode, getAuthorization());
+      await axios.put(userController.verifyEmail(), model, getAuthorization());
 
       const tempUser: LogInUserModel = JSON.parse(localStorage.getItem("logUserTemp")!);
 
@@ -75,13 +75,14 @@ function VerifyEmailModal({ userPath, setModal }: VerifyEmailModalProps) {
 
       setProcessing(false);
 
+      // navigate to main page
       const state: StateOptions = {
         popup: {
           text: "Verification successful",
           type: "success",
         },
       };
-      // navigate to main page
+
       navigate(userPath, { state: state });
     } catch (err) {
       // display backend errors
@@ -124,6 +125,7 @@ function VerifyEmailModal({ userPath, setModal }: VerifyEmailModalProps) {
         setCodeValue(code);
       }
     } catch (err) {
+      console.error(err);
       showPopup("ERROR PASTING CODE", "error");
     }
   };
@@ -164,6 +166,7 @@ function VerifyEmailModal({ userPath, setModal }: VerifyEmailModalProps) {
               handleCodeInputChange(event);
             }}
           />
+
           <p
             className={classes.paste}
             onClick={() => {

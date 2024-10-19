@@ -5,17 +5,28 @@ import classes from "./InvitationsFilters.module.scss";
 
 type InvitationsFiltersProps = {
   // list to filter invitations by expiration
-  expirationFilters: boolean | null;
+  expirationFilters: boolean[];
   // set expiration filters list
-  setExpirationFilters: Dispatch<SetStateAction<boolean | null>>;
+  setExpirationFilters: Dispatch<SetStateAction<boolean[]>>;
 };
 
-//todotodo
 function InvitationsFilters({ expirationFilters, setExpirationFilters }: InvitationsFiltersProps) {
   ///
 
   // sets expiration filters
-  const activateExpirationFilter = () => {};
+  const activateExpirationFilter = (value: boolean) => {
+    setExpirationFilters((prevTypes: boolean[]) => {
+      const newTypes = [...prevTypes];
+
+      if (newTypes.includes(value)) {
+        newTypes.splice(newTypes.indexOf(value), 1);
+      } else {
+        newTypes.push(value);
+      }
+
+      return newTypes;
+    });
+  };
   //*/
 
   return (
@@ -24,11 +35,11 @@ function InvitationsFilters({ expirationFilters, setExpirationFilters }: Invitat
       <div className={classes.filters__row}>
         <div
           className={`
-                ${classes.option} 
-                ${expirationFilters === true ? classes.active : ""}
+              ${classes.option} 
+              ${expirationFilters.includes(true) ? classes.active : ""}
             `}
           onClick={() => {
-            activateExpirationFilter();
+            activateExpirationFilter(true);
           }}
         >
           <span>Active</span>
@@ -37,11 +48,11 @@ function InvitationsFilters({ expirationFilters, setExpirationFilters }: Invitat
 
         <div
           className={`
-                ${classes.option} 
-                ${expirationFilters === false ? classes.active : ""}
+              ${classes.option} 
+              ${expirationFilters.includes(false) ? classes.active : ""}
             `}
           onClick={() => {
-            activateExpirationFilter();
+            activateExpirationFilter(false);
           }}
         >
           <span>Active</span>
