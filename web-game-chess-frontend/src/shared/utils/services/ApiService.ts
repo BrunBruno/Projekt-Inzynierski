@@ -8,6 +8,7 @@ import {
   GetAllInvitationsModel,
   GetAllFinishedGamesModel,
   GetTypeHistoryModel,
+  GetAllActiveGamesModel,
 } from "../types/gameModels";
 import { GetByEmailModel, GetRegisterConfModel } from "../types/userModels";
 
@@ -142,6 +143,7 @@ interface GameControllerPaths {
   getOpponent: string;
   getEndedGame: string;
   getGameTiming: string;
+  getAllActiveGames: string;
   getAllFinishedGames: string;
   getTypeHistory: string;
   getAllInvitations: string;
@@ -168,6 +170,7 @@ interface GameController {
   getOpponent: (gameId: Guid) => string;
   getEndedGame: (gameId: Guid) => string;
   getGameTiming: (gameId: Guid) => string;
+  getAllActiveGames: (model: GetAllActiveGamesModel) => string;
   getAllFinishedGames: (model: GetAllFinishedGamesModel) => string;
   getTypeHistory: (model: GetTypeHistoryModel) => string;
   getAllInvitations: (model: GetAllInvitationsModel) => string;
@@ -186,6 +189,7 @@ export const gameControllerPaths: GameControllerPaths = {
   createGameWithLink: `${gameBaseUrl}/by-link`,
   createRematchGame: `${gameBaseUrl}/rematch`,
   checkIfInGame: `${gameBaseUrl}/check-if-in-game`,
+  getAllActiveGames: `${gameBaseUrl}/all-ongoing`,
   getAllFinishedGames: `${gameBaseUrl}/all-finished`,
   getTypeHistory: `${gameBaseUrl}/type-history`,
   getAllInvitations: `${gameBaseUrl}/invitations`,
@@ -242,6 +246,9 @@ export const gameController: GameController = {
 
   // gets game timing type and configuration
   getGameTiming: (gameId: Guid): string => `${gameBaseUrl}/${gameId}/timing`,
+
+  // gets all ongoing games for user
+  getAllActiveGames: (model: GetAllActiveGamesModel): string => `${gameBaseUrl}/all-ongoing?${stringifyModel(model)}`,
 
   // gets all finished games for user
   getAllFinishedGames: (model: GetAllFinishedGamesModel): string =>

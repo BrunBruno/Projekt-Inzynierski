@@ -1,6 +1,6 @@
 @import "../../../../../Main.scss";
 
-$board-size: 24rem;
+$board-size: 20rem;
 
 // user game card
 .card {
@@ -20,55 +20,9 @@ $board-size: 24rem;
     cursor: pointer;
   }
 
-  // game result data
-  .game-data {
-    @include flex(row, space-evenly, center, 0);
-
-    width: 100%;
-    padding: 1rem;
-    flex-shrink: 0;
-
-    .timing-type {
-      svg {
-        height: calc(0.1 * $board-size);
-      }
-    }
-
-    .is-winner {
-      svg {
-        height: calc(0.1 * $board-size * 1.2);
-      }
-    }
-
-    .moves {
-      @include flex();
-      @include circle(calc(0.1 * $board-size));
-
-      font-weight: bold;
-      font-size: calc(0.1 * $board-size / 2);
-      border: solid 0.3rem $mc0;
-    }
-
-    .win-type {
-      position: relative;
-
-      // placeholder icon
-      p {
-        @include secFont(calc(0.1 * $board-size));
-
-        padding-right: 0.2rem;
-      }
-
-      svg {
-        height: calc(0.1 * $board-size);
-      }
-    }
-  }
-  //*/
-
   // board grid position background
   .mini-grid {
-    @include square(24rem);
+    @include square($board-size);
 
     aspect-ratio: 1/1 !important;
     position: relative;
@@ -207,44 +161,4 @@ $board-size: 24rem;
 //*/
 
 // resize
-@media (max-width: 700px) {
-  .card {
-    .game-data {
-      .timing-type {
-        @include flex();
-
-        svg {
-          height: 5rem;
-        }
-      }
-
-      .is-winner {
-        @include flex();
-
-        svg {
-          height: 5rem;
-        }
-      }
-
-      .moves {
-        @include circle(4.5rem);
-
-        font-size: 1.6rem;
-        border-width: 0.5rem;
-      }
-
-      .win-type {
-        position: relative;
-
-        p {
-          font-size: 3rem;
-        }
-
-        svg {
-          height: 4rem;
-        }
-      }
-    }
-  }
-}
 //*/

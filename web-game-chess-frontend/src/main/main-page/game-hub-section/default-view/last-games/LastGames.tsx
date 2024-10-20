@@ -6,18 +6,18 @@ import axios from "axios";
 import { PagedResult } from "../../../../../shared/utils/types/abstractDtosAndModels";
 import { gameController, getAuthorization } from "../../../../../shared/utils/services/ApiService";
 import { getErrMessage } from "../../../../../shared/utils/functions/errors";
-import classes from "./DefaultViewLastGame.module.scss";
+import classes from "./LastGames.module.scss";
 import LastGameCard from "./last-game-card/LastGameCard";
 import IconCreator from "../../../../../shared/components/icon-creator/IconCreator";
 import { symbolIcons } from "../../../../../shared/svgs/iconsMap/SymbolIcons";
 import { greyColor } from "../../../../../shared/utils/objects/colorMaps";
 import { GameSearchInterface } from "../../../../../shared/utils/objects/interfacesEnums";
 
-type DefaultViewLastGamesProps = {
+type LastGamesProps = {
   setInterfaceById: (interfaceId: GameSearchInterface) => void;
 };
 
-function DefaultViewLastGames({ setInterfaceById }: DefaultViewLastGamesProps) {
+function LastGames({ setInterfaceById }: LastGamesProps) {
   ///
 
   const { showPopup } = usePopup();
@@ -84,4 +84,4 @@ function DefaultViewLastGames({ setInterfaceById }: DefaultViewLastGamesProps) {
   );
 }
 
-export default DefaultViewLastGames;
+export default LastGames;

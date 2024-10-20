@@ -15,7 +15,7 @@ type SearchingPageProps = {
   cancelButtonTestId?: string;
 };
 
-function SearchingPage({ isPrivate, onCancel, containerTestId, cancelButtonTestId }: SearchingPageProps) {
+function SearchingPage({ isPrivate, onCancel, containerTestId, cancelButtonTestId }: SearchingPageProps): JSX.Element {
   ///
 
   // states for searching animation

@@ -5,7 +5,7 @@ import IconCreator from "../icon-creator/IconCreator";
 import { mainNavIcons } from "./MainNavIcons";
 import { StateOptions } from "../../utils/objects/interfacesEnums";
 
-function MainNav() {
+function MainNav(): JSX.Element {
   ///
 
   const navigate = useNavigate();

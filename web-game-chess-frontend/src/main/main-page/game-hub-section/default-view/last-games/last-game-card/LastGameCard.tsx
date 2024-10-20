@@ -1,25 +1,25 @@
 import { useEffect, useRef } from "react";
-import AvatarImage from "../../../../../shared/components/avatar-image/AvatarImage";
-import { getEnumKeyByEnumValue } from "../../../../../shared/utils/functions/enums";
-import { PlayerDto } from "../../../../../shared/utils/types/abstractDtosAndModels";
-import { GetAllFinishedGamesDto } from "../../../../../shared/utils/types/gameDtos";
-import classes from "./UserGamesCard.module.scss";
-import IconCreator from "../../../../../shared/components/icon-creator/IconCreator";
-import { mainColor } from "../../../../../shared/utils/objects/colorMaps";
-import { defaultPiecesImages } from "../../../../../shared/svgs/iconsMap/DefaultPieceImageSvgs";
-import { timingTypeIcons } from "../../../../../shared/svgs/iconsMap/TimingTypeIcons";
-import { GameEndReasonName, PieceTag, TimingTypeName } from "../../../../../shared/utils/objects/constantLists";
-import { gameEndReasonIcons } from "../../../../../shared/svgs/iconsMap/GameEndReasonIcons";
-import { GameEndReason, TimingType } from "../../../../../shared/utils/objects/entitiesEnums";
-import { gameResultIcons } from "../../../../../shared/svgs/iconsMap/GameResultIcons";
-import { getPieceSideColor } from "../../../../../shared/utils/objects/piecesNameMaps";
+import { GetAllFinishedGamesDto } from "../../../../../../shared/utils/types/gameDtos";
+import AvatarImage from "../../../../../../shared/components/avatar-image/AvatarImage";
+import classes from "./LastGameCard.module.scss";
+import { PlayerDto } from "../../../../../../shared/utils/types/abstractDtosAndModels";
+import IconCreator from "../../../../../../shared/components/icon-creator/IconCreator";
+import { defaultPiecesImages } from "../../../../../../shared/svgs/iconsMap/DefaultPieceImageSvgs";
+import { getPieceSideColor } from "../../../../../../shared/utils/objects/piecesNameMaps";
+import { GameEndReasonName, PieceTag, TimingTypeName } from "../../../../../../shared/utils/objects/constantLists";
+import { timingTypeIcons } from "../../../../../../shared/svgs/iconsMap/TimingTypeIcons";
+import { getEnumKeyByEnumValue } from "../../../../../../shared/utils/functions/enums";
+import { mainColor } from "../../../../../../shared/utils/objects/colorMaps";
+import { gameResultIcons } from "../../../../../../shared/svgs/iconsMap/GameResultIcons";
+import { gameEndReasonIcons } from "../../../../../../shared/svgs/iconsMap/GameEndReasonIcons";
+import { GameEndReason, TimingType } from "../../../../../../shared/utils/objects/entitiesEnums";
 
-type UserGamesCardProps = {
+type LastGameCardProps = {
   // finished game data
   game: GetAllFinishedGamesDto;
 };
 
-function UserGamesCard({ game }: UserGamesCardProps) {
+function LastGameCard({ game }: LastGameCardProps) {
   ///
 
   // elements ref for card resizing
@@ -211,41 +211,8 @@ function UserGamesCard({ game }: UserGamesCardProps) {
         {displayPlayer(game)}
         <div className={classes.date}>{new Date(game.createdAt).toLocaleDateString()}</div>
       </div>
-
-      <div ref={dataRef} className={classes["game-data"]}>
-        {/* game timing type */}
-        <div className={classes["timing-type"]}>
-          <IconCreator
-            icons={timingTypeIcons}
-            iconName={getEnumKeyByEnumValue(TimingType, game.timingType) as TimingTypeName}
-            color={mainColor.c5}
-          />
-        </div>
-
-        {/* game result */}
-        <div className={classes["is-winner"]}>
-          {game.isWinner === null ? (
-            <IconCreator icons={gameResultIcons} iconName={"draw"} />
-          ) : game.isWinner === true ? (
-            <IconCreator icons={gameResultIcons} iconName={"win"} />
-          ) : (
-            <IconCreator icons={gameResultIcons} iconName={"lose"} />
-          )}
-        </div>
-
-        {/* moves */}
-        <div className={classes.moves}>{game.moves}</div>
-
-        {/* cause of ending */}
-        <div className={classes["win-type"]}>
-          <IconCreator
-            icons={gameEndReasonIcons}
-            iconName={getEnumKeyByEnumValue(GameEndReason, game.endGameType) as GameEndReasonName}
-          />
-        </div>
-      </div>
     </div>
   );
 }
 
-export default UserGamesCard;
+export default LastGameCard;

@@ -4,13 +4,13 @@ import { useLocation } from "react-router-dom";
 
 interface PopupContextType {
   // to show MainPopup, set content and icon
-  showPopup: (content: string, type: typeof popupIconTypes[number]) => void;
+  showPopup: (content: string, type: (typeof popupIconTypes)[number]) => void;
   // to hide popup
   hidePopup: () => void;
   // popup message content
   popupContent: string;
   // popup icon type
-  popupType: typeof popupIconTypes[number] | null;
+  popupType: (typeof popupIconTypes)[number] | null;
 }
 
 // default popup context
@@ -32,10 +32,10 @@ export const PopupProvider = ({ children }: PopUpProviderProps) => {
   // state for popup content
   const [popupContent, setPopupContent] = useState<string>("");
   // state for popup icon type
-  const [popupType, setPopupType] = useState<typeof popupIconTypes[number] | null>(null);
+  const [popupType, setPopupType] = useState<(typeof popupIconTypes)[number] | null>(null);
 
   // show popup
-  const showPopup = (content: string, type: typeof popupIconTypes[number]) => {
+  const showPopup = (content: string, type: (typeof popupIconTypes)[number]) => {
     hidePopup();
 
     setTimeout(() => {

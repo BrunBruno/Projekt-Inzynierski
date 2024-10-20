@@ -1,14 +1,14 @@
 import { RefObject, useEffect, useRef, useState } from "react";
-import classes from "./DefaultViewBoard.module.scss";
+import classes from "./BackgroundBoard.module.scss";
 import { MousePosition } from "../../../../../shared/utils/types/commonTypes";
 
 let timer: NodeJS.Timeout;
 
-type DefaultViewBoardProps = {
+type BackgroundBoardProps = {
   defaultViewRef: RefObject<HTMLDivElement>;
 };
 
-function DefaultViewBoard({ defaultViewRef }: DefaultViewBoardProps) {
+function BackgroundBoard({ defaultViewRef }: BackgroundBoardProps) {
   ///
 
   // inner board ref
@@ -133,4 +133,4 @@ function DefaultViewBoard({ defaultViewRef }: DefaultViewBoardProps) {
   );
 }
 
-export default DefaultViewBoard;
+export default BackgroundBoard;

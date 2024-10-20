@@ -4,9 +4,7 @@ import { useEffect } from "react";
 import IconCreator from "../icon-creator/IconCreator";
 import { symbolIcons } from "../../svgs/iconsMap/SymbolIcons";
 
-type MainPopUpProps = {};
-
-function MainPopUp({}: MainPopUpProps) {
+function MainPopUp(): JSX.Element {
   ///
 
   const { popupContent, popupType, hidePopup } = usePopup();

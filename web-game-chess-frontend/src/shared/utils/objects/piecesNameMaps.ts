@@ -38,8 +38,8 @@ export const pieceTagMap: PieceTagMap = {
   },
 } as const;
 
-export type WhitePieceType = typeof pieceTagMap.white[keyof typeof pieceTagMap.white];
-export type BlackPieceType = typeof pieceTagMap.black[keyof typeof pieceTagMap.black];
+export type WhitePieceType = (typeof pieceTagMap.white)[keyof typeof pieceTagMap.white];
+export type BlackPieceType = (typeof pieceTagMap.black)[keyof typeof pieceTagMap.black];
 
 // piece promotion tag maps
 export type PiecePromotionMap = {

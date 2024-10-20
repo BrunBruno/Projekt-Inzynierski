@@ -42,8 +42,6 @@ function UserSection({ getTypeHistory, setFriendSection }: UserSectionProps) {
     try {
       const userResponse = await axios.get<GetFullUserDto>(userController.getFullUser(), getAuthorization());
 
-      console.log(userResponse.data);
-
       setUser(userResponse.data);
 
       if (userResponse.data.name !== null) {
@@ -97,8 +95,6 @@ function UserSection({ getTypeHistory, setFriendSection }: UserSectionProps) {
 
       // refresh data
       fetchData();
-
-      console.log("updated");
     } catch (err) {
       showPopup(getErrMessage(err), "warning");
     }

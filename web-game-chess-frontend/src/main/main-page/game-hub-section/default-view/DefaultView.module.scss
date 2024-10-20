@@ -4,14 +4,29 @@
 .default {
   @include wh100();
 
+  overflow-y: scroll;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+
   &__container {
     @include flex(column, start, start, 2rem);
 
     position: relative;
+    z-index: 0;
     width: 100%;
     min-height: 50rem;
-    height: 100%;
     padding: 6rem;
+
+    .board-container {
+      position: fixed;
+      z-index: -1;
+      pointer-events: none;
+      // right panel / nav bar / padding
+      width: calc(100% - 25% - 6rem - 2 * 6rem);
+      height: calc(100vh - 2 * 6rem);
+    }
   }
 }
 //*/
@@ -19,12 +34,6 @@
 // resize
 @media (max-height: 500px) {
   .default {
-    overflow-y: scroll;
-
-    &::-webkit-scrollbar {
-      display: none;
-    }
-
     &__container {
       margin-top: 10rem;
     }

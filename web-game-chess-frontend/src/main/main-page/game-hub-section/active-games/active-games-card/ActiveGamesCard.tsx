@@ -1,25 +1,25 @@
 import { useEffect, useRef } from "react";
-import { GetAllFinishedGamesDto } from "../../../../../../shared/utils/types/gameDtos";
-import AvatarImage from "../../../../../../shared/components/avatar-image/AvatarImage";
-import classes from "./LastGameCard.module.scss";
-import { PlayerDto } from "../../../../../../shared/utils/types/abstractDtosAndModels";
-import IconCreator from "../../../../../../shared/components/icon-creator/IconCreator";
-import { defaultPiecesImages } from "../../../../../../shared/svgs/iconsMap/DefaultPieceImageSvgs";
-import { getPieceSideColor } from "../../../../../../shared/utils/objects/piecesNameMaps";
-import { GameEndReasonName, PieceTag, TimingTypeName } from "../../../../../../shared/utils/objects/constantLists";
-import { timingTypeIcons } from "../../../../../../shared/svgs/iconsMap/TimingTypeIcons";
-import { getEnumKeyByEnumValue } from "../../../../../../shared/utils/functions/enums";
-import { mainColor } from "../../../../../../shared/utils/objects/colorMaps";
-import { gameResultIcons } from "../../../../../../shared/svgs/iconsMap/GameResultIcons";
-import { gameEndReasonIcons } from "../../../../../../shared/svgs/iconsMap/GameEndReasonIcons";
-import { GameEndReason, TimingType } from "../../../../../../shared/utils/objects/entitiesEnums";
+import AvatarImage from "../../../../../shared/components/avatar-image/AvatarImage";
+import { getEnumKeyByEnumValue } from "../../../../../shared/utils/functions/enums";
+import { PlayerDto } from "../../../../../shared/utils/types/abstractDtosAndModels";
+import { GetAllActiveGamesDto } from "../../../../../shared/utils/types/gameDtos";
+import classes from "./ActiveGamesCard.module.scss";
+import IconCreator from "../../../../../shared/components/icon-creator/IconCreator";
+import { mainColor } from "../../../../../shared/utils/objects/colorMaps";
+import { defaultPiecesImages } from "../../../../../shared/svgs/iconsMap/DefaultPieceImageSvgs";
+import { timingTypeIcons } from "../../../../../shared/svgs/iconsMap/TimingTypeIcons";
+import { GameEndReasonName, PieceTag, TimingTypeName } from "../../../../../shared/utils/objects/constantLists";
+import { gameEndReasonIcons } from "../../../../../shared/svgs/iconsMap/GameEndReasonIcons";
+import { GameEndReason, TimingType } from "../../../../../shared/utils/objects/entitiesEnums";
+import { gameResultIcons } from "../../../../../shared/svgs/iconsMap/GameResultIcons";
+import { getPieceSideColor } from "../../../../../shared/utils/objects/piecesNameMaps";
 
-type LastGameCardProps = {
+type ActiveGamesCardProps = {
   // finished game data
-  game: GetAllFinishedGamesDto;
+  game: GetAllActiveGamesDto;
 };
 
-function LastGameCard({ game }: LastGameCardProps) {
+function ActiveGamesCard({ game }: ActiveGamesCardProps) {
   ///
 
   // elements ref for card resizing
@@ -50,7 +50,7 @@ function LastGameCard({ game }: LastGameCardProps) {
   //*/
 
   // display players based on user player color
-  const displayPlayer = (game: GetAllFinishedGamesDto): JSX.Element => {
+  const displayPlayer = (game: GetAllActiveGamesDto): JSX.Element => {
     const userInfo = localStorage.getItem("userInfo");
 
     if (!userInfo) return <></>;
@@ -58,7 +58,7 @@ function LastGameCard({ game }: LastGameCardProps) {
     const userInfoObject = JSON.parse(userInfo);
 
     // generate player avatar element
-    const renderPlayer = (player: PlayerDto, isWhite: boolean, eloGained: number) => (
+    const renderPlayer = (player: PlayerDto, isWhite: boolean) => (
       <div className={classes.player}>
         <AvatarImage
           username={player.name}
@@ -70,7 +70,7 @@ function LastGameCard({ game }: LastGameCardProps) {
         <div className={classes["player-data"]}>
           <span>{player.name}</span>
           <span>
-            (<span>{player.elo + eloGained}</span>)
+            (<span>{player.elo}</span>)
           </span>
         </div>
       </div>
@@ -78,72 +78,30 @@ function LastGameCard({ game }: LastGameCardProps) {
 
     // white player case
     if (userInfoObject.username === game.whitePlayer.name) {
-      const wasOpponentBetter =
-        game.whitePlayer.elo === game.blackPlayer.elo ? null : game.whitePlayer.elo < game.blackPlayer.elo;
-
-      const sign =
-        game.isWinner === null
-          ? wasOpponentBetter === null
-            ? ""
-            : wasOpponentBetter
-            ? "+"
-            : "-"
-          : game.isWinner
-          ? "+"
-          : "-";
-
-      const eloGained = parseInt(sign + game.eloGained);
-
       return (
         <div className={classes.players}>
-          {renderPlayer(game.whitePlayer, true, eloGained)}
+          {renderPlayer(game.whitePlayer, true)}
 
           <div className={classes.players__sep}>
             <span>vs</span>
-
-            <span>
-              <span className={sign === "+" ? classes.p : classes.m}>{sign}</span>
-              {game.eloGained}
-            </span>
           </div>
 
-          {renderPlayer(game.blackPlayer, false, -eloGained)}
+          {renderPlayer(game.blackPlayer, false)}
         </div>
       );
     }
 
     // black player case
     if (userInfoObject.username === game.blackPlayer.name) {
-      const wasOpponentBetter =
-        game.whitePlayer.elo === game.blackPlayer.elo ? null : game.blackPlayer.elo < game.whitePlayer.elo;
-
-      const sign =
-        game.isWinner === null
-          ? wasOpponentBetter === null
-            ? ""
-            : wasOpponentBetter
-            ? "+"
-            : "-"
-          : game.isWinner
-          ? "+"
-          : "-";
-
-      const eloGained = parseInt(sign + game.eloGained);
-
       return (
         <div className={classes.players}>
-          {renderPlayer(game.blackPlayer, false, eloGained)}
+          {renderPlayer(game.blackPlayer, false)}
 
           <div className={classes.players__sep}>
             <span>vs</span>
-
-            <span>
-              <span className={sign === "+" ? classes.p : classes.m}>{sign}</span>
-              {game.eloGained}
-            </span>
           </div>
 
-          {renderPlayer(game.whitePlayer, true, -eloGained)}
+          {renderPlayer(game.whitePlayer, true)}
         </div>
       );
     }
@@ -222,30 +180,15 @@ function LastGameCard({ game }: LastGameCardProps) {
           />
         </div>
 
-        {/* game result */}
-        <div className={classes["is-winner"]}>
-          {game.isWinner === null ? (
-            <IconCreator icons={gameResultIcons} iconName={"draw"} />
-          ) : game.isWinner === true ? (
-            <IconCreator icons={gameResultIcons} iconName={"win"} />
-          ) : (
-            <IconCreator icons={gameResultIcons} iconName={"lose"} />
-          )}
-        </div>
-
         {/* moves */}
         <div className={classes.moves}>{game.moves}</div>
 
-        {/* cause of ending */}
-        <div className={classes["win-type"]}>
-          <IconCreator
-            icons={gameEndReasonIcons}
-            iconName={getEnumKeyByEnumValue(GameEndReason, game.endGameType) as GameEndReasonName}
-          />
-        </div>
+        <button>
+          <span>Rejoin</span>
+        </button>
       </div>
     </div>
   );
 }
 
-export default LastGameCard;
+export default ActiveGamesCard;

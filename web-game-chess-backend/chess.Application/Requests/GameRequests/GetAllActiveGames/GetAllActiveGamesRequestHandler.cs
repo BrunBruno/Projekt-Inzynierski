@@ -3,22 +3,22 @@ using chess.Application.Pagination;
 using chess.Application.Repositories;
 using chess.Application.Services;
 using chess.Core.Dtos;
-using chess.Core.Enums;
+using chess.Core.Entities;
+using chess.Shared.Exceptions;
 using MediatR;
 using Microsoft.IdentityModel.Tokens;
 
-namespace chess.Application.Requests.GameRequests.GetAllFinishedGames;
+namespace chess.Application.Requests.GameRequests.GetAllActiveGames;
 
 /// <summary>
-/// Gets all players for current user
-/// Creates amd return paged result of all previous games, based on user players
+/// 
 /// </summary>
-public class GetAllFinishedGamesRequestHandler : IRequestHandler<GetAllFinishedGamesRequest, PagedResult<GetAllFinishedGamesDto>> {
+public class GetAllActiveGamesRequestHandler : IRequestHandler<GetAllActiveGamesRequest, PagedResult<GetAllActiveGamesDto>> {
 
     private readonly IUserContextService _userContextService;
     private readonly IPlayerRepository _playerRepository;
 
-    public GetAllFinishedGamesRequestHandler(
+    public GetAllActiveGamesRequestHandler(
         IUserContextService userContextService,
         IPlayerRepository playerRepository
     ) {
@@ -26,76 +26,68 @@ public class GetAllFinishedGamesRequestHandler : IRequestHandler<GetAllFinishedG
         _playerRepository = playerRepository;
     }
 
-
-    public async Task<PagedResult<GetAllFinishedGamesDto>> Handle(GetAllFinishedGamesRequest request, CancellationToken cancellationToken) {
+    public async Task<PagedResult<GetAllActiveGamesDto>> Handle(GetAllActiveGamesRequest request, CancellationToken cancellationToken) {
 
         var userId = _userContextService.GetUserId();
 
-        var players = await _playerRepository.GetAllFinishedForUser(userId);
+        var players = await _playerRepository.GetAllActiveForUser(userId);
 
-        var finishedGames = new List<GetAllFinishedGamesDto>();
+        var finishedGames = new List<GetAllActiveGamesDto>();
 
-        foreach(var player in players) {
+        foreach (var player in players) {
 
             // player is white
-            if(player.WhiteGame is not null &&
+            if (player.WhiteGame is not null &&
                 player.WhiteGame.WhitePlayer is not null &&
                 player.WhiteGame.BlackPlayer is not null &&
-                player.WhiteGame.HasEnded 
-            ){
+                !player.WhiteGame.HasEnded
+            ) {
                 var game = player.WhiteGame;
 
-                // filter bt timing type
+                // cehck if game should ended
+                if (GameShouldEnded(game))
+                    continue;
+
+                // filter by timing type
                 if (request.TimingTypeFilters is not null &&
                     !request.TimingTypeFilters.IsNullOrEmpty() &&
-                    !request.TimingTypeFilters.Contains(game.TimingType))
+                    !request.TimingTypeFilters.Contains(player.WhiteGame.TimingType))
                     continue;
 
 
-                bool? isWinner = game.WinnerColor != null ? game.WinnerColor == PieceColor.White : null;
-
-                // filter by game result
-                if (request.ResultFilters is not null &&
-                    !request.ResultFilters.IsNullOrEmpty() &&
-                    !request.ResultFilters.Contains(isWinner))
-                    continue;
-
-                var gameDto = new GetAllFinishedGamesDto()
+                var gameDto = new GetAllActiveGamesDto()
                 {
                     Position = game.Position,
                     Turn = game.Turn,
                     Moves = game.Round,
-                    IsWinner = isWinner,
-                    EloGained = game.EloGain,
                     CreatedAt = game.CreatedAt,
                     TimingType = game.TimingType,
-                    EndGameType = player.WhiteGame.EndGameType,
 
                     // currect user player
                     WhitePlayer = new PlayerDto()
-                    { 
+                    {
                         Name = player.Name,
                         Elo = player.Elo,
 
-                        ProfilePicture = player.User.Image != null ? new ImageDto() 
+                        ProfilePicture = player.User.Image != null ? new ImageDto()
                         {
                             Data = player.User.Image.Data,
                             ContentType = player.User.Image.ContentType,
                         } : null,
                     },
-                    // opponets player
+                    // opponents player
                     BlackPlayer = new PlayerDto()
                     {
                         Name = game.BlackPlayer.Name,
                         Elo = game.BlackPlayer.Elo,
 
-                        ProfilePicture = game.BlackPlayer.User.Image != null ? new ImageDto() 
+                        ProfilePicture = game.BlackPlayer.User.Image != null ? new ImageDto()
                         {
                             Data = game.BlackPlayer.User.Image.Data,
                             ContentType = game.BlackPlayer.User.Image.ContentType,
                         } : null,
                     }
-                    
+
                 };
 
                 finishedGames.Add(gameDto);
@@ -105,9 +97,13 @@ public class GetAllFinishedGamesRequestHandler : IRequestHandler<GetAllFinishedG
             if (player.BlackGame is not null &&
                 player.BlackGame.WhitePlayer is not null &&
                 player.BlackGame.BlackPlayer is not null &&
-                player.BlackGame.HasEnded
+                !player.BlackGame.HasEnded
             ) {
                 var game = player.BlackGame;
+
+                // cehck if game should ended
+                if (GameShouldEnded(game))
+                    continue;
 
                 // filter by timing type
                 if (request.TimingTypeFilters is not null &&
@@ -115,32 +111,22 @@ public class GetAllFinishedGamesRequestHandler : IRequestHandler<GetAllFinishedG
                     !request.TimingTypeFilters.Contains(game.TimingType))
                     continue;
 
-                bool? isWinner = game.WinnerColor != null ? game.WinnerColor == PieceColor.Black : null;
 
-                // filter by game result
-                if (request.ResultFilters is not null &&
-                    !request.ResultFilters.IsNullOrEmpty() &&
-                    !request.ResultFilters.Contains(isWinner))
-                    continue;
-
-                var gameDto = new GetAllFinishedGamesDto()
+                var gameDto = new GetAllActiveGamesDto()
                 {
                     Position = game.Position,
                     Turn = game.Turn,
                     Moves = game.Round,
-                    IsWinner = isWinner,
-                    EloGained = game.EloGain,
                     CreatedAt = game.CreatedAt,
                     TimingType = game.TimingType,
-                    EndGameType = game.EndGameType,
 
-                    // opponents player
+                    // oppoents players
                     WhitePlayer = new PlayerDto()
                     {
                         Name = game.WhitePlayer.Name,
                         Elo = game.WhitePlayer.Elo,
 
-                        ProfilePicture = game.WhitePlayer.User.Image != null ? new ImageDto() 
+                        ProfilePicture = game.WhitePlayer.User.Image != null ? new ImageDto()
                         {
                             Data = game.WhitePlayer.User.Image.Data,
                             ContentType = game.WhitePlayer.User.Image.ContentType,
@@ -152,7 +138,7 @@ public class GetAllFinishedGamesRequestHandler : IRequestHandler<GetAllFinishedG
                         Name = player.Name,
                         Elo = player.Elo,
 
-                        ProfilePicture = player.User.Image != null ? new ImageDto() 
+                        ProfilePicture = player.User.Image != null ? new ImageDto()
                         {
                             Data = player.User.Image.Data,
                             ContentType = player.User.Image.ContentType,
@@ -164,8 +150,41 @@ public class GetAllFinishedGamesRequestHandler : IRequestHandler<GetAllFinishedG
             }
         }
 
-        var pagedResult = new PagedResult<GetAllFinishedGamesDto>(finishedGames, finishedGames.Count, request.PageSize, request.PageNumber);
-
+        var pagedResult = new PagedResult<GetAllActiveGamesDto>(finishedGames, finishedGames.Count, request.PageSize, request.PageNumber);
         return pagedResult;
+    }
+
+    private static bool GameShouldEnded(Game game) {
+
+        DateTime lastTimeRecorded = ((game.Moves == null || game.Moves.Count == 0) ? game.StartedAt : game.Moves[^1].DoneAt)
+                   ?? throw new BadRequestException("Game was not started properly.");
+
+        DateTime currentTime =  DateTime.UtcNow;
+
+        if (currentTime < lastTimeRecorded)
+            throw new BadRequestException("Game was not started properly.");
+
+
+        double timeDifference = (currentTime - lastTimeRecorded).TotalSeconds;
+
+        double whiteTimeLeft;
+        double blackTimeLeft;
+
+        if (game.Turn % 2 == 0) {
+
+            whiteTimeLeft = game.WhitePlayer.TimeLeft - timeDifference;
+            blackTimeLeft = game.BlackPlayer.TimeLeft;
+
+        } else {
+
+            whiteTimeLeft = game.WhitePlayer.TimeLeft;
+            blackTimeLeft = game.BlackPlayer.TimeLeft - timeDifference;
+
+        }
+
+        if (whiteTimeLeft <= 0 || blackTimeLeft <= 0)
+            return true;
+
+        return false;
     }
 }

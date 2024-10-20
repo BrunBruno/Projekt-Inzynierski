@@ -23,6 +23,7 @@ using chess.Application.Requests.GameRequests.GetAllMessages;
 using chess.Application.Requests.GameRequests.CreateGameWithLink;
 using chess.Application.Requests.GameRequests.CheckIfUpdateRequired;
 using chess.Application.Requests.GameRequests.CancelPrivateGame;
+using chess.Application.Requests.GameRequests.GetAllActiveGames;
 
 namespace chess.Api.Controllers;
 
@@ -281,6 +282,23 @@ public class GameController : ControllerBase {
         var timing = await _mediator.Send(request);
 
         return Ok(timing);
+    }
+
+
+    /// <summary>
+    /// Gets all ongoing games for user
+    /// </summary>
+    /// <param name="model"></param>
+    /// <returns>  Page result of games </returns>
+    [HttpGet("all-ongoing")]
+    [Authorize(Policy = "IsVerified")]
+    public async Task<IActionResult> GetAllActiveGames([FromQuery] GetAllActiveGamesModel model) {
+
+        var request = _mapper.Map<GetAllActiveGamesRequest>(model);
+
+        var games = await _mediator.Send(request);
+
+        return Ok(games);
     }
 
 

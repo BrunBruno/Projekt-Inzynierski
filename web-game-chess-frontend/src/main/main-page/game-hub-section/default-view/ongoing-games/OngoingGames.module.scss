@@ -26,27 +26,12 @@
 
     // list of game cards or empty cards
     &__list {
+      @include flex();
+
       position: relative;
       padding: 0.5rem;
-      overflow-y: scroll;
-      overflow-x: hidden;
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
+      overflow: hidden;
       gap: 2rem;
-
-      &::-webkit-scrollbar {
-        width: 1rem;
-        background-color: #0000;
-
-        &-thumb {
-          background-color: $gc9;
-          border-radius: 1rem;
-        }
-      }
-
-      &.empty {
-        overflow: hidden;
-      }
     }
     //*/
 

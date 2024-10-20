@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import classes from "./DefaultViewProfileWindow.module.scss";
+import classes from "./ProfileWindow.module.scss";
 import axios from "axios";
 import { GetEloDto, GetFullUserDto } from "../../../../../shared/utils/types/userDtos";
 import { getAuthorization, userController } from "../../../../../shared/utils/services/ApiService";
@@ -13,9 +13,9 @@ import { greyColor } from "../../../../../shared/utils/objects/colorMaps";
 import { defaultViewIcons } from "../DefaultViewIcons";
 import { displayTimingName } from "../../../../../shared/utils/functions/enums";
 
-type DefaultViewProfileWindowProps = {};
+type ProfileWindowProps = {};
 
-function DefaultViewProfileWindow({}: DefaultViewProfileWindowProps): JSX.Element {
+function ProfileWindow({}: ProfileWindowProps): JSX.Element {
   ///
 
   const { showPopup } = usePopup();
@@ -90,4 +90,4 @@ function DefaultViewProfileWindow({}: DefaultViewProfileWindowProps): JSX.Elemen
   );
 }
 
-export default DefaultViewProfileWindow;
+export default ProfileWindow;

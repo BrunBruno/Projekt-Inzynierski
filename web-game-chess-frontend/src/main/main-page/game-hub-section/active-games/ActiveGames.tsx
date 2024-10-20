@@ -1,0 +1,155 @@
+import axios from "axios";
+import classes from "./ActiveGames.module.scss";
+import { gameController, getAuthorization } from "../../../../shared/utils/services/ApiService";
+import { useEffect, useState } from "react";
+import LoadingPage from "../../../../shared/components/loading-page/LoadingPage";
+import usePagination from "../../../../shared/utils/hooks/usePagination";
+import { usePopup } from "../../../../shared/utils/hooks/usePopUp";
+import { getErrMessage } from "../../../../shared/utils/functions/errors";
+import { PagedResult } from "../../../../shared/utils/types/abstractDtosAndModels";
+import ActiveGamesEmptyCard from "./active-games-empty-card/ActiveGamesEmptyCard";
+import ActiveGamesCard from "./active-games-card/ActiveGamesCard";
+import ActiveGamesFilters from "./active-games-filters/ActiveGamesFilters";
+import { GetAllActiveGamesDto } from "../../../../shared/utils/types/gameDtos";
+import { GetAllActiveGamesModel } from "../../../../shared/utils/types/gameModels";
+
+type ActiveGamesProps = {};
+
+function ActiveGames({}: ActiveGamesProps) {
+  ///
+
+  const { showPopup } = usePopup();
+  const { scrollRef, pageNumber, pageSize, totalItemsCount, setDefPageSize, setTotalItemsCount } = usePagination();
+
+  // obtained game list
+  const [games, setGames] = useState<GetAllActiveGamesDto[] | null>(null);
+  const [itemsCount, setItemsCount] = useState<number>(0);
+
+  // to display filters options
+  const [showFilters, setShowFilters] = useState<boolean>(false);
+  // list for setting up search filters
+  const [timingTypeFilters, setTimingTypeFilters] = useState<number[]>([]);
+
+  // send set default pagination page size
+  useEffect(() => {
+    const setDefSize = (): void => {
+      const elemCount = window.innerWidth > 700 ? 3 : 2;
+
+      const container = scrollRef.current;
+      if (container) {
+        const containerHeight = container.clientHeight;
+        const firstChild = container.firstChild as HTMLElement;
+        if (firstChild) {
+          const elementHeight = firstChild.clientHeight;
+
+          if (elementHeight > 0) {
+            const count = Math.ceil(containerHeight / elementHeight) * elemCount;
+
+            setDefPageSize(count);
+          }
+        }
+      }
+    };
+
+    setDefSize();
+    window.addEventListener("resize", setDefSize);
+
+    return () => {
+      window.removeEventListener("resize", setDefSize);
+    };
+  }, [games]);
+  //*/
+
+  // get all finished games
+  useEffect(() => {
+    const getGames = async (): Promise<void> => {
+      const getGamesOptions: GetAllActiveGamesModel = {
+        pageNumber: pageNumber,
+        pageSize: pageSize,
+        timingTypeFilters: timingTypeFilters,
+      };
+
+      try {
+        const response = await axios.get<PagedResult<GetAllActiveGamesDto>>(
+          gameController.getAllFinishedGames(getGamesOptions),
+          getAuthorization()
+        );
+
+        setGames(response.data.items);
+        setTotalItemsCount(response.data.totalItemsCount);
+
+        const count =
+          response.data.itemsTo < response.data.totalItemsCount ? response.data.itemsTo : response.data.totalItemsCount;
+
+        setItemsCount(count);
+      } catch (err) {
+        showPopup(getErrMessage(err), "warning");
+      }
+    };
+
+    getGames();
+  }, [pageSize, timingTypeFilters, pageNumber]);
+  //*/
+
+  // to display filters
+  const onShowFilters = () => {
+    if (games && games.length > 0) {
+      setShowFilters((prev) => !prev);
+    }
+  };
+  //*/
+
+  return (
+    <div className={classes.games}>
+      <div className={classes.games__header}>
+        <h2 className={classes["header-title"]}>
+          <span>Your previous games: </span>
+
+          <span className={classes["counter"]}>
+            <span className={classes["sym"]}>(</span>
+            {itemsCount}
+            <span className={classes["sym"]}>/</span>
+            {totalItemsCount}
+            <span className={classes["sym"]}>)</span>
+          </span>
+        </h2>
+
+        <div className={classes.filters}>
+          <button
+            className={`
+                ${classes["filter-button"]} 
+                ${!games || games.length === 0 ? classes["disabled"] : classes["enabled"]}
+              `}
+            onClick={() => {
+              onShowFilters();
+            }}
+          >
+            <span>Filters</span>
+          </button>
+        </div>
+      </div>
+
+      {!games ? (
+        <LoadingPage text="Loading games" />
+      ) : games.length === 0 ? (
+        <div ref={scrollRef} className={`${classes.games__list} ${classes.empty}`}>
+          {Array.from({ length: pageSize }).map((_, i: number) => (
+            <ActiveGamesEmptyCard key={i} />
+          ))}
+        </div>
+      ) : (
+        <div ref={scrollRef} className={classes.games__list}>
+          {games.map((game: GetAllActiveGamesDto, i: number) => (
+            <ActiveGamesCard key={`game-${i}`} game={game} />
+          ))}
+        </div>
+      )}
+
+      {showFilters && (
+        <ActiveGamesFilters timingTypeFilters={timingTypeFilters} setTimingTypeFilters={setTimingTypeFilters} />
+      )}
+    </div>
+  );
+}
+
+export default ActiveGames;

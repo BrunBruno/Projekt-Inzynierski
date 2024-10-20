@@ -2,7 +2,7 @@
 
 import { Guid } from "guid-typescript";
 import { MoveDto, PlayerDto, TimingTypeModel, UserImage } from "./abstractDtosAndModels";
-import { MessageType, PieceColor, TimingType } from "../objects/entitiesEnums";
+import { GameEndReason, MessageType, PieceColor, TimingType } from "../objects/entitiesEnums";
 
 export type CheckIfInGameDto = {
   // has player be assigned to game
@@ -62,7 +62,24 @@ export type GetAllFinishedGamesDto = {
   // type of game timing
   timingType: number;
   // result of the ga,e
-  endGameType: number;
+  endGameType: GameEndReason;
+  // white payer data
+  whitePlayer: PlayerDto;
+  // black player data
+  blackPlayer: PlayerDto;
+};
+
+export type GetAllActiveGamesDto = {
+  // last position
+  position: string;
+  // number of turns
+  turn: number;
+  // number of moves
+  moves: number;
+  // creation date of the game
+  createdAt: Date;
+  // type of game timing
+  timingType: TimingType;
   // white payer data
   whitePlayer: PlayerDto;
   // black player data

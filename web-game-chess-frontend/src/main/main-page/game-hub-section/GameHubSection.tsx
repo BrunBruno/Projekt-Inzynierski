@@ -21,6 +21,7 @@ import IconCreator from "../../../shared/components/icon-creator/IconCreator";
 import { gameHubSectionIcons } from "./GameHubSectionIcons";
 import SearchingPage from "../../../shared/components/searching-page/SearchingPage";
 import { Guid } from "guid-typescript";
+import ActiveGames from "./active-games/ActiveGames";
 
 type GameHubSectionProps = {
   // in case of entering page with already chosen interface by user
@@ -176,6 +177,10 @@ function GameHubSection({ providedInterface }: GameHubSectionProps) {
         );
         break;
 
+      case GameSearchInterface.activeGames:
+        setInterfaceContent(<ActiveGames />);
+        break;
+
       case GameSearchInterface.userGames:
         setInterfaceContent(<UserGames />);
         break;
@@ -243,6 +248,17 @@ function GameHubSection({ providedInterface }: GameHubSectionProps) {
             >
               <IconCreator icons={gameHubSectionIcons} iconName={"vsFriend"} />
               <span>Play vs Friend</span>
+            </button>
+
+            <button
+              data-testid="main-page-game-hub-active-games-button"
+              className={classes["interface-button"]}
+              onClick={() => {
+                setInterfaceById(GameSearchInterface.activeGames);
+              }}
+            >
+              <IconCreator icons={gameHubSectionIcons} iconName={"userGames"} />
+              <span>Rejoin game</span>
             </button>
 
             <button

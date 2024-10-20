@@ -91,6 +91,11 @@ export type GetAllFinishedGamesModel = PagedModel & {
   resultFilters?: (boolean | null)[];
 };
 
+export type GetAllActiveGamesModel = PagedModel & {
+  // to get only selected types of timing type
+  timingTypeFilters?: TimingType[];
+};
+
 export type GetTypeHistoryModel = PagedModel & {
   // selected timing to to display history of games
   type: TimingType;

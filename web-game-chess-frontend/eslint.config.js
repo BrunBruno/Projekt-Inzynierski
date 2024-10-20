@@ -20,6 +20,14 @@ export default tseslint.config(
     rules: {
       ...reactHooks.configs.recommended.rules,
       "react-refresh/only-export-components": ["warn", { allowConstantExport: true }],
+      "no-empty-pattern": "off",
+      "@typescript-eslint/no-empty-interface": [
+        "error",
+        {
+          allowSingleExtends: true,
+          allowObjectTypes: true,
+        },
+      ],
     },
   }
 );

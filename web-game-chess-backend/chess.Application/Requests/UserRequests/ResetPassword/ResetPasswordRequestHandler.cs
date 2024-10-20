@@ -8,6 +8,9 @@ using Microsoft.AspNetCore.Identity;
 
 namespace chess.Application.Requests.UserRequests.ResetPassword;
 
+/// <summary>
+/// 
+/// </summary>
 public class ResetPasswordRequestHandler : IRequestHandler<ResetPasswordRequest> {
 
     private readonly IUserVerificationCodeRepository _codeRepository;

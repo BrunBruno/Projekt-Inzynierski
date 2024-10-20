@@ -29,7 +29,6 @@ function Invitations({}: InvitationsProps) {
   // all users invitation
   const [invitations, setInvitations] = useState<PagedResult<GetAllInvitationsDto> | null>(null);
   // for pagination
-  // const [pageSize, setPageSize] = useState<number>(defaultSize);
 
   // for filtering results
   const [showFilters, setShowFilters] = useState<boolean>(false);

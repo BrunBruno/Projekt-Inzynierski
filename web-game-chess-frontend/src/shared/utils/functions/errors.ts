@@ -14,7 +14,7 @@ export const errorDisplay = (error: any, action: (value: SetStateAction<string>)
   }
 };
 
-// Get messages for popups to display
+// get messages for popups to display
 export const getErrMessage = (error: any): string => {
   console.error(error);
 
