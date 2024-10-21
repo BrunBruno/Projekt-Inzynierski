@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import classes from "./VsFriendSearch.module.scss";
 import { GetAllFriendsByStatusDto } from "../../../../shared/utils/types/friendshipDtos";
 import TimeSelection from "./time-selection/TimeSelection";
@@ -10,11 +10,15 @@ import InviteBySelection from "./invite-by/InviteBySelection";
 import InviteByEmail from "./invite-by/InviteByEmail";
 import InviteByUrl from "./invite-by/InviteByUrl";
 import { TimingTypeName } from "../../../../shared/utils/objects/constantLists";
+import { useLocation } from "react-router-dom";
+import { StateOptions } from "../../../../shared/utils/objects/interfacesEnums";
 
 type VsFriendSearchProps = {};
 
 function VsFriendSearch({}: VsFriendSearchProps) {
   ///
+
+  const location = useLocation();
 
   const inviteBySelectionRef = useRef<InviteBySelectionRef>(null);
   const inviteByEmailRef = useRef<InviteByEmailRef>(null);
@@ -25,6 +29,16 @@ function VsFriendSearch({}: VsFriendSearchProps) {
   const [selectedFriend, setSelectedFriend] = useState<GetAllFriendsByStatusDto | null>(null);
   const [selectedUser, setSelectedUser] = useState<GetByEmailDto | null>(null);
   const [selectedByUrl, setSelectedByUrl] = useState<boolean>(false);
+
+  useEffect(() => {
+    const locationState = location.state as StateOptions;
+    if (!locationState) return;
+
+    // when fired was selected from other page
+    if (locationState.selectedFriend) {
+      setSelectedFriend(locationState.selectedFriend);
+    }
+  }, [location.state]);
 
   // to invite users to game
   const onInviteBySelection = (friendshipId: Guid, header: TimingTypeName, values: [number, number]): void => {

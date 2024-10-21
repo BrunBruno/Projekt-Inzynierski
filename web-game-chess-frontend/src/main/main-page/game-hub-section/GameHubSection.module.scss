@@ -74,6 +74,12 @@
               }
             }
 
+            .active-games-icon {
+              path {
+                fill: $mc0;
+              }
+            }
+
             .user-games-icon {
               path {
                 &:nth-child(1),
@@ -92,28 +98,14 @@
             }
           }
 
-          @mixin buttonIcon() {
-            height: 4rem;
-          }
-
-          .home-icon {
-            @include buttonIcon();
-          }
-
-          .vs-player-icon {
-            @include buttonIcon();
-          }
-          .vs-computer-icon {
-            @include buttonIcon();
-          }
-          .vs-friend-icon {
-            @include buttonIcon();
-          }
-          .user-games-icon {
-            @include buttonIcon();
-          }
+          .home-icon,
+          .vs-player-icon,
+          .vs-computer-icon,
+          .vs-friend-icon,
+          .active-games-icon,
+          .user-games-icon,
           .invitations-icon {
-            @include buttonIcon();
+            height: 4rem;
           }
 
           &:focus {

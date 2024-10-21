@@ -6,6 +6,7 @@ import {
   EndGameModel,
   MakeMoveModel,
   NotifyUserModel,
+  SendGameMessageModel,
   SendMessageModel,
   TypingStatusModel,
 } from "../types/gameModels";
@@ -108,6 +109,15 @@ class GameHub {
   public async SendMessage(model: SendMessageModel): Promise<void> {
     try {
       await this.connection?.invoke("send-message", model);
+    } catch (err) {
+      console.error(err);
+    }
+  }
+
+  // to send bot messages
+  public async SendGameMessage(model: SendGameMessageModel): Promise<void> {
+    try {
+      await this.connection?.invoke("send-game-message", model);
     } catch (err) {
       console.error(err);
     }

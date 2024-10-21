@@ -2,10 +2,10 @@ import { mainColor } from "../../../shared/utils/objects/colorMaps";
 import { IconMap } from "../../../shared/utils/types/commonTypes";
 import classes from "./LeftSideBar.module.scss";
 
-type IconNames = "abort" | "resign" | "draw";
+type IconNames = "leave" | "resign" | "draw";
 
 export const leftSideBarIcons: IconMap<IconNames> = {
-  abort: () => (
+  leave: () => (
     <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className={classes["list-icon"]}>
       <g>
         <path

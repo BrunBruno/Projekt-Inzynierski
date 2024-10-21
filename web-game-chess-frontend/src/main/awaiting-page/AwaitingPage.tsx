@@ -33,7 +33,11 @@ function AwaitingPage() {
 
         setTimingType(response.data);
       } catch (err) {
-        showPopup(getErrMessage(err), "warning");
+        const state: StateOptions = {
+          popup: { text: getErrMessage(err), type: "warning" },
+        };
+
+        navigate("/main", { state: state });
       }
     };
 
@@ -84,7 +88,6 @@ function AwaitingPage() {
       if (timingType) {
         const state: StateOptions = {
           popup: { text: "GAME STARTED", type: "info" },
-          timing: timingType,
         };
 
         navigate(`/main/game/${gameId}`, { state: state });

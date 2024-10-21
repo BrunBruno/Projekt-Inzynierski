@@ -15,16 +15,16 @@ namespace chess.Application.Requests.GameRequests.SendMessage;
 /// </summary>
 public class SendMessageRequestHandler : IRequestHandler<SendMessageRequest> {
 
-    private readonly IPlayerMessageRepository _messageRepository;
+    private readonly IPlayerMessageRepository _playerMessageRepository;
     private readonly IGameRepository _gameRepository;
     private readonly IUserContextService _userContextService;
 
     public SendMessageRequestHandler(
-        IPlayerMessageRepository messageRepository,
+        IPlayerMessageRepository playerMessageRepository,
         IGameRepository gameRepository,
         IUserContextService userContextService
     ) {
-        _messageRepository = messageRepository;
+        _playerMessageRepository = playerMessageRepository;
         _gameRepository = gameRepository;
         _userContextService = userContextService;
     }
@@ -51,6 +51,6 @@ public class SendMessageRequestHandler : IRequestHandler<SendMessageRequest> {
         };
 
 
-        await _messageRepository.Create(message);
+        await _playerMessageRepository.Create(message);
     }
 }

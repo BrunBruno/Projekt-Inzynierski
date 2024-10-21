@@ -17,6 +17,7 @@ using chess.Application.Requests.GameRequests.SearchGame;
 using chess.Application.Requests.GameRequests.SendMessage;
 using chess.Application.Requests.GameRequests.CreateGameWithLink;
 using chess.Application.Requests.GameRequests.GetAllActiveGames;
+using chess.Application.Requests.GameRequests.SendGameMessage;
 
 namespace chess.Api.Maps.MappingProfiles;
 
@@ -42,5 +43,6 @@ public class GameMappingProfile : Profile {
         CreateMap<GetAllInvitationsModel, GetAllInvitationsRequest>();
         CreateMap<CreateGameWithLinkModel, CreateGameWithLinkRequest>();
         CreateMap<GetAllActiveGamesModel, GetAllActiveGamesRequest>();
+        CreateMap<SendGameMessageModel, SendGameMessageRequest>();
     }
 }

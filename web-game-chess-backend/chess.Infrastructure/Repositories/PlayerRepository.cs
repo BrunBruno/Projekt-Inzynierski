@@ -24,7 +24,7 @@ public class PlayerRepository : IPlayerRepository {
                     .Include(p => p.BlackGame)
                         .ThenInclude(g => g.WhitePlayer)
                             .ThenInclude(wp => wp.User)
-                    .Where(p => p.UserId == userId && p.FinishedGame == false)
+                    .Where(p => p.UserId == userId && p.IsPlaying == true && p.FinishedGame == false)
                     .OrderByDescending(p => p.CreatedAt)
                     .ToListAsync();
 
@@ -38,7 +38,7 @@ public class PlayerRepository : IPlayerRepository {
                     .Include(p => p.BlackGame)
                         .ThenInclude(g => g.WhitePlayer)  
                             .ThenInclude(wp => wp.User)   
-                    .Where(p => p.UserId == userId && p.FinishedGame == true)
+                    .Where(p => p.UserId == userId && p.IsPlaying == true && p.FinishedGame == true)
                     .OrderByDescending(p => p.CreatedAt)
                     .ToListAsync();
 

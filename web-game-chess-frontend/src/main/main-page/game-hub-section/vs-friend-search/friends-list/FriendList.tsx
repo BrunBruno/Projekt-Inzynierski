@@ -69,7 +69,11 @@ function FriendList({ selectedUsername, setSelectedFriend }: FriendListProps) {
 
       if (container) {
         const containerHeight = container.clientHeight;
-        const firstChild = container.firstChild as HTMLElement;
+        let firstChild = container.firstChild as HTMLDivElement;
+        if (firstChild && firstChild.classList.contains(classes.list__empty)) {
+          firstChild = firstChild.firstChild as HTMLDivElement;
+        }
+
         const elementHeight = firstChild.clientHeight;
 
         if (elementHeight > 0) {

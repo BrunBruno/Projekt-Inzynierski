@@ -9,6 +9,7 @@ using chess.Application.Requests.GameRequests.InvitedToGame;
 using chess.Application.Requests.GameRequests.MakeMove;
 using chess.Application.Requests.GameRequests.RemoveDrawMessage;
 using chess.Application.Requests.GameRequests.SendDrawMessage;
+using chess.Application.Requests.GameRequests.SendGameMessage;
 using chess.Application.Requests.GameRequests.SendMessage;
 using chess.Application.Requests.GameRequests.StartGames;
 using chess.Application.Requests.GameRequests.UpdatePrivateGame;
@@ -119,6 +120,24 @@ public class GameHub : Hub<IGameHub> {
     public async Task SendMessage(SendMessageModel model) {
 
         var request = _mapper.Map<SendMessageRequest>(model);
+
+        await _mediator.Send(request);
+
+        await Clients.Groups($"game-{model.GameId}").MessagesUpdated();
+    }
+
+
+    /// <summary>
+    /// Creates new message for current users and current game
+    /// </summary>
+    /// <param name="model"></param>
+    /// <returns></returns>
+    [HubMethodName("send-game-message")]
+    [Authorize(Policy = "IsVerified")]
+    [SignalRMethod("SendGameMessage", Operation.Post)]
+    public async Task SendGameMessage(SendGameMessageModel model) {
+
+        var request = _mapper.Map<SendGameMessageRequest>(model);
 
         await _mediator.Send(request);
 

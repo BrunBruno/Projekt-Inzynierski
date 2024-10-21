@@ -55,6 +55,13 @@ export type SendMessageModel = {
   message: string;
 };
 
+export type SendGameMessageModel = {
+  // game id where message was sent
+  gameId: Guid;
+  // message content
+  message: string;
+};
+
 export type CreateGameWithLinkModel = TimingTypeModel & {};
 
 /** PUT models */

@@ -7,7 +7,7 @@ type AvatarImageProps = {
   // username
   username: string;
   // profile picture if exists
-  profilePicture: UserImage | null;
+  profilePicture: UserImage | string | null;
   // image container class (if needed)
   containerClass?: string;
   // image class (if needed)
@@ -24,7 +24,12 @@ function AvatarImage({ username, profilePicture, containerClass, imageClass }: A
   useEffect(() => {
     if (!profilePicture) return;
 
-    setImageSrc(`data:${profilePicture.contentType};base64,${profilePicture.data}`);
+    if (typeof profilePicture === "string") {
+      console.log(profilePicture);
+      setImageSrc(profilePicture);
+    } else {
+      setImageSrc(`data:${profilePicture.contentType};base64,${profilePicture.data}`);
+    }
   }, [profilePicture]);
 
   //*/

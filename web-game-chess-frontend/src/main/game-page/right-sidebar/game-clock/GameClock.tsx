@@ -1,4 +1,4 @@
-import { makeTimeFromMinutes } from "../../../../shared/utils/functions/dateTime";
+import { makeTimeFromMinutes } from "../../../../shared/utils/functions/datetime";
 import { GetGameDto } from "../../../../shared/utils/types/gameDtos";
 import classes from "./GameClock.module.scss";
 
@@ -16,11 +16,11 @@ function GameClock({ gameData, whitePlayerSeconds, blackPlayerSeconds }: GameClo
 
   // to display time on clock
   const showTime = (seconds: number): (string | JSX.Element)[] => {
-    const minutes = seconds / 60;
-    const time = makeTimeFromMinutes(minutes);
-    const parts = time.split(":");
+    const minutes: number = seconds / 60 <= 0 ? 0 : seconds / 60;
+    const time: string = makeTimeFromMinutes(minutes);
+    const parts:string[] = time.split(":");
 
-    const elements = [];
+    const elements: (string | JSX.Element)[] = [];
     for (let i = 0; i < parts.length; i++) {
       elements.push(parts[i]);
 

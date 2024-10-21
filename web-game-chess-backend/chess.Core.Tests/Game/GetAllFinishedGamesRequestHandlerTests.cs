@@ -33,7 +33,7 @@ public class GetAllFinishedGamesRequestHandlerTests {
 
 
         _mockUserContextService.Setup(x => x.GetUserId()).Returns(userId);
-        _mockPlayerRepository.Setup(x => x.GetAllForUser(userId)).ReturnsAsync(players);
+        _mockPlayerRepository.Setup(x => x.GetAllFinishedForUser(userId)).ReturnsAsync(players);
 
 
         var handler = new GetAllFinishedGamesRequestHandler(
@@ -50,7 +50,7 @@ public class GetAllFinishedGamesRequestHandlerTests {
         result.ItemsTo = 10;
 
         _mockUserContextService.Verify(x => x.GetUserId(), Times.Once);
-        _mockPlayerRepository.Verify(x => x.GetAllForUser(userId), Times.Once);
+        _mockPlayerRepository.Verify(x => x.GetAllFinishedForUser(userId), Times.Once);
     }
 
     private static List<Player> ReturnExamplePlayers(Guid userId) {

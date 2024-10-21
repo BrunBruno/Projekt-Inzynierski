@@ -24,8 +24,10 @@ function FriendCard({ friend, setSelectedFriend, clearSelection }: FriendCardPro
 
   // to navigate to vs-friend search
   const onInviteFriendToGame = async (): Promise<void> => {
+    // pass the friend to invite to game
     const state: StateOptions = {
       interface: GameSearchInterface.vsFriend,
+      selectedFriend: friend,
     };
 
     navigate(`/main`, { state: state });

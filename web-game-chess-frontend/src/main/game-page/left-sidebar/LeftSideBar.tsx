@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import LogoIcon from "../../../shared/svgs/icons/LogoIcon";
-import { GameEndReason, PieceColor } from "../../../shared/utils/objects/entitiesEnums";
+import { GameEndReason, PieceColor, TimingType } from "../../../shared/utils/objects/entitiesEnums";
 import GameHubService from "../../../shared/utils/services/GameHubService";
 import { GetGameDto, GetPlayerDto } from "../../../shared/utils/types/gameDtos";
 import { EndGameModel } from "../../../shared/utils/types/gameModels";
@@ -58,16 +58,9 @@ function LeftSideBar({ gameId, playerData, gameData, setShowConfirm, setConfirmA
   };
   //*/
 
-  // to abort from game
-  const onAbort = (): void => {
-    // draw on first moves
-    if (gameData.turn === 0 || gameData.turn === 1) {
-      endGame(null, GameEndReason.agreement);
-    } else {
-      endGame(playerData.color, GameEndReason.resignation);
-    }
-
-    navigate("/main");
+  // draw on first moves
+  const onDraw = (): void => {
+    endGame(null, GameEndReason.agreement);
   };
   //*/
 
@@ -88,8 +81,12 @@ function LeftSideBar({ gameId, playerData, gameData, setShowConfirm, setConfirmA
     setShowConfirm(action);
 
     switch (action) {
+      case GameActionInterface.leave:
+        setConfirmAction(() => onDraw);
+        break;
+
       case GameActionInterface.abort:
-        setConfirmAction(() => onAbort);
+        setConfirmAction(() => onResign);
         break;
 
       case GameActionInterface.resign:
@@ -106,6 +103,21 @@ function LeftSideBar({ gameId, playerData, gameData, setShowConfirm, setConfirmA
     }
   };
   //*/
+
+  const setLeaveOption = () => {
+    if (gameData.timingType === TimingType.daily || gameData.timingType === TimingType.classic) {
+      navigate("/main");
+    } else {
+      if (
+        (gameData.turn === 0 && playerData.color === PieceColor.white) ||
+        (gameData.turn <= 1 && playerData.color === PieceColor.black)
+      ) {
+        onSelectAction(GameActionInterface.leave);
+      } else {
+        onSelectAction(GameActionInterface.abort);
+      }
+    }
+  };
 
   return (
     <section className={classes.bar}>
@@ -125,10 +137,17 @@ function LeftSideBar({ gameId, playerData, gameData, setShowConfirm, setConfirmA
           <li
             className={classes.bar__content__list__element}
             onClick={() => {
-              onSelectAction(GameActionInterface.abort);
+              setLeaveOption();
             }}
           >
-            <IconCreator icons={leftSideBarIcons} iconName={"abort"} />
+            {gameData.timingType === TimingType.daily ||
+            gameData.timingType === TimingType.classic ||
+            (gameData.turn === 0 && playerData.color === PieceColor.white) ||
+            (gameData.turn <= 1 && playerData.color === PieceColor.black) ? (
+              <IconCreator icons={leftSideBarIcons} iconName={"leave"} />
+            ) : (
+              <IconCreator icons={leftSideBarIcons} iconName={"resign"} />
+            )}
             <span>Leave game</span>
           </li>
 

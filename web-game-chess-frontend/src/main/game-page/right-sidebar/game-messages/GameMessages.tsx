@@ -1,7 +1,7 @@
 import { ChangeEvent, useEffect, useRef, useState, KeyboardEvent, FormEvent } from "react";
 import GameMessage from "./game-message/GameMessage";
 import classes from "./GameMessages.module.scss";
-import { GetAllMessagesDto } from "../../../../shared/utils/types/gameDtos";
+import { GetAllMessagesDto, GetPlayerDto } from "../../../../shared/utils/types/gameDtos";
 import IconCreator from "../../../../shared/components/icon-creator/IconCreator";
 import { rightSideBarIcons } from "../RightSideBarIcons";
 import GameHubService from "../../../../shared/utils/services/GameHubService";
@@ -16,9 +16,11 @@ import { Guid } from "guid-typescript";
 type GameMessagesProps = {
   // game id
   gameId: Guid;
+  // player data
+  playerData: GetPlayerDto;
 };
 
-function GameMessages({ gameId }: GameMessagesProps) {
+function GameMessages({ gameId, playerData }: GameMessagesProps) {
   ///
 
   const { showPopup } = usePopup();
@@ -142,7 +144,7 @@ function GameMessages({ gameId }: GameMessagesProps) {
     <div className={classes.messages}>
       <div ref={listRef} className={classes.messages__list}>
         {messages.map((message, i) => (
-          <GameMessage key={i} gameId={gameId} message={message} />
+          <GameMessage key={i} gameId={gameId} playerData={playerData} message={message} />
         ))}
 
         {isOpponentTyping && (

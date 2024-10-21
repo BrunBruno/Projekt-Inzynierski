@@ -4,21 +4,40 @@ import { GameEndReason, MessageType } from "../../../../../shared/utils/objects/
 import { getErrMessage } from "../../../../../shared/utils/functions/errors";
 import { usePopup } from "../../../../../shared/utils/hooks/usePopUp";
 import GameHubService from "../../../../../shared/utils/services/GameHubService";
-import { GetAllMessagesDto } from "../../../../../shared/utils/types/gameDtos";
-import { EndGameModel } from "../../../../../shared/utils/types/gameModels";
+import { GetAllMessagesDto, GetPlayerDto } from "../../../../../shared/utils/types/gameDtos";
+import { EndGameModel, SendGameMessageModel } from "../../../../../shared/utils/types/gameModels";
 import classes from "./GameMessage.module.scss";
+import IconCreator from "../../../../../shared/components/icon-creator/IconCreator";
+import { symbolIcons } from "../../../../../shared/svgs/iconsMap/SymbolIcons";
 
 type GameMessageProps = {
   // game id
   gameId: Guid;
+  // player data
+  playerData: GetPlayerDto;
   // message dto
   message: GetAllMessagesDto;
 };
 
-function GameMessage({ gameId, message }: GameMessageProps) {
+function GameMessage({ gameId, playerData, message }: GameMessageProps) {
   ///
 
   const { showPopup } = usePopup();
+
+  // to send message about draw action
+  const sendGameMessage = async (message: string): Promise<void> => {
+    try {
+      const model: SendGameMessageModel = {
+        gameId: gameId,
+        message: message,
+      };
+
+      await GameHubService.SendGameMessage(model);
+    } catch (err) {
+      showPopup(getErrMessage(err), "warning");
+    }
+  };
+  //*/
 
   // accept/ decline draw offer
   const onAcceptDraw = async (): Promise<void> => {
@@ -30,6 +49,10 @@ function GameMessage({ gameId, message }: GameMessageProps) {
       };
 
       await GameHubService.EndGame(loserPlayer);
+
+      await GameHubService.RemoveDrawMessage(gameId);
+
+      await sendGameMessage("Draw accepted.");
     } catch (err) {
       showPopup(getErrMessage(err), "warning");
     }
@@ -38,6 +61,8 @@ function GameMessage({ gameId, message }: GameMessageProps) {
   const onDeclineDraw = async (): Promise<void> => {
     try {
       await GameHubService.RemoveDrawMessage(gameId);
+
+      await sendGameMessage("Draw declined.");
     } catch (err) {
       showPopup(getErrMessage(err), "warning");
     }
@@ -47,12 +72,21 @@ function GameMessage({ gameId, message }: GameMessageProps) {
   return (
     <div className={classes.message}>
       <div className={classes.message__user}>
-        <AvatarImage
-          username={message.senderName}
-          profilePicture={message.senderImage}
-          containerClass={classes.message__user}
-          imageClass={classes["sender-image"]}
-        />
+        {message.type === MessageType.drawAction || message.type === MessageType.bot ? (
+          <AvatarImage
+            username={message.senderName}
+            profilePicture={"/icons/logo.png"}
+            containerClass={classes.message__user}
+            imageClass={classes["game-logo"]}
+          />
+        ) : (
+          <AvatarImage
+            username={message.senderName}
+            profilePicture={message.senderImage}
+            containerClass={classes.message__user}
+            imageClass={classes["sender-image"]}
+          />
+        )}
       </div>
 
       <div className={classes.message__content}>
@@ -62,7 +96,7 @@ function GameMessage({ gameId, message }: GameMessageProps) {
         <span className={classes["mess-text"]}>{message.message}</span>
       </div>
 
-      {message.type === MessageType.drawAction && (
+      {message.type === MessageType.drawAction && message.requestorName != playerData.name && (
         <div className={classes.message__actions}>
           <button
             className={`
@@ -73,6 +107,7 @@ function GameMessage({ gameId, message }: GameMessageProps) {
               onAcceptDraw();
             }}
           >
+            <IconCreator icons={symbolIcons} iconName={"success"} iconClass={classes["draw-mess-icon"]} />
             <span>Accept</span>
           </button>
 
@@ -85,6 +120,7 @@ function GameMessage({ gameId, message }: GameMessageProps) {
               onDeclineDraw();
             }}
           >
+            <IconCreator icons={symbolIcons} iconName={"error"} iconClass={classes["draw-mess-icon"]} />
             <span>Decline</span>
           </button>
         </div>

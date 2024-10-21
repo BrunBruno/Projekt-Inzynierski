@@ -77,7 +77,7 @@ public class GetAllMessagesRequestHandler : IRequestHandler<GetAllMessagesReques
             SenderName = "Chess BRN",
             SentAt = message.SentAt,
             Type = message.Type,
-
+            RequestorName = message.RequestorName,
             SenderImage = null,
         }).ToList();
 

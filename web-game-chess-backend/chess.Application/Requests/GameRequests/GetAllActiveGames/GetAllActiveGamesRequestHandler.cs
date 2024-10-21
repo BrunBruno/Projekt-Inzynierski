@@ -45,7 +45,7 @@ public class GetAllActiveGamesRequestHandler : IRequestHandler<GetAllActiveGames
                 var game = player.WhiteGame;
 
                 // cehck if game should ended
-                if (GameShouldEnded(game))
+                if (GameShouldNotBeDisplayed(game))
                     continue;
 
                 // filter by timing type
@@ -102,7 +102,7 @@ public class GetAllActiveGamesRequestHandler : IRequestHandler<GetAllActiveGames
                 var game = player.BlackGame;
 
                 // cehck if game should ended
-                if (GameShouldEnded(game))
+                if (GameShouldNotBeDisplayed(game))
                     continue;
 
                 // filter by timing type
@@ -154,18 +154,22 @@ public class GetAllActiveGamesRequestHandler : IRequestHandler<GetAllActiveGames
         return pagedResult;
     }
 
-    private static bool GameShouldEnded(Game game) {
+    private static bool GameShouldNotBeDisplayed(Game game) {
 
-        DateTime lastTimeRecorded = ((game.Moves == null || game.Moves.Count == 0) ? game.StartedAt : game.Moves[^1].DoneAt)
-                   ?? throw new BadRequestException("Game was not started properly.");
+        var lastTimeRecorded = (game.Moves == null || game.Moves.Count == 0) ? game.StartedAt : game.Moves[^1].DoneAt;
 
-        DateTime currentTime =  DateTime.UtcNow;
+        if (lastTimeRecorded is null)
+            return true;
+
+
+        var currentTime =  DateTime.UtcNow;
 
         if (currentTime < lastTimeRecorded)
-            throw new BadRequestException("Game was not started properly.");
+            return true;
 
 
-        double timeDifference = (currentTime - lastTimeRecorded).TotalSeconds;
+        var timeDifference =  (currentTime - lastTimeRecorded.Value).TotalSeconds;
+
 
         double whiteTimeLeft;
         double blackTimeLeft;

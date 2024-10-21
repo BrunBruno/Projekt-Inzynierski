@@ -8,6 +8,7 @@ import {
   FetchTimeDto,
   GetEndedGameDto,
   GetGameDto,
+  GetGameTimingDto,
   GetPlayerDto,
   SearchGameDto,
 } from "../../shared/utils/types/gameDtos";
@@ -17,7 +18,7 @@ import GameContent from "./game-content/GameContent";
 import GameHubService from "../../shared/utils/services/GameHubService";
 import LeftSideBar from "./left-sidebar/LeftSideBar";
 import RightSideBar from "./right-sidebar/RightSideBar";
-import { CheckIfInGameModel, SearchGameModel } from "../../shared/utils/types/gameModels";
+import { CheckIfInGameModel } from "../../shared/utils/types/gameModels";
 import { usePopup } from "../../shared/utils/hooks/usePopUp";
 import { getErrMessage } from "../../shared/utils/functions/errors";
 import MainPopUp from "../../shared/components/main-popup/MainPopUp";
@@ -36,11 +37,27 @@ function GamePage() {
   const { gameIdStr } = useParams<{ gameIdStr: string }>();
   const [gameId, setGameId] = useState<Guid | null>(null);
 
+  // selected timing and ids in case of new game or rematch
+  const [selectedTiming, setSelectedTiming] = useState<GetGameTimingDto | null>(null);
+  const [searchIds, setSearchIds] = useState<SearchGameDto | null>(null);
+
   // set game id as Guid
   useEffect(() => {
+    const getGameTiming = async (id: Guid): Promise<void> => {
+      try {
+        const response = await axios.get<GetGameTimingDto>(gameController.getGameTiming(id), getAuthorization());
+
+        setSelectedTiming(response.data);
+      } catch (err) {
+        showPopup(getErrMessage(err), "warning");
+      }
+    };
+
     if (gameIdStr) {
       const guid: Guid = Guid.parse(gameIdStr).toJSON().value;
       setGameId(guid);
+
+      getGameTiming(guid);
     } else {
       const state: StateOptions = {
         popup: { text: "ERROR STARTING GAME", type: "error" },
@@ -60,10 +77,6 @@ function GamePage() {
   // time left for both players
   const [playersTimes, setPlayersTimes] = useState<FetchTimeDto | null>(null);
 
-  // selected timing and ids in case of new game or rematch
-  const [selectedTiming, setSelectedTiming] = useState<SearchGameModel | null>(null);
-  const [searchIds, setSearchIds] = useState<SearchGameDto | null>(null);
-
   // states for displaying actions confirmation window
   const [showConfirm, setShowConfirm] = useState<GameActionInterface | null>(null);
   const [confirmAction, setConfirmAction] = useState<() => void>(() => {});
@@ -76,16 +89,6 @@ function GamePage() {
 
     if (locationState.popup) {
       showPopup(locationState.popup.text, locationState.popup.type);
-    }
-
-    if (locationState.timing !== null) {
-      setSelectedTiming(location.state.timing);
-    } else {
-      const state: StateOptions = {
-        popup: { text: "ERROR STARTING GAME", type: "error" },
-      };
-
-      navigate("/main", { state: state });
     }
   }, [location.state]);
 
@@ -192,10 +195,9 @@ function GamePage() {
 
         const response = await axios.get<CheckIfInGameDto>(gameController.checkIfInGame(model), getAuthorization());
 
-        if (response.data.isInGame && selectedTiming) {
+        if (response.data.isInGame) {
           const state: StateOptions = {
             popup: { text: "GAME STARTED", type: "info" },
-            timing: selectedTiming,
           };
 
           navigate(`/main/game/${response.data.gameId}`, { state: state });
@@ -247,6 +249,7 @@ function GamePage() {
       <RightSideBar
         gameId={gameId}
         gameData={gameData}
+        playerData={playerData}
         playersTimes={playersTimes}
         setPlayersTimes={setPlayersTimes}
         winner={winner}

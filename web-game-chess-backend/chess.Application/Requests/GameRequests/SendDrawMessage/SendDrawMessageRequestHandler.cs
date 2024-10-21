@@ -52,6 +52,7 @@ public class SendDrawMessageRequestHandler : IRequestHandler<SendDrawMessageRequ
         var message = new GameMessage()
         {
             Id = Guid.NewGuid(),
+            RequestorName = userPlayerName,
             Content = $"{userPlayerName} offered a draw.",
             Type = MessageType.DrawAction,
             GameId = game.Id,

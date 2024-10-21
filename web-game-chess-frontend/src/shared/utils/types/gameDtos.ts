@@ -101,6 +101,8 @@ export type GetGameDto = {
   increment: number;
   // en passant coordinates if possible
   enPassant: string | null;
+  //
+  timingType: TimingType;
   // castle options
   canWhiteKingCastle: boolean;
   canWhiteShortRookCastle: boolean;
@@ -186,6 +188,8 @@ export type GetAllMessagesDto = {
   sentAt: Date;
   // message type
   type: MessageType;
+  // requestor name when draw offer
+  requestorName: string | null;
 };
 
 export type CreateGameWithLinkDto = {
@@ -200,7 +204,7 @@ export type CheckIfUpdateRequiredDto = TimingTypeModel & {
   isRequired: boolean;
 };
 
-export type GetGameTimingDto = TimingTypeModel;
+export type GetGameTimingDto = TimingTypeModel & {};
 
 export type GetOpponentDto = {
   // previous opponent id

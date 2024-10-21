@@ -10,6 +10,7 @@ import { usePopup } from "../../../../shared/utils/hooks/usePopUp";
 import AvatarImage from "../../../../shared/components/avatar-image/AvatarImage";
 import { PieceColor } from "../../../../shared/utils/objects/entitiesEnums";
 import { Dispatch, SetStateAction } from "react";
+import { StateOptions } from "../../../../shared/utils/objects/interfacesEnums";
 
 type GameBoardWinnerProps = {
   // current game data
@@ -30,20 +31,27 @@ function GameBoardWinner({ winner, gameData, setSearchIds, selectedTiming }: Gam
 
   // to search for new game
   const onSearchForGame = async (): Promise<void> => {
-    if (!selectedTiming) return;
+    if (!selectedTiming) {
+      const state: StateOptions = {
+        popup: { text: "ERROR STARTING GAME", type: "error" },
+      };
 
-    const gameType: SearchGameModel = selectedTiming;
+      navigate("/main", { state: state });
+      return;
+    }
+
+    const model: SearchGameModel = {
+      type: selectedTiming.type,
+      minutes: selectedTiming.minutes,
+      increment: selectedTiming.increment,
+    };
 
     try {
-      const searchGameResponse = await axios.post<SearchGameDto>(
-        gameController.startSearch(),
-        gameType,
-        getAuthorization()
-      );
+      const response = await axios.post<SearchGameDto>(gameController.startSearch(), model, getAuthorization());
 
-      setSearchIds(searchGameResponse.data);
+      setSearchIds(response.data);
 
-      await GameHubService.PlayerJoined(searchGameResponse.data.timingId);
+      await GameHubService.PlayerJoined(response.data.timingId);
     } catch (err) {
       showPopup(getErrMessage(err), "warning");
     }

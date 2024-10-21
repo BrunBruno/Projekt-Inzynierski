@@ -77,10 +77,7 @@ function VerifyEmailModal({ userPath, setModal }: VerifyEmailModalProps) {
 
       // navigate to main page
       const state: StateOptions = {
-        popup: {
-          text: "Verification successful",
-          type: "success",
-        },
+        popup: { text: "VERIFICATION SUCCESSFUL", type: "success" },
       };
 
       navigate(userPath, { state: state });

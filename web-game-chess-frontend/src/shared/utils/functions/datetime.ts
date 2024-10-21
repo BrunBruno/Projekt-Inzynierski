@@ -7,7 +7,7 @@ export const makeTimeFromMinutes = (minutes: number): string => {
   const days = Math.floor(totalSeconds / (3600 * 24));
   const hours = Math.floor((totalSeconds % (3600 * 24)) / 3600);
   const mins = Math.floor((totalSeconds % 3600) / 60);
-  const secs = Math.round(totalSeconds % 60);
+  const secs = Math.floor(totalSeconds % 60);
 
   const formattedDays = days > 0 ? `${days}d:` : "";
   const formattedHours = hours === 0 && days === 0 ? "" : `${String(hours).padStart(2, "0")}:`;

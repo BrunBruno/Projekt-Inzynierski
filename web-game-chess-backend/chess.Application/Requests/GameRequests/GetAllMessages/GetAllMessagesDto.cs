@@ -25,6 +25,11 @@ public class GetAllMessagesDto {
     public ImageDto? SenderImage { get; set; }
 
     /// <summary>
+    /// In case of draw message requestor name
+    /// </summary>
+    public string? RequestorName { get; set; } = null;
+
+    /// <summary>
     /// Date of creation
     /// </summary>
     public DateTime SentAt { get; set; }

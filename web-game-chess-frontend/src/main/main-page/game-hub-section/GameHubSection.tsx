@@ -3,7 +3,7 @@ import classes from "./GameHubSection.module.scss";
 import VsPlayerSearch from "./vs-player-search/VsPlayerSearch";
 import axios from "axios";
 import { gameController, getAuthorization } from "../../../shared/utils/services/ApiService";
-import { CheckIfInGameDto, SearchGameDto } from "../../../shared/utils/types/gameDtos";
+import { CheckIfInGameDto, GetGameTimingDto, SearchGameDto } from "../../../shared/utils/types/gameDtos";
 import { useNavigate } from "react-router-dom";
 import GameHubService from "../../../shared/utils/services/GameHubService";
 import { GameSearchInterface, StateOptions } from "../../../shared/utils/objects/interfacesEnums";
@@ -66,7 +66,6 @@ function GameHubSection({ providedInterface }: GameHubSectionProps) {
       if (isInGameResponse.data.isInGame && timingType) {
         const state: StateOptions = {
           popup: { text: "GAME STARTED", type: "info" },
-          timing: timingType,
         };
 
         navigate(`/main/game/${isInGameResponse.data.gameId}`, { state: state });
@@ -79,14 +78,28 @@ function GameHubSection({ providedInterface }: GameHubSectionProps) {
 
   // to navigate to game page
   // used for every private game
-  const handleGameAccepted = (gameId: Guid): void => {
+  const handleGameAccepted = async (gameId: Guid): Promise<void> => {
+    const getTimingType = async (gameId: Guid): Promise<GetGameTimingDto | null> => {
+      try {
+        const response = await axios.get<GetGameTimingDto>(gameController.getGameTiming(gameId), getAuthorization());
+
+        return response.data;
+      } catch (err) {
+        showPopup(getErrMessage(err), "warning");
+      }
+
+      return null;
+    };
+
+    const timingType = await getTimingType(gameId);
     if (timingType) {
       const state: StateOptions = {
         popup: { text: "GAME STARTED", type: "info" },
-        timing: timingType,
       };
 
-      navigate(`/main/await/${gameId}`, { state: state });
+      console.log(state);
+
+      navigate(`/main/game/${gameId}`, { state: state });
     } else {
       showPopup("ERROR STARTING GAME.", "warning");
     }
@@ -257,8 +270,8 @@ function GameHubSection({ providedInterface }: GameHubSectionProps) {
                 setInterfaceById(GameSearchInterface.activeGames);
               }}
             >
-              <IconCreator icons={gameHubSectionIcons} iconName={"userGames"} />
-              <span>Rejoin game</span>
+              <IconCreator icons={gameHubSectionIcons} iconName={"activeGames"} />
+              <span>Active games</span>
             </button>
 
             <button

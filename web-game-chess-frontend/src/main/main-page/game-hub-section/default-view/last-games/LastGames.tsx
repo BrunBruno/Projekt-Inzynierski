@@ -53,7 +53,7 @@ function LastGames({ setInterfaceById }: LastGamesProps) {
     setInterfaceById(GameSearchInterface.userGames);
   };
 
-  if (!games) return <></>;
+  if (!games || games.length === 0) return <></>;
 
   return (
     <div className={classes.games}>

@@ -1,7 +1,7 @@
 /* enums for changing page content based on user selection */
 
-import { TimingTypeModel } from "../types/abstractDtosAndModels";
 import { PopupType } from "../types/commonTypes";
+import { GetAllFriendsByStatusDto } from "../types/friendshipDtos";
 
 // to distinguish different type of content it main page
 export enum GameSearchInterface {
@@ -25,6 +25,7 @@ export enum RegistrationInterface {
 
 // for displaying game board confirmation window
 export enum GameActionInterface {
+  leave,
   abort,
   resign,
   draw,
@@ -36,5 +37,5 @@ export type StateOptions = {
   interface?: GameSearchInterface;
   regOption?: RegistrationInterface;
   path?: string;
-  timing?: TimingTypeModel;
+  selectedFriend?: GetAllFriendsByStatusDto;
 };

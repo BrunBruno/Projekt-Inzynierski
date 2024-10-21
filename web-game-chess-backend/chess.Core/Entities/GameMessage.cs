@@ -5,6 +5,11 @@ namespace chess.Core.Entities;
 public class GameMessage : Message {
 
     /// <summary>
+    /// Requestor of a draw
+    /// </summary>
+    public string RequestorName { get; set; }
+
+    /// <summary>
     /// Player id
     /// </summary>
     public Guid GameId { get; set; }

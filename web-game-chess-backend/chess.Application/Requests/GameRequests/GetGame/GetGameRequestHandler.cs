@@ -48,6 +48,8 @@ public class GetGameRequestHandler : IRequestHandler<GetGameRequest, GetGameDto>
             Position = game.Position,
             Turn = game.Turn,
             EnPassant = game.GameState.EnPassant,
+            TimingType = game.TimingType,
+
             CanWhiteKingCastle = game.GameState.CanWhiteKingCastle,
             CanWhiteShortRookCastle = game.GameState.CanWhiteShortRookCastle,
             CanWhiteLongRookCastle = game.GameState.CanWhiteLongRookCastle,

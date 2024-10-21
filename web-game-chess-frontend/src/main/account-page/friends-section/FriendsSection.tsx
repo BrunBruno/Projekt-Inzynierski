@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import classes from "./FriendsSection.module.scss";
 import { GetAllFriendsByStatusDto } from "../../../shared/utils/types/friendshipDtos";
 import axios from "axios";
@@ -19,6 +19,8 @@ function FriendsSection() {
   const { showPopup } = usePopup();
   const { scrollRef, pageNumber, pageSize, totalItemsCount, setDefPageSize, setTotalItemsCount } = usePagination();
 
+  const firstEmptyCardRef = useRef<HTMLDivElement>(null);
+
   // list of friends state
   const [friendList, setFriendList] = useState<GetAllFriendsByStatusDto[] | null>(null);
   // to activate friend card
@@ -33,7 +35,10 @@ function FriendsSection() {
 
       if (container) {
         const containerHeight = container.clientHeight;
-        const firstChild = container.firstChild as HTMLElement;
+        let firstChild = container.firstChild as HTMLDivElement;
+        if (firstChild && firstChild.classList.contains(classes["empty-cards"])) {
+          firstChild = firstEmptyCardRef.current as HTMLDivElement;
+        }
         const elementHeight = firstChild.clientHeight;
 
         if (elementHeight > 0) {
@@ -64,20 +69,20 @@ function FriendsSection() {
           pageSize: pageSize,
         };
 
-        const friendsResponse = await axios.get<PagedResult<GetAllFriendsByStatusDto>>(
+        const response = await axios.get<PagedResult<GetAllFriendsByStatusDto>>(
           friendshipController.getAllFriendsByStatus(model),
           getAuthorization()
         );
 
-        setFriendList(friendsResponse.data.items);
-        setTotalItemsCount(friendsResponse.data.totalItemsCount);
+        setFriendList(response.data.items);
+        setTotalItemsCount(response.data.totalItemsCount);
       } catch (err) {
         showPopup(getErrMessage(err), "warning");
       }
     };
 
     getFriends();
-  }, []);
+  }, [pageNumber, pageSize]);
   //*/
 
   // to deactivate friend selection
@@ -108,7 +113,9 @@ function FriendsSection() {
           />
         ))
       ) : (
-        <FriendEmptyCard isLoaded={friendList !== null} />
+        <div className={classes["empty-cards"]}>
+          <FriendEmptyCard isLoaded={friendList !== null} firstEmptyCardRef={firstEmptyCardRef} />
+        </div>
       )}
 
       {friendList && friendList.length > 0 && (

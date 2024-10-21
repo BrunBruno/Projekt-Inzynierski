@@ -1,5 +1,11 @@
 import { Dispatch, SetStateAction, useEffect } from "react";
-import { EndGameDto, FetchTimeDto, GetEndedGameDto, GetGameDto } from "../../../shared/utils/types/gameDtos";
+import {
+  EndGameDto,
+  FetchTimeDto,
+  GetEndedGameDto,
+  GetGameDto,
+  GetPlayerDto,
+} from "../../../shared/utils/types/gameDtos";
 import classes from "./RightSideBar.module.scss";
 import { EndGameModel } from "../../../shared/utils/types/gameModels";
 import GameHubService from "../../../shared/utils/services/GameHubService";
@@ -16,6 +22,8 @@ type RightSideBarProps = {
   gameId: Guid;
   // game data
   gameData: GetGameDto;
+  // player data
+  playerData: GetPlayerDto;
   // times left for players
   playersTimes: FetchTimeDto | null;
   // time left setter
@@ -24,7 +32,7 @@ type RightSideBarProps = {
   winner: EndGameDto | GetEndedGameDto | null;
 };
 
-function RightSideBar({ gameId, gameData, playersTimes, setPlayersTimes, winner }: RightSideBarProps) {
+function RightSideBar({ gameId, gameData, playerData, playersTimes, setPlayersTimes, winner }: RightSideBarProps) {
   ///
 
   // sets time left for both players
@@ -150,7 +158,7 @@ function RightSideBar({ gameId, gameData, playersTimes, setPlayersTimes, winner 
 
         {/* game messenger */}
         <div className={classes.bar__content__block}>
-          <GameMessages gameId={gameId} />
+          <GameMessages gameId={gameId} playerData={playerData} />
         </div>
         {/* --- */}
       </div>

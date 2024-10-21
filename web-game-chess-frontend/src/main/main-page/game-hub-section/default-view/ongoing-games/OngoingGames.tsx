@@ -53,7 +53,7 @@ function OngoingGames({ setInterfaceById }: OngoingGamesProps) {
     setInterfaceById(GameSearchInterface.activeGames);
   };
 
-  if (!games) return <></>;
+  if (!games || games.length === 0) return <></>;
 
   return (
     <div className={classes.games}>

@@ -217,7 +217,7 @@ function GameContent({
         />
 
         {/* promotion box */}
-        {selectionStates.promotionCoor && (
+        {selectionStates.promotionCoor && !gameData.hasEnded && (
           <GameBoardPromotion
             playerData={playerData}
             gameStates={gameStates}
@@ -227,7 +227,7 @@ function GameContent({
         )}
 
         {/* confirm box */}
-        {showConfirm !== null && (
+        {showConfirm && !gameData.hasEnded && (
           <GameBoardConfirm confirmAction={confirmAction} showConfirm={showConfirm} setShowConfirm={setShowConfirm} />
         )}
 

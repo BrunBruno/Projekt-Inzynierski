@@ -1,3 +1,4 @@
+import { RefObject } from "react";
 import LoadingPage from "../../../../shared/components/loading-page/LoadingPage";
 import AvatarIcon from "../../../../shared/svgs/icons/AvatarIcon";
 import classes from "./FriendEmptyCard.module.scss";
@@ -6,9 +7,10 @@ const cardCount = 16;
 
 type FriendEmptyCardProps = {
   isLoaded: boolean;
+  firstEmptyCardRef: RefObject<HTMLDivElement>;
 };
 
-function FriendEmptyCard({ isLoaded }: FriendEmptyCardProps) {
+function FriendEmptyCard({ isLoaded, firstEmptyCardRef }: FriendEmptyCardProps) {
   ///
 
   return (
@@ -18,7 +20,7 @@ function FriendEmptyCard({ isLoaded }: FriendEmptyCardProps) {
       </div>
 
       {Array.from({ length: cardCount }).map((_, i: number) => (
-        <div key={`empty-card-${i}`} className={classes["empty-card"]}>
+        <div ref={i === 0 ? firstEmptyCardRef : null} key={`empty-card-${i}`} className={classes["empty-card"]}>
           <AvatarIcon iconClass={classes["blank-avatar"]} />
           <p className={classes["blank-text"]} />
           <p className={classes["blank-text"]} />
