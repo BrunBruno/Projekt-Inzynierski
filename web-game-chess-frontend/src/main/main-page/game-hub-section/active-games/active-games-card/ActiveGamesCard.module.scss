@@ -1,4 +1,5 @@
 @import "../../../../Main.scss";
+@import "../../../../../shared/components/action-button/ActionButton.module.scss";
 
 // user game card
 .card {
@@ -32,34 +33,8 @@
       }
     }
 
-    .is-winner {
-      svg {
-        height: 3.8rem;
-      }
-    }
-
-    .moves {
-      @include flex();
-      @include circle(3rem);
-
-      font-weight: bold;
-      font-size: 1.6rem;
-      border: solid 0.3rem $mc0;
-    }
-
-    .win-type {
-      position: relative;
-
-      // placeholder icon
-      p {
-        @include secFont(3rem);
-
-        padding-right: 0.2rem;
-      }
-
-      svg {
-        height: 3rem;
-      }
+    .rejoin-button {
+      @include actionButton(1.6rem);
     }
   }
   //*/

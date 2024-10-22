@@ -8,11 +8,12 @@ import IconCreator from "../../../../../shared/components/icon-creator/IconCreat
 import { mainColor } from "../../../../../shared/utils/objects/colorMaps";
 import { defaultPiecesImages } from "../../../../../shared/svgs/iconsMap/DefaultPieceImageSvgs";
 import { timingTypeIcons } from "../../../../../shared/svgs/iconsMap/TimingTypeIcons";
-import { GameEndReasonName, PieceTag, TimingTypeName } from "../../../../../shared/utils/objects/constantLists";
-import { gameEndReasonIcons } from "../../../../../shared/svgs/iconsMap/GameEndReasonIcons";
-import { GameEndReason, TimingType } from "../../../../../shared/utils/objects/entitiesEnums";
-import { gameResultIcons } from "../../../../../shared/svgs/iconsMap/GameResultIcons";
+import { PieceTag, TimingTypeName } from "../../../../../shared/utils/objects/constantLists";
+import { TimingType } from "../../../../../shared/utils/objects/entitiesEnums";
 import { getPieceSideColor } from "../../../../../shared/utils/objects/piecesNameMaps";
+import ActionButton from "../../../../../shared/components/action-button/ActionButton";
+import { useNavigate } from "react-router-dom";
+import { StateOptions } from "../../../../../shared/utils/objects/interfacesEnums";
 
 type ActiveGamesCardProps = {
   // finished game data
@@ -21,6 +22,8 @@ type ActiveGamesCardProps = {
 
 function ActiveGamesCard({ game }: ActiveGamesCardProps) {
   ///
+
+  const navigate = useNavigate();
 
   // elements ref for card resizing
   const cardRef = useRef<HTMLDivElement>(null);
@@ -162,6 +165,18 @@ function ActiveGamesCard({ game }: ActiveGamesCardProps) {
   };
   //*/
 
+  // to rejoin the game
+  const onRejoinGame = (): void => {
+    if (!game.gameUrl) return;
+
+    const state: StateOptions = {
+      popup: { text: "REJOINED", type: "info" },
+    };
+
+    navigate(game.gameUrl, { state: state });
+  };
+  //*/
+
   return (
     <div ref={cardRef} className={classes.card}>
       <div ref={gridRef} className={`${classes["mini-grid"]}`}>
@@ -180,12 +195,14 @@ function ActiveGamesCard({ game }: ActiveGamesCardProps) {
           />
         </div>
 
-        {/* moves */}
-        <div className={classes.moves}>{game.moves}</div>
-
-        <button>
-          <span>Rejoin</span>
-        </button>
+        <div
+          className={classes["rejoin-button"]}
+          onClick={() => {
+            onRejoinGame();
+          }}
+        >
+          <ActionButton text="Rejoin" />
+        </div>
       </div>
     </div>
   );

@@ -80,6 +80,8 @@ export type GetAllActiveGamesDto = {
   createdAt: Date;
   // type of game timing
   timingType: TimingType;
+  // link for rejoining
+  gameUrl: string;
   // white payer data
   whitePlayer: PlayerDto;
   // black player data

@@ -62,6 +62,7 @@ public class GetAllActiveGamesRequestHandler : IRequestHandler<GetAllActiveGames
                     Moves = game.Round,
                     CreatedAt = game.CreatedAt,
                     TimingType = game.TimingType,
+                    GameUrl = $"http://localhost:5173/main/game/{game.Id}",
 
                     // currect user player
                     WhitePlayer = new PlayerDto()
@@ -119,6 +120,7 @@ public class GetAllActiveGamesRequestHandler : IRequestHandler<GetAllActiveGames
                     Moves = game.Round,
                     CreatedAt = game.CreatedAt,
                     TimingType = game.TimingType,
+                    GameUrl = $"http://localhost:5173/main/game/{game.Id}",
 
                     // oppoents players
                     WhitePlayer = new PlayerDto()

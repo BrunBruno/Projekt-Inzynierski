@@ -63,7 +63,7 @@ function ActiveGames({}: ActiveGamesProps) {
   // get all finished games
   useEffect(() => {
     const getGames = async (): Promise<void> => {
-      const getGamesOptions: GetAllActiveGamesModel = {
+      const model: GetAllActiveGamesModel = {
         pageNumber: pageNumber,
         pageSize: pageSize,
         timingTypeFilters: timingTypeFilters,
@@ -71,7 +71,7 @@ function ActiveGames({}: ActiveGamesProps) {
 
       try {
         const response = await axios.get<PagedResult<GetAllActiveGamesDto>>(
-          gameController.getAllFinishedGames(getGamesOptions),
+          gameController.getAllActiveGames(model),
           getAuthorization()
         );
 

@@ -32,6 +32,11 @@ public class GetAllActiveGamesDto {
     public TimingTypes TimingType { get; set; }
 
     /// <summary>
+    /// Rejoin game link
+    /// </summary>
+    public required string GameUrl { get; set; }
+
+    /// <summary>
     /// White player data
     /// </summary>
     public required PlayerDto WhitePlayer { get; set; }

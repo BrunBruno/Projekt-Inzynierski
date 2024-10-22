@@ -42,9 +42,9 @@
       @include flex();
       @include circle(3rem);
 
-      font-weight: bold;
-      font-size: 1.6rem;
-      border: solid 0.3rem $mc0;
+      font-weight: 600;
+      font-size: 1.8rem;
+      border: solid 0.4rem $mc0;
     }
 
     .win-type {
