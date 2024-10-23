@@ -8,11 +8,9 @@ import GameHubService from "../../../../../shared/utils/services/GameHubService"
 import { getErrMessage } from "../../../../../shared/utils/functions/errors";
 import { usePopup } from "../../../../../shared/utils/hooks/usePopUp";
 import { useNavigate } from "react-router-dom";
-import { useTimingType } from "../../../../../shared/utils/hooks/useTimingType";
 import { ChangeEvent, Dispatch, ForwardedRef, forwardRef, SetStateAction, useImperativeHandle } from "react";
 import { InviteBySelectionRef } from "../VsFriendSearchData";
 import { delayAction } from "../../../../../shared/utils/functions/events";
-import { TimingTypeModel } from "../../../../../shared/utils/types/abstractDtosAndModels";
 import { getEnumValueByKey } from "../../../../../shared/utils/functions/enums";
 import { TimingType } from "../../../../../shared/utils/objects/entitiesEnums";
 import { TimingTypeName } from "../../../../../shared/utils/objects/constantLists";
@@ -28,7 +26,6 @@ const InviteBySelection = forwardRef<InviteBySelectionRef, InviteBySelectionProp
 
     const navigate = useNavigate();
     const { showPopup } = usePopup();
-    const { setTimingType } = useTimingType();
 
     // to invite friend to game via selection from friend list
     const onInviteBySelection = async (
@@ -39,15 +36,7 @@ const InviteBySelection = forwardRef<InviteBySelectionRef, InviteBySelectionProp
       try {
         const typeValue: TimingType = getEnumValueByKey(TimingType, header.toLowerCase());
 
-        const gameType: TimingTypeModel = {
-          type: typeValue,
-          minutes: values[0],
-          increment: values[1],
-        };
-
-        setTimingType(gameType);
-
-        const privateGameModel: CreatePrivateGameModel = {
+        const model: CreatePrivateGameModel = {
           friendshipId: friendshipId,
           type: typeValue,
           minutes: values[0],
@@ -56,7 +45,7 @@ const InviteBySelection = forwardRef<InviteBySelectionRef, InviteBySelectionProp
 
         const response = await axios.post<CreatePrivateGameDto>(
           gameController.createPrivateGame(),
-          privateGameModel,
+          model,
           getAuthorization()
         );
 

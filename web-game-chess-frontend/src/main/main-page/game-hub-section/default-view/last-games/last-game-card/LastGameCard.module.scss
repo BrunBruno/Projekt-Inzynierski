@@ -16,10 +16,6 @@ $board-size: 20rem;
   transform: scale(1);
   transition: transform 0.3s;
 
-  &:hover {
-    cursor: pointer;
-  }
-
   // board grid position background
   .mini-grid {
     @include square($board-size);

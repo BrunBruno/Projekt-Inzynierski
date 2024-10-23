@@ -3,7 +3,7 @@ import classes from "./GameHubSection.module.scss";
 import VsPlayerSearch from "./vs-player-search/VsPlayerSearch";
 import axios from "axios";
 import { gameController, getAuthorization } from "../../../shared/utils/services/ApiService";
-import { CheckIfInGameDto, GetGameTimingDto, SearchGameDto } from "../../../shared/utils/types/gameDtos";
+import { CheckIfInGameDto, SearchGameDto } from "../../../shared/utils/types/gameDtos";
 import { useNavigate } from "react-router-dom";
 import GameHubService from "../../../shared/utils/services/GameHubService";
 import { GameSearchInterface, StateOptions } from "../../../shared/utils/objects/interfacesEnums";
@@ -16,7 +16,6 @@ import DefaultView from "./default-view/DefaultView";
 import Invitations from "./invitations/Invitations";
 import { getErrMessage } from "../../../shared/utils/functions/errors";
 import { usePopup } from "../../../shared/utils/hooks/usePopUp";
-import { useTimingType } from "../../../shared/utils/hooks/useTimingType";
 import IconCreator from "../../../shared/components/icon-creator/IconCreator";
 import { gameHubSectionIcons } from "./GameHubSectionIcons";
 import SearchingPage from "../../../shared/components/searching-page/SearchingPage";
@@ -32,7 +31,6 @@ function GameHubSection({ providedInterface }: GameHubSectionProps) {
   ///
 
   const navigate = useNavigate();
-  const { timingType } = useTimingType();
   const { showPopup } = usePopup();
 
   // current viewed interface
@@ -63,7 +61,7 @@ function GameHubSection({ providedInterface }: GameHubSectionProps) {
         getAuthorization()
       );
 
-      if (isInGameResponse.data.isInGame && timingType) {
+      if (isInGameResponse.data.isInGame) {
         const state: StateOptions = {
           popup: { text: "GAME STARTED", type: "info" },
         };
@@ -79,30 +77,13 @@ function GameHubSection({ providedInterface }: GameHubSectionProps) {
   // to navigate to game page
   // used for every private game
   const handleGameAccepted = async (gameId: Guid): Promise<void> => {
-    const getTimingType = async (gameId: Guid): Promise<GetGameTimingDto | null> => {
-      try {
-        const response = await axios.get<GetGameTimingDto>(gameController.getGameTiming(gameId), getAuthorization());
-
-        return response.data;
-      } catch (err) {
-        showPopup(getErrMessage(err), "warning");
-      }
-
-      return null;
+    const state: StateOptions = {
+      popup: { text: "GAME STARTED", type: "info" },
     };
 
-    const timingType = await getTimingType(gameId);
-    if (timingType) {
-      const state: StateOptions = {
-        popup: { text: "GAME STARTED", type: "info" },
-      };
+    console.log(state);
 
-      console.log(state);
-
-      navigate(`/main/game/${gameId}`, { state: state });
-    } else {
-      showPopup("ERROR STARTING GAME.", "warning");
-    }
+    navigate(`/main/game/${gameId}`, { state: state });
   };
 
   const handleGameDeclined = () => {
@@ -134,7 +115,7 @@ function GameHubSection({ providedInterface }: GameHubSectionProps) {
         GameHubService.connection.off("InvitationDeclined", handleGameDeclined);
       }
     };
-  }, [searchIds, timingType]);
+  }, [searchIds]);
   //*/
 
   // public game search abort

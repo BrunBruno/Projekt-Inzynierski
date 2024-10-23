@@ -240,7 +240,9 @@ function UserSection({ getTypeHistory, setFriendSection }: UserSectionProps) {
           <div className={classes.user__data__elo} />
         ) : (
           <div className={classes.user__data__elo}>
-            <div className={classes.user__data__elo__header}>Check history</div>
+            <div className={classes.user__data__elo__header}>
+              <span>Check history</span>
+            </div>
             <div
               data-testid="set-history-bullet-button"
               className={classes.user__data__elo__type}

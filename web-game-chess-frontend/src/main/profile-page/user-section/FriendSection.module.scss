@@ -96,51 +96,17 @@
         user-select: none;
       }
 
-      input.name {
-        @include tInput();
-
-        & {
-          border: none;
-          font-size: 2rem;
-          color: $gc3;
-        }
-
-        &::placeholder {
-          color: $gc5;
-          &:active,
-          :focus {
-            color: $gc6;
-          }
-        }
-
-        &:focus,
-        :active {
-          color: $gc2;
-        }
+      .name {
+        border: none;
+        font-size: 2rem;
+        color: $gc3;
       }
 
-      textarea.bio {
-        @include tInput();
-
-        & {
-          width: 80%;
-          height: 12rem;
-          font-size: 1.4rem;
-          resize: none;
-        }
-
-        &::-webkit-scrollbar {
-          display: none;
-        }
-
-        &::placeholder {
-          color: $gc5;
-        }
-
-        &:focus,
-        &:active {
-          color: $gc2;
-        }
+      .bio {
+        width: 80%;
+        height: 12rem;
+        font-size: 1.4rem;
+        resize: none;
       }
     }
 

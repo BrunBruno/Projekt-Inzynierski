@@ -11,7 +11,7 @@ function MainPopUp(): JSX.Element {
 
   // to hide popups after 2 seconds of display
   useEffect(() => {
-    const timeout = setTimeout(() => {
+    const timeout: NodeJS.Timeout = setTimeout(() => {
       hidePopup();
     }, 2000);
 

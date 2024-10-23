@@ -19,8 +19,9 @@ function FriendCard({ friend, setSelectedFriend, clearSelection }: FriendCardPro
 
   const navigate = useNavigate();
 
-  //todotodo
-  const checkProfile = () => {};
+  const checkProfile = () => {
+    navigate(`/main/profile/${friend.friendshipId.toString()}`);
+  };
 
   // to navigate to vs-friend search
   const onInviteFriendToGame = async (): Promise<void> => {

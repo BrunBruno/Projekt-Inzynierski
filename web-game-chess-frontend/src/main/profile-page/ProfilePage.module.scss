@@ -1,7 +1,24 @@
 @import "../Main.scss";
 
-.profile-main {
+// account page container
+.account-main {
   @include wh100();
   @include gridBg();
   @include forNav();
+
+  & {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    overflow: hidden;
+  }
 }
+//*/
+
+// resize
+@media (max-width: 1200px) {
+  .account-main {
+    grid-template-columns: 1fr;
+    overflow: visible;
+  }
+}
+//*/

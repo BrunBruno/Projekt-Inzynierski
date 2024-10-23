@@ -16,6 +16,14 @@
 
   &:hover {
     cursor: pointer;
+
+    .mini-grid {
+      .field {
+        .bg-piece {
+          display: block;
+        }
+      }
+    }
   }
 
   // game result data
@@ -83,7 +91,7 @@
       opacity: 0.1;
 
       .bg-piece {
-        // display: none;
+        display: none;
         transform: scale(0.8);
       }
     }

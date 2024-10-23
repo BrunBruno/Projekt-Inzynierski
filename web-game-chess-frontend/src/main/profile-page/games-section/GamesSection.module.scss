@@ -1,0 +1,91 @@
+@import "../../Main.scss";
+
+// type history container
+.history {
+  max-height: 100vh;
+  height: 100%;
+  display: grid;
+  grid-template-rows: 2rem 1fr 1fr;
+  padding-top: 2rem;
+  padding-bottom: 2rem;
+
+  h2.history-title {
+    @include flex($gap: 1rem);
+
+    width: 100%;
+    font-size: 4rem;
+
+    .type-icon {
+      height: 4rem;
+    }
+  }
+
+  &__chart {
+    padding: 0 2rem;
+    overflow: hidden;
+  }
+
+  &__items {
+    @include flex(column, start, center, 1rem);
+
+    position: relative;
+    padding: 0 8rem;
+    overflow-y: scroll;
+    padding-bottom: 2rem;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
+}
+//*/
+
+// no data placeholder
+.empty {
+  @include flex($direction: column, $gap: 1rem);
+
+  position: relative;
+
+  &__chart {
+    @include wh100();
+
+    opacity: 0.1;
+    pointer-events: none;
+    padding: 1rem;
+  }
+
+  &__text {
+    @include absCenter();
+    @include flex(column, center, center, 2rem);
+
+    span {
+      font-size: 4rem;
+      text-align: center;
+
+      &:last-child {
+        color: $mc5;
+        font-weight: 600;
+      }
+    }
+  }
+}
+//*/
+
+// resize
+@media (max-width: 1200px) {
+  .history {
+    height: 100%;
+    max-height: unset;
+    padding-top: 10rem;
+    grid-template-rows: 4rem 50rem auto;
+
+    &__chart {
+      height: 100%;
+    }
+
+    &__items {
+      overflow: visible;
+    }
+  }
+}
+//*/

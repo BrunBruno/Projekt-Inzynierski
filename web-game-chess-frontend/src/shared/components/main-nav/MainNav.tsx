@@ -56,8 +56,18 @@ function MainNav(): JSX.Element {
           <span className={classes.ind}>Add friend</span>
         </div>
 
+        <div
+          className={classes.element}
+          onClick={() => {
+            navigate("/main/ranking");
+          }}
+        >
+          <IconCreator icons={mainNavIcons} iconName={"rankingPage"} />
+          <span className={classes.ind}>See ranking</span>
+        </div>
+
         {/* placeholders */}
-        {Array.from({ length: 6 }).map((_, i) => (
+        {Array.from({ length: 5 }).map((_, i) => (
           <div key={i} className={classes.element} style={{ pointerEvents: "none" }}>
             <p></p>
             <span className={classes.ind}>ind</span>

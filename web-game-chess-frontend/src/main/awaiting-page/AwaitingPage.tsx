@@ -2,12 +2,11 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { Guid } from "guid-typescript";
 import GameHubService from "../../shared/utils/services/GameHubService";
-import { useTimingType } from "../../shared/utils/hooks/useTimingType";
 import { HubConnectionState } from "@microsoft/signalr";
 import { usePopup } from "../../shared/utils/hooks/usePopUp";
 import { getErrMessage } from "../../shared/utils/functions/errors";
 import axios from "axios";
-import { CheckIfUpdateRequiredDto, GetGameTimingDto } from "../../shared/utils/types/gameDtos";
+import { CheckIfUpdateRequiredDto } from "../../shared/utils/types/gameDtos";
 import { gameController, getAuthorization } from "../../shared/utils/services/ApiService";
 import SearchingPage from "../../shared/components/searching-page/SearchingPage";
 import { GameSearchInterface, StateOptions } from "../../shared/utils/objects/interfacesEnums";
@@ -16,7 +15,6 @@ function AwaitingPage() {
   ///
 
   const navigate = useNavigate();
-  const { timingType, setTimingType } = useTimingType();
   const { showPopup } = usePopup();
 
   // game id from route
@@ -27,25 +25,9 @@ function AwaitingPage() {
   // set game id as Guid
   // get game timing for current game
   useEffect(() => {
-    const getTimingType = async (gameId: Guid): Promise<void> => {
-      try {
-        const response = await axios.get<GetGameTimingDto>(gameController.getGameTiming(gameId), getAuthorization());
-
-        setTimingType(response.data);
-      } catch (err) {
-        const state: StateOptions = {
-          popup: { text: getErrMessage(err), type: "warning" },
-        };
-
-        navigate("/main", { state: state });
-      }
-    };
-
     if (gameIdStr) {
       const guidGameId: Guid = Guid.parse(gameIdStr).toJSON().value;
       setGameId(guidGameId);
-
-      getTimingType(guidGameId);
     } else {
       const state: StateOptions = {
         popup: { text: "ERROR STARTING GAME", type: "warning" },
@@ -85,19 +67,11 @@ function AwaitingPage() {
     // to navigate to game page
 
     const handleGameAccepted = (gameId: Guid): void => {
-      if (timingType) {
-        const state: StateOptions = {
-          popup: { text: "GAME STARTED", type: "info" },
-        };
+      const state: StateOptions = {
+        popup: { text: "GAME STARTED", type: "info" },
+      };
 
-        navigate(`/main/game/${gameId}`, { state: state });
-      } else {
-        const state: StateOptions = {
-          popup: { text: "ERROR STARTING GAME", type: "warning" },
-        };
-
-        navigate("/main", { state: state });
-      }
+      navigate(`/main/game/${gameId}`, { state: state });
     };
 
     // used for every private game
@@ -120,7 +94,7 @@ function AwaitingPage() {
         GameHubService.connection.off("InvitationDeclined", handleGameDeclined);
       }
     };
-  }, [timingType, gameId]);
+  }, [gameId]);
   //*/
 
   // to remove created private game

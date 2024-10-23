@@ -13,9 +13,9 @@ import AccountPage from "./account-page/AccountPage";
 import { PopupProvider } from "../shared/utils/hooks/usePopUp";
 import { getErrMessage } from "../shared/utils/functions/errors";
 import ProfilePage from "./profile-page/ProfilePage";
-import { TimingTypeProvider } from "../shared/utils/hooks/useTimingType";
 import AwaitingPage from "./awaiting-page/AwaitingPage";
 import { RegistrationInterface, StateOptions } from "../shared/utils/objects/interfacesEnums";
+import NotFoundPage from "../shared/components/not-found-page/NotFoundPage";
 
 function MainRouter() {
   ///
@@ -93,18 +93,17 @@ function MainRouter() {
   if (!authorize) return <LoadingPage />;
 
   return (
-    <TimingTypeProvider>
-      <PopupProvider>
-        <Routes>
-          <Route path="/" element={<MainPage />} />
-          <Route path="/users" element={<UsersPage />} />
-          <Route path="/await/:gameIdStr" element={<AwaitingPage />} />
-          <Route path="/game/:gameIdStr" element={<GamePage />} />
-          <Route path="/account" element={<AccountPage />} />
-          <Route path="/profile/:friendshipId" element={<ProfilePage />} />
-        </Routes>
-      </PopupProvider>
-    </TimingTypeProvider>
+    <PopupProvider>
+      <Routes>
+        <Route path="/" element={<MainPage />} />
+        <Route path="/users" element={<UsersPage />} />
+        <Route path="/await/:gameIdStr" element={<AwaitingPage />} />
+        <Route path="/game/:gameIdStr" element={<GamePage />} />
+        <Route path="/account" element={<AccountPage />} />
+        <Route path="/profile/:friendshipIdStr" element={<ProfilePage />} />
+        <Route path="*" element={<NotFoundPage path={"/main"} />} />
+      </Routes>
+    </PopupProvider>
   );
 }
 

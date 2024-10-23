@@ -7,6 +7,11 @@ namespace chess.Application.Requests.GameRequests.GetAllActiveGames;
 public class GetAllActiveGamesDto {
 
     /// <summary>
+    /// Id for rejoining
+    /// </summary>
+    public Guid GameId { get; set; }
+
+    /// <summary>
     /// Position at which game has ended
     /// </summary>
     public required string Position { get; set; }
@@ -30,11 +35,6 @@ public class GetAllActiveGamesDto {
     /// Timing type of the game
     /// </summary>
     public TimingTypes TimingType { get; set; }
-
-    /// <summary>
-    /// Rejoin game link
-    /// </summary>
-    public required string GameUrl { get; set; }
 
     /// <summary>
     /// White player data

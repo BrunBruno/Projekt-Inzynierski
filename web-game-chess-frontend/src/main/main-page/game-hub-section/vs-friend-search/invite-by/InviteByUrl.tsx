@@ -16,8 +16,6 @@ import axios from "axios";
 import { gameController, getAuthorization } from "../../../../../shared/utils/services/ApiService";
 import { CreateGameWithLinkModel } from "../../../../../shared/utils/types/gameModels";
 import { CreateGameWithLinkDto } from "../../../../../shared/utils/types/gameDtos";
-import { useTimingType } from "../../../../../shared/utils/hooks/useTimingType";
-import { TimingTypeModel } from "../../../../../shared/utils/types/abstractDtosAndModels";
 import { getEnumValueByKey } from "../../../../../shared/utils/functions/enums";
 import { TimingType } from "../../../../../shared/utils/objects/entitiesEnums";
 
@@ -31,7 +29,6 @@ const InviteByUrl = forwardRef<InviteByUrlRef, InviteByUrlProps>(
     ///
 
     const { showPopup } = usePopup();
-    const { setTimingType } = useTimingType();
 
     // indicator ref
     const indRef = useRef<HTMLElement>(null);
@@ -45,15 +42,7 @@ const InviteByUrl = forwardRef<InviteByUrlRef, InviteByUrlProps>(
       try {
         const typeValue = getEnumValueByKey(TimingType, header.toLowerCase());
 
-        const gameType: TimingTypeModel = {
-          type: typeValue,
-          minutes: values[0],
-          increment: values[1],
-        };
-
-        setTimingType(gameType);
-
-        const gameByEmailModel: CreateGameWithLinkModel = {
+        const model: CreateGameWithLinkModel = {
           type: typeValue,
           minutes: values[0],
           increment: values[1],
@@ -61,7 +50,7 @@ const InviteByUrl = forwardRef<InviteByUrlRef, InviteByUrlProps>(
 
         const response = await axios.post<CreateGameWithLinkDto>(
           gameController.createGameWithLink(),
-          gameByEmailModel,
+          model,
           getAuthorization()
         );
 

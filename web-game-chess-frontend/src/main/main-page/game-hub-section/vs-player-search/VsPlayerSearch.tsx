@@ -6,7 +6,6 @@ import GameHubService from "../../../../shared/utils/services/GameHubService";
 import { SearchGameModel } from "../../../../shared/utils/types/gameModels";
 import { usePopup } from "../../../../shared/utils/hooks/usePopUp";
 import { getErrMessage } from "../../../../shared/utils/functions/errors";
-import { useTimingType } from "../../../../shared/utils/hooks/useTimingType";
 import { displayTimingName, getEnumValueByKey } from "../../../../shared/utils/functions/enums";
 import IconCreator from "../../../../shared/components/icon-creator/IconCreator";
 import { mainColor } from "../../../../shared/utils/objects/colorMaps";
@@ -25,26 +24,19 @@ function VsPlayerSearch({ setSearchIds }: VsPlayerSearchProps) {
   ///
 
   const { showPopup } = usePopup();
-  const { setTimingType } = useTimingType();
 
   // API call search for game
   const onSearchForGame = async (header: TimingTypeName, values: [number, number]): Promise<void> => {
     const typeValue = getEnumValueByKey(TimingType, header.toLowerCase());
 
-    const gameTimingType: SearchGameModel = {
+    const model: SearchGameModel = {
       type: typeValue,
       minutes: values[0],
       increment: values[1],
     };
 
     try {
-      const response = await axios.post<SearchGameDto>(
-        gameController.startSearch(),
-        gameTimingType,
-        getAuthorization()
-      );
-
-      setTimingType(gameTimingType);
+      const response = await axios.post<SearchGameDto>(gameController.startSearch(), model, getAuthorization());
 
       setSearchIds(response.data);
 

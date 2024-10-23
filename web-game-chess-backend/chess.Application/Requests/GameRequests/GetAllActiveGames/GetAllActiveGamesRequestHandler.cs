@@ -4,7 +4,6 @@ using chess.Application.Repositories;
 using chess.Application.Services;
 using chess.Core.Dtos;
 using chess.Core.Entities;
-using chess.Shared.Exceptions;
 using MediatR;
 using Microsoft.IdentityModel.Tokens;
 
@@ -57,12 +56,12 @@ public class GetAllActiveGamesRequestHandler : IRequestHandler<GetAllActiveGames
 
                 var gameDto = new GetAllActiveGamesDto()
                 {
+                    GameId = game.Id,
                     Position = game.Position,
                     Turn = game.Turn,
                     Moves = game.Round,
                     CreatedAt = game.CreatedAt,
                     TimingType = game.TimingType,
-                    GameUrl = $"http://localhost:5173/main/game/{game.Id}",
 
                     // currect user player
                     WhitePlayer = new PlayerDto()
@@ -115,12 +114,12 @@ public class GetAllActiveGamesRequestHandler : IRequestHandler<GetAllActiveGames
 
                 var gameDto = new GetAllActiveGamesDto()
                 {
+                    GameId = game.Id,
                     Position = game.Position,
                     Turn = game.Turn,
                     Moves = game.Round,
                     CreatedAt = game.CreatedAt,
                     TimingType = game.TimingType,
-                    GameUrl = $"http://localhost:5173/main/game/{game.Id}",
 
                     // oppoents players
                     WhitePlayer = new PlayerDto()

@@ -70,6 +70,8 @@ export type GetAllFinishedGamesDto = {
 };
 
 export type GetAllActiveGamesDto = {
+  // game id for rejoining
+  gameId: Guid;
   // last position
   position: string;
   // number of turns
@@ -80,8 +82,6 @@ export type GetAllActiveGamesDto = {
   createdAt: Date;
   // type of game timing
   timingType: TimingType;
-  // link for rejoining
-  gameUrl: string;
   // white payer data
   whitePlayer: PlayerDto;
   // black player data

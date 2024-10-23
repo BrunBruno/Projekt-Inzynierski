@@ -167,13 +167,13 @@ function ActiveGamesCard({ game }: ActiveGamesCardProps) {
 
   // to rejoin the game
   const onRejoinGame = (): void => {
-    if (!game.gameUrl) return;
+    if (!game.gameId) return;
 
     const state: StateOptions = {
       popup: { text: "REJOINED", type: "info" },
     };
 
-    navigate(game.gameUrl, { state: state });
+    navigate(`/main/game/${game.gameId}`, { state: state });
   };
   //*/
 
