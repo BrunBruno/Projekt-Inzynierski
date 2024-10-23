@@ -81,7 +81,6 @@ function GameHubSection({ providedInterface }: GameHubSectionProps) {
       popup: { text: "GAME STARTED", type: "info" },
     };
 
-    console.log(state);
 
     navigate(`/main/game/${gameId}`, { state: state });
   };

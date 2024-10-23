@@ -9,6 +9,12 @@ using Microsoft.AspNetCore.Identity;
 
 namespace chess.Application.Requests.UserRequests.SendResetPasswordCode;
 
+/// <summary>
+/// Checks if user for provided email exists
+/// Remove existing verification code for user
+/// Creates new verification code for password reset
+/// Sends email with code to user mail
+/// </summary>
 public class SendResetPasswordCodeRequestHandler : IRequestHandler<SendResetPasswordCodeRequest> {
 
     private readonly IUserRepository _userRepository;

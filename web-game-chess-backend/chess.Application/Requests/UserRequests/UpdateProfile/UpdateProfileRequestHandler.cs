@@ -10,6 +10,7 @@ namespace chess.Application.Requests.UserRequests.UpdateProfile;
 /// <summary>
 /// Checks if user exists
 /// Updates provided data of user
+/// Creates user image if provided
 /// </summary>
 public class UpdateProfileRequestHandler : IRequestHandler<UpdateProfileRequest> {
 

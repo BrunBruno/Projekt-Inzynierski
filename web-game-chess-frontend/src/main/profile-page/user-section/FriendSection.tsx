@@ -66,8 +66,8 @@ function FriendSection({ friendshipId }: FriendSectionProps) {
 
           <div className={classes.user__profile__info}>
             <p className={classes["user-name"]}>{friend.username}</p>
-            <p className={classes["name"]}>{friend.name ? friend.name : "This user has not set name yet."}</p>
-            <p className={classes["bio"]}>{friend.bio ? friend.bio : "Thsis user has not set bio yet."}</p>
+            <p className={classes["name"]}>{friend.name ? friend.name : "-----"}</p>
+            <p className={classes["bio"]}>{friend.bio ? friend.bio : "This user has not set bio yet."}</p>
           </div>
 
           <div className={classes.user__profile__icons}>

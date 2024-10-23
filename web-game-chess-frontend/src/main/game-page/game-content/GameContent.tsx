@@ -235,6 +235,7 @@ function GameContent({
         {winner && !searchIds && (
           <GameBoardWinner
             gameData={gameData}
+            playerData={playerData}
             winner={winner}
             setSearchIds={setSearchIds}
             selectedTiming={selectedTiming}

@@ -9,7 +9,9 @@ using Microsoft.AspNetCore.Identity;
 namespace chess.Application.Requests.UserRequests.ResetPassword;
 
 /// <summary>
-/// 
+/// Checks if user for provided email exists
+/// Validates user inputs
+/// Updates user password
 /// </summary>
 public class ResetPasswordRequestHandler : IRequestHandler<ResetPasswordRequest> {
 

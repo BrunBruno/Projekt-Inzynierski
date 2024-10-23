@@ -164,6 +164,7 @@
         .game-buttons {
           flex-direction: row;
           padding: 2rem;
+          overflow: hidden;
 
           &::before {
             @include subCl(100%, 0.1rem);

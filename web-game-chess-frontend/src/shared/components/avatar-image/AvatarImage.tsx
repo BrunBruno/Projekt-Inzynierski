@@ -25,7 +25,6 @@ function AvatarImage({ username, profilePicture, containerClass, imageClass }: A
     if (!profilePicture) return;
 
     if (typeof profilePicture === "string") {
-      console.log(profilePicture);
       setImageSrc(profilePicture);
     } else {
       setImageSrc(`data:${profilePicture.contentType};base64,${profilePicture.data}`);

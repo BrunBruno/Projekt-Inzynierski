@@ -35,7 +35,7 @@ public interface IFriendshipRepository {
     /// To get friendship by both counterpart ids
     /// </summary>
     /// <returns></returns>
-    Task<Friendship?> GetByUsersIds(Guid requesotId, Guid receiverId);
+    Task<Friendship?> GetByUsersIds(Guid requestorId, Guid receiverId);
 
     /// <summary>
     /// Creates new friendship

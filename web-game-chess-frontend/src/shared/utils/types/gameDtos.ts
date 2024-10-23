@@ -24,7 +24,7 @@ export type EndGameDto = {
   // winner of the game
   winnerColor: PieceColor | null;
   // elo gained or lost
-  eloGained: number;
+  eloGain: number;
 };
 
 export type FetchTimeDto = {
@@ -39,6 +39,8 @@ export type FetchTimeDto = {
 export type GetEndedGameDto = {
   // winner of the game
   winnerColor: PieceColor | null;
+  // elo gained or lost
+  eloGain: number;
 };
 
 export type GetPlayerDto = PlayerDto & {

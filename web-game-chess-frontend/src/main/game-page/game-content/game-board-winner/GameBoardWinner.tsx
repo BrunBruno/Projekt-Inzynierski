@@ -11,10 +11,13 @@ import AvatarImage from "../../../../shared/components/avatar-image/AvatarImage"
 import { PieceColor } from "../../../../shared/utils/objects/entitiesEnums";
 import { Dispatch, SetStateAction } from "react";
 import { StateOptions } from "../../../../shared/utils/objects/interfacesEnums";
+import { PlayerDto } from "../../../../shared/utils/types/abstractDtosAndModels";
 
 type GameBoardWinnerProps = {
   // current game data
   gameData: GetGameDto;
+  // player data
+  playerData: PlayerDto;
   // game result data data
   winner: EndGameDto | GetEndedGameDto | null;
   // to start new game search
@@ -23,7 +26,7 @@ type GameBoardWinnerProps = {
   selectedTiming: SearchGameModel | null;
 };
 
-function GameBoardWinner({ winner, gameData, setSearchIds, selectedTiming }: GameBoardWinnerProps) {
+function GameBoardWinner({ winner, gameData, playerData, setSearchIds, selectedTiming }: GameBoardWinnerProps) {
   ///
 
   const navigate = useNavigate();
@@ -58,6 +61,63 @@ function GameBoardWinner({ winner, gameData, setSearchIds, selectedTiming }: Gam
   };
   //*/
 
+  const generatePlayers = (): JSX.Element => {
+    if (!winner) return <></>;
+
+    const renderPlayer = (player: PlayerDto, colorClass: string, avatarClass: string): JSX.Element => {
+      return (
+        <div className={`${classes.player} ${colorClass}`}>
+          <AvatarImage
+            username={player.name}
+            profilePicture={player.profilePicture}
+            containerClass={avatarClass}
+            imageClass={classes["player-img"]}
+          />
+
+          <div className={classes["player-data"]}>
+            <span>{player.name}</span>
+            <span>
+              (<span>{player.elo + winner.eloGain}</span>)
+            </span>
+          </div>
+        </div>
+      );
+    };
+
+    const wasOpponentBetter =
+      gameData.whitePlayer.elo === gameData.blackPlayer.elo
+        ? null
+        : gameData.whitePlayer.elo < gameData.blackPlayer.elo;
+
+    const isWinner = winner.winnerColor !== null ? (playerData.color === winner.winnerColor ? true : false) : null;
+
+    const sign =
+      isWinner === null ? (wasOpponentBetter === null ? "" : wasOpponentBetter ? "+" : "-") : isWinner ? "+" : "-";
+
+    const eloGained = Math.abs(winner.eloGain);
+
+    return (
+      <div className={classes.winner__content__info__players}>
+        {gameData.whitePlayer.name == playerData.name
+          ? renderPlayer(gameData.whitePlayer, classes["white-player"], classes["white-player-img"])
+          : renderPlayer(gameData.blackPlayer, classes["black-player"], classes["black-player-img"])}
+
+        <div className={classes.vs}>
+          <span>vs</span>
+
+          <span>
+            <span className={sign === "+" ? classes.p : classes.m}>{sign}</span>
+            {eloGained}
+          </span>
+        </div>
+
+        {gameData.whitePlayer.name == playerData.name
+          ? renderPlayer(gameData.blackPlayer, classes["black-player"], classes["black-player-img"])
+          : renderPlayer(gameData.whitePlayer, classes["white-player"], classes["white-player-img"])}
+      </div>
+    );
+  };
+
   if (!winner) return <></>;
 
   return (
@@ -76,41 +136,7 @@ function GameBoardWinner({ winner, gameData, setSearchIds, selectedTiming }: Gam
           {winner.winnerColor === PieceColor.black && <span>Black Wins</span>}
         </h2>
         <div className={classes.winner__content__info}>
-          <div className={classes.winner__content__info__players}>
-            <div className={`${classes.player} ${classes["white-player"]}`}>
-              <AvatarImage
-                username={gameData.whitePlayer.name}
-                profilePicture={gameData.whitePlayer.profilePicture}
-                containerClass={classes["white-player-img"]}
-                imageClass={classes["player-img"]}
-              />
-
-              <div className={classes["player-data"]}>
-                <span>{gameData.whitePlayer.name}</span>
-                <span>
-                  (<span>{gameData.whitePlayer.elo}</span>)
-                </span>
-              </div>
-            </div>
-
-            <p>vs</p>
-
-            <div className={`${classes.player} ${classes["black-player"]}`}>
-              <AvatarImage
-                username={gameData.blackPlayer.name}
-                profilePicture={gameData.blackPlayer.profilePicture}
-                containerClass={classes["black-player-img"]}
-                imageClass={classes["player-img"]}
-              />
-
-              <div className={classes["player-data"]}>
-                <span>{gameData.blackPlayer.name}</span>
-                <span>
-                  (<span>{gameData.blackPlayer.elo}</span>)
-                </span>
-              </div>
-            </div>
-          </div>
+          {generatePlayers()}
 
           <div className={classes.winner__content__info__buttons}>
             <button
