@@ -11,7 +11,7 @@ import {
 } from "react";
 import classes from "./FaqSection.module.scss";
 import { mainColor } from "../../../shared/utils/objects/colorMaps";
-import { accountAndUserProfileFAQs, gameplayAndFeaturesFAQs } from "./FaqSectionData";
+import { accountAndUserProfileFAQs, gameplayAndFeaturesFAQs, QuestionsType } from "./FaqSectionData";
 import { HandleOnScroll } from "../../../shared/utils/types/commonTypes";
 import FaqSectionCard from "./faq-section-card/FaqSectionCard";
 import IconCreator from "../../../shared/components/icon-creator/IconCreator";
@@ -191,7 +191,7 @@ const FaqSection = forwardRef<HandleOnScroll, FaqSectionProps>(
           </div>
 
           <div ref={row1Ref} className={classes.section__content__row}>
-            {accountAndUserProfileFAQs.map((faq, i) => (
+            {accountAndUserProfileFAQs.map((faq: QuestionsType, i: number) => (
               <FaqSectionCard key={`account-and-user-profile-${i}`} faq={faq} index={i} />
             ))}
           </div>
@@ -217,8 +217,14 @@ const FaqSection = forwardRef<HandleOnScroll, FaqSectionProps>(
           </div>
 
           <div className={classes.section__content__indicator}>
-            {Array.from({ length: Math.ceil(accountAndUserProfileFAQs.length / cardCount) }).map((_, i) => (
-              <p key={i} className={`${classes["ind-point"]} ${row1Indicator === i ? classes.active : ""}`} />
+            {Array.from({ length: Math.ceil(accountAndUserProfileFAQs.length / cardCount) }).map((_, i: number) => (
+              <p
+                key={`account-indicator-${i}`}
+                className={`
+                  ${classes["ind-point"]} 
+                  ${row1Indicator === i ? classes.active : ""}
+                `}
+              />
             ))}
           </div>
           {/* --- */}
@@ -254,7 +260,7 @@ const FaqSection = forwardRef<HandleOnScroll, FaqSectionProps>(
           </div>
 
           <div ref={row2Ref} className={classes.section__content__row}>
-            {gameplayAndFeaturesFAQs.map((faq, i) => (
+            {gameplayAndFeaturesFAQs.map((faq: QuestionsType, i: number) => (
               <FaqSectionCard key={`gameplay-and-features-${i}`} faq={faq} index={i} />
             ))}
           </div>
@@ -280,8 +286,14 @@ const FaqSection = forwardRef<HandleOnScroll, FaqSectionProps>(
           </div>
 
           <div className={classes.section__content__indicator}>
-            {Array.from({ length: Math.ceil(gameplayAndFeaturesFAQs.length / cardCount) }).map((_, i) => (
-              <p key={i} className={`${classes["ind-point"]} ${row2Indicator === i ? classes.active : ""}`} />
+            {Array.from({ length: Math.ceil(gameplayAndFeaturesFAQs.length / cardCount) }).map((_, i: number) => (
+              <p
+                key={`gameplay-indicator-${i}`}
+                className={`
+                  ${classes["ind-point"]} 
+                  ${row2Indicator === i ? classes.active : ""}
+                `}
+              />
             ))}
           </div>
           {/* --- */}

@@ -1,11 +1,24 @@
 @import "../../Main.scss";
 
+@keyframes loadingBlock {
+  0% {
+    opacity: 0.1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+  100% {
+    opacity: 0.1;
+  }
+}
+
 // user profile container
 .user {
   height: 100%;
   background-color: rgba($gc9, 0.5);
   box-shadow: 0.1rem 0 1rem 0 $gc0;
   overflow-y: scroll;
+  border-right: solid 0.5rem $gc8;
 
   &::-webkit-scrollbar {
     display: none;
@@ -20,6 +33,7 @@
     border-bottom: solid 0.5rem $gc8;
     display: grid;
     grid-template-columns: 22rem 44rem;
+    min-height: 25rem;
 
     &::before {
       @include subCl();
@@ -45,13 +59,13 @@
         object-fit: cover;
       }
 
-      .set-img {
+      label.set-img {
         @include circle(5rem);
         @include flex();
 
         position: absolute;
-        left: 0;
-        bottom: 0;
+        left: 1rem;
+        bottom: 1rem;
         background-color: $mc9;
         padding: 1rem;
 
@@ -60,6 +74,10 @@
           svg {
             filter: brightness(80%);
           }
+        }
+
+        input.set-img-input {
+          display: none;
         }
       }
     }
@@ -180,13 +198,14 @@
     display: grid;
     grid-template-columns: 66% 34%;
     padding: $data-gaps;
+    min-height: calc(100vh - 25rem);
 
     &__stats {
       @include wh100();
       @include flex(column, start, start, 0.5rem);
 
       position: relative;
-      border-right: solid 0.3rem $gc1;
+      border-right: solid 0.5rem $gc8;
       padding-right: $data-gaps;
 
       &__header {
@@ -202,6 +221,15 @@
       &__row {
         position: relative;
         width: 100%;
+      }
+
+      .loading-block {
+        height: 6rem;
+        width: 100%;
+        background-color: $gc9;
+        border-radius: 1rem;
+
+        animation: loadingBlock 2s infinite;
       }
     }
 

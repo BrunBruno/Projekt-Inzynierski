@@ -36,17 +36,23 @@ public class UpdateProfileTests : IClassFixture<TestWebApplicationFactory<Progra
         await _dbContext.AddUser();
 
         string name = "Test Name";
+        string bio = "Test Bio";
 
-        var model = new UpdateProfileModel()
+        var model = new UpdateProfileModel
         {
             Name = name,
+            Bio = bio,
         };
 
-        var json = JsonConvert.SerializeObject(model);
-        var httpContent = new StringContent(json, Encoding.UTF8, "application/json");
+
+        var formData = new MultipartFormDataContent();
+        foreach (var property in model.GetType().GetProperties()) {
+            var value = property.GetValue(model)?.ToString() ?? string.Empty;
+            formData.Add(new StringContent(value), property.Name);
+        }
 
 
-        var response = await _client.PutAsync("api/user/profile", httpContent);
+        var response = await _client.PutAsync("api/user/profile", formData);
 
 
         var assertDbContext = _factory.GetDbContextForAsserts();
@@ -57,6 +63,7 @@ public class UpdateProfileTests : IClassFixture<TestWebApplicationFactory<Progra
 
         user.Should().NotBeNull();
         user!.Name.Should().Be(name);
+        user!.Bio.Should().Be(bio);
     }
 
     /// <summary>

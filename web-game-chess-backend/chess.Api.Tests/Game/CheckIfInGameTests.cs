@@ -47,7 +47,7 @@ public class CheckIfInGameTests : IClassFixture<TestWebApplicationFactory<Progra
 
 
         // player that is not in game
-        var response_false = await _client.GetAsync($"api/game/check-if-in-game?playerId={userPlayerId}");
+        var response_false = await _client.GetAsync($"api/game/is-in-game?playerId={userPlayerId}");
 
 
         response_false.StatusCode.Should().Be(HttpStatusCode.OK);
@@ -63,7 +63,7 @@ public class CheckIfInGameTests : IClassFixture<TestWebApplicationFactory<Progra
 
 
         // player that is in game
-        var response_true = await _client.GetAsync($"api/game/check-if-in-game?playerId={userPlayerId}");
+        var response_true = await _client.GetAsync($"api/game/is-in-game?playerId={userPlayerId}");
 
 
         response_true.StatusCode.Should().Be(HttpStatusCode.OK);
@@ -86,7 +86,7 @@ public class CheckIfInGameTests : IClassFixture<TestWebApplicationFactory<Progra
         // no player added
 
 
-        var response = await _client.GetAsync($"api/game/check-if-in-game?playerId={Guid.NewGuid()}");
+        var response = await _client.GetAsync($"api/game/is-in-game?playerId={Guid.NewGuid()}");
 
 
         response.StatusCode.Should().Be(HttpStatusCode.NotFound);
@@ -105,7 +105,7 @@ public class CheckIfInGameTests : IClassFixture<TestWebApplicationFactory<Progra
         var playerId = await _dbContext.AddPlayer(Guid.NewGuid(), "OtherPlayer"); // not owned player
 
 
-        var response = await _client.GetAsync($"api/game/check-if-in-game?playerId={playerId}");
+        var response = await _client.GetAsync($"api/game/is-in-game?playerId={playerId}");
 
 
         response.StatusCode.Should().Be(HttpStatusCode.Unauthorized);

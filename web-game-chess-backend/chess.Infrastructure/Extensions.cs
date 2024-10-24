@@ -96,19 +96,24 @@ public static class Extensions {
             => ctx.UseNpgsql(options.ConnectionString));
 
         services.AddScoped<IUserRepository, UserRepository>();
-        services.AddScoped<IEmailVerificationCodeRepository, EmailVerificationCodeRepository>();
-        services.AddScoped<IDataConfigurationRepository, DataConfigurationRepository>();
+        services.AddScoped<IUserImageRepository, UserImageRepository>();
+        services.AddScoped<IUserEloRepository, UserEloRepository>();
+        services.AddScoped<IUserStatsRepository, UserStatsRepository>();
         services.AddScoped<IUserBanRepository, UserBanRepository>();
+
         services.AddScoped<IGameRepository, GameRepository>();
         services.AddScoped<IGameTimingRepository, GameTimingRepository>();
         services.AddScoped<IGameStateRepository, GameStateRepository>();
+        services.AddScoped<IGameInvitationRepository, GameInvitationRepository>();
+        services.AddScoped<IGameMessageRepository, GameMessageRepository>();
+
         services.AddScoped<IPlayerRepository, PlayerRepository>();
+        services.AddScoped<IPlayerMessageRepository, PlayerMessageRepository>();
+
+        services.AddScoped<IUserVerificationCodeRepository, UserVerificationCodeRepository>();
+        services.AddScoped<IDataConfigurationRepository, DataConfigurationRepository>();
         services.AddScoped<IMoveRepository, MoveRepository>();
         services.AddScoped<IFriendshipRepository, FriendshipRepository>();
-        services.AddScoped<IUserEloRepository, UserEloRepository>();
-        services.AddScoped<IPlayerMessageRepository, PlayerMessageRepository>();
-        services.AddScoped<IUserStatsRepository, UserStatsRepository>();
-        services.AddScoped<IGameInvitationRepository, GameInvitationRepository>();
 
         return services;
     }

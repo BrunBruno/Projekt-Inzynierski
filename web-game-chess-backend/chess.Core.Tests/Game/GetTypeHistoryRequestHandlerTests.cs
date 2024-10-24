@@ -34,7 +34,7 @@ public class GetTypeHistoryRequestHandlerTests {
 
 
         _mockUserContextService.Setup(x => x.GetUserId()).Returns(userId);
-        _mockPlayerRepository.Setup(x => x.GetAllForUser(userId)).ReturnsAsync(players);
+        _mockPlayerRepository.Setup(x => x.GetAllFinishedForUser(userId)).ReturnsAsync(players);
 
 
         var handler = new GetTypeHistoryRequestHandler(
@@ -51,10 +51,10 @@ public class GetTypeHistoryRequestHandlerTests {
         result.ItemsTo = 10;
 
         _mockUserContextService.Verify(x => x.GetUserId(), Times.Once);
-        _mockPlayerRepository.Verify(x => x.GetAllForUser(userId), Times.Once);
+        _mockPlayerRepository.Verify(x => x.GetAllFinishedForUser(userId), Times.Once);
     }
 
-    private List<Player> ReturnExamplePlayers(Guid userId) {
+    private static List<Player> ReturnExamplePlayers(Guid userId) {
 
         var players = new List<Player>();
 
@@ -70,6 +70,7 @@ public class GetTypeHistoryRequestHandlerTests {
                 UserId = userId,
                 IsPlaying = true,
             };
+
             var blackPlayer = new Player()
             {
                 Id = Guid.NewGuid(),

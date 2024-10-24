@@ -4,7 +4,7 @@ import { GetAllFriendsByStatusDto } from "../../../../../shared/utils/types/frie
 import classes from "./FriendList.module.scss";
 import usePagination from "../../../../../shared/utils/hooks/usePagination";
 import { GetAllFriendsByStatusModel } from "../../../../../shared/utils/types/friendshipModels";
-import { friendshipControllerPaths, getAuthorization } from "../../../../../shared/utils/services/ApiService";
+import { friendshipController, getAuthorization } from "../../../../../shared/utils/services/ApiService";
 import axios from "axios";
 import { FriendshipStatus } from "../../../../../shared/utils/objects/entitiesEnums";
 import { usePopup } from "../../../../../shared/utils/hooks/usePopUp";
@@ -25,6 +25,7 @@ function FriendList({ selectedUsername, setSelectedFriend }: FriendListProps) {
   const { showPopup } = usePopup();
   const { scrollRef, pageSize, pageNumber, totalItemsCount, setTotalItemsCount, setDefPageSize } = usePagination();
 
+  // current user friend list
   const [friends, setFriends] = useState<GetAllFriendsByStatusDto[] | null>(null);
 
   useEffect(() => {
@@ -34,7 +35,7 @@ function FriendList({ selectedUsername, setSelectedFriend }: FriendListProps) {
   // get all friends to display for invitations
 
   useEffect(() => {
-    const getFriends = async () => {
+    const getFriends = async (): Promise<void> => {
       try {
         const model: GetAllFriendsByStatusModel = {
           username: selectedUsername,
@@ -44,7 +45,7 @@ function FriendList({ selectedUsername, setSelectedFriend }: FriendListProps) {
         };
 
         const friendsResponse = await axios.get<PagedResult<GetAllFriendsByStatusDto>>(
-          friendshipControllerPaths.getAllFriendsByStatus(model),
+          friendshipController.getAllFriendsByStatus(model),
           getAuthorization()
         );
 
@@ -62,13 +63,17 @@ function FriendList({ selectedUsername, setSelectedFriend }: FriendListProps) {
   // set default page size based on list to elements size ratio
   // add resize handler to update default size
   useEffect(() => {
-    const setDefSize = () => {
+    const setDefSize = (): void => {
       const container = scrollRef.current;
       const itemsPerRow = window.innerWidth < 1100 && window.innerWidth > 500 ? 2 : 1;
 
       if (container) {
         const containerHeight = container.clientHeight;
-        const firstChild = container.firstChild as HTMLElement;
+        let firstChild = container.firstChild as HTMLDivElement;
+        if (firstChild && firstChild.classList.contains(classes.list__empty)) {
+          firstChild = firstChild.firstChild as HTMLDivElement;
+        }
+
         const elementHeight = firstChild.clientHeight;
 
         if (elementHeight > 0) {
@@ -89,12 +94,12 @@ function FriendList({ selectedUsername, setSelectedFriend }: FriendListProps) {
   //*/
 
   return (
-    <div ref={scrollRef} className={classes.list}>
+    <div ref={scrollRef} data-testid="main-page-vs-friend-section-friend-list" className={classes.list}>
       {friends === null || friends.length === 0 ? (
         // empty result
         <div className={classes.list__empty}>
-          {Array.from({ length: pageSize }).map((_, i) => (
-            <div key={i} className={classes["empty-card"]}>
+          {Array.from({ length: pageSize }).map((_, i: number) => (
+            <div key={`empty-card-${i}`} className={classes["empty-card"]}>
               <AvatarIcon iconClass={classes["blank-avatar"]} />
               <div className={classes.texts}>
                 <p className={classes["blank-text"]} />
@@ -103,12 +108,18 @@ function FriendList({ selectedUsername, setSelectedFriend }: FriendListProps) {
             </div>
           ))}
 
-          <div className={classes["no-data"]}>No results. </div>
+          <div className={classes["no-data"]}>
+            <span>No results.</span>
+          </div>
         </div>
       ) : (
         // friends list
-        friends.map((friend, i) => (
-          <FriendCard key={`friend-${i}`} friend={friend} setSelectedFriend={setSelectedFriend} />
+        friends.map((friend: GetAllFriendsByStatusDto, i: number) => (
+          <FriendCard
+            key={`friendship-${i}-${friend.friendshipId}`}
+            friend={friend}
+            setSelectedFriend={setSelectedFriend}
+          />
         ))
       )}
 

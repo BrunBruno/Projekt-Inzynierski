@@ -22,6 +22,8 @@ export type CreateGameByEmailModel = TimingTypeModel & {
 export type CreateRematchGameModel = TimingTypeModel & {
   // user opponents id from previous game
   opponentId: Guid;
+  // id of previous game
+  previousGameId: Guid;
 };
 
 export type MakeMoveModel = {
@@ -49,6 +51,13 @@ export type MakeMoveModel = {
 };
 
 export type SendMessageModel = {
+  // game id where message was sent
+  gameId: Guid;
+  // message content
+  message: string;
+};
+
+export type SendGameMessageModel = {
   // game id where message was sent
   gameId: Guid;
   // message content
@@ -86,9 +95,14 @@ export type CheckIfInGameModel = {
 
 export type GetAllFinishedGamesModel = PagedModel & {
   // to get only selected types of timing type
-  timingTypeFilters: TimingType[];
+  timingTypeFilters?: TimingType[];
   // to get only selected results of the game
-  resultFilters: (boolean | null)[];
+  resultFilters?: (boolean | null)[];
+};
+
+export type GetAllActiveGamesModel = PagedModel & {
+  // to get only selected types of timing type
+  timingTypeFilters?: TimingType[];
 };
 
 export type GetTypeHistoryModel = PagedModel & {
@@ -96,7 +110,9 @@ export type GetTypeHistoryModel = PagedModel & {
   type: TimingType;
 };
 
-export type GetAllInvitationsModel = PagedModel & {};
+export type GetAllInvitationsModel = PagedModel & {
+  expirationFilters?: boolean[];
+};
 
 export type NotifyUserModel = TimingTypeModel & {
   // friend to notify id

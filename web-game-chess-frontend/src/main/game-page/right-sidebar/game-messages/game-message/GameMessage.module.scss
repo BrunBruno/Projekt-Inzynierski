@@ -17,6 +17,16 @@
     }
   }
 
+  &__game {
+    @include square(3rem);
+
+    overflow: hidden;
+
+    .game-logo {
+      height: 3rem;
+    }
+  }
+
   &__content {
     .sender-data {
       color: $gc5;
@@ -33,10 +43,37 @@
   }
 
   &__actions {
+    @include flex(row, end, center, 1rem);
+
+    padding: 1rem;
+    grid-column: span 2;
+
     .draw-mess-btn {
+      @include flex($gap: 0.5rem);
+
+      background-color: #0000;
+      color: $gc0;
+      font-size: 1.6rem;
+      border: none;
+      outline: none;
+
+      &:hover {
+        cursor: pointer;
+      }
+
       &.accept-btn {
+        &:hover {
+          color: $success-color-l;
+        }
       }
       &.decline-btn {
+        &:hover {
+          color: $danger-color-m;
+        }
+      }
+
+      .draw-mess-icon {
+        height: 2rem;
       }
     }
   }

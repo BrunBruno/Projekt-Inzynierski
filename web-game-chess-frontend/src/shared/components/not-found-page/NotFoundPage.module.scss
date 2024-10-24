@@ -1,0 +1,42 @@
+@import "../../styles/variables/color.scss";
+@import "../../styles/commons-styles/elements.scss";
+@import "../../styles/commons-styles/texts.scss";
+@import "../../styles/commons-styles/backgrounds.scss";
+
+.not-found {
+  @include wh100();
+  @include gridBg();
+
+  position: relative;
+
+  .not-found-header {
+    @include absCenter();
+    @include flex($direction: column, $gap: 2rem);
+
+    z-index: 1;
+
+    span {
+      font-size: 5rem;
+    }
+
+    a {
+      font-size: 3rem;
+      color: $mc4;
+      text-decoration: none;
+
+      &:hover {
+        cursor: pointer;
+        color: $mc9;
+      }
+    }
+  }
+
+  .bg-pawn-svg {
+    @include absCenter();
+
+    transform: translate(-50%, -50%) rotateZ(15deg);
+    height: 70%;
+    z-index: 0;
+    opacity: 0.5;
+  }
+}

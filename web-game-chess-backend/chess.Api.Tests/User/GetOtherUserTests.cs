@@ -32,10 +32,9 @@ public class GetOtherUserTests : IClassFixture<TestWebApplicationFactory<Program
 
         await _dbContext.Init();
         await _dbContext.AddUser();
-        await _dbContext.AddStatsForUser();
 
 
-        var response = await _client.GetAsync($"api/user/other?userId={Guid.Parse(Constants.UserId)}");
+        var response = await _client.GetAsync($"api/user/{Guid.Parse(Constants.UserId)}/other");
 
 
         response.StatusCode.Should().Be(HttpStatusCode.OK);
@@ -55,7 +54,7 @@ public class GetOtherUserTests : IClassFixture<TestWebApplicationFactory<Program
         // user not added
 
 
-        var response = await _client.GetAsync($"api/user/other?userId={Guid.Parse(Constants.UserId)}");
+        var response = await _client.GetAsync($"api/user/{Guid.Parse(Constants.UserId)}/other");
 
 
         response.StatusCode.Should().Be(HttpStatusCode.NotFound);

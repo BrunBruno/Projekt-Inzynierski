@@ -20,7 +20,7 @@ function FriendCard({ friend, setSelectedFriend }: FriendCardProps) {
     <div key={friend.friendshipId.toString()} className={classes.card}>
       <AvatarImage
         username={friend.username}
-        imageUrl={friend.imageUrl}
+        profilePicture={friend.profilePicture}
         containerClass={classes.avatar}
         imageClass={classes["user-avatar"]}
       />
@@ -67,12 +67,13 @@ function FriendCard({ friend, setSelectedFriend }: FriendCardProps) {
 
       <div className={classes.invite}>
         <button
+          data-testid="vs-friend-invite-to-game-button"
           className={classes["invite-button"]}
           onClick={() => {
             setSelectedFriend(friend);
           }}
         >
-          Invite
+          <span>Invite</span>
         </button>
       </div>
     </div>

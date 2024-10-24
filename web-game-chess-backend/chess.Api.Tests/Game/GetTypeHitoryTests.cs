@@ -34,7 +34,6 @@ public class GetTypeHistoryTests : IClassFixture<TestWebApplicationFactory<Progr
     public async Task GetTypeHistory_Should_Return_Paged_TypeHistoryDto_On_Success() {
 
         await _dbContext.Init();
-        await _dbContext.AddUser();
 
         await _dbContext.AddGames(true, false);
 

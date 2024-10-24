@@ -11,29 +11,44 @@ namespace chess.Infrastructure.Contexts;
 public class ChessAppDbContext : DbContext {
 
     /// <summary>
-    /// User dbSet
-    /// </summary>
-    public DbSet<User> Users { get; set; }
-
-    /// <summary>
     /// Roles dbSet (one to many users)
     /// </summary>
     public DbSet<Role> Roles { get; set; }
 
     /// <summary>
-    /// EmailVerificationCode dbSet (one to one user)
+    /// User dbSet
     /// </summary>
-    public DbSet<EmailVerificationCode> EmailVerificationCodes { get; set; }
+    public DbSet<User> Users { get; set; }
 
     /// <summary>
-    /// DataConfiguration dbSet
+    /// Images dbSet
     /// </summary>
-    public DbSet<DataConfiguration> DataConfigurations { get; set; }
+    public DbSet<UserImage> UserImages { get; set; }
+
+    /// <summary>
+    /// Elo db set (one to one user)
+    /// </summary>
+    public DbSet<UserElo> UserElos { get; set; }
+
+    /// <summary>
+    /// Stats db set (one to one user)
+    /// </summary>
+    public DbSet<UserStats> UserStats { get; set; }
 
     /// <summary>
     /// BannedUser dbSet
     /// </summary>
     public DbSet<UserBan> UserBans { get; set; }
+
+    /// <summary>
+    /// UserVerificationCode dbSet (one to one user)
+    /// </summary>
+    public DbSet<UserVerificationCode> UserVerificationCodes { get; set; }
+
+    /// <summary>
+    /// DataConfiguration dbSet
+    /// </summary>
+    public DbSet<DataConfiguration> DataConfigurations { get; set; }
 
     /// <summary>
     /// Games dbSet
@@ -51,9 +66,24 @@ public class ChessAppDbContext : DbContext {
     public DbSet<GameState> GameStates { get; set; }
 
     /// <summary>
+    /// Invitations db set (one to one game but not for all)
+    /// </summary>
+    public DbSet<GameInvitation> GameInvitations { get; set; }
+
+    /// <summary>
+    /// Player messages db set (many to one player)
+    /// </summary>
+    public DbSet<GameMessage> GameMessages { get; set; }
+
+    /// <summary>
     /// Plyers dbSet (two to one game)
     /// </summary>
     public DbSet<Player> Players { get; set; }
+
+    /// <summary>
+    /// Player messages db set (many to one player)
+    /// </summary>
+    public DbSet<PlayerMessage> PlayerMessages { get; set; }
 
     /// <summary>
     /// moves dbSet (many to one game)
@@ -65,32 +95,6 @@ public class ChessAppDbContext : DbContext {
     /// </summary>
     public DbSet<Friendship> Friendships { get; set; }
 
-    /// <summary>
-    /// Elo db set (one to one user)
-    /// </summary>
-    public DbSet<UserElo> UserElos { get; set; }
-
-    /// <summary>
-    /// Player messages db set (many to one player)
-    /// </summary>
-    public DbSet<GameMessage> GameMessages { get; set; }
-
-    /// <summary>
-    /// Player messages db set (many to one player)
-    /// </summary>
-    public DbSet<PlayerMessage> PlayerMessages { get; set; }
-
-    /// <summary>
-    /// Stats db set (one to one user)
-    /// </summary>
-    public DbSet<UserStats> UserStats { get; set; }
-
-    /// <summary>
-    /// Invitations db set (one to one game but not for all)
-    /// </summary>
-    public DbSet<GameInvitation> GameInvitations { get; set; }
-
-
 
     public ChessAppDbContext(DbContextOptions<ChessAppDbContext> options) : base(options) { }
 
@@ -99,7 +103,7 @@ public class ChessAppDbContext : DbContext {
 
         builder.ApplyConfiguration<User>(configuration);
         builder.ApplyConfiguration<Role>(configuration);
-        builder.ApplyConfiguration<EmailVerificationCode>(configuration);
+        builder.ApplyConfiguration<UserVerificationCode>(configuration);
         builder.ApplyConfiguration<DataConfiguration>(configuration);
         builder.ApplyConfiguration<UserBan>(configuration);
         builder.ApplyConfiguration<Game>(configuration);
@@ -113,5 +117,6 @@ public class ChessAppDbContext : DbContext {
         builder.ApplyConfiguration<GameMessage>(configuration);
         builder.ApplyConfiguration<UserStats>(configuration);
         builder.ApplyConfiguration<GameInvitation>(configuration);
+        builder.ApplyConfiguration<UserImage>(configuration);
     }
 }

@@ -35,9 +35,10 @@ export type ChartObject = {
 
 // popup data object
 export type PopupType = {
-  popupText: string;
-  popupType: typeof popupIconTypes[number];
+  text: string;
+  type: typeof popupIconTypes[number];
 };
 
+// board matrix objects
 export type SMatrix = string[][];
 export type NMatrix = number[][];

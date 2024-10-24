@@ -1,6 +1,7 @@
 ﻿
 using chess.Application.Repositories;
 using chess.Application.Services;
+using chess.Core.Dtos;
 using chess.Core.Enums;
 using chess.Shared.Exceptions;
 using MediatR;
@@ -38,9 +39,14 @@ public class GetPlayerRequestHandler : IRequestHandler<GetPlayerRequest, GetPlay
         var playerDto = new GetPlayerDto()
         {
             Name = player.Name,
-            ImageUrl = player.ImageUrl,
             Elo = player.Elo,
             Color = (PieceColor)player.Color,
+
+            ProfilePicture = player.User.Image != null ? new ImageDto() 
+            {
+                Data = player.User.Image.Data,
+                ContentType = player.User.Image.ContentType,
+            } : null,
         };
 
         return playerDto;

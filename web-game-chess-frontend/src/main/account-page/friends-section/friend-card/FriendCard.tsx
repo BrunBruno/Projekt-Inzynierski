@@ -2,7 +2,7 @@ import { useNavigate } from "react-router-dom";
 import AvatarImage from "../../../../shared/components/avatar-image/AvatarImage";
 import { GetAllFriendsByStatusDto } from "../../../../shared/utils/types/friendshipDtos";
 import classes from "./FriendCard.module.scss";
-import { GameSearchInterface } from "../../../../shared/utils/objects/interfacesEnums";
+import { GameSearchInterface, StateOptions } from "../../../../shared/utils/objects/interfacesEnums";
 import { Dispatch, SetStateAction, MouseEvent } from "react";
 
 type FriendCardProps = {
@@ -19,16 +19,19 @@ function FriendCard({ friend, setSelectedFriend, clearSelection }: FriendCardPro
 
   const navigate = useNavigate();
 
-  //todotodo
-  const checkProfile = () => {};
+  const checkProfile = () => {
+    navigate(`/main/profile/${friend.friendshipId.toString()}`);
+  };
 
   // to navigate to vs-friend search
   const onInviteFriendToGame = async (): Promise<void> => {
-    navigate(`main/`, {
-      state: {
-        interface: GameSearchInterface.vsFriend,
-      },
-    });
+    // pass the friend to invite to game
+    const state: StateOptions = {
+      interface: GameSearchInterface.vsFriend,
+      selectedFriend: friend,
+    };
+
+    navigate(`/main`, { state: state });
   };
   //*/
 
@@ -57,7 +60,7 @@ function FriendCard({ friend, setSelectedFriend, clearSelection }: FriendCardPro
       {/* card content */}
       <div className={classes.friend__content}>
         <div className={classes.friend__content__avatar}>
-          <AvatarImage username={friend.username} imageUrl={friend.imageUrl} imageClass={classes.avatar} />
+          <AvatarImage username={friend.username} profilePicture={friend.profilePicture} imageClass={classes.avatar} />
 
           <div className={classes["country"]}>
             <img src={`https://flagsapi.com/${friend.country}/flat/64.png`} className={classes["country-flag"]} />
@@ -84,7 +87,7 @@ function FriendCard({ friend, setSelectedFriend, clearSelection }: FriendCardPro
             checkProfile();
           }}
         >
-          Profile
+          <span>Profile</span>
         </button>
 
         <button
@@ -93,7 +96,7 @@ function FriendCard({ friend, setSelectedFriend, clearSelection }: FriendCardPro
             onInviteFriendToGame();
           }}
         >
-          Play
+          <span>Play</span>
         </button>
       </div>
       {/* --- */}

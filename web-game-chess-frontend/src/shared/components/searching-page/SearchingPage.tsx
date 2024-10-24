@@ -10,9 +10,12 @@ type SearchingPageProps = {
   isPrivate: boolean;
   // on cancel action
   onCancel: () => Promise<void>;
+  // ids for tests
+  containerTestId?: string;
+  cancelButtonTestId?: string;
 };
 
-function SearchingPage({ isPrivate, onCancel }: SearchingPageProps) {
+function SearchingPage({ isPrivate, onCancel, containerTestId, cancelButtonTestId }: SearchingPageProps): JSX.Element {
   ///
 
   // states for searching animation
@@ -50,13 +53,13 @@ function SearchingPage({ isPrivate, onCancel }: SearchingPageProps) {
       clearInterval(intervalId);
 
       // add here onCancelSearch when not strick mode ??
-      // onCancelSearch();
+      // onCancel();
     };
   }, []);
   //*/
 
   return (
-    <div className={classes.searching}>
+    <div data-testid={containerTestId} className={classes.searching}>
       <div className={classes.searching__content}>
         <div className={classes.searching__content__background}>
           <IconCreator icons={searchingPageIcons} iconName={"globe"} active={activeIndex !== 0} />
@@ -82,6 +85,7 @@ function SearchingPage({ isPrivate, onCancel }: SearchingPageProps) {
         </div>
 
         <button
+          data-testid={cancelButtonTestId}
           className={classes.cancel}
           onClick={() => {
             onCancel();

@@ -1,7 +1,7 @@
 import axios from "axios";
 import classes from "./Invitations.module.scss";
 import { GetAllInvitationsDto } from "../../../../shared/utils/types/gameDtos";
-import { gameControllerPaths, getAuthorization } from "../../../../shared/utils/services/ApiService";
+import { gameController, getAuthorization } from "../../../../shared/utils/services/ApiService";
 import { GetAllInvitationsModel } from "../../../../shared/utils/types/gameModels";
 import { useEffect, useRef, useState } from "react";
 import InvitationCard from "./invitation-card/InvitationCard";
@@ -13,36 +13,43 @@ import InvitationEmptyCard from "./invitation-empty-card/InvitationEmptyCard";
 import InvitationsFilters from "./invitations-filters/InvitationsFilters";
 import GameHubService from "../../../../shared/utils/services/GameHubService";
 import { HubConnectionState } from "@microsoft/signalr";
-
-const defaultSize = 10;
+import usePagination from "../../../../shared/utils/hooks/usePagination";
 
 type InvitationsProps = {};
 
 function Invitations({}: InvitationsProps) {
   ///
 
+  const { showPopup } = usePopup();
+  const { pageNumber, pageSize, setDefPageSize } = usePagination();
+
+  // list of invitations ref
   const listRef = useRef<HTMLDivElement>(null);
 
+  // all users invitation
   const [invitations, setInvitations] = useState<PagedResult<GetAllInvitationsDto> | null>(null);
-  const [pageSize, setPageSize] = useState<number>(defaultSize);
+  // for pagination
 
   // for filtering results
   const [showFilters, setShowFilters] = useState<boolean>(false);
   // for setting up filters by expiration status
-  const [expirationFilters, setExpirationFilters] = useState<boolean | null>(null);
+  const [expirationFilters, setExpirationFilters] = useState<boolean[]>([]);
 
-  const { showPopup } = usePopup();
+  useEffect(() => {
+    setDefPageSize(10);
+  }, []);
 
   // to get all awaiting and expired invitations
-  const getInvitations = async () => {
+  const getInvitations = async (): Promise<void> => {
     try {
       const invitationsModel: GetAllInvitationsModel = {
-        pageNumber: 1,
+        pageNumber: pageNumber,
         pageSize: pageSize,
+        expirationFilters: expirationFilters,
       };
 
       const invitationsResponse = await axios.get<PagedResult<GetAllInvitationsDto>>(
-        gameControllerPaths.getAllInvitations(invitationsModel),
+        gameController.getAllInvitations(invitationsModel),
         getAuthorization()
       );
 
@@ -52,13 +59,13 @@ function Invitations({}: InvitationsProps) {
     }
   };
 
-  const updateInvitations = () => {
+  const updateInvitations = (): void => {
     getInvitations();
   };
 
   useEffect(() => {
     updateInvitations();
-  }, [pageSize]);
+  }, [pageSize, pageNumber, expirationFilters]);
   //*/
 
   // to update invitation when new one was recently received
@@ -76,12 +83,14 @@ function Invitations({}: InvitationsProps) {
   //*/
 
   // increase page size on scroll
-  const handleListOnScroll = () => {
+  const handleListOnScroll = (): void => {
+    const defaultSize = 10;
+
     const listElement = listRef.current;
     if (listElement && invitations) {
       if (listElement.scrollHeight - 1.1 * listElement.scrollTop <= listElement.clientHeight) {
         if (pageSize < invitations.totalItemsCount) {
-          setPageSize((prevPageSize) => prevPageSize + defaultSize);
+          setDefPageSize((prevPageSize: number) => prevPageSize + defaultSize);
         }
       }
     }
@@ -89,9 +98,9 @@ function Invitations({}: InvitationsProps) {
   //*/
 
   // to display filters
-  const onShowFilters = () => {
+  const onShowFilters = (): void => {
     if (invitations && invitations.items.length > 0) {
-      setShowFilters((prev) => !prev);
+      setShowFilters((prev: boolean) => !prev);
     }
   };
   //*/
@@ -116,14 +125,14 @@ function Invitations({}: InvitationsProps) {
         <div className={classes.filters}>
           <button
             className={`
-                ${classes["filter-button"]} 
-                ${!invitations || invitations.items.length === 0 ? classes["disabled"] : classes["enabled"]}
-              `}
+              ${classes["filter-button"]} 
+              ${!invitations || invitations.items.length === 0 ? classes["disabled"] : classes["enabled"]}
+            `}
             onClick={() => {
               onShowFilters();
             }}
           >
-            Filters
+            <span>Filters</span>
           </button>
         </div>
       </div>
@@ -132,8 +141,8 @@ function Invitations({}: InvitationsProps) {
         <LoadingPage text="Loading invitations" />
       ) : invitations.items.length === 0 ? (
         <div className={classes.invitations__empty}>
-          {Array.from({ length: pageSize }).map((_, i) => (
-            <InvitationEmptyCard key={i} />
+          {Array.from({ length: pageSize }).map((_, i: number) => (
+            <InvitationEmptyCard key={`empty-invitation-card-${i}`} index={i} />
           ))}
         </div>
       ) : (
@@ -144,8 +153,8 @@ function Invitations({}: InvitationsProps) {
             handleListOnScroll();
           }}
         >
-          {invitations.items.map((invitation, i) => (
-            <InvitationCard key={i} invitation={invitation} updateInvitations={updateInvitations} />
+          {invitations.items.map((invitation: GetAllInvitationsDto, i: number) => (
+            <InvitationCard key={`invitation-${i}`} invitation={invitation} updateInvitations={updateInvitations} />
           ))}
         </div>
       )}

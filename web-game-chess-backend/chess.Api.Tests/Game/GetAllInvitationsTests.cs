@@ -33,7 +33,6 @@ public class GetAllInvitationsTests : IClassFixture<TestWebApplicationFactory<Pr
     public async Task GetAllInvitations_Should_Return_Paged_InvitationDtos_On_Success() {
 
         await _dbContext.Init();
-        await _dbContext.AddUser();
 
         await _dbContext.AddGames(false, true);
 

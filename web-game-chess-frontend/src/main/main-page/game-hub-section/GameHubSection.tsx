@@ -2,11 +2,11 @@ import { useEffect, useState } from "react";
 import classes from "./GameHubSection.module.scss";
 import VsPlayerSearch from "./vs-player-search/VsPlayerSearch";
 import axios from "axios";
-import { gameControllerPaths, getAuthorization } from "../../../shared/utils/services/ApiService";
+import { gameController, getAuthorization } from "../../../shared/utils/services/ApiService";
 import { CheckIfInGameDto, SearchGameDto } from "../../../shared/utils/types/gameDtos";
 import { useNavigate } from "react-router-dom";
 import GameHubService from "../../../shared/utils/services/GameHubService";
-import { GameSearchInterface } from "../../../shared/utils/objects/interfacesEnums";
+import { GameSearchInterface, StateOptions } from "../../../shared/utils/objects/interfacesEnums";
 import UserGames from "./user-games/UserGames";
 import VsFriendSearch from "./vs-friend-search/VsFriendSearch";
 import { AbortSearchModel, CheckIfInGameModel } from "../../../shared/utils/types/gameModels";
@@ -16,11 +16,11 @@ import DefaultView from "./default-view/DefaultView";
 import Invitations from "./invitations/Invitations";
 import { getErrMessage } from "../../../shared/utils/functions/errors";
 import { usePopup } from "../../../shared/utils/hooks/usePopUp";
-import { useTimingType } from "../../../shared/utils/hooks/useTimingType";
 import IconCreator from "../../../shared/components/icon-creator/IconCreator";
 import { gameHubSectionIcons } from "./GameHubSectionIcons";
 import SearchingPage from "../../../shared/components/searching-page/SearchingPage";
 import { Guid } from "guid-typescript";
+import ActiveGames from "./active-games/ActiveGames";
 
 type GameHubSectionProps = {
   // in case of entering page with already chosen interface by user
@@ -31,13 +31,14 @@ function GameHubSection({ providedInterface }: GameHubSectionProps) {
   ///
 
   const navigate = useNavigate();
-
-  const [interfaceContent, setInterfaceContent] = useState<JSX.Element>(<DefaultView />);
-  const [searchIds, setSearchIds] = useState<SearchGameDto | null>(null);
-  const [allowNotification, setAllowNotification] = useState<boolean>(false);
-
-  const { timingType } = useTimingType();
   const { showPopup } = usePopup();
+
+  // current viewed interface
+  const [interfaceContent, setInterfaceContent] = useState<JSX.Element>(<></>);
+  // ids for online games
+  const [searchIds, setSearchIds] = useState<SearchGameDto | null>(null);
+  // to show new game invitation notification
+  const [allowNotification, setAllowNotification] = useState<boolean>(false);
 
   // to set content
   useEffect(() => {
@@ -48,62 +49,50 @@ function GameHubSection({ providedInterface }: GameHubSectionProps) {
   //*/
 
   // to handle when joining queue has changed
-  const handleGamesChanged = async () => {
-    if (searchIds !== null) {
-      try {
-        const isInGameModel: CheckIfInGameModel = {
-          playerId: searchIds.playerId,
+  const handleGamesChanged = async (): Promise<void> => {
+    if (!searchIds) return;
+    try {
+      const isInGameModel: CheckIfInGameModel = {
+        playerId: searchIds.playerId,
+      };
+
+      const isInGameResponse = await axios.get<CheckIfInGameDto>(
+        gameController.checkIfInGame(isInGameModel),
+        getAuthorization()
+      );
+
+      if (isInGameResponse.data.isInGame) {
+        const state: StateOptions = {
+          popup: { text: "GAME STARTED", type: "info" },
         };
 
-        const isInGameResponse = await axios.get<CheckIfInGameDto>(
-          gameControllerPaths.checkIfInGame(isInGameModel),
-          getAuthorization()
-        );
-
-        if (isInGameResponse.data.isInGame) {
-          if (timingType) {
-            navigate(`game/${isInGameResponse.data.gameId}`, {
-              state: {
-                timing: timingType,
-                popupText: "Game started",
-                popupType: "info",
-              },
-            });
-          } else {
-            console.error("Type not set");
-          }
-        }
-      } catch (err) {
-        showPopup(getErrMessage(err), "warning");
+        navigate(`/main/game/${isInGameResponse.data.gameId}`, { state: state });
       }
+    } catch (err) {
+      showPopup(getErrMessage(err), "warning");
     }
   };
   //*/
 
   // to navigate to game page
   // used for every private game
-  const handleGameAccepted = (gameId: Guid) => {
-    if (timingType) {
-      navigate(`/main/await/${gameId}`, {
-        state: {
-          timing: timingType,
-          popupText: "Game started.",
-          popupType: "info",
-        },
-      });
-    } else {
-      showPopup("Error starting game.", "warning");
-    }
+  const handleGameAccepted = async (gameId: Guid): Promise<void> => {
+    const state: StateOptions = {
+      popup: { text: "GAME STARTED", type: "info" },
+    };
+
+
+    navigate(`/main/game/${gameId}`, { state: state });
   };
 
   const handleGameDeclined = () => {
-    showPopup("Invitation declined.", "error");
+    showPopup("INVITATION DECLINED", "error");
   };
   //*/
 
   // connect game hub handlers
   useEffect(() => {
-    if (searchIds !== null) {
+    if (searchIds) {
       setInterfaceById(GameSearchInterface.searching);
     }
 
@@ -125,24 +114,22 @@ function GameHubSection({ providedInterface }: GameHubSectionProps) {
         GameHubService.connection.off("InvitationDeclined", handleGameDeclined);
       }
     };
-  }, [searchIds, timingType]);
+  }, [searchIds]);
   //*/
 
   // public game search abort
   // remove player, clear ids and go back to vs-player search
-  const onCancelSearch = async () => {
-    if (!searchIds) {
-      return;
-    }
+  const onCancelSearch = async (): Promise<void> => {
+    if (!searchIds) return;
 
     try {
       const abortSearchModel: AbortSearchModel = {
         playerId: searchIds.playerId,
       };
 
-      await axios.delete(gameControllerPaths.abortSearch(abortSearchModel), getAuthorization());
+      await axios.delete(gameController.abortSearch(abortSearchModel), getAuthorization());
 
-      GameHubService.PlayerLeaved(searchIds.timingId);
+      await GameHubService.PlayerLeaved(searchIds.timingId);
 
       setSearchIds(null);
 
@@ -156,6 +143,10 @@ function GameHubSection({ providedInterface }: GameHubSectionProps) {
   // set game section content
   const setInterfaceById = (interfaceId: GameSearchInterface): void => {
     switch (interfaceId) {
+      case GameSearchInterface.default:
+        setInterfaceContent(<DefaultView setInterfaceById={setInterfaceById} />);
+        break;
+
       case GameSearchInterface.vsPlayer:
         setInterfaceContent(<VsPlayerSearch setSearchIds={setSearchIds} />);
         break;
@@ -169,7 +160,18 @@ function GameHubSection({ providedInterface }: GameHubSectionProps) {
         break;
 
       case GameSearchInterface.searching:
-        setInterfaceContent(<SearchingPage isPrivate={false} onCancel={onCancelSearch} />);
+        setInterfaceContent(
+          <SearchingPage
+            isPrivate={false}
+            onCancel={onCancelSearch}
+            containerTestId="searching-page-vs-player-search"
+            cancelButtonTestId="searching-page-vs-player-cancel-button"
+          />
+        );
+        break;
+
+      case GameSearchInterface.activeGames:
+        setInterfaceContent(<ActiveGames />);
         break;
 
       case GameSearchInterface.userGames:
@@ -183,6 +185,12 @@ function GameHubSection({ providedInterface }: GameHubSectionProps) {
   };
   //*/
 
+  // set default interface
+  useEffect(() => {
+    setInterfaceById(GameSearchInterface.default);
+  }, []);
+  ///*
+
   return (
     <section className={classes.game}>
       <div className={classes.game__content}>
@@ -192,6 +200,18 @@ function GameHubSection({ providedInterface }: GameHubSectionProps) {
         <div className={classes.game__content__col}>
           <div className={classes["game-buttons"]}>
             <button
+              data-testid="main-page-game-hub-default-button"
+              className={classes["interface-button"]}
+              onClick={() => {
+                setInterfaceById(GameSearchInterface.default);
+              }}
+            >
+              <IconCreator icons={gameHubSectionIcons} iconName={"home"} />
+              <span>Home</span>
+            </button>
+
+            <button
+              data-testid="main-page-game-hub-vs-player-button"
               className={classes["interface-button"]}
               onClick={() => {
                 setInterfaceById(GameSearchInterface.vsPlayer);
@@ -202,6 +222,7 @@ function GameHubSection({ providedInterface }: GameHubSectionProps) {
             </button>
 
             <button
+              data-testid="main-page-game-hub-vs-computer-button"
               className={classes["interface-button"]}
               onClick={() => {
                 setInterfaceById(GameSearchInterface.vsComputer);
@@ -212,6 +233,7 @@ function GameHubSection({ providedInterface }: GameHubSectionProps) {
             </button>
 
             <button
+              data-testid="main-page-game-hub-vs-friend-button"
               className={classes["interface-button"]}
               onClick={() => {
                 setInterfaceById(GameSearchInterface.vsFriend);
@@ -222,6 +244,18 @@ function GameHubSection({ providedInterface }: GameHubSectionProps) {
             </button>
 
             <button
+              data-testid="main-page-game-hub-active-games-button"
+              className={classes["interface-button"]}
+              onClick={() => {
+                setInterfaceById(GameSearchInterface.activeGames);
+              }}
+            >
+              <IconCreator icons={gameHubSectionIcons} iconName={"activeGames"} />
+              <span>Active games</span>
+            </button>
+
+            <button
+              data-testid="main-page-game-hub-user-games-button"
               className={classes["interface-button"]}
               onClick={() => {
                 setInterfaceById(GameSearchInterface.userGames);
@@ -232,6 +266,7 @@ function GameHubSection({ providedInterface }: GameHubSectionProps) {
             </button>
 
             <button
+              data-testid="main-page-game-hub-invitations-button"
               className={classes["interface-button"]}
               onClick={() => {
                 setInterfaceById(GameSearchInterface.invitations);

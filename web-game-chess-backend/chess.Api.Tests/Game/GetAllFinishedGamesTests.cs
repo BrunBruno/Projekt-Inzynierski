@@ -34,7 +34,6 @@ public class GetAllFinishedGamesTests : IClassFixture<TestWebApplicationFactory<
     public async Task GetFinishedGames_Should_Return_Paged_GameDtos_On_Success() {
 
         await _dbContext.Init();
-        await _dbContext.AddUser();
 
         await _dbContext.AddGames(true, false);
 

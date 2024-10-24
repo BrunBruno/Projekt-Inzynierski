@@ -125,9 +125,9 @@ const PlayBoard = forwardRef<HandleOnScroll, PlayBoardProps>(
     const time = 30;
     const done: string[] = [];
     const makeWave = (key: string): void => {
-      let [row, col]: [number, number] = key.split("-").map(Number) as [number, number];
+      const [row, col]: [number, number] = key.split("-").map(Number) as [number, number];
 
-      let neighborKey: string = `${row}-${col}`;
+      const neighborKey: string = `${row}-${col}`;
 
       if (row === 0 || row === 9 || col === 0 || col === 9 || done.includes(neighborKey)) {
         return;

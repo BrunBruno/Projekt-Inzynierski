@@ -22,7 +22,7 @@ public class CheckIfInGameRequestHandlerTests {
     }
 
     [Fact]
-    public async Task Handle_Returns_IsPlayingDto_On_Success() {
+    public async Task Handle_Returns_GameId_And_IsPlaying_On_Success_When_Player_Is_In_Game() {
 
         var userId = Guid.NewGuid();
         var playerId = Guid.NewGuid();
@@ -32,9 +32,16 @@ public class CheckIfInGameRequestHandlerTests {
         {
             Id = playerId,
             Name = "Username",
-            IsPlaying = true,
+            IsPlaying = true, // is playing
             UserId = userId,
             GameId = gameId,
+        };
+
+        var exampleGame = new Entities.Game()
+        {
+            Id = gameId,
+            WhitePlayerRegistered = true,
+            BlackPlayerRegistered = true,
         };
 
         var request = new CheckIfInGameRequest() 
@@ -45,12 +52,7 @@ public class CheckIfInGameRequestHandlerTests {
 
         _mockUserContextService.Setup(x => x.GetUserId()).Returns(userId);
         _mockPlayerRepository.Setup(x => x.GetById(playerId)).ReturnsAsync(examplePlayer);
-        _mockGameRepository.Setup(x => x.GetGameForPlayer(playerId)).ReturnsAsync(new Entities.Game()
-        {
-            Id = gameId,
-            WhitePlayerRegistered = true,
-            BlackPlayerRegistered = true,
-        });
+        _mockGameRepository.Setup(x => x.GetGameForPlayer(playerId)).ReturnsAsync(exampleGame);
 
 
         var handler = new CheckIfInGameRequestHandler(
@@ -71,6 +73,50 @@ public class CheckIfInGameRequestHandlerTests {
     }
 
     [Fact]
+    public async Task Handle_Returns_Null_And_IsPlaying_On_Success_When_Player_Is_Not_In_Game() {
+
+        var userId = Guid.NewGuid();
+        var playerId = Guid.NewGuid();
+        var gameId = Guid.NewGuid();
+
+        var examplePlayer = new Player()
+        {
+            Id = playerId,
+            Name = "Username",
+            IsPlaying = false, // is not playing
+            UserId = userId,
+            GameId = gameId,
+        };
+
+        var request = new CheckIfInGameRequest()
+        {
+            PlayerId = playerId,
+        };
+
+
+        _mockUserContextService.Setup(x => x.GetUserId()).Returns(userId);
+        _mockPlayerRepository.Setup(x => x.GetById(playerId)).ReturnsAsync(examplePlayer);
+        // no game returned
+
+
+        var handler = new CheckIfInGameRequestHandler(
+            _mockPlayerRepository.Object,
+            _mockGameRepository.Object,
+            _mockUserContextService.Object
+        );
+
+        var result = await handler.Handle(request, CancellationToken.None);
+
+
+        result.IsInGame.Should().BeFalse();
+        result.GameId.Should().Be(null);
+
+        _mockUserContextService.Verify(x => x.GetUserId(), Times.Once);
+        _mockPlayerRepository.Verify(x => x.GetById(playerId), Times.Once);
+        _mockGameRepository.Verify(x => x.GetGameForPlayer(playerId), Times.Never);
+    }
+
+    [Fact]
     public async Task Handle_Throws_NotFoundException_When_Player_Does_Not_Exists() {
 
         var userId = Guid.NewGuid();
@@ -84,6 +130,7 @@ public class CheckIfInGameRequestHandlerTests {
 
 
         _mockUserContextService.Setup(x => x.GetUserId()).Returns(userId);
+        // player not exists
 
 
         var handler = new CheckIfInGameRequestHandler(
@@ -118,7 +165,7 @@ public class CheckIfInGameRequestHandlerTests {
             Id = playerId,
             Name = "Username",
             IsPlaying = true,
-            UserId = Guid.NewGuid(),
+            UserId = Guid.NewGuid(), // not owned player
             GameId = gameId,
         };
 
@@ -166,6 +213,7 @@ public class CheckIfInGameRequestHandlerTests {
 
         _mockUserContextService.Setup(x => x.GetUserId()).Returns(userId);
         _mockPlayerRepository.Setup(x => x.GetById(playerId)).ReturnsAsync(examplePlayer);
+        // game not exists
 
 
         var handler = new CheckIfInGameRequestHandler(

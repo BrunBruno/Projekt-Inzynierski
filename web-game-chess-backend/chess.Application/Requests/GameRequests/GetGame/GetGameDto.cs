@@ -1,5 +1,6 @@
 ﻿
 using chess.Core.Dtos;
+using chess.Core.Enums;
 
 namespace chess.Application.Requests.GameRequests.GetGame;
 
@@ -27,6 +28,8 @@ public class GetGameDto {
     /// En passant coordinates if en passant is possible in form x,y
     /// </summary>
     public string? EnPassant { get; set; }
+
+    public TimingTypes TimingType { get; set; }
 
     /// <summary>
     /// Bool values relate to castling options

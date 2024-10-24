@@ -82,6 +82,7 @@ public class GetOpponentRequestHandlerTests {
 
 
         _mockUserContextService.Setup(x => x.GetUserId()).Returns(userId);
+        // game not returned
 
 
         var handler = new GetOpponentRequestHandler(
@@ -106,19 +107,21 @@ public class GetOpponentRequestHandlerTests {
         var game = new Entities.Game()
         {
             Id = gameId,
-
-              WhitePlayerRegistered = true,
-            BlackPlayerRegistered = true,   
+            WhitePlayerRegistered = true,
+            BlackPlayerRegistered = true,  
+            
             WhitePlayer = new Player()
             {
                 Name = "Other",
-                UserId = Guid.NewGuid(),
+                UserId = Guid.NewGuid(), // user is not player
             },
+
             BlackPlayer = new Player()
             {
                 Name = "Opponent",
-                UserId = Guid.NewGuid(),
+                UserId = Guid.NewGuid(),  // user is not player
             },
+
             Moves = new List<Move>() { new(), new(), new() },
             GameState = new GameState(),
         };

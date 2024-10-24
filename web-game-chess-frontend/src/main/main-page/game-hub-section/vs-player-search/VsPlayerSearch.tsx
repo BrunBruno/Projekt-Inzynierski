@@ -1,20 +1,19 @@
 import axios from "axios";
 import classes from "./VsPlayerSearch.module.scss";
-import { gameControllerPaths, getAuthorization } from "../../../../shared/utils/services/ApiService";
-import { defaultTimeControls } from "./VsPlayerSearchData";
+import { gameController, getAuthorization } from "../../../../shared/utils/services/ApiService";
 import { SearchGameDto } from "../../../../shared/utils/types/gameDtos";
 import GameHubService from "../../../../shared/utils/services/GameHubService";
 import { SearchGameModel } from "../../../../shared/utils/types/gameModels";
 import { usePopup } from "../../../../shared/utils/hooks/usePopUp";
 import { getErrMessage } from "../../../../shared/utils/functions/errors";
-import { useTimingType } from "../../../../shared/utils/hooks/useTimingType";
-import { getEnumValueByKey } from "../../../../shared/utils/functions/enums";
+import { displayTimingName, getEnumValueByKey } from "../../../../shared/utils/functions/enums";
 import IconCreator from "../../../../shared/components/icon-creator/IconCreator";
 import { mainColor } from "../../../../shared/utils/objects/colorMaps";
 import { timingTypeIcons } from "../../../../shared/svgs/iconsMap/TimingTypeIcons";
 import { TimingTypeName } from "../../../../shared/utils/objects/constantLists";
 import { TimingType } from "../../../../shared/utils/objects/entitiesEnums";
 import { Dispatch, SetStateAction } from "react";
+import { defaultTimeControls, TimeControl } from "../../../../shared/utils/objects/gameTimingMaps";
 
 type VsPlayerSearchProps = {
   // to set obtained search ids
@@ -25,26 +24,19 @@ function VsPlayerSearch({ setSearchIds }: VsPlayerSearchProps) {
   ///
 
   const { showPopup } = usePopup();
-  const { setTimingType } = useTimingType();
 
   // API call search for game
-  const onSearchForGame = async (header: string, values: [number, number]) => {
+  const onSearchForGame = async (header: TimingTypeName, values: [number, number]): Promise<void> => {
     const typeValue = getEnumValueByKey(TimingType, header.toLowerCase());
 
-    const gameTimingType: SearchGameModel = {
+    const model: SearchGameModel = {
       type: typeValue,
       minutes: values[0],
       increment: values[1],
     };
 
     try {
-      const response = await axios.post<SearchGameDto>(
-        gameControllerPaths.startSearch(),
-        gameTimingType,
-        getAuthorization()
-      );
-
-      setTimingType(gameTimingType);
+      const response = await axios.post<SearchGameDto>(gameController.startSearch(), model, getAuthorization());
 
       setSearchIds(response.data);
 
@@ -84,18 +76,19 @@ function VsPlayerSearch({ setSearchIds }: VsPlayerSearchProps) {
 
     return <div className={classes["timing-tag"]}>{transformedTag}</div>;
   };
+
   //*/
 
   return (
-    <div className={classes.search}>
+    <div data-testid="main-page-vs-player-section" className={classes.search}>
       <div className={classes.search__grid}>
         <div className={classes.search__grid__header}>
           <span>Select Time Control</span>
         </div>
 
         {/* map game timing types */}
-        {defaultTimeControls.map((control, index) => (
-          <div key={index} className={classes.search__grid__row}>
+        {defaultTimeControls.map((control: TimeControl, index: number) => (
+          <div key={`row-${index}`} className={classes.search__grid__row}>
             <div className={classes.search__grid__row__header}>
               <IconCreator
                 icons={timingTypeIcons}
@@ -103,12 +96,13 @@ function VsPlayerSearch({ setSearchIds }: VsPlayerSearchProps) {
                 iconClass={classes["header-icon"]}
                 color={mainColor.c5}
               />
-              <span>{control.header}</span>
+              <span>{displayTimingName(control.header)}</span>
             </div>
 
-            {control.tags.map((tag, i) => (
+            {control.tags.map((tag: string, i: number) => (
               <div
-                key={i}
+                key={`time-control-${index}-${i}`}
+                data-testid={`main-page-vs-player-time-control-${index}-${i}`}
                 className={classes.search__grid__row__block}
                 onClick={() => {
                   onSearchForGame(control.header, control.values[i]);

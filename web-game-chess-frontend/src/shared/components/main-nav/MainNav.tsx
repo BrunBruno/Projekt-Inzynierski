@@ -3,23 +3,23 @@ import classes from "./MainNav.module.scss";
 import LogoIcon from "../../svgs/icons/LogoIcon";
 import IconCreator from "../icon-creator/IconCreator";
 import { mainNavIcons } from "./MainNavIcons";
+import { StateOptions } from "../../utils/objects/interfacesEnums";
 
-function MainNav() {
+function MainNav(): JSX.Element {
   ///
 
   const navigate = useNavigate();
 
   // log out user
-  const onLogOut = () => {
+  const onLogOut = (): void => {
     localStorage.removeItem("userInfo");
     localStorage.removeItem("token");
 
-    navigate("/", {
-      state: {
-        popupText: "Logged out",
-        popupType: "info",
-      },
-    });
+    const state: StateOptions = {
+      popup: { text: "LOGGED OUT", type: "info" },
+    };
+
+    navigate("/", { state: state });
   };
   //*/
 
@@ -56,8 +56,18 @@ function MainNav() {
           <span className={classes.ind}>Add friend</span>
         </div>
 
+        <div
+          className={classes.element}
+          onClick={() => {
+            navigate("/main/ranking");
+          }}
+        >
+          <IconCreator icons={mainNavIcons} iconName={"rankingPage"} />
+          <span className={classes.ind}>See ranking</span>
+        </div>
+
         {/* placeholders */}
-        {Array.from({ length: 6 }).map((_, i) => (
+        {Array.from({ length: 5 }).map((_, i) => (
           <div key={i} className={classes.element} style={{ pointerEvents: "none" }}>
             <p></p>
             <span className={classes.ind}>ind</span>

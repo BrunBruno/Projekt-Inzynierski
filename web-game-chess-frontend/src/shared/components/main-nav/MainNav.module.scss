@@ -81,7 +81,7 @@
 // resize
 @media (max-width: 700px) {
   .nav {
-    width: 100vw;
+    width: 100% !important;
     height: 6rem;
     padding: 0 2rem;
 

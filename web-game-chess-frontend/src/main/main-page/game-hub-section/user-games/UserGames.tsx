@@ -1,7 +1,7 @@
 import axios from "axios";
 import classes from "./UserGame.module.scss";
 import { GetAllFinishedGamesDto } from "../../../../shared/utils/types/gameDtos";
-import { gameControllerPaths, getAuthorization } from "../../../../shared/utils/services/ApiService";
+import { gameController, getAuthorization } from "../../../../shared/utils/services/ApiService";
 import { GetAllFinishedGamesModel } from "../../../../shared/utils/types/gameModels";
 import { useEffect, useState } from "react";
 import LoadingPage from "../../../../shared/components/loading-page/LoadingPage";
@@ -18,6 +18,9 @@ type UserGamesProps = {};
 function UserGames({}: UserGamesProps) {
   ///
 
+  const { showPopup } = usePopup();
+  const { scrollRef, pageNumber, pageSize, totalItemsCount, setDefPageSize, setTotalItemsCount } = usePagination();
+
   // obtained game list
   const [games, setGames] = useState<GetAllFinishedGamesDto[] | null>(null);
   const [itemsCount, setItemsCount] = useState<number>(0);
@@ -28,12 +31,9 @@ function UserGames({}: UserGamesProps) {
   const [timingTypeFilters, setTimingTypeFilters] = useState<number[]>([]);
   const [resultFilters, setResultFilters] = useState<(boolean | null)[]>([]);
 
-  const { showPopup } = usePopup();
-  const { scrollRef, pageSize, totalItemsCount, setDefPageSize, setTotalItemsCount } = usePagination();
-
   // send set default pagination page size
   useEffect(() => {
-    const setDefSize = () => {
+    const setDefSize = (): void => {
       const elemCount = window.innerWidth > 700 ? 3 : 2;
 
       const container = scrollRef.current;
@@ -63,9 +63,9 @@ function UserGames({}: UserGamesProps) {
 
   // get all finished games
   useEffect(() => {
-    const getGames = async () => {
+    const getGames = async (): Promise<void> => {
       const getGamesOptions: GetAllFinishedGamesModel = {
-        pageNumber: 1,
+        pageNumber: pageNumber,
         pageSize: pageSize,
         timingTypeFilters: timingTypeFilters,
         resultFilters: resultFilters,
@@ -73,12 +73,11 @@ function UserGames({}: UserGamesProps) {
 
       try {
         const response = await axios.get<PagedResult<GetAllFinishedGamesDto>>(
-          gameControllerPaths.getAllFinishedGames(getGamesOptions),
+          gameController.getAllFinishedGames(getGamesOptions),
           getAuthorization()
         );
 
         setGames(response.data.items);
-
         setTotalItemsCount(response.data.totalItemsCount);
 
         const count =
@@ -91,7 +90,7 @@ function UserGames({}: UserGamesProps) {
     };
 
     getGames();
-  }, [pageSize, timingTypeFilters, resultFilters]);
+  }, [pageSize, timingTypeFilters, resultFilters, pageNumber]);
   //*/
 
   // to display filters
@@ -127,7 +126,7 @@ function UserGames({}: UserGamesProps) {
               onShowFilters();
             }}
           >
-            Filters
+            <span>Filters</span>
           </button>
         </div>
       </div>
@@ -136,13 +135,13 @@ function UserGames({}: UserGamesProps) {
         <LoadingPage text="Loading games" />
       ) : games.length === 0 ? (
         <div ref={scrollRef} className={`${classes.games__list} ${classes.empty}`}>
-          {Array.from({ length: pageSize }).map((_, i) => (
+          {Array.from({ length: pageSize }).map((_, i: number) => (
             <UserGamesEmptyCard key={i} />
           ))}
         </div>
       ) : (
         <div ref={scrollRef} className={classes.games__list}>
-          {games.map((game, i) => (
+          {games.map((game: GetAllFinishedGamesDto, i: number) => (
             <UserGamesCard key={`game-${i}`} game={game} />
           ))}
         </div>

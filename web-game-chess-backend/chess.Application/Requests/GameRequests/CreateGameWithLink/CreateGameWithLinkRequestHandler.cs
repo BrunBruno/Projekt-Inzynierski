@@ -75,7 +75,6 @@ public class CreateGameWithLinkRequestHandler : IRequestHandler<CreateGameWithLi
             Id = Guid.NewGuid(),
             IsPrivate = true,
             Name = user.Username,
-            ImageUrl = user.ImageUrl,
             Elo = userElo,
             TimeLeft = request.Minutes * 60,
             UserId = userId,

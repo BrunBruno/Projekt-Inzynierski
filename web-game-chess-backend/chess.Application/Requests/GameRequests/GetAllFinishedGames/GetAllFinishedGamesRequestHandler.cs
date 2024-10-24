@@ -31,26 +31,30 @@ public class GetAllFinishedGamesRequestHandler : IRequestHandler<GetAllFinishedG
 
         var userId = _userContextService.GetUserId();
 
-        var players = await _playerRepository.GetAllForUser(userId);
+        var players = await _playerRepository.GetAllFinishedForUser(userId);
 
         var finishedGames = new List<GetAllFinishedGamesDto>();
 
-
         foreach(var player in players) {
 
+            // player is white
             if(player.WhiteGame is not null &&
                 player.WhiteGame.WhitePlayer is not null &&
                 player.WhiteGame.BlackPlayer is not null &&
                 player.WhiteGame.HasEnded 
             ){
+                var game = player.WhiteGame;
+
+                // filter bt timing type
                 if (request.TimingTypeFilters is not null &&
                     !request.TimingTypeFilters.IsNullOrEmpty() &&
-                    !request.TimingTypeFilters.Contains(player.WhiteGame.TimingType))
+                    !request.TimingTypeFilters.Contains(game.TimingType))
                     continue;
 
 
-                bool? isWinner = player.WhiteGame.WinnerColor != null ? player.WhiteGame.WinnerColor == PieceColor.White : null;
+                bool? isWinner = game.WinnerColor != null ? game.WinnerColor == PieceColor.White : null;
 
+                // filter by game result
                 if (request.ResultFilters is not null &&
                     !request.ResultFilters.IsNullOrEmpty() &&
                     !request.ResultFilters.Contains(isWinner))
@@ -58,30 +62,38 @@ public class GetAllFinishedGamesRequestHandler : IRequestHandler<GetAllFinishedG
 
                 var gameDto = new GetAllFinishedGamesDto()
                 {
-                    Position = player.WhiteGame.Position,
-                    Turn = player.WhiteGame.Turn,
-                    Moves = player.WhiteGame.Round,
+                    Position = game.Position,
+                    Turn = game.Turn,
+                    Moves = game.Round,
                     IsWinner = isWinner,
-                    EloGained = player.WhiteGame.EloGain,
-                    CreatedAt = player.WhiteGame.CreatedAt,
-
-                    TimingType = player.WhiteGame.TimingType,
+                    EloGained = game.EloGain,
+                    CreatedAt = game.CreatedAt,
+                    TimingType = game.TimingType,
                     EndGameType = player.WhiteGame.EndGameType,
 
-
+                    // current user player
                     WhitePlayer = new PlayerDto()
                     { 
-                        Name = player.WhiteGame.WhitePlayer.Name,
-                        ImageUrl = player.WhiteGame.WhitePlayer.ImageUrl,
-                        Elo = player.WhiteGame.WhitePlayer.Elo,
+                        Name = player.Name,
+                        Elo = player.Elo,
 
+                        ProfilePicture = player.User.Image != null ? new ImageDto() 
+                        {
+                            Data = player.User.Image.Data,
+                            ContentType = player.User.Image.ContentType,
+                        } : null,
                     },
-
+                    // opponents player
                     BlackPlayer = new PlayerDto()
                     {
-                        Name = player.WhiteGame.BlackPlayer.Name,
-                        ImageUrl = player.WhiteGame.BlackPlayer.ImageUrl,
-                        Elo = player.WhiteGame.BlackPlayer.Elo,
+                        Name = game.BlackPlayer.Name,
+                        Elo = game.BlackPlayer.Elo,
+
+                        ProfilePicture = game.BlackPlayer.User.Image != null ? new ImageDto() 
+                        {
+                            Data = game.BlackPlayer.User.Image.Data,
+                            ContentType = game.BlackPlayer.User.Image.ContentType,
+                        } : null,
                     }
                     
                 };
@@ -89,18 +101,23 @@ public class GetAllFinishedGamesRequestHandler : IRequestHandler<GetAllFinishedG
                 finishedGames.Add(gameDto);
             }
 
+            // player is black
             if (player.BlackGame is not null &&
                 player.BlackGame.WhitePlayer is not null &&
                 player.BlackGame.BlackPlayer is not null &&
                 player.BlackGame.HasEnded
             ) {
+                var game = player.BlackGame;
+
+                // filter by timing type
                 if (request.TimingTypeFilters is not null &&
                     !request.TimingTypeFilters.IsNullOrEmpty() &&
-                    !request.TimingTypeFilters.Contains(player.BlackGame.TimingType))
+                    !request.TimingTypeFilters.Contains(game.TimingType))
                     continue;
 
-                bool? isWinner = player.BlackGame.WinnerColor != null ? player.BlackGame.WinnerColor == PieceColor.Black : null;
+                bool? isWinner = game.WinnerColor != null ? game.WinnerColor == PieceColor.Black : null;
 
+                // filter by game result
                 if (request.ResultFilters is not null &&
                     !request.ResultFilters.IsNullOrEmpty() &&
                     !request.ResultFilters.Contains(isWinner))
@@ -108,29 +125,38 @@ public class GetAllFinishedGamesRequestHandler : IRequestHandler<GetAllFinishedG
 
                 var gameDto = new GetAllFinishedGamesDto()
                 {
-                    Position = player.BlackGame.Position,
-                    Turn = player.BlackGame.Turn,
-                    Moves = player.BlackGame.Round,
+                    Position = game.Position,
+                    Turn = game.Turn,
+                    Moves = game.Round,
                     IsWinner = isWinner,
-                    EloGained = player.BlackGame.EloGain,
-                    CreatedAt = player.BlackGame.CreatedAt,
+                    EloGained = game.EloGain,
+                    CreatedAt = game.CreatedAt,
+                    TimingType = game.TimingType,
+                    EndGameType = game.EndGameType,
 
-                    TimingType = player.BlackGame.TimingType,
-                    EndGameType = player.BlackGame.EndGameType,
-
-
+                    // opponents player
                     WhitePlayer = new PlayerDto()
                     {
-                        Name = player.BlackGame.WhitePlayer.Name,
-                        ImageUrl = player.BlackGame.WhitePlayer.ImageUrl,
-                        Elo = player.BlackGame.WhitePlayer.Elo,
-                    },
+                        Name = game.WhitePlayer.Name,
+                        Elo = game.WhitePlayer.Elo,
 
+                        ProfilePicture = game.WhitePlayer.User.Image != null ? new ImageDto() 
+                        {
+                            Data = game.WhitePlayer.User.Image.Data,
+                            ContentType = game.WhitePlayer.User.Image.ContentType,
+                        } : null,
+                    },
+                    // current user player
                     BlackPlayer = new PlayerDto()
                     {
-                        Name = player.BlackGame.BlackPlayer.Name,
-                        ImageUrl = player.BlackGame.BlackPlayer.ImageUrl,
-                        Elo = player.BlackGame.BlackPlayer.Elo,
+                        Name = player.Name,
+                        Elo = player.Elo,
+
+                        ProfilePicture = player.User.Image != null ? new ImageDto() 
+                        {
+                            Data = player.User.Image.Data,
+                            ContentType = player.User.Image.ContentType,
+                        } : null,
                     }
                 };
 

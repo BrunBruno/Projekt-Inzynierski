@@ -16,7 +16,7 @@ public class SmtpService : ISmtpService {
     }
 
     ///<inheritdoc/>
-    public async Task SendVerificationCode(string email, string recipientName, string code) {
+    public async Task SendEmailVerificationCode(string email, string recipientName, string code) {
 
         string fromMail = _smtpOptions.FromMail!;
         string fromPassword = _smtpOptions.FromPassword!;
@@ -32,7 +32,7 @@ public class SmtpService : ISmtpService {
 
         mailMessage.To.Add(new MailAddress(email));
 
-        mailMessage.AlternateViews.Add(GetMailBody("../public/logo.png", string.Format(_smtpOptions.Body!, code)));
+        mailMessage.AlternateViews.Add(GetWelcomeMailBody("../public/logo.png", string.Format(_smtpOptions.Body!, code)));
 
         using (var smtpClient = new SmtpClient(_smtpOptions.Host, _smtpOptions.Port)) {
 
@@ -41,6 +41,32 @@ public class SmtpService : ISmtpService {
 
             await smtpClient.SendMailAsync(mailMessage);
         }
+    }
+
+    public async Task SendPasswordResetVerificationCode(string email, string recipientName, string code) {
+
+        string fromMail = _smtpOptions.FromMail!;
+        string fromPassword = _smtpOptions.FromPassword!;
+
+        string subject = "Password reset";
+
+        var mailMessage = new MailMessage
+        {
+            From = new MailAddress(fromMail),
+            Subject = subject,
+            IsBodyHtml = true,
+        };
+
+        mailMessage.To.Add(new MailAddress(email));
+
+        mailMessage.AlternateViews.Add(GetPasswordRecoveryMailBody(string.Format(_smtpOptions.Body!, code)));
+
+        using var smtpClient = new SmtpClient(_smtpOptions.Host, _smtpOptions.Port);
+
+        smtpClient.Credentials = new NetworkCredential(fromMail, fromPassword);
+        smtpClient.EnableSsl = _smtpOptions.EnableSsl;
+
+        await smtpClient.SendMailAsync(mailMessage);
     }
 
     ///<inheritdoc/>
@@ -61,17 +87,16 @@ public class SmtpService : ISmtpService {
 
         mailMessage.Body = $"<b>Hello {recipientName},</b> <br/> {inviterName} has invited you to new game. <br/> <a href='http://localhost:5173/main'>Click here to accept invitation.</a>";
 
-        using (var smtpClient = new SmtpClient(_smtpOptions.Host, _smtpOptions.Port)) {
+        using var smtpClient = new SmtpClient(_smtpOptions.Host, _smtpOptions.Port);
 
-            smtpClient.Credentials = new NetworkCredential(fromMail, fromPassword);
-            smtpClient.EnableSsl = _smtpOptions.EnableSsl;
+        smtpClient.Credentials = new NetworkCredential(fromMail, fromPassword);
+        smtpClient.EnableSsl = _smtpOptions.EnableSsl;
 
-            await smtpClient.SendMailAsync(mailMessage);
-        }
+        await smtpClient.SendMailAsync(mailMessage);
     }
 
 
-    private static AlternateView GetMailBody(string imagePath, string code) {
+    private static AlternateView GetWelcomeMailBody(string imagePath, string code) {
 
         var imageResource = new LinkedResource(imagePath)
         {
@@ -97,6 +122,23 @@ public class SmtpService : ISmtpService {
         var alternateView = AlternateView.CreateAlternateViewFromString(htmlBody, null, MediaTypeNames.Text.Html);
 
         alternateView.LinkedResources.Add(imageResource);
+
+        return alternateView;
+    }
+
+    private static AlternateView GetPasswordRecoveryMailBody(string code) {
+
+        string htmlBody = $@"
+            <html>
+            <body style='color: #000;'>
+                <b>Dear user,</b>
+                <p>To reset your account password, please enter this verification code in form.</p>
+                <h3>Your password reset verification code:</h3>
+                <p style='color: #da77f2; background-color: #333; padding: 10px; border-radius: 5px; margin-left: 1rem; font-size: 2rem; width: fit-content;'>{code}</p>
+            </body>
+            </html>";
+
+        var alternateView = AlternateView.CreateAlternateViewFromString(htmlBody, null, MediaTypeNames.Text.Html);
 
         return alternateView;
     }

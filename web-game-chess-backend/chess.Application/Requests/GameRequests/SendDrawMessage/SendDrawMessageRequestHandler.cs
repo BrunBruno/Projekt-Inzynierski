@@ -16,16 +16,16 @@ namespace chess.Application.Requests.GameRequests.SendDrawMessage;
 /// </summary>
 public class SendDrawMessageRequestHandler : IRequestHandler<SendDrawMessageRequest> {
 
-    private readonly IPlayerMessageRepository _playerMessageRepository;
+    private readonly IGameMessageRepository _gameMessageRepository;
     private readonly IGameRepository _gameRepository;
     private readonly IUserContextService _userContextService;
 
     public SendDrawMessageRequestHandler(
-        IPlayerMessageRepository playerMessageRepository,
+        IGameMessageRepository gameMessageRepository,
         IGameRepository gameRepository,
         IUserContextService userContextService
     ) {
-        _playerMessageRepository = playerMessageRepository;
+        _gameMessageRepository = gameMessageRepository;
         _gameRepository = gameRepository;
         _userContextService = userContextService;
     }
@@ -41,25 +41,24 @@ public class SendDrawMessageRequestHandler : IRequestHandler<SendDrawMessageRequ
             throw new UnauthorizedException("This is not user game.");
 
 
-        var drawByWhite = await _playerMessageRepository.GetDrawMessage(game.WhitePlayerId);
-        var drawByBlack = await _playerMessageRepository.GetDrawMessage(game.BlackPlayerId);
+        var drawMessage = await _gameMessageRepository.GetDrawMessage(request.GameId);
 
-        if (drawByWhite is not null || drawByBlack is not null)
+        if (drawMessage is not null)
             throw new BadRequestException("Draw offer already exists.");
 
 
-        var playerId = game.WhitePlayer.UserId == userId ? game.WhitePlayerId : game.BlackPlayerId;
-        var userPlayer = game.WhitePlayer.UserId == userId ? game.WhitePlayer : game.BlackPlayer;
+        var userPlayerName = game.WhitePlayer.UserId == userId ? game.WhitePlayer.Name : game.BlackPlayer.Name;
 
-        var message = new PlayerMessage()
+        var message = new GameMessage()
         {
             Id = Guid.NewGuid(),
-            Content = $"{userPlayer.Name} offered a draw.",
-            PlayerId = playerId,
+            RequestorName = userPlayerName,
+            Content = $"{userPlayerName} offered a draw.",
             Type = MessageType.DrawAction,
+            GameId = game.Id,
         };
 
 
-        await _playerMessageRepository.Create(message);
+        await _gameMessageRepository.Create(message);
     }
 }

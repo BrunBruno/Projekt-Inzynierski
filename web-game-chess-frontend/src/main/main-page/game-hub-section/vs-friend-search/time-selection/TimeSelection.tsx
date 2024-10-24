@@ -3,12 +3,12 @@ import ActionButton from "../../../../../shared/components/action-button/ActionB
 import { GetAllFriendsByStatusDto } from "../../../../../shared/utils/types/friendshipDtos";
 import { GetByEmailDto } from "../../../../../shared/utils/types/userDtos";
 import classes from "./TimeSelection.module.scss";
-import { defaultTimeControls, TimeControl } from "./TimeSelectionData";
 import IconCreator from "../../../../../shared/components/icon-creator/IconCreator";
 import { mainColor } from "../../../../../shared/utils/objects/colorMaps";
 import { timingTypeIcons } from "../../../../../shared/svgs/iconsMap/TimingTypeIcons";
 import { TimingTypeName } from "../../../../../shared/utils/objects/constantLists";
 import { Dispatch, SetStateAction } from "react";
+import { defaultTimeControls, TimeControl } from "../../../../../shared/utils/objects/gameTimingMaps";
 
 type TimeSelectionProps = {
   // user data when friend selected manually
@@ -24,11 +24,11 @@ type TimeSelectionProps = {
   // to unselect url option
   setSelectedByUrl: Dispatch<SetStateAction<boolean>>;
   // to invite to private game via click
-  onInviteBySelection: (friendshipId: Guid, header: string, values: number[]) => void;
+  onInviteBySelection: (friendshipId: Guid, header: TimingTypeName, values: [number, number]) => void;
   // to invite to private game by email
-  onInviteByEmail: (email: string, header: string, values: number[]) => void;
+  onInviteByEmail: (email: string, header: TimingTypeName, values: [number, number]) => void;
   // to invite to private game by url
-  onInviteByUrl: (header: string, values: number[]) => void;
+  onInviteByUrl: (header: TimingTypeName, values: [number, number]) => void;
 };
 
 function TimeSelection({
@@ -45,7 +45,7 @@ function TimeSelection({
   ///
 
   // to invite user base on selection
-  const onInvite = (control: TimeControl, index: number) => {
+  const onInvite = (control: TimeControl, index: number): void => {
     if (selectedFriend !== null) {
       onInviteBySelection(selectedFriend.friendshipId, control.header, control.values[index]);
     }
@@ -61,34 +61,34 @@ function TimeSelection({
     clearSelections();
   };
 
-  const clearSelections = () => {
+  const clearSelections = (): void => {
     setSelectedFriend(null);
     setSelectedUser(null);
     setSelectedByUrl(false);
   };
   //*/
 
-  // to display timing type tag
-  const transformTag = (tag: string): JSX.Element => {
+  // to display timing type name and tag
+  const transformTimingTag = (tag: string): JSX.Element => {
     const transformedTag: JSX.Element[] = [];
 
     for (let i = 0; i < tag.length; i++) {
       const char = tag[i];
       if (char === "|") {
         transformedTag.push(
-          <p key={`tag${i}`} className={classes.sep}>
+          <p key={`${tag}-tag-${i}`} className={classes.sep}>
             {char}
           </p>
         );
       } else if (!isNaN(parseInt(char))) {
         transformedTag.push(
-          <p key={`tag${i}`} className={classes.num}>
+          <p key={`${tag}-tag-${i}`} className={classes.num}>
             {char}
           </p>
         );
       } else {
         transformedTag.push(
-          <p key={`tag${i}`} className={classes.char}>
+          <p key={`${tag}-tag-${i}`} className={classes.char}>
             {char}
           </p>
         );
@@ -97,12 +97,16 @@ function TimeSelection({
 
     return <div className={classes["timing-tag"]}>{transformedTag}</div>;
   };
+
+  const displayTimingName = (timing: TimingTypeName): string => {
+    return timing.charAt(0).toUpperCase() + timing.slice(1);
+  };
   //*/
 
   return (
     <div className={classes.time}>
-      {defaultTimeControls.map((control, index) => (
-        <div key={index} className={classes.time__row}>
+      {defaultTimeControls.map((control: TimeControl, index: number) => (
+        <div key={`time-control-line-${index}`} className={classes.time__row}>
           <div className={classes.time__row__header}>
             <IconCreator
               icons={timingTypeIcons}
@@ -110,17 +114,18 @@ function TimeSelection({
               iconClass={classes["header-icon"]}
               color={mainColor.c5}
             />
-            <span>{control.header}</span>
+            <span>{displayTimingName(control.header)}</span>
           </div>
-          {control.tags.map((tag, i) => (
+          {control.tags.map((tag: string, i: number) => (
             <div
-              key={i}
+              key={`time-control-option-${index}-${i}`}
+              data-testid={`time-control-option-${index}-${i}`}
               className={classes.time__row__block}
               onClick={() => {
                 onInvite(control, i);
               }}
             >
-              {transformTag(tag)}
+              {transformTimingTag(tag)}
             </div>
           ))}
         </div>

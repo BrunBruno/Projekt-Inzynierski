@@ -18,12 +18,12 @@
     opacity: 0.5;
     height: fit-content;
 
-    &:nth-child(1) {
+    &.white-time {
       color: #000;
       background-color: #fff;
     }
 
-    &:nth-child(2) {
+    &.black-time {
       color: #fff;
       background-color: #000;
     }

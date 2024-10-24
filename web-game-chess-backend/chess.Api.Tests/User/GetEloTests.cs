@@ -32,7 +32,6 @@ public class GetEloTests : IClassFixture<TestWebApplicationFactory<Program>> {
 
         await _dbContext.Init();
         await _dbContext.AddUser();
-        await _dbContext.AddEloForUser();
 
 
         var response = await _client.GetAsync("api/user/elo");
@@ -53,7 +52,6 @@ public class GetEloTests : IClassFixture<TestWebApplicationFactory<Program>> {
 
         await _dbContext.Init();
         // user not added
-        await _dbContext.AddEloForUser();
 
 
         var response = await _client.GetAsync("api/user/elo");

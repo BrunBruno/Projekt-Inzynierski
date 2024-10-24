@@ -29,9 +29,15 @@ public class GetPlayerRequestHandlerTests {
         var player = new Player()
         {
             Name = "Username",
-            UserId = userId,
             Color = PieceColor.White,
             IsPlaying = true,
+            UserId = userId,
+            User = new Entities.User()
+            {
+                Id = userId,
+                Email = "user@test.com",
+                Username = "User"
+            }
         };
 
         var request = new GetPlayerRequest()
@@ -71,6 +77,7 @@ public class GetPlayerRequestHandlerTests {
 
 
         _mockUserContextService.Setup(x => x.GetUserId()).Returns(userId);
+        // player not returned
 
 
         var handler = new GetPlayerRequestHandler(
@@ -97,7 +104,7 @@ public class GetPlayerRequestHandlerTests {
             Name = "Username",
             UserId = userId,
             Color = null,
-            IsPlaying = false,
+            IsPlaying = false, // is not playing yet
         };
 
         var request = new GetPlayerRequest()

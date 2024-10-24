@@ -21,11 +21,6 @@ public class Player {
     public required string Name { get; set; }
 
     /// <summary>
-    /// User avatar
-    /// </summary>
-    public string? ImageUrl { get; set; }
-
-    /// <summary>
     /// Elo points
     /// </summary>
     public int Elo { get; set;  }

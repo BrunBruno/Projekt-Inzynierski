@@ -4,16 +4,14 @@ import { useEffect } from "react";
 import IconCreator from "../icon-creator/IconCreator";
 import { symbolIcons } from "../../svgs/iconsMap/SymbolIcons";
 
-type MainPopUpProps = {};
-
-function MainPopUp({}: MainPopUpProps) {
+function MainPopUp(): JSX.Element {
   ///
 
   const { popupContent, popupType, hidePopup } = usePopup();
 
   // to hide popups after 2 seconds of display
   useEffect(() => {
-    const timeout = setTimeout(() => {
+    const timeout: NodeJS.Timeout = setTimeout(() => {
       hidePopup();
     }, 2000);
 
@@ -32,7 +30,7 @@ function MainPopUp({}: MainPopUpProps) {
       </div>
 
       <div className={classes.popup__text}>
-        <span>{popupContent}</span>
+        <span>{popupContent.toUpperCase()}</span>
       </div>
     </div>
   );

@@ -45,4 +45,5 @@ export enum FriendshipStatus {
 export enum MessageType {
   normal = 0,
   drawAction = 1,
+  bot = 2,
 }

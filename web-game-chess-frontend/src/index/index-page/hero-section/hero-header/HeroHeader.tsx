@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import classes from "./HeroHeader.module.scss";
 import LogoIcon from "../../../../shared/svgs/icons/LogoIcon";
-import { RegistrationInterface } from "../../../../shared/utils/objects/interfacesEnums";
+import { RegistrationInterface, StateOptions } from "../../../../shared/utils/objects/interfacesEnums";
 
 type HeroHeaderProps = {};
 
@@ -9,6 +9,16 @@ function HeroHeader({}: HeroHeaderProps) {
   ///
 
   const navigate = useNavigate();
+
+  // to open registration page
+  const navigateToRegistration = (regOption: RegistrationInterface): void => {
+    const state: StateOptions = {
+      regOption: regOption,
+    };
+
+    navigate("/registration", { state: state });
+  };
+  //*/
 
   return (
     <header className={classes.header}>
@@ -19,11 +29,11 @@ function HeroHeader({}: HeroHeaderProps) {
         </a>
         <p className={classes["logo-text"]}>Chess</p>
       </div>
-      {/* --- */}
 
       {/* action buttons */}
       <div className={classes.header__actions}>
         <button
+          data-testid="hero-button-about"
           className={classes["hero-button"]}
           onClick={() => {
             navigate("/about/introduction");
@@ -33,22 +43,20 @@ function HeroHeader({}: HeroHeaderProps) {
         </button>
 
         <button
+          data-testid="hero-button-sign-in"
           className={classes["hero-button"]}
           onClick={() => {
-            navigate("/registration", {
-              state: { regOption: RegistrationInterface.signIn },
-            });
+            navigateToRegistration(RegistrationInterface.signIn);
           }}
         >
           <span>Sign In</span>
         </button>
 
         <button
+          data-testid="hero-button-sign-up"
           className={classes["hero-button"]}
           onClick={() => {
-            navigate("/registration", {
-              state: { regOption: RegistrationInterface.signUp },
-            });
+            navigateToRegistration(RegistrationInterface.signUp);
           }}
         >
           <span>Sign Up</span>

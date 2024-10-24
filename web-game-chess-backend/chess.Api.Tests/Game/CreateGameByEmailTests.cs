@@ -53,7 +53,7 @@ public class CreateGameByEmailTests : IClassFixture<TestWebApplicationFactory<Pr
         var httpContent = new StringContent(json, Encoding.UTF8, "application/json");
 
 
-        var response = await _client.PostAsync("api/game/by-email", httpContent);
+        var response = await _client.PostAsync("api/game/email", httpContent);
 
 
         var assertDbContext = _factory.GetDbContextForAsserts();
@@ -97,7 +97,7 @@ public class CreateGameByEmailTests : IClassFixture<TestWebApplicationFactory<Pr
         var httpContent = new StringContent(json, Encoding.UTF8, "application/json");
 
 
-        var response = await _client.PostAsync("api/game/by-email", httpContent);
+        var response = await _client.PostAsync("api/game/email", httpContent);
 
 
         response.StatusCode.Should().Be(HttpStatusCode.NotFound);

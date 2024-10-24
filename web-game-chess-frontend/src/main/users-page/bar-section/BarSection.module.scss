@@ -115,4 +115,18 @@
 //*/
 
 // resize
+@media (max-width: 700px) {
+  .bar {
+    border-left: none;
+    border-right: none;
+
+    &__content {
+      grid-template-columns: 30rem auto 0;
+
+      &__outro {
+        display: none;
+      }
+    }
+  }
+}
 //*/

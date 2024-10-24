@@ -1,7 +1,7 @@
 import { ChangeEvent, useEffect, useRef, useState, KeyboardEvent, FormEvent } from "react";
 import GameMessage from "./game-message/GameMessage";
 import classes from "./GameMessages.module.scss";
-import { GetAllMessagesDto } from "../../../../shared/utils/types/gameDtos";
+import { GetAllMessagesDto, GetPlayerDto } from "../../../../shared/utils/types/gameDtos";
 import IconCreator from "../../../../shared/components/icon-creator/IconCreator";
 import { rightSideBarIcons } from "../RightSideBarIcons";
 import GameHubService from "../../../../shared/utils/services/GameHubService";
@@ -9,16 +9,18 @@ import { HubConnectionState } from "@microsoft/signalr";
 import { getErrMessage } from "../../../../shared/utils/functions/errors";
 import { usePopup } from "../../../../shared/utils/hooks/usePopUp";
 import axios from "axios";
-import { gameControllerPaths, getAuthorization } from "../../../../shared/utils/services/ApiService";
+import { gameController, getAuthorization } from "../../../../shared/utils/services/ApiService";
 import { SendMessageModel, TypingStatusModel } from "../../../../shared/utils/types/gameModels";
 import { Guid } from "guid-typescript";
 
 type GameMessagesProps = {
   // game id
   gameId: Guid;
+  // player data
+  playerData: GetPlayerDto;
 };
 
-function GameMessages({ gameId }: GameMessagesProps) {
+function GameMessages({ gameId, playerData }: GameMessagesProps) {
   ///
 
   const { showPopup } = usePopup();
@@ -32,45 +34,43 @@ function GameMessages({ gameId }: GameMessagesProps) {
   const [newMessage, setNewMessage] = useState<string>("");
   // all messages created during game
   const [messages, setMessages] = useState<GetAllMessagesDto[]>([]);
-
+  // typing dots display
   const [isOpponentTyping, setIsOpponentTyping] = useState<boolean>(false);
 
   // gets all messages for current game
   // add hub service to send and received messages
   // to receive and update typing status
-  const handleMessagesScroll = (): void => {
-    setTimeout(() => {
-      const elements = listRef.current;
+  useEffect(() => {
+    const getMessages = async (): Promise<void> => {
+      try {
+        const response = await axios.get<GetAllMessagesDto[]>(
+          gameController.getAllMessages(gameId),
+          getAuthorization()
+        );
 
-      if (elements) {
-        if (elements.scrollTop > 0.9 * (elements.scrollHeight - elements.clientHeight)) {
+        setMessages(response.data);
+
+        handleMessagesScroll();
+      } catch (err) {
+        showPopup(getErrMessage(err), "warning");
+      }
+    };
+
+    const handleMessagesScroll = (): void => {
+      setTimeout(() => {
+        const elements = listRef.current;
+
+        if (elements && elements.scrollTop > 0.9 * (elements.scrollHeight - elements.clientHeight)) {
           elements.scrollTop = elements.scrollHeight;
         }
-      }
-    }, 10);
-  };
+      }, 10);
+    };
 
-  const getMessages = async (): Promise<void> => {
-    try {
-      const response = await axios.get<GetAllMessagesDto[]>(
-        gameControllerPaths.getAllMessages(gameId),
-        getAuthorization()
-      );
-
-      setMessages(response.data);
-
+    const typingStatusChange = (isTyping: boolean): void => {
+      setIsOpponentTyping(isTyping);
       handleMessagesScroll();
-    } catch (err) {
-      showPopup(getErrMessage(err), "warning");
-    }
-  };
+    };
 
-  const typingStatusChange = (isTyping: boolean): void => {
-    setIsOpponentTyping(isTyping);
-    handleMessagesScroll();
-  };
-
-  useEffect(() => {
     getMessages();
 
     if (GameHubService.connection && GameHubService.connection.state === HubConnectionState.Connected) {
@@ -144,7 +144,7 @@ function GameMessages({ gameId }: GameMessagesProps) {
     <div className={classes.messages}>
       <div ref={listRef} className={classes.messages__list}>
         {messages.map((message, i) => (
-          <GameMessage key={i} gameId={gameId} message={message} />
+          <GameMessage key={i} gameId={gameId} playerData={playerData} message={message} />
         ))}
 
         {isOpponentTyping && (

@@ -1,6 +1,7 @@
 ﻿
 using chess.Application.Repositories;
 using chess.Application.Services;
+using chess.Core.Dtos;
 using chess.Shared.Exceptions;
 using MediatR;
 
@@ -36,9 +37,14 @@ public class GetFullUserRequestHandler : IRequestHandler<GetFullUserRequest, Get
             Username = user.Username,
             Name = user.Name,
             JoinDate = user.JoinDate,
-            ImageUrl = user.ImageUrl,
             Country = user.Country,
             Bio = user.Bio,
+
+            ProfilePicture = user.Image != null ? new ImageDto() 
+            {
+                Data = user.Image.Data,
+                ContentType = user.Image.ContentType,
+            } : null,
       
             WdlTotal = new Core.Abstraction.WinDrawLose()
             {

@@ -53,7 +53,7 @@ const NavSection = forwardRef<HandleOnScroll, NavSectionProps>(
     return (
       <div ref={navRef} className={`${classes.nav} ${classes["nav-none"]}`}>
         <nav className={classes["nav-bar"]}>
-          {indicators.map((element, index) => (
+          {indicators.map((element, index: number) => (
             <a
               href={"#" + element + "-section"}
               key={`a-${index}`}

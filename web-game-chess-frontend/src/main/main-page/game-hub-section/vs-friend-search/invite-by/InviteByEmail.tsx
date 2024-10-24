@@ -1,15 +1,10 @@
 import { useNavigate } from "react-router-dom";
 import classes from "./InviteBy.module.scss";
 import { usePopup } from "../../../../../shared/utils/hooks/usePopUp";
-import { useTimingType } from "../../../../../shared/utils/hooks/useTimingType";
 import { CreateGameByEmailModel, NotifyUserModel } from "../../../../../shared/utils/types/gameModels";
 import { CreateGameByEmailDto } from "../../../../../shared/utils/types/gameDtos";
 import axios from "axios";
-import {
-  gameControllerPaths,
-  getAuthorization,
-  userControllerPaths,
-} from "../../../../../shared/utils/services/ApiService";
+import { gameController, getAuthorization, userController } from "../../../../../shared/utils/services/ApiService";
 import GameHubService from "../../../../../shared/utils/services/GameHubService";
 import { getErrMessage } from "../../../../../shared/utils/functions/errors";
 import {
@@ -26,7 +21,6 @@ import { InviteByEmailRef } from "../VsFriendSearchData";
 import { mainColor } from "../../../../../shared/utils/objects/colorMaps";
 import { GetByEmailModel } from "../../../../../shared/utils/types/userModels";
 import { GetByEmailDto } from "../../../../../shared/utils/types/userDtos";
-import { TimingTypeModel } from "../../../../../shared/utils/types/abstractDtosAndModels";
 import { getEnumValueByKey } from "../../../../../shared/utils/functions/enums";
 import IconCreator from "../../../../../shared/components/icon-creator/IconCreator";
 import { symbolIcons } from "../../../../../shared/svgs/iconsMap/SymbolIcons";
@@ -44,7 +38,6 @@ const InviteByEmail = forwardRef<InviteByEmailRef, InviteByEmailProps>(
 
     const navigate = useNavigate();
     const { showPopup } = usePopup();
-    const { setTimingType } = useTimingType();
 
     // email input text
     const [selectedEmail, setSelectedEmail] = useState<string>("");
@@ -54,15 +47,7 @@ const InviteByEmail = forwardRef<InviteByEmailRef, InviteByEmailProps>(
       try {
         const typeValue = getEnumValueByKey(TimingType, header.toLowerCase());
 
-        const gameType: TimingTypeModel = {
-          type: typeValue,
-          minutes: values[0],
-          increment: values[1],
-        };
-
-        setTimingType(gameType);
-
-        const gameByEmailModel: CreateGameByEmailModel = {
+        const model: CreateGameByEmailModel = {
           email: email,
           type: typeValue,
           minutes: values[0],
@@ -70,8 +55,8 @@ const InviteByEmail = forwardRef<InviteByEmailRef, InviteByEmailProps>(
         };
 
         const privateGameResponse = await axios.post<CreateGameByEmailDto>(
-          gameControllerPaths.createGameByEmail(),
-          gameByEmailModel,
+          gameController.createGameByEmail(),
+          model,
           getAuthorization()
         );
 
@@ -86,8 +71,9 @@ const InviteByEmail = forwardRef<InviteByEmailRef, InviteByEmailProps>(
 
         await GameHubService.NotifyUser(notifyModel);
 
-        showPopup("User invited", "success");
-        navigate(`await/${privateGameResponse.data.gameId}`);
+        showPopup("USER INVITED", "success");
+
+        navigate(`/main/await/${privateGameResponse.data.gameId}`);
       } catch (err) {
         showPopup(getErrMessage(err), "warning");
       }
@@ -99,11 +85,11 @@ const InviteByEmail = forwardRef<InviteByEmailRef, InviteByEmailProps>(
     //*/
 
     // to get user data by provide email
-    const getByEmail = async () => {
+    const getByEmail = async (): Promise<void> => {
       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
       if (!emailRegex.test(selectedEmail)) {
         setSelectedEmail("");
-        showPopup("Incorrect email.", "warning");
+        showPopup("INCORRECT EMAIL", "warning");
         return;
       }
 
@@ -113,7 +99,7 @@ const InviteByEmail = forwardRef<InviteByEmailRef, InviteByEmailProps>(
 
       try {
         const userResponse = await axios.get<GetByEmailDto>(
-          userControllerPaths.getByEmail(getByEmailModel),
+          userController.getByEmail(getByEmailModel),
           getAuthorization()
         );
 
@@ -123,14 +109,14 @@ const InviteByEmail = forwardRef<InviteByEmailRef, InviteByEmailProps>(
       }
     };
 
-    const submitEmail = (event: FormEvent<HTMLFormElement>) => {
+    const submitEmail = (event: FormEvent<HTMLFormElement>): void => {
       event.preventDefault();
       getByEmail();
     };
     //*/
 
     // to set email address
-    const setEmail = (event: ChangeEvent<HTMLInputElement>) => {
+    const setEmail = (event: ChangeEvent<HTMLInputElement>): void => {
       const target = event.target as HTMLInputElement;
       const email = target.value.toLocaleLowerCase();
       setSelectedEmail(email);

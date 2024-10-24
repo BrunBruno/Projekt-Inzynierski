@@ -42,11 +42,12 @@ public class GetGameTimingTests : IClassFixture<TestWebApplicationFactory<Progra
 
         await _dbContext.Init();
         await _dbContext.AddUser();
+        var otherUserId = await _dbContext.AddUserWithEmail("other@test.com");
 
         var timingId = await _dbContext.CreateTiming(timingType);
 
         var userPlayerId = await _dbContext.AddPlayer(Guid.Parse(Constants.UserId), Constants.Username);
-        var otherPlayerId = await _dbContext.AddPlayer(Guid.NewGuid(), "OtherPlayer");
+        var otherPlayerId = await _dbContext.AddPlayer(otherUserId, "OtherPlayer");
         var gameId = await _dbContext.AddGame(userPlayerId, otherPlayerId, timingId, false);
 
 

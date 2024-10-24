@@ -58,6 +58,7 @@ public class CreateGameWithLinkRequestHandlerTests {
 
         _mockUserContextService.Setup(x => x.GetUserId()).Returns(userId);
         _mockUserRepository.Setup(x => x.GetById(userId)).ReturnsAsync(user);
+        _mockGameTimingRepository.Setup(x => x.FindTiming(request.Type, request.Minutes * 60, request.Increment)).ReturnsAsync(gameTiming);
 
 
         var handler = new CreateGameWithLinkRequestHandler(
@@ -74,6 +75,65 @@ public class CreateGameWithLinkRequestHandlerTests {
 
         result.Should().NotBeNull();
         result.GameId.Should().NotBeEmpty();
+        result.GameUrl.Should().Contain(result.GameId.ToString());
+
+        _mockUserContextService.Verify(x => x.GetUserId(), Times.Once);
+        _mockUserRepository.Verify(x => x.GetById(userId), Times.Once);
+        _mockGameTimingRepository.Verify(x => x.FindTiming(request.Type, request.Minutes * 60, request.Increment), Times.Once);
+        _mockGameTimingRepository.Verify(x => x.Create(It.IsAny<GameTiming>()), Times.Never);
+        _mockPlayerRepository.Verify(x => x.Create(It.IsAny<Player>()), Times.Exactly(2));
+        _mockGameRepository.Verify(x => x.Create(It.IsAny<Entities.Game>()), Times.Once);
+        _mockGameStateRepository.Verify(x => x.Create(It.IsAny<GameState>()), Times.Once);
+    }
+
+    [Fact]
+    public async Task Handle_Creates_Private_Game_And_GameTiming_When_Not_Exists_On_Success() {
+
+        var userId = Guid.NewGuid();
+
+        var user = new Entities.User()
+        {
+            Id = userId,
+            Email = "user@test.com",
+            Username = "Username",
+            Elo = new UserElo(),
+        };
+
+        var gameTiming = new GameTiming()
+        {
+            Type = TimingTypes.Rapid,
+            Seconds = 10 * 60,
+            Increment = 0,
+        };
+
+        var request = new CreateGameWithLinkRequest()
+        {
+            Type = gameTiming.Type,
+            Minutes = gameTiming.Seconds / 60,
+            Increment = gameTiming.Increment,
+        };
+
+
+        _mockUserContextService.Setup(x => x.GetUserId()).Returns(userId);
+        _mockUserRepository.Setup(x => x.GetById(userId)).ReturnsAsync(user);
+        // game timing not returned
+
+
+        var handler = new CreateGameWithLinkRequestHandler(
+             _mockUserContextService.Object,
+             _mockUserRepository.Object,
+             _mockGameRepository.Object,
+             _mockGameTimingRepository.Object,
+             _mockGameStateRepository.Object,
+             _mockPlayerRepository.Object
+         );
+
+        var result = await handler.Handle(request, CancellationToken.None);
+
+
+        result.Should().NotBeNull();
+        result.GameId.Should().NotBeEmpty();
+        result.GameUrl.Should().Contain(result.GameId.ToString());
 
         _mockUserContextService.Verify(x => x.GetUserId(), Times.Once);
         _mockUserRepository.Verify(x => x.GetById(userId), Times.Once);
@@ -105,6 +165,7 @@ public class CreateGameWithLinkRequestHandlerTests {
 
 
         _mockUserContextService.Setup(x => x.GetUserId()).Returns(userId);
+        // user not returned
 
 
         var handler = new CreateGameWithLinkRequestHandler(

@@ -40,11 +40,6 @@ public class User {
     public DateTime JoinDate { get; set; } = DateTime.UtcNow;
 
     /// <summary>
-    /// Url with user image.
-    /// </summary>
-    public string? ImageUrl { get; set; }
-
-    /// <summary>
     /// Is user email verified
     /// </summary>
     public bool IsVerified { get; set; } = false;
@@ -73,6 +68,11 @@ public class User {
     /// User role
     /// </summary>
     public Role Role { get; set; }
+
+    /// <summary>
+    /// User profile picture
+    /// </summary>
+    public UserImage? Image { get; set; } = null;
 
     /// <summary>
     /// Score points of player for different types

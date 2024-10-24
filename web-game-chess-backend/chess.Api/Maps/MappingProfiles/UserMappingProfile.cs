@@ -2,11 +2,12 @@
 using AutoMapper;
 using chess.Api.Models.UserModels;
 using chess.Application.Requests.UserRequests.GetByEmail;
-using chess.Application.Requests.UserRequests.GetOtherUser;
 using chess.Application.Requests.UserRequests.GetRegisterConf;
 using chess.Application.Requests.UserRequests.LogInUser;
 using chess.Application.Requests.UserRequests.RegenerateCode;
 using chess.Application.Requests.UserRequests.RegisterUser;
+using chess.Application.Requests.UserRequests.ResetPassword;
+using chess.Application.Requests.UserRequests.SendResetPasswordCode;
 using chess.Application.Requests.UserRequests.UpdateProfile;
 using chess.Application.Requests.UserRequests.VerifyEmail;
 
@@ -25,5 +26,7 @@ public class UserMappingProfile : Profile {
         CreateMap<RegenerateCodeModel, RegenerateCodeRequest>();
         CreateMap<UpdateProfileModel, UpdateProfileRequest>();
         CreateMap<GetByEmailModel, GetByEmailRequest>();
+        CreateMap<ResetPasswordModel, ResetPasswordRequest>();
+        CreateMap<SendResetPasswordCodeModel, SendResetPasswordCodeRequest>();
     }
 }

@@ -1,6 +1,7 @@
 ﻿
 using chess.Api.Models.FriendshipModels;
 using chess.Api.Tests.User;
+using chess.Core.Entities;
 using chess.Core.Enums;
 using chess.Infrastructure.Contexts;
 using FluentAssertions;
@@ -44,6 +45,7 @@ public class RespondToFriendRequestTests : IClassFixture<TestWebApplicationFacto
 
         var model = new RespondToFriendRequestModel()
         {
+            FriendshipId = friendshipId,
             IsAccepted = true,
         };
 
@@ -80,6 +82,7 @@ public class RespondToFriendRequestTests : IClassFixture<TestWebApplicationFacto
 
         var model = new RespondToFriendRequestModel()
         {
+            FriendshipId = friendshipId,
             IsAccepted = true,
         };
 
@@ -100,12 +103,15 @@ public class RespondToFriendRequestTests : IClassFixture<TestWebApplicationFacto
     [Fact]
     public async Task RespondToFriendRequest_Should_Return_NotFound_On_Fail() {
 
+        var friendshipId = Guid.NewGuid();
+
         await _dbContext.Init();
         await _dbContext.AddUsers(Guid.NewGuid());
         // friendship not added
 
         var model = new RespondToFriendRequestModel()
         {
+            FriendshipId = friendshipId,
             IsAccepted = true,
         };
 
@@ -113,7 +119,7 @@ public class RespondToFriendRequestTests : IClassFixture<TestWebApplicationFacto
         var httpContent = new StringContent(json, Encoding.UTF8, "application/json");
 
 
-        var response = await _client.PutAsync($"api/friendship/{Guid.NewGuid()}/respond", httpContent);
+        var response = await _client.PutAsync($"api/friendship/{friendshipId}/respond", httpContent);
 
 
         response.StatusCode.Should().Be(HttpStatusCode.NotFound);
@@ -126,7 +132,6 @@ public class RespondToFriendRequestTests : IClassFixture<TestWebApplicationFacto
     [Fact]
     public async Task RespondToFriendRequest_Should_Return_Unauthorized_On_Fail() {
 
-
         var friendshipId = Guid.NewGuid();
 
         await _dbContext.Init();
@@ -135,6 +140,7 @@ public class RespondToFriendRequestTests : IClassFixture<TestWebApplicationFacto
 
         var model = new RespondToFriendRequestModel()
         {
+            FriendshipId = friendshipId,
             IsAccepted = true,
         };
 

@@ -37,6 +37,7 @@ public class GetAllNonFriendsRequestHandler : IRequestHandler<GetAllNonFriendsRe
 
         var nonFriends = await _userRepository.GetAllNonFriends(friendsIds, userId);
 
+        // filter by username
         if(request.Username is not null) {
             nonFriends = nonFriends.Where(nf => 
                 nf.Username.ToLower().Contains(request.Username) ||
@@ -45,29 +46,31 @@ public class GetAllNonFriendsRequestHandler : IRequestHandler<GetAllNonFriendsRe
             ).ToList();
         }
 
-        var nonFriendsDtos = nonFriends.Select(nf => new GetAllNonFriendsDto()
+        var nonFriendsDtos = nonFriends.Select(nonFriend => new GetAllNonFriendsDto()
         {
-            UserId = nf.Id,
-            Username = nf.Username,
-            Name = nf.Name,
-            ImageUrl = nf.ImageUrl,
-            Country = nf.Country,
+            UserId = nonFriend.Id,
+            Username = nonFriend.Username,
+            Name = nonFriend.Name,
+            Country = nonFriend.Country,
 
-            Elo = new EloDto()
-            {
-                Bullet = nf.Elo.Bullet,
-                Blitz = nf.Elo.Blitz,
-                Rapid = nf.Elo.Rapid,
-                Classic = nf.Elo.Classic,
-                Daily = nf.Elo.Daily,
+            ProfilePicture = nonFriend.Image != null ? new ImageDto() {
+                Data = nonFriend.Image.Data,
+                ContentType = nonFriend.Image.ContentType,
+            } : null,
+
+            Elo = new EloDto() {
+                Bullet = nonFriend.Elo.Bullet,
+                Blitz = nonFriend.Elo.Blitz,
+                Rapid = nonFriend.Elo.Rapid,
+                Classic = nonFriend.Elo.Classic,
+                Daily = nonFriend.Elo.Daily,
             },
 
-            WdlTotal = new WinDrawLose()
-            {
-                Total = nf.Stats.GamesPlayed,
-                Wins = nf.Stats.Wins,
-                Draws = nf.Stats.Draws,
-                Loses = nf.Stats.Loses,
+            WdlTotal = new WinDrawLose() {
+                Total = nonFriend.Stats.GamesPlayed,
+                Wins = nonFriend.Stats.Wins,
+                Draws = nonFriend.Stats.Draws,
+                Loses = nonFriend.Stats.Loses,
             },
 
         }).ToList();

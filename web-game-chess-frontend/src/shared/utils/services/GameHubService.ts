@@ -1,27 +1,32 @@
 /* signalR hub service map from GameHub */
 
-import * as signalR from "@microsoft/signalr";
 import {
   AcceptInvitationModel,
+  CreateRematchGameModel,
   DeclineInvitationModel,
   EndGameModel,
   MakeMoveModel,
   NotifyUserModel,
+  SendGameMessageModel,
   SendMessageModel,
   TypingStatusModel,
 } from "../types/gameModels";
 import { Guid } from "guid-typescript";
+import { HttpTransportType, HubConnection, HubConnectionBuilder, LogLevel } from "@microsoft/signalr";
 
 class GameHub {
   // hub url
   private gameHubUrl: string = "http://localhost:5125/game-hub";
-  // private gameHubUrl: string = "http://192.168.1.46:5125/game-hub";
+  // private gameHubUrl: string = "http://192.168.1.46:5125/game-hub"
+
   // verification token
   private token: string | null = null;
+
   // attempts take to establish connection
   private attempts: number = 0;
 
-  public connection: signalR.HubConnection | null = null;
+  // signalR connection
+  public connection: HubConnection | null = null;
 
   constructor() {
     this.token = localStorage.getItem("token");
@@ -32,13 +37,13 @@ class GameHub {
 
   // initialize connection
   private initializeConnection(token: string) {
-    this.connection = new signalR.HubConnectionBuilder()
+    this.connection = new HubConnectionBuilder()
       .withUrl(this.gameHubUrl, {
         skipNegotiation: true,
-        transport: signalR.HttpTransportType.WebSockets,
+        transport: HttpTransportType.WebSockets,
         accessTokenFactory: () => token,
       })
-      .configureLogging(signalR.LogLevel.None)
+      .configureLogging(LogLevel.None)
       .build();
   }
 
@@ -46,7 +51,7 @@ class GameHub {
   public async startConnectionWithToken(token: string): Promise<void> {
     this.token = token;
     this.initializeConnection(token);
-    return this.startConnection();
+    return await this.startConnection();
   }
 
   // to start try to start connection
@@ -92,6 +97,15 @@ class GameHub {
     }
   }
 
+  // creates rematch game
+  public async CreateRematchGame(model: CreateRematchGameModel): Promise<void> {
+    try {
+      await this.connection?.invoke("rematch", model);
+    } catch (err) {
+      console.error(err);
+    }
+  }
+
   // update game | add move
   public async MakeMove(model: MakeMoveModel): Promise<void> {
     try {
@@ -110,6 +124,15 @@ class GameHub {
     }
   }
 
+  // to send bot messages
+  public async SendGameMessage(model: SendGameMessageModel): Promise<void> {
+    try {
+      await this.connection?.invoke("send-game-message", model);
+    } catch (err) {
+      console.error(err);
+    }
+  }
+
   // to send draw offer
   public async SendDrawMessage(gameId: Guid): Promise<void> {
     try {
@@ -123,6 +146,15 @@ class GameHub {
   public async EndGame(model: EndGameModel): Promise<void> {
     try {
       await this.connection?.invoke("end-game", model);
+    } catch (err) {
+      console.error(err);
+    }
+  }
+
+  // to accept game rematch
+  public async AcceptRematch(gameId: Guid): Promise<void> {
+    try {
+      await this.connection?.invoke("accept-rematch", gameId);
     } catch (err) {
       console.error(err);
     }

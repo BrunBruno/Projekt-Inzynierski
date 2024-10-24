@@ -8,7 +8,7 @@ import IconCreator from "../../../../../shared/components/icon-creator/IconCreat
 import { mainColor } from "../../../../../shared/utils/objects/colorMaps";
 import { defaultPiecesImages } from "../../../../../shared/svgs/iconsMap/DefaultPieceImageSvgs";
 import { timingTypeIcons } from "../../../../../shared/svgs/iconsMap/TimingTypeIcons";
-import { PieceTag, TimingTypeName } from "../../../../../shared/utils/objects/constantLists";
+import { GameEndReasonName, PieceTag, TimingTypeName } from "../../../../../shared/utils/objects/constantLists";
 import { gameEndReasonIcons } from "../../../../../shared/svgs/iconsMap/GameEndReasonIcons";
 import { GameEndReason, TimingType } from "../../../../../shared/utils/objects/entitiesEnums";
 import { gameResultIcons } from "../../../../../shared/svgs/iconsMap/GameResultIcons";
@@ -62,7 +62,7 @@ function UserGamesCard({ game }: UserGamesCardProps) {
       <div className={classes.player}>
         <AvatarImage
           username={player.name}
-          imageUrl={player.imageUrl}
+          profilePicture={player.profilePicture}
           containerClass={isWhite ? classes["white-player-img"] : classes["black-player-img"]}
           imageClass={classes["player-img"]}
         />
@@ -238,7 +238,10 @@ function UserGamesCard({ game }: UserGamesCardProps) {
 
         {/* cause of ending */}
         <div className={classes["win-type"]}>
-          <IconCreator icons={gameEndReasonIcons} iconName={getEnumKeyByEnumValue(GameEndReason, game.endGameType)} />
+          <IconCreator
+            icons={gameEndReasonIcons}
+            iconName={getEnumKeyByEnumValue(GameEndReason, game.endGameType) as GameEndReasonName}
+          />
         </div>
       </div>
     </div>

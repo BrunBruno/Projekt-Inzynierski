@@ -17,10 +17,16 @@
     grid-auto-rows: max-content;
   }
 
-  // empty list fill
+  // empty list list
   &.template {
     overflow: hidden;
+    display: block;
   }
+
+  .empty-cards {
+    position: relative;
+  }
+  //*/
 
   &__indicator {
     @include rounded(1rem);

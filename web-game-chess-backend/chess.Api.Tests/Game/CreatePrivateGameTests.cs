@@ -86,6 +86,7 @@ public class CreatePrivateGameTests : IClassFixture<TestWebApplicationFactory<Pr
 
         await _dbContext.Init();
         await _dbContext.AddUsers(friendId);
+        // friendship not added
 
         var model = new CreatePrivateGameModel()
         {

@@ -31,13 +31,14 @@ const LearnSection = forwardRef<HandleOnScroll, LearnSectionProps>(
     // to apply card open on intersection
     useEffect(() => {
       const options: IntersectionObserverInit = {};
+
       const observerAction = (entry: IntersectionObserverEntry): void => {
         entry.target.classList.add(classes["open-card"]);
       };
 
       const observer: IntersectionObserver = createOneTimeObserver(observerAction, options);
 
-      cardRefs.current.forEach((cardRef) => {
+      cardRefs.current.forEach((cardRef: HTMLDivElement) => {
         observer.observe(cardRef);
       });
 
@@ -52,6 +53,7 @@ const LearnSection = forwardRef<HandleOnScroll, LearnSectionProps>(
       const cards: JSX.Element[] = [];
 
       const numberOfCards = 6;
+
       for (let i = 0; i < numberOfCards; i++) {
         const cardStyle: CSSProperties = {
           top: `${Math.floor(i / 2) * 30}rem`,
@@ -113,7 +115,9 @@ const LearnSection = forwardRef<HandleOnScroll, LearnSectionProps>(
             </h3>
 
             <a href="#home-section" className={classes["join-action"]}>
-              <button className={classes["join-button"]}>JOIN NOW</button>
+              <button className={classes["join-button"]}>
+                <span>JOIN NOW</span>
+              </button>
             </a>
           </div>
         </div>

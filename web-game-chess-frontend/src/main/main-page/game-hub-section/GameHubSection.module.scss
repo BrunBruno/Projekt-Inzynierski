@@ -26,12 +26,18 @@
         height: 100%;
         padding: 2rem;
         background-color: rgba($gc9, 0.3);
+        overflow-y: scroll;
+        box-shadow: 0 0 1rem 0.1rem $mc0;
+
+        &::-webkit-scrollbar {
+          display: none;
+        }
 
         &::before {
           @include subCl(0.1rem, 100%);
 
           top: 0;
-          left: -0.1rem;
+          left: 0;
 
           background-color: $mc0;
           box-shadow: 0 0 1rem 0.1rem $mc0;
@@ -50,25 +56,56 @@
               background-color: rgba($gc8, 0.1);
               border-radius: 1rem;
               border: none;
+              border-right: solid 0.3rem $gc9;
             }
           }
 
           &:hover {
+            border-color: #0000;
+
+            span {
+              filter: drop-shadow($mc0 0 0 0.5rem);
+            }
+
+            .home-icon {
+              filter: drop-shadow($mc0 0 0 0.5rem);
+
+              path {
+                stroke: $mc0;
+              }
+            }
+
             .vs-player-icon {
+              filter: drop-shadow($mc0 0 0 0.5rem);
+
               fill: $mc0;
             }
 
             .vs-computer-icon {
+              filter: drop-shadow($mc0 0 0 0.5rem);
+
               fill: $mc0;
             }
 
             .vs-friend-icon {
+              filter: drop-shadow($mc0 0 0 0.5rem);
+
+              path {
+                fill: $mc0;
+              }
+            }
+
+            .active-games-icon {
+              filter: drop-shadow($mc0 0 0 0.5rem);
+
               path {
                 fill: $mc0;
               }
             }
 
             .user-games-icon {
+              filter: drop-shadow($mc0 0 0 0.5rem);
+
               path {
                 &:nth-child(1),
                 &:nth-child(2) {
@@ -82,28 +119,20 @@
             }
 
             .invitations-icon {
+              filter: drop-shadow($mc0 0 0 0.5rem);
+
               fill: $mc0;
             }
           }
 
-          @mixin buttonIcon() {
-            height: 4rem;
-          }
-
-          .vs-player-icon {
-            @include buttonIcon();
-          }
-          .vs-computer-icon {
-            @include buttonIcon();
-          }
-          .vs-friend-icon {
-            @include buttonIcon();
-          }
-          .user-games-icon {
-            @include buttonIcon();
-          }
+          .home-icon,
+          .vs-player-icon,
+          .vs-computer-icon,
+          .vs-friend-icon,
+          .active-games-icon,
+          .user-games-icon,
           .invitations-icon {
-            @include buttonIcon();
+            height: 4rem;
           }
 
           &:focus {
@@ -135,6 +164,7 @@
         .game-buttons {
           flex-direction: row;
           padding: 2rem;
+          overflow: hidden;
 
           &::before {
             @include subCl(100%, 0.1rem);

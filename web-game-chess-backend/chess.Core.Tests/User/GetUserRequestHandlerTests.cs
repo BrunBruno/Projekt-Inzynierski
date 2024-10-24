@@ -24,12 +24,15 @@ public class GetUserRequestHandlerTests {
         var request = new GetUserRequest();
         var userId = Guid.NewGuid();
 
-
-        _mockUserContextService.Setup(x => x.GetUserId()).Returns(userId);
-        _mockUserRepository.Setup(x => x.GetById(userId)).ReturnsAsync(new Entities.User() { 
+        var exampleUser = new Entities.User()
+        {
             Email = "test@test.com",
             Username = "Username",
-        });
+        };
+
+
+        _mockUserContextService.Setup(x => x.GetUserId()).Returns(userId);
+        _mockUserRepository.Setup(x => x.GetById(userId)).ReturnsAsync(exampleUser);
 
 
         var handler = new GetUserRequestHandler(
@@ -41,6 +44,8 @@ public class GetUserRequestHandlerTests {
 
 
         result.Should().NotBeNull();
+        result.Username.Should().Be(exampleUser.Username);
+
         _mockUserContextService.Verify(x => x.GetUserId(), Times.Once);
         _mockUserRepository.Verify(x => x.GetById(userId), Times.Once);
     }
@@ -53,6 +58,7 @@ public class GetUserRequestHandlerTests {
 
 
         _mockUserContextService.Setup(x => x.GetUserId()).Returns(userId);
+        // user not returned
 
 
         var handler = new GetUserRequestHandler(

@@ -13,7 +13,6 @@ using chess.Application.Requests.GameRequests.GetEndedGame;
 using chess.Application.Requests.GameRequests.CreatePrivateGame;
 using chess.Application.Requests.GameRequests.FetchTime;
 using chess.Application.Requests.GameRequests.GetOpponent;
-using chess.Application.Requests.GameRequests.CreateRematchGame;
 using chess.Application.Requests.GameRequests.GetTypeHistory;
 using chess.Application.Requests.GameRequests.CreateGameByEmail;
 using chess.Application.Requests.GameRequests.GetAllInvitations;
@@ -23,6 +22,7 @@ using chess.Application.Requests.GameRequests.GetAllMessages;
 using chess.Application.Requests.GameRequests.CreateGameWithLink;
 using chess.Application.Requests.GameRequests.CheckIfUpdateRequired;
 using chess.Application.Requests.GameRequests.CancelPrivateGame;
+using chess.Application.Requests.GameRequests.GetAllActiveGames;
 
 namespace chess.Api.Controllers;
 
@@ -81,7 +81,7 @@ public class GameController : ControllerBase {
     /// </summary>
     /// <param name="model"></param>
     /// <returns> Essential for game creation </returns>
-    [HttpPost("by-email")]
+    [HttpPost("email")]
     [Authorize(Policy = "IsVerified")]
     public async Task<IActionResult> CreateGameByEmail([FromBody] CreateGameByEmailModel model) {
 
@@ -97,8 +97,8 @@ public class GameController : ControllerBase {
     /// Creates private game with link and returns it
     /// </summary>
     /// <param name="model"></param>
-    /// <returns></returns>
-    [HttpPost("by-link")]
+    /// <returns> Essential for game creation </returns>
+    [HttpPost("link")]
     [Authorize(Policy = "IsVerified")]
     public async Task<IActionResult> CreateGameWithLink([FromBody] CreateGameWithLinkModel model) {
 
@@ -111,28 +111,11 @@ public class GameController : ControllerBase {
 
 
     /// <summary>
-    /// Creates new game for two same users that has already played one game
-    /// </summary>
-    /// <param name="model"></param>
-    /// <returns> Essential for game creation </returns>
-    [HttpPost("rematch")]
-    [Authorize(Policy = "IsVerified")]
-    public async Task<IActionResult> CreateRematchGame([FromBody] CreateRematchGameModel model) {
-
-        var request = _mapper.Map<CreateRematchGameRequest>(model);
-
-        var gameData = await _mediator.Send(request);
-
-        return Ok(gameData);
-    }
-
-
-    /// <summary>
     /// Check if player was matched and the game has started
     /// </summary>
     /// <param name="model"></param>
     /// <returns> bool value </returns>
-    [HttpGet("check-if-in-game")]
+    [HttpGet("is-in-game")]
     [Authorize(Policy = "IsVerified")]
     public async Task<IActionResult> CheckIfInGame([FromQuery] CheckIfInGameModel model) {
 
@@ -148,8 +131,8 @@ public class GameController : ControllerBase {
     /// 
     /// </summary>
     /// <param name="gameId"></param>
-    /// <returns></returns>
-    [HttpGet("{gameId}/check-if-update-required")]
+    /// <returns> bool value </returns>
+    [HttpGet("{gameId}/update-required")]
     [Authorize(Policy = "IsVerified")]
     public async Task<IActionResult> CheckIfUpdateRequired([FromRoute] Guid gameId) {
 
@@ -208,7 +191,7 @@ public class GameController : ControllerBase {
     /// Gets time left for user
     /// </summary>
     /// <param name="gameId"></param>
-    /// <returns> Players time left </returns>
+    /// <returns> Players time </returns>
     [HttpGet("{gameId}/time")]
     [Authorize(Policy = "IsVerified")]
     public async Task<IActionResult> FetchTime([FromRoute] Guid gameId) {
@@ -285,6 +268,23 @@ public class GameController : ControllerBase {
 
 
     /// <summary>
+    /// Gets all ongoing games for user
+    /// </summary>
+    /// <param name="model"></param>
+    /// <returns>  Page result of games </returns>
+    [HttpGet("all-ongoing")]
+    [Authorize(Policy = "IsVerified")]
+    public async Task<IActionResult> GetAllActiveGames([FromQuery] GetAllActiveGamesModel model) {
+
+        var request = _mapper.Map<GetAllActiveGamesRequest>(model);
+
+        var games = await _mediator.Send(request);
+
+        return Ok(games);
+    }
+
+
+    /// <summary>
     /// Gets all finished games for user
     /// </summary>
     /// <param name="model"></param>
@@ -339,7 +339,7 @@ public class GameController : ControllerBase {
     /// Gets all messages for current game
     /// </summary>
     /// <param name="gameId"></param>
-    /// <returns></returns>
+    /// <returns> List of messages </returns>
     [HttpGet("{gameId}/messages")]
     [Authorize(Policy = "IsVerified")]
     public async Task<IActionResult> GetAllMessages([FromRoute] Guid gameId) {

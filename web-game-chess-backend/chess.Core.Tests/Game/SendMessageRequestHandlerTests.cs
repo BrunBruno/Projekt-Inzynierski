@@ -11,18 +11,18 @@ namespace chess.Core.Tests.Game;
 
 public class SendMessageRequestHandlerTests {
 
-    private readonly Mock<IPlayerMessageRepository> _mockMessageRepository;
+    private readonly Mock<IPlayerMessageRepository> _mockPlayerMessageRepository;
     private readonly Mock<IGameRepository> _mockGameRepository;
     private readonly Mock<IUserContextService> _mockUserContextService;
 
     public SendMessageRequestHandlerTests() {
-        _mockMessageRepository = new Mock<IPlayerMessageRepository>();
+        _mockPlayerMessageRepository = new Mock<IPlayerMessageRepository>();
         _mockGameRepository = new Mock<IGameRepository>();
         _mockUserContextService = new Mock<IUserContextService>();
     }
 
     [Fact]
-    public async Task Handle_Should_Create_Message_On_Success() {
+    public async Task Handle_Should_Create_PlayerMessage_On_Success() {
 
         var userId = Guid.NewGuid();
         var gameId = Guid.NewGuid();
@@ -30,15 +30,16 @@ public class SendMessageRequestHandlerTests {
         var game = new Entities.Game()
         {
             Id = gameId,
-
             WhitePlayerRegistered = true,
             BlackPlayerRegistered = true,
+
             WhitePlayer = new Player() {
                 Id = Guid.NewGuid(),
                 Name = "Username",
                 UserId = userId,
                 GameId = gameId,
             },
+
             BlackPlayer = new Player() {
                 Id = Guid.NewGuid(),
                 Name = "Other",
@@ -59,7 +60,7 @@ public class SendMessageRequestHandlerTests {
 
 
         var handler = new SendMessageRequestHandler(
-            _mockMessageRepository.Object,
+            _mockPlayerMessageRepository.Object,
             _mockGameRepository.Object,
             _mockUserContextService.Object
         );
@@ -70,7 +71,7 @@ public class SendMessageRequestHandlerTests {
         await act.Should().NotThrowAsync();
         _mockUserContextService.Verify(x => x.GetUserId(), Times.Once);
         _mockGameRepository.Verify(x => x.GetById(gameId), Times.Once);
-        _mockMessageRepository.Verify(x => x.Create(It.IsAny<PlayerMessage>()), Times.Once);
+        _mockPlayerMessageRepository.Verify(x => x.Create(It.IsAny<PlayerMessage>()), Times.Once);
     }
 
     [Fact]
@@ -87,10 +88,11 @@ public class SendMessageRequestHandlerTests {
 
 
         _mockUserContextService.Setup(x => x.GetUserId()).Returns(userId);
+        // game not returned
 
 
         var handler = new SendMessageRequestHandler(
-            _mockMessageRepository.Object,
+            _mockPlayerMessageRepository.Object,
             _mockGameRepository.Object,
             _mockUserContextService.Object
         );
@@ -101,7 +103,7 @@ public class SendMessageRequestHandlerTests {
         await act.Should().ThrowAsync<NotFoundException>();
         _mockUserContextService.Verify(x => x.GetUserId(), Times.Once);
         _mockGameRepository.Verify(x => x.GetById(gameId), Times.Once);
-        _mockMessageRepository.Verify(x => x.Create(It.IsAny<PlayerMessage>()), Times.Never);
+        _mockPlayerMessageRepository.Verify(x => x.Create(It.IsAny<PlayerMessage>()), Times.Never);
     }
 
     [Fact]
@@ -120,14 +122,14 @@ public class SendMessageRequestHandlerTests {
             {
                 Id = Guid.NewGuid(),
                 Name = "Username",
-                UserId = Guid.NewGuid(),
+                UserId = Guid.NewGuid(), // user is not player
                 GameId = gameId,
             },
             BlackPlayer = new Player()
             {
                 Id = Guid.NewGuid(),
                 Name = "Other",
-                UserId = Guid.NewGuid(),
+                UserId = Guid.NewGuid(), // user is not player
                 GameId = gameId,
             },
         };
@@ -144,7 +146,7 @@ public class SendMessageRequestHandlerTests {
 
 
         var handler = new SendMessageRequestHandler(
-            _mockMessageRepository.Object,
+            _mockPlayerMessageRepository.Object,
             _mockGameRepository.Object,
             _mockUserContextService.Object
         );
@@ -155,6 +157,6 @@ public class SendMessageRequestHandlerTests {
         await act.Should().ThrowAsync<UnauthorizedException>();
         _mockUserContextService.Verify(x => x.GetUserId(), Times.Once);
         _mockGameRepository.Verify(x => x.GetById(gameId), Times.Once);
-        _mockMessageRepository.Verify(x => x.Create(It.IsAny<PlayerMessage>()), Times.Never);
+        _mockPlayerMessageRepository.Verify(x => x.Create(It.IsAny<PlayerMessage>()), Times.Never);
     }
 }

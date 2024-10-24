@@ -6,7 +6,7 @@ import {
   GetAllNonFriendsDto,
   GetFriendProfileDto,
 } from "../../../shared/utils/types/friendshipDtos";
-import { friendshipControllerPaths, getAuthorization } from "../../../shared/utils/services/ApiService";
+import { friendshipController, getAuthorization } from "../../../shared/utils/services/ApiService";
 import { Dispatch, SetStateAction, useEffect, useRef, useState, WheelEvent } from "react";
 import { FriendshipStatus } from "../../../shared/utils/objects/entitiesEnums";
 import UserCard from "./user-cards/UserCard";
@@ -57,7 +57,7 @@ function ListSection({ selectedUsername, selectedList, setUserProfile, setFriend
         };
 
         const friendsResponse = await axios.get<PagedResult<GetAllNonFriendsDto>>(
-          friendshipControllerPaths.getAllNonFriends(model),
+          friendshipController.getAllNonFriends(model),
           getAuthorization()
         );
 
@@ -75,7 +75,7 @@ function ListSection({ selectedUsername, selectedList, setUserProfile, setFriend
         };
 
         const friendsResponse = await axios.get<PagedResult<GetAllFriendsByStatusDto>>(
-          friendshipControllerPaths.getAllFriendsByStatus(model),
+          friendshipController.getAllFriendsByStatus(model),
           getAuthorization()
         );
 
@@ -109,9 +109,22 @@ function ListSection({ selectedUsername, selectedList, setUserProfile, setFriend
   // set default page size based on list to elements size ratio
   // add resize handler to update default size
   useEffect(() => {
+    const getItemsPerRow = (): number => {
+      const wh = window.innerWidth;
+      if (wh < 500) {
+        return 1;
+      } else if (wh < 1800) {
+        return 2;
+      } else if (wh < 3200) {
+        return 3;
+      } else {
+        return 4;
+      }
+    };
+
     const setDefSize = (): void => {
       const container = scrollRef.current;
-      const itemsPerRow = 2;
+      const itemsPerRow = getItemsPerRow();
 
       if (container) {
         const containerHeight = container.clientHeight;
@@ -136,18 +149,19 @@ function ListSection({ selectedUsername, selectedList, setUserProfile, setFriend
   //*/
 
   // setter for profile data
-  const setNonFriend = (user: GetOtherUserDto) => {
+  const setNonFriend = (user: GetOtherUserDto): void => {
     setFriendProfile(null);
     setUserProfile(user);
   };
-  const setFriend = (friend: GetFriendProfileDto) => {
+
+  const setFriend = (friend: GetFriendProfileDto): void => {
     setUserProfile(null);
     setFriendProfile(friend);
   };
   //*/
 
   // to display loading on scroll
-  const handleLoading = (event: WheelEvent<HTMLDivElement>) => {
+  const handleLoading = (event: WheelEvent<HTMLDivElement>): void => {
     const loadingElement = loadingRef.current;
     const scrollingElement = scrollRef.current;
 
@@ -180,12 +194,13 @@ function ListSection({ selectedUsername, selectedList, setUserProfile, setFriend
       {users.length > 0 ? (
         <div
           ref={scrollRef}
+          data-testid="users-page-all-user-list"
           className={classes.list__grid}
           onWheel={(event) => {
             handleLoading(event);
           }}
         >
-          {users.map((user, i) => (
+          {users.map((user: GetAllNonFriendsDto, i: number) => (
             <UserCard
               key={`user-card-${user.username}-${i}`}
               user={user}
@@ -197,12 +212,13 @@ function ListSection({ selectedUsername, selectedList, setUserProfile, setFriend
       ) : friends.length > 0 ? (
         <div
           ref={scrollRef}
+          data-testid="users-page-friends-list"
           className={classes.list__grid}
           onWheel={(event) => {
             handleLoading(event);
           }}
         >
-          {friends.map((friend, i) => (
+          {friends.map((friend: GetAllFriendsByStatusDto, i: number) => (
             <FriendCard
               key={`friend-card-${friend.username}-${i}`}
               selectedList={selectedList}
@@ -220,6 +236,7 @@ function ListSection({ selectedUsername, selectedList, setUserProfile, setFriend
       )}
       {/* --- */}
 
+      {/* indicator */}
       <div className={classes.list__indicator}>
         {users.length > 0 && (
           <p>

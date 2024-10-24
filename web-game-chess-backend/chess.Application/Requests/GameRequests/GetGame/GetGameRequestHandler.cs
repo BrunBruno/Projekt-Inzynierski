@@ -36,11 +36,10 @@ public class GetGameRequestHandler : IRequestHandler<GetGameRequest, GetGameDto>
         if (game.WhitePlayer.UserId != userId && game.BlackPlayer.UserId != userId)
             throw new UnauthorizedException("This is not user game.");
 
-        if(game.StartedAt == null) {
+        if(game.StartedAt is null) {
             game.StartedAt = DateTime.UtcNow;
 
             await _gameRepository.Update(game);
-
         }
 
         var gameDto = new GetGameDto()
@@ -49,6 +48,8 @@ public class GetGameRequestHandler : IRequestHandler<GetGameRequest, GetGameDto>
             Position = game.Position,
             Turn = game.Turn,
             EnPassant = game.GameState.EnPassant,
+            TimingType = game.TimingType,
+
             CanWhiteKingCastle = game.GameState.CanWhiteKingCastle,
             CanWhiteShortRookCastle = game.GameState.CanWhiteShortRookCastle,
             CanWhiteLongRookCastle = game.GameState.CanWhiteLongRookCastle,
@@ -59,15 +60,25 @@ public class GetGameRequestHandler : IRequestHandler<GetGameRequest, GetGameDto>
             WhitePlayer = new PlayerDto()
             {
                 Name = game.WhitePlayer.Name,
-                ImageUrl = game.WhitePlayer.ImageUrl,
                 Elo = game.WhitePlayer.Elo,
+
+                ProfilePicture = game.WhitePlayer.User.Image != null ? new ImageDto() 
+                {
+                    Data = game.WhitePlayer.User.Image.Data,
+                    ContentType = game.WhitePlayer.User.Image.ContentType,
+                } : null,
             },
 
             BlackPlayer = new PlayerDto()
             {
                 Name = game.BlackPlayer.Name,
-                ImageUrl = game.BlackPlayer.ImageUrl,
                 Elo = game.BlackPlayer.Elo,
+
+                ProfilePicture = game.BlackPlayer.User.Image != null ? new ImageDto() 
+                {
+                    Data = game.BlackPlayer.User.Image.Data,
+                    ContentType = game.BlackPlayer.User.Image.ContentType,
+                } : null,
             },
 
             Moves = game.Moves.Select(move => new MoveDto
@@ -79,6 +90,7 @@ public class GetGameRequestHandler : IRequestHandler<GetGameRequest, GetGameDto>
                 CapturedPiece = move.CapturedPiece,
             }).ToList(),
         };
+
 
         return gameDto;
     }

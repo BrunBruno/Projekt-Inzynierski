@@ -14,16 +14,16 @@ namespace chess.Application.Requests.GameRequests.RemoveDrawMessage;
 /// </summary>
 public class RemoveDrawMessageRequestHandler : IRequestHandler<RemoveDrawMessageRequest> {
 
-    private readonly IPlayerMessageRepository _messageRepository;
+    private readonly IGameMessageRepository _gameMessageRepository;
     private readonly IGameRepository _gameRepository;
     private readonly IUserContextService _userContextService;
 
     public RemoveDrawMessageRequestHandler(
-        IPlayerMessageRepository messageRepository,
+        IGameMessageRepository gameMessageRepository,
         IGameRepository gameRepository,
         IUserContextService userContextService
     ) {
-        _messageRepository = messageRepository;
+        _gameMessageRepository = gameMessageRepository;
         _gameRepository = gameRepository;
         _userContextService = userContextService;
     }
@@ -39,19 +39,10 @@ public class RemoveDrawMessageRequestHandler : IRequestHandler<RemoveDrawMessage
             throw new UnauthorizedException("This is not user player.");
 
 
-        var drawByWhite = await _messageRepository.GetDrawMessage(game.WhitePlayerId);
-        var drawByBlack = await _messageRepository.GetDrawMessage(game.BlackPlayerId);
-
-        if (drawByWhite is null && drawByBlack is null)
-            throw new BadRequestException("Draw offer not exists.");
+        var drawMessage = await _gameMessageRepository.GetDrawMessage(request.GameId)
+            ?? throw new NotFoundException("Draw offer not found.");;
 
 
-        if(drawByWhite is not null) {
-            await _messageRepository.Delete(drawByWhite);
-        }
-
-        if(drawByBlack is not null) {
-            await _messageRepository.Delete(drawByBlack);
-        }
+        await _gameMessageRepository.Delete(drawMessage);
     }
 }

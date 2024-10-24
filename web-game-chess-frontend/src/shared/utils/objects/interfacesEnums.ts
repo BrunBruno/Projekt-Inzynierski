@@ -1,36 +1,41 @@
 /* enums for changing page content based on user selection */
 
+import { PopupType } from "../types/commonTypes";
+import { GetAllFriendsByStatusDto } from "../types/friendshipDtos";
+
 // to distinguish different type of content it main page
 export enum GameSearchInterface {
+  default,
   vsPlayer,
   vsComputer,
   vsFriend,
   searching,
+  activeGames,
   userGames,
   invitations,
 }
-
-export type StateWithSearchInterface = {
-  interface: GameSearchInterface;
-};
-//*/
 
 // to distinguish registration modals
 export enum RegistrationInterface {
   signIn,
   signUp,
   verify,
+  reset,
 }
-
-export type StateWithRegOption = {
-  regOption: RegistrationInterface;
-  path: string;
-};
-//*/
 
 // for displaying game board confirmation window
 export enum GameActionInterface {
+  leave,
   abort,
   resign,
   draw,
 }
+
+// use navigate state options
+export type StateOptions = {
+  popup?: PopupType;
+  interface?: GameSearchInterface;
+  regOption?: RegistrationInterface;
+  path?: string;
+  selectedFriend?: GetAllFriendsByStatusDto;
+};

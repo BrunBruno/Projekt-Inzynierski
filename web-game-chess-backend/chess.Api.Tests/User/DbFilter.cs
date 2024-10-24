@@ -72,9 +72,10 @@ internal static partial class DbFilter {
             Email = "test@test.com",
             Username = "TestUserName",
             PasswordHash = Constants.PasswordHash,
+            Image = null,
 
-            Elo = new UserElo() { },
-            Stats = new UserStats() { },
+            Elo = new UserElo(),
+            Stats = new UserStats(),
         };
 
         await dbContext.Users.AddAsync(user);
@@ -97,9 +98,10 @@ internal static partial class DbFilter {
             Email = email,
             Username = "TestUserName",
             PasswordHash = Constants.PasswordHash,
+            Image = null,
 
-            Elo = new UserElo() { },
-            Stats = new UserStats() { },
+            Elo = new UserElo(),
+            Stats = new UserStats(),
         };
 
         await dbContext.Users.AddAsync(user);
@@ -115,48 +117,16 @@ internal static partial class DbFilter {
     /// <returns></returns>
     internal static async Task AddCodeForUser(this ChessAppDbContext dbContext) {
 
-        var code = new EmailVerificationCode()
+        var code = new UserVerificationCode()
         {
             Id = Guid.NewGuid(),
             CodeHash = "AQAAAAIAAYagAAAAENYYAzvI42t/TYNc5wQ58JFqttNZkv8S0/pZGxT/cic1PPSMcbiOsM8xi2w5HwmfOg==", // "57375"
             UserId = Guid.Parse(Constants.UserId),
+            Type = UserCodesTypes.Email,
             ExpirationDate = DateTime.Now.AddYears(10)
         };
 
-        await dbContext.EmailVerificationCodes.AddAsync(code);
-        await dbContext.SaveChangesAsync();
-    }
-
-    /// <summary>
-    /// To add elo points for user
-    /// </summary>
-    /// <param name="dbContext"></param>
-    /// <returns></returns>
-    internal static async Task AddEloForUser(this ChessAppDbContext dbContext) {
-
-        var elo = new UserElo()
-        {
-            Id = Guid.NewGuid(),
-            UserId = Guid.Parse(Constants.UserId),
-        };
-
-        await dbContext.UserElos.AddAsync(elo);
-        await dbContext.SaveChangesAsync();
-    }
-
-    /// <summary>
-    /// To add user stats
-    /// </summary>
-    /// <param name="dbContext"></param>
-    /// <returns></returns>
-    internal static async Task AddStatsForUser(this ChessAppDbContext dbContext) {
-
-        var stats = new UserStats() {
-            Id = Guid.NewGuid(),
-            UserId = Guid.Parse(Constants.UserId),
-        };
-
-        await dbContext.UserStats.AddAsync(stats);
+        await dbContext.UserVerificationCodes.AddAsync(code);
         await dbContext.SaveChangesAsync();
     }
 }

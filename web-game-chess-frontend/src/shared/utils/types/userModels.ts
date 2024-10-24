@@ -37,7 +37,7 @@ export type UpdateProfileModel = {
   // provided or not description
   bio: string | null;
   // provided or not url to account profile picture
-  imageUrl: string | null;
+  imageFile: File | null;
 };
 
 /** GET models */
@@ -50,4 +50,16 @@ export type GetByEmailModel = {
 export type GetRegisterConfModel = {
   // configuration id
   configurationId: number;
+};
+
+export type SendResetPasswordCodeModel = {
+  // to for password recovery
+  email: string;
+};
+
+export type ResetPasswordModel = {
+  email: string;
+  code: string;
+  newPassword: string;
+  confirmPassword: string;
 };

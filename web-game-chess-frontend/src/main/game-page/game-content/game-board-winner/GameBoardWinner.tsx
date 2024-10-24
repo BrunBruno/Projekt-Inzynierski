@@ -1,8 +1,14 @@
 import { useNavigate } from "react-router-dom";
-import { EndGameDto, GetEndedGameDto, GetGameDto, SearchGameDto } from "../../../../shared/utils/types/gameDtos";
+import {
+  EndGameDto,
+  GetEndedGameDto,
+  GetGameDto,
+  GetOpponentDto,
+  SearchGameDto,
+} from "../../../../shared/utils/types/gameDtos";
 import classes from "./GameBoardWinner.module.scss";
-import { SearchGameModel } from "../../../../shared/utils/types/gameModels";
-import { gameControllerPaths, getAuthorization } from "../../../../shared/utils/services/ApiService";
+import { CreateRematchGameModel, SearchGameModel } from "../../../../shared/utils/types/gameModels";
+import { gameController, getAuthorization } from "../../../../shared/utils/services/ApiService";
 import axios from "axios";
 import GameHubService from "../../../../shared/utils/services/GameHubService";
 import { getErrMessage } from "../../../../shared/utils/functions/errors";
@@ -10,44 +16,174 @@ import { usePopup } from "../../../../shared/utils/hooks/usePopUp";
 import AvatarImage from "../../../../shared/components/avatar-image/AvatarImage";
 import { PieceColor } from "../../../../shared/utils/objects/entitiesEnums";
 import { Dispatch, SetStateAction } from "react";
+import { StateOptions } from "../../../../shared/utils/objects/interfacesEnums";
+import { PlayerDto } from "../../../../shared/utils/types/abstractDtosAndModels";
+import { Guid } from "guid-typescript";
 
 type GameBoardWinnerProps = {
+  // game id
+  gameId: Guid;
   // current game data
   gameData: GetGameDto;
+  // player data
+  playerData: PlayerDto;
   // game result data data
   winner: EndGameDto | GetEndedGameDto | null;
   // to start new game search
   setSearchIds: Dispatch<SetStateAction<SearchGameDto | null>>;
   // timing for new game or rematch
   selectedTiming: SearchGameModel | null;
+  // rematch game id
+  newGameId: Guid | null;
 };
 
-function GameBoardWinner({ winner, gameData, setSearchIds, selectedTiming }: GameBoardWinnerProps) {
+function GameBoardWinner({
+  gameId,
+  gameData,
+  playerData,
+  winner,
+  setSearchIds,
+  selectedTiming,
+  newGameId,
+}: GameBoardWinnerProps) {
   ///
 
   const navigate = useNavigate();
-
   const { showPopup } = usePopup();
 
   // to search for new game
   const onSearchForGame = async (): Promise<void> => {
-    if (selectedTiming === null) return;
+    if (!selectedTiming) {
+      returnOnFail();
+      return;
+    }
 
-    const gameType: SearchGameModel = selectedTiming;
+    const model: SearchGameModel = {
+      type: selectedTiming.type,
+      minutes: selectedTiming.minutes,
+      increment: selectedTiming.increment,
+    };
 
     try {
-      const searchGameResponse = await axios.post<SearchGameDto>(
-        gameControllerPaths.startSearch(),
-        gameType,
-        getAuthorization()
-      );
+      const response = await axios.post<SearchGameDto>(gameController.startSearch(), model, getAuthorization());
 
-      setSearchIds(searchGameResponse.data);
+      setSearchIds(response.data);
 
-      GameHubService.PlayerJoined(searchGameResponse.data.timingId);
+      await GameHubService.PlayerJoined(response.data.timingId);
     } catch (err) {
       showPopup(getErrMessage(err), "warning");
     }
+  };
+  //*/
+
+  //
+  const onCreateRematchRequest = async (): Promise<void> => {
+    if (!selectedTiming) {
+      returnOnFail();
+      return;
+    }
+
+    try {
+      const response = await axios.get<GetOpponentDto>(gameController.getOpponent(gameId), getAuthorization());
+
+      const model: CreateRematchGameModel = {
+        type: selectedTiming.type,
+        minutes: selectedTiming.minutes,
+        increment: selectedTiming.increment,
+        opponentId: response.data.opponentId,
+        previousGameId: gameId,
+      };
+
+      await GameHubService.CreateRematchGame(model);
+
+      console.log("create done");
+    } catch (err) {
+      showPopup(getErrMessage(err), "warning");
+    }
+  };
+  //*/
+
+  // to accept rematch
+  const onAcceptRematchRequest = async () => {
+    if (!newGameId) {
+      returnOnFail();
+      return;
+    }
+
+    try {
+      await GameHubService.AcceptRematch(newGameId);
+
+      console.log("accept done");
+    } catch (err) {
+      showPopup(getErrMessage(err), "warning");
+    }
+  };
+  //*/
+
+  const returnOnFail = (): void => {
+    const state: StateOptions = {
+      popup: { text: "ERROR STARTING GAME", type: "error" },
+    };
+
+    navigate("/main", { state: state });
+  };
+
+  // generate players schema
+  const generatePlayers = (): JSX.Element => {
+    if (!winner) return <></>;
+
+    const renderPlayer = (player: PlayerDto, colorClass: string, avatarClass: string): JSX.Element => {
+      return (
+        <div className={`${classes.player} ${colorClass}`}>
+          <AvatarImage
+            username={player.name}
+            profilePicture={player.profilePicture}
+            containerClass={avatarClass}
+            imageClass={classes["player-img"]}
+          />
+
+          <div className={classes["player-data"]}>
+            <span>{player.name}</span>
+            <span>
+              (<span>{player.elo + winner.eloGain}</span>)
+            </span>
+          </div>
+        </div>
+      );
+    };
+
+    const wasOpponentBetter =
+      gameData.whitePlayer.elo === gameData.blackPlayer.elo
+        ? null
+        : gameData.whitePlayer.elo < gameData.blackPlayer.elo;
+
+    const isWinner = winner.winnerColor !== null ? (playerData.color === winner.winnerColor ? true : false) : null;
+
+    const sign =
+      isWinner === null ? (wasOpponentBetter === null ? "" : wasOpponentBetter ? "+" : "-") : isWinner ? "+" : "-";
+
+    const eloGained = Math.abs(winner.eloGain);
+
+    return (
+      <div className={classes.winner__content__info__players}>
+        {gameData.whitePlayer.name == playerData.name
+          ? renderPlayer(gameData.whitePlayer, classes["white-player"], classes["white-player-img"])
+          : renderPlayer(gameData.blackPlayer, classes["black-player"], classes["black-player-img"])}
+
+        <div className={classes.vs}>
+          <span>vs</span>
+
+          <span>
+            <span className={sign === "+" ? classes.p : classes.m}>{sign}</span>
+            {eloGained}
+          </span>
+        </div>
+
+        {gameData.whitePlayer.name == playerData.name
+          ? renderPlayer(gameData.blackPlayer, classes["black-player"], classes["black-player-img"])
+          : renderPlayer(gameData.whitePlayer, classes["white-player"], classes["white-player-img"])}
+      </div>
+    );
   };
   //*/
 
@@ -68,42 +204,9 @@ function GameBoardWinner({ winner, gameData, setSearchIds, selectedTiming }: Gam
           {winner.winnerColor === PieceColor.white && <span>White Wins</span>}
           {winner.winnerColor === PieceColor.black && <span>Black Wins</span>}
         </h2>
+
         <div className={classes.winner__content__info}>
-          <div className={classes.winner__content__info__players}>
-            <div className={`${classes.player} ${classes["white-player"]}`}>
-              <AvatarImage
-                username={gameData.whitePlayer.name}
-                imageUrl={gameData.whitePlayer.imageUrl}
-                containerClass={classes["white-player-img"]}
-                imageClass={classes["player-img"]}
-              />
-
-              <div className={classes["player-data"]}>
-                <span>{gameData.whitePlayer.name}</span>
-                <span>
-                  (<span>{gameData.whitePlayer.elo}</span>)
-                </span>
-              </div>
-            </div>
-
-            <p>vs</p>
-
-            <div className={`${classes.player} ${classes["black-player"]}`}>
-              <AvatarImage
-                username={gameData.blackPlayer.name}
-                imageUrl={gameData.blackPlayer.imageUrl}
-                containerClass={classes["black-player-img"]}
-                imageClass={classes["player-img"]}
-              />
-
-              <div className={classes["player-data"]}>
-                <span>{gameData.blackPlayer.name}</span>
-                <span>
-                  (<span>{gameData.blackPlayer.elo}</span>)
-                </span>
-              </div>
-            </div>
-          </div>
+          {generatePlayers()}
 
           <div className={classes.winner__content__info__buttons}>
             <button
@@ -115,7 +218,25 @@ function GameBoardWinner({ winner, gameData, setSearchIds, selectedTiming }: Gam
               <span>New Game</span>
             </button>
 
-            <button className={classes["re-game"]}>Rematch</button>
+            {newGameId ? (
+              <button
+                className={classes["re-game"]}
+                onClick={() => {
+                  onAcceptRematchRequest();
+                }}
+              >
+                <span>Accept</span>
+              </button>
+            ) : (
+              <button
+                className={classes["re-game"]}
+                onClick={() => {
+                  onCreateRematchRequest();
+                }}
+              >
+                <span>Rematch</span>
+              </button>
+            )}
           </div>
 
           <div className={classes.leave}>

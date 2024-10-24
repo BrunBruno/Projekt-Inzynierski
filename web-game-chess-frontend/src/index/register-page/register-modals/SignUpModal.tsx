@@ -1,34 +1,35 @@
 import { ChangeEvent, Dispatch, FormEvent, RefObject, SetStateAction, useEffect, useRef, useState } from "react";
-import { mainColor, strengthColor } from "../../../shared/utils/objects/colorMaps";
+import { greyColor, mainColor, strengthColor } from "../../../shared/utils/objects/colorMaps";
 import classes from "./RegisterModal.module.scss";
 import axios from "axios";
-import { errorDisplay, getErrMessage } from "../../../shared/utils/functions/errors";
-import { userControllerPaths } from "../../../shared/utils/services/ApiService";
-import { ConfigurationDto, LogInUserDto } from "../../../shared/utils/types/userDtos";
+import { errorDisplay } from "../../../shared/utils/functions/errors";
+import { userController } from "../../../shared/utils/services/ApiService";
+import { GetRegisterConfDto, LogInUserDto } from "../../../shared/utils/types/userDtos";
 import { RegistrationInterface } from "../../../shared/utils/objects/interfacesEnums";
-import { GetRegisterConfModel, LogInUserModel, RegisterUserModel } from "../../../shared/utils/types/userModels";
+import { LogInUserModel, RegisterUserModel } from "../../../shared/utils/types/userModels";
 import { usePopup } from "../../../shared/utils/hooks/usePopUp";
 import { getCountry } from "../../../shared/utils/functions/externApi";
 import IconCreator from "../../../shared/components/icon-creator/IconCreator";
 import { registerPageIcons } from "../RegisterPageIcons";
 import LoadingPage from "../../../shared/components/loading-page/LoadingPage";
-import { DataConfiguration } from "../../../shared/utils/objects/entitiesEnums";
+import { checkFromConfiguration, ValidationResult } from "./RegisterFunctions";
+
+type PasswordIconOption = {
+  name: "eyeOpen" | "eyeClosed";
+  class: typeof classes.open | typeof classes.close;
+};
 
 type SignUpModalProps = {
   // change displayed modal
   setModal: Dispatch<SetStateAction<number>>;
+  //
+  userNameConf: GetRegisterConfDto | null;
+  //
+  userPassConf: GetRegisterConfDto | null;
 };
 
-function SignUpModal({ setModal }: SignUpModalProps) {
+function SignUpModal({ setModal, userNameConf, userPassConf }: SignUpModalProps) {
   ///
-
-  // result of input validation
-  type ValidationResult = {
-    // is input valid
-    isValid: boolean;
-    // optional message if input is not valid
-    message: string;
-  };
 
   const { showPopup } = usePopup();
 
@@ -42,56 +43,25 @@ function SignUpModal({ setModal }: SignUpModalProps) {
 
   // error message content
   const [errorMess, setErrorMess] = useState<string>("");
-  // user name configuration
-  const [userNameConf, setUserNameConf] = useState<ConfigurationDto | null>(null);
-  // password configuration
-  const [userPassConf, setUserPassConf] = useState<ConfigurationDto | null>(null);
   // state if something is processing
   const [processing, setProcessing] = useState<boolean>(false);
 
-  // to get register configuration
+  const [passwordIconOption, setPasswordIconOption] = useState<PasswordIconOption>({
+    name: "eyeOpen",
+    class: classes.open,
+  });
+
   useEffect(() => {
-    const getDataConfiguration = async (): Promise<void> => {
-      try {
-        const userRegisterConf: GetRegisterConfModel = {
-          configurationId: DataConfiguration.userName,
-        };
-
-        // get username configuration
-        const userNameConfResp = await axios.get<ConfigurationDto>(
-          userControllerPaths.getRegisterConf(userRegisterConf)
-        );
-
-        setUserNameConf(userNameConfResp.data);
-
-        const passwordRegisterConf: GetRegisterConfModel = {
-          configurationId: DataConfiguration.userPassword,
-        };
-
-        // get password configuration
-        const userPassConfResp = await axios.get<ConfigurationDto>(
-          userControllerPaths.getRegisterConf(passwordRegisterConf)
-        );
-
-        setUserPassConf(userPassConfResp.data);
-
-        setProcessing(false);
-      } catch (err) {
-        showPopup(getErrMessage(err), "warning");
-      }
-    };
-
-    getDataConfiguration();
-  }, []);
-  //*/
+    if (userNameConf && userPassConf) setProcessing(false);
+  }, [userNameConf, userPassConf]);
 
   // creates user account
   const signUpUser = async (event: FormEvent<HTMLFormElement>): Promise<void> => {
     event.preventDefault();
 
     if (
-      userNameConf === null ||
-      userPassConf === null ||
+      !userNameConf ||
+      !userPassConf ||
       !emailInputRef.current ||
       !usernameInputRef.current ||
       !passwordInputRef.current ||
@@ -105,15 +75,16 @@ function SignUpModal({ setModal }: SignUpModalProps) {
 
     // user data
     const form = event.target as HTMLFormElement;
+
     const userData: RegisterUserModel = {
-      email: form.email.value.trim(),
-      username: form.userName.value.trim(),
-      password: form.password.value,
-      confirmPassword: form.confirmPassword.value,
+      email: (form.elements.namedItem("email") as HTMLInputElement).value.trim(),
+      username: (form.elements.namedItem("userName") as HTMLInputElement).value.trim(),
+      password: (form.elements.namedItem("password") as HTMLInputElement).value,
+      confirmPassword: (form.elements.namedItem("confirmPassword") as HTMLInputElement).value,
       country: country === undefined ? "" : country,
     };
 
-    // Check for email format
+    // check for email format
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(userData.email)) {
       emailInputRef.current.classList.add(classes.err);
@@ -158,21 +129,21 @@ function SignUpModal({ setModal }: SignUpModalProps) {
     try {
       setProcessing(true);
       // create account
-      await axios.post(userControllerPaths.registerUser(), userData);
+      await axios.post(userController.registerUser(), userData);
 
       const logUserData: LogInUserModel = {
-        emailOrUsername: form.email.value.trim(),
-        password: form.password.value,
+        emailOrUsername: (form.elements.namedItem("email") as HTMLInputElement).value.trim(),
+        password: (form.elements.namedItem("password") as HTMLInputElement).value,
       };
 
       // set temporary user data
       localStorage.setItem("logUserTemp", JSON.stringify(logUserData));
 
       // login user, get unverified token
-      const logInResponse = await axios.post<LogInUserDto>(userControllerPaths.logInUser(), logUserData);
+      const logInResponse = await axios.post<LogInUserDto>(userController.logInUser(), logUserData);
 
       // set unverified token
-      localStorage.setItem("token", logInResponse.data.token);
+      localStorage.setItem("logged", logInResponse.data.token);
 
       setProcessing(false);
 
@@ -185,52 +156,13 @@ function SignUpModal({ setModal }: SignUpModalProps) {
       errorDisplay(err, setErrorMess);
 
       setProcessing(false);
-      console.log(err);
     }
   };
   //*/
 
-  // to check user input with db configuration record
-  const checkFromConfiguration = (field: string, data: string, configuration: ConfigurationDto): ValidationResult => {
-    let isValid = true;
-    let message = "";
-
-    if (configuration.minLength && data.length < configuration.minLength) {
-      message = `${field} must be longer than ${configuration.minLength} characters.`;
-      isValid = false;
-    }
-
-    if (configuration.maxLength && data.length > configuration.maxLength) {
-      message = `${field} must be shorter than ${configuration.maxLength} characters.`;
-      isValid = false;
-    }
-
-    if (configuration.requireLowercase && !/[a-z]/.test(data)) {
-      message = `${field} must contain at least one lowercase letter.`;
-      isValid = false;
-    }
-
-    if (configuration.requireUppercase && !/[A-Z]/.test(data)) {
-      message = `${field} must contain at least one uppercase letter.`;
-      isValid = false;
-    }
-
-    if (configuration.requireDigit && !/\d/.test(data)) {
-      message = `${field} must contain at least one digit.`;
-      isValid = false;
-    }
-
-    if (configuration.requireSpecialChar && !/[^a-zA-Z0-9]/.test(data)) {
-      message = `${field} must contain at least one special character.`;
-      isValid = false;
-    }
-
-    return { isValid, message };
-  };
-
-  // handle on change
+  // handle on password input change
   // change password strength indicator
-  const changePassInd = (event: ChangeEvent<HTMLInputElement>) => {
+  const changePassInd = (event: ChangeEvent<HTMLInputElement>): void => {
     let strength: number = 0;
 
     const value = event.target.value;
@@ -238,12 +170,15 @@ function SignUpModal({ setModal }: SignUpModalProps) {
     if (value.length >= 8) {
       strength += 1;
     }
+
     if (/[A-Z]/.test(value)) {
       strength += 1;
     }
+
     if (/\d/.test(value)) {
       strength += 1;
     }
+
     if (/[^a-zA-Z0-9]/.test(value)) {
       strength += 1;
     }
@@ -256,12 +191,39 @@ function SignUpModal({ setModal }: SignUpModalProps) {
   };
   //*/
 
-  // handle on click
-  // focus on input
-  const focusOnClick = (inputRef: RefObject<HTMLInputElement>) => {
-    if (inputRef.current) {
-      inputRef.current.focus();
-      inputRef.current.classList.remove(classes.err);
+  // handle on input click
+  // to focus on input
+  const focusOnClick = (inputRef: RefObject<HTMLInputElement>): void => {
+    if (!inputRef.current) return;
+
+    inputRef.current.focus();
+    inputRef.current.classList.remove(classes.err);
+  };
+  //*/
+
+  // password show
+  const onShowPassword = (): void => {
+    const passwordInput = passwordInputRef.current;
+    const confPasswordInput = confPassInputRef.current;
+
+    if (!passwordInput || !confPasswordInput) return;
+
+    if (passwordInput.type === "password") {
+      passwordInput.type = "text";
+      confPasswordInput.type = "text";
+
+      setPasswordIconOption({
+        name: "eyeClosed",
+        class: classes.close,
+      });
+    } else {
+      passwordInput.type = "password";
+      confPasswordInput.type = "password";
+
+      setPasswordIconOption({
+        name: "eyeOpen",
+        class: classes.open,
+      });
     }
   };
   //*/
@@ -269,7 +231,11 @@ function SignUpModal({ setModal }: SignUpModalProps) {
   if (processing) return <LoadingPage text="Creating account..." />;
 
   return (
-    <form className={classes["registration-form"]} onSubmit={(event) => signUpUser(event)}>
+    <form
+      data-testid="sign-up-form-modal"
+      className={classes["registration-form"]}
+      onSubmit={(event) => signUpUser(event)}
+    >
       <IconCreator icons={registerPageIcons} iconName="bgPawn" color={mainColor.c0} iconClass={classes["bg-svg"]} />
 
       <h2 className={classes["form-title"]}>Create Account</h2>
@@ -333,6 +299,23 @@ function SignUpModal({ setModal }: SignUpModalProps) {
               changePassInd(event);
             }}
           />
+
+          <p
+            className={`
+              ${classes.eye} 
+              ${passwordIconOption.class}
+            `}
+            onClick={() => {
+              onShowPassword();
+            }}
+          >
+            <IconCreator
+              icons={registerPageIcons}
+              iconName={passwordIconOption.name}
+              color={greyColor.c6}
+              iconClass={classes["input-button-svg"]}
+            />
+          </p>
 
           <IconCreator icons={registerPageIcons} iconName={"arrow"} iconClass={classes.arrow} />
           <span ref={indRef} className={classes["reg-pass-ind"]} />

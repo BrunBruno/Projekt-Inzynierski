@@ -12,7 +12,7 @@ namespace chess.Infrastructure.Configuration;
 public class DbContextConfiguration : 
     IEntityTypeConfiguration<User>,
     IEntityTypeConfiguration<Role>,
-    IEntityTypeConfiguration<EmailVerificationCode>,
+    IEntityTypeConfiguration<UserVerificationCode>,
     IEntityTypeConfiguration<Core.Entities.DataConfiguration>,
     IEntityTypeConfiguration<UserBan>,
     IEntityTypeConfiguration<Game>,
@@ -25,7 +25,8 @@ public class DbContextConfiguration :
     IEntityTypeConfiguration<PlayerMessage>,
     IEntityTypeConfiguration<GameMessage>,
     IEntityTypeConfiguration<UserStats>,
-    IEntityTypeConfiguration <GameInvitation>
+    IEntityTypeConfiguration<GameInvitation>,
+    IEntityTypeConfiguration<UserImage>
 {
 
     public void Configure(EntityTypeBuilder<User> builder) {
@@ -46,14 +47,14 @@ public class DbContextConfiguration :
             .HasData(GetRoles());
     }
 
-    public void Configure(EntityTypeBuilder<EmailVerificationCode> builder) {
+    public void Configure(EntityTypeBuilder<UserVerificationCode> builder) {
         builder
             .HasKey(evc => evc.Id);
 
         builder
             .HasOne(evc => evc.User)
             .WithOne()
-            .HasForeignKey<EmailVerificationCode>(evc => evc.UserId);
+            .HasForeignKey<UserVerificationCode>(evc => evc.UserId);
     }
 
     public void Configure(EntityTypeBuilder<Core.Entities.DataConfiguration> builder) {
@@ -192,6 +193,16 @@ public class DbContextConfiguration :
             .HasOne(i => i.Game)
             .WithOne()
             .HasForeignKey<GameInvitation>(i => i.GameId);
+    }
+
+    public void Configure(EntityTypeBuilder<UserImage> builder) {
+        builder
+            .HasKey(ui => ui.Id);
+
+        builder
+            .HasOne(ui => ui.User)
+            .WithOne(u => u.Image)
+            .HasForeignKey<UserImage>(ui => ui.UserId);
     }
 
     private static IEnumerable<Role> GetRoles() {

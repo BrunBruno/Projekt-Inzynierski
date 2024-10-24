@@ -50,7 +50,7 @@ public class CreateGameWithLinkTests : IClassFixture<TestWebApplicationFactory<P
         var httpContent = new StringContent(json, Encoding.UTF8, "application/json");
 
 
-        var response = await _client.PostAsync("api/game/by-link", httpContent);
+        var response = await _client.PostAsync("api/game/link", httpContent);
 
 
         var assertDbContext = _factory.GetDbContextForAsserts();
@@ -79,6 +79,7 @@ public class CreateGameWithLinkTests : IClassFixture<TestWebApplicationFactory<P
     public async Task CreateGameWithLink_Should_Return_NotFound_On_Fail() {
 
         await _dbContext.Init();
+        // user not added
 
         var model = new CreateGameWithLinkModel()
         {
@@ -91,7 +92,7 @@ public class CreateGameWithLinkTests : IClassFixture<TestWebApplicationFactory<P
         var httpContent = new StringContent(json, Encoding.UTF8, "application/json");
 
 
-        var response = await _client.PostAsync("api/game/by-link", httpContent);
+        var response = await _client.PostAsync("api/game/link", httpContent);
 
 
         response.StatusCode.Should().Be(HttpStatusCode.NotFound);

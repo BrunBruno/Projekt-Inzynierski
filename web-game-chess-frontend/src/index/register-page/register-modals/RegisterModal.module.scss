@@ -1,5 +1,40 @@
 @import "../../Index.scss";
 
+@mixin inputButton($size) {
+  @include circle($size);
+  @include flex();
+
+  position: absolute;
+  top: 0;
+  right: 0;
+
+  &:hover {
+    cursor: pointer;
+
+    &::after {
+      display: block;
+    }
+  }
+
+  &::after {
+    @include rounded(0.4rem);
+    @include subCl(fit-content, fit-content);
+
+    display: none;
+    content: "";
+    left: 50%;
+    top: 100%;
+    transform: translateX(-50%);
+    color: #000;
+    background-color: $gc1;
+    font-size: 1.2rem;
+  }
+
+  svg.input-button-svg {
+    height: 60%;
+  }
+}
+
 // all modal styles
 // register container form
 .registration-form {
@@ -30,13 +65,13 @@
 
   h2.form-title {
     font-size: 3.2rem;
+    margin-bottom: 1rem;
   }
 
   .change-form {
     position: relative;
     z-index: 1;
     font-size: 1.4rem;
-    margin-bottom: 2rem;
     color: $gc1;
 
     span {
@@ -55,12 +90,30 @@
   .inputs {
     @include flex(column, start, center, 1.6rem);
 
+    margin-top: 2rem;
+
     .form-row {
       position: relative;
       z-index: 1;
+      width: 100%;
+      max-width: 26rem;
+
+      &.row-disabled {
+        filter: brightness(50%);
+        opacity: 0.5;
+        user-select: none;
+        pointer-events: none;
+        cursor: not-allowed;
+      }
 
       .form-input {
         @include tInput(2rem);
+
+        & {
+          width: 100%;
+          max-width: 26rem;
+          padding-right: 4rem;
+        }
 
         &:focus ~ .reg-pass-ind {
           opacity: 1;
@@ -68,6 +121,75 @@
 
         &:focus ~ .arrow {
           opacity: 1;
+        }
+
+        &:focus ~ .paste {
+          svg {
+            fill: $gc0;
+          }
+        }
+
+        &:focus ~ .send {
+          path {
+            stroke: $gc0;
+          }
+        }
+
+        &:focus ~ .eye {
+          path {
+            stroke: $gc0;
+          }
+        }
+      }
+
+      input[type="number"]::-webkit-inner-spin-button,
+      input[type="number"]::-webkit-outer-spin-button {
+        -webkit-appearance: none;
+      }
+
+      @mixin resetInputButton() {
+        & {
+          // background-color: $gc6;
+          border-radius: 0;
+          top: unset;
+          right: -1rem;
+          bottom: 0;
+          border-radius: 1rem;
+          border-bottom-left-radius: 0;
+        }
+      }
+
+      .send {
+        @include inputButton(4rem);
+        @include resetInputButton();
+
+        &::after {
+          content: "Send";
+        }
+      }
+
+      .paste {
+        @include inputButton(4rem);
+        @include resetInputButton();
+
+        &::after {
+          content: "Paste";
+        }
+      }
+
+      .eye {
+        @include inputButton(4rem);
+        @include resetInputButton();
+
+        &.open {
+          &::after {
+            content: "Show";
+          }
+        }
+        &.close {
+          &::after {
+            content: "Hide";
+          }
         }
       }
 
@@ -90,7 +212,8 @@
         @include circle(2rem);
 
         position: absolute;
-        right: 0;
+        right: calc(-2rem - 1rem);
+        bottom: 1rem;
         opacity: 0;
       }
     }
@@ -134,36 +257,7 @@
       }
 
       .paste {
-        @include circle(4.5rem);
-        @include flex();
-
-        position: absolute;
-        top: 0;
-        right: 0;
-
-        &:hover {
-          cursor: pointer;
-
-          &::after {
-            display: block;
-          }
-        }
-
-        &::after {
-          @include rounded(0.2rem);
-          @include subCl(fit-content, fit-content);
-
-          display: none;
-          content: "Paste";
-          left: 120%;
-          color: $gc9;
-          background-color: $gc1;
-          font-size: 1.2rem;
-        }
-
-        svg.paste-svg {
-          height: 60%;
-        }
+        @include inputButton(4.5rem);
       }
     }
 
@@ -197,11 +291,12 @@
       @include mainMButton();
 
       & {
+        width: 100%;
         position: relative;
         position: relative;
         margin: 1rem;
         z-index: 1;
-        padding: 1rem 9rem;
+        padding: 1rem 0;
       }
     }
   }

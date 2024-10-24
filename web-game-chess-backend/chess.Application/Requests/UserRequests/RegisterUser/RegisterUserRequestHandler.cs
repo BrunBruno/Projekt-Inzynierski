@@ -2,6 +2,7 @@
 using chess.Application.Repositories;
 using chess.Application.Services;
 using chess.Core.Entities;
+using chess.Core.Enums;
 using chess.Shared.Exceptions;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
@@ -23,15 +24,15 @@ public class RegisterUserRequestHandler : IRequestHandler<RegisterUserRequest> {
     private readonly IUserRepository _userRepository;
     private readonly IPasswordHasher<User> _passwordHasher;
     private readonly ISmtpService _smtpService;
-    private readonly IEmailVerificationCodeRepository _codeRepository;
-    private readonly IPasswordHasher<EmailVerificationCode> _codeHasher;
+    private readonly IUserVerificationCodeRepository _codeRepository;
+    private readonly IPasswordHasher<UserVerificationCode> _codeHasher;
 
     public RegisterUserRequestHandler(
         IUserRepository userRepository,
         IPasswordHasher<User> passwordHasher,
         ISmtpService smtpService,
-        IEmailVerificationCodeRepository codeRepository,
-        IPasswordHasher<EmailVerificationCode> codeHasher
+        IUserVerificationCodeRepository codeRepository,
+        IPasswordHasher<UserVerificationCode> codeHasher
     ) {
         _userRepository = userRepository;
         _passwordHasher = passwordHasher;
@@ -75,11 +76,12 @@ public class RegisterUserRequestHandler : IRequestHandler<RegisterUserRequest> {
         
         var codeValue = new Random().Next(100000, 999999).ToString();
 
-        var code = new EmailVerificationCode()
+        var code = new UserVerificationCode()
         {
             Id = Guid.NewGuid(),
             UserId = user.Id,
             ExpirationDate = DateTime.UtcNow.AddMinutes(15),
+            Type = UserCodesTypes.Email,
         };
 
         var codeHash = _codeHasher.HashPassword(code, codeValue);
@@ -90,7 +92,7 @@ public class RegisterUserRequestHandler : IRequestHandler<RegisterUserRequest> {
         await _codeRepository.Add(code);
 
 
-        await _smtpService.SendVerificationCode(request.Email.ToLower(), request.Username, codeValue);
+        await _smtpService.SendEmailVerificationCode(request.Email.ToLower(), request.Username, codeValue);
 
     }
 

@@ -2,6 +2,7 @@
 using chess.Application.Repositories;
 using chess.Application.Services;
 using chess.Core.Entities;
+using chess.Core.Enums;
 using chess.Shared.Exceptions;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
@@ -15,16 +16,16 @@ namespace chess.Application.Requests.UserRequests.VerifyEmail;
 /// </summary>
 public class VerifyEmailRequestHandler : IRequestHandler<VerifyEmailRequest> {
 
-    private readonly IEmailVerificationCodeRepository _codeRepository;
+    private readonly IUserVerificationCodeRepository _codeRepository;
     private readonly IUserContextService _userContext;
     private readonly IUserRepository _userRepository;
-    private readonly IPasswordHasher<EmailVerificationCode> _codeHasher;
+    private readonly IPasswordHasher<UserVerificationCode> _codeHasher;
 
     public VerifyEmailRequestHandler(
-        IEmailVerificationCodeRepository codeRepository,
+        IUserVerificationCodeRepository codeRepository,
         IUserContextService userContext,
         IUserRepository userRepository,
-        IPasswordHasher<EmailVerificationCode> codeHasher
+        IPasswordHasher<UserVerificationCode> codeHasher
     ) {
         _codeRepository = codeRepository;
         _userContext = userContext;
@@ -39,7 +40,12 @@ public class VerifyEmailRequestHandler : IRequestHandler<VerifyEmailRequest> {
         var verificationCode = await _codeRepository.GetByUserId(userId)
             ?? throw new NotFoundException("Code not found.");
 
+        if (verificationCode.Type != UserCodesTypes.Email)
+            throw new BadRequestException("Please, resend the code.");
+
+
         var result = _codeHasher.VerifyHashedPassword(verificationCode, verificationCode.CodeHash, request.Code);
+
 
         if (result == PasswordVerificationResult.Failed)
             throw new BadRequestException("Code incorrect.");

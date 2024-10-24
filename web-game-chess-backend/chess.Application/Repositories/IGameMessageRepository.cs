@@ -17,7 +17,7 @@ public interface IGameMessageRepository {
     Task<List<GameMessage>> GetAll(Guid gameId);
 
     /// <summary>
-    /// 
+    /// Gets draw message for current game
     /// </summary>
     /// <param name="gameId"></param>
     /// <returns></returns>

@@ -38,6 +38,7 @@ public class AbortSearchRequestHandler : IRequestHandler<AbortSearchRequest> {
         if (playerToDelete.IsPlaying)
             throw new BadRequestException("Can not remove player that is in game.");
 
+
         await _playerRepository.Delete(playerToDelete);
     }
 }

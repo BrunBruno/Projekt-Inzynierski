@@ -91,7 +91,7 @@ public class DeclineInvitationRequestHandlerTests {
 
 
         _mockUserContextService.Setup(x => x.GetUserId()).Returns(userId);
- 
+        // game not returned
 
 
         var handler = new DeclineInvitationRequestHandler(
@@ -119,20 +119,20 @@ public class DeclineInvitationRequestHandlerTests {
         var game = new Entities.Game()
         {
             Id = gameId,
-              WhitePlayerRegistered = true,
+            WhitePlayerRegistered = true,
             BlackPlayerRegistered = true,
 
             WhitePlayer = new Player()
             {
                 Id = Guid.NewGuid(),
                 Name = "OtherUser",
-                UserId = Guid.NewGuid(),
+                UserId = Guid.NewGuid(), // user is not a player
             },
             BlackPlayer = new Player()
             {
                 Id = Guid.NewGuid(),
                 Name = "Friend",
-                UserId = Guid.NewGuid(),
+                UserId = Guid.NewGuid(), // user is not a player
             },
         };
 
@@ -196,6 +196,7 @@ public class DeclineInvitationRequestHandlerTests {
 
         _mockUserContextService.Setup(x => x.GetUserId()).Returns(userId);
         _mockGameRepository.Setup(x => x.GetById(gameId)).ReturnsAsync(game);
+        // game invitation not returned
 
 
         var handler = new DeclineInvitationRequestHandler(

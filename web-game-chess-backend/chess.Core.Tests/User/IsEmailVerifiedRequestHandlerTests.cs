@@ -27,7 +27,6 @@ public class IsEmailVerifiedRequestHandlerTests {
             Id = Guid.NewGuid(),
             Email = "test@test.com",
             Username = "Username",
-            ImageUrl = "http://test.com",
             IsVerified = true,
             PasswordHash = "PasswordHash",
             RoleId = (int)Roles.User
@@ -60,6 +59,7 @@ public class IsEmailVerifiedRequestHandlerTests {
 
 
         _mockUserContextService.Setup(x => x.GetUserId()).Returns(Guid.NewGuid());
+        // user not returned
 
 
         var handler = new IsEmailVerifiedRequestHandler(

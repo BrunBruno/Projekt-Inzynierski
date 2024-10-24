@@ -53,7 +53,7 @@ public class GetAllInvitationsRequestHandlerTests {
         _mockGameInvitationRepository.Verify(x => x.GetAllForUser(userId), Times.Once);
     }
 
-    private List<GameInvitation> ReturnExampleInvitations(Guid userId) {
+    private static List<GameInvitation> ReturnExampleInvitations(Guid userId) {
 
         var invitations = new List<GameInvitation>();
 

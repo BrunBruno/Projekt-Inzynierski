@@ -42,12 +42,12 @@ public class FetchTimeTests : IClassFixture<TestWebApplicationFactory<Program>> 
 
         await _dbContext.Init();
         await _dbContext.AddUser();
-        await _dbContext.AddUserWithEmail("friend@test.com");
+        var friendId = await _dbContext.AddUserWithEmail("friend@test.com");
 
         var timingId = await _dbContext.CreateTiming(timingType);
 
         var userPlayerId = await _dbContext.AddPlayer(Guid.Parse(Constants.UserId), Constants.Username);
-        var friendPlayerId = await _dbContext.AddPlayer(Guid.NewGuid(), "FriendUsername");
+        var friendPlayerId = await _dbContext.AddPlayer(friendId, "FriendUsername");
 
         var gameId = await _dbContext.AddGame(userPlayerId, friendPlayerId, timingId, false);
         await _dbContext.StartGame(gameId);
@@ -74,7 +74,7 @@ public class FetchTimeTests : IClassFixture<TestWebApplicationFactory<Program>> 
 
         await _dbContext.Init();
         await _dbContext.AddUser();
-        await _dbContext.AddUserWithEmail("friend@test.com");
+        var friendId = await _dbContext.AddUserWithEmail("friend@test.com");
 
         var timingId = await _dbContext.CreateTiming(new TimingType() {
             Type = TimingTypes.Daily,
@@ -83,7 +83,7 @@ public class FetchTimeTests : IClassFixture<TestWebApplicationFactory<Program>> 
         });
 
         var userPlayerId = await _dbContext.AddPlayer(Guid.Parse(Constants.UserId), Constants.Username);
-        var friendPlayerId = await _dbContext.AddPlayer(Guid.NewGuid(), "FriendUsername");
+        var friendPlayerId = await _dbContext.AddPlayer(friendId, "FriendUsername");
 
         var gameId = await _dbContext.AddGame(userPlayerId, friendPlayerId, timingId, false);
         // no game start

@@ -1,7 +1,7 @@
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import classes from "./GameBoardSearching.module.scss";
 import GameHubService from "../../../../shared/utils/services/GameHubService";
-import { gameControllerPaths, getAuthorization } from "../../../../shared/utils/services/ApiService";
+import { gameController, getAuthorization } from "../../../../shared/utils/services/ApiService";
 import axios from "axios";
 import { AbortSearchModel } from "../../../../shared/utils/types/gameModels";
 import { SearchGameDto } from "../../../../shared/utils/types/gameDtos";
@@ -10,6 +10,8 @@ import { getErrMessage } from "../../../../shared/utils/functions/errors";
 import IconCreator from "../../../../shared/components/icon-creator/IconCreator";
 import { gameBoardSearchingIcons } from "./GameBoardSearchingIcons";
 
+const numOfPawns = 8;
+
 type GameBoardSearchingProps = {
   // ids obtained from new game search
   searchIds: SearchGameDto | null;
@@ -17,12 +19,12 @@ type GameBoardSearchingProps = {
   setSearchIds: Dispatch<SetStateAction<SearchGameDto | null>>;
 };
 
-const numOfPawns = 8;
 function GameBoardSearching({ searchIds, setSearchIds }: GameBoardSearchingProps) {
   ///
 
   const { showPopup } = usePopup();
 
+  // searching animation states
   const [activeIndex, setActiveIndex] = useState<number>(0);
   const [pause, setPause] = useState<boolean>(false);
 
@@ -41,9 +43,11 @@ function GameBoardSearching({ searchIds, setSearchIds }: GameBoardSearchingProps
 
     const intervalId = setInterval(() => {
       setPause(false);
+
       const innerIntervalId = setInterval(() => {
         setActiveIndex((prevIndex) => (prevIndex + 1) % numOfPawns);
       }, delay);
+
       setTimeout(() => {
         setPause(true);
         clearInterval(innerIntervalId);
@@ -61,19 +65,17 @@ function GameBoardSearching({ searchIds, setSearchIds }: GameBoardSearchingProps
   //*/
 
   // game search abort
-  const onCancelSearch = async () => {
-    if (!searchIds) {
-      return;
-    }
+  const onCancelSearch = async (): Promise<void> => {
+    if (!searchIds) return;
 
     try {
       const abortSearchModel: AbortSearchModel = {
         playerId: searchIds.playerId,
       };
 
-      await axios.delete(gameControllerPaths.abortSearch(abortSearchModel), getAuthorization());
+      await axios.delete(gameController.abortSearch(abortSearchModel), getAuthorization());
 
-      GameHubService.PlayerLeaved(searchIds.timingId);
+      await GameHubService.PlayerLeaved(searchIds.timingId);
 
       setSearchIds(null);
     } catch (err) {
@@ -89,7 +91,7 @@ function GameBoardSearching({ searchIds, setSearchIds }: GameBoardSearchingProps
           <h1>Searching for Game</h1>
         </div>
         <div className={classes.searching__content__indicator}>
-          {Array.from({ length: numOfPawns }).map((_, index) => (
+          {Array.from({ length: numOfPawns }).map((_, index: number) => (
             <IconCreator
               key={index}
               icons={gameBoardSearchingIcons}
@@ -104,7 +106,7 @@ function GameBoardSearching({ searchIds, setSearchIds }: GameBoardSearchingProps
             onCancelSearch();
           }}
         >
-          Cancel
+          <span>Cancel</span>
         </button>
       </div>
     </div>

@@ -5,8 +5,7 @@ import classes from "./MainPage.module.scss";
 import GameHubSection from "./game-hub-section/GameHubSection";
 import { useLocation } from "react-router-dom";
 import { usePopup } from "../../shared/utils/hooks/usePopUp";
-import { PopupType } from "../../shared/utils/types/commonTypes";
-import { StateWithSearchInterface } from "../../shared/utils/objects/interfacesEnums";
+import { StateOptions } from "../../shared/utils/objects/interfacesEnums";
 
 function MainPage() {
   ///
@@ -17,31 +16,25 @@ function MainPage() {
   const [providedInterface, setProvidedInterface] = useState<number | null>(null);
 
   // to display main page popups
+  // to set interface content if provided
   useEffect(() => {
-    if (location.state) {
-      const state = location.state as PopupType;
+    const locationState = location.state as StateOptions;
+    if (!locationState) return;
 
-      if (state.popupText && state.popupType) {
-        showPopup(state.popupText, state.popupType);
-      }
+    if (locationState.popup) {
+      showPopup(locationState.popup.text, locationState.popup.type);
+    }
+
+    if (locationState.interface) {
+      setProvidedInterface(locationState.interface);
     }
   }, [location.state]);
   //*/
 
-  // to set content
-  useEffect(() => {
-    if (location.state) {
-      const state = location.state as StateWithSearchInterface;
-
-      if (state.interface) {
-        setProvidedInterface(state.interface);
-      }
-    }
-  }, [location.state]);
   //*/
 
   return (
-    <main className={classes.main}>
+    <main data-testid="main-main-page" className={classes.main}>
       <MainNav />
 
       <GameHubSection providedInterface={providedInterface} />

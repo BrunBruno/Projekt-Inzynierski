@@ -42,6 +42,8 @@ type GameContentProps = {
   winner: EndGameDto | GetEndedGameDto | null;
   // obtained ids for rematch game
   searchIds: SearchGameDto | null;
+  //rematch game id
+  newGameId: Guid | null;
   // setter of obtained ids
   setSearchIds: Dispatch<SetStateAction<SearchGameDto | null>>;
   // timing of current game
@@ -60,6 +62,7 @@ function GameContent({
   playerData,
   winner,
   searchIds,
+  newGameId,
   setSearchIds,
   selectedTiming,
   showConfirm,
@@ -217,7 +220,7 @@ function GameContent({
         />
 
         {/* promotion box */}
-        {selectionStates.promotionCoor && (
+        {selectionStates.promotionCoor && !gameData.hasEnded && (
           <GameBoardPromotion
             playerData={playerData}
             gameStates={gameStates}
@@ -227,17 +230,20 @@ function GameContent({
         )}
 
         {/* confirm box */}
-        {showConfirm !== null && (
+        {showConfirm && !gameData.hasEnded && (
           <GameBoardConfirm confirmAction={confirmAction} showConfirm={showConfirm} setShowConfirm={setShowConfirm} />
         )}
 
         {/* end game info*/}
         {winner && !searchIds && (
           <GameBoardWinner
+            gameId={gameId}
             gameData={gameData}
+            playerData={playerData}
             winner={winner}
             setSearchIds={setSearchIds}
             selectedTiming={selectedTiming}
+            newGameId={newGameId}
           />
         )}
 

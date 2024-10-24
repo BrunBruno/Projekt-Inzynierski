@@ -40,17 +40,26 @@ public class CheckIfUpdateRequiredRequestHandlerTests {
 
             GameTimingId = gameTiming.Id,
 
-              WhitePlayerRegistered = true,
-            BlackPlayerRegistered = true,
+            WhitePlayerRegistered = true,
+            BlackPlayerRegistered = false, // not registered
             WhitePlayer = new Player()
             {
                 Name = "Username",
                 UserId = userId,
+                User = new Entities.User() { 
+                    Email = "user@test.com", 
+                    Username = "Username",
+                }
             },
             BlackPlayer = new Player()
             {
                 Name = "Placeholder",
                 UserId = userId,
+                User = new Entities.User()
+                {
+                    Email = "test@test.com",
+                    Username = "Placeholder",
+                }
             },
             GameState = new GameState(),
         };
@@ -122,6 +131,8 @@ public class CheckIfUpdateRequiredRequestHandlerTests {
             GameId = gameId,
         };
 
+        // game not returned
+
 
         var handler = new CheckIfUpdateRequiredRequestHandler(
             _mockGameRepository.Object,
@@ -157,7 +168,7 @@ public class CheckIfUpdateRequiredRequestHandlerTests {
 
             GameTimingId = gameTiming.Id,
 
-              WhitePlayerRegistered = true,
+            WhitePlayerRegistered = true,
             BlackPlayerRegistered = true,
             WhitePlayer = new Player()
             {
@@ -169,7 +180,6 @@ public class CheckIfUpdateRequiredRequestHandlerTests {
                 Name = "Placeholder",
                 UserId = userId,
             },
-            GameState = new GameState(),
         };
 
         var request = new CheckIfUpdateRequiredRequest()
@@ -179,6 +189,7 @@ public class CheckIfUpdateRequiredRequestHandlerTests {
 
 
         _mockGameRepository.Setup(x => x.GetById(gameId)).ReturnsAsync(game);
+        // game timing not returned
 
 
         var handler = new CheckIfUpdateRequiredRequestHandler(

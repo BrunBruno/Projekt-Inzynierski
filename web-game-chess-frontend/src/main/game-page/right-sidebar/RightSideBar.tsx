@@ -1,5 +1,11 @@
 import { Dispatch, SetStateAction, useEffect } from "react";
-import { EndGameDto, FetchTimeDto, GetEndedGameDto, GetGameDto } from "../../../shared/utils/types/gameDtos";
+import {
+  EndGameDto,
+  FetchTimeDto,
+  GetEndedGameDto,
+  GetGameDto,
+  GetPlayerDto,
+} from "../../../shared/utils/types/gameDtos";
 import classes from "./RightSideBar.module.scss";
 import { EndGameModel } from "../../../shared/utils/types/gameModels";
 import GameHubService from "../../../shared/utils/services/GameHubService";
@@ -10,12 +16,15 @@ import GameClock from "./game-clock/GameClock";
 import AvatarImage from "../../../shared/components/avatar-image/AvatarImage";
 import { Guid } from "guid-typescript";
 import GameMessages from "./game-messages/GameMessages";
+import { PlayerDto } from "../../../shared/utils/types/abstractDtosAndModels";
 
 type RightSideBarProps = {
   // game id
   gameId: Guid;
   // game data
   gameData: GetGameDto;
+  // player data
+  playerData: GetPlayerDto;
   // times left for players
   playersTimes: FetchTimeDto | null;
   // time left setter
@@ -24,7 +33,7 @@ type RightSideBarProps = {
   winner: EndGameDto | GetEndedGameDto | null;
 };
 
-function RightSideBar({ gameId, gameData, playersTimes, setPlayersTimes, winner }: RightSideBarProps) {
+function RightSideBar({ gameId, gameData, playerData, playersTimes, setPlayersTimes, winner }: RightSideBarProps) {
   ///
 
   // sets time left for both players
@@ -85,44 +94,40 @@ function RightSideBar({ gameId, gameData, playersTimes, setPlayersTimes, winner 
   }, [playersTimes]);
   //*/
 
+  const renderPlayer = (player: PlayerDto, colorClass: string, avatarClass: string): JSX.Element => {
+    return (
+      <div className={`${classes.bar__content__header__player} ${colorClass}`}>
+        <AvatarImage
+          username={player.name}
+          profilePicture={player.profilePicture}
+          containerClass={avatarClass}
+          imageClass={classes["player-img"]}
+        />
+
+        <div className={classes["player-data"]}>
+          <span>{player.name}</span>
+          <span>
+            (<span>{player.elo}</span>)
+          </span>
+        </div>
+      </div>
+    );
+  };
+
   return (
     <section className={classes.bar}>
       <div className={classes.bar__content}>
         {/* players data */}
         <div className={classes.bar__content__header}>
-          <div className={`${classes.bar__content__header__player} ${classes["white-player"]}`}>
-            <AvatarImage
-              username={gameData.whitePlayer.name}
-              imageUrl={gameData.whitePlayer.imageUrl}
-              containerClass={classes["white-player-img"]}
-              imageClass={classes["player-img"]}
-            />
-
-            <div className={classes["player-data"]}>
-              <span>{gameData.whitePlayer.name}</span>
-              <span>
-                (<span>{gameData.whitePlayer.elo}</span>)
-              </span>
-            </div>
-          </div>
+          {gameData.whitePlayer.name == playerData.name
+            ? renderPlayer(gameData.whitePlayer, classes["white-player"], classes["white-player-img"])
+            : renderPlayer(gameData.blackPlayer, classes["black-player"], classes["black-player-img"])}
 
           <p className={classes.vs}>vs</p>
 
-          <div className={`${classes.bar__content__header__player} ${classes["black-player"]}`}>
-            <AvatarImage
-              username={gameData.blackPlayer.name}
-              imageUrl={gameData.blackPlayer.imageUrl}
-              containerClass={classes["black-player-img"]}
-              imageClass={classes["player-img"]}
-            />
-
-            <div className={classes["player-data"]}>
-              <span>{gameData.blackPlayer.name}</span>
-              <span>
-                (<span>{gameData.blackPlayer.elo}</span>)
-              </span>
-            </div>
-          </div>
+          {gameData.whitePlayer.name == playerData.name
+            ? renderPlayer(gameData.blackPlayer, classes["black-player"], classes["black-player-img"])
+            : renderPlayer(gameData.whitePlayer, classes["white-player"], classes["white-player-img"])}
         </div>
         {/* --- */}
 
@@ -132,6 +137,7 @@ function RightSideBar({ gameId, gameData, playersTimes, setPlayersTimes, winner 
         ) : (
           <GameClock
             gameData={gameData}
+            playerData={playerData}
             whitePlayerSeconds={playersTimes.whiteTimeLeft}
             blackPlayerSeconds={playersTimes.blackTimeLeft}
           />
@@ -150,7 +156,7 @@ function RightSideBar({ gameId, gameData, playersTimes, setPlayersTimes, winner 
 
         {/* game messenger */}
         <div className={classes.bar__content__block}>
-          <GameMessages gameId={gameId} />
+          <GameMessages gameId={gameId} playerData={playerData} />
         </div>
         {/* --- */}
       </div>

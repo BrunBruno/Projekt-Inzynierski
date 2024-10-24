@@ -1,4 +1,5 @@
 ﻿
+using chess.Core.Dtos;
 using chess.Core.Enums;
 
 namespace chess.Application.Requests.GameRequests.GetAllMessages;
@@ -21,7 +22,12 @@ public class GetAllMessagesDto {
     /// <summary>
     /// Sender user profile picture
     /// </summary>
-    public string? SenderImage { get; set; }
+    public ImageDto? SenderImage { get; set; }
+
+    /// <summary>
+    /// In case of draw message requestor name
+    /// </summary>
+    public string? RequestorName { get; set; } = null;
 
     /// <summary>
     /// Date of creation

@@ -1,8 +1,8 @@
 // game controller dtos
 
 import { Guid } from "guid-typescript";
-import { MoveDto, PlayerDto, TimingTypeModel } from "./abstractDtosAndModels";
-import { MessageType, PieceColor, TimingType } from "../objects/entitiesEnums";
+import { MoveDto, PlayerDto, TimingTypeModel, UserImage } from "./abstractDtosAndModels";
+import { GameEndReason, MessageType, PieceColor, TimingType } from "../objects/entitiesEnums";
 
 export type CheckIfInGameDto = {
   // has player be assigned to game
@@ -24,7 +24,7 @@ export type EndGameDto = {
   // winner of the game
   winnerColor: PieceColor | null;
   // elo gained or lost
-  eloGained: number;
+  eloGain: number;
 };
 
 export type FetchTimeDto = {
@@ -39,6 +39,8 @@ export type FetchTimeDto = {
 export type GetEndedGameDto = {
   // winner of the game
   winnerColor: PieceColor | null;
+  // elo gained or lost
+  eloGain: number;
 };
 
 export type GetPlayerDto = PlayerDto & {
@@ -62,7 +64,26 @@ export type GetAllFinishedGamesDto = {
   // type of game timing
   timingType: number;
   // result of the ga,e
-  endGameType: number;
+  endGameType: GameEndReason;
+  // white payer data
+  whitePlayer: PlayerDto;
+  // black player data
+  blackPlayer: PlayerDto;
+};
+
+export type GetAllActiveGamesDto = {
+  // game id for rejoining
+  gameId: Guid;
+  // last position
+  position: string;
+  // number of turns
+  turn: number;
+  // number of moves
+  moves: number;
+  // creation date of the game
+  createdAt: Date;
+  // type of game timing
+  timingType: TimingType;
   // white payer data
   whitePlayer: PlayerDto;
   // black player data
@@ -84,6 +105,8 @@ export type GetGameDto = {
   increment: number;
   // en passant coordinates if possible
   enPassant: string | null;
+  //
+  timingType: TimingType;
   // castle options
   canWhiteKingCastle: boolean;
   canWhiteShortRookCastle: boolean;
@@ -164,11 +187,13 @@ export type GetAllMessagesDto = {
   // sender name
   senderName: string;
   // sender profile picture url
-  senderImage: string | null;
+  senderImage: UserImage | null;
   // date of message creation
   sentAt: Date;
   // message type
   type: MessageType;
+  // requestor name when draw offer
+  requestorName: string | null;
 };
 
 export type CreateGameWithLinkDto = {
@@ -183,4 +208,14 @@ export type CheckIfUpdateRequiredDto = TimingTypeModel & {
   isRequired: boolean;
 };
 
-export type GetGameTimingDto = TimingTypeModel;
+export type GetGameTimingDto = TimingTypeModel & {};
+
+export type GetOpponentDto = {
+  // previous opponent id
+  opponentId: Guid;
+};
+
+export type CreateRematchGameDto = {
+  opponentId: Guid;
+  gameId: Guid;
+};

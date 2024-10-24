@@ -4,24 +4,24 @@ import { AxiosError } from "axios";
 import { SetStateAction } from "react";
 
 // Gets messages for registration errors to display
-export const errorDisplay = (error: any, action: (value: SetStateAction<string>) => void) => {
-  console.log(error);
+export const errorDisplay = (error: any, action: (value: SetStateAction<string>) => void): void => {
+  console.error(error);
 
   if (error.response && checkError(error)) {
     action(error.response.data);
   } else {
-    action("Something went wrong.");
+    action("SOMETHING WENT WRONG");
   }
 };
 
-// Get messages for popups to display
+// get messages for popups to display
 export const getErrMessage = (error: any): string => {
-  console.log(error);
+  console.error(error);
 
   if (error.response && checkError(error)) {
     return error.response.data;
   } else {
-    return "Connection error";
+    return "CONNECTION ERROR";
   }
 };
 

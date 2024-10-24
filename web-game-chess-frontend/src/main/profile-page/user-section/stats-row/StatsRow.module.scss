@@ -1,0 +1,121 @@
+@import "../../../Main.scss";
+
+@mixin setStatDimensions($row-font-size) {
+  $row-gap: calc(0.5 * $row-font-size);
+  $data-size: calc(5 * $row-font-size);
+
+  .stats {
+    &__title {
+      font-size: calc(1.2 * $row-font-size);
+      width: calc(3 * $data-size + 2 * $row-gap);
+    }
+
+    &__data {
+      grid-template-columns: repeat(4, $data-size);
+      gap: $row-gap;
+
+      .games {
+        @include square($data-size);
+
+        span {
+          &:nth-child(1) {
+            font-size: $row-font-size;
+          }
+
+          &:nth-child(2) {
+            font-size: calc(2 * $row-font-size);
+          }
+
+          svg {
+            height: $row-font-size;
+          }
+        }
+      }
+
+      .chart-con {
+        @include square($data-size);
+
+        .chart {
+          left: calc(5 * $row-gap);
+
+          .pie-chart {
+            @include square(calc(1.2 * $data-size));
+          }
+        }
+      }
+    }
+  }
+}
+
+$row-font-size: 1.6rem;
+@include setStatDimensions($row-font-size);
+
+// game starts rows
+.stats {
+  position: relative;
+  width: 100%;
+
+  &__title {
+    @include rounded(0.5rem);
+
+    font-weight: bold;
+    color: $gc3;
+    padding-left: 2rem;
+    background-color: rgba($gc8, 0.5);
+  }
+
+  &__data {
+    display: grid;
+    margin-top: 1rem;
+    margin-bottom: 2rem;
+
+    .games {
+      @include flex($direction: column);
+
+      span {
+        &:nth-child(1) {
+          @include flex($gap: 0.3rem);
+
+          color: $gc5;
+        }
+      }
+    }
+
+    // pie chart
+    .chart-con {
+      position: relative;
+
+      .chart {
+        position: absolute;
+        bottom: 0;
+        pointer-events: none;
+
+        .pie-chart {
+          pointer-events: all;
+
+          &:hover {
+            z-index: 1;
+          }
+
+          title {
+            display: none;
+          }
+        }
+      }
+    }
+    //*/
+  }
+}
+//*/
+
+// resize
+@media (max-width: 1200px) {
+  $row-font-size: 2.6rem;
+  @include setStatDimensions($row-font-size);
+}
+
+@media (max-width: 700px) {
+  $row-font-size: 3rem;
+  @include setStatDimensions($row-font-size);
+}
+//*/

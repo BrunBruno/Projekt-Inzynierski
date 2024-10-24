@@ -20,7 +20,7 @@ public class GetAllFinishedGamesRequestHandlerTests {
     }
 
     [Fact]
-    public async Task Handle_Returns_PagedResult_Of_Games_On_Success(){
+    public async Task Handle_Returns_PagedResult_Of_Finished_Games_On_Success(){
 
         var userId = Guid.NewGuid();
         var players = ReturnExamplePlayers(userId);
@@ -33,7 +33,7 @@ public class GetAllFinishedGamesRequestHandlerTests {
 
 
         _mockUserContextService.Setup(x => x.GetUserId()).Returns(userId);
-        _mockPlayerRepository.Setup(x => x.GetAllForUser(userId)).ReturnsAsync(players);
+        _mockPlayerRepository.Setup(x => x.GetAllFinishedForUser(userId)).ReturnsAsync(players);
 
 
         var handler = new GetAllFinishedGamesRequestHandler(
@@ -50,10 +50,10 @@ public class GetAllFinishedGamesRequestHandlerTests {
         result.ItemsTo = 10;
 
         _mockUserContextService.Verify(x => x.GetUserId(), Times.Once);
-        _mockPlayerRepository.Verify(x => x.GetAllForUser(userId), Times.Once);
+        _mockPlayerRepository.Verify(x => x.GetAllFinishedForUser(userId), Times.Once);
     }
 
-    private List<Player> ReturnExamplePlayers(Guid userId) {
+    private static List<Player> ReturnExamplePlayers(Guid userId) {
 
         var players = new List<Player>();
 
@@ -68,7 +68,15 @@ public class GetAllFinishedGamesRequestHandlerTests {
                 GameId = gameId,
                 UserId = userId,
                 IsPlaying = true,
+                FinishedGame = true, // finished
+
+                User = new Entities.User() 
+                { 
+                    Email = "user@test.com",
+                    Username = "Username",
+                }
             };
+
             var blackPlayer = new Player()
             {
                 Id = Guid.NewGuid(),
@@ -77,14 +85,22 @@ public class GetAllFinishedGamesRequestHandlerTests {
                 GameId = gameId,
                 UserId = Guid.NewGuid(),
                 IsPlaying = true,
+                FinishedGame = true, // finished
+
+                User = new Entities.User()
+                {
+                    Email = "opponent@test.com",
+                    Username = "Opponent",
+                }
             };
 
             whitePlayer.WhiteGame = new Entities.Game()
             {
                 Id = gameId,
-                HasEnded = true,
-                CreatedAt = DateTime.UtcNow,
-                StartedAt = DateTime.UtcNow.AddMinutes(10),
+                HasEnded = true, // finished
+                CreatedAt = DateTime.UtcNow.AddMinutes(-30),
+                StartedAt = DateTime.UtcNow.AddMinutes(-20),
+                EndedAt = DateTime.UtcNow.AddMinutes(-10),
                 WinnerColor = PieceColor.White,
                 TimingType = TimingTypes.Classic,
                 WhitePlayerRegistered = true,

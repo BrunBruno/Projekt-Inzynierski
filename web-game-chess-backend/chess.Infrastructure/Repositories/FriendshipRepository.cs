@@ -34,11 +34,11 @@ public class FriendshipRepository : IFriendshipRepository {
                     .FirstOrDefaultAsync(f => f.Id == friendshipId);
 
     ///<inheritdoc/>
-    public async Task<Friendship?> GetByUsersIds(Guid requesotId, Guid receiverId)
+    public async Task<Friendship?> GetByUsersIds(Guid requestorId, Guid receiverId)
         => await _dbContext.Friendships
                     .FirstOrDefaultAsync(f => 
                         (f.RequestorId == receiverId && f.ReceiverId == receiverId) ||
-                        (f.RequestorId == receiverId && f.ReceiverId == requesotId));
+                        (f.RequestorId == receiverId && f.ReceiverId == requestorId));
 
     ///<inheritdoc/>
     public async Task Create(Friendship friendship) {

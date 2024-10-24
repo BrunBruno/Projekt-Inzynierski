@@ -34,7 +34,7 @@ public class CancelPrivateGameTests : IClassFixture<TestWebApplicationFactory<Pr
 
         await _dbContext.Init();
         await _dbContext.AddUser();
-        await _dbContext.AddUserWithEmail("friend@test.com");
+        var friendId = await _dbContext.AddUserWithEmail("freind@test.com");
 
         var timingId = await _dbContext.CreateTiming(new TimingType()
         {
@@ -44,7 +44,7 @@ public class CancelPrivateGameTests : IClassFixture<TestWebApplicationFactory<Pr
         });
 
         var userPlayerId = await _dbContext.AddPlayer(Guid.Parse(Constants.UserId), Constants.Username);
-        var friendPlayerId = await _dbContext.AddPlayer(Guid.NewGuid(), "friend");
+        var friendPlayerId = await _dbContext.AddPlayer(friendId, "friend");
 
         var gameId = await _dbContext.AddGame(userPlayerId, friendPlayerId, timingId, true);
         await _dbContext.AddPlayerToGame(userPlayerId, gameId, PieceColor.White);
@@ -74,7 +74,7 @@ public class CancelPrivateGameTests : IClassFixture<TestWebApplicationFactory<Pr
 
         await _dbContext.Init();
         await _dbContext.AddUser();
-        await _dbContext.AddUserWithEmail("friend@test.com");
+        var friendId = await _dbContext.AddUserWithEmail("friend@test.com");
 
         var timingId = await _dbContext.CreateTiming(new TimingType()
         {
@@ -83,8 +83,8 @@ public class CancelPrivateGameTests : IClassFixture<TestWebApplicationFactory<Pr
             Increment = 0,
         });
 
-        var userPlayerId = await _dbContext.AddPlayer(Guid.Parse(Constants.UserId), Constants.Username);
-        var friendPlayerId = await _dbContext.AddPlayer(Guid.NewGuid(), "friend");
+        await _dbContext.AddPlayer(Guid.Parse(Constants.UserId), Constants.Username);
+        await _dbContext.AddPlayer(friendId, "friend");
         // game not added
 
 
@@ -103,7 +103,7 @@ public class CancelPrivateGameTests : IClassFixture<TestWebApplicationFactory<Pr
 
         await _dbContext.Init();
         await _dbContext.AddUser();
-        await _dbContext.AddUserWithEmail("friend@test.com");
+        var friendId = await _dbContext.AddUserWithEmail("freind@test.com");
 
         var timingId = await _dbContext.CreateTiming(new TimingType()
         {
@@ -113,7 +113,7 @@ public class CancelPrivateGameTests : IClassFixture<TestWebApplicationFactory<Pr
         });
 
         var userPlayerId = await _dbContext.AddPlayer(Guid.Parse(Constants.UserId), Constants.Username);
-        var friendPlayerId = await _dbContext.AddPlayer(Guid.NewGuid(), "friend");
+        var friendPlayerId = await _dbContext.AddPlayer(friendId, "friend");
 
         var gameId = await _dbContext.AddGame(userPlayerId, friendPlayerId, timingId, false); // not private
         await _dbContext.AddPlayerToGame(userPlayerId, gameId, PieceColor.White);
@@ -136,7 +136,8 @@ public class CancelPrivateGameTests : IClassFixture<TestWebApplicationFactory<Pr
 
         await _dbContext.Init();
         await _dbContext.AddUser();
-        await _dbContext.AddUserWithEmail("friend@test.com");
+        var friendId = await _dbContext.AddUserWithEmail("freind@test.com");
+        var otherUserId = await _dbContext.AddUserWithEmail("other@test.com");
 
         var timingId = await _dbContext.CreateTiming(new TimingType()
         {
@@ -146,8 +147,8 @@ public class CancelPrivateGameTests : IClassFixture<TestWebApplicationFactory<Pr
         });
 
        await _dbContext.AddPlayer(Guid.Parse(Constants.UserId), Constants.Username);
-        var friendPlayerId = await _dbContext.AddPlayer(Guid.NewGuid(), "FriendUsername");
-        var otherPlayerId = await _dbContext.AddPlayer(Guid.NewGuid(), "OtherUsername");
+        var friendPlayerId = await _dbContext.AddPlayer(friendId, "FriendUsername");
+        var otherPlayerId = await _dbContext.AddPlayer(otherUserId, "OtherUsername");
 
         var gameId = await _dbContext.AddGame(otherPlayerId, friendPlayerId, timingId, true); // user not in game
         await _dbContext.AddPlayerToGame(otherPlayerId, gameId, PieceColor.White);

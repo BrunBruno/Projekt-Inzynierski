@@ -1,6 +1,7 @@
 ﻿
 using chess.Application.Repositories;
 using chess.Application.Services;
+using chess.Core.Entities;
 using chess.Shared.Exceptions;
 using MediatR;
 
@@ -9,6 +10,7 @@ namespace chess.Application.Requests.UserRequests.UpdateProfile;
 /// <summary>
 /// Checks if user exists
 /// Updates provided data of user
+/// Creates user image if provided
 /// </summary>
 public class UpdateProfileRequestHandler : IRequestHandler<UpdateProfileRequest> {
 
@@ -32,7 +34,22 @@ public class UpdateProfileRequestHandler : IRequestHandler<UpdateProfileRequest>
 
         user.Name = request.Name;
         user.Bio = request.Bio;
-        user.ImageUrl = request.ImageUrl;
+
+        if (request.ImageFile is not null) {
+            using var memoryStream = new MemoryStream();
+
+            await request.ImageFile.CopyToAsync(memoryStream, cancellationToken);
+
+            var profilePicture = new UserImage
+            {
+                Data = memoryStream.ToArray(),
+                ContentType = request.ImageFile.ContentType,
+                UserId = user.Id,
+            };
+
+            user.Image = profilePicture;
+        }
+
 
         await _userRepository.Update(user);
     }

@@ -6,19 +6,24 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { mainColor } from "../../shared/utils/objects/colorMaps";
 import ActionButton from "../../shared/components/action-button/ActionButton";
 import VerifyEmailModal from "./register-modals/VerifyEmailModal";
-import { RegistrationInterface, StateWithRegOption } from "../../shared/utils/objects/interfacesEnums";
+import { StateOptions, RegistrationInterface } from "../../shared/utils/objects/interfacesEnums";
 import MainPopUp from "../../shared/components/main-popup/MainPopUp";
 import IconCreator from "../../shared/components/icon-creator/IconCreator";
 import { registerPageIcons } from "./RegisterPageIcons";
-import { PopupType } from "../../shared/utils/types/commonTypes";
 import { usePopup } from "../../shared/utils/hooks/usePopUp";
+import { GetRegisterConfModel } from "../../shared/utils/types/userModels";
+import { GetRegisterConfDto } from "../../shared/utils/types/userDtos";
+import axios from "axios";
+import { DataConfiguration } from "../../shared/utils/objects/entitiesEnums";
+import { userController } from "../../shared/utils/services/ApiService";
+import { getErrMessage } from "../../shared/utils/functions/errors";
+import ResetPasswordModal from "./register-modals/ResetPasswordModal";
 
 function RegisterPage() {
   ///
 
   const location = useLocation();
   const navigate = useNavigate();
-
   const { showPopup } = usePopup();
 
   // register container ref
@@ -30,45 +35,47 @@ function RegisterPage() {
   const [modalClass, setModalClass] = useState<string | null>(null);
   const [formActive, setFormActive] = useState<boolean>(false);
 
+  // url if user provided link
   const [userPath, setUserPath] = useState<string>("/main");
 
-  // to display main page popups
-  useEffect(() => {
-    if (location.state) {
-      const state = location.state as PopupType;
+  // user name configuration
+  const [userNameConf, setUserNameConf] = useState<GetRegisterConfDto | null>(null);
+  // password configuration
+  const [userPassConf, setUserPassConf] = useState<GetRegisterConfDto | null>(null);
 
-      if (state.popupText && state.popupType) {
-        showPopup(state.popupText, state.popupType);
-      }
+  // to display main page popups
+  // to set form modal if provided
+  useEffect(() => {
+    const locationState = location.state as StateOptions;
+    if (!locationState) return;
+
+    if (locationState.popup) {
+      showPopup(locationState.popup.text, locationState.popup.type);
+    }
+
+    if (locationState.regOption) {
+      setModal(locationState.regOption);
+    } else {
+      setModal(RegistrationInterface.signIn);
+    }
+
+    if (locationState.path) {
+      setUserPath(locationState.path);
     }
   }, [location.state]);
   //*/
 
   // to set form modal
-  useEffect(() => {
-    const state = location.state as StateWithRegOption;
-
-    if (state) {
-      if (state.regOption) {
-        setModal(state.regOption);
-      } else {
-        setModal(RegistrationInterface.signIn);
-      }
-
-      if (state.path) {
-        setUserPath(state.path);
-      }
-    }
-  }, [location.state]);
-
   const renderModal = (): JSX.Element => {
     switch (modal) {
       case RegistrationInterface.signIn:
         return <SignInModal setModal={setModal} userPath={userPath} />;
       case RegistrationInterface.signUp:
-        return <SignUpModal setModal={setModal} />;
+        return <SignUpModal setModal={setModal} userNameConf={userNameConf} userPassConf={userPassConf} />;
       case RegistrationInterface.verify:
         return <VerifyEmailModal setModal={setModal} userPath={userPath} />;
+      case RegistrationInterface.reset:
+        return <ResetPasswordModal setModal={setModal} userPath={userPath} userPassConf={userPassConf} />;
       default:
         return <></>;
     }
@@ -81,6 +88,8 @@ function RegisterPage() {
     if (window.innerWidth > 500) {
       switch (modal) {
         case RegistrationInterface.signIn:
+          return classes["left-side-form"];
+        case RegistrationInterface.reset:
           return classes["left-side-form"];
         case RegistrationInterface.signUp:
           return classes["right-side-form"];
@@ -95,7 +104,7 @@ function RegisterPage() {
   };
 
   useEffect(() => {
-    const handleRegisterPageResize = () => {
+    const handleRegisterPageResize = (): void => {
       setModalClass(getFormClass());
     };
 
@@ -108,12 +117,10 @@ function RegisterPage() {
   }, [modal]);
 
   useEffect(() => {
-    const addFormTransform = () => {
+    const addFormTransform = (): void => {
       const formEle = formRef.current;
 
-      if (formEle) {
-        setFormActive(true);
-      }
+      if (formEle) setFormActive(true);
     };
 
     setTimeout(() => {
@@ -122,17 +129,49 @@ function RegisterPage() {
   }, []);
   //*/
 
+  // to get register configuration
+  useEffect(() => {
+    const getDataConfiguration = async (): Promise<void> => {
+      try {
+        const userRegisterConf: GetRegisterConfModel = {
+          configurationId: DataConfiguration.userName,
+        };
+
+        // get username configuration
+        const userNameConfResp = await axios.get<GetRegisterConfDto>(userController.getRegisterConf(userRegisterConf));
+
+        setUserNameConf(userNameConfResp.data);
+
+        const passwordRegisterConf: GetRegisterConfModel = {
+          configurationId: DataConfiguration.userPassword,
+        };
+
+        // get password configuration
+        const userPassConfResp = await axios.get<GetRegisterConfDto>(
+          userController.getRegisterConf(passwordRegisterConf)
+        );
+
+        setUserPassConf(userPassConfResp.data);
+      } catch (err) {
+        showPopup(getErrMessage(err), "warning");
+      }
+    };
+
+    getDataConfiguration();
+  }, []);
+  //*/
+
   if (!modalClass) return <></>;
 
   return (
-    <main className={classes.register}>
+    <main data-testid="main-register-page" className={classes.register}>
       <div ref={registerRef} className={classes.register__content}>
         {/* intro */}
 
         <div
           className={`
             ${classes.register__content__intro}
-            ${modal !== RegistrationInterface.signIn && classes.active}
+            ${(modal === RegistrationInterface.signUp || modal === RegistrationInterface.verify) && classes.active}
           `}
         >
           <h1 className={classes["title"]}>Get on Board</h1>
@@ -157,7 +196,7 @@ function RegisterPage() {
         <div
           className={`
             ${classes.register__content__intro}
-            ${modal === RegistrationInterface.signIn && classes.active}
+            ${(modal === RegistrationInterface.signIn || modal === RegistrationInterface.reset) && classes.active}
           `}
         >
           <h1 className={classes["title"]}>Welcome Back</h1>
@@ -181,6 +220,7 @@ function RegisterPage() {
         {/* form */}
         <div
           ref={formRef}
+          data-testid="register-form-container"
           className={`
             ${classes.register__form}
             ${formActive && classes["form-transform"]}
@@ -193,6 +233,7 @@ function RegisterPage() {
             color={mainColor.c7}
             iconClass={classes["lock-svg"]}
           />
+
           {renderModal()}
         </div>
         {/* --- */}

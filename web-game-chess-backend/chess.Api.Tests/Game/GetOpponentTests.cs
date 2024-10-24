@@ -33,11 +33,9 @@ public class GetOpponentTests : IClassFixture<TestWebApplicationFactory<Program>
     [Fact]
     public async Task GetOpponent_Should_Return_PlayerDto_On_Success() {
 
-        Guid friendId = Guid.NewGuid();
-
         await _dbContext.Init();
         await _dbContext.AddUser();
-        await _dbContext.AddUserWithEmail("friend@test.com");
+        var friendId = await _dbContext.AddUserWithEmail("friend@test.com");
 
         var timingId = await _dbContext.CreateTiming(new TimingType() {
             Type = TimingTypes.Bullet,
@@ -69,6 +67,8 @@ public class GetOpponentTests : IClassFixture<TestWebApplicationFactory<Program>
 
         await _dbContext.Init();
         await _dbContext.AddUser();
+        var friendId = await _dbContext.AddUserWithEmail("freind@test.com");
+        var otherUserId = await _dbContext.AddUserWithEmail("other@test.com");
 
         var timingId = await _dbContext.CreateTiming(new TimingType() {  
             Type = TimingTypes.Bullet,
@@ -77,8 +77,8 @@ public class GetOpponentTests : IClassFixture<TestWebApplicationFactory<Program>
         });
 
         await _dbContext.AddPlayer(Guid.Parse(Constants.UserId), Constants.Username);
-        var otherPlayerId = await _dbContext.AddPlayer(Guid.NewGuid(), "OtherUsername");
-        var otherPlayer2Id = await _dbContext.AddPlayer(Guid.NewGuid(), "OtherUsername2");
+        var otherPlayerId = await _dbContext.AddPlayer(friendId, "friend");
+        var otherPlayer2Id = await _dbContext.AddPlayer(otherUserId, "other");
 
         var gameId = await _dbContext.AddGame(otherPlayerId, otherPlayer2Id, timingId, false); // not user game
         await _dbContext.AddPlayerToGame(otherPlayerId, gameId, PieceColor.White);

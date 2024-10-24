@@ -25,13 +25,13 @@ public class FetchTimeRequestHandler : IRequestHandler<FetchTimeRequest, FetchTi
             ?? throw new NotFoundException("Game not found.");
 
 
-        DateTime lastTimeRecorded = (game.Moves.Count == 0 ? game.StartedAt : game.Moves[game.Moves.Count - 1].DoneAt) 
+        DateTime lastTimeRecorded = ((game.Moves == null || game.Moves.Count == 0) ? game.StartedAt : game.Moves[^1].DoneAt) 
             ?? throw new BadRequestException("Game was not started properly.");
 
         DateTime currentTime = game.HasEnded && game.EndedAt != null ? (DateTime)game.EndedAt : DateTime.UtcNow;
 
         if (currentTime < lastTimeRecorded)
-            throw new BadRequestException("Current time cannot be earlier than the last recorded move time.");
+            throw new BadRequestException("Game was not started properly.");
 
 
         double timeDifference = (currentTime - lastTimeRecorded).TotalSeconds;

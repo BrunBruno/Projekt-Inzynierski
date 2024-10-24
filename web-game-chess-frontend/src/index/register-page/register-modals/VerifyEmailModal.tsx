@@ -2,15 +2,16 @@ import { ChangeEvent, Dispatch, FormEvent, SetStateAction, useState } from "reac
 import { mainColor } from "../../../shared/utils/objects/colorMaps";
 import classes from "./RegisterModal.module.scss";
 import axios from "axios";
-import { getAuthorization, userControllerPaths } from "../../../shared/utils/services/ApiService";
+import { getAuthorization, userController } from "../../../shared/utils/services/ApiService";
 import { useNavigate } from "react-router-dom";
 import { errorDisplay } from "../../../shared/utils/functions/errors";
 import LoadingPage from "../../../shared/components/loading-page/LoadingPage";
 import { LogInUserDto } from "../../../shared/utils/types/userDtos";
 import { LogInUserModel, RegenerateCodeModel, VerifyEmailModel } from "../../../shared/utils/types/userModels";
-import { RegistrationInterface } from "../../../shared/utils/objects/interfacesEnums";
+import { RegistrationInterface, StateOptions } from "../../../shared/utils/objects/interfacesEnums";
 import { registerPageIcons } from "../RegisterPageIcons";
 import IconCreator from "../../../shared/components/icon-creator/IconCreator";
+import { usePopup } from "../../../shared/utils/hooks/usePopUp";
 
 type VerifyEmailModalProps = {
   // path that user wanted
@@ -23,6 +24,7 @@ function VerifyEmailModal({ userPath, setModal }: VerifyEmailModalProps) {
   ///
 
   const navigate = useNavigate();
+  const { showPopup } = usePopup();
 
   // error message content
   const [errorMess, setErrorMess] = useState<string>("");
@@ -44,12 +46,12 @@ function VerifyEmailModal({ userPath, setModal }: VerifyEmailModalProps) {
 
     // code data
     const form = event.target as HTMLFormElement;
-    const verificationCode: VerifyEmailModel = {
-      code: form.code.value,
+    const model: VerifyEmailModel = {
+      code: (form.elements.namedItem("code") as HTMLInputElement).value.trim(),
     };
 
     // check if user inserted code
-    if (verificationCode.code.length === 0) {
+    if (model.code.length === 0) {
       setErrorMess("Please enter the code.");
       return;
     }
@@ -58,12 +60,12 @@ function VerifyEmailModal({ userPath, setModal }: VerifyEmailModalProps) {
       setProcessing(true);
 
       // verify user email
-      await axios.put(userControllerPaths.verifyEmail(), verificationCode, getAuthorization());
+      await axios.put(userController.verifyEmail(), model, getAuthorization());
 
       const tempUser: LogInUserModel = JSON.parse(localStorage.getItem("logUserTemp")!);
 
       //sign in user after successful verification
-      const logInResponse = await axios.post<LogInUserDto>(userControllerPaths.logInUser(), tempUser);
+      const logInResponse = await axios.post<LogInUserDto>(userController.logInUser(), tempUser);
 
       // remove user temp
       localStorage.removeItem("logUserTemp");
@@ -74,36 +76,33 @@ function VerifyEmailModal({ userPath, setModal }: VerifyEmailModalProps) {
       setProcessing(false);
 
       // navigate to main page
-      navigate(userPath, {
-        state: {
-          popupText: "Verification successful",
-          popupType: "success",
-        },
-      });
+      const state: StateOptions = {
+        popup: { text: "VERIFICATION SUCCESSFUL", type: "success" },
+      };
+
+      navigate(userPath, { state: state });
     } catch (err) {
       // display backend errors
       errorDisplay(err, setErrorMess);
 
       setProcessing(false);
-
-      console.log(err);
     }
   };
+  //*/
 
   // regenerates verification code
   const regenerateCode = async (): Promise<void> => {
     try {
-      const regenerateCode: RegenerateCodeModel = {};
+      const model: RegenerateCodeModel = {};
 
       // generate new code and delete previous
-      await axios.post(userControllerPaths.regenerateCode(), regenerateCode, getAuthorization());
+      await axios.post(userController.regenerateCode(), model, getAuthorization());
     } catch (err) {
       // display backend errors
       errorDisplay(err, setErrorMess);
-
-      console.log(err);
     }
   };
+  //*/
 
   // handle code input on change
   const handleCodeInputChange = (event: ChangeEvent<HTMLInputElement>): void => {
@@ -115,7 +114,7 @@ function VerifyEmailModal({ userPath, setModal }: VerifyEmailModalProps) {
   //*/
 
   // auto pasting
-  const onPasteCode = async () => {
+  const onPasteCode = async (): Promise<void> => {
     try {
       const code = await navigator.clipboard.readText();
 
@@ -124,6 +123,7 @@ function VerifyEmailModal({ userPath, setModal }: VerifyEmailModalProps) {
       }
     } catch (err) {
       console.error(err);
+      showPopup("ERROR PASTING CODE", "error");
     }
   };
   //*/
@@ -131,7 +131,11 @@ function VerifyEmailModal({ userPath, setModal }: VerifyEmailModalProps) {
   if (processing) return <LoadingPage />;
 
   return (
-    <form className={classes["registration-form"]} onSubmit={(event) => verifyUser(event)}>
+    <form
+      data-testid="verify-email-form-modal"
+      className={classes["registration-form"]}
+      onSubmit={(event) => verifyUser(event)}
+    >
       {/* bg */}
       <IconCreator icons={registerPageIcons} iconName={"bgPawn"} color={mainColor.c0} iconClass={classes["bg-svg"]} />
 
@@ -145,6 +149,7 @@ function VerifyEmailModal({ userPath, setModal }: VerifyEmailModalProps) {
       {/* input */}
       <div className={classes.verify}>
         <span>Enter code</span>
+
         <div className={classes["verify-con"]}>
           <input
             name="code"
@@ -158,6 +163,7 @@ function VerifyEmailModal({ userPath, setModal }: VerifyEmailModalProps) {
               handleCodeInputChange(event);
             }}
           />
+
           <p
             className={classes.paste}
             onClick={() => {
@@ -172,13 +178,14 @@ function VerifyEmailModal({ userPath, setModal }: VerifyEmailModalProps) {
             />
           </p>
         </div>
+
         <p
           className={classes.resend}
           onClick={() => {
             regenerateCode();
           }}
         >
-          Resend
+          <span>Resend</span>
         </p>
       </div>
       {/* --- */}
@@ -199,7 +206,7 @@ function VerifyEmailModal({ userPath, setModal }: VerifyEmailModalProps) {
           setModal(RegistrationInterface.signUp);
         }}
       >
-        Cancel
+        <span>Cancel</span>
       </p>
       {/* --- */}
     </form>

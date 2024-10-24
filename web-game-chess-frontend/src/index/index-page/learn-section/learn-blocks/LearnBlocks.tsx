@@ -47,7 +47,7 @@ const LearnBlocks = ({}: LearnBlocksProps) => {
   // create learn section icons
   const createIcon = (iconName: string, ref: RefObject<HTMLDivElement>): JSX.Element => {
     switch (iconName) {
-      case "pieces-icon":
+      case "pieces-icon": {
         const pieces: (WhitePieceTag | BlackPieceTag)[] = ["R", "q", "P", "b", "K"];
 
         const images: JSX.Element[] = pieces.map((piece, i) => (
@@ -66,9 +66,10 @@ const LearnBlocks = ({}: LearnBlocksProps) => {
             <IconCreator icons={learnBlocksIcons} iconName={"gameBoard"} />
           </div>
         );
+      }
 
-      case "counter-icon":
-        const elements = Array.from({ length: 4 }).map((_, i) => {
+      case "counter-icon": {
+        const elements = Array.from({ length: 4 }).map((_, i: number) => {
           const value = Math.floor(count / Math.pow(3, -(i - 3)))
             .toString()
             .slice(-1);
@@ -90,6 +91,7 @@ const LearnBlocks = ({}: LearnBlocksProps) => {
             <div className={classes.screen}>{elements}</div>
           </div>
         );
+      }
 
       case "engine-icon":
         return (
@@ -117,7 +119,7 @@ const LearnBlocks = ({}: LearnBlocksProps) => {
 
   // to observe blocks
   useEffect(() => {
-    let options: IntersectionObserverInit = {};
+    const options: IntersectionObserverInit = {};
 
     const textObserverAction = (entry: IntersectionObserverEntry): void => {
       entry.target.classList.add(classes["active-text"]);
@@ -142,7 +144,7 @@ const LearnBlocks = ({}: LearnBlocksProps) => {
 
     const lineObserver: IntersectionObserver = createOneTimeObserver(lineObserverAction, options);
 
-    sectionBlocks.forEach((block) => {
+    sectionBlocks.forEach((block: SectionBlock) => {
       if (block.textRef.current) {
         textObserver.observe(block.textRef.current);
       }
@@ -176,7 +178,7 @@ const LearnBlocks = ({}: LearnBlocksProps) => {
   return (
     <div className={classes.zpattern}>
       {/* map blocks */}
-      {sectionBlocks.map((block, index) =>
+      {sectionBlocks.map((block: SectionBlock, index: number) =>
         index % 2 !== 0 ? (
           <div key={index} className={classes.zpattern__row}>
             {/* text */}

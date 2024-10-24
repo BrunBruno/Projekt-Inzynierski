@@ -7,7 +7,7 @@ import { footerSectionIcons } from "./FooterSectionIcons";
 import { symbolIcons } from "../../../shared/svgs/iconsMap/SymbolIcons";
 
 const socials = ["Facebook", "Instagram", "Twitter", "TikTok", "YouTube"] as const;
-type SocialNames = Lowercase<typeof socials[number]>;
+type SocialNames = Lowercase<(typeof socials)[number]>;
 
 type FooterSectionProps = {};
 
@@ -80,7 +80,7 @@ function FooterSection({}: FooterSectionProps) {
             <div
               className={classes.element}
               onClick={() => {
-                navigate("about/privacy");
+                navigate("/about/privacy");
               }}
             >
               <IconCreator icons={footerSectionIcons} iconName={"privacy"} iconClass={classes["social-svg"]} />
@@ -100,7 +100,7 @@ function FooterSection({}: FooterSectionProps) {
             <div
               className={classes.element}
               onClick={() => {
-                navigate("about/terms");
+                navigate("/about/terms");
               }}
             >
               <IconCreator icons={footerSectionIcons} iconName={"terms"} iconClass={classes["social-svg"]} />

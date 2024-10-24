@@ -42,6 +42,7 @@ function BarSection({ setSelectedUsername, selectedList, setSelectedList }: BarS
         <div className={classes.bar__content__intro}>
           <div className={classes.panel}>
             <div
+              data-testid="users-page-select-list-button-all"
               className={`
                 ${classes.option} 
                 ${selectedList === FriendshipStatus.all ? classes.active : ""}`}
@@ -52,6 +53,7 @@ function BarSection({ setSelectedUsername, selectedList, setSelectedList }: BarS
               <IconCreator icons={barSectionIcons} iconName={"all"} />
             </div>
             <div
+              data-testid="users-page-select-list-button-accepted"
               className={`
                 ${classes.option} 
                 ${selectedList === FriendshipStatus.accepted ? classes.active : ""}`}
@@ -62,6 +64,7 @@ function BarSection({ setSelectedUsername, selectedList, setSelectedList }: BarS
               <IconCreator icons={barSectionIcons} iconName={"accepted"} />
             </div>
             <div
+              data-testid="users-page-select-list-button-pending"
               className={`
                 ${classes.option} 
                 ${selectedList === FriendshipStatus.pending ? classes.active : ""}`}
@@ -72,6 +75,7 @@ function BarSection({ setSelectedUsername, selectedList, setSelectedList }: BarS
               <IconCreator icons={barSectionIcons} iconName={"pending"} />
             </div>
             <div
+              data-testid="users-page-select-list-button-rejected"
               className={`
                 ${classes.option} 
                 ${selectedList === FriendshipStatus.rejected ? classes.active : ""}`}

@@ -7,7 +7,7 @@ export const makeTimeFromMinutes = (minutes: number): string => {
   const days = Math.floor(totalSeconds / (3600 * 24));
   const hours = Math.floor((totalSeconds % (3600 * 24)) / 3600);
   const mins = Math.floor((totalSeconds % 3600) / 60);
-  const secs = Math.round(totalSeconds % 60);
+  const secs = Math.floor(totalSeconds % 60);
 
   const formattedDays = days > 0 ? `${days}d:` : "";
   const formattedHours = hours === 0 && days === 0 ? "" : `${String(hours).padStart(2, "0")}:`;
@@ -36,4 +36,23 @@ export const timeSpanLongerThan = (startDate: Date, endDate: Date, seconds: numb
   }
 
   return false;
+};
+
+export const getTimePlayed = (joinDate: Date): string => {
+  const now = new Date();
+  const diffInMs = now.getTime() - joinDate.getTime();
+
+  const days = Math.floor(diffInMs / 1000 / 60 / 60 / 24);
+  const months = Math.floor(days / 30.44);
+  const years = Math.floor(days / 365.25);
+
+  if (years > 0) {
+    return `${years}Y`;
+  } else if (months > 0) {
+    return `${months}M`;
+  } else if (days > 0) {
+    return `${days}D`;
+  } else {
+    return "1D";
+  }
 };

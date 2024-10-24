@@ -1,4 +1,6 @@
-﻿using chess.Application.Requests.GameRequests.EndGame;
+﻿
+using chess.Application.Requests.GameRequests.CreateRematchGame;
+using chess.Application.Requests.GameRequests.EndGame;
 using chess.Application.Requests.GameRequests.InvitedToGame;
 
 namespace chess.Application.Hubs;
@@ -53,6 +55,17 @@ public interface IGameHub {
     /// <returns></returns>
     Task InvitationDeclined();
 
-
+    /// <summary>
+    /// For show typing animation
+    /// </summary>
+    /// <param name="IsTyping"></param>
+    /// <returns></returns>
     Task TypingStatus(bool IsTyping);
+
+    /// <summary>
+    /// For notifying about rematch request
+    /// </summary>
+    /// <param name=""></param>
+    /// <returns></returns>
+    Task RematchRequested(CreateRematchGameDto gameData);
 }

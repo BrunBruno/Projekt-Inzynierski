@@ -9,11 +9,18 @@ namespace chess.Application.Repositories;
 public interface IPlayerRepository {
 
     /// <summary>
-    /// Gets all players of user
+    /// Gets all players of user for finished games
     /// </summary>
     /// <param name="userId"></param>
     /// <returns></returns>
-    Task<List<Player>> GetAllForUser(Guid userId);
+    Task<List<Player>> GetAllFinishedForUser(Guid userId);
+
+    /// <summary>
+    /// Gets all players of user for active games
+    /// </summary>
+    /// <param name="userId"></param>
+    /// <returns></returns>
+    Task<List<Player>> GetAllActiveForUser(Guid userId);
 
     /// <summary>
     /// Get all awaiting players for specifying timing

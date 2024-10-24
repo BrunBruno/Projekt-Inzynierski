@@ -9,11 +9,12 @@ import LearnSection from "./learn-section/LearnSection";
 import FaqSection from "./faq-section/FaqSection";
 import FooterSection from "./footer-section/FooterSection";
 import HeroSection from "./hero-section/HeroSection";
-import { HandleOnScroll, PopupType } from "../../shared/utils/types/commonTypes";
+import { HandleOnScroll } from "../../shared/utils/types/commonTypes";
 import MainPopUp from "../../shared/components/main-popup/MainPopUp";
 import { useLocation } from "react-router-dom";
 import { usePopup } from "../../shared/utils/hooks/usePopUp";
 import IntroBackgroundSection from "./intro-background-section/IntroBackgroundSection";
+import { StateOptions } from "../../shared/utils/objects/interfacesEnums";
 
 // sections indicators
 const indicators = ["home", "play", "learn", "faq"] as const;
@@ -64,11 +65,11 @@ function IndexPage() {
   const homeContentRef = useRef<HTMLDivElement>(null);
 
   // scroll events handling
-  const handleScroll = () => {
+  const handleScroll = (): void => {
     if (navScrollRef.current) navScrollRef.current.handleOnScroll();
     if (heroScrollRef.current) heroScrollRef.current.handleOnScroll();
 
-    sections.forEach((section) => {
+    sections.forEach((section: Section) => {
       if (section.scrollRef.current) {
         section.scrollRef.current.handleOnScroll();
       }
@@ -87,9 +88,9 @@ function IndexPage() {
   // navbar functionality
   useEffect(() => {
     const observer = new IntersectionObserver((entries: IntersectionObserverEntry[]) => {
-      entries.forEach((entry) => {
+      entries.forEach((entry: IntersectionObserverEntry) => {
         if (entry.isIntersecting) {
-          let elements: HTMLCollectionOf<Element> = document.getElementsByClassName(navClasses["nav-element"]);
+          const elements: HTMLCollectionOf<Element> = document.getElementsByClassName(navClasses["nav-element"]);
 
           for (let i = 0; i < elements.length; i++) {
             elements[i].classList.remove(navClasses.active);
@@ -102,7 +103,7 @@ function IndexPage() {
       });
     });
 
-    sections.forEach((section) => {
+    sections.forEach((section: Section) => {
       if (section.indicatorRef.current) {
         observer.observe(section.indicatorRef.current);
       }
@@ -127,7 +128,7 @@ function IndexPage() {
         const sH = sectionElement.offsetHeight;
         const indH = sH - wHF;
 
-        // set indicators heights to sections height - 100vh ?
+        // set indicators heights to sections height - 100vh
         sectionIndicator.style.height = `${indH}px`;
       }
     }
@@ -158,18 +159,18 @@ function IndexPage() {
 
   // handle page popups
   useEffect(() => {
-    if (location.state) {
-      const state = location.state as PopupType;
+    const locationState = location.state as StateOptions;
 
-      if (state.popupText && state.popupType) {
-        showPopup(state.popupText, state.popupType);
-      }
+    if (!locationState) return;
+
+    if (locationState.popup) {
+      showPopup(locationState.popup.text, locationState.popup.type);
     }
   }, [location.state]);
   //*/
 
   return (
-    <main className={classes["home-main"]}>
+    <main data-testid="main-index-page" className={classes["home-main"]}>
       <IntroBackgroundSection />
 
       <NavSection
@@ -182,7 +183,7 @@ function IndexPage() {
       <HeroSection ref={heroScrollRef} heroSectionRef={heroSectionRef} />
 
       {/* map sections */}
-      {sections.map((section) => (
+      {sections.map((section: Section) => (
         <Fragment key={section.name}>
           {/* point to observe */}
           <div id={`obs-${section.name}`} ref={section.indicatorRef} className={classes.observe} />

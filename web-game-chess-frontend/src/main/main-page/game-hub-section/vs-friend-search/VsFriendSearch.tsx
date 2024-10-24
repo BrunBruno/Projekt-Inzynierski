@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import classes from "./VsFriendSearch.module.scss";
 import { GetAllFriendsByStatusDto } from "../../../../shared/utils/types/friendshipDtos";
 import TimeSelection from "./time-selection/TimeSelection";
@@ -9,11 +9,16 @@ import { Guid } from "guid-typescript";
 import InviteBySelection from "./invite-by/InviteBySelection";
 import InviteByEmail from "./invite-by/InviteByEmail";
 import InviteByUrl from "./invite-by/InviteByUrl";
+import { TimingTypeName } from "../../../../shared/utils/objects/constantLists";
+import { useLocation } from "react-router-dom";
+import { StateOptions } from "../../../../shared/utils/objects/interfacesEnums";
 
 type VsFriendSearchProps = {};
 
 function VsFriendSearch({}: VsFriendSearchProps) {
   ///
+
+  const location = useLocation();
 
   const inviteBySelectionRef = useRef<InviteBySelectionRef>(null);
   const inviteByEmailRef = useRef<InviteByEmailRef>(null);
@@ -25,20 +30,30 @@ function VsFriendSearch({}: VsFriendSearchProps) {
   const [selectedUser, setSelectedUser] = useState<GetByEmailDto | null>(null);
   const [selectedByUrl, setSelectedByUrl] = useState<boolean>(false);
 
+  useEffect(() => {
+    const locationState = location.state as StateOptions;
+    if (!locationState) return;
+
+    // when fired was selected from other page
+    if (locationState.selectedFriend) {
+      setSelectedFriend(locationState.selectedFriend);
+    }
+  }, [location.state]);
+
   // to invite users to game
-  const onInviteBySelection = (friendshipId: Guid, header: string, values: number[]): void => {
+  const onInviteBySelection = (friendshipId: Guid, header: TimingTypeName, values: [number, number]): void => {
     if (inviteBySelectionRef.current) {
       inviteBySelectionRef.current.onInviteBySelection(friendshipId, header, values);
     }
   };
 
-  const onInviteByEmail = (email: string, header: string, values: number[]): void => {
+  const onInviteByEmail = (email: string, header: TimingTypeName, values: [number, number]): void => {
     if (inviteByEmailRef.current) {
       inviteByEmailRef.current.onInviteByEmail(email, header, values);
     }
   };
 
-  const onInviteByUrl = (header: string, values: number[]): void => {
+  const onInviteByUrl = (header: TimingTypeName, values: [number, number]): void => {
     if (inviteByUrlRef.current) {
       inviteByUrlRef.current.onInviteByUrl(header, values);
     }
@@ -46,7 +61,7 @@ function VsFriendSearch({}: VsFriendSearchProps) {
   //*/
 
   return (
-    <div className={classes.search}>
+    <div data-testid="main-page-vs-friend-section" className={classes.search}>
       <div className={classes.search__split}>
         {/* left side bar */}
         <div className={classes.search__split__bar}>
@@ -62,6 +77,7 @@ function VsFriendSearch({}: VsFriendSearchProps) {
 
         {/* right side content */}
         <div className={classes.search__split__list}>
+          {/* display time selection after choice was made */}
           {selectedFriend || selectedUser || selectedByUrl ? (
             <TimeSelection
               selectedFriend={selectedFriend}

@@ -2,11 +2,11 @@ import { useEffect, useRef, useState } from "react";
 import classes from "./LoadingPage.module.scss";
 
 type LoadingPageProps = {
-  // text to display (if provided)
+  // optional text to display
   text?: string;
 };
 
-function LoadingPage({ text = "" }: LoadingPageProps) {
+function LoadingPage({ text = "" }: LoadingPageProps): JSX.Element {
   ///
 
   // loading container ref - to set content sizes

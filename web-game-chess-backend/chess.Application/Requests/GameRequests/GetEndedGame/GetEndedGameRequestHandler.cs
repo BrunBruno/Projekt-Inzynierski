@@ -41,6 +41,7 @@ public class GetEndedGameRequestHandler : IRequestHandler<GetEndedGameRequest, G
         var endedGameDto = new GetEndedGameDto()
         {
             WinnerColor = game.WinnerColor,
+            EloGain = game.EloGain,
         };
 
         return endedGameDto;

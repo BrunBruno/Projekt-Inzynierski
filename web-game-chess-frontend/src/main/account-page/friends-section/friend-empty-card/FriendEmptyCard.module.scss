@@ -4,12 +4,19 @@
 .empty {
   @include wh100();
 
+  grid-column: 1 / 5;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-gap: 2rem;
+
   .no-data {
     @include absCenter();
 
     z-index: 1;
     text-align: center;
     user-select: none;
+    width: 40rem;
+    height: 16rem;
 
     span {
       font-size: 4rem;

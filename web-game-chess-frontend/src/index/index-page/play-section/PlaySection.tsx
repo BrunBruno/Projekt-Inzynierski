@@ -6,6 +6,9 @@ import { HandleOnScroll } from "../../../shared/utils/types/commonTypes";
 import { useNavigate } from "react-router-dom";
 import IconCreator from "../../../shared/components/icon-creator/IconCreator";
 import { playSectionIcons } from "./PlaySectionIcons";
+import { GameSearchInterface, StateOptions } from "../../../shared/utils/objects/interfacesEnums";
+
+const actionRefs: RefObject<HTMLDivElement>[] = [];
 
 type PlaySectionProps = {
   // section container ref
@@ -21,7 +24,6 @@ const PlaySection = forwardRef<HandleOnScroll, PlaySectionProps>(
     // section title ref
     const introRef = useRef<HTMLDivElement>(null);
     // ref for observe section components
-    const actionRefs: RefObject<HTMLDivElement>[] = [];
     for (let i = 0; i < 4; i++) actionRefs[i] = useRef<HTMLDivElement>(null);
 
     // to activate intro and actions on intersection
@@ -56,6 +58,16 @@ const PlaySection = forwardRef<HandleOnScroll, PlaySectionProps>(
         actionsObserver.disconnect();
       };
     }, [actionRefs]);
+    //*/
+
+    // to go to registration page
+    const navigateToPlay = (regOptions: GameSearchInterface): void => {
+      const state: StateOptions = {
+        interface: regOptions,
+      };
+
+      navigate("/main", { state: state });
+    };
     //*/
 
     return (
@@ -98,9 +110,7 @@ const PlaySection = forwardRef<HandleOnScroll, PlaySectionProps>(
                     ${classes["vs-player-button"]}
                   `}
                   onClick={() => {
-                    navigate("/main", {
-                      state: {},
-                    });
+                    navigateToPlay(GameSearchInterface.vsPlayer);
                   }}
                 >
                   <IconCreator icons={playSectionIcons} iconName={"online"} iconClass={classes["button-icon"]} />
@@ -115,9 +125,7 @@ const PlaySection = forwardRef<HandleOnScroll, PlaySectionProps>(
                     ${classes["vs-computer-button"]}
                   `}
                   onClick={() => {
-                    navigate("/main", {
-                      state: {},
-                    });
+                    navigateToPlay(GameSearchInterface.vsComputer);
                   }}
                 >
                   <IconCreator icons={playSectionIcons} iconName={"offline"} iconClass={classes["button-icon"]} />

@@ -13,6 +13,7 @@ namespace chess.Application.Requests.GameRequests.EndGame;
 /// Checks if current user was a participant of the game
 /// If game has been finished returns end game dto
 /// Gets both players
+/// Gets friendship if game is private
 /// Sets all parameters for users (stats and elo points) and games according to result of the game
 /// Returns end game dto
 /// </summary>
@@ -21,15 +22,18 @@ public class EndGameRequestHandler : IRequestHandler<EndGameRequest, EndGameDto>
     private readonly IGameRepository _gameRepository;
     private readonly IUserContextService _userContextService;
     private readonly IUserRepository _userRepository;
+    private readonly IFriendshipRepository _friendshipRepository;
 
     public EndGameRequestHandler(
         IGameRepository gameRepository,
         IUserContextService userContextService,
-        IUserRepository userRepository
+        IUserRepository userRepository,
+         IFriendshipRepository friendshipRepository
     ) {
         _gameRepository = gameRepository;
         _userContextService = userContextService;
         _userRepository = userRepository;
+        _friendshipRepository = friendshipRepository;
     }   
 
     public async Task<EndGameDto> Handle(EndGameRequest request, CancellationToken cancellationToken) {
@@ -58,6 +62,7 @@ public class EndGameRequestHandler : IRequestHandler<EndGameRequest, EndGameDto>
         if (game.WhitePlayer.UserId != userId && game.BlackPlayer.UserId != userId)
             throw new UnauthorizedException("This is not user game.");
 
+        // game already has ended
         if (game.HasEnded == true) {
             var finishedGameDto = new EndGameDto()
             {
@@ -76,6 +81,9 @@ public class EndGameRequestHandler : IRequestHandler<EndGameRequest, EndGameDto>
            ?? throw new NotFoundException("User not found");
 
 
+        var friendship = game.IsPrivate == true ? await _friendshipRepository.GetByUsersIds(whiteUser.Id, blackUser.Id) : null;
+
+
         game.HasEnded = true;
         game.EndGameType = request.EndGameType;
 
@@ -87,6 +95,7 @@ public class EndGameRequestHandler : IRequestHandler<EndGameRequest, EndGameDto>
         int eloToUpdate;
 
 
+        // updates stats and elos / white loses
         if (game.WhitePlayer.Color == request.LoserColor) {
             game.WinnerColor = game.BlackPlayer.Color;
 
@@ -107,6 +116,16 @@ public class EndGameRequestHandler : IRequestHandler<EndGameRequest, EndGameDto>
                 whiteUser.Elo.UpdateElo(game.TimingType, -eloToUpdate);
                 blackUser.Elo.UpdateElo(game.TimingType, eloToUpdate);
 
+            }
+
+            if(friendship is not null){
+                if(friendship.RequestorId == whiteUser.Id) { 
+                    friendship.RequestorLoses +=1;
+                }
+
+                if(friendship.RequestorId == blackUser.Id) {
+                    friendship.RequestorWins +=1;
+                }
             }
 
             switch (request.EndGameType) {
@@ -130,6 +149,7 @@ public class EndGameRequestHandler : IRequestHandler<EndGameRequest, EndGameDto>
                     break;
             }
 
+        // updates stats and elos / black loses
         } else if(game.BlackPlayer.Color == request.LoserColor) {
             game.WinnerColor = game.WhitePlayer.Color;
 
@@ -150,6 +170,16 @@ public class EndGameRequestHandler : IRequestHandler<EndGameRequest, EndGameDto>
                 whiteUser.Elo.UpdateElo(game.TimingType, eloToUpdate);
                 blackUser.Elo.UpdateElo(game.TimingType, -eloToUpdate);
 
+            }
+
+            if(friendship is not null){
+                if(friendship.RequestorId == whiteUser.Id) { 
+                    friendship.RequestorWins +=1;
+                }
+                
+                if(friendship.RequestorId == blackUser.Id) {
+                    friendship.RequestorLoses +=1;
+                }
             }
 
             switch (request.EndGameType) {
@@ -173,6 +203,7 @@ public class EndGameRequestHandler : IRequestHandler<EndGameRequest, EndGameDto>
                     break;
             }
 
+        // updates stats and elos / draw
         } else {
             game.WinnerColor = null;
 
@@ -193,6 +224,9 @@ public class EndGameRequestHandler : IRequestHandler<EndGameRequest, EndGameDto>
 
             }
 
+            if(friendship is not null){
+                friendship.RequestorDraws += 1;
+            }
         }
 
         game.EloGain = eloToUpdate;

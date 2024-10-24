@@ -30,7 +30,7 @@ public class GetTypeHistoryRequestHandler : IRequestHandler<GetTypeHistoryReques
 
         var userId = _userContextService.GetUserId();
 
-        var players = await _playerRepository.GetAllForUser(userId);
+        var players = await _playerRepository.GetAllFinishedForUser(userId);
 
         var typeHistory = new List<GetTypeHistoryDto>();
 

@@ -25,38 +25,8 @@
 
 // resize
 @media (max-width: 1000px) {
-  .board-container {
+  .game {
     box-shadow: none;
-
-    .board {
-      width: unset;
-      height: 96%;
-      aspect-ratio: 1/1 !important;
-    }
-  }
-}
-
-@media (max-width: 750px) {
-  .board-container {
-    .board {
-      height: 80%;
-    }
-  }
-}
-
-@media (max-width: 600px) {
-  .board-container {
-    .board {
-      height: 60%;
-    }
-  }
-}
-
-@media (max-width: 500px) {
-  .board-container {
-    .board {
-      height: 50%;
-    }
   }
 }
 //*/
