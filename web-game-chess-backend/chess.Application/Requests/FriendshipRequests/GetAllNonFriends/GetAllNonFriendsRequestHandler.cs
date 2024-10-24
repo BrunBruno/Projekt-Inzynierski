@@ -37,6 +37,7 @@ public class GetAllNonFriendsRequestHandler : IRequestHandler<GetAllNonFriendsRe
 
         var nonFriends = await _userRepository.GetAllNonFriends(friendsIds, userId);
 
+        // filter by username
         if(request.Username is not null) {
             nonFriends = nonFriends.Where(nf => 
                 nf.Username.ToLower().Contains(request.Username) ||

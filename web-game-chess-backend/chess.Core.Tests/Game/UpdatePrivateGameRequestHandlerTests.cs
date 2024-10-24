@@ -57,7 +57,7 @@ public class UpdatePrivateGameRequestHandlerTests {
                 Id = Guid.NewGuid(),
                 Name = "",
                 IsPrivate = true,
-                UserId = friendId, // placeholder set for friend as friend is requiestor
+                UserId = friendId, // placeholder set for friend as friend is requestor
             },
         };
 
@@ -125,7 +125,7 @@ public class UpdatePrivateGameRequestHandlerTests {
             {
                 Id = Guid.NewGuid(),
                 Name = "",
-                UserId = userId, // placeholder set for user as user is requiestor
+                UserId = userId, // placeholder set for user as user is requestor
                 IsPrivate = true,
 
                 User = new Entities.User() { 

@@ -38,8 +38,8 @@ public class GetAllNonFriendsTests : IClassFixture<TestWebApplicationFactory<Pro
 
 
         // request without and with name filtering
-        var response = await _client.GetAsync("api/friendship/all-non-friends?pageNumber=1&pageSize=20");
-        var responseWithName = await _client.GetAsync("api/friendship/all-non-friends?pageNumber=1&pageSize=20&Username=friend");
+        var response = await _client.GetAsync("api/friendship/all-non?pageNumber=1&pageSize=20");
+        var responseWithName = await _client.GetAsync("api/friendship/all-non?pageNumber=1&pageSize=20&Username=friend");
 
 
         response.StatusCode.Should().Be(HttpStatusCode.OK);

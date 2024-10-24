@@ -10,7 +10,12 @@ namespace chess.Application.Requests.GameRequests.CreateRematchGame;
 public class CreateRematchGameRequest : TimingType, IRequest<CreateRematchGameDto> {
 
     /// <summary>
-    /// Previous opponent id
+    /// Previous game id
+    /// </summary>
+    public Guid PreviousGameId { get; set; }
+
+    /// <summary>
+    /// Previous opponent user id
     /// </summary>
     public Guid OpponentId { get; set; }
 }

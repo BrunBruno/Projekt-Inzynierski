@@ -1,6 +1,6 @@
-﻿
+
 using chess.Application.Repositories;
-using chess.Application.Requests.GameRequests.GetAllFinishedGames;
+using chess.Application.Requests.GameRequests.GetAllActiveGames;
 using chess.Application.Services;
 using chess.Core.Entities;
 using chess.Core.Enums;
@@ -9,23 +9,23 @@ using Moq;
 
 namespace chess.Core.Tests.Game;
 
-public class GetAllFinishedGamesRequestHandlerTests {
+public class GetAllActiveGamesRequestHandlerTests {
 
     private readonly Mock<IUserContextService> _mockUserContextService;
     private readonly Mock<IPlayerRepository> _mockPlayerRepository;
 
-    public GetAllFinishedGamesRequestHandlerTests() {
+    public GetAllActiveGamesRequestHandlerTests() {
         _mockUserContextService = new Mock<IUserContextService>();
         _mockPlayerRepository = new Mock<IPlayerRepository>();
     }
 
     [Fact]
-    public async Task Handle_Returns_PagedResult_Of_Finished_Games_On_Success(){
+    public async Task Handle_Returns_PagedResult_Of_Active_Games_On_Success(){
 
         var userId = Guid.NewGuid();
         var players = ReturnExamplePlayers(userId);
 
-        var request = new GetAllFinishedGamesRequest()
+        var request = new GetAllActiveGamesRequest()
         {
             PageNumber = 1,
             PageSize = 10,
@@ -33,10 +33,10 @@ public class GetAllFinishedGamesRequestHandlerTests {
 
 
         _mockUserContextService.Setup(x => x.GetUserId()).Returns(userId);
-        _mockPlayerRepository.Setup(x => x.GetAllFinishedForUser(userId)).ReturnsAsync(players);
+        _mockPlayerRepository.Setup(x => x.GetAllActiveForUser(userId)).ReturnsAsync(players);
 
 
-        var handler = new GetAllFinishedGamesRequestHandler(
+        var handler = new GetAllActiveGamesRequestHandler(
             _mockUserContextService.Object,
             _mockPlayerRepository.Object
         );
@@ -50,7 +50,7 @@ public class GetAllFinishedGamesRequestHandlerTests {
         result.ItemsTo = 10;
 
         _mockUserContextService.Verify(x => x.GetUserId(), Times.Once);
-        _mockPlayerRepository.Verify(x => x.GetAllFinishedForUser(userId), Times.Once);
+        _mockPlayerRepository.Verify(x => x.GetAllActiveForUser(userId), Times.Once);
     }
 
     private static List<Player> ReturnExamplePlayers(Guid userId) {
@@ -68,7 +68,9 @@ public class GetAllFinishedGamesRequestHandlerTests {
                 GameId = gameId,
                 UserId = userId,
                 IsPlaying = true,
-                FinishedGame = true, // finished
+                FinishedGame = false,  // not ended
+                TimeLeft = 24 * 60 * 60,
+
 
                 User = new Entities.User() 
                 { 
@@ -85,7 +87,8 @@ public class GetAllFinishedGamesRequestHandlerTests {
                 GameId = gameId,
                 UserId = Guid.NewGuid(),
                 IsPlaying = true,
-                FinishedGame = true, // finished
+                FinishedGame = false, // not ended
+                TimeLeft = 24 * 60 * 60,
 
                 User = new Entities.User()
                 {
@@ -97,12 +100,12 @@ public class GetAllFinishedGamesRequestHandlerTests {
             whitePlayer.WhiteGame = new Entities.Game()
             {
                 Id = gameId,
-                HasEnded = true, // finished
+                HasEnded = false, // not ended
                 CreatedAt = DateTime.UtcNow.AddMinutes(-30),
                 StartedAt = DateTime.UtcNow.AddMinutes(-20),
-                EndedAt = DateTime.UtcNow.AddMinutes(-10),
+                EndedAt = null,
                 WinnerColor = PieceColor.White,
-                TimingType = TimingTypes.Classic,
+                TimingType = TimingTypes.Daily,
                 WhitePlayerRegistered = true,
                 BlackPlayerRegistered = true,
 

@@ -4,6 +4,9 @@ using chess.Core.Enums;
 
 namespace chess.Application.Requests.GameRequests.GetAllActiveGames;
 
+/// <summary>
+/// Dto representing ongoing game
+/// </summary>
 public class GetAllActiveGamesDto {
 
     /// <summary>

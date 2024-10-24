@@ -69,7 +69,7 @@ public class RegisterUserRequestHandlerTests {
 
         var request = new RegisterUserRequest()
         {
-            Email = "incorrect", // invaide email format
+            Email = "incorrect", // invalid email format
             Password = "Password@123456",
             ConfirmPassword = "Password@123456",
             Username = "Username",

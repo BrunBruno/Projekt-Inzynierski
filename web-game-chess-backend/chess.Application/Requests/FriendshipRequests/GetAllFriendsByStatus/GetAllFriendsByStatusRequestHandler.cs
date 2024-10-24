@@ -41,6 +41,7 @@ public class GetAllFriendsByStatusRequestHandler : IRequestHandler<GetAllFriends
         var friends = await _userRepository.GetAllFriends(friendsIds, userId);
 
 
+        // filter by username
         if (request.Username is not null) {
             friends = friends.Where(nf =>
                 nf.Username.ToLower().Contains(request.Username) ||
@@ -98,9 +99,9 @@ public class GetAllFriendsByStatusRequestHandler : IRequestHandler<GetAllFriends
             }
         }
 
-        var sortedfriendsDtos = friendsDtos.OrderBy(f => f.WdlTogether.Total).ToList();
+        var sortedFriendsDtos = friendsDtos.OrderBy(f => f.WdlTogether.Total).ToList();
 
-        var pagedResult = new PagedResult<GetAllFriendsByStatusDto>(sortedfriendsDtos, friendsDtos.Count, request.PageSize, request.PageNumber);
+        var pagedResult = new PagedResult<GetAllFriendsByStatusDto>(sortedFriendsDtos, friendsDtos.Count, request.PageSize, request.PageNumber);
 
         return pagedResult;
     }

@@ -36,7 +36,8 @@ function AccountPage() {
 
   // set default page size
   useEffect(() => {
-    setDefPageSize(20);
+    // todotodo
+    setDefPageSize(100);
   }, [selectedHistory]);
   //*/
 

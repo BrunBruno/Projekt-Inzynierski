@@ -50,10 +50,9 @@ public class FriendshipController : ControllerBase {
     /// <returns></returns>
     [HttpPut("{friendshipId}/respond")]
     [Authorize(Policy = "IsVerified")]
-    public async Task<IActionResult> RespondToFriendRequest([FromRoute] Guid friendshipId, [FromBody] RespondToFriendRequestModel model) {
+    public async Task<IActionResult> RespondToFriendRequest([FromBody] RespondToFriendRequestModel model) {
 
         var request = _mapper.Map<RespondToFriendRequestRequest>(model);
-        request.FriendshipId = friendshipId;
 
         await _mediator.Send(request);
 
@@ -83,7 +82,7 @@ public class FriendshipController : ControllerBase {
     /// </summary>
     /// <param name="model"></param>
     /// <returns></returns>
-    [HttpGet("all-non-friends")]
+    [HttpGet("all-non")]
     [Authorize(Policy = "IsVerified")]
     public async Task<IActionResult> GetAllNonFriends([FromQuery] GetAllNonFriendsModel model) {
 
@@ -100,7 +99,7 @@ public class FriendshipController : ControllerBase {
     /// </summary>
     /// <param name="friendshipId"></param>
     /// <returns></returns>\   
-    [HttpGet("{friendshipId}")]
+    [HttpGet("{friendshipId}/profile")]
     [Authorize(Policy = "IsVerified")]
     public async Task<IActionResult> GetFriendProfile([FromRoute] Guid friendshipId) {
 

@@ -10,7 +10,11 @@ using Microsoft.IdentityModel.Tokens;
 namespace chess.Application.Requests.GameRequests.GetAllActiveGames;
 
 /// <summary>
-/// 
+/// Gets all player that has not finished game yet
+/// Go throw all players games
+/// Checks if game should be ended
+/// Apply filters
+/// Creates and returns paged result of game dtos
 /// </summary>
 public class GetAllActiveGamesRequestHandler : IRequestHandler<GetAllActiveGamesRequest, PagedResult<GetAllActiveGamesDto>> {
 
@@ -43,7 +47,7 @@ public class GetAllActiveGamesRequestHandler : IRequestHandler<GetAllActiveGames
             ) {
                 var game = player.WhiteGame;
 
-                // cehck if game should ended
+                // check if game should ended
                 if (GameShouldNotBeDisplayed(game))
                     continue;
 
@@ -63,7 +67,7 @@ public class GetAllActiveGamesRequestHandler : IRequestHandler<GetAllActiveGames
                     CreatedAt = game.CreatedAt,
                     TimingType = game.TimingType,
 
-                    // currect user player
+                    // current user player
                     WhitePlayer = new PlayerDto()
                     {
                         Name = player.Name,
@@ -101,7 +105,7 @@ public class GetAllActiveGamesRequestHandler : IRequestHandler<GetAllActiveGames
             ) {
                 var game = player.BlackGame;
 
-                // cehck if game should ended
+                // check if game should ended
                 if (GameShouldNotBeDisplayed(game))
                     continue;
 
@@ -121,7 +125,7 @@ public class GetAllActiveGamesRequestHandler : IRequestHandler<GetAllActiveGames
                     CreatedAt = game.CreatedAt,
                     TimingType = game.TimingType,
 
-                    // oppoents players
+                    // opponents players
                     WhitePlayer = new PlayerDto()
                     {
                         Name = game.WhitePlayer.Name,
@@ -133,7 +137,7 @@ public class GetAllActiveGamesRequestHandler : IRequestHandler<GetAllActiveGames
                             ContentType = game.WhitePlayer.User.Image.ContentType,
                         } : null,
                     },
-                    // currect user player
+                    // current user player
                     BlackPlayer = new PlayerDto()
                     {
                         Name = player.Name,
@@ -155,6 +159,11 @@ public class GetAllActiveGamesRequestHandler : IRequestHandler<GetAllActiveGames
         return pagedResult;
     }
 
+    /// <summary>
+    /// To check if game should be ended
+    /// </summary>
+    /// <param name="game"></param>
+    /// <returns></returns>
     private static bool GameShouldNotBeDisplayed(Game game) {
 
         var lastTimeRecorded = (game.Moves == null || game.Moves.Count == 0) ? game.StartedAt : game.Moves[^1].DoneAt;

@@ -2,6 +2,7 @@
 
 import {
   AcceptInvitationModel,
+  CreateRematchGameModel,
   DeclineInvitationModel,
   EndGameModel,
   MakeMoveModel,
@@ -96,6 +97,15 @@ class GameHub {
     }
   }
 
+  // creates rematch game
+  public async CreateRematchGame(model: CreateRematchGameModel): Promise<void> {
+    try {
+      await this.connection?.invoke("rematch", model);
+    } catch (err) {
+      console.error(err);
+    }
+  }
+
   // update game | add move
   public async MakeMove(model: MakeMoveModel): Promise<void> {
     try {
@@ -136,6 +146,15 @@ class GameHub {
   public async EndGame(model: EndGameModel): Promise<void> {
     try {
       await this.connection?.invoke("end-game", model);
+    } catch (err) {
+      console.error(err);
+    }
+  }
+
+  // to accept game rematch
+  public async AcceptRematch(gameId: Guid): Promise<void> {
+    try {
+      await this.connection?.invoke("accept-rematch", gameId);
     } catch (err) {
       console.error(err);
     }

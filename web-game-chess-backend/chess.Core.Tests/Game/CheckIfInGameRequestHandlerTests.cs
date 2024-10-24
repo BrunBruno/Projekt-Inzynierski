@@ -22,7 +22,7 @@ public class CheckIfInGameRequestHandlerTests {
     }
 
     [Fact]
-    public async Task Handle_Returns_GameId_And_IsPlaying_On_Success_When_Plyaer_Is_In_Game() {
+    public async Task Handle_Returns_GameId_And_IsPlaying_On_Success_When_Player_Is_In_Game() {
 
         var userId = Guid.NewGuid();
         var playerId = Guid.NewGuid();
@@ -73,7 +73,7 @@ public class CheckIfInGameRequestHandlerTests {
     }
 
     [Fact]
-    public async Task Handle_Returns_Null_And_IsPlaying_On_Success_When_Plyaer_Is_Not_In_Game() {
+    public async Task Handle_Returns_Null_And_IsPlaying_On_Success_When_Player_Is_Not_In_Game() {
 
         var userId = Guid.NewGuid();
         var playerId = Guid.NewGuid();

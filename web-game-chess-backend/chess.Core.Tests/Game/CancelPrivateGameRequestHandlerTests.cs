@@ -205,7 +205,7 @@ public class CancelPrivateGameRequestHandlerTests {
         var exampleGame = new Entities.Game()
         {
             Id = gameId,
-            IsPrivate = false, // game is not provate
+            IsPrivate = false, // game is not private
 
             WhitePlayerId = whitePlayer.Id,
             WhitePlayer = whitePlayer,
@@ -352,7 +352,7 @@ public class CancelPrivateGameRequestHandlerTests {
         _mockUserContextService.Setup(x => x.GetUserId()).Returns(userId);
         _mockGameRepository.Setup(x => x.GetById(gameId)).ReturnsAsync(exampleGame);
         _mockPlayerRepository.Setup(x => x.GetById(exampleGame.WhitePlayerId)).ReturnsAsync(whitePlayer);
-        // baclk player not exists
+        // black player not exists
 
 
         var handler = new CancelPrivateGameRequestHandler(

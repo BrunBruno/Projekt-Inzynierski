@@ -132,7 +132,6 @@ interface GameControllerPaths {
   createPrivateGame: string;
   createGameByEmail: string;
   createGameWithLink: string;
-  createRematchGame: string;
   //PUT
   //GET
   checkIfInGame: string;
@@ -159,7 +158,6 @@ interface GameController {
   createPrivateGame: () => string;
   createGameByEmail: () => string;
   createGameWithLink: () => string;
-  createRematchGame: () => string;
   //PUT
   //GET
   checkIfInGame: (model: CheckIfInGameModel) => string;
@@ -185,10 +183,9 @@ export const gameControllerPaths: GameControllerPaths = {
   // static
   startSearch: `${gameBaseUrl}/search`,
   createPrivateGame: `${gameBaseUrl}/private`,
-  createGameByEmail: `${gameBaseUrl}/by-email`,
-  createGameWithLink: `${gameBaseUrl}/by-link`,
-  createRematchGame: `${gameBaseUrl}/rematch`,
-  checkIfInGame: `${gameBaseUrl}/check-if-in-game`,
+  createGameByEmail: `${gameBaseUrl}/email`,
+  createGameWithLink: `${gameBaseUrl}/link`,
+  checkIfInGame: `${gameBaseUrl}/is-in-game`,
   getAllActiveGames: `${gameBaseUrl}/all-ongoing`,
   getAllFinishedGames: `${gameBaseUrl}/all-finished`,
   getTypeHistory: `${gameBaseUrl}/type-history`,
@@ -204,7 +201,7 @@ export const gameControllerPaths: GameControllerPaths = {
   getGameTiming: `${gameBaseUrl}/:gameId/timing`,
   getAllMessages: `${gameBaseUrl}/:gameId/messages`,
   cancelPrivateGame: `${gameBaseUrl}/:gameId/cancel`,
-  checkIfUpdateRequired: `${gameBaseUrl}/:gameId/check-if-update-required`,
+  checkIfUpdateRequired: `${gameBaseUrl}/:gameId/update-required`,
 };
 
 export const gameController: GameController = {
@@ -215,19 +212,16 @@ export const gameController: GameController = {
   createPrivateGame: (): string => `${gameBaseUrl}/private`,
 
   // creates private game by proving opponent email
-  createGameByEmail: (): string => `${gameBaseUrl}/by-email`,
+  createGameByEmail: (): string => `${gameBaseUrl}/email`,
 
   // creates private game with link and returns it
-  createGameWithLink: (): string => `${gameBaseUrl}/by-link`,
-
-  // creates new game for two same users that has already played one game
-  createRematchGame: (): string => `${gameBaseUrl}/rematch`,
+  createGameWithLink: (): string => `${gameBaseUrl}/link`,
 
   // check if player was matched and the game has started
-  checkIfInGame: (model: CheckIfInGameModel): string => `${gameBaseUrl}/check-if-in-game?${stringifyModel(model)}`,
+  checkIfInGame: (model: CheckIfInGameModel): string => `${gameBaseUrl}/is-in-game?${stringifyModel(model)}`,
 
   // check if for game created by url the update on players is required
-  checkIfUpdateRequired: (gameId: Guid): string => `${gameBaseUrl}/${gameId}/check-if-update-required`,
+  checkIfUpdateRequired: (gameId: Guid): string => `${gameBaseUrl}/${gameId}/update-required`,
 
   // gets all data for one game
   getGame: (gameId: Guid): string => `${gameBaseUrl}/${gameId}`,
@@ -304,11 +298,11 @@ export const friendshipControllerPaths: FriendshipControllerPaths = {
   // static
   inviteFriend: `${friendshipBaseUrl}/invite`,
   getAllFriendsByStatus: `${friendshipBaseUrl}/all-by-status`,
-  getAllNonFriends: `${friendshipBaseUrl}/all-non-friends`,
+  getAllNonFriends: `${friendshipBaseUrl}/all-non`,
 
   // dynamic
   respondToFriendRequest: `${friendshipBaseUrl}/:friendshipId/respond`,
-  getFriendProfile: `${friendshipBaseUrl}/:friendshipId`,
+  getFriendProfile: `${friendshipBaseUrl}/:friendshipId/profile`,
   removeFriend: `${friendshipBaseUrl}/:friendshipId`,
 };
 
@@ -324,11 +318,10 @@ export const friendshipController: FriendshipController = {
     `${friendshipBaseUrl}/all-by-status?${stringifyModel(model)}`,
 
   // gets all users that are not in relation with user
-  getAllNonFriends: (model: GetAllNonFriendsModel): string =>
-    `${friendshipBaseUrl}/all-non-friends?${stringifyModel(model)}`,
+  getAllNonFriends: (model: GetAllNonFriendsModel): string => `${friendshipBaseUrl}/all-non?${stringifyModel(model)}`,
 
   // get user data for other user with established friendship
-  getFriendProfile: (friendshipId: Guid): string => `${friendshipBaseUrl}/${friendshipId}`,
+  getFriendProfile: (friendshipId: Guid): string => `${friendshipBaseUrl}/${friendshipId}/profile`,
 
   // removes friendships
   removeFriend: (friendshipId: Guid): string => `${friendshipBaseUrl}/${friendshipId}`,

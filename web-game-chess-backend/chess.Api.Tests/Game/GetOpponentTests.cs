@@ -77,7 +77,7 @@ public class GetOpponentTests : IClassFixture<TestWebApplicationFactory<Program>
         });
 
         await _dbContext.AddPlayer(Guid.Parse(Constants.UserId), Constants.Username);
-        var otherPlayerId = await _dbContext.AddPlayer(friendId, "freind");
+        var otherPlayerId = await _dbContext.AddPlayer(friendId, "friend");
         var otherPlayer2Id = await _dbContext.AddPlayer(otherUserId, "other");
 
         var gameId = await _dbContext.AddGame(otherPlayerId, otherPlayer2Id, timingId, false); // not user game

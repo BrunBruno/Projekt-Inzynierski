@@ -3,7 +3,7 @@ import classes from "./HistorySection.module.scss";
 import { LineChart } from "@mui/x-charts";
 import { Theme, ThemeProvider, createTheme } from "@mui/material/styles";
 import { mainColor } from "../../../shared/utils/objects/colorMaps";
-import { formatDate } from "../../../shared/utils/functions/dateTime";
+import { formatDate } from "../../../shared/utils/functions/datetime";
 import { PagedResult } from "../../../shared/utils/types/abstractDtosAndModels";
 import IconCreator from "../../../shared/components/icon-creator/IconCreator";
 import { timingTypeIcons } from "../../../shared/svgs/iconsMap/TimingTypeIcons";

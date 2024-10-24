@@ -22,6 +22,8 @@ export type CreateGameByEmailModel = TimingTypeModel & {
 export type CreateRematchGameModel = TimingTypeModel & {
   // user opponents id from previous game
   opponentId: Guid;
+  // id of previous game
+  previousGameId: Guid;
 };
 
 export type MakeMoveModel = {

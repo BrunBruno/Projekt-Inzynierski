@@ -31,9 +31,9 @@ public class GetEndedGameRequestHandlerTests {
             Id = gameId,
             WinnerColor = PieceColor.Black,
             HasEnded = true,
-
-              WhitePlayerRegistered = true,
+            WhitePlayerRegistered = true,
             BlackPlayerRegistered = true,
+
             WhitePlayer = new Player() { 
                 Name = "Username",
                 UserId = userId,
@@ -110,9 +110,9 @@ public class GetEndedGameRequestHandlerTests {
             Id = gameId,
             WinnerColor = PieceColor.Black,
             HasEnded = true,
-
-              WhitePlayerRegistered = true,
+            WhitePlayerRegistered = true,
             BlackPlayerRegistered = true,
+
             WhitePlayer = new Player()
             {
                 Name = "Other",
@@ -160,9 +160,9 @@ public class GetEndedGameRequestHandlerTests {
             Id = gameId,
             WinnerColor = PieceColor.Black,
             HasEnded = false, // game has not ended
-
             WhitePlayerRegistered = true,
             BlackPlayerRegistered = true,
+
             WhitePlayer = new Player()
             {
                 Name = "Username",

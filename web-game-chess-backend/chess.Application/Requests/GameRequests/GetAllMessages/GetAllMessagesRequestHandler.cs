@@ -82,6 +82,7 @@ public class GetAllMessagesRequestHandler : IRequestHandler<GetAllMessagesReques
         }).ToList();
 
 
+        // connect player messages and game messages
         var messagesDtos = playerMessagesDtos.Concat(gameMessagesDtos)
                                                 .OrderBy(m => m.SentAt) 
                                                 .ToList();

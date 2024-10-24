@@ -1,7 +1,6 @@
 ﻿
 using chess.Api.Tests.User;
 using chess.Application.Requests.GameRequests.CheckIfUpdateRequired;
-using chess.Application.Requests.GameRequests.GetGame;
 using chess.Core.Abstraction;
 using chess.Core.Enums;
 using chess.Infrastructure.Contexts;
@@ -50,7 +49,7 @@ public class CheckIfUpdateRequiredTests : IClassFixture<TestWebApplicationFactor
         var gameId = await _dbContext.AddGame(userPlayerId, userPlayerId, timingId, true);
         await _dbContext.AddPlayerToGame(userPlayerId, gameId, PieceColor.White);
 
-        var response = await _client.GetAsync($"api/game/{gameId}/check-if-update-required");
+        var response = await _client.GetAsync($"api/game/{gameId}/update-required");
 
 
         response.StatusCode.Should().Be(HttpStatusCode.OK);
@@ -80,9 +79,10 @@ public class CheckIfUpdateRequiredTests : IClassFixture<TestWebApplicationFactor
         });
 
         await _dbContext.AddPlayer(Guid.Parse(Constants.UserId), Constants.Username);
+        // game not added
 
 
-        var response = await _client.GetAsync($"api/game/{Guid.NewGuid()}/check-if-update-required");
+        var response = await _client.GetAsync($"api/game/{Guid.NewGuid()}/update-required");
 
 
         response.StatusCode.Should().Be(HttpStatusCode.NotFound);

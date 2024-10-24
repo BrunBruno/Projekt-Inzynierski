@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import {
   CheckIfInGameDto,
+  CreateRematchGameDto,
   EndGameDto,
   FetchTimeDto,
   GetEndedGameDto,
@@ -40,6 +41,8 @@ function GamePage() {
   // selected timing and ids in case of new game or rematch
   const [selectedTiming, setSelectedTiming] = useState<GetGameTimingDto | null>(null);
   const [searchIds, setSearchIds] = useState<SearchGameDto | null>(null);
+  // game id for rematch
+  const [newGameId, setNewGameId] = useState<Guid | null>(null);
 
   // set game id as Guid
   useEffect(() => {
@@ -125,6 +128,24 @@ function GamePage() {
     GameHubService.connection?.off("GameUpdated", getGame);
   };
 
+  //
+  const setRematch = (rematchData: CreateRematchGameDto) => {
+    setNewGameId(rematchData.gameId);
+  };
+
+  const handleGameAccepted = (newGameId: Guid): void => {
+    console.log(gameId);
+    console.log(newGameId);
+
+    const state: StateOptions = {
+      popup: { text: "GAME STARTED", type: "info" },
+    };
+
+    navigate(`/main/game/${newGameId}`, { state: state });
+
+    window.location.reload();
+  };
+
   // add game hub listeners
   // first fetch for game data
   useEffect(() => {
@@ -139,6 +160,8 @@ function GamePage() {
     addPlayerToGameGroup();
     GameHubService.connection?.on("GameUpdated", getGame);
     GameHubService.connection?.on("GameEnded", endGame);
+    GameHubService.connection?.on("RematchRequested", setRematch);
+    GameHubService.connection?.on("GameAccepted", handleGameAccepted);
 
     getGame();
     getPlayer();
@@ -146,6 +169,8 @@ function GamePage() {
     return () => {
       GameHubService.connection?.off("GameUpdated", getGame);
       GameHubService.connection?.off("GameEnded", endGame);
+      GameHubService.connection?.off("RematchRequested", setRematch);
+      GameHubService.connection?.off("GameAccepted", handleGameAccepted);
     };
   }, [gameId]);
 
@@ -239,6 +264,7 @@ function GamePage() {
         playerData={playerData}
         winner={winner}
         searchIds={searchIds}
+        newGameId={newGameId}
         setSearchIds={setSearchIds}
         selectedTiming={selectedTiming}
         showConfirm={showConfirm}

@@ -14,6 +14,8 @@ export type InviteFriendModel = {
 /** PUT models */
 
 export type RespondToFriendRequestModel = {
+  // relationship id
+  friendshipId: Guid;
   // replay of user to change status of friendship
   isAccepted: boolean;
 };

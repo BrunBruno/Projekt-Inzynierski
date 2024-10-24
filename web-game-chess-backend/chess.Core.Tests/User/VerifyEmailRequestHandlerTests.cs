@@ -33,7 +33,7 @@ public class VerifyEmailRequestHandlerTests {
             Id = Guid.NewGuid(),
             Email = "user@test.com",
             Username = "Username",
-            IsVerified = true,
+            IsVerified = false,
             PasswordHash = "PasswordHash",
             RoleId = (int)Roles.User
         };

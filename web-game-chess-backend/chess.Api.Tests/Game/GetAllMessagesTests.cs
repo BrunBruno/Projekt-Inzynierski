@@ -45,7 +45,7 @@ public class GetAllMessagesTests : IClassFixture<TestWebApplicationFactory<Progr
         });
 
         var userPlayerId = await _dbContext.AddPlayer(Guid.Parse(Constants.UserId), Constants.Username);
-        var friendPlayerId = await _dbContext.AddPlayer(friendId, "freind");
+        var friendPlayerId = await _dbContext.AddPlayer(friendId, "friend");
 
         var gameId = await _dbContext.AddGame(userPlayerId, friendPlayerId, timingId, false);
         await _dbContext.AddPlayerToGame(userPlayerId, gameId, PieceColor.White);
@@ -82,7 +82,7 @@ public class GetAllMessagesTests : IClassFixture<TestWebApplicationFactory<Progr
         });
 
         await _dbContext.AddPlayer(Guid.Parse(Constants.UserId), Constants.Username);
-        await _dbContext.AddPlayer(friendId, "freind");
+        await _dbContext.AddPlayer(friendId, "friend");
 
         // game not added
 
@@ -113,7 +113,7 @@ public class GetAllMessagesTests : IClassFixture<TestWebApplicationFactory<Progr
         });
 
         // players not owned
-        var friendPlayerId = await _dbContext.AddPlayer(friendId, "freind");
+        var friendPlayerId = await _dbContext.AddPlayer(friendId, "friend");
         var otherPlayerId = await _dbContext.AddPlayer(otherUserId, "other");
 
         var gameId = await _dbContext.AddGame(otherPlayerId, friendPlayerId, timingId, false);

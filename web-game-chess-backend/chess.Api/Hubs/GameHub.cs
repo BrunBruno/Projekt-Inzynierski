@@ -3,6 +3,8 @@ using AutoMapper;
 using chess.Api.Models.GameModels;
 using chess.Application.Hubs;
 using chess.Application.Requests.GameRequests.AcceptInvitation;
+using chess.Application.Requests.GameRequests.AcceptRematch;
+using chess.Application.Requests.GameRequests.CreateRematchGame;
 using chess.Application.Requests.GameRequests.DeclineInvitation;
 using chess.Application.Requests.GameRequests.EndGame;
 using chess.Application.Requests.GameRequests.InvitedToGame;
@@ -87,6 +89,24 @@ public class GameHub : Hub<IGameHub> {
         await _mediator.Send(request);
 
         await Clients.Groups($"queue-{typeId}").GamesChanged();
+    }
+
+
+    /// <summary>
+    /// Creates new game for two same users that has already played one game
+    /// </summary>
+    /// <param name="model"></param>
+    /// <returns> Essential for game creation </returns>
+    [HubMethodName("rematch")]
+    [Authorize(Policy = "IsVerified")]
+    [SignalRMethod("CreateRematchGame", Operation.Post)]
+    public async Task CreateRematchGame(CreateRematchGameModel model) {
+
+        var request = _mapper.Map<CreateRematchGameRequest>(model);
+
+        var gameData = await _mediator.Send(request);
+
+        await Clients.Groups($"game-{model.PreviousGameId}").RematchRequested(gameData);
     }
 
 
@@ -183,7 +203,30 @@ public class GameHub : Hub<IGameHub> {
         await Clients.Groups($"game-{model.GameId}").GameEnded(endGameDto);
     }
 
-   
+
+    /// <summary>
+    /// To accept game rematch
+    /// Notify both counterparts and starts the game
+    /// </summary>
+    /// <param name="gameId"></param>
+    /// <returns></returns>
+    [HubMethodName("accept-rematch")]
+    [Authorize(Policy = "IsVerified")]
+    [SignalRMethod("AcceptRematch", Operation.Put)]
+    public async Task AcceptRematch(Guid gameId) {
+
+        var request = new AcceptRematchRequest()
+        {
+            GameId = gameId,
+        };
+
+        var acceptDto = await _mediator.Send(request);
+
+        await Clients.Groups($"user-{acceptDto.WhitePlayerUserId}").GameAccepted(gameId);
+        await Clients.Groups($"user-{acceptDto.BlackPlayerUserId}").GameAccepted(gameId);
+    }
+
+
     /// <summary>
     ///  To accept new received invitation
     ///  Notify both counterparts and starts the game

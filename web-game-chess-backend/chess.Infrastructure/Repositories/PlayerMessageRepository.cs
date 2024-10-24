@@ -24,11 +24,6 @@ public class PlayerMessageRepository : IPlayerMessageRepository {
                     .ToListAsync();
 
     ///<inheritdoc/>
-    public async Task<PlayerMessage?> GetDrawMessage(Guid playerId)
-        => await _dbContext.PlayerMessages
-                    .FirstOrDefaultAsync(m => m.PlayerId == playerId && m.Type == MessageType.DrawAction);
-
-    ///<inheritdoc/>
     public async Task Create(PlayerMessage message) {
         await _dbContext.PlayerMessages.AddAsync(message);
         await _dbContext.SaveChangesAsync();

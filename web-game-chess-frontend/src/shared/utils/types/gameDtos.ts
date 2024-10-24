@@ -214,3 +214,8 @@ export type GetOpponentDto = {
   // previous opponent id
   opponentId: Guid;
 };
+
+export type CreateRematchGameDto = {
+  opponentId: Guid;
+  gameId: Guid;
+};

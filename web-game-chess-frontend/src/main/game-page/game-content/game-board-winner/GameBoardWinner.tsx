@@ -1,7 +1,13 @@
 import { useNavigate } from "react-router-dom";
-import { EndGameDto, GetEndedGameDto, GetGameDto, SearchGameDto } from "../../../../shared/utils/types/gameDtos";
+import {
+  EndGameDto,
+  GetEndedGameDto,
+  GetGameDto,
+  GetOpponentDto,
+  SearchGameDto,
+} from "../../../../shared/utils/types/gameDtos";
 import classes from "./GameBoardWinner.module.scss";
-import { SearchGameModel } from "../../../../shared/utils/types/gameModels";
+import { CreateRematchGameModel, SearchGameModel } from "../../../../shared/utils/types/gameModels";
 import { gameController, getAuthorization } from "../../../../shared/utils/services/ApiService";
 import axios from "axios";
 import GameHubService from "../../../../shared/utils/services/GameHubService";
@@ -12,8 +18,11 @@ import { PieceColor } from "../../../../shared/utils/objects/entitiesEnums";
 import { Dispatch, SetStateAction } from "react";
 import { StateOptions } from "../../../../shared/utils/objects/interfacesEnums";
 import { PlayerDto } from "../../../../shared/utils/types/abstractDtosAndModels";
+import { Guid } from "guid-typescript";
 
 type GameBoardWinnerProps = {
+  // game id
+  gameId: Guid;
   // current game data
   gameData: GetGameDto;
   // player data
@@ -24,9 +33,19 @@ type GameBoardWinnerProps = {
   setSearchIds: Dispatch<SetStateAction<SearchGameDto | null>>;
   // timing for new game or rematch
   selectedTiming: SearchGameModel | null;
+  // rematch game id
+  newGameId: Guid | null;
 };
 
-function GameBoardWinner({ winner, gameData, playerData, setSearchIds, selectedTiming }: GameBoardWinnerProps) {
+function GameBoardWinner({
+  gameId,
+  gameData,
+  playerData,
+  winner,
+  setSearchIds,
+  selectedTiming,
+  newGameId,
+}: GameBoardWinnerProps) {
   ///
 
   const navigate = useNavigate();
@@ -35,11 +54,7 @@ function GameBoardWinner({ winner, gameData, playerData, setSearchIds, selectedT
   // to search for new game
   const onSearchForGame = async (): Promise<void> => {
     if (!selectedTiming) {
-      const state: StateOptions = {
-        popup: { text: "ERROR STARTING GAME", type: "error" },
-      };
-
-      navigate("/main", { state: state });
+      returnOnFail();
       return;
     }
 
@@ -61,6 +76,59 @@ function GameBoardWinner({ winner, gameData, playerData, setSearchIds, selectedT
   };
   //*/
 
+  //
+  const onCreateRematchRequest = async (): Promise<void> => {
+    if (!selectedTiming) {
+      returnOnFail();
+      return;
+    }
+
+    try {
+      const response = await axios.get<GetOpponentDto>(gameController.getOpponent(gameId), getAuthorization());
+
+      const model: CreateRematchGameModel = {
+        type: selectedTiming.type,
+        minutes: selectedTiming.minutes,
+        increment: selectedTiming.increment,
+        opponentId: response.data.opponentId,
+        previousGameId: gameId,
+      };
+
+      await GameHubService.CreateRematchGame(model);
+
+      console.log("create done");
+    } catch (err) {
+      showPopup(getErrMessage(err), "warning");
+    }
+  };
+  //*/
+
+  // to accept rematch
+  const onAcceptRematchRequest = async () => {
+    if (!newGameId) {
+      returnOnFail();
+      return;
+    }
+
+    try {
+      await GameHubService.AcceptRematch(newGameId);
+
+      console.log("accept done");
+    } catch (err) {
+      showPopup(getErrMessage(err), "warning");
+    }
+  };
+  //*/
+
+  const returnOnFail = (): void => {
+    const state: StateOptions = {
+      popup: { text: "ERROR STARTING GAME", type: "error" },
+    };
+
+    navigate("/main", { state: state });
+  };
+
+  // generate players schema
   const generatePlayers = (): JSX.Element => {
     if (!winner) return <></>;
 
@@ -117,6 +185,7 @@ function GameBoardWinner({ winner, gameData, playerData, setSearchIds, selectedT
       </div>
     );
   };
+  //*/
 
   if (!winner) return <></>;
 
@@ -135,6 +204,7 @@ function GameBoardWinner({ winner, gameData, playerData, setSearchIds, selectedT
           {winner.winnerColor === PieceColor.white && <span>White Wins</span>}
           {winner.winnerColor === PieceColor.black && <span>Black Wins</span>}
         </h2>
+
         <div className={classes.winner__content__info}>
           {generatePlayers()}
 
@@ -148,7 +218,25 @@ function GameBoardWinner({ winner, gameData, playerData, setSearchIds, selectedT
               <span>New Game</span>
             </button>
 
-            <button className={classes["re-game"]}>Rematch</button>
+            {newGameId ? (
+              <button
+                className={classes["re-game"]}
+                onClick={() => {
+                  onAcceptRematchRequest();
+                }}
+              >
+                <span>Accept</span>
+              </button>
+            ) : (
+              <button
+                className={classes["re-game"]}
+                onClick={() => {
+                  onCreateRematchRequest();
+                }}
+              >
+                <span>Rematch</span>
+              </button>
+            )}
           </div>
 
           <div className={classes.leave}>

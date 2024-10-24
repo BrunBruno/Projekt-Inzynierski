@@ -71,7 +71,7 @@ public class GetAllFinishedGamesRequestHandler : IRequestHandler<GetAllFinishedG
                     TimingType = game.TimingType,
                     EndGameType = player.WhiteGame.EndGameType,
 
-                    // currect user player
+                    // current user player
                     WhitePlayer = new PlayerDto()
                     { 
                         Name = player.Name,
@@ -83,7 +83,7 @@ public class GetAllFinishedGamesRequestHandler : IRequestHandler<GetAllFinishedG
                             ContentType = player.User.Image.ContentType,
                         } : null,
                     },
-                    // opponets player
+                    // opponents player
                     BlackPlayer = new PlayerDto()
                     {
                         Name = game.BlackPlayer.Name,
@@ -146,7 +146,7 @@ public class GetAllFinishedGamesRequestHandler : IRequestHandler<GetAllFinishedG
                             ContentType = game.WhitePlayer.User.Image.ContentType,
                         } : null,
                     },
-                    // currect user player
+                    // current user player
                     BlackPlayer = new PlayerDto()
                     {
                         Name = player.Name,

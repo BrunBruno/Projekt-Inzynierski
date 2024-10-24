@@ -28,6 +28,7 @@ function FriendCard({ selectedList, friend, getAllUsers, setFriend }: FriendCard
   const onRespondToRequest = async (accept: boolean): Promise<void> => {
     try {
       const model: RespondToFriendRequestModel = {
+        friendshipId: friend.friendshipId,
         isAccepted: accept,
       };
 

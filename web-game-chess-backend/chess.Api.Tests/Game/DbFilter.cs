@@ -254,6 +254,7 @@ internal static partial class DbFilter {
                 FinishedGame = isFinished,
                 UserId = Guid.Parse(Constants.UserId),
                 User = user,
+                TimeLeft = isFinished == true ? 0 : 24 * 60 * 60,
             };
 
             var enemyPlayer = new Player()
@@ -266,13 +267,16 @@ internal static partial class DbFilter {
                 FinishedGame = isFinished,
                 UserId = enemy.Id,
                 User = enemy,
+                TimeLeft = isFinished == true ? 0 : 24 * 60 * 60,
             };
 
             var game = new Core.Entities.Game() {
 
                 Id = Guid.NewGuid(),
                 HasEnded = isFinished,
-                CreatedAt = DateTime.UtcNow,
+                CreatedAt = DateTime.UtcNow.AddMinutes(-30),
+                StartedAt = DateTime.UtcNow.AddMinutes(-20),
+                EndedAt = isFinished == true ? DateTime.UtcNow : null,
 
                 WhitePlayerRegistered = true,
                 BlackPlayerRegistered = true,
