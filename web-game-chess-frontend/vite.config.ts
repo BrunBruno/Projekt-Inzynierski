@@ -11,4 +11,11 @@ export default defineConfig({
     host: "localhost",
     // host: "192.168.1.46",
   },
+  css: {
+    preprocessorOptions: {
+      scss: {
+        api: "modern-compiler",
+      },
+    },
+  },
 });

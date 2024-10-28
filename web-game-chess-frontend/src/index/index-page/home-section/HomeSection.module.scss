@@ -1,4 +1,8 @@
-@import "../../Index.scss";
+@use "../../../shared/styles/shared.scss" as *;
+
+$index-border-width: 2rem;
+$index-border-radius: 16rem;
+$index-border-color: rgb(67, 43, 137);
 
 // home section container
 .section {

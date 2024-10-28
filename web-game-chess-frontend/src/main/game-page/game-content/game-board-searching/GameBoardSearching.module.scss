@@ -1,4 +1,5 @@
-@import "../../../Main.scss";
+@use "sass:math";
+@use "../../../../shared/styles/shared.scss" as *;
 
 // search in game container
 .searching {
@@ -37,7 +38,7 @@
         g {
           path {
             @for $i from 1 through 16 {
-              $row: ceil(calc($i / 4)) - 1;
+              $row: math.ceil(calc($i / 4)) - 1;
               $col: ($i - 1) % 4 - 1.5;
               $translate-x: $col * 8;
               $translate-y: $row * 8 - 8;

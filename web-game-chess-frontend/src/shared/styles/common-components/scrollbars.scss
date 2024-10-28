@@ -1,11 +1,12 @@
 /* shared scrollbar settings */
 
-@import "../variables/color.scss";
+@use "sass:map";
+@use "../variables/color.scss" as color;
 
 // default setting for main scrollbar
 @mixin mainScrollbar($bgColor: #000, $mainColor: #343a40, $sideColor: #495057) {
-  $mainRGB: map-get($colorMap, $mainColor);
-  $sideRGB: map-get($colorMap, $sideColor);
+  $mainRGB: map.get(color.$colorMap, $mainColor);
+  $sideRGB: map.get(color.$colorMap, $sideColor);
 
   &::-webkit-scrollbar {
     width: 1.2rem;

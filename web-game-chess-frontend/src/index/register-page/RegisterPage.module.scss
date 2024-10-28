@@ -1,5 +1,5 @@
-@import "../Index.scss";
-@import "../../shared/components/action-button/ActionButton.module.scss";
+@use "../../shared/styles/shared.scss" as *;
+@use "../../shared/components/action-button/ActionButton.module.scss" as actionButton;
 
 // register page container
 .register {
@@ -47,7 +47,7 @@
       }
 
       .action-button {
-        @include actionButton(1.6rem);
+        @include actionButton.actionButton(1.6rem);
       }
 
       @keyframes introAnimation {
@@ -153,7 +153,7 @@
         }
 
         .action-button {
-          @include actionButton(2rem);
+          @include actionButton.actionButton(2rem);
         }
       }
     }

@@ -1,6 +1,4 @@
-@import "../../styles/variables/color.scss";
-@import "../../styles/commons-styles/elements.scss";
-@import "../../styles/commons-styles/texts.scss";
+@use "../../styles/shared.scss" as *;
 
 // popup window
 .popup {

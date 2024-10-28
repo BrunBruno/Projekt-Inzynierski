@@ -1,4 +1,4 @@
-@import "../../styles/commons-styles/elements.scss";
+@use "../../styles/shared.scss" as *;
 
 // avatar image default styles
 .avatar-image {

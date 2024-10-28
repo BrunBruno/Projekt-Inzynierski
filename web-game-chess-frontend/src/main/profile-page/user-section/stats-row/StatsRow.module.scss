@@ -1,4 +1,4 @@
-@import "../../../Main.scss";
+@use "../../../../shared/styles/shared.scss" as *;
 
 @mixin setStatDimensions($row-font-size) {
   $row-gap: calc(0.5 * $row-font-size);

@@ -1,10 +1,11 @@
-@import "../Main.scss";
+@use "../../shared/styles/shared.scss" as *;
+@use "../Main.scss" as Main;
 
 // user page container
 .users-main {
   @include wh100();
   @include gridBg();
-  @include forNav();
+  @include Main.forNav();
 
   & {
     display: grid;

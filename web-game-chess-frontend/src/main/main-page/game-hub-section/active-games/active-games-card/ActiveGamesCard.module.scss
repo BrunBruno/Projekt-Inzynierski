@@ -1,5 +1,5 @@
-@import "../../../../Main.scss";
-@import "../../../../../shared/components/action-button/ActionButton.module.scss";
+@use "../../../../../shared/styles/shared.scss" as *;
+@use "../../../../../shared/components/action-button/ActionButton.module.scss" as actionButton;
 
 // user game card
 .card {
@@ -34,7 +34,7 @@
     }
 
     .rejoin-button {
-      @include actionButton(1.6rem);
+      @include actionButton.actionButton(1.6rem);
     }
   }
   //*/

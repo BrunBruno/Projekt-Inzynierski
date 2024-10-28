@@ -1,5 +1,5 @@
-@import "../../../../Main.scss";
-@import "../../../../../shared/components/action-button/ActionButton.module.scss";
+@use "../../../../../shared/styles/shared.scss" as *;
+@use "../../../../../shared/components/action-button/ActionButton.module.scss" as actionButton;
 
 // bs-friend time selection container
 .time {
@@ -82,7 +82,7 @@
   }
 
   &__cancel {
-    @include actionButton(1.4rem);
+    @include actionButton.actionButton(1.4rem);
 
     & {
       margin-top: 2rem;
