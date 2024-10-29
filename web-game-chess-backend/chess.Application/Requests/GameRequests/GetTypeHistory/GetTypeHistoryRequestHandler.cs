@@ -1,6 +1,6 @@
 ﻿
 using chess.Application.Pagination;
-using chess.Application.Repositories;
+using chess.Application.Repositories.WebGameRepositories;
 using chess.Application.Services;
 using chess.Core.Enums;
 using MediatR;
@@ -16,11 +16,11 @@ namespace chess.Application.Requests.GameRequests.GetTypeHistory;
 public class GetTypeHistoryRequestHandler : IRequestHandler<GetTypeHistoryRequest, PagedResult<GetTypeHistoryDto>> {
 
     private readonly IUserContextService _userContextService;
-    private readonly IPlayerRepository _playerRepository;
+    private readonly IWebGamePlayerRepository _playerRepository;
 
     public GetTypeHistoryRequestHandler(
         IUserContextService userContextService,
-        IPlayerRepository playerRepository
+        IWebGamePlayerRepository playerRepository
     ) {
         _userContextService = userContextService;
         _playerRepository = playerRepository;

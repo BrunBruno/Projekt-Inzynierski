@@ -1,6 +1,7 @@
 ﻿
 using chess.Application.Pagination;
-using chess.Application.Repositories;
+using chess.Application.Repositories.FriendshipRepositories;
+using chess.Application.Repositories.UserRepositories;
 using chess.Application.Services;
 using chess.Core.Abstraction;
 using chess.Core.Dtos;
@@ -66,7 +67,7 @@ public class GetAllNonFriendsRequestHandler : IRequestHandler<GetAllNonFriendsRe
                 Daily = nonFriend.Elo.Daily,
             },
 
-            WdlTotal = new WinDrawLose() {
+            OutcomeTotal = new GameOutcomeDto() {
                 Total = nonFriend.Stats.GamesPlayed,
                 Wins = nonFriend.Stats.Wins,
                 Draws = nonFriend.Stats.Draws,

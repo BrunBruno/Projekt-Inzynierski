@@ -1,6 +1,9 @@
 ﻿
 namespace chess.Core.Dtos;
 
+/// <summary>
+/// General user image dto
+/// </summary>
 public class ImageDto {
 
     /// <summary>

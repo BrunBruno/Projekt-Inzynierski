@@ -1,5 +1,5 @@
 ﻿
-using chess.Core.Abstraction;
+using chess.Core.Models;
 
 namespace chess.Application.Requests.GameRequests.CheckIfUpdateRequired;
 
@@ -7,7 +7,7 @@ namespace chess.Application.Requests.GameRequests.CheckIfUpdateRequired;
 /// Game timing for obtained game dto
 /// Is update on private game required statement
 /// </summary>
-public class CheckIfUpdateRequiredDto : TimingType {
+public class CheckIfUpdateRequiredDto : TimingTypeModel {
 
     /// <summary>
     /// Is update required flag

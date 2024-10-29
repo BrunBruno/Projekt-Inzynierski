@@ -1,5 +1,5 @@
 ﻿
-using chess.Application.Repositories;
+using chess.Application.Repositories.WebGameRepositories;
 using chess.Shared.Exceptions;
 using MediatR;
 
@@ -13,9 +13,9 @@ namespace chess.Application.Requests.GameRequests.FetchTime;
 /// </summary>
 public class FetchTimeRequestHandler : IRequestHandler<FetchTimeRequest, FetchTimeDto> {
 
-    private readonly IGameRepository _gameRepository;
+    private readonly IWebGameRepository _gameRepository;
 
-    public FetchTimeRequestHandler(IGameRepository gameRepository) {
+    public FetchTimeRequestHandler(IWebGameRepository gameRepository) {
         _gameRepository = gameRepository;
     }
 

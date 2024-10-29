@@ -1,5 +1,5 @@
 ﻿
-using chess.Application.Repositories;
+using chess.Application.Repositories.WebGameRepositories;
 using chess.Application.Services;
 using chess.Core.Dtos;
 using chess.Core.Enums;
@@ -15,11 +15,11 @@ namespace chess.Application.Requests.GameRequests.GetPlayer;
 /// </summary>
 public class GetPlayerRequestHandler : IRequestHandler<GetPlayerRequest, GetPlayerDto> {
 
-    private readonly IPlayerRepository _playerRepository;
+    private readonly IWebGamePlayerRepository _playerRepository;
     private readonly IUserContextService _userContextService;
 
     public GetPlayerRequestHandler(
-        IPlayerRepository playerRepository,
+        IWebGamePlayerRepository playerRepository,
         IUserContextService userContextService
     ) {
         _playerRepository = playerRepository;

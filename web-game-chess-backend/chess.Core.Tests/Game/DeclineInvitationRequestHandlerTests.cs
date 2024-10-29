@@ -1,5 +1,4 @@
-﻿
-using chess.Application.Repositories;
+﻿using chess.Application.Repositories.GameRepositories;
 using chess.Application.Requests.GameRequests.DeclineInvitation;
 using chess.Application.Services;
 using chess.Core.Entities;

@@ -1,5 +1,5 @@
 ﻿
-using chess.Application.Repositories;
+using chess.Application.Repositories.WebGameRepositories;
 using chess.Core.Entities;
 using chess.Core.Enums;
 using chess.Shared.Exceptions;
@@ -13,12 +13,12 @@ namespace chess.Application.Requests.GameRequests.SendGameMessage;
 /// </summary>
 public class SendGameMessageRequestHandler : IRequestHandler<SendGameMessageRequest> {
 
-    private readonly IGameMessageRepository _gameMessageRepository;
-    private readonly IGameRepository _gameRepository;
+    private readonly IWebGameMessageRepository _gameMessageRepository;
+    private readonly IWebGameRepository _gameRepository;
 
     public SendGameMessageRequestHandler(
-        IGameMessageRepository gameMessageRepository,
-        IGameRepository gameRepository
+        IWebGameMessageRepository gameMessageRepository,
+        IWebGameRepository gameRepository
     ) {
         _gameMessageRepository = gameMessageRepository;
         _gameRepository = gameRepository;
@@ -30,7 +30,7 @@ public class SendGameMessageRequestHandler : IRequestHandler<SendGameMessageRequ
             ?? throw new NotFoundException("Game not found.");
 
 
-        var message = new GameMessage()
+        var message = new WebGameMessage()
         {
             Id = Guid.NewGuid(),
             RequestorName = "BOT",

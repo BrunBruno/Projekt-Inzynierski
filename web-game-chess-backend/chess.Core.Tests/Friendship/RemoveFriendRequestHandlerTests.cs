@@ -1,5 +1,4 @@
-﻿
-using chess.Application.Repositories;
+﻿using chess.Application.Repositories.FriendshipRepositories;
 using chess.Application.Requests.FriendshipRequests.RemoveFriend;
 using chess.Application.Services;
 using chess.Core.Enums;

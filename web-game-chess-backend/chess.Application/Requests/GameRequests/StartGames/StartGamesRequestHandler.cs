@@ -1,5 +1,6 @@
 ﻿
 using chess.Application.Repositories;
+using chess.Application.Repositories.WebGameRepositories;
 using chess.Core.Entities;
 using chess.Core.Enums;
 using chess.Shared.Exceptions;
@@ -14,15 +15,15 @@ namespace chess.Application.Requests.GameRequests.StartGames;
 /// </summary>
 public class StartGamesRequestHandler : IRequestHandler<StartGamesRequest> {
 
-    private readonly IGameRepository _gameRepository;
-    private readonly IPlayerRepository _playerRepository;
-    private readonly IGameStateRepository _gameStateRepository;
+    private readonly IWebGameRepository _gameRepository;
+    private readonly IWebGamePlayerRepository _playerRepository;
+    private readonly IWebGameStateRepository _gameStateRepository;
     private readonly IGameTimingRepository _gameTimingRepository;
 
     public StartGamesRequestHandler(
-        IGameRepository gameRepository,
-        IPlayerRepository playerRepository,
-        IGameStateRepository gameStateRepository,
+        IWebGameRepository gameRepository,
+        IWebGamePlayerRepository playerRepository,
+        IWebGameStateRepository gameStateRepository,
         IGameTimingRepository gameTimingRepository
     ) {
         _gameRepository = gameRepository;
@@ -38,7 +39,7 @@ public class StartGamesRequestHandler : IRequestHandler<StartGamesRequest> {
 
         var players = await _playerRepository.GetAllAvailablePlayersForTiming(request.TimingId);
 
-        var matchedPlayers = new List<Player>();
+        var matchedPlayers = new List<WebGamePlayer>();
         var random = new Random();
         var eloRange = GetRange(players.Count);
 
@@ -55,7 +56,7 @@ public class StartGamesRequestHandler : IRequestHandler<StartGamesRequest> {
                 matchedPlayers.Add(closestPlayer);
 
 
-                var game = new Game()
+                var game = new WebGame()
                 {
                     Id = Guid.NewGuid(),
                     TimingType = timing.Type,
@@ -81,7 +82,7 @@ public class StartGamesRequestHandler : IRequestHandler<StartGamesRequest> {
                 player.Color = randomChoice ? PieceColor.White : PieceColor.Black;
                 closestPlayer.Color = randomChoice ? PieceColor.Black : PieceColor.White;
 
-                var gameState = new GameState()
+                var gameState = new WebGameState()
                 {
                     Id = Guid.NewGuid(),
                     GameId = game.Id,

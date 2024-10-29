@@ -1,5 +1,5 @@
 ﻿
-using chess.Core.Abstraction;
+using chess.Core.Models;
 using MediatR;
 
 namespace chess.Application.Requests.GameRequests.CreatePrivateGame;
@@ -7,7 +7,7 @@ namespace chess.Application.Requests.GameRequests.CreatePrivateGame;
 /// <summary>
 /// Request to create new private game with selected friend
 /// </summary>
-public class CreatePrivateGameRequest : TimingType, IRequest<CreatePrivateGameDto> {
+public class CreatePrivateGameRequest : TimingTypeModel, IRequest<CreatePrivateGameDto> {
 
     /// <summary>
     /// Id of friendship between user and selected friend

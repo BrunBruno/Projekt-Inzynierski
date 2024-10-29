@@ -1,5 +1,5 @@
 ﻿
-using chess.Core.Abstraction;
+using chess.Core.Models;
 using MediatR;
 
 namespace chess.Application.Requests.GameRequests.CreateGameByEmail;
@@ -8,7 +8,7 @@ namespace chess.Application.Requests.GameRequests.CreateGameByEmail;
 /// Request to create new private game
 /// Select opponent by providing email address by current user
 /// </summary>
-public class CreateGameByEmailRequest : TimingType, IRequest<CreateGameByEmailDto> {
+public class CreateGameByEmailRequest : TimingTypeModel, IRequest<CreateGameByEmailDto> {
 
     /// <summary>
     /// Friend email

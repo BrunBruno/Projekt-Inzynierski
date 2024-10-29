@@ -1,5 +1,7 @@
 ﻿
 using chess.Application.Repositories;
+using chess.Application.Repositories.UserRepositories;
+using chess.Application.Repositories.WebGameRepositories;
 using chess.Application.Services;
 using chess.Core.Entities;
 using chess.Core.Enums;
@@ -19,19 +21,19 @@ namespace chess.Application.Requests.GameRequests.CreateRematchGame;
 public class CreateRematchGameRequestHandler : IRequestHandler<CreateRematchGameRequest, CreateRematchGameDto> {
 
     private readonly IGameTimingRepository _gameTimingRepository;
-    private readonly IGameRepository _gameRepository;
-    private readonly IPlayerRepository _playerRepository;
+    private readonly IWebGameRepository _gameRepository;
+    private readonly IWebGamePlayerRepository _playerRepository;
     private readonly IUserContextService _userContextService;
     private readonly IUserRepository _userRepository;
-    private readonly IGameStateRepository _gameStateRepository;
+    private readonly IWebGameStateRepository _gameStateRepository;
 
     public CreateRematchGameRequestHandler(
         IGameTimingRepository gameTimingRepository,
-        IGameRepository gameRepository,
-        IPlayerRepository playerRepository,
+        IWebGameRepository gameRepository,
+        IWebGamePlayerRepository playerRepository,
         IUserContextService userContextService,
         IUserRepository userRepository,
-        IGameStateRepository gameStateRepository
+        IWebGameStateRepository gameStateRepository
     ) {
         _gameTimingRepository = gameTimingRepository;
         _gameRepository = gameRepository;
@@ -56,7 +58,7 @@ public class CreateRematchGameRequestHandler : IRequestHandler<CreateRematchGame
 
 
         int userElo = user.Elo.GetElo(request.Type);
-        var userPlayer = new Player()
+        var userPlayer = new WebGamePlayer()
         {
             Id = Guid.NewGuid(),
             IsPrivate = true,
@@ -69,7 +71,7 @@ public class CreateRematchGameRequestHandler : IRequestHandler<CreateRematchGame
 
 
         int opponentElo = opponent.Elo.GetElo(request.Type);
-        var opponentPlayer = new Player()
+        var opponentPlayer = new WebGamePlayer()
         {
             Id = Guid.NewGuid(),
             IsPrivate = true,
@@ -81,7 +83,7 @@ public class CreateRematchGameRequestHandler : IRequestHandler<CreateRematchGame
         };
 
 
-        var game = new Game()
+        var game = new WebGame()
         {
             Id = Guid.NewGuid(),
             IsPrivate = true,
@@ -105,7 +107,7 @@ public class CreateRematchGameRequestHandler : IRequestHandler<CreateRematchGame
         opponentPlayer.Color = randomChoice ? PieceColor.Black : PieceColor.White;
 
 
-        var gameState = new GameState()
+        var gameState = new WebGameState()
         {
             Id = Guid.NewGuid(),
             GameId = game.Id,

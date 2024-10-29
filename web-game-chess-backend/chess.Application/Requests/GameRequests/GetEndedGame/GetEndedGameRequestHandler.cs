@@ -1,5 +1,5 @@
 ﻿
-using chess.Application.Repositories;
+using chess.Application.Repositories.WebGameRepositories;
 using chess.Application.Services;
 using chess.Shared.Exceptions;
 using MediatR;
@@ -14,11 +14,11 @@ namespace chess.Application.Requests.GameRequests.GetEndedGame;
 /// </summary>
 public class GetEndedGameRequestHandler : IRequestHandler<GetEndedGameRequest, GetEndedGameDto> {
 
-    private readonly IGameRepository _gameRepository;
+    private readonly IWebGameRepository _gameRepository;
     private readonly IUserContextService _userContextService;
 
     public GetEndedGameRequestHandler(
-        IGameRepository gameRepository,
+        IWebGameRepository gameRepository,
         IUserContextService userContextService
     ) { 
         _gameRepository = gameRepository;

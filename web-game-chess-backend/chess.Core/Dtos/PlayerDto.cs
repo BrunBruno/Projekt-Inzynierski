@@ -1,8 +1,10 @@
 ﻿
+using chess.Core.Enums;
+
 namespace chess.Core.Dtos;
 
 /// <summary>
-/// Player data
+/// General player data
 /// </summary>
 public class PlayerDto {
 
@@ -12,12 +14,17 @@ public class PlayerDto {
     public required string Name { get; set; }
 
     /// <summary>
-    /// Avatar image
-    /// </summary>
-    public ImageDto? ProfilePicture { get; set; }
-
-    /// <summary>
     /// Elo points for one game timing type
     /// </summary>
     public int Elo { get; set; }
+
+    /// <summary>
+    /// Side color of player
+    /// </summary>
+    public PieceColor Color { get; set; }
+
+    /// <summary>
+    /// Avatar image
+    /// </summary>
+    public ImageDto? ProfilePicture { get; set; }
 }

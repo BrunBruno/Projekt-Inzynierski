@@ -21,6 +21,8 @@ import { gameHubSectionIcons } from "./GameHubSectionIcons";
 import SearchingPage from "../../../shared/components/searching-page/SearchingPage";
 import { Guid } from "guid-typescript";
 import ActiveGames from "./active-games/ActiveGames";
+import VsComputerSearch from "./vs-computer-search/VsComputerSearch";
+import { StartEngineGameDto } from "../../../shared/utils/types/engineDtos";
 
 type GameHubSectionProps = {
   // in case of entering page with already chosen interface by user
@@ -37,6 +39,8 @@ function GameHubSection({ providedInterface }: GameHubSectionProps) {
   const [interfaceContent, setInterfaceContent] = useState<JSX.Element>(<></>);
   // ids for online games
   const [searchIds, setSearchIds] = useState<SearchGameDto | null>(null);
+  //
+  const [vsComputerGameIds, setVsComputerGameIds] = useState<StartEngineGameDto | null>(null);
   // to show new game invitation notification
   const [allowNotification, setAllowNotification] = useState<boolean>(false);
 
@@ -80,7 +84,6 @@ function GameHubSection({ providedInterface }: GameHubSectionProps) {
     const state: StateOptions = {
       popup: { text: "GAME STARTED", type: "info" },
     };
-
 
     navigate(`/main/game/${gameId}`, { state: state });
   };
@@ -140,6 +143,16 @@ function GameHubSection({ providedInterface }: GameHubSectionProps) {
   };
   //*/
 
+  useEffect(() => {
+    if (!vsComputerGameIds) return;
+
+    const state: StateOptions = {
+      popup: { text: "GAME STARTED", type: "info" },
+    };
+
+    navigate(`/main/engine-game/${vsComputerGameIds.gameId}`, { state: state });
+  }, [vsComputerGameIds]);
+
   // set game section content
   const setInterfaceById = (interfaceId: GameSearchInterface): void => {
     switch (interfaceId) {
@@ -152,7 +165,7 @@ function GameHubSection({ providedInterface }: GameHubSectionProps) {
         break;
 
       case GameSearchInterface.vsComputer:
-        setInterfaceContent(<></>);
+        setInterfaceContent(<VsComputerSearch setVsComputerGameIds={setVsComputerGameIds} />);
         break;
 
       case GameSearchInterface.vsFriend:

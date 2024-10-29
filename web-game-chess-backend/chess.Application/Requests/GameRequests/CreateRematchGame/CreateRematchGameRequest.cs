@@ -1,5 +1,5 @@
 ﻿
-using chess.Core.Abstraction;
+using chess.Core.Models;
 using MediatR;
 
 namespace chess.Application.Requests.GameRequests.CreateRematchGame;
@@ -7,7 +7,7 @@ namespace chess.Application.Requests.GameRequests.CreateRematchGame;
 /// <summary>
 /// Request to create new game, but with same opponent
 /// </summary>
-public class CreateRematchGameRequest : TimingType, IRequest<CreateRematchGameDto> {
+public class CreateRematchGameRequest : TimingTypeModel, IRequest<CreateRematchGameDto> {
 
     /// <summary>
     /// Previous game id

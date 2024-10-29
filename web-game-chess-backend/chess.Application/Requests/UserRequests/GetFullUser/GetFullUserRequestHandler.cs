@@ -1,6 +1,6 @@
-﻿
-using chess.Application.Repositories;
+﻿using chess.Application.Repositories.UserRepositories;
 using chess.Application.Services;
+using chess.Core.Abstraction;
 using chess.Core.Dtos;
 using chess.Shared.Exceptions;
 using MediatR;
@@ -46,7 +46,7 @@ public class GetFullUserRequestHandler : IRequestHandler<GetFullUserRequest, Get
                 ContentType = user.Image.ContentType,
             } : null,
       
-            WdlTotal = new Core.Abstraction.WinDrawLose()
+            OutcomeTotal = new GameOutcomeDto()
             {
                 Total = user.Stats.GamesPlayed,
                 Wins = user.Stats.Wins,

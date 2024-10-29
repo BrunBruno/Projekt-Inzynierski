@@ -1,5 +1,4 @@
-﻿
-using chess.Application.Repositories;
+﻿using chess.Application.Repositories.UserRepositories;
 using chess.Application.Requests.UserRequests.GetUser;
 using chess.Application.Services;
 using chess.Shared.Exceptions;

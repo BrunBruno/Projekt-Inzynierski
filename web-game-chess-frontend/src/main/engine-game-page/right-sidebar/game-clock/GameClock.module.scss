@@ -1,0 +1,42 @@
+@use "../../../../shared/styles/shared.scss" as *;
+
+// clock container
+.clock {
+  @include flex();
+
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  padding: 0 2rem;
+
+  .time {
+    @include flex();
+    @include rounded(1rem);
+
+    font-size: 2rem;
+    font-weight: 600;
+    opacity: 0.5;
+    height: fit-content;
+
+    &.white-time {
+      color: #000;
+      background-color: #fff;
+    }
+
+    &.black-time {
+      color: #fff;
+      background-color: #000;
+    }
+
+    &.active {
+      opacity: 1;
+    }
+
+    span {
+      margin: 0.1rem;
+      color: $gc5;
+      font-size: 1.4rem;
+    }
+  }
+}
+//*/

@@ -1,5 +1,7 @@
 ﻿
 using chess.Application.Repositories;
+using chess.Application.Repositories.UserRepositories;
+using chess.Application.Repositories.WebGameRepositories;
 using chess.Application.Services;
 using chess.Core.Entities;
 using chess.Core.Maps.MapOfElo;
@@ -17,13 +19,13 @@ namespace chess.Application.Requests.GameRequests.SearchGame;
 /// </summary>
 public class SearchGameRequestHandler : IRequestHandler<SearchGameRequest, SearchGameDto> {
 
-    private readonly IPlayerRepository _playerRepository;
+    private readonly IWebGamePlayerRepository _playerRepository;
     private readonly IUserContextService _userContextService;
     private readonly IUserRepository _userRepository;
     private readonly IGameTimingRepository _gameTimingRepository;
 
     public SearchGameRequestHandler(
-        IPlayerRepository playerRepository,
+        IWebGamePlayerRepository playerRepository,
         IUserContextService userContextService,
         IUserRepository userRepository,
         IGameTimingRepository gameTimingRepository
@@ -70,7 +72,7 @@ public class SearchGameRequestHandler : IRequestHandler<SearchGameRequest, Searc
         Guid playerId;
         if (alreadyAwaitingPlayer is null) {
 
-            var player = new Player()
+            var player = new WebGamePlayer()
             {
                 Id = Guid.NewGuid(),
                 Name = user.Username,

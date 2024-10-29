@@ -13,9 +13,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "chess.Core", "chess.Core\ch
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "chess.Shared", "chess.Shared\chess.Shared.csproj", "{6D0F7754-E6E6-42DB-8DCF-DA77275165A8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "chess.Api.Tests", "chess.Api.Tests\chess.Api.Tests.csproj", "{5E2928C4-194A-46EB-9391-E4A505B3D029}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "chess.Api.Tests", "chess.Api.Tests\chess.Api.Tests.csproj", "{5E2928C4-194A-46EB-9391-E4A505B3D029}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "chess.Core.Tests", "chess.Core.Tests\chess.Core.Tests.csproj", "{C7D3B2E5-825D-4798-A763-573492D27CD3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "chess.Core.Tests", "chess.Core.Tests\chess.Core.Tests.csproj", "{C7D3B2E5-825D-4798-A763-573492D27CD3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

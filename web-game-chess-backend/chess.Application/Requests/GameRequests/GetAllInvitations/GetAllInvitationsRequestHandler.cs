@@ -1,6 +1,6 @@
 ﻿
 using chess.Application.Pagination;
-using chess.Application.Repositories;
+using chess.Application.Repositories.WebGameRepositories;
 using chess.Application.Services;
 using MediatR;
 
@@ -13,11 +13,11 @@ namespace chess.Application.Requests.GameRequests.GetAllInvitations;
 public class GetAllInvitationsRequestHandler : IRequestHandler<GetAllInvitationsRequest, PagedResult<GetAllInvitationsDto>> {
 
     private readonly IUserContextService _userContextService;
-    private readonly IGameInvitationRepository _gameInvitationRepository;
+    private readonly IWebGameInvitationRepository _gameInvitationRepository;
 
     public GetAllInvitationsRequestHandler(
         IUserContextService userContextService,
-        IGameInvitationRepository gameInvitationRepository
+        IWebGameInvitationRepository gameInvitationRepository
     ) {
         _userContextService = userContextService;
         _gameInvitationRepository = gameInvitationRepository;

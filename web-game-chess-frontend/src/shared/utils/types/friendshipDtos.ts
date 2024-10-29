@@ -1,7 +1,7 @@
 /* friendship controller dtos */
 
 import { Guid } from "guid-typescript";
-import { EloDto, UserDto, WinDrawLose } from "./abstractDtosAndModels";
+import { EloDto, UserDto, GameOutcomeDto } from "./abstractDtosAndModels";
 
 export type GetAllFriendsByStatusDto = UserDto & {
   // friendship id
@@ -11,9 +11,9 @@ export type GetAllFriendsByStatusDto = UserDto & {
   // is user a requestor of friendship
   isRequestor: boolean;
   // wins, loses and draws in total
-  wdlTotal: WinDrawLose;
+  outcomeTotal: GameOutcomeDto;
   // wins, loses and draws in relationship
-  wdlTogether: WinDrawLose;
+  outcomeTogether: GameOutcomeDto;
 };
 
 export type GetAllNonFriendsDto = UserDto & {
@@ -22,7 +22,7 @@ export type GetAllNonFriendsDto = UserDto & {
   // elo for all types
   elo: EloDto;
   // wins, loses and draws in total
-  wdlTotal: WinDrawLose;
+  outcomeTotal: GameOutcomeDto;
 };
 
 export type GetFriendProfileDto = UserDto & {
@@ -35,7 +35,7 @@ export type GetFriendProfileDto = UserDto & {
   // elo for all types
   elo: EloDto;
   // wins, loses and draws in total
-  wdlTotal: WinDrawLose;
+  outcomeTotal: GameOutcomeDto;
   // wins, loses and draws in relationship
-  wdlTogether: WinDrawLose;
+  outcomeTogether: GameOutcomeDto;
 };

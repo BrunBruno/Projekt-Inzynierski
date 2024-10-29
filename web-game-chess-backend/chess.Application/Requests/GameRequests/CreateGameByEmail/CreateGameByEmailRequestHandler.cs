@@ -1,5 +1,7 @@
 ﻿
 using chess.Application.Repositories;
+using chess.Application.Repositories.UserRepositories;
+using chess.Application.Repositories.WebGameRepositories;
 using chess.Application.Services;
 using chess.Core.Entities;
 using chess.Core.Enums;
@@ -24,21 +26,21 @@ public class CreateGameByEmailRequestHandler : IRequestHandler<CreateGameByEmail
 
     private readonly IUserContextService _userContextService;
     private readonly IUserRepository _userRepository;
-    private readonly IGameRepository _gameRepository;
+    private readonly IWebGameRepository _gameRepository;
     private readonly IGameTimingRepository _gameTimingRepository;
-    private readonly IGameStateRepository _gameStateRepository;
-    private readonly IPlayerRepository _playerRepository;
-    private readonly IGameInvitationRepository _gameInvitationRepository;
+    private readonly IWebGameStateRepository _gameStateRepository;
+    private readonly IWebGamePlayerRepository _playerRepository;
+    private readonly IWebGameInvitationRepository _gameInvitationRepository;
     private readonly ISmtpService _smtpService;
 
     public CreateGameByEmailRequestHandler(
         IUserContextService userContextService,
         IUserRepository userRepository,
-        IGameRepository gameRepository,
+        IWebGameRepository gameRepository,
         IGameTimingRepository gameTimingRepository,
-        IGameStateRepository gameStateRepository,
-        IPlayerRepository playerRepository,
-        IGameInvitationRepository gameInvitationRepository,
+        IWebGameStateRepository gameStateRepository,
+        IWebGamePlayerRepository playerRepository,
+        IWebGameInvitationRepository gameInvitationRepository,
         ISmtpService smtpService
     ) {
         _userContextService = userContextService;
@@ -81,7 +83,7 @@ public class CreateGameByEmailRequestHandler : IRequestHandler<CreateGameByEmail
         }
 
         int userElo = user.Elo.GetElo(request.Type);
-        var userPlayer = new Player()
+        var userPlayer = new WebGamePlayer()
         {
             Id = Guid.NewGuid(),
             IsPrivate = true,
@@ -93,7 +95,7 @@ public class CreateGameByEmailRequestHandler : IRequestHandler<CreateGameByEmail
         };
 
         int friendElo = friend.Elo.GetElo(request.Type);
-        var friendPlayer = new Player()
+        var friendPlayer = new WebGamePlayer()
         {
             Id = Guid.NewGuid(),
             IsPrivate = true,
@@ -109,7 +111,7 @@ public class CreateGameByEmailRequestHandler : IRequestHandler<CreateGameByEmail
         await _playerRepository.Create(friendPlayer);
 
 
-        var game = new Game()
+        var game = new WebGame()
         {
             Id = Guid.NewGuid(),
             IsPrivate = true,
@@ -134,13 +136,13 @@ public class CreateGameByEmailRequestHandler : IRequestHandler<CreateGameByEmail
         userPlayer.Color = randomChoice ? PieceColor.White : PieceColor.Black;
         friendPlayer.Color = randomChoice ? PieceColor.Black : PieceColor.White;
 
-        var gameState = new GameState()
+        var gameState = new WebGameState()
         {
             Id = Guid.NewGuid(),
             GameId = game.Id,
         };
 
-        var invitation = new GameInvitation()
+        var invitation = new WebGameInvitation()
         {
             Id = Guid.NewGuid(),
             InviterId = userId,

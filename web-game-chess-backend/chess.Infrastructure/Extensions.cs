@@ -7,11 +7,20 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
-using chess.Application.Repositories;
 using chess.Infrastructure.Contexts;
-using chess.Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using chess.Infrastructure.Repositories.UserRepositories;
+using chess.Application.Repositories.UserRepositories;
+using chess.Infrastructure.Repositories.FriendshipRepositories;
+using chess.Application.Repositories.FriendshipRepositories;
+using chess.Application.Repositories.EngineGameRepositories;
+using chess.Infrastructure.Repositories.EngineGameRepositories;
+using chess.Infrastructure.Repositories;
+using chess.Application.Repositories;
+using chess.Infrastructure.Repositories.WebGameRepositories;
+using chess.Application.Repositories.WebGameRepositories;
+
 
 namespace chess.Infrastructure;
 
@@ -39,6 +48,7 @@ public static class Extensions {
         services.AddScoped<IJwtService, JwtService>();
         services.AddScoped<ISmtpService, SmtpService>();
         services.AddScoped<IUserContextService, UserContextService>();
+        services.AddScoped<IEngineService, EngineService>();
 
         return services;
     }
@@ -95,25 +105,30 @@ public static class Extensions {
         services.AddDbContext<ChessAppDbContext>(ctx
             => ctx.UseNpgsql(options.ConnectionString));
 
+        services.AddScoped<IDataConfigurationRepository, DataConfigurationRepository>();
+        services.AddScoped<IGameTimingRepository, GameTimingRepository>();
+
+
         services.AddScoped<IUserRepository, UserRepository>();
         services.AddScoped<IUserImageRepository, UserImageRepository>();
         services.AddScoped<IUserEloRepository, UserEloRepository>();
         services.AddScoped<IUserStatsRepository, UserStatsRepository>();
         services.AddScoped<IUserBanRepository, UserBanRepository>();
-
-        services.AddScoped<IGameRepository, GameRepository>();
-        services.AddScoped<IGameTimingRepository, GameTimingRepository>();
-        services.AddScoped<IGameStateRepository, GameStateRepository>();
-        services.AddScoped<IGameInvitationRepository, GameInvitationRepository>();
-        services.AddScoped<IGameMessageRepository, GameMessageRepository>();
-
-        services.AddScoped<IPlayerRepository, PlayerRepository>();
-        services.AddScoped<IPlayerMessageRepository, PlayerMessageRepository>();
-
         services.AddScoped<IUserVerificationCodeRepository, UserVerificationCodeRepository>();
-        services.AddScoped<IDataConfigurationRepository, DataConfigurationRepository>();
-        services.AddScoped<IMoveRepository, MoveRepository>();
+
         services.AddScoped<IFriendshipRepository, FriendshipRepository>();
+
+        services.AddScoped<IWebGameRepository, WebGameRepository>();
+        services.AddScoped<IWebGameStateRepository, WebGameStateRepository>();
+        services.AddScoped<IWebGameInvitationRepository, WebGameInvitationRepository>();
+        services.AddScoped<IWebGameMessageRepository, WebGameMessageRepository>();
+        services.AddScoped<IWebGameMoveRepository, WebGameMoveRepository>();
+        services.AddScoped<IWebGamePlayerRepository, WebGamePlayerRepository>();
+        services.AddScoped<IWebGamePlayerMessageRepository, WebGamePlayerMessageRepository>();
+
+        services.AddScoped<IEngineGameRepository, EngineGameRepository>();
+        services.AddScoped<IEngineGamePlayerRepository, EngineGamePlayerRepository>();
+        services.AddScoped<IEngineGameMoveRepository, EngineGameMoveRepository>();
 
         return services;
     }

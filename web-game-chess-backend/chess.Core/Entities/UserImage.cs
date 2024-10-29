@@ -1,7 +1,10 @@
 ﻿
-namespace chess.Core.Entities;
 #pragma warning disable CS8618
+namespace chess.Core.Entities;
 
+/// <summary>
+/// Entity of user profile image
+/// </summary>
 public class UserImage {
 
     /// <summary>

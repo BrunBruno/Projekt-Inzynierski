@@ -1,5 +1,6 @@
-﻿
-using chess.Application.Repositories;
+﻿using chess.Application.Repositories.FriendshipRepositories;
+using chess.Application.Repositories.GameRepositories;
+using chess.Application.Repositories.UserRepositories;
 using chess.Application.Requests.GameRequests.CreatePrivateGame;
 using chess.Application.Services;
 using chess.Core.Entities;
@@ -8,7 +9,7 @@ using chess.Shared.Exceptions;
 using FluentAssertions;
 using Moq;
 
-namespace chess.Core.Tests.Game; 
+namespace chess.Core.Tests.Game;
 public class CreatePrivateGameRequestHandlerTests {
 
     private readonly Mock<IUserContextService> _mockUserContextService;

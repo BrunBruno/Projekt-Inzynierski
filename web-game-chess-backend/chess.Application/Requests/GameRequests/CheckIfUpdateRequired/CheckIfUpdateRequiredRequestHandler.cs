@@ -1,5 +1,6 @@
 ﻿
 using chess.Application.Repositories;
+using chess.Application.Repositories.WebGameRepositories;
 using chess.Shared.Exceptions;
 using MediatR;
 
@@ -12,11 +13,11 @@ namespace chess.Application.Requests.GameRequests.CheckIfUpdateRequired;
 /// </summary>
 public class CheckIfUpdateRequiredRequestHandler : IRequestHandler<CheckIfUpdateRequiredRequest, CheckIfUpdateRequiredDto> {
 
-    private readonly IGameRepository _gameRepository;
+    private readonly IWebGameRepository _gameRepository;
     private readonly IGameTimingRepository _gameTimingRepository;
 
     public CheckIfUpdateRequiredRequestHandler(
-        IGameRepository gameRepository,
+        IWebGameRepository gameRepository,
         IGameTimingRepository gameTimingRepository
     ) {
         _gameRepository = gameRepository;

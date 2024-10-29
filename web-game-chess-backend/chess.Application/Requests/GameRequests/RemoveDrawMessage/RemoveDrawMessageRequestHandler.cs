@@ -1,5 +1,5 @@
 ﻿
-using chess.Application.Repositories;
+using chess.Application.Repositories.WebGameRepositories;
 using chess.Application.Services;
 using chess.Shared.Exceptions;
 using MediatR;
@@ -14,13 +14,13 @@ namespace chess.Application.Requests.GameRequests.RemoveDrawMessage;
 /// </summary>
 public class RemoveDrawMessageRequestHandler : IRequestHandler<RemoveDrawMessageRequest> {
 
-    private readonly IGameMessageRepository _gameMessageRepository;
-    private readonly IGameRepository _gameRepository;
+    private readonly IWebGameMessageRepository _gameMessageRepository;
+    private readonly IWebGameRepository _gameRepository;
     private readonly IUserContextService _userContextService;
 
     public RemoveDrawMessageRequestHandler(
-        IGameMessageRepository gameMessageRepository,
-        IGameRepository gameRepository,
+        IWebGameMessageRepository gameMessageRepository,
+        IWebGameRepository gameRepository,
         IUserContextService userContextService
     ) {
         _gameMessageRepository = gameMessageRepository;

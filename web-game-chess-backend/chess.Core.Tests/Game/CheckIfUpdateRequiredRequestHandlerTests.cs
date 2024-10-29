@@ -1,5 +1,4 @@
-﻿
-using chess.Application.Repositories;
+﻿using chess.Application.Repositories.GameRepositories;
 using chess.Application.Requests.GameRequests.CheckIfUpdateRequired;
 using chess.Core.Entities;
 using chess.Core.Enums;

@@ -1,5 +1,5 @@
 ﻿
-using chess.Application.Repositories;
+using chess.Application.Repositories.WebGameRepositories;
 using chess.Application.Services;
 using chess.Shared.Exceptions;
 using MediatR;
@@ -14,14 +14,14 @@ namespace chess.Application.Requests.GameRequests.AcceptInvitation;
 /// </summary>
 public class AcceptInvitationRequestHandler : IRequestHandler<AcceptInvitationRequest> {
 
-    private readonly IPlayerRepository _playerRepository;
+    private readonly IWebGamePlayerRepository _playerRepository;
     private readonly IUserContextService _userContextService;
-    private readonly IGameInvitationRepository _gameInvitationRepository;
+    private readonly IWebGameInvitationRepository _gameInvitationRepository;
 
     public AcceptInvitationRequestHandler(
-        IPlayerRepository playerRepository,
+        IWebGamePlayerRepository playerRepository,
         IUserContextService userContextService,
-        IGameInvitationRepository gameInvitationRepository
+        IWebGameInvitationRepository gameInvitationRepository
     ) {
         _playerRepository = playerRepository;
         _userContextService = userContextService;

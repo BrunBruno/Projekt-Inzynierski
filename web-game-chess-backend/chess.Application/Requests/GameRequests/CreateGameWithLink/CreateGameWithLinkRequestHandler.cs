@@ -1,11 +1,13 @@
 ﻿
-using chess.Application.Repositories;
 using chess.Application.Services;
 using chess.Core.Entities;
 using chess.Core.Enums;
 using chess.Shared.Exceptions;
 using MediatR;
 using chess.Core.Maps.MapOfElo;
+using chess.Application.Repositories.UserRepositories;
+using chess.Application.Repositories;
+using chess.Application.Repositories.WebGameRepositories;
 
 namespace chess.Application.Requests.GameRequests.CreateGameWithLink;
 
@@ -22,18 +24,18 @@ public class CreateGameWithLinkRequestHandler : IRequestHandler<CreateGameWithLi
 
     private readonly IUserContextService _userContextService;
     private readonly IUserRepository _userRepository;
-    private readonly IGameRepository _gameRepository;
+    private readonly IWebGameRepository _gameRepository;
     private readonly IGameTimingRepository _gameTimingRepository;
-    private readonly IGameStateRepository _gameStateRepository;
-    private readonly IPlayerRepository _playerRepository;
+    private readonly IWebGameStateRepository _gameStateRepository;
+    private readonly IWebGamePlayerRepository _playerRepository;
 
     public CreateGameWithLinkRequestHandler(
         IUserContextService userContextService,
         IUserRepository userRepository,
-        IGameRepository gameRepository,
+        IWebGameRepository gameRepository,
         IGameTimingRepository gameTimingRepository,
-        IGameStateRepository gameStateRepository,
-        IPlayerRepository playerRepository
+        IWebGameStateRepository gameStateRepository,
+        IWebGamePlayerRepository playerRepository
     ) {
         _userContextService = userContextService;
         _userRepository = userRepository;
@@ -70,7 +72,7 @@ public class CreateGameWithLinkRequestHandler : IRequestHandler<CreateGameWithLi
         }
 
         int userElo = user.Elo.GetElo(request.Type);
-        var userPlayer = new Player()
+        var userPlayer = new WebGamePlayer()
         {
             Id = Guid.NewGuid(),
             IsPrivate = true,
@@ -81,7 +83,7 @@ public class CreateGameWithLinkRequestHandler : IRequestHandler<CreateGameWithLi
             TimingId = timing.Id,
         };
 
-        var placeholderPlayer = new Player()
+        var placeholderPlayer = new WebGamePlayer()
         {
             Id = Guid.NewGuid(),
             IsPrivate = true,
@@ -98,7 +100,7 @@ public class CreateGameWithLinkRequestHandler : IRequestHandler<CreateGameWithLi
         await _playerRepository.Create(placeholderPlayer);
 
 
-        var game = new Game()
+        var game = new WebGame()
         {
             Id = Guid.NewGuid(),
             IsPrivate = true,
@@ -120,7 +122,7 @@ public class CreateGameWithLinkRequestHandler : IRequestHandler<CreateGameWithLi
         userPlayer.Color = randomChoice ? PieceColor.White : PieceColor.Black;
         placeholderPlayer.Color = randomChoice ? PieceColor.Black : PieceColor.White;
 
-        var gameState = new GameState()
+        var gameState = new WebGameState()
         {
             Id = Guid.NewGuid(),
             GameId = game.Id,

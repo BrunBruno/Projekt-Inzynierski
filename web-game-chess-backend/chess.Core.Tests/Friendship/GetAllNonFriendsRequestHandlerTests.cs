@@ -1,5 +1,5 @@
-﻿
-using chess.Application.Repositories;
+﻿using chess.Application.Repositories.FriendshipRepositories;
+using chess.Application.Repositories.UserRepositories;
 using chess.Application.Requests.FriendshipRequests.GetAllNonFriends;
 using chess.Application.Services;
 using chess.Core.Entities;

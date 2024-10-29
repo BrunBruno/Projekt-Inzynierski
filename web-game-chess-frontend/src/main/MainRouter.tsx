@@ -16,6 +16,7 @@ import ProfilePage from "./profile-page/ProfilePage";
 import AwaitingPage from "./awaiting-page/AwaitingPage";
 import { RegistrationInterface, StateOptions } from "../shared/utils/objects/interfacesEnums";
 import NotFoundPage from "../shared/components/not-found-page/NotFoundPage";
+import EngineGamePage from "./engine-game-page/EngineGamePage";
 
 function MainRouter() {
   ///
@@ -99,6 +100,7 @@ function MainRouter() {
         <Route path="/users" element={<UsersPage />} />
         <Route path="/await/:gameIdStr" element={<AwaitingPage />} />
         <Route path="/game/:gameIdStr" element={<GamePage />} />
+        <Route path="/engine-game/:gameIdStr" element={<EngineGamePage />} />
         <Route path="/account" element={<AccountPage />} />
         <Route path="/profile/:friendshipIdStr" element={<ProfilePage />} />
         <Route path="*" element={<NotFoundPage path={"/main"} />} />

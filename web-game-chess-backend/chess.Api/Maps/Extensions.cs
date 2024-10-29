@@ -9,6 +9,7 @@ public static class Extensions {
         services.AddAutoMapper(typeof(UserMappingProfile));
         services.AddAutoMapper(typeof(GameMappingProfile));
         services.AddAutoMapper(typeof(FriendshipMappingProfile));
+        services.AddAutoMapper(typeof(EngineMappingProfile));
 
         return services;
     }

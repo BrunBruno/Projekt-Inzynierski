@@ -1,0 +1,135 @@
+@use "../../../shared/styles/shared.scss" as *;
+
+// right side bar container
+.bar {
+  @include wh100();
+
+  max-height: 100vh;
+  position: relative;
+
+  &::after {
+    @include subCl();
+
+    z-index: 1;
+    top: 0;
+    right: 100%;
+
+    border-top-right-radius: 8rem;
+    border-bottom-right-radius: 8rem;
+    box-shadow: 10rem 0 0 10rem $gc9;
+    border-right: solid 1rem $gc8;
+    pointer-events: none;
+  }
+
+  // right side bar content
+  &__content {
+    position: inherit;
+    z-index: 2;
+    height: 100%;
+    padding: 2rem;
+    background-color: $gc9;
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 8rem 4rem calc((100% - 18rem) / 2) calc((100% - 18rem) / 2);
+    gap: 2rem;
+
+    &__header {
+      @include flex($gap: 2rem);
+
+      &__player {
+        @include flex($direction: column, $gap: 0.5rem);
+
+        @mixin playerImg($bg_color) {
+          @include flex();
+          @include circle(5rem);
+
+          padding: 0.6rem;
+          border-radius: 100%;
+          overflow: hidden;
+          background-color: $bg_color;
+
+          .player-img {
+            @include wh100();
+
+            border-radius: 100%;
+          }
+        }
+
+        .white-player-img {
+          @include playerImg(#fff);
+        }
+
+        .black-player-img {
+          @include playerImg(#000);
+        }
+
+        .player-data {
+          @include flex($gap: 0.2rem);
+
+          span {
+            font-size: 1.2rem;
+
+            span {
+              color: $mc3;
+            }
+          }
+        }
+      }
+
+      p.vs {
+        font-size: 2rem;
+        font-weight: bold;
+      }
+    }
+
+    &__block {
+      @include rounded(2rem);
+
+      border: solid 0.3rem $gc8;
+      box-shadow: inset 0 0 1rem 0.3rem $gc8;
+      background-color: rgba(#000, 0.1);
+
+      overflow-y: scroll;
+
+      &::-webkit-scrollbar {
+        display: none;
+      }
+
+      &:nth-child(1) {
+        border: solid blue 1rem;
+      }
+      &:nth-child(2) {
+        border: solid red 1rem;
+      }
+
+      &__list {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: auto;
+        height: fit-content;
+      }
+    }
+  }
+  //*/
+}
+//*/
+
+// resize
+@media (max-width: 1000px) {
+  .bar {
+    &::after {
+      display: none;
+    }
+
+    &__content {
+      grid-template-rows: 100%;
+      grid-template-columns: 1fr 1fr;
+      gap: 20%;
+    }
+
+    &__block {
+      display: none;
+    }
+  }
+}
+//*/

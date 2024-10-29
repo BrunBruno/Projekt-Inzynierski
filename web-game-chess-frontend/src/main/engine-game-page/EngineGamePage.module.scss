@@ -1,0 +1,23 @@
+@use "../../shared/styles/shared.scss" as *;
+
+// game page container
+.game-main {
+  @include gridBg();
+
+  position: relative;
+  height: 100vh;
+  height: 100svh;
+  display: grid;
+  grid-template-columns: 20rem auto 40rem;
+  overflow: hidden;
+}
+//*/
+
+// resize
+@media (max-width: 1000px) {
+  .game-main {
+    grid-template-columns: 100%;
+    grid-template-rows: 10rem auto 20rem;
+  }
+}
+//*/

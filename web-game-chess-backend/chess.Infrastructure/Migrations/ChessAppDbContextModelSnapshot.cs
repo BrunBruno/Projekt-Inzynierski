@@ -74,6 +74,115 @@ namespace chess.Infrastructure.Migrations
                         });
                 });
 
+            modelBuilder.Entity("chess.Core.Entities.EngineGame", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("FenPosition")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<bool>("HasEnded")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool?>("IWinner")
+                        .HasColumnType("boolean");
+
+                    b.Property<Guid>("PlayerId")
+                        .HasColumnType("uuid");
+
+                    b.Property<int>("Turn")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PlayerId")
+                        .IsUnique();
+
+                    b.ToTable("EngineGames");
+                });
+
+            modelBuilder.Entity("chess.Core.Entities.EngineGameMove", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<double>("BlackTime")
+                        .HasColumnType("double precision");
+
+                    b.Property<string>("CapturedPiece")
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("DoneAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("DoneMove")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<Guid>("GameId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("NewCoordinates")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("OldCoordinates")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Position")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<int>("Turn")
+                        .HasColumnType("integer");
+
+                    b.Property<double>("WhiteTime")
+                        .HasColumnType("double precision");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("GameId");
+
+                    b.ToTable("EngineGameMoves");
+                });
+
+            modelBuilder.Entity("chess.Core.Entities.EngineGamePlayer", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<int?>("Color")
+                        .HasColumnType("integer");
+
+                    b.Property<Guid>("GameId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<double>("TimeLeft")
+                        .HasColumnType("double precision");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("EngineGamePlayers");
+                });
+
             modelBuilder.Entity("chess.Core.Entities.Friendship", b =>
                 {
                     b.Property<Guid>("Id")
@@ -663,6 +772,39 @@ namespace chess.Infrastructure.Migrations
                     b.ToTable("UserVerificationCodes");
                 });
 
+            modelBuilder.Entity("chess.Core.Entities.EngineGame", b =>
+                {
+                    b.HasOne("chess.Core.Entities.EngineGamePlayer", "Player")
+                        .WithOne("Game")
+                        .HasForeignKey("chess.Core.Entities.EngineGame", "PlayerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Player");
+                });
+
+            modelBuilder.Entity("chess.Core.Entities.EngineGameMove", b =>
+                {
+                    b.HasOne("chess.Core.Entities.EngineGame", "Game")
+                        .WithMany("Moves")
+                        .HasForeignKey("GameId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Game");
+                });
+
+            modelBuilder.Entity("chess.Core.Entities.EngineGamePlayer", b =>
+                {
+                    b.HasOne("chess.Core.Entities.User", "User")
+                        .WithMany("EngineGamePlayers")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("chess.Core.Entities.Friendship", b =>
                 {
                     b.HasOne("chess.Core.Entities.User", "Receiver")
@@ -841,6 +983,17 @@ namespace chess.Infrastructure.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("chess.Core.Entities.EngineGame", b =>
+                {
+                    b.Navigation("Moves");
+                });
+
+            modelBuilder.Entity("chess.Core.Entities.EngineGamePlayer", b =>
+                {
+                    b.Navigation("Game")
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("chess.Core.Entities.Game", b =>
                 {
                     b.Navigation("GameState")
@@ -871,6 +1024,8 @@ namespace chess.Infrastructure.Migrations
                 {
                     b.Navigation("Elo")
                         .IsRequired();
+
+                    b.Navigation("EngineGamePlayers");
 
                     b.Navigation("Image");
 

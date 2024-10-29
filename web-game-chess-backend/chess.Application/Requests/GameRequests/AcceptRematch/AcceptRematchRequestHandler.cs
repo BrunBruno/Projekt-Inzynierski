@@ -1,5 +1,5 @@
 ﻿
-using chess.Application.Repositories;
+using chess.Application.Repositories.WebGameRepositories;
 using chess.Application.Services;
 using chess.Shared.Exceptions;
 using MediatR;
@@ -15,14 +15,14 @@ namespace chess.Application.Requests.GameRequests.AcceptRematch;
 /// </summary>
 public class AcceptRematchRequestHandler : IRequestHandler<AcceptRematchRequest, AcceptRematchDto> {
 
-    private readonly IGameRepository _gameRepository;
+    private readonly IWebGameRepository _gameRepository;
     private readonly IUserContextService _userContextService;
-    private readonly IPlayerRepository _playerRepository;
+    private readonly IWebGamePlayerRepository _playerRepository;
 
     public AcceptRematchRequestHandler(
-        IGameRepository gameRepository,
+        IWebGameRepository gameRepository,
         IUserContextService userContextService,
-        IPlayerRepository playerRepository
+        IWebGamePlayerRepository playerRepository
     ) {
         _gameRepository = gameRepository;
         _userContextService = userContextService;

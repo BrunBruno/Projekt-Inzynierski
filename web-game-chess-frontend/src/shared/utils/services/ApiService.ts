@@ -11,6 +11,7 @@ import {
   GetAllActiveGamesModel,
 } from "../types/gameModels";
 import { GetByEmailModel, GetRegisterConfModel } from "../types/userModels";
+import { StartEngineGameModel } from "../types/engineModels";
 
 const baseUrl: string = "http://localhost:5125/api";
 // const baseUrl: string = "http://192.168.1.46:5125/api";
@@ -44,12 +45,10 @@ interface UserController {
   registerUser: () => string;
   logInUser: () => string;
   regenerateCode: () => string;
-  //PUT
   verifyEmail: () => string;
   sendResetPasswordCode: () => string;
   resetPassword: () => string;
   updateProfile: () => string;
-  //GET
   getUser: () => string;
   getFullUser: () => string;
   getOtherUser: (userId: Guid) => string;
@@ -57,7 +56,6 @@ interface UserController {
   isVerified: () => string;
   getByEmail: (model: GetByEmailModel) => string;
   getRegisterConf: (model: GetRegisterConfModel) => string;
-  //DELETE
 }
 
 // paths in user controller
@@ -153,13 +151,10 @@ interface GameControllerPaths {
 }
 
 interface GameController {
-  //POST
   startSearch: () => string;
   createPrivateGame: () => string;
   createGameByEmail: () => string;
   createGameWithLink: () => string;
-  //PUT
-  //GET
   checkIfInGame: (model: CheckIfInGameModel) => string;
   checkIfUpdateRequired: (gameId: Guid) => string;
   getGame: (gameId: Guid) => string;
@@ -173,7 +168,6 @@ interface GameController {
   getTypeHistory: (model: GetTypeHistoryModel) => string;
   getAllInvitations: (model: GetAllInvitationsModel) => string;
   getAllMessages: (gameId: Guid) => string;
-  //DELETE
   abortSearch: (model: AbortSearchModel) => string;
   cancelPrivateGame: (gameId: Guid) => string;
 }
@@ -282,15 +276,11 @@ interface FriendshipControllerPaths {
 }
 
 interface FriendshipController {
-  //POST
   inviteFriend: () => string;
-  //PUT
   respondToFriendRequest: (friendshipId: Guid) => string;
-  //GET
   getAllFriendsByStatus: (model: GetAllFriendsByStatusModel) => string;
   getAllNonFriends: (model: GetAllNonFriendsModel) => string;
   getFriendProfile: (friendshipId: Guid) => string;
-  //DELETE
   removeFriend: (friendshipId: Guid) => string;
 }
 
@@ -325,6 +315,34 @@ export const friendshipController: FriendshipController = {
 
   // removes friendships
   removeFriend: (friendshipId: Guid): string => `${friendshipBaseUrl}/${friendshipId}`,
+};
+//*/
+
+// engine controller
+const engineBaseUrl: string = baseUrl + "/engine";
+
+interface EngineControllerPaths {
+  //POST
+  //PUT
+  //GET
+  getEngineGame: string;
+  //DELETE
+}
+
+interface EngineController {
+  startEngineGame: () => string;
+  getEngineGame: (gameId: Guid) => string;
+}
+
+export const engineControllerPaths: EngineControllerPaths = {
+  // static
+  // dynamic
+  getEngineGame: `${engineBaseUrl}/:gameId`,
+};
+
+export const engineController: EngineController = {
+  startEngineGame: () => `${engineBaseUrl}/start`,
+  getEngineGame: (gameId: Guid) => `${engineBaseUrl}/${gameId}`,
 };
 //*/
 

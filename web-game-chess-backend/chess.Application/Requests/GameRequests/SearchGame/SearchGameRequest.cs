@@ -1,5 +1,5 @@
 ﻿
-using chess.Core.Abstraction;
+using chess.Core.Models;
 using MediatR;
 
 namespace chess.Application.Requests.GameRequests.SearchGame;
@@ -9,5 +9,5 @@ namespace chess.Application.Requests.GameRequests.SearchGame;
 /// Creates new player if not exists
 /// Creates new timing if not exists
 /// </summary>
-public class SearchGameRequest : TimingType, IRequest<SearchGameDto> {
+public class SearchGameRequest : TimingTypeModel, IRequest<SearchGameDto> {
 }

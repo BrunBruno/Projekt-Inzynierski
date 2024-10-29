@@ -15,18 +15,22 @@ public class DbContextConfiguration :
     IEntityTypeConfiguration<UserVerificationCode>,
     IEntityTypeConfiguration<Core.Entities.DataConfiguration>,
     IEntityTypeConfiguration<UserBan>,
-    IEntityTypeConfiguration<Game>,
+    IEntityTypeConfiguration<WebGame>,
     IEntityTypeConfiguration<GameTiming>,
-    IEntityTypeConfiguration<GameState>,
-    IEntityTypeConfiguration<Player>,
-    IEntityTypeConfiguration<Move>,
+    IEntityTypeConfiguration<WebGameState>,
+    IEntityTypeConfiguration<WebGamePlayer>,
+    IEntityTypeConfiguration<WebGameMove>,
     IEntityTypeConfiguration<Friendship>,
     IEntityTypeConfiguration<UserElo>,
-    IEntityTypeConfiguration<PlayerMessage>,
-    IEntityTypeConfiguration<GameMessage>,
+    IEntityTypeConfiguration<WebGamePlayerMessage>,
+    IEntityTypeConfiguration<WebGameMessage>,
     IEntityTypeConfiguration<UserStats>,
-    IEntityTypeConfiguration<GameInvitation>,
-    IEntityTypeConfiguration<UserImage>
+    IEntityTypeConfiguration<WebGameInvitation>,
+    IEntityTypeConfiguration<UserImage>,
+    IEntityTypeConfiguration<EngineGame>,
+    IEntityTypeConfiguration<EngineGamePlayer>,
+    IEntityTypeConfiguration<EngineGameMove>,
+    IEntityTypeConfiguration<EngineGameState>
 {
 
     public void Configure(EntityTypeBuilder<User> builder) {
@@ -75,23 +79,23 @@ public class DbContextConfiguration :
             .HasForeignKey<UserBan>(bu => bu.UserId);
     }
 
-    public void Configure(EntityTypeBuilder<Game> builder) {
+    public void Configure(EntityTypeBuilder<WebGame> builder) {
         builder
             .HasKey(g => g.Id);
 
         builder
             .HasOne(g => g.WhitePlayer)
             .WithOne(p => p.WhiteGame)
-            .HasForeignKey<Game>(g => g.WhitePlayerId);
+            .HasForeignKey<WebGame>(g => g.WhitePlayerId);
 
         builder
             .HasOne(g => g.BlackPlayer)
             .WithOne(p => p.BlackGame)
-            .HasForeignKey<Game>(g => g.BlackPlayerId);
+            .HasForeignKey<WebGame>(g => g.BlackPlayerId);
 
         builder
             .HasOne(g => g.GameTiming)
-            .WithMany(gt => gt.Games)
+            .WithMany(gt => gt.WebGames)
             .HasForeignKey(g => g.GameTimingId);
     }
 
@@ -100,17 +104,17 @@ public class DbContextConfiguration :
             .HasKey(gt => gt.Id);
     }
 
-    public void Configure(EntityTypeBuilder<GameState> builder) {
+    public void Configure(EntityTypeBuilder<WebGameState> builder) {
         builder
             .HasKey(gs => gs.Id);
 
         builder
             .HasOne(gs => gs.Game)
-            .WithOne(g => g.GameState)
-            .HasForeignKey<GameState>(g => g.GameId);
+            .WithOne(g => g.CurrentState)
+            .HasForeignKey<WebGameState>(g => g.GameId);
     }
 
-    public void Configure(EntityTypeBuilder<Player> builder) {
+    public void Configure(EntityTypeBuilder<WebGamePlayer> builder) {
         builder
             .HasKey(p => p.Id);
 
@@ -120,7 +124,7 @@ public class DbContextConfiguration :
             .HasForeignKey(p => p.UserId);
     }
 
-    public void Configure(EntityTypeBuilder<Move> builder) {
+    public void Configure(EntityTypeBuilder<WebGameMove> builder) {
         builder
             .HasKey(m => m.Id);
 
@@ -155,7 +159,7 @@ public class DbContextConfiguration :
             .HasForeignKey<UserElo>(e => e.UserId);
     }
 
-    public void Configure(EntityTypeBuilder<GameMessage> builder) {
+    public void Configure(EntityTypeBuilder<WebGameMessage> builder) {
         builder
             .HasKey(m => m.Id);
 
@@ -165,7 +169,7 @@ public class DbContextConfiguration :
             .HasForeignKey(m => m.GameId);
     }
 
-    public void Configure(EntityTypeBuilder<PlayerMessage> builder) {
+    public void Configure(EntityTypeBuilder<WebGamePlayerMessage> builder) {
         builder
             .HasKey(m => m.Id);
 
@@ -185,14 +189,14 @@ public class DbContextConfiguration :
             .HasForeignKey<UserStats>(us => us.UserId);
     }
 
-    public void Configure(EntityTypeBuilder<GameInvitation> builder) {
+    public void Configure(EntityTypeBuilder<WebGameInvitation> builder) {
         builder
             .HasKey(i => i.Id);
 
         builder
             .HasOne(i => i.Game)
             .WithOne()
-            .HasForeignKey<GameInvitation>(i => i.GameId);
+            .HasForeignKey<WebGameInvitation>(i => i.GameId);
     }
 
     public void Configure(EntityTypeBuilder<UserImage> builder) {
@@ -204,6 +208,47 @@ public class DbContextConfiguration :
             .WithOne(u => u.Image)
             .HasForeignKey<UserImage>(ui => ui.UserId);
     }
+
+    public void Configure(EntityTypeBuilder<EngineGame> builder) {
+        builder
+            .HasKey(eg => eg.Id);
+
+        builder
+            .HasOne(eg => eg.Player)
+            .WithOne(egp => egp.Game)
+            .HasForeignKey<EngineGame>(eg => eg.PlayerId);
+    }
+
+    public void Configure(EntityTypeBuilder<EngineGamePlayer> builder) {
+        builder
+            .HasKey(egp => egp.Id);
+
+        builder
+            .HasOne(egp => egp.User)
+            .WithMany(u => u.EngineGamePlayers)
+            .HasForeignKey(p => p.UserId);
+    }
+
+    public void Configure(EntityTypeBuilder<EngineGameMove> builder) {
+        builder
+            .HasKey(egm => egm.Id);
+
+        builder
+            .HasOne(egm => egm.Game)
+            .WithMany(eg => eg.Moves)
+            .HasForeignKey(egm => egm.GameId);
+    }
+
+    public void Configure(EntityTypeBuilder<EngineGameState> builder) {
+        builder
+            .HasKey(egs => egs.Id);
+
+        builder
+            .HasOne(egs => egs.Game)
+            .WithOne(eg => eg.CurrentState)
+            .HasForeignKey<EngineGameState>(g => g.GameId);
+    }
+
 
     private static IEnumerable<Role> GetRoles() {
 

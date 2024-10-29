@@ -1,5 +1,5 @@
 
-using chess.Application.Repositories;
+using chess.Application.Repositories.WebGameRepositories;
 using chess.Application.Requests.GameRequests.GetAllActiveGames;
 using chess.Application.Services;
 using chess.Core.Entities;
@@ -12,11 +12,11 @@ namespace chess.Core.Tests.Game;
 public class GetAllActiveGamesRequestHandlerTests {
 
     private readonly Mock<IUserContextService> _mockUserContextService;
-    private readonly Mock<IPlayerRepository> _mockPlayerRepository;
+    private readonly Mock<IWebGamePlayerRepository> _mockPlayerRepository;
 
     public GetAllActiveGamesRequestHandlerTests() {
         _mockUserContextService = new Mock<IUserContextService>();
-        _mockPlayerRepository = new Mock<IPlayerRepository>();
+        _mockPlayerRepository = new Mock<IWebGamePlayerRepository>();
     }
 
     [Fact]

@@ -11,112 +11,77 @@ namespace chess.Infrastructure.Contexts;
 public class ChessAppDbContext : DbContext {
 
     /// <summary>
-    /// Roles dbSet (one to many users)
+    /// General sets
     /// </summary>
     public DbSet<Role> Roles { get; set; }
-
-    /// <summary>
-    /// User dbSet
-    /// </summary>
-    public DbSet<User> Users { get; set; }
-
-    /// <summary>
-    /// Images dbSet
-    /// </summary>
-    public DbSet<UserImage> UserImages { get; set; }
-
-    /// <summary>
-    /// Elo db set (one to one user)
-    /// </summary>
-    public DbSet<UserElo> UserElos { get; set; }
-
-    /// <summary>
-    /// Stats db set (one to one user)
-    /// </summary>
-    public DbSet<UserStats> UserStats { get; set; }
-
-    /// <summary>
-    /// BannedUser dbSet
-    /// </summary>
-    public DbSet<UserBan> UserBans { get; set; }
-
-    /// <summary>
-    /// UserVerificationCode dbSet (one to one user)
-    /// </summary>
-    public DbSet<UserVerificationCode> UserVerificationCodes { get; set; }
-
-    /// <summary>
-    /// DataConfiguration dbSet
-    /// </summary>
     public DbSet<DataConfiguration> DataConfigurations { get; set; }
-
-    /// <summary>
-    /// Games dbSet
-    /// </summary>
-    public DbSet<Game> Games { get; set; }
-
-    /// <summary>
-    /// Game timing dbSet (one to many games)
-    /// </summary>
     public DbSet<GameTiming> GameTimings { get; set; }
 
-    /// <summary>
-    /// Game states  dbSet (one to one game)
-    /// </summary>
-    public DbSet<GameState> GameStates { get; set; }
 
     /// <summary>
-    /// Invitations db set (one to one game but not for all)
+    /// User related sets
     /// </summary>
-    public DbSet<GameInvitation> GameInvitations { get; set; }
-
-    /// <summary>
-    /// Player messages db set (many to one player)
-    /// </summary>
-    public DbSet<GameMessage> GameMessages { get; set; }
-
-    /// <summary>
-    /// Plyers dbSet (two to one game)
-    /// </summary>
-    public DbSet<Player> Players { get; set; }
-
-    /// <summary>
-    /// Player messages db set (many to one player)
-    /// </summary>
-    public DbSet<PlayerMessage> PlayerMessages { get; set; }
-
-    /// <summary>
-    /// moves dbSet (many to one game)
-    /// </summary>
-    public DbSet<Move> Moves { get; set; }
-
-    /// <summary>
-    /// Friendships dbSet
-    /// </summary>
+    public DbSet<User> Users { get; set; }
+    public DbSet<UserImage> UserImages { get; set; }
+    public DbSet<UserElo> UserElos { get; set; }
+    public DbSet<UserStats> UserStats { get; set; }
+    public DbSet<UserBan> UserBans { get; set; }
+    public DbSet<UserVerificationCode> UserVerificationCodes { get; set; }
     public DbSet<Friendship> Friendships { get; set; }
+
+    /// <summary>
+    /// Web games related sets
+    /// </summary>
+    public DbSet<WebGame> WebGames { get; set; }
+    public DbSet<WebGameState> WebGameStates { get; set; }
+    public DbSet<WebGameInvitation> WebGameInvitations { get; set; }
+    public DbSet<WebGameMessage> WebGameMessages { get; set; }
+    public DbSet<WebGamePlayer> WebGamePlayers { get; set; }
+    public DbSet<WebGamePlayerMessage> WebGamePlayerMessages { get; set; }
+    public DbSet<WebGameMove> WebGameMoves { get; set; }
+
+    /// <summary>
+    /// Engine games related sets
+    /// </summary>
+    public DbSet<EngineGame> EngineGames { get; set; }
+    public DbSet<EngineGameState> EngineGameStates { get; set; }
+    public DbSet<EngineGamePlayer> EngineGamePlayers { get; set; }
+    public DbSet<EngineGameMove> EngineGameMoves { get; set; }
+
 
 
     public ChessAppDbContext(DbContextOptions<ChessAppDbContext> options) : base(options) { }
 
     protected override void OnModelCreating(ModelBuilder builder) {
+        
         var configuration = new DbContextConfiguration();
 
-        builder.ApplyConfiguration<User>(configuration);
         builder.ApplyConfiguration<Role>(configuration);
-        builder.ApplyConfiguration<UserVerificationCode>(configuration);
         builder.ApplyConfiguration<DataConfiguration>(configuration);
-        builder.ApplyConfiguration<UserBan>(configuration);
-        builder.ApplyConfiguration<Game>(configuration);
         builder.ApplyConfiguration<GameTiming>(configuration);
-        builder.ApplyConfiguration<GameState>(configuration);
-        builder.ApplyConfiguration<Player>(configuration);
-        builder.ApplyConfiguration<Move>(configuration);
-        builder.ApplyConfiguration<Friendship>(configuration);
+
+
+        builder.ApplyConfiguration<User>(configuration);
         builder.ApplyConfiguration<UserElo>(configuration);
-        builder.ApplyConfiguration<PlayerMessage>(configuration);
-        builder.ApplyConfiguration<GameMessage>(configuration);
         builder.ApplyConfiguration<UserStats>(configuration);
-        builder.ApplyConfiguration<GameInvitation>(configuration);
         builder.ApplyConfiguration<UserImage>(configuration);
+        builder.ApplyConfiguration<UserVerificationCode>(configuration);
+        builder.ApplyConfiguration<UserBan>(configuration);
+        builder.ApplyConfiguration<Friendship>(configuration);
+
+
+        builder.ApplyConfiguration<WebGame>(configuration);
+        builder.ApplyConfiguration<WebGameState>(configuration);
+        builder.ApplyConfiguration<WebGameMessage>(configuration);
+        builder.ApplyConfiguration<WebGameInvitation>(configuration);
+        builder.ApplyConfiguration<WebGameMove>(configuration);
+        builder.ApplyConfiguration<WebGamePlayer>(configuration);
+        builder.ApplyConfiguration<WebGamePlayerMessage>(configuration);
+
+
+        builder.ApplyConfiguration<EngineGame>(configuration);
+        builder.ApplyConfiguration<EngineGameState>(configuration);
+        builder.ApplyConfiguration<EngineGamePlayer>(configuration);
+        builder.ApplyConfiguration<EngineGameMove>(configuration);
     }
 }

@@ -56,12 +56,12 @@ function FriendCard({ friend, setSelectedFriend }: FriendCardProps) {
         </div>
 
         <div className={classes["previous-games"]}>
-          <p className={classes["wdl-total"]}>You played {friend.wdlTogether.total} games together </p>
-          <span>{friend.wdlTogether.wins}W</span>
+          <p className={classes["outcome-total"]}>You played {friend.outcomeTogether.total} games together </p>
+          <span>{friend.outcomeTogether.wins}W</span>
           {" - "}
-          <span>{friend.wdlTogether.draws}D</span>
+          <span>{friend.outcomeTogether.draws}D</span>
           {" - "}
-          <span>{friend.wdlTogether.loses}L</span>
+          <span>{friend.outcomeTogether.loses}L</span>
         </div>
       </div>
 

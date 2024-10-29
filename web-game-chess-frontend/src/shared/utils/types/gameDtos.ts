@@ -43,10 +43,7 @@ export type GetEndedGameDto = {
   eloGain: number;
 };
 
-export type GetPlayerDto = PlayerDto & {
-  // color of a player
-  color: PieceColor;
-};
+export type GetPlayerDto = PlayerDto & {};
 
 export type GetAllFinishedGamesDto = {
   // last position

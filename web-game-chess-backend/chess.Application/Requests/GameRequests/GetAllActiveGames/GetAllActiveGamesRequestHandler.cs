@@ -1,6 +1,6 @@
 ﻿
 using chess.Application.Pagination;
-using chess.Application.Repositories;
+using chess.Application.Repositories.WebGameRepositories;
 using chess.Application.Services;
 using chess.Core.Dtos;
 using chess.Core.Entities;
@@ -19,11 +19,11 @@ namespace chess.Application.Requests.GameRequests.GetAllActiveGames;
 public class GetAllActiveGamesRequestHandler : IRequestHandler<GetAllActiveGamesRequest, PagedResult<GetAllActiveGamesDto>> {
 
     private readonly IUserContextService _userContextService;
-    private readonly IPlayerRepository _playerRepository;
+    private readonly IWebGamePlayerRepository _playerRepository;
 
     public GetAllActiveGamesRequestHandler(
         IUserContextService userContextService,
-        IPlayerRepository playerRepository
+        IWebGamePlayerRepository playerRepository
     ) {
         _userContextService = userContextService;
         _playerRepository = playerRepository;
@@ -164,7 +164,7 @@ public class GetAllActiveGamesRequestHandler : IRequestHandler<GetAllActiveGames
     /// </summary>
     /// <param name="game"></param>
     /// <returns></returns>
-    private static bool GameShouldNotBeDisplayed(Game game) {
+    private static bool GameShouldNotBeDisplayed(WebGame game) {
 
         var lastTimeRecorded = (game.Moves == null || game.Moves.Count == 0) ? game.StartedAt : game.Moves[^1].DoneAt;
 

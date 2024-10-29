@@ -56,7 +56,7 @@ export type TimingTypeModel = {
 };
 
 // game results representation
-export type WinDrawLose = {
+export type GameOutcomeDto = {
   // total games played
   total: number;
   // total wins

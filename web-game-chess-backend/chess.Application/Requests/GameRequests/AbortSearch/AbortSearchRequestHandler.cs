@@ -1,5 +1,5 @@
 ﻿
-using chess.Application.Repositories;
+using chess.Application.Repositories.WebGameRepositories;
 using chess.Application.Services;
 using chess.Shared.Exceptions;
 using MediatR;
@@ -14,11 +14,11 @@ namespace chess.Application.Requests.GameRequests.AbortSearch;
 /// </summary>
 public class AbortSearchRequestHandler : IRequestHandler<AbortSearchRequest> {
 
-    private readonly IPlayerRepository _playerRepository;
+    private readonly IWebGamePlayerRepository _playerRepository;
     private readonly IUserContextService _userContextService;
 
     public AbortSearchRequestHandler(
-        IPlayerRepository playerRepository,
+        IWebGamePlayerRepository playerRepository,
         IUserContextService userContextService
     ) {
         _playerRepository = playerRepository;

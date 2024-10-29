@@ -1,5 +1,5 @@
 ﻿
-using chess.Application.Repositories;
+using chess.Application.Repositories.WebGameRepositories;
 using chess.Application.Services;
 using chess.Shared.Exceptions;
 using MediatR;
@@ -14,11 +14,11 @@ namespace chess.Application.Requests.GameRequests.GetOpponent;
 public class GetOpponentRequestHandler : IRequestHandler<GetOpponentRequest, GetOpponentDto> {
 
     private readonly IUserContextService _userContextService;
-    private readonly IGameRepository _gameRepository;
+    private readonly IWebGameRepository _gameRepository;
 
     public GetOpponentRequestHandler(
         IUserContextService userContextService,
-        IGameRepository gameRepository
+        IWebGameRepository gameRepository
     ) {
         _userContextService = userContextService;
         _gameRepository = gameRepository;

@@ -1,5 +1,5 @@
 ﻿
-using chess.Application.Repositories;
+using chess.Application.Repositories.WebGameRepositories;
 using chess.Application.Services;
 using chess.Shared.Exceptions;
 using MediatR;
@@ -16,14 +16,14 @@ namespace chess.Application.Requests.GameRequests.CancelPrivateGame;
 /// </summary>
 public class CancelPrivateGameRequestHandler : IRequestHandler<CancelPrivateGameRequest> {
 
-    private readonly IGameRepository _gameRepository;
+    private readonly IWebGameRepository _gameRepository;
     private readonly IUserContextService _userContextService;
-    private readonly IPlayerRepository _playerRepository;
+    private readonly IWebGamePlayerRepository _playerRepository;
 
     public CancelPrivateGameRequestHandler(
-        IGameRepository gameRepository,
+        IWebGameRepository gameRepository,
         IUserContextService userContextService,
-        IPlayerRepository playerRepository
+        IWebGamePlayerRepository playerRepository
     ) {
         _gameRepository = gameRepository;
         _userContextService = userContextService;

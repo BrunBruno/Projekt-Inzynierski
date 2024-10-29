@@ -1,5 +1,6 @@
 ﻿
-using chess.Application.Repositories;
+using chess.Application.Repositories.UserRepositories;
+using chess.Application.Repositories.WebGameRepositories;
 using chess.Application.Services;
 using chess.Core.Dtos;
 using chess.Shared.Exceptions;
@@ -15,16 +16,16 @@ namespace chess.Application.Requests.GameRequests.GetAllMessages;
 /// </summary>
 public class GetAllMessagesRequestHandler : IRequestHandler<GetAllMessagesRequest, List<GetAllMessagesDto>> {
 
-    private readonly IGameRepository _gameRepository;
-    private readonly IPlayerMessageRepository _playerMessageRepository;
-    private readonly IGameMessageRepository _gameMessageRepository;
+    private readonly IWebGameRepository _gameRepository;
+    private readonly IWebGamePlayerMessageRepository _playerMessageRepository;
+    private readonly IWebGameMessageRepository _gameMessageRepository;
     private readonly IUserContextService _userContextService;
     private readonly IUserImageRepository _userImageRepository;
 
     public GetAllMessagesRequestHandler(
-        IGameRepository gameRepository,
-        IPlayerMessageRepository playerMessageRepository,
-        IGameMessageRepository gameMessageRepository,
+        IWebGameRepository gameRepository,
+        IWebGamePlayerMessageRepository playerMessageRepository,
+        IWebGameMessageRepository gameMessageRepository,
         IUserContextService userContextService,
         IUserImageRepository userImageRepository
     ) {

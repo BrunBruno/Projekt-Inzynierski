@@ -1,5 +1,5 @@
 ﻿
-using chess.Application.Repositories;
+using chess.Application.Repositories.WebGameRepositories;
 using chess.Application.Services;
 using chess.Shared.Exceptions;
 using MediatR;
@@ -13,13 +13,13 @@ namespace chess.Application.Requests.GameRequests.CheckIfInGame;
 /// </summary>
 public class CheckIfInGameRequestHandler : IRequestHandler<CheckIfInGameRequest, CheckIfInGameDto> {
 
-    private readonly IPlayerRepository _playerRepository;
-    private readonly IGameRepository _gameRepository;
+    private readonly IWebGamePlayerRepository _playerRepository;
+    private readonly IWebGameRepository _gameRepository;
     private readonly IUserContextService _userContextService;
 
     public CheckIfInGameRequestHandler(
-        IPlayerRepository playerRepository,
-        IGameRepository gameRepository,
+        IWebGamePlayerRepository playerRepository,
+        IWebGameRepository gameRepository,
         IUserContextService userContextService
     ) {
         _playerRepository = playerRepository;

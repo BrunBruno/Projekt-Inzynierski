@@ -27,7 +27,7 @@ public class GetFullUserDto : UserDto {
     /// <summary>
     /// Win, draws and loses
     /// </summary>
-    public required WinDrawLose WdlTotal { get; set; }
+    public required GameOutcomeDto OutcomeTotal { get; set; }
 
     /// <summary>
     /// Wins by some win option

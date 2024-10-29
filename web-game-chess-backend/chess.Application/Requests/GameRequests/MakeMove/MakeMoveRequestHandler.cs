@@ -1,5 +1,5 @@
 ﻿
-using chess.Application.Repositories;
+using chess.Application.Repositories.WebGameRepositories;
 using chess.Application.Services;
 using chess.Core.Entities;
 using chess.Shared.Exceptions;
@@ -17,13 +17,13 @@ namespace chess.Application.Requests.GameRequests.MakeMove;
 /// </summary>
 public class MakeMoveRequestHandler : IRequestHandler<MakeMoveRequest> {
 
-    private readonly IGameRepository _gameRepository;
-    private readonly IMoveRepository _moveRepository;
+    private readonly IWebGameRepository _gameRepository;
+    private readonly IWebGameMoveRepository _moveRepository;
     private readonly IUserContextService _userContextService;
 
     public MakeMoveRequestHandler(
-        IGameRepository gameRepository,
-        IMoveRepository moveRepository,
+        IWebGameRepository gameRepository,
+        IWebGameMoveRepository moveRepository,
         IUserContextService userContextService
     ) {
         _gameRepository = gameRepository;
@@ -61,25 +61,25 @@ public class MakeMoveRequestHandler : IRequestHandler<MakeMoveRequest> {
         game.Round = (game.Turn / 2) + 1;
         game.Turn += 1;
 
-        game.GameState.EnPassant = request.EnPassant;
-        if (game.GameState.CanWhiteKingCastle) 
-            game.GameState.CanWhiteKingCastle = !request.Wkm;
-        if (game.GameState.CanWhiteShortRookCastle)
-            game.GameState.CanWhiteShortRookCastle = !request.Wsrm;
-        if (game.GameState.CanWhiteLongRookCastle)
-            game.GameState.CanWhiteLongRookCastle = !request.Wlrm;
-        if (game.GameState.CanBlackKingCastle)
-            game.GameState.CanBlackKingCastle = !request.Bkm;
-        if (game.GameState.CanBlackShortRookCastle)
-            game.GameState.CanBlackShortRookCastle = !request.Bsrm;
-        if (game.GameState.CanBlackLongRookCastle)
-            game.GameState.CanBlackLongRookCastle = !request.Blrm;
+        game.CurrentState.EnPassant = request.EnPassant;
+        if (game.CurrentState.CanWhiteKingCastle) 
+            game.CurrentState.CanWhiteKingCastle = !request.Wkm;
+        if (game.CurrentState.CanWhiteShortRookCastle)
+            game.CurrentState.CanWhiteShortRookCastle = !request.Wsrm;
+        if (game.CurrentState.CanWhiteLongRookCastle)
+            game.CurrentState.CanWhiteLongRookCastle = !request.Wlrm;
+        if (game.CurrentState.CanBlackKingCastle)
+            game.CurrentState.CanBlackKingCastle = !request.Bkm;
+        if (game.CurrentState.CanBlackShortRookCastle)
+            game.CurrentState.CanBlackShortRookCastle = !request.Bsrm;
+        if (game.CurrentState.CanBlackLongRookCastle)
+            game.CurrentState.CanBlackLongRookCastle = !request.Blrm;
 
 
         await _gameRepository.Update(game);
 
 
-        var move = new Move()
+        var move = new WebGameMove()
         {
             Id = Guid.NewGuid(),
             DoneMove = request.Move,

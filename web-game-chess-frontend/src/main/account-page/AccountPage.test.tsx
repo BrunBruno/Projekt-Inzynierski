@@ -6,7 +6,7 @@ import { Guid } from "guid-typescript";
 import { GetFullUserDto } from "../../shared/utils/types/userDtos";
 import { GetTypeHistoryDto } from "../../shared/utils/types/gameDtos";
 import { createMockServer } from "../../shared/utils/services/MockServerService";
-import { mockElo, mockWdl } from "../../shared/utils/objects/generalMocks";
+import { mockElo, mockGameOutcome } from "../../shared/utils/objects/generalMocks";
 
 /** mocks */
 
@@ -19,8 +19,8 @@ const mockFriends: GetAllFriendsByStatusDto[] = [
     friendshipId: Guid.create(),
     elo: mockElo,
     isRequestor: false,
-    wdlTotal: mockWdl,
-    wdlTogether: mockWdl,
+    outcomeTotal: mockGameOutcome,
+    outcomeTogether: mockGameOutcome,
   },
   {
     username: "User 2",
@@ -30,8 +30,8 @@ const mockFriends: GetAllFriendsByStatusDto[] = [
     friendshipId: Guid.create(),
     elo: mockElo,
     isRequestor: true,
-    wdlTotal: mockWdl,
-    wdlTogether: mockWdl,
+    outcomeTotal: mockGameOutcome,
+    outcomeTogether: mockGameOutcome,
   },
 ];
 
@@ -43,7 +43,7 @@ const mockFullUser: GetFullUserDto = {
   email: "user@test.com",
   joinDate: new Date(),
   bio: null,
-  wdlTotal: mockWdl,
+  outcomeTotal: mockGameOutcome,
   winsByCheckMate: 2,
   winsByTimeout: 5,
   winsByResignation: 1,

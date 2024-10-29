@@ -1,5 +1,7 @@
 ﻿
-using chess.Application.Repositories;
+using chess.Application.Repositories.FriendshipRepositories;
+using chess.Application.Repositories.UserRepositories;
+using chess.Application.Repositories.WebGameRepositories;
 using chess.Application.Services;
 using chess.Core.Enums;
 using chess.Core.Maps.MapOfElo;
@@ -19,16 +21,16 @@ namespace chess.Application.Requests.GameRequests.EndGame;
 /// </summary>
 public class EndGameRequestHandler : IRequestHandler<EndGameRequest, EndGameDto> {
 
-    private readonly IGameRepository _gameRepository;
+    private readonly IWebGameRepository _gameRepository;
     private readonly IUserContextService _userContextService;
     private readonly IUserRepository _userRepository;
     private readonly IFriendshipRepository _friendshipRepository;
 
     public EndGameRequestHandler(
-        IGameRepository gameRepository,
+        IWebGameRepository gameRepository,
         IUserContextService userContextService,
         IUserRepository userRepository,
-         IFriendshipRepository friendshipRepository
+        IFriendshipRepository friendshipRepository
     ) {
         _gameRepository = gameRepository;
         _userContextService = userContextService;

@@ -1,5 +1,5 @@
 ﻿
-using chess.Application.Repositories;
+using chess.Application.Repositories.WebGameRepositories;
 using chess.Application.Services;
 using chess.Core.Entities;
 using chess.Core.Enums;
@@ -16,13 +16,13 @@ namespace chess.Application.Requests.GameRequests.SendDrawMessage;
 /// </summary>
 public class SendDrawMessageRequestHandler : IRequestHandler<SendDrawMessageRequest> {
 
-    private readonly IGameMessageRepository _gameMessageRepository;
-    private readonly IGameRepository _gameRepository;
+    private readonly IWebGameMessageRepository _gameMessageRepository;
+    private readonly IWebGameRepository _gameRepository;
     private readonly IUserContextService _userContextService;
 
     public SendDrawMessageRequestHandler(
-        IGameMessageRepository gameMessageRepository,
-        IGameRepository gameRepository,
+        IWebGameMessageRepository gameMessageRepository,
+        IWebGameRepository gameRepository,
         IUserContextService userContextService
     ) {
         _gameMessageRepository = gameMessageRepository;
@@ -49,7 +49,7 @@ public class SendDrawMessageRequestHandler : IRequestHandler<SendDrawMessageRequ
 
         var userPlayerName = game.WhitePlayer.UserId == userId ? game.WhitePlayer.Name : game.BlackPlayer.Name;
 
-        var message = new GameMessage()
+        var message = new WebGameMessage()
         {
             Id = Guid.NewGuid(),
             RequestorName = userPlayerName,

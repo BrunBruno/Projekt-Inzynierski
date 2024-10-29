@@ -1,5 +1,4 @@
-﻿
-using chess.Application.Repositories;
+﻿using chess.Application.Repositories.GameRepositories;
 using chess.Application.Requests.GameRequests.SendMessage;
 using chess.Application.Services;
 using chess.Core.Entities;

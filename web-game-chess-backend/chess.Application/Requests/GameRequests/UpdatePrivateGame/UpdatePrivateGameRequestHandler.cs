@@ -1,9 +1,10 @@
 ﻿
-using chess.Application.Repositories;
 using chess.Application.Services;
 using chess.Shared.Exceptions;
 using MediatR;
 using chess.Core.Maps.MapOfElo;
+using chess.Application.Repositories.WebGameRepositories;
+using chess.Application.Repositories.UserRepositories;
 
 namespace chess.Application.Requests.GameRequests.UpdatePrivateGame;
 
@@ -16,14 +17,14 @@ public class UpdatePrivateGameRequestHandler : IRequestHandler<UpdatePrivateGame
 
     private readonly IUserContextService _userContextService;
     private readonly IUserRepository _userRepository;
-    private readonly IGameRepository _gameRepository;
-    private readonly IPlayerRepository _playerRepository;
+    private readonly IWebGameRepository _gameRepository;
+    private readonly IWebGamePlayerRepository _playerRepository;
 
     public UpdatePrivateGameRequestHandler(
         IUserContextService userContextService,
         IUserRepository userRepository,
-        IGameRepository gameRepository,
-        IPlayerRepository playerRepository
+        IWebGameRepository gameRepository,
+        IWebGamePlayerRepository playerRepository
     ) {
         _userContextService = userContextService;
         _userRepository = userRepository;

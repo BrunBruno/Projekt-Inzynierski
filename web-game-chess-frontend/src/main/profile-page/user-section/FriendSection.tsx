@@ -93,7 +93,7 @@ function FriendSection({ friendshipId }: FriendSectionProps) {
         ) : (
           <div className={classes.user__data__stats}>
             <div className={classes.user__data__stats__header}>
-              Total games played: <span>{friend.wdlTotal.total}</span>
+              Total games played: <span>{friend.outcomeTotal.total}</span>
             </div>
 
             <div className={classes.user__data__stats__row}>
@@ -101,7 +101,7 @@ function FriendSection({ friendshipId }: FriendSectionProps) {
             </div>
 
             <div className={classes.user__data__stats__header}>
-              Games played together: <span>{friend.wdlTogether.total}</span>
+              Games played together: <span>{friend.outcomeTogether.total}</span>
             </div>
 
             <div className={classes.user__data__stats__row}>

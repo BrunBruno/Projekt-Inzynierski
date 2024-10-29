@@ -1,5 +1,4 @@
-﻿
-using chess.Application.Repositories;
+﻿using chess.Application.Repositories.UserRepositories;
 using chess.Shared.Exceptions;
 using MediatR;
 

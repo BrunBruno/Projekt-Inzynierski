@@ -41,8 +41,8 @@ public class GetFullUserTests : IClassFixture<TestWebApplicationFactory<Program>
 
         var result = JsonConvert.DeserializeObject<GetFullUserDto>(await response.Content.ReadAsStringAsync());
         result.Email.Should().Be("test@test.com");
-        result.WdlTotal.Should().NotBeNull();
-        result.WdlTotal.Wins.Should().Be(0);
+        result.OutcomeTotal.Should().NotBeNull();
+        result.OutcomeTotal.Wins.Should().Be(0);
     }
 
     /// <summary>

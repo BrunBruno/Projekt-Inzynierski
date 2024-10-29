@@ -6,7 +6,7 @@ import MainRouter from "../MainRouter";
 import { GetUserDto, IsEmailVerifiedDto } from "../../shared/utils/types/userDtos";
 import { Guid } from "guid-typescript";
 import { JwtService } from "../../shared/utils/services/MockJwtService";
-import { mockElo, mockUserForToken, mockWdl } from "../../shared/utils/objects/generalMocks";
+import { mockElo, mockUserForToken, mockGameOutcome } from "../../shared/utils/objects/generalMocks";
 import {
   CheckIfUpdateRequiredDto,
   CreatePrivateGameDto,
@@ -44,8 +44,8 @@ const mockFriends: GetAllFriendsByStatusDto[] = [
     friendshipId: Guid.create(),
     elo: mockElo,
     isRequestor: false,
-    wdlTotal: mockWdl,
-    wdlTogether: mockWdl,
+    outcomeTotal: mockGameOutcome,
+    outcomeTogether: mockGameOutcome,
   },
   {
     username: "Friend 2",
@@ -55,8 +55,8 @@ const mockFriends: GetAllFriendsByStatusDto[] = [
     friendshipId: Guid.create(),
     elo: mockElo,
     isRequestor: true,
-    wdlTotal: mockWdl,
-    wdlTogether: mockWdl,
+    outcomeTotal: mockGameOutcome,
+    outcomeTogether: mockGameOutcome,
   },
 ];
 
@@ -157,8 +157,6 @@ describe("MainPage Components", () => {
 
   // inviting friend to game test
   it("should open vs friend view and navigate to awaiting page after friend selection", async () => {
-    // THE PROBLEM WITH GAMEID BEING NULL HAPPENS IN THIS TEST
-
     render(
       <MemoryRouter initialEntries={["/"]}>
         <MainRouter />

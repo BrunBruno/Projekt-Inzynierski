@@ -70,7 +70,7 @@ function ProfileWindow({}: ProfileWindowProps): JSX.Element {
           color={greyColor.c0}
         />
         <span>Games</span>
-        <span>{userData.wdlTotal.total}</span>
+        <span>{userData.outcomeTotal.total}</span>
       </div>
 
       {Object.keys(eloData).map((key: string) => (

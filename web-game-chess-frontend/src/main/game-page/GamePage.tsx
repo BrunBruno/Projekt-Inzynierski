@@ -134,9 +134,6 @@ function GamePage() {
   };
 
   const handleGameAccepted = (newGameId: Guid): void => {
-    console.log(gameId);
-    console.log(newGameId);
-
     const state: StateOptions = {
       popup: { text: "GAME STARTED", type: "info" },
     };

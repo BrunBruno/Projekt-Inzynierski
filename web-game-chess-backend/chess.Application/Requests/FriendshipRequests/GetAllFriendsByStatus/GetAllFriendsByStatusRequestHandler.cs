@@ -1,6 +1,7 @@
 ﻿
 using chess.Application.Pagination;
-using chess.Application.Repositories;
+using chess.Application.Repositories.FriendshipRepositories;
+using chess.Application.Repositories.UserRepositories;
 using chess.Application.Services;
 using chess.Core.Abstraction;
 using chess.Core.Dtos;
@@ -82,14 +83,14 @@ public class GetAllFriendsByStatusRequestHandler : IRequestHandler<GetAllFriends
                         Daily = friend.Elo.Daily,
                     },
 
-                    WdlTotal = new WinDrawLose() {
+                    OutcomeTotal = new GameOutcomeDto() {
                         Total = friend.Stats.GamesPlayed,
                         Wins = friend.Stats.Wins,
                         Loses = friend.Stats.Loses,
                         Draws = friend.Stats.Draws,
                     },
 
-                    WdlTogether = new WinDrawLose() {
+                    OutcomeTogether = new GameOutcomeDto() {
                         Total = friendship.GamesPlayed,
                         Wins = isRequestor ? friendship.RequestorWins : friendship.RequestorLoses,
                         Loses = isRequestor ? friendship.RequestorLoses : friendship.RequestorWins,
@@ -99,7 +100,7 @@ public class GetAllFriendsByStatusRequestHandler : IRequestHandler<GetAllFriends
             }
         }
 
-        var sortedFriendsDtos = friendsDtos.OrderBy(f => f.WdlTogether.Total).ToList();
+        var sortedFriendsDtos = friendsDtos.OrderBy(f => f.OutcomeTogether.Total).ToList();
 
         var pagedResult = new PagedResult<GetAllFriendsByStatusDto>(sortedFriendsDtos, friendsDtos.Count, request.PageSize, request.PageNumber);
 

@@ -4,7 +4,7 @@ import { MemoryRouter } from "react-router-dom";
 import { createMockServer } from "../../shared/utils/services/MockServerService";
 import { GetAllFriendsByStatusDto, GetAllNonFriendsDto } from "../../shared/utils/types/friendshipDtos";
 import { Guid } from "guid-typescript";
-import { mockElo, mockWdl } from "../../shared/utils/objects/generalMocks";
+import { mockElo, mockGameOutcome } from "../../shared/utils/objects/generalMocks";
 import { GetOtherUserDto } from "../../shared/utils/types/userDtos";
 
 const mockAllUsers: GetAllNonFriendsDto[] = [
@@ -15,7 +15,7 @@ const mockAllUsers: GetAllNonFriendsDto[] = [
     country: "PL",
     userId: Guid.create(),
     elo: mockElo,
-    wdlTotal: mockWdl,
+    outcomeTotal: mockGameOutcome,
   },
   {
     username: "User 2",
@@ -24,7 +24,7 @@ const mockAllUsers: GetAllNonFriendsDto[] = [
     country: "PL",
     userId: Guid.create(),
     elo: mockElo,
-    wdlTotal: mockWdl,
+    outcomeTotal: mockGameOutcome,
   },
 ];
 
@@ -37,8 +37,8 @@ const mockFriends: GetAllFriendsByStatusDto[] = [
     friendshipId: Guid.create(),
     elo: mockElo,
     isRequestor: true,
-    wdlTotal: mockWdl,
-    wdlTogether: mockWdl,
+    outcomeTotal: mockGameOutcome,
+    outcomeTogether: mockGameOutcome,
   },
   {
     username: "Friend 2",
@@ -48,8 +48,8 @@ const mockFriends: GetAllFriendsByStatusDto[] = [
     friendshipId: Guid.create(),
     elo: mockElo,
     isRequestor: false,
-    wdlTotal: mockWdl,
-    wdlTogether: mockWdl,
+    outcomeTotal: mockGameOutcome,
+    outcomeTogether: mockGameOutcome,
   },
 ];
 
@@ -61,6 +61,7 @@ const mockFriend: GetOtherUserDto = {
   joinDate: new Date(),
   bio: null,
   gamesPlayed: 10,
+  elo: mockElo,
 };
 
 // set up server

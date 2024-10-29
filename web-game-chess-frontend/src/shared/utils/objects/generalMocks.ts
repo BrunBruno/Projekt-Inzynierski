@@ -1,5 +1,5 @@
 import { Guid } from "guid-typescript";
-import { EloDto, WinDrawLose } from "../types/abstractDtosAndModels";
+import { EloDto, GameOutcomeDto } from "../types/abstractDtosAndModels";
 import { MockUser } from "../services/MockJwtService";
 
 export const mockUserForToken: MockUser = {
@@ -19,7 +19,7 @@ export const mockElo: EloDto = {
   daily: 1000,
 };
 
-export const mockWdl: WinDrawLose = {
+export const mockGameOutcome: GameOutcomeDto = {
   total: 10,
   wins: 5,
   draws: 1,

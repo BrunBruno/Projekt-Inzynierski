@@ -1,6 +1,6 @@
 ﻿
 using chess.Application.Pagination;
-using chess.Application.Repositories;
+using chess.Application.Repositories.WebGameRepositories;
 using chess.Application.Services;
 using chess.Core.Dtos;
 using chess.Core.Enums;
@@ -16,11 +16,11 @@ namespace chess.Application.Requests.GameRequests.GetAllFinishedGames;
 public class GetAllFinishedGamesRequestHandler : IRequestHandler<GetAllFinishedGamesRequest, PagedResult<GetAllFinishedGamesDto>> {
 
     private readonly IUserContextService _userContextService;
-    private readonly IPlayerRepository _playerRepository;
+    private readonly IWebGamePlayerRepository _playerRepository;
 
     public GetAllFinishedGamesRequestHandler(
         IUserContextService userContextService,
-        IPlayerRepository playerRepository
+        IWebGamePlayerRepository playerRepository
     ) {
         _userContextService = userContextService;
         _playerRepository = playerRepository;

@@ -1,5 +1,5 @@
-﻿
-using chess.Application.Repositories;
+﻿using chess.Application.Repositories.FriendshipRepositories;
+using chess.Application.Repositories.UserRepositories;
 using chess.Application.Services;
 using chess.Core.Abstraction;
 using chess.Core.Dtos;
@@ -71,14 +71,14 @@ public class GetFriendProfileRequestHandler : IRequestHandler<GetFriendProfileRe
                 Daily = friend.Elo.Daily,
             },
 
-            WdlTotal = new WinDrawLose() {
+            OutcomeTotal = new GameOutcomeDto() {
                 Total = friend.Stats.GamesPlayed,
                 Wins = friend.Stats.Wins,
                 Loses = friend.Stats.Loses,
                 Draws = friend.Stats.Draws,
             },
 
-            WdlTogether = new WinDrawLose() {
+            OutcomeTogether = new GameOutcomeDto() {
                 Total = friendship.GamesPlayed,
                 Wins = friendship.RequestorId == userId ? friendship.RequestorWins : friendship.RequestorLoses,
                 Loses = friendship.RequestorId == userId ? friendship.RequestorLoses : friendship.RequestorWins,

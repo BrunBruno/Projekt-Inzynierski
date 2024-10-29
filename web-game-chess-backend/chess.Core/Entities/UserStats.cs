@@ -33,7 +33,6 @@ public class UserStats {
     /// </summary>
     public int GamesPlayed => Wins + Loses + Draws;
 
-
     /// <summary>
     /// All wins by checkmate
     /// </summary>

@@ -1,5 +1,6 @@
 ﻿
 using chess.Application.Repositories;
+using chess.Application.Repositories.WebGameRepositories;
 using chess.Shared.Exceptions;
 using MediatR;
 
@@ -13,22 +14,24 @@ namespace chess.Application.Requests.GameRequests.GetGameTiming;
 public class GetGameTimingRequestHandler : IRequestHandler<GetGameTimingRequest, GetGameTimingDto> {
 
     private readonly IGameTimingRepository _gameTimingRepository;
-    private readonly IGameRepository _gameRepository;
+    private readonly IWebGameRepository _gameRepository;
 
     public GetGameTimingRequestHandler(
         IGameTimingRepository gameTimingRepository,
-        IGameRepository gameRepository
+        IWebGameRepository gameRepository
     ) {
         _gameTimingRepository = gameTimingRepository;
         _gameRepository = gameRepository;
     }
+
+    public IGameTimingRepository GameTimingRepository => _gameTimingRepository;
 
     public async Task<GetGameTimingDto> Handle(GetGameTimingRequest request, CancellationToken cancellationToken) {
 
         var game = await _gameRepository.GetById(request.GameId)
             ?? throw new NotFoundException("Game not found.");
 
-        var timing = await _gameTimingRepository.GetById(game.GameTimingId)
+        var timing = await GameTimingRepository.GetById(game.GameTimingId)
              ?? throw new NotFoundException("Timing not found.");
 
         var timingDto = new GetGameTimingDto()
