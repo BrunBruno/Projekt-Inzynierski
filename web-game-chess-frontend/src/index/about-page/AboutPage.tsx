@@ -20,16 +20,16 @@ function AboutPage() {
   const { contentName } = useParams<{ contentName: ContentNames }>();
   const navigate = useNavigate();
 
-  type ContentNames = "introduction" | "objectives" | "terms" | "privacy";
+  type ContentNames = "Introduction" | "Objectives" | "Terms" | "Privacy";
   type ContentType = {
     // title of selected content
-    title: string;
+    title: ContentNames;
     // list on sub sections of selected content
     elements: ContentElements[];
   };
 
   // page interface options
-  const contentOptions: { [key in ContentNames]: ContentType } = {
+  const contentOptions: { [key in Lowercase<ContentNames>]: ContentType } = {
     introduction: { title: "Introduction", elements: introductionElements },
     objectives: { title: "Objectives", elements: objectivesElements },
     terms: { title: "Terms", elements: termsElements },
@@ -44,7 +44,7 @@ function AboutPage() {
     if (!contentName) return;
 
     try {
-      setSelectedContent(contentOptions[contentName.toLocaleLowerCase() as ContentNames]);
+      setSelectedContent(contentOptions[contentName.toLocaleLowerCase() as Lowercase<ContentNames>]);
     } catch (err) {
       setSelectedContent(contentOptions["introduction"]);
     }

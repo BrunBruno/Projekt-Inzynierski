@@ -4,7 +4,7 @@ import classes from "./PlaySection.module.scss";
 type IconNames = "online" | "offline";
 
 export const playSectionIcons: IconMap<IconNames> = {
-  online: (iconClass?: string) => (
+  online: (iconClass?: ElementClass) => (
     <svg
       className={`${iconClass} ${classes["vs-player-icon"]}`}
       viewBox="0 0 24 24"
@@ -19,7 +19,7 @@ export const playSectionIcons: IconMap<IconNames> = {
     </svg>
   ),
 
-  offline: (iconClass?: string) => (
+  offline: (iconClass?: ElementClass) => (
     <svg
       className={`${iconClass} ${classes["vs-computer-icon"]}`}
       viewBox="0 0 24 24"

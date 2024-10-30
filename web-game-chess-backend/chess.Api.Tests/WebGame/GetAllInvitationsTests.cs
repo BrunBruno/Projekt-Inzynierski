@@ -1,14 +1,14 @@
 ﻿
 using chess.Api.Tests.User;
 using chess.Application.Pagination;
-using chess.Application.Requests.GameRequests.GetAllInvitations;
+using chess.Application.Requests.WebGameRequests.GetAllInvitations;
 using chess.Infrastructure.Contexts;
 using FluentAssertions;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
 using System.Net;
 
-namespace chess.Api.Tests.Game;
+namespace chess.Api.Tests.WebGame;
 
 public class GetAllInvitationsTests : IClassFixture<TestWebApplicationFactory<Program>> {
 
@@ -37,9 +37,9 @@ public class GetAllInvitationsTests : IClassFixture<TestWebApplicationFactory<Pr
         await _dbContext.AddGames(false, true);
 
 
-        var response1 = await _client.GetAsync($"api/game/invitations?pageNumber=1&pageSize=20");
-        var response2 = await _client.GetAsync($"api/game/invitations?pageNumber=1&pageSize=50");
-        var response3 = await _client.GetAsync($"api/game/invitations?pageNumber=4&pageSize=10");
+        var response1 = await _client.GetAsync($"api/webgame/invitations?pageNumber=1&pageSize=20");
+        var response2 = await _client.GetAsync($"api/webgame/invitations?pageNumber=1&pageSize=50");
+        var response3 = await _client.GetAsync($"api/webgame/invitations?pageNumber=4&pageSize=10");
 
 
         response1.StatusCode.Should().Be(HttpStatusCode.OK);

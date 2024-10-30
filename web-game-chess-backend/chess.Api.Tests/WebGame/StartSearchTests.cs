@@ -1,7 +1,7 @@
 ﻿
-using chess.Api.Models.GameModels;
+using chess.Api.Models.WebGameModels;
 using chess.Api.Tests.User;
-using chess.Application.Requests.GameRequests.SearchGame;
+using chess.Application.Requests.WebGameRequests.SearchGame;
 using chess.Core.Enums;
 using chess.Infrastructure.Contexts;
 using FluentAssertions;
@@ -11,7 +11,7 @@ using Newtonsoft.Json;
 using System.Net;
 using System.Text;
 
-namespace chess.Api.Tests.Game;
+namespace chess.Api.Tests.WebGame;
 
 public class StartSearchTests : IClassFixture<TestWebApplicationFactory<Program>> {
 
@@ -38,7 +38,7 @@ public class StartSearchTests : IClassFixture<TestWebApplicationFactory<Program>
         await _dbContext.Init();
         await _dbContext.AddUser();
 
-        var model = new SearchGameModel()
+        var model = new SearchWebGameModel()
         {
             Type = TimingTypes.Rapid,
             Minutes = 10,
@@ -49,7 +49,7 @@ public class StartSearchTests : IClassFixture<TestWebApplicationFactory<Program>
         var httpContent = new StringContent(json, Encoding.UTF8, "application/json");
 
 
-        var response = await _client.PostAsync("api/game/search", httpContent);
+        var response = await _client.PostAsync("api/webgame/search", httpContent);
 
 
         var assertDbContext = _factory.GetDbContextForAsserts();
@@ -75,7 +75,7 @@ public class StartSearchTests : IClassFixture<TestWebApplicationFactory<Program>
 
         await _dbContext.Init();
 
-        var model = new SearchGameModel()
+        var model = new SearchWebGameModel()
         {
             Type = TimingTypes.Rapid,
             Minutes = 10,
@@ -86,7 +86,7 @@ public class StartSearchTests : IClassFixture<TestWebApplicationFactory<Program>
         var httpContent = new StringContent(json, Encoding.UTF8, "application/json");
 
 
-        var response = await _client.PostAsync("api/game/search", httpContent);
+        var response = await _client.PostAsync("api/webgame/search", httpContent);
 
 
         response.StatusCode.Should().Be(HttpStatusCode.NotFound);

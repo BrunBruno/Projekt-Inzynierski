@@ -1,7 +1,7 @@
 ﻿
 using chess.Api.Tests.User;
-using chess.Application.Requests.GameRequests.GetEndedGame;
-using chess.Core.Abstraction;
+using chess.Application.Requests.WebGameRequests.GetEndedGame;
+using chess.Core.Models;
 using chess.Core.Enums;
 using chess.Infrastructure.Contexts;
 using FluentAssertions;
@@ -9,7 +9,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
 using System.Net;
 
-namespace chess.Api.Tests.Game;
+namespace chess.Api.Tests.WebGame;
 
 public class GetEndedGameTests : IClassFixture<TestWebApplicationFactory<Program>> {
 
@@ -33,7 +33,7 @@ public class GetEndedGameTests : IClassFixture<TestWebApplicationFactory<Program
     [Fact]
     public async Task GetEndedGame_Should_Return_Winner_On_Success() {
 
-        var timingType = new TimingType()
+        var timingType = new TimingTypeModel()
         {
             Type = TimingTypes.Blitz,
             Minutes = 5,
@@ -55,7 +55,7 @@ public class GetEndedGameTests : IClassFixture<TestWebApplicationFactory<Program
         await _dbContext.EndGame(gameId, PieceColor.Black);
 
 
-        var response = await _client.GetAsync($"api/game/{gameId}/ended");
+        var response = await _client.GetAsync($"api/webgame/{gameId}/ended");
 
 
         response.StatusCode.Should().Be(HttpStatusCode.OK);
@@ -72,7 +72,7 @@ public class GetEndedGameTests : IClassFixture<TestWebApplicationFactory<Program
     public async Task GetEndedGame_Should_Return_Bad_Request_On_Fail() {
 
 
-        var timingType = new TimingType()
+        var timingType = new TimingTypeModel()
         {
             Type = TimingTypes.Blitz,
             Minutes = 5,
@@ -91,7 +91,7 @@ public class GetEndedGameTests : IClassFixture<TestWebApplicationFactory<Program
         await _dbContext.StartGame(gameId);
         // no ending of game
 
-        var response = await _client.GetAsync($"api/game/{gameId}/ended");
+        var response = await _client.GetAsync($"api/webgame/{gameId}/ended");
 
 
         response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
@@ -105,7 +105,7 @@ public class GetEndedGameTests : IClassFixture<TestWebApplicationFactory<Program
     public async Task GetEndedGame_Should_Return_NotFound_On_Fail() {
 
 
-        var timingType = new TimingType()
+        var timingType = new TimingTypeModel()
         {
             Type = TimingTypes.Blitz,
             Minutes = 5,
@@ -119,7 +119,7 @@ public class GetEndedGameTests : IClassFixture<TestWebApplicationFactory<Program
         await _dbContext.CreateTiming(timingType);
         // game not added
 
-        var response = await _client.GetAsync($"api/game/{Guid.NewGuid()}/ended");
+        var response = await _client.GetAsync($"api/webgame/{Guid.NewGuid()}/ended");
 
 
         response.StatusCode.Should().Be(HttpStatusCode.NotFound);
@@ -133,7 +133,7 @@ public class GetEndedGameTests : IClassFixture<TestWebApplicationFactory<Program
     public async Task GetEndedGame_Should_Return_Unauthorized_On_Fail() {
 
 
-        var timingType = new TimingType()
+        var timingType = new TimingTypeModel()
         {
             Type = TimingTypes.Blitz,
             Minutes = 5,
@@ -159,7 +159,7 @@ public class GetEndedGameTests : IClassFixture<TestWebApplicationFactory<Program
         await _dbContext.EndGame(gameId, PieceColor.Black);
 
 
-        var response = await _client.GetAsync($"api/game/{gameId}/ended");
+        var response = await _client.GetAsync($"api/webgame/{gameId}/ended");
 
 
         response.StatusCode.Should().Be(HttpStatusCode.Unauthorized);

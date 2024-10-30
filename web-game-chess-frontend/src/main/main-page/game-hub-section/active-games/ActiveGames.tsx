@@ -1,6 +1,6 @@
 import axios from "axios";
 import classes from "./ActiveGames.module.scss";
-import { gameController, getAuthorization } from "../../../../shared/utils/services/ApiService";
+import { webGameController, getAuthorization } from "../../../../shared/utils/services/ApiService";
 import { useEffect, useState } from "react";
 import LoadingPage from "../../../../shared/components/loading-page/LoadingPage";
 import usePagination from "../../../../shared/utils/hooks/usePagination";
@@ -71,7 +71,7 @@ function ActiveGames({}: ActiveGamesProps) {
 
       try {
         const response = await axios.get<PagedResult<GetAllActiveGamesDto>>(
-          gameController.getAllActiveGames(model),
+          webGameController.getAllActiveGames(model),
           getAuthorization()
         );
 

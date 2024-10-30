@@ -5,7 +5,7 @@ import { IconMap } from "../../utils/types/commonTypes";
 type IconNames = TimingTypeName;
 
 export const timingTypeIcons: IconMap<IconNames> = {
-  bullet: (iconClass?: string, color?: ColorValue): JSX.Element => (
+  bullet: (iconClass?: ElementClass, color?: ColorValue): JSX.Element => (
     <svg
       version="1.1"
       xmlns="http://www.w3.org/2000/svg"
@@ -24,7 +24,7 @@ export const timingTypeIcons: IconMap<IconNames> = {
     </svg>
   ),
 
-  blitz: (iconClass?: string, color?: ColorValue): JSX.Element => (
+  blitz: (iconClass?: ElementClass, color?: ColorValue): JSX.Element => (
     <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" className={iconClass}>
       <polygon
         points="8.29 1.71 18.5 1.71 13.86 9.14 17.57 9.14 7.36 20.29 9.21 12.86 5.5 12.86 8.29 1.71"
@@ -35,7 +35,7 @@ export const timingTypeIcons: IconMap<IconNames> = {
     </svg>
   ),
 
-  rapid: (iconClass?: string, color?: ColorValue): JSX.Element => (
+  rapid: (iconClass?: ElementClass, color?: ColorValue): JSX.Element => (
     <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className={iconClass}>
       <path
         d="M4.51555 7C3.55827 8.4301 3 10.1499 3 12C3 16.9706 7.02944 21 12 21C16.9706 21 21 16.9706 21 12C21 7.02944 16.9706 3 12 3V6M12 12L8 8"
@@ -47,7 +47,7 @@ export const timingTypeIcons: IconMap<IconNames> = {
     </svg>
   ),
 
-  classic: (iconClass?: string, color?: ColorValue): JSX.Element => (
+  classic: (iconClass?: ElementClass, color?: ColorValue): JSX.Element => (
     <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className={iconClass}>
       <path
         d="M12 7V12H15M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z"
@@ -59,7 +59,7 @@ export const timingTypeIcons: IconMap<IconNames> = {
     </svg>
   ),
 
-  daily: (iconClass?: string, color?: ColorValue): JSX.Element => (
+  daily: (iconClass?: ElementClass, color?: ColorValue): JSX.Element => (
     <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className={iconClass}>
       <path
         d="M7.28451 10.3333C7.10026 10.8546 7 11.4156 7 12C7 14.7614 9.23858 17 12 17C14.7614 17 17 14.7614 17 12C17 9.23858 14.7614 7 12 7C11.4156 7 10.8546 7.10026 10.3333 7.28451"

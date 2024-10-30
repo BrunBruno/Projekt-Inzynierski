@@ -55,6 +55,7 @@ public class StartEngineGameRequestHandler : IRequestHandler<StartEngineGameRequ
         {
             Id = Guid.NewGuid(),
             PlayerId = player.Id,
+            StartedAt = DateTime.UtcNow,
         };
 
 

@@ -1,7 +1,7 @@
 ﻿
-using chess.Api.Models.GameModels;
+using chess.Api.Models.WebGameModels;
 using chess.Api.Tests.User;
-using chess.Application.Requests.GameRequests.CreateGameWithLink;
+using chess.Application.Requests.WebGameRequests.CreateGameWithLink;
 using chess.Core.Enums;
 using chess.Infrastructure.Contexts;
 using FluentAssertions;
@@ -11,7 +11,7 @@ using Newtonsoft.Json;
 using System.Net;
 using System.Text;
 
-namespace chess.Api.Tests.Game;
+namespace chess.Api.Tests.WebGame;
 
 public class CreateGameWithLinkTests : IClassFixture<TestWebApplicationFactory<Program>> {
 
@@ -39,7 +39,7 @@ public class CreateGameWithLinkTests : IClassFixture<TestWebApplicationFactory<P
         await _dbContext.AddUser();
         await _dbContext.AddUserWithEmail("friend@test.com");
 
-        var model = new CreateGameWithLinkModel()
+        var model = new CreateWebGameWithLinkModel()
         {
             Type = TimingTypes.Rapid,
             Minutes = 15,
@@ -50,19 +50,19 @@ public class CreateGameWithLinkTests : IClassFixture<TestWebApplicationFactory<P
         var httpContent = new StringContent(json, Encoding.UTF8, "application/json");
 
 
-        var response = await _client.PostAsync("api/game/link", httpContent);
+        var response = await _client.PostAsync("api/webgame/link", httpContent);
 
 
         var assertDbContext = _factory.GetDbContextForAsserts();
 
         response.StatusCode.Should().Be(HttpStatusCode.OK);
 
-        var players = await assertDbContext.Players.ToListAsync();
+        var players = await assertDbContext.WebGamePlayers.ToListAsync();
         players.Count.Should().Be(2);
         players[0].UserId.Should().Be(Guid.Parse(Constants.UserId));
         players[1].UserId.Should().Be(Guid.Parse(Constants.UserId));
 
-        var game = await assertDbContext.Games.FirstAsync();
+        var game = await assertDbContext.WebGames.FirstAsync();
 
         game.TimingType.Should().Be(TimingTypes.Rapid);
         game.IsPrivate.Should().Be(true);
@@ -81,7 +81,7 @@ public class CreateGameWithLinkTests : IClassFixture<TestWebApplicationFactory<P
         await _dbContext.Init();
         // user not added
 
-        var model = new CreateGameWithLinkModel()
+        var model = new CreateWebGameWithLinkModel()
         {
             Type = TimingTypes.Rapid,
             Minutes = 15,
@@ -92,7 +92,7 @@ public class CreateGameWithLinkTests : IClassFixture<TestWebApplicationFactory<P
         var httpContent = new StringContent(json, Encoding.UTF8, "application/json");
 
 
-        var response = await _client.PostAsync("api/game/link", httpContent);
+        var response = await _client.PostAsync("api/webgame/link", httpContent);
 
 
         response.StatusCode.Should().Be(HttpStatusCode.NotFound);

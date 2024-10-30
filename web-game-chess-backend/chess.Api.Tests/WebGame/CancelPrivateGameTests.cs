@@ -1,6 +1,6 @@
 ﻿
 using chess.Api.Tests.User;
-using chess.Core.Abstraction;
+using chess.Core.Models;
 using chess.Core.Enums;
 using chess.Infrastructure.Contexts;
 using FluentAssertions;
@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using System.Net;
 
-namespace chess.Api.Tests.Game;
+namespace chess.Api.Tests.WebGame;
 
 public class CancelPrivateGameTests : IClassFixture<TestWebApplicationFactory<Program>> {
 
@@ -36,7 +36,7 @@ public class CancelPrivateGameTests : IClassFixture<TestWebApplicationFactory<Pr
         await _dbContext.AddUser();
         var friendId = await _dbContext.AddUserWithEmail("freind@test.com");
 
-        var timingId = await _dbContext.CreateTiming(new TimingType()
+        var timingId = await _dbContext.CreateTiming(new TimingTypeModel()
         {
             Type = TimingTypes.Blitz,
             Minutes = 5,
@@ -51,17 +51,17 @@ public class CancelPrivateGameTests : IClassFixture<TestWebApplicationFactory<Pr
         await _dbContext.AddPlayerToGame(friendPlayerId, gameId, PieceColor.Black);
 
 
-        var response = await _client.DeleteAsync($"api/game/{gameId}/cancel");
+        var response = await _client.DeleteAsync($"api/webgame/{gameId}/cancel");
 
 
         var assertDbContext = _factory.GetDbContextForAsserts();
 
         response.StatusCode.Should().Be(HttpStatusCode.OK);
 
-        var game = await assertDbContext.Games.FirstOrDefaultAsync();
+        var game = await assertDbContext.WebGames.FirstOrDefaultAsync();
         game.Should().Be(null);
 
-        var player = await assertDbContext.Players.FirstOrDefaultAsync();
+        var player = await assertDbContext.WebGamePlayers.FirstOrDefaultAsync();
         player.Should().Be(null);
     }
 
@@ -76,7 +76,7 @@ public class CancelPrivateGameTests : IClassFixture<TestWebApplicationFactory<Pr
         await _dbContext.AddUser();
         var friendId = await _dbContext.AddUserWithEmail("friend@test.com");
 
-        var timingId = await _dbContext.CreateTiming(new TimingType()
+        var timingId = await _dbContext.CreateTiming(new TimingTypeModel()
         {
             Type = TimingTypes.Blitz,
             Minutes = 5,
@@ -88,7 +88,7 @@ public class CancelPrivateGameTests : IClassFixture<TestWebApplicationFactory<Pr
         // game not added
 
 
-        var response = await _client.DeleteAsync($"api/game/{Guid.NewGuid()}/cancel");
+        var response = await _client.DeleteAsync($"api/webgame/{Guid.NewGuid()}/cancel");
 
 
         response.StatusCode.Should().Be(HttpStatusCode.NotFound);
@@ -105,7 +105,7 @@ public class CancelPrivateGameTests : IClassFixture<TestWebApplicationFactory<Pr
         await _dbContext.AddUser();
         var friendId = await _dbContext.AddUserWithEmail("freind@test.com");
 
-        var timingId = await _dbContext.CreateTiming(new TimingType()
+        var timingId = await _dbContext.CreateTiming(new TimingTypeModel()
         {
             Type = TimingTypes.Blitz,
             Minutes = 5,
@@ -120,7 +120,7 @@ public class CancelPrivateGameTests : IClassFixture<TestWebApplicationFactory<Pr
         await _dbContext.AddPlayerToGame(friendPlayerId, gameId, PieceColor.Black);
 
 
-        var response = await _client.DeleteAsync($"api/game/{gameId}/cancel");
+        var response = await _client.DeleteAsync($"api/webgame/{gameId}/cancel");
 
 
         response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
@@ -139,7 +139,7 @@ public class CancelPrivateGameTests : IClassFixture<TestWebApplicationFactory<Pr
         var friendId = await _dbContext.AddUserWithEmail("freind@test.com");
         var otherUserId = await _dbContext.AddUserWithEmail("other@test.com");
 
-        var timingId = await _dbContext.CreateTiming(new TimingType()
+        var timingId = await _dbContext.CreateTiming(new TimingTypeModel()
         {
             Type = TimingTypes.Blitz,
             Minutes = 5,
@@ -155,7 +155,7 @@ public class CancelPrivateGameTests : IClassFixture<TestWebApplicationFactory<Pr
         await _dbContext.AddPlayerToGame(friendPlayerId, gameId, PieceColor.Black);
 
 
-        var response = await _client.DeleteAsync($"api/game/{gameId}/cancel");
+        var response = await _client.DeleteAsync($"api/webgame/{gameId}/cancel");
 
 
         response.StatusCode.Should().Be(HttpStatusCode.Unauthorized);

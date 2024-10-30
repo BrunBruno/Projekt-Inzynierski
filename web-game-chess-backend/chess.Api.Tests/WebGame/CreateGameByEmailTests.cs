@@ -1,7 +1,7 @@
 ﻿
-using chess.Api.Models.GameModels;
+using chess.Api.Models.WebGameModels;
 using chess.Api.Tests.User;
-using chess.Application.Requests.GameRequests.CreateGameByEmail;
+using chess.Application.Requests.WebGameRequests.CreateGameByEmail;
 using chess.Core.Enums;
 using chess.Infrastructure.Contexts;
 using FluentAssertions;
@@ -11,7 +11,7 @@ using Newtonsoft.Json;
 using System.Net;
 using System.Text;
 
-namespace chess.Api.Tests.Game;
+namespace chess.Api.Tests.WebGame;
 
 public class CreateGameByEmailTests : IClassFixture<TestWebApplicationFactory<Program>> {
 
@@ -41,7 +41,7 @@ public class CreateGameByEmailTests : IClassFixture<TestWebApplicationFactory<Pr
         await _dbContext.AddUser();
         await _dbContext.AddUserWithEmail(friendEmail);
 
-        var model = new CreateGameByEmailModel()
+        var model = new CreateWebGameByEmailModel()
         {
             Email = friendEmail,
             Type = TimingTypes.Blitz,
@@ -53,17 +53,17 @@ public class CreateGameByEmailTests : IClassFixture<TestWebApplicationFactory<Pr
         var httpContent = new StringContent(json, Encoding.UTF8, "application/json");
 
 
-        var response = await _client.PostAsync("api/game/email", httpContent);
+        var response = await _client.PostAsync("api/webgame/email", httpContent);
 
 
         var assertDbContext = _factory.GetDbContextForAsserts();
 
         response.StatusCode.Should().Be(HttpStatusCode.OK);
 
-        var players = await assertDbContext.Players.ToListAsync();
+        var players = await assertDbContext.WebGamePlayers.ToListAsync();
         players.Count.Should().Be(2);
 
-        var game = await assertDbContext.Games.FirstAsync();
+        var game = await assertDbContext.WebGames.FirstAsync();
 
         game.TimingType.Should().Be(TimingTypes.Blitz);
 
@@ -85,7 +85,7 @@ public class CreateGameByEmailTests : IClassFixture<TestWebApplicationFactory<Pr
         await _dbContext.AddUser();
         // friend not exists
 
-        var model = new CreateGameByEmailModel()
+        var model = new CreateWebGameByEmailModel()
         {
             Email = friendEmail,
             Type = TimingTypes.Blitz,
@@ -97,7 +97,7 @@ public class CreateGameByEmailTests : IClassFixture<TestWebApplicationFactory<Pr
         var httpContent = new StringContent(json, Encoding.UTF8, "application/json");
 
 
-        var response = await _client.PostAsync("api/game/email", httpContent);
+        var response = await _client.PostAsync("api/webgame/email", httpContent);
 
 
         response.StatusCode.Should().Be(HttpStatusCode.NotFound);

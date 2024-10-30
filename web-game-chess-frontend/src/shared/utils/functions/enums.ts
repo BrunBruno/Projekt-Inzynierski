@@ -1,20 +1,18 @@
 /* enums related global functions */
 
-import { TimingTypeName } from "../objects/constantLists";
-
 // gets enu type by its value
-export const getEnumKeyByEnumValue = <T extends object>(enumObj: T, enumValue: T[keyof T]): string => {
-  const key = Object.keys(enumObj).find((key) => enumObj[key as keyof T] === enumValue);
+export const getEnumKeyByEnumValue = <T extends object>(enumObject: T, enumValue: T[keyof T]): string => {
+  const key = Object.keys(enumObject).find((key) => enumObject[key as keyof T] === enumValue);
 
   return key ? key : "";
 };
 
 // get enum value by key
-export const getEnumValueByKey = <T>(enumObj: T, key: string): T[keyof T] => {
-  return enumObj[key as keyof typeof enumObj];
+export const getEnumValueByKey = <T>(enumObject: T, key: string): T[keyof T] => {
+  return enumObject[key as keyof typeof enumObject];
 };
 
 // for showing correct timing type name
-export const displayTimingName = (timing: TimingTypeName): string => {
-  return timing.charAt(0).toUpperCase() + timing.slice(1);
+export const displayFromLowercase = (string: string): string => {
+  return string.charAt(0).toUpperCase() + string.slice(1);
 };

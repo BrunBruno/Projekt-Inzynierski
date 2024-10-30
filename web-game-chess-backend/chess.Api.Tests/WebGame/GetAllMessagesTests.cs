@@ -1,7 +1,7 @@
 ﻿
 using chess.Api.Tests.User;
-using chess.Application.Requests.GameRequests.GetAllMessages;
-using chess.Core.Abstraction;
+using chess.Application.Requests.WebGameRequests.GetAllMessages;
+using chess.Core.Models;
 using chess.Core.Enums;
 using chess.Infrastructure.Contexts;
 using FluentAssertions;
@@ -9,7 +9,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
 using System.Net;
 
-namespace chess.Api.Tests.Game;
+namespace chess.Api.Tests.WebGame;
 
 public class GetAllMessagesTests : IClassFixture<TestWebApplicationFactory<Program>> {
 
@@ -37,7 +37,7 @@ public class GetAllMessagesTests : IClassFixture<TestWebApplicationFactory<Progr
         await _dbContext.AddUser();
         var friendId = await _dbContext.AddUserWithEmail("freind@test.com");
 
-        var timingId = await _dbContext.CreateTiming(new TimingType()
+        var timingId = await _dbContext.CreateTiming(new TimingTypeModel()
         {
             Type = TimingTypes.Bullet,
             Minutes = 2,
@@ -54,7 +54,7 @@ public class GetAllMessagesTests : IClassFixture<TestWebApplicationFactory<Progr
         await _dbContext.AddPlayerMessagesToGame(gameId);
 
 
-        var response = await _client.GetAsync($"api/game/{gameId}/messages");
+        var response = await _client.GetAsync($"api/webgame/{gameId}/messages");
 
 
         response.StatusCode.Should().Be(HttpStatusCode.OK);
@@ -74,7 +74,7 @@ public class GetAllMessagesTests : IClassFixture<TestWebApplicationFactory<Progr
         await _dbContext.AddUser();
         var friendId = await _dbContext.AddUserWithEmail("freind@test.com");
 
-        await _dbContext.CreateTiming(new TimingType()
+        await _dbContext.CreateTiming(new TimingTypeModel()
         {
             Type = TimingTypes.Bullet,
             Minutes = 2,
@@ -87,7 +87,7 @@ public class GetAllMessagesTests : IClassFixture<TestWebApplicationFactory<Progr
         // game not added
 
 
-        var response = await _client.GetAsync($"api/game/{Guid.NewGuid()}/messages");
+        var response = await _client.GetAsync($"api/webgame/{Guid.NewGuid()}/messages");
 
 
         response.StatusCode.Should().Be(HttpStatusCode.NotFound);
@@ -105,7 +105,7 @@ public class GetAllMessagesTests : IClassFixture<TestWebApplicationFactory<Progr
         var friendId = await _dbContext.AddUserWithEmail("freind@test.com");
         var otherUserId = await _dbContext.AddUserWithEmail("other@test.com");
 
-        var timingId = await _dbContext.CreateTiming(new TimingType()
+        var timingId = await _dbContext.CreateTiming(new TimingTypeModel()
         {
             Type = TimingTypes.Bullet,
             Minutes = 2,
@@ -123,7 +123,7 @@ public class GetAllMessagesTests : IClassFixture<TestWebApplicationFactory<Progr
         await _dbContext.AddPlayerMessagesToGame(gameId);
 
 
-        var response = await _client.GetAsync($"api/game/{gameId}/messages");
+        var response = await _client.GetAsync($"api/webgame/{gameId}/messages");
 
 
         response.StatusCode.Should().Be(HttpStatusCode.Unauthorized);

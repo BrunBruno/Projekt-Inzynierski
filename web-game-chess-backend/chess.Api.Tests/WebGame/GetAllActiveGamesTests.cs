@@ -1,7 +1,7 @@
 ﻿
 using chess.Api.Tests.User;
 using chess.Application.Pagination;
-using chess.Application.Requests.GameRequests.GetAllActiveGames;
+using chess.Application.Requests.WebGameRequests.GetAllActiveGames;
 using chess.Core.Enums;
 using chess.Infrastructure.Contexts;
 using FluentAssertions;
@@ -9,7 +9,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
 using System.Net;
 
-namespace chess.Api.Tests.Game;
+namespace chess.Api.Tests.WebGame;
 
 public class GetAllActiveGamesTests : IClassFixture<TestWebApplicationFactory<Program>> {
 
@@ -39,9 +39,9 @@ public class GetAllActiveGamesTests : IClassFixture<TestWebApplicationFactory<Pr
 
 
         // without filters
-        var responseFull1 = await _client.GetAsync($"api/game/all-ongoing?pageNumber=1&pageSize=20");
-        var responseFull2 = await _client.GetAsync($"api/game/all-ongoing?pageNumber=1&pageSize=40");
-        var responseFull3 = await _client.GetAsync($"api/game/all-ongoing?pageNumber=2&pageSize=20");
+        var responseFull1 = await _client.GetAsync($"api/webgame/all-ongoing?pageNumber=1&pageSize=20");
+        var responseFull2 = await _client.GetAsync($"api/webgame/all-ongoing?pageNumber=1&pageSize=40");
+        var responseFull3 = await _client.GetAsync($"api/webgame/all-ongoing?pageNumber=2&pageSize=20");
 
 
         responseFull1.StatusCode.Should().Be(HttpStatusCode.OK);
@@ -61,8 +61,8 @@ public class GetAllActiveGamesTests : IClassFixture<TestWebApplicationFactory<Pr
 
 
         // type filters
-        var responseWithTiming1 = await _client.GetAsync($"api/game/all-ongoing?pageNumber=1&pageSize=100&timingTypeFilters={TimingTypes.Rapid}");
-        var responseWithTiming2 = await _client.GetAsync($"api/game/all-ongoing?pageNumber=1&pageSize=100&timingTypeFilters={TimingTypes.Rapid}&timingTypeFilters={TimingTypes.Rapid}");
+        var responseWithTiming1 = await _client.GetAsync($"api/webgame/all-ongoing?pageNumber=1&pageSize=100&timingTypeFilters={TimingTypes.Rapid}");
+        var responseWithTiming2 = await _client.GetAsync($"api/webgame/all-ongoing?pageNumber=1&pageSize=100&timingTypeFilters={TimingTypes.Rapid}&timingTypeFilters={TimingTypes.Rapid}");
 
         responseWithTiming1.StatusCode.Should().Be(HttpStatusCode.OK);
         var resultWithTiming1 = JsonConvert.DeserializeObject<PagedResult<GetAllActiveGamesDto>>(await responseWithTiming1.Content.ReadAsStringAsync());

@@ -9,6 +9,7 @@ import { timingTypeIcons } from "../../../../../shared/svgs/iconsMap/TimingTypeI
 import { TimingTypeName } from "../../../../../shared/utils/objects/constantLists";
 import { Dispatch, SetStateAction } from "react";
 import { defaultTimeControls, TimeControl } from "../../../../../shared/utils/objects/gameTimingMaps";
+import { displayFromLowercase } from "../../../../../shared/utils/functions/enums";
 
 type TimeSelectionProps = {
   // user data when friend selected manually
@@ -98,9 +99,6 @@ function TimeSelection({
     return <div className={classes["timing-tag"]}>{transformedTag}</div>;
   };
 
-  const displayTimingName = (timing: TimingTypeName): string => {
-    return timing.charAt(0).toUpperCase() + timing.slice(1);
-  };
   //*/
 
   return (
@@ -114,7 +112,7 @@ function TimeSelection({
               iconClass={classes["header-icon"]}
               color={mainColor.c5}
             />
-            <span>{displayTimingName(control.header)}</span>
+            <span>{displayFromLowercase(control.header)}</span>
           </div>
           {control.tags.map((tag: string, i: number) => (
             <div

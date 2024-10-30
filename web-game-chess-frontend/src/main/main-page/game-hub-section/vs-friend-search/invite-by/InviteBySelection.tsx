@@ -3,7 +3,7 @@ import classes from "./InviteBy.module.scss";
 import { CreatePrivateGameModel, NotifyUserModel } from "../../../../../shared/utils/types/gameModels";
 import { CreatePrivateGameDto } from "../../../../../shared/utils/types/gameDtos";
 import axios from "axios";
-import { gameController, getAuthorization } from "../../../../../shared/utils/services/ApiService";
+import { webGameController, getAuthorization } from "../../../../../shared/utils/services/ApiService";
 import GameHubService from "../../../../../shared/utils/services/GameHubService";
 import { getErrMessage } from "../../../../../shared/utils/functions/errors";
 import { usePopup } from "../../../../../shared/utils/hooks/usePopUp";
@@ -44,7 +44,7 @@ const InviteBySelection = forwardRef<InviteBySelectionRef, InviteBySelectionProp
         };
 
         const response = await axios.post<CreatePrivateGameDto>(
-          gameController.createPrivateGame(),
+          webGameController.createPrivateGame(),
           model,
           getAuthorization()
         );

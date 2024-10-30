@@ -1,7 +1,7 @@
 ﻿
 using chess.Api.Tests.User;
-using chess.Application.Requests.GameRequests.GetPlayer;
-using chess.Core.Abstraction;
+using chess.Application.Requests.WebGameRequests.GetPlayer;
+using chess.Core.Models;
 using chess.Core.Enums;
 using chess.Infrastructure.Contexts;
 using FluentAssertions;
@@ -9,7 +9,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
 using System.Net;
 
-namespace chess.Api.Tests.Game;
+namespace chess.Api.Tests.WebGame;
 
 public class GetPlayerTests : IClassFixture<TestWebApplicationFactory<Program>> {
 
@@ -36,7 +36,7 @@ public class GetPlayerTests : IClassFixture<TestWebApplicationFactory<Program>> 
         await _dbContext.Init();
         await _dbContext.AddUser();
 
-        var timingId = await _dbContext.CreateTiming(new TimingType() {
+        var timingId = await _dbContext.CreateTiming(new TimingTypeModel() {
             Type = TimingTypes.Rapid,
             Minutes = 10,
             Increment = 0,
@@ -51,7 +51,7 @@ public class GetPlayerTests : IClassFixture<TestWebApplicationFactory<Program>> 
         await _dbContext.AddPlayerToGame(otherPlayerId, gameId, PieceColor.White);
 
 
-        var response = await _client.GetAsync($"api/game/{gameId}/player");
+        var response = await _client.GetAsync($"api/webgame/{gameId}/player");
 
 
         response.StatusCode.Should().Be(HttpStatusCode.OK);
@@ -71,7 +71,7 @@ public class GetPlayerTests : IClassFixture<TestWebApplicationFactory<Program>> 
         await _dbContext.Init();
         await _dbContext.AddUser();
 
-        var timingId = await _dbContext.CreateTiming(new TimingType() {
+        var timingId = await _dbContext.CreateTiming(new TimingTypeModel() {
             Type = TimingTypes.Rapid,
             Minutes = 10,
             Increment = 0,
@@ -88,7 +88,7 @@ public class GetPlayerTests : IClassFixture<TestWebApplicationFactory<Program>> 
         // no player assignment
 
 
-        var response = await _client.GetAsync($"api/game/{gameId}/player");
+        var response = await _client.GetAsync($"api/webgame/{gameId}/player");
 
 
         response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
@@ -104,7 +104,7 @@ public class GetPlayerTests : IClassFixture<TestWebApplicationFactory<Program>> 
         await _dbContext.Init();
         await _dbContext.AddUser();
 
-        var timingId = await _dbContext.CreateTiming(new TimingType() {
+        var timingId = await _dbContext.CreateTiming(new TimingTypeModel() {
             Type = TimingTypes.Rapid,
             Minutes = 10,
             Increment = 0,
@@ -117,7 +117,7 @@ public class GetPlayerTests : IClassFixture<TestWebApplicationFactory<Program>> 
         var gameId = await _dbContext.AddGame(otherPlayerId, otherPlayer2Id, timingId, true); // game with other players
 
 
-        var response = await _client.GetAsync($"api/game/{gameId}/player");
+        var response = await _client.GetAsync($"api/webgame/{gameId}/player");
 
 
         response.StatusCode.Should().Be(HttpStatusCode.NotFound);

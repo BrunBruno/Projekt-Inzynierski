@@ -1,6 +1,6 @@
 ﻿
 using chess.Api.Tests.User;
-using chess.Core.Abstraction;
+using chess.Core.Models;
 using chess.Core.Enums;
 using chess.Infrastructure.Contexts;
 using FluentAssertions;
@@ -8,15 +8,15 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using System.Net;
 
-namespace chess.Api.Tests.Game;
+namespace chess.Api.Tests.WebGame;
 
-public class AbortSearchTests : IClassFixture<TestWebApplicationFactory<Program>> {
+public class AbortWebGameSearchTests : IClassFixture<TestWebApplicationFactory<Program>> {
 
     private readonly HttpClient _client;
     private readonly TestWebApplicationFactory<Program> _factory;
     private readonly ChessAppDbContext _dbContext;
 
-    public AbortSearchTests() {
+    public AbortWebGameSearchTests() {
         _factory = new TestWebApplicationFactory<Program>();
 
         _client = _factory.CreateClient();
@@ -30,12 +30,12 @@ public class AbortSearchTests : IClassFixture<TestWebApplicationFactory<Program>
     }
 
     [Fact]
-    public async Task AbortSearch_Should_Remove_Player_On_Success() {
+    public async Task AbortWebGameSearch_Should_Remove_Player_On_Success() {
 
         await _dbContext.Init();
         await _dbContext.AddUser();
 
-        await _dbContext.CreateTiming(new TimingType() {
+        await _dbContext.CreateTiming(new TimingTypeModel() {
             Type = TimingTypes.Blitz,
             Minutes = 3,
             Increment = 0,
@@ -44,14 +44,14 @@ public class AbortSearchTests : IClassFixture<TestWebApplicationFactory<Program>
         var playerId = await _dbContext.AddPlayer(Guid.Parse(Constants.UserId), Constants.Username);
 
 
-        var response = await _client.DeleteAsync($"api/game/abort?playerId={playerId}");
+        var response = await _client.DeleteAsync($"api/webgame/abort?playerId={playerId}");
 
 
         var assertDbContext = _factory.GetDbContextForAsserts();
 
         response.StatusCode.Should().Be(HttpStatusCode.OK);
 
-        var player = await assertDbContext.Players.FirstOrDefaultAsync();
+        var player = await assertDbContext.WebGamePlayers.FirstOrDefaultAsync();
         player.Should().Be(null);
     }
 
@@ -60,12 +60,12 @@ public class AbortSearchTests : IClassFixture<TestWebApplicationFactory<Program>
     /// </summary>
     /// <returns></returns>
     [Fact]
-    public async Task AbortSearch_Should_Return_BadRequest_On_Fail() {
+    public async Task AbortWebGameSearch_Should_Return_BadRequest_On_Fail() {
 
         await _dbContext.Init();
         await _dbContext.AddUser();
 
-        await _dbContext.CreateTiming(new TimingType() {
+        await _dbContext.CreateTiming(new TimingTypeModel() {
             Type = TimingTypes.Blitz,
             Minutes = 3,
             Increment = 0,
@@ -74,7 +74,7 @@ public class AbortSearchTests : IClassFixture<TestWebApplicationFactory<Program>
         var otherPlayerId = await _dbContext.AddPlayer(Guid.NewGuid(), "OtherUser"); // other player
 
 
-        var response = await _client.DeleteAsync($"api/game/abort?playerId={otherPlayerId}");
+        var response = await _client.DeleteAsync($"api/webgame/abort?playerId={otherPlayerId}");
 
         response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
     }
@@ -84,12 +84,12 @@ public class AbortSearchTests : IClassFixture<TestWebApplicationFactory<Program>
     /// </summary>
     /// <returns></returns>
     [Fact]
-    public async Task AbortSearch_Should_Return_NotFound_On_Fail() {
+    public async Task AbortWebGameSearch_Should_Return_NotFound_On_Fail() {
 
         await _dbContext.Init();
         await _dbContext.AddUser();
 
-        await _dbContext.CreateTiming(new TimingType() {
+        await _dbContext.CreateTiming(new TimingTypeModel() {
             Type = TimingTypes.Blitz,
             Minutes = 3,
             Increment = 0,
@@ -98,7 +98,7 @@ public class AbortSearchTests : IClassFixture<TestWebApplicationFactory<Program>
         // player not created
 
 
-        var response = await _client.DeleteAsync($"api/game/abort?playerId={Guid.NewGuid()}");
+        var response = await _client.DeleteAsync($"api/webgame/abort?playerId={Guid.NewGuid()}");
 
 
         response.StatusCode.Should().Be(HttpStatusCode.NotFound);

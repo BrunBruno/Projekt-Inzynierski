@@ -1,7 +1,7 @@
 ﻿
 using chess.Api.Tests.User;
-using chess.Application.Requests.GameRequests.CheckIfUpdateRequired;
-using chess.Core.Abstraction;
+using chess.Application.Requests.WebGameRequests.CheckIfUpdateRequired;
+using chess.Core.Models;
 using chess.Core.Enums;
 using chess.Infrastructure.Contexts;
 using FluentAssertions;
@@ -9,7 +9,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
 using System.Net;
 
-namespace chess.Api.Tests.Game;
+namespace chess.Api.Tests.WebGame;
 
 public class CheckIfUpdateRequiredTests : IClassFixture<TestWebApplicationFactory<Program>> {
 
@@ -37,7 +37,7 @@ public class CheckIfUpdateRequiredTests : IClassFixture<TestWebApplicationFactor
         await _dbContext.AddUser();
         await _dbContext.AddUserWithEmail("friend@test.com");
 
-        var timingId = await _dbContext.CreateTiming(new TimingType()
+        var timingId = await _dbContext.CreateTiming(new TimingTypeModel()
         {
             Type = TimingTypes.Classic,
             Minutes = 120,
@@ -49,7 +49,7 @@ public class CheckIfUpdateRequiredTests : IClassFixture<TestWebApplicationFactor
         var gameId = await _dbContext.AddGame(userPlayerId, userPlayerId, timingId, true);
         await _dbContext.AddPlayerToGame(userPlayerId, gameId, PieceColor.White);
 
-        var response = await _client.GetAsync($"api/game/{gameId}/update-required");
+        var response = await _client.GetAsync($"api/webgame/{gameId}/update-required");
 
 
         response.StatusCode.Should().Be(HttpStatusCode.OK);
@@ -71,7 +71,7 @@ public class CheckIfUpdateRequiredTests : IClassFixture<TestWebApplicationFactor
         await _dbContext.AddUser();
         await _dbContext.AddUserWithEmail("friend@test.com");
 
-        await _dbContext.CreateTiming(new TimingType() 
+        await _dbContext.CreateTiming(new TimingTypeModel() 
         {
             Type = TimingTypes.Classic,
             Minutes = 120,
@@ -82,7 +82,7 @@ public class CheckIfUpdateRequiredTests : IClassFixture<TestWebApplicationFactor
         // game not added
 
 
-        var response = await _client.GetAsync($"api/game/{Guid.NewGuid()}/update-required");
+        var response = await _client.GetAsync($"api/webgame/{Guid.NewGuid()}/update-required");
 
 
         response.StatusCode.Should().Be(HttpStatusCode.NotFound);

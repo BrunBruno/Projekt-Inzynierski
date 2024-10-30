@@ -1,7 +1,7 @@
 ﻿
 using chess.Api.Tests.User;
-using chess.Application.Requests.GameRequests.CheckIfInGame;
-using chess.Core.Abstraction;
+using chess.Application.Requests.WebGameRequests.CheckIfInGame;
+using chess.Core.Models;
 using chess.Core.Enums;
 using chess.Infrastructure.Contexts;
 using FluentAssertions;
@@ -9,7 +9,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
 using System.Net;
 
-namespace chess.Api.Tests.Game;
+namespace chess.Api.Tests.WebGame;
 
 public class CheckIfInGameTests : IClassFixture<TestWebApplicationFactory<Program>> {
 
@@ -36,7 +36,7 @@ public class CheckIfInGameTests : IClassFixture<TestWebApplicationFactory<Progra
         await _dbContext.Init();
         await _dbContext.AddUser();
 
-        var timingId = await _dbContext.CreateTiming(new TimingType() {
+        var timingId = await _dbContext.CreateTiming(new TimingTypeModel() {
             Type = TimingTypes.Bullet,
             Minutes = 1,
             Increment = 5,
@@ -47,7 +47,7 @@ public class CheckIfInGameTests : IClassFixture<TestWebApplicationFactory<Progra
 
 
         // player that is not in game
-        var response_false = await _client.GetAsync($"api/game/is-in-game?playerId={userPlayerId}");
+        var response_false = await _client.GetAsync($"api/webgame/is-in-game?playerId={userPlayerId}");
 
 
         response_false.StatusCode.Should().Be(HttpStatusCode.OK);
@@ -63,7 +63,7 @@ public class CheckIfInGameTests : IClassFixture<TestWebApplicationFactory<Progra
 
 
         // player that is in game
-        var response_true = await _client.GetAsync($"api/game/is-in-game?playerId={userPlayerId}");
+        var response_true = await _client.GetAsync($"api/webgame/is-in-game?playerId={userPlayerId}");
 
 
         response_true.StatusCode.Should().Be(HttpStatusCode.OK);
@@ -86,7 +86,7 @@ public class CheckIfInGameTests : IClassFixture<TestWebApplicationFactory<Progra
         // no player added
 
 
-        var response = await _client.GetAsync($"api/game/is-in-game?playerId={Guid.NewGuid()}");
+        var response = await _client.GetAsync($"api/webgame/is-in-game?playerId={Guid.NewGuid()}");
 
 
         response.StatusCode.Should().Be(HttpStatusCode.NotFound);
@@ -105,7 +105,7 @@ public class CheckIfInGameTests : IClassFixture<TestWebApplicationFactory<Progra
         var playerId = await _dbContext.AddPlayer(Guid.NewGuid(), "OtherPlayer"); // not owned player
 
 
-        var response = await _client.GetAsync($"api/game/is-in-game?playerId={playerId}");
+        var response = await _client.GetAsync($"api/webgame/is-in-game?playerId={playerId}");
 
 
         response.StatusCode.Should().Be(HttpStatusCode.Unauthorized);

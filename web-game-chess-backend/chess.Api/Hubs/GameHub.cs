@@ -1,20 +1,20 @@
 ﻿
 using AutoMapper;
-using chess.Api.Models.GameModels;
+using chess.Api.Models.WebGameModels;
 using chess.Application.Hubs;
-using chess.Application.Requests.GameRequests.AcceptInvitation;
-using chess.Application.Requests.GameRequests.AcceptRematch;
-using chess.Application.Requests.GameRequests.CreateRematchGame;
-using chess.Application.Requests.GameRequests.DeclineInvitation;
-using chess.Application.Requests.GameRequests.EndGame;
-using chess.Application.Requests.GameRequests.InvitedToGame;
-using chess.Application.Requests.GameRequests.MakeMove;
-using chess.Application.Requests.GameRequests.RemoveDrawMessage;
-using chess.Application.Requests.GameRequests.SendDrawMessage;
-using chess.Application.Requests.GameRequests.SendGameMessage;
-using chess.Application.Requests.GameRequests.SendMessage;
-using chess.Application.Requests.GameRequests.StartGames;
-using chess.Application.Requests.GameRequests.UpdatePrivateGame;
+using chess.Application.Requests.WebGameRequests.AcceptInvitation;
+using chess.Application.Requests.WebGameRequests.AcceptWebGameRematch;
+using chess.Application.Requests.WebGameRequests.CreateRematchGame;
+using chess.Application.Requests.WebGameRequests.DeclineInvitation;
+using chess.Application.Requests.WebGameRequests.EndGame;
+using chess.Application.Requests.WebGameRequests.InvitedToGame;
+using chess.Application.Requests.WebGameRequests.MakeWebGameMove;
+using chess.Application.Requests.WebGameRequests.RemoveDrawMessage;
+using chess.Application.Requests.WebGameRequests.SendDrawMessage;
+using chess.Application.Requests.WebGameRequests.SendWebGameMessage;
+using chess.Application.Requests.WebGameRequests.SendMessage;
+using chess.Application.Requests.WebGameRequests.StartGames;
+using chess.Application.Requests.WebGameRequests.UpdatePrivateGame;
 using chess.Application.Services;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -100,7 +100,7 @@ public class GameHub : Hub<IGameHub> {
     [HubMethodName("rematch")]
     [Authorize(Policy = "IsVerified")]
     [SignalRMethod("CreateRematchGame", Operation.Post)]
-    public async Task CreateRematchGame(CreateRematchGameModel model) {
+    public async Task CreateRematchGame(CreateRematchWebGameModel model) {
 
         var request = _mapper.Map<CreateRematchGameRequest>(model);
 
@@ -119,9 +119,9 @@ public class GameHub : Hub<IGameHub> {
     [HubMethodName("make-move")]
     [Authorize(Policy = "IsVerified")]
     [SignalRMethod("MakeMove", Operation.Post)]
-    public async Task MakeMove(MakeMoveModel model) {
+    public async Task MakeMove(MakeWebGameMoveModel model) {
 
-        var request = _mapper.Map<MakeMoveRequest>(model);
+        var request = _mapper.Map<MakeWebGameMoveRequest>(model);
 
         await _mediator.Send(request);
 
@@ -155,9 +155,9 @@ public class GameHub : Hub<IGameHub> {
     [HubMethodName("send-game-message")]
     [Authorize(Policy = "IsVerified")]
     [SignalRMethod("SendGameMessage", Operation.Post)]
-    public async Task SendGameMessage(SendGameMessageModel model) {
+    public async Task SendGameMessage(SendWebGameMessageModel model) {
 
-        var request = _mapper.Map<SendGameMessageRequest>(model);
+        var request = _mapper.Map<SendWebGameMessageRequest>(model);
 
         await _mediator.Send(request);
 
@@ -194,7 +194,7 @@ public class GameHub : Hub<IGameHub> {
     [HubMethodName("end-game")]
     [Authorize(Policy = "IsVerified")]
     [SignalRMethod("EndGame", Operation.Put)]
-    public async Task EndGame(EndGameModel model) {
+    public async Task EndGame(EndWebGameModel model) {
 
         var request = _mapper.Map<EndGameRequest>(model);
 
@@ -215,7 +215,7 @@ public class GameHub : Hub<IGameHub> {
     [SignalRMethod("AcceptRematch", Operation.Put)]
     public async Task AcceptRematch(Guid gameId) {
 
-        var request = new AcceptRematchRequest()
+        var request = new AcceptWebGameRematchRequest()
         {
             GameId = gameId,
         };
@@ -349,7 +349,7 @@ public class GameHub : Hub<IGameHub> {
     [HubMethodName("decline-invitation")]
     [Authorize(Policy = "IsVerified")]
     [SignalRMethod("DeclineInvitation", Operation.Delete)]
-    public async Task DeclineInvitation(DeclineInvitationModel model) {
+    public async Task DeclineInvitation(DeclineWebGameInvitationModel model) {
 
         var request = _mapper.Map<DeclineInvitationRequest>(model);
 

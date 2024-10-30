@@ -2,6 +2,7 @@
 using AutoMapper;
 using chess.Api.Models.EngineGameModels;
 using chess.Application.Requests.EngineRequests.GetEngineGame;
+using chess.Application.Requests.EngineRequests.MakeEngineGameMove;
 using chess.Application.Requests.EngineRequests.StartEngineGame;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -26,6 +27,18 @@ public class EngineGameController : ControllerBase {
     public async Task<IActionResult> StartEngineGame([FromBody] StartEngineGameModel model) {
 
         var request = _mapper.Map<StartEngineGameRequest>(model);
+
+        var game = await _mediator.Send(request);
+
+        return Ok(game);
+    }
+
+
+    [HttpPost("make-move")]
+    [Authorize(Policy = "IsVerified")]
+    public async Task<IActionResult> MakeEngineGameMove([FromBody] MakeEngineGameMoveModel model) {
+
+        var request = _mapper.Map<MakeEngineGameMoveRequest>(model);
 
         var game = await _mediator.Send(request);
 

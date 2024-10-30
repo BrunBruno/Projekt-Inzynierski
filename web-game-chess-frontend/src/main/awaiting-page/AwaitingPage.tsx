@@ -7,7 +7,7 @@ import { usePopup } from "../../shared/utils/hooks/usePopUp";
 import { getErrMessage } from "../../shared/utils/functions/errors";
 import axios from "axios";
 import { CheckIfUpdateRequiredDto } from "../../shared/utils/types/gameDtos";
-import { gameController, getAuthorization } from "../../shared/utils/services/ApiService";
+import { webGameController, getAuthorization } from "../../shared/utils/services/ApiService";
 import SearchingPage from "../../shared/components/searching-page/SearchingPage";
 import { GameSearchInterface, StateOptions } from "../../shared/utils/objects/interfacesEnums";
 
@@ -46,7 +46,7 @@ function AwaitingPage() {
 
       try {
         const response = await axios.get<CheckIfUpdateRequiredDto>(
-          gameController.checkIfUpdateRequired(gameId),
+          webGameController.checkIfUpdateRequired(gameId),
           getAuthorization()
         );
 
@@ -102,7 +102,7 @@ function AwaitingPage() {
     if (!gameId) return;
 
     try {
-      await axios.delete(gameController.cancelPrivateGame(gameId), getAuthorization());
+      await axios.delete(webGameController.cancelPrivateGame(gameId), getAuthorization());
 
       const state: StateOptions = {
         popup: { text: "GAME CANCELED", type: "error" },

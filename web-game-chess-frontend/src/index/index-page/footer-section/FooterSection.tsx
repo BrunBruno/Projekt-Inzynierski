@@ -5,8 +5,9 @@ import classes from "./FooterSection.module.scss";
 import IconCreator from "../../../shared/components/icon-creator/IconCreator";
 import { footerSectionIcons } from "./FooterSectionIcons";
 import { symbolIcons } from "../../../shared/svgs/iconsMap/SymbolIcons";
+import { displayFromLowercase } from "../../../shared/utils/functions/enums";
 
-const socials = ["Facebook", "Instagram", "Twitter", "TikTok", "YouTube"] as const;
+const socials = ["facebook", "instagram", "twitter", "tikTok", "youTube"] as const;
 type SocialNames = Lowercase<(typeof socials)[number]>;
 
 type FooterSectionProps = {};
@@ -60,7 +61,7 @@ function FooterSection({}: FooterSectionProps) {
                   iconClass={classes["social-svg"]}
                 />
 
-                <p className={classes["action-text"]}>{social}</p>
+                <p className={classes["action-text"]}>{displayFromLowercase(social)}</p>
 
                 <IconCreator
                   icons={symbolIcons}
@@ -119,7 +120,9 @@ function FooterSection({}: FooterSectionProps) {
       </div>
       {/* --- */}
 
-      <div className={classes.footer__outro}>2024</div>
+      <div className={classes.footer__outro}>
+        <span>2024</span>
+      </div>
     </footer>
   );
 }

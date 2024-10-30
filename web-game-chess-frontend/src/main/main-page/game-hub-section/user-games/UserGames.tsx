@@ -1,7 +1,7 @@
 import axios from "axios";
 import classes from "./UserGame.module.scss";
 import { GetAllFinishedGamesDto } from "../../../../shared/utils/types/gameDtos";
-import { gameController, getAuthorization } from "../../../../shared/utils/services/ApiService";
+import { webGameController, getAuthorization } from "../../../../shared/utils/services/ApiService";
 import { GetAllFinishedGamesModel } from "../../../../shared/utils/types/gameModels";
 import { useEffect, useState } from "react";
 import LoadingPage from "../../../../shared/components/loading-page/LoadingPage";
@@ -73,7 +73,7 @@ function UserGames({}: UserGamesProps) {
 
       try {
         const response = await axios.get<PagedResult<GetAllFinishedGamesDto>>(
-          gameController.getAllFinishedGames(getGamesOptions),
+          webGameController.getAllFinishedGames(getGamesOptions),
           getAuthorization()
         );
 

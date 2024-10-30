@@ -6,7 +6,7 @@ import { GetAllActiveGamesDto } from "../../../../../shared/utils/types/gameDtos
 import { GetAllActiveGamesModel } from "../../../../../shared/utils/types/gameModels";
 import axios from "axios";
 import { PagedResult } from "../../../../../shared/utils/types/abstractDtosAndModels";
-import { gameController, getAuthorization } from "../../../../../shared/utils/services/ApiService";
+import { webGameController, getAuthorization } from "../../../../../shared/utils/services/ApiService";
 import { getErrMessage } from "../../../../../shared/utils/functions/errors";
 import IconCreator from "../../../../../shared/components/icon-creator/IconCreator";
 import { symbolIcons } from "../../../../../shared/svgs/iconsMap/SymbolIcons";
@@ -35,7 +35,7 @@ function OngoingGames({ setInterfaceById }: OngoingGamesProps) {
 
       try {
         const response = await axios.get<PagedResult<GetAllActiveGamesDto>>(
-          gameController.getAllActiveGames(model),
+          webGameController.getAllActiveGames(model),
           getAuthorization()
         );
 

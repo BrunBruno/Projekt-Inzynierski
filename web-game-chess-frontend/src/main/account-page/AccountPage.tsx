@@ -3,7 +3,7 @@ import classes from "./AccountPage.module.scss";
 import HistorySection from "./history-section/HistorySection";
 import UserSection from "./user-section/UserSection";
 import { GetTypeHistoryModel } from "../../shared/utils/types/gameModels";
-import { gameController, getAuthorization } from "../../shared/utils/services/ApiService";
+import { webGameController, getAuthorization } from "../../shared/utils/services/ApiService";
 import { Fragment, useEffect, useState } from "react";
 import { GetTypeHistoryDto } from "../../shared/utils/types/gameDtos";
 import MainNav from "../../shared/components/main-nav/MainNav";
@@ -53,7 +53,7 @@ function AccountPage() {
       /** use pagination here */
 
       const typeHistoryResponse = await axios.get<PagedResult<GetTypeHistoryDto>>(
-        gameController.getTypeHistory(model),
+        webGameController.getTypeHistory(model),
         getAuthorization()
       );
 

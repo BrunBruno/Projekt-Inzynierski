@@ -14,7 +14,7 @@ type IconNames =
   | "atSymbol";
 
 export const footerSectionIcons: IconMap<IconNames> = {
-  facebook: (iconClass?: string) => (
+  facebook: (iconClass?: ElementClass) => (
     <svg
       fill={greyColor.c0}
       viewBox="0 0 24 24"
@@ -25,7 +25,7 @@ export const footerSectionIcons: IconMap<IconNames> = {
     </svg>
   ),
 
-  instagram: (iconClass?: string) => (
+  instagram: (iconClass?: ElementClass) => (
     <svg
       viewBox="0 0 20 20"
       version="1.1"
@@ -43,7 +43,7 @@ export const footerSectionIcons: IconMap<IconNames> = {
     </svg>
   ),
 
-  tiktok: (iconClass?: string) => (
+  tiktok: (iconClass?: ElementClass) => (
     <svg
       fill={greyColor.c0}
       viewBox="0 0 32 32"
@@ -55,7 +55,7 @@ export const footerSectionIcons: IconMap<IconNames> = {
     </svg>
   ),
 
-  youtube: (iconClass?: string) => (
+  youtube: (iconClass?: ElementClass) => (
     <svg
       viewBox="0 -3 20 20"
       version="1.1"
@@ -73,7 +73,7 @@ export const footerSectionIcons: IconMap<IconNames> = {
     </svg>
   ),
 
-  twitter: (iconClass?: string) => (
+  twitter: (iconClass?: ElementClass) => (
     <svg
       viewBox="0 0 150 150"
       version="1.1"
@@ -95,7 +95,7 @@ export const footerSectionIcons: IconMap<IconNames> = {
     </svg>
   ),
 
-  privacy: (iconClass?: string) => (
+  privacy: (iconClass?: ElementClass) => (
     <svg viewBox="0 0 192 192" xmlns="http://www.w3.org/2000/svg" className={iconClass}>
       <g fill="none" stroke={greyColor.c0} strokeWidth="12">
         <path
@@ -108,7 +108,7 @@ export const footerSectionIcons: IconMap<IconNames> = {
     </svg>
   ),
 
-  terms: (iconClass?: string) => (
+  terms: (iconClass?: ElementClass) => (
     <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className={iconClass}>
       <path
         d="M8.5 12.5L10.5 14.5L15.5 9.5"

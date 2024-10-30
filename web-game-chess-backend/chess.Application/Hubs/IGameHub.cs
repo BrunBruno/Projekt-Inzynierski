@@ -1,7 +1,7 @@
 ﻿
-using chess.Application.Requests.GameRequests.CreateRematchGame;
-using chess.Application.Requests.GameRequests.EndGame;
-using chess.Application.Requests.GameRequests.InvitedToGame;
+using chess.Application.Requests.WebGameRequests.CreateRematchGame;
+using chess.Application.Requests.WebGameRequests.EndGame;
+using chess.Application.Requests.WebGameRequests.InvitedToGame;
 
 namespace chess.Application.Hubs;
 

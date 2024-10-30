@@ -6,13 +6,7 @@ import { PlayerDto } from "../../../../../../shared/utils/types/abstractDtosAndM
 import IconCreator from "../../../../../../shared/components/icon-creator/IconCreator";
 import { defaultPiecesImages } from "../../../../../../shared/svgs/iconsMap/DefaultPieceImageSvgs";
 import { getPieceSideColor } from "../../../../../../shared/utils/objects/piecesNameMaps";
-import { GameEndReasonName, PieceTag, TimingTypeName } from "../../../../../../shared/utils/objects/constantLists";
-import { timingTypeIcons } from "../../../../../../shared/svgs/iconsMap/TimingTypeIcons";
-import { getEnumKeyByEnumValue } from "../../../../../../shared/utils/functions/enums";
-import { mainColor } from "../../../../../../shared/utils/objects/colorMaps";
-import { gameResultIcons } from "../../../../../../shared/svgs/iconsMap/GameResultIcons";
-import { gameEndReasonIcons } from "../../../../../../shared/svgs/iconsMap/GameEndReasonIcons";
-import { GameEndReason, TimingType } from "../../../../../../shared/utils/objects/entitiesEnums";
+import { PieceTag } from "../../../../../../shared/utils/objects/constantLists";
 
 type LastGameCardProps = {
   // finished game data

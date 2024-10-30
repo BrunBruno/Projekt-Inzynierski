@@ -4,7 +4,7 @@ import { usePopup } from "../../../../../shared/utils/hooks/usePopUp";
 import { CreateGameByEmailModel, NotifyUserModel } from "../../../../../shared/utils/types/gameModels";
 import { CreateGameByEmailDto } from "../../../../../shared/utils/types/gameDtos";
 import axios from "axios";
-import { gameController, getAuthorization, userController } from "../../../../../shared/utils/services/ApiService";
+import { webGameController, getAuthorization, userController } from "../../../../../shared/utils/services/ApiService";
 import GameHubService from "../../../../../shared/utils/services/GameHubService";
 import { getErrMessage } from "../../../../../shared/utils/functions/errors";
 import {
@@ -55,7 +55,7 @@ const InviteByEmail = forwardRef<InviteByEmailRef, InviteByEmailProps>(
         };
 
         const privateGameResponse = await axios.post<CreateGameByEmailDto>(
-          gameController.createGameByEmail(),
+          webGameController.createGameByEmail(),
           model,
           getAuthorization()
         );

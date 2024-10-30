@@ -1,7 +1,7 @@
 ﻿
 using chess.Api.Tests.User;
-using chess.Application.Requests.GameRequests.FetchTime;
-using chess.Core.Abstraction;
+using chess.Application.Requests.WebGameRequests.FetchTime;
+using chess.Core.Models;
 using chess.Core.Enums;
 using chess.Infrastructure.Contexts;
 using FluentAssertions;
@@ -9,7 +9,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
 using System.Net;
 
-namespace chess.Api.Tests.Game;
+namespace chess.Api.Tests.WebGame;
 
 public class FetchTimeTests : IClassFixture<TestWebApplicationFactory<Program>> {
 
@@ -33,7 +33,7 @@ public class FetchTimeTests : IClassFixture<TestWebApplicationFactory<Program>> 
     [Fact]
     public async Task FetchTime_Should_Return_TimeDto_On_Success() {
 
-        var timingType = new TimingType()
+        var timingType = new TimingTypeModel()
         {
             Type = TimingTypes.Daily,
             Minutes = 24 * 60,
@@ -53,7 +53,7 @@ public class FetchTimeTests : IClassFixture<TestWebApplicationFactory<Program>> 
         await _dbContext.StartGame(gameId);
 
 
-        var response = await _client.GetAsync($"api/game/{gameId}/time");
+        var response = await _client.GetAsync($"api/webgame/{gameId}/time");
 
 
         response.StatusCode.Should().Be(HttpStatusCode.OK);
@@ -76,7 +76,7 @@ public class FetchTimeTests : IClassFixture<TestWebApplicationFactory<Program>> 
         await _dbContext.AddUser();
         var friendId = await _dbContext.AddUserWithEmail("friend@test.com");
 
-        var timingId = await _dbContext.CreateTiming(new TimingType() {
+        var timingId = await _dbContext.CreateTiming(new TimingTypeModel() {
             Type = TimingTypes.Daily,
             Minutes = 24 * 60,
             Increment = 0,
@@ -89,7 +89,7 @@ public class FetchTimeTests : IClassFixture<TestWebApplicationFactory<Program>> 
         // no game start
 
 
-        var response = await _client.GetAsync($"api/game/{gameId}/time");
+        var response = await _client.GetAsync($"api/webgame/{gameId}/time");
 
 
         response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
@@ -106,7 +106,7 @@ public class FetchTimeTests : IClassFixture<TestWebApplicationFactory<Program>> 
         await _dbContext.AddUser();
         await _dbContext.AddPlayer(Guid.Parse(Constants.UserId), Constants.Username);
 
-        await _dbContext.CreateTiming(new TimingType() {
+        await _dbContext.CreateTiming(new TimingTypeModel() {
             Type = TimingTypes.Daily,
             Minutes = 24 * 60,
             Increment = 0,
@@ -115,7 +115,7 @@ public class FetchTimeTests : IClassFixture<TestWebApplicationFactory<Program>> 
         // no game added
 
 
-        var response = await _client.GetAsync($"api/game/{Guid.NewGuid()}/time");
+        var response = await _client.GetAsync($"api/webgame/{Guid.NewGuid()}/time");
 
 
         response.StatusCode.Should().Be(HttpStatusCode.NotFound);

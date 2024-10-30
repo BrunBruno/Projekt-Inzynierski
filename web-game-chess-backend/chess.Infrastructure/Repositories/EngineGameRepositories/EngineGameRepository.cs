@@ -26,4 +26,9 @@ public class EngineGameRepository : IEngineGameRepository {
         await _dbContext.EngineGames.AddAsync(game);
         await _dbContext.SaveChangesAsync();
     }
+
+    public async Task Update(EngineGame game) {
+        _dbContext.EngineGames.Update(game);
+        await _dbContext.SaveChangesAsync();
+    }
 }

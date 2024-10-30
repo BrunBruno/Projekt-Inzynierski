@@ -7,27 +7,30 @@ namespace chess.Infrastructure.Services;
 public class EngineService : IEngineService {
 
 
-    private static readonly string executablePath = "";
-    private bool _calculating = false;
-
-    private readonly Stopwatch _watch = new();
+    private static readonly string executablePath = "ceng.exe";
     private readonly Process _stockfishProcess;
 
     public EngineService() {
 
-        _stockfishProcess = new Process()
-        {
-            StartInfo = new ProcessStartInfo()
+        try {
+            _stockfishProcess = new Process()
             {
-                FileName = executablePath,
-                RedirectStandardInput = true,
-                RedirectStandardOutput = true,
-                UseShellExecute = false,
-                CreateNoWindow = true,
-            },
-        };
+                StartInfo = new ProcessStartInfo()
+                {
+                    FileName = executablePath,
+                    RedirectStandardInput = true,
+                    RedirectStandardOutput = true,
+                    UseShellExecute = false,
+                    CreateNoWindow = true,
+                },
+            };
 
-        _stockfishProcess.Start();
+            _stockfishProcess.Start();
+
+        } catch (Exception ex) {
+            Console.WriteLine(ex.Message);
+            throw new ApplicationException("Failed to start Stockfish process.");
+        }
     }
 
     public void SendCommand(string command) {
@@ -42,19 +45,5 @@ public class EngineService : IEngineService {
     public void Close() {
         SendCommand("quit");
         _stockfishProcess.Close();
-    }
-
-    public void StartCalculation() {
-        if (!_calculating) {
-            _watch.Restart();
-            _calculating = true;
-
-            //SendCommand($"position fen {request.FEN}");
-
-            SendCommand($"go movetime 3000");
-        } else {
-            throw new ApplicationException();
-        }
-
     }
 }

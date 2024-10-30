@@ -13,7 +13,7 @@ import { InviteByUrlRef } from "../VsFriendSearchData";
 import { usePopup } from "../../../../../shared/utils/hooks/usePopUp";
 import { getErrMessage } from "../../../../../shared/utils/functions/errors";
 import axios from "axios";
-import { gameController, getAuthorization } from "../../../../../shared/utils/services/ApiService";
+import { webGameController, getAuthorization } from "../../../../../shared/utils/services/ApiService";
 import { CreateGameWithLinkModel } from "../../../../../shared/utils/types/gameModels";
 import { CreateGameWithLinkDto } from "../../../../../shared/utils/types/gameDtos";
 import { getEnumValueByKey } from "../../../../../shared/utils/functions/enums";
@@ -49,7 +49,7 @@ const InviteByUrl = forwardRef<InviteByUrlRef, InviteByUrlProps>(
         };
 
         const response = await axios.post<CreateGameWithLinkDto>(
-          gameController.createGameWithLink(),
+          webGameController.createGameWithLink(),
           model,
           getAuthorization()
         );

@@ -4,7 +4,7 @@ import { GetAllFinishedGamesDto } from "../../../../../shared/utils/types/gameDt
 import { GetAllFinishedGamesModel } from "../../../../../shared/utils/types/gameModels";
 import axios from "axios";
 import { PagedResult } from "../../../../../shared/utils/types/abstractDtosAndModels";
-import { gameController, getAuthorization } from "../../../../../shared/utils/services/ApiService";
+import { webGameController, getAuthorization } from "../../../../../shared/utils/services/ApiService";
 import { getErrMessage } from "../../../../../shared/utils/functions/errors";
 import classes from "./LastGames.module.scss";
 import LastGameCard from "./last-game-card/LastGameCard";
@@ -35,7 +35,7 @@ function LastGames({ setInterfaceById }: LastGamesProps) {
 
       try {
         const response = await axios.get<PagedResult<GetAllFinishedGamesDto>>(
-          gameController.getAllFinishedGames(getGamesOptions),
+          webGameController.getAllFinishedGames(getGamesOptions),
           getAuthorization()
         );
 

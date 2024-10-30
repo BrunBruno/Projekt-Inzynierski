@@ -10,9 +10,8 @@ export type IconSvgProps = {
 };
 
 export type IconMap<T extends string> = {
-  [key in T]: (iconClass?: string, color?: ColorValue, active?: boolean) => JSX.Element;
+  [key in T]: (iconClass?: ElementClass, color?: ColorValue, active?: boolean) => JSX.Element;
 };
-
 //*/
 
 // handle on scroll function type
@@ -36,9 +35,11 @@ export type ChartObject = {
 // popup data object
 export type PopupType = {
   text: string;
-  type: typeof popupIconTypes[number];
+  type: (typeof popupIconTypes)[number];
 };
 
 // board matrix objects
 export type SMatrix = string[][];
 export type NMatrix = number[][];
+
+export type ElementClass = string;

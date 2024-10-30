@@ -11,7 +11,7 @@ import { timingTypeIcons } from "../../../../../shared/svgs/iconsMap/TimingTypeI
 import { TimingTypeName } from "../../../../../shared/utils/objects/constantLists";
 import { greyColor } from "../../../../../shared/utils/objects/colorMaps";
 import { defaultViewIcons } from "../DefaultViewIcons";
-import { displayTimingName } from "../../../../../shared/utils/functions/enums";
+import { displayFromLowercase } from "../../../../../shared/utils/functions/enums";
 
 type ProfileWindowProps = {};
 
@@ -82,7 +82,7 @@ function ProfileWindow({}: ProfileWindowProps): JSX.Element {
             color={greyColor.c0}
           />
 
-          <span>{displayTimingName(key as TimingTypeName)}</span>
+          <span>{displayFromLowercase(key)}</span>
           <span>{eloData[key as keyof typeof eloData]}</span>
         </div>
       ))}

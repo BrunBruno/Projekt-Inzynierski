@@ -4,7 +4,7 @@ import { BlackPieceTag, PieceName, PieceTag, SideColor, WhitePieceTag } from "./
 
 const pieceTagToName = { p: "Pawn", n: "Knight", b: "Bishop", r: "Rook", q: "Queen", k: "King" } as const;
 
-// to game piece name by piece tag
+// convert game piece name by piece tag
 export const getPieceName = (char: PieceTag): string => {
   return pieceTagToName[char.toLowerCase() as PieceTag] || "Unknown";
 };
@@ -37,9 +37,6 @@ export const pieceTagMap: PieceTagMap = {
     king: "k",
   },
 } as const;
-
-export type WhitePieceType = (typeof pieceTagMap.white)[keyof typeof pieceTagMap.white];
-export type BlackPieceType = (typeof pieceTagMap.black)[keyof typeof pieceTagMap.black];
 
 // piece promotion tag maps
 export type PiecePromotionMap = {

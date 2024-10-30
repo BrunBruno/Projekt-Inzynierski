@@ -1,8 +1,8 @@
 ﻿
-using chess.Api.Models.GameModels;
+using chess.Api.Models.WebGameModels;
 using chess.Api.Tests.Friendship;
 using chess.Api.Tests.User;
-using chess.Application.Requests.GameRequests.CreatePrivateGame;
+using chess.Application.Requests.WebGameRequests.CreatePrivateGame;
 using chess.Core.Enums;
 using chess.Infrastructure.Contexts;
 using FluentAssertions;
@@ -12,7 +12,7 @@ using Newtonsoft.Json;
 using System.Net;
 using System.Text;
 
-namespace chess.Api.Tests.Game;
+namespace chess.Api.Tests.WebGame;
 
 public class CreatePrivateGameTests : IClassFixture<TestWebApplicationFactory<Program>> {
 
@@ -43,7 +43,7 @@ public class CreatePrivateGameTests : IClassFixture<TestWebApplicationFactory<Pr
         await _dbContext.AddUsers(friendId);
         await _dbContext.AddFriendship(friendshipId, friendId, Guid.Parse(Constants.UserId), FriendshipStatus.Accepted);
 
-        var model = new CreatePrivateGameModel()
+        var model = new CreatePrivateWebGameModel()
         {
             FriendshipId = friendshipId,
             Type = TimingTypes.Blitz,
@@ -55,17 +55,17 @@ public class CreatePrivateGameTests : IClassFixture<TestWebApplicationFactory<Pr
         var httpContent = new StringContent(json, Encoding.UTF8, "application/json");
 
 
-        var response = await _client.PostAsync("api/game/private", httpContent);
+        var response = await _client.PostAsync("api/webgame/private", httpContent);
 
 
         var assertDbContext = _factory.GetDbContextForAsserts();
 
         response.StatusCode.Should().Be(HttpStatusCode.OK);
 
-        var players = await assertDbContext.Players.ToListAsync();
+        var players = await assertDbContext.WebGamePlayers.ToListAsync();
         players.Count.Should().Be(2);
 
-        var game = await assertDbContext.Games.FirstAsync();
+        var game = await assertDbContext.WebGames.FirstAsync();
 
         game.TimingType.Should().Be(TimingTypes.Blitz);
 
@@ -88,7 +88,7 @@ public class CreatePrivateGameTests : IClassFixture<TestWebApplicationFactory<Pr
         await _dbContext.AddUsers(friendId);
         // friendship not added
 
-        var model = new CreatePrivateGameModel()
+        var model = new CreatePrivateWebGameModel()
         {
             FriendshipId = friendshipId,
             Type = TimingTypes.Blitz,
@@ -100,7 +100,7 @@ public class CreatePrivateGameTests : IClassFixture<TestWebApplicationFactory<Pr
         var httpContent = new StringContent(json, Encoding.UTF8, "application/json");
 
 
-        var response = await _client.PostAsync("api/game/private", httpContent);
+        var response = await _client.PostAsync("api/webgame/private", httpContent);
 
 
         response.StatusCode.Should().Be(HttpStatusCode.NotFound);

@@ -4,13 +4,16 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { engineController, getAuthorization } from "../../shared/utils/services/ApiService";
 import LoadingPage from "../../shared/components/loading-page/LoadingPage";
-import GameContent from "./game-content/GameContent";
+import GameContent from "./engine-game-content/EngineGameContent";
 import { usePopup } from "../../shared/utils/hooks/usePopUp";
 import { getErrMessage } from "../../shared/utils/functions/errors";
 import MainPopUp from "../../shared/components/main-popup/MainPopUp";
 import { Guid } from "guid-typescript";
-import { StateOptions } from "../../shared/utils/objects/interfacesEnums";
+import { GameActionInterface, StateOptions } from "../../shared/utils/objects/interfacesEnums";
 import { GetEngineGameDto } from "../../shared/utils/types/engineDtos";
+import EngineGameLeftSidebar from "./engine-game-left-sidebar/EngineGameLeftSidebar";
+import EngineGameRightSidebar from "./engine-game-right-sidebar/EngineGameRightSidebar";
+import EngineGameContent from "./engine-game-content/EngineGameContent";
 
 function EngineGamePage() {
   ///
@@ -41,6 +44,10 @@ function EngineGamePage() {
   // obtained game data
   const [gameData, setGameData] = useState<GetEngineGameDto | null>(null);
 
+  // states for displaying actions confirmation window
+  const [showConfirm, setShowConfirm] = useState<GameActionInterface | null>(null);
+  const [confirmAction, setConfirmAction] = useState<() => void>(() => {});
+
   // return if no timing set
   // display enter popups
   useEffect(() => {
@@ -61,8 +68,6 @@ function EngineGamePage() {
         const response = await axios.get<GetEngineGameDto>(engineController.getEngineGame(gameId), getAuthorization());
 
         setGameData(response.data);
-
-        console.log(response.data);
       } catch (err) {
         showPopup(getErrMessage(err), "warning");
       }
@@ -75,28 +80,16 @@ function EngineGamePage() {
 
   return (
     <main className={classes["game-main"]}>
-      {/* <LeftSideBar
+      <EngineGameLeftSidebar
         gameId={gameId}
-        playerData={playerData}
         gameData={gameData}
         setShowConfirm={setShowConfirm}
         setConfirmAction={setConfirmAction}
-      /> */}
+      />
 
-      <div></div>
+      <EngineGameContent gameId={gameId} gameData={gameData} />
 
-      <GameContent gameId={gameId} gameData={gameData} />
-
-      <div></div>
-
-      {/* <RightSideBar
-        gameId={gameId}
-        gameData={gameData}
-        playerData={playerData}
-        playersTimes={playersTimes}
-        setPlayersTimes={setPlayersTimes}
-        winner={winner}
-      /> */}
+      <EngineGameRightSidebar gameData={gameData} />
 
       <MainPopUp />
     </main>

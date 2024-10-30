@@ -1,7 +1,7 @@
 ﻿
 using chess.Api.Tests.User;
 using chess.Application.Pagination;
-using chess.Application.Requests.GameRequests.GetTypeHistory;
+using chess.Application.Requests.WebGameRequests.GetTypeHistory;
 using chess.Core.Enums;
 using chess.Infrastructure.Contexts;
 using FluentAssertions;
@@ -9,7 +9,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
 using System.Net;
 
-namespace chess.Api.Tests.Game;
+namespace chess.Api.Tests.WebGame;
 
 public class GetTypeHistoryTests : IClassFixture<TestWebApplicationFactory<Program>> {
 
@@ -38,8 +38,8 @@ public class GetTypeHistoryTests : IClassFixture<TestWebApplicationFactory<Progr
         await _dbContext.AddGames(true, false);
 
 
-        var responseBullet = await _client.GetAsync($"api/game/type-history?pageNumber=1&pageSize=100&type={TimingTypes.Bullet}");
-        var responseRapid = await _client.GetAsync($"api/game/type-history?pageNumber=1&pageSize=100&type={TimingTypes.Rapid}");
+        var responseBullet = await _client.GetAsync($"api/webgame/type-history?pageNumber=1&pageSize=100&type={TimingTypes.Bullet}");
+        var responseRapid = await _client.GetAsync($"api/webgame/type-history?pageNumber=1&pageSize=100&type={TimingTypes.Rapid}");
 
 
         responseBullet.StatusCode.Should().Be(HttpStatusCode.OK);

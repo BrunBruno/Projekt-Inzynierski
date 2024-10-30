@@ -1,7 +1,7 @@
 import axios from "axios";
 import classes from "./Invitations.module.scss";
 import { GetAllInvitationsDto } from "../../../../shared/utils/types/gameDtos";
-import { gameController, getAuthorization } from "../../../../shared/utils/services/ApiService";
+import { webGameController, getAuthorization } from "../../../../shared/utils/services/ApiService";
 import { GetAllInvitationsModel } from "../../../../shared/utils/types/gameModels";
 import { useEffect, useRef, useState } from "react";
 import InvitationCard from "./invitation-card/InvitationCard";
@@ -49,7 +49,7 @@ function Invitations({}: InvitationsProps) {
       };
 
       const invitationsResponse = await axios.get<PagedResult<GetAllInvitationsDto>>(
-        gameController.getAllInvitations(invitationsModel),
+        webGameController.getAllInvitations(invitationsModel),
         getAuthorization()
       );
 

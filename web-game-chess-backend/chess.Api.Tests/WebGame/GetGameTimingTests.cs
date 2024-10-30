@@ -1,6 +1,6 @@
 ﻿
 using chess.Api.Tests.User;
-using chess.Application.Requests.GameRequests.GetGameTiming;
+using chess.Application.Requests.WebGameRequests.GetGameTiming;
 using chess.Core.Enums;
 using chess.Core.Models;
 using chess.Infrastructure.Contexts;
@@ -9,7 +9,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
 using System.Net;
 
-namespace chess.Api.Tests.Game;
+namespace chess.Api.Tests.WebGame;
 
 public class GetGameTimingTests : IClassFixture<TestWebApplicationFactory<Program>> {
 
@@ -51,7 +51,7 @@ public class GetGameTimingTests : IClassFixture<TestWebApplicationFactory<Progra
         var gameId = await _dbContext.AddGame(userPlayerId, otherPlayerId, timingId, false);
 
 
-        var response = await _client.GetAsync($"api/game/{gameId}/timing");
+        var response = await _client.GetAsync($"api/webgame/{gameId}/timing");
 
 
         response.StatusCode.Should().Be(HttpStatusCode.OK);
@@ -82,7 +82,7 @@ public class GetGameTimingTests : IClassFixture<TestWebApplicationFactory<Progra
         // game not added
 
 
-        var response = await _client.GetAsync($"api/game/{Guid.NewGuid()}/timing");
+        var response = await _client.GetAsync($"api/webgame/{Guid.NewGuid()}/timing");
 
 
         response.StatusCode.Should().Be(HttpStatusCode.NotFound);

@@ -1,28 +1,28 @@
 ﻿
 using AutoMapper;
-using chess.Api.Models.GameModels;
-using chess.Application.Requests.GameRequests.SearchGame;
-using chess.Application.Requests.GameRequests.AbortSearch;
+using chess.Application.Requests.WebGameRequests.SearchGame;
+using chess.Application.Requests.WebGameRequests.AbortWebGameSearch;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using chess.Application.Requests.GameRequests.CheckIfInGame;
-using chess.Application.Requests.GameRequests.GetGame;
-using chess.Application.Requests.GameRequests.GetPlayer;
-using chess.Application.Requests.GameRequests.GetEndedGame;
-using chess.Application.Requests.GameRequests.CreatePrivateGame;
-using chess.Application.Requests.GameRequests.FetchTime;
-using chess.Application.Requests.GameRequests.GetOpponent;
-using chess.Application.Requests.GameRequests.GetTypeHistory;
-using chess.Application.Requests.GameRequests.CreateGameByEmail;
-using chess.Application.Requests.GameRequests.GetAllInvitations;
-using chess.Application.Requests.GameRequests.GetGameTiming;
-using chess.Application.Requests.GameRequests.GetAllFinishedGames;
-using chess.Application.Requests.GameRequests.GetAllMessages;
-using chess.Application.Requests.GameRequests.CreateGameWithLink;
-using chess.Application.Requests.GameRequests.CheckIfUpdateRequired;
-using chess.Application.Requests.GameRequests.CancelPrivateGame;
-using chess.Application.Requests.GameRequests.GetAllActiveGames;
+using chess.Application.Requests.WebGameRequests.CheckIfInGame;
+using chess.Application.Requests.WebGameRequests.GetGame;
+using chess.Application.Requests.WebGameRequests.GetPlayer;
+using chess.Application.Requests.WebGameRequests.GetEndedGame;
+using chess.Application.Requests.WebGameRequests.CreatePrivateGame;
+using chess.Application.Requests.WebGameRequests.FetchTime;
+using chess.Application.Requests.WebGameRequests.GetOpponent;
+using chess.Application.Requests.WebGameRequests.GetTypeHistory;
+using chess.Application.Requests.WebGameRequests.CreateGameByEmail;
+using chess.Application.Requests.WebGameRequests.GetAllInvitations;
+using chess.Application.Requests.WebGameRequests.GetGameTiming;
+using chess.Application.Requests.WebGameRequests.GetAllFinishedGames;
+using chess.Application.Requests.WebGameRequests.GetAllMessages;
+using chess.Application.Requests.WebGameRequests.CreateGameWithLink;
+using chess.Application.Requests.WebGameRequests.CheckIfUpdateRequired;
+using chess.Application.Requests.WebGameRequests.CancelPrivateWebGame;
+using chess.Application.Requests.WebGameRequests.GetAllActiveGames;
+using chess.Api.Models.WebGameModels;
 
 namespace chess.Api.Controllers;
 
@@ -47,7 +47,7 @@ public class WebGameController : ControllerBase {
     /// <returns> Essential for game creation </returns>
     [HttpPost("search")]
     [Authorize(Policy = "IsVerified")]
-    public async Task<IActionResult> StartSearch([FromBody] SearchGameModel model) {
+    public async Task<IActionResult> StartSearch([FromBody] SearchWebGameModel model) {
 
         var request = _mapper.Map<SearchGameRequest>(model);
 
@@ -65,7 +65,7 @@ public class WebGameController : ControllerBase {
     /// <returns> Essential for game creation </returns>
     [HttpPost("private")]
     [Authorize(Policy = "IsVerified")]
-    public async Task<IActionResult> CreatePrivateGame([FromBody] CreatePrivateGameModel model) {
+    public async Task<IActionResult> CreatePrivateGame([FromBody] CreatePrivateWebGameModel model) {
 
         var request = _mapper.Map<CreatePrivateGameRequest>(model);
 
@@ -83,7 +83,7 @@ public class WebGameController : ControllerBase {
     /// <returns> Essential for game creation </returns>
     [HttpPost("email")]
     [Authorize(Policy = "IsVerified")]
-    public async Task<IActionResult> CreateGameByEmail([FromBody] CreateGameByEmailModel model) {
+    public async Task<IActionResult> CreateGameByEmail([FromBody] CreateWebGameByEmailModel model) {
 
         var request = _mapper.Map<CreateGameByEmailRequest>(model);
 
@@ -100,7 +100,7 @@ public class WebGameController : ControllerBase {
     /// <returns> Essential for game creation </returns>
     [HttpPost("link")]
     [Authorize(Policy = "IsVerified")]
-    public async Task<IActionResult> CreateGameWithLink([FromBody] CreateGameWithLinkModel model) {
+    public async Task<IActionResult> CreateGameWithLink([FromBody] CreateWebGameWithLinkModel model) {
 
         var request = _mapper.Map<CreateGameWithLinkRequest>(model);
 
@@ -274,7 +274,7 @@ public class WebGameController : ControllerBase {
     /// <returns>  Page result of games </returns>
     [HttpGet("all-ongoing")]
     [Authorize(Policy = "IsVerified")]
-    public async Task<IActionResult> GetAllActiveGames([FromQuery] GetAllActiveGamesModel model) {
+    public async Task<IActionResult> GetAllActiveGames([FromQuery] GetAllActiveWebGamesModel model) {
 
         var request = _mapper.Map<GetAllActiveGamesRequest>(model);
 
@@ -291,7 +291,7 @@ public class WebGameController : ControllerBase {
     /// <returns>  Page result of games </returns>
     [HttpGet("all-finished")]
     [Authorize(Policy = "IsVerified")]
-    public async Task<IActionResult> GetAllFinishedGames([FromQuery] GetAllFinishedGamesModel model) {
+    public async Task<IActionResult> GetAllFinishedGames([FromQuery] GetAllFinishedWebGamesModel model) {
 
         var request = _mapper.Map<GetAllFinishedGamesRequest>(model);
 
@@ -362,9 +362,9 @@ public class WebGameController : ControllerBase {
     /// <returns></returns>
     [HttpDelete("abort")]
     [Authorize(Policy = "IsVerified")]
-    public async Task<IActionResult> AbortSearch([FromQuery] AbortSearchModel model) {
+    public async Task<IActionResult> AbortWebGameSearch([FromQuery] AbortWebGameSearchModel model) {
 
-        var request = _mapper.Map<AbortSearchRequest>(model);
+        var request = _mapper.Map<AbortWebGameSearchRequest>(model);
 
         await _mediator.Send(request);
 
@@ -382,7 +382,7 @@ public class WebGameController : ControllerBase {
     [Authorize(Policy = "IsVerified")]
     public async Task<IActionResult> CancelPrivateGame([FromRoute] Guid gameId) {
 
-        var request = new CancelPrivateGameRequest() 
+        var request = new CancelPrivateWebGameRequest() 
         {
             GameId = gameId,
         };

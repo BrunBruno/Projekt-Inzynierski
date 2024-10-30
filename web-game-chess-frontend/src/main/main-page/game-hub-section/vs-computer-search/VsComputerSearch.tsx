@@ -3,7 +3,7 @@ import classes from "./VsComputerSearch.module.scss";
 import { engineController, getAuthorization } from "../../../../shared/utils/services/ApiService";
 import { usePopup } from "../../../../shared/utils/hooks/usePopUp";
 import { getErrMessage } from "../../../../shared/utils/functions/errors";
-import { displayTimingName, getEnumValueByKey } from "../../../../shared/utils/functions/enums";
+import { displayFromLowercase, getEnumValueByKey } from "../../../../shared/utils/functions/enums";
 import IconCreator from "../../../../shared/components/icon-creator/IconCreator";
 import { mainColor } from "../../../../shared/utils/objects/colorMaps";
 import { timingTypeIcons } from "../../../../shared/svgs/iconsMap/TimingTypeIcons";
@@ -97,7 +97,7 @@ function VsComputerSearch({ setVsComputerGameIds }: VsComputerSearchProps) {
                 iconClass={classes["header-icon"]}
                 color={mainColor.c5}
               />
-              <span>{displayTimingName(control.header)}</span>
+              <span>{displayFromLowercase(control.header)}</span>
             </div>
 
             {control.tags.map((tag: string, i: number) => (
