@@ -38,8 +38,25 @@ public class EngineService : IEngineService {
         _stockfishProcess.StandardInput.Flush();
     }
 
-    public string ReadOutput() {
-        return _stockfishProcess.StandardOutput.ReadLine();
+    public List<string> ReadOutput() {
+        var engineOutputs = new List<string>();
+        var stopwatch = Stopwatch.StartNew();
+
+        string line;
+        while ((line = _stockfishProcess.StandardOutput.ReadLine()!) != null) {
+            engineOutputs.Add(line);
+
+            if (line.StartsWith("bestmove") || line.StartsWith("Fen:"))
+                break;
+
+            if (stopwatch.ElapsedMilliseconds > 1000) {
+                break;
+            }
+        }
+
+        stopwatch.Stop();
+
+        return engineOutputs;
     }
 
     public void Close() {

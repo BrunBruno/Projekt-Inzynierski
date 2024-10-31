@@ -16,7 +16,7 @@ import {
   GetOpponentDto,
   GetPlayerDto,
   GetTypeHistoryDto,
-  SearchGameDto,
+  SearchWebGameDto,
 } from "../types/gameDtos";
 import { PagedResult } from "../types/abstractDtosAndModels";
 import { friendshipControllerPaths, webGameControllerPaths, userControllerPaths } from "./ApiService";
@@ -44,7 +44,7 @@ type UserControllerServerParams = {
 };
 
 type webGameControllerServerParams = {
-  searchGameDto?: SearchGameDto;
+  SearchWebGameDto?: SearchWebGameDto;
   createPrivateGameDto?: CreatePrivateGameDto;
   createGameByEmailDto?: CreateGameByEmailDto;
   createGameWithLinkDto?: CreateGameWithLinkDto;
@@ -216,12 +216,12 @@ export const createMockServer = (mockResult: CreateMockServerParams) => {
 
     // start search
     rest.post(webGameControllerPaths.startSearch, (_, res, ctx) => {
-      if (!mockResult.searchGameDto) {
-        console.error("mock SearchGameDto not provided");
+      if (!mockResult.SearchWebGameDto) {
+        console.error("mock SearchWebGameDto not provided");
         return res(ctx.status(500), ctx.json(null));
       }
 
-      return res(ctx.status(200), ctx.json<SearchGameDto>(mockResult.searchGameDto));
+      return res(ctx.status(200), ctx.json<SearchWebGameDto>(mockResult.SearchWebGameDto));
     }),
 
     // create private game

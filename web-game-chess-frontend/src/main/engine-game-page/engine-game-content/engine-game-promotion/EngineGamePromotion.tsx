@@ -25,9 +25,10 @@ function EngineGamePromotion({ gameData, gameStates, selectionStates, setSelecti
   ///
 
   // promote pawn to chosen piece
-  const onPerformPromotion = (promotedPiece: PieceOption): void => {
+  const onPerformPromotion = async (promotedPiece: PieceOption): Promise<void> => {
     if (selectionStates.promotionCoor) {
-      makeEngineGameMove(gameStates, selectionStates, selectionStates.promotionCoor, promotedPiece);
+      await makeEngineGameMove(gameStates, selectionStates, selectionStates.promotionCoor, promotedPiece);
+      window.location.reload();
     }
 
     setSelectionStates({ type: "SET_PROMOTION_COOR", payload: null });

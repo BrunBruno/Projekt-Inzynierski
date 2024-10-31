@@ -1,12 +1,12 @@
 ﻿
 using MediatR;
 
-namespace chess.Application.Requests.WebGameRequests.GetGame; 
+namespace chess.Application.Requests.WebGameRequests.GetWebGame; 
 
 /// <summary>
 /// Request for getting current played game
 /// </summary>
-public class GetGameRequest : IRequest<GetGameDto> {
+public class GetWebGameRequest : IRequest<GetWebGameDto> {
 
     /// <summary>
     /// Game id to get

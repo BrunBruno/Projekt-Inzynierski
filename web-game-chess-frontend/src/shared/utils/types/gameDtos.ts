@@ -93,7 +93,7 @@ export type InvitedToGameDto = TimingTypeModel & {
   inviter: string;
 };
 
-export type SearchGameDto = {
+export type SearchWebGameDto = {
   playerId: Guid;
   timingId: Guid;
 };

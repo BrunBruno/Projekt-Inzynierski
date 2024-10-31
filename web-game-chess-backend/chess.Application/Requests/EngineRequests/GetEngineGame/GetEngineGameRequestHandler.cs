@@ -28,7 +28,7 @@ public class GetEngineGameRequestHandler : IRequestHandler<GetEngineGameRequest,
 
         var gameDto = new GetEngineGameDto()
         {
-            Position = position,
+            Position = game.Position,
             Turn = game.Turn,
             HasEnded = game.HasEnded,
 

@@ -4,10 +4,10 @@ import {
   GetEndedGameDto,
   GetGameDto,
   GetOpponentDto,
-  SearchGameDto,
+  SearchWebGameDto,
 } from "../../../../shared/utils/types/gameDtos";
 import classes from "./WebGameWinner.module.scss";
-import { CreateRematchGameModel, SearchGameModel } from "../../../../shared/utils/types/gameModels";
+import { CreateRematchGameModel, SearchWebGameModel } from "../../../../shared/utils/types/gameModels";
 import { webGameController, getAuthorization } from "../../../../shared/utils/services/ApiService";
 import axios from "axios";
 import GameHubService from "../../../../shared/utils/services/GameHubService";
@@ -30,9 +30,9 @@ type WebGameWinnerProps = {
   // game result data data
   winner: EndGameDto | GetEndedGameDto | null;
   // to start new game search
-  setSearchIds: Dispatch<SetStateAction<SearchGameDto | null>>;
+  setSearchIds: Dispatch<SetStateAction<SearchWebGameDto | null>>;
   // timing for new game or rematch
-  selectedTiming: SearchGameModel | null;
+  selectedTiming: SearchWebGameModel | null;
   // rematch game id
   newGameId: Guid | null;
 };
@@ -58,14 +58,14 @@ function WebGameWinner({
       return;
     }
 
-    const model: SearchGameModel = {
+    const model: SearchWebGameModel = {
       type: selectedTiming.type,
       minutes: selectedTiming.minutes,
       increment: selectedTiming.increment,
     };
 
     try {
-      const response = await axios.post<SearchGameDto>(webGameController.startSearch(), model, getAuthorization());
+      const response = await axios.post<SearchWebGameDto>(webGameController.startSearch(), model, getAuthorization());
 
       setSearchIds(response.data);
 

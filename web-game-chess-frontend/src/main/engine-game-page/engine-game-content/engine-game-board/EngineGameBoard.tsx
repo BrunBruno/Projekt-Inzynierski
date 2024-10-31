@@ -295,8 +295,9 @@ function EngineGameBoard({
         coordinates
       );
 
-      setTimeout(() => {
-        makeEngineGameMove(gameStates, selectionStates, coordinates, null);
+      setTimeout(async () => {
+        await makeEngineGameMove(gameStates, selectionStates, coordinates, null);
+        window.location.reload();
       }, 100);
 
       return;
@@ -323,7 +324,7 @@ function EngineGameBoard({
     chosePiece(piece, coordinates);
   };
 
-  const onDropPiece = (coordinates: Coordinate, isInTipFields: boolean, samePiece: boolean): void => {
+  const onDropPiece = async (coordinates: Coordinate, isInTipFields: boolean, samePiece: boolean): Promise<void> => {
     if (!coordinates) return;
 
     setSelectionStates({ type: "SET_IS_DRAGGING", payload: false });
@@ -346,7 +347,8 @@ function EngineGameBoard({
 
     // if put on one of tip fields make move else clear piece
     if (isInTipFields) {
-      makeEngineGameMove(gameStates, selectionStates, coordinates, null);
+      await makeEngineGameMove(gameStates, selectionStates, coordinates, null);
+      window.location.reload();
     } else {
       chosePiece("", null);
     }

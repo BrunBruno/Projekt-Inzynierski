@@ -1,6 +1,6 @@
 ﻿
 using chess.Application.Repositories.WebGameRepositories;
-using chess.Application.Requests.WebGameRequests.GetGame;
+using chess.Application.Requests.WebGameRequests.GetWebGame;
 using chess.Application.Services;
 using chess.Core.Entities;
 using chess.Shared.Exceptions;
@@ -9,12 +9,12 @@ using Moq;
 
 namespace chess.Core.Tests.WebGame;
 
-public class GetGameRequestHandlerTests {
+public class GetWebGameRequestHandlerTests {
 
     private readonly Mock<IUserContextService> _mockUserContextService;
     private readonly Mock<IWebGameRepository> _mockGameRepository;
 
-    public GetGameRequestHandlerTests() {
+    public GetWebGameRequestHandlerTests() {
         _mockUserContextService = new Mock<IUserContextService>();
         _mockGameRepository = new Mock<IWebGameRepository>();
     }
@@ -67,7 +67,7 @@ public class GetGameRequestHandlerTests {
             CurrentState = new WebGameState(),
         };
 
-        var request = new GetGameRequest()
+        var request = new GetWebGameRequest()
         {
             GameId = gameId,
         };
@@ -77,7 +77,7 @@ public class GetGameRequestHandlerTests {
         _mockGameRepository.Setup(x => x.GetById(gameId)).ReturnsAsync(game);
 
 
-        var handler = new GetGameRequestHandler(
+        var handler = new GetWebGameRequestHandler(
             _mockGameRepository.Object,
             _mockUserContextService.Object
         );
@@ -142,7 +142,7 @@ public class GetGameRequestHandlerTests {
             CurrentState = new WebGameState(),
         };
 
-        var request = new GetGameRequest()
+        var request = new GetWebGameRequest()
         {
             GameId = gameId,
         };
@@ -152,7 +152,7 @@ public class GetGameRequestHandlerTests {
         _mockGameRepository.Setup(x => x.GetById(gameId)).ReturnsAsync(game);
 
 
-        var handler = new GetGameRequestHandler(
+        var handler = new GetWebGameRequestHandler(
             _mockGameRepository.Object,
             _mockUserContextService.Object
         );
@@ -176,7 +176,7 @@ public class GetGameRequestHandlerTests {
         var userId = Guid.NewGuid();
         var gameId = Guid.NewGuid();
 
-        var request = new GetGameRequest()
+        var request = new GetWebGameRequest()
         {
             GameId = gameId,
         };
@@ -185,7 +185,7 @@ public class GetGameRequestHandlerTests {
         _mockUserContextService.Setup(x => x.GetUserId()).Returns(userId);
 
 
-        var handler = new GetGameRequestHandler(
+        var handler = new GetWebGameRequestHandler(
             _mockGameRepository.Object,
             _mockUserContextService.Object
         );
@@ -233,7 +233,7 @@ public class GetGameRequestHandlerTests {
             CurrentState = new WebGameState(),
         };
 
-        var request = new GetGameRequest()
+        var request = new GetWebGameRequest()
         {
             GameId = gameId,
         };
@@ -243,7 +243,7 @@ public class GetGameRequestHandlerTests {
         _mockGameRepository.Setup(x => x.GetById(gameId)).ReturnsAsync(game);
 
 
-        var handler = new GetGameRequestHandler(
+        var handler = new GetWebGameRequestHandler(
             _mockGameRepository.Object,
             _mockUserContextService.Object
         );

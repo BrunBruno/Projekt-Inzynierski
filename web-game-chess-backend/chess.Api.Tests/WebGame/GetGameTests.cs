@@ -1,6 +1,6 @@
 ﻿
 using chess.Api.Tests.User;
-using chess.Application.Requests.WebGameRequests.GetGame;
+using chess.Application.Requests.WebGameRequests.GetWebGame;
 using chess.Core.Models;
 using chess.Core.Enums;
 using chess.Infrastructure.Contexts;
@@ -58,7 +58,7 @@ public class GetGameTests : IClassFixture<TestWebApplicationFactory<Program>> {
 
         response.StatusCode.Should().Be(HttpStatusCode.OK);
 
-        var result = JsonConvert.DeserializeObject<GetGameDto>(await response.Content.ReadAsStringAsync());
+        var result = JsonConvert.DeserializeObject<GetWebGameDto>(await response.Content.ReadAsStringAsync());
         result.WhitePlayer.Name.Should().Be(Constants.Username);
         result.BlackPlayer.Name.Should().Be(friendUsername);
     }

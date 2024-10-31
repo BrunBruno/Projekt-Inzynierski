@@ -10,7 +10,7 @@ using Moq;
 
 namespace chess.Core.Tests.WebGame;
 
-public class StartGamesRequestHandlerTests {
+public class StartWebGamesRequestHandlerTests {
 
     private readonly Mock<IWebGamePlayerRepository> _mockPlayerRepository;
     private readonly Mock<IWebGameRepository> _mockGameRepository;
@@ -18,7 +18,7 @@ public class StartGamesRequestHandlerTests {
     private readonly Mock<IWebGameStateRepository> _mockGameStateRepository;
     private static readonly Random random = new();
 
-    public StartGamesRequestHandlerTests() {
+    public StartWebGamesRequestHandlerTests() {
         _mockPlayerRepository = new Mock<IWebGamePlayerRepository>();
         _mockGameRepository = new Mock<IWebGameRepository>();
         _mockGameTimingRepository = new Mock<IGameTimingRepository>();

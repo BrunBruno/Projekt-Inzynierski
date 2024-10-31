@@ -11,7 +11,7 @@ import {
   GetGameDto,
   GetGameTimingDto,
   GetPlayerDto,
-  SearchGameDto,
+  SearchWebGameDto,
 } from "../../shared/utils/types/gameDtos";
 import { webGameController, getAuthorization } from "../../shared/utils/services/ApiService";
 import LoadingPage from "../../shared/components/loading-page/LoadingPage";
@@ -40,7 +40,7 @@ function WebGamePage() {
 
   // selected timing and ids in case of new game or rematch
   const [selectedTiming, setSelectedTiming] = useState<GetGameTimingDto | null>(null);
-  const [searchIds, setSearchIds] = useState<SearchGameDto | null>(null);
+  const [searchIds, setSearchIds] = useState<SearchWebGameDto | null>(null);
   // game id for rematch
   const [newGameId, setNewGameId] = useState<Guid | null>(null);
 

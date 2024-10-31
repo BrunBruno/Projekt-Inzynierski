@@ -4,7 +4,7 @@ using chess.Application.Services;
 using chess.Shared.Exceptions;
 using MediatR;
 
-namespace chess.Application.Requests.WebGameRequests.GetEndedGame;
+namespace chess.Application.Requests.WebGameRequests.GetEndedWebGame;
 
 /// <summary>
 /// Checks if game exists
@@ -12,12 +12,12 @@ namespace chess.Application.Requests.WebGameRequests.GetEndedGame;
 /// Checks if game has ended
 /// Returns winner of the game
 /// </summary>
-public class GetEndedGameRequestHandler : IRequestHandler<GetEndedGameRequest, GetEndedGameDto> {
+public class GetEndedWebGameRequestHandler : IRequestHandler<GetEndedWebGameRequest, GetEndedWebGameDto> {
 
     private readonly IWebGameRepository _gameRepository;
     private readonly IUserContextService _userContextService;
 
-    public GetEndedGameRequestHandler(
+    public GetEndedWebGameRequestHandler(
         IWebGameRepository gameRepository,
         IUserContextService userContextService
     ) { 
@@ -25,7 +25,7 @@ public class GetEndedGameRequestHandler : IRequestHandler<GetEndedGameRequest, G
         _userContextService = userContextService;
     }
 
-    public async Task<GetEndedGameDto> Handle(GetEndedGameRequest request, CancellationToken cancellationToken) {
+    public async Task<GetEndedWebGameDto> Handle(GetEndedWebGameRequest request, CancellationToken cancellationToken) {
 
         var userId = _userContextService.GetUserId();
 
@@ -38,12 +38,12 @@ public class GetEndedGameRequestHandler : IRequestHandler<GetEndedGameRequest, G
         if (game.HasEnded == false)
             throw new BadRequestException("Game has not ended yet.");
 
-        var endedGameDto = new GetEndedGameDto()
+        var returnDto = new GetEndedWebGameDto()
         {
             WinnerColor = game.WinnerColor,
             EloGain = game.EloGain,
         };
 
-        return endedGameDto;
+        return returnDto;
     }
 }

@@ -7,7 +7,7 @@ import { Guid } from "guid-typescript";
 
 /** POST models */
 
-export type SearchGameModel = TimingTypeModel & {};
+export type SearchWebGameModel = TimingTypeModel & {};
 
 export type CreatePrivateGameModel = TimingTypeModel & {
   friendshipId: Guid;

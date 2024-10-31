@@ -4,7 +4,7 @@ import GameHubService from "../../../../shared/utils/services/GameHubService";
 import { webGameController, getAuthorization } from "../../../../shared/utils/services/ApiService";
 import axios from "axios";
 import { AbortSearchModel } from "../../../../shared/utils/types/gameModels";
-import { SearchGameDto } from "../../../../shared/utils/types/gameDtos";
+import { SearchWebGameDto } from "../../../../shared/utils/types/gameDtos";
 import { usePopup } from "../../../../shared/utils/hooks/usePopUp";
 import { getErrMessage } from "../../../../shared/utils/functions/errors";
 import IconCreator from "../../../../shared/components/icon-creator/IconCreator";
@@ -14,9 +14,9 @@ const numOfPawns = 8;
 
 type WebGameSearchingProps = {
   // ids obtained from new game search
-  searchIds: SearchGameDto | null;
+  searchIds: SearchWebGameDto | null;
   // to set obtained ids
-  setSearchIds: Dispatch<SetStateAction<SearchGameDto | null>>;
+  setSearchIds: Dispatch<SetStateAction<SearchWebGameDto | null>>;
 };
 
 function WebGameSearching({ searchIds, setSearchIds }: WebGameSearchingProps) {

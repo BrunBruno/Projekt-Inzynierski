@@ -29,4 +29,8 @@
     <ProjectReference Include="..\chess.Application\chess.Application.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="EngineGame\" />
+  </ItemGroup>
+
 </Project>

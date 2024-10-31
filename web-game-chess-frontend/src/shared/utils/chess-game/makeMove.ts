@@ -254,12 +254,11 @@ export const makeEngineGameMove = async (
     // blackLongRookMoved: blackLongRookMoved,
   };
 
+  console.log(model);
+
   const response = await axios.post<MakeMovesDto>(engineController.makeEngineGameMove(), model, getAuthorization());
 
-  for (let res in response.data.outputs) {
-    console.log(res);
-    console.log("\n");
-  }
+  console.log(response.data.outputs);
 };
 
 // update string position after move was dane

@@ -9,6 +9,7 @@ export enum GameSearchInterface {
   vsPlayer,
   vsComputer,
   vsFriend,
+  friends,
   searching,
   activeGames,
   userGames,

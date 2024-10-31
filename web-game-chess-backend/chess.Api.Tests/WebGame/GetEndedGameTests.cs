@@ -1,6 +1,6 @@
 ﻿
 using chess.Api.Tests.User;
-using chess.Application.Requests.WebGameRequests.GetEndedGame;
+using chess.Application.Requests.WebGameRequests.GetEndedWebGame;
 using chess.Core.Models;
 using chess.Core.Enums;
 using chess.Infrastructure.Contexts;
@@ -60,7 +60,7 @@ public class GetEndedGameTests : IClassFixture<TestWebApplicationFactory<Program
 
         response.StatusCode.Should().Be(HttpStatusCode.OK);
 
-        var result = JsonConvert.DeserializeObject<GetEndedGameDto>(await response.Content.ReadAsStringAsync());
+        var result = JsonConvert.DeserializeObject<GetEndedWebGameDto>(await response.Content.ReadAsStringAsync());
         result.WinnerColor.Should().Be(PieceColor.Black);
     }
 

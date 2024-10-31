@@ -5,7 +5,6 @@
   @include wh100();
 
   position: relative;
-  padding: 8rem 16rem;
 
   &__grid {
     $tag_size: 3.2rem;
@@ -26,6 +25,7 @@
     }
 
     &__header {
+      position: relative;
       height: 4rem;
       padding-left: 16rem;
       text-align: center;
@@ -34,6 +34,24 @@
         font-size: 3rem;
         font-weight: bold;
         color: $mc3;
+      }
+
+      h2.section-header {
+        @include flex($gap: 2rem);
+
+        position: absolute;
+        bottom: calc(100% + 4rem);
+        left: 50%;
+        transform: translateX(-50%);
+
+        span {
+          font-size: 4rem;
+          color: $mc0;
+        }
+
+        svg.time-selection-icon {
+          height: 4rem;
+        }
       }
     }
 

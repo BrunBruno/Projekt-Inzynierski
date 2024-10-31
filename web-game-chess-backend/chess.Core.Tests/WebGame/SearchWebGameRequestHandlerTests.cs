@@ -12,14 +12,14 @@ using chess.Application.Repositories;
 
 namespace chess.Core.Tests.WebGame;
 
-public class SearchGameRequestHandlerTests {
+public class SearchWebGameRequestHandlerTests {
 
     private readonly Mock<IUserContextService> _mockUserContextService;
     private readonly Mock<IUserRepository> _mockUserRepository;
     private readonly Mock<IWebGamePlayerRepository> _mockPlayerRepository;
     private readonly Mock<IGameTimingRepository> _mockGameTimingRepository;
 
-    public SearchGameRequestHandlerTests() {
+    public SearchWebGameRequestHandlerTests() {
         _mockUserContextService = new Mock<IUserContextService>();
         _mockUserRepository = new Mock<IUserRepository>();
         _mockPlayerRepository = new Mock<IWebGamePlayerRepository>();

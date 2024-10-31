@@ -9,7 +9,7 @@ import { getErrMessage } from "../../../../../shared/utils/functions/errors";
 import { usePopup } from "../../../../../shared/utils/hooks/usePopUp";
 import { useNavigate } from "react-router-dom";
 import { ChangeEvent, Dispatch, ForwardedRef, forwardRef, SetStateAction, useImperativeHandle } from "react";
-import { InviteBySelectionRef } from "../VsFriendSearchData";
+import { InviteBySelectionRef } from "../FriendSelectionData";
 import { delayAction } from "../../../../../shared/utils/functions/events";
 import { getEnumValueByKey } from "../../../../../shared/utils/functions/enums";
 import { TimingType } from "../../../../../shared/utils/objects/entitiesEnums";
@@ -84,7 +84,10 @@ const InviteBySelection = forwardRef<InviteBySelectionRef, InviteBySelectionProp
 
     return (
       <div className={classes.invite}>
-        <p className={classes.text}>Search among friends:</p>
+        <p className={classes.text}>
+          <span>Search among friends:</span>
+        </p>
+
         <div className={classes["input-holder"]}>
           <input
             className={classes["input-search"]}

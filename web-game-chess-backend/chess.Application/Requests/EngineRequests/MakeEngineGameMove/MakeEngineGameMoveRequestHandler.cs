@@ -36,11 +36,7 @@ public class MakeEngineGameMoveRequestHandler : IRequestHandler<MakeEngineGameMo
         game.Round = (game.Turn / 2) + 1;
         game.Turn += 1;
 
-
-        //await _engineGameRepository.Update(game);
-
-
-        var move = new EngineGameMove()
+        var playerMove = new EngineGameMove()
         {
             Id = Guid.NewGuid(),
             DoneMove = request.Move,
@@ -52,20 +48,68 @@ public class MakeEngineGameMoveRequestHandler : IRequestHandler<MakeEngineGameMo
         };
 
 
-        //await _engineGameMoveRepository.Create(move);
+       await _engineGameMoveRepository.Create(playerMove);
+
+
+        var activeColor = (game.Turn % 2 == 0) ? "w" : "b";
+        var castlingAvailability = "KQkq";               
+        var enPassant = "-";                            
+        var halfmoveClock = "0";                        
+        var fullmoveNumber = ((game.Turn / 2) + 1).ToString();
+
+        var fullFen = $"{game.Position} {activeColor} {castlingAvailability} {enPassant} {halfmoveClock} {fullmoveNumber}";
 
         var outputs = new List<string>();
 
-        _engineService.SendCommand("uci");
-        outputs.Add(_engineService.ReadOutput());
-
-        _engineService.SendCommand("position startpos moves e2e4");
+        _engineService.SendCommand($"position fen {fullFen}");
         _engineService.SendCommand("go depth 1");
-        outputs.Add(_engineService.ReadOutput());
+
+        var bestMoveOutput = _engineService.ReadOutput();
+
+        var bestMoveLine = bestMoveOutput.FirstOrDefault(line => line.StartsWith("bestmove"))
+            ?? throw new InvalidOperationException("No valid move from Stockfish.");
+
+
+        var bestMove = bestMoveLine.Split(' ')[1];
+        Console.WriteLine(bestMoveLine);
+
+        _engineService.SendCommand($"position fen {fullFen} moves {bestMove}");
+        _engineService.SendCommand("d"); 
+
+        var newPositionOutput = _engineService.ReadOutput();
+        var newPositionLine = newPositionOutput.FirstOrDefault(line => line.Contains("Fen:"));
+        var newFenPosition = newPositionLine?.Split("Fen:")[1].Trim() 
+            ?? throw new InvalidOperationException("Failed to retrieve new position.");
+
+        var newPosition = newFenPosition.Split(' ')[0];
+
+     
+
+        game.Position = newPosition;
+        game.Round = (game.Turn / 2) + 1;
+        game.Turn += 1;
+
+        var engineMove = new EngineGameMove()
+        {
+            Id = Guid.NewGuid(),
+            DoneMove = bestMove,
+            Position = game.Position,
+            OldCoordinates = "",
+            NewCoordinates = "",
+            Turn = game.Turn,
+            GameId = game.Id,
+        };
+
+
+       await _engineGameMoveRepository.Create(engineMove);
 
 
 
         _engineService.Close();
+
+
+        await _engineGameRepository.Update(game);
+
 
         var returnDto = new MakeEngineGameMoveDto() { 
             NewPosition = game.Position,

@@ -4,11 +4,11 @@ import {
   GetEndedGameDto,
   GetGameDto,
   GetPlayerDto,
-  SearchGameDto,
+  SearchWebGameDto,
 } from "../../../shared/utils/types/gameDtos";
 import classes from "./WebGameContent.module.scss";
 import { GameEndReason, PieceColor } from "../../../shared/utils/objects/entitiesEnums";
-import { EndGameModel, SearchGameModel } from "../../../shared/utils/types/gameModels";
+import { EndGameModel, SearchWebGameModel } from "../../../shared/utils/types/gameModels";
 import GameHubService from "../../../shared/utils/services/GameHubService";
 import { Guid } from "guid-typescript";
 import { GameActionInterface } from "../../../shared/utils/objects/interfacesEnums";
@@ -41,13 +41,13 @@ type WebGameContentProps = {
   // winner color if game is finished
   winner: EndGameDto | GetEndedGameDto | null;
   // obtained ids for rematch game
-  searchIds: SearchGameDto | null;
+  searchIds: SearchWebGameDto | null;
   //rematch game id
   newGameId: Guid | null;
   // setter of obtained ids
-  setSearchIds: Dispatch<SetStateAction<SearchGameDto | null>>;
+  setSearchIds: Dispatch<SetStateAction<SearchWebGameDto | null>>;
   // timing of current game
-  selectedTiming: SearchGameModel | null;
+  selectedTiming: SearchWebGameModel | null;
   // to display confirm window
   showConfirm: GameActionInterface | null;
   // to hide confirm window

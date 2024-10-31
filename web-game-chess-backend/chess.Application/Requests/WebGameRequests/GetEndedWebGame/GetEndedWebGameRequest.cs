@@ -1,12 +1,12 @@
 ﻿
 using MediatR;
 
-namespace chess.Application.Requests.WebGameRequests.GetEndedGame;
+namespace chess.Application.Requests.WebGameRequests.GetEndedWebGame;
 
 /// <summary>
 /// Request for getting winner of just ended game
 /// </summary>
-public class GetEndedGameRequest : IRequest<GetEndedGameDto> {
+public class GetEndedWebGameRequest : IRequest<GetEndedWebGameDto> {
 
     /// <summary>
     /// Ended game id

@@ -9,7 +9,7 @@ import {
   MouseEvent,
 } from "react";
 import classes from "./InviteBy.module.scss";
-import { InviteByUrlRef } from "../VsFriendSearchData";
+import { InviteByUrlRef } from "../FriendSelectionData";
 import { usePopup } from "../../../../../shared/utils/hooks/usePopUp";
 import { getErrMessage } from "../../../../../shared/utils/functions/errors";
 import axios from "axios";

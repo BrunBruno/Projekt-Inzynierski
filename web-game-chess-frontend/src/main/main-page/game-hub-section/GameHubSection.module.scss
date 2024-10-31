@@ -138,6 +138,69 @@
           &:focus {
             box-shadow: none;
           }
+
+          &.active-button {
+            span {
+              filter: drop-shadow($mc0 0 0 0.5rem);
+            }
+
+            .home-icon {
+              filter: drop-shadow($mc0 0 0 0.5rem);
+
+              path {
+                stroke: $mc0;
+              }
+            }
+
+            .vs-player-icon {
+              filter: drop-shadow($mc0 0 0 0.5rem);
+
+              fill: $mc0;
+            }
+
+            .vs-computer-icon {
+              filter: drop-shadow($mc0 0 0 0.5rem);
+
+              fill: $mc0;
+            }
+
+            .vs-friend-icon {
+              filter: drop-shadow($mc0 0 0 0.5rem);
+
+              path {
+                fill: $mc0;
+              }
+            }
+
+            .active-games-icon {
+              filter: drop-shadow($mc0 0 0 0.5rem);
+
+              path {
+                fill: $mc0;
+              }
+            }
+
+            .user-games-icon {
+              filter: drop-shadow($mc0 0 0 0.5rem);
+
+              path {
+                &:nth-child(1),
+                &:nth-child(2) {
+                  stroke: $mc0;
+                }
+
+                &:not(:nth-child(1)):not(:nth-child(2)) {
+                  fill: $mc0;
+                }
+              }
+            }
+
+            .invitations-icon {
+              filter: drop-shadow($mc0 0 0 0.5rem);
+
+              fill: $mc0;
+            }
+          }
         }
       }
     }

@@ -2,12 +2,12 @@
 using chess.Core.Enums;
 using MediatR;
 
-namespace chess.Application.Requests.WebGameRequests.EndGame;
+namespace chess.Application.Requests.WebGameRequests.EndWebGame;
 
 /// <summary>
 /// Request for finishing the game, return winner color
 /// </summary>
-public class EndGameRequest : IRequest<EndGameDto> {
+public class EndWebGameRequest : IRequest<EndWebGameDto> {
 
     /// <summary>
     /// Game id to end

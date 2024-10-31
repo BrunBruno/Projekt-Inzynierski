@@ -5,7 +5,7 @@ using chess.Core.Dtos;
 using chess.Shared.Exceptions;
 using MediatR;
 
-namespace chess.Application.Requests.WebGameRequests.GetGame;
+namespace chess.Application.Requests.WebGameRequests.GetWebGame;
 
 /// <summary>
 /// Checks if game exists
@@ -13,12 +13,12 @@ namespace chess.Application.Requests.WebGameRequests.GetGame;
 /// Update start time if first get
 /// Creates and returns game dto
 /// </summary>
-public class GetGameRequestHandler : IRequestHandler<GetGameRequest, GetGameDto> {
+public class GetWebGameRequestHandler : IRequestHandler<GetWebGameRequest, GetWebGameDto> {
 
     private readonly IWebGameRepository _gameRepository;
     private readonly IUserContextService _userContextService;
 
-    public GetGameRequestHandler(
+    public GetWebGameRequestHandler(
         IWebGameRepository gameRepository,
         IUserContextService userContextService
     ) {
@@ -26,7 +26,7 @@ public class GetGameRequestHandler : IRequestHandler<GetGameRequest, GetGameDto>
         _userContextService = userContextService;
     }
 
-    public async Task<GetGameDto> Handle(GetGameRequest request, CancellationToken cancellationToken) {
+    public async Task<GetWebGameDto> Handle(GetWebGameRequest request, CancellationToken cancellationToken) {
 
         var userId = _userContextService.GetUserId();
 
@@ -42,7 +42,7 @@ public class GetGameRequestHandler : IRequestHandler<GetGameRequest, GetGameDto>
             await _gameRepository.Update(game);
         }
 
-        var gameDto = new GetGameDto()
+        var gameDto = new GetWebGameDto()
         {
             HasEnded = game.HasEnded,
             Position = game.Position,

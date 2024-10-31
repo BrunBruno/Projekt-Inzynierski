@@ -10,13 +10,13 @@ using Moq;
 
 namespace chess.Core.Tests.WebGame;
 
-public class MakeMoveRequestHandlerTests {
+public class MakeWebGameMoveRequestHandlerTests {
 
     private readonly Mock<IUserContextService> _mockUserContextService;
     private readonly Mock<IWebGameRepository> _mockGameRepository;
     private readonly Mock<IWebGameMoveRepository> _mockMoveRepository;
 
-    public MakeMoveRequestHandlerTests() {
+    public MakeWebGameMoveRequestHandlerTests() {
         _mockUserContextService = new Mock<IUserContextService>();
         _mockGameRepository = new Mock<IWebGameRepository>();
         _mockMoveRepository = new Mock<IWebGameMoveRepository>();

@@ -1,14 +1,13 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import classes from "./GameHubSection.module.scss";
-import VsPlayerSearch from "./vs-player-search/VsPlayerSearch";
 import axios from "axios";
 import { webGameController, getAuthorization } from "../../../shared/utils/services/ApiService";
-import { CheckIfInGameDto, SearchGameDto } from "../../../shared/utils/types/gameDtos";
+import { CheckIfInGameDto, SearchWebGameDto } from "../../../shared/utils/types/gameDtos";
 import { useNavigate } from "react-router-dom";
 import GameHubService from "../../../shared/utils/services/GameHubService";
 import { GameSearchInterface, StateOptions } from "../../../shared/utils/objects/interfacesEnums";
 import UserGames from "./user-games/UserGames";
-import VsFriendSearch from "./vs-friend-search/VsFriendSearch";
+import VsFriendSearch from "./friend-selection/FriendSelection";
 import { AbortSearchModel, CheckIfInGameModel } from "../../../shared/utils/types/gameModels";
 import NotificationPopUp from "./notification-popup/NotificationPopUp";
 import { HubConnectionState } from "@microsoft/signalr";
@@ -21,8 +20,10 @@ import { gameHubSectionIcons } from "./GameHubSectionIcons";
 import SearchingPage from "../../../shared/components/searching-page/SearchingPage";
 import { Guid } from "guid-typescript";
 import ActiveGames from "./active-games/ActiveGames";
-import VsComputerSearch from "./vs-computer-search/VsComputerSearch";
 import { StartEngineGameDto } from "../../../shared/utils/types/engineDtos";
+import TimeSelection from "./time-selection/TimeSelection";
+import { InviteToPrivateGameRef } from "./GameHubSectionData";
+import { TimingTypeName } from "../../../shared/utils/objects/constantLists";
 
 type GameHubSectionProps = {
   // in case of entering page with already chosen interface by user
@@ -35,12 +36,17 @@ function GameHubSection({ providedInterface }: GameHubSectionProps) {
   const navigate = useNavigate();
   const { showPopup } = usePopup();
 
+  // forward ref for private game invitations
+  const inviteToPrivateGameRef = useRef<InviteToPrivateGameRef>(null);
+
+  // ids for online games
+  const [onlineGameIds, setOnlineGameIds] = useState<SearchWebGameDto | null>(null);
+  // ids for offline games
+  const [offlineGameIds, setOfflineGameIds] = useState<StartEngineGameDto | null>(null);
+
   // current viewed interface
   const [interfaceContent, setInterfaceContent] = useState<JSX.Element>(<></>);
-  // ids for online games
-  const [searchIds, setSearchIds] = useState<SearchGameDto | null>(null);
-  //
-  const [vsComputerGameIds, setVsComputerGameIds] = useState<StartEngineGameDto | null>(null);
+  const [interfaceId, setInterfaceId] = useState<GameSearchInterface>(GameSearchInterface.default);
   // to show new game invitation notification
   const [allowNotification, setAllowNotification] = useState<boolean>(false);
 
@@ -54,10 +60,10 @@ function GameHubSection({ providedInterface }: GameHubSectionProps) {
 
   // to handle when joining queue has changed
   const handleGamesChanged = async (): Promise<void> => {
-    if (!searchIds) return;
+    if (!onlineGameIds) return;
     try {
       const isInGameModel: CheckIfInGameModel = {
-        playerId: searchIds.playerId,
+        playerId: onlineGameIds.playerId,
       };
 
       const isInGameResponse = await axios.get<CheckIfInGameDto>(
@@ -95,7 +101,7 @@ function GameHubSection({ providedInterface }: GameHubSectionProps) {
 
   // connect game hub handlers
   useEffect(() => {
-    if (searchIds) {
+    if (onlineGameIds) {
       setInterfaceById(GameSearchInterface.searching);
     }
 
@@ -117,24 +123,24 @@ function GameHubSection({ providedInterface }: GameHubSectionProps) {
         GameHubService.connection.off("InvitationDeclined", handleGameDeclined);
       }
     };
-  }, [searchIds]);
+  }, [onlineGameIds]);
   //*/
 
   // public game search abort
   // remove player, clear ids and go back to vs-player search
   const onCancelSearch = async (): Promise<void> => {
-    if (!searchIds) return;
+    if (!onlineGameIds) return;
 
     try {
       const abortSearchModel: AbortSearchModel = {
-        playerId: searchIds.playerId,
+        playerId: onlineGameIds.playerId,
       };
 
       await axios.delete(webGameController.abortSearch(abortSearchModel), getAuthorization());
 
-      await GameHubService.PlayerLeaved(searchIds.timingId);
+      await GameHubService.PlayerLeaved(onlineGameIds.timingId);
 
-      setSearchIds(null);
+      setOnlineGameIds(null);
 
       setInterfaceById(GameSearchInterface.vsPlayer);
     } catch (err) {
@@ -143,33 +149,47 @@ function GameHubSection({ providedInterface }: GameHubSectionProps) {
   };
   //*/
 
+  // start offline game
   useEffect(() => {
-    if (!vsComputerGameIds) return;
+    if (!offlineGameIds) return;
 
     const state: StateOptions = {
       popup: { text: "GAME STARTED", type: "info" },
     };
 
-    navigate(`/main/engine-game/${vsComputerGameIds.gameId}`, { state: state });
-  }, [vsComputerGameIds]);
+    navigate(`/main/engine-game/${offlineGameIds.gameId}`, { state: state });
+  }, [offlineGameIds]);
+  //*/
+
+  const onInviteToPrivateGame = (header: TimingTypeName, values: [number, number]): void => {
+    if (inviteToPrivateGameRef.current) {
+      inviteToPrivateGameRef.current.onInviteToPrivateGame(header, values);
+    }
+  };
 
   // set game section content
   const setInterfaceById = (interfaceId: GameSearchInterface): void => {
+    setInterfaceId(interfaceId);
+
     switch (interfaceId) {
       case GameSearchInterface.default:
         setInterfaceContent(<DefaultView setInterfaceById={setInterfaceById} />);
         break;
 
       case GameSearchInterface.vsPlayer:
-        setInterfaceContent(<VsPlayerSearch setSearchIds={setSearchIds} />);
+        setInterfaceContent(<TimeSelection setOnlineGameIds={setOnlineGameIds} />);
         break;
 
       case GameSearchInterface.vsComputer:
-        setInterfaceContent(<VsComputerSearch setVsComputerGameIds={setVsComputerGameIds} />);
+        setInterfaceContent(<TimeSelection setOfflineGameIds={setOfflineGameIds} />);
         break;
 
       case GameSearchInterface.vsFriend:
-        setInterfaceContent(<VsFriendSearch />);
+        setInterfaceContent(<TimeSelection onInviteToPrivateGame={onInviteToPrivateGame} />);
+        break;
+
+      case GameSearchInterface.friends:
+        setInterfaceContent(<VsFriendSearch setInterfaceById={setInterfaceById} />);
         break;
 
       case GameSearchInterface.searching:
@@ -194,6 +214,10 @@ function GameHubSection({ providedInterface }: GameHubSectionProps) {
       case GameSearchInterface.invitations:
         setInterfaceContent(<Invitations />);
         break;
+
+      default:
+        setInterfaceContent(<DefaultView setInterfaceById={setInterfaceById} />);
+        break;
     }
   };
   //*/
@@ -214,7 +238,10 @@ function GameHubSection({ providedInterface }: GameHubSectionProps) {
           <div className={classes["game-buttons"]}>
             <button
               data-testid="main-page-game-hub-default-button"
-              className={classes["interface-button"]}
+              className={`
+                ${classes["interface-button"]}
+                ${interfaceId === GameSearchInterface.default ? classes["active-button"] : ""}
+              `}
               onClick={() => {
                 setInterfaceById(GameSearchInterface.default);
               }}
@@ -225,7 +252,10 @@ function GameHubSection({ providedInterface }: GameHubSectionProps) {
 
             <button
               data-testid="main-page-game-hub-vs-player-button"
-              className={classes["interface-button"]}
+              className={`
+                ${classes["interface-button"]}
+                ${interfaceId === GameSearchInterface.vsPlayer ? classes["active-button"] : ""}
+              `}
               onClick={() => {
                 setInterfaceById(GameSearchInterface.vsPlayer);
               }}
@@ -236,7 +266,10 @@ function GameHubSection({ providedInterface }: GameHubSectionProps) {
 
             <button
               data-testid="main-page-game-hub-vs-computer-button"
-              className={classes["interface-button"]}
+              className={`
+                ${classes["interface-button"]}
+                ${interfaceId === GameSearchInterface.vsComputer ? classes["active-button"] : ""}
+              `}
               onClick={() => {
                 setInterfaceById(GameSearchInterface.vsComputer);
               }}
@@ -247,9 +280,12 @@ function GameHubSection({ providedInterface }: GameHubSectionProps) {
 
             <button
               data-testid="main-page-game-hub-vs-friend-button"
-              className={classes["interface-button"]}
+              className={`
+                ${classes["interface-button"]}
+                ${interfaceId === GameSearchInterface.friends ? classes["active-button"] : ""}
+              `}
               onClick={() => {
-                setInterfaceById(GameSearchInterface.vsFriend);
+                setInterfaceById(GameSearchInterface.friends);
               }}
             >
               <IconCreator icons={gameHubSectionIcons} iconName={"vsFriend"} />
@@ -258,7 +294,10 @@ function GameHubSection({ providedInterface }: GameHubSectionProps) {
 
             <button
               data-testid="main-page-game-hub-active-games-button"
-              className={classes["interface-button"]}
+              className={`
+                ${classes["interface-button"]}
+                ${interfaceId === GameSearchInterface.activeGames ? classes["active-button"] : ""}
+              `}
               onClick={() => {
                 setInterfaceById(GameSearchInterface.activeGames);
               }}
@@ -269,7 +308,10 @@ function GameHubSection({ providedInterface }: GameHubSectionProps) {
 
             <button
               data-testid="main-page-game-hub-user-games-button"
-              className={classes["interface-button"]}
+              className={`
+                ${classes["interface-button"]}
+                ${interfaceId === GameSearchInterface.userGames ? classes["active-button"] : ""}
+              `}
               onClick={() => {
                 setInterfaceById(GameSearchInterface.userGames);
               }}
@@ -280,7 +322,10 @@ function GameHubSection({ providedInterface }: GameHubSectionProps) {
 
             <button
               data-testid="main-page-game-hub-invitations-button"
-              className={classes["interface-button"]}
+              className={`
+                ${classes["interface-button"]}
+                ${interfaceId === GameSearchInterface.invitations ? classes["active-button"] : ""}
+              `}
               onClick={() => {
                 setInterfaceById(GameSearchInterface.invitations);
               }}

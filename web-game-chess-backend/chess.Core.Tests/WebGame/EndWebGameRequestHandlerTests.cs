@@ -2,7 +2,7 @@
 using chess.Application.Repositories.FriendshipRepositories;
 using chess.Application.Repositories.WebGameRepositories;
 using chess.Application.Repositories.UserRepositories;
-using chess.Application.Requests.WebGameRequests.EndGame;
+using chess.Application.Requests.WebGameRequests.EndWebGame;
 using chess.Application.Services;
 using chess.Core.Entities;
 using chess.Core.Enums;
@@ -12,14 +12,14 @@ using Moq;
 
 namespace chess.Core.Tests.WebGame;
 
-public class EndGameRequestHandlerTests {
+public class EndWebGameRequestHandlerTests {
 
     private readonly Mock<IUserContextService> _mockUserContextService;
     private readonly Mock<IUserRepository> _mockUserRepository;
     private readonly Mock<IWebGameRepository> _mockGameRepository;
     private readonly Mock<IFriendshipRepository> _mockFriendshipRepository;
 
-    public EndGameRequestHandlerTests() {
+    public EndWebGameRequestHandlerTests() {
         _mockUserContextService = new Mock<IUserContextService>();
         _mockUserRepository = new Mock<IUserRepository>();
         _mockGameRepository = new Mock<IWebGameRepository>();
@@ -74,7 +74,7 @@ public class EndGameRequestHandlerTests {
             }
         };
 
-        var request = new EndGameRequest()
+        var request = new EndWebGameRequest()
         {
             GameId = gameId,
             LoserColor = PieceColor.Black,
@@ -88,7 +88,7 @@ public class EndGameRequestHandlerTests {
         _mockUserRepository.Setup(x => x.GetById(game.BlackPlayer.UserId)).ReturnsAsync(opponent);
 
 
-        var handler = new EndGameRequestHandler(
+        var handler = new EndWebGameRequestHandler(
             _mockGameRepository.Object,
             _mockUserContextService.Object,
             _mockUserRepository.Object,
@@ -167,7 +167,7 @@ public class EndGameRequestHandlerTests {
             ReceiverId = opponentId,
         };
 
-        var request = new EndGameRequest()
+        var request = new EndWebGameRequest()
         {
             GameId = gameId,
             LoserColor = PieceColor.Black,
@@ -182,7 +182,7 @@ public class EndGameRequestHandlerTests {
         _mockFriendshipRepository.Setup(x => x.GetByUsersIds(userId, opponentId)).ReturnsAsync(freindship);
 
 
-        var handler = new EndGameRequestHandler(
+        var handler = new EndWebGameRequestHandler(
             _mockGameRepository.Object,
             _mockUserContextService.Object,
             _mockUserRepository.Object,
@@ -256,7 +256,7 @@ public class EndGameRequestHandlerTests {
             }
         };
 
-        var request = new EndGameRequest()
+        var request = new EndWebGameRequest()
         {
             GameId = gameId,
             LoserColor = PieceColor.Black,
@@ -268,7 +268,7 @@ public class EndGameRequestHandlerTests {
         _mockGameRepository.Setup(x => x.GetById(gameId)).ReturnsAsync(game);
 
 
-        var handler = new EndGameRequestHandler(
+        var handler = new EndWebGameRequestHandler(
             _mockGameRepository.Object,
             _mockUserContextService.Object,
             _mockUserRepository.Object,
@@ -296,7 +296,7 @@ public class EndGameRequestHandlerTests {
         var userId = Guid.NewGuid();
         var gameId = Guid.NewGuid();
 
-        var request = new EndGameRequest()
+        var request = new EndWebGameRequest()
         {
             GameId = gameId,
             LoserColor = PieceColor.Black,
@@ -308,7 +308,7 @@ public class EndGameRequestHandlerTests {
         _mockUserContextService.Setup(x => x.GetUserId()).Returns(userId);
 
 
-        var handler = new EndGameRequestHandler(
+        var handler = new EndWebGameRequestHandler(
             _mockGameRepository.Object,
             _mockUserContextService.Object,
             _mockUserRepository.Object,
@@ -333,7 +333,7 @@ public class EndGameRequestHandlerTests {
         var userId = Guid.NewGuid();
         var gameId = Guid.NewGuid();
 
-        var request = new EndGameRequest()
+        var request = new EndWebGameRequest()
         {
             GameId = gameId,
             LoserColor = PieceColor.Black,
@@ -345,7 +345,7 @@ public class EndGameRequestHandlerTests {
         // game not returned
 
 
-        var handler = new EndGameRequestHandler(
+        var handler = new EndWebGameRequestHandler(
             _mockGameRepository.Object,
             _mockUserContextService.Object,
             _mockUserRepository.Object,
@@ -394,7 +394,7 @@ public class EndGameRequestHandlerTests {
             }
         };
 
-        var request = new EndGameRequest()
+        var request = new EndWebGameRequest()
         {
             GameId = gameId,
             LoserColor = PieceColor.Black,
@@ -406,7 +406,7 @@ public class EndGameRequestHandlerTests {
         _mockGameRepository.Setup(x => x.GetById(gameId)).ReturnsAsync(game);
 
 
-        var handler = new EndGameRequestHandler(
+        var handler = new EndWebGameRequestHandler(
             _mockGameRepository.Object,
             _mockUserContextService.Object,
             _mockUserRepository.Object,
@@ -454,7 +454,7 @@ public class EndGameRequestHandlerTests {
             }
         };
 
-        var request = new EndGameRequest()
+        var request = new EndWebGameRequest()
         {
             GameId = gameId,
             LoserColor = PieceColor.Black,
@@ -467,7 +467,7 @@ public class EndGameRequestHandlerTests {
         // user not returned
 
 
-        var handler = new EndGameRequestHandler(
+        var handler = new EndWebGameRequestHandler(
             _mockGameRepository.Object,
             _mockUserContextService.Object,
             _mockUserRepository.Object,
@@ -525,7 +525,7 @@ public class EndGameRequestHandlerTests {
             }
         };
 
-        var request = new EndGameRequest()
+        var request = new EndWebGameRequest()
         {
             GameId = gameId,
             LoserColor = PieceColor.Black,
@@ -538,7 +538,7 @@ public class EndGameRequestHandlerTests {
         _mockUserRepository.Setup(x => x.GetById(game.WhitePlayer.UserId)).ReturnsAsync(user);
 
 
-        var handler = new EndGameRequestHandler(
+        var handler = new EndWebGameRequestHandler(
             _mockGameRepository.Object,
             _mockUserContextService.Object,
             _mockUserRepository.Object,

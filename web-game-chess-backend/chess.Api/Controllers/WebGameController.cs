@@ -6,9 +6,9 @@ using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using chess.Application.Requests.WebGameRequests.CheckIfInGame;
-using chess.Application.Requests.WebGameRequests.GetGame;
+using chess.Application.Requests.WebGameRequests.GetWebGame;
 using chess.Application.Requests.WebGameRequests.GetPlayer;
-using chess.Application.Requests.WebGameRequests.GetEndedGame;
+using chess.Application.Requests.WebGameRequests.GetEndedWebGame;
 using chess.Application.Requests.WebGameRequests.CreatePrivateGame;
 using chess.Application.Requests.WebGameRequests.FetchTime;
 using chess.Application.Requests.WebGameRequests.GetOpponent;
@@ -156,7 +156,7 @@ public class WebGameController : ControllerBase {
     [Authorize(Policy = "IsVerified")]
     public async Task<IActionResult> GetGame([FromRoute] Guid gameId) {
 
-        var request = new GetGameRequest()
+        var request = new GetWebGameRequest()
         {
             GameId = gameId,
         };
@@ -236,7 +236,7 @@ public class WebGameController : ControllerBase {
     [Authorize(Policy = "IsVerified")]
     public async Task<IActionResult> GetEndedGame([FromRoute] Guid gameId) {
 
-        var request = new GetEndedGameRequest()
+        var request = new GetEndedWebGameRequest()
         {
             GameId = gameId,
         };

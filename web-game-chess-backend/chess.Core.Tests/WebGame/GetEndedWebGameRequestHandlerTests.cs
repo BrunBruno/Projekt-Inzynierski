@@ -1,5 +1,6 @@
-﻿using chess.Application.Repositories.WebGameRepositories;
-using chess.Application.Requests.WebGameRequests.GetEndedGame;
+﻿
+using chess.Application.Repositories.WebGameRepositories;
+using chess.Application.Requests.WebGameRequests.GetEndedWebGame;
 using chess.Application.Services;
 using chess.Core.Entities;
 using chess.Core.Enums;
@@ -9,12 +10,12 @@ using Moq;
 
 namespace chess.Core.Tests.WebGame;
 
-public class GetEndedGameRequestHandlerTests {
+public class GetEndedWebGameRequestHandlerTests {
 
     private readonly Mock<IUserContextService> _mockUserContextService;
     private readonly Mock<IWebGameRepository> _mockGameRepository;
 
-    public GetEndedGameRequestHandlerTests() {
+    public GetEndedWebGameRequestHandlerTests() {
         _mockUserContextService = new Mock<IUserContextService>();
         _mockGameRepository = new Mock<IWebGameRepository>();
     }
@@ -45,7 +46,7 @@ public class GetEndedGameRequestHandlerTests {
             
         };
 
-        var request = new GetEndedGameRequest()
+        var request = new GetEndedWebGameRequest()
         {
             GameId = gameId,
         };
@@ -55,7 +56,7 @@ public class GetEndedGameRequestHandlerTests {
         _mockGameRepository.Setup(x => x.GetById(gameId)).ReturnsAsync(game);
 
 
-        var handler = new GetEndedGameRequestHandler(
+        var handler = new GetEndedWebGameRequestHandler(
             _mockGameRepository.Object,
             _mockUserContextService.Object
         );
@@ -75,7 +76,7 @@ public class GetEndedGameRequestHandlerTests {
         var userId = Guid.NewGuid();
         var gameId = Guid.NewGuid();
 
-        var request = new GetEndedGameRequest()
+        var request = new GetEndedWebGameRequest()
         {
             GameId = gameId,
         };
@@ -85,7 +86,7 @@ public class GetEndedGameRequestHandlerTests {
         // game not returned
 
 
-        var handler = new GetEndedGameRequestHandler(
+        var handler = new GetEndedWebGameRequestHandler(
             _mockGameRepository.Object,
             _mockUserContextService.Object
         );
@@ -125,7 +126,7 @@ public class GetEndedGameRequestHandlerTests {
 
         };
 
-        var request = new GetEndedGameRequest()
+        var request = new GetEndedWebGameRequest()
         {
             GameId = gameId,
         };
@@ -135,7 +136,7 @@ public class GetEndedGameRequestHandlerTests {
         _mockGameRepository.Setup(x => x.GetById(gameId)).ReturnsAsync(game);
 
 
-        var handler = new GetEndedGameRequestHandler(
+        var handler = new GetEndedWebGameRequestHandler(
             _mockGameRepository.Object,
             _mockUserContextService.Object
         );
@@ -175,7 +176,7 @@ public class GetEndedGameRequestHandlerTests {
 
         };
 
-        var request = new GetEndedGameRequest()
+        var request = new GetEndedWebGameRequest()
         {
             GameId = gameId,
         };
@@ -185,7 +186,7 @@ public class GetEndedGameRequestHandlerTests {
         _mockGameRepository.Setup(x => x.GetById(gameId)).ReturnsAsync(game);
 
 
-        var handler = new GetEndedGameRequestHandler(
+        var handler = new GetEndedWebGameRequestHandler(
             _mockGameRepository.Object,
             _mockUserContextService.Object
         );

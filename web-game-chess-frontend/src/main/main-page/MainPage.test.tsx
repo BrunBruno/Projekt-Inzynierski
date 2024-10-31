@@ -11,7 +11,7 @@ import {
   CheckIfUpdateRequiredDto,
   CreatePrivateGameDto,
   GetGameTimingDto,
-  SearchGameDto,
+  SearchWebGameDto,
 } from "../../shared/utils/types/gameDtos";
 import { GetAllFriendsByStatusDto } from "../../shared/utils/types/friendshipDtos";
 import { TimingType } from "../../shared/utils/objects/entitiesEnums";
@@ -30,7 +30,7 @@ const mockUser: GetUserDto = {
   email: "user@test.com",
 };
 
-const mockSearchGame: SearchGameDto = {
+const mockSearchGame: SearchWebGameDto = {
   playerId: Guid.create(),
   timingId: Guid.create(),
 };
@@ -84,7 +84,7 @@ const mockUpdateRequired: CheckIfUpdateRequiredDto = {
 const server = createMockServer({
   isEmailVerifiedDto: mockIsVerified,
   getUserDto: mockUser,
-  searchGameDto: mockSearchGame,
+  SearchWebGameDto: mockSearchGame,
   getAllFriendsByStatusDtoList: mockFriends,
   createPrivateGameDto: mockPrivateGame,
   getGameTimingDto: mockGameTiming,

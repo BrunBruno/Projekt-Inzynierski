@@ -2,12 +2,12 @@
 using chess.Core.Dtos;
 using chess.Core.Enums;
 
-namespace chess.Application.Requests.WebGameRequests.GetGame;
+namespace chess.Application.Requests.WebGameRequests.GetWebGame;
 
 /// <summary>
 /// Dto representing ongoing game
 /// </summary>
-public class GetGameDto {
+public class GetWebGameDto {
 
     /// <summary>
     /// Has game ended

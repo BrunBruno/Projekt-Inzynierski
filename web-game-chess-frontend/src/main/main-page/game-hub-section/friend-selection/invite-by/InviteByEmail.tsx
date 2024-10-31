@@ -17,7 +17,7 @@ import {
   useImperativeHandle,
   useState,
 } from "react";
-import { InviteByEmailRef } from "../VsFriendSearchData";
+import { InviteByEmailRef } from "../FriendSelectionData";
 import { mainColor } from "../../../../../shared/utils/objects/colorMaps";
 import { GetByEmailModel } from "../../../../../shared/utils/types/userModels";
 import { GetByEmailDto } from "../../../../../shared/utils/types/userDtos";

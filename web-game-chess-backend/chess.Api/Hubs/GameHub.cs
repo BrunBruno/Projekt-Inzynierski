@@ -6,7 +6,7 @@ using chess.Application.Requests.WebGameRequests.AcceptInvitation;
 using chess.Application.Requests.WebGameRequests.AcceptWebGameRematch;
 using chess.Application.Requests.WebGameRequests.CreateRematchGame;
 using chess.Application.Requests.WebGameRequests.DeclineInvitation;
-using chess.Application.Requests.WebGameRequests.EndGame;
+using chess.Application.Requests.WebGameRequests.EndWebGame;
 using chess.Application.Requests.WebGameRequests.InvitedToGame;
 using chess.Application.Requests.WebGameRequests.MakeWebGameMove;
 using chess.Application.Requests.WebGameRequests.RemoveDrawMessage;
@@ -196,7 +196,7 @@ public class GameHub : Hub<IGameHub> {
     [SignalRMethod("EndGame", Operation.Put)]
     public async Task EndGame(EndWebGameModel model) {
 
-        var request = _mapper.Map<EndGameRequest>(model);
+        var request = _mapper.Map<EndWebGameRequest>(model);
 
         var endGameDto = await _mediator.Send(request);
 

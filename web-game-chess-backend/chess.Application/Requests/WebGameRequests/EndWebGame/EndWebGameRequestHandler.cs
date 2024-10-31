@@ -8,7 +8,7 @@ using chess.Core.Maps.MapOfElo;
 using chess.Shared.Exceptions;
 using MediatR;
 
-namespace chess.Application.Requests.WebGameRequests.EndGame;
+namespace chess.Application.Requests.WebGameRequests.EndWebGame;
 
 /// <summary>
 /// Checks if game with provided id exists
@@ -19,14 +19,14 @@ namespace chess.Application.Requests.WebGameRequests.EndGame;
 /// Sets all parameters for users (stats and elo points) and games according to result of the game
 /// Returns end game dto
 /// </summary>
-public class EndGameRequestHandler : IRequestHandler<EndGameRequest, EndGameDto> {
+public class EndWebGameRequestHandler : IRequestHandler<EndWebGameRequest, EndWebGameDto> {
 
     private readonly IWebGameRepository _gameRepository;
     private readonly IUserContextService _userContextService;
     private readonly IUserRepository _userRepository;
     private readonly IFriendshipRepository _friendshipRepository;
 
-    public EndGameRequestHandler(
+    public EndWebGameRequestHandler(
         IWebGameRepository gameRepository,
         IUserContextService userContextService,
         IUserRepository userRepository,
@@ -38,7 +38,7 @@ public class EndGameRequestHandler : IRequestHandler<EndGameRequest, EndGameDto>
         _friendshipRepository = friendshipRepository;
     }   
 
-    public async Task<EndGameDto> Handle(EndGameRequest request, CancellationToken cancellationToken) {
+    public async Task<EndWebGameDto> Handle(EndWebGameRequest request, CancellationToken cancellationToken) {
 
         var userId = _userContextService.GetUserId();
 
@@ -66,7 +66,7 @@ public class EndGameRequestHandler : IRequestHandler<EndGameRequest, EndGameDto>
 
         // game already has ended
         if (game.HasEnded == true) {
-            var finishedGameDto = new EndGameDto()
+            var finishedGameDto = new EndWebGameDto()
             {
                 WinnerColor = game.WinnerColor,
                 EloGain = game.EloGain,
@@ -243,7 +243,7 @@ public class EndGameRequestHandler : IRequestHandler<EndGameRequest, EndGameDto>
         await _userRepository.Update(blackUser);
 
 
-        var endGameDto = new EndGameDto()
+        var endGameDto = new EndWebGameDto()
         {
             WinnerColor = game.WinnerColor,
             EloGain = eloToUpdate,

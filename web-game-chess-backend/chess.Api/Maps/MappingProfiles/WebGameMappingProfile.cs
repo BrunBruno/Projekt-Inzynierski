@@ -8,7 +8,7 @@ using chess.Application.Requests.WebGameRequests.CreateGameByEmail;
 using chess.Application.Requests.WebGameRequests.CreatePrivateGame;
 using chess.Application.Requests.WebGameRequests.CreateRematchGame;
 using chess.Application.Requests.WebGameRequests.DeclineInvitation;
-using chess.Application.Requests.WebGameRequests.EndGame;
+using chess.Application.Requests.WebGameRequests.EndWebGame;
 using chess.Application.Requests.WebGameRequests.GetAllInvitations;
 using chess.Application.Requests.WebGameRequests.GetAllFinishedGames;
 using chess.Application.Requests.WebGameRequests.GetTypeHistory;
@@ -30,7 +30,7 @@ public class WebGameMappingProfile : Profile {
 
         CreateMap<SearchWebGameModel, SearchGameRequest>();
         CreateMap<MakeWebGameMoveModel, MakeWebGameMoveRequest>();
-        CreateMap<EndWebGameModel, EndGameRequest>();
+        CreateMap<EndWebGameModel, EndWebGameRequest>();
         CreateMap<GetAllFinishedWebGamesModel, GetAllFinishedGamesRequest>();
         CreateMap<CheckIfInGameModel, CheckIfInGameRequest>();
         CreateMap<AbortWebGameSearchModel, AbortWebGameSearchRequest>();
