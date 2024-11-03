@@ -34,10 +34,23 @@ function MainRouter() {
       const path = location.pathname;
 
       try {
-        // check if email is verified
-        const isVerifiedResponse = await axios.get<IsEmailVerifiedDto>(userController.isVerified(), getAuthorization());
+        // check if token exists
+        const token = localStorage.getItem("token");
+        if (!token) {
+          const state: StateOptions = {
+            popup: { text: "PLEASE, LOG IN", type: "error" },
+            regOption: RegistrationInterface.signIn,
+            path: path,
+          };
 
-        const isVerified = isVerifiedResponse.data.isEmailVerified;
+          navigate("/registration", { state: state, replace: true });
+          return;
+        }
+
+        // check if email is verified
+        const response = await axios.get<IsEmailVerifiedDto>(userController.isVerified(), getAuthorization());
+
+        const isVerified = response.data.isEmailVerified;
         if (!isVerified) {
           const state: StateOptions = {
             popup: { text: "ACCOUNT NOT VERIFIED", type: "error" },
@@ -45,29 +58,15 @@ function MainRouter() {
             path: path,
           };
 
-          navigate("/registration", { state: state });
+          navigate("/registration", { state: state, replace: true });
           return;
         }
 
-        // getting user data and validating token
+        // get user data
         const userInfoResponse = await axios.get<GetUserDto>(userController.getUser(), getAuthorization());
-
         localStorage.setItem("userInfo", JSON.stringify(userInfoResponse.data));
 
-        const token = localStorage.getItem("token");
-
-        if (token === null) {
-          const state: StateOptions = {
-            popup: { text: "PLEASE, LOG IN", type: "error" },
-            regOption: RegistrationInterface.signIn,
-            path: path,
-          };
-
-          navigate("/registration", { state: state });
-          return;
-        }
-
-        // connect to gam hub and add self notifications
+        // connect to game hub and add self notifications
         await GameHubService.startConnectionWithToken(token);
 
         if (GameHubService.connection?.state === HubConnectionState.Connected) {

@@ -21,6 +21,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.SignalR;
 using SignalRSwaggerGen.Attributes;
 using SignalRSwaggerGen.Enums;
+using chess.Application.Requests.WebGameRequests.AddPlayer;
 
 namespace chess.Api.Hubs;
 
@@ -55,6 +56,7 @@ public class GameHub : Hub<IGameHub> {
 
     /// <summary>
     /// Adds user to 2-user groups to perform game
+    /// Sends request to check for unauthorized access
     /// </summary>
     /// <param name="gameId"></param>
     /// <returns></returns>
@@ -62,6 +64,12 @@ public class GameHub : Hub<IGameHub> {
     [Authorize(Policy = "IsVerified")]
     [SignalRMethod("AddPlayer", Operation.Post)]
     public async Task AddPlayer(Guid gameId) {
+
+        var request = new AddPlayerRequest { 
+            GameId = gameId 
+        };
+
+        await _mediator.Send(request);
 
         await Groups.AddToGroupAsync(Context.ConnectionId, $"game-{gameId}");
     }

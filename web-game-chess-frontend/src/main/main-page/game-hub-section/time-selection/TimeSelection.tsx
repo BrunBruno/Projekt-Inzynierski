@@ -172,7 +172,7 @@ function TimeSelection({ setOnlineGameIds, setOfflineGameIds, onInviteToPrivateG
         {defaultTimeControls.map((control: TimeControl, index: number) => (
           <div key={`row-${index}`} className={classes.search__grid__row}>
             {/* row header */}
-            <div className={classes.search__grid__row__header}>
+            <div className={classes["timing-header"]}>
               <IconCreator
                 icons={timingTypeIcons}
                 iconName={control.header.toLocaleLowerCase() as TimingTypeName}
@@ -187,7 +187,7 @@ function TimeSelection({ setOnlineGameIds, setOfflineGameIds, onInviteToPrivateG
               <div
                 key={`time-control-${index}-${i}`}
                 data-testid={`main-page-vs-player-time-control-${index}-${i}`}
-                className={classes.search__grid__row__block}
+                className={classes["time-control"]}
                 onClick={() => {
                   onControlSelected(control.header, control.values[i]);
                 }}

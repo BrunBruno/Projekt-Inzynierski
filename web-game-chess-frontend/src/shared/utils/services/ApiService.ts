@@ -348,27 +348,26 @@ export const engineController: EngineController = {
 
 type Headers = {
   headers: {
-    Authorization: string;
+    Authorization?: string;
     "Content-Type"?: string;
   };
 };
 
-// get authorization token for api calls
-export const getAuthorization = (contentType?: string): Headers => {
-  const token = localStorage.getItem("token");
+export type AuthorizationOptions = {
+  otherToken?: string | null;
+  contentType?: string;
+};
 
-  return token
-    ? {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": contentType,
-        },
-      }
-    : {
-        headers: {
-          Authorization: ``,
-        },
-      };
+// get authorization token for api calls
+export const getAuthorization = ({ otherToken, contentType }: AuthorizationOptions = {}): Headers => {
+  const token = otherToken || localStorage.getItem("token");
+
+  return {
+    headers: {
+      ...(token && { Authorization: `Bearer ${token}` }),
+      ...(contentType && { "Content-Type": contentType }),
+    },
+  };
 };
 
 // converts object to query string

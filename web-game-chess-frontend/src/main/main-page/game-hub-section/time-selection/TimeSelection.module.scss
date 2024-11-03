@@ -7,7 +7,7 @@
   position: relative;
 
   &__grid {
-    $tag_size: 3.2rem;
+    $tag_size: 3rem;
 
     @include absCenter();
     @include rounded(2rem);
@@ -20,7 +20,6 @@
       grid-template-columns: 1fr;
       grid-template-rows: auto repeat(5, 1fr);
       gap: 1rem;
-      user-select: none;
       background-color: rgba($gc9, 0.3);
     }
 
@@ -61,8 +60,35 @@
       grid-template-columns: 16rem repeat(3, 1fr);
       grid-template-rows: 1fr;
       gap: 1rem;
+      user-select: none;
 
-      &__header {
+      @for $i from 2 through 6 {
+        &:nth-child(#{$i}) {
+          &:has(.time-control:hover) {
+            .timing-header {
+              filter: drop-shadow(0 0 1rem $mc0);
+
+              .header-icon {
+                @if $i == 2 {
+                  path {
+                    fill: $mc0;
+                  }
+                } @else if $i == 3 {
+                  polygon {
+                    stroke: $mc0;
+                  }
+                } @else if $i >= 4 {
+                  path {
+                    stroke: $mc0;
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+
+      .timing-header {
         @include flex(row, start, center, 2rem);
 
         .header-icon {
@@ -74,7 +100,7 @@
         }
       }
 
-      &__block {
+      .time-control {
         @include flex();
 
         position: relative;
@@ -86,7 +112,8 @@
           cursor: pointer;
 
           .timing-tag {
-            color: $mc9;
+            color: $mc5;
+            filter: drop-shadow(0 0 1rem $mc0);
 
             &::after {
               background-color: $mc0;
@@ -97,6 +124,10 @@
         &:active {
           border-top: solid 0.3rem #0000;
           border-bottom: none;
+
+          &::after {
+            background-color: $gc8;
+          }
         }
 
         &::after {
@@ -185,7 +216,7 @@
         grid-template-columns: 12rem repeat(3, 1fr);
         height: unset;
 
-        &__header {
+        .timing-header {
           flex-direction: column;
           justify-content: center;
           padding: 2rem;

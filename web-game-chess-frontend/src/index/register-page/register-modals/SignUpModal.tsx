@@ -22,9 +22,9 @@ type PasswordIconOption = {
 type SignUpModalProps = {
   // change displayed modal
   setModal: Dispatch<SetStateAction<number>>;
-  //
+  // restrictions on user username
   userNameConf: GetRegisterConfDto | null;
-  //
+  // restrictions on user password
   userPassConf: GetRegisterConfDto | null;
 };
 
@@ -45,7 +45,7 @@ function SignUpModal({ setModal, userNameConf, userPassConf }: SignUpModalProps)
   const [errorMess, setErrorMess] = useState<string>("");
   // state if something is processing
   const [processing, setProcessing] = useState<boolean>(false);
-
+  // state for password peek icon
   const [passwordIconOption, setPasswordIconOption] = useState<PasswordIconOption>({
     name: "eyeOpen",
     class: classes.open,
@@ -71,6 +71,7 @@ function SignUpModal({ setModal, userNameConf, userPassConf }: SignUpModalProps)
       return;
     }
 
+    // get current country
     const country = await getCountry();
 
     // user data
@@ -137,13 +138,13 @@ function SignUpModal({ setModal, userNameConf, userPassConf }: SignUpModalProps)
       };
 
       // set temporary user data
-      localStorage.setItem("logUserTemp", JSON.stringify(logUserData));
+      localStorage.setItem("userDataTemp", JSON.stringify(logUserData));
 
       // login user, get unverified token
-      const logInResponse = await axios.post<LogInUserDto>(userController.logInUser(), logUserData);
+      const response = await axios.post<LogInUserDto>(userController.logInUser(), logUserData);
 
       // set unverified token
-      localStorage.setItem("logged", logInResponse.data.token);
+      localStorage.setItem("tokenTemp", response.data.token);
 
       setProcessing(false);
 
@@ -201,7 +202,7 @@ function SignUpModal({ setModal, userNameConf, userPassConf }: SignUpModalProps)
   };
   //*/
 
-  // password show
+  // password peek
   const onShowPassword = (): void => {
     const passwordInput = passwordInputRef.current;
     const confPasswordInput = confPassInputRef.current;

@@ -34,6 +34,19 @@ function WebGamePage() {
   const navigate = useNavigate();
   const { showPopup } = usePopup();
 
+  // navigate to main after critical error
+  const [isCriticalError, setIsCriticalError] = useState<boolean>(false);
+  useEffect(() => {
+    if (isCriticalError) {
+      const state: StateOptions = {
+        popup: { text: "ERROR STARTING GAME", type: "error" },
+      };
+
+      navigate("/main", { state: state });
+    }
+  }, [isCriticalError]);
+  //*/
+
   // obtained game id from url
   const { gameIdStr } = useParams<{ gameIdStr: string }>();
   const [gameId, setGameId] = useState<Guid | null>(null);
@@ -46,6 +59,7 @@ function WebGamePage() {
 
   // set game id as Guid
   useEffect(() => {
+    // to get game timing
     const getGameTiming = async (id: Guid): Promise<void> => {
       try {
         const response = await axios.get<GetGameTimingDto>(webGameController.getGameTiming(id), getAuthorization());
@@ -62,11 +76,7 @@ function WebGamePage() {
 
       getGameTiming(guid);
     } else {
-      const state: StateOptions = {
-        popup: { text: "ERROR STARTING GAME", type: "error" },
-      };
-
-      navigate("/main", { state: state });
+      setIsCriticalError(true);
     }
   }, [gameIdStr]);
   //*/
@@ -105,6 +115,7 @@ function WebGamePage() {
       setGameData(response.data);
     } catch (err) {
       showPopup(getErrMessage(err), "warning");
+      setIsCriticalError(true);
     }
   };
 
@@ -118,6 +129,7 @@ function WebGamePage() {
       setPlayerData(response.data);
     } catch (err) {
       showPopup(getErrMessage(err), "warning");
+      setIsCriticalError(true);
     }
   };
 

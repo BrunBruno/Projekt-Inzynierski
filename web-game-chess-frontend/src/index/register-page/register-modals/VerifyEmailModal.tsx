@@ -2,7 +2,7 @@ import { ChangeEvent, Dispatch, FormEvent, SetStateAction, useState } from "reac
 import { mainColor } from "../../../shared/utils/objects/colorMaps";
 import classes from "./RegisterModal.module.scss";
 import axios from "axios";
-import { getAuthorization, userController } from "../../../shared/utils/services/ApiService";
+import { AuthorizationOptions, getAuthorization, userController } from "../../../shared/utils/services/ApiService";
 import { useNavigate } from "react-router-dom";
 import { errorDisplay } from "../../../shared/utils/functions/errors";
 import LoadingPage from "../../../shared/components/loading-page/LoadingPage";
@@ -37,9 +37,10 @@ function VerifyEmailModal({ userPath, setModal }: VerifyEmailModalProps) {
   // login user after successful verification
   const verifyUser = async (event: FormEvent<HTMLFormElement>): Promise<void> => {
     event.preventDefault();
+    const userDataTemp = localStorage.getItem("userDataTemp");
 
     // check if user signed in
-    if (!localStorage.getItem("logUserTemp")) {
+    if (!userDataTemp) {
       setErrorMess("Please sign in first.");
       return;
     }
@@ -59,16 +60,20 @@ function VerifyEmailModal({ userPath, setModal }: VerifyEmailModalProps) {
     try {
       setProcessing(true);
 
-      // verify user email
-      await axios.put(userController.verifyEmail(), model, getAuthorization());
+      const options: AuthorizationOptions = {
+        otherToken: localStorage.getItem("tokenTemp"),
+      };
 
-      const tempUser: LogInUserModel = JSON.parse(localStorage.getItem("logUserTemp")!);
+      // verify user email
+      await axios.put(userController.verifyEmail(), model, getAuthorization(options));
+
+      const tempUser: LogInUserModel = JSON.parse(userDataTemp);
 
       //sign in user after successful verification
       const logInResponse = await axios.post<LogInUserDto>(userController.logInUser(), tempUser);
 
       // remove user temp
-      localStorage.removeItem("logUserTemp");
+      localStorage.removeItem("userDataTemp");
 
       // set token to local storage
       localStorage.setItem("token", logInResponse.data.token);
@@ -95,8 +100,12 @@ function VerifyEmailModal({ userPath, setModal }: VerifyEmailModalProps) {
     try {
       const model: RegenerateCodeModel = {};
 
+      const options: AuthorizationOptions = {
+        otherToken: localStorage.getItem("tokenTemp"),
+      };
+
       // generate new code and delete previous
-      await axios.post(userController.regenerateCode(), model, getAuthorization());
+      await axios.post(userController.regenerateCode(), model, getAuthorization(options));
     } catch (err) {
       // display backend errors
       errorDisplay(err, setErrorMess);
