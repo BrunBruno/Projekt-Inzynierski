@@ -1,6 +1,6 @@
 import { checkIfOwnPiece, toCoor } from "./general";
 import FindMoves from "./findMoves";
-import { WebGameStates, PieceOption, SelectionStates, EngineGameStates } from "./types";
+import { WebGameStates, PieceOption, SelectionStates, EngineGameStates } from "./gameSates";
 import { BlackPieceTag, WhitePieceTag } from "../objects/constantLists";
 
 // to check for checkmates and stalemates

@@ -45,6 +45,7 @@ public abstract class Game {
 
     /// <summary>
     /// Round of game (both players moved)
+    /// Fullmove
     /// </summary>
     public int Round { get; set; } = 1;
 
@@ -54,7 +55,7 @@ public abstract class Game {
     public PieceColor? WinnerColor { get; set; } = null;
 
     /// <summary>
-    /// Timing for game
+    /// Timing type for game
     /// </summary>
     public TimingTypes TimingType { get; set; }
 }

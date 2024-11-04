@@ -4,19 +4,19 @@ using chess.Application.Services;
 using chess.Shared.Exceptions;
 using MediatR;
 
-namespace chess.Application.Requests.WebGameRequests.AddPlayer;
+namespace chess.Application.Requests.WebGameRequests.AddPlayerToWebGame;
 
-public class AddPlayerRequestHandler : IRequestHandler<AddPlayerRequest> {
+public class AddPlayerToWebGameRequestHandler : IRequestHandler<AddPlayerToWebGameRequest> {
 
     private readonly IWebGameRepository _webGameRepository;
     private readonly IUserContextService _userContextService;
 
-    public AddPlayerRequestHandler(IWebGameRepository webGameRepository, IUserContextService userContextService) {
+    public AddPlayerToWebGameRequestHandler(IWebGameRepository webGameRepository, IUserContextService userContextService) {
         _webGameRepository = webGameRepository;
         _userContextService = userContextService;
     }
 
-    public async Task Handle(AddPlayerRequest request, CancellationToken cancellationToken) {
+    public async Task Handle(AddPlayerToWebGameRequest request, CancellationToken cancellationToken) {
 
         var userId = _userContextService.GetUserId();
 

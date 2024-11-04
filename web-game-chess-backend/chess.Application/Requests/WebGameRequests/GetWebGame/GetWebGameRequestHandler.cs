@@ -47,9 +47,9 @@ public class GetWebGameRequestHandler : IRequestHandler<GetWebGameRequest, GetWe
             HasEnded = game.HasEnded,
             Position = game.Position,
             Turn = game.Turn,
-            EnPassant = game.CurrentState.EnPassant,
             TimingType = game.TimingType,
 
+            EnPassant = game.CurrentState.EnPassant,
             CanWhiteKingCastle = game.CurrentState.CanWhiteKingCastle,
             CanWhiteShortRookCastle = game.CurrentState.CanWhiteShortRookCastle,
             CanWhiteLongRookCastle = game.CurrentState.CanWhiteLongRookCastle,

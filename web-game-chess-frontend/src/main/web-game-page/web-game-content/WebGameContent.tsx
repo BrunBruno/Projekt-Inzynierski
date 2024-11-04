@@ -21,7 +21,7 @@ import {
 } from "./WebGameContentStates";
 import { checkChecks, generateControlledAreas } from "../../../shared/utils/chess-game/controlledAreas";
 import { checkIfAnyMoveExists } from "../../../shared/utils/chess-game/checkIfAnyMoveExists";
-import { Coordinate, PieceOption } from "../../../shared/utils/chess-game/types";
+import { Coordinate, PieceOption } from "../../../shared/utils/chess-game/gameSates";
 import { checkIfPlayerTurn } from "../../../shared/utils/chess-game/general";
 import findMoves from "../../../shared/utils/chess-game/findMoves";
 import WebGameSearching from "./web-game-searching/WebGameSearching";

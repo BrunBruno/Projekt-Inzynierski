@@ -1,5 +1,4 @@
 import classes from "./EngineGameRightSidebar.module.scss";
-import LoadingPage from "../../../shared/components/loading-page/LoadingPage";
 import AvatarImage from "../../../shared/components/avatar-image/AvatarImage";
 import { PlayerDto } from "../../../shared/utils/types/abstractDtosAndModels";
 import { GetEngineGameDto } from "../../../shared/utils/types/engineDtos";

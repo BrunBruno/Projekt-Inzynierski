@@ -5,7 +5,7 @@ import {
   CreateRematchGameModel,
   DeclineInvitationModel,
   EndGameModel,
-  MakeMoveModel,
+  MakeWebGameMoveModel,
   NotifyUserModel,
   SendGameMessageModel,
   SendMessageModel,
@@ -107,7 +107,7 @@ class GameHub {
   }
 
   // update game | add move
-  public async MakeMove(model: MakeMoveModel): Promise<void> {
+  public async MakeMove(model: MakeWebGameMoveModel): Promise<void> {
     try {
       await this.connection?.invoke("make-move", model);
     } catch (err) {

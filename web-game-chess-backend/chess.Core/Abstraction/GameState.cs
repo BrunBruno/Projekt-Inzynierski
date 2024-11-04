@@ -40,4 +40,10 @@ public abstract class GameState {
     /// If black can castle short
     /// </summary>
     public bool CanBlackLongRookCastle { get; set; } = true;
+
+    /// <summary>
+    /// Every non pawn move in row
+    /// For 50 move rule
+    /// </summary>
+    public int HalfMove { get; set; } = 0;
 }

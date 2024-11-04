@@ -38,14 +38,16 @@ public class MakeWebGameMoveRequestHandler : IRequestHandler<MakeWebGameMoveRequ
         var game = await _gameRepository.GetById(request.GameId) 
             ?? throw new NotFoundException("Game not found.");
 
-        if (game.WhitePlayer.UserId != userId && game.BlackPlayer.UserId != userId)
-            throw new UnauthorizedException("This is not user game.");
-
         if (game.HasEnded)
-            throw new BadRequestException("Can not make move in finished game");
+            throw new BadRequestException("Game is finished.");
 
+        if (game.WhitePlayer.UserId != userId && game.BlackPlayer.UserId != userId)
+            throw new UnauthorizedException("Not user game.");
+
+
+        // update times
         DateTime lastTimeRecorded = (game.Moves.Count == 0 ? game.StartedAt : game.Moves[^1].DoneAt)
-          ?? throw new BadRequestException("Game was not started properly.");
+          ?? throw new BadRequestException("Game starting error.");
 
         double timeDifference = (DateTime.UtcNow - lastTimeRecorded).TotalSeconds;
 
@@ -57,10 +59,8 @@ public class MakeWebGameMoveRequestHandler : IRequestHandler<MakeWebGameMoveRequ
             game.BlackPlayer.TimeLeft += game.GameTiming.Increment;
         }
 
-        game.Position = request.Position;
-        game.Round = (game.Turn / 2) + 1;
-        game.Turn += 1;
 
+        // update states
         game.CurrentState.EnPassant = request.EnPassant;
         if (game.CurrentState.CanWhiteKingCastle) 
             game.CurrentState.CanWhiteKingCastle = !request.WhitekingMoved;
@@ -76,13 +76,17 @@ public class MakeWebGameMoveRequestHandler : IRequestHandler<MakeWebGameMoveRequ
             game.CurrentState.CanBlackLongRookCastle = !request.BlackLongRookMoved;
 
 
-        await _gameRepository.Update(game);
+        // update game
+        game.Position = request.Position;
+        game.Round = (game.Turn / 2) + 1;
+        game.Turn += 1;
 
 
         var move = new WebGameMove()
         {
             Id = Guid.NewGuid(),
             DoneMove = request.Move,
+            FenMove = request.FenMove,
             OldCoordinates = request.OldCoor,
             NewCoordinates = request.NewCoor,
             CapturedPiece = request.CapturedPiece,
@@ -95,5 +99,6 @@ public class MakeWebGameMoveRequestHandler : IRequestHandler<MakeWebGameMoveRequ
 
 
         await _moveRepository.Create(move);
+        await _gameRepository.Update(game);
     }
 }

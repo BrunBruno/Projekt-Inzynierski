@@ -2,7 +2,7 @@ import { PieceColor } from "../objects/entitiesEnums";
 import { movementMap, rankMap } from "../objects/piecesMovementMap";
 import { pieceTagMap } from "../objects/piecesNameMaps";
 import { areCoorEqual, checkIfOwnPiece, toCoor } from "./general";
-import { Coordinate, CoorNumber, WebGameStates, PieceOption, SelectionStates, EngineGameStates } from "./types";
+import { Coordinate, CoorNumber, WebGameStates, PieceOption, SelectionStates, EngineGameStates } from "./gameSates";
 import { BlackPieceTag, WhitePieceTag } from "../objects/constantLists";
 
 class FindMoves {

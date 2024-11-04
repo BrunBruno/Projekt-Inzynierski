@@ -13,12 +13,19 @@ public abstract class Move {
     public required string DoneMove { get; set; }
 
     /// <summary>
+    /// Done move in fen format
+    /// </summary>
+    public required string FenMove { get; set; }
+
+    /// <summary>
     /// Coordinates from where piece was moved
+    /// In for "x,y"
     /// </summary>
     public required string OldCoordinates { get; set; }
 
     /// <summary>
     /// Coordinates to where piece was moved
+    /// In for "x,y"
     /// </summary>
     public required string NewCoordinates { get; set; }
 
@@ -33,7 +40,7 @@ public abstract class Move {
     public int Turn { get; set; }
 
     /// <summary>
-    /// captured piece tag
+    /// Captured piece tag
     /// </summary>
     public string? CapturedPiece { get; set; }
 

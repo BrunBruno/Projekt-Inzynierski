@@ -2,6 +2,7 @@
 using AutoMapper;
 using chess.Api.Models.EngineGameModels;
 using chess.Application.Requests.EngineRequests.GetEngineGame;
+using chess.Application.Requests.EngineRequests.GetEngineGameMove;
 using chess.Application.Requests.EngineRequests.MakeEngineGameMove;
 using chess.Application.Requests.EngineRequests.StartEngineGame;
 using MediatR;
@@ -22,6 +23,12 @@ public class EngineGameController : ControllerBase {
         _mapper = mapper;
     }
 
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="model"></param>
+    /// <returns></returns>
     [HttpPost("start")]
     [Authorize(Policy = "IsVerified")]
     public async Task<IActionResult> StartEngineGame([FromBody] StartEngineGameModel model) {
@@ -34,6 +41,11 @@ public class EngineGameController : ControllerBase {
     }
 
 
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="model"></param>
+    /// <returns></returns>
     [HttpPost("make-move")]
     [Authorize(Policy = "IsVerified")]
     public async Task<IActionResult> MakeEngineGameMove([FromBody] MakeEngineGameMoveModel model) {
@@ -46,6 +58,31 @@ public class EngineGameController : ControllerBase {
     }
 
 
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="model"></param>
+    /// <returns></returns>
+    [HttpGet("{gameId}/engine-move")]
+    [Authorize(Policy = "IsVerified")]
+    public async Task<IActionResult> GetEngineGameMove([FromRoute] Guid gameId) {
+
+        var request = new GetEngineGameMoveRequest()
+        {
+            GameId = gameId,
+        };
+
+        var move = await _mediator.Send(request);
+
+        return Ok(move);
+    }
+
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="gameId"></param>
+    /// <returns></returns>
     [HttpGet("{gameId}")]
     [Authorize(Policy = "IsVerified")]
     public async Task<IActionResult> GetEngineGame([FromRoute] Guid gameId) {

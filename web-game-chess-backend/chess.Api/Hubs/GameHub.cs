@@ -15,13 +15,13 @@ using chess.Application.Requests.WebGameRequests.SendWebGameMessage;
 using chess.Application.Requests.WebGameRequests.SendMessage;
 using chess.Application.Requests.WebGameRequests.StartGames;
 using chess.Application.Requests.WebGameRequests.UpdatePrivateGame;
+using chess.Application.Requests.WebGameRequests.AddPlayerToWebGame;
 using chess.Application.Services;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.SignalR;
 using SignalRSwaggerGen.Attributes;
 using SignalRSwaggerGen.Enums;
-using chess.Application.Requests.WebGameRequests.AddPlayer;
 
 namespace chess.Api.Hubs;
 
@@ -65,7 +65,7 @@ public class GameHub : Hub<IGameHub> {
     [SignalRMethod("AddPlayer", Operation.Post)]
     public async Task AddPlayer(Guid gameId) {
 
-        var request = new AddPlayerRequest { 
+        var request = new AddPlayerToWebGameRequest { 
             GameId = gameId 
         };
 

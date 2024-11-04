@@ -29,6 +29,7 @@ public class GetWebGameRequestHandlerTests {
         var move = new WebGameMove()
         {
             DoneMove = "",
+            FenMove = "",
             Position = "",
             OldCoordinates = "",
             NewCoordinates = "",
@@ -103,6 +104,7 @@ public class GetWebGameRequestHandlerTests {
 
         var move = new WebGameMove() { 
             DoneMove = "",
+            FenMove = "",
             Position = "",
             OldCoordinates = "",
             NewCoordinates = "",
@@ -208,6 +210,7 @@ public class GetWebGameRequestHandlerTests {
         var move = new WebGameMove()
         {
             DoneMove = "",
+            FenMove = "",
             Position = "",
             OldCoordinates = "",
             NewCoordinates = "",

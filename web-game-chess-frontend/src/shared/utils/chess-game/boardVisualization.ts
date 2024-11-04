@@ -1,6 +1,6 @@
 import { posToIndex } from "./general";
 import { RefObject } from "react";
-import { Coordinate } from "./types";
+import { Coordinate } from "./gameSates";
 import { PieceColor } from "../objects/entitiesEnums";
 import { PlayerDto } from "../types/abstractDtosAndModels";
 

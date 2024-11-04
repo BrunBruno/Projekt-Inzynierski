@@ -28,9 +28,18 @@ public class GetEngineGameRequestHandler : IRequestHandler<GetEngineGameRequest,
 
         var gameDto = new GetEngineGameDto()
         {
+            HasEnded = game.HasEnded,
             Position = game.Position,
             Turn = game.Turn,
-            HasEnded = game.HasEnded,
+            TimingType = game.TimingType,
+
+            EnPassant = game.CurrentState.EnPassant,
+            CanWhiteKingCastle = game.CurrentState.CanWhiteKingCastle,
+            CanWhiteShortRookCastle = game.CurrentState.CanWhiteShortRookCastle,
+            CanWhiteLongRookCastle = game.CurrentState.CanWhiteLongRookCastle,
+            CanBlackKingCastle = game.CurrentState.CanBlackKingCastle,
+            CanBlackShortRookCastle = game.CurrentState.CanBlackShortRookCastle,
+            CanBlackLongRookCastle = game.CurrentState.CanBlackLongRookCastle,
 
             Player = new PlayerDto() { 
                 Name = game.Player.Name,

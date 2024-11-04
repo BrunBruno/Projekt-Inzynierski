@@ -12,6 +12,11 @@ export type Coordinate = [CoorNumber, CoorNumber] | null;
 // any option in matrix
 export type PieceOption = WhitePieceTag | BlackPieceTag | "";
 
+export enum TypeOfGame {
+  web,
+  engine,
+}
+
 // states of the game
 export type WebGameStates = {
   // game id

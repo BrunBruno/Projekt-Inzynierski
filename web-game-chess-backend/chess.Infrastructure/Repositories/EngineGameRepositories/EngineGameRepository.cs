@@ -18,6 +18,7 @@ public class EngineGameRepository : IEngineGameRepository {
     public async Task<EngineGame?> GetById(Guid gameId)
         => await _dbContext.EngineGames
                     .Include(eg => eg.Player)
+                    .Include(eg => eg.CurrentState)
                     .Include(eg => eg.Moves)
                     .FirstOrDefaultAsync(x => x.Id == gameId);
 

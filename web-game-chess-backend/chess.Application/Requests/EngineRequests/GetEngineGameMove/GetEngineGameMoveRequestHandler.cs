@@ -1,6 +1,7 @@
 ﻿
 using chess.Application.Repositories.EngineGameRepositories;
 using chess.Application.Services;
+using chess.Core.Abstraction;
 using chess.Core.Entities;
 using chess.Shared.Exceptions;
 using MediatR;
@@ -10,7 +11,7 @@ namespace chess.Application.Requests.EngineRequests.GetEngineGameMove;
 /// <summary>
 /// 
 /// </summary>
-public class GetEngineGameMoveRequestHandler : IRequestHandler<GetEngineGameMoveRequest> {
+public class GetEngineGameMoveRequestHandler : IRequestHandler<GetEngineGameMoveRequest, GetEngineGameMoveDto> {
 
     private readonly IEngineService _engineService;
     private readonly IEngineGameRepository _engineGameRepository;
@@ -29,7 +30,7 @@ public class GetEngineGameMoveRequestHandler : IRequestHandler<GetEngineGameMove
         _userContextService = userContextService;
     }
 
-    public async Task Handle(GetEngineGameMoveRequest request, CancellationToken cancellationToken) {
+    public async Task<GetEngineGameMoveDto> Handle(GetEngineGameMoveRequest request, CancellationToken cancellationToken) {
 
         var userId = _userContextService.GetUserId();
 
@@ -37,12 +38,12 @@ public class GetEngineGameMoveRequestHandler : IRequestHandler<GetEngineGameMove
             ?? throw new NotFoundException("Game not found.");
 
         if (game.Player.UserId != userId)
-            throw new UnauthorizedException("This is not user game.");
+            throw new UnauthorizedException("Not user game.");
 
 
         var fullFen = MakeFen(game);
 
-
+        // make engine move
         _engineService.SendCommand($"position fen {fullFen}");
         _engineService.SendCommand("go depth 1");
 
@@ -53,7 +54,6 @@ public class GetEngineGameMoveRequestHandler : IRequestHandler<GetEngineGameMove
 
 
         var bestMove = bestMoveLine.Split(' ')[1];
-        Console.WriteLine(bestMoveLine);
 
         _engineService.SendCommand($"position fen {fullFen} moves {bestMove}");
         _engineService.SendCommand("d");
@@ -67,29 +67,49 @@ public class GetEngineGameMoveRequestHandler : IRequestHandler<GetEngineGameMove
 
         var newPosition = newFenPosition.Split(' ')[0];
 
+        Console.WriteLine(bestMove);
 
+        string from = bestMove.Substring(0, 2);
+        string to = bestMove.Substring(2, 2);
+        string? promotedPiece = bestMove.Length == 5 ? bestMove[4].ToString() : null; //???
 
+        var oldCoordinates = $"{from[0] - 'a' + 1},{from[1]}";
+        var newCoordinates = $"{to[0] - 'a' + 1},{to[1]}";
+
+        /*
+        // update game
         game.Position = newPosition;
         game.Round = (game.Turn / 2) + 1;
         game.Turn += 1;
 
+
         var engineMove = new EngineGameMove()
         {
             Id = Guid.NewGuid(),
-            DoneMove = bestMove,
+            DoneMove = bestMove, // todo
+            FenMove = bestMove,
             Position = game.Position,
-            OldCoordinates = "",
-            NewCoordinates = "",
+            OldCoordinates = newCoordinates,
+            NewCoordinates = oldCoordinates,
+            CapturedPiece = "", // todo
             Turn = game.Turn,
             GameId = game.Id,
         };
-
+        */
 
         _engineService.Close();
 
+        var dto = new GetEngineGameMoveDto()
+        {
+            OldCoordinates = oldCoordinates,
+            NewCoordinates = newCoordinates,
+            PromotedPiece = promotedPiece,
+        };
 
-        await _engineGameMoveRepository.Create(engineMove);
-        await _engineGameRepository.Update(game);
+        return dto;
+
+        //await _engineGameMoveRepository.Create(engineMove);
+        //await _engineGameRepository.Update(game);
     }
 
     private static string MakeFen(EngineGame game) {

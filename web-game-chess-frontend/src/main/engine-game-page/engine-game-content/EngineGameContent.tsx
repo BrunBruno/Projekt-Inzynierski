@@ -2,7 +2,7 @@ import { useEffect, useReducer } from "react";
 import classes from "./EngineGameContent.module.scss";
 import { Guid } from "guid-typescript";
 import { SMatrix } from "../../../shared/utils/types/commonTypes";
-import { GetEngineGameDto } from "../../../shared/utils/types/engineDtos";
+import { GetEngineGameDto, GetEngineGameMoveDto } from "../../../shared/utils/types/engineDtos";
 import {
   gameInitialStates,
   gameStatesReducer,
@@ -10,22 +10,37 @@ import {
   selectionStatesReducer,
 } from "./EngineGameContentStates";
 import { checkChecks, generateControlledAreas } from "../../../shared/utils/chess-game/controlledAreas";
-import { checkIfPlayerTurn } from "../../../shared/utils/chess-game/general";
-import { Coordinate, PieceOption } from "../../../shared/utils/chess-game/types";
+import { checkIfPlayerTurn, toCoor } from "../../../shared/utils/chess-game/general";
+import {
+  Coordinate,
+  EngineGameStates,
+  PieceOption,
+  SelectionStates,
+  TypeOfGame,
+} from "../../../shared/utils/chess-game/gameSates";
 import findMoves from "../../../shared/utils/chess-game/findMoves";
 import EngineGameCoordinates from "./engine-game-coordinates/EngineGameCoordinates";
 import EngineGameBoard from "./engine-game-board/EngineGameBoard";
 import EngineGamePromotion from "./engine-game-promotion/EngineGamePromotion";
+import { engineController, getAuthorization } from "../../../shared/utils/services/ApiService";
+import axios from "axios";
+import { makeMove } from "../../../shared/utils/chess-game/makeMove";
+import { usePopup } from "../../../shared/utils/hooks/usePopUp";
+import { getErrMessage } from "../../../shared/utils/functions/errors";
 
 type EngineGameContentProps = {
   // game id
   gameId: Guid;
   // current game data
   gameData: GetEngineGameDto;
+  //
+  getGame: () => Promise<void>;
 };
 
-function EngineGameContent({ gameId, gameData }: EngineGameContentProps) {
+function EngineGameContent({ gameId, gameData, getGame }: EngineGameContentProps) {
   ///
+
+  const { showPopup } = usePopup();
 
   // states of game
   const [gameStates, setGameStates] = useReducer(gameStatesReducer, gameInitialStates);
@@ -107,6 +122,11 @@ function EngineGameContent({ gameId, gameData }: EngineGameContentProps) {
 
     setTimeout(() => {
       updateStates();
+
+      if (gameData.player.color !== gameData.turn % 2) {
+        console.log("move by engine done");
+        getEngineMove();
+      }
     }, 100);
   }, [gameData]);
   //*/
@@ -130,6 +150,55 @@ function EngineGameContent({ gameId, gameData }: EngineGameContentProps) {
   }, [selectionStates.coordinates]);
   //*/
 
+  const getEngineMove = async (): Promise<void> => {
+    try {
+      if (!gameId) return;
+
+      const engineGameState: EngineGameStates = {
+        gameId: gameId,
+        gameData: gameData,
+        playerData: null,
+        matrix: gameStates.matrix.reverse(),
+        controlledAreas: {
+          white: [],
+          black: [],
+        },
+        checkAreas: {
+          white: [],
+          black: [],
+        },
+      };
+
+      const response = await axios.get<GetEngineGameMoveDto>(
+        engineController.getEngineGameMove(gameId),
+        getAuthorization()
+      );
+
+      const [toX, toY] = response.data.newCoordinates.split(",");
+      const engineToCoor: Coordinate = toCoor([parseInt(toX), parseInt(toY)]);
+
+      const [fromX, fromY] = response.data.oldCoordinates.split(",");
+      const engineFromCoor: Coordinate = toCoor([parseInt(fromX), parseInt(fromY)]);
+
+      const enginePiece = engineGameState.matrix[parseInt(fromY) - 1][parseInt(fromX) - 1] as PieceOption;
+
+      const engineSelection: SelectionStates = {
+        isDragging: false, //not imp
+        piece: enginePiece,
+        target: null, //not imp
+        coordinates: engineFromCoor,
+        promotionCoor: response.data.promotedPiece !== null ? engineToCoor : null,
+        availableFields: [], //not imp
+      };
+
+      await makeMove(TypeOfGame.engine, engineGameState, engineSelection, engineToCoor, response.data.promotedPiece);
+
+      await getGame();
+    } catch (err) {
+      showPopup(getErrMessage(err), "warning");
+    }
+  };
+
   return (
     <section className={classes.game}>
       <div className={classes.game__content}>
@@ -142,6 +211,7 @@ function EngineGameContent({ gameId, gameData }: EngineGameContentProps) {
           selectionStates={selectionStates}
           setSelectionStates={setSelectionStates}
           chosePiece={chosePiece}
+          getGame={getGame}
         />
 
         {/* promotion box */}
@@ -151,6 +221,7 @@ function EngineGameContent({ gameId, gameData }: EngineGameContentProps) {
             gameStates={gameStates}
             selectionStates={selectionStates}
             setSelectionStates={setSelectionStates}
+            getEngineMove={getEngineMove}
           />
         )}
 

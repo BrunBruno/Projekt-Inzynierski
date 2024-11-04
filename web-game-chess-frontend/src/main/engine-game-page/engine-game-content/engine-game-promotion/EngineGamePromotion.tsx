@@ -7,8 +7,13 @@ import { getPieceName, piecePromotionMap } from "../../../../shared/utils/object
 import classes from "./EngineGamePromotion.module.scss";
 import { SelectionAction } from "../EngineGameContentStates";
 import { GetEngineGameDto } from "../../../../shared/utils/types/engineDtos";
-import { EngineGameStates, PieceOption, SelectionStates } from "../../../../shared/utils/chess-game/types";
-import { makeEngineGameMove } from "../../../../shared/utils/chess-game/makeMove";
+import {
+  EngineGameStates,
+  PieceOption,
+  SelectionStates,
+  TypeOfGame,
+} from "../../../../shared/utils/chess-game/gameSates";
+import { makeMove } from "../../../../shared/utils/chess-game/makeMove";
 
 type EngineGamePromotionProps = {
   // game data
@@ -19,16 +24,25 @@ type EngineGamePromotionProps = {
   selectionStates: SelectionStates;
   // selection setters
   setSelectionStates: Dispatch<SelectionAction>;
+  //
+  getEngineMove: () => Promise<void>;
 };
 
-function EngineGamePromotion({ gameData, gameStates, selectionStates, setSelectionStates }: EngineGamePromotionProps) {
+function EngineGamePromotion({
+  gameData,
+  gameStates,
+  selectionStates,
+  setSelectionStates,
+  getEngineMove,
+}: EngineGamePromotionProps) {
   ///
 
   // promote pawn to chosen piece
   const onPerformPromotion = async (promotedPiece: PieceOption): Promise<void> => {
     if (selectionStates.promotionCoor) {
-      await makeEngineGameMove(gameStates, selectionStates, selectionStates.promotionCoor, promotedPiece);
-      window.location.reload();
+      await makeMove(TypeOfGame.engine, gameStates, selectionStates, selectionStates.promotionCoor, promotedPiece);
+
+      await getEngineMove();
     }
 
     setSelectionStates({ type: "SET_PROMOTION_COOR", payload: null });

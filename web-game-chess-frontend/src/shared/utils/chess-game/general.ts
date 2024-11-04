@@ -4,7 +4,7 @@ import { BlackPieceTag, WhitePieceTag } from "../objects/constantLists";
 import { PieceColor } from "../objects/entitiesEnums";
 import { PieceTagMap, pieceTagMap } from "../objects/piecesNameMaps";
 import { PlayerDto } from "../types/abstractDtosAndModels";
-import { Coordinate, CoorNumber } from "./types";
+import { Coordinate, CoorNumber } from "./gameSates";
 
 // check if player can move
 export const checkIfPlayerTurn = (turn: number, color: PieceColor | null): boolean => {

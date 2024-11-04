@@ -36,6 +36,40 @@ public class MakeEngineGameMoveRequestHandler : IRequestHandler<MakeEngineGameMo
         if(game.Player.UserId != userId)
             throw new UnauthorizedException("Not user game.");
 
+        // update times
+        /*
+        DateTime lastTimeRecorded = (game.Moves.Count == 0 ? game.StartedAt : game.Moves[^1].DoneAt)
+          ?? throw new BadRequestException("Game starting error.");
+
+        double timeDifference = (DateTime.UtcNow - lastTimeRecorded).TotalSeconds;
+
+        if (game.Turn % 2 == 0) {
+            game.WhitePlayer.TimeLeft -= timeDifference;
+            game.WhitePlayer.TimeLeft += game.GameTiming.Increment;
+        } else {
+            game.BlackPlayer.TimeLeft -= timeDifference;
+            game.BlackPlayer.TimeLeft += game.GameTiming.Increment;
+        }
+        */
+
+
+        // update states
+        game.CurrentState.EnPassant = request.EnPassant;
+        if (game.CurrentState.CanWhiteKingCastle)
+            game.CurrentState.CanWhiteKingCastle = !request.WhitekingMoved;
+        if (game.CurrentState.CanWhiteShortRookCastle)
+            game.CurrentState.CanWhiteShortRookCastle = !request.WhiteShortRookMoved;
+        if (game.CurrentState.CanWhiteLongRookCastle)
+            game.CurrentState.CanWhiteLongRookCastle = !request.WhiteLongRookMoved;
+        if (game.CurrentState.CanBlackKingCastle)
+            game.CurrentState.CanBlackKingCastle = !request.BlackKingMoved;
+        if (game.CurrentState.CanBlackShortRookCastle)
+            game.CurrentState.CanBlackShortRookCastle = !request.BlackShortRookMoved;
+        if (game.CurrentState.CanBlackLongRookCastle)
+            game.CurrentState.CanBlackLongRookCastle = !request.BlackLongRookMoved;
+
+
+        // update game
         game.Position = request.Position;
         game.Round = (game.Turn / 2) + 1;
         game.Turn += 1;
@@ -44,10 +78,14 @@ public class MakeEngineGameMoveRequestHandler : IRequestHandler<MakeEngineGameMo
         {
             Id = Guid.NewGuid(),
             DoneMove = request.Move,
+            FenMove = request.FenMove, 
             Position = game.Position,
-            OldCoordinates = "",
-            NewCoordinates = "",
+            OldCoordinates = request.OldCoor,
+            NewCoordinates = request.NewCoor,
             Turn = game.Turn,
+            CapturedPiece = request.CapturedPiece,
+            //WhiteTime = game.WhitePlayer.TimeLeft,
+            //BlackTime = game.BlackPlayer.TimeLeft,
             GameId = game.Id,
         };
 

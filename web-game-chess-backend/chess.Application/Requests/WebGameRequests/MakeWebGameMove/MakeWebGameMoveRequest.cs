@@ -25,6 +25,11 @@ public class MakeWebGameMoveRequest : IRequest {
     public required string Move { get; set; }
 
     /// <summary>
+    /// Done move in fen notation
+    /// </summary>
+    public required string FenMove { get; set; }
+
+    /// <summary>
     /// Coordinates from x,y
     /// </summary>
     public required string OldCoor { get; set; }

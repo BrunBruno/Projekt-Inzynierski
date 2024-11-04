@@ -4,7 +4,7 @@ import { movementMap } from "../objects/piecesMovementMap";
 import { pieceTagMap } from "../objects/piecesNameMaps";
 import { NMatrix, SMatrix } from "../types/commonTypes";
 import { toCoor, toCoorNum } from "./general";
-import { Coordinate, CoorNumber, PieceOption } from "./types";
+import { Coordinate, CoorNumber, PieceOption } from "./gameSates";
 
 let boardMatrix: SMatrix = [];
 

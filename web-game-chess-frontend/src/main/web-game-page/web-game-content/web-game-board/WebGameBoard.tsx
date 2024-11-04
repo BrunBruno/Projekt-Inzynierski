@@ -10,14 +10,20 @@ import { PieceTag } from "../../../../shared/utils/objects/constantLists";
 import { dangerColor } from "../../../../shared/utils/objects/colorMaps";
 import { symbolIcons } from "../../../../shared/svgs/iconsMap/SymbolIcons";
 import { defaultPiecesImages } from "../../../../shared/svgs/iconsMap/DefaultPieceImageSvgs";
-import { Coordinate, PieceOption, SelectionStates, WebGameStates } from "../../../../shared/utils/chess-game/types";
+import {
+  Coordinate,
+  PieceOption,
+  SelectionStates,
+  TypeOfGame,
+  WebGameStates,
+} from "../../../../shared/utils/chess-game/gameSates";
 import { areCoorEqual, checkIfOwnPiece, posToIndex, toCoor } from "../../../../shared/utils/chess-game/general";
 import {
   onClearHighlights,
   onHighlightFile,
   performMoveAnimation,
 } from "../../../../shared/utils/chess-game/boardVisualization";
-import { makeWebGameMove } from "../../../../shared/utils/chess-game/makeMove";
+import { makeMove } from "../../../../shared/utils/chess-game/makeMove";
 
 type WebGameBoardProps = {
   // current game data
@@ -298,8 +304,8 @@ function WebGameBoard({
         coordinates
       );
 
-      setTimeout(() => {
-        makeWebGameMove(gameStates, selectionStates, coordinates, null);
+      setTimeout(async () => {
+        await makeMove(TypeOfGame.web, gameStates, selectionStates, coordinates, null);
       }, 100);
 
       return;
@@ -326,7 +332,7 @@ function WebGameBoard({
     chosePiece(piece, coordinates);
   };
 
-  const onDropPiece = (coordinates: Coordinate, isInTipFields: boolean, samePiece: boolean): void => {
+  const onDropPiece = async (coordinates: Coordinate, isInTipFields: boolean, samePiece: boolean): Promise<void> => {
     if (!coordinates) return;
 
     setSelectionStates({ type: "SET_IS_DRAGGING", payload: false });
@@ -349,7 +355,7 @@ function WebGameBoard({
 
     // if put on one of tip fields make move else clear piece
     if (isInTipFields) {
-      makeWebGameMove(gameStates, selectionStates, coordinates, null);
+      await makeMove(TypeOfGame.web, gameStates, selectionStates, coordinates, null);
     } else {
       chosePiece("", null);
     }

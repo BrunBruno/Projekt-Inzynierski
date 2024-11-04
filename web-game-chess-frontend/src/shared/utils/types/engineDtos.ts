@@ -3,6 +3,7 @@
 import { Guid } from "guid-typescript";
 import { MoveDto, PlayerDto } from "./abstractDtosAndModels";
 import { TimingType } from "../objects/entitiesEnums";
+import { BlackPieceTag, WhitePieceTag } from "../objects/constantLists";
 
 export type GetEngineGameDto = {
   position: string;
@@ -20,12 +21,12 @@ export type GetEngineGameDto = {
   moves: MoveDto[];
 };
 
-export type MakeMovesDto = {
-  newPosition: string;
-  turn: number;
-  outputs: string[];
-};
-
 export type StartEngineGameDto = {
   gameId: Guid;
+};
+
+export type GetEngineGameMoveDto = {
+  oldCoordinates: string;
+  newCoordinates: string;
+  promotedPiece: WhitePieceTag | BlackPieceTag | null;
 };

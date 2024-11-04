@@ -330,6 +330,7 @@ interface EngineControllerPaths {
 interface EngineController {
   startEngineGame: () => string;
   makeEngineGameMove: () => string;
+  getEngineGameMove: (gameId: Guid) => string;
   getEngineGame: (gameId: Guid) => string;
 }
 
@@ -340,8 +341,16 @@ export const engineControllerPaths: EngineControllerPaths = {
 };
 
 export const engineController: EngineController = {
+  //
   startEngineGame: () => `${engineBaseUrl}/start`,
+
+  //
   makeEngineGameMove: () => `${engineBaseUrl}/make-move`,
+
+  //
+  getEngineGameMove: (gameId: Guid) => `${engineBaseUrl}/${gameId}/engine-move`,
+
+  //
   getEngineGame: (gameId: Guid) => `${engineBaseUrl}/${gameId}`,
 };
 //*/

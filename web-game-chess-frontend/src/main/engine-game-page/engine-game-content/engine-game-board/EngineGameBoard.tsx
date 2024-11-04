@@ -10,26 +10,34 @@ import { dangerColor } from "../../../../shared/utils/objects/colorMaps";
 import { symbolIcons } from "../../../../shared/svgs/iconsMap/SymbolIcons";
 import { defaultPiecesImages } from "../../../../shared/svgs/iconsMap/DefaultPieceImageSvgs";
 import { GetEngineGameDto } from "../../../../shared/utils/types/engineDtos";
-import { Coordinate, EngineGameStates, PieceOption, SelectionStates } from "../../../../shared/utils/chess-game/types";
+import {
+  Coordinate,
+  EngineGameStates,
+  PieceOption,
+  SelectionStates,
+  TypeOfGame,
+} from "../../../../shared/utils/chess-game/gameSates";
 import { areCoorEqual, checkIfOwnPiece, posToIndex, toCoor } from "../../../../shared/utils/chess-game/general";
-import { makeEngineGameMove } from "../../../../shared/utils/chess-game/makeMove";
 import {
   onClearHighlights,
   onHighlightFile,
   performMoveAnimation,
 } from "../../../../shared/utils/chess-game/boardVisualization";
+import { makeMove } from "../../../../shared/utils/chess-game/makeMove";
 
 type EngineGameBoardProps = {
   // current game data
   gameData: GetEngineGameDto;
-  //
+  // current game states
   gameStates: EngineGameStates;
-  //
+  // user selection states
   selectionStates: SelectionStates;
-  //
+  // selection setters
   setSelectionStates: Dispatch<SelectionAction>;
-  //
+  // piece selection setter
   chosePiece: (piece: PieceOption, coordinates: Coordinate) => void;
+  //
+  getGame: () => Promise<void>;
 };
 
 function EngineGameBoard({
@@ -38,6 +46,7 @@ function EngineGameBoard({
   selectionStates,
   setSelectionStates,
   chosePiece,
+  getGame,
 }: EngineGameBoardProps) {
   ///
 
@@ -296,8 +305,10 @@ function EngineGameBoard({
       );
 
       setTimeout(async () => {
-        await makeEngineGameMove(gameStates, selectionStates, coordinates, null);
-        window.location.reload();
+        await makeMove(TypeOfGame.engine, gameStates, selectionStates, coordinates, null);
+
+        // refresh
+        await getGame();
       }, 100);
 
       return;
@@ -347,8 +358,10 @@ function EngineGameBoard({
 
     // if put on one of tip fields make move else clear piece
     if (isInTipFields) {
-      await makeEngineGameMove(gameStates, selectionStates, coordinates, null);
-      window.location.reload();
+      await makeMove(TypeOfGame.engine, gameStates, selectionStates, coordinates, null);
+
+      // refresh
+      await getGame();
     } else {
       chosePiece("", null);
     }

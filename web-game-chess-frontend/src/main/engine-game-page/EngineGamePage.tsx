@@ -4,7 +4,6 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { engineController, getAuthorization } from "../../shared/utils/services/ApiService";
 import LoadingPage from "../../shared/components/loading-page/LoadingPage";
-import GameContent from "./engine-game-content/EngineGameContent";
 import { usePopup } from "../../shared/utils/hooks/usePopUp";
 import { getErrMessage } from "../../shared/utils/functions/errors";
 import MainPopUp from "../../shared/components/main-popup/MainPopUp";
@@ -59,20 +58,20 @@ function EngineGamePage() {
     }
   }, [location.state]);
 
+  // get game data
+  const getGame = async (): Promise<void> => {
+    try {
+      if (!gameId) return;
+
+      const response = await axios.get<GetEngineGameDto>(engineController.getEngineGame(gameId), getAuthorization());
+
+      setGameData(response.data);
+    } catch (err) {
+      showPopup(getErrMessage(err), "warning");
+    }
+  };
+
   useEffect(() => {
-    // get game data
-    const getGame = async (): Promise<void> => {
-      try {
-        if (!gameId) return;
-
-        const response = await axios.get<GetEngineGameDto>(engineController.getEngineGame(gameId), getAuthorization());
-
-        setGameData(response.data);
-      } catch (err) {
-        showPopup(getErrMessage(err), "warning");
-      }
-    };
-
     getGame();
   }, [gameId]);
 
@@ -87,7 +86,7 @@ function EngineGamePage() {
         setConfirmAction={setConfirmAction}
       />
 
-      <EngineGameContent gameId={gameId} gameData={gameData} />
+      <EngineGameContent gameId={gameId} gameData={gameData} getGame={getGame} />
 
       <EngineGameRightSidebar gameData={gameData} />
 

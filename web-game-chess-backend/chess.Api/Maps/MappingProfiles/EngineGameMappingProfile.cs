@@ -8,9 +8,9 @@ namespace chess.Api.Maps.MappingProfiles;
 
 public class EngineGameMappingProfile : Profile {
 	
-    public EngineGameMappingProfile() {
+	public EngineGameMappingProfile() {
 
-        CreateMap<StartEngineGameModel, StartEngineGameRequest>();
-        CreateMap<MakeEngineGameMoveModel, MakeEngineGameMoveRequest>();
-    }
+		CreateMap<StartEngineGameModel, StartEngineGameRequest>();
+		CreateMap<MakeEngineGameMoveModel, MakeEngineGameMoveRequest>();
+	}
 }

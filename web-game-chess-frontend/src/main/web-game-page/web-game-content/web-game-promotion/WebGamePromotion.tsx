@@ -7,8 +7,8 @@ import { getPieceName, piecePromotionMap } from "../../../../shared/utils/object
 import { GetPlayerDto } from "../../../../shared/utils/types/gameDtos";
 import classes from "./WebGamePromotion.module.scss";
 import { SelectionAction } from "../WebGameContentStates";
-import { PieceOption, SelectionStates, WebGameStates } from "../../../../shared/utils/chess-game/types";
-import { makeWebGameMove } from "../../../../shared/utils/chess-game/makeMove";
+import { PieceOption, SelectionStates, TypeOfGame, WebGameStates } from "../../../../shared/utils/chess-game/gameSates";
+import { makeMove } from "../../../../shared/utils/chess-game/makeMove";
 
 type WebGamePromotionProps = {
   // player data
@@ -25,9 +25,9 @@ function WebGamePromotion({ playerData, gameStates, selectionStates, setSelectio
   ///
 
   // promote pawn to chosen piece
-  const onPerformPromotion = (promotedPiece: PieceOption): void => {
+  const onPerformPromotion = async (promotedPiece: PieceOption): Promise<void> => {
     if (selectionStates.promotionCoor) {
-      makeWebGameMove(gameStates, selectionStates, selectionStates.promotionCoor, promotedPiece);
+      await makeMove(TypeOfGame.web, gameStates, selectionStates, selectionStates.promotionCoor, promotedPiece);
     }
 
     setSelectionStates({ type: "SET_PROMOTION_COOR", payload: null });

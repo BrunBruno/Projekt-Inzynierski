@@ -4,7 +4,7 @@ import { Guid } from "guid-typescript";
 import { SMatrix } from "../../../shared/utils/types/commonTypes";
 import { GetEngineGameDto } from "../../../shared/utils/types/engineDtos";
 import { PlayerDto } from "../../../shared/utils/types/abstractDtosAndModels";
-import { Coordinate, EngineGameStates, PieceOption, SelectionStates } from "../../../shared/utils/chess-game/types";
+import { Coordinate, EngineGameStates, PieceOption, SelectionStates } from "../../../shared/utils/chess-game/gameSates";
 
 export const gameInitialStates: EngineGameStates = {
   gameId: Guid.createEmpty(),

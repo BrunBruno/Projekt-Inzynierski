@@ -22,9 +22,10 @@ export type CreateRematchGameModel = TimingTypeModel & {
   previousGameId: Guid;
 };
 
-export type MakeMoveModel = {
+export type MakeWebGameMoveModel = {
   gameId: Guid;
   position: string;
+  fenMove: string;
   move: string;
   oldCoor: string;
   newCoor: string;
