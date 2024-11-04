@@ -7,30 +7,34 @@ using MediatR;
 
 namespace chess.Application.Requests.EngineRequests.MakeEngineGameMove;
 
-public class MakeEngineGameMoveRequestHandler : IRequestHandler<MakeEngineGameMoveRequest, MakeEngineGameMoveDto> {
+public class MakeEngineGameMoveRequestHandler : IRequestHandler<MakeEngineGameMoveRequest> {
 
+    private readonly IUserContextService _userContextService;
     private readonly IEngineGameRepository _engineGameRepository;
     private readonly IEngineGameMoveRepository _engineGameMoveRepository;
-    private readonly IEngineService _engineService;
 
     public MakeEngineGameMoveRequestHandler(
+        IUserContextService userContextService,
         IEngineGameRepository engineGameRepository,
-        IEngineGameMoveRepository engineGameMoveRepository,
-        IEngineService engineService
+        IEngineGameMoveRepository engineGameMoveRepository
     ) {
+        _userContextService = userContextService;
         _engineGameRepository = engineGameRepository;
         _engineGameMoveRepository = engineGameMoveRepository;
-        _engineService = engineService;
     }
 
-    public async Task<MakeEngineGameMoveDto> Handle(MakeEngineGameMoveRequest request, CancellationToken cancellationToken) {
+    public async Task Handle(MakeEngineGameMoveRequest request, CancellationToken cancellationToken) {
 
+        var userId = _userContextService.GetUserId();
 
         var game = await _engineGameRepository.GetById(request.GameId)
             ?? throw new NotFoundException("Game not found.");
 
         if (game.HasEnded)
-            throw new BadRequestException("Can not make move in finished game");
+            throw new BadRequestException("Game is finished.");
+
+        if(game.Player.UserId != userId)
+            throw new UnauthorizedException("Not user game.");
 
         game.Position = request.Position;
         game.Round = (game.Turn / 2) + 1;
@@ -48,75 +52,7 @@ public class MakeEngineGameMoveRequestHandler : IRequestHandler<MakeEngineGameMo
         };
 
 
-       await _engineGameMoveRepository.Create(playerMove);
-
-
-        var activeColor = (game.Turn % 2 == 0) ? "w" : "b";
-        var castlingAvailability = "KQkq";               
-        var enPassant = "-";                            
-        var halfmoveClock = "0";                        
-        var fullmoveNumber = ((game.Turn / 2) + 1).ToString();
-
-        var fullFen = $"{game.Position} {activeColor} {castlingAvailability} {enPassant} {halfmoveClock} {fullmoveNumber}";
-
-        var outputs = new List<string>();
-
-        _engineService.SendCommand($"position fen {fullFen}");
-        _engineService.SendCommand("go depth 1");
-
-        var bestMoveOutput = _engineService.ReadOutput();
-
-        var bestMoveLine = bestMoveOutput.FirstOrDefault(line => line.StartsWith("bestmove"))
-            ?? throw new InvalidOperationException("No valid move from Stockfish.");
-
-
-        var bestMove = bestMoveLine.Split(' ')[1];
-        Console.WriteLine(bestMoveLine);
-
-        _engineService.SendCommand($"position fen {fullFen} moves {bestMove}");
-        _engineService.SendCommand("d"); 
-
-        var newPositionOutput = _engineService.ReadOutput();
-        var newPositionLine = newPositionOutput.FirstOrDefault(line => line.Contains("Fen:"));
-        var newFenPosition = newPositionLine?.Split("Fen:")[1].Trim() 
-            ?? throw new InvalidOperationException("Failed to retrieve new position.");
-
-        var newPosition = newFenPosition.Split(' ')[0];
-
-     
-
-        game.Position = newPosition;
-        game.Round = (game.Turn / 2) + 1;
-        game.Turn += 1;
-
-        var engineMove = new EngineGameMove()
-        {
-            Id = Guid.NewGuid(),
-            DoneMove = bestMove,
-            Position = game.Position,
-            OldCoordinates = "",
-            NewCoordinates = "",
-            Turn = game.Turn,
-            GameId = game.Id,
-        };
-
-
-       await _engineGameMoveRepository.Create(engineMove);
-
-
-
-        _engineService.Close();
-
-
+        await _engineGameMoveRepository.Create(playerMove);
         await _engineGameRepository.Update(game);
-
-
-        var returnDto = new MakeEngineGameMoveDto() { 
-            NewPosition = game.Position,
-            Turn = game.Turn,
-            Outputs = outputs,
-        };
-
-        return returnDto;
     }
 }
