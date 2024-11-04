@@ -9,12 +9,17 @@ type NavSectionProps = {
   heroSectionRef: RefObject<HTMLElement>;
   // home content container ref
   homeContentRef: RefObject<HTMLElement>;
+  // faq section container ref
+  faqContentRef: RefObject<HTMLElement>;
   // sections names
   indicators: readonly ["home", "play", "learn", "faq"];
 };
 
 const NavSection = forwardRef<HandleOnScroll, NavSectionProps>(
-  ({ heroSectionRef, homeContentRef, indicators }: NavSectionProps, ref: ForwardedRef<HandleOnScroll>) => {
+  (
+    { heroSectionRef, homeContentRef, faqContentRef, indicators }: NavSectionProps,
+    ref: ForwardedRef<HandleOnScroll>
+  ) => {
     ///
 
     // hav section ref
@@ -24,20 +29,26 @@ const NavSection = forwardRef<HandleOnScroll, NavSectionProps>(
     const handleOnScroll = (): void => {
       const heroElement = heroSectionRef.current;
       const homeElement = homeContentRef.current;
+      const faqElement = faqContentRef.current;
       const navElement = navRef.current;
 
-      if (navElement && heroElement && homeElement) {
+      if (navElement && heroElement && homeElement && faqElement) {
         const navRefClasses = navElement.classList;
 
-        if (window.scrollY > 0.8 * heroElement.clientHeight) {
+        // no nav
+        if (window.scrollY > window.innerHeight) {
           navRefClasses.remove(classes["nav-none"]);
         } else {
           navRefClasses.add(classes["nav-none"]);
         }
 
-        const navIntersection = homeElement.clientHeight + heroElement.clientHeight - 4 * navElement.clientHeight;
+        // *4 for earlier change
+        const navIntersection =
+          window.scrollY <= homeElement.clientHeight + heroElement.clientHeight - 4 * navElement.clientHeight ||
+          faqElement.getBoundingClientRect().top < 0;
 
-        if (window.scrollY <= navIntersection) {
+        // sticky nav
+        if (navIntersection) {
           navRefClasses.remove(classes["nav-sticky"]);
         } else {
           navRefClasses.add(classes["nav-sticky"]);

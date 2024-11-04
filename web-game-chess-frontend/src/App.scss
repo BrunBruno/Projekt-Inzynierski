@@ -6,6 +6,11 @@
   box-sizing: border-box;
 }
 
+*::selection {
+  background-color: $mc5;
+  color: #000;
+}
+
 html {
   height: 100%;
   background-color: #111;

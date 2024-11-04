@@ -40,6 +40,11 @@ public class GetAllActiveGamesDto {
     public TimingTypes TimingType { get; set; }
 
     /// <summary>
+    /// 
+    /// </summary>
+    public double TimeLeft { get; set; }
+
+    /// <summary>
     /// White player data
     /// </summary>
     public required PlayerDto WhitePlayer { get; set; }

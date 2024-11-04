@@ -60,9 +60,10 @@ function IndexPage() {
   const heroScrollRef = useRef<HandleOnScroll>(null);
   // hero section ref
   const heroSectionRef = useRef<HTMLElement>(null);
-  // home content ref
+
   // for making nav sticky
   const homeContentRef = useRef<HTMLDivElement>(null);
+  const faqContentRef = useRef<HTMLDivElement>(null);
 
   // scroll events handling
   const handleScroll = (): void => {
@@ -150,7 +151,7 @@ function IndexPage() {
       case "learn":
         return <LearnSection ref={scrollRef} sectionRef={sectionRef} />;
       case "faq":
-        return <FaqSection ref={scrollRef} sectionRef={sectionRef} />;
+        return <FaqSection ref={scrollRef} sectionRef={sectionRef} faqContentRef={faqContentRef} />;
       default:
         return <></>;
     }
@@ -177,6 +178,7 @@ function IndexPage() {
         ref={navScrollRef}
         heroSectionRef={heroSectionRef}
         homeContentRef={homeContentRef}
+        faqContentRef={faqContentRef}
         indicators={indicators}
       />
 

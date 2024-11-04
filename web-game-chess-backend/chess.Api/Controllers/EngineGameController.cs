@@ -40,9 +40,9 @@ public class EngineGameController : ControllerBase {
 
         var request = _mapper.Map<MakeEngineGameMoveRequest>(model);
 
-        var game = await _mediator.Send(request);
+        await _mediator.Send(request);
 
-        return Ok(game);
+        return Ok();
     }
 
 

@@ -11,9 +11,9 @@ import { timingTypeIcons } from "../../../../../shared/svgs/iconsMap/TimingTypeI
 import { PieceTag, TimingTypeName } from "../../../../../shared/utils/objects/constantLists";
 import { TimingType } from "../../../../../shared/utils/objects/entitiesEnums";
 import { getPieceSideColor } from "../../../../../shared/utils/objects/piecesNameMaps";
-import ActionButton from "../../../../../shared/components/action-button/ActionButton";
 import { useNavigate } from "react-router-dom";
 import { StateOptions } from "../../../../../shared/utils/objects/interfacesEnums";
+import { makeTimeFromMinutes } from "../../../../../shared/utils/functions/datetime";
 
 type ActiveGamesCardProps = {
   // finished game data
@@ -178,7 +178,13 @@ function ActiveGamesCard({ game }: ActiveGamesCardProps) {
   //*/
 
   return (
-    <div ref={cardRef} className={classes.card}>
+    <div
+      ref={cardRef}
+      className={classes.card}
+      onClick={() => {
+        onRejoinGame();
+      }}
+    >
       <div ref={gridRef} className={`${classes["mini-grid"]}`}>
         {mapFromPosition(game.position)}
         {displayPlayer(game)}
@@ -195,14 +201,11 @@ function ActiveGamesCard({ game }: ActiveGamesCardProps) {
           />
         </div>
 
-        <div
-          className={classes["rejoin-button"]}
-          onClick={() => {
-            onRejoinGame();
-          }}
-        >
-          <ActionButton text="Rejoin" />
-        </div>
+        {/* moves */}
+        <div className={classes.moves}>{game.moves}</div>
+
+        {/* moves */}
+        <div className={classes.duration}>{makeTimeFromMinutes(game.timeLeft / 60)}</div>
       </div>
     </div>
   );

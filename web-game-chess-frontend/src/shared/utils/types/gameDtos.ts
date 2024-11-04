@@ -53,6 +53,7 @@ export type GetAllActiveGamesDto = {
   moves: number;
   createdAt: Date;
   timingType: TimingType;
+  timeLeft: number;
   whitePlayer: PlayerDto;
   blackPlayer: PlayerDto;
 };

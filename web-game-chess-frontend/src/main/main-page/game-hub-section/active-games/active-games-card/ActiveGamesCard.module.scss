@@ -1,5 +1,4 @@
 @use "../../../../../shared/styles/shared.scss" as *;
-@use "../../../../../shared/components/action-button/ActionButton.module.scss" as actionButton;
 
 // user game card
 .card {
@@ -33,8 +32,13 @@
       }
     }
 
-    .rejoin-button {
-      @include actionButton.actionButton(1.6rem);
+    .moves {
+      @include flex();
+      @include circle(3rem);
+
+      font-weight: 600;
+      font-size: 1.8rem;
+      border: solid 0.4rem $mc0;
     }
   }
   //*/

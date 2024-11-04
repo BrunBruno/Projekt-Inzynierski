@@ -66,7 +66,7 @@ function FooterSection({}: FooterSectionProps) {
                 <IconCreator
                   icons={symbolIcons}
                   iconName={"roundArrow"}
-                  color={mainColor.c2}
+                  color={mainColor.c0}
                   iconClass={classes["r-arr"]}
                 />
               </div>

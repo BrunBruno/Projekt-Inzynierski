@@ -7,7 +7,7 @@ import { HandleOnScroll } from "../../../shared/utils/types/commonTypes";
 type HomeSectionProps = {
   // section container ref
   sectionRef: RefObject<HTMLElement>;
-  // section content ref
+  // for sticky nav
   homeContentRef: RefObject<HTMLDivElement>;
 };
 

@@ -21,10 +21,12 @@ import { faqSectionIcons } from "./FaqSectionIcons";
 type FaqSectionProps = {
   // section container ref
   sectionRef: RefObject<HTMLElement>;
+  // for sticky nav
+  faqContentRef: RefObject<HTMLDivElement>;
 };
 
 const FaqSection = forwardRef<HandleOnScroll, FaqSectionProps>(
-  ({ sectionRef }: FaqSectionProps, ref: ForwardedRef<HandleOnScroll>) => {
+  ({ sectionRef, faqContentRef }: FaqSectionProps, ref: ForwardedRef<HandleOnScroll>) => {
     ///
 
     // cards rows refs
@@ -158,7 +160,7 @@ const FaqSection = forwardRef<HandleOnScroll, FaqSectionProps>(
 
     return (
       <section id="faq-section" ref={sectionRef} className={classes.section}>
-        <div className={classes.section__intro}>
+        <div ref={faqContentRef} className={classes.section__intro}>
           <h2>Most Asked Questions</h2>
         </div>
         {/* question cards */}
