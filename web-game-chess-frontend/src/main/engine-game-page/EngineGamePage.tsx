@@ -9,10 +9,12 @@ import { getErrMessage } from "../../shared/utils/functions/errors";
 import MainPopUp from "../../shared/components/main-popup/MainPopUp";
 import { Guid } from "guid-typescript";
 import { GameActionInterface, StateOptions } from "../../shared/utils/objects/interfacesEnums";
-import { GetEngineGameDto } from "../../shared/utils/types/engineDtos";
+import { EndEngineGameDto, GetEngineGameDto } from "../../shared/utils/types/engineDtos";
 import EngineGameLeftSidebar from "./engine-game-left-sidebar/EngineGameLeftSidebar";
 import EngineGameRightSidebar from "./engine-game-right-sidebar/EngineGameRightSidebar";
 import EngineGameContent from "./engine-game-content/EngineGameContent";
+import { EndEngineGameModel } from "../../shared/utils/types/engineModels";
+import { PieceColor } from "../../shared/utils/objects/entitiesEnums";
 
 function EngineGamePage() {
   ///
@@ -42,12 +44,13 @@ function EngineGamePage() {
 
   // obtained game data
   const [gameData, setGameData] = useState<GetEngineGameDto | null>(null);
+  // winner data
+  const [winner, setWinner] = useState<EndEngineGameDto | null>(null);
 
   // states for displaying actions confirmation window
   const [showConfirm, setShowConfirm] = useState<GameActionInterface | null>(null);
   const [confirmAction, setConfirmAction] = useState<() => void>(() => {});
 
-  // return if no timing set
   // display enter popups
   useEffect(() => {
     const locationState = location.state as StateOptions;
@@ -75,6 +78,30 @@ function EngineGamePage() {
     getGame();
   }, [gameId]);
 
+  const endGame = async (loserColor: PieceColor | null): Promise<void> => {
+    if (!gameId) return;
+
+    try {
+      const model: EndEngineGameModel = {
+        gameId: gameId,
+        loserColor: loserColor,
+      };
+
+      const response = await axios.put<EndEngineGameDto>(engineController.endEngieGame(), model, getAuthorization());
+
+      setWinner(response.data);
+    } catch (err) {
+      showPopup(getErrMessage(err), "warning");
+    }
+  };
+
+  // to get winner if game has ended
+  useEffect(() => {
+    if (!gameId || !gameData) return;
+
+    if (gameData.hasEnded) endGame(null);
+  }, [gameData]);
+
   if (!gameId || !gameData) return <LoadingPage />;
 
   return (
@@ -86,9 +113,18 @@ function EngineGamePage() {
         setConfirmAction={setConfirmAction}
       />
 
-      <EngineGameContent gameId={gameId} gameData={gameData} getGame={getGame} />
+      <EngineGameContent
+        gameId={gameId}
+        gameData={gameData}
+        getGame={getGame}
+        endGame={endGame}
+        winner={winner}
+        showConfirm={showConfirm}
+        setShowConfirm={setShowConfirm}
+        confirmAction={confirmAction}
+      />
 
-      <EngineGameRightSidebar gameData={gameData} />
+      <EngineGameRightSidebar gameId={gameId} gameData={gameData} />
 
       <MainPopUp />
     </main>

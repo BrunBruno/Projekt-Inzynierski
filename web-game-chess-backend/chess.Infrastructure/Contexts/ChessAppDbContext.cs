@@ -47,6 +47,7 @@ public class ChessAppDbContext : DbContext {
     public DbSet<EngineGameState> EngineGameStates { get; set; }
     public DbSet<EngineGamePlayer> EngineGamePlayers { get; set; }
     public DbSet<EngineGameMove> EngineGameMoves { get; set; }
+    public DbSet<EngineGameMessage> EngineGameMessages { get; set; }
 
 
 
@@ -83,5 +84,6 @@ public class ChessAppDbContext : DbContext {
         builder.ApplyConfiguration<EngineGameState>(configuration);
         builder.ApplyConfiguration<EngineGamePlayer>(configuration);
         builder.ApplyConfiguration<EngineGameMove>(configuration);
+        builder.ApplyConfiguration<EngineGameMessage>(configuration);
     }
 }

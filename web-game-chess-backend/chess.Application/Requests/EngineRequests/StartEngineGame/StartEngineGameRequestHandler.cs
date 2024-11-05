@@ -17,17 +17,20 @@ public class StartEngineGameRequestHandler : IRequestHandler<StartEngineGameRequ
     private readonly IUserRepository _userRepository;
     private readonly IEngineGameRepository _engineGameRepository;
     private readonly IEngineGamePlayerRepository _engineGamePlayerRepository;
+    private readonly IEngineGameMessageRepository _engineGameMessageRepository;
 
     public StartEngineGameRequestHandler(
         IUserContextService userContextService,
         IUserRepository userRepository,
         IEngineGameRepository engineGameRepository,
-        IEngineGamePlayerRepository engineGamePlayerRepository
+        IEngineGamePlayerRepository engineGamePlayerRepository,
+        IEngineGameMessageRepository engineGameMessageRepository
     ) {
         _userContextService = userContextService;
         _userRepository = userRepository;
         _engineGameRepository = engineGameRepository;
         _engineGamePlayerRepository = engineGamePlayerRepository;
+        _engineGameMessageRepository = engineGameMessageRepository;
     }
 
     public async Task<StartEngineGameDto> Handle(StartEngineGameRequest request, CancellationToken cancellationToken) {
@@ -43,7 +46,7 @@ public class StartEngineGameRequestHandler : IRequestHandler<StartEngineGameRequ
             Id = Guid.NewGuid(),
             Name = user.Username,
             //Color = _random.Next(2) == 0 ? PieceColor.White : PieceColor.Black,
-            Color = PieceColor.White,
+            Color = PieceColor.Black,
             UserId = userId,
         };
 
@@ -59,8 +62,18 @@ public class StartEngineGameRequestHandler : IRequestHandler<StartEngineGameRequ
             CurrentState = new EngineGameState(),
         };
 
+        var message = new EngineGameMessage()
+        {
+            Id = Guid.NewGuid(),
+            Content = "Game Started",
+            RequestorName = "BOT",
+            Type = MessageType.Bot,
+            GameId = game.Id,
+        };
+
 
         await _engineGameRepository.Create(game);
+        await _engineGameMessageRepository.Create(message);
 
 
         var dto = new StartEngineGameDto

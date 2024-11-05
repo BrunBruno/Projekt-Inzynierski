@@ -1,8 +1,8 @@
-import { useEffect, useReducer } from "react";
+import { Dispatch, SetStateAction, useEffect, useReducer } from "react";
 import classes from "./EngineGameContent.module.scss";
 import { Guid } from "guid-typescript";
 import { SMatrix } from "../../../shared/utils/types/commonTypes";
-import { GetEngineGameDto, GetEngineGameMoveDto } from "../../../shared/utils/types/engineDtos";
+import { EndEngineGameDto, GetEngineGameDto, GetEngineGameMoveDto } from "../../../shared/utils/types/engineDtos";
 import {
   gameInitialStates,
   gameStatesReducer,
@@ -27,6 +27,11 @@ import axios from "axios";
 import { makeMove } from "../../../shared/utils/chess-game/makeMove";
 import { usePopup } from "../../../shared/utils/hooks/usePopUp";
 import { getErrMessage } from "../../../shared/utils/functions/errors";
+import { PieceColor } from "../../../shared/utils/objects/entitiesEnums";
+import { checkIfAnyMoveExists } from "../../../shared/utils/chess-game/checkIfAnyMoveExists";
+import EngineGameWinner from "./engine-game-winner/EngineGameWinner";
+import EngineGameConfirm from "./engine-game-confirm/EngineGameConfirm";
+import { GameActionInterface } from "../../../shared/utils/objects/interfacesEnums";
 
 type EngineGameContentProps = {
   // game id
@@ -35,9 +40,28 @@ type EngineGameContentProps = {
   gameData: GetEngineGameDto;
   //
   getGame: () => Promise<void>;
+  //
+  endGame: (loserColor: PieceColor | null) => Promise<void>;
+  //
+  winner: EndEngineGameDto | null;
+  // to display confirm window
+  showConfirm: GameActionInterface | null;
+  // to hide confirm window
+  setShowConfirm: Dispatch<SetStateAction<GameActionInterface | null>>;
+  // to perform action on confirm
+  confirmAction: () => void;
 };
 
-function EngineGameContent({ gameId, gameData, getGame }: EngineGameContentProps) {
+function EngineGameContent({
+  gameId,
+  gameData,
+  getGame,
+  endGame,
+  winner,
+  showConfirm,
+  setShowConfirm,
+  confirmAction,
+}: EngineGameContentProps) {
   ///
 
   const { showPopup } = usePopup();
@@ -50,7 +74,7 @@ function EngineGameContent({ gameId, gameData, getGame }: EngineGameContentProps
     setGameStates({ type: "SET_GAME_ID", payload: gameId });
   }, [gameId]);
 
-  //
+  // to update stataes after each move
   const updateStates = () => {
     const setMatrix = (position: string): SMatrix => {
       const matrix: SMatrix = [[]]; // containing first for
@@ -103,7 +127,6 @@ function EngineGameContent({ gameId, gameData, getGame }: EngineGameContentProps
 
     chosePiece("", null);
   };
-  //*/
 
   useEffect(() => {
     // set player data
@@ -120,15 +143,34 @@ function EngineGameContent({ gameId, gameData, getGame }: EngineGameContentProps
       payload: gameData,
     });
 
-    setTimeout(() => {
+    setTimeout(async () => {
       updateStates();
 
-      if (gameData.player.color !== gameData.turn % 2) {
-        console.log("move by engine done");
-        getEngineMove();
-      }
+      console.log("updates finsihed");
     }, 100);
   }, [gameData]);
+  //*/
+
+  // to check if game should end
+  useEffect(() => {
+    // end game if it has not been ended yet
+    if (!gameData.hasEnded && gameStates.matrix.length > 0) {
+      const noMove = checkIfAnyMoveExists(gameStates, selectionStates);
+
+      if (noMove) {
+        if (gameData.player.color === PieceColor.white && gameStates.checkAreas.black.length !== 0) {
+          // white has been check mated
+          endGame(gameData.player.color);
+        } else if (gameData.player.color === PieceColor.black && gameStates.checkAreas.white.length !== 0) {
+          // black has been check mated
+          endGame(gameData.player.color);
+        } else {
+          // draw
+          endGame(null);
+        }
+      }
+    }
+  }, [gameStates.matrix]);
   //*/
 
   // set selected piece and corresponding coordinates
@@ -150,15 +192,16 @@ function EngineGameContent({ gameId, gameData, getGame }: EngineGameContentProps
   }, [selectionStates.coordinates]);
   //*/
 
+  // make move by engine
   const getEngineMove = async (): Promise<void> => {
     try {
       if (!gameId) return;
 
-      const engineGameState: EngineGameStates = {
+      const tempEngineGameState: EngineGameStates = {
         gameId: gameId,
         gameData: gameData,
         playerData: null,
-        matrix: gameStates.matrix.reverse(),
+        matrix: gameStates.matrix,
         controlledAreas: {
           white: [],
           black: [],
@@ -174,15 +217,33 @@ function EngineGameContent({ gameId, gameData, getGame }: EngineGameContentProps
         getAuthorization()
       );
 
+      if (response.data.shouldEnd) {
+        console.log(gameStates.checkAreas);
+
+        if (gameData.player.color === PieceColor.white && gameStates.checkAreas.white.length !== 0) {
+          // black has been check mated
+          endGame(PieceColor.black);
+        } else if (gameData.player.color === PieceColor.black && gameStates.checkAreas.black.length !== 0) {
+          // white has been check mated
+          endGame(PieceColor.white);
+        } else {
+          console.log("draw");
+          // draw
+          endGame(null);
+        }
+
+        return;
+      }
+
       const [toX, toY] = response.data.newCoordinates.split(",");
       const engineToCoor: Coordinate = toCoor([parseInt(toX), parseInt(toY)]);
 
       const [fromX, fromY] = response.data.oldCoordinates.split(",");
       const engineFromCoor: Coordinate = toCoor([parseInt(fromX), parseInt(fromY)]);
 
-      const enginePiece = engineGameState.matrix[parseInt(fromY) - 1][parseInt(fromX) - 1] as PieceOption;
+      const enginePiece = tempEngineGameState.matrix[parseInt(fromY) - 1][parseInt(fromX) - 1] as PieceOption;
 
-      const engineSelection: SelectionStates = {
+      const tempEngineSelection: SelectionStates = {
         isDragging: false, //not imp
         piece: enginePiece,
         target: null, //not imp
@@ -191,13 +252,33 @@ function EngineGameContent({ gameId, gameData, getGame }: EngineGameContentProps
         availableFields: [], //not imp
       };
 
-      await makeMove(TypeOfGame.engine, engineGameState, engineSelection, engineToCoor, response.data.promotedPiece);
+      await makeMove(
+        TypeOfGame.engine,
+        tempEngineGameState,
+        tempEngineSelection,
+        engineToCoor,
+        response.data.promotedPiece
+      );
 
       await getGame();
     } catch (err) {
       showPopup(getErrMessage(err), "warning");
     }
   };
+
+  useEffect(() => {
+    // block premature move
+    const count = gameStates.matrix.reduce((acc: number, subArray: string[]) => acc + subArray.length, 0);
+    if (count !== 64) return;
+
+    if (
+      (gameData.player.color === PieceColor.white && gameData.turn % 2 === 1) ||
+      (gameData.player.color === PieceColor.black && gameData.turn % 2 === 0)
+    ) {
+      getEngineMove();
+    }
+  }, [gameStates.matrix]);
+  //*/
 
   return (
     <section className={classes.game}>
@@ -213,6 +294,7 @@ function EngineGameContent({ gameId, gameData, getGame }: EngineGameContentProps
           chosePiece={chosePiece}
           getGame={getGame}
         />
+        {/* --- */}
 
         {/* promotion box */}
         {selectionStates.promotionCoor && !gameData.hasEnded && (
@@ -221,17 +303,17 @@ function EngineGameContent({ gameId, gameData, getGame }: EngineGameContentProps
             gameStates={gameStates}
             selectionStates={selectionStates}
             setSelectionStates={setSelectionStates}
-            getEngineMove={getEngineMove}
+            getGame={getGame}
           />
         )}
 
+        {/* confirm box */}
+        {showConfirm && !gameData.hasEnded && (
+          <EngineGameConfirm confirmAction={confirmAction} showConfirm={showConfirm} setShowConfirm={setShowConfirm} />
+        )}
+
         {/* end game info*/}
-        {/* {winner && (
-          <EngineGameWinner
-            gameData={gameData}
-            winner={winner}
-          />
-        )} */}
+        {winner && <EngineGameWinner gameId={gameId} gameData={gameData} winner={winner} />}
       </div>
     </section>
   );

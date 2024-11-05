@@ -69,6 +69,7 @@ public class MakeWebGameMoveRequestHandlerTests {
             GameId = gameId,
             Position = "",
             Move = "Qd7",
+            FenMove = "",
             OldCoor = "d,1",
             NewCoor = "d,7",
         };
@@ -105,6 +106,7 @@ public class MakeWebGameMoveRequestHandlerTests {
             GameId = gameId,
             Position = "",
             Move = "Qd7",
+            FenMove = "",
             OldCoor = "d,1",
             NewCoor = "d,7",
         };
@@ -172,6 +174,7 @@ public class MakeWebGameMoveRequestHandlerTests {
             GameId = gameId,
             Position = "",
             Move = "Qd7",
+            FenMove = "",
             OldCoor = "d,1",
             NewCoor = "d,7",
         };
@@ -240,6 +243,7 @@ public class MakeWebGameMoveRequestHandlerTests {
             GameId = gameId,
             Position = "",
             Move = "Qd7",
+            FenMove = "",
             OldCoor = "d,1",
             NewCoor = "d,7",
         };
@@ -311,6 +315,7 @@ public class MakeWebGameMoveRequestHandlerTests {
             GameId = gameId,
             Position = "",
             Move = "Qd7",
+            FenMove = "",
             OldCoor = "d,1",
             NewCoor = "d,7",
         };

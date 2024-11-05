@@ -4,7 +4,7 @@ using chess.Core.Enums;
 namespace chess.Application.Requests.WebGameRequests.EndWebGame;
 
 /// <summary>
-/// Dto returned to present winner
+/// Dto returned to present web game winner
 /// </summary>
 public class EndWebGameDto {
 

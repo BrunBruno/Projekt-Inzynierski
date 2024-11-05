@@ -1,6 +1,8 @@
 ﻿
 using AutoMapper;
 using chess.Api.Models.EngineGameModels;
+using chess.Application.Requests.EngineRequests.EndEngineGame;
+using chess.Application.Requests.EngineRequests.GetAllEngineGameMessages;
 using chess.Application.Requests.EngineRequests.GetEngineGame;
 using chess.Application.Requests.EngineRequests.GetEngineGameMove;
 using chess.Application.Requests.EngineRequests.MakeEngineGameMove;
@@ -35,9 +37,9 @@ public class EngineGameController : ControllerBase {
 
         var request = _mapper.Map<StartEngineGameRequest>(model);
 
-        var game = await _mediator.Send(request);
+        var result = await _mediator.Send(request);
 
-        return Ok(game);
+        return Ok(result);
     }
 
 
@@ -63,18 +65,15 @@ public class EngineGameController : ControllerBase {
     /// </summary>
     /// <param name="model"></param>
     /// <returns></returns>
-    [HttpGet("{gameId}/engine-move")]
+    [HttpPut("end-game")]
     [Authorize(Policy = "IsVerified")]
-    public async Task<IActionResult> GetEngineGameMove([FromRoute] Guid gameId) {
+    public async Task<IActionResult> EndEngineGame([FromBody] EndEngineGameModel model) {
 
-        var request = new GetEngineGameMoveRequest()
-        {
-            GameId = gameId,
-        };
+        var request = _mapper.Map<EndEngineGameRequest>(model);
 
-        var move = await _mediator.Send(request);
+        var result = await _mediator.Send(request);
 
-        return Ok(move);
+        return Ok(result);
     }
 
 
@@ -95,5 +94,45 @@ public class EngineGameController : ControllerBase {
         var game = await _mediator.Send(request);
 
         return Ok(game);
+    }
+
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="gameId"></param>
+    /// <returns></returns>
+    [HttpGet("{gameId}/engine-move")]
+    [Authorize(Policy = "IsVerified")]
+    public async Task<IActionResult> GetEngineGameMove([FromRoute] Guid gameId) {
+
+        var request = new GetEngineGameMoveRequest()
+        {
+            GameId = gameId,
+        };
+
+        var move = await _mediator.Send(request);
+
+        return Ok(move);
+    }
+
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="gameId"></param>
+    /// <returns></returns>
+    [HttpGet("{gameId}/all-messages")]
+    [Authorize(Policy = "IsVerified")]
+    public async Task<IActionResult> GetAllEngineGameMessages([FromRoute] Guid gameId) {
+
+        var request = new GetAllEngineGameMessagesRequest()
+        {
+            GameId = gameId,
+        };
+
+        var messages = await _mediator.Send(request);
+
+        return Ok(messages);
     }
 }

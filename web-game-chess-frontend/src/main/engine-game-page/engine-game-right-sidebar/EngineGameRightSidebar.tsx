@@ -2,16 +2,19 @@ import classes from "./EngineGameRightSidebar.module.scss";
 import AvatarImage from "../../../shared/components/avatar-image/AvatarImage";
 import { PlayerDto } from "../../../shared/utils/types/abstractDtosAndModels";
 import { GetEngineGameDto } from "../../../shared/utils/types/engineDtos";
-import EngineGameClock from "./engine-game-clock/EngineGameClock";
 import { PieceColor } from "../../../shared/utils/objects/entitiesEnums";
 import EngineGameMoveRecord from "./engine-game-move-record/EngineGameMoveRecord";
+import EngineGameMessages from "./engine-game-messages/EngineGameMessages";
+import { Guid } from "guid-typescript";
 
 type EngineGameRightSidebarProps = {
+  // game id
+  gameId: Guid;
   // game data
   gameData: GetEngineGameDto;
 };
 
-function EngineGameRightSidebar({ gameData }: EngineGameRightSidebarProps) {
+function EngineGameRightSidebar({ gameId, gameData }: EngineGameRightSidebarProps) {
   ///
 
   const renderPlayer = (playerDto: PlayerDto | null, colorClass: string, avatarClass: string): JSX.Element => {
@@ -51,7 +54,9 @@ function EngineGameRightSidebar({ gameData }: EngineGameRightSidebarProps) {
         <div className={classes.bar__content__header}>
           {renderPlayer(gameData.player, classes["white-player"], classes["white-player-img"])}
 
-          <p className={classes.vs}>vs</p>
+          <p className={classes.vs}>
+            <span>vs</span>
+          </p>
 
           {renderPlayer(null, classes["black-player"], classes["black-player-img"])}
         </div>
@@ -81,7 +86,9 @@ function EngineGameRightSidebar({ gameData }: EngineGameRightSidebarProps) {
         {/* --- */}
 
         {/*  */}
-        <div className={classes.bar__content__block}></div>
+        <div className={classes.bar__content__block}>
+          <EngineGameMessages gameId={gameId} />
+        </div>
         {/* --- */}
       </div>
     </section>

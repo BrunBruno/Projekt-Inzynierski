@@ -71,7 +71,7 @@ function WebGameContent({
 }: WebGameContentProps) {
   ///
 
-  // states of game
+  // states of game and selections
   const [gameStates, setGameStates] = useReducer(gameStatesReducer, gameInitialStates);
   const [selectionStates, setSelectionStates] = useReducer(selectionStatesReducer, selectionInitialStates);
 
@@ -79,7 +79,7 @@ function WebGameContent({
     setGameStates({ type: "SET_GAME_ID", payload: gameId });
   }, [gameId]);
 
-  //
+  // after each move states update
   const updateStates = () => {
     const setMatrix = (position: string): SMatrix => {
       const matrix: SMatrix = [[]]; // containing first for
@@ -132,7 +132,6 @@ function WebGameContent({
 
     chosePiece("", null);
   };
-  //*/
 
   useEffect(() => {
     // set player data
@@ -151,9 +150,13 @@ function WebGameContent({
 
     setTimeout(() => {
       updateStates();
+
+      console.log("updates finsihed");
     }, 100);
   }, [gameData]);
+  //*/
 
+  // to check if game should end
   useEffect(() => {
     const endGame = async (loserColor: PieceColor | null, gameEndReason: GameEndReason) => {
       const loserPlayer: EndGameModel = {
@@ -218,6 +221,7 @@ function WebGameContent({
           setSelectionStates={setSelectionStates}
           chosePiece={chosePiece}
         />
+        {/* --- */}
 
         {/* promotion box */}
         {selectionStates.promotionCoor && !gameData.hasEnded && (

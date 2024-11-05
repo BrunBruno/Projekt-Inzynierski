@@ -55,6 +55,18 @@ public class GetEngineGameMoveRequestHandler : IRequestHandler<GetEngineGameMove
 
         var bestMove = bestMoveLine.Split(' ')[1];
 
+        if(bestMove == "(none)") {
+            var endDto = new GetEngineGameMoveDto()
+            {
+                ShouldEnd = true,
+                OldCoordinates = "",
+                NewCoordinates = "",
+                PromotedPiece = "",
+            };
+
+            return endDto;
+        }
+
         _engineService.SendCommand($"position fen {fullFen} moves {bestMove}");
         _engineService.SendCommand("d");
 

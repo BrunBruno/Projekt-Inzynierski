@@ -1,6 +1,7 @@
 ﻿
 using AutoMapper;
 using chess.Api.Models.EngineGameModels;
+using chess.Application.Requests.EngineRequests.EndEngineGame;
 using chess.Application.Requests.EngineRequests.MakeEngineGameMove;
 using chess.Application.Requests.EngineRequests.StartEngineGame;
 
@@ -12,5 +13,6 @@ public class EngineGameMappingProfile : Profile {
 
 		CreateMap<StartEngineGameModel, StartEngineGameRequest>();
 		CreateMap<MakeEngineGameMoveModel, MakeEngineGameMoveRequest>();
+		CreateMap<EndEngineGameModel, EndEngineGameRequest>();
 	}
 }

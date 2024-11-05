@@ -44,6 +44,12 @@ public class GetEngineGameRequestHandler : IRequestHandler<GetEngineGameRequest,
             Player = new PlayerDto() { 
                 Name = game.Player.Name,
                 Color = game.Player.Color.Value,
+
+                ProfilePicture = game.Player.User.Image != null ? new ImageDto()
+                {
+                    Data = game.Player.User.Image.Data,
+                    ContentType = game.Player.User.Image.ContentType,
+                } : null,
             },
 
             Moves = game.Moves.Select(move => new MoveDto() { 

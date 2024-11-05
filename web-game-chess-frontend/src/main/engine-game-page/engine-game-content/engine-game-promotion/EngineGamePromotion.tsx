@@ -25,7 +25,7 @@ type EngineGamePromotionProps = {
   // selection setters
   setSelectionStates: Dispatch<SelectionAction>;
   //
-  getEngineMove: () => Promise<void>;
+  getGame: () => Promise<void>;
 };
 
 function EngineGamePromotion({
@@ -33,7 +33,7 @@ function EngineGamePromotion({
   gameStates,
   selectionStates,
   setSelectionStates,
-  getEngineMove,
+  getGame,
 }: EngineGamePromotionProps) {
   ///
 
@@ -42,7 +42,7 @@ function EngineGamePromotion({
     if (selectionStates.promotionCoor) {
       await makeMove(TypeOfGame.engine, gameStates, selectionStates, selectionStates.promotionCoor, promotedPiece);
 
-      await getEngineMove();
+      await getGame();
     }
 
     setSelectionStates({ type: "SET_PROMOTION_COOR", payload: null });

@@ -2,12 +2,12 @@
 using chess.Core.Dtos;
 using chess.Core.Enums;
 
-namespace chess.Application.Requests.WebGameRequests.GetAllMessages;
+namespace chess.Application.Requests.EngineRequests.GetAllEngineGameMessages;
 
 /// <summary>
-/// Dto representing game message
+/// 
 /// </summary>
-public class GetAllMessagesDto {
+public class GetAllEngineGameMessagesDto {
 
     /// <summary>
     /// Message content
@@ -15,14 +15,9 @@ public class GetAllMessagesDto {
     public required string Message { get; set; }
 
     /// <summary>
-    /// Sender user username
+    /// 
     /// </summary>
     public required string SenderName { get; set; }
-
-    /// <summary>
-    /// In case of draw message requestor name
-    /// </summary>
-    public string? RequestorName { get; set; } = null;
 
     /// <summary>
     /// Date of creation
@@ -33,9 +28,4 @@ public class GetAllMessagesDto {
     /// Message type
     /// </summary>
     public MessageType Type { get; set; }
-
-    /// <summary>
-    /// Sender user profile picture
-    /// </summary>
-    public ImageDto? SenderImage { get; set; }
 }

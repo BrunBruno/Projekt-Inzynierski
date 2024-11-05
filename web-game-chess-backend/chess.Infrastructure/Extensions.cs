@@ -129,6 +129,7 @@ public static class Extensions {
         services.AddScoped<IEngineGameRepository, EngineGameRepository>();
         services.AddScoped<IEngineGamePlayerRepository, EngineGamePlayerRepository>();
         services.AddScoped<IEngineGameMoveRepository, EngineGameMoveRepository>();
+        services.AddScoped<IEngineGameMessageRepository, EngineGameMessageRepository>();
 
         return services;
     }

@@ -1,11 +1,10 @@
 import { useNavigate } from "react-router-dom";
-import { EndGameDto, GetEndedGameDto } from "../../../../shared/utils/types/gameDtos";
 import classes from "./EngineGameWinner.module.scss";
 import AvatarImage from "../../../../shared/components/avatar-image/AvatarImage";
 import { PieceColor } from "../../../../shared/utils/objects/entitiesEnums";
 import { PlayerDto } from "../../../../shared/utils/types/abstractDtosAndModels";
 import { Guid } from "guid-typescript";
-import { GetEngineGameDto } from "../../../../shared/utils/types/engineDtos";
+import { EndEngineGameDto, GetEngineGameDto } from "../../../../shared/utils/types/engineDtos";
 
 type EngineGameWinnerProps = {
   // game id
@@ -13,7 +12,7 @@ type EngineGameWinnerProps = {
   // current game data
   gameData: GetEngineGameDto;
   // game result data data
-  winner: EndGameDto | GetEndedGameDto | null;
+  winner: EndEngineGameDto | null;
 };
 
 function EngineGameWinner({ gameData, winner }: EngineGameWinnerProps) {
@@ -25,7 +24,17 @@ function EngineGameWinner({ gameData, winner }: EngineGameWinnerProps) {
   const generatePlayers = (): JSX.Element => {
     if (!winner) return <></>;
 
-    const renderPlayer = (player: PlayerDto, colorClass: string, avatarClass: string): JSX.Element => {
+    const renderPlayer = (playerDto: PlayerDto | null, colorClass: string, avatarClass: string): JSX.Element => {
+      let player = playerDto;
+      if (!player) {
+        player = {
+          name: "Computer",
+          profilePicture: null,
+          elo: 0,
+          color: gameData.player.color === PieceColor.white ? PieceColor.black : PieceColor.white,
+        };
+      }
+
       return (
         <div className={`${classes.player} ${colorClass}`}>
           <AvatarImage
@@ -37,44 +46,20 @@ function EngineGameWinner({ gameData, winner }: EngineGameWinnerProps) {
 
           <div className={classes["player-data"]}>
             <span>{player.name}</span>
-            <span>
-              (<span>{player.elo + winner.eloGain}</span>)
-            </span>
           </div>
         </div>
       );
     };
 
-    const wasOpponentBetter =
-      gameData.whitePlayer.elo === gameData.blackPlayer.elo
-        ? null
-        : gameData.whitePlayer.elo < gameData.blackPlayer.elo;
-
-    const isWinner = winner.winnerColor !== null ? (playerData.color === winner.winnerColor ? true : false) : null;
-
-    const sign =
-      isWinner === null ? (wasOpponentBetter === null ? "" : wasOpponentBetter ? "+" : "-") : isWinner ? "+" : "-";
-
-    const eloGained = Math.abs(winner.eloGain);
-
     return (
       <div className={classes.winner__content__info__players}>
-        {gameData.whitePlayer.name == playerData.name
-          ? renderPlayer(gameData.whitePlayer, classes["white-player"], classes["white-player-img"])
-          : renderPlayer(gameData.blackPlayer, classes["black-player"], classes["black-player-img"])}
+        {renderPlayer(gameData.player, classes["black-player"], classes["black-player-img"])}
 
         <div className={classes.vs}>
           <span>vs</span>
-
-          <span>
-            <span className={sign === "+" ? classes.p : classes.m}>{sign}</span>
-            {eloGained}
-          </span>
         </div>
 
-        {gameData.whitePlayer.name == playerData.name
-          ? renderPlayer(gameData.blackPlayer, classes["black-player"], classes["black-player-img"])
-          : renderPlayer(gameData.whitePlayer, classes["white-player"], classes["white-player-img"])}
+        {renderPlayer(null, classes["black-player"], classes["black-player-img"])}
       </div>
     );
   };
@@ -102,38 +87,12 @@ function EngineGameWinner({ gameData, winner }: EngineGameWinnerProps) {
           {generatePlayers()}
 
           <div className={classes.winner__content__info__buttons}>
-            <button
-              className={classes["new-game"]}
-              onClick={() => {
-                onSearchForGame();
-              }}
-            >
+            <button className={classes["new-game"]} onClick={() => {}}>
               <span>New Game</span>
             </button>
 
-            {newGameId ? (
-              <button
-                className={classes["re-game"]}
-                onClick={() => {
-                  onAcceptRematchRequest();
-                }}
-              >
-                <span>Accept</span>
-              </button>
-            ) : (
-              <button
-                className={classes["re-game"]}
-                onClick={() => {
-                  onCreateRematchRequest();
-                }}
-              >
-                <span>Rematch</span>
-              </button>
-            )}
-          </div>
-
-          <div className={classes.leave}>
             <button
+              className={classes["re-game"]}
               onClick={() => {
                 navigate("/main");
               }}
@@ -141,6 +100,8 @@ function EngineGameWinner({ gameData, winner }: EngineGameWinnerProps) {
               <span>Leave</span>
             </button>
           </div>
+
+          <div className={classes.leave}></div>
         </div>
       </div>
     </div>

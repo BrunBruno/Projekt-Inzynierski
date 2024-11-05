@@ -21,18 +21,18 @@ namespace chess.Application.Requests.WebGameRequests.EndWebGame;
 /// </summary>
 public class EndWebGameRequestHandler : IRequestHandler<EndWebGameRequest, EndWebGameDto> {
 
-    private readonly IWebGameRepository _gameRepository;
+    private readonly IWebGameRepository _webGameRepository;
     private readonly IUserContextService _userContextService;
     private readonly IUserRepository _userRepository;
     private readonly IFriendshipRepository _friendshipRepository;
 
     public EndWebGameRequestHandler(
-        IWebGameRepository gameRepository,
+        IWebGameRepository webGameRepository,
         IUserContextService userContextService,
         IUserRepository userRepository,
         IFriendshipRepository friendshipRepository
     ) {
-        _gameRepository = gameRepository;
+        _webGameRepository = webGameRepository;
         _userContextService = userContextService;
         _userRepository = userRepository;
         _friendshipRepository = friendshipRepository;
@@ -58,21 +58,21 @@ public class EndWebGameRequestHandler : IRequestHandler<EndWebGameRequest, EndWe
             throw new BadRequestException("Incorrect game result.");
         }
 
-        var game = await _gameRepository.GetById(request.GameId) 
+        var game = await _webGameRepository.GetById(request.GameId) 
             ?? throw new NotFoundException("Game not found.");
 
         if (game.WhitePlayer.UserId != userId && game.BlackPlayer.UserId != userId)
-            throw new UnauthorizedException("This is not user game.");
+            throw new UnauthorizedException("Not user game.");
 
         // game already has ended
         if (game.HasEnded == true) {
-            var finishedGameDto = new EndWebGameDto()
+            var prevDto = new EndWebGameDto()
             {
                 WinnerColor = game.WinnerColor,
                 EloGain = game.EloGain,
             };
 
-            return finishedGameDto;
+            return prevDto;
         }
 
 
@@ -232,23 +232,22 @@ public class EndWebGameRequestHandler : IRequestHandler<EndWebGameRequest, EndWe
         }
 
         game.EloGain = eloToUpdate;
-
         game.WhitePlayer.FinishedGame = true;
         game.BlackPlayer.FinishedGame = true;
         game.EndedAt = DateTime.UtcNow;
 
 
-        await _gameRepository.Update(game);
+        await _webGameRepository.Update(game);
         await _userRepository.Update(whiteUser);
         await _userRepository.Update(blackUser);
 
 
-        var endGameDto = new EndWebGameDto()
+        var dto = new EndWebGameDto()
         {
             WinnerColor = game.WinnerColor,
             EloGain = eloToUpdate,
         };
 
-        return endGameDto;
+        return dto;
     }
 }

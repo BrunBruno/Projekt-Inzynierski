@@ -38,4 +38,9 @@ public class EngineGame : Game {
     /// List of game moves
     /// </summary>
     public List<EngineGameMove> Moves { get; set; }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    public List<EngineGameMessage> Messages { get; set; }
 }

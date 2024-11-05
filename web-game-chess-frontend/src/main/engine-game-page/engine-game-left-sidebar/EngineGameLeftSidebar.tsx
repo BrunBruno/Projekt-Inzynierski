@@ -86,7 +86,7 @@ function EngineGameLeftSidebar({ gameId, gameData, setShowConfirm, setConfirmAct
               onLeaveGame();
             }}
           >
-            <IconCreator icons={engineGameLeftSideBarIcons} iconName={"leave"} />
+            <IconCreator icons={engineGameLeftSideBarIcons} iconName={"leave"} iconClass={classes["list-icon"]} />
 
             <span>Leave game</span>
           </li>
@@ -97,8 +97,28 @@ function EngineGameLeftSidebar({ gameId, gameData, setShowConfirm, setConfirmAct
               onSelectResign();
             }}
           >
-            <IconCreator icons={engineGameLeftSideBarIcons} iconName={"resign"} />
+            <IconCreator icons={engineGameLeftSideBarIcons} iconName={"resign"} iconClass={classes["list-icon"]} />
             <span>Resign</span>
+          </li>
+
+          <li className={classes.bar__content__list__element} onClick={() => {}}>
+            <IconCreator icons={engineGameLeftSideBarIcons} iconName={"undo"} iconClass={classes["list-icon"]} />
+            <span>Undo move</span>
+          </li>
+
+          <li className={classes.bar__content__list__element} onClick={() => {}}>
+            <IconCreator icons={engineGameLeftSideBarIcons} iconName={"restart"} iconClass={classes["list-icon"]} />
+            <span>Restart</span>
+          </li>
+
+          <li className={classes.bar__content__list__element} onClick={() => {}}>
+            <IconCreator icons={engineGameLeftSideBarIcons} iconName={"engine"} iconClass={classes["list-icon"]} />
+            <span>Engine</span>
+          </li>
+
+          <li className={classes.bar__content__list__element} onClick={() => {}}>
+            <IconCreator icons={engineGameLeftSideBarIcons} iconName={"settings"} iconClass={classes["list-icon"]} />
+            <span>Settings</span>
           </li>
         </ul>
         {/* --- */}

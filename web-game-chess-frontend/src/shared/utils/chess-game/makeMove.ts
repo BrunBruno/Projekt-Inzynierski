@@ -22,16 +22,11 @@ export const makeMove = async (
   const [newX, newY] = moveToCoordinates;
   const newCoor = newX + "," + newY;
 
-  console.log("newCoor:", newCoor);
-
   const [oldX, oldY] = selectionState.coordinates;
   const oldCoor = oldX + "," + oldY;
 
-  console.log("oldCoor:", oldCoor);
-
   const capturedPiece = gameState.matrix[newY - 1][newX - 1];
 
-  console.log("capturedPiece:", capturedPiece);
   const capture = capturedPiece === "" ? "" : "x";
   gameState.matrix[oldY - 1][oldX - 1] = "";
   gameState.matrix[newY - 1][newX - 1] = promotedPiece ? promotedPiece : selectionState.piece;
@@ -90,7 +85,6 @@ export const makeMove = async (
     }
   }
 
-  console.log(gameState.matrix);
   const newPosition = makeNewPosition(gameState.matrix);
 
   const move = selectionState.piece + capture + intToChar(newX) + newY;
@@ -101,10 +95,6 @@ export const makeMove = async (
     : `${isPawnMove ? "" : selectionState.piece}${String.fromCharCode(96 + oldX)}${oldY}${capture}${String.fromCharCode(
         96 + newX
       )}${newY}${enPassantFen ? enPassantFen : ""}`;
-
-  console.log("doneMove: ", move);
-  console.log("fenMove:", fenMove);
-  console.log(newPosition);
 
   // check for white en passant possibility
   let newEnPassant: string | null = null;

@@ -94,7 +94,6 @@ function WebGamePage() {
   const [showConfirm, setShowConfirm] = useState<GameActionInterface | null>(null);
   const [confirmAction, setConfirmAction] = useState<() => void>(() => {});
 
-  // return if no timing set
   // display enter popups
   useEffect(() => {
     const locationState = location.state as StateOptions;
@@ -145,6 +144,7 @@ function WebGamePage() {
     setNewGameId(rematchData.gameId);
   };
 
+  //
   const handleGameAccepted = (newGameId: Guid): void => {
     const state: StateOptions = {
       popup: { text: "GAME STARTED", type: "info" },
@@ -152,7 +152,7 @@ function WebGamePage() {
 
     navigate(`/main/game/${newGameId}`, { state: state });
 
-    window.location.reload();
+    window.location.reload(); //???
   };
 
   // add game hub listeners

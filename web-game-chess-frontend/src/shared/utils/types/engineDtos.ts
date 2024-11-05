@@ -2,7 +2,7 @@
 
 import { Guid } from "guid-typescript";
 import { MoveDto, PlayerDto } from "./abstractDtosAndModels";
-import { TimingType } from "../objects/entitiesEnums";
+import { MessageType, PieceColor, TimingType } from "../objects/entitiesEnums";
 import { BlackPieceTag, WhitePieceTag } from "../objects/constantLists";
 
 export type GetEngineGameDto = {
@@ -26,7 +26,19 @@ export type StartEngineGameDto = {
 };
 
 export type GetEngineGameMoveDto = {
+  shouldEnd: boolean;
   oldCoordinates: string;
   newCoordinates: string;
   promotedPiece: WhitePieceTag | BlackPieceTag | null;
+};
+
+export type EndEngineGameDto = {
+  winnerColor: PieceColor | null;
+};
+
+export type GetAllEngineGameMessagesDto = {
+  message: string;
+  senderName: string;
+  sentAt: Date;
+  type: MessageType;
 };
