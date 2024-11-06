@@ -34,7 +34,7 @@ public class GetEngineGameDto {
     /// <summary>
     /// 
     /// </summary>
-    public TimingTypes TimingType { get; set; }
+    public TimingTypes? TimingType { get; set; }
 
     /// <summary>
     /// Bool values relate to castling options

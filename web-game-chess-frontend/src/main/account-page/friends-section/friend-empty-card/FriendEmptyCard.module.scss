@@ -27,10 +27,12 @@
   .empty-card {
     @include flex($direction: column, $gap: 1rem);
 
+    position: relative;
     background-color: $gc9;
     aspect-ratio: 3 / 4;
-    opacity: 0.3;
     border-radius: 1rem;
+    opacity: 0.3;
+    overflow: hidden;
 
     .blank-avatar {
       height: 10rem;

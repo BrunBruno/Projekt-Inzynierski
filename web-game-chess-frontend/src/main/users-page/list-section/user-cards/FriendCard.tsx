@@ -7,6 +7,9 @@ import { friendshipController, getAuthorization } from "../../../../shared/utils
 import { usePopup } from "../../../../shared/utils/hooks/usePopUp";
 import { getErrMessage } from "../../../../shared/utils/functions/errors";
 import AvatarImage from "../../../../shared/components/avatar-image/AvatarImage";
+import IconCreator from "../../../../shared/components/icon-creator/IconCreator";
+import { userPageIcons } from "../../UsersPageIcons";
+import { mainColor } from "../../../../shared/utils/objects/colorMaps";
 
 type FriendCardsProps = {
   // selected list type
@@ -94,7 +97,13 @@ function FriendCard({ selectedList, friend, getAllUsers, setFriend }: FriendCard
                 onShowProfile();
               }}
             >
-              See Profile
+              <IconCreator
+                icons={userPageIcons}
+                iconName={"profile"}
+                iconClass={classes["button-icon"]}
+                color={mainColor.c0}
+              />
+              <span>See Profile</span>
             </button>
             <button
               data-testid="users-page-friend-card-remove-button"
@@ -103,7 +112,13 @@ function FriendCard({ selectedList, friend, getAllUsers, setFriend }: FriendCard
                 onRemoveFriend(true);
               }}
             >
-              Remove
+              <IconCreator
+                icons={userPageIcons}
+                iconName={"decline"}
+                iconClass={classes["button-icon"]}
+                color={mainColor.c9}
+              />
+              <span>Remove</span>
             </button>
           </div>
         );
@@ -120,7 +135,13 @@ function FriendCard({ selectedList, friend, getAllUsers, setFriend }: FriendCard
                     onRespondToRequest(true);
                   }}
                 >
-                  Accept
+                  <IconCreator
+                    icons={userPageIcons}
+                    iconName={"love"}
+                    iconClass={classes["button-icon"]}
+                    color={mainColor.c0}
+                  />
+                  <span>Accept</span>
                 </button>
                 <button
                   data-testid="users-page-friend-card-decline-button"
@@ -129,7 +150,13 @@ function FriendCard({ selectedList, friend, getAllUsers, setFriend }: FriendCard
                     onRespondToRequest(false);
                   }}
                 >
-                  Decline
+                  <IconCreator
+                    icons={userPageIcons}
+                    iconName={"decline"}
+                    iconClass={classes["button-icon"]}
+                    color={mainColor.c9}
+                  />
+                  <span>Decline</span>
                 </button>
               </div>
             ) : (
@@ -150,7 +177,13 @@ function FriendCard({ selectedList, friend, getAllUsers, setFriend }: FriendCard
                     onRemoveFriend(false);
                   }}
                 >
-                  Unblock
+                  <IconCreator
+                    icons={userPageIcons}
+                    iconName={"love"}
+                    iconClass={classes["button-icon"]}
+                    color={mainColor.c9}
+                  />
+                  <span>Unblock</span>
                 </button>
               </div>
             ) : (

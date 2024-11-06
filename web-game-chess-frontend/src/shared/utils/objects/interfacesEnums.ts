@@ -6,7 +6,7 @@ import { GetAllFriendsByStatusDto } from "../types/friendshipDtos";
 // to distinguish different type of content it main page
 export enum GameSearchInterface {
   defaultView,
-  vsPlayerTimeSlection,
+  vsPlayerTimeSelection,
   vsPlayerSearching,
   vsComputerTimeSelection,
   vsComputerOptions,

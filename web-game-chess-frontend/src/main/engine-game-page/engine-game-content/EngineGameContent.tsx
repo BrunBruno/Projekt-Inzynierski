@@ -74,7 +74,7 @@ function EngineGameContent({
     setGameStates({ type: "SET_GAME_ID", payload: gameId });
   }, [gameId]);
 
-  // to update stataes after each move
+  // to update states after each move
   const updateStates = () => {
     const setMatrix = (position: string): SMatrix => {
       const matrix: SMatrix = [[]]; // containing first for

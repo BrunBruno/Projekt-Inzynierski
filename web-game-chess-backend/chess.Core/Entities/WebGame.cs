@@ -21,6 +21,11 @@ public class WebGame : Game {
     public bool IsPrivate { get; set; } = false;
 
     /// <summary>
+    /// Timing type for game
+    /// </summary>
+    public TimingTypes TimingType { get; set; }
+
+    /// <summary>
     /// Reason why game has ended
     /// </summary>
     public GameEndReason? EndGameType { get; set; } = null;

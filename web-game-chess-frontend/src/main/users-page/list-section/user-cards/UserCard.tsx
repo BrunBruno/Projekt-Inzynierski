@@ -8,6 +8,9 @@ import { GetOtherUserDto } from "../../../../shared/utils/types/userDtos";
 import { getErrMessage } from "../../../../shared/utils/functions/errors";
 import AvatarImage from "../../../../shared/components/avatar-image/AvatarImage";
 import { Guid } from "guid-typescript";
+import { userPageIcons } from "../../UsersPageIcons";
+import { mainColor } from "../../../../shared/utils/objects/colorMaps";
+import IconCreator from "../../../../shared/components/icon-creator/IconCreator";
 
 type UserCardProps = {
   // user data to create card
@@ -76,7 +79,13 @@ function UserCard({ user, getAllUsers, setNonFriend }: UserCardProps) {
                 onInviteFriend(user.userId);
               }}
             >
-              Add to friends
+              <IconCreator
+                icons={userPageIcons}
+                iconName={"add"}
+                iconClass={classes["button-icon"]}
+                color={mainColor.c0}
+              />
+              <span>Add to friends</span>
             </button>
             <button
               data-testid="users-page-user-card-profile-button"
@@ -85,7 +94,13 @@ function UserCard({ user, getAllUsers, setNonFriend }: UserCardProps) {
                 onShowProfile();
               }}
             >
-              See Profile
+              <IconCreator
+                icons={userPageIcons}
+                iconName={"profile"}
+                iconClass={classes["button-icon"]}
+                color={mainColor.c9}
+              />
+              <span>See Profile</span>
             </button>
           </div>
         </div>

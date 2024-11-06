@@ -80,6 +80,9 @@ namespace chess.Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
+                    b.Property<bool>("AllowUndo")
+                        .HasColumnType("boolean");
+
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
 
@@ -115,7 +118,7 @@ namespace chess.Infrastructure.Migrations
                     b.Property<DateTime?>("StartedAt")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<int>("TimingType")
+                    b.Property<int?>("TimingType")
                         .HasColumnType("integer");
 
                     b.Property<int>("Turn")

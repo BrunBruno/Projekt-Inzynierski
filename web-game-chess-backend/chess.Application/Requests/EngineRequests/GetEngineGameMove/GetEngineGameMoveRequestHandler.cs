@@ -46,6 +46,8 @@ public class GetEngineGameMoveRequestHandler : IRequestHandler<GetEngineGameMove
         _engineService.SendCommand($"position fen {fullFen}");
         _engineService.SendCommand($"go depth {game.EngineLevel}");
 
+        await Task.Delay(10000, cancellationToken);
+
         var bestMoveOutput = _engineService.ReadOutput();
 
         var bestMoveLine = bestMoveOutput.FirstOrDefault(line => line.StartsWith("bestmove"))

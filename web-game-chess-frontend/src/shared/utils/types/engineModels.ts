@@ -4,6 +4,7 @@ import { Guid } from "guid-typescript";
 import { TimingTypeModel } from "./abstractDtosAndModels";
 import { BlackPieceTag, WhitePieceTag } from "../objects/constantLists";
 import { PieceColor } from "../objects/entitiesEnums";
+import { Nullable } from "./commonTypes";
 
 export type GetEngineGameModel = {
   gameId: Guid;
@@ -26,7 +27,10 @@ export type MakeEngineGameMoveModel = {
   blackLongRookMoved: boolean;
 };
 
-export type StartEngineGameModel = TimingTypeModel & {};
+export type StartEngineGameModel = Nullable<TimingTypeModel> & {
+  allowUndo: boolean;
+  engineLevel: number;
+};
 
 export type EndEngineGameModel = {
   gameId: Guid;

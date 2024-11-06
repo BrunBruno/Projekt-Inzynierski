@@ -53,9 +53,4 @@ public abstract class Game {
     /// Winner color (null is draw)
     /// </summary>
     public PieceColor? WinnerColor { get; set; } = null;
-
-    /// <summary>
-    /// Timing type for game
-    /// </summary>
-    public TimingTypes TimingType { get; set; }
 }

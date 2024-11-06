@@ -1,0 +1,52 @@
+@use "../../../../shared/styles/shared.scss" as *;
+
+@mixin profileBlock() {
+  @include flex($direction: column, $gap: 0.6rem);
+
+  .block-icon {
+    height: 3rem;
+  }
+
+  span {
+    &:first-child {
+      font-size: 1.2rem;
+    }
+
+    &:last-child {
+      font-size: 1.6rem;
+    }
+  }
+}
+
+.profile {
+  @include flex(row, start, center, 2rem);
+  @include rounded(2rem);
+
+  position: relative;
+  width: fit-content;
+  background-color: rgba(#111, 0.5);
+  border: solid 0.1rem $gc9;
+  z-index: 1;
+  backdrop-filter: blur(1rem);
+
+  &__image {
+    @include flex($direction: column);
+
+    .user-avatar {
+      @include circle(6rem);
+    }
+
+    .user-name {
+      font-size: 2rem;
+      font-weight: bold;
+    }
+  }
+
+  &__games {
+    @include profileBlock();
+  }
+
+  &__elo {
+    @include profileBlock();
+  }
+}

@@ -115,7 +115,6 @@ export const makeMove = async (
     newEnPassant = newX + "," + rankMap.black.enPassantRank;
   }
 
-  //todo
   // remove castling possibility when piece moved
   const whiteKingMoved = selectionState.piece === pieceTagMap.white.king;
 

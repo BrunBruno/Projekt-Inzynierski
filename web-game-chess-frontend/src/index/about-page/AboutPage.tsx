@@ -41,12 +41,15 @@ function AboutPage() {
 
   // to set select content base on obtained params
   useEffect(() => {
-    if (!contentName) return;
+    if (!contentName) {
+      navigate(`/about/introduction`, { replace: true });
+      return;
+    }
 
     try {
       setSelectedContent(contentOptions[contentName.toLocaleLowerCase() as Lowercase<ContentNames>]);
     } catch (err) {
-      setSelectedContent(contentOptions["introduction"]);
+      navigate(`/about/introduction`, { replace: true });
     }
   }, [contentName]);
   //*/

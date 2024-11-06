@@ -156,16 +156,16 @@ function WebGameBoard({
           event.preventDefault();
           onHighlightFile(innerBoardRef, coordinates, classes.highlight, classes.field);
         }}
-        onDragStartCapture={() => {
-          onDragPiece(char, coordinates);
-        }}
-        onDragOver={(event) => {
-          event.preventDefault();
-        }}
-        onDrop={(event) => {
-          event.preventDefault();
-          onDropPiece(coordinates, isInTipFields, sameCoor);
-        }}
+        // onDragStartCapture={() => {
+        //   onDragPiece(char, coordinates);
+        // }}
+        // onDragOver={(event) => {
+        //   event.preventDefault();
+        // }}
+        // onDrop={(event) => {
+        //   event.preventDefault();
+        //   onDropPiece(coordinates, isInTipFields, sameCoor);
+        // }}
       >
         {char && shouldDisplay && (
           <div

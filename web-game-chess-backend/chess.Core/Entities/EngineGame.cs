@@ -1,5 +1,6 @@
 ﻿
 using chess.Core.Abstraction;
+using chess.Core.Enums;
 
 #pragma warning disable CS8618
 namespace chess.Core.Entities;
@@ -20,9 +21,19 @@ public class EngineGame : Game {
     public bool? IsWinner { get; set; }
 
     /// <summary>
+    /// Timing type for game
+    /// </summary>
+    public TimingTypes? TimingType { get; set; } = null;
+
+    /// <summary>
     /// Level of engine depth
     /// </summary>
     public int EngineLevel { get; set; } = 1;
+
+    /// <summary>
+    /// If player enable undos
+    /// </summary>
+    public bool AllowUndo { get; set; } = false;
 
     /// <summary>
     /// Current player id
@@ -35,7 +46,7 @@ public class EngineGame : Game {
     public EngineGamePlayer Player { get; set; }
 
     /// <summary>
-    /// 
+    /// Game state
     /// </summary>
     public EngineGameState CurrentState { get; set; }
 
@@ -45,7 +56,7 @@ public class EngineGame : Game {
     public List<EngineGameMove> Moves { get; set; }
 
     /// <summary>
-    /// 
+    /// Game messages
     /// </summary>
     public List<EngineGameMessage> Messages { get; set; }
 }

@@ -4,8 +4,8 @@ import classes from "./BarSection.module.scss";
 import { FriendshipStatus } from "../../../shared/utils/objects/entitiesEnums";
 import { delayAction } from "../../../shared/utils/functions/events";
 import IconCreator from "../../../shared/components/icon-creator/IconCreator";
-import { barSectionIcons } from "./BarSectionIcons";
 import { ChangeEvent, Dispatch, SetStateAction } from "react";
+import { userPageIcons } from "../UsersPageIcons";
 
 type BarSectionProps = {
   // to provide username to filters users
@@ -50,7 +50,7 @@ function BarSection({ setSelectedUsername, selectedList, setSelectedList }: BarS
                 onSelectList(FriendshipStatus.all);
               }}
             >
-              <IconCreator icons={barSectionIcons} iconName={"all"} />
+              <IconCreator icons={userPageIcons} iconName={"add"} iconClass={classes["panel-svg"]} />
             </div>
             <div
               data-testid="users-page-select-list-button-accepted"
@@ -61,7 +61,7 @@ function BarSection({ setSelectedUsername, selectedList, setSelectedList }: BarS
                 onSelectList(FriendshipStatus.accepted);
               }}
             >
-              <IconCreator icons={barSectionIcons} iconName={"accepted"} />
+              <IconCreator icons={userPageIcons} iconName={"love"} iconClass={classes["panel-svg"]} />
             </div>
             <div
               data-testid="users-page-select-list-button-pending"
@@ -72,7 +72,7 @@ function BarSection({ setSelectedUsername, selectedList, setSelectedList }: BarS
                 onSelectList(FriendshipStatus.pending);
               }}
             >
-              <IconCreator icons={barSectionIcons} iconName={"pending"} />
+              <IconCreator icons={userPageIcons} iconName={"pending"} iconClass={classes["panel-svg"]} />
             </div>
             <div
               data-testid="users-page-select-list-button-rejected"
@@ -83,7 +83,7 @@ function BarSection({ setSelectedUsername, selectedList, setSelectedList }: BarS
                 onSelectList(FriendshipStatus.rejected);
               }}
             >
-              <IconCreator icons={barSectionIcons} iconName={"rejected"} />
+              <IconCreator icons={userPageIcons} iconName={"decline"} iconClass={classes["panel-svg"]} />
             </div>
           </div>
         </div>

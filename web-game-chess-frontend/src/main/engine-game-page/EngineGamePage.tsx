@@ -69,6 +69,8 @@ function EngineGamePage() {
       const response = await axios.get<GetEngineGameDto>(engineController.getEngineGame(gameId), getAuthorization());
 
       setGameData(response.data);
+
+      console.log(response.data);
     } catch (err) {
       showPopup(getErrMessage(err), "warning");
     }

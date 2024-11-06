@@ -43,3 +43,7 @@ export type SMatrix = string[][];
 export type NMatrix = number[][];
 
 export type ElementClass = string;
+
+export type Nullable<T> = {
+  [P in keyof T]: T[P] | null;
+};

@@ -1,5 +1,4 @@
 import { MemoryRouter } from "react-router-dom";
-import MainPage from "./MainPage";
 import { render, waitFor, screen, fireEvent } from "@testing-library/react";
 import { createMockServer } from "../../shared/utils/services/MockServerService";
 import MainRouter from "../MainRouter";
@@ -15,6 +14,7 @@ import {
 } from "../../shared/utils/types/gameDtos";
 import { GetAllFriendsByStatusDto } from "../../shared/utils/types/friendshipDtos";
 import { TimingType } from "../../shared/utils/objects/entitiesEnums";
+import MainPage from "./MainPage";
 
 // mocks
 const mockIsVerified: IsEmailVerifiedDto = {
