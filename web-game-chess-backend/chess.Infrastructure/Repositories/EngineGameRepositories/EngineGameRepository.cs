@@ -19,6 +19,7 @@ public class EngineGameRepository : IEngineGameRepository {
         => await _dbContext.EngineGames
                     .Include(eg => eg.Player)
                         .ThenInclude(egp => egp.User)
+                            .ThenInclude(u => u.Image)
                     .Include(eg => eg.CurrentState)
                     .Include(eg => eg.Moves)
                     .FirstOrDefaultAsync(x => x.Id == gameId);

@@ -25,7 +25,8 @@ function EngineGameWinner({ gameData, winner }: EngineGameWinnerProps) {
     if (!winner) return <></>;
 
     const renderPlayer = (playerDto: PlayerDto | null, colorClass: string, avatarClass: string): JSX.Element => {
-      let player = playerDto;
+      let isBot: boolean = false;
+      let player: PlayerDto | null = playerDto;
       if (!player) {
         player = {
           name: "Computer",
@@ -33,7 +34,11 @@ function EngineGameWinner({ gameData, winner }: EngineGameWinnerProps) {
           elo: 0,
           color: gameData.player.color === PieceColor.white ? PieceColor.black : PieceColor.white,
         };
+
+        isBot = true;
       }
+
+      console.log(player.name, isBot);
 
       return (
         <div className={`${classes.player} ${colorClass}`}>
@@ -42,6 +47,7 @@ function EngineGameWinner({ gameData, winner }: EngineGameWinnerProps) {
             profilePicture={player.profilePicture}
             containerClass={avatarClass}
             imageClass={classes["player-img"]}
+            isBot={isBot}
           />
 
           <div className={classes["player-data"]}>
@@ -53,13 +59,17 @@ function EngineGameWinner({ gameData, winner }: EngineGameWinnerProps) {
 
     return (
       <div className={classes.winner__content__info__players}>
-        {renderPlayer(gameData.player, classes["black-player"], classes["black-player-img"])}
+        {gameData.player.color === PieceColor.white
+          ? renderPlayer(gameData.player, classes["white-player"], classes["white-player-img"])
+          : renderPlayer(gameData.player, classes["black-player"], classes["black-player-img"])}
 
         <div className={classes.vs}>
           <span>vs</span>
         </div>
 
-        {renderPlayer(null, classes["black-player"], classes["black-player-img"])}
+        {gameData.player.color === PieceColor.black
+          ? renderPlayer(null, classes["white-player"], classes["white-player-img"])
+          : renderPlayer(null, classes["black-player"], classes["black-player-img"])}
       </div>
     );
   };

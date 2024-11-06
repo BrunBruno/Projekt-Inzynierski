@@ -27,7 +27,7 @@ function FriendCard({ friend, setSelectedFriend, clearSelection }: FriendCardPro
   const onInviteFriendToGame = async (): Promise<void> => {
     // pass the friend to invite to game
     const state: StateOptions = {
-      interface: GameSearchInterface.vsFriend,
+      interface: GameSearchInterface.vsFriendsOptions,
       selectedFriend: friend,
     };
 

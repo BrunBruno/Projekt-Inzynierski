@@ -11,10 +11,20 @@ export const getPieceName = (char: PieceTag): string => {
 
 export type PieceTagMap = {
   white: {
-    [key in PieceName]: WhitePieceTag;
+    pawn: "P";
+    knight: "N";
+    bishop: "B";
+    rook: "R";
+    queen: "Q";
+    king: "K";
   };
   black: {
-    [key in PieceName]: BlackPieceTag;
+    pawn: "p";
+    knight: "n";
+    bishop: "b";
+    rook: "r";
+    queen: "q";
+    king: "k";
   };
 };
 
@@ -51,7 +61,7 @@ export const piecePromotionMap: PiecePromotionMap = {
 //*/
 
 // to gat side color name by piece tag
-export function getPieceSideColor(tag: PieceTag): SideColor | undefined {
+export function getPieceSideColor(tag: string): SideColor | undefined {
   if (tag === tag.toUpperCase()) {
     return "white";
   } else if (tag === tag.toLowerCase()) {

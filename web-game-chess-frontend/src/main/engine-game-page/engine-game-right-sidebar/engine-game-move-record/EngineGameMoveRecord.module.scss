@@ -7,6 +7,12 @@
   margin-bottom: 1.2rem;
   font-size: 1.6rem;
 
+  &:hover {
+    .move {
+      border-color: $gc7;
+    }
+  }
+
   &.empty {
     .move {
       border-color: $gc9;
@@ -45,8 +51,7 @@
   }
 
   .turn {
-    width: fit-content;
-    margin-right: 1rem;
+    width: calc(1.6rem * 3);
     color: $gc6;
   }
 

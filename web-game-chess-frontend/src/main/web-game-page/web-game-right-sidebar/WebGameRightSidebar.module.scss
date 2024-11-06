@@ -101,13 +101,6 @@
         display: none;
       }
 
-      &:nth-child(1) {
-        border: solid blue 1rem;
-      }
-      &:nth-child(2) {
-        border: solid red 1rem;
-      }
-
       &__list {
         display: grid;
         grid-template-columns: 1fr 1fr;

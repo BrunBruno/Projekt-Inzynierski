@@ -13,7 +13,7 @@
     grid-template-columns: repeat(4, 1fr);
     overflow-y: scroll;
     overflow-x: hidden;
-    grid-gap: 2rem;
+    gap: 2rem;
     grid-auto-rows: max-content;
   }
 

@@ -8,6 +8,7 @@ import { BlackPieceTag, WhitePieceTag } from "../objects/constantLists";
 export type GetEngineGameDto = {
   position: string;
   turn: number;
+  engineLevel: number;
   hasEnded: boolean;
   enPassant: string | null;
   timingType: TimingType;

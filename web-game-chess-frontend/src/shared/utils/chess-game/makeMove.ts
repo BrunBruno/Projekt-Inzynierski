@@ -118,20 +118,36 @@ export const makeMove = async (
   //todo
   // remove castling possibility when piece moved
   const whiteKingMoved = selectionState.piece === pieceTagMap.white.king;
+
   const whiteShortRookMoved =
-    selectionState.piece === pieceTagMap.white.rook &&
-    areCoorEqual([oldX, oldY], [rankMap.white.shortRookFile, rankMap.white.backRank]);
+    selectionState.piece === pieceTagMap.white.king ||
+    (selectionState.piece === pieceTagMap.white.rook &&
+      areCoorEqual([oldX, oldY], [rankMap.white.shortRookFile, rankMap.white.backRank])) ||
+    (capturedPiece === pieceTagMap.white.rook &&
+      areCoorEqual([newX, newY], [rankMap.white.shortRookFile, rankMap.white.backRank]));
+
   const whiteLongRookMoved =
-    selectionState.piece === pieceTagMap.white.rook &&
-    areCoorEqual([oldX, oldY], [rankMap.white.longRookFile, rankMap.white.backRank]);
+    selectionState.piece === pieceTagMap.white.king ||
+    (selectionState.piece === pieceTagMap.white.rook &&
+      areCoorEqual([oldX, oldY], [rankMap.white.longRookFile, rankMap.white.backRank])) ||
+    (capturedPiece === pieceTagMap.white.rook &&
+      areCoorEqual([newX, newY], [rankMap.white.longRookFile, rankMap.white.backRank]));
 
   const blackKingMoved = selectionState.piece === pieceTagMap.black.king;
+
   const blackShortRookMoved =
-    selectionState.piece === pieceTagMap.black.rook &&
-    areCoorEqual([oldX, oldY], [rankMap.black.shortRookFile, rankMap.white.backRank]);
+    selectionState.piece === pieceTagMap.black.king ||
+    (selectionState.piece === pieceTagMap.black.rook &&
+      areCoorEqual([oldX, oldY], [rankMap.black.shortRookFile, rankMap.black.backRank])) ||
+    (capturedPiece === pieceTagMap.black.rook &&
+      areCoorEqual([newX, newY], [rankMap.black.shortRookFile, rankMap.black.backRank]));
+
   const blackLongRookMoved =
-    selectionState.piece === pieceTagMap.black.rook &&
-    areCoorEqual([oldX, oldY], [rankMap.black.longRookFile, rankMap.white.backRank]);
+    selectionState.piece === pieceTagMap.black.king ||
+    (selectionState.piece === pieceTagMap.black.rook &&
+      areCoorEqual([oldX, oldY], [rankMap.black.longRookFile, rankMap.black.backRank])) ||
+    (capturedPiece === pieceTagMap.black.rook &&
+      areCoorEqual([newX, newY], [rankMap.black.shortRookFile, rankMap.black.backRank]));
 
   switch (typeofGame) {
     case TypeOfGame.web: {

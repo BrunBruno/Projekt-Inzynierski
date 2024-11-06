@@ -22,6 +22,11 @@ public class GetEngineGameDto {
     public int Turn { get; set; }
 
     /// <summary>
+    /// 
+    /// </summary>
+    public int EngineLevel { get; set; }
+
+    /// <summary>
     /// En passant coordinates if en passant is possible in form x,y
     /// </summary>
     public string? EnPassant { get; set; }

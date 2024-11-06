@@ -145,8 +145,6 @@ function EngineGameContent({
 
     setTimeout(async () => {
       updateStates();
-
-      console.log("updates finsihed");
     }, 100);
   }, [gameData]);
   //*/
@@ -218,8 +216,6 @@ function EngineGameContent({
       );
 
       if (response.data.shouldEnd) {
-        console.log(gameStates.checkAreas);
-
         if (gameData.player.color === PieceColor.white && gameStates.checkAreas.white.length !== 0) {
           // black has been check mated
           endGame(PieceColor.black);
@@ -227,7 +223,6 @@ function EngineGameContent({
           // white has been check mated
           endGame(PieceColor.white);
         } else {
-          console.log("draw");
           // draw
           endGame(null);
         }

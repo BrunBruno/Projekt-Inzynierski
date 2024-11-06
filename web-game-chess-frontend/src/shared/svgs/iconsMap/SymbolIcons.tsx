@@ -1,6 +1,6 @@
 import { ColorValue, dangerColor, infoColor, successColor, warningColor } from "../../utils/objects/colorMaps";
 import { PopupIconName } from "../../utils/objects/constantLists";
-import { IconMap } from "../../utils/types/commonTypes";
+import { ElementClass, IconMap } from "../../utils/types/commonTypes";
 
 type IconNames = "arrow" | "roundArrow" | "x" | PopupIconName;
 

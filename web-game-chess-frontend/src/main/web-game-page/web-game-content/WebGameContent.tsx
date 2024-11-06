@@ -150,8 +150,6 @@ function WebGameContent({
 
     setTimeout(() => {
       updateStates();
-
-      console.log("updates finsihed");
     }, 100);
   }, [gameData]);
   //*/

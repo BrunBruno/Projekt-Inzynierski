@@ -17,17 +17,18 @@ import { defaultTimeControls, TimeControl } from "../../../../shared/utils/objec
 import { StartEngineGameDto } from "../../../../shared/utils/types/engineDtos";
 import { StartEngineGameModel } from "../../../../shared/utils/types/engineModels";
 import { gameHubSectionIcons } from "../GameHubSectionIcons";
+import { PrivateGameOptions } from "../GameHubSectionData";
 
 type TimeSelectionProps = {
   // to set online game ids
   setOnlineGameIds?: Dispatch<SetStateAction<SearchWebGameDto | null>>;
   // to set offline game ids
   setOfflineGameIds?: Dispatch<SetStateAction<StartEngineGameDto | null>>;
-  // to invite to private
-  onInviteToPrivateGame?: (header: TimingTypeName, values: [number, number]) => void;
+  // to invite to private game
+  setPrivateGameOptions?: Dispatch<SetStateAction<PrivateGameOptions | null>>;
 };
 
-function TimeSelection({ setOnlineGameIds, setOfflineGameIds, onInviteToPrivateGame }: TimeSelectionProps) {
+function TimeSelection({ setOnlineGameIds, setOfflineGameIds, setPrivateGameOptions }: TimeSelectionProps) {
   ///
 
   const { showPopup } = usePopup();
@@ -85,9 +86,14 @@ function TimeSelection({ setOnlineGameIds, setOfflineGameIds, onInviteToPrivateG
 
   //
   const onStartPrivateGame = (header: TimingTypeName, values: [number, number]) => {
-    if (onInviteToPrivateGame === undefined) return;
+    if (setPrivateGameOptions === undefined) return;
 
-    onInviteToPrivateGame(header, values);
+    var newOptions: PrivateGameOptions = {
+      header: header,
+      values: values,
+    };
+
+    setPrivateGameOptions((prevOptions) => (prevOptions ? { ...prevOptions, ...newOptions } : prevOptions));
   };
   //*/
 
@@ -96,7 +102,7 @@ function TimeSelection({ setOnlineGameIds, setOfflineGameIds, onInviteToPrivateG
 
     if (setOfflineGameIds) onStartOfflineGame(header, values);
 
-    if (onInviteToPrivateGame) onStartPrivateGame(header, values);
+    if (setPrivateGameOptions) onStartPrivateGame(header, values);
   };
 
   // display time controls buttons
@@ -130,7 +136,7 @@ function TimeSelection({ setOnlineGameIds, setOfflineGameIds, onInviteToPrivateG
   };
   //*/
 
-  // to show header
+  // to show header based on current searching
   const displaySectionHeader = (): JSX.Element => {
     if (setOnlineGameIds)
       return (
@@ -148,7 +154,7 @@ function TimeSelection({ setOnlineGameIds, setOfflineGameIds, onInviteToPrivateG
         </h2>
       );
 
-    if (onInviteToPrivateGame)
+    if (setPrivateGameOptions)
       return (
         <h2 className={classes["section-header"]}>
           <IconCreator icons={gameHubSectionIcons} iconName={"vsFriend"} iconClass={classes["time-selection-icon"]} />
@@ -163,10 +169,7 @@ function TimeSelection({ setOnlineGameIds, setOfflineGameIds, onInviteToPrivateG
   return (
     <div data-testid="main-page-vs-player-section" className={classes.search}>
       <div className={classes.search__grid}>
-        <div className={classes.search__grid__header}>
-          {displaySectionHeader()}
-          <span>Select Time Control</span>
-        </div>
+        <div className={classes.search__grid__header}>{displaySectionHeader()}</div>
 
         {/* map game timing types */}
         {defaultTimeControls.map((control: TimeControl, index: number) => (

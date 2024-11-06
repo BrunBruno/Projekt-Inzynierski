@@ -17,7 +17,12 @@ public class EngineGame : Game {
     /// <summary>
     /// Is player a winner of game, null if draw
     /// </summary>
-    public bool? IWinner { get; set; }
+    public bool? IsWinner { get; set; }
+
+    /// <summary>
+    /// Level of engine depth
+    /// </summary>
+    public int EngineLevel { get; set; } = 1;
 
     /// <summary>
     /// Current player id

@@ -1,7 +1,6 @@
 ﻿
 using chess.Application.Repositories.EngineGameRepositories;
 using chess.Application.Services;
-using chess.Core.Abstraction;
 using chess.Core.Entities;
 using chess.Shared.Exceptions;
 using MediatR;
@@ -45,7 +44,7 @@ public class GetEngineGameMoveRequestHandler : IRequestHandler<GetEngineGameMove
 
         // make engine move
         _engineService.SendCommand($"position fen {fullFen}");
-        _engineService.SendCommand("go depth 1");
+        _engineService.SendCommand($"go depth {game.EngineLevel}");
 
         var bestMoveOutput = _engineService.ReadOutput();
 
@@ -67,6 +66,7 @@ public class GetEngineGameMoveRequestHandler : IRequestHandler<GetEngineGameMove
             return endDto;
         }
 
+
         _engineService.SendCommand($"position fen {fullFen} moves {bestMove}");
         _engineService.SendCommand("d");
 
@@ -83,33 +83,15 @@ public class GetEngineGameMoveRequestHandler : IRequestHandler<GetEngineGameMove
 
         string from = bestMove.Substring(0, 2);
         string to = bestMove.Substring(2, 2);
+
         string? promotedPiece = bestMove.Length == 5 ? bestMove[4].ToString() : null; //???
 
         var oldCoordinates = $"{from[0] - 'a' + 1},{from[1]}";
         var newCoordinates = $"{to[0] - 'a' + 1},{to[1]}";
 
-        /*
-        // update game
-        game.Position = newPosition;
-        game.Round = (game.Turn / 2) + 1;
-        game.Turn += 1;
-
-
-        var engineMove = new EngineGameMove()
-        {
-            Id = Guid.NewGuid(),
-            DoneMove = bestMove, // todo
-            FenMove = bestMove,
-            Position = game.Position,
-            OldCoordinates = newCoordinates,
-            NewCoordinates = oldCoordinates,
-            CapturedPiece = "", // todo
-            Turn = game.Turn,
-            GameId = game.Id,
-        };
-        */
 
         _engineService.Close();
+
 
         var dto = new GetEngineGameMoveDto()
         {
@@ -119,9 +101,6 @@ public class GetEngineGameMoveRequestHandler : IRequestHandler<GetEngineGameMove
         };
 
         return dto;
-
-        //await _engineGameMoveRepository.Create(engineMove);
-        //await _engineGameRepository.Update(game);
     }
 
     private static string MakeFen(EngineGame game) {
@@ -141,7 +120,7 @@ public class GetEngineGameMoveRequestHandler : IRequestHandler<GetEngineGameMove
         var enPassantParts = game.CurrentState.EnPassant?.Split(",");
         var enPassant = enPassantParts == null ? "-" : $"{(char)('a' + (int.Parse(enPassantParts[0]) - 1))}{enPassantParts[1]}";
 
-        // half move cloec
+        // half move clock
         var halfmoveClock = "0";
 
         // full move clock

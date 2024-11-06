@@ -15,9 +15,7 @@ function FriendEmptyCard({ isLoaded, firstEmptyCardRef }: FriendEmptyCardProps) 
 
   return (
     <div className={classes.empty}>
-      <div className={classes["no-data"]}>
-        {isLoaded ? <span>You don't have any friends yet.</span> : <LoadingPage text="Loading data" />}
-      </div>
+      <div className={classes["no-data"]}>{!isLoaded && <LoadingPage text="Loading data" />}</div>
 
       {Array.from({ length: cardCount }).map((_, i: number) => (
         <div ref={i === 0 ? firstEmptyCardRef : null} key={`empty-card-${i}`} className={classes["empty-card"]}>

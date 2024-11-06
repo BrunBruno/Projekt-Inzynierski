@@ -70,9 +70,12 @@ function FriendList({ selectedUsername, setSelectedFriend }: FriendListProps) {
       if (container) {
         const containerHeight = container.clientHeight;
         let firstChild = container.firstChild as HTMLDivElement;
+
         if (firstChild && firstChild.classList.contains(classes.list__empty)) {
           firstChild = firstChild.firstChild as HTMLDivElement;
         }
+
+        if (!firstChild) return;
 
         const elementHeight = firstChild.clientHeight;
 
@@ -107,10 +110,6 @@ function FriendList({ selectedUsername, setSelectedFriend }: FriendListProps) {
               </div>
             </div>
           ))}
-
-          <div className={classes["no-data"]}>
-            <span>No results.</span>
-          </div>
         </div>
       ) : (
         // friends list

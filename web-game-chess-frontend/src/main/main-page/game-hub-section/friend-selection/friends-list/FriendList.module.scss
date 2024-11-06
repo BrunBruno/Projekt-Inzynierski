@@ -25,7 +25,7 @@
       background-color: $gc9;
       display: grid;
       grid-template-columns: 6rem auto;
-      grid-gap: 2rem;
+      gap: 2rem;
       margin-bottom: 1rem;
       opacity: 0.3;
 
@@ -44,14 +44,6 @@
           background-color: $gc8;
         }
       }
-    }
-
-    .no-data {
-      @include absCenter();
-
-      font-size: 3rem;
-      text-decoration: underline;
-      font-weight: bold;
     }
   }
 

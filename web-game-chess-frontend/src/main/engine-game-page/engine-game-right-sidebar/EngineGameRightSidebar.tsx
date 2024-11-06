@@ -18,7 +18,8 @@ function EngineGameRightSidebar({ gameId, gameData }: EngineGameRightSidebarProp
   ///
 
   const renderPlayer = (playerDto: PlayerDto | null, colorClass: string, avatarClass: string): JSX.Element => {
-    let player = playerDto;
+    let isBot: boolean = false;
+    let player: PlayerDto | null = playerDto;
     if (!player) {
       player = {
         name: "Computer",
@@ -26,6 +27,8 @@ function EngineGameRightSidebar({ gameId, gameData }: EngineGameRightSidebarProp
         elo: 0,
         color: gameData.player.color === PieceColor.white ? PieceColor.black : PieceColor.white,
       };
+
+      isBot = true;
     }
 
     return (
@@ -35,13 +38,12 @@ function EngineGameRightSidebar({ gameId, gameData }: EngineGameRightSidebarProp
           profilePicture={player.profilePicture}
           containerClass={avatarClass}
           imageClass={classes["player-img"]}
+          isBot={isBot}
         />
 
         <div className={classes["player-data"]}>
           <span>{player.name}</span>
-          <span>
-            (<span>{player.elo}</span>)
-          </span>
+          <span>({player.name === "Computer" ? `lvl ${gameData.engineLevel}` : player.elo})</span>
         </div>
       </div>
     );
@@ -52,13 +54,17 @@ function EngineGameRightSidebar({ gameId, gameData }: EngineGameRightSidebarProp
       <div className={classes.bar__content}>
         {/* players data */}
         <div className={classes.bar__content__header}>
-          {renderPlayer(gameData.player, classes["white-player"], classes["white-player-img"])}
+          {gameData.player.color === PieceColor.white
+            ? renderPlayer(gameData.player, classes["white-player"], classes["white-player-img"])
+            : renderPlayer(gameData.player, classes["black-player"], classes["black-player-img"])}
 
           <p className={classes.vs}>
             <span>vs</span>
           </p>
 
-          {renderPlayer(null, classes["black-player"], classes["black-player-img"])}
+          {gameData.player.color === PieceColor.black
+            ? renderPlayer(null, classes["white-player"], classes["white-player-img"])
+            : renderPlayer(null, classes["black-player"], classes["black-player-img"])}
         </div>
         {/* --- */}
 

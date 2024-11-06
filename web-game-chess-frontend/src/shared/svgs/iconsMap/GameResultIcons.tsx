@@ -1,6 +1,6 @@
 import { dangerColor, greyColor, successColor } from "../../utils/objects/colorMaps";
 import { GameResultName } from "../../utils/objects/constantLists";
-import { IconMap } from "../../utils/types/commonTypes";
+import { ElementClass, IconMap } from "../../utils/types/commonTypes";
 
 type IconNames = GameResultName;
 

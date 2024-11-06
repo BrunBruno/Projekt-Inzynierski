@@ -106,7 +106,7 @@ function AwaitingPage() {
 
       const state: StateOptions = {
         popup: { text: "GAME CANCELED", type: "error" },
-        interface: GameSearchInterface.vsFriend,
+        interface: GameSearchInterface.vsFriendsOptions,
       };
 
       navigate("/main", { state: state });

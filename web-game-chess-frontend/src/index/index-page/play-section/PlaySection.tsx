@@ -110,7 +110,7 @@ const PlaySection = forwardRef<HandleOnScroll, PlaySectionProps>(
                     ${classes["vs-player-button"]}
                   `}
                   onClick={() => {
-                    navigateToPlay(GameSearchInterface.vsPlayer);
+                    navigateToPlay(GameSearchInterface.vsPlayerTimeSlection);
                   }}
                 >
                   <IconCreator icons={playSectionIcons} iconName={"online"} iconClass={classes["button-icon"]} />
@@ -125,7 +125,7 @@ const PlaySection = forwardRef<HandleOnScroll, PlaySectionProps>(
                     ${classes["vs-computer-button"]}
                   `}
                   onClick={() => {
-                    navigateToPlay(GameSearchInterface.vsComputer);
+                    navigateToPlay(GameSearchInterface.vsComputerOptions);
                   }}
                 >
                   <IconCreator icons={playSectionIcons} iconName={"offline"} iconClass={classes["button-icon"]} />

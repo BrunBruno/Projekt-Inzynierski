@@ -1,6 +1,6 @@
 import { ColorValue } from "../../utils/objects/colorMaps";
 import { PieceTag } from "../../utils/objects/constantLists";
-import { IconMap } from "../../utils/types/commonTypes";
+import { ElementClass, IconMap } from "../../utils/types/commonTypes";
 
 type IconNames = PieceTag;
 

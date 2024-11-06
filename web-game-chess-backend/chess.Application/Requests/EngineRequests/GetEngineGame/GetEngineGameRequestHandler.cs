@@ -31,6 +31,7 @@ public class GetEngineGameRequestHandler : IRequestHandler<GetEngineGameRequest,
             HasEnded = game.HasEnded,
             Position = game.Position,
             Turn = game.Turn,
+            EngineLevel = game.EngineLevel,
             TimingType = game.TimingType,
 
             EnPassant = game.CurrentState.EnPassant,
