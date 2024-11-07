@@ -34,12 +34,12 @@ function FooterSection({}: FooterSectionProps) {
           <h3 className={classes["col-title"]}>Reach Us</h3>
 
           <div className={classes.contact}>
-            <IconCreator icons={footerSectionIcons} iconName={"countryFlag"} />
+            <IconCreator icons={footerSectionIcons} iconName={"countryFlag"} iconClass={classes["flag-svg"]} />
             <p className={classes["contact-data"]}>+48 000 000 000</p>
           </div>
 
           <div className={classes.contact}>
-            <IconCreator icons={footerSectionIcons} iconName={"atSymbol"} />
+            <IconCreator icons={footerSectionIcons} iconName={"atSymbol"} iconClass={classes["at-svg"]} />
             <p className={classes["contact-data"]}>chess8rn@gmail.com</p>
           </div>
         </div>
@@ -58,7 +58,7 @@ function FooterSection({}: FooterSectionProps) {
                 <IconCreator
                   icons={footerSectionIcons}
                   iconName={social.toLocaleLowerCase() as SocialNames}
-                  iconClass={classes["social-svg"]}
+                  iconClass={`${classes["social-svg"]} ${classes[`${social.toLocaleLowerCase()}-svg`]}`}
                 />
 
                 <p className={classes["action-text"]}>{displayFromLowercase(social)}</p>

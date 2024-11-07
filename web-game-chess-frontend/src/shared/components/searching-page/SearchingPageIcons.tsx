@@ -1,10 +1,11 @@
-import { IconMap } from "../../utils/types/commonTypes";
+import { ColorValue } from "../../utils/objects/colorMaps";
+import { ElementClass, IconMap } from "../../utils/types/commonTypes";
 import classes from "./SearchingPage.module.scss";
 
 type IconNames = "pawn" | "globe";
 
 export const searchingPageIcons: IconMap<IconNames> = {
-  pawn: (iconClass?: ElementClass, color?: string, active?: boolean) => (
+  pawn: (iconClass?: ElementClass, color?: ColorValue, active?: boolean) => (
     <svg
       viewBox="-4 0 24 24"
       xmlns="http://www.w3.org/2000/svg"
@@ -19,7 +20,7 @@ export const searchingPageIcons: IconMap<IconNames> = {
     </svg>
   ),
 
-  globe: (iconClass?: ElementClass, color?: string, active?: boolean) => (
+  globe: (iconClass?: ElementClass, color?: ColorValue, active?: boolean) => (
     <svg
       version="1.0"
       xmlns="http://www.w3.org/2000/svg"

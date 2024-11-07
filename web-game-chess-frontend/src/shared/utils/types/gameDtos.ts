@@ -143,3 +143,8 @@ export type CreateRematchGameDto = {
   opponentId: Guid;
   gameId: Guid;
 };
+
+export type GetTotalGamesStatsDto = {
+  gamesPlayed: number;
+  usersJoined: number;
+};

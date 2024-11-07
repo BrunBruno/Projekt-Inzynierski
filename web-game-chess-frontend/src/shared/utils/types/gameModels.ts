@@ -94,6 +94,8 @@ export type NotifyUserModel = TimingTypeModel & {
   inviter: string;
 };
 
+export type GetTotalGamesStatsModel = {};
+
 /** DELETE models */
 
 export type AbortSearchModel = {

@@ -113,7 +113,11 @@ const PlaySection = forwardRef<HandleOnScroll, PlaySectionProps>(
                     navigateToPlay(GameSearchInterface.vsPlayerTimeSelection);
                   }}
                 >
-                  <IconCreator icons={playSectionIcons} iconName={"online"} iconClass={classes["button-icon"]} />
+                  <IconCreator
+                    icons={playSectionIcons}
+                    iconName={"online"}
+                    iconClass={`${classes["button-icon"]} ${classes["vs-player-icon"]}`}
+                  />
                   <span>PLAY ONLINE</span>
                 </button>
               </div>
@@ -128,7 +132,11 @@ const PlaySection = forwardRef<HandleOnScroll, PlaySectionProps>(
                     navigateToPlay(GameSearchInterface.vsComputerOptions);
                   }}
                 >
-                  <IconCreator icons={playSectionIcons} iconName={"offline"} iconClass={classes["button-icon"]} />
+                  <IconCreator
+                    icons={playSectionIcons}
+                    iconName={"offline"}
+                    iconClass={`${classes["button-icon"]} ${classes["vs-computer-icon"]}`}
+                  />
                   <span>PLAY OFFLINE</span>
                 </button>
               </div>

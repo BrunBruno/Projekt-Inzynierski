@@ -242,7 +242,14 @@ function SignUpModal({ setModal, userNameConf, userPassConf }: SignUpModalProps)
       <h2 className={classes["form-title"]}>Create Account</h2>
 
       <div className={classes["change-form"]}>
-        Already have an account? <span onClick={() => setModal(RegistrationInterface.signIn)}>Sing In</span>
+        Already have an account?{" "}
+        <span
+          onClick={() => {
+            setModal(RegistrationInterface.signIn);
+          }}
+        >
+          Sing In
+        </span>
       </div>
 
       {/* inputs */}

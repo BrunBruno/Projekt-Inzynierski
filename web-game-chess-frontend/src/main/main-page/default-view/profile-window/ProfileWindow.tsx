@@ -12,12 +12,14 @@ import { TimingTypeName } from "../../../../shared/utils/objects/constantLists";
 import { greyColor } from "../../../../shared/utils/objects/colorMaps";
 import { defaultViewIcons } from "../DefaultViewIcons";
 import { displayFromLowercase } from "../../../../shared/utils/functions/enums";
+import { useNavigate } from "react-router-dom";
 
 type ProfileWindowProps = {};
 
 function ProfileWindow({}: ProfileWindowProps): JSX.Element {
   ///
 
+  const navigate = useNavigate();
   const { showPopup } = usePopup();
 
   const [userData, setUserData] = useState<GetFullUserDto | null>(null);
@@ -52,7 +54,12 @@ function ProfileWindow({}: ProfileWindowProps): JSX.Element {
 
   return (
     <div className={classes.profile}>
-      <div className={classes.profile__image}>
+      <div
+        className={classes.profile__image}
+        onClick={() => {
+          navigate("account");
+        }}
+      >
         <AvatarImage
           profilePicture={userData.profilePicture}
           username={userData.username}

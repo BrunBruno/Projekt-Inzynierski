@@ -22,6 +22,12 @@ public interface IWebGameRepository {
     Task<WebGame?> GetById(Guid id);
 
     /// <summary>
+    /// To get all games that happend in current day
+    /// </summary>
+    /// <returns></returns>
+    Task<List<WebGame>> GetAllPlayedTotay();
+
+    /// <summary>
     /// Creates new game
     /// </summary>
     /// <param name="game"></param>

@@ -10,7 +10,7 @@
   height: 100vh;
   padding: 4rem 0;
   background-color: #111;
-  border-left: solid 0.3rem #000;
+  border-left: solid 0.3rem rgba($mc9, 0.2);
 
   &__elements {
     @include flex(column, space-evenly, center, 0);

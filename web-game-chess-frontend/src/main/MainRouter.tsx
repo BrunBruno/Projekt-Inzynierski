@@ -5,7 +5,7 @@ import axios from "axios";
 import { getAuthorization, userController } from "../shared/utils/services/ApiService";
 import LoadingPage from "../shared/components/loading-page/LoadingPage";
 import { GetUserDto, IsEmailVerifiedDto } from "../shared/utils/types/userDtos";
-import GamePage from "./web-game-page/WebGamePage";
+import GamePage from "./game-page/WebGamePage";
 import UsersPage from "./users-page/UsersPage";
 import GameHubService from "../shared/utils/services/GameHubService";
 import { HubConnectionState } from "@microsoft/signalr";
@@ -16,7 +16,7 @@ import ProfilePage from "./profile-page/ProfilePage";
 import AwaitingPage from "./awaiting-page/AwaitingPage";
 import { RegistrationInterface, StateOptions } from "../shared/utils/objects/interfacesEnums";
 import NotFoundPage from "../shared/components/not-found-page/NotFoundPage";
-import EngineGamePage from "./engine-game-page/EngineGamePage";
+import EngineGamePage from "./game-page/EngineGamePage";
 
 function MainRouter() {
   ///

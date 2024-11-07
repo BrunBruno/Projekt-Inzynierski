@@ -134,8 +134,6 @@ function ListSection({ selectedUsername, selectedList, setUserProfile, setFriend
         if (elementHeight > 0) {
           const count = Math.ceil(containerHeight / elementHeight) * itemsPerRow;
 
-          console.log(count);
-
           setDefPageSize(count);
         }
       }

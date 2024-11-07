@@ -1,12 +1,12 @@
-﻿using chess.Core.Entities;
+﻿
+using chess.Core.Entities;
 
 namespace chess.Application.Repositories.UserRepositories;
 
 /// <summary>
 /// User repository
 /// </summary>
-public interface IUserRepository
-{
+public interface IUserRepository {
 
     /// <summary>
     /// Gets all users, that have not established relationship with current user
@@ -52,6 +52,12 @@ public interface IUserRepository
     /// <param name="username"></param>
     /// <returns></returns>
     Task<User?> GetByEmailOrUsername(string value);
+
+    /// <summary>
+    /// To get all users that joined today
+    /// </summary>
+    /// <returns></returns>
+    Task<List<User>> GetAllJoinedToday();
 
     /// <summary>
     /// Creates user

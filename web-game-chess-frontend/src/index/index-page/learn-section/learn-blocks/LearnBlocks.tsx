@@ -63,7 +63,7 @@ const LearnBlocks = ({}: LearnBlocksProps) => {
         return (
           <div ref={ref} className={classes["pieces-con"]}>
             {images}
-            <IconCreator icons={learnBlocksIcons} iconName={"gameBoard"} />
+            <IconCreator icons={learnBlocksIcons} iconName={"gameBoard"} iconClass={classes["board-svg"]} />
           </div>
         );
       }
@@ -87,7 +87,7 @@ const LearnBlocks = ({}: LearnBlocksProps) => {
 
         return (
           <div ref={ref} className={classes["counter-con"]}>
-            <IconCreator icons={learnBlocksIcons} iconName={"trophy"} />
+            <IconCreator icons={learnBlocksIcons} iconName={"trophy"} iconClass={classes["trophy-svg"]} />
             <div className={classes.screen}>{elements}</div>
           </div>
         );
@@ -96,18 +96,18 @@ const LearnBlocks = ({}: LearnBlocksProps) => {
       case "engine-icon":
         return (
           <div ref={ref} className={classes["engine-con"]}>
-            <IconCreator icons={learnBlocksIcons} iconName={"engine"} />
-            <IconCreator icons={learnBlocksIcons} iconName={"motherBoard"} />
+            <IconCreator icons={learnBlocksIcons} iconName={"engine"} iconClass={classes["engine-svg"]} />
+            <IconCreator icons={learnBlocksIcons} iconName={"motherBoard"} iconClass={classes["mother-board-svg"]} />
           </div>
         );
 
       case "message-icon":
         return (
           <div ref={ref} className={classes["message-con"]}>
-            <IconCreator icons={learnBlocksIcons} iconName={"message"} />
-            <IconCreator icons={learnBlocksIcons} iconName={"message"} />
-            <IconCreator icons={learnBlocksIcons} iconName={"message"} />
-            <IconCreator icons={learnBlocksIcons} iconName={"community"} />
+            <IconCreator icons={learnBlocksIcons} iconName={"message"} iconClass={classes["message-svg"]} />
+            <IconCreator icons={learnBlocksIcons} iconName={"message"} iconClass={classes["message-svg"]} />
+            <IconCreator icons={learnBlocksIcons} iconName={"message"} iconClass={classes["message-svg"]} />
+            <IconCreator icons={learnBlocksIcons} iconName={"community"} iconClass={classes["community-svg"]} />
           </div>
         );
 

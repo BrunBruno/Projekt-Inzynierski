@@ -77,8 +77,6 @@ function FriendSelection({ privateGameOptions, setPrivateGameOptions }: FriendSe
       return;
     }
 
-    console.log(privateGameOptions);
-
     if (options.selectedFriend) {
       onInviteBySelection(options.selectedFriend.friendshipId, options.header, options.values);
     }

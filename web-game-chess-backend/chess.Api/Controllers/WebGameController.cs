@@ -23,6 +23,7 @@ using chess.Application.Requests.WebGameRequests.CheckIfUpdateRequired;
 using chess.Application.Requests.WebGameRequests.CancelPrivateWebGame;
 using chess.Application.Requests.WebGameRequests.GetAllActiveGames;
 using chess.Api.Models.WebGameModels;
+using chess.Application.Requests.WebGameRequests.GetTotalGamesStats;
 
 namespace chess.Api.Controllers;
 
@@ -352,6 +353,23 @@ public class WebGameController : ControllerBase {
         var messages = await _mediator.Send(request);
 
         return Ok(messages);
+    }
+
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="model"></param>
+    /// <returns></returns>
+    [HttpGet("stats")]
+    [Authorize(Policy = "IsVerified")]
+    public async Task<IActionResult> GetTotalGamesStats([FromQuery] GetTotalGamesStatsModel model) {
+
+        var request = _mapper.Map<GetTotalGamesStatsRequest>(model);
+
+        var data = await _mediator.Send(request);
+
+        return Ok(data);
     }
 
 

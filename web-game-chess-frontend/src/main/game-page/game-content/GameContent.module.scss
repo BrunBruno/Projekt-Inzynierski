@@ -1,0 +1,34 @@
+@use "../../../shared/styles/shared.scss" as *;
+
+// game container
+.game {
+  @include wh100();
+  @include flex();
+
+  position: relative;
+  z-index: 0;
+  border-radius: 8rem;
+  // box-shadow: inset 2rem 0 2rem -1rem rgba($mc5, 0.3), inset -2rem 0 2rem -1rem rgba($mc5, 0.3),
+  //   inset 0 1rem 2rem -1rem rgba($mc5, 0.3), inset 0 -1rem 2rem -1rem rgba($mc5, 0.3);
+
+  &__content {
+    @include square(64rem);
+    @include rounded(2rem);
+
+    position: inherit;
+    z-index: 10;
+    background-color: rgba(#000, 0.9);
+    overflow: hidden;
+
+    border: solid 1rem rgba($mc9, 0.2);
+  }
+}
+//*/
+
+// resize
+@media (max-width: 1000px) {
+  .game {
+    box-shadow: none;
+  }
+}
+//*/

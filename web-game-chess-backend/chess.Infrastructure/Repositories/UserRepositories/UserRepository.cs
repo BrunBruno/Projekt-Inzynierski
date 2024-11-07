@@ -1,17 +1,16 @@
-﻿using chess.Application.Repositories.UserRepositories;
+﻿
+using chess.Application.Repositories.UserRepositories;
 using chess.Core.Entities;
 using chess.Infrastructure.Contexts;
 using Microsoft.EntityFrameworkCore;
 
 namespace chess.Infrastructure.Repositories.UserRepositories;
 
-public class UserRepository : IUserRepository
-{
+public class UserRepository : IUserRepository {
 
     private readonly ChessAppDbContext _dbContext;
 
-    public UserRepository(ChessAppDbContext dbContext)
-    {
+    public UserRepository(ChessAppDbContext dbContext) {
         _dbContext = dbContext;
     }
 
@@ -66,22 +65,25 @@ public class UserRepository : IUserRepository
                     .FirstOrDefaultAsync(u => u.Email == value || u.Username == value);
 
     ///<inheritdoc/>
-    public async Task Add(User user)
-    {
+    public async Task<List<User>> GetAllJoinedToday() 
+        => await _dbContext.Users
+                    .Where(u => u.JoinDate.Date == DateTime.UtcNow.Date)
+                    .ToListAsync(); 
+
+    ///<inheritdoc/>
+    public async Task Add(User user) {
         await _dbContext.Users.AddAsync(user);
         await _dbContext.SaveChangesAsync();
     }
 
     ///<inheritdoc/>
-    public async Task Update(User user)
-    {
+    public async Task Update(User user) {
         _dbContext.Users.Update(user);
         await _dbContext.SaveChangesAsync();
     }
 
     ///<inheritdoc/>
-    public async Task Delete(User user)
-    {
+    public async Task Delete(User user) {
         _dbContext.Users.Remove(user);
         await _dbContext.SaveChangesAsync();
     }

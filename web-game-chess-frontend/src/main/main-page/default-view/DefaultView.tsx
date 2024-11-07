@@ -1,16 +1,22 @@
-import { useRef } from "react";
+import { Dispatch, SetStateAction, useRef } from "react";
 import classes from "./DefaultView.module.scss";
 import { GameSearchInterface } from "../../../shared/utils/objects/interfacesEnums";
 import BackgroundBoard from "./background-board/BackgroundBoard";
 import OngoingGames from "./ongoing-games/OngoingGames";
 import LastGames from "./last-games/LastGames";
 import ProfileWindow from "./profile-window/ProfileWindow";
+import ClockWindow from "./clock-window/ClockWindow";
+import QuickGame from "./quick-game/QuickGame";
+import { SearchWebGameDto } from "../../../shared/utils/types/gameDtos";
 
 type DefaultViewProps = {
+  //
   setInterfaceById: (interfaceId: GameSearchInterface) => void;
+  //
+  setOnlineGameIds: Dispatch<SetStateAction<SearchWebGameDto | null>>;
 };
 
-function DefaultView({ setInterfaceById }: DefaultViewProps) {
+function DefaultView({ setInterfaceById, setOnlineGameIds }: DefaultViewProps) {
   ///
 
   // default section ref
@@ -23,11 +29,23 @@ function DefaultView({ setInterfaceById }: DefaultViewProps) {
           <BackgroundBoard defaultViewRef={defaultViewRef} />
         </div>
 
-        <ProfileWindow />
+        <div className={classes.default__container__row}>
+          <ProfileWindow />
 
-        <OngoingGames setInterfaceById={setInterfaceById} />
+          <ClockWindow />
+        </div>
 
-        <LastGames setInterfaceById={setInterfaceById} />
+        <div className={classes.default__container__row}>
+          <QuickGame setOnlineGameIds={setOnlineGameIds} />
+        </div>
+
+        <div className={classes.default__container__row}>
+          <OngoingGames setInterfaceById={setInterfaceById} />
+        </div>
+
+        <div className={classes.default__container__row}>
+          <LastGames setInterfaceById={setInterfaceById} />{" "}
+        </div>
       </div>
     </div>
   );

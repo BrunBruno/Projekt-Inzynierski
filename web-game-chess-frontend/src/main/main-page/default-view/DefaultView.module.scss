@@ -11,7 +11,7 @@
   }
 
   &__container {
-    @include flex(column, start, start, 2rem);
+    @include flex(column, start, start, 4rem);
 
     position: relative;
     z-index: 0;
@@ -26,6 +26,13 @@
       // right panel / nav bar / padding
       width: calc(100% - 25% - 6rem - 2 * 6rem);
       height: calc(100vh - 2 * 6rem);
+    }
+
+    &__row {
+      @include flex(row, space-between, center, 0);
+
+      position: relative;
+      width: 100%;
     }
   }
 }

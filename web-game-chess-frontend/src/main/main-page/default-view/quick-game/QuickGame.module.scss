@@ -1,0 +1,146 @@
+@use "../../../../shared/styles/shared.scss" as *;
+
+$tag_size: 2rem;
+
+.quick {
+  @include rounded(2rem);
+
+  position: relative;
+  width: fit-content;
+  background-color: rgba(#111, 0.5);
+  border: solid 0.1rem $gc9;
+  z-index: 1;
+  backdrop-filter: blur(1rem);
+  left: 50%;
+  transform: translateX(-50%);
+
+  &__header {
+    @include flex(row, center, center, 1rem);
+
+    text-align: center;
+    padding-bottom: 2rem;
+
+    .heading {
+      font-size: 2rem;
+    }
+
+    .quick-icon {
+      height: 2.2rem;
+
+      &:last-child {
+        transform: rotate(180deg);
+      }
+    }
+  }
+
+  &__controls {
+    @include flex(row, space-evenly, center, 2rem);
+
+    .time-control {
+      @include flex();
+      @include rounded(calc($tag_size));
+
+      position: relative;
+      border-bottom: solid 0.4rem $gc8;
+      border-radius: 1rem;
+      overflow: hidden;
+      width: calc(7 * $tag_size);
+
+      &:hover {
+        cursor: pointer;
+        border-color: $gc0;
+
+        .timing-icon {
+          filter: drop-shadow(0 0 1rem $gc0);
+
+          &.bullet {
+            path {
+              fill: $gc0;
+            }
+          }
+          &.blitz {
+            polygon {
+              stroke: $gc0;
+            }
+          }
+          &.rapid {
+            path {
+              stroke: $gc0;
+            }
+          }
+        }
+
+        .timing-tag {
+          color: $mc0;
+          filter: drop-shadow(0 0 1rem $mc0);
+
+          &::after {
+            background-color: $mc0;
+          }
+        }
+      }
+
+      &:active {
+        border-top: solid 0.3rem #0000;
+        border-bottom: none;
+
+        &::after {
+          background-color: $gc8;
+        }
+      }
+
+      &::after {
+        @include subCl();
+
+        z-index: 0;
+        background-color: $gc9;
+      }
+
+      .timing-icon {
+        @include square(calc($tag_size * 1.5));
+        z-index: 1;
+      }
+
+      .timing-tag {
+        @include flex();
+        @include wh100();
+
+        height: $tag_size;
+        z-index: 1;
+        color: $gc6;
+
+        .num {
+          z-index: 1;
+          height: 100%;
+          font-size: $tag_size;
+
+          &:nth-child(2) {
+            margin-right: calc($tag_size / 5);
+          }
+
+          &:nth-child(6) {
+            margin-right: calc($tag_size / 5);
+          }
+        }
+
+        .char {
+          z-index: 1;
+          display: flex;
+          align-items: end;
+          height: 100%;
+          font-size: calc($tag_size * 0.6);
+
+          &:nth-child(2) {
+            margin-left: calc($tag_size / 5);
+          }
+        }
+
+        .sep {
+          z-index: 1;
+          font-size: calc($tag_size * 0.6);
+          margin: calc($tag_size / 5);
+        }
+      }
+    }
+  }
+}

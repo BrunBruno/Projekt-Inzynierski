@@ -66,27 +66,6 @@ function TimeSelection({ setOnlineGameIds, setOfflineGameOptions, setPrivateGame
     };
 
     setOfflineGameOptions((prevOptions) => (prevOptions ? { ...prevOptions, ...newOptions } : prevOptions));
-
-    // const typeValue = getEnumValueByKey(TimingType, header.toLowerCase());
-    //
-    // const model: StartEngineGameModel = {
-    //   type: typeValue,
-    //   minutes: values[0],
-    //   increment: values[1],
-    //   allowUndo: false,
-    // };
-
-    // try {
-    //   const response = await axios.post<StartEngineGameDto>(
-    //     engineController.startEngineGame(),
-    //     model,
-    //     getAuthorization()
-    //   );
-
-    //   setOfflineGameIds(response.data);
-    // } catch (err) {
-    //   showPopup(getErrMessage(err), "warning");
-    // }
   };
   //*/
 

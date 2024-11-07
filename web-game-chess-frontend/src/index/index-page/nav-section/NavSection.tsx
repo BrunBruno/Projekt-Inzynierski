@@ -72,7 +72,7 @@ const NavSection = forwardRef<HandleOnScroll, NavSectionProps>(
             >
               <span className={classes.text}>{element.toUpperCase()}</span>
               <span className={classes.icon}>
-                <IconCreator icons={navSectionIcons} iconName={element} />
+                <IconCreator icons={navSectionIcons} iconName={element} iconClass={classes.icon} />
               </span>
             </a>
           ))}

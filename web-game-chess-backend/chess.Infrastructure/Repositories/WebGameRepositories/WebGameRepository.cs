@@ -34,6 +34,12 @@ public class WebGameRepository : IWebGameRepository {
                     .FirstOrDefaultAsync(g => g.Id == id);
 
     ///<inheritdoc/>
+    public async Task<List<WebGame>> GetAllPlayedTotay() 
+        => await _dbContext.WebGames
+                    .Where(wg => wg.CreatedAt.Date == DateTime.UtcNow.Date)
+                    .ToListAsync();
+
+    ///<inheritdoc/>
     public async Task Create(WebGame game) {
         await _dbContext.WebGames.AddAsync(game);
         await _dbContext.SaveChangesAsync();

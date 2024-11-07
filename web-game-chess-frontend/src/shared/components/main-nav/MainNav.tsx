@@ -42,7 +42,7 @@ function MainNav(): JSX.Element {
             navigate("/main/account");
           }}
         >
-          <IconCreator icons={mainNavIcons} iconName={"accountPage"} />
+          <IconCreator icons={mainNavIcons} iconName={"accountPage"} iconClass={classes["nav-icon"]} />
           <span className={classes.ind}>Account</span>
         </div>
 
@@ -52,7 +52,7 @@ function MainNav(): JSX.Element {
             navigate("/main/users");
           }}
         >
-          <IconCreator icons={mainNavIcons} iconName={"friendsPage"} />
+          <IconCreator icons={mainNavIcons} iconName={"friendsPage"} iconClass={classes["nav-icon"]} />
           <span className={classes.ind}>Add friend</span>
         </div>
 
@@ -62,7 +62,7 @@ function MainNav(): JSX.Element {
             navigate("/main/ranking");
           }}
         >
-          <IconCreator icons={mainNavIcons} iconName={"rankingPage"} />
+          <IconCreator icons={mainNavIcons} iconName={"rankingPage"} iconClass={classes["nav-icon"]} />
           <span className={classes.ind}>See ranking</span>
         </div>
 
@@ -81,7 +81,7 @@ function MainNav(): JSX.Element {
             onLogOut();
           }}
         >
-          <IconCreator icons={mainNavIcons} iconName={"logOut"} />
+          <IconCreator icons={mainNavIcons} iconName={"logOut"} iconClass={classes["nav-icon"]} />
           <span className={classes.ind}>Log out</span>
         </div>
       </div>

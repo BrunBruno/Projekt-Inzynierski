@@ -18,6 +18,7 @@ using chess.Application.Requests.WebGameRequests.SendMessage;
 using chess.Application.Requests.WebGameRequests.CreateGameWithLink;
 using chess.Application.Requests.WebGameRequests.GetAllActiveGames;
 using chess.Application.Requests.WebGameRequests.SendWebGameMessage;
+using chess.Application.Requests.WebGameRequests.GetTotalGamesStats;
 
 namespace chess.Api.Maps.MappingProfiles;
 
@@ -45,5 +46,6 @@ public class WebGameMappingProfile : Profile {
         CreateMap<CreateWebGameWithLinkModel, CreateGameWithLinkRequest>();
         CreateMap<GetAllActiveWebGamesModel, GetAllActiveGamesRequest>();
         CreateMap<SendWebGameMessageModel, SendWebGameMessageRequest>();
+        CreateMap<GetTotalGamesStatsModel, GetTotalGamesStatsRequest>();
     }
 }

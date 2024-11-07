@@ -9,6 +9,7 @@ import {
   GetAllFinishedGamesModel,
   GetTypeHistoryModel,
   GetAllActiveGamesModel,
+  GetTotalGamesStatsModel,
 } from "../types/gameModels";
 import { GetByEmailModel, GetRegisterConfModel } from "../types/userModels";
 
@@ -167,6 +168,7 @@ interface WebGameController {
   getTypeHistory: (model: GetTypeHistoryModel) => string;
   getAllInvitations: (model: GetAllInvitationsModel) => string;
   getAllMessages: (gameId: Guid) => string;
+  getTotalGamesStats: (model: GetTotalGamesStatsModel) => string;
   abortSearch: (model: AbortSearchModel) => string;
   cancelPrivateGame: (gameId: Guid) => string;
 }
@@ -248,6 +250,9 @@ export const webGameController: WebGameController = {
 
   // gets all messages for current game
   getAllMessages: (gameId: Guid) => `${webGameBaseUrl}/${gameId}/messages`,
+
+  //
+  getTotalGamesStats: (model: GetTotalGamesStatsModel) => `${webGameBaseUrl}/stats?${stringifyModel(model)}`,
 
   // removes player
   abortSearch: (model: AbortSearchModel) => `${webGameBaseUrl}/abort?${stringifyModel(model)}`,

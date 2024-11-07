@@ -8,12 +8,12 @@
   }
 
   span {
-    &:first-child {
+    &:nth-child(2) {
       font-size: 1.2rem;
     }
 
     &:last-child {
-      font-size: 1.6rem;
+      font-size: 1.8rem;
     }
   }
 }
@@ -32,11 +32,17 @@
   &__image {
     @include flex($direction: column);
 
+    &:hover {
+      cursor: pointer;
+    }
+
     .user-avatar {
       @include circle(6rem);
     }
 
     .user-name {
+      @include longText();
+
       font-size: 2rem;
       font-weight: bold;
     }

@@ -152,8 +152,6 @@ function MainPage() {
 
   useEffect(() => {
     if (privateGameOptions) {
-      console.log("options changed");
-
       if (privateGameOptions.header === null) {
         setInterfaceById(GameSearchInterface.vsFriendTimeSelection);
       } else {
@@ -209,8 +207,6 @@ function MainPage() {
       engineLevel: offlineGameOptions.engineLevel ? offlineGameOptions.engineLevel : 1,
     };
 
-    console.log(model);
-
     try {
       const response = await axios.post<StartEngineGameDto>(
         engineController.startEngineGame(),
@@ -257,7 +253,7 @@ function MainPage() {
 
     switch (interfaceId) {
       case GameSearchInterface.defaultView:
-        setInterfaceContent(<DefaultView setInterfaceById={setInterfaceById} />);
+        setInterfaceContent(<DefaultView setInterfaceById={setInterfaceById} setOnlineGameIds={setOnlineGameIds} />);
         break;
 
       case GameSearchInterface.vsPlayerTimeSelection:
@@ -306,7 +302,7 @@ function MainPage() {
         break;
 
       default:
-        setInterfaceContent(<DefaultView setInterfaceById={setInterfaceById} />);
+        setInterfaceContent(<DefaultView setInterfaceById={setInterfaceById} setOnlineGameIds={setOnlineGameIds} />);
         break;
     }
   };
