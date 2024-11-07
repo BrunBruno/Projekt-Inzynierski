@@ -33,6 +33,17 @@ export enum GameActionInterface {
   draw,
 }
 
+// for displaying game window
+export enum GameWindowInterface {
+  none,
+  confirm,
+  winner,
+  promotion,
+  search,
+  engine,
+  settings,
+}
+
 // use navigate state options
 export type StateOptions = {
   popup?: PopupType;

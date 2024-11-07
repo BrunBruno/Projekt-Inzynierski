@@ -20,6 +20,10 @@
     h2.header-title {
       @include flex(row, start, center, 1rem);
 
+      .header-icon {
+        height: 3rem;
+      }
+
       span {
         font-size: 3rem;
         font-weight: bold;

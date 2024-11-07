@@ -149,7 +149,8 @@
             .name {
               @include longText();
 
-              width: 12rem;
+              width: fit-content;
+              max-width: 12rem;
               font-size: 2rem;
             }
 

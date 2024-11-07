@@ -8,7 +8,7 @@ import { usePopup } from "../../../shared/utils/hooks/usePopUp";
 import { getErrMessage } from "../../../shared/utils/functions/errors";
 import { Guid } from "guid-typescript";
 import IconCreator from "../../../shared/components/icon-creator/IconCreator";
-import { GameActionInterface } from "../../../shared/utils/objects/interfacesEnums";
+import { GameActionInterface, GameWindowInterface } from "../../../shared/utils/objects/interfacesEnums";
 import { Dispatch, SetStateAction } from "react";
 import { GetEngineGameDto } from "../../../shared/utils/types/engineDtos";
 import { gameLeftSideBarIcons } from "./GameLeftSidebarIcons";
@@ -22,9 +22,17 @@ type EngineGameLeftSidebarProps = {
   setShowConfirm: Dispatch<SetStateAction<GameActionInterface | null>>;
   // to set confirm action
   setConfirmAction: Dispatch<SetStateAction<() => void>>;
+  //
+  setDisplayedWindow: Dispatch<SetStateAction<GameWindowInterface>>;
 };
 
-function EngineGameLeftSidebar({ gameId, gameData, setShowConfirm, setConfirmAction }: EngineGameLeftSidebarProps) {
+function EngineGameLeftSidebar({
+  gameId,
+  gameData,
+  setShowConfirm,
+  setConfirmAction,
+  setDisplayedWindow,
+}: EngineGameLeftSidebarProps) {
   ///
 
   const navigate = useNavigate();
@@ -56,14 +64,23 @@ function EngineGameLeftSidebar({ gameId, gameData, setShowConfirm, setConfirmAct
 
   // to show confirm window and select chosen action
   const onSelectResign = (): void => {
+    setDisplayedWindow(GameWindowInterface.confirm);
     setShowConfirm(GameActionInterface.resign);
     setConfirmAction(() => onResign);
   };
   //*/
 
-  const onLeaveGame = () => {
+  const onLeaveGame = (): void => {
     navigate("/main");
   };
+
+  const onUndoMove = async (): Promise<void> => {};
+
+  const onRestartGame = async (): Promise<void> => {};
+
+  const onChangeEngine = async (): Promise<void> => {};
+
+  const onShowSettings = (): void => {};
 
   return (
     <section className={classes.bar}>
@@ -94,6 +111,16 @@ function EngineGameLeftSidebar({ gameId, gameData, setShowConfirm, setConfirmAct
           <li
             className={classes.bar__content__list__element}
             onClick={() => {
+              onRestartGame();
+            }}
+          >
+            <IconCreator icons={gameLeftSideBarIcons} iconName={"restart"} iconClass={classes["list-icon"]} />
+            <span>Restart</span>
+          </li>
+
+          <li
+            className={classes.bar__content__list__element}
+            onClick={() => {
               onSelectResign();
             }}
           >
@@ -101,22 +128,34 @@ function EngineGameLeftSidebar({ gameId, gameData, setShowConfirm, setConfirmAct
             <span>Resign</span>
           </li>
 
-          <li className={classes.bar__content__list__element} onClick={() => {}}>
+          <li
+            className={`
+              ${classes.bar__content__list__element} 
+              ${!gameData.allowUndo ? classes["un-active"] : ""}`}
+            onClick={() => {
+              onUndoMove();
+            }}
+          >
             <IconCreator icons={gameLeftSideBarIcons} iconName={"undo"} iconClass={classes["list-icon"]} />
             <span>Undo move</span>
           </li>
 
-          <li className={classes.bar__content__list__element} onClick={() => {}}>
-            <IconCreator icons={gameLeftSideBarIcons} iconName={"restart"} iconClass={classes["list-icon"]} />
-            <span>Restart</span>
-          </li>
-
-          <li className={classes.bar__content__list__element} onClick={() => {}}>
+          <li
+            className={classes.bar__content__list__element}
+            onClick={() => {
+              onChangeEngine();
+            }}
+          >
             <IconCreator icons={gameLeftSideBarIcons} iconName={"engine"} iconClass={classes["list-icon"]} />
             <span>Engine</span>
           </li>
 
-          <li className={classes.bar__content__list__element} onClick={() => {}}>
+          <li
+            className={classes.bar__content__list__element}
+            onClick={() => {
+              onShowSettings();
+            }}
+          >
             <IconCreator icons={gameLeftSideBarIcons} iconName={"settings"} iconClass={classes["list-icon"]} />
             <span>Settings</span>
           </li>

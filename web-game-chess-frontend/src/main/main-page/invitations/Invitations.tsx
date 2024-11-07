@@ -14,6 +14,9 @@ import InvitationsFilters from "./invitations-filters/InvitationsFilters";
 import GameHubService from "../../../shared/utils/services/GameHubService";
 import { HubConnectionState } from "@microsoft/signalr";
 import usePagination from "../../../shared/utils/hooks/usePagination";
+import IconCreator from "../../../shared/components/icon-creator/IconCreator";
+import { mainPageIcons } from "../MainPageIcons";
+import { mainColor } from "../../../shared/utils/objects/colorMaps";
 
 type InvitationsProps = {};
 
@@ -109,6 +112,13 @@ function Invitations({}: InvitationsProps) {
     <div className={classes.invitations}>
       <div className={classes.invitations__header}>
         <h2 className={classes["header-title"]}>
+          <IconCreator
+            icons={mainPageIcons}
+            iconName={"gameInvitations"}
+            iconClass={classes["header-icon"]}
+            color={mainColor.c0}
+          />
+
           <span>Your invitations: </span>
 
           {invitations && (

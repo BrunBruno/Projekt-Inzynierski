@@ -9,7 +9,7 @@ import { usePopup } from "../../../shared/utils/hooks/usePopUp";
 import { getErrMessage } from "../../../shared/utils/functions/errors";
 import { Guid } from "guid-typescript";
 import IconCreator from "../../../shared/components/icon-creator/IconCreator";
-import { GameActionInterface } from "../../../shared/utils/objects/interfacesEnums";
+import { GameActionInterface, GameWindowInterface } from "../../../shared/utils/objects/interfacesEnums";
 import { Dispatch, SetStateAction } from "react";
 import { gameLeftSideBarIcons } from "./GameLeftSidebarIcons";
 
@@ -24,6 +24,8 @@ type WebGameLeftSidebarProps = {
   setShowConfirm: Dispatch<SetStateAction<GameActionInterface | null>>;
   // to set confirm action
   setConfirmAction: Dispatch<SetStateAction<() => void>>;
+  //
+  setDisplayedWindow: Dispatch<SetStateAction<GameWindowInterface>>;
 };
 
 function WebGameLeftSidebar({
@@ -32,6 +34,7 @@ function WebGameLeftSidebar({
   gameData,
   setShowConfirm,
   setConfirmAction,
+  setDisplayedWindow,
 }: WebGameLeftSidebarProps) {
   ///
 
@@ -88,22 +91,27 @@ function WebGameLeftSidebar({
 
     switch (action) {
       case GameActionInterface.leave:
+        setDisplayedWindow(GameWindowInterface.confirm);
         setConfirmAction(() => onDraw);
         break;
 
       case GameActionInterface.abort:
+        setDisplayedWindow(GameWindowInterface.confirm);
         setConfirmAction(() => onResign);
         break;
 
       case GameActionInterface.resign:
+        setDisplayedWindow(GameWindowInterface.confirm);
         setConfirmAction(() => onResign);
         break;
 
       case GameActionInterface.draw:
+        setDisplayedWindow(GameWindowInterface.confirm);
         setConfirmAction(() => onDrawOffer);
         break;
 
       default:
+        setDisplayedWindow(GameWindowInterface.none);
         setConfirmAction(() => {});
         setShowConfirm(null);
     }

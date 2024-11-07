@@ -1,5 +1,5 @@
 import { Dispatch, SetStateAction } from "react";
-import { GameActionInterface } from "../../../../shared/utils/objects/interfacesEnums";
+import { GameActionInterface, GameWindowInterface } from "../../../../shared/utils/objects/interfacesEnums";
 import classes from "./GameConfirm.module.scss";
 
 type WebGameConfirmProps = {
@@ -9,9 +9,11 @@ type WebGameConfirmProps = {
   showConfirm: GameActionInterface | null;
   // to display confirm window
   setShowConfirm: Dispatch<SetStateAction<GameActionInterface | null>>;
+  //
+  setDisplayedWindow: Dispatch<SetStateAction<GameWindowInterface>>;
 };
 
-function WebGameConfirm({ confirmAction, showConfirm, setShowConfirm }: WebGameConfirmProps) {
+function WebGameConfirm({ confirmAction, showConfirm, setShowConfirm, setDisplayedWindow }: WebGameConfirmProps) {
   ///
 
   // to render correct title based on user selection
@@ -45,14 +47,20 @@ function WebGameConfirm({ confirmAction, showConfirm, setShowConfirm }: WebGameC
 
   // to confirm action
   const onYesClick = () => {
+    // execute action
     confirmAction();
+
+    // clear
     setShowConfirm(null);
+    setDisplayedWindow(GameWindowInterface.none);
   };
   //*/
 
   // to reject action
   const onNoClick = () => {
+    // clear
     setShowConfirm(null);
+    setDisplayedWindow(GameWindowInterface.none);
   };
   //*/
 

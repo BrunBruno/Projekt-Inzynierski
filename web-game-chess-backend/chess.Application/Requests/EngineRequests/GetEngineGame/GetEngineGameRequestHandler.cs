@@ -33,6 +33,7 @@ public class GetEngineGameRequestHandler : IRequestHandler<GetEngineGameRequest,
             Turn = game.Turn,
             EngineLevel = game.EngineLevel,
             TimingType = game.TimingType,
+            AllowUndo = game.AllowUndo,
 
             EnPassant = game.CurrentState.EnPassant,
             CanWhiteKingCastle = game.CurrentState.CanWhiteKingCastle,

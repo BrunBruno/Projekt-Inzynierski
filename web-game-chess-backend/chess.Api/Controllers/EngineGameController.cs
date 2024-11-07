@@ -1,12 +1,14 @@
 ﻿
 using AutoMapper;
 using chess.Api.Models.EngineGameModels;
+using chess.Application.Requests.EngineRequests.ChangeEngineLevel;
 using chess.Application.Requests.EngineRequests.EndEngineGame;
 using chess.Application.Requests.EngineRequests.GetAllEngineGameMessages;
 using chess.Application.Requests.EngineRequests.GetEngineGame;
 using chess.Application.Requests.EngineRequests.GetEngineGameMove;
 using chess.Application.Requests.EngineRequests.MakeEngineGameMove;
 using chess.Application.Requests.EngineRequests.StartEngineGame;
+using chess.Application.Requests.EngineRequests.UndoMove;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -76,6 +78,39 @@ public class EngineGameController : ControllerBase {
         return Ok(result);
     }
 
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="model"></param>
+    /// <returns></returns>
+    [HttpPut("{gameId}/change-engine")]
+    [Authorize(Policy = "IsVerified")]
+    public async Task<IActionResult> ChangeEngineLevel([FromBody] ChangeEngineLevelModel model) {
+
+        var request = _mapper.Map<ChangeEngineLevelRequest>(model);
+
+        await _mediator.Send(request);
+
+        return Ok();
+    }
+
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="model"></param>
+    /// <returns></returns>
+    [HttpPut("{gameId}/undo-move")]
+    [Authorize(Policy = "IsVerified")]
+    public async Task<IActionResult> UndoMove([FromBody] UndoMoveModel model) {
+
+        var request = _mapper.Map<UndoMoveRequest>(model);
+
+        await _mediator.Send(request);
+
+        return Ok();
+    }
 
     /// <summary>
     /// 

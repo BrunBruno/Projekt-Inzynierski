@@ -1,4 +1,4 @@
-import { Dispatch, useEffect, useRef, useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
 import classes from "./GameBoard.module.scss";
 import { PieceColor } from "../../../../shared/utils/objects/entitiesEnums";
 import { getPieceSideColor, pieceTagMap } from "../../../../shared/utils/objects/piecesNameMaps";
@@ -24,6 +24,7 @@ import {
   performMoveAnimation,
 } from "../../../../shared/utils/chess-game/boardVisualization";
 import { makeMove } from "../../../../shared/utils/chess-game/makeMove";
+import { GameWindowInterface } from "../../../../shared/utils/objects/interfacesEnums";
 
 type EngineGameBoardProps = {
   // current game data
@@ -38,6 +39,8 @@ type EngineGameBoardProps = {
   chosePiece: (piece: PieceOption, coordinates: Coordinate) => void;
   //
   getGame: () => Promise<void>;
+  //
+  setDisplayedWindow: Dispatch<SetStateAction<GameWindowInterface>>;
 };
 
 function EngineGameBoard({
@@ -47,6 +50,7 @@ function EngineGameBoard({
   setSelectionStates,
   chosePiece,
   getGame,
+  setDisplayedWindow,
 }: EngineGameBoardProps) {
   ///
 
@@ -291,6 +295,7 @@ function EngineGameBoard({
         (selectionStates.piece === pieceTagMap.black.pawn && coordinates[1] === 1))
     ) {
       setSelectionStates({ type: "SET_PROMOTION_COOR", payload: coordinates });
+      setDisplayedWindow(GameWindowInterface.promotion);
       return;
     }
 
@@ -353,6 +358,7 @@ function EngineGameBoard({
         (selectionStates.piece === pieceTagMap.black.pawn && coordinates[1] === 1))
     ) {
       setSelectionStates({ type: "SET_PROMOTION_COOR", payload: coordinates });
+      setDisplayedWindow(GameWindowInterface.promotion);
       return;
     }
 

@@ -67,6 +67,16 @@
           }
         }
 
+        &.un-active {
+          pointer-events: none;
+          span {
+            filter: brightness(50%);
+          }
+          svg.list-icon {
+            filter: brightness(50%);
+          }
+        }
+
         span {
           white-space: nowrap;
           font-size: 2rem;

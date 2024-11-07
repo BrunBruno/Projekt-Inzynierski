@@ -4,8 +4,9 @@ import { botSelectionIcons } from "./BotSelectionIcons";
 import { OfflineGameOptions } from "../MainPageData";
 import IconCreator from "../../../shared/components/icon-creator/IconCreator";
 import ActionButton from "../../../shared/components/action-button/ActionButton";
+import { greyColor } from "../../../shared/utils/objects/colorMaps";
 
-const levels = 25;
+const levels: number = 20;
 
 type BotSelectionProps = {
   //
@@ -84,7 +85,16 @@ function BotSelection({ setOfflineGameOptions }: BotSelectionProps) {
 
         <div className={classes.bot__content__options}>
           <div className={classes.bot__content__options__option}>
-            <p className={classes["option-name"]}>Game with timing:</p>
+            <div className={classes["option-name"]}>
+              <IconCreator
+                icons={botSelectionIcons}
+                iconName={"timing"}
+                iconClass={classes["option-icon"]}
+                color={greyColor.c0}
+              />
+
+              <span>Game with timing:</span>
+            </div>
 
             <div className={`${classes["timing-option"]} ${classes["buttons"]}`}>
               <button
@@ -115,7 +125,16 @@ function BotSelection({ setOfflineGameOptions }: BotSelectionProps) {
           </div>
 
           <div className={classes.bot__content__options__option}>
-            <p className={classes["option-name"]}>Allow move undoing:</p>
+            <div className={classes["option-name"]}>
+              <IconCreator
+                icons={botSelectionIcons}
+                iconName={"undo"}
+                iconClass={classes["option-icon"]}
+                color={greyColor.c0}
+              />
+
+              <span>Allow move undoing:</span>
+            </div>
             <div className={`${classes["undo-option"]} ${classes["buttons"]}`}>
               <button
                 className={`
@@ -129,6 +148,7 @@ function BotSelection({ setOfflineGameOptions }: BotSelectionProps) {
               >
                 <span>Yes</span>
               </button>
+
               <button
                 className={`
                     ${classes["option-button"]}

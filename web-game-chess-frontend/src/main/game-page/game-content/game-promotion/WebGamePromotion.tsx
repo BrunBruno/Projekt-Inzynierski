@@ -1,4 +1,4 @@
-import { Dispatch } from "react";
+import { Dispatch, SetStateAction } from "react";
 import IconCreator from "../../../../shared/components/icon-creator/IconCreator";
 import { defaultPiecesImages } from "../../../../shared/svgs/iconsMap/DefaultPieceImageSvgs";
 import { PieceTag } from "../../../../shared/utils/objects/constantLists";
@@ -9,6 +9,7 @@ import classes from "./GamePromotion.module.scss";
 import { SelectionAction } from "../../../game-page/game-content/WebGameContentStates";
 import { PieceOption, SelectionStates, TypeOfGame, WebGameStates } from "../../../../shared/utils/chess-game/gameSates";
 import { makeMove } from "../../../../shared/utils/chess-game/makeMove";
+import { GameWindowInterface } from "../../../../shared/utils/objects/interfacesEnums";
 
 type WebGamePromotionProps = {
   // player data
@@ -19,9 +20,17 @@ type WebGamePromotionProps = {
   selectionStates: SelectionStates;
   // selection setters
   setSelectionStates: Dispatch<SelectionAction>;
+  //
+  setDisplayedWindow: Dispatch<SetStateAction<GameWindowInterface>>;
 };
 
-function WebGamePromotion({ playerData, gameStates, selectionStates, setSelectionStates }: WebGamePromotionProps) {
+function WebGamePromotion({
+  playerData,
+  gameStates,
+  selectionStates,
+  setSelectionStates,
+  setDisplayedWindow,
+}: WebGamePromotionProps) {
   ///
 
   // promote pawn to chosen piece
@@ -31,6 +40,7 @@ function WebGamePromotion({ playerData, gameStates, selectionStates, setSelectio
     }
 
     setSelectionStates({ type: "SET_PROMOTION_COOR", payload: null });
+    setDisplayedWindow(GameWindowInterface.none);
   };
   //*/
 

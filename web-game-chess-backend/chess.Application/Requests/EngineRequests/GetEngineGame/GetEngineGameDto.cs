@@ -37,6 +37,11 @@ public class GetEngineGameDto {
     public TimingTypes? TimingType { get; set; }
 
     /// <summary>
+    /// 
+    /// </summary>
+    public bool AllowUndo { get; set; }
+
+    /// <summary>
     /// Bool values relate to castling options
     /// </summary>
     public bool CanWhiteKingCastle { get; set; }

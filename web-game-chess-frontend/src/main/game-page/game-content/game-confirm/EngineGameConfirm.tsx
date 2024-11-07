@@ -1,5 +1,5 @@
 import { Dispatch, SetStateAction } from "react";
-import { GameActionInterface } from "../../../../shared/utils/objects/interfacesEnums";
+import { GameActionInterface, GameWindowInterface } from "../../../../shared/utils/objects/interfacesEnums";
 import classes from "./GameConfirm.module.scss";
 
 type EngineGameConfirmProps = {
@@ -9,9 +9,11 @@ type EngineGameConfirmProps = {
   showConfirm: GameActionInterface | null;
   // to display confirm window
   setShowConfirm: Dispatch<SetStateAction<GameActionInterface | null>>;
+  //
+  setDisplayedWindow: Dispatch<SetStateAction<GameWindowInterface>>;
 };
 
-function EngineGameConfirm({ confirmAction, showConfirm, setShowConfirm }: EngineGameConfirmProps) {
+function EngineGameConfirm({ confirmAction, showConfirm, setShowConfirm, setDisplayedWindow }: EngineGameConfirmProps) {
   ///
 
   // to render correct title based on user selection
@@ -45,18 +47,24 @@ function EngineGameConfirm({ confirmAction, showConfirm, setShowConfirm }: Engin
 
   // to confirm action
   const onYesClick = () => {
+    // execute action
     confirmAction();
+
+    // clear
     setShowConfirm(null);
+    setDisplayedWindow(GameWindowInterface.none);
   };
   //*/
 
   // to reject action
   const onNoClick = () => {
+    // clear
     setShowConfirm(null);
+    setDisplayedWindow(GameWindowInterface.none);
   };
   //*/
 
-  if (showConfirm === null) return <></>;
+  if (!showConfirm) return <></>;
 
   return (
     <div className={classes.window}>
@@ -65,8 +73,8 @@ function EngineGameConfirm({ confirmAction, showConfirm, setShowConfirm }: Engin
         <div className={classes.window__content__actions}>
           <button
             className={`
-                ${classes["confirm-button"]}
-                ${classes["yes-btn"]}
+              ${classes["confirm-button"]}
+              ${classes["yes-btn"]}
             `}
             onClick={() => {
               onYesClick();
@@ -76,8 +84,8 @@ function EngineGameConfirm({ confirmAction, showConfirm, setShowConfirm }: Engin
           </button>
           <button
             className={`
-                ${classes["confirm-button"]}
-                ${classes["no-btn"]}
+              ${classes["confirm-button"]}
+              ${classes["no-btn"]}
             `}
             onClick={() => {
               onNoClick();

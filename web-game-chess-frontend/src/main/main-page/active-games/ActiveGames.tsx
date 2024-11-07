@@ -12,6 +12,9 @@ import { getAuthorization, webGameController } from "../../../shared/utils/servi
 import { PagedResult } from "../../../shared/utils/types/abstractDtosAndModels";
 import { getErrMessage } from "../../../shared/utils/functions/errors";
 import LoadingPage from "../../../shared/components/loading-page/LoadingPage";
+import IconCreator from "../../../shared/components/icon-creator/IconCreator";
+import { mainPageIcons } from "../MainPageIcons";
+import { mainColor } from "../../../shared/utils/objects/colorMaps";
 
 type ActiveGamesProps = {};
 
@@ -103,6 +106,13 @@ function ActiveGames({}: ActiveGamesProps) {
     <div className={classes.games}>
       <div className={classes.games__header}>
         <h2 className={classes["header-title"]}>
+          <IconCreator
+            icons={mainPageIcons}
+            iconName={"activeGames"}
+            iconClass={classes["header-icon"]}
+            color={mainColor.c0}
+          />
+
           <span>Your previous games: </span>
 
           <span className={classes["counter"]}>

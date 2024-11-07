@@ -22,7 +22,7 @@ import { getErrMessage } from "../../shared/utils/functions/errors";
 import MainPopUp from "../../shared/components/main-popup/MainPopUp";
 import { Guid } from "guid-typescript";
 import { HubConnectionState } from "@microsoft/signalr";
-import { GameActionInterface, StateOptions } from "../../shared/utils/objects/interfacesEnums";
+import { GameActionInterface, GameWindowInterface, StateOptions } from "../../shared/utils/objects/interfacesEnums";
 import WebGameLeftSidebar from "./game-left-sidebar/WebGameLeftSidebar";
 import WebGameContent from "./game-content/WebGameContent";
 import WebGameRightSidebar from "./game-right-sidebar/WebGameRightSidebar";
@@ -90,6 +90,8 @@ function WebGamePage() {
   // time left for both players
   const [playersTimes, setPlayersTimes] = useState<FetchTimeDto | null>(null);
 
+  //
+  const [displayedWindow, setDisplayedWindow] = useState<GameWindowInterface>(GameWindowInterface.none);
   // states for displaying actions confirmation window
   const [showConfirm, setShowConfirm] = useState<GameActionInterface | null>(null);
   const [confirmAction, setConfirmAction] = useState<() => void>(() => {});
@@ -135,6 +137,7 @@ function WebGamePage() {
   // to finish the game
   const endGame = (endGameData: EndGameDto): void => {
     setWinner(endGameData);
+    setDisplayedWindow(GameWindowInterface.winner);
 
     GameHubService.connection?.off("GameUpdated", getGame);
   };
@@ -205,6 +208,7 @@ function WebGamePage() {
         const response = await axios.get<GetEndedGameDto>(webGameController.getEndedGame(gameId), getAuthorization());
 
         setWinner(response.data);
+        setDisplayedWindow(GameWindowInterface.winner);
       } catch (err) {
         showPopup(getErrMessage(err), "warning");
       }
@@ -265,6 +269,7 @@ function WebGamePage() {
         gameData={gameData}
         setShowConfirm={setShowConfirm}
         setConfirmAction={setConfirmAction}
+        setDisplayedWindow={setDisplayedWindow}
       />
 
       <WebGameContent
@@ -279,6 +284,8 @@ function WebGamePage() {
         showConfirm={showConfirm}
         setShowConfirm={setShowConfirm}
         confirmAction={confirmAction}
+        displayedWindow={displayedWindow}
+        setDisplayedWindow={setDisplayedWindow}
       />
 
       <WebGameRightSidebar

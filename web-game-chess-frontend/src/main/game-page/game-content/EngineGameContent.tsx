@@ -31,7 +31,8 @@ import { PieceColor } from "../../../shared/utils/objects/entitiesEnums";
 import { checkIfAnyMoveExists } from "../../../shared/utils/chess-game/checkIfAnyMoveExists";
 import EngineGameWinner from "./game-winner/EngineGameWinner";
 import EngineGameConfirm from "./game-confirm/EngineGameConfirm";
-import { GameActionInterface } from "../../../shared/utils/objects/interfacesEnums";
+import { GameActionInterface, GameWindowInterface } from "../../../shared/utils/objects/interfacesEnums";
+import GameEngine from "./game-engine/GameEngine";
 
 type EngineGameContentProps = {
   // game id
@@ -50,6 +51,10 @@ type EngineGameContentProps = {
   setShowConfirm: Dispatch<SetStateAction<GameActionInterface | null>>;
   // to perform action on confirm
   confirmAction: () => void;
+  //
+  displayedWindow: GameWindowInterface;
+  //
+  setDisplayedWindow: Dispatch<SetStateAction<GameWindowInterface>>;
 };
 
 function EngineGameContent({
@@ -61,6 +66,8 @@ function EngineGameContent({
   showConfirm,
   setShowConfirm,
   confirmAction,
+  displayedWindow,
+  setDisplayedWindow,
 }: EngineGameContentProps) {
   ///
 
@@ -288,27 +295,39 @@ function EngineGameContent({
           setSelectionStates={setSelectionStates}
           chosePiece={chosePiece}
           getGame={getGame}
+          setDisplayedWindow={setDisplayedWindow}
         />
         {/* --- */}
 
         {/* promotion box */}
-        {selectionStates.promotionCoor && !gameData.hasEnded && (
+        {displayedWindow === GameWindowInterface.promotion && selectionStates.promotionCoor && !gameData.hasEnded && (
           <EngineGamePromotion
             gameData={gameData}
             gameStates={gameStates}
             selectionStates={selectionStates}
             setSelectionStates={setSelectionStates}
             getGame={getGame}
+            setDisplayedWindow={setDisplayedWindow}
           />
         )}
 
         {/* confirm box */}
-        {showConfirm && !gameData.hasEnded && (
-          <EngineGameConfirm confirmAction={confirmAction} showConfirm={showConfirm} setShowConfirm={setShowConfirm} />
+        {displayedWindow === GameWindowInterface.confirm && showConfirm && !gameData.hasEnded && (
+          <EngineGameConfirm
+            confirmAction={confirmAction}
+            showConfirm={showConfirm}
+            setShowConfirm={setShowConfirm}
+            setDisplayedWindow={setDisplayedWindow}
+          />
         )}
 
         {/* end game info*/}
-        {winner && <EngineGameWinner gameId={gameId} gameData={gameData} winner={winner} />}
+        {displayedWindow === GameWindowInterface.winner && winner && (
+          <EngineGameWinner gameId={gameId} gameData={gameData} winner={winner} />
+        )}
+
+        {/* engine selection */}
+        {displayedWindow === GameWindowInterface.engine && <GameEngine />}
       </div>
     </section>
   );

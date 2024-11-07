@@ -12,6 +12,9 @@ import { usePopup } from "../../../shared/utils/hooks/usePopUp";
 import { getErrMessage } from "../../../shared/utils/functions/errors";
 import { PagedResult } from "../../../shared/utils/types/abstractDtosAndModels";
 import UserGamesEmptyCard from "./user-games-empty-card/UserGamesEmptyCard";
+import IconCreator from "../../../shared/components/icon-creator/IconCreator";
+import { mainPageIcons } from "../MainPageIcons";
+import { mainColor } from "../../../shared/utils/objects/colorMaps";
 
 type UserGamesProps = {};
 
@@ -105,6 +108,13 @@ function UserGames({}: UserGamesProps) {
     <div className={classes.games}>
       <div className={classes.games__header}>
         <h2 className={classes["header-title"]}>
+          <IconCreator
+            icons={mainPageIcons}
+            iconName={"userGames"}
+            iconClass={classes["header-icon"]}
+            color={mainColor.c0}
+          />
+
           <span>Your previous games: </span>
 
           <span className={classes["counter"]}>

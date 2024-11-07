@@ -1,4 +1,4 @@
-import { Dispatch } from "react";
+import { Dispatch, SetStateAction } from "react";
 import IconCreator from "../../../../shared/components/icon-creator/IconCreator";
 import { defaultPiecesImages } from "../../../../shared/svgs/iconsMap/DefaultPieceImageSvgs";
 import { PieceTag } from "../../../../shared/utils/objects/constantLists";
@@ -14,6 +14,7 @@ import {
   TypeOfGame,
 } from "../../../../shared/utils/chess-game/gameSates";
 import { makeMove } from "../../../../shared/utils/chess-game/makeMove";
+import { GameWindowInterface } from "../../../../shared/utils/objects/interfacesEnums";
 
 type EngineGamePromotionProps = {
   // game data
@@ -26,6 +27,8 @@ type EngineGamePromotionProps = {
   setSelectionStates: Dispatch<SelectionAction>;
   //
   getGame: () => Promise<void>;
+  //
+  setDisplayedWindow: Dispatch<SetStateAction<GameWindowInterface>>;
 };
 
 function EngineGamePromotion({
@@ -34,6 +37,7 @@ function EngineGamePromotion({
   selectionStates,
   setSelectionStates,
   getGame,
+  setDisplayedWindow,
 }: EngineGamePromotionProps) {
   ///
 
@@ -46,6 +50,7 @@ function EngineGamePromotion({
     }
 
     setSelectionStates({ type: "SET_PROMOTION_COOR", payload: null });
+    setDisplayedWindow(GameWindowInterface.none);
   };
   //*/
 

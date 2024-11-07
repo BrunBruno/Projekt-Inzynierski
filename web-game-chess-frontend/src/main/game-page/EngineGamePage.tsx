@@ -8,7 +8,7 @@ import { usePopup } from "../../shared/utils/hooks/usePopUp";
 import { getErrMessage } from "../../shared/utils/functions/errors";
 import MainPopUp from "../../shared/components/main-popup/MainPopUp";
 import { Guid } from "guid-typescript";
-import { GameActionInterface, StateOptions } from "../../shared/utils/objects/interfacesEnums";
+import { GameActionInterface, GameWindowInterface, StateOptions } from "../../shared/utils/objects/interfacesEnums";
 import { EndEngineGameDto, GetEngineGameDto } from "../../shared/utils/types/engineDtos";
 import { EndEngineGameModel } from "../../shared/utils/types/engineModels";
 import { PieceColor } from "../../shared/utils/objects/entitiesEnums";
@@ -47,6 +47,8 @@ function EngineGamePage() {
   // winner data
   const [winner, setWinner] = useState<EndEngineGameDto | null>(null);
 
+  //
+  const [displayedWindow, setDisplayedWindow] = useState<GameWindowInterface>(GameWindowInterface.none);
   // states for displaying actions confirmation window
   const [showConfirm, setShowConfirm] = useState<GameActionInterface | null>(null);
   const [confirmAction, setConfirmAction] = useState<() => void>(() => {});
@@ -87,9 +89,10 @@ function EngineGamePage() {
         loserColor: loserColor,
       };
 
-      const response = await axios.put<EndEngineGameDto>(engineController.endEngieGame(), model, getAuthorization());
+      const response = await axios.put<EndEngineGameDto>(engineController.endEngineGame(), model, getAuthorization());
 
       setWinner(response.data);
+      setDisplayedWindow(GameWindowInterface.winner);
     } catch (err) {
       showPopup(getErrMessage(err), "warning");
     }
@@ -111,6 +114,7 @@ function EngineGamePage() {
         gameData={gameData}
         setShowConfirm={setShowConfirm}
         setConfirmAction={setConfirmAction}
+        setDisplayedWindow={setDisplayedWindow}
       />
 
       <EngineGameContent
@@ -122,6 +126,8 @@ function EngineGamePage() {
         showConfirm={showConfirm}
         setShowConfirm={setShowConfirm}
         confirmAction={confirmAction}
+        displayedWindow={displayedWindow}
+        setDisplayedWindow={setDisplayedWindow}
       />
 
       <EngineGameRightSidebar gameId={gameId} gameData={gameData} />

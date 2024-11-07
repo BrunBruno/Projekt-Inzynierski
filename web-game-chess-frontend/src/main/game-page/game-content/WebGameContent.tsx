@@ -11,7 +11,7 @@ import { GameEndReason, PieceColor } from "../../../shared/utils/objects/entitie
 import { EndGameModel, SearchWebGameModel } from "../../../shared/utils/types/gameModels";
 import GameHubService from "../../../shared/utils/services/GameHubService";
 import { Guid } from "guid-typescript";
-import { GameActionInterface } from "../../../shared/utils/objects/interfacesEnums";
+import { GameActionInterface, GameWindowInterface } from "../../../shared/utils/objects/interfacesEnums";
 import { SMatrix } from "../../../shared/utils/types/commonTypes";
 import {
   gameInitialStates,
@@ -54,6 +54,10 @@ type WebGameContentProps = {
   setShowConfirm: Dispatch<SetStateAction<GameActionInterface | null>>;
   // to perform action on confirm
   confirmAction: () => void;
+  //
+  displayedWindow: GameWindowInterface;
+  //
+  setDisplayedWindow: Dispatch<SetStateAction<GameWindowInterface>>;
 };
 
 function WebGameContent({
@@ -68,6 +72,8 @@ function WebGameContent({
   showConfirm,
   setShowConfirm,
   confirmAction,
+  displayedWindow,
+  setDisplayedWindow,
 }: WebGameContentProps) {
   ///
 
@@ -218,26 +224,33 @@ function WebGameContent({
           selectionStates={selectionStates}
           setSelectionStates={setSelectionStates}
           chosePiece={chosePiece}
+          setDisplayedWindow={setDisplayedWindow}
         />
         {/* --- */}
 
         {/* promotion box */}
-        {selectionStates.promotionCoor && !gameData.hasEnded && (
+        {displayedWindow === GameWindowInterface.promotion && selectionStates.promotionCoor && !gameData.hasEnded && (
           <WebGamePromotion
             playerData={playerData}
             gameStates={gameStates}
             selectionStates={selectionStates}
             setSelectionStates={setSelectionStates}
+            setDisplayedWindow={setDisplayedWindow}
           />
         )}
 
         {/* confirm box */}
-        {showConfirm && !gameData.hasEnded && (
-          <WebGameConfirm confirmAction={confirmAction} showConfirm={showConfirm} setShowConfirm={setShowConfirm} />
+        {displayedWindow === GameWindowInterface.confirm && showConfirm && !gameData.hasEnded && (
+          <WebGameConfirm
+            confirmAction={confirmAction}
+            showConfirm={showConfirm}
+            setShowConfirm={setShowConfirm}
+            setDisplayedWindow={setDisplayedWindow}
+          />
         )}
 
         {/* end game info*/}
-        {winner && !searchIds && (
+        {displayedWindow === GameWindowInterface.winner && winner && !searchIds && (
           <WebGameWinner
             gameId={gameId}
             gameData={gameData}
@@ -250,7 +263,9 @@ function WebGameContent({
         )}
 
         {/* searching */}
-        {winner && searchIds && <WebGameSearching searchIds={searchIds} setSearchIds={setSearchIds} />}
+        {displayedWindow === GameWindowInterface.search && winner && searchIds && (
+          <WebGameSearching searchIds={searchIds} setSearchIds={setSearchIds} />
+        )}
       </div>
     </section>
   );
