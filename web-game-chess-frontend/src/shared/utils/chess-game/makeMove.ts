@@ -190,7 +190,7 @@ export const makeMove = async (
         blackLongRookMoved: blackLongRookMoved,
       };
 
-      await axios.post(engineController.makeEngineGameMove(), model, getAuthorization());
+      await axios.post(engineController.makeEngineGameMove(gameState.gameId), model, getAuthorization());
 
       break;
     }

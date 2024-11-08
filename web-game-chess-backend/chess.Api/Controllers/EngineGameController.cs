@@ -29,7 +29,7 @@ public class EngineGameController : ControllerBase {
 
 
     /// <summary>
-    /// 
+    /// Creates new game with engine
     /// </summary>
     /// <param name="model"></param>
     /// <returns></returns>
@@ -46,11 +46,11 @@ public class EngineGameController : ControllerBase {
 
 
     /// <summary>
-    /// 
+    /// Creates done move by player or engine
     /// </summary>
     /// <param name="model"></param>
     /// <returns></returns>
-    [HttpPost("make-move")]
+    [HttpPost("{gameId}/make-move")]
     [Authorize(Policy = "IsVerified")]
     public async Task<IActionResult> MakeEngineGameMove([FromBody] MakeEngineGameMoveModel model) {
 
@@ -63,11 +63,11 @@ public class EngineGameController : ControllerBase {
 
 
     /// <summary>
-    /// 
+    /// To finish game with engine
     /// </summary>
     /// <param name="model"></param>
     /// <returns></returns>
-    [HttpPut("end-game")]
+    [HttpPut("{gameId}/end-game")]
     [Authorize(Policy = "IsVerified")]
     public async Task<IActionResult> EndEngineGame([FromBody] EndEngineGameModel model) {
 
@@ -80,7 +80,7 @@ public class EngineGameController : ControllerBase {
 
 
     /// <summary>
-    /// 
+    /// Changes engine level
     /// </summary>
     /// <param name="model"></param>
     /// <returns></returns>
@@ -97,7 +97,7 @@ public class EngineGameController : ControllerBase {
 
 
     /// <summary>
-    /// 
+    /// To remove last done moves
     /// </summary>
     /// <param name="model"></param>
     /// <returns></returns>
@@ -113,7 +113,7 @@ public class EngineGameController : ControllerBase {
     }
 
     /// <summary>
-    /// 
+    /// To get all game data
     /// </summary>
     /// <param name="gameId"></param>
     /// <returns></returns>
@@ -133,7 +133,7 @@ public class EngineGameController : ControllerBase {
 
 
     /// <summary>
-    /// 
+    /// To get move done by engine
     /// </summary>
     /// <param name="gameId"></param>
     /// <returns></returns>
@@ -153,7 +153,7 @@ public class EngineGameController : ControllerBase {
 
 
     /// <summary>
-    /// 
+    /// To get all messages from current game
     /// </summary>
     /// <param name="gameId"></param>
     /// <returns></returns>

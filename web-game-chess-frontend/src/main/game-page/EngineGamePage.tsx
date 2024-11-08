@@ -89,7 +89,11 @@ function EngineGamePage() {
         loserColor: loserColor,
       };
 
-      const response = await axios.put<EndEngineGameDto>(engineController.endEngineGame(), model, getAuthorization());
+      const response = await axios.put<EndEngineGameDto>(
+        engineController.endEngineGame(gameId),
+        model,
+        getAuthorization()
+      );
 
       setWinner(response.data);
       setDisplayedWindow(GameWindowInterface.winner);

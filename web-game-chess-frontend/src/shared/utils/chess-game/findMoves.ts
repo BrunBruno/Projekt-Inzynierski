@@ -120,20 +120,42 @@ class FindMoves {
     if (this.selectedPiece !== pieceTagMap.white.king && this.selectedPiece !== pieceTagMap.black.king) {
       // if check exist for white
       if (color === PieceColor.white && this.gameState.checkAreas.black.length > 0) {
-        // filter for those that eliminates check
+        const countPieceInvolved = this.gameState.checkAreas.black.filter(
+          (area: Coordinate) => area && this.gameState!.matrix[area[1] - 1][area[0] - 1].trim().length > 0
+        ).length;
 
-        foundTips = foundTips.filter((tip) =>
-          this.gameState!.checkAreas.black.some((check) => areCoorEqual(check, tip))
-        );
+        const isDoubleCheck = countPieceInvolved === 2;
+
+        // double checks can not be handle by other pieces
+        if (!isDoubleCheck) {
+          // filter for those that eliminates check
+
+          foundTips = foundTips.filter((tip: Coordinate) =>
+            this.gameState!.checkAreas.black.some((check: Coordinate) => areCoorEqual(check, tip))
+          );
+        } else {
+          foundTips.length = 0;
+        }
       }
 
       // if check exist for black
       if (color === PieceColor.black && this.gameState.checkAreas.white.length > 0) {
-        // filter for those that eliminates check
+        const countPieceInvolved = this.gameState.checkAreas.white.filter(
+          (area: Coordinate) => area && this.gameState!.matrix[area[1] - 1][area[0] - 1].trim().length > 0
+        ).length;
 
-        foundTips = foundTips.filter((tip) =>
-          this.gameState!.checkAreas.white.some((check) => areCoorEqual(check, tip))
-        );
+        const isDoubleCheck = countPieceInvolved === 2;
+
+        // double checks can not be handle by other pieces
+        if (!isDoubleCheck) {
+          // filter for those that eliminates check
+
+          foundTips = foundTips.filter((tip: Coordinate) =>
+            this.gameState!.checkAreas.white.some((check: Coordinate) => areCoorEqual(check, tip))
+          );
+        } else {
+          foundTips.length = 0;
+        }
       }
     }
 
@@ -282,11 +304,13 @@ class FindMoves {
     return availableMoves;
   };
 
+  // check if move is valid pawn move
   private isValidPawnMove([x, y]: [number, number], dir: number | null, dirCheck: number): boolean {
     const [isValid, isEmpty] = this.isValidField([x, y]);
     return isValid && isEmpty && (dir === null || dir === dirCheck);
   }
 
+  // check if pawn can capture
   private isValidPawnCapture(
     [x, y]: [number, number],
     dir: number | null,

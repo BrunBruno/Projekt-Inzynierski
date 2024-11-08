@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 import IconCreator from "../../../shared/components/icon-creator/IconCreator";
 import { playSectionIcons } from "./PlaySectionIcons";
 import { GameSearchInterface, StateOptions } from "../../../shared/utils/objects/interfacesEnums";
+import PlayActions from "./play-actions/PlayActions";
 
 const actionRefs: RefObject<HTMLDivElement>[] = [];
 
@@ -143,6 +144,10 @@ const PlaySection = forwardRef<HandleOnScroll, PlaySectionProps>(
             </div>
           </div>
           {/* --- */}
+        </div>
+
+        <div>
+          <PlayActions />
         </div>
       </section>
     );

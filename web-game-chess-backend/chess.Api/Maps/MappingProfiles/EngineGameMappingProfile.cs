@@ -9,6 +9,9 @@ using chess.Application.Requests.EngineRequests.UndoMove;
 
 namespace chess.Api.Maps.MappingProfiles;
 
+/// <summary>
+/// Engine game controller models to requests maps
+/// </summary>
 public class EngineGameMappingProfile : Profile {
 	
 	public EngineGameMappingProfile() {

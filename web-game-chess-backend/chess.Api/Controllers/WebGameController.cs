@@ -129,7 +129,7 @@ public class WebGameController : ControllerBase {
 
 
     /// <summary>
-    /// 
+    /// Check if for game created by url the update on players is required
     /// </summary>
     /// <param name="gameId"></param>
     /// <returns> bool value </returns>
@@ -357,7 +357,7 @@ public class WebGameController : ControllerBase {
 
 
     /// <summary>
-    /// 
+    /// Gets daily stats
     /// </summary>
     /// <param name="model"></param>
     /// <returns></returns>

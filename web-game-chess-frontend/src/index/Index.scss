@@ -1,7 +1,5 @@
 /* shared used in all sub components*/
 
-@use "../shared/styles/shared.scss" as *;
-
-$index-border-width: 2rem;
-$index-border-radius: 16rem;
-$index-border-color: rgb(67, 43, 137);
+$border-width: 2rem;
+$border-radius: 16rem;
+$border-color: rgb(67, 43, 137);

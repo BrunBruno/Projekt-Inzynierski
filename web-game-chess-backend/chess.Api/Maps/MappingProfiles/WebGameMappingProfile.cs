@@ -23,7 +23,7 @@ using chess.Application.Requests.WebGameRequests.GetTotalGamesStats;
 namespace chess.Api.Maps.MappingProfiles;
 
 /// <summary>
-/// Game controller models to requests maps
+/// Web game controller and web game hube models to requests maps
 /// </summary>
 public class WebGameMappingProfile : Profile {
 	

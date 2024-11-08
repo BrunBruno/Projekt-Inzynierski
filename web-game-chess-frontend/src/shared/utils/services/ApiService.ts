@@ -251,7 +251,7 @@ export const webGameController: WebGameController = {
   // gets all messages for current game
   getAllMessages: (gameId: Guid) => `${webGameBaseUrl}/${gameId}/messages`,
 
-  //
+  // gets daily stats
   getTotalGamesStats: (model: GetTotalGamesStatsModel) => `${webGameBaseUrl}/stats?${stringifyModel(model)}`,
 
   // removes player
@@ -326,44 +326,67 @@ const engineBaseUrl: string = baseUrl + "/enginegame";
 
 interface EngineControllerPaths {
   //POST
+  startEngineGame: string;
+  makeEngineGameMove: string;
   //PUT
+  endEngineGame: string;
+  changeEngineLevel: string;
+  undoMove: string;
   //GET
   getEngineGame: string;
+  getEngineGameMove: string;
+  getAllEngineGameMessages: string;
   //DELETE
 }
 
 interface EngineController {
   startEngineGame: () => string;
-  makeEngineGameMove: () => string;
-  endEngineGame: () => string;
-  getEngineGameMove: (gameId: Guid) => string;
+  makeEngineGameMove: (gameId: Guid) => string;
+  endEngineGame: (gameId: Guid) => string;
+  changeEngineLevel: (gameId: Guid) => string;
+  undoMove: (gameId: Guid) => string;
   getEngineGame: (gameId: Guid) => string;
+  getEngineGameMove: (gameId: Guid) => string;
   getAllEngineGameMessages: (gameId: Guid) => string;
 }
 
 export const engineControllerPaths: EngineControllerPaths = {
   // static
+  startEngineGame: `${engineBaseUrl}/start`,
+
   // dynamic
   getEngineGame: `${engineBaseUrl}/:gameId`,
+  makeEngineGameMove: `${engineBaseUrl}/:gameId/make-move`,
+  endEngineGame: `${engineBaseUrl}/:gameId/end-game`,
+  changeEngineLevel: `${engineBaseUrl}/:gameId/change-engine`,
+  undoMove: `${engineBaseUrl}/:gameId/undo-move`,
+  getEngineGameMove: `${engineBaseUrl}/:gameId/engine-move`,
+  getAllEngineGameMessages: `${engineBaseUrl}/:gameId/all-messages`,
 };
 
 export const engineController: EngineController = {
-  //
+  // creates new game with engine
   startEngineGame: () => `${engineBaseUrl}/start`,
 
-  //
-  makeEngineGameMove: () => `${engineBaseUrl}/make-move`,
+  // creates done move by player or engine
+  makeEngineGameMove: (gameId: Guid) => `${engineBaseUrl}/${gameId}/make-move`,
 
-  //
-  endEngineGame: () => `${engineBaseUrl}/end-game`,
+  // to finish game with engine
+  endEngineGame: (gameId: Guid) => `${engineBaseUrl}/${gameId}/end-game`,
 
-  //
-  getEngineGameMove: (gameId: Guid) => `${engineBaseUrl}/${gameId}/engine-move`,
+  // changes engine level
+  changeEngineLevel: (gameId: Guid) => `${engineBaseUrl}/${gameId}/end-game`,
 
-  //
+  // to remove last done moves
+  undoMove: (gameId: Guid) => `${engineBaseUrl}/${gameId}/undo-move`,
+
+  // to get all game data
   getEngineGame: (gameId: Guid) => `${engineBaseUrl}/${gameId}`,
 
-  //
+  // to get move done by engine
+  getEngineGameMove: (gameId: Guid) => `${engineBaseUrl}/${gameId}/engine-move`,
+
+  // to get all messages from current game
   getAllEngineGameMessages: (gameId: Guid) => `${engineBaseUrl}/${gameId}/all-messages`,
 };
 //*/
