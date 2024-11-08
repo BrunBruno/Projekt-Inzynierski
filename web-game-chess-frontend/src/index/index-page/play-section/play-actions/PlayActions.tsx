@@ -16,6 +16,7 @@ function PlayActions({}: PlayActionsProps) {
 
   const onRotate = (index: number): void => {
     let cls: ElementClass = "";
+
     switch (index) {
       case 0:
         cls = classes.active0;
@@ -47,11 +48,11 @@ function PlayActions({}: PlayActionsProps) {
 
   return (
     <section className={classes.play}>
-      <div className={classes.play__intro}>
+      {/* <div className={classes.play__intro}>
         <h2 className={classes["text"]}>
           <span>What do we offer?</span>
         </h2>
-      </div>
+      </div> */}
 
       <div className={classes.play__content}>
         {playActionsData.map((action: PlayActionsData, index: number) => (
@@ -72,9 +73,9 @@ function PlayActions({}: PlayActionsProps) {
         ))}
       </div>
 
-      <div ref={backgroundRef} className={classes.play__background}>
+      <div ref={backgroundRef} className={`${classes.play__background} ${prevCls}`}>
         {Array.from({ length: playActionsData.length }).map((_, index) => (
-          <div key={`background-${index}`} className={classes.play__background__cube}>
+          <div key={`background-${index}`} className={`${classes.play__background__cube} ${classes.active0}`}>
             <div className={classes["image-cube"]}>
               <span>{/* bg1 */}</span>
               <span>{/* bg2 */}</span>
