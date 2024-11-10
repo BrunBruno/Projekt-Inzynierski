@@ -1,4 +1,4 @@
-@import "../Index.scss";
+@use "../../shared/styles/shared.scss" as *;
 
 // index page container
 .home-main {
@@ -17,7 +17,6 @@
   z-index: 999;
   width: 0;
 
-  // set the observer to middle of section
-  transform: translateY(50vh);
+  transform: translateY(50rem);
 }
 //*/

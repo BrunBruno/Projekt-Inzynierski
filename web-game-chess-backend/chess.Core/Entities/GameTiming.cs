@@ -33,5 +33,6 @@ public class GameTiming {
     /// <summary>
     /// Games with this timing type
     /// </summary>
-    public List<Game> Games { get; set; }
+    public List<WebGame> WebGames { get; set; }
+    public List<EngineGame> EngineGames { get; set; }
 }

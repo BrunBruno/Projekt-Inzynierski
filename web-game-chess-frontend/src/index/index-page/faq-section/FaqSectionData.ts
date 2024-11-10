@@ -15,17 +15,17 @@ export const accountAndUserProfileFAQs: QuestionsType[] = [
   {
     question: "Is there a guest mode available for playing without signing up?",
     answer:
-      "Yes, we offer a guest mode for users who want to play without creating an account. Simply click on 'Guest Mode' or 'Play as Guest' to start playing immediately.",
+      "No, we do not offer a guest mode for users who want to play without creating an account. You must create and verify an account to use all features of the website, including accessing games and saving your progress. This ensures a personalized experience, data security, and full access to our platform's offerings.",
   },
   {
     question: "Can I customize my profile picture and username?",
     answer:
-      "Yes, once you're logged in, navigate to your profile settings. From there, you can upload a profile picture and update your username to personalize your account.",
+      "Yes, once you're logged in, navigate to your profile settings. From there, you can upload a profile picture and update your data to personalize your account.",
   },
   {
     question: "How do I reset my password if I forget it?",
     answer:
-      "If you forget your password, click on the 'Forgot Password' link on the login page. You'll be prompted to enter your email address, and we'll send you instructions on how to reset your password.",
+      "If you forget your password, click on the 'Reset Password' link on the login page. You'll be prompted to enter your email address, and we'll send you instructions on how to reset your password.",
   },
   {
     question: "Are there any tutorials or guides available for new users?",
@@ -35,7 +35,7 @@ export const accountAndUserProfileFAQs: QuestionsType[] = [
   {
     question: "Can I invite friends to play a game?",
     answer:
-      "Yes, you can invite friends to play by sharing your game link or sending them invitations through the app. Keep track of your friends' activity and enjoy playing together!",
+      "Yes, you can invite friends to play by sharing your game link or sending them invitations through the app. Keep track of your friends activity and enjoy playing together!",
   },
   {
     question: "How can I update my email address or other account information?",
@@ -59,7 +59,7 @@ export const gameplayAndFeaturesFAQs: QuestionsType[] = [
   {
     question: "How do I analyze my games after they're finished?",
     answer:
-      "You can analyze your games using the analysis feature in the app. This allows you to review each move, see where you or your opponent went wrong, and learn from your gameplay.",
+      "While we do not have a dedicated analysis page, you can rejoin a finished game and review the board. This allows you to go over each move, reflect on your strategy, and identify areas for improvement. It's a great way to learn from completed games and enhance your future performance.",
   },
   {
     question: "Is there a chat feature for communicating with opponents during a game?",
@@ -94,6 +94,6 @@ export const gameplayAndFeaturesFAQs: QuestionsType[] = [
   {
     question: "Is there a tutorial for learning chess?",
     answer:
-      "Yes, we provide a comprehensive tutorial for learning chess basics and advanced strategies. Whether you're a beginner or an experienced player, you'll find useful tips and techniques to improve your game.",
+      "Currently, we do not have a tutorial for learning chess on our website. However, there are many resources available online and through apps that can help you learn chess basics and advanced strategies. We recommend checking out reputable chess platforms, instructional videos, and guides to improve your skills.",
   },
 ];

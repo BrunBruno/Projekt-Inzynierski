@@ -1,0 +1,118 @@
+@use "../../../shared/styles/shared.scss" as *;
+
+// invitations container
+.invitations {
+  @include wh100();
+
+  padding: 4rem 8rem;
+  overflow: hidden;
+
+  $header_height: 6rem;
+
+  // invitations section header
+  &__header {
+    @include flex(row, space-between, center, 0);
+
+    height: $header_height;
+    padding: 1rem;
+    padding-right: 4rem;
+
+    h2.header-title {
+      @include flex(row, start, center, 1rem);
+
+      .header-icon {
+        height: 3rem;
+      }
+
+      span {
+        font-size: 3rem;
+        font-weight: bold;
+      }
+
+      span.counter {
+        @include flex($gap: 0.5rem);
+        width: fit-content;
+
+        span.sym {
+          font-size: 2rem;
+          color: $gc4;
+        }
+      }
+    }
+
+    .filters {
+      button.filter-button {
+        @include button(2rem);
+
+        & {
+          @include mainMButton();
+        }
+
+        &.disabled {
+          filter: grayscale(100%);
+          pointer-events: none;
+        }
+
+        &.enabled {
+          filter: grayscale(0%);
+          pointer-events: all;
+        }
+      }
+    }
+  }
+  //*/
+
+  // lists of invitations cards or empty cards
+  @mixin invitationsList() {
+    position: relative;
+    height: calc(100% - $header_height);
+  }
+
+  &__list {
+    @include invitationsList();
+
+    overflow-y: scroll;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
+
+  &__empty {
+    @include invitationsList();
+
+    overflow: hidden;
+  }
+  //*/
+}
+//*/
+
+// resize
+@media (max-width: 700px) {
+  .games {
+    height: 100%;
+    overflow: hidden;
+    padding: 4rem 2rem;
+
+    $header_height: 10rem;
+
+    &__header {
+      height: $header_height;
+
+      h2 {
+        font-size: 3.6rem;
+      }
+
+      .filters {
+        button.filter-button {
+          font-size: 2.6rem;
+        }
+      }
+    }
+
+    &__list {
+      height: calc(100% - $header_height);
+    }
+  }
+}
+//*/

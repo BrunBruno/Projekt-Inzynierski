@@ -1,5 +1,6 @@
 ﻿
-using chess.Application.Repositories;
+using chess.Application.Repositories.FriendshipRepositories;
+using chess.Application.Repositories.UserRepositories;
 using chess.Application.Services;
 using chess.Core.Entities;
 using chess.Core.Enums;
@@ -79,6 +80,7 @@ public class InviteFriendRequestHandler : IRequestHandler<InviteFriendRequest> {
             RequestorId = userId,
             ReceiverId = request.ReceiverId,
         };
+
 
         await _friendshipRepository.Create(friendship);
     }

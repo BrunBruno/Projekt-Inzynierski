@@ -1,16 +1,19 @@
-@import "../Main.scss";
+@use "../../shared/styles/shared.scss" as *;
+@use "../Main.scss" as Main;
 
 // user page container
 .users-main {
   @include wh100();
   @include gridBg();
-  @include forNav();
+  @include Main.forNav();
 
   & {
     display: grid;
-    grid-template-columns: 1fr;
-    grid-template-rows: 10rem auto;
-    padding: 0 20rem;
+    grid-template-columns: 36rem auto;
+  }
+
+  .users-list {
+    position: relative;
   }
 }
 //*/

@@ -38,6 +38,7 @@ export const timeSpanLongerThan = (startDate: Date, endDate: Date, seconds: numb
   return false;
 };
 
+// to get time days of user membership
 export const getTimePlayed = (joinDate: Date): string => {
   const now = new Date();
   const diffInMs = now.getTime() - joinDate.getTime();

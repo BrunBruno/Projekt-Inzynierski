@@ -1,8 +1,6 @@
 ﻿
 using chess.Application.Repositories;
 using chess.Application.Requests.UserRequests.GetRegisterConf;
-using chess.Core.Entities;
-using chess.Core.Enums;
 using chess.Shared.Exceptions;
 using FluentAssertions;
 using Moq;

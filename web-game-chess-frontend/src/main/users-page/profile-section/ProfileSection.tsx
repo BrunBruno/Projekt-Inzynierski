@@ -2,7 +2,7 @@ import AvatarImage from "../../../shared/components/avatar-image/AvatarImage";
 import IconCreator from "../../../shared/components/icon-creator/IconCreator";
 import { symbolIcons } from "../../../shared/svgs/iconsMap/SymbolIcons";
 import { timingTypeIcons } from "../../../shared/svgs/iconsMap/TimingTypeIcons";
-import { getTimePlayed } from "../../../shared/utils/functions/dateTime";
+import { getTimePlayed } from "../../../shared/utils/functions/datetime";
 import { greyColor, mainColor } from "../../../shared/utils/objects/colorMaps";
 import { TimingTypeName, timingTypeNames } from "../../../shared/utils/objects/constantLists";
 import { GetFriendProfileDto } from "../../../shared/utils/types/friendshipDtos";

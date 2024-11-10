@@ -1,0 +1,20 @@
+@use "../../shared/styles/shared.scss" as *;
+@use "../Main.scss" as Main;
+
+// ranking page container
+.ranking-main {
+  @include wh100();
+  @include gridBg();
+  @include Main.forNav();
+
+  .ranking {
+    @include wh100();
+
+    position: relative;
+    padding: 10rem 24rem 4rem 24rem;
+  }
+}
+//*/
+
+// resize
+//*/

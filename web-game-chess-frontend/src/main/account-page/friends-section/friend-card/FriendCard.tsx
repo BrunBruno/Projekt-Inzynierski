@@ -27,7 +27,7 @@ function FriendCard({ friend, setSelectedFriend, clearSelection }: FriendCardPro
   const onInviteFriendToGame = async (): Promise<void> => {
     // pass the friend to invite to game
     const state: StateOptions = {
-      interface: GameSearchInterface.vsFriend,
+      interface: GameSearchInterface.vsFriendsOptions,
       selectedFriend: friend,
     };
 
@@ -70,11 +70,11 @@ function FriendCard({ friend, setSelectedFriend, clearSelection }: FriendCardPro
           <span>{friend.username}</span> <span>{friend.name === null ? "---" : friend.name}</span>
         </div>
         <div className={classes.friend__content__data}>
-          <span>{friend.wdlTotal.wins}</span>
+          <span>{friend.outcomeTotal.wins}</span>
           {" | "}
-          <span>{friend.wdlTotal.draws}</span>
+          <span>{friend.outcomeTotal.draws}</span>
           {" | "}
-          <span>{friend.wdlTotal.loses}</span>
+          <span>{friend.outcomeTotal.loses}</span>
         </div>{" "}
       </div>
       {/* --- */}

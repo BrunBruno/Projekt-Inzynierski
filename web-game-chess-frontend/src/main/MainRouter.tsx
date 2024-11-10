@@ -5,7 +5,7 @@ import axios from "axios";
 import { getAuthorization, userController } from "../shared/utils/services/ApiService";
 import LoadingPage from "../shared/components/loading-page/LoadingPage";
 import { GetUserDto, IsEmailVerifiedDto } from "../shared/utils/types/userDtos";
-import GamePage from "./game-page/GamePage";
+import GamePage from "./game-page/WebGamePage";
 import UsersPage from "./users-page/UsersPage";
 import GameHubService from "../shared/utils/services/GameHubService";
 import { HubConnectionState } from "@microsoft/signalr";
@@ -16,6 +16,8 @@ import ProfilePage from "./profile-page/ProfilePage";
 import AwaitingPage from "./awaiting-page/AwaitingPage";
 import { RegistrationInterface, StateOptions } from "../shared/utils/objects/interfacesEnums";
 import NotFoundPage from "../shared/components/not-found-page/NotFoundPage";
+import EngineGamePage from "./game-page/EngineGamePage";
+import RankingPage from "./ranking-page/RankingPage";
 
 function MainRouter() {
   ///
@@ -33,10 +35,23 @@ function MainRouter() {
       const path = location.pathname;
 
       try {
-        // check if email is verified
-        const isVerifiedResponse = await axios.get<IsEmailVerifiedDto>(userController.isVerified(), getAuthorization());
+        // check if token exists
+        const token = localStorage.getItem("token");
+        if (!token) {
+          const state: StateOptions = {
+            popup: { text: "PLEASE, LOG IN", type: "error" },
+            regOption: RegistrationInterface.signIn,
+            path: path,
+          };
 
-        const isVerified = isVerifiedResponse.data.isEmailVerified;
+          navigate("/registration", { state: state, replace: true });
+          return;
+        }
+
+        // check if email is verified
+        const response = await axios.get<IsEmailVerifiedDto>(userController.isVerified(), getAuthorization());
+
+        const isVerified = response.data.isEmailVerified;
         if (!isVerified) {
           const state: StateOptions = {
             popup: { text: "ACCOUNT NOT VERIFIED", type: "error" },
@@ -44,29 +59,15 @@ function MainRouter() {
             path: path,
           };
 
-          navigate("/registration", { state: state });
+          navigate("/registration", { state: state, replace: true });
           return;
         }
 
-        // getting user data and validating token
+        // get user data
         const userInfoResponse = await axios.get<GetUserDto>(userController.getUser(), getAuthorization());
-
         localStorage.setItem("userInfo", JSON.stringify(userInfoResponse.data));
 
-        const token = localStorage.getItem("token");
-
-        if (token === null) {
-          const state: StateOptions = {
-            popup: { text: "PLEASE, LOG IN", type: "error" },
-            regOption: RegistrationInterface.signIn,
-            path: path,
-          };
-
-          navigate("/registration", { state: state });
-          return;
-        }
-
-        // connect to gam hub and add self notifications
+        // connect to game hub and add self notifications
         await GameHubService.startConnectionWithToken(token);
 
         if (GameHubService.connection?.state === HubConnectionState.Connected) {
@@ -99,8 +100,10 @@ function MainRouter() {
         <Route path="/users" element={<UsersPage />} />
         <Route path="/await/:gameIdStr" element={<AwaitingPage />} />
         <Route path="/game/:gameIdStr" element={<GamePage />} />
+        <Route path="/engine-game/:gameIdStr" element={<EngineGamePage />} />
         <Route path="/account" element={<AccountPage />} />
         <Route path="/profile/:friendshipIdStr" element={<ProfilePage />} />
+        <Route path="/ranking" element={<RankingPage />} />
         <Route path="*" element={<NotFoundPage path={"/main"} />} />
       </Routes>
     </PopupProvider>

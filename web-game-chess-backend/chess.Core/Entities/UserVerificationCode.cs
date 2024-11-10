@@ -1,13 +1,14 @@
 ﻿
 using chess.Core.Enums;
 
-namespace chess.Core.Entities;
 #pragma warning disable CS8618
+namespace chess.Core.Entities;
 
 /// <summary>
 /// Email verification code entity
 /// </summary>
 public class UserVerificationCode {
+
     /// <summary>
     /// Code id
     /// </summary>
@@ -21,7 +22,7 @@ public class UserVerificationCode {
     /// <summary>
     /// Date when code expires
     /// </summary>
-    public DateTime ExpirationDate { get; set; }
+    public required DateTime ExpirationDate { get; set; }
 
     /// <summary>
     /// Type of verification code

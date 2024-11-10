@@ -5,11 +5,13 @@ import { GetAllFriendsByStatusDto } from "../types/friendshipDtos";
 
 // to distinguish different type of content it main page
 export enum GameSearchInterface {
-  default,
-  vsPlayer,
-  vsComputer,
-  vsFriend,
-  searching,
+  defaultView,
+  vsPlayerTimeSelection,
+  vsPlayerSearching,
+  vsComputerTimeSelection,
+  vsComputerOptions,
+  vsFriendTimeSelection,
+  vsFriendsOptions,
   activeGames,
   userGames,
   invitations,
@@ -29,6 +31,17 @@ export enum GameActionInterface {
   abort,
   resign,
   draw,
+}
+
+// for displaying game window
+export enum GameWindowInterface {
+  none,
+  confirm,
+  winner,
+  promotion,
+  search,
+  engine,
+  settings,
 }
 
 // use navigate state options

@@ -1,5 +1,4 @@
-@import "../../styles/variables/color.scss";
-@import "../../styles//commons-styles/elements.scss";
+@use "../../styles/shared.scss" as *;
 
 // action button styles
 // include in component where action button should be applied

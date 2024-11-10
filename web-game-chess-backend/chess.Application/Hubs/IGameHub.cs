@@ -1,7 +1,7 @@
 ﻿
-using chess.Application.Requests.GameRequests.CreateRematchGame;
-using chess.Application.Requests.GameRequests.EndGame;
-using chess.Application.Requests.GameRequests.InvitedToGame;
+using chess.Application.Requests.WebGameRequests.CreateRematchGame;
+using chess.Application.Requests.WebGameRequests.EndWebGame;
+using chess.Application.Requests.WebGameRequests.InvitedToGame;
 
 namespace chess.Application.Hubs;
 
@@ -27,7 +27,7 @@ public interface IGameHub {
     /// </summary>
     /// <param name="dto"></param>
     /// <returns></returns>
-    Task GameEnded(EndGameDto dto);
+    Task GameEnded(EndWebGameDto dto);
 
     /// <summary>
     /// To get game invitation

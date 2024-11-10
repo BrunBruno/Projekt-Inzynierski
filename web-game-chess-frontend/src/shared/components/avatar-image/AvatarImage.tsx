@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import AvatarIcon from "../../svgs/icons/AvatarIcon";
 import { UserImage } from "../../utils/types/abstractDtosAndModels";
 import classes from "./AvatarImage.module.scss";
+import IconCreator from "../icon-creator/IconCreator";
+import { avatarImageIcons } from "./AvatarImageIcons";
 
 type AvatarImageProps = {
   // username
@@ -12,9 +14,11 @@ type AvatarImageProps = {
   containerClass?: string;
   // image class (if needed)
   imageClass?: string;
+  // to show bot image
+  isBot?: boolean;
 };
 
-function AvatarImage({ username, profilePicture, containerClass, imageClass }: AvatarImageProps): JSX.Element {
+function AvatarImage({ username, profilePicture, containerClass, imageClass, isBot }: AvatarImageProps): JSX.Element {
   ///
 
   // image url
@@ -30,13 +34,14 @@ function AvatarImage({ username, profilePicture, containerClass, imageClass }: A
       setImageSrc(`data:${profilePicture.contentType};base64,${profilePicture.data}`);
     }
   }, [profilePicture]);
-
   //*/
 
   return (
     <div className={`${classes["avatar-image"]} ${containerClass}`}>
       {imageSrc ? (
         <img className={`${classes.avatar} ${imageClass}`} src={imageSrc} alt={`${username}-profile-picture`} />
+      ) : isBot ? (
+        <IconCreator icons={avatarImageIcons} iconName={"bot"} iconClass={imageClass} />
       ) : (
         <AvatarIcon iconClass={`${classes.avatar} ${imageClass}`} />
       )}

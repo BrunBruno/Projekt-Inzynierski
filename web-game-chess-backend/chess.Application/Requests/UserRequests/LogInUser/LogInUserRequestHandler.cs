@@ -1,12 +1,12 @@
 ﻿
-using chess.Application.Repositories;
+using chess.Application.Repositories.UserRepositories;
 using chess.Application.Services;
 using chess.Core.Entities;
 using chess.Shared.Exceptions;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 
-namespace chess.Application.Requests.UserRequests.LogInUser; 
+namespace chess.Application.Requests.UserRequests.LogInUser;
 
 /// <summary>
 /// Check if user exists

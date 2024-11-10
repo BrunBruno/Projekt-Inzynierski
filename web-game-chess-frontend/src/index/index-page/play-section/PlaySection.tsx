@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 import IconCreator from "../../../shared/components/icon-creator/IconCreator";
 import { playSectionIcons } from "./PlaySectionIcons";
 import { GameSearchInterface, StateOptions } from "../../../shared/utils/objects/interfacesEnums";
+import PlayActions from "./play-actions/PlayActions";
 
 const actionRefs: RefObject<HTMLDivElement>[] = [];
 
@@ -110,10 +111,14 @@ const PlaySection = forwardRef<HandleOnScroll, PlaySectionProps>(
                     ${classes["vs-player-button"]}
                   `}
                   onClick={() => {
-                    navigateToPlay(GameSearchInterface.vsPlayer);
+                    navigateToPlay(GameSearchInterface.vsPlayerTimeSelection);
                   }}
                 >
-                  <IconCreator icons={playSectionIcons} iconName={"online"} iconClass={classes["button-icon"]} />
+                  <IconCreator
+                    icons={playSectionIcons}
+                    iconName={"online"}
+                    iconClass={`${classes["button-icon"]} ${classes["vs-player-icon"]}`}
+                  />
                   <span>PLAY ONLINE</span>
                 </button>
               </div>
@@ -125,16 +130,24 @@ const PlaySection = forwardRef<HandleOnScroll, PlaySectionProps>(
                     ${classes["vs-computer-button"]}
                   `}
                   onClick={() => {
-                    navigateToPlay(GameSearchInterface.vsComputer);
+                    navigateToPlay(GameSearchInterface.vsComputerOptions);
                   }}
                 >
-                  <IconCreator icons={playSectionIcons} iconName={"offline"} iconClass={classes["button-icon"]} />
+                  <IconCreator
+                    icons={playSectionIcons}
+                    iconName={"offline"}
+                    iconClass={`${classes["button-icon"]} ${classes["vs-computer-icon"]}`}
+                  />
                   <span>PLAY OFFLINE</span>
                 </button>
               </div>
             </div>
           </div>
           {/* --- */}
+        </div>
+
+        <div>
+          <PlayActions />
         </div>
       </section>
     );

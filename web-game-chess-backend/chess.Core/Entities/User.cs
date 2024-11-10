@@ -1,8 +1,8 @@
 ﻿
 using chess.Core.Enums;
 
-namespace chess.Core.Entities;
 #pragma warning disable CS8618
+namespace chess.Core.Entities;
 
 /// <summary>
 /// User entity
@@ -85,9 +85,14 @@ public class User {
     public UserStats Stats { get; set; }
 
     /// <summary>
-    /// Players for each game that user played
+    /// Players for each online game
     /// </summary>
-    public List<Player> Players { get; set; }
+    public List<WebGamePlayer> Players { get; set; }
+
+    /// <summary>
+    /// Players for each offline game
+    /// </summary>
+    public List<EngineGamePlayer> EngineGamePlayers { get; set; }
 
     /// <summary>
     /// List of friendships that user requested

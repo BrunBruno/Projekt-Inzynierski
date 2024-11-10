@@ -5,7 +5,7 @@ import {
   CreateRematchGameModel,
   DeclineInvitationModel,
   EndGameModel,
-  MakeMoveModel,
+  MakeWebGameMoveModel,
   NotifyUserModel,
   SendGameMessageModel,
   SendMessageModel,
@@ -13,11 +13,11 @@ import {
 } from "../types/gameModels";
 import { Guid } from "guid-typescript";
 import { HttpTransportType, HubConnection, HubConnectionBuilder, LogLevel } from "@microsoft/signalr";
+import { host } from "../../../../globals";
 
 class GameHub {
   // hub url
-  private gameHubUrl: string = "http://localhost:5125/game-hub";
-  // private gameHubUrl: string = "http://192.168.1.46:5125/game-hub"
+  private gameHubUrl: string = `http://${host}:5125/game-hub`;
 
   // verification token
   private token: string | null = null;
@@ -107,7 +107,7 @@ class GameHub {
   }
 
   // update game | add move
-  public async MakeMove(model: MakeMoveModel): Promise<void> {
+  public async MakeMove(model: MakeWebGameMoveModel): Promise<void> {
     try {
       await this.connection?.invoke("make-move", model);
     } catch (err) {

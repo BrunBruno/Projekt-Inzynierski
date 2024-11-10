@@ -20,28 +20,28 @@ export const getStatsConfig = (type: string, user: GetFriendProfileDto): StatsCo
       return {
         title: "All games:",
         data: [
-          { id: 0, value: user.wdlTotal.wins, label: "Win" },
-          { id: 1, value: user.wdlTotal.draws, label: "Draw" },
-          { id: 2, value: user.wdlTotal.loses, label: "Lose" },
+          { id: 0, value: user.outcomeTotal.wins, label: "Win" },
+          { id: 1, value: user.outcomeTotal.draws, label: "Draw" },
+          { id: 2, value: user.outcomeTotal.loses, label: "Lose" },
         ],
         colors: [successColor.mid, greyColor.c6, dangerColor.mid],
         stats: [
           {
             id: 0,
             label: "Wins",
-            value: user.wdlTotal.wins,
+            value: user.outcomeTotal.wins,
             icon: <IconCreator icons={gameResultIcons} iconName={"win"} />,
           },
           {
             id: 1,
             label: "Draws",
-            value: user.wdlTotal.draws,
+            value: user.outcomeTotal.draws,
             icon: <IconCreator icons={gameResultIcons} iconName={"draw"} />,
           },
           {
             id: 2,
             label: "Loses",
-            value: user.wdlTotal.loses,
+            value: user.outcomeTotal.loses,
             icon: <IconCreator icons={gameResultIcons} iconName={"lose"} />,
           },
         ],
@@ -51,28 +51,28 @@ export const getStatsConfig = (type: string, user: GetFriendProfileDto): StatsCo
       return {
         title: "Games with you",
         data: [
-          { id: 0, value: user.wdlTogether.wins, label: "Win" },
-          { id: 1, value: user.wdlTogether.draws, label: "Draw" },
-          { id: 2, value: user.wdlTogether.loses, label: "Lose" },
+          { id: 0, value: user.outcomeTogether.wins, label: "Win" },
+          { id: 1, value: user.outcomeTogether.draws, label: "Draw" },
+          { id: 2, value: user.outcomeTogether.loses, label: "Lose" },
         ],
         colors: [successColor.mid, greyColor.c6, dangerColor.mid],
         stats: [
           {
             id: 0,
             label: "Wins",
-            value: user.wdlTogether.wins,
+            value: user.outcomeTogether.wins,
             icon: <IconCreator icons={gameResultIcons} iconName={"win"} />,
           },
           {
             id: 1,
             label: "Draws",
-            value: user.wdlTogether.draws,
+            value: user.outcomeTogether.draws,
             icon: <IconCreator icons={gameResultIcons} iconName={"draw"} />,
           },
           {
             id: 2,
             label: "Loses",
-            value: user.wdlTogether.loses,
+            value: user.outcomeTogether.loses,
             icon: <IconCreator icons={gameResultIcons} iconName={"lose"} />,
           },
         ],

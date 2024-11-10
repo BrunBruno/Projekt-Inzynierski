@@ -32,10 +32,10 @@ public class GetFriendProfileDto : UserDto {
     /// <summary>
     /// Win, loses nad draws in total
     /// </summary>
-    public required WinDrawLose WdlTotal { get; set; }
+    public required GameOutcomeDto OutcomeTotal { get; set; }
 
     /// <summary>
     ///  Win, loses nad draws in relationship
     /// </summary>
-    public required WinDrawLose WdlTogether { get; set; }
+    public required GameOutcomeDto OutcomeTogether { get; set; }
 }

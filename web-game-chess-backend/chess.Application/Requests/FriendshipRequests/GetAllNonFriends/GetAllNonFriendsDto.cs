@@ -22,5 +22,5 @@ public class GetAllNonFriendsDto : UserDto {
     /// <summary>
     /// Win, loses nad draws in total
     /// </summary>
-    public required WinDrawLose WdlTotal { get; set; }
+    public required GameOutcomeDto OutcomeTotal { get; set; }
 }

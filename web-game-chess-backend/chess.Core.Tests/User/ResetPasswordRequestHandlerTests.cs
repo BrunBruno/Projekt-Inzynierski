@@ -1,5 +1,4 @@
-
-using chess.Application.Repositories;
+using chess.Application.Repositories.UserRepositories;
 using chess.Application.Requests.UserRequests.ResetPassword;
 using chess.Core.Entities;
 using chess.Core.Enums;

@@ -56,14 +56,14 @@ function ListSection({ selectedUsername, selectedList, setUserProfile, setFriend
           pageSize: pageSize,
         };
 
-        const friendsResponse = await axios.get<PagedResult<GetAllNonFriendsDto>>(
+        const response = await axios.get<PagedResult<GetAllNonFriendsDto>>(
           friendshipController.getAllNonFriends(model),
           getAuthorization()
         );
 
         setFriends([]);
-        setUsers(friendsResponse.data.items);
-        setTotalItemsCount(friendsResponse.data.totalItemsCount);
+        setUsers(response.data.items);
+        setTotalItemsCount(response.data.totalItemsCount);
 
         // fetch for user with relationship established
       } else {
@@ -112,13 +112,13 @@ function ListSection({ selectedUsername, selectedList, setUserProfile, setFriend
     const getItemsPerRow = (): number => {
       const wh = window.innerWidth;
       if (wh < 500) {
-        return 1;
-      } else if (wh < 1800) {
         return 2;
-      } else if (wh < 3200) {
+      } else if (wh < 1800) {
         return 3;
-      } else {
+      } else if (wh < 3200) {
         return 4;
+      } else {
+        return 5;
       }
     };
 
@@ -161,24 +161,41 @@ function ListSection({ selectedUsername, selectedList, setUserProfile, setFriend
   //*/
 
   // to display loading on scroll
-  const handleLoading = (event: WheelEvent<HTMLDivElement>): void => {
-    const loadingElement = loadingRef.current;
-    const scrollingElement = scrollRef.current;
+  useEffect(() => {
+    const handleLoading = (event: WheelEvent): void => {
+      const loadingElement = loadingRef.current;
+      const scrollingElement = scrollRef.current;
 
-    if (loadingElement && scrollingElement) {
-      const isScrollingDown = event.deltaY > 0;
-      const isAtBottom =
-        scrollingElement.scrollHeight - 1.01 * scrollingElement.scrollTop <= scrollingElement.clientHeight;
+      if (loadingElement && scrollingElement) {
+        const isScrollingDown = event.deltaY > 0;
+        const isAtBottom =
+          scrollingElement.scrollHeight - 1.01 * scrollingElement.scrollTop <= scrollingElement.clientHeight;
 
-      if (isScrollingDown && isAtBottom) {
-        loadingElement.classList.add(classes.active);
+        if (isScrollingDown && isAtBottom) {
+          loadingElement.classList.add(classes.active);
 
-        setTimeout(() => {
-          loadingElement.classList.remove(classes.active);
-        }, 1000);
+          setTimeout(() => {
+            loadingElement.classList.remove(classes.active);
+          }, 1000);
+        }
       }
+    };
+
+    const scrollElement = scrollRef.current as HTMLDivElement;
+
+    if (scrollElement) {
+      // Convert to `unknown` first, then cast to `EventListener`
+      scrollElement.addEventListener("wheel", handleLoading as unknown as EventListener, { passive: true });
     }
-  };
+
+    // Cleanup event listener
+    return () => {
+      if (scrollElement) {
+        scrollElement.removeEventListener("wheel", handleLoading as unknown as EventListener);
+      }
+    };
+  }, [scrollRef]);
+
   //*/
 
   return (
@@ -192,14 +209,7 @@ function ListSection({ selectedUsername, selectedList, setUserProfile, setFriend
 
       {/* users map */}
       {users.length > 0 ? (
-        <div
-          ref={scrollRef}
-          data-testid="users-page-all-user-list"
-          className={classes.list__grid}
-          onWheel={(event) => {
-            handleLoading(event);
-          }}
-        >
+        <div ref={scrollRef} data-testid="users-page-all-user-list" className={classes.list__grid}>
           {users.map((user: GetAllNonFriendsDto, i: number) => (
             <UserCard
               key={`user-card-${user.username}-${i}`}
@@ -210,14 +220,7 @@ function ListSection({ selectedUsername, selectedList, setUserProfile, setFriend
           ))}
         </div>
       ) : friends.length > 0 ? (
-        <div
-          ref={scrollRef}
-          data-testid="users-page-friends-list"
-          className={classes.list__grid}
-          onWheel={(event) => {
-            handleLoading(event);
-          }}
-        >
+        <div ref={scrollRef} data-testid="users-page-friends-list" className={classes.list__grid}>
           {friends.map((friend: GetAllFriendsByStatusDto, i: number) => (
             <FriendCard
               key={`friend-card-${friend.username}-${i}`}

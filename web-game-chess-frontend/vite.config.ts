@@ -3,12 +3,19 @@
 
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
+import { host } from "./globals";
 
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [react()],
   server: {
-    host: "localhost",
-    // host: "192.168.1.46",
+    host: host,
+  },
+  css: {
+    preprocessorOptions: {
+      scss: {
+        api: "modern-compiler",
+      },
+    },
   },
 });

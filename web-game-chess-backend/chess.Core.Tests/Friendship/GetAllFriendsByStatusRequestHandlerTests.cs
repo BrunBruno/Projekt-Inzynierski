@@ -1,5 +1,5 @@
-﻿
-using chess.Application.Repositories;
+﻿using chess.Application.Repositories.FriendshipRepositories;
+using chess.Application.Repositories.UserRepositories;
 using chess.Application.Requests.FriendshipRequests.GetAllFriendsByStatus;
 using chess.Application.Services;
 using chess.Core.Entities;
@@ -7,7 +7,7 @@ using chess.Core.Enums;
 using FluentAssertions;
 using Moq;
 
-namespace chess.Core.Tests.Friendship; 
+namespace chess.Core.Tests.Friendship;
 
 public class GetAllFriendsByStatusRequestHandlerTests {
 

@@ -74,6 +74,223 @@ namespace chess.Infrastructure.Migrations
                         });
                 });
 
+            modelBuilder.Entity("chess.Core.Entities.EngineGame", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<bool>("AllowUndo")
+                        .HasColumnType("boolean");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<DateTime?>("EndedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<int>("EngineLevel")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("FenPosition")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<Guid?>("GameTimingId")
+                        .HasColumnType("uuid");
+
+                    b.Property<bool>("HasEnded")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool?>("IsWinner")
+                        .HasColumnType("boolean");
+
+                    b.Property<Guid>("PlayerId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Position")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<int>("Round")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime?>("StartedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<int?>("TimingType")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("Turn")
+                        .HasColumnType("integer");
+
+                    b.Property<int?>("WinnerColor")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("GameTimingId");
+
+                    b.HasIndex("PlayerId")
+                        .IsUnique();
+
+                    b.ToTable("EngineGames");
+                });
+
+            modelBuilder.Entity("chess.Core.Entities.EngineGameMessage", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Content")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<Guid>("GameId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("RequestorName")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("SentAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<int>("Type")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("GameId");
+
+                    b.ToTable("EngineGameMessages");
+                });
+
+            modelBuilder.Entity("chess.Core.Entities.EngineGameMove", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<double>("BlackTime")
+                        .HasColumnType("double precision");
+
+                    b.Property<string>("CapturedPiece")
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("DoneAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("DoneMove")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("FenMove")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<Guid>("GameId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("NewCoordinates")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("OldCoordinates")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Position")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<int>("Turn")
+                        .HasColumnType("integer");
+
+                    b.Property<double>("WhiteTime")
+                        .HasColumnType("double precision");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("GameId");
+
+                    b.ToTable("EngineGameMoves");
+                });
+
+            modelBuilder.Entity("chess.Core.Entities.EngineGamePlayer", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<int?>("Color")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid>("GameId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<double>("TimeLeft")
+                        .HasColumnType("double precision");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("EngineGamePlayers");
+                });
+
+            modelBuilder.Entity("chess.Core.Entities.EngineGameState", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<bool>("CanBlackKingCastle")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("CanBlackLongRookCastle")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("CanBlackShortRookCastle")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("CanWhiteKingCastle")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("CanWhiteLongRookCastle")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("CanWhiteShortRookCastle")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("EnPassant")
+                        .HasColumnType("text");
+
+                    b.Property<Guid>("GameId")
+                        .HasColumnType("uuid");
+
+                    b.Property<int>("HalfMove")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("GameId")
+                        .IsUnique();
+
+                    b.ToTable("EngineGameStates");
+                });
+
             modelBuilder.Entity("chess.Core.Entities.Friendship", b =>
                 {
                     b.Property<Guid>("Id")
@@ -113,185 +330,6 @@ namespace chess.Infrastructure.Migrations
                     b.ToTable("Friendships");
                 });
 
-            modelBuilder.Entity("chess.Core.Entities.Game", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
-
-                    b.Property<Guid>("BlackPlayerId")
-                        .HasColumnType("uuid");
-
-                    b.Property<bool>("BlackPlayerRegistered")
-                        .HasColumnType("boolean");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<int>("EloGain")
-                        .HasColumnType("integer");
-
-                    b.Property<int?>("EndGameType")
-                        .HasColumnType("integer");
-
-                    b.Property<DateTime?>("EndedAt")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<Guid>("GameTimingId")
-                        .HasColumnType("uuid");
-
-                    b.Property<bool>("HasEnded")
-                        .HasColumnType("boolean");
-
-                    b.Property<bool>("IsPrivate")
-                        .HasColumnType("boolean");
-
-                    b.Property<string>("Position")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<int>("Round")
-                        .HasColumnType("integer");
-
-                    b.Property<DateTime?>("StartedAt")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<int>("TimingType")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("Turn")
-                        .HasColumnType("integer");
-
-                    b.Property<Guid>("WhitePlayerId")
-                        .HasColumnType("uuid");
-
-                    b.Property<bool>("WhitePlayerRegistered")
-                        .HasColumnType("boolean");
-
-                    b.Property<int?>("WinnerColor")
-                        .HasColumnType("integer");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("BlackPlayerId")
-                        .IsUnique();
-
-                    b.HasIndex("GameTimingId");
-
-                    b.HasIndex("WhitePlayerId")
-                        .IsUnique();
-
-                    b.ToTable("Games");
-                });
-
-            modelBuilder.Entity("chess.Core.Entities.GameInvitation", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<Guid>("GameId")
-                        .HasColumnType("uuid");
-
-                    b.Property<Guid>("InviteeId")
-                        .HasColumnType("uuid");
-
-                    b.Property<string>("InviteeName")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<Guid>("InviterId")
-                        .HasColumnType("uuid");
-
-                    b.Property<string>("InviterName")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<bool>("IsAccepted")
-                        .HasColumnType("boolean");
-
-                    b.Property<int>("Type")
-                        .HasColumnType("integer");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("GameId")
-                        .IsUnique();
-
-                    b.ToTable("GameInvitations");
-                });
-
-            modelBuilder.Entity("chess.Core.Entities.GameMessage", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
-
-                    b.Property<string>("Content")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<Guid>("GameId")
-                        .HasColumnType("uuid");
-
-                    b.Property<string>("RequestorName")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<DateTime>("SentAt")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<int>("Type")
-                        .HasColumnType("integer");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("GameId");
-
-                    b.ToTable("GameMessages");
-                });
-
-            modelBuilder.Entity("chess.Core.Entities.GameState", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
-
-                    b.Property<bool>("CanBlackKingCastle")
-                        .HasColumnType("boolean");
-
-                    b.Property<bool>("CanBlackLongRookCastle")
-                        .HasColumnType("boolean");
-
-                    b.Property<bool>("CanBlackShortRookCastle")
-                        .HasColumnType("boolean");
-
-                    b.Property<bool>("CanWhiteKingCastle")
-                        .HasColumnType("boolean");
-
-                    b.Property<bool>("CanWhiteLongRookCastle")
-                        .HasColumnType("boolean");
-
-                    b.Property<bool>("CanWhiteShortRookCastle")
-                        .HasColumnType("boolean");
-
-                    b.Property<string>("EnPassant")
-                        .HasColumnType("text");
-
-                    b.Property<Guid>("GameId")
-                        .HasColumnType("uuid");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("GameId")
-                        .IsUnique();
-
-                    b.ToTable("GameStates");
-                });
-
             modelBuilder.Entity("chess.Core.Entities.GameTiming", b =>
                 {
                     b.Property<Guid>("Id")
@@ -310,126 +348,6 @@ namespace chess.Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("GameTimings");
-                });
-
-            modelBuilder.Entity("chess.Core.Entities.Move", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
-
-                    b.Property<double>("BlackTime")
-                        .HasColumnType("double precision");
-
-                    b.Property<string>("CapturedPiece")
-                        .HasColumnType("text");
-
-                    b.Property<DateTime>("DoneAt")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<string>("DoneMove")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<Guid>("GameId")
-                        .HasColumnType("uuid");
-
-                    b.Property<string>("NewCoordinates")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("OldCoordinates")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("Position")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<int>("Turn")
-                        .HasColumnType("integer");
-
-                    b.Property<double>("WhiteTime")
-                        .HasColumnType("double precision");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("GameId");
-
-                    b.ToTable("Moves");
-                });
-
-            modelBuilder.Entity("chess.Core.Entities.Player", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
-
-                    b.Property<int?>("Color")
-                        .HasColumnType("integer");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<int>("Elo")
-                        .HasColumnType("integer");
-
-                    b.Property<bool>("FinishedGame")
-                        .HasColumnType("boolean");
-
-                    b.Property<Guid>("GameId")
-                        .HasColumnType("uuid");
-
-                    b.Property<bool>("IsPlaying")
-                        .HasColumnType("boolean");
-
-                    b.Property<bool>("IsPrivate")
-                        .HasColumnType("boolean");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<double>("TimeLeft")
-                        .HasColumnType("double precision");
-
-                    b.Property<Guid>("TimingId")
-                        .HasColumnType("uuid");
-
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("uuid");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("Players");
-                });
-
-            modelBuilder.Entity("chess.Core.Entities.PlayerMessage", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
-
-                    b.Property<string>("Content")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<Guid>("PlayerId")
-                        .HasColumnType("uuid");
-
-                    b.Property<DateTime>("SentAt")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<int>("Type")
-                        .HasColumnType("integer");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("PlayerId");
-
-                    b.ToTable("PlayerMessages");
                 });
 
             modelBuilder.Entity("chess.Core.Entities.Role", b =>
@@ -663,6 +581,375 @@ namespace chess.Infrastructure.Migrations
                     b.ToTable("UserVerificationCodes");
                 });
 
+            modelBuilder.Entity("chess.Core.Entities.WebGame", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("BlackPlayerId")
+                        .HasColumnType("uuid");
+
+                    b.Property<bool>("BlackPlayerRegistered")
+                        .HasColumnType("boolean");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<int>("EloGain")
+                        .HasColumnType("integer");
+
+                    b.Property<int?>("EndGameType")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime?>("EndedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("FenPosition")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<Guid>("GameTimingId")
+                        .HasColumnType("uuid");
+
+                    b.Property<bool>("HasEnded")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("IsPrivate")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("Position")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<int>("Round")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime?>("StartedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<int>("TimingType")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("Turn")
+                        .HasColumnType("integer");
+
+                    b.Property<Guid>("WhitePlayerId")
+                        .HasColumnType("uuid");
+
+                    b.Property<bool>("WhitePlayerRegistered")
+                        .HasColumnType("boolean");
+
+                    b.Property<int?>("WinnerColor")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BlackPlayerId")
+                        .IsUnique();
+
+                    b.HasIndex("GameTimingId");
+
+                    b.HasIndex("WhitePlayerId")
+                        .IsUnique();
+
+                    b.ToTable("WebGames");
+                });
+
+            modelBuilder.Entity("chess.Core.Entities.WebGameInvitation", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid>("GameId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("InviteeId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("InviteeName")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<Guid>("InviterId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("InviterName")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<bool>("IsAccepted")
+                        .HasColumnType("boolean");
+
+                    b.Property<int>("Type")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("GameId")
+                        .IsUnique();
+
+                    b.ToTable("WebGameInvitations");
+                });
+
+            modelBuilder.Entity("chess.Core.Entities.WebGameMessage", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Content")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<Guid>("GameId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("RequestorName")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("SentAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<int>("Type")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("GameId");
+
+                    b.ToTable("WebGameMessages");
+                });
+
+            modelBuilder.Entity("chess.Core.Entities.WebGameMove", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<double>("BlackTime")
+                        .HasColumnType("double precision");
+
+                    b.Property<string>("CapturedPiece")
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("DoneAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("DoneMove")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("FenMove")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<Guid>("GameId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("NewCoordinates")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("OldCoordinates")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Position")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<int>("Turn")
+                        .HasColumnType("integer");
+
+                    b.Property<double>("WhiteTime")
+                        .HasColumnType("double precision");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("GameId");
+
+                    b.ToTable("WebGameMoves");
+                });
+
+            modelBuilder.Entity("chess.Core.Entities.WebGamePlayer", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<int?>("Color")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<int>("Elo")
+                        .HasColumnType("integer");
+
+                    b.Property<bool>("FinishedGame")
+                        .HasColumnType("boolean");
+
+                    b.Property<Guid>("GameId")
+                        .HasColumnType("uuid");
+
+                    b.Property<bool>("IsPlaying")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("IsPrivate")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<double>("TimeLeft")
+                        .HasColumnType("double precision");
+
+                    b.Property<Guid>("TimingId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("WebGamePlayers");
+                });
+
+            modelBuilder.Entity("chess.Core.Entities.WebGamePlayerMessage", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Content")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<Guid>("PlayerId")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("SentAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<int>("Type")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PlayerId");
+
+                    b.ToTable("WebGamePlayerMessages");
+                });
+
+            modelBuilder.Entity("chess.Core.Entities.WebGameState", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<bool>("CanBlackKingCastle")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("CanBlackLongRookCastle")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("CanBlackShortRookCastle")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("CanWhiteKingCastle")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("CanWhiteLongRookCastle")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("CanWhiteShortRookCastle")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("EnPassant")
+                        .HasColumnType("text");
+
+                    b.Property<Guid>("GameId")
+                        .HasColumnType("uuid");
+
+                    b.Property<int>("HalfMove")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("GameId")
+                        .IsUnique();
+
+                    b.ToTable("WebGameStates");
+                });
+
+            modelBuilder.Entity("chess.Core.Entities.EngineGame", b =>
+                {
+                    b.HasOne("chess.Core.Entities.GameTiming", null)
+                        .WithMany("EngineGames")
+                        .HasForeignKey("GameTimingId");
+
+                    b.HasOne("chess.Core.Entities.EngineGamePlayer", "Player")
+                        .WithOne("Game")
+                        .HasForeignKey("chess.Core.Entities.EngineGame", "PlayerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Player");
+                });
+
+            modelBuilder.Entity("chess.Core.Entities.EngineGameMessage", b =>
+                {
+                    b.HasOne("chess.Core.Entities.EngineGame", "Game")
+                        .WithMany("Messages")
+                        .HasForeignKey("GameId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Game");
+                });
+
+            modelBuilder.Entity("chess.Core.Entities.EngineGameMove", b =>
+                {
+                    b.HasOne("chess.Core.Entities.EngineGame", "Game")
+                        .WithMany("Moves")
+                        .HasForeignKey("GameId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Game");
+                });
+
+            modelBuilder.Entity("chess.Core.Entities.EngineGamePlayer", b =>
+                {
+                    b.HasOne("chess.Core.Entities.User", "User")
+                        .WithMany("EngineGamePlayers")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("chess.Core.Entities.EngineGameState", b =>
+                {
+                    b.HasOne("chess.Core.Entities.EngineGame", "Game")
+                        .WithOne("CurrentState")
+                        .HasForeignKey("chess.Core.Entities.EngineGameState", "GameId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Game");
+                });
+
             modelBuilder.Entity("chess.Core.Entities.Friendship", b =>
                 {
                     b.HasOne("chess.Core.Entities.User", "Receiver")
@@ -680,99 +967,6 @@ namespace chess.Infrastructure.Migrations
                     b.Navigation("Receiver");
 
                     b.Navigation("Requestor");
-                });
-
-            modelBuilder.Entity("chess.Core.Entities.Game", b =>
-                {
-                    b.HasOne("chess.Core.Entities.Player", "BlackPlayer")
-                        .WithOne("BlackGame")
-                        .HasForeignKey("chess.Core.Entities.Game", "BlackPlayerId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("chess.Core.Entities.GameTiming", "GameTiming")
-                        .WithMany("Games")
-                        .HasForeignKey("GameTimingId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("chess.Core.Entities.Player", "WhitePlayer")
-                        .WithOne("WhiteGame")
-                        .HasForeignKey("chess.Core.Entities.Game", "WhitePlayerId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("BlackPlayer");
-
-                    b.Navigation("GameTiming");
-
-                    b.Navigation("WhitePlayer");
-                });
-
-            modelBuilder.Entity("chess.Core.Entities.GameInvitation", b =>
-                {
-                    b.HasOne("chess.Core.Entities.Game", "Game")
-                        .WithOne()
-                        .HasForeignKey("chess.Core.Entities.GameInvitation", "GameId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Game");
-                });
-
-            modelBuilder.Entity("chess.Core.Entities.GameMessage", b =>
-                {
-                    b.HasOne("chess.Core.Entities.Game", "Game")
-                        .WithMany("Messages")
-                        .HasForeignKey("GameId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Game");
-                });
-
-            modelBuilder.Entity("chess.Core.Entities.GameState", b =>
-                {
-                    b.HasOne("chess.Core.Entities.Game", "Game")
-                        .WithOne("GameState")
-                        .HasForeignKey("chess.Core.Entities.GameState", "GameId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Game");
-                });
-
-            modelBuilder.Entity("chess.Core.Entities.Move", b =>
-                {
-                    b.HasOne("chess.Core.Entities.Game", "Game")
-                        .WithMany("Moves")
-                        .HasForeignKey("GameId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Game");
-                });
-
-            modelBuilder.Entity("chess.Core.Entities.Player", b =>
-                {
-                    b.HasOne("chess.Core.Entities.User", "User")
-                        .WithMany("Players")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("User");
-                });
-
-            modelBuilder.Entity("chess.Core.Entities.PlayerMessage", b =>
-                {
-                    b.HasOne("chess.Core.Entities.Player", "Player")
-                        .WithMany("Messages")
-                        .HasForeignKey("PlayerId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Player");
                 });
 
             modelBuilder.Entity("chess.Core.Entities.User", b =>
@@ -841,9 +1035,102 @@ namespace chess.Infrastructure.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("chess.Core.Entities.Game", b =>
+            modelBuilder.Entity("chess.Core.Entities.WebGame", b =>
                 {
-                    b.Navigation("GameState")
+                    b.HasOne("chess.Core.Entities.WebGamePlayer", "BlackPlayer")
+                        .WithOne("BlackGame")
+                        .HasForeignKey("chess.Core.Entities.WebGame", "BlackPlayerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("chess.Core.Entities.GameTiming", "GameTiming")
+                        .WithMany("WebGames")
+                        .HasForeignKey("GameTimingId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("chess.Core.Entities.WebGamePlayer", "WhitePlayer")
+                        .WithOne("WhiteGame")
+                        .HasForeignKey("chess.Core.Entities.WebGame", "WhitePlayerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("BlackPlayer");
+
+                    b.Navigation("GameTiming");
+
+                    b.Navigation("WhitePlayer");
+                });
+
+            modelBuilder.Entity("chess.Core.Entities.WebGameInvitation", b =>
+                {
+                    b.HasOne("chess.Core.Entities.WebGame", "Game")
+                        .WithOne()
+                        .HasForeignKey("chess.Core.Entities.WebGameInvitation", "GameId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Game");
+                });
+
+            modelBuilder.Entity("chess.Core.Entities.WebGameMessage", b =>
+                {
+                    b.HasOne("chess.Core.Entities.WebGame", "Game")
+                        .WithMany("Messages")
+                        .HasForeignKey("GameId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Game");
+                });
+
+            modelBuilder.Entity("chess.Core.Entities.WebGameMove", b =>
+                {
+                    b.HasOne("chess.Core.Entities.WebGame", "Game")
+                        .WithMany("Moves")
+                        .HasForeignKey("GameId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Game");
+                });
+
+            modelBuilder.Entity("chess.Core.Entities.WebGamePlayer", b =>
+                {
+                    b.HasOne("chess.Core.Entities.User", "User")
+                        .WithMany("Players")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("chess.Core.Entities.WebGamePlayerMessage", b =>
+                {
+                    b.HasOne("chess.Core.Entities.WebGamePlayer", "Player")
+                        .WithMany("Messages")
+                        .HasForeignKey("PlayerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Player");
+                });
+
+            modelBuilder.Entity("chess.Core.Entities.WebGameState", b =>
+                {
+                    b.HasOne("chess.Core.Entities.WebGame", "Game")
+                        .WithOne("CurrentState")
+                        .HasForeignKey("chess.Core.Entities.WebGameState", "GameId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Game");
+                });
+
+            modelBuilder.Entity("chess.Core.Entities.EngineGame", b =>
+                {
+                    b.Navigation("CurrentState")
                         .IsRequired();
 
                     b.Navigation("Messages");
@@ -851,26 +1138,25 @@ namespace chess.Infrastructure.Migrations
                     b.Navigation("Moves");
                 });
 
-            modelBuilder.Entity("chess.Core.Entities.GameTiming", b =>
+            modelBuilder.Entity("chess.Core.Entities.EngineGamePlayer", b =>
                 {
-                    b.Navigation("Games");
+                    b.Navigation("Game")
+                        .IsRequired();
                 });
 
-            modelBuilder.Entity("chess.Core.Entities.Player", b =>
+            modelBuilder.Entity("chess.Core.Entities.GameTiming", b =>
                 {
-                    b.Navigation("BlackGame")
-                        .IsRequired();
+                    b.Navigation("EngineGames");
 
-                    b.Navigation("Messages");
-
-                    b.Navigation("WhiteGame")
-                        .IsRequired();
+                    b.Navigation("WebGames");
                 });
 
             modelBuilder.Entity("chess.Core.Entities.User", b =>
                 {
                     b.Navigation("Elo")
                         .IsRequired();
+
+                    b.Navigation("EngineGamePlayers");
 
                     b.Navigation("Image");
 
@@ -882,6 +1168,25 @@ namespace chess.Infrastructure.Migrations
 
                     b.Navigation("Stats")
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("chess.Core.Entities.WebGame", b =>
+                {
+                    b.Navigation("CurrentState")
+                        .IsRequired();
+
+                    b.Navigation("Messages");
+
+                    b.Navigation("Moves");
+                });
+
+            modelBuilder.Entity("chess.Core.Entities.WebGamePlayer", b =>
+                {
+                    b.Navigation("BlackGame");
+
+                    b.Navigation("Messages");
+
+                    b.Navigation("WhiteGame");
                 });
 #pragma warning restore 612, 618
         }

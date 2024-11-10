@@ -1,5 +1,4 @@
-@import "../../styles/variables/color.scss";
-@import "../../styles/commons-styles/elements.scss";
+@use "../../styles/shared.scss" as *;
 
 // loading page container
 .loading {

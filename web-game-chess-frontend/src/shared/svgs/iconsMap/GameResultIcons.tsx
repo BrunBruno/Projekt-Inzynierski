@@ -1,11 +1,11 @@
 import { dangerColor, greyColor, successColor } from "../../utils/objects/colorMaps";
 import { GameResultName } from "../../utils/objects/constantLists";
-import { IconMap } from "../../utils/types/commonTypes";
+import { ElementClass, IconMap } from "../../utils/types/commonTypes";
 
 type IconNames = GameResultName;
 
 export const gameResultIcons: IconMap<IconNames> = {
-  win: (iconClass?: string): JSX.Element => (
+  win: (iconClass?: ElementClass): JSX.Element => (
     <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className={iconClass}>
       <circle
         cx="12"
@@ -26,7 +26,7 @@ export const gameResultIcons: IconMap<IconNames> = {
     </svg>
   ),
 
-  draw: (iconClass?: string): JSX.Element => (
+  draw: (iconClass?: ElementClass): JSX.Element => (
     <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className={iconClass}>
       <circle
         cx="12"
@@ -42,7 +42,7 @@ export const gameResultIcons: IconMap<IconNames> = {
     </svg>
   ),
 
-  lose: (iconClass?: string): JSX.Element => (
+  lose: (iconClass?: ElementClass): JSX.Element => (
     <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className={iconClass}>
       <circle
         cx="12"

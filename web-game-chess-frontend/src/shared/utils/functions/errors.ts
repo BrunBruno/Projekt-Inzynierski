@@ -19,7 +19,7 @@ export const getErrMessage = (error: any): string => {
   console.error(error);
 
   if (error.response && checkError(error)) {
-    return error.response.data;
+    return error.response.data.toUpperCase();
   } else {
     return "CONNECTION ERROR";
   }
@@ -27,11 +27,12 @@ export const getErrMessage = (error: any): string => {
 
 // checks if error should be display
 const checkError = (error: any): boolean => {
+  const statusCodes: number[] = [400, 401, 404];
+
   return (
-    error instanceof AxiosError &&
-    error.response &&
-    error.response.data &&
+    (error instanceof AxiosError || error.isAxiosError) &&
+    error?.response?.data &&
     typeof error.response.data === "string" &&
-    (error.response.status === 400 || error.response.status === 401 || error.response.status === 404)
+    statusCodes.includes(error.response.status)
   );
 };

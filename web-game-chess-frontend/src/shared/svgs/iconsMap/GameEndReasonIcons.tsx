@@ -1,11 +1,11 @@
-import { greyColor } from "../../utils/objects/colorMaps";
+import { ColorValue, greyColor } from "../../utils/objects/colorMaps";
 import { GameEndReasonName } from "../../utils/objects/constantLists";
-import { IconMap } from "../../utils/types/commonTypes";
+import { ElementClass, IconMap } from "../../utils/types/commonTypes";
 
 type IconNames = GameEndReasonName;
 
 export const gameEndReasonIcons: IconMap<IconNames> = {
-  checkMate: (color?: string, iconClass?: string) => (
+  checkMate: (iconClass?: ElementClass, color?: ColorValue) => (
     <svg
       viewBox="0 0 16 16"
       xmlns="http://www.w3.org/2000/svg"
@@ -25,7 +25,7 @@ export const gameEndReasonIcons: IconMap<IconNames> = {
     </svg>
   ),
 
-  outOfTime: (color?: string, iconClass?: string): JSX.Element => (
+  outOfTime: (iconClass?: ElementClass, color?: ColorValue): JSX.Element => (
     <svg
       viewBox="0 0 24 24"
       fill="none"
@@ -46,7 +46,7 @@ export const gameEndReasonIcons: IconMap<IconNames> = {
     </svg>
   ),
 
-  resignation: (color?: string, iconClass?: string): JSX.Element => (
+  resignation: (iconClass?: ElementClass, color?: ColorValue): JSX.Element => (
     <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className={iconClass}>
       <circle fill={color ? color : greyColor.c0} strokeWidth={3} cx="12" cy="12" r="12" />
       <path
@@ -57,7 +57,7 @@ export const gameEndReasonIcons: IconMap<IconNames> = {
     </svg>
   ),
 
-  staleMate: (color?: string, iconClass?: string): JSX.Element => (
+  staleMate: (iconClass?: ElementClass, color?: ColorValue): JSX.Element => (
     <svg
       fill={color ? color : greyColor.c0}
       version="1.1"
@@ -72,7 +72,7 @@ export const gameEndReasonIcons: IconMap<IconNames> = {
     </svg>
   ),
 
-  threefold: (color?: string, iconClass?: string): JSX.Element => (
+  threefold: (iconClass?: ElementClass, color?: ColorValue): JSX.Element => (
     <svg
       viewBox="0 0 24 24"
       fill="none"
@@ -87,7 +87,7 @@ export const gameEndReasonIcons: IconMap<IconNames> = {
     </svg>
   ),
 
-  agreement: (color?: string, iconClass?: string): JSX.Element => (
+  agreement: (iconClass?: ElementClass, color?: ColorValue): JSX.Element => (
     <svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg" className={iconClass}>
       <circle fill={color ? color : greyColor.c0} strokeWidth={3} cx="24" cy="24" r="22" />
       <path
@@ -108,7 +108,7 @@ export const gameEndReasonIcons: IconMap<IconNames> = {
     </svg>
   ),
 
-  fiftyMovesRule: (color?: string, iconClass?: string): JSX.Element => (
+  fiftyMovesRule: (iconClass?: ElementClass, color?: ColorValue): JSX.Element => (
     <svg
       version="1.1"
       xmlns="http://www.w3.org/2000/svg"
@@ -134,7 +134,7 @@ export const gameEndReasonIcons: IconMap<IconNames> = {
     </svg>
   ),
 
-  insufficientMaterial: (color?: string, iconClass?: string): JSX.Element => (
+  insufficientMaterial: (iconClass?: ElementClass, color?: ColorValue): JSX.Element => (
     <svg
       fill={color ? color : greyColor.c0}
       viewBox="0 0 1920 1920"

@@ -60,9 +60,10 @@ function IndexPage() {
   const heroScrollRef = useRef<HandleOnScroll>(null);
   // hero section ref
   const heroSectionRef = useRef<HTMLElement>(null);
-  // home content ref
+
   // for making nav sticky
   const homeContentRef = useRef<HTMLDivElement>(null);
+  const faqContentRef = useRef<HTMLDivElement>(null);
 
   // scroll events handling
   const handleScroll = (): void => {
@@ -118,20 +119,25 @@ function IndexPage() {
   // set section indicators heights
   // for correct navbar indicator transition
   useEffect(() => {
-    const wHF = window.innerHeight;
+    const setObservePoints = () => {
+      const wHF = window.innerHeight;
 
-    for (let i = 0; i < sections.length; i++) {
-      const sectionElement = sections[i].sectionRef.current;
-      const sectionIndicator = sections[i].indicatorRef.current;
+      for (let i = 0; i < sections.length; i++) {
+        const sectionElement = sections[i].sectionRef.current;
+        const sectionIndicator = sections[i].indicatorRef.current;
 
-      if (sectionElement && sectionIndicator) {
-        const sH = sectionElement.offsetHeight;
-        const indH = sH - wHF;
+        if (sectionElement && sectionIndicator) {
+          const sH = sectionElement.offsetHeight;
+          const indH = sH - wHF;
 
-        // set indicators heights to sections height - 100vh
-        sectionIndicator.style.height = `${indH}px`;
+          // set indicators heights to sections height - 100vh
+          sectionIndicator.style.height = `${indH}px`;
+        }
       }
-    }
+    };
+
+    setObservePoints();
+    window.addEventListener("resize", setObservePoints);
   }, [sections]);
   //*/
 
@@ -150,7 +156,7 @@ function IndexPage() {
       case "learn":
         return <LearnSection ref={scrollRef} sectionRef={sectionRef} />;
       case "faq":
-        return <FaqSection ref={scrollRef} sectionRef={sectionRef} />;
+        return <FaqSection ref={scrollRef} sectionRef={sectionRef} faqContentRef={faqContentRef} />;
       default:
         return <></>;
     }
@@ -177,6 +183,7 @@ function IndexPage() {
         ref={navScrollRef}
         heroSectionRef={heroSectionRef}
         homeContentRef={homeContentRef}
+        faqContentRef={faqContentRef}
         indicators={indicators}
       />
 

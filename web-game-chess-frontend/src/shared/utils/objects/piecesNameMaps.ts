@@ -1,20 +1,30 @@
 /* maps for kinds of pieces */
 
-import { BlackPieceTag, PieceName, PieceTag, SideColor, WhitePieceTag } from "./constantLists";
+import { BlackPieceTag, PieceTag, SideColor, WhitePieceTag } from "./constantLists";
 
 const pieceTagToName = { p: "Pawn", n: "Knight", b: "Bishop", r: "Rook", q: "Queen", k: "King" } as const;
 
-// to game piece name by piece tag
+// convert game piece name by piece tag
 export const getPieceName = (char: PieceTag): string => {
   return pieceTagToName[char.toLowerCase() as PieceTag] || "Unknown";
 };
 
 export type PieceTagMap = {
   white: {
-    [key in PieceName]: WhitePieceTag;
+    pawn: "P";
+    knight: "N";
+    bishop: "B";
+    rook: "R";
+    queen: "Q";
+    king: "K";
   };
   black: {
-    [key in PieceName]: BlackPieceTag;
+    pawn: "p";
+    knight: "n";
+    bishop: "b";
+    rook: "r";
+    queen: "q";
+    king: "k";
   };
 };
 
@@ -38,9 +48,6 @@ export const pieceTagMap: PieceTagMap = {
   },
 } as const;
 
-export type WhitePieceType = (typeof pieceTagMap.white)[keyof typeof pieceTagMap.white];
-export type BlackPieceType = (typeof pieceTagMap.black)[keyof typeof pieceTagMap.black];
-
 // piece promotion tag maps
 export type PiecePromotionMap = {
   white: WhitePieceTag[];
@@ -54,7 +61,7 @@ export const piecePromotionMap: PiecePromotionMap = {
 //*/
 
 // to gat side color name by piece tag
-export function getPieceSideColor(tag: PieceTag): SideColor | undefined {
+export function getPieceSideColor(tag: string): SideColor | undefined {
   if (tag === tag.toUpperCase()) {
     return "white";
   } else if (tag === tag.toLowerCase()) {

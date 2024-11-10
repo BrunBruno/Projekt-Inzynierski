@@ -1,11 +1,11 @@
 import { ColorValue, dangerColor, infoColor, successColor, warningColor } from "../../utils/objects/colorMaps";
 import { PopupIconName } from "../../utils/objects/constantLists";
-import { IconMap } from "../../utils/types/commonTypes";
+import { ElementClass, IconMap } from "../../utils/types/commonTypes";
 
 type IconNames = "arrow" | "roundArrow" | "x" | PopupIconName;
 
 export const symbolIcons: IconMap<IconNames> = {
-  arrow: (iconClass?: string, color?: ColorValue): JSX.Element => (
+  arrow: (iconClass?: ElementClass, color?: ColorValue): JSX.Element => (
     <svg viewBox="-4.5 0 20 20" version="1.1" xmlns="http://www.w3.org/2000/svg" className={iconClass}>
       <g fill="none">
         <g transform="translate(-305.000000, -6679.000000)" fill={color}>
@@ -17,7 +17,7 @@ export const symbolIcons: IconMap<IconNames> = {
     </svg>
   ),
 
-  roundArrow: (iconClass?: string, color?: ColorValue): JSX.Element => (
+  roundArrow: (iconClass?: ElementClass, color?: ColorValue): JSX.Element => (
     <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className={iconClass}>
       <path
         d="M13 15L16 12M16 12L13 9M16 12H8M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z"
@@ -29,7 +29,7 @@ export const symbolIcons: IconMap<IconNames> = {
     </svg>
   ),
 
-  x: (iconClass?: string, color?: ColorValue): JSX.Element => (
+  x: (iconClass?: ElementClass, color?: ColorValue): JSX.Element => (
     <svg viewBox="0 -0.5 25 25" fill="none" xmlns="http://www.w3.org/2000/svg" className={iconClass}>
       <path
         d="M6.96967 16.4697C6.67678 16.7626 6.67678 17.2374 6.96967 17.5303C7.26256 17.8232 7.73744 17.8232 8.03033 17.5303L6.96967 16.4697ZM13.0303 12.5303C13.3232 12.2374 13.3232 11.7626 13.0303 11.4697C12.7374 11.1768 12.2626 11.1768 11.9697 11.4697L13.0303 12.5303ZM11.9697 11.4697C11.6768 11.7626 11.6768 12.2374 11.9697 12.5303C12.2626 12.8232 12.7374 12.8232 13.0303 12.5303L11.9697 11.4697ZM18.0303 7.53033C18.3232 7.23744 18.3232 6.76256 18.0303 6.46967C17.7374 6.17678 17.2626 6.17678 16.9697 6.46967L18.0303 7.53033ZM13.0303 11.4697C12.7374 11.1768 12.2626 11.1768 11.9697 11.4697C11.6768 11.7626 11.6768 12.2374 11.9697 12.5303L13.0303 11.4697ZM16.9697 17.5303C17.2626 17.8232 17.7374 17.8232 18.0303 17.5303C18.3232 17.2374 18.3232 16.7626 18.0303 16.4697L16.9697 17.5303ZM11.9697 12.5303C12.2626 12.8232 12.7374 12.8232 13.0303 12.5303C13.3232 12.2374 13.3232 11.7626 13.0303 11.4697L11.9697 12.5303ZM8.03033 6.46967C7.73744 6.17678 7.26256 6.17678 6.96967 6.46967C6.67678 6.76256 6.67678 7.23744 6.96967 7.53033L8.03033 6.46967ZM8.03033 17.5303L13.0303 12.5303L11.9697 11.4697L6.96967 16.4697L8.03033 17.5303ZM13.0303 12.5303L18.0303 7.53033L16.9697 6.46967L11.9697 11.4697L13.0303 12.5303ZM11.9697 12.5303L16.9697 17.5303L18.0303 16.4697L13.0303 11.4697L11.9697 12.5303ZM13.0303 11.4697L8.03033 6.46967L6.96967 7.53033L11.9697 12.5303L13.0303 11.4697Z"
@@ -38,7 +38,7 @@ export const symbolIcons: IconMap<IconNames> = {
     </svg>
   ),
 
-  success: (iconClass?: string, color?: ColorValue) => (
+  success: (iconClass?: ElementClass, color?: ColorValue) => (
     <svg
       viewBox="-1.7 0 20.4 20.4"
       xmlns="http://www.w3.org/2000/svg"
@@ -49,7 +49,7 @@ export const symbolIcons: IconMap<IconNames> = {
     </svg>
   ),
 
-  info: (iconClass?: string, color?: ColorValue) => (
+  info: (iconClass?: ElementClass, color?: ColorValue) => (
     <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className={iconClass}>
       <path
         fillRule="evenodd"
@@ -60,7 +60,7 @@ export const symbolIcons: IconMap<IconNames> = {
     </svg>
   ),
 
-  warning: (iconClass?: string, color?: ColorValue) => (
+  warning: (iconClass?: ElementClass, color?: ColorValue) => (
     <svg viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" className={iconClass}>
       <path
         d="M512 64a448 448 0 1 1 0 896 448 448 0 0 1 0-896zm0 192a58.432 58.432 0 0 0-58.24 63.744l23.36 256.384a35.072 35.072 0 0 0 69.76 0l23.296-256.384A58.432 58.432 0 0 0 512 256zm0 512a51.2 51.2 0 1 0 0-102.4 51.2 51.2 0 0 0 0 102.4z"
@@ -69,7 +69,7 @@ export const symbolIcons: IconMap<IconNames> = {
     </svg>
   ),
 
-  error: (iconClass?: string, color?: ColorValue) => (
+  error: (iconClass?: ElementClass, color?: ColorValue) => (
     <svg
       viewBox="-1.7 0 20.4 20.4"
       xmlns="http://www.w3.org/2000/svg"

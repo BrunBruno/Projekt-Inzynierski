@@ -3,6 +3,7 @@ using AutoMapper;
 using chess.Api.Models.UserModels;
 using chess.Application.Requests.UserRequests.GetByEmail;
 using chess.Application.Requests.UserRequests.GetRegisterConf;
+using chess.Application.Requests.UserRequests.GetUsersRanking;
 using chess.Application.Requests.UserRequests.LogInUser;
 using chess.Application.Requests.UserRequests.RegenerateCode;
 using chess.Application.Requests.UserRequests.RegisterUser;
@@ -17,16 +18,18 @@ namespace chess.Api.Maps.MappingProfiles;
 /// User controller models to requests maps
 /// </summary>
 public class UserMappingProfile : Profile {
-    public UserMappingProfile() {
+	
+	public UserMappingProfile() {
 
-        CreateMap<RegisterUserModel, RegisterUserRequest>();
-        CreateMap<LogInUserModel, LogInUserRequest>();
-        CreateMap<VerifyEmailModel, VerifyEmailRequest>();
-        CreateMap<GetRegisterConfModel, GetRegisterConfRequest>();
-        CreateMap<RegenerateCodeModel, RegenerateCodeRequest>();
-        CreateMap<UpdateProfileModel, UpdateProfileRequest>();
-        CreateMap<GetByEmailModel, GetByEmailRequest>();
-        CreateMap<ResetPasswordModel, ResetPasswordRequest>();
-        CreateMap<SendResetPasswordCodeModel, SendResetPasswordCodeRequest>();
-    }
+		CreateMap<RegisterUserModel, RegisterUserRequest>();
+		CreateMap<LogInUserModel, LogInUserRequest>();
+		CreateMap<VerifyEmailModel, VerifyEmailRequest>();
+		CreateMap<GetRegisterConfModel, GetRegisterConfRequest>();
+		CreateMap<RegenerateCodeModel, RegenerateCodeRequest>();
+		CreateMap<UpdateProfileModel, UpdateProfileRequest>();
+		CreateMap<GetByEmailModel, GetByEmailRequest>();
+		CreateMap<ResetPasswordModel, ResetPasswordRequest>();
+		CreateMap<SendResetPasswordCodeModel, SendResetPasswordCodeRequest>();
+		CreateMap<GetUsersRankingModel, GetUsersRankingRequest>();
+	}
 }

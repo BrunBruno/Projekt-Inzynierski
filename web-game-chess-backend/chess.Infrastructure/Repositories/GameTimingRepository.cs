@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace chess.Infrastructure.Repositories;
 
-internal class GameTimingRepository : IGameTimingRepository {
+public class GameTimingRepository : IGameTimingRepository {
 
     private readonly ChessAppDbContext _dbContext;
 
@@ -16,9 +16,9 @@ internal class GameTimingRepository : IGameTimingRepository {
     }
 
     ///<inheritdoc/>
-    public async Task<GameTiming?> GetById(Guid timigId) 
+    public async Task<GameTiming?> GetById(Guid timigId)
         => await _dbContext.GameTimings
-                    .FirstOrDefaultAsync(t => t.Id == timigId);   
+                    .FirstOrDefaultAsync(t => t.Id == timigId);
 
     ///<inheritdoc/>
     public async Task<GameTiming?> FindTiming(TimingTypes type, int seconds, int increment)

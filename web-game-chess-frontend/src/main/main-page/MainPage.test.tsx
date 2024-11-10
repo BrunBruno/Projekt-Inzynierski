@@ -1,20 +1,20 @@
 import { MemoryRouter } from "react-router-dom";
-import MainPage from "./MainPage";
 import { render, waitFor, screen, fireEvent } from "@testing-library/react";
 import { createMockServer } from "../../shared/utils/services/MockServerService";
 import MainRouter from "../MainRouter";
 import { GetUserDto, IsEmailVerifiedDto } from "../../shared/utils/types/userDtos";
 import { Guid } from "guid-typescript";
 import { JwtService } from "../../shared/utils/services/MockJwtService";
-import { mockElo, mockUserForToken, mockWdl } from "../../shared/utils/objects/generalMocks";
+import { mockElo, mockUserForToken, mockGameOutcome } from "../../shared/utils/objects/generalMocks";
 import {
   CheckIfUpdateRequiredDto,
   CreatePrivateGameDto,
   GetGameTimingDto,
-  SearchGameDto,
+  SearchWebGameDto,
 } from "../../shared/utils/types/gameDtos";
 import { GetAllFriendsByStatusDto } from "../../shared/utils/types/friendshipDtos";
 import { TimingType } from "../../shared/utils/objects/entitiesEnums";
+import MainPage from "./MainPage";
 
 // mocks
 const mockIsVerified: IsEmailVerifiedDto = {
@@ -30,7 +30,7 @@ const mockUser: GetUserDto = {
   email: "user@test.com",
 };
 
-const mockSearchGame: SearchGameDto = {
+const mockSearchGame: SearchWebGameDto = {
   playerId: Guid.create(),
   timingId: Guid.create(),
 };
@@ -44,8 +44,8 @@ const mockFriends: GetAllFriendsByStatusDto[] = [
     friendshipId: Guid.create(),
     elo: mockElo,
     isRequestor: false,
-    wdlTotal: mockWdl,
-    wdlTogether: mockWdl,
+    outcomeTotal: mockGameOutcome,
+    outcomeTogether: mockGameOutcome,
   },
   {
     username: "Friend 2",
@@ -55,8 +55,8 @@ const mockFriends: GetAllFriendsByStatusDto[] = [
     friendshipId: Guid.create(),
     elo: mockElo,
     isRequestor: true,
-    wdlTotal: mockWdl,
-    wdlTogether: mockWdl,
+    outcomeTotal: mockGameOutcome,
+    outcomeTogether: mockGameOutcome,
   },
 ];
 
@@ -84,7 +84,7 @@ const mockUpdateRequired: CheckIfUpdateRequiredDto = {
 const server = createMockServer({
   isEmailVerifiedDto: mockIsVerified,
   getUserDto: mockUser,
-  searchGameDto: mockSearchGame,
+  SearchWebGameDto: mockSearchGame,
   getAllFriendsByStatusDtoList: mockFriends,
   createPrivateGameDto: mockPrivateGame,
   getGameTimingDto: mockGameTiming,
@@ -157,8 +157,6 @@ describe("MainPage Components", () => {
 
   // inviting friend to game test
   it("should open vs friend view and navigate to awaiting page after friend selection", async () => {
-    // THE PROBLEM WITH GAMEID BEING NULL HAPPENS IN THIS TEST
-
     render(
       <MemoryRouter initialEntries={["/"]}>
         <MainRouter />

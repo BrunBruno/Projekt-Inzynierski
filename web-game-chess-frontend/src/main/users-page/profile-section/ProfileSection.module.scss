@@ -1,4 +1,4 @@
-@import "../../Main.scss";
+@use "../../../shared/styles/shared.scss" as *;
 
 // user / friend profile window
 .profile {
@@ -134,7 +134,7 @@
     &__data {
       display: grid;
       grid-template-rows: 60% calc(40% - 2rem);
-      grid-gap: 2rem;
+      gap: 2rem;
       z-index: 1;
 
       .user-info {

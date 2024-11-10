@@ -1,4 +1,4 @@
-/* Friendship controller models */
+/* friendship controller models */
 
 import { Guid } from "guid-typescript";
 import { FriendshipStatus } from "../objects/entitiesEnums";
@@ -7,30 +7,28 @@ import { PagedModel } from "./abstractDtosAndModels";
 /** POST models */
 
 export type InviteFriendModel = {
-  // id of user that is being invited
   receiverId: Guid;
+};
+
+export type BlockUserModel = {
+  userId: Guid;
 };
 
 /** PUT models */
 
 export type RespondToFriendRequestModel = {
-  // relationship id
   friendshipId: Guid;
-  // replay of user to change status of friendship
   isAccepted: boolean;
 };
 
 /** GET models */
 
 export type GetAllNonFriendsModel = PagedModel & {
-  // username to filter users
   username: string | null;
 };
 
 export type GetAllFriendsByStatusModel = PagedModel & {
-  // username to filter users
   username: string | null;
-  // to get list of one selected type
   status: FriendshipStatus;
 };
 

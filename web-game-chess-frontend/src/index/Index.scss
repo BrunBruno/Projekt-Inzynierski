@@ -1,14 +1,5 @@
 /* shared used in all sub components*/
 
-@import "../shared/styles/variables/color.scss";
-@import "../shared/styles/commons-styles/backgrounds.scss";
-@import "../shared/styles/commons-styles/elements.scss";
-@import "../shared/styles/commons-styles/texts.scss";
-@import "../shared/styles/common-components/buttons.scss";
-@import "../shared/styles/common-components/inputs.scss";
-@import "../shared/styles/common-components/srcollbars.scss";
-@import "../shared/styles/commons-styles/animations.scss";
-
-$index-border-width: 2rem;
-$index-border-radius: 16rem;
-$index-border-color: rgb(67, 43, 137);
+$border-width: 2rem;
+$border-radius: 16rem;
+$border-color: rgb(67, 43, 137);

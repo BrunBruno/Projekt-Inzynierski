@@ -2,7 +2,7 @@
 namespace chess.Core.Dtos;
 
 /// <summary>
-/// Done move
+/// General move dto
 /// </summary>
 public class MoveDto {
 

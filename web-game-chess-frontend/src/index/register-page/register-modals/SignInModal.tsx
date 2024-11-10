@@ -131,11 +131,14 @@ function SignInModal({ userPath, setModal }: SignInModalProps) {
       <h2 className={classes["form-title"]}>Login Now</h2>
 
       <div className={classes["change-form"]}>
-        Don't have an account? <span onClick={() => setModal(RegistrationInterface.signUp)}>Sing Up</span>
-      </div>
-
-      <div className={classes["change-form"]}>
-        Don't remember password? <span onClick={() => setModal(RegistrationInterface.reset)}>Reset</span>
+        Don't have an account?{" "}
+        <span
+          onClick={() => {
+            setModal(RegistrationInterface.signUp);
+          }}
+        >
+          Sing Up
+        </span>
       </div>
 
       {/* inputs */}
@@ -180,6 +183,17 @@ function SignInModal({ userPath, setModal }: SignInModalProps) {
 
       <div className={classes.error}>
         <span>{errorMess}</span>
+      </div>
+
+      <div className={classes["change-form"]}>
+        Forgot your password?{" "}
+        <span
+          onClick={() => {
+            setModal(RegistrationInterface.reset);
+          }}
+        >
+          Reset
+        </span>
       </div>
 
       <button type="submit" className={classes["registration-button"]}>

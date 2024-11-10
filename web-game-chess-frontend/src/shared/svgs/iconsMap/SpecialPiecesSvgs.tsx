@@ -1,17 +1,17 @@
 import { ColorValue } from "../../utils/objects/colorMaps";
 import { PieceTag } from "../../utils/objects/constantLists";
-import { IconMap } from "../../utils/types/commonTypes";
+import { ElementClass, IconMap } from "../../utils/types/commonTypes";
 
 type IconNames = PieceTag;
 
 export const specialPiecesSvgs: IconMap<IconNames> = {
-  p: (iconClass?: string, color?: ColorValue): JSX.Element => (
+  p: (iconClass?: ElementClass, color?: ColorValue): JSX.Element => (
     <svg fill={color} viewBox="-96 0 512 512" xmlns="http://www.w3.org/2000/svg" className={iconClass}>
       <path d="M105.1 224H80a16 16 0 0 0-16 16v32a16 16 0 0 0 16 16h16v5.49c0 44-4.14 86.6-24 122.51h176c-19.89-35.91-24-78.51-24-122.51V288h16a16 16 0 0 0 16-16v-32a16 16 0 0 0-16-16h-25.1c29.39-18.38 49.1-50.78 49.1-88a104 104 0 0 0-208 0c0 37.22 19.71 69.62 49.1 88zM304 448H16a16 16 0 0 0-16 16v32a16 16 0 0 0 16 16h288a16 16 0 0 0 16-16v-32a16 16 0 0 0-16-16z" />
     </svg>
   ),
 
-  n: (iconClass?: string, color?: ColorValue): JSX.Element => (
+  n: (iconClass?: ElementClass, color?: ColorValue): JSX.Element => (
     <svg
       fill={color}
       version="1.1"
@@ -28,19 +28,19 @@ export const specialPiecesSvgs: IconMap<IconNames> = {
     </svg>
   ),
 
-  b: (iconClass?: string, color?: ColorValue): JSX.Element => (
+  b: (iconClass?: ElementClass, color?: ColorValue): JSX.Element => (
     <svg fill={color} viewBox="-96 0 512 512" xmlns="http://www.w3.org/2000/svg" className={iconClass}>
       <path d="M8 287.88c0 51.64 22.14 73.83 56 84.6V416h192v-43.52c33.86-10.77 56-33 56-84.6 0-30.61-10.73-67.1-26.69-102.56L185 285.65a8 8 0 0 1-11.31 0l-11.31-11.31a8 8 0 0 1 0-11.31L270.27 155.1c-20.8-37.91-46.47-72.1-70.87-92.59C213.4 59.09 224 47.05 224 32a32 32 0 0 0-32-32h-64a32 32 0 0 0-32 32c0 15 10.6 27.09 24.6 30.51C67.81 106.8 8 214.5 8 287.88zM304 448H16a16 16 0 0 0-16 16v32a16 16 0 0 0 16 16h288a16 16 0 0 0 16-16v-32a16 16 0 0 0-16-16z" />
     </svg>
   ),
 
-  r: (iconClass?: string, color?: ColorValue): JSX.Element => (
+  r: (iconClass?: ElementClass, color?: ColorValue): JSX.Element => (
     <svg fill={color} viewBox="-64 0 512 512" xmlns="http://www.w3.org/2000/svg" className={iconClass}>
       <path d="M368 32h-56a16 16 0 0 0-16 16v48h-48V48a16 16 0 0 0-16-16h-80a16 16 0 0 0-16 16v48H88.1V48a16 16 0 0 0-16-16H16A16 16 0 0 0 0 48v176l64 32c0 48.33-1.54 95-13.21 160h282.42C321.54 351 320 303.72 320 256l64-32V48a16 16 0 0 0-16-16zM224 320h-64v-64a32 32 0 0 1 64 0zm144 128H16a16 16 0 0 0-16 16v32a16 16 0 0 0 16 16h352a16 16 0 0 0 16-16v-32a16 16 0 0 0-16-16z" />
     </svg>
   ),
 
-  q: (iconClass?: string, color?: ColorValue): JSX.Element => (
+  q: (iconClass?: ElementClass, color?: ColorValue): JSX.Element => (
     <svg
       fill={color}
       version="1.1"
@@ -57,7 +57,7 @@ export const specialPiecesSvgs: IconMap<IconNames> = {
     </svg>
   ),
 
-  k: (iconClass?: string, color?: ColorValue): JSX.Element => (
+  k: (iconClass?: ElementClass, color?: ColorValue): JSX.Element => (
     <svg
       fill={color}
       version="1.1"

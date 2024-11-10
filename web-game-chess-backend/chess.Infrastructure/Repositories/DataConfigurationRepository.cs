@@ -15,7 +15,7 @@ public class DataConfigurationRepository : IDataConfigurationRepository {
     }
 
     ///<inheritdoc/>
-    public async Task<DataConfiguration?> GetById(int id) 
+    public async Task<DataConfiguration?> GetById(int id)
         => await _dbContext.DataConfigurations
                     .FirstAsync(c => c.Id == id);
 

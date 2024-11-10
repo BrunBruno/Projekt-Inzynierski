@@ -17,6 +17,7 @@ interface AuthenticationSettings {
   jwtExpireDays: number;
 }
 
+// mocking jwt service
 export class JwtService {
   private authenticationSettings: AuthenticationSettings = {
     jwtKey: "test-secret-key",

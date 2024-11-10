@@ -3,7 +3,7 @@ import classes from "./UserSection.module.scss";
 import { GetEloDto, GetFullUserDto } from "../../../shared/utils/types/userDtos";
 import LoadingPage from "../../../shared/components/loading-page/LoadingPage";
 import axios from "axios";
-import { getAuthorization, userController } from "../../../shared/utils/services/ApiService";
+import { AuthorizationOptions, getAuthorization, userController } from "../../../shared/utils/services/ApiService";
 import { UpdateProfileModel } from "../../../shared/utils/types/userModels";
 import StatsRow from "./stats-row/StatsRow";
 import { usePopup } from "../../../shared/utils/hooks/usePopUp";
@@ -87,7 +87,11 @@ function UserSection({ getTypeHistory, setFriendSection }: UserSectionProps) {
     };
 
     try {
-      await axios.put(userController.updateProfile(), model, getAuthorization("multipart/form-data"));
+      const options: AuthorizationOptions = {
+        contentType: "multipart/form-data",
+      };
+
+      await axios.put(userController.updateProfile(), model, getAuthorization(options));
 
       setName("");
       setBio("");
@@ -218,7 +222,7 @@ function UserSection({ getTypeHistory, setFriendSection }: UserSectionProps) {
         ) : (
           <div className={classes.user__data__stats}>
             <div className={classes.user__data__stats__header}>
-              Total games played: <span>{user.wdlTotal.total}</span>
+              Total games played: <span>{user.outcomeTotal.total}</span>
             </div>
 
             <div className={classes.user__data__stats__row}>

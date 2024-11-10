@@ -1,6 +1,6 @@
 /* shared buttons settings */
 
-@import "../variables/color.scss";
+@use "../variables/color.scss" as color;
 
 // default button styles
 @mixin button($size: 2rem) {
@@ -26,67 +26,71 @@
 
 // default button, main main colored
 @mixin mainMButton() {
-  color: $mc0;
-  background-color: $mc9;
+  color: color.$mc0;
+  background-color: color.$mc9;
 
   &:hover {
-    border-color: $mc9;
-    background-color: $mc5;
+    border-color: color.$mc9;
+    background-color: color.$mc5;
   }
 
   &:focus,
   &:active {
-    box-shadow: 0 0 0.5rem 0.1rem $mc9;
+    // box-shadow: 0 0 0.5rem 0.1rem color.$mc9;
+    box-shadow: 0 0 0 0.1rem color.$mc9;
   }
 }
 
 // default button, secondary main colored
 @mixin secMButton() {
-  background-color: $mc0;
-  color: $mc9;
+  background-color: color.$mc0;
+  color: color.$mc9;
 
   &:hover {
-    border-color: $mc0;
-    background-color: $mc4;
-    color: $mc0;
+    border-color: color.$mc0;
+    background-color: color.$mc4;
+    color: color.$mc0;
   }
 
   &:focus,
   &:active {
-    box-shadow: 0 0 0.5rem 0.1rem $mc0;
+    // box-shadow: 0 0 0.5rem 0.1rem color.$mc0;
+    box-shadow: 0 0 0 0.1rem color.$mc0;
   }
 }
 
 // default button, main grey colored
 @mixin mainGButton() {
-  color: $gc2;
-  background-color: $gc9;
+  color: color.$gc2;
+  background-color: color.$gc9;
 
   &:hover {
-    background-color: $gc8;
-    color: $gc0;
-    border-color: $gc0;
+    background-color: color.$gc8;
+    color: color.$gc0;
+    border-color: color.$gc0;
   }
 
   &:focus,
   &:active {
-    box-shadow: 0 0 0.5rem 0.1rem $gc2;
+    // box-shadow: 0 0 0.5rem 0.1rem color.$gc2;
+    box-shadow: 0 0 0 0.1rem color.$gc2;
   }
 }
 
 // default button, secondary grey colored
 @mixin secGButton() {
-  background-color: $gc2;
-  color: $gc9;
+  background-color: color.$gc2;
+  color: color.$gc9;
 
   &:hover {
-    background-color: $gc0;
-    border-color: $gc8;
-    color: $gc8;
+    background-color: color.$gc0;
+    border-color: color.$gc8;
+    color: color.$gc8;
   }
 
   &:focus,
   &:active {
-    box-shadow: 0 0 0.5rem 0.1rem $gc8;
+    // box-shadow: 0 0 0.5rem 0.1rem color.$gc8;
+    box-shadow: 0 0 0 0.1rem color.$gc8;
   }
 }
