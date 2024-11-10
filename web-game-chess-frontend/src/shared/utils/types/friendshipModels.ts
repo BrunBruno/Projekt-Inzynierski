@@ -10,6 +10,10 @@ export type InviteFriendModel = {
   receiverId: Guid;
 };
 
+export type BlockUserModel = {
+  userId: Guid;
+};
+
 /** PUT models */
 
 export type RespondToFriendRequestModel = {

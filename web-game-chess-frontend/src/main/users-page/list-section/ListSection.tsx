@@ -112,13 +112,13 @@ function ListSection({ selectedUsername, selectedList, setUserProfile, setFriend
     const getItemsPerRow = (): number => {
       const wh = window.innerWidth;
       if (wh < 500) {
-        return 1;
-      } else if (wh < 1800) {
         return 2;
-      } else if (wh < 3200) {
+      } else if (wh < 1800) {
         return 3;
-      } else {
+      } else if (wh < 3200) {
         return 4;
+      } else {
+        return 5;
       }
     };
 

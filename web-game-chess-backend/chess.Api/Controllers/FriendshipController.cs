@@ -1,6 +1,7 @@
 ﻿
 using AutoMapper;
 using chess.Api.Models.FriendshipModels;
+using chess.Application.Requests.FriendshipRequests.BlockUser;
 using chess.Application.Requests.FriendshipRequests.GetAllFriendsByStatus;
 using chess.Application.Requests.FriendshipRequests.GetAllNonFriends;
 using chess.Application.Requests.FriendshipRequests.GetFriendProfile;
@@ -36,6 +37,23 @@ public class FriendshipController : ControllerBase {
     public async Task<IActionResult> InviteFriend([FromBody] InviteFriendModel model) {
 
         var request = _mapper.Map<InviteFriendRequest>(model);
+
+        await _mediator.Send(request);
+
+        return Ok();
+    }
+
+
+    /// <summary>
+    /// Creates freindship with rejected status
+    /// </summary>
+    /// <param name="model"></param>
+    /// <returns></returns>
+    [HttpPost("block")]
+    [Authorize(Policy = "IsVerified")]
+    public async Task<IActionResult> BlockUser([FromBody] BlockUserModel model) {
+
+        var request = _mapper.Map<BlockUserRequest>(model);
 
         await _mediator.Send(request);
 

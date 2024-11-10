@@ -1,9 +1,11 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import classes from "./PlayActions.module.scss";
 import { ElementClass } from "../../../../shared/utils/types/commonTypes";
 import { PlayActionsData, playActionsData } from "./PlayActionsData";
 import IconCreator from "../../../../shared/components/icon-creator/IconCreator";
 import { playActionIcons } from "./PlayActionsIcons";
+
+let timeOut: NodeJS.Timeout;
 
 type PlayActionsProps = {};
 
@@ -13,6 +15,7 @@ function PlayActions({}: PlayActionsProps) {
   const backgroundRef = useRef<HTMLDivElement>(null);
 
   const [prevCls, setPrevCls] = useState<ElementClass>(classes.active0);
+  const [contentCls, setContentCls] = useState<ElementClass>("");
 
   const onRotate = (index: number): void => {
     let cls: ElementClass = "";
@@ -36,25 +39,29 @@ function PlayActions({}: PlayActionsProps) {
     if (!bgElement) return;
 
     const elements = bgElement.children;
-    for (let i = 0; i < elements.length; i++) {
-      elements[i].classList.remove(prevCls);
-    }
-    for (let i = 0; i < elements.length; i++) {
-      elements[i].classList.add(cls);
-    }
+    for (let i = 0; i < elements.length; i++) elements[i].classList.remove(prevCls);
+    for (let i = 0; i < elements.length; i++) elements[i].classList.add(cls);
 
     setPrevCls(cls);
   };
 
+  useEffect(() => {
+    setContentCls("");
+    clearTimeout(timeOut);
+    timeOut = setTimeout(() => {
+      setContentCls(prevCls);
+    }, 500);
+  }, [prevCls]);
+
   return (
     <section className={classes.play}>
-      {/* <div className={classes.play__intro}>
+      <div className={classes.play__intro}>
         <h2 className={classes["text"]}>
           <span>What do we offer?</span>
         </h2>
-      </div> */}
+      </div>
 
-      <div className={classes.play__content}>
+      <div className={`${classes.play__content} ${contentCls}`}>
         {playActionsData.map((action: PlayActionsData, index: number) => (
           <div
             key={`play-action-${index}`}
@@ -73,14 +80,14 @@ function PlayActions({}: PlayActionsProps) {
         ))}
       </div>
 
-      <div ref={backgroundRef} className={`${classes.play__background} ${prevCls}`}>
+      <div ref={backgroundRef} className={`${classes.play__background}`}>
         {Array.from({ length: playActionsData.length }).map((_, index) => (
-          <div key={`background-${index}`} className={`${classes.play__background__cube} ${classes.active0}`}>
+          <div key={`background-${index}`} className={`${classes.play__background__cube} `}>
             <div className={classes["image-cube"]}>
-              <span>{/* bg1 */}</span>
-              <span>{/* bg2 */}</span>
-              <span>{/* bg3 */}</span>
-              <span>{/* bg4 */}</span>
+              <span></span>
+              <span></span>
+              <span></span>
+              <span></span>
             </div>
           </div>
         ))}

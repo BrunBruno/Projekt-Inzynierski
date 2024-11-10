@@ -1,5 +1,8 @@
 /* user controller models to requests */
 
+import { TimingType } from "../objects/entitiesEnums";
+import { PagedModel } from "./abstractDtosAndModels";
+
 /** POST models */
 
 export type RegisterUserModel = {
@@ -48,4 +51,9 @@ export type ResetPasswordModel = {
   code: string;
   newPassword: string;
   confirmPassword: string;
+};
+
+export type GetUsersRankingModel = PagedModel & {
+  type: TimingType;
+  global: boolean;
 };

@@ -119,20 +119,25 @@ function IndexPage() {
   // set section indicators heights
   // for correct navbar indicator transition
   useEffect(() => {
-    const wHF = window.innerHeight;
+    const setObservePoints = () => {
+      const wHF = window.innerHeight;
 
-    for (let i = 0; i < sections.length; i++) {
-      const sectionElement = sections[i].sectionRef.current;
-      const sectionIndicator = sections[i].indicatorRef.current;
+      for (let i = 0; i < sections.length; i++) {
+        const sectionElement = sections[i].sectionRef.current;
+        const sectionIndicator = sections[i].indicatorRef.current;
 
-      if (sectionElement && sectionIndicator) {
-        const sH = sectionElement.offsetHeight;
-        const indH = sH - wHF;
+        if (sectionElement && sectionIndicator) {
+          const sH = sectionElement.offsetHeight;
+          const indH = sH - wHF;
 
-        // set indicators heights to sections height - 100vh
-        sectionIndicator.style.height = `${indH}px`;
+          // set indicators heights to sections height - 100vh
+          sectionIndicator.style.height = `${indH}px`;
+        }
       }
-    }
+    };
+
+    setObservePoints();
+    window.addEventListener("resize", setObservePoints);
   }, [sections]);
   //*/
 

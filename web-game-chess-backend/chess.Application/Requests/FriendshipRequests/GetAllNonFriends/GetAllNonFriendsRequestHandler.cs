@@ -42,7 +42,7 @@ public class GetAllNonFriendsRequestHandler : IRequestHandler<GetAllNonFriendsRe
         if(request.Username is not null) {
             nonFriends = nonFriends.Where(nf => 
                 nf.Username.ToLower().Contains(request.Username) ||
-                nf.Email.ToLower().Contains(request.Username) ||
+                //nf.Email.ToLower().Contains(request.Username) ||
                 (nf.Name != null && nf.Name.ToLower().Contains(request.Username))
             ).ToList();
         }

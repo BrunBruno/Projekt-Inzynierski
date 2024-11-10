@@ -36,7 +36,8 @@
 
   &:focus,
   &:active {
-    box-shadow: 0 0 0.5rem 0.1rem color.$mc9;
+    // box-shadow: 0 0 0.5rem 0.1rem color.$mc9;
+    box-shadow: 0 0 0 0.1rem color.$mc9;
   }
 }
 
@@ -53,7 +54,8 @@
 
   &:focus,
   &:active {
-    box-shadow: 0 0 0.5rem 0.1rem color.$mc0;
+    // box-shadow: 0 0 0.5rem 0.1rem color.$mc0;
+    box-shadow: 0 0 0 0.1rem color.$mc0;
   }
 }
 
@@ -70,7 +72,8 @@
 
   &:focus,
   &:active {
-    box-shadow: 0 0 0.5rem 0.1rem color.$gc2;
+    // box-shadow: 0 0 0.5rem 0.1rem color.$gc2;
+    box-shadow: 0 0 0 0.1rem color.$gc2;
   }
 }
 
@@ -87,6 +90,7 @@
 
   &:focus,
   &:active {
-    box-shadow: 0 0 0.5rem 0.1rem color.$gc8;
+    // box-shadow: 0 0 0.5rem 0.1rem color.$gc8;
+    box-shadow: 0 0 0 0.1rem color.$gc8;
   }
 }

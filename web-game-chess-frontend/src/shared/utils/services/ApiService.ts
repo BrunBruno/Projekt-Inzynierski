@@ -11,10 +11,10 @@ import {
   GetAllActiveGamesModel,
   GetTotalGamesStatsModel,
 } from "../types/gameModels";
-import { GetByEmailModel, GetRegisterConfModel } from "../types/userModels";
+import { GetByEmailModel, GetRegisterConfModel, GetUsersRankingModel } from "../types/userModels";
+import { host } from "../../../../globals";
 
-const baseUrl: string = "http://localhost:5125/api";
-// const baseUrl: string = "http://192.168.1.46:5125/api";
+const baseUrl: string = `http://${host}:5125/api`;
 
 // user controller
 const userBaseUrl: string = baseUrl + "/user";
@@ -37,6 +37,7 @@ interface UserControllerPaths {
   isVerified: string;
   getByEmail: string;
   getRegisterConf: string;
+  getUsersRanking: string;
   //DELETE
 }
 
@@ -56,6 +57,7 @@ interface UserController {
   isVerified: () => string;
   getByEmail: (model: GetByEmailModel) => string;
   getRegisterConf: (model: GetRegisterConfModel) => string;
+  getUsersRanking: (model: GetUsersRankingModel) => string;
 }
 
 // paths in user controller
@@ -74,6 +76,7 @@ export const userControllerPaths: UserControllerPaths = {
   isVerified: `${userBaseUrl}/is-verified`,
   getByEmail: `${userBaseUrl}/by-email`,
   getRegisterConf: `${userBaseUrl}/configuration`,
+  getUsersRanking: `${userBaseUrl}/ranking`,
 };
 
 export const userController: UserController = {
@@ -118,6 +121,9 @@ export const userController: UserController = {
 
   // gets registration configurations
   getRegisterConf: (model: GetRegisterConfModel) => `${userBaseUrl}/configuration?${stringifyModel(model)}`,
+
+  //
+  getUsersRanking: (model: GetUsersRankingModel) => `${userBaseUrl}/ranking?${stringifyModel(model)}`,
 };
 //*/
 
@@ -268,6 +274,7 @@ const friendshipBaseUrl: string = baseUrl + "/friendship";
 interface FriendshipControllerPaths {
   //POST
   inviteFriend: string;
+  blockUser: string;
   //PUT
   respondToFriendRequest: string;
   //GET
@@ -280,6 +287,7 @@ interface FriendshipControllerPaths {
 
 interface FriendshipController {
   inviteFriend: () => string;
+  blockUser: () => string;
   respondToFriendRequest: (friendshipId: Guid) => string;
   getAllFriendsByStatus: (model: GetAllFriendsByStatusModel) => string;
   getAllNonFriends: (model: GetAllNonFriendsModel) => string;
@@ -290,6 +298,7 @@ interface FriendshipController {
 export const friendshipControllerPaths: FriendshipControllerPaths = {
   // static
   inviteFriend: `${friendshipBaseUrl}/invite`,
+  blockUser: `${friendshipBaseUrl}/block`,
   getAllFriendsByStatus: `${friendshipBaseUrl}/all-by-status`,
   getAllNonFriends: `${friendshipBaseUrl}/all-non`,
 
@@ -302,6 +311,9 @@ export const friendshipControllerPaths: FriendshipControllerPaths = {
 export const friendshipController: FriendshipController = {
   // creates new friendship, with pending status
   inviteFriend: () => `${friendshipBaseUrl}/invite`,
+
+  // creates new friendship, with rejected status
+  blockUser: () => `${friendshipBaseUrl}/block`,
 
   // changes status of pending friendship
   respondToFriendRequest: (friendshipId: Guid) => `${friendshipBaseUrl}/${friendshipId}/respond`,

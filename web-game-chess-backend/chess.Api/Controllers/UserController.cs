@@ -7,6 +7,7 @@ using chess.Application.Requests.UserRequests.GetFullUser;
 using chess.Application.Requests.UserRequests.GetOtherUser;
 using chess.Application.Requests.UserRequests.GetRegisterConf;
 using chess.Application.Requests.UserRequests.GetUser;
+using chess.Application.Requests.UserRequests.GetUsersRanking;
 using chess.Application.Requests.UserRequests.IsEmailVerified;
 using chess.Application.Requests.UserRequests.LogInUser;
 using chess.Application.Requests.UserRequests.RegenerateCode;
@@ -257,8 +258,20 @@ public class UserController : ControllerBase {
 
         var request = _mapper.Map<GetRegisterConfRequest>(model);
 
-        var passwordConfiguration = await _mediator.Send(request);
+        var confguration = await _mediator.Send(request);
 
-        return Ok(passwordConfiguration);
+        return Ok(confguration);
+    }
+
+
+    [HttpGet("ranking")]
+    [Authorize(Policy = "IsVerified")]
+    public async Task<IActionResult> GetUsersRanking([FromQuery] GetUsersRankingModel model) {
+
+        var request = _mapper.Map<GetUsersRankingRequest>(model);
+
+        var records = await _mediator.Send(request);
+
+        return Ok(records);
     }
 }

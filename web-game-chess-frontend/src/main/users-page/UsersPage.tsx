@@ -32,20 +32,22 @@ function UsersPage() {
     <main className={classes["users-main"]}>
       <MainNav />
 
-      <ProfileSection userProfile={userProfile} friendProfile={friendProfile} closeProfile={closeProfile} />
-
       <BarSection
         setSelectedUsername={setSelectedUsername}
         selectedList={selectedList}
         setSelectedList={setSelectedList}
       />
 
-      <ListSection
-        selectedUsername={selectedUsername}
-        selectedList={selectedList}
-        setUserProfile={setUserProfile}
-        setFriendProfile={setFriendProfile}
-      />
+      <div className={classes["users-list"]}>
+        <ProfileSection userProfile={userProfile} friendProfile={friendProfile} closeProfile={closeProfile} />
+
+        <ListSection
+          selectedUsername={selectedUsername}
+          selectedList={selectedList}
+          setUserProfile={setUserProfile}
+          setFriendProfile={setFriendProfile}
+        />
+      </div>
 
       <MainPopUp />
     </main>

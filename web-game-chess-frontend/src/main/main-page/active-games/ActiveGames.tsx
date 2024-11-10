@@ -113,7 +113,7 @@ function ActiveGames({}: ActiveGamesProps) {
             color={mainColor.c0}
           />
 
-          <span>Your previous games: </span>
+          <span>Your active games: </span>
 
           <span className={classes["counter"]}>
             <span className={classes["sym"]}>(</span>

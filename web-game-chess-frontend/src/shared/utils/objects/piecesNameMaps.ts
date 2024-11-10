@@ -1,6 +1,6 @@
 /* maps for kinds of pieces */
 
-import { BlackPieceTag, PieceName, PieceTag, SideColor, WhitePieceTag } from "./constantLists";
+import { BlackPieceTag, PieceTag, SideColor, WhitePieceTag } from "./constantLists";
 
 const pieceTagToName = { p: "Pawn", n: "Knight", b: "Bishop", r: "Rook", q: "Queen", k: "King" } as const;
 

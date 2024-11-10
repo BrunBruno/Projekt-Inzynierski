@@ -51,3 +51,11 @@ export type GetOtherUserDto = UserDto & {
   gamesPlayed: number;
   elo: EloDto;
 };
+
+export type GetUserRankingDto = {
+  position: number;
+  username: string;
+  elo: number;
+  gamesPlayed: number;
+  ratio: string;
+};

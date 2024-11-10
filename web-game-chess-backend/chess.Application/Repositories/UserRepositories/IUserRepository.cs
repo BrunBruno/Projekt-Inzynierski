@@ -1,5 +1,6 @@
 ﻿
 using chess.Core.Entities;
+using chess.Core.Enums;
 
 namespace chess.Application.Repositories.UserRepositories;
 
@@ -58,6 +59,13 @@ public interface IUserRepository {
     /// </summary>
     /// <returns></returns>
     Task<List<User>> GetAllJoinedToday();
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="type"></param>
+    /// <returns></returns>
+    Task<List<User>> GetAllOrderByRating(TimingTypes type);
 
     /// <summary>
     /// Creates user

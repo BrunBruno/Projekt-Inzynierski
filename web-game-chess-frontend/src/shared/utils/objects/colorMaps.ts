@@ -15,7 +15,7 @@ export const mainColor = {
   c8: "#6741d9",
   c9: "#5f3dc4",
 } as const;
-type MainColorValue = typeof mainColor[keyof typeof mainColor];
+type MainColorValue = (typeof mainColor)[keyof typeof mainColor];
 
 // grey color list
 export const greyColor = {
@@ -30,7 +30,7 @@ export const greyColor = {
   c8: "#343a40",
   c9: "#212529",
 } as const;
-type GreyColorValue = typeof greyColor[keyof typeof greyColor];
+type GreyColorValue = (typeof greyColor)[keyof typeof greyColor];
 
 // password strength colors map
 export const strengthColor = {
@@ -40,7 +40,7 @@ export const strengthColor = {
   c3: "#8ce99a",
   c4: "#51cf66",
 } as const;
-type StrengthColorValue = typeof strengthColor[keyof typeof strengthColor];
+type StrengthColorValue = (typeof strengthColor)[keyof typeof strengthColor];
 
 // other spacial colors maps
 export const successColor = {
@@ -48,28 +48,28 @@ export const successColor = {
   mid: "#51cf66",
   dark: "#2f9e44",
 } as const;
-type SuccessColorValue = typeof successColor[keyof typeof successColor];
+type SuccessColorValue = (typeof successColor)[keyof typeof successColor];
 
 export const infoColor = {
   light: "#a5d8ff",
   mid: "#339af0",
   dark: "#1864ab",
 } as const;
-type InfoColorValue = typeof infoColor[keyof typeof infoColor];
+type InfoColorValue = (typeof infoColor)[keyof typeof infoColor];
 
 export const warningColor = {
   light: "#ffe066",
   mid: "#fcc419",
   dark: "#f59f00",
 } as const;
-type WarningColorValue = typeof warningColor[keyof typeof warningColor];
+type WarningColorValue = (typeof warningColor)[keyof typeof warningColor];
 
 export const dangerColor = {
   light: "#ffa8a8",
   mid: "#f03e3e",
   dark: "#c92a2a",
 } as const;
-type DangerColorValue = typeof dangerColor[keyof typeof dangerColor];
+type DangerColorValue = (typeof dangerColor)[keyof typeof dangerColor];
 
 export type ColorValue =
   | MainColorValue
@@ -79,4 +79,6 @@ export type ColorValue =
   | InfoColorValue
   | WarningColorValue
   | DangerColorValue
-  | SideColor;
+  | SideColor
+  | "#000"
+  | "#fff";

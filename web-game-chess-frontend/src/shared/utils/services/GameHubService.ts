@@ -13,11 +13,11 @@ import {
 } from "../types/gameModels";
 import { Guid } from "guid-typescript";
 import { HttpTransportType, HubConnection, HubConnectionBuilder, LogLevel } from "@microsoft/signalr";
+import { host } from "../../../../globals";
 
 class GameHub {
   // hub url
-  private gameHubUrl: string = "http://localhost:5125/game-hub";
-  // private gameHubUrl: string = "http://192.168.1.46:5125/game-hub"
+  private gameHubUrl: string = `http://${host}:5125/game-hub`;
 
   // verification token
   private token: string | null = null;

@@ -38,9 +38,9 @@ function FriendCard({ selectedList, friend, getAllUsers, setFriend }: FriendCard
       await axios.put(friendshipController.respondToFriendRequest(friend.friendshipId), model, getAuthorization());
 
       if (accept === true) {
-        showPopup("User accepted", "success");
+        showPopup("USER ACCEPTED", "success");
       } else {
-        showPopup("User blocked", "error");
+        showPopup("USER BLOCKED", "error");
       }
 
       getAllUsers();
@@ -57,9 +57,9 @@ function FriendCard({ selectedList, friend, getAllUsers, setFriend }: FriendCard
       await axios.delete(friendshipController.removeFriend(friend.friendshipId), getAuthorization());
 
       if (action === true) {
-        showPopup("Friend removed", "error");
+        showPopup("FRIEND REMOVED", "error");
       } else {
-        showPopup("Friend unblocked", "success");
+        showPopup("FRIEND UNBLOCKED", "success");
       }
 
       getAllUsers();
@@ -89,7 +89,7 @@ function FriendCard({ selectedList, friend, getAllUsers, setFriend }: FriendCard
     switch (selectedList) {
       case FriendshipStatus.accepted:
         return (
-          <div className={classes.actions}>
+          <div className={classes.card__actions}>
             <button
               data-testid="users-page-friend-card-profile-button"
               className={classes["main-button"]}
@@ -105,6 +105,7 @@ function FriendCard({ selectedList, friend, getAllUsers, setFriend }: FriendCard
               />
               <span>See Profile</span>
             </button>
+
             <button
               data-testid="users-page-friend-card-remove-button"
               className={classes["sec-button"]}
@@ -118,7 +119,7 @@ function FriendCard({ selectedList, friend, getAllUsers, setFriend }: FriendCard
                 iconClass={classes["button-icon"]}
                 color={mainColor.c9}
               />
-              <span>Remove</span>
+              <span>Remove friend</span>
             </button>
           </div>
         );
@@ -127,7 +128,7 @@ function FriendCard({ selectedList, friend, getAllUsers, setFriend }: FriendCard
         return (
           <>
             {!friend.isRequestor ? (
-              <div className={classes.actions}>
+              <div className={classes.card__actions}>
                 <button
                   data-testid="users-page-friend-card-accept-button"
                   className={classes["main-button"]}
@@ -143,6 +144,7 @@ function FriendCard({ selectedList, friend, getAllUsers, setFriend }: FriendCard
                   />
                   <span>Accept</span>
                 </button>
+
                 <button
                   data-testid="users-page-friend-card-decline-button"
                   className={classes["sec-button"]}
@@ -160,7 +162,25 @@ function FriendCard({ selectedList, friend, getAllUsers, setFriend }: FriendCard
                 </button>
               </div>
             ) : (
-              <div className={classes.info}>Request pending ...</div>
+              <div className={classes.card__actions}>
+                <div className={classes["action-info"]}>Request pending ...</div>
+
+                <button
+                  data-testid="users-page-friend-card-unblock-button"
+                  className={classes["sec-button"]}
+                  onClick={() => {
+                    onRemoveFriend(false);
+                  }}
+                >
+                  <IconCreator
+                    icons={userPageIcons}
+                    iconName={"decline"}
+                    iconClass={classes["button-icon"]}
+                    color={mainColor.c9}
+                  />
+                  <span>Cancel</span>
+                </button>
+              </div>
             )}
           </>
         );
@@ -169,7 +189,7 @@ function FriendCard({ selectedList, friend, getAllUsers, setFriend }: FriendCard
         return (
           <>
             {!friend.isRequestor ? (
-              <div className={classes.actions}>
+              <div className={classes.card__actions}>
                 <button
                   data-testid="users-page-friend-card-unblock-button"
                   className={classes["sec-button"]}
@@ -187,7 +207,9 @@ function FriendCard({ selectedList, friend, getAllUsers, setFriend }: FriendCard
                 </button>
               </div>
             ) : (
-              <div className={classes.info}>User blocked you</div>
+              <div className={classes.card__actions}>
+                <div className={classes["action-info"]}>User blocked you</div>
+              </div>
             )}
           </>
         );
@@ -212,13 +234,17 @@ function FriendCard({ selectedList, friend, getAllUsers, setFriend }: FriendCard
             <p>{friend.username}</p>
             <p>{friend.name ? friend.name : "----- -----"}</p>
           </div>
-          {generateButtons()}
-        </div>
 
-        <div className={classes.card__content__country}>
-          <img src={`https://flagsapi.com/${friend.country}/flat/64.png`} />
+          <div className={classes.country}>
+            <div className={classes.image}>
+              <img src={`https://flagsapi.com/${friend.country}/flat/64.png`} />
+            </div>
+            <span>{friend.country}</span>
+          </div>
         </div>
       </div>
+
+      {generateButtons()}
     </div>
   );
 }

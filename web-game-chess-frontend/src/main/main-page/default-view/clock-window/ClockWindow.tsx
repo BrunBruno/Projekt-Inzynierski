@@ -27,7 +27,7 @@ function ClockWindow({}: ClockWindowProps) {
     const setTime = (): void => {
       const date = new Date();
 
-      const hourRotation = 360 * (date.getHours() / 12) + 90;
+      const hourRotation = 360 * (date.getHours() / 12) + 90 + 30 * (date.getMinutes() / 60);
       const minRotation = 360 * (date.getMinutes() / 60) + 90;
       const secRotation = 360 * (date.getSeconds() / 60) + 90;
 
