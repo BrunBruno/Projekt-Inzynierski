@@ -19,18 +19,18 @@ export enum GameSearchInterface {
 
 // to distinguish registration modals
 export enum RegistrationInterface {
-  signIn,
-  signUp,
-  verify,
-  reset,
+  signIn = 1,
+  signUp = 2,
+  verify = 3,
+  reset = 4,
 }
 
 // for displaying game board confirmation window
 export enum GameActionInterface {
-  leave,
-  abort,
-  resign,
-  draw,
+  leave = 1,
+  abort = 2,
+  resign = 3,
+  draw = 4,
 }
 
 // for displaying game window

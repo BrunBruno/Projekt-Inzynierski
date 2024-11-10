@@ -31,5 +31,26 @@ public class UndoMoveRequestHandler : IRequestHandler<UndoMoveRequest> {
 
         if (game.Player.UserId != userId)
             throw new UnauthorizedException("Not user game.");
+
+        var moves = await _engineGameMoveRepository.GetAllForGame(game.Id);
+
+        if (moves.Count < 2)
+            throw new BadRequestException("Can not undo now.");
+
+
+        var firstMoveToRemove = moves[0];
+        var secondMoveToRemove = moves[1];
+
+        string newPosition = moves.Count > 2 ? moves[2].Position : "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR";
+
+        game.Position = newPosition;
+        game.Turn = game.Turn - 2;
+        game.Round = (game.Turn / 2) + 1;
+
+
+        await _engineGameMoveRepository.Delete(firstMoveToRemove);
+        await _engineGameMoveRepository.Delete(secondMoveToRemove);
+
+        await _engineGameRepository.Update(game);
     }
 }

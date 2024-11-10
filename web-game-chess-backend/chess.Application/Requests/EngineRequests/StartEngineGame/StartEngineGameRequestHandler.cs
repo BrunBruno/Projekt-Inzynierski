@@ -45,8 +45,7 @@ public class StartEngineGameRequestHandler : IRequestHandler<StartEngineGameRequ
         {
             Id = Guid.NewGuid(),
             Name = user.Username,
-            //Color = _random.Next(2) == 0 ? PieceColor.White : PieceColor.Black,
-            Color = PieceColor.Black,
+            Color = _random.Next(2) == 0 ? PieceColor.White : PieceColor.Black,
             UserId = userId,
             TimeLeft = request.Minutes != null ? (double)(request.Minutes * 60) : 0,
         };

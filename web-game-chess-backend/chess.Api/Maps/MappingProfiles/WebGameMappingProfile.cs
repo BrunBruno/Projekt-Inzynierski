@@ -19,6 +19,7 @@ using chess.Application.Requests.WebGameRequests.CreateGameWithLink;
 using chess.Application.Requests.WebGameRequests.GetAllActiveGames;
 using chess.Application.Requests.WebGameRequests.SendWebGameMessage;
 using chess.Application.Requests.WebGameRequests.GetTotalGamesStats;
+using chess.Application.Requests.WebGameRequests.CancelRematch;
 
 namespace chess.Api.Maps.MappingProfiles;
 
@@ -27,25 +28,26 @@ namespace chess.Api.Maps.MappingProfiles;
 /// </summary>
 public class WebGameMappingProfile : Profile {
 	
-    public WebGameMappingProfile() {
+	public WebGameMappingProfile() {
 
-        CreateMap<SearchWebGameModel, SearchGameRequest>();
-        CreateMap<MakeWebGameMoveModel, MakeWebGameMoveRequest>();
-        CreateMap<EndWebGameModel, EndWebGameRequest>();
-        CreateMap<GetAllFinishedWebGamesModel, GetAllFinishedGamesRequest>();
-        CreateMap<CheckIfInGameModel, CheckIfInGameRequest>();
-        CreateMap<AbortWebGameSearchModel, AbortWebGameSearchRequest>();
-        CreateMap<CreatePrivateWebGameModel, CreatePrivateGameRequest>();
-        CreateMap<AcceptInvitationModel, AcceptInvitationRequest>();
-        CreateMap<SendMessageModel, SendMessageRequest>();
-        CreateMap<CreateRematchWebGameModel, CreateRematchGameRequest>();
-        CreateMap<GetTypeHistoryModel, GetTypeHistoryRequest>();
-        CreateMap<CreateWebGameByEmailModel, CreateGameByEmailRequest>();
-        CreateMap<DeclineWebGameInvitationModel, DeclineInvitationRequest>();
-        CreateMap<GetAllInvitationsModel, GetAllInvitationsRequest>();
-        CreateMap<CreateWebGameWithLinkModel, CreateGameWithLinkRequest>();
-        CreateMap<GetAllActiveWebGamesModel, GetAllActiveGamesRequest>();
-        CreateMap<SendWebGameMessageModel, SendWebGameMessageRequest>();
-        CreateMap<GetTotalGamesStatsModel, GetTotalGamesStatsRequest>();
-    }
+		CreateMap<SearchWebGameModel, SearchGameRequest>();
+		CreateMap<MakeWebGameMoveModel, MakeWebGameMoveRequest>();
+		CreateMap<EndWebGameModel, EndWebGameRequest>();
+		CreateMap<GetAllFinishedWebGamesModel, GetAllFinishedGamesRequest>();
+		CreateMap<CheckIfInGameModel, CheckIfInGameRequest>();
+		CreateMap<AbortWebGameSearchModel, AbortWebGameSearchRequest>();
+		CreateMap<CreatePrivateWebGameModel, CreatePrivateGameRequest>();
+		CreateMap<AcceptInvitationModel, AcceptInvitationRequest>();
+		CreateMap<SendMessageModel, SendMessageRequest>();
+		CreateMap<CreateRematchWebGameModel, CreateRematchGameRequest>();
+		CreateMap<GetTypeHistoryModel, GetTypeHistoryRequest>();
+		CreateMap<CreateWebGameByEmailModel, CreateGameByEmailRequest>();
+		CreateMap<DeclineWebGameInvitationModel, DeclineInvitationRequest>();
+		CreateMap<GetAllInvitationsModel, GetAllInvitationsRequest>();
+		CreateMap<CreateWebGameWithLinkModel, CreateGameWithLinkRequest>();
+		CreateMap<GetAllActiveWebGamesModel, GetAllActiveGamesRequest>();
+		CreateMap<SendWebGameMessageModel, SendWebGameMessageRequest>();
+		CreateMap<GetTotalGamesStatsModel, GetTotalGamesStatsRequest>();
+		CreateMap<CancelRematchModel, CancelRematchRequest>();
+	}
 }

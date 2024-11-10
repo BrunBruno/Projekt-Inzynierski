@@ -1,23 +1,29 @@
 import { useNavigate } from "react-router-dom";
 import LogoIcon from "../../../shared/svgs/icons/LogoIcon";
-import { GameEndReason, PieceColor } from "../../../shared/utils/objects/entitiesEnums";
-import GameHubService from "../../../shared/utils/services/GameHubService";
-import { EndGameModel } from "../../../shared/utils/types/gameModels";
+import { PieceColor } from "../../../shared/utils/objects/entitiesEnums";
 import classes from "./GameLeftSidebar.module.scss";
 import { usePopup } from "../../../shared/utils/hooks/usePopUp";
 import { getErrMessage } from "../../../shared/utils/functions/errors";
 import { Guid } from "guid-typescript";
 import IconCreator from "../../../shared/components/icon-creator/IconCreator";
-import { GameActionInterface, GameWindowInterface } from "../../../shared/utils/objects/interfacesEnums";
+import { GameActionInterface, GameWindowInterface, StateOptions } from "../../../shared/utils/objects/interfacesEnums";
 import { Dispatch, SetStateAction } from "react";
-import { GetEngineGameDto } from "../../../shared/utils/types/engineDtos";
+import { GetEngineGameDto, StartEngineGameDto } from "../../../shared/utils/types/engineDtos";
 import { gameLeftSideBarIcons } from "./GameLeftSidebarIcons";
+import GameCapturedPieces from "./game-captured-pieces/GameCapturedPieces";
+import { StartEngineGameModel, UndoMoveModel } from "../../../shared/utils/types/engineModels";
+import axios from "axios";
+import { engineController, getAuthorization } from "../../../shared/utils/services/ApiService";
 
 type EngineGameLeftSidebarProps = {
   // game id
   gameId: Guid;
   // current game data
   gameData: GetEngineGameDto;
+  // for refresh
+  getGame: () => Promise<void>;
+  // to finish game by click
+  endGame: (loserColor: PieceColor | null) => Promise<void>;
   // to show confirm window
   setShowConfirm: Dispatch<SetStateAction<GameActionInterface | null>>;
   // to set confirm action
@@ -29,6 +35,8 @@ type EngineGameLeftSidebarProps = {
 function EngineGameLeftSidebar({
   gameId,
   gameData,
+  getGame,
+  endGame,
   setShowConfirm,
   setConfirmAction,
   setDisplayedWindow,
@@ -38,25 +46,9 @@ function EngineGameLeftSidebar({
   const navigate = useNavigate();
   const { showPopup } = usePopup();
 
-  // to finish the game by some action option
-  const endGame = async (loserColor: PieceColor | null, endGameType: GameEndReason): Promise<void> => {
-    try {
-      const loserPlayer: EndGameModel = {
-        gameId: gameId,
-        loserColor: loserColor,
-        endGameType: endGameType,
-      };
-
-      await GameHubService.EndGame(loserPlayer);
-    } catch (err) {
-      showPopup(getErrMessage(err), "warning");
-    }
-  };
-  //*/
-
   // to resign the game
   const onResign = (): void => {
-    endGame(gameData.player.color, GameEndReason.resignation);
+    endGame(gameData.player.color);
   };
   //*/
 
@@ -74,9 +66,55 @@ function EngineGameLeftSidebar({
     navigate("/main");
   };
 
-  const onUndoMove = async (): Promise<void> => {};
+  // move undoing
+  const onUndoMove = async (): Promise<void> => {
+    if (!gameData.allowUndo) return;
 
-  const onRestartGame = async (): Promise<void> => {};
+    const model: UndoMoveModel = {
+      gameId: gameId,
+    };
+
+    try {
+      await axios.put(engineController.undoMove(gameId), model, getAuthorization());
+
+      showPopup("MOVE UNDONE", "success");
+
+      getGame();
+    } catch (err) {
+      showPopup(getErrMessage(err), "warning");
+    }
+  };
+  //*/
+
+  // for game restart
+  const onRestartGame = async (): Promise<void> => {
+    const model: StartEngineGameModel = {
+      type: gameData.timingType,
+      minutes: null,
+      increment: null,
+      allowUndo: gameData.allowUndo,
+      engineLevel: gameData.engineLevel,
+    };
+
+    try {
+      const response = await axios.post<StartEngineGameDto>(
+        engineController.startEngineGame(),
+        model,
+        getAuthorization()
+      );
+
+      const state: StateOptions = {
+        popup: { text: "GAME STARTED", type: "info" },
+      };
+
+      navigate(`/main/engine-game/${response.data.gameId}`, { state: state });
+
+      window.location.reload(); //???
+    } catch (err) {
+      showPopup(getErrMessage(err), "warning");
+    }
+  };
+  //*/
 
   const onChangeEngine = async (): Promise<void> => {};
 
@@ -161,6 +199,10 @@ function EngineGameLeftSidebar({
           </li>
         </ul>
         {/* --- */}
+
+        <div className={classes.bar__content__captures}>
+          <GameCapturedPieces gameData={gameData} />
+        </div>
       </div>
     </section>
   );

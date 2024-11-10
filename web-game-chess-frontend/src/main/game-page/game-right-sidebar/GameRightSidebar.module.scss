@@ -33,11 +33,15 @@
     grid-template-rows: 8rem 4rem calc((100% - 18rem) / 2) calc((100% - 18rem) / 2);
     gap: 2rem;
 
+    &.null-timing {
+      grid-template-rows: 12rem calc((100% - 18rem) / 2) calc((100% - 18rem) / 2);
+    }
+
     &__header {
       @include flex($gap: 2rem);
 
       &__player {
-        @include flex($direction: column, $gap: 0.5rem);
+        @include flex($direction: row, $gap: 1rem);
 
         @mixin playerImg($bg_color) {
           @include flex();
@@ -64,7 +68,9 @@
         }
 
         .player-data {
-          @include flex($direction: column, $gap: 0.2rem);
+          display: grid;
+          grid-template-rows: repeat(3, 1fr);
+          gap: 0.2rem;
 
           overflow: hidden;
 
@@ -80,6 +86,14 @@
             font-size: 1.2rem;
             span {
               color: $mc3;
+            }
+          }
+
+          .advantage {
+            font-size: 1.2rem;
+
+            .advantage-icon {
+              height: 1.2rem;
             }
           }
         }

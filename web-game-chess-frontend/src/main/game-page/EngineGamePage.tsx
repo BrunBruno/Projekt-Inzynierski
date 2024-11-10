@@ -116,6 +116,8 @@ function EngineGamePage() {
       <EngineGameLeftSidebar
         gameId={gameId}
         gameData={gameData}
+        getGame={getGame}
+        endGame={endGame}
         setShowConfirm={setShowConfirm}
         setConfirmAction={setConfirmAction}
         setDisplayedWindow={setDisplayedWindow}

@@ -126,6 +126,7 @@ public class CreateRematchGameRequestHandler : IRequestHandler<CreateRematchGame
         var privateGameDto = new CreateRematchGameDto()
         {
             GameId = game.Id,
+            OpponentName = opponent.Username,
         };
 
         return privateGameDto;

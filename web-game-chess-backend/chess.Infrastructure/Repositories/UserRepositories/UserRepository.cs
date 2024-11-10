@@ -72,18 +72,26 @@ public class UserRepository : IUserRepository {
                     .ToListAsync();
 
     ///<inheritdoc/>
-    public async Task<List<User>> GetAllOrderByRating(TimingTypes type)
-        => await _dbContext.Users
-                    .Include(u => u.Image)
-                    .Include(u => u.Elo)
-                    .Include(u => u.Stats)
-                    .OrderByDescending(u => 
-                        type == TimingTypes.Bullet ? u.Elo.Bullet : 
-                        type == TimingTypes.Blitz ? u.Elo.Blitz :
-                        type == TimingTypes.Rapid ? u.Elo.Rapid :
-                        type == TimingTypes.Classic ? u.Elo.Classic :
-                        type == TimingTypes.Daily ? u.Elo.Daily : 0)
-                    .ToListAsync();
+    public async Task<List<User>> GetAllOrderByRating(TimingTypes type) {
+        var users = _dbContext.Users
+            .Include(u => u.Image)
+            .Include(u => u.Elo)
+            .Include(u => u.Stats);
+
+        var result = await users.ToListAsync();
+
+        var orderedResult = result
+            .OrderByDescending(u =>
+                type == TimingTypes.Bullet ? u.Elo.Bullet :
+                type == TimingTypes.Blitz ? u.Elo.Blitz :
+                type == TimingTypes.Rapid ? u.Elo.Rapid :
+                type == TimingTypes.Classic ? u.Elo.Classic :
+                type == TimingTypes.Daily ? u.Elo.Daily : 0)
+            .ThenByDescending(u => u.Stats.Wins)
+            .ToList();
+
+        return orderedResult;
+    }
 
     ///<inheritdoc/>
     public async Task Add(User user) {

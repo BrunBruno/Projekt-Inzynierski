@@ -96,6 +96,11 @@ export type NotifyUserModel = TimingTypeModel & {
 
 export type GetTotalGamesStatsModel = {};
 
+export type TypingStatusModel = {
+  gameId: Guid;
+  isTyping: boolean;
+};
+
 /** DELETE models */
 
 export type AbortSearchModel = {
@@ -107,7 +112,7 @@ export type DeclineInvitationModel = {
   friendId: Guid;
 };
 
-export type TypingStatusModel = {
-  gameId: Guid;
-  isTyping: boolean;
+export type CancelRematchModel = {
+  currentGameId: Guid;
+  newGameId: Guid;
 };

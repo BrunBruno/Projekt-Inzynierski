@@ -22,6 +22,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.SignalR;
 using SignalRSwaggerGen.Attributes;
 using SignalRSwaggerGen.Enums;
+using chess.Application.Requests.WebGameRequests.CancelRematch;
 
 namespace chess.Api.Hubs;
 
@@ -385,5 +386,23 @@ public class GameHub : Hub<IGameHub> {
         await _mediator.Send(request);
 
         await Clients.Groups($"game-{gameId}").MessagesUpdated();
+    }
+
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="gameId"></param>
+    /// <returns></returns>
+    [HubMethodName("cancel-rematch")]
+    [Authorize(Policy = "IsVerified")]
+    [SignalRMethod("CancelRematch", Operation.Delete)]
+    public async Task CancelRematch(CancelRematchModel model) {
+
+        var request = _mapper.Map<CancelRematchRequest>(model);
+
+        await _mediator.Send(request);
+
+        await Clients.Groups($"game-{model.CurrentGameId}").RematchCanceled();
     }
 }

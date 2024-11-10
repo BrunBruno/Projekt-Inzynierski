@@ -21,4 +21,11 @@ public interface IEngineGameMoveRepository {
     /// <param name="move"></param>
     /// <returns></returns>
     Task Create(EngineGameMove move);
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="move"></param>
+    /// <returns></returns>
+    Task Delete(EngineGameMove move);
 }

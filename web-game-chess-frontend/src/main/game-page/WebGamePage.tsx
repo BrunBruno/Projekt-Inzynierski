@@ -8,7 +8,7 @@ import {
   EndGameDto,
   FetchTimeDto,
   GetEndedGameDto,
-  GetGameDto,
+  GetWebGameDto,
   GetGameTimingDto,
   GetPlayerDto,
   SearchWebGameDto,
@@ -55,7 +55,7 @@ function WebGamePage() {
   const [selectedTiming, setSelectedTiming] = useState<GetGameTimingDto | null>(null);
   const [searchIds, setSearchIds] = useState<SearchWebGameDto | null>(null);
   // game id for rematch
-  const [newGameId, setNewGameId] = useState<Guid | null>(null);
+  const [rematchData, setRematchData] = useState<CreateRematchGameDto | null>(null);
 
   // set game id as Guid
   useEffect(() => {
@@ -82,7 +82,7 @@ function WebGamePage() {
   //*/
 
   // obtained game data
-  const [gameData, setGameData] = useState<GetGameDto | null>(null);
+  const [gameData, setGameData] = useState<GetWebGameDto | null>(null);
   // obtained current player data
   const [playerData, setPlayerData] = useState<GetPlayerDto | null>(null);
   // winner data
@@ -111,7 +111,7 @@ function WebGamePage() {
     try {
       if (!gameId) return;
 
-      const response = await axios.get<GetGameDto>(webGameController.getGame(gameId), getAuthorization());
+      const response = await axios.get<GetWebGameDto>(webGameController.getGame(gameId), getAuthorization());
 
       setGameData(response.data);
     } catch (err) {
@@ -142,12 +142,17 @@ function WebGamePage() {
     GameHubService.connection?.off("GameUpdated", getGame);
   };
 
-  //
-  const setRematch = (rematchData: CreateRematchGameDto) => {
-    setNewGameId(rematchData.gameId);
+  // to create and cancel rematches
+  const setRematch = (rematchData: CreateRematchGameDto): void => {
+    setRematchData(rematchData);
   };
 
-  //
+  const cancelRematch = (): void => {
+    setRematchData(null);
+  };
+  //*/
+
+  // to handle new games
   const handleGameAccepted = (newGameId: Guid): void => {
     const state: StateOptions = {
       popup: { text: "GAME STARTED", type: "info" },
@@ -157,6 +162,7 @@ function WebGamePage() {
 
     window.location.reload(); //???
   };
+  //*/
 
   // add game hub listeners
   // first fetch for game data
@@ -173,6 +179,7 @@ function WebGamePage() {
     GameHubService.connection?.on("GameUpdated", getGame);
     GameHubService.connection?.on("GameEnded", endGame);
     GameHubService.connection?.on("RematchRequested", setRematch);
+    GameHubService.connection?.on("RematchCanceled", cancelRematch);
     GameHubService.connection?.on("GameAccepted", handleGameAccepted);
 
     getGame();
@@ -182,6 +189,7 @@ function WebGamePage() {
       GameHubService.connection?.off("GameUpdated", getGame);
       GameHubService.connection?.off("GameEnded", endGame);
       GameHubService.connection?.off("RematchRequested", setRematch);
+      GameHubService.connection?.off("RematchCanceled", cancelRematch);
       GameHubService.connection?.off("GameAccepted", handleGameAccepted);
     };
   }, [gameId]);
@@ -218,6 +226,7 @@ function WebGamePage() {
 
     fetchTime();
   }, [gameData]);
+  //*/
 
   // to enable new matches and rematches
   useEffect(() => {
@@ -240,7 +249,7 @@ function WebGamePage() {
 
           navigate(`/main/game/${response.data.gameId}`, { state: state });
 
-          window.location.reload();
+          window.location.reload(); //???
         }
       } catch (err) {
         showPopup(getErrMessage(err), "warning");
@@ -278,7 +287,7 @@ function WebGamePage() {
         playerData={playerData}
         winner={winner}
         searchIds={searchIds}
-        newGameId={newGameId}
+        rematchData={rematchData}
         setSearchIds={setSearchIds}
         selectedTiming={selectedTiming}
         showConfirm={showConfirm}
@@ -293,7 +302,6 @@ function WebGamePage() {
         gameData={gameData}
         playerData={playerData}
         playersTimes={playersTimes}
-        setPlayersTimes={setPlayersTimes}
         winner={winner}
       />
 

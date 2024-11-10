@@ -34,6 +34,7 @@ export type GetEndedGameDto = {
 export type GetPlayerDto = PlayerDto & {};
 
 export type GetAllFinishedGamesDto = {
+  gameId: Guid;
   position: string;
   turn: number;
   moves: number;
@@ -58,7 +59,7 @@ export type GetAllActiveGamesDto = {
   blackPlayer: PlayerDto;
 };
 
-export type GetGameDto = {
+export type GetWebGameDto = {
   hasEnded: boolean;
   position: string;
   turn: number;
@@ -140,8 +141,8 @@ export type GetOpponentDto = {
 };
 
 export type CreateRematchGameDto = {
-  opponentId: Guid;
   gameId: Guid;
+  opponentName: string;
 };
 
 export type GetTotalGamesStatsDto = {

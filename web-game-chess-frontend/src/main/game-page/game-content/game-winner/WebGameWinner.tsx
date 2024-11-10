@@ -2,12 +2,17 @@ import { useNavigate } from "react-router-dom";
 import {
   EndGameDto,
   GetEndedGameDto,
-  GetGameDto,
+  GetWebGameDto,
   GetOpponentDto,
   SearchWebGameDto,
+  CreateRematchGameDto,
 } from "../../../../shared/utils/types/gameDtos";
 import classes from "./GameWinner.module.scss";
-import { CreateRematchGameModel, SearchWebGameModel } from "../../../../shared/utils/types/gameModels";
+import {
+  CancelRematchModel,
+  CreateRematchGameModel,
+  SearchWebGameModel,
+} from "../../../../shared/utils/types/gameModels";
 import { webGameController, getAuthorization } from "../../../../shared/utils/services/ApiService";
 import axios from "axios";
 import GameHubService from "../../../../shared/utils/services/GameHubService";
@@ -27,7 +32,7 @@ type WebGameWinnerProps = {
   // game id
   gameId: Guid;
   // current game data
-  gameData: GetGameDto;
+  gameData: GetWebGameDto;
   // player data
   playerData: PlayerDto;
   // game result data data
@@ -37,7 +42,7 @@ type WebGameWinnerProps = {
   // timing for new game or rematch
   selectedTiming: SearchWebGameModel | null;
   // rematch game id
-  newGameId: Guid | null;
+  rematchData: CreateRematchGameDto | null;
 };
 
 function WebGameWinner({
@@ -47,7 +52,7 @@ function WebGameWinner({
   winner,
   setSearchIds,
   selectedTiming,
-  newGameId,
+  rematchData,
 }: WebGameWinnerProps) {
   ///
 
@@ -108,13 +113,32 @@ function WebGameWinner({
 
   // to accept rematch
   const onAcceptRematchRequest = async () => {
-    if (!newGameId) {
+    if (!rematchData) {
       returnOnFail();
       return;
     }
 
     try {
-      await GameHubService.AcceptRematch(newGameId);
+      await GameHubService.AcceptRematch(rematchData.gameId);
+    } catch (err) {
+      showPopup(getErrMessage(err), "warning");
+    }
+  };
+  //*/
+
+  // to remove created rematch game
+  const onCancelRematchRequest = async (): Promise<void> => {
+    if (!rematchData) return;
+
+    const model: CancelRematchModel = {
+      currentGameId: gameId,
+      newGameId: rematchData.gameId,
+    };
+
+    try {
+      await GameHubService.CancelRematch(model);
+
+      await axios.delete(webGameController.cancelPrivateGame(rematchData.gameId), getAuthorization());
     } catch (err) {
       showPopup(getErrMessage(err), "warning");
     }
@@ -256,7 +280,16 @@ function WebGameWinner({
               <span>New Game</span>
             </button>
 
-            {newGameId ? (
+            {!rematchData ? (
+              <button
+                className={classes["re-game"]}
+                onClick={() => {
+                  onCreateRematchRequest();
+                }}
+              >
+                <span>Rematch</span>
+              </button>
+            ) : rematchData.opponentName === playerData.name ? (
               <button
                 className={classes["re-game"]}
                 onClick={() => {
@@ -265,14 +298,23 @@ function WebGameWinner({
               >
                 <span>Accept</span>
               </button>
+            ) : rematchData.opponentName !== playerData.name ? (
+              <button
+                className={classes["re-game"]}
+                onClick={() => {
+                  onCancelRematchRequest();
+                }}
+              >
+                <span>Cancel</span>
+              </button>
             ) : (
               <button
                 className={classes["re-game"]}
                 onClick={() => {
-                  onCreateRematchRequest();
+                  navigate("/main");
                 }}
               >
-                <span>Rematch</span>
+                <span>Leave</span>
               </button>
             )}
           </div>

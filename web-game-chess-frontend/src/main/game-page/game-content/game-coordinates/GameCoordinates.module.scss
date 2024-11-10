@@ -15,7 +15,7 @@
       @include flex();
 
       font-size: 1.2rem;
-      font-weight: bold;
+      font-weight: 600;
       color: $gc5;
     }
   }
@@ -46,6 +46,7 @@
 
   .white-indicators {
     transform: rotate(0deg);
+
     div {
       transform: rotate(0deg);
     }
@@ -53,6 +54,7 @@
 
   .black-indicators {
     transform: rotate(180deg);
+
     div {
       transform: rotate(180deg);
     }

@@ -1,7 +1,8 @@
 ﻿
 using chess.Application.Pagination;
-using chess.Application.Repositories.FriendshipRepositories;
 using chess.Application.Repositories.UserRepositories;
+using chess.Application.Services;
+using chess.Core.Dtos;
 using chess.Core.Enums;
 using MediatR;
 
@@ -9,18 +10,20 @@ namespace chess.Application.Requests.UserRequests.GetUsersRanking;
 
 public class GetUsersRankingRequestHandler : IRequestHandler<GetUsersRankingRequest, PagedResult<GetUsersRankingDto>> {
 
+    private readonly IUserContextService _userContextService;
     private readonly IUserRepository _userRepository;
-    private readonly IFriendshipRepository _friendshipRepository;
 
     public GetUsersRankingRequestHandler(
-        IUserRepository userRepository,
-        IFriendshipRepository friendshipRepository
+        IUserContextService userContextService,
+        IUserRepository userRepository
     ) {
+        _userContextService = userContextService;
         _userRepository = userRepository;
-        _friendshipRepository = friendshipRepository;
     }
 
     public async Task<PagedResult<GetUsersRankingDto>> Handle(GetUsersRankingRequest request, CancellationToken cancellationToken) {
+
+        var userId = _userContextService.GetUserId();
 
         var users = await _userRepository.GetAllOrderByRating(request.Type);
 
@@ -35,15 +38,20 @@ public class GetUsersRankingRequestHandler : IRequestHandler<GetUsersRankingRequ
                   request.Type == TimingTypes.Daily ? user.Elo.Daily : 0,
             GamesPlayed = user.Stats.GamesPlayed,
             Ratio = user.Stats.GamesPlayed > 0 ?
-                $"W{100 * user.Stats.Wins / user.Stats.GamesPlayed}%:" +
-                $"D{100 * user.Stats.Draws / user.Stats.GamesPlayed}%:" +
-                $"L{100 * user.Stats.Loses / user.Stats.GamesPlayed}%" : "-",
+                $"{100 * user.Stats.Wins / user.Stats.GamesPlayed}%:" +
+                $"{100 * user.Stats.Draws / user.Stats.GamesPlayed}%:" +
+                $"{100 * user.Stats.Loses / user.Stats.GamesPlayed}%" : "-",
+            IsUser = userId == user.Id,
+
+            Profile = user.Image != null ? new ImageDto() { 
+                ContentType = user.Image.ContentType, 
+                Data = user.Image.Data 
+            } : null,
         }).ToList();
 
 
         var pagedResult = new PagedResult<GetUsersRankingDto>(result, result.Count, request.PageSize, request.PageNumber);
 
         return pagedResult;
-
     }
 }

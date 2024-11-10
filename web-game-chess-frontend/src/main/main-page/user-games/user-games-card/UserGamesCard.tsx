@@ -13,6 +13,7 @@ import { gameEndReasonIcons } from "../../../../shared/svgs/iconsMap/GameEndReas
 import { GameEndReason, TimingType } from "../../../../shared/utils/objects/entitiesEnums";
 import { gameResultIcons } from "../../../../shared/svgs/iconsMap/GameResultIcons";
 import { getPieceSideColor } from "../../../../shared/utils/objects/piecesNameMaps";
+import { useNavigate } from "react-router-dom";
 
 type UserGamesCardProps = {
   // finished game data
@@ -21,6 +22,8 @@ type UserGamesCardProps = {
 
 function UserGamesCard({ game }: UserGamesCardProps) {
   ///
+
+  const navigate = useNavigate();
 
   // elements ref for card resizing
   const cardRef = useRef<HTMLDivElement>(null);
@@ -47,6 +50,14 @@ function UserGamesCard({ game }: UserGamesCardProps) {
       window.removeEventListener("resize", resizeCard);
     };
   }, []);
+  //*/
+
+  // to rejoin the game
+  const onRejoinGame = (): void => {
+    if (!game.gameId) return;
+
+    navigate(`/main/game/${game.gameId}`);
+  };
   //*/
 
   // display players based on user player color
@@ -205,7 +216,13 @@ function UserGamesCard({ game }: UserGamesCardProps) {
   //*/
 
   return (
-    <div ref={cardRef} className={classes.card}>
+    <div
+      ref={cardRef}
+      className={classes.card}
+      onClick={() => {
+        onRejoinGame();
+      }}
+    >
       <div ref={gridRef} className={`${classes["mini-grid"]}`}>
         {mapFromPosition(game.position)}
         {displayPlayer(game)}

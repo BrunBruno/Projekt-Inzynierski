@@ -2,9 +2,10 @@ import { Dispatch, SetStateAction, useEffect, useReducer } from "react";
 import {
   EndGameDto,
   GetEndedGameDto,
-  GetGameDto,
+  GetWebGameDto,
   GetPlayerDto,
   SearchWebGameDto,
+  CreateRematchGameDto,
 } from "../../../shared/utils/types/gameDtos";
 import classes from "./GameContent.module.scss";
 import { GameEndReason, PieceColor } from "../../../shared/utils/objects/entitiesEnums";
@@ -35,15 +36,15 @@ type WebGameContentProps = {
   // game id
   gameId: Guid;
   // current game data
-  gameData: GetGameDto;
+  gameData: GetWebGameDto;
   // current player data
   playerData: GetPlayerDto;
   // winner color if game is finished
   winner: EndGameDto | GetEndedGameDto | null;
   // obtained ids for rematch game
   searchIds: SearchWebGameDto | null;
-  //rematch game id
-  newGameId: Guid | null;
+  //rematch game data
+  rematchData: CreateRematchGameDto | null;
   // setter of obtained ids
   setSearchIds: Dispatch<SetStateAction<SearchWebGameDto | null>>;
   // timing of current game
@@ -66,7 +67,7 @@ function WebGameContent({
   playerData,
   winner,
   searchIds,
-  newGameId,
+  rematchData,
   setSearchIds,
   selectedTiming,
   showConfirm,
@@ -240,7 +241,7 @@ function WebGameContent({
         )}
 
         {/* confirm box */}
-        {displayedWindow === GameWindowInterface.confirm && showConfirm && !gameData.hasEnded && (
+        {displayedWindow === GameWindowInterface.confirm && showConfirm !== null && !gameData.hasEnded && (
           <WebGameConfirm
             confirmAction={confirmAction}
             showConfirm={showConfirm}
@@ -258,7 +259,7 @@ function WebGameContent({
             winner={winner}
             setSearchIds={setSearchIds}
             selectedTiming={selectedTiming}
-            newGameId={newGameId}
+            rematchData={rematchData}
           />
         )}
 

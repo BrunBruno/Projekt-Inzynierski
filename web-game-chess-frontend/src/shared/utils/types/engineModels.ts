@@ -6,8 +6,11 @@ import { BlackPieceTag, WhitePieceTag } from "../objects/constantLists";
 import { PieceColor } from "../objects/entitiesEnums";
 import { Nullable } from "./commonTypes";
 
-export type GetEngineGameModel = {
-  gameId: Guid;
+/** POST models */
+
+export type StartEngineGameModel = Nullable<TimingTypeModel> & {
+  allowUndo: boolean;
+  engineLevel: number;
 };
 
 export type MakeEngineGameMoveModel = {
@@ -27,12 +30,22 @@ export type MakeEngineGameMoveModel = {
   blackLongRookMoved: boolean;
 };
 
-export type StartEngineGameModel = Nullable<TimingTypeModel> & {
-  allowUndo: boolean;
-  engineLevel: number;
-};
+/** PUT models */
 
 export type EndEngineGameModel = {
   gameId: Guid;
   loserColor: PieceColor | null;
 };
+
+export type UndoMoveModel = {
+  gameId: Guid;
+};
+
+export type ChangeEngineLevelModel = {
+  gameId: Guid;
+  level: number;
+};
+
+/** GET models */
+
+/** DELETE models */

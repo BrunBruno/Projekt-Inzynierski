@@ -62,6 +62,7 @@ public class GetAllFinishedGamesRequestHandler : IRequestHandler<GetAllFinishedG
 
                 var gameDto = new GetAllFinishedGamesDto()
                 {
+                    GameId = game.Id,
                     Position = game.Position,
                     Turn = game.Turn,
                     Moves = game.Round,
@@ -125,6 +126,7 @@ public class GetAllFinishedGamesRequestHandler : IRequestHandler<GetAllFinishedG
 
                 var gameDto = new GetAllFinishedGamesDto()
                 {
+                    GameId = game.Id,
                     Position = game.Position,
                     Turn = game.Turn,
                     Moves = game.Round,

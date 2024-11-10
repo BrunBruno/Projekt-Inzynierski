@@ -3,7 +3,6 @@ using chess.Application.Pagination;
 using chess.Application.Repositories.FriendshipRepositories;
 using chess.Application.Repositories.UserRepositories;
 using chess.Application.Services;
-using chess.Core.Abstraction;
 using chess.Core.Dtos;
 using MediatR;
 
@@ -46,7 +45,6 @@ public class GetAllFriendsByStatusRequestHandler : IRequestHandler<GetAllFriends
         if (request.Username is not null) {
             friends = friends.Where(nf =>
                 nf.Username.ToLower().Contains(request.Username) ||
-                //nf.Email.ToLower().Contains(request.Username) ||
                 (nf.Name != null && nf.Name.ToLower().Contains(request.Username))
             ).ToList();
         }

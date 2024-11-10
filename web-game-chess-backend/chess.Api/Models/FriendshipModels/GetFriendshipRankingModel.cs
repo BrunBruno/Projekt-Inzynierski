@@ -2,9 +2,9 @@
 using chess.Application.Pagination;
 using chess.Core.Enums;
 
-namespace chess.Api.Models.UserModels;
+namespace chess.Api.Models.FriendshipModels;
 
-public class GetUsersRankingModel : PagedRequest {
+public class GetFriendshipRankingModel : PagedRequest {
 
     public TimingTypes Type { get; set; }
 }

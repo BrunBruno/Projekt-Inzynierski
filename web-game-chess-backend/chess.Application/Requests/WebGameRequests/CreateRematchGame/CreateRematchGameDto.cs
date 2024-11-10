@@ -7,9 +7,9 @@ namespace chess.Application.Requests.WebGameRequests.CreateRematchGame;
 public class CreateRematchGameDto {
 
     /// <summary>
-    /// Opponent id
+    /// Opponent username
     /// </summary>
-    public Guid OpponentId { get; set; }
+    public required string OpponentName { get; set; }
 
     /// <summary>
     /// Game id

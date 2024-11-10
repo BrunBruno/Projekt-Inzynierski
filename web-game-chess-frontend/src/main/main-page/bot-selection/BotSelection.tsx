@@ -170,7 +170,7 @@ function BotSelection({ setOfflineGameOptions }: BotSelectionProps) {
               onConfirmSelection();
             }}
           >
-            <ActionButton text="Continue" />
+            <ActionButton text={gameOptions.enableTiming ? "Continue" : "Start game"} />
           </div>
         </div>
       </div>

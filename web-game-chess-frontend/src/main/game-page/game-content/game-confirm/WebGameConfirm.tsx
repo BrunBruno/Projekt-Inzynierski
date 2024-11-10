@@ -9,7 +9,7 @@ type WebGameConfirmProps = {
   showConfirm: GameActionInterface | null;
   // to display confirm window
   setShowConfirm: Dispatch<SetStateAction<GameActionInterface | null>>;
-  //
+  // modal window id setter
   setDisplayedWindow: Dispatch<SetStateAction<GameWindowInterface>>;
 };
 

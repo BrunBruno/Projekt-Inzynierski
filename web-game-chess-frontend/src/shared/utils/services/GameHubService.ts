@@ -2,6 +2,7 @@
 
 import {
   AcceptInvitationModel,
+  CancelRematchModel,
   CreateRematchGameModel,
   DeclineInvitationModel,
   EndGameModel,
@@ -227,6 +228,15 @@ class GameHub {
   public async RemoveDrawMessage(gameId: Guid): Promise<void> {
     try {
       await this.connection?.invoke("remove-draw", gameId);
+    } catch (err) {
+      console.error(err);
+    }
+  }
+
+  //
+  public async CancelRematch(model: CancelRematchModel): Promise<void> {
+    try {
+      await this.connection?.invoke("cancel-rematch", model);
     } catch (err) {
       console.error(err);
     }

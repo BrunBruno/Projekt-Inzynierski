@@ -68,4 +68,10 @@ public interface IGameHub {
     /// <param name=""></param>
     /// <returns></returns>
     Task RematchRequested(CreateRematchGameDto gameData);
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <returns></returns>
+    Task RematchCanceled();
 }

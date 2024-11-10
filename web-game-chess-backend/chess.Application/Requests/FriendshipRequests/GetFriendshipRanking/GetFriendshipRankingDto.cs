@@ -1,9 +1,9 @@
 ﻿
 using chess.Core.Dtos;
 
-namespace chess.Application.Requests.UserRequests.GetUsersRanking;
+namespace chess.Application.Requests.FriendshipRequests.GetFriendshipRanking;
 
-public class GetUsersRankingDto {
+public class GetFriendshipRankingDto {
 
     public int Position { get; set; }
     public required string Username { get; set; }

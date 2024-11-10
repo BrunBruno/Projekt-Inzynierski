@@ -1,7 +1,7 @@
 import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
 import classes from "./GameBoard.module.scss";
 import { PieceColor } from "../../../../shared/utils/objects/entitiesEnums";
-import { GetGameDto, GetPlayerDto } from "../../../../shared/utils/types/gameDtos";
+import { GetWebGameDto, GetPlayerDto } from "../../../../shared/utils/types/gameDtos";
 import { getPieceSideColor, pieceTagMap } from "../../../../shared/utils/objects/piecesNameMaps";
 import { SelectionAction } from "../WebGameContentStates";
 import { generateRandomId } from "../../../../shared/utils/functions/random";
@@ -28,7 +28,7 @@ import { GameWindowInterface } from "../../../../shared/utils/objects/interfaces
 
 type WebGameBoardProps = {
   // current game data
-  gameData: GetGameDto;
+  gameData: GetWebGameDto;
   // player data
   playerData: GetPlayerDto;
   // game states

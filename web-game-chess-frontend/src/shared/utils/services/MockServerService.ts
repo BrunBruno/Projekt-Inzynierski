@@ -11,7 +11,7 @@ import {
   GetAllInvitationsDto,
   GetAllMessagesDto,
   GetEndedGameDto,
-  GetGameDto,
+  GetWebGameDto,
   GetGameTimingDto,
   GetOpponentDto,
   GetPlayerDto,
@@ -50,7 +50,7 @@ type webGameControllerServerParams = {
   createGameWithLinkDto?: CreateGameWithLinkDto;
   checkIfInGameDto?: CheckIfInGameDto;
   checkIfUpdateRequiredDto?: CheckIfUpdateRequiredDto;
-  getGameDto?: GetGameDto;
+  GetWebGameDto?: GetWebGameDto;
   getPlayerDto?: GetPlayerDto;
   fetchTimeDto?: FetchTimeDto;
   getOpponentDto?: GetOpponentDto;
@@ -314,12 +314,12 @@ export const createMockServer = (mockResult: CreateMockServerParams) => {
 
     // get game
     rest.get(webGameControllerPaths.getGame, (_, res, ctx) => {
-      if (!mockResult.getGameDto) {
-        console.error("mock GetGameDto not provided");
+      if (!mockResult.GetWebGameDto) {
+        console.error("mock GetWebGameDto not provided");
         return res(ctx.status(500), ctx.json(null));
       }
 
-      return res(ctx.status(200), ctx.json<GetGameDto>(mockResult.getGameDto));
+      return res(ctx.status(200), ctx.json<GetWebGameDto>(mockResult.GetWebGameDto));
     }),
 
     // get player

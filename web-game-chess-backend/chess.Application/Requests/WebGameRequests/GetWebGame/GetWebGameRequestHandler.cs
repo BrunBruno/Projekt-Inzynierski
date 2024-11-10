@@ -2,6 +2,7 @@
 using chess.Application.Repositories.WebGameRepositories;
 using chess.Application.Services;
 using chess.Core.Dtos;
+using chess.Core.Enums;
 using chess.Shared.Exceptions;
 using MediatR;
 
@@ -61,6 +62,7 @@ public class GetWebGameRequestHandler : IRequestHandler<GetWebGameRequest, GetWe
             {
                 Name = game.WhitePlayer.Name,
                 Elo = game.WhitePlayer.Elo,
+                Color = (PieceColor)game.WhitePlayer.Color!,
 
                 ProfilePicture = game.WhitePlayer.User.Image != null ? new ImageDto() 
                 {
@@ -73,6 +75,7 @@ public class GetWebGameRequestHandler : IRequestHandler<GetWebGameRequest, GetWe
             {
                 Name = game.BlackPlayer.Name,
                 Elo = game.BlackPlayer.Elo,
+                Color = (PieceColor)game.BlackPlayer.Color!,
 
                 ProfilePicture = game.BlackPlayer.User.Image != null ? new ImageDto() 
                 {

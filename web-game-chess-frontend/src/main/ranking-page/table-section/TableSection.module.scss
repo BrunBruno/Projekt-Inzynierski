@@ -1,5 +1,7 @@
 @use "../../../shared/styles/shared.scss" as *;
 
+$banner-size: 6rem;
+
 .table {
   @include wh100();
 
@@ -20,6 +22,11 @@
       // - padding + top
       height: calc(100vh - 16rem + 6rem);
       //   display: none;
+
+      path {
+        stroke: $gc9;
+        stroke-width: 0.3rem;
+      }
     }
   }
 
@@ -27,93 +34,139 @@
     position: relative;
     z-index: 1;
     height: 100%;
-    padding-top: 4rem;
+    padding-top: 2rem;
+
+    .banner-icon {
+      position: absolute;
+      height: 12rem;
+      z-index: -1;
+      top: 16rem;
+      opacity: 0.5;
+
+      &:nth-child(1) {
+        left: -6rem;
+        transform: rotateZ(35deg);
+      }
+      &:nth-child(2) {
+        right: -6rem;
+        transform: rotateZ(-35deg);
+      }
+    }
+
+    .banner {
+      position: absolute;
+      z-index: 2;
+      top: 4rem;
+      left: 0;
+      width: 100%;
+      height: $banner-size;
+      background-image: linear-gradient(to right, $mc9 0%, $mc5 50%, $mc9 100%);
+
+      h1.title {
+        @include flex($gap: 2rem);
+
+        color: $mc0;
+        height: $banner-size;
+        font-size: 3rem;
+        filter: drop-shadow(0 0 1rem $gc9);
+
+        .trophy-icon {
+          height: 3rem;
+        }
+      }
+
+      .decor {
+        position: relative;
+
+        &:nth-child(1) {
+          &::after {
+            @include subCl(calc($banner-size / 2), calc(2 * $banner-size));
+
+            position: absolute;
+            top: 0;
+            left: calc(-1 * $banner-size / 2);
+            background-color: $mc9;
+            border-top-left-radius: $banner-size;
+            border-bottom-left-radius: $banner-size;
+          }
+
+          &::before {
+            @include subCl(calc($banner-size / 2), $banner-size);
+
+            z-index: 1;
+            position: absolute;
+            top: $banner-size;
+            left: calc(-1 * $banner-size / 2);
+            background-color: rgba(#000, 0.5);
+
+            border-top-left-radius: $banner-size;
+            border-bottom-left-radius: $banner-size;
+          }
+        }
+
+        &:nth-child(2) {
+          &::after {
+            @include subCl(calc($banner-size / 2), calc(2 * $banner-size));
+
+            position: absolute;
+            top: 0;
+            right: calc(-1 * $banner-size / 2);
+            background-color: $mc9;
+            border-top-right-radius: $banner-size;
+            border-bottom-right-radius: $banner-size;
+          }
+
+          &::before {
+            @include subCl(calc($banner-size / 2), $banner-size);
+
+            z-index: 1;
+            position: absolute;
+            top: $banner-size;
+            right: calc(-1 * $banner-size / 2);
+            background-color: rgba(#000, 0.5);
+
+            border-top-right-radius: $banner-size;
+            border-bottom-right-radius: $banner-size;
+          }
+        }
+      }
+    }
 
     &__data {
       position: relative;
       height: 100%;
-      // background-color: #080808;
       background-color: #000;
       display: grid;
-      grid-template-columns: 70% 30%;
+      grid-template-columns: 75% 25%;
 
-      padding-top: 2rem;
+      padding-top: 4rem;
       border-radius: 2rem;
+      overflow: hidden;
+      border: solid 0.5rem $gc9;
+
       box-shadow: inset 0 0 20rem 0 rgba($gc0, 0.1);
 
-      .banner {
-        position: absolute;
-        top: 2rem;
-        left: 0;
-        width: 100%;
-        height: 4rem;
-        background-image: linear-gradient(to right, $mc9 0%, $mc5 50%, $mc9 100%);
-        // background-color: $mc9;
+      &::after {
+        @include subCl();
+        @include absCenter();
+        @include square(100rem);
 
-        h1.title {
-          @include flex();
+        top: 100%;
+        border-radius: 2rem;
+        opacity: 0.05;
+        background-size: 24rem 24rem;
+        background-image: linear-gradient(45deg, #000 25%, #0000 25%, #0000 75%, #000 75%, #000),
+          linear-gradient(45deg, #000 25%, #0000 25%, #0000 75%, #000 75%, #000),
+          linear-gradient(45deg, $mc9 25%, #0000 25%, #0000 75%, $mc9 75%, $mc9),
+          linear-gradient(45deg, $mc9 25%, #0000 25%, #0000 75%, $mc9 75%, $mc9);
+        background-position: 0 0, 12rem 12rem, 12rem 0, 0 12rem;
 
-          color: $mc0;
-          height: 4rem;
-          font-size: 3rem;
-          filter: drop-shadow(0 0 1rem $gc9);
-        }
-
-        .decor {
-          &:nth-child(1) {
-            &::after {
-              @include subCl(2rem, 8rem);
-
-              position: absolute;
-              top: 0;
-              left: -2rem;
-              background-color: $mc9;
-              border-top-left-radius: 4rem;
-              border-bottom-left-radius: 4rem;
-            }
-
-            &::before {
-              @include subCl(2rem, 4rem);
-
-              z-index: 1;
-              position: absolute;
-              top: 4rem;
-              left: -2rem;
-              background-color: rgba(#000, 0.5);
-
-              border-top-left-radius: 4rem;
-              border-bottom-left-radius: 4rem;
-            }
-          }
-          &:nth-child(2) {
-            &::after {
-              @include subCl(2rem, 8rem);
-
-              position: absolute;
-              top: 0;
-              right: -2rem;
-              background-color: $mc9;
-              border-top-right-radius: 4rem;
-              border-bottom-right-radius: 4rem;
-            }
-
-            &::before {
-              @include subCl(2rem, 4rem);
-
-              z-index: 1;
-              position: absolute;
-              top: 4rem;
-              right: -2rem;
-              background-color: rgba(#000, 0.5);
-
-              border-top-right-radius: 4rem;
-              border-bottom-right-radius: 4rem;
-            }
-          }
-        }
+        transform-origin: 0 0;
+        transform: rotateX(70deg) rotateZ(45deg) translate(-50%, -50%);
       }
 
       .record-list {
+        z-index: 1;
         height: 100%;
         padding: 2rem;
         padding-top: 6rem;
@@ -125,7 +178,7 @@
 
         .table-header {
           display: grid;
-          grid-template-columns: 6rem 6rem 2fr repeat(3, 1fr);
+          grid-template-columns: 8rem 4rem 3fr 1fr 1fr 2fr;
 
           .p-column {
             @include flex(row, start, center, 0);
@@ -138,19 +191,23 @@
         .table-record {
           width: 100%;
           display: grid;
-          grid-template-columns: 6rem 6rem 2fr repeat(3, 1fr);
+          grid-template-columns: 8rem 4rem 3fr 1fr 1fr 2fr;
           border-bottom: solid 0.1rem $gc9;
           overflow: hidden;
+
+          &.active-record {
+            background-color: rgba($mc0, 0.1);
+          }
 
           // &:nth-last-child(2) {
           //   border: none;
           // }
 
           .avatar {
-            height: 2.4rem;
+            @include circle(2.4rem);
           }
 
-          p {
+          .col {
             @include flex();
 
             padding-right: 1rem;
@@ -161,9 +218,66 @@
               font-size: 1.4rem;
             }
           }
+
+          .ratio {
+            @include flex(row, start, center, 0.5rem);
+
+            p {
+              @include flex($gap: 0.2rem);
+
+              font-size: 1.2rem;
+            }
+
+            p.wins {
+              span {
+                color: $success-color-m;
+              }
+            }
+
+            p.draws {
+              span {
+                color: $gc5;
+              }
+            }
+
+            p.loses {
+              span {
+                color: $danger-color-m;
+              }
+            }
+          }
         }
 
         .table-slider {
+          @include flex($gap: 1rem);
+
+          .slider-button {
+            @include circle(3rem);
+
+            background-color: #0000;
+            border: none;
+
+            &:hover {
+              cursor: pointer;
+            }
+
+            &.up > .button-arrow {
+              transform: rotate(0deg);
+            }
+
+            &.down > .button-arrow {
+              transform: rotate(180deg);
+            }
+
+            svg.button-arrow {
+              height: 1.4rem;
+            }
+          }
+
+          .indicator {
+            font-size: 1.6rem;
+            color: $gc6;
+          }
         }
       }
 
@@ -172,6 +286,7 @@
 
         position: relative;
         overflow: hidden;
+        z-index: 1;
 
         padding: 2rem;
         padding-top: 6rem;
@@ -195,12 +310,43 @@
             @include rounded(1rem);
 
             padding-top: 0.5rem;
-            padding-left: 0.5rem;
+            padding-bottom: 0.5rem;
             width: 100%;
 
             &:hover {
               cursor: pointer;
               background-color: rgba($gc9, 0.5);
+              filter: none !important;
+            }
+
+            &.active-option {
+              filter: drop-shadow(0 0 0.5rem $gc3);
+
+              &:nth-child(1) {
+                .option-icon {
+                  path {
+                    fill: $mc0;
+                  }
+                }
+              }
+
+              &:nth-child(2) {
+                .option-icon {
+                  polygon {
+                    stroke: $mc0;
+                  }
+                }
+              }
+
+              &:nth-child(3),
+              &:nth-child(4),
+              &:nth-child(5) {
+                .option-icon {
+                  path {
+                    stroke: $mc0;
+                  }
+                }
+              }
             }
 
             .option-icon {
@@ -224,12 +370,22 @@
             @include rounded(1rem);
 
             padding-top: 0.5rem;
-            padding-left: 0.5rem;
+            padding-bottom: 0.5rem;
             width: 100%;
 
             &:hover {
               cursor: pointer;
               background-color: rgba($gc9, 0.5);
+            }
+
+            &.active-option {
+              filter: drop-shadow(0 0 0.5rem $gc3);
+
+              .option-icon {
+                path {
+                  fill: $mc0;
+                }
+              }
             }
 
             .option-icon {

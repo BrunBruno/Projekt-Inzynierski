@@ -55,5 +55,4 @@ export type ResetPasswordModel = {
 
 export type GetUsersRankingModel = PagedModel & {
   type: TimingType;
-  global: boolean;
 };
