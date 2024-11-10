@@ -146,11 +146,15 @@
     &__content {
       grid-template-rows: 100%;
       grid-template-columns: 1fr 1fr;
-      gap: 20%;
-    }
+      padding: 0;
 
-    &__block {
-      display: none;
+      &__header {
+        height: 100%;
+      }
+
+      &__block {
+        display: none;
+      }
     }
   }
 }

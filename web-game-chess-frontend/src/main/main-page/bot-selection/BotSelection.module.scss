@@ -191,3 +191,49 @@ $sqr_size: 7rem;
     }
   }
 }
+
+// resize
+@media screen {
+  .bot {
+    height: calc(100% - 12rem);
+
+    &__content {
+      @include wh100();
+      @include flex(column, center, center, 0);
+
+      border-radius: 0;
+      background-color: #0000;
+
+      &__options {
+        align-items: center;
+        gap: 4rem;
+        border: none;
+
+        &__option {
+          @include flex(column, center, center, 1rem);
+
+          width: 100%;
+
+          .option-name {
+            span {
+              font-size: 3rem;
+            }
+
+            .option-icon {
+              height: 3rem;
+            }
+          }
+        }
+
+        .continue-button {
+          position: relative;
+          left: unset;
+          bottom: unset;
+          transform: none;
+          margin-top: 4rem;
+        }
+      }
+    }
+  }
+}
+//*/

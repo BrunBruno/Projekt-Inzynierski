@@ -56,3 +56,11 @@
     @include profileBlock();
   }
 }
+
+//resize
+@media (max-width: 700px) {
+  .profile {
+    margin: auto;
+  }
+}
+//*/

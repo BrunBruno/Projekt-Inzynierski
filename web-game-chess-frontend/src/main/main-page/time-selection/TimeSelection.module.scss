@@ -176,11 +176,12 @@
 //*/
 
 // resize
-@media (max-width: 1000px) {
+@media (max-width: 700px) {
+  $tag_size: 3.2rem;
+
   .search {
     height: 100%;
     padding: 0;
-
     overflow-y: scroll;
 
     &::-webkit-scrollbar {
@@ -191,69 +192,60 @@
       position: unset;
       width: 100%;
       background-color: #0000;
-      margin-bottom: 50rem;
       transform: none;
 
       &__header {
-        @include flex();
-
-        height: 10rem;
-
-        span {
-          font-size: 5rem;
-        }
+        padding: 0;
       }
 
       &__row {
-        grid-template-columns: 12rem repeat(3, 1fr);
+        grid-template-columns: repeat(4, 1fr);
         height: unset;
 
         .timing-header {
-          flex-direction: column;
-          justify-content: center;
+          grid-column: span 4;
+
           padding: 2rem;
 
           .header-icon {
-            height: 40%;
+            height: 3rem;
+          }
+
+          span {
+            font-size: 2.4rem;
+            font-weight: 800;
           }
         }
 
-        &__block {
+        .time-control {
+          height: calc(3 * $tag_size);
+
           .timing-tag {
-            @include flex();
-            @include wh100();
-
-            height: 3.2rem;
-
-            &::after {
-              @include subCl();
-
-              z-index: 0;
-              background-color: $gc9;
-            }
+            height: $tag_size;
 
             .num {
-              font-size: 4.4rem;
+              font-size: $tag_size;
 
               &:nth-child(2) {
-                margin-right: 0.6rem;
+                margin-right: calc($tag_size / 5);
               }
+
               &:nth-child(6) {
-                margin-right: 0.6rem;
+                margin-right: calc($tag_size / 5);
               }
             }
 
             .char {
-              font-size: 3rem;
+              font-size: calc($tag_size * 0.6);
 
               &:nth-child(2) {
-                margin-left: 0.6rem;
+                margin-left: calc($tag_size / 5);
               }
             }
 
             .sep {
-              font-size: 3rem;
-              margin: 0.5rem;
+              font-size: calc($tag_size * 0.6);
+              margin: calc($tag_size / 5);
             }
           }
         }

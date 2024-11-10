@@ -12,6 +12,7 @@ const HeroSection = forwardRef<HandleOnScroll, HeroSectionProps>(
   ({ heroSectionRef }: HeroSectionProps, ref: ForwardedRef<HandleOnScroll>) => {
     ///
 
+    // dark background ref
     const heroBgRef = useRef<HTMLDivElement>(null);
 
     // to handle section background on scroll

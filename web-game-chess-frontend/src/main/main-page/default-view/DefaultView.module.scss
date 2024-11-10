@@ -39,12 +39,16 @@
 //*/
 
 // resize
-@media (max-height: 500px) {
+@media (max-height: 700px) {
   .default {
     &__container {
-      margin-top: 10rem;
+      margin-top: 4rem;
+      padding: 0;
+
+      .board-container {
+        width: 100%;
+      }
     }
   }
 }
-
 //*/

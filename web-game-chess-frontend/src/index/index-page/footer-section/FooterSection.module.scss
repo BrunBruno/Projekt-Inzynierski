@@ -221,15 +221,24 @@ $index-border-color: rgb(67, 43, 137);
 
       &__col {
         gap: 1rem;
+        border: none;
 
-        h3 {
-          font-size: 3rem;
+        h3.col-title {
+          font-size: 2.4rem;
           margin-bottom: 1rem;
         }
 
         .contact {
-          p {
-            font-size: 2rem;
+          p.contact-data {
+            font-size: 1.2rem;
+          }
+        }
+
+        a.link {
+          .element {
+            p.action-text {
+              font-size: 1.6rem;
+            }
           }
         }
       }

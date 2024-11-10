@@ -283,3 +283,11 @@ $cont-pad: 20rem;
     }
   }
 }
+
+//resize
+@media (max-width: 700px) {
+  .play {
+    display: none;
+  }
+}
+//*/

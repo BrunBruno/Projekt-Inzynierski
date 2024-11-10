@@ -93,10 +93,6 @@ $index-border-color: rgb(67, 43, 137);
         #0000 52%
       );
 
-      &.show {
-        @include emergeAni(0.6s, 0s, 6rem);
-      }
-
       h1.page-title {
         width: 100%;
         padding: 0.8rem 6.4rem;
@@ -203,6 +199,18 @@ $index-border-color: rgb(67, 43, 137);
 
         p.home-text {
           font-size: 1.6rem;
+        }
+      }
+    }
+  }
+}
+
+@media (min-width: 800px) {
+  .section {
+    &__content {
+      &__intro {
+        &.show {
+          @include emergeAni(0.6s, 0s, 6rem);
         }
       }
     }

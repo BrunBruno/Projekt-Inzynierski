@@ -14,7 +14,7 @@
   border-bottom: solid 0.4rem #0000;
   background-image: conic-gradient(from 70deg at 30% 120%, rgba($mc7, 0.1), #0000);
   overflow: hidden;
-  box-shadow: 0 1rem 1rem -0.2rem $gc9;
+  // box-shadow: 0 1rem 1rem -0.2rem $gc9;
 
   transform: scale(0.8);
   transition: all 0.3s;
@@ -84,6 +84,14 @@
   .card {
     width: 100%;
     transform: scale(1);
+
+    .question {
+      font-size: 2rem;
+    }
+
+    .answer {
+      font-size: 1.6rem;
+    }
   }
 }
 //*/

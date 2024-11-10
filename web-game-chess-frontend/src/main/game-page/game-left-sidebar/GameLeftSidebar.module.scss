@@ -117,7 +117,18 @@
       @include flex(row, start, center, 0);
 
       &__list {
-        flex-direction: row;
+        grid-template-rows: 1fr;
+        grid-template-columns: repeat(6, 1fr);
+
+        &__element {
+          span {
+            display: none;
+          }
+        }
+      }
+
+      &__captures {
+        display: none;
       }
     }
   }

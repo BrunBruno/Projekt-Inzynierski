@@ -50,7 +50,7 @@ const PlaySection = forwardRef<HandleOnScroll, PlaySectionProps>(
       const actionsObserver: IntersectionObserver = createOneTimeObserver(actionsObserverAction, {});
 
       actionRefs.forEach((element) => {
-        if (element.current) {
+        if (element.current && window.innerWidth > 700) {
           actionsObserver.observe(element.current);
         }
       });

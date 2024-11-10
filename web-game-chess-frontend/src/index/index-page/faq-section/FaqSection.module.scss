@@ -49,8 +49,6 @@ $index-border-color: rgb(67, 43, 137);
     padding-bottom: 6rem;
 
     &__category {
-      // border: solid 1rem red;
-
       @include flex(row, start, center, 2rem);
       @include longText();
 
@@ -165,7 +163,7 @@ $index-border-color: rgb(67, 43, 137);
 
 // resize
 @media (max-width: 700px) {
-  .faq {
+  .section {
     border-top-right-radius: 10rem;
 
     &::before {
@@ -180,7 +178,9 @@ $index-border-color: rgb(67, 43, 137);
 
     &__content {
       &__category {
-        font-size: 3rem;
+        h3.cat-text {
+          font-size: 3rem;
+        }
       }
     }
   }

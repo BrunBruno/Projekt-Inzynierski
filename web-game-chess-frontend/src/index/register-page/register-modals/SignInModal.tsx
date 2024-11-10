@@ -153,7 +153,7 @@ function SignInModal({ userPath, setModal }: SignInModalProps) {
             ref={emailInputRef}
             name="email"
             type="text"
-            placeholder="E-mail"
+            placeholder="E-mail / Username"
             autoComplete="e-mail"
             className={classes["form-input"]}
           />

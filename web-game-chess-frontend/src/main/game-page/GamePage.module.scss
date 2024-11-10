@@ -16,8 +16,9 @@
 // resize
 @media (max-width: 1000px) {
   .game-main {
+    height: 100dvh;
     grid-template-columns: 100%;
-    grid-template-rows: 10rem auto 20rem;
+    grid-template-rows: 10rem auto 16rem;
   }
 }
 //*/

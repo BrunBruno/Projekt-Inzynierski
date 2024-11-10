@@ -181,29 +181,4 @@
 }
 
 // resize
-@media (max-width: 1000px) {
-  .board {
-    width: unset;
-    height: 96%;
-    aspect-ratio: 1/1 !important;
-  }
-}
-
-@media (max-width: 750px) {
-  .board {
-    height: 80%;
-  }
-}
-
-@media (max-width: 600px) {
-  .board {
-    height: 60%;
-  }
-}
-
-@media (max-width: 500px) {
-  .board {
-    height: 50%;
-  }
-}
 //*/
