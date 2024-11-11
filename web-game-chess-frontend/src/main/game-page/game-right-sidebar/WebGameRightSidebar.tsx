@@ -197,7 +197,7 @@ function WebGameRightSidebar({ gameId, gameData, playerData, playersTimes, winne
         {/* --- */}
 
         {/* game history records */}
-        <div className={classes.bar__content__block}>
+        <div className={`${classes.bar__content__block} ${classes["records-block"]}`}>
           <div className={classes.bar__content__block__list}>
             {gameData.moves.length > 0
               ? gameData.moves.map((move: MoveDto, i: number) => (
@@ -211,7 +211,7 @@ function WebGameRightSidebar({ gameId, gameData, playerData, playersTimes, winne
         {/* --- */}
 
         {/* game messenger */}
-        <div className={classes.bar__content__block}>
+        <div className={`${classes.bar__content__block} ${classes["messages-block"]}`}>
           <WebGameMessages gameId={gameId} playerData={playerData} />
         </div>
         {/* --- */}

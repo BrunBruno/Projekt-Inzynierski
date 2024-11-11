@@ -153,6 +153,9 @@ function SignInModal({ userPath, setModal }: SignInModalProps) {
             ref={emailInputRef}
             name="email"
             type="text"
+            inputMode="text"
+            autoCapitalize="none"
+            autoCorrect="off"
             placeholder="E-mail / Username"
             autoComplete="e-mail"
             className={classes["form-input"]}
@@ -171,6 +174,8 @@ function SignInModal({ userPath, setModal }: SignInModalProps) {
             ref={passwordInputRef}
             name="password"
             type="password"
+            autoCapitalize="none"
+            autoCorrect="off"
             placeholder="Password"
             autoComplete="off"
             className={classes["form-input"]}

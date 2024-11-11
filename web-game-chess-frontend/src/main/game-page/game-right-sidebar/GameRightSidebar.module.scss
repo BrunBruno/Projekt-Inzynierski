@@ -90,8 +90,6 @@
           }
 
           .advantage {
-            font-size: 1.2rem;
-
             .advantage-icon {
               height: 1.2rem;
             }
@@ -139,6 +137,8 @@
 // resize
 @media (max-width: 1000px) {
   .bar {
+    border-top: solid 0.5rem $gc8;
+
     &::after {
       display: none;
     }
@@ -150,10 +150,44 @@
 
       &__header {
         height: 100%;
+
+        &__player {
+          .player-data {
+            .name {
+              font-size: 1.4rem;
+            }
+
+            .elo {
+              font-size: 1.4rem;
+            }
+
+            .advantage {
+              .advantage-icon {
+                height: 1.4rem;
+              }
+            }
+          }
+        }
       }
 
       &__block {
-        display: none;
+        &.records-block {
+          display: none;
+        }
+
+        &.messages-block {
+          position: absolute;
+
+          right: 1rem;
+          bottom: 100%;
+          background-color: $gc9;
+
+          padding: 0;
+          border-radius: 0;
+          border: solid 0.5rem $gc8;
+          border-top-left-radius: 2rem;
+          border-top-right-radius: 2rem;
+        }
       }
     }
   }

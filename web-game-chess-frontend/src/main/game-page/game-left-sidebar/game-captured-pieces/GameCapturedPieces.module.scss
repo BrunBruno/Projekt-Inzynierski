@@ -40,3 +40,33 @@
     }
   }
 }
+
+@media (max-width: 1000px) {
+  .captures {
+    width: fit-content;
+    height: 6rem;
+    padding: 0 2rem;
+    border-radius: 1rem;
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr 1fr;
+
+    &__col {
+      flex-direction: row;
+      border: none !important;
+
+      .piece {
+        .side-piece-icon {
+          height: 1.6rem;
+        }
+
+        .x-icon {
+          height: 1rem;
+        }
+
+        span {
+          font-size: 1.2rem;
+        }
+      }
+    }
+  }
+}

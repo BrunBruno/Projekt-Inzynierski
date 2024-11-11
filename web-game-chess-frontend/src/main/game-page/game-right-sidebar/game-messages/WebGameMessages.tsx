@@ -12,6 +12,8 @@ import { SendMessageModel, TypingStatusModel } from "../../../../shared/utils/ty
 import { Guid } from "guid-typescript";
 import { gameRightSidebarIcons } from "../GameRightSidebarIcons";
 import WebGameMessage from "./game-message/WebGameMessage";
+import { symbolIcons } from "../../../../shared/svgs/iconsMap/SymbolIcons";
+import { greyColor } from "../../../../shared/utils/objects/colorMaps";
 
 type WebGameMessagesProps = {
   // game id
@@ -50,17 +52,17 @@ function WebGameMessages({ gameId, playerData }: WebGameMessagesProps) {
 
         setMessages(response.data);
 
-        handleMessagesScroll();
+        handleMessagesScroll(true);
       } catch (err) {
         showPopup(getErrMessage(err), "warning");
       }
     };
 
-    const handleMessagesScroll = (): void => {
+    const handleMessagesScroll = (force: boolean): void => {
       setTimeout(() => {
         const elements = listRef.current;
 
-        if (elements && elements.scrollTop > 0.9 * (elements.scrollHeight - elements.clientHeight)) {
+        if (elements && (elements.scrollTop > 0.9 * (elements.scrollHeight - elements.clientHeight) || force)) {
           elements.scrollTop = elements.scrollHeight;
         }
       }, 10);
@@ -68,7 +70,7 @@ function WebGameMessages({ gameId, playerData }: WebGameMessagesProps) {
 
     const typingStatusChange = (isTyping: boolean): void => {
       setIsOpponentTyping(isTyping);
-      handleMessagesScroll();
+      handleMessagesScroll(false);
     };
 
     getMessages();
@@ -140,8 +142,70 @@ function WebGameMessages({ gameId, playerData }: WebGameMessagesProps) {
   };
   //*/
 
+  const [isLess, setIsLess] = useState<boolean>(window.innerWidth <= 1000);
+  const [messagesClosed, setMessagesClose] = useState<boolean>(false);
+
+  useEffect(() => {
+    const handleMessagesOnResize = (): void => {
+      if (window.innerWidth <= 1000 && !isLess) {
+        setIsLess(true);
+      } else if (window.innerWidth > 1000 && isLess) {
+        setIsLess(false);
+      }
+    };
+
+    window.addEventListener("resize", handleMessagesOnResize);
+
+    return () => {
+      window.removeEventListener("resize", handleMessagesOnResize);
+    };
+  }, [isLess]);
+
+  useEffect(() => {
+    if (isLess) {
+      setMessagesClose(true);
+    } else {
+      setMessagesClose(false);
+    }
+  }, [isLess]);
+
+  const showMessages = (): void => {
+    if (messagesClosed && window.innerWidth <= 1000) {
+      setMessagesClose(false);
+    }
+  };
+
+  const onHideMessages = (): void => {
+    setMessagesClose(true);
+  };
+
   return (
-    <div className={classes.messages}>
+    <div
+      className={`${classes.messages} ${messagesClosed ? classes.closed : ""}`}
+      onClick={() => {
+        showMessages();
+      }}
+    >
+      {window.innerWidth <= 1000 && (
+        <div
+          className={`${classes["mess-icons"]} ${messagesClosed ? classes["arrow"] : classes["x"]}`}
+          onClick={() => {
+            onHideMessages();
+          }}
+        >
+          {!messagesClosed ? (
+            <IconCreator icons={symbolIcons} iconName={"x"} iconClass={classes["x-icon"]} color={greyColor.c5} />
+          ) : (
+            <IconCreator
+              icons={symbolIcons}
+              iconName={"arrow"}
+              iconClass={classes["arrow-icon"]}
+              color={greyColor.c5}
+            />
+          )}
+        </div>
+      )}
+
       <div ref={listRef} className={classes.messages__list}>
         {messages.map((message, i) => (
           <WebGameMessage key={i} gameId={gameId} playerData={playerData} message={message} />

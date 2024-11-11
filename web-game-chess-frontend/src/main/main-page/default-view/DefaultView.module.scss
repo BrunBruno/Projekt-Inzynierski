@@ -39,7 +39,7 @@
 //*/
 
 // resize
-@media (max-height: 700px) {
+@media (max-width: 700px) {
   .default {
     &__container {
       margin-top: 4rem;

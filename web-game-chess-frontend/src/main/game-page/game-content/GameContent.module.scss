@@ -27,7 +27,18 @@
 @media (max-width: 1000px) {
   .game {
     &__content {
-      @include square(72rem);
+      @include square(68rem);
+    }
+  }
+}
+
+@media (max-width: 350px) {
+}
+
+@media (max-height: 500px) {
+  .game {
+    &__content {
+      margin: 6rem 0;
     }
   }
 }

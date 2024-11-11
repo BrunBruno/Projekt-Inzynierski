@@ -21,4 +21,12 @@
     grid-template-rows: 10rem auto 16rem;
   }
 }
+
+@media (max-height: 500px) {
+  .game-main {
+    @include mainScrollbar();
+
+    overflow-y: scroll;
+  }
+}
 //*/

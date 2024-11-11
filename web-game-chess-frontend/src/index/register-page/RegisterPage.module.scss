@@ -140,23 +140,16 @@
       height: 100%;
       background-image: none;
       border-radius: 0;
-      padding-top: $content_space;
+      padding: 0;
 
       &__intro {
-        position: absolute;
-        top: calc(100vw + $content_space);
-
-        p.text {
-          font-size: 2rem;
-        }
-
-        .action-button {
-          @include actionButton.actionButton(2rem);
-        }
+        display: none;
       }
     }
 
     &__form {
+      @include absCenter();
+
       width: calc(100vw - 2rem);
       height: calc(100vw - 2rem);
       flex-shrink: 0;

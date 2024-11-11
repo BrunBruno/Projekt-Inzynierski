@@ -235,7 +235,9 @@ function SignUpModal({ setModal, userNameConf, userPassConf }: SignUpModalProps)
     <form
       data-testid="sign-up-form-modal"
       className={classes["registration-form"]}
-      onSubmit={(event) => signUpUser(event)}
+      onSubmit={(event) => {
+        signUpUser(event);
+      }}
     >
       <IconCreator icons={registerPageIcons} iconName="bgPawn" color={mainColor.c0} iconClass={classes["bg-svg"]} />
 
@@ -264,6 +266,9 @@ function SignUpModal({ setModal, userNameConf, userPassConf }: SignUpModalProps)
             ref={emailInputRef}
             name="email"
             type="text"
+            inputMode="text"
+            autoCapitalize="none"
+            autoCorrect="off"
             placeholder="E-mail"
             autoComplete="e-mail"
             className={classes["form-input"]}
@@ -282,6 +287,9 @@ function SignUpModal({ setModal, userNameConf, userPassConf }: SignUpModalProps)
             ref={usernameInputRef}
             name="userName"
             type="text"
+            inputMode="text"
+            autoCapitalize="none"
+            autoCorrect="off"
             placeholder="UserName"
             autoComplete="username"
             className={classes["form-input"]}
@@ -300,6 +308,8 @@ function SignUpModal({ setModal, userNameConf, userPassConf }: SignUpModalProps)
             ref={passwordInputRef}
             name="password"
             type="password"
+            autoCapitalize="none"
+            autoCorrect="off"
             placeholder="Password"
             autoComplete="off"
             className={classes["form-input"]}
@@ -339,6 +349,8 @@ function SignUpModal({ setModal, userNameConf, userPassConf }: SignUpModalProps)
             ref={confPassInputRef}
             name="confirmPassword"
             type="password"
+            autoCapitalize="none"
+            autoCorrect="off"
             placeholder="Confirm Password"
             autoComplete="off"
             className={classes["form-input"]}

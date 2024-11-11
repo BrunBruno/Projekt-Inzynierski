@@ -181,7 +181,7 @@ $sqr_size: 7rem;
       }
 
       .continue-button {
-        @include ActionButton.actionButton();
+        @include ActionButton.actionButton(2rem);
 
         position: absolute;
         left: 50%;
@@ -193,21 +193,48 @@ $sqr_size: 7rem;
 }
 
 // resize
-@media screen {
+@media (max-width: 700px) {
+  $sqr_size: 10rem;
+
   .bot {
-    height: calc(100% - 12rem);
+    height: calc(100dvh - 18rem);
+    padding: 0;
+    overflow-y: scroll;
+    padding: 4rem 0;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
 
     &__content {
-      @include wh100();
       @include flex(column, center, center, 0);
 
+      position: unset;
+      top: unset;
+      left: unset;
+      transform: unset;
+
+      padding: 0;
+      width: 100%;
+      height: fit-content;
       border-radius: 0;
       background-color: #0000;
+
+      &__level {
+        width: calc(5 * $sqr_size + 4 * 1rem);
+
+        &__grid {
+          .engine-level {
+            @include square($sqr_size);
+          }
+        }
+      }
 
       &__options {
         align-items: center;
         gap: 4rem;
         border: none;
+        padding: 0;
 
         &__option {
           @include flex(column, center, center, 1rem);
@@ -226,11 +253,13 @@ $sqr_size: 7rem;
         }
 
         .continue-button {
+          @include ActionButton.actionButton(3rem);
+
           position: relative;
           left: unset;
           bottom: unset;
           transform: none;
-          margin-top: 4rem;
+          margin: 4rem;
         }
       }
     }

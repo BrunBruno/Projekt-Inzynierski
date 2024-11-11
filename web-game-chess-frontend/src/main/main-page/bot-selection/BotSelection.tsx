@@ -135,6 +135,7 @@ function BotSelection({ setOfflineGameOptions }: BotSelectionProps) {
 
               <span>Allow move undoing:</span>
             </div>
+
             <div className={`${classes["undo-option"]} ${classes["buttons"]}`}>
               <button
                 className={`

@@ -67,7 +67,7 @@ function AboutPage() {
         if (content.title === selectedContent.title) {
           setSelectedContent(content);
         } else {
-          navigate(`/about/${content.title.toLowerCase()}`);
+          navigate(`/about/${content.title.toLowerCase()}`, { replace: true });
         }
 
         setTimeout(() => {

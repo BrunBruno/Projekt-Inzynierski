@@ -6,7 +6,7 @@ export type PlayActionsData = {
 
 export const playActionsData: PlayActionsData[] = [
   {
-    header: "Online Games",
+    header: "Online Games with Users",
     iconName: "online",
     text: "Challenge players around the world and sharpen your skills through competitive online matches.",
   },
@@ -21,7 +21,7 @@ export const playActionsData: PlayActionsData[] = [
     text: "Invite your friends and enjoy private matches with custom settings and friendly competition.",
   },
   {
-    header: "Game History",
+    header: "Game History and More",
     iconName: "history",
     text: "Access and review your past games to analyze your performance and improve your gameplay.",
   },

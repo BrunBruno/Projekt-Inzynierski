@@ -6,6 +6,19 @@
   display: grid;
   grid-template-rows: auto 6rem;
   gap: 1rem;
+  transition: height 0.3s;
+
+  &.closed {
+    height: 3rem;
+  }
+
+  &.closed &__list {
+    display: none;
+  }
+
+  &.closed &__actions {
+    display: none;
+  }
 
   &__list {
     overflow-y: scroll;
@@ -96,3 +109,44 @@
     }
   }
 }
+
+// resize
+@media (max-width: 1000px) {
+  .messages {
+    @include square(36rem);
+
+    .mess-icons {
+      position: absolute;
+
+      &.x {
+        top: 2rem;
+        right: 2rem;
+      }
+
+      &.arrow {
+        top: 0;
+        left: 50%;
+        transform: translateX(-50%);
+      }
+
+      &:hover {
+        cursor: pointer;
+        filter: brightness(70%);
+      }
+
+      .x-icon {
+        height: 4rem;
+      }
+
+      .arrow-icon {
+        height: 3rem;
+        transform: rotate(-90deg);
+      }
+    }
+
+    &:not(.closed) {
+      padding: 2rem;
+    }
+  }
+}
+//

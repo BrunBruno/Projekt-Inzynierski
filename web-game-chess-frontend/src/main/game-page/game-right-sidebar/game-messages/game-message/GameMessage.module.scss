@@ -13,7 +13,7 @@
     overflow: hidden;
 
     .sender-image {
-      height: 3rem;
+      @include wh100();
     }
   }
 
