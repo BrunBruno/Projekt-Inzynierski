@@ -50,7 +50,7 @@ namespace chess.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("DataConfigurations", (string)null);
+                    b.ToTable("DataConfigurations");
 
                     b.HasData(
                         new
@@ -134,7 +134,7 @@ namespace chess.Infrastructure.Migrations
                     b.HasIndex("PlayerId")
                         .IsUnique();
 
-                    b.ToTable("EngineGames", (string)null);
+                    b.ToTable("EngineGames");
                 });
 
             modelBuilder.Entity("chess.Core.Entities.EngineGameMessage", b =>
@@ -164,7 +164,7 @@ namespace chess.Infrastructure.Migrations
 
                     b.HasIndex("GameId");
 
-                    b.ToTable("EngineGameMessages", (string)null);
+                    b.ToTable("EngineGameMessages");
                 });
 
             modelBuilder.Entity("chess.Core.Entities.EngineGameMove", b =>
@@ -215,7 +215,7 @@ namespace chess.Infrastructure.Migrations
 
                     b.HasIndex("GameId");
 
-                    b.ToTable("EngineGameMoves", (string)null);
+                    b.ToTable("EngineGameMoves");
                 });
 
             modelBuilder.Entity("chess.Core.Entities.EngineGamePlayer", b =>
@@ -247,7 +247,7 @@ namespace chess.Infrastructure.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("EngineGamePlayers", (string)null);
+                    b.ToTable("EngineGamePlayers");
                 });
 
             modelBuilder.Entity("chess.Core.Entities.EngineGameState", b =>
@@ -288,7 +288,7 @@ namespace chess.Infrastructure.Migrations
                     b.HasIndex("GameId")
                         .IsUnique();
 
-                    b.ToTable("EngineGameStates", (string)null);
+                    b.ToTable("EngineGameStates");
                 });
 
             modelBuilder.Entity("chess.Core.Entities.Friendship", b =>
@@ -327,7 +327,7 @@ namespace chess.Infrastructure.Migrations
 
                     b.HasIndex("RequestorId");
 
-                    b.ToTable("Friendships", (string)null);
+                    b.ToTable("Friendships");
                 });
 
             modelBuilder.Entity("chess.Core.Entities.GameTiming", b =>
@@ -347,7 +347,7 @@ namespace chess.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("GameTimings", (string)null);
+                    b.ToTable("GameTimings");
                 });
 
             modelBuilder.Entity("chess.Core.Entities.Role", b =>
@@ -364,7 +364,7 @@ namespace chess.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Roles", (string)null);
+                    b.ToTable("Roles");
 
                     b.HasData(
                         new
@@ -423,7 +423,7 @@ namespace chess.Infrastructure.Migrations
 
                     b.HasIndex("RoleId");
 
-                    b.ToTable("Users", (string)null);
+                    b.ToTable("Users");
                 });
 
             modelBuilder.Entity("chess.Core.Entities.UserBan", b =>
@@ -450,7 +450,7 @@ namespace chess.Infrastructure.Migrations
                     b.HasIndex("UserId")
                         .IsUnique();
 
-                    b.ToTable("UserBans", (string)null);
+                    b.ToTable("UserBans");
                 });
 
             modelBuilder.Entity("chess.Core.Entities.UserElo", b =>
@@ -482,7 +482,7 @@ namespace chess.Infrastructure.Migrations
                     b.HasIndex("UserId")
                         .IsUnique();
 
-                    b.ToTable("UserElos", (string)null);
+                    b.ToTable("UserElos");
                 });
 
             modelBuilder.Entity("chess.Core.Entities.UserImage", b =>
@@ -507,7 +507,7 @@ namespace chess.Infrastructure.Migrations
                     b.HasIndex("UserId")
                         .IsUnique();
 
-                    b.ToTable("UserImages", (string)null);
+                    b.ToTable("UserImages");
                 });
 
             modelBuilder.Entity("chess.Core.Entities.UserStats", b =>
@@ -551,7 +551,7 @@ namespace chess.Infrastructure.Migrations
                     b.HasIndex("UserId")
                         .IsUnique();
 
-                    b.ToTable("UserStats", (string)null);
+                    b.ToTable("UserStats");
                 });
 
             modelBuilder.Entity("chess.Core.Entities.UserVerificationCode", b =>
@@ -578,7 +578,7 @@ namespace chess.Infrastructure.Migrations
                     b.HasIndex("UserId")
                         .IsUnique();
 
-                    b.ToTable("UserVerificationCodes", (string)null);
+                    b.ToTable("UserVerificationCodes");
                 });
 
             modelBuilder.Entity("chess.Core.Entities.WebGame", b =>
@@ -653,7 +653,7 @@ namespace chess.Infrastructure.Migrations
                     b.HasIndex("WhitePlayerId")
                         .IsUnique();
 
-                    b.ToTable("WebGames", (string)null);
+                    b.ToTable("WebGames");
                 });
 
             modelBuilder.Entity("chess.Core.Entities.WebGameInvitation", b =>
@@ -693,7 +693,7 @@ namespace chess.Infrastructure.Migrations
                     b.HasIndex("GameId")
                         .IsUnique();
 
-                    b.ToTable("WebGameInvitations", (string)null);
+                    b.ToTable("WebGameInvitations");
                 });
 
             modelBuilder.Entity("chess.Core.Entities.WebGameMessage", b =>
@@ -723,7 +723,7 @@ namespace chess.Infrastructure.Migrations
 
                     b.HasIndex("GameId");
 
-                    b.ToTable("WebGameMessages", (string)null);
+                    b.ToTable("WebGameMessages");
                 });
 
             modelBuilder.Entity("chess.Core.Entities.WebGameMove", b =>
@@ -774,7 +774,7 @@ namespace chess.Infrastructure.Migrations
 
                     b.HasIndex("GameId");
 
-                    b.ToTable("WebGameMoves", (string)null);
+                    b.ToTable("WebGameMoves");
                 });
 
             modelBuilder.Entity("chess.Core.Entities.WebGamePlayer", b =>
@@ -821,7 +821,7 @@ namespace chess.Infrastructure.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("WebGamePlayers", (string)null);
+                    b.ToTable("WebGamePlayers");
                 });
 
             modelBuilder.Entity("chess.Core.Entities.WebGamePlayerMessage", b =>
@@ -847,7 +847,7 @@ namespace chess.Infrastructure.Migrations
 
                     b.HasIndex("PlayerId");
 
-                    b.ToTable("WebGamePlayerMessages", (string)null);
+                    b.ToTable("WebGamePlayerMessages");
                 });
 
             modelBuilder.Entity("chess.Core.Entities.WebGameState", b =>
@@ -888,7 +888,7 @@ namespace chess.Infrastructure.Migrations
                     b.HasIndex("GameId")
                         .IsUnique();
 
-                    b.ToTable("WebGameStates", (string)null);
+                    b.ToTable("WebGameStates");
                 });
 
             modelBuilder.Entity("chess.Core.Entities.EngineGame", b =>

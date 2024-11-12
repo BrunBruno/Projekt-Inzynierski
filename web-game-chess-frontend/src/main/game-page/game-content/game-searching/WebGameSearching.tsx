@@ -13,13 +13,12 @@ import { webGameSearchingIcons } from "./WebGameSearchingIcons";
 const numOfPawns = 8;
 
 type WebGameSearchingProps = {
-  // ids obtained from new game search
-  searchIds: SearchWebGameDto | null;
-  // to set obtained ids
-  setSearchIds: Dispatch<SetStateAction<SearchWebGameDto | null>>;
+  // ids obtained from new game search and corresponding setter
+  newGameData: SearchWebGameDto | null;
+  setNewGameData: Dispatch<SetStateAction<SearchWebGameDto | null>>;
 };
 
-function WebGameSearching({ searchIds, setSearchIds }: WebGameSearchingProps) {
+function WebGameSearching({ newGameData, setNewGameData }: WebGameSearchingProps) {
   ///
 
   const { showPopup } = usePopup();
@@ -66,18 +65,18 @@ function WebGameSearching({ searchIds, setSearchIds }: WebGameSearchingProps) {
 
   // game search abort
   const onCancelSearch = async (): Promise<void> => {
-    if (!searchIds) return;
+    if (!newGameData) return;
 
     try {
       const abortSearchModel: AbortSearchModel = {
-        playerId: searchIds.playerId,
+        playerId: newGameData.playerId,
       };
 
       await axios.delete(webGameController.abortSearch(abortSearchModel), getAuthorization());
 
-      await GameHubService.PlayerLeaved(searchIds.timingId);
+      await GameHubService.PlayerLeaved(newGameData.timingId);
 
-      setSearchIds(null);
+      setNewGameData(null);
     } catch (err) {
       showPopup(getErrMessage(err), "warning");
     }
@@ -90,6 +89,7 @@ function WebGameSearching({ searchIds, setSearchIds }: WebGameSearchingProps) {
         <div className={classes.searching__content__text}>
           <h1>Searching for Game</h1>
         </div>
+
         <div className={classes.searching__content__indicator}>
           {Array.from({ length: numOfPawns }).map((_, index: number) => (
             <IconCreator
@@ -100,6 +100,7 @@ function WebGameSearching({ searchIds, setSearchIds }: WebGameSearchingProps) {
             />
           ))}
         </div>
+
         <button
           className={classes.cancel}
           onClick={() => {

@@ -51,10 +51,9 @@ function WebGamePage() {
   const { gameIdStr } = useParams<{ gameIdStr: string }>();
   const [gameId, setGameId] = useState<Guid | null>(null);
 
-  // selected timing and ids in case of new game or rematch
+  // selected timing and data for new games and rematch games
   const [selectedTiming, setSelectedTiming] = useState<GetGameTimingDto | null>(null);
-  const [searchIds, setSearchIds] = useState<SearchWebGameDto | null>(null);
-  // game id for rematch
+  const [newGameData, setNewGameData] = useState<SearchWebGameDto | null>(null);
   const [rematchData, setRematchData] = useState<CreateRematchGameDto | null>(null);
 
   // set game id as Guid
@@ -228,33 +227,38 @@ function WebGamePage() {
   }, [gameData]);
   //*/
 
-  // to enable new matches and rematches
-  useEffect(() => {
-    // handle hub service game changed event
-    // to redirect to new game
-    const handleGamesChanged = async (): Promise<void> => {
-      if (!searchIds) return;
+  // handle hub service game changed event
+  // to redirect to new game
+  const handleGamesChanged = async (): Promise<void> => {
+    console.log(newGameData);
 
-      try {
-        const model: CheckIfInGameModel = {
-          playerId: searchIds.playerId,
+    if (!newGameData) return;
+
+    const model: CheckIfInGameModel = {
+      playerId: newGameData.playerId,
+    };
+
+    try {
+      const response = await axios.get<CheckIfInGameDto>(webGameController.checkIfInGame(model), getAuthorization());
+
+      if (response.data.isInGame) {
+        const state: StateOptions = {
+          popup: { text: "GAME STARTED", type: "info" },
         };
 
-        const response = await axios.get<CheckIfInGameDto>(webGameController.checkIfInGame(model), getAuthorization());
+        navigate(`/main/game/${response.data.gameId}`, { state: state });
 
-        if (response.data.isInGame) {
-          const state: StateOptions = {
-            popup: { text: "GAME STARTED", type: "info" },
-          };
-
-          navigate(`/main/game/${response.data.gameId}`, { state: state });
-
-          window.location.reload(); //???
-        }
-      } catch (err) {
-        showPopup(getErrMessage(err), "warning");
+        window.location.reload(); //???
       }
-    };
+    } catch (err) {
+      showPopup(getErrMessage(err), "warning");
+    }
+  };
+  //*/
+
+  // to enable new matches and rematches
+  useEffect(() => {
+    handleGamesChanged();
 
     if (GameHubService.connection && GameHubService.connection.state === HubConnectionState.Connected) {
       GameHubService.connection.on("GamesChanged", handleGamesChanged);
@@ -265,7 +269,7 @@ function WebGamePage() {
         GameHubService.connection.off("GamesChanged", handleGamesChanged);
       }
     };
-  }, [searchIds]);
+  }, [newGameData]);
   //*/
 
   if (!gameId || !gameData || !playerData) return <LoadingPage />;
@@ -286,10 +290,10 @@ function WebGamePage() {
         gameData={gameData}
         playerData={playerData}
         winner={winner}
-        searchIds={searchIds}
-        rematchData={rematchData}
-        setSearchIds={setSearchIds}
         selectedTiming={selectedTiming}
+        rematchData={rematchData}
+        newGameData={newGameData}
+        setNewGameData={setNewGameData}
         showConfirm={showConfirm}
         setShowConfirm={setShowConfirm}
         confirmAction={confirmAction}

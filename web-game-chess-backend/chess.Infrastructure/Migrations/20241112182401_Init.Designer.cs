@@ -12,8 +12,8 @@ using chess.Infrastructure.Contexts;
 namespace chess.Infrastructure.Migrations
 {
     [DbContext(typeof(ChessAppDbContext))]
-    [Migration("20241105111602_AddEngineGameMessages")]
-    partial class AddEngineGameMessages
+    [Migration("20241112182401_Init")]
+    partial class Init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -83,11 +83,17 @@ namespace chess.Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
+                    b.Property<bool>("AllowUndo")
+                        .HasColumnType("boolean");
+
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<DateTime?>("EndedAt")
                         .HasColumnType("timestamp with time zone");
+
+                    b.Property<int>("EngineLevel")
+                        .HasColumnType("integer");
 
                     b.Property<string>("FenPosition")
                         .IsRequired()
@@ -99,7 +105,7 @@ namespace chess.Infrastructure.Migrations
                     b.Property<bool>("HasEnded")
                         .HasColumnType("boolean");
 
-                    b.Property<bool?>("IWinner")
+                    b.Property<bool?>("IsWinner")
                         .HasColumnType("boolean");
 
                     b.Property<Guid>("PlayerId")
@@ -115,7 +121,7 @@ namespace chess.Infrastructure.Migrations
                     b.Property<DateTime?>("StartedAt")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<int>("TimingType")
+                    b.Property<int?>("TimingType")
                         .HasColumnType("integer");
 
                     b.Property<int>("Turn")

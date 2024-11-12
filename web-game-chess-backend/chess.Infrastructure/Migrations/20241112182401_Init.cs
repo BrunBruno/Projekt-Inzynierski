@@ -285,7 +285,10 @@ namespace chess.Infrastructure.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    IWinner = table.Column<bool>(type: "boolean", nullable: true),
+                    IsWinner = table.Column<bool>(type: "boolean", nullable: true),
+                    TimingType = table.Column<int>(type: "integer", nullable: true),
+                    EngineLevel = table.Column<int>(type: "integer", nullable: false),
+                    AllowUndo = table.Column<bool>(type: "boolean", nullable: false),
                     PlayerId = table.Column<Guid>(type: "uuid", nullable: false),
                     GameTimingId = table.Column<Guid>(type: "uuid", nullable: true),
                     Position = table.Column<string>(type: "text", nullable: false),
@@ -296,8 +299,7 @@ namespace chess.Infrastructure.Migrations
                     EndedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
                     Turn = table.Column<int>(type: "integer", nullable: false),
                     Round = table.Column<int>(type: "integer", nullable: false),
-                    WinnerColor = table.Column<int>(type: "integer", nullable: true),
-                    TimingType = table.Column<int>(type: "integer", nullable: false)
+                    WinnerColor = table.Column<int>(type: "integer", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -342,6 +344,7 @@ namespace chess.Infrastructure.Migrations
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
                     IsPrivate = table.Column<bool>(type: "boolean", nullable: false),
+                    TimingType = table.Column<int>(type: "integer", nullable: false),
                     EndGameType = table.Column<int>(type: "integer", nullable: true),
                     EloGain = table.Column<int>(type: "integer", nullable: false),
                     WhitePlayerId = table.Column<Guid>(type: "uuid", nullable: false),
@@ -357,8 +360,7 @@ namespace chess.Infrastructure.Migrations
                     EndedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
                     Turn = table.Column<int>(type: "integer", nullable: false),
                     Round = table.Column<int>(type: "integer", nullable: false),
-                    WinnerColor = table.Column<int>(type: "integer", nullable: true),
-                    TimingType = table.Column<int>(type: "integer", nullable: false)
+                    WinnerColor = table.Column<int>(type: "integer", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -384,6 +386,28 @@ namespace chess.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "EngineGameMessages",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    RequestorName = table.Column<string>(type: "text", nullable: false),
+                    GameId = table.Column<Guid>(type: "uuid", nullable: false),
+                    Content = table.Column<string>(type: "text", nullable: false),
+                    SentAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    Type = table.Column<int>(type: "integer", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_EngineGameMessages", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_EngineGameMessages_EngineGames_GameId",
+                        column: x => x.GameId,
+                        principalTable: "EngineGames",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "EngineGameMoves",
                 columns: table => new
                 {
@@ -392,6 +416,7 @@ namespace chess.Infrastructure.Migrations
                     BlackTime = table.Column<double>(type: "double precision", nullable: false),
                     GameId = table.Column<Guid>(type: "uuid", nullable: false),
                     DoneMove = table.Column<string>(type: "text", nullable: false),
+                    FenMove = table.Column<string>(type: "text", nullable: false),
                     OldCoordinates = table.Column<string>(type: "text", nullable: false),
                     NewCoordinates = table.Column<string>(type: "text", nullable: false),
                     Position = table.Column<string>(type: "text", nullable: false),
@@ -422,7 +447,8 @@ namespace chess.Infrastructure.Migrations
                     CanWhiteLongRookCastle = table.Column<bool>(type: "boolean", nullable: false),
                     CanBlackKingCastle = table.Column<bool>(type: "boolean", nullable: false),
                     CanBlackShortRookCastle = table.Column<bool>(type: "boolean", nullable: false),
-                    CanBlackLongRookCastle = table.Column<bool>(type: "boolean", nullable: false)
+                    CanBlackLongRookCastle = table.Column<bool>(type: "boolean", nullable: false),
+                    HalfMove = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -491,6 +517,7 @@ namespace chess.Infrastructure.Migrations
                     BlackTime = table.Column<double>(type: "double precision", nullable: false),
                     GameId = table.Column<Guid>(type: "uuid", nullable: false),
                     DoneMove = table.Column<string>(type: "text", nullable: false),
+                    FenMove = table.Column<string>(type: "text", nullable: false),
                     OldCoordinates = table.Column<string>(type: "text", nullable: false),
                     NewCoordinates = table.Column<string>(type: "text", nullable: false),
                     Position = table.Column<string>(type: "text", nullable: false),
@@ -521,7 +548,8 @@ namespace chess.Infrastructure.Migrations
                     CanWhiteLongRookCastle = table.Column<bool>(type: "boolean", nullable: false),
                     CanBlackKingCastle = table.Column<bool>(type: "boolean", nullable: false),
                     CanBlackShortRookCastle = table.Column<bool>(type: "boolean", nullable: false),
-                    CanBlackLongRookCastle = table.Column<bool>(type: "boolean", nullable: false)
+                    CanBlackLongRookCastle = table.Column<bool>(type: "boolean", nullable: false),
+                    HalfMove = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -551,6 +579,11 @@ namespace chess.Infrastructure.Migrations
                     { 1, "Admin" },
                     { 2, "User" }
                 });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_EngineGameMessages_GameId",
+                table: "EngineGameMessages",
+                column: "GameId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_EngineGameMoves_GameId",
@@ -679,6 +712,9 @@ namespace chess.Infrastructure.Migrations
         {
             migrationBuilder.DropTable(
                 name: "DataConfigurations");
+
+            migrationBuilder.DropTable(
+                name: "EngineGameMessages");
 
             migrationBuilder.DropTable(
                 name: "EngineGameMoves");

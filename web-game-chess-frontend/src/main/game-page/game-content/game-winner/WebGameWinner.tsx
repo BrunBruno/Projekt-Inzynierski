@@ -21,7 +21,7 @@ import { usePopup } from "../../../../shared/utils/hooks/usePopUp";
 import AvatarImage from "../../../../shared/components/avatar-image/AvatarImage";
 import { PieceColor } from "../../../../shared/utils/objects/entitiesEnums";
 import { Dispatch, SetStateAction, useRef, MouseEvent } from "react";
-import { StateOptions } from "../../../../shared/utils/objects/interfacesEnums";
+import { GameWindowInterface, StateOptions } from "../../../../shared/utils/objects/interfacesEnums";
 import { PlayerDto } from "../../../../shared/utils/types/abstractDtosAndModels";
 import { Guid } from "guid-typescript";
 import IconCreator from "../../../../shared/components/icon-creator/IconCreator";
@@ -29,20 +29,22 @@ import { symbolIcons } from "../../../../shared/svgs/iconsMap/SymbolIcons";
 import { greyColor } from "../../../../shared/utils/objects/colorMaps";
 
 type WebGameWinnerProps = {
-  // game id
+  // game and player data
   gameId: Guid;
-  // current game data
   gameData: GetWebGameDto;
-  // player data
   playerData: PlayerDto;
-  // game result data data
+  // game result data
   winner: EndGameDto | GetEndedGameDto | null;
-  // to start new game search
-  setSearchIds: Dispatch<SetStateAction<SearchWebGameDto | null>>;
+
   // timing for new game or rematch
   selectedTiming: SearchWebGameModel | null;
+  // to start new game search
+  setNewGameData: Dispatch<SetStateAction<SearchWebGameDto | null>>;
   // rematch game id
   rematchData: CreateRematchGameDto | null;
+
+  // for changing dismayed window
+  setDisplayedWindow: Dispatch<SetStateAction<GameWindowInterface>>;
 };
 
 function WebGameWinner({
@@ -50,15 +52,17 @@ function WebGameWinner({
   gameData,
   playerData,
   winner,
-  setSearchIds,
+  setNewGameData,
   selectedTiming,
   rematchData,
+  setDisplayedWindow,
 }: WebGameWinnerProps) {
   ///
 
   const navigate = useNavigate();
   const { showPopup } = usePopup();
 
+  // state for hiding and showing winner window on click
   const containerRef = useRef<HTMLDivElement>(null);
 
   // to search for new game
@@ -77,9 +81,11 @@ function WebGameWinner({
     try {
       const response = await axios.post<SearchWebGameDto>(webGameController.startSearch(), model, getAuthorization());
 
-      setSearchIds(response.data);
-
       await GameHubService.PlayerJoined(response.data.timingId);
+
+      setNewGameData(response.data);
+
+      setDisplayedWindow(GameWindowInterface.search);
     } catch (err) {
       showPopup(getErrMessage(err), "warning");
     }
@@ -145,6 +151,7 @@ function WebGameWinner({
   };
   //*/
 
+  // return to main if something went wrong
   const returnOnFail = (): void => {
     const state: StateOptions = {
       popup: { text: "ERROR STARTING GAME", type: "error" },
@@ -152,6 +159,7 @@ function WebGameWinner({
 
     navigate("/main", { state: state });
   };
+  //*/
 
   // generate players schema
   const generatePlayers = (): JSX.Element => {
@@ -212,7 +220,7 @@ function WebGameWinner({
   };
   //*/
 
-  // to look at board
+  // to look at board after game has ended
   const showWinner = (event: MouseEvent<HTMLDivElement>) => {
     const target = event.target as HTMLDivElement;
 

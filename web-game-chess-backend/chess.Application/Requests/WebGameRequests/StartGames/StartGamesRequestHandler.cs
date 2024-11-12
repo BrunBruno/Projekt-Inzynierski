@@ -98,6 +98,6 @@ public class StartGamesRequestHandler : IRequestHandler<StartGamesRequest> {
     }
 
     private static int GetRange(int x) {
-        return (int)Math.Pow(1.01, -(x - 500)) + 10;
+        return (int)Math.Pow(1.01, -(x - 1000)) + 10;
     }
 }

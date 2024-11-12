@@ -33,31 +33,32 @@ import WebGameConfirm from "./game-confirm/WebGameConfirm";
 import WebGameWinner from "./game-winner/WebGameWinner";
 
 type WebGameContentProps = {
-  // game id
+  // game and player data
   gameId: Guid;
-  // current game data
   gameData: GetWebGameDto;
-  // current player data
   playerData: GetPlayerDto;
   // winner color if game is finished
   winner: EndGameDto | GetEndedGameDto | null;
-  // obtained ids for rematch game
-  searchIds: SearchWebGameDto | null;
+
+  // timing of current game for new games and rematches
+  selectedTiming: SearchWebGameModel | null;
+
+  // obtained ids for rematch game and setter
+  newGameData: SearchWebGameDto | null;
+  setNewGameData: Dispatch<SetStateAction<SearchWebGameDto | null>>;
+
   //rematch game data
   rematchData: CreateRematchGameDto | null;
-  // setter of obtained ids
-  setSearchIds: Dispatch<SetStateAction<SearchWebGameDto | null>>;
-  // timing of current game
-  selectedTiming: SearchWebGameModel | null;
-  // to display confirm window
+
+  // to display/hide confirm window
   showConfirm: GameActionInterface | null;
-  // to hide confirm window
   setShowConfirm: Dispatch<SetStateAction<GameActionInterface | null>>;
+
   // to perform action on confirm
   confirmAction: () => void;
-  //
+
+  // selected window modal to show/hide
   displayedWindow: GameWindowInterface;
-  //
   setDisplayedWindow: Dispatch<SetStateAction<GameWindowInterface>>;
 };
 
@@ -66,10 +67,10 @@ function WebGameContent({
   gameData,
   playerData,
   winner,
-  searchIds,
-  rematchData,
-  setSearchIds,
   selectedTiming,
+  newGameData,
+  setNewGameData,
+  rematchData,
   showConfirm,
   setShowConfirm,
   confirmAction,
@@ -251,21 +252,22 @@ function WebGameContent({
         )}
 
         {/* end game info*/}
-        {displayedWindow === GameWindowInterface.winner && winner && !searchIds && (
+        {displayedWindow === GameWindowInterface.winner && winner && (
           <WebGameWinner
             gameId={gameId}
             gameData={gameData}
             playerData={playerData}
             winner={winner}
-            setSearchIds={setSearchIds}
             selectedTiming={selectedTiming}
+            setNewGameData={setNewGameData}
             rematchData={rematchData}
+            setDisplayedWindow={setDisplayedWindow}
           />
         )}
 
         {/* searching */}
-        {displayedWindow === GameWindowInterface.search && winner && searchIds && (
-          <WebGameSearching searchIds={searchIds} setSearchIds={setSearchIds} />
+        {displayedWindow === GameWindowInterface.search && newGameData && (
+          <WebGameSearching newGameData={newGameData} setNewGameData={setNewGameData} />
         )}
       </div>
     </section>
