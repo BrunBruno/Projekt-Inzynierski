@@ -110,19 +110,4 @@ public class UserRepository : IUserRepository {
         _dbContext.Users.Remove(user);
         await _dbContext.SaveChangesAsync();
     }
-
-    private static int GetEloByType(UserElo elo, TimingTypes type) {
-        if (elo == null)
-            return 0;
-
-        return type switch
-        {
-            TimingTypes.Bullet => elo.Bullet,
-            TimingTypes.Blitz => elo.Blitz,
-            TimingTypes.Rapid => elo.Rapid,
-            TimingTypes.Classic => elo.Classic,
-            TimingTypes.Daily => elo.Daily,
-            _ => 0
-        };
-    }
 }

@@ -8,6 +8,13 @@ using MediatR;
 
 namespace chess.Application.Requests.EngineRequests.EndEngineGame;
 
+/// <summary>
+/// Gets game and checks if user is player of game
+/// Checks if game has not been already ended
+/// Creates ending message
+/// Updates game properties
+/// Returns end game dto
+/// </summary>
 public class EndEngineGameRequestHandler : IRequestHandler<EndEngineGameRequest, EndEngineGameDto> {
 
     private readonly IEngineGameRepository _engineGameRepository;

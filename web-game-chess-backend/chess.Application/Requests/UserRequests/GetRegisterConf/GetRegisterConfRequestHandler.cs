@@ -1,4 +1,5 @@
-﻿using chess.Core.Enums;
+﻿
+using chess.Core.Enums;
 using MediatR;
 using chess.Shared.Exceptions;
 using chess.Application.Repositories;

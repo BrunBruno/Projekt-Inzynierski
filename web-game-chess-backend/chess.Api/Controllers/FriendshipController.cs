@@ -46,7 +46,7 @@ public class FriendshipController : ControllerBase {
 
 
     /// <summary>
-    /// Creates freindship with rejected status
+    /// Creates friendship with rejected status
     /// </summary>
     /// <param name="model"></param>
     /// <returns></returns>
@@ -134,7 +134,7 @@ public class FriendshipController : ControllerBase {
 
 
     /// <summary>
-    /// 
+    /// To get ranking among user friends
     /// </summary>
     /// <param name="model"></param>
     /// <returns></returns>

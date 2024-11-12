@@ -390,7 +390,7 @@ public class GameHub : Hub<IGameHub> {
 
 
     /// <summary>
-    /// 
+    /// To cancel created rematch offer
     /// </summary>
     /// <param name="gameId"></param>
     /// <returns></returns>

@@ -1,8 +1,5 @@
 @use "../../../shared/styles/shared.scss" as *;
-
-$index-border-width: 2rem;
-$index-border-radius: 16rem;
-$index-border-color: rgb(67, 43, 137);
+@use "../../Index.scss" as Index;
 
 // faq container
 .section {
@@ -11,8 +8,8 @@ $index-border-color: rgb(67, 43, 137);
   position: relative;
   padding-top: 10rem;
   background-color: #000;
-  border-top-right-radius: $index-border-radius;
-  box-shadow: $index-border-width calc(-1 * $index-border-width) 0 0 $index-border-color;
+  border-top-right-radius: Index.$border-radius;
+  box-shadow: Index.$border-width calc(-1 * Index.$border-width) 0 0 Index.$border-color;
 
   &::before {
     @include subCl(16rem, 16rem);
@@ -20,10 +17,10 @@ $index-border-color: rgb(67, 43, 137);
     top: calc(-2rem - 16rem);
     left: -2rem;
 
-    border: solid $index-border-width $index-border-color;
+    border: solid Index.$border-width Index.$border-color;
     border-top: none;
     border-right: none;
-    border-bottom-left-radius: $index-border-radius;
+    border-bottom-left-radius: Index.$border-radius;
     box-shadow: 0rem 10rem 0 #000;
   }
 

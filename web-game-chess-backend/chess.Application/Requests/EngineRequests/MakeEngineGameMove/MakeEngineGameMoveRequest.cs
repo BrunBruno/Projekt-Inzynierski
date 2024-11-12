@@ -4,7 +4,7 @@ using MediatR;
 namespace chess.Application.Requests.EngineRequests.MakeEngineGameMove;
 
 /// <summary>
-/// Request for making move by playrs in game with engine
+/// Request for making move by player in game with engine
 /// </summary>
 public class MakeEngineGameMoveRequest : IRequest {
 
@@ -52,7 +52,7 @@ public class MakeEngineGameMoveRequest : IRequest {
     /// <summary>
     /// True is pieces used for castling just moved
     /// </summary>
-    public bool WhitekingMoved { get; set; }
+    public bool WhiteKingMoved { get; set; }
     public bool WhiteShortRookMoved { get; set; }
     public bool WhiteLongRookMoved { get; set; }
     public bool BlackKingMoved { get; set; }

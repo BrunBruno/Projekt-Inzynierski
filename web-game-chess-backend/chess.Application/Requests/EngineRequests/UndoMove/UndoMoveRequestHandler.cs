@@ -6,6 +6,12 @@ using MediatR;
 
 namespace chess.Application.Requests.EngineRequests.UndoMove;
 
+/// <summary>
+/// Gets game and checks if user is player
+/// Checks is undone can be applied
+/// Removes two last moves
+/// Updates game
+/// </summary>
 public class UndoMoveRequestHandler : IRequestHandler<UndoMoveRequest> {
 
     private readonly IEngineGameRepository _engineGameRepository;
@@ -44,7 +50,7 @@ public class UndoMoveRequestHandler : IRequestHandler<UndoMoveRequest> {
         string newPosition = moves.Count > 2 ? moves[2].Position : "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR";
 
         game.Position = newPosition;
-        game.Turn = game.Turn - 2;
+        game.Turn -= 2;
         game.Round = (game.Turn / 2) + 1;
 
 

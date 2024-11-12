@@ -113,7 +113,7 @@ public class EndWebGameRequestHandlerTests {
     }
 
     [Fact]
-    public async Task Handle_Updates_Game_And_Firedship_On_Success() {
+    public async Task Handle_Updates_Game_And_Friendship_On_Success() {
 
         var userId = Guid.NewGuid();
         var opponentId = Guid.NewGuid();
@@ -161,7 +161,7 @@ public class EndWebGameRequestHandlerTests {
             }
         };
 
-        var freindship = new Entities.Friendship()
+        var friendship = new Entities.Friendship()
         {
             RequestorId = userId,
             ReceiverId = opponentId,
@@ -179,7 +179,7 @@ public class EndWebGameRequestHandlerTests {
         _mockGameRepository.Setup(x => x.GetById(gameId)).ReturnsAsync(game);
         _mockUserRepository.Setup(x => x.GetById(game.WhitePlayer.UserId)).ReturnsAsync(user);
         _mockUserRepository.Setup(x => x.GetById(game.BlackPlayer.UserId)).ReturnsAsync(opponent);
-        _mockFriendshipRepository.Setup(x => x.GetByUsersIds(userId, opponentId)).ReturnsAsync(freindship);
+        _mockFriendshipRepository.Setup(x => x.GetByUsersIds(userId, opponentId)).ReturnsAsync(friendship);
 
 
         var handler = new EndWebGameRequestHandler(

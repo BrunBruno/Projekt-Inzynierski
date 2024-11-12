@@ -63,7 +63,7 @@ public class MakeWebGameMoveRequestHandler : IRequestHandler<MakeWebGameMoveRequ
         // update states
         game.CurrentState.EnPassant = request.EnPassant;
         if (game.CurrentState.CanWhiteKingCastle) 
-            game.CurrentState.CanWhiteKingCastle = !request.WhitekingMoved;
+            game.CurrentState.CanWhiteKingCastle = !request.WhiteKingMoved;
         if (game.CurrentState.CanWhiteShortRookCastle)
             game.CurrentState.CanWhiteShortRookCastle = !request.WhiteShortRookMoved;
         if (game.CurrentState.CanWhiteLongRookCastle)

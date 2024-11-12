@@ -63,14 +63,14 @@ public interface IGameHub {
     Task TypingStatus(bool IsTyping);
 
     /// <summary>
-    /// For notifying about rematch request
+    /// For notifying about rematch request offer
     /// </summary>
     /// <param name=""></param>
     /// <returns></returns>
     Task RematchRequested(CreateRematchGameDto gameData);
 
     /// <summary>
-    /// 
+    /// For notifying about rematch request cancellation
     /// </summary>
     /// <returns></returns>
     Task RematchCanceled();

@@ -3,7 +3,6 @@ using chess.Application.Pagination;
 using chess.Application.Repositories.FriendshipRepositories;
 using chess.Application.Repositories.UserRepositories;
 using chess.Application.Services;
-using chess.Core.Abstraction;
 using chess.Core.Dtos;
 using MediatR;
 

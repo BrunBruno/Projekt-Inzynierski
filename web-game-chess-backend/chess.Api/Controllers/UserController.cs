@@ -77,9 +77,10 @@ public class UserController : ControllerBase {
     [Authorize(Policy = "IsNotVerified")]
     public async Task<IActionResult> RegenerateCode([FromBody] RegenerateCodeModel model) {
 
-        var request = new RegenerateCodeRequest() { };
+        var request = _mapper.Map<RegenerateCodeRequest>(model);
 
         await _mediator.Send(request);
+
         return Ok();
     }
 
@@ -96,6 +97,7 @@ public class UserController : ControllerBase {
         var request = _mapper.Map<VerifyEmailRequest>(model);
 
         await _mediator.Send(request);
+
         return Ok();
     }
 
@@ -126,6 +128,7 @@ public class UserController : ControllerBase {
         var request = _mapper.Map<ResetPasswordRequest>(model);
 
         await _mediator.Send(request);
+
         return Ok();
     }
 
@@ -142,6 +145,7 @@ public class UserController : ControllerBase {
         var request = _mapper.Map<UpdateProfileRequest>(model);
 
         await _mediator.Send(request);
+        
         return Ok();
     }
 
@@ -258,12 +262,17 @@ public class UserController : ControllerBase {
 
         var request = _mapper.Map<GetRegisterConfRequest>(model);
 
-        var confguration = await _mediator.Send(request);
+        var configuration = await _mediator.Send(request);
 
-        return Ok(confguration);
+        return Ok(configuration);
     }
 
 
+    /// <summary>
+    /// Gets global users ranking
+    /// </summary>
+    /// <param name="model"></param>
+    /// <returns></returns>
     [HttpGet("ranking")]
     [Authorize(Policy = "IsVerified")]
     public async Task<IActionResult> GetUsersRanking([FromQuery] GetUsersRankingModel model) {

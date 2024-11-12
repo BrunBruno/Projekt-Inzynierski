@@ -8,7 +8,13 @@ using MediatR;
 namespace chess.Application.Requests.EngineRequests.GetEngineGameMove;
 
 /// <summary>
-/// 
+/// Gets game and checks if user is player
+/// Makes game position in fen format
+/// Sends position to engine
+/// Searches for bestmove
+/// Ends game if none move found
+/// Gets new position and engine move was done
+/// Creates adn returns move dto
 /// </summary>
 public class GetEngineGameMoveRequestHandler : IRequestHandler<GetEngineGameMoveRequest, GetEngineGameMoveDto> {
 
@@ -81,8 +87,6 @@ public class GetEngineGameMoveRequestHandler : IRequestHandler<GetEngineGameMove
 
         var newPosition = newFenPosition.Split(' ')[0];
 
-        Console.WriteLine(bestMove);
-
         string from = bestMove.Substring(0, 2);
         string to = bestMove.Substring(2, 2);
 
@@ -102,6 +106,7 @@ public class GetEngineGameMoveRequestHandler : IRequestHandler<GetEngineGameMove
             PromotedPiece = promotedPiece,
         };
 
+
         return dto;
     }
 
@@ -109,7 +114,7 @@ public class GetEngineGameMoveRequestHandler : IRequestHandler<GetEngineGameMove
         // active color
         var activeColor = (game.Turn % 2 == 0) ? "w" : "b";
 
-        // castling avalibility
+        // castling availability
         string whiteKingsideCastle = game.CurrentState.CanWhiteKingCastle == true && game.CurrentState.CanWhiteShortRookCastle == true ? "K" : "";
         string whiteQueensideCastle = game.CurrentState.CanWhiteKingCastle == true && game.CurrentState.CanWhiteLongRookCastle == true ? "Q" : "";
         string blackKingsideCastle = game.CurrentState.CanBlackKingCastle == true && game.CurrentState.CanBlackShortRookCastle == true ? "k" : "";
@@ -123,12 +128,12 @@ public class GetEngineGameMoveRequestHandler : IRequestHandler<GetEngineGameMove
         var enPassant = enPassantParts == null ? "-" : $"{(char)('a' + (int.Parse(enPassantParts[0]) - 1))}{enPassantParts[1]}";
 
         // half move clock
-        var halfmoveClock = "0";
+        var halfMoveClock = "0"; //todo
 
         // full move clock
-        var fullmoveNumber = ((game.Turn / 2) + 1).ToString();
+        var fullMoveNumber = ((game.Turn / 2) + 1).ToString();
 
-        var fenPosition = $"{game.Position} {activeColor} {castlingAvailability} {enPassant} {halfmoveClock} {fullmoveNumber}";
+        var fenPosition = $"{game.Position} {activeColor} {castlingAvailability} {enPassant} {halfMoveClock} {fullMoveNumber}";
 
         return fenPosition;
     }

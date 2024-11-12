@@ -7,6 +7,12 @@ using MediatR;
 
 namespace chess.Application.Requests.EngineRequests.MakeEngineGameMove;
 
+/// <summary>
+/// Gets game and checks if user is player
+/// Checks if game has not ended
+/// Updates game and game state
+/// Creates new move
+/// </summary>
 public class MakeEngineGameMoveRequestHandler : IRequestHandler<MakeEngineGameMoveRequest> {
 
     private readonly IUserContextService _userContextService;
@@ -30,11 +36,11 @@ public class MakeEngineGameMoveRequestHandler : IRequestHandler<MakeEngineGameMo
         var game = await _engineGameRepository.GetById(request.GameId)
             ?? throw new NotFoundException("Game not found.");
 
-        if (game.HasEnded)
-            throw new BadRequestException("Game is finished.");
-
         if(game.Player.UserId != userId)
             throw new UnauthorizedException("Not user game.");
+
+        if (game.HasEnded)
+            throw new BadRequestException("Game is finished.");
 
         // update times
         /*
@@ -56,7 +62,7 @@ public class MakeEngineGameMoveRequestHandler : IRequestHandler<MakeEngineGameMo
         // update states
         game.CurrentState.EnPassant = request.EnPassant;
         if (game.CurrentState.CanWhiteKingCastle)
-            game.CurrentState.CanWhiteKingCastle = !request.WhitekingMoved;
+            game.CurrentState.CanWhiteKingCastle = !request.WhiteKingMoved;
         if (game.CurrentState.CanWhiteShortRookCastle)
             game.CurrentState.CanWhiteShortRookCastle = !request.WhiteShortRookMoved;
         if (game.CurrentState.CanWhiteLongRookCastle)

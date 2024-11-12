@@ -7,13 +7,11 @@ using Microsoft.EntityFrameworkCore;
 
 namespace chess.Infrastructure.Repositories.FriendshipRepositories;
 
-public class FriendshipRepository : IFriendshipRepository
-{
+public class FriendshipRepository : IFriendshipRepository {
 
     private readonly ChessAppDbContext _dbContext;
 
-    public FriendshipRepository(ChessAppDbContext dbContext)
-    {
+    public FriendshipRepository(ChessAppDbContext dbContext) {
         _dbContext = dbContext;
     }
 
@@ -43,22 +41,19 @@ public class FriendshipRepository : IFriendshipRepository
                         f.RequestorId == receiverId && f.ReceiverId == requestorId);
 
     ///<inheritdoc/>
-    public async Task Create(Friendship friendship)
-    {
+    public async Task Create(Friendship friendship) {
         await _dbContext.Friendships.AddAsync(friendship);
         await _dbContext.SaveChangesAsync();
     }
 
     ///<inheritdoc/>
-    public async Task Update(Friendship friendship)
-    {
+    public async Task Update(Friendship friendship) {
         _dbContext.Friendships.Update(friendship);
         await _dbContext.SaveChangesAsync();
     }
 
     ///<inheritdoc/>
-    public async Task Delete(Friendship friendship)
-    {
+    public async Task Delete(Friendship friendship) {
         _dbContext.Friendships.Remove(friendship);
         await _dbContext.SaveChangesAsync();
     }

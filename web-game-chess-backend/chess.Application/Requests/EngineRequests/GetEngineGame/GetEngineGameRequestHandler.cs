@@ -1,30 +1,42 @@
 ﻿
 using chess.Application.Repositories.EngineGameRepositories;
+using chess.Application.Services;
 using chess.Core.Dtos;
 using chess.Shared.Exceptions;
 using MediatR;
 
 namespace chess.Application.Requests.EngineRequests.GetEngineGame;
 
+/// <summary>
+/// Gets game and checks if user is player
+/// Checks if player was initialized correctly
+/// Creates and return engine game dto
+/// </summary>
 public class GetEngineGameRequestHandler : IRequestHandler<GetEngineGameRequest, GetEngineGameDto> {
 
+    private readonly IUserContextService _userContextService;
     private readonly IEngineGameRepository _engineGameRepository;
 
-    public GetEngineGameRequestHandler(IEngineGameRepository engineGameRepository) {
+    public GetEngineGameRequestHandler(
+        IUserContextService userContextService,
+        IEngineGameRepository engineGameRepository
+    ) {
+        _userContextService = userContextService;
         _engineGameRepository = engineGameRepository;
     }
 
     public async Task<GetEngineGameDto> Handle(GetEngineGameRequest request, CancellationToken cancellationToken) {
 
+        var userId = _userContextService.GetUserId();
+
         var game = await _engineGameRepository.GetById(request.GameId)
             ?? throw new NotFoundException("Game not found.");
 
+        if(game.Player.UserId != userId)
+            throw new UnauthorizedException("Not user game.");
+
         if (game.Player.Color is null)
             throw new BadRequestException("Error starting game.");
-
-        var position = game.FenPosition.Split(" ")[0] 
-            ?? throw new BadRequestException("Error starting game.");
-
 
         var gameDto = new GetEngineGameDto()
         {

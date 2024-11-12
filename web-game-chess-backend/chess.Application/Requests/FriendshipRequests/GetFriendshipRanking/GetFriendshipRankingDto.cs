@@ -3,13 +3,43 @@ using chess.Core.Dtos;
 
 namespace chess.Application.Requests.FriendshipRequests.GetFriendshipRanking;
 
+/// <summary>
+/// Dto represent user in user ranking
+/// </summary>
 public class GetFriendshipRankingDto {
 
+    /// <summary>
+    /// Position in ranking
+    /// </summary>
     public int Position { get; set; }
+
+    /// <summary>
+    /// Username
+    /// </summary>
     public required string Username { get; set; }
+
+    /// <summary>
+    /// Elo for selected timing type
+    /// </summary>
     public int Elo { get; set; }
+
+    /// <summary>
+    /// Total games played
+    /// </summary>
     public int GamesPlayed { get; set; }
+
+    /// <summary>
+    /// Wind/draw/lose ration
+    /// </summary>
     public required string Ratio { get; set; }
+
+    /// <summary>
+    /// Is user a current user
+    /// </summary>
     public bool IsUser { get; set; }
+
+    /// <summary>
+    /// User profile picture
+    /// </summary>
     public ImageDto? Profile { get; set; }
 }

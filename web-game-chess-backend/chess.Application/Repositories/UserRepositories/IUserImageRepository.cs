@@ -1,12 +1,12 @@
-﻿using chess.Core.Entities;
+﻿
+using chess.Core.Entities;
 
 namespace chess.Application.Repositories.UserRepositories;
 
 /// <summary>
 /// User image repository
 /// </summary>
-public interface IUserImageRepository
-{
+public interface IUserImageRepository {
 
     /// <summary>
     /// Get user profile picture

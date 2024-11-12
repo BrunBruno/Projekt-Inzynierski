@@ -5,6 +5,10 @@ using MediatR;
 
 namespace chess.Application.Requests.WebGameRequests.GetTotalGamesStats;
 
+/// <summary>
+/// Gets games played and user joined today
+/// Returns stats
+/// </summary>
 public class GetTotalGamesStatsRequestHandler : IRequestHandler<GetTotalGamesStatsRequest, GetTotalGamesStatsDto> {
 
     private readonly IWebGameRepository _webGameRepository;
@@ -20,13 +24,13 @@ public class GetTotalGamesStatsRequestHandler : IRequestHandler<GetTotalGamesSta
 
     public async Task<GetTotalGamesStatsDto> Handle(GetTotalGamesStatsRequest request, CancellationToken cancellationToken) {
 
-        var gamesTotay = await _webGameRepository.GetAllPlayedTotay();
+        var gamesToday = await _webGameRepository.GetAllPlayedToday();
 
         var usersToday = await _userRepository.GetAllJoinedToday();
 
         var dto = new GetTotalGamesStatsDto() 
         { 
-            GamesPlayed = gamesTotay.Count,
+            GamesPlayed = gamesToday.Count,
             UsersJoined = usersToday.Count,
         };
 

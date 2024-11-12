@@ -1,7 +1,7 @@
 ﻿
-#pragma warning disable CS8618
 using chess.Core.Abstraction;
 
+#pragma warning disable CS8618
 namespace chess.Core.Entities;
 
 /// <summary>

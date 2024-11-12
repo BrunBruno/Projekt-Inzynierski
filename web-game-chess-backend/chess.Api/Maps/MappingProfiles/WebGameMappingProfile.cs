@@ -24,7 +24,7 @@ using chess.Application.Requests.WebGameRequests.CancelRematch;
 namespace chess.Api.Maps.MappingProfiles;
 
 /// <summary>
-/// Web game controller and web game hube models to requests maps
+/// Web game controller and web game hub models to requests maps
 /// </summary>
 public class WebGameMappingProfile : Profile {
 	

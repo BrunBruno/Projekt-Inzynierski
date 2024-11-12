@@ -1,9 +1,11 @@
-﻿using chess.Core.Entities;
+﻿
+using chess.Core.Entities;
 
 namespace chess.Application.Repositories.WebGameRepositories;
 
 /// <summary>
-/// Game repository
+/// Web g
+/// ame repository
 /// </summary>
 public interface IWebGameRepository {
 
@@ -22,10 +24,10 @@ public interface IWebGameRepository {
     Task<WebGame?> GetById(Guid id);
 
     /// <summary>
-    /// To get all games that happend in current day
+    /// To get all games that happened in current day
     /// </summary>
     /// <returns></returns>
-    Task<List<WebGame>> GetAllPlayedTotay();
+    Task<List<WebGame>> GetAllPlayedToday();
 
     /// <summary>
     /// Creates new game

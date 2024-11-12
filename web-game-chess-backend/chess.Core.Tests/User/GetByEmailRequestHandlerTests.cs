@@ -1,4 +1,5 @@
-﻿using chess.Application.Repositories.UserRepositories;
+﻿
+using chess.Application.Repositories.UserRepositories;
 using chess.Application.Requests.UserRequests.GetByEmail;
 using chess.Shared.Exceptions;
 using FluentAssertions;

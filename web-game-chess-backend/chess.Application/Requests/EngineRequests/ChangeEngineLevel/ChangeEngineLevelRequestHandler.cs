@@ -7,7 +7,8 @@ using MediatR;
 namespace chess.Application.Requests.EngineRequests.ChangeEngineLevel;
 
 /// <summary>
-/// 
+/// Gets game and checks if user is player of game
+/// Updates level
 /// </summary>
 public class ChangeEngineLevelRequestHandler : IRequestHandler<ChangeEngineLevelRequest> {
 

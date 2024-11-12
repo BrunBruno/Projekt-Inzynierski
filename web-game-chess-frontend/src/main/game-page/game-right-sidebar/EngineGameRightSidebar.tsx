@@ -71,6 +71,7 @@ function EngineGameRightSidebar({ gameId, gameData }: EngineGameRightSidebarProp
       for (let i = 0; i < count9; i++)
         piecesAdvantage.push(
           <IconCreator
+            key={`q${i}`}
             icons={specialPiecesSvgs}
             iconName={"q"}
             iconClass={classes["advantage-icon"]}
@@ -80,6 +81,7 @@ function EngineGameRightSidebar({ gameId, gameData }: EngineGameRightSidebarProp
       for (let i = 0; i < count5; i++)
         piecesAdvantage.push(
           <IconCreator
+            key={`r${i}`}
             icons={specialPiecesSvgs}
             iconName={"r"}
             iconClass={classes["advantage-icon"]}
@@ -89,6 +91,7 @@ function EngineGameRightSidebar({ gameId, gameData }: EngineGameRightSidebarProp
       for (let i = 0; i < count3; i++)
         piecesAdvantage.push(
           <IconCreator
+            key={`n${i}`}
             icons={specialPiecesSvgs}
             iconName={"n"}
             iconClass={classes["advantage-icon"]}
@@ -98,6 +101,7 @@ function EngineGameRightSidebar({ gameId, gameData }: EngineGameRightSidebarProp
       for (let i = 0; i < count1; i++)
         piecesAdvantage.push(
           <IconCreator
+            key={`p${i}`}
             icons={specialPiecesSvgs}
             iconName={"p"}
             iconClass={classes["advantage-icon"]}
@@ -206,7 +210,7 @@ function EngineGameRightSidebar({ gameId, gameData }: EngineGameRightSidebarProp
         {/* --- */}
 
         {/* game history records */}
-        <div className={classes.bar__content__block}>
+        <div className={`${classes.bar__content__block} ${classes["records-block"]}`}>
           <div className={classes.bar__content__block__list}>
             {gameData.moves.length > 0
               ? gameData.moves.map((move: MoveDto, i: number) => (
@@ -220,7 +224,7 @@ function EngineGameRightSidebar({ gameId, gameData }: EngineGameRightSidebarProp
         {/* --- */}
 
         {/* game messages */}
-        <div className={classes.bar__content__block}>
+        <div className={`${classes.bar__content__block} ${classes["messages-block"]}`}>
           <EngineGameMessages gameId={gameId} />
         </div>
         {/* --- */}

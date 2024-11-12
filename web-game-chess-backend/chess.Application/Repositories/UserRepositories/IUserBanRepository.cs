@@ -1,12 +1,12 @@
-﻿using chess.Core.Entities;
+﻿
+using chess.Core.Entities;
 
 namespace chess.Application.Repositories.UserRepositories;
 
 /// <summary>
 /// Banned user interface
 /// </summary>
-public interface IUserBanRepository
-{
+public interface IUserBanRepository {
 
     /// <summary>
     /// Create banned user

@@ -61,7 +61,7 @@ public interface IUserRepository {
     Task<List<User>> GetAllJoinedToday();
 
     /// <summary>
-    /// 
+    /// Tp get users ranking
     /// </summary>
     /// <param name="type"></param>
     /// <returns></returns>

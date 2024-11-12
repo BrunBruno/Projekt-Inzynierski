@@ -7,7 +7,6 @@ using Microsoft.EntityFrameworkCore;
 namespace chess.Infrastructure.Repositories.EngineGameRepositories;
 
 public class EngineGameMoveRepository : IEngineGameMoveRepository {
-
     
     private readonly ChessAppDbContext _dbContext;
 

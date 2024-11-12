@@ -1,5 +1,11 @@
+@use "../shared/styles/variables/color.scss" as colors;
+@use "sass:color";
+
 /* shared used in all sub components*/
 
 $border-width: 2rem;
 $border-radius: 16rem;
-$border-color: rgb(67, 43, 137);
+// $border-color: rgb(67, 43, 137);
+
+//  rgb(95, 61, 196);
+$border-color: color.mix(colors.$mc9, #000, $weight: 75%, $method: rec2020);

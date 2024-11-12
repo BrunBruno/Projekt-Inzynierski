@@ -10,18 +10,20 @@ namespace chess.Application.Requests.EngineRequests.StartEngineGame;
 /// </summary>
 public class StartEngineGameRequest : TimingTypeModel, IRequest<StartEngineGameDto> {
 
+    /// <summary>
+    /// Nullable variants from TimingTypeModel, as timing is optional
+    /// </summary>
     public new TimingTypes? Type { get; set; }
     public new int? Minutes { get; set; }
     public new int? Increment { get; set; }
 
     /// <summary>
-    /// If player enables undos
+    /// If player enables undo
     /// </summary>
     public bool AllowUndo { get; set; }
 
     /// <summary>
     /// Engine level
     /// </summary>
-
     public int EngineLevel { get; set; }
 }

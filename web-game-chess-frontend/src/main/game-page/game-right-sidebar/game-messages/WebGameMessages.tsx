@@ -145,6 +145,7 @@ function WebGameMessages({ gameId, playerData }: WebGameMessagesProps) {
   const [isLess, setIsLess] = useState<boolean>(window.innerWidth <= 1000);
   const [messagesClosed, setMessagesClose] = useState<boolean>(false);
 
+  // transform messages box on resize
   useEffect(() => {
     const handleMessagesOnResize = (): void => {
       if (window.innerWidth <= 1000 && !isLess) {
@@ -168,7 +169,9 @@ function WebGameMessages({ gameId, playerData }: WebGameMessagesProps) {
       setMessagesClose(false);
     }
   }, [isLess]);
+  //*/
 
+  // show or hide messages by click
   const showMessages = (): void => {
     if (messagesClosed && window.innerWidth <= 1000) {
       setMessagesClose(false);
@@ -178,6 +181,7 @@ function WebGameMessages({ gameId, playerData }: WebGameMessagesProps) {
   const onHideMessages = (): void => {
     setMessagesClose(true);
   };
+  //*/
 
   return (
     <div

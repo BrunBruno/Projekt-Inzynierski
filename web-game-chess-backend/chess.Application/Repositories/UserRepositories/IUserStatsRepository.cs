@@ -1,12 +1,12 @@
-﻿using chess.Core.Entities;
+﻿
+using chess.Core.Entities;
 
 namespace chess.Application.Repositories.UserRepositories;
 
 /// <summary>
 /// Stats repository
 /// </summary>
-public interface IUserStatsRepository
-{
+public interface IUserStatsRepository {
 
     /// <summary>
     /// Updates users stats after game ended

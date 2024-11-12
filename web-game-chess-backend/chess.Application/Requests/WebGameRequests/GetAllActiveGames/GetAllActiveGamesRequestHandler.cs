@@ -66,7 +66,7 @@ public class GetAllActiveGamesRequestHandler : IRequestHandler<GetAllActiveGames
                     Moves = game.Round,
                     CreatedAt = game.CreatedAt,
                     TimingType = game.TimingType,
-                    TimeLeft = player.TimeLeft,
+                    TimeLeft = player.TimeLeft, //todo
 
                     // current user player
                     WhitePlayer = new PlayerDto()
@@ -125,7 +125,7 @@ public class GetAllActiveGamesRequestHandler : IRequestHandler<GetAllActiveGames
                     Moves = game.Round,
                     CreatedAt = game.CreatedAt,
                     TimingType = game.TimingType,
-                    TimeLeft = player.TimeLeft,
+                    TimeLeft = player.TimeLeft, //todo
 
                     // opponents players
                     WhitePlayer = new PlayerDto()

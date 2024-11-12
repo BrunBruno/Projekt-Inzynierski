@@ -40,7 +40,7 @@ public class GetAllActiveGamesDto {
     public TimingTypes TimingType { get; set; }
 
     /// <summary>
-    /// 
+    /// Time left for current player
     /// </summary>
     public double TimeLeft { get; set; }
 

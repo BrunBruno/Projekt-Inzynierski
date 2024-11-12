@@ -45,7 +45,7 @@ public abstract class Game {
 
     /// <summary>
     /// Round of game (both players moved)
-    /// Fullmove
+    /// Full move
     /// </summary>
     public int Round { get; set; } = 1;
 

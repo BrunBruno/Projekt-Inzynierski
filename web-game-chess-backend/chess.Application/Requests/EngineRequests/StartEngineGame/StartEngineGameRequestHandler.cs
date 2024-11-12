@@ -7,9 +7,13 @@ using chess.Core.Enums;
 using chess.Shared.Exceptions;
 using MediatR;
 
-
 namespace chess.Application.Requests.EngineRequests.StartEngineGame;
 
+/// <summary>
+/// Checks if user exists
+/// Creates player, game and starting message
+/// Returns game id
+/// </summary>
 public class StartEngineGameRequestHandler : IRequestHandler<StartEngineGameRequest, StartEngineGameDto> {
 
     private readonly Random _random = new ();

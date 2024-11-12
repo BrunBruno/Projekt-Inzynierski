@@ -8,6 +8,10 @@ using MediatR;
 
 namespace chess.Application.Requests.UserRequests.GetUsersRanking;
 
+/// <summary>
+/// Gets all users ordered by elo for provided timing type
+/// Creates and returns paged result of user ranking
+/// </summary>
 public class GetUsersRankingRequestHandler : IRequestHandler<GetUsersRankingRequest, PagedResult<GetUsersRankingDto>> {
 
     private readonly IUserContextService _userContextService;

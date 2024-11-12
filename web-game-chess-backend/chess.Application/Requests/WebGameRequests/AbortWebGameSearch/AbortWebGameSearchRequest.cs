@@ -1,5 +1,5 @@
-﻿using MediatR;
-
+﻿
+using MediatR;
 
 namespace chess.Application.Requests.WebGameRequests.AbortWebGameSearch;
 

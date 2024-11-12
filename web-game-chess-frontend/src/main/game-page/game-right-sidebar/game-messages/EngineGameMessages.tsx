@@ -7,6 +7,9 @@ import { getAuthorization, engineController } from "../../../../shared/utils/ser
 import { Guid } from "guid-typescript";
 import EngineGameMessage from "./game-message/EngineGameMessage";
 import { GetAllEngineGameMessagesDto } from "../../../../shared/utils/types/engineDtos";
+import IconCreator from "../../../../shared/components/icon-creator/IconCreator";
+import { symbolIcons } from "../../../../shared/svgs/iconsMap/SymbolIcons";
+import { greyColor } from "../../../../shared/utils/objects/colorMaps";
 
 type EngineGameMessagesProps = {
   // game id
@@ -55,8 +58,74 @@ function EngineGameMessages({ gameId }: EngineGameMessagesProps) {
     getMessages();
   }, [gameId]);
 
+  const [isLess, setIsLess] = useState<boolean>(window.innerWidth <= 1000);
+  const [messagesClosed, setMessagesClose] = useState<boolean>(false);
+
+  // transform messages box on resize
+  useEffect(() => {
+    const handleMessagesOnResize = (): void => {
+      if (window.innerWidth <= 1000 && !isLess) {
+        setIsLess(true);
+      } else if (window.innerWidth > 1000 && isLess) {
+        setIsLess(false);
+      }
+    };
+
+    window.addEventListener("resize", handleMessagesOnResize);
+
+    return () => {
+      window.removeEventListener("resize", handleMessagesOnResize);
+    };
+  }, [isLess]);
+
+  useEffect(() => {
+    if (isLess) {
+      setMessagesClose(true);
+    } else {
+      setMessagesClose(false);
+    }
+  }, [isLess]);
+  //*/
+
+  // show or hide messages by click
+  const showMessages = (): void => {
+    if (messagesClosed && window.innerWidth <= 1000) {
+      setMessagesClose(false);
+    }
+  };
+
+  const onHideMessages = (): void => {
+    setMessagesClose(true);
+  };
+  //*/
+
   return (
-    <div className={classes.messages}>
+    <div
+      className={`${classes.messages} ${messagesClosed ? classes.closed : ""}`}
+      onClick={() => {
+        showMessages();
+      }}
+    >
+      {window.innerWidth <= 1000 && (
+        <div
+          className={`${classes["mess-icons"]} ${messagesClosed ? classes["arrow"] : classes["x"]}`}
+          onClick={() => {
+            onHideMessages();
+          }}
+        >
+          {!messagesClosed ? (
+            <IconCreator icons={symbolIcons} iconName={"x"} iconClass={classes["x-icon"]} color={greyColor.c5} />
+          ) : (
+            <IconCreator
+              icons={symbolIcons}
+              iconName={"arrow"}
+              iconClass={classes["arrow-icon"]}
+              color={greyColor.c5}
+            />
+          )}
+        </div>
+      )}
+
       <div ref={listRef} className={classes.messages__list}>
         {messages.map((message, i) => (
           <EngineGameMessage key={i} message={message} />

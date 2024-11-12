@@ -1,5 +1,7 @@
 {
   "cSpell.words": [
+    "bestmove",
+    "ceng",
     "Coor",
     "Elos",
     "gcrgb",
@@ -10,9 +12,13 @@
     "Newtonsoft",
     "Npgsql",
     "outro",
+    "Queenside",
     "rnbqkbnr",
     "signalr",
+    "Stockfish",
     "svgs",
-    "testid"
+    "testid",
+    "webgame",
+    "Xunit"
   ]
 }

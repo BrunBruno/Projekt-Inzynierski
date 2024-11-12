@@ -10,6 +10,12 @@ using MediatR;
 
 namespace chess.Application.Requests.FriendshipRequests.GetFriendshipRanking;
 
+/// <summary>
+/// Check if current user exists
+/// Gets all friends
+/// Orders user by selected timing
+/// Returns paged result of user ranking
+/// </summary>
 public class GetFriendshipRankingRequestHandler : IRequestHandler<GetFriendshipRankingRequest, PagedResult<GetFriendshipRankingDto>> {
 
     private readonly IUserContextService _userContextService;

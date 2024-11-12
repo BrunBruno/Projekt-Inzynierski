@@ -31,7 +31,7 @@ public class EngineGame : Game {
     public int EngineLevel { get; set; } = 1;
 
     /// <summary>
-    /// If player enable undos
+    /// If player enable undoing
     /// </summary>
     public bool AllowUndo { get; set; } = false;
 

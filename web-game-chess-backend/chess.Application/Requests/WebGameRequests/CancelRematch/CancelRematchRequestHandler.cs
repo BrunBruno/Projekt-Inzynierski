@@ -6,6 +6,10 @@ using MediatR;
 
 namespace chess.Application.Requests.WebGameRequests.CancelRematch;
 
+/// <summary>
+/// Checks if game exists
+/// Checks if user belongs to game
+/// </summary>
 public class CancelRematchRequestHandler : IRequestHandler<CancelRematchRequest> {
 
     private readonly IUserContextService _userContextService;

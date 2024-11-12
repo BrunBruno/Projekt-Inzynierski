@@ -10,10 +10,10 @@ namespace chess.Core.Enums;
 /// Daily - longer then 1 day
 /// </summary>
 public enum TimingTypes {
-    Bullet = 0,
-    Blitz = 1,
-    Rapid = 2,
-    Classic = 3,
-    Daily = 4
+    Bullet = 1,
+    Blitz = 2,
+    Rapid = 3,
+    Classic = 4,
+    Daily = 5
 }
 

@@ -6,6 +6,11 @@ using MediatR;
 
 namespace chess.Application.Requests.EngineRequests.GetAllEngineGameMessages;
 
+/// <summary>
+/// Gets game and checks if user is player of game
+/// Gets and map game messages
+/// Returns mapped messages 
+/// </summary>
 public class GetAllEngineGameMessagesRequestHandler : IRequestHandler<GetAllEngineGameMessagesRequest, List<GetAllEngineGameMessagesDto>> {
 
     private readonly IUserContextService _userContextService;
@@ -42,6 +47,7 @@ public class GetAllEngineGameMessagesRequestHandler : IRequestHandler<GetAllEngi
             SentAt = message.SentAt,
             Type = message.Type,
         }).ToList();
+
 
         return messagesDto;
     }

@@ -1,5 +1,4 @@
 ﻿
-using chess.Core.Abstraction;
 using chess.Core.Dtos;
 
 namespace chess.Application.Requests.FriendshipRequests.GetAllNonFriends;

@@ -6,6 +6,10 @@ using MediatR;
 
 namespace chess.Application.Requests.WebGameRequests.AddPlayerToWebGame;
 
+/// <summary>
+/// Checks if game exists
+/// Checks if user belongs to game
+/// </summary>
 public class AddPlayerToWebGameRequestHandler : IRequestHandler<AddPlayerToWebGameRequest> {
 
     private readonly IWebGameRepository _webGameRepository;

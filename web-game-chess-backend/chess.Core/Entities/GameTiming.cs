@@ -31,7 +31,7 @@ public class GameTiming {
     public int Increment { get; set; }
 
     /// <summary>
-    /// Games with this timing type
+    /// All games with this timing type
     /// </summary>
     public List<WebGame> WebGames { get; set; }
     public List<EngineGame> EngineGames { get; set; }

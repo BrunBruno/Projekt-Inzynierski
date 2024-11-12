@@ -4,6 +4,9 @@ using chess.Core.Enums;
 
 namespace chess.Application.Requests.EngineRequests.GetEngineGame;
 
+/// <summary>
+/// Dto representing engine game
+/// </summary>
 public class GetEngineGameDto {
 
     /// <summary>
@@ -22,7 +25,7 @@ public class GetEngineGameDto {
     public int Turn { get; set; }
 
     /// <summary>
-    /// 
+    /// Selected engine level
     /// </summary>
     public int EngineLevel { get; set; }
 
@@ -32,12 +35,12 @@ public class GetEngineGameDto {
     public string? EnPassant { get; set; }
 
     /// <summary>
-    /// 
+    /// Game selected timing or none
     /// </summary>
     public TimingTypes? TimingType { get; set; }
 
     /// <summary>
-    /// 
+    /// If player allowed move undoing
     /// </summary>
     public bool AllowUndo { get; set; }
 
@@ -52,7 +55,7 @@ public class GetEngineGameDto {
     public bool CanBlackLongRookCastle { get; set; }
 
     /// <summary>
-    /// 
+    /// User player
     /// </summary>
     public required PlayerDto Player { get; set; }
 
@@ -60,5 +63,4 @@ public class GetEngineGameDto {
     /// List of moves that was made during game
     /// </summary>
     public required List<MoveDto> Moves { get; set; }
-
 }

@@ -24,7 +24,7 @@ public class GetOtherUserDto : UserDto {
     public int GamesPlayed { get; set; }
 
     /// <summary>
-    /// 
+    /// All user elo
     /// </summary>
     public required EloDto Elo { get; set; }
 }

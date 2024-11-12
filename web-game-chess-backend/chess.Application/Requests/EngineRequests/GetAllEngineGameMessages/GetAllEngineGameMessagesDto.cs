@@ -1,11 +1,10 @@
 ﻿
-using chess.Core.Dtos;
 using chess.Core.Enums;
 
 namespace chess.Application.Requests.EngineRequests.GetAllEngineGameMessages;
 
 /// <summary>
-/// 
+/// Dto representing game message
 /// </summary>
 public class GetAllEngineGameMessagesDto {
 
@@ -15,9 +14,9 @@ public class GetAllEngineGameMessagesDto {
     public required string Message { get; set; }
 
     /// <summary>
-    /// 
+    /// Constant sender name
     /// </summary>
-    public required string SenderName { get; set; }
+    public string SenderName { get; set; } = "Chess BRN";
 
     /// <summary>
     /// Date of creation

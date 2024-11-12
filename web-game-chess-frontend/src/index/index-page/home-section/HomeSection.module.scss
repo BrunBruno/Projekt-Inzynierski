@@ -1,8 +1,5 @@
 @use "../../../shared/styles/shared.scss" as *;
-
-$index-border-width: 2rem;
-$index-border-radius: 16rem;
-$index-border-color: rgb(67, 43, 137);
+@use "../../Index.scss" as Index;
 
 // home section container
 .section {
@@ -26,19 +23,19 @@ $index-border-color: rgb(67, 43, 137);
     width: 100%;
     height: 64rem;
 
-    border-bottom-left-radius: $index-border-radius;
+    border-bottom-left-radius: Index.$border-radius;
     background-image: linear-gradient(#0000 0%, #000 100%), url("images/hero-background.jpg");
     background-color: #000;
     background-size: contain;
     background-repeat: no-repeat;
     background-position: left;
-    box-shadow: calc(-1 * $index-border-width) $index-border-width 0 0 $index-border-color;
+    box-shadow: calc(-1 * Index.$border-width) Index.$border-width 0 0 Index.$border-color;
 
     // sub elements
     @mixin subElement() {
       @include subCl(10rem, 10rem);
 
-      border: solid $index-border-width $index-border-color;
+      border: solid Index.$border-width Index.$border-color;
       border-left: none;
     }
 
