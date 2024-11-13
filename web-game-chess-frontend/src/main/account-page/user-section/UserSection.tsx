@@ -14,69 +14,41 @@ import { userSectionIcons } from "./UserSectionIcons";
 import { mainColor } from "../../../shared/utils/objects/colorMaps";
 import { timingTypeIcons } from "../../../shared/svgs/iconsMap/TimingTypeIcons";
 import { TimingType } from "../../../shared/utils/objects/entitiesEnums";
+import { AccountPageInterface } from "../../../shared/utils/objects/interfacesEnums";
 
 type UserSectionProps = {
-  // to obtain game timing history by selection timing type
-  // sends right column view to type history chart
-  getTypeHistory: (type: TimingType) => void;
-  // to view send to friend list
-  setFriendSection: () => void;
+  // user data
+  user: GetFullUserDto | null;
+  elo: GetEloDto | null;
+
+  // get data
+  fetchData: () => void;
+
+  // to change selected content
+  setSelectedContent: (interfaceId: AccountPageInterface, type?: TimingType) => void;
 };
 
-function UserSection({ getTypeHistory, setFriendSection }: UserSectionProps) {
+function UserSection({ user, elo, fetchData, setSelectedContent }: UserSectionProps) {
   ///
 
   const { showPopup } = usePopup();
-
-  // all current user data
-  const [user, setUser] = useState<GetFullUserDto | null>(null);
-  const [elo, setElo] = useState<GetEloDto | null>(null);
 
   // states for setting changeable data
   const [name, setName] = useState<string>("");
   const [bio, setBio] = useState<string>("");
   const [profilePicture, setProfilePicture] = useState<File | null>(null);
 
-  // to gat user data
-  const getUser = async (): Promise<void> => {
-    try {
-      const userResponse = await axios.get<GetFullUserDto>(userController.getFullUser(), getAuthorization());
-
-      setUser(userResponse.data);
-
-      if (userResponse.data.name !== null) {
-        setName(userResponse.data.name);
-      }
-
-      if (userResponse.data.bio !== null) {
-        setBio(userResponse.data.bio);
-      }
-    } catch (err) {
-      showPopup(getErrMessage(err), "warning");
-    }
-  };
-
-  const getElo = async (): Promise<void> => {
-    try {
-      const eloResponse = await axios.get<GetEloDto>(userController.getElo(), getAuthorization());
-
-      setElo(eloResponse.data);
-    } catch (err) {
-      showPopup(getErrMessage(err), "warning");
-    }
-  };
-
-  const fetchData = (): void => {
-    getUser();
-    getElo();
-  };
-  //*/
-
-  // get data on load
   useEffect(() => {
-    fetchData();
-  }, []);
-  //*/
+    if (!user) return;
+
+    if (user.name !== null) {
+      setName(user.name);
+    }
+
+    if (user.bio !== null) {
+      setBio(user.bio);
+    }
+  }, [user]);
 
   // to change and update user personal data
   const updateUser = async (): Promise<void> => {
@@ -188,20 +160,27 @@ function UserSection({ getTypeHistory, setFriendSection }: UserSectionProps) {
               </div>
               <span>{user.country}</span>
             </div>
+
             <div className={classes["icon-con"]}>
               <div
                 data-testid="set-friends-button"
                 className={`${classes.icon} ${classes["friends"]}`}
                 onClick={() => {
-                  setFriendSection();
+                  setSelectedContent(AccountPageInterface.friends);
                 }}
               >
                 <IconCreator icons={userSectionIcons} iconName={"friends"} />
               </div>
               <span>Friends</span>
             </div>
+
             <div className={classes["icon-con"]}>
-              <div className={`${classes.icon} ${classes["settings"]}`}>
+              <div
+                className={`${classes.icon} ${classes["settings"]}`}
+                onClick={() => {
+                  setSelectedContent(AccountPageInterface.settings);
+                }}
+              >
                 <IconCreator icons={userSectionIcons} iconName="settings" />
               </div>
               <span>Settings</span>
@@ -251,7 +230,7 @@ function UserSection({ getTypeHistory, setFriendSection }: UserSectionProps) {
               data-testid="set-history-bullet-button"
               className={classes.user__data__elo__type}
               onClick={() => {
-                getTypeHistory(TimingType.bullet);
+                setSelectedContent(AccountPageInterface.history, TimingType.bullet);
               }}
             >
               <div className={classes["elo-points"]}>
@@ -269,7 +248,7 @@ function UserSection({ getTypeHistory, setFriendSection }: UserSectionProps) {
               data-testid="set-history-blitz-button"
               className={classes.user__data__elo__type}
               onClick={() => {
-                getTypeHistory(TimingType.blitz);
+                setSelectedContent(AccountPageInterface.history, TimingType.blitz);
               }}
             >
               <div className={classes["elo-points"]}>
@@ -287,7 +266,7 @@ function UserSection({ getTypeHistory, setFriendSection }: UserSectionProps) {
               data-testid="set-history-rapid-button"
               className={classes.user__data__elo__type}
               onClick={() => {
-                getTypeHistory(TimingType.rapid);
+                setSelectedContent(AccountPageInterface.history, TimingType.rapid);
               }}
             >
               <div className={classes["elo-points"]}>
@@ -305,7 +284,7 @@ function UserSection({ getTypeHistory, setFriendSection }: UserSectionProps) {
               data-testid="set-history-classic-button"
               className={classes.user__data__elo__type}
               onClick={() => {
-                getTypeHistory(TimingType.classic);
+                setSelectedContent(AccountPageInterface.history, TimingType.classic);
               }}
             >
               <div className={classes["elo-points"]}>
@@ -323,7 +302,7 @@ function UserSection({ getTypeHistory, setFriendSection }: UserSectionProps) {
               data-testid="set-history-daily-button"
               className={classes.user__data__elo__type}
               onClick={() => {
-                getTypeHistory(TimingType.daily);
+                setSelectedContent(AccountPageInterface.history, TimingType.daily);
               }}
             >
               <div className={classes["elo-points"]}>

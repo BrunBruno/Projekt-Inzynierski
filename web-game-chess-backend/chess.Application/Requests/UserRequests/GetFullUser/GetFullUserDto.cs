@@ -9,6 +9,11 @@ namespace chess.Application.Requests.UserRequests.GetFullUser;
 public class GetFullUserDto : UserDto {
 
     /// <summary>
+    /// Is account profile private
+    /// </summary>
+    public bool IsPrivate { get; set; }
+
+    /// <summary>
     /// Email
     /// </summary>
     public required string Email { get; set; }

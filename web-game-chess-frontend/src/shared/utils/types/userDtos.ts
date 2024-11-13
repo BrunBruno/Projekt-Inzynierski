@@ -28,6 +28,7 @@ export type IsEmailVerifiedDto = {
 export type GetEloDto = EloDto & {};
 
 export type GetFullUserDto = UserDto & {
+  isPrivate: boolean;
   email: string;
   joinDate: Date;
   bio: string | null;

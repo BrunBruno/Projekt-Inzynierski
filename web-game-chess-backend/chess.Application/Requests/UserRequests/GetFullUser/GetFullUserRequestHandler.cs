@@ -33,6 +33,7 @@ public class GetFullUserRequestHandler : IRequestHandler<GetFullUserRequest, Get
 
         var userDto = new GetFullUserDto() 
         { 
+            IsPrivate = user.IsPrivate,
             Email = user.Email,
             Username = user.Username,
             Name = user.Name,

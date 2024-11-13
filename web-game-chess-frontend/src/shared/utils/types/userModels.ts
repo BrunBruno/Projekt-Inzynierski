@@ -26,10 +26,31 @@ export type VerifyEmailModel = {
   code: string;
 };
 
+export type SendResetPasswordCodeModel = {
+  email: string;
+};
+
+export type ResetPasswordModel = {
+  email: string;
+  code: string;
+  newPassword: string;
+  confirmPassword: string;
+};
+
+export type ChangePasswordModel = {
+  oldPassword: string;
+  newPassword: string;
+  confirmPassword: string;
+};
+
 export type UpdateProfileModel = {
   name: string | null;
   bio: string | null;
   imageFile: File | null;
+};
+
+export type UpdateUserDataModel = {
+  profileIsPrivate?: boolean;
 };
 
 /** GET models */
@@ -40,17 +61,6 @@ export type GetByEmailModel = {
 
 export type GetRegisterConfModel = {
   configurationId: number;
-};
-
-export type SendResetPasswordCodeModel = {
-  email: string;
-};
-
-export type ResetPasswordModel = {
-  email: string;
-  code: string;
-  newPassword: string;
-  confirmPassword: string;
 };
 
 export type GetUsersRankingModel = PagedModel & {

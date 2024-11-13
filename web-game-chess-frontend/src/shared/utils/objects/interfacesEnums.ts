@@ -44,6 +44,12 @@ export enum GameWindowInterface {
   settings,
 }
 
+export enum AccountPageInterface {
+  settings,
+  friends,
+  history,
+}
+
 // use navigate state options
 export type StateOptions = {
   popup?: PopupType;

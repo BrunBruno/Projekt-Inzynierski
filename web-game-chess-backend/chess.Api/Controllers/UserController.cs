@@ -1,6 +1,7 @@
 ﻿
 using AutoMapper;
 using chess.Api.Models.UserModels;
+using chess.Application.Requests.UserRequests.ChangePassword;
 using chess.Application.Requests.UserRequests.GetByEmail;
 using chess.Application.Requests.UserRequests.GetElo;
 using chess.Application.Requests.UserRequests.GetFullUser;
@@ -15,6 +16,7 @@ using chess.Application.Requests.UserRequests.RegisterUser;
 using chess.Application.Requests.UserRequests.ResetPassword;
 using chess.Application.Requests.UserRequests.SendResetPasswordCode;
 using chess.Application.Requests.UserRequests.UpdateProfile;
+using chess.Application.Requests.UserRequests.UpdateUserData;
 using chess.Application.Requests.UserRequests.VerifyEmail;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -134,6 +136,23 @@ public class UserController : ControllerBase {
 
 
     /// <summary>
+    /// To update user password
+    /// </summary>
+    /// <param name="model"></param>
+    /// <returns></returns>
+    [HttpPut("change-password")]
+    [Authorize(Policy = "IsVerified")]
+    public async Task<IActionResult> ChangePassword([FromBody] ChangePasswordModel model) {
+
+        var request = _mapper.Map<ChangePasswordRequest>(model);
+
+        await _mediator.Send(request);
+
+        return Ok();
+    }
+
+
+    /// <summary>
     /// Updates updatable data for user
     /// </summary>
     /// <param name="model"></param>
@@ -146,6 +165,23 @@ public class UserController : ControllerBase {
 
         await _mediator.Send(request);
         
+        return Ok();
+    }
+
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="model"></param>
+    /// <returns></returns>
+    [HttpPut("data")]
+    [Authorize(Policy = "IsVerified")]
+    public async Task<IActionResult> UpdateUserData([FromForm] UpdateUserDataModel model) {
+
+        var request = _mapper.Map<UpdateUserDataRequest>(model);
+
+        await _mediator.Send(request);
+
         return Ok();
     }
 

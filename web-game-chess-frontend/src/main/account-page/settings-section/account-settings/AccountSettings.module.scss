@@ -1,0 +1,94 @@
+@use "../../../../shared/styles/shared.scss" as *;
+
+.settings {
+  &__row {
+    border-bottom: solid 0.5rem $gc9;
+    padding: 2rem 0;
+
+    .row-title {
+      font-weight: 600;
+      font-size: 2rem;
+      color: $gc3;
+    }
+
+    .settings-form {
+      @include flex(column, center, start, 1rem);
+
+      position: relative;
+      padding: 2rem;
+
+      .form-row {
+        position: relative;
+
+        .form-input {
+          @include tInput(2rem);
+        }
+
+        .visibility-label {
+          @include flex(row, start, center, 2rem);
+
+          margin-bottom: 1rem;
+
+          &:hover {
+            cursor: pointer;
+
+            .check-mark {
+              background-color: $gc5;
+            }
+          }
+
+          .radio-input {
+            display: none;
+          }
+
+          .check-mark {
+            @include circle(2rem);
+
+            background-color: $gc2;
+          }
+
+          .radio-input:checked ~ .check-mark {
+            border: solid 0.5rem $mc9;
+          }
+
+          span {
+            font-size: 2rem;
+          }
+        }
+
+        .text {
+          font-size: 1.6rem;
+          color: $gc5;
+        }
+
+        .err {
+          &::placeholder {
+            color: $danger-color-m;
+          }
+        }
+      }
+
+      // errors
+      .error {
+        span {
+          font-size: 1.4rem;
+          color: $danger-color-m;
+        }
+      }
+      //*/
+
+      button.form-button {
+        @include button(2rem);
+
+        & {
+          @include mainMButton();
+
+          & {
+            padding: 1rem 4rem;
+            margin-top: 2rem;
+          }
+        }
+      }
+    }
+  }
+}

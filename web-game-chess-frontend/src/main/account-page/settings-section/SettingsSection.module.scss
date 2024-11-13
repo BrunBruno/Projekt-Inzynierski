@@ -2,6 +2,16 @@
 
 // settings container
 .settings {
+  @include mainScrollbar();
+
+  padding: 2rem;
+  overflow-y: scroll;
+
+  &__category {
+    .category-header {
+      font-size: 3rem;
+    }
+  }
 }
 //*/
 

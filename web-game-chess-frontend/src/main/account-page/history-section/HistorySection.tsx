@@ -8,11 +8,11 @@ import { PagedResult } from "../../../shared/utils/types/abstractDtosAndModels";
 import IconCreator from "../../../shared/components/icon-creator/IconCreator";
 import { timingTypeIcons } from "../../../shared/svgs/iconsMap/TimingTypeIcons";
 import HistoryRecord from "./history-record/HistoryRecord";
-import { TimingTypeName } from "../../../shared/utils/objects/constantLists";
+import { TimingTypeName, timingTypeNames } from "../../../shared/utils/objects/constantLists";
 
 type HistorySectionProps = {
   // game type name
-  selectedType: string | null;
+  selectedType: (typeof timingTypeNames)[number];
   // paged result of type history dtos
   typeHistory: PagedResult<GetTypeHistoryDto> | null;
 };

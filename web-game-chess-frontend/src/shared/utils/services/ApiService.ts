@@ -32,7 +32,9 @@ interface UserControllerPaths {
   verifyEmail: string;
   sendResetPasswordCode: string;
   resetPassword: string;
+  changePassword: string;
   updateProfile: string;
+  updateUserData: string;
   //GET
   getUser: string;
   getFullUser: string;
@@ -53,7 +55,9 @@ interface UserController {
   verifyEmail: () => string;
   sendResetPasswordCode: () => string;
   resetPassword: () => string;
+  changePassword: () => string;
   updateProfile: () => string;
+  updateUserData: () => string;
   getUser: () => string;
   getFullUser: () => string;
   getOtherUser: (userId: Guid) => string;
@@ -72,7 +76,9 @@ export const userControllerPaths: UserControllerPaths = {
   verifyEmail: `${userBaseUrl}/verify-email`,
   sendResetPasswordCode: `${userBaseUrl}/send-password-code`,
   resetPassword: `${userBaseUrl}/reset-password`,
+  changePassword: `${userBaseUrl}/change-password`,
   updateProfile: `${userBaseUrl}/profile`,
+  updateUserData: `${userBaseUrl}/data`,
   getUser: `${userBaseUrl}`,
   getFullUser: `${userBaseUrl}/full`,
   getOtherUser: `${userBaseUrl}/other`,
@@ -102,8 +108,14 @@ export const userController: UserController = {
   // resets user password
   resetPassword: () => `${userBaseUrl}/reset-password`,
 
+  // to update user password
+  changePassword: () => `${userBaseUrl}/change-password`,
+
   // updates updatable data for user
   updateProfile: () => `${userBaseUrl}/profile`,
+
+  //
+  updateUserData: () => `${userBaseUrl}/data`,
 
   // gets basic user info
   getUser: () => `${userBaseUrl}`,
