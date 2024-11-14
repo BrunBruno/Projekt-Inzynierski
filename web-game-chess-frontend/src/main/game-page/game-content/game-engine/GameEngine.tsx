@@ -9,7 +9,7 @@ type GameEngineProps = {};
 function GameEngine({}: GameEngineProps) {
   ///
 
-  const onChangeEngineLevel = async (): Promise<void> => {};
+  const onChangeEngineLevel = async (level: number): Promise<void> => {};
 
   const onCancel = (): void => {};
 
@@ -19,11 +19,11 @@ function GameEngine({}: GameEngineProps) {
         <div
           key={`engine-level-${level}`}
           className={`
-          ${classes["engine-level"]}
-      `}
+            ${classes["engine-level"]}
+        `}
           //${gameOptions.engineLevel === level + 1 ? classes["selected"] : ""}
           onClick={() => {
-            // onSelectLevel(level + 1);
+            onChangeEngineLevel(level + 1);
           }}
         >
           <span>{level + 1}</span>

@@ -34,7 +34,7 @@ public class GetFullUserRequestHandlerTests {
             RoleId = (int)Roles.User,
             Elo = new UserElo(),
             Stats = new UserStats(),
-            Image = new UserImage() { 
+            Image = new UserProfileImage() { 
                 ContentType = "Content-Type",
                 Data = ""u8.ToArray()
             }

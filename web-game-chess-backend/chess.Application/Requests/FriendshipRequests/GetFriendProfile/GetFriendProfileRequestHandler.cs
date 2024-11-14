@@ -63,6 +63,12 @@ public class GetFriendProfileRequestHandler : IRequestHandler<GetFriendProfileRe
                 ContentType = friend.Image.ContentType,
             } : null,
 
+            BackgroundImage = friend.Background != null ? new ImageDto()
+            {
+                Data = friend.Background.Data,
+                ContentType = friend.Background.ContentType,
+            } : null,
+
             Elo = new EloDto() {
                 Bullet = friend.Elo.Bullet,
                 Blitz = friend.Elo.Blitz,
@@ -72,10 +78,10 @@ public class GetFriendProfileRequestHandler : IRequestHandler<GetFriendProfileRe
             },
 
             OutcomeTotal = new GameOutcomeDto() {
-                Total = friend.Stats.GamesPlayed,
-                Wins = friend.Stats.Wins,
-                Loses = friend.Stats.Loses,
-                Draws = friend.Stats.Draws,
+                Total = friend.Stats.OnlineGamesPlayed,
+                Wins = friend.Stats.OnlineWins,
+                Loses = friend.Stats.OnlineLoses,
+                Draws = friend.Stats.OnlineDraws,
             },
 
             OutcomeTogether = new GameOutcomeDto() {

@@ -68,6 +68,35 @@
         }
       }
 
+      .password-indicator {
+        @include flex(column, start, start, 0.5rem);
+
+        position: absolute;
+        top: 0;
+        right: 1rem;
+
+        p {
+          font-size: 1.2rem;
+          color: $gc5;
+        }
+
+        .conf-ind {
+          @include flex(row, space-between, center, 1rem);
+
+          width: 100%;
+
+          span {
+            font-size: 1.4rem;
+            color: $gc6;
+          }
+
+          .ind-icon {
+            height: 1.6rem;
+            filter: brightness(70%);
+          }
+        }
+      }
+
       // errors
       .error {
         span {

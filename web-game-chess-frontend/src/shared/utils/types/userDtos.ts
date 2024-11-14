@@ -32,7 +32,9 @@ export type GetFullUserDto = UserDto & {
   email: string;
   joinDate: Date;
   bio: string | null;
-  outcomeTotal: GameOutcomeDto;
+  onlineOutcomeTotal: GameOutcomeDto;
+  offlineOutcomeTotal: GameOutcomeDto;
+  timingTypeGamesPlayed: EloDto;
   winsByCheckMate: number;
   winsByTimeout: number;
   winsByResignation: number;
@@ -58,7 +60,7 @@ export type GetUserRankingDto = {
   username: string;
   elo: number;
   gamesPlayed: number;
-  ratio: string;
+  typeGamesPlayed: number;
   isUser: boolean;
   profile: UserImage | null;
 };

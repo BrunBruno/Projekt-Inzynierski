@@ -20,7 +20,22 @@ public class UpdateProfileRequest : IRequest {
     public string? Bio { get; set; }
 
     /// <summary>
+    /// Property for force image delete
+    /// </summary>
+    public bool ClearImage { get; set; } = false;
+
+    /// <summary>
     /// Provided profile picture
     /// </summary>
     public IFormFile? ImageFile { get; set; }
+
+    /// <summary>
+    /// Property for force image delete
+    /// </summary>
+    public bool ClearBackground { get; set; } = false;
+
+    /// <summary>
+    /// Provided background picture
+    /// </summary>
+    public IFormFile? BackgroundFile { get; set; }
 }

@@ -50,7 +50,7 @@ public class GetFriendshipRankingRequestHandler : IRequestHandler<GetFriendshipR
             request.Type == TimingTypes.Rapid ? f.Elo.Rapid :
             request.Type == TimingTypes.Classic ? f.Elo.Classic :
             request.Type == TimingTypes.Daily ? f.Elo.Daily : 0
-        ).ThenByDescending(f => f.Stats.Wins);
+        ).ThenByDescending(f => f.Stats.OnlineWins);
 
 
         var result = friendsOrdered.Select((user, index) => new GetFriendshipRankingDto()
@@ -62,11 +62,14 @@ public class GetFriendshipRankingRequestHandler : IRequestHandler<GetFriendshipR
                   request.Type == TimingTypes.Rapid ? user.Elo.Rapid :
                   request.Type == TimingTypes.Classic ? user.Elo.Classic :
                   request.Type == TimingTypes.Daily ? user.Elo.Daily : 0,
-            GamesPlayed = user.Stats.GamesPlayed,
-            Ratio = user.Stats.GamesPlayed > 0 ?
-                $"{100 * user.Stats.Wins / user.Stats.GamesPlayed}%:" +
-                $"{100 * user.Stats.Draws / user.Stats.GamesPlayed}%:" +
-                $"{100 * user.Stats.Loses / user.Stats.GamesPlayed}%" : "-",
+
+            GamesPlayed = user.Stats.OnlineGamesPlayed,
+            TypeGamesPlayed = request.Type == TimingTypes.Bullet ? user.Stats.BulletGamesPlayed :
+                              request.Type == TimingTypes.Blitz ? user.Stats.BlitzGamesPlayed :
+                              request.Type == TimingTypes.Rapid ? user.Stats.RapidGamesPlayed :
+                              request.Type == TimingTypes.Classic ? user.Stats.ClassicGamesPlayed :
+                              request.Type == TimingTypes.Daily ? user.Stats.DailyGamesPlayed : 0,
+
             IsUser = userId == user.Id,
 
             Profile = user.Image != null ? new ImageDto() {

@@ -176,7 +176,7 @@ public class UserController : ControllerBase {
     /// <returns></returns>
     [HttpPut("data")]
     [Authorize(Policy = "IsVerified")]
-    public async Task<IActionResult> UpdateUserData([FromForm] UpdateUserDataModel model) {
+    public async Task<IActionResult> UpdateUserData([FromBody] UpdateUserDataModel model) {
 
         var request = _mapper.Map<UpdateUserDataRequest>(model);
 

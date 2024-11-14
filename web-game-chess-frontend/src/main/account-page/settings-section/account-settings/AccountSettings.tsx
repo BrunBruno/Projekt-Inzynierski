@@ -1,18 +1,20 @@
-import { FormEvent, RefObject, useEffect, useRef, useState } from "react";
+import { ChangeEvent, FormEvent, Fragment, RefObject, useEffect, useRef, useState } from "react";
 import classes from "./AccountSettings.module.scss";
 import { GetFullUserDto, GetRegisterConfDto } from "../../../../shared/utils/types/userDtos";
 import {
   ChangePasswordModel,
   GetRegisterConfModel,
-  UpdateProfileModel,
   UpdateUserDataModel,
 } from "../../../../shared/utils/types/userModels";
-import { checkFromConfiguration, ValidationResult } from "./AccountSettingsData";
+import { checkFromConfiguration, passwordRequirements, ValidationResult } from "./AccountSettingsData";
 import { errorDisplay, getErrMessage } from "../../../../shared/utils/functions/errors";
 import { usePopup } from "../../../../shared/utils/hooks/usePopUp";
 import { DataConfiguration } from "../../../../shared/utils/objects/entitiesEnums";
 import axios from "axios";
 import { getAuthorization, userController } from "../../../../shared/utils/services/ApiService";
+import LoadingPage from "../../../../shared/components/loading-page/LoadingPage";
+import IconCreator from "../../../../shared/components/icon-creator/IconCreator";
+import { gameResultIcons } from "../../../../shared/svgs/iconsMap/GameResultIcons";
 
 type AccountSettingsProps = {
   // user data
@@ -33,6 +35,13 @@ function AccountSettings({ user }: AccountSettingsProps) {
   const [userPassConf, setUserPassConf] = useState<GetRegisterConfDto | null>(null);
 
   const [isAccountPrivate, setIsAccountPrivate] = useState<boolean>(false);
+
+  const [passwordIndicators, setPasswordIndicators] = useState<boolean[]>([false, false, false, false, false, false]);
+
+  useEffect(() => {
+    if (!user) return;
+    setIsAccountPrivate(user.isPrivate);
+  }, [user]);
 
   // to get register configuration
   useEffect(() => {
@@ -118,27 +127,40 @@ function AccountSettings({ user }: AccountSettingsProps) {
   };
   //*/
 
-  useEffect(() => {
-    if (!user) return;
-
-    setIsAccountPrivate(user.isPrivate);
-  }, [user]);
-
-  const changeProfileVisibility = async (): Promise<void> => {
+  const changeProfileVisibility = async (isPrivate: boolean): Promise<void> => {
     const model: UpdateUserDataModel = {
-      profileIsPrivate: isAccountPrivate,
+      profileIsPrivate: isPrivate,
     };
 
     try {
       await axios.put(userController.updateUserData(), model, getAuthorization());
+
+      setIsAccountPrivate(isPrivate);
     } catch (err) {
       showPopup(getErrMessage(err), "warning");
     }
   };
 
-  useEffect(() => {
-    changeProfileVisibility();
-  }, [isAccountPrivate]);
+  // change password strength indicator
+  const changePassInd = (event: ChangeEvent<HTMLInputElement>): void => {
+    if (!userPassConf) return;
+
+    const newPassInd = [false, false, false, false, false, false];
+
+    const value = event.target.value;
+
+    if (userPassConf.minLength && value.length >= userPassConf.minLength) newPassInd[0] = true;
+    if (userPassConf.maxLength && value.length <= userPassConf.maxLength) newPassInd[1] = true;
+    if (/[A-Z]/.test(value)) newPassInd[2] = true;
+    if (/[a-z]/.test(value)) newPassInd[3] = true;
+    if (/\d/.test(value)) newPassInd[4] = true;
+    if (/[^a-zA-Z0-9]/.test(value)) newPassInd[5] = true;
+
+    setPasswordIndicators(newPassInd);
+  };
+  //*/
+
+  if (!user || !userPassConf) return <LoadingPage />;
 
   return (
     <div className={classes.settings}>
@@ -180,6 +202,9 @@ function AccountSettings({ user }: AccountSettingsProps) {
               placeholder="New password"
               autoComplete="off"
               className={classes["form-input"]}
+              onChange={(event) => {
+                changePassInd(event);
+              }}
             />
           </div>
 
@@ -206,6 +231,26 @@ function AccountSettings({ user }: AccountSettingsProps) {
           <button type="submit" className={classes["form-button"]}>
             <span>Change Password</span>
           </button>
+
+          <div className={classes["password-indicator"]}>
+            <p>Password strength</p>
+            {Object.keys(userPassConf).map((key: string, index: number) => {
+              if (userPassConf[key as keyof typeof userPassConf] === null) return <Fragment key={key}></Fragment>;
+
+              return (
+                <div key={key} className={classes["conf-ind"]}>
+                  <span>{passwordRequirements[index]}:</span>
+                  <span>
+                    {passwordIndicators[index] ? (
+                      <IconCreator icons={gameResultIcons} iconName={"win"} iconClass={classes["ind-icon"]} />
+                    ) : (
+                      <IconCreator icons={gameResultIcons} iconName={"lose"} iconClass={classes["ind-icon"]} />
+                    )}
+                  </span>
+                </div>
+              );
+            })}
+          </div>
         </form>
       </div>
 
@@ -221,7 +266,7 @@ function AccountSettings({ user }: AccountSettingsProps) {
                 className={classes["radio-input"]}
                 checked={!isAccountPrivate}
                 onChange={() => {
-                  setIsAccountPrivate(false);
+                  changeProfileVisibility(false);
                 }}
               />
               <span className={classes["check-mark"]}></span>
@@ -242,7 +287,7 @@ function AccountSettings({ user }: AccountSettingsProps) {
                 className={classes["radio-input"]}
                 checked={isAccountPrivate}
                 onChange={() => {
-                  setIsAccountPrivate(true);
+                  changeProfileVisibility(true);
                 }}
               />
               <span className={classes["check-mark"]}></span>

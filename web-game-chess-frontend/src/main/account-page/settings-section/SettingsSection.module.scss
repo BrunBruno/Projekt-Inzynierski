@@ -4,12 +4,26 @@
 .settings {
   @include mainScrollbar();
 
-  padding: 2rem;
+  padding: 0 2rem;
   overflow-y: scroll;
 
   &__category {
+    padding: 2rem 0;
+
     .category-header {
-      font-size: 3rem;
+      @include flex(row, start, center, 2rem);
+
+      span {
+        font-size: 3rem;
+      }
+
+      .cat-icon {
+        @include flex();
+        @include circle(calc(5rem));
+
+        padding: 1rem;
+        background-color: rgba($mc9, 0.5);
+      }
     }
   }
 }

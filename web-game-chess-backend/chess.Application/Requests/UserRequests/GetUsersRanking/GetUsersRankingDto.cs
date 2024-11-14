@@ -29,9 +29,9 @@ public class GetUsersRankingDto {
     public int GamesPlayed { get; set; }
 
     /// <summary>
-    /// Wind/draw/lose ration
+    /// Total games played for timing type
     /// </summary>
-    public required string Ratio { get; set; }
+    public int TypeGamesPlayed { get; set; }
 
     /// <summary>
     /// Is user a current user

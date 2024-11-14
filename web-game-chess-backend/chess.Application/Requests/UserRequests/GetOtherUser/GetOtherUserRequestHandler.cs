@@ -30,11 +30,17 @@ public class GetOtherUserRequestHandler : IRequestHandler<GetOtherUserRequest, G
             JoinDate = user.JoinDate,
             Country = user.Country,
             Bio = user.Bio,
-            GamesPlayed = user.Stats.GamesPlayed,
+            GamesPlayed = user.Stats.OnlineGamesPlayed,
 
             ProfilePicture = user.Image != null ? new ImageDto(){
                 Data = user.Image.Data,
                 ContentType = user.Image.ContentType,
+            } : null,
+
+            BackgroundImage = user.Background != null ? new ImageDto()
+            {
+                Data = user.Background.Data,
+                ContentType = user.Background.ContentType,
             } : null,
 
             Elo = new EloDto()

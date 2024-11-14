@@ -104,7 +104,7 @@ function BarSection({ setSelectedUsername, selectedList, setSelectedList }: BarS
             }}
           >
             <IconCreator icons={userPageIcons} iconName={"love"} iconClass={classes["panel-svg"]} />
-            <span>Friends</span>
+            <span>Your friends</span>
             <IconCreator icons={symbolIcons} iconName="arrow" iconClass={classes["panel-arrow"]} color={greyColor.c7} />
           </div>
 

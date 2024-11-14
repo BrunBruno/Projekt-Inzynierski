@@ -16,28 +16,11 @@ public class UserRepository : IUserRepository {
     }
 
     ///<inheritdoc/>
-    public async Task<List<User>> GetAllNonFriends(List<Guid> ids, Guid userId)
-        => await _dbContext.Users
-                    .Include(u => u.Image)
-                    .Include(u => u.Elo)
-                    .Include(u => u.Stats)
-                    .Where(u => !ids.Contains(u.Id) && u.IsVerified && u.Id != userId)
-                    .ToListAsync();
-
-    ///<inheritdoc/>
-    public async Task<List<User>> GetAllFriends(List<Guid> ids, Guid userId)
-        => await _dbContext.Users
-                    .Include(u => u.Image)
-                    .Include(u => u.Elo)
-                    .Include(u => u.Stats)
-                    .Where(u => ids.Contains(u.Id) && u.IsVerified && u.Id != userId)
-                    .ToListAsync();
-
-    ///<inheritdoc/>
     public async Task<User?> GetById(Guid id)
         => await _dbContext.Users
                     .Include(u => u.Role)
                     .Include(u => u.Image)
+                    .Include(u => u.Background)
                     .Include(u => u.Elo)
                     .Include(u => u.Stats)
                     .FirstOrDefaultAsync(u => u.Id == id);
@@ -66,7 +49,25 @@ public class UserRepository : IUserRepository {
                     .FirstOrDefaultAsync(u => u.Email == value || u.Username == value);
 
     ///<inheritdoc/>
-    public async Task<List<User>> GetAllJoinedToday() 
+    public async Task<List<User>> GetAllNonFriends(List<Guid> ids, Guid userId)
+        => await _dbContext.Users
+                    .Include(u => u.Image)
+                    .Include(u => u.Elo)
+                    .Include(u => u.Stats)
+                    .Where(u => !ids.Contains(u.Id) && u.IsVerified && u.Id != userId && !u.IsPrivate)
+                    .ToListAsync();
+
+    ///<inheritdoc/>
+    public async Task<List<User>> GetAllFriends(List<Guid> ids, Guid userId)
+        => await _dbContext.Users
+                    .Include(u => u.Image)
+                    .Include(u => u.Elo)
+                    .Include(u => u.Stats)
+                    .Where(u => ids.Contains(u.Id) && u.IsVerified && u.Id != userId)
+                    .ToListAsync();
+
+    ///<inheritdoc/>
+    public async Task<List<User>> GetAllJoinedToday()
         => await _dbContext.Users
                     .Where(u => u.JoinDate.Date == DateTime.UtcNow.Date)
                     .ToListAsync();
@@ -76,7 +77,8 @@ public class UserRepository : IUserRepository {
         var users = _dbContext.Users
             .Include(u => u.Image)
             .Include(u => u.Elo)
-            .Include(u => u.Stats);
+            .Include(u => u.Stats)
+            .Where(u => u.IsVerified);
 
         var result = await users.ToListAsync();
 
@@ -87,7 +89,7 @@ public class UserRepository : IUserRepository {
                 type == TimingTypes.Rapid ? u.Elo.Rapid :
                 type == TimingTypes.Classic ? u.Elo.Classic :
                 type == TimingTypes.Daily ? u.Elo.Daily : 0)
-            .ThenByDescending(u => u.Stats.Wins)
+            .ThenByDescending(u => u.Stats.OnlineWins)
             .ToList();
 
         return orderedResult;

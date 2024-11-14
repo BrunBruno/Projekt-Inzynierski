@@ -30,6 +30,7 @@ export type PagedModel = {
 export type UserDto = {
   username: string;
   name: string | null;
+  backgroundImage: UserImage | null;
   profilePicture: UserImage | null;
   country: string;
 };

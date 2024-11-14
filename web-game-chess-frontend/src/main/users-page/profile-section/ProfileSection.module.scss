@@ -59,10 +59,9 @@
         position: inherit;
         box-shadow: 0 0 0 2rem $mc9;
 
-        &::after {
-          @include subCl();
+        .bg {
+          @include wh100();
 
-          background-image: url("/images/account-bg.jpg");
           background-size: cover;
           background-repeat: no-repeat;
           filter: brightness(20%);

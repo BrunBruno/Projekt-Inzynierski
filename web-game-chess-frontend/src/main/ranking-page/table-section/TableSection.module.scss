@@ -218,34 +218,6 @@ $banner-size: 6rem;
               font-size: 1.4rem;
             }
           }
-
-          .ratio {
-            @include flex(row, start, center, 0.5rem);
-
-            p {
-              @include flex($gap: 0.2rem);
-
-              font-size: 1.2rem;
-            }
-
-            p.wins {
-              span {
-                color: $success-color-m;
-              }
-            }
-
-            p.draws {
-              span {
-                color: $gc5;
-              }
-            }
-
-            p.loses {
-              span {
-                color: $danger-color-m;
-              }
-            }
-          }
         }
 
         .table-slider {

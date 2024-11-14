@@ -16,13 +16,13 @@ public class UserImageRepository : IUserImageRepository {
     }
 
     ///<inheritdoc/>
-    public async Task<UserImage?> GetByUserId(Guid userId)
-        => await _dbContext.UserImages
+    public async Task<UserProfileImage?> GetByUserId(Guid userId)
+        => await _dbContext.UserProfileImages
             .FirstOrDefaultAsync(ui => ui.UserId == userId);
 
     ///<inheritdoc/>
-    public async Task Create(UserImage userImage) {
-        await _dbContext.UserImages.AddAsync(userImage);
+    public async Task Create(UserProfileImage userImage) {
+        await _dbContext.UserProfileImages.AddAsync(userImage);
         await _dbContext.SaveChangesAsync();
     }
 }

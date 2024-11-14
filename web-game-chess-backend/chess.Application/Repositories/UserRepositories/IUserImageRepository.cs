@@ -13,12 +13,12 @@ public interface IUserImageRepository {
     /// </summary>
     /// <param name="userId"></param>
     /// <returns></returns>
-    Task<UserImage?> GetByUserId(Guid userId);
+    Task<UserProfileImage?> GetByUserId(Guid userId);
 
     /// <summary>
     /// Creates profile picture
     /// </summary>
     /// <param name="userImage"></param>
     /// <returns></returns>
-    Task Create(UserImage userImage);
+    Task Create(UserProfileImage userImage);
 }

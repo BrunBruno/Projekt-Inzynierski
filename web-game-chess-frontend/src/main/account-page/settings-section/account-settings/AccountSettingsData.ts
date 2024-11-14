@@ -51,3 +51,5 @@ export const checkFromConfiguration = (
 
   return result;
 };
+
+export const passwordRequirements = ["Min length", "Max length", "Uppercase", "Lowercase", "Number", "Special char"];

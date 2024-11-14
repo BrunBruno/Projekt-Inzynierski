@@ -117,36 +117,6 @@ function TableSection({}: TableSectionProps) {
     });
   };
 
-  const displayRatio = (ratio: string): JSX.Element => {
-    const parts = ratio.split(":");
-    if (parts.length !== 3) return <></>;
-
-    const wins = (
-      <p className={classes["wins"]}>
-        <span>W</span>
-        {parts[0]}
-      </p>
-    );
-    const draws = (
-      <p className={classes["draws"]}>
-        <span>D</span>
-        {parts[1]}
-      </p>
-    );
-    const loses = (
-      <p className={classes["loses"]}>
-        <span>L</span>
-        {parts[2]}
-      </p>
-    );
-
-    return (
-      <div className={classes["ratio"]}>
-        {wins} {draws} {loses}
-      </div>
-    );
-  };
-
   if (!usersRanking) return <LoadingPage />;
 
   return (
@@ -225,9 +195,11 @@ function TableSection({}: TableSectionProps) {
                   <span>{user.elo}</span>
                 </div>
                 <div className={classes["col"]}>
+                  <span>{user.typeGamesPlayed}</span>
+                </div>
+                <div className={classes["col"]}>
                   <span>{user.gamesPlayed}</span>
                 </div>
-                {displayRatio(user.ratio)}
               </div>
             ))}
 

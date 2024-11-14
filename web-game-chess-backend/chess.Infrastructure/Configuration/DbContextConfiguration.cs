@@ -26,12 +26,13 @@ public class DbContextConfiguration :
     IEntityTypeConfiguration<WebGameMessage>,
     IEntityTypeConfiguration<UserStats>,
     IEntityTypeConfiguration<WebGameInvitation>,
-    IEntityTypeConfiguration<UserImage>,
+    IEntityTypeConfiguration<UserProfileImage>,
     IEntityTypeConfiguration<EngineGame>,
     IEntityTypeConfiguration<EngineGamePlayer>,
     IEntityTypeConfiguration<EngineGameMove>,
     IEntityTypeConfiguration<EngineGameState>,
-    IEntityTypeConfiguration<EngineGameMessage>
+    IEntityTypeConfiguration<EngineGameMessage>,
+    IEntityTypeConfiguration<UserBackgroundImage>
 {
 
     public void Configure(EntityTypeBuilder<User> builder) {
@@ -200,14 +201,24 @@ public class DbContextConfiguration :
             .HasForeignKey<WebGameInvitation>(i => i.GameId);
     }
 
-    public void Configure(EntityTypeBuilder<UserImage> builder) {
+    public void Configure(EntityTypeBuilder<UserProfileImage> builder) {
         builder
             .HasKey(ui => ui.Id);
 
         builder
-            .HasOne(ui => ui.User)
-            .WithOne(u => u.Image)
-            .HasForeignKey<UserImage>(ui => ui.UserId);
+           .HasOne(ui => ui.User)
+           .WithOne(u => u.Image)
+           .HasForeignKey<UserProfileImage>(ui => ui.UserId);
+    }
+
+    public void Configure(EntityTypeBuilder<UserBackgroundImage> builder) {
+        builder
+            .HasKey(ui => ui.Id);
+
+        builder
+           .HasOne(ui => ui.User)
+           .WithOne(u => u.Background)
+           .HasForeignKey<UserBackgroundImage>(ui => ui.UserId);
     }
 
     public void Configure(EntityTypeBuilder<EngineGame> builder) {

@@ -22,7 +22,8 @@ public class ChessAppDbContext : DbContext {
     /// User related sets
     /// </summary>
     public DbSet<User> Users { get; set; }
-    public DbSet<UserImage> UserImages { get; set; }
+    public DbSet<UserProfileImage> UserProfileImages { get; set; }
+    public DbSet<UserBackgroundImage> UserBackgroundImages { get; set; }
     public DbSet<UserElo> UserElos { get; set; }
     public DbSet<UserStats> UserStats { get; set; }
     public DbSet<UserBan> UserBans { get; set; }
@@ -65,7 +66,8 @@ public class ChessAppDbContext : DbContext {
         builder.ApplyConfiguration<User>(configuration);
         builder.ApplyConfiguration<UserElo>(configuration);
         builder.ApplyConfiguration<UserStats>(configuration);
-        builder.ApplyConfiguration<UserImage>(configuration);
+        builder.ApplyConfiguration<UserProfileImage>(configuration);
+        builder.ApplyConfiguration<UserBackgroundImage>(configuration);
         builder.ApplyConfiguration<UserVerificationCode>(configuration);
         builder.ApplyConfiguration<UserBan>(configuration);
         builder.ApplyConfiguration<Friendship>(configuration);

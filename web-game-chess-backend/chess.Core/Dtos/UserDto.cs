@@ -22,6 +22,11 @@ public class UserDto {
     public ImageDto? ProfilePicture { get; set; }
 
     /// <summary>
+    /// User backgroud image
+    /// </summary>
+    public ImageDto? BackgroundImage { get; set; }
+
+    /// <summary>
     /// Country where user registered account
     /// </summary>
     public required string Country { get; set; }

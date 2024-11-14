@@ -48,8 +48,17 @@ function ProfileSection({ userProfile, friendProfile, closeProfile }: ProfileSec
     return (
       <div className={classes.profile__content}>
         <div className={classes.profile__content__bg}>
-          {" "}
-          <div className={classes.profile__content__bg__box} />
+          <div className={classes.profile__content__bg__box}>
+            {" "}
+            <div
+              className={classes.bg}
+              style={{
+                backgroundImage: userData.backgroundImage
+                  ? `url('data:${userData.backgroundImage.contentType};base64,${userData.backgroundImage.data}')`
+                  : "url('/images/account-bg.jpg')",
+              }}
+            />
+          </div>
         </div>
 
         <div className={classes.profile__content__avatar}>

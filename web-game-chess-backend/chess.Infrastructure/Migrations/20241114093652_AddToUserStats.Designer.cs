@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using chess.Infrastructure.Contexts;
@@ -11,9 +12,11 @@ using chess.Infrastructure.Contexts;
 namespace chess.Infrastructure.Migrations
 {
     [DbContext(typeof(ChessAppDbContext))]
-    partial class ChessAppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241114093652_AddToUserStats")]
+    partial class AddToUserStats
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -426,31 +429,6 @@ namespace chess.Infrastructure.Migrations
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("chess.Core.Entities.UserBackgroundImage", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
-
-                    b.Property<string>("ContentType")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<byte[]>("Data")
-                        .IsRequired()
-                        .HasColumnType("bytea");
-
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("uuid");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("UserId")
-                        .IsUnique();
-
-                    b.ToTable("UserBackgroundImages");
-                });
-
             modelBuilder.Entity("chess.Core.Entities.UserBan", b =>
                 {
                     b.Property<Guid>("Id")
@@ -510,7 +488,7 @@ namespace chess.Infrastructure.Migrations
                     b.ToTable("UserElos");
                 });
 
-            modelBuilder.Entity("chess.Core.Entities.UserProfileImage", b =>
+            modelBuilder.Entity("chess.Core.Entities.UserImage", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -532,7 +510,7 @@ namespace chess.Infrastructure.Migrations
                     b.HasIndex("UserId")
                         .IsUnique();
 
-                    b.ToTable("UserProfileImages");
+                    b.ToTable("UserImages");
                 });
 
             modelBuilder.Entity("chess.Core.Entities.UserStats", b =>
@@ -1029,17 +1007,6 @@ namespace chess.Infrastructure.Migrations
                     b.Navigation("Role");
                 });
 
-            modelBuilder.Entity("chess.Core.Entities.UserBackgroundImage", b =>
-                {
-                    b.HasOne("chess.Core.Entities.User", "User")
-                        .WithOne("Background")
-                        .HasForeignKey("chess.Core.Entities.UserBackgroundImage", "UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("User");
-                });
-
             modelBuilder.Entity("chess.Core.Entities.UserBan", b =>
                 {
                     b.HasOne("chess.Core.Entities.User", "User")
@@ -1062,11 +1029,11 @@ namespace chess.Infrastructure.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("chess.Core.Entities.UserProfileImage", b =>
+            modelBuilder.Entity("chess.Core.Entities.UserImage", b =>
                 {
                     b.HasOne("chess.Core.Entities.User", "User")
                         .WithOne("Image")
-                        .HasForeignKey("chess.Core.Entities.UserProfileImage", "UserId")
+                        .HasForeignKey("chess.Core.Entities.UserImage", "UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -1213,8 +1180,6 @@ namespace chess.Infrastructure.Migrations
 
             modelBuilder.Entity("chess.Core.Entities.User", b =>
                 {
-                    b.Navigation("Background");
-
                     b.Navigation("Elo")
                         .IsRequired();
 

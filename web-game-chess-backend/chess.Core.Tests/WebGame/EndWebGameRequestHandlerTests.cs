@@ -144,6 +144,7 @@ public class EndWebGameRequestHandlerTests {
             WhitePlayerRegistered = true,
             BlackPlayerRegistered = true,
             IsPrivate = true, // game private
+            TimingType =TimingTypes.Rapid,
 
             WhitePlayer = new WebGamePlayer()
             {
@@ -238,6 +239,7 @@ public class EndWebGameRequestHandlerTests {
             WinnerColor = PieceColor.White, // properties set
             WhitePlayerRegistered = true,
             BlackPlayerRegistered = true,
+            TimingType = TimingTypes.Rapid,
 
 
             WhitePlayer = new WebGamePlayer()
@@ -375,8 +377,9 @@ public class EndWebGameRequestHandlerTests {
             Id = gameId,
             HasEnded = false,
 
-              WhitePlayerRegistered = true,
+            WhitePlayerRegistered = true,
             BlackPlayerRegistered = true,
+            TimingType = TimingTypes.Rapid,
 
             WhitePlayer = new WebGamePlayer()
             {
@@ -435,9 +438,10 @@ public class EndWebGameRequestHandlerTests {
         {
             Id = gameId,
             HasEnded = false,
-
-              WhitePlayerRegistered = true,
+            WhitePlayerRegistered = true,
             BlackPlayerRegistered = true,
+            TimingType = TimingTypes.Rapid,
+
             WhitePlayer = new WebGamePlayer()
             {
                 Id = Guid.NewGuid(),
@@ -507,8 +511,10 @@ public class EndWebGameRequestHandlerTests {
         {
             Id = gameId,
             HasEnded = false,
-              WhitePlayerRegistered = true,
+            WhitePlayerRegistered = true,
             BlackPlayerRegistered = true,
+            TimingType = TimingTypes.Rapid,
+
             WhitePlayer = new WebGamePlayer()
             {
                 Id = Guid.NewGuid(),

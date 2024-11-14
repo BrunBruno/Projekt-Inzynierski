@@ -46,7 +46,10 @@ export type ChangePasswordModel = {
 export type UpdateProfileModel = {
   name: string | null;
   bio: string | null;
+  clearImage?: boolean;
   imageFile: File | null;
+  clearBackground?: boolean;
+  backgroundFile: File | null;
 };
 
 export type UpdateUserDataModel = {

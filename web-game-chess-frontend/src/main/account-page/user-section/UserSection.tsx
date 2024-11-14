@@ -11,10 +11,15 @@ import { getErrMessage } from "../../../shared/utils/functions/errors";
 import AvatarImage from "../../../shared/components/avatar-image/AvatarImage";
 import IconCreator from "../../../shared/components/icon-creator/IconCreator";
 import { userSectionIcons } from "./UserSectionIcons";
-import { mainColor } from "../../../shared/utils/objects/colorMaps";
+import { greyColor, mainColor } from "../../../shared/utils/objects/colorMaps";
 import { timingTypeIcons } from "../../../shared/svgs/iconsMap/TimingTypeIcons";
 import { TimingType } from "../../../shared/utils/objects/entitiesEnums";
 import { AccountPageInterface } from "../../../shared/utils/objects/interfacesEnums";
+
+type UpdateUserProps = {
+  clearImage?: boolean;
+  clearBackground?: boolean;
+};
 
 type UserSectionProps = {
   // user data
@@ -37,6 +42,10 @@ function UserSection({ user, elo, fetchData, setSelectedContent }: UserSectionPr
   const [name, setName] = useState<string>("");
   const [bio, setBio] = useState<string>("");
   const [profilePicture, setProfilePicture] = useState<File | null>(null);
+  const [backgroundImage, setBackgroundImage] = useState<File | null>(null);
+
+  //
+  const [imageSettingsOpen, setImageSettingsOpen] = useState<boolean>(false);
 
   useEffect(() => {
     if (!user) return;
@@ -51,11 +60,14 @@ function UserSection({ user, elo, fetchData, setSelectedContent }: UserSectionPr
   }, [user]);
 
   // to change and update user personal data
-  const updateUser = async (): Promise<void> => {
+  const updateUser = async ({ clearImage, clearBackground }: UpdateUserProps = {}): Promise<void> => {
     const model: UpdateProfileModel = {
       name: name === "" ? null : name,
       bio: bio === "" ? null : bio,
       imageFile: profilePicture === null ? null : profilePicture,
+      backgroundFile: backgroundImage === null ? null : backgroundImage,
+      clearBackground: clearBackground,
+      clearImage: clearImage,
     };
 
     try {
@@ -85,14 +97,48 @@ function UserSection({ user, elo, fetchData, setSelectedContent }: UserSectionPr
     const imageFile = files[0];
     if (imageFile.type === "image/jpeg" || imageFile.type === "image/png" || imageFile.type === "image/jpg") {
       setProfilePicture(imageFile);
+      setImageSettingsOpen(false);
     }
   };
 
   useEffect(() => {
-    if (profilePicture) {
-      updateUser();
-    }
+    if (profilePicture) updateUser();
   }, [profilePicture]);
+
+  const forceImageClear = (): void => {
+    const updateProps: UpdateUserProps = {
+      clearImage: true,
+    };
+
+    updateUser(updateProps);
+    setImageSettingsOpen(false);
+  };
+  //*/
+
+  // handle file input and update background picture
+  const handleBackgroundPicture = (event: ChangeEvent<HTMLInputElement>) => {
+    const files = event.target.files;
+    if (!files) return;
+
+    const imageFile = files[0];
+    if (imageFile.type === "image/jpeg" || imageFile.type === "image/png" || imageFile.type === "image/jpg") {
+      setBackgroundImage(imageFile);
+      setImageSettingsOpen(false);
+    }
+  };
+
+  useEffect(() => {
+    if (backgroundImage) updateUser();
+  }, [backgroundImage]);
+
+  const forceBackgroundClear = (): void => {
+    const updateProps: UpdateUserProps = {
+      clearBackground: true,
+    };
+
+    updateUser(updateProps);
+    setImageSettingsOpen(false);
+  };
   //*/
 
   return (
@@ -104,15 +150,22 @@ function UserSection({ user, elo, fetchData, setSelectedContent }: UserSectionPr
         </div>
       ) : (
         <div className={classes.user__profile}>
-          <div className={classes.user__profile__avatar}>
-            <AvatarImage
-              username={user.username}
-              profilePicture={user.profilePicture}
-              imageClass={classes["avatar-img"]}
-            />
+          <div
+            className={classes.user__profile__background}
+            style={{
+              backgroundImage: user.backgroundImage
+                ? `url('data:${user.backgroundImage.contentType};base64,${user.backgroundImage.data}')`
+                : "url('/images/account-bg.jpg')",
+            }}
+          />
 
+          <div className={classes.user__profile__avatar}>
             <label className={classes["set-img"]}>
-              <IconCreator icons={userSectionIcons} iconName={"image"} />
+              <AvatarImage
+                username={user.username}
+                profilePicture={user.profilePicture}
+                imageClass={classes["avatar-img"]}
+              />
               <input
                 type="file"
                 accept="image/jpeg,image/png,image/jpg"
@@ -122,6 +175,67 @@ function UserSection({ user, elo, fetchData, setSelectedContent }: UserSectionPr
                 }}
               />
             </label>
+
+            <div
+              className={classes["background-settings"]}
+              onClick={() => {
+                setImageSettingsOpen(true);
+              }}
+            >
+              <IconCreator icons={userSectionIcons} iconName="settings" />
+            </div>
+          </div>
+
+          <div className={`${classes["image-setters"]} ${imageSettingsOpen ? classes["active"] : ""}`}>
+            <label>
+              <IconCreator icons={userSectionIcons} iconName={"addProfile"} iconClass={classes["setter-icon"]} />
+              <span>Add profile</span>
+
+              <input
+                type="file"
+                accept="image/jpeg,image/png,image/jpg"
+                onChange={(event) => {
+                  handleProfilePicture(event);
+                }}
+              />
+            </label>
+            <label
+              onClick={() => {
+                forceImageClear();
+              }}
+            >
+              <IconCreator icons={userSectionIcons} iconName={"removeProfile"} iconClass={classes["setter-icon"]} />
+              <span>Remove profile</span>
+            </label>
+            <label>
+              <IconCreator icons={userSectionIcons} iconName={"addBackground"} iconClass={classes["setter-icon"]} />
+              <span>Add background</span>
+
+              <input
+                type="file"
+                accept="image/jpeg,image/png,image/jpg"
+                onChange={(event) => {
+                  handleBackgroundPicture(event);
+                }}
+              />
+            </label>
+            <label
+              onClick={() => {
+                forceBackgroundClear();
+              }}
+            >
+              <IconCreator icons={userSectionIcons} iconName={"removeBackground"} iconClass={classes["setter-icon"]} />
+              <span>Remove background</span>
+            </label>
+
+            <button
+              className={classes["cancel-image-button"]}
+              onClick={() => {
+                setImageSettingsOpen(false);
+              }}
+            >
+              <span>Cancel</span>
+            </button>
           </div>
 
           <div className={classes.user__profile__info}>
@@ -190,40 +304,19 @@ function UserSection({ user, elo, fetchData, setSelectedContent }: UserSectionPr
       )}
       {/* --- */}
 
-      {/* user stats */}
       <div className={classes.user__data}>
-        {!user ? (
-          <div className={classes.user__data__stats}>
-            {Array.from({ length: 10 }).map((_, i: number) => (
-              <p key={i} className={classes["loading-block"]} />
-            ))}
-          </div>
-        ) : (
-          <div className={classes.user__data__stats}>
-            <div className={classes.user__data__stats__header}>
-              Total games played: <span>{user.outcomeTotal.total}</span>
-            </div>
-
-            <div className={classes.user__data__stats__row}>
-              <StatsRow type={"games"} user={user} />
-            </div>
-
-            <div className={classes.user__data__stats__row}>
-              <StatsRow type={"wins"} user={user} />
-            </div>
-
-            <div className={classes.user__data__stats__row}>
-              <StatsRow type={"loses"} user={user} />
-            </div>
-          </div>
-        )}
-
         {/* history view setter */}
-        {!elo ? (
+        {!elo || !user ? (
           <div className={classes.user__data__elo} />
         ) : (
           <div className={classes.user__data__elo}>
             <div className={classes.user__data__elo__header}>
+              <IconCreator
+                icons={userSectionIcons}
+                iconName={"history"}
+                iconClass={classes["history-icon"]}
+                color={greyColor.c4}
+              />
               <span>Check history</span>
             </div>
             <div
@@ -240,7 +333,11 @@ function UserSection({ user, elo, fetchData, setSelectedContent }: UserSectionPr
                   iconClass={classes["elo-icon"]}
                   color={mainColor.c5}
                 />
-                <span>{elo.bullet}</span>{" "}
+                <span>{elo.bullet}</span>
+              </div>
+
+              <div className={classes["type-games"]}>
+                <span>Games: {user.timingTypeGamesPlayed.bullet}</span>
               </div>
             </div>
 
@@ -258,7 +355,11 @@ function UserSection({ user, elo, fetchData, setSelectedContent }: UserSectionPr
                   iconClass={classes["elo-icon"]}
                   color={mainColor.c5}
                 />
-                <span>{elo.blitz}</span>{" "}
+                <span>{elo.blitz}</span>
+              </div>
+
+              <div className={classes["type-games"]}>
+                <span>Games: {user.timingTypeGamesPlayed.blitz}</span>
               </div>
             </div>
 
@@ -276,7 +377,11 @@ function UserSection({ user, elo, fetchData, setSelectedContent }: UserSectionPr
                   iconClass={classes["elo-icon"]}
                   color={mainColor.c5}
                 />
-                <span>{elo.rapid}</span>{" "}
+                <span>{elo.rapid}</span>
+              </div>
+
+              <div className={classes["type-games"]}>
+                <span>Games: {user.timingTypeGamesPlayed.rapid}</span>
               </div>
             </div>
 
@@ -294,7 +399,11 @@ function UserSection({ user, elo, fetchData, setSelectedContent }: UserSectionPr
                   iconClass={classes["elo-icon"]}
                   color={mainColor.c5}
                 />
-                <span>{elo.classic}</span>{" "}
+                <span>{elo.classic}</span>
+              </div>
+
+              <div className={classes["type-games"]}>
+                <span>Games: {user.timingTypeGamesPlayed.classic}</span>
               </div>
             </div>
 
@@ -312,14 +421,67 @@ function UserSection({ user, elo, fetchData, setSelectedContent }: UserSectionPr
                   iconClass={classes["elo-icon"]}
                   color={mainColor.c5}
                 />
-                <span>{elo.daily}</span>{" "}
+                <span>{elo.daily}</span>
+              </div>
+
+              <div className={classes["type-games"]}>
+                <span>Games: {user.timingTypeGamesPlayed.daily}</span>
               </div>
             </div>
           </div>
         )}
         {/* --- */}
+
+        {/* user stats */}
+        {!user ? (
+          <div className={classes.user__data__stats}>
+            {Array.from({ length: 10 }).map((_, i: number) => (
+              <p key={i} className={classes["loading-block"]} />
+            ))}
+          </div>
+        ) : (
+          <div className={classes.user__data__stats}>
+            <div className={classes.user__data__stats__header}>
+              <IconCreator
+                icons={userSectionIcons}
+                iconName={"online"}
+                iconClass={classes["header-icon"]}
+                color={greyColor.c4}
+              />
+              <span>Online games</span>
+            </div>
+
+            {/* Total games played: <span>{user.onlineOutcomeTotal.total}</span> */}
+
+            <div className={classes.user__data__stats__row}>
+              <StatsRow type={"games"} user={user} />
+            </div>
+
+            <div className={classes.user__data__stats__row}>
+              <StatsRow type={"wins"} user={user} />
+            </div>
+
+            <div className={classes.user__data__stats__row}>
+              <StatsRow type={"loses"} user={user} />
+            </div>
+
+            <div className={classes.user__data__stats__header}>
+              <IconCreator
+                icons={userSectionIcons}
+                iconName={"offline"}
+                iconClass={classes["header-icon"]}
+                color={greyColor.c4}
+              />
+              <span>Offline games</span>
+            </div>
+
+            <div className={classes.user__data__stats__row}>
+              <StatsRow type={"offlineGamesOutcome"} user={user} />
+            </div>
+          </div>
+        )}
+        {/* --- */}
       </div>
-      {/* --- */}
     </section>
   );
 }

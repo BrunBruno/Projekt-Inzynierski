@@ -1,5 +1,6 @@
 ﻿
 using chess.Application.Repositories.EngineGameRepositories;
+using chess.Application.Repositories.UserRepositories;
 using chess.Application.Services;
 using chess.Core.Entities;
 using chess.Core.Enums;
@@ -20,20 +21,26 @@ public class EndEngineGameRequestHandler : IRequestHandler<EndEngineGameRequest,
     private readonly IEngineGameRepository _engineGameRepository;
     private readonly IUserContextService _userContextService;
     private readonly IEngineGameMessageRepository _engineGameMessageRepository;
+    private readonly IUserRepository _userRepository;
 
     public EndEngineGameRequestHandler(
         IEngineGameRepository engineGameRepository,
         IUserContextService userContextService,
-        IEngineGameMessageRepository engineGameMessageRepository
+        IEngineGameMessageRepository engineGameMessageRepository,
+        IUserRepository userRepository
     ) { 
         _engineGameRepository = engineGameRepository;
         _userContextService = userContextService;
         _engineGameMessageRepository = engineGameMessageRepository;
+        _userRepository = userRepository;
     }
 
     public async Task<EndEngineGameDto> Handle(EndEngineGameRequest request, CancellationToken cancellationToken) {
 
         var userId = _userContextService.GetUserId();
+
+        var user = await _userRepository.GetById(userId)
+            ?? throw new NotFoundException("User not found.");
 
         var game = await _engineGameRepository.GetById(request.GameId)
             ?? throw new NotFoundException("Game not found.");
@@ -55,6 +62,12 @@ public class EndEngineGameRequestHandler : IRequestHandler<EndEngineGameRequest,
         game.EndedAt = DateTime.UtcNow;
         game.IsWinner = request.LoserColor != game.Player.Color;
         game.WinnerColor = request.LoserColor == PieceColor.White ? PieceColor.Black : request.LoserColor == PieceColor.Black ? PieceColor.White : null;
+
+
+        if (game.Player.Color == request.LoserColor) user.Stats.OfflineLoses += 1;
+        else if (request.LoserColor == null) user.Stats.OfflineDraws += 1;
+        else  user.Stats.OfflineWins += 1;
+
 
         var endMessage = new EngineGameMessage() { 
             Id = Guid.NewGuid(),

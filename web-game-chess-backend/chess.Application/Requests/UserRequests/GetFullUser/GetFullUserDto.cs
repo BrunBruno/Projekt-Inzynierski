@@ -29,9 +29,20 @@ public class GetFullUserDto : UserDto {
     public string? Bio { get; set; }
 
     /// <summary>
-    /// Win, draws and loses
+    /// Wins, draws and loses in online games
     /// </summary>
-    public required GameOutcomeDto OutcomeTotal { get; set; }
+    public required GameOutcomeDto OnlineOutcomeTotal { get; set; }
+
+    /// <summary>
+    /// Wins, draws and loses in offline games
+    /// </summary>
+    public required GameOutcomeDto OfflineOutcomeTotal { get; set; }
+
+    /// <summary>
+    /// Games played for specific timing type
+    /// </summary>
+    public required EloDto TimingTypeGamesPlayed { get; set; }
+
 
     /// <summary>
     /// Wins by some win option
@@ -46,4 +57,5 @@ public class GetFullUserDto : UserDto {
     public int LosesByCheckMate { get; set; }
     public int LosesByTimeout { get; set; }
     public int LosesByResignation { get; set; }
+
 }

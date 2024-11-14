@@ -64,7 +64,7 @@ function InvitationCard({ invitation, updateInvitations }: InvitationCardProps) 
       <div className={classes.card__icon}>
         <IconCreator
           icons={timingTypeIcons}
-          iconName={timingTypeNames[invitation.type].toLowerCase() as TimingTypeName}
+          iconName={timingTypeNames[invitation.type - 1].toLowerCase() as TimingTypeName}
           color={mainColor.c5}
         />
       </div>
@@ -74,7 +74,7 @@ function InvitationCard({ invitation, updateInvitations }: InvitationCardProps) 
         <b className={classes["imp-data"]}>{invitation.inviterName}</b>
         <span> has invited you to new </span>
         <br />
-        <b className={classes["imp-data"]}>{timingTypeNames[invitation.type]}</b>
+        <b className={classes["imp-data"]}>{timingTypeNames[invitation.type - 1]}</b>
         <span> game.</span>
       </div>
 

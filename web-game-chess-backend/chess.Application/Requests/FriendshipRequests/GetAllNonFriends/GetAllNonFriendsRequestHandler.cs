@@ -41,7 +41,6 @@ public class GetAllNonFriendsRequestHandler : IRequestHandler<GetAllNonFriendsRe
         if(request.Username is not null) {
             nonFriends = nonFriends.Where(nf => 
                 nf.Username.ToLower().Contains(request.Username) ||
-                //nf.Email.ToLower().Contains(request.Username) ||
                 (nf.Name != null && nf.Name.ToLower().Contains(request.Username))
             ).ToList();
         }
@@ -67,10 +66,10 @@ public class GetAllNonFriendsRequestHandler : IRequestHandler<GetAllNonFriendsRe
             },
 
             OutcomeTotal = new GameOutcomeDto() {
-                Total = nonFriend.Stats.GamesPlayed,
-                Wins = nonFriend.Stats.Wins,
-                Draws = nonFriend.Stats.Draws,
-                Loses = nonFriend.Stats.Loses,
+                Total = nonFriend.Stats.OnlineGamesPlayed,
+                Wins = nonFriend.Stats.OnlineWins,
+                Draws = nonFriend.Stats.OnlineDraws,
+                Loses = nonFriend.Stats.OnlineLoses,
             },
 
         }).ToList();

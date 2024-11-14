@@ -26,7 +26,7 @@ public class UpdateUserDataRequestHandler : IRequestHandler<UpdateUserDataReques
         var user = await _userRepository.GetById(userId)
             ?? throw new NotFoundException("User not found.");
 
-        user.IsPrivate = request.ProfileIsPrivate != null ? (bool)request.ProfileIsPrivate : user.IsPrivate;
+        user.IsPrivate = request.ProfileIsPrivate;
 
 
         await _userRepository.Update(user);

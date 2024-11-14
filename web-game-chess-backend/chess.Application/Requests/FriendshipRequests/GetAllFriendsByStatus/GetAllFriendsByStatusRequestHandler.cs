@@ -82,10 +82,10 @@ public class GetAllFriendsByStatusRequestHandler : IRequestHandler<GetAllFriends
                     },
 
                     OutcomeTotal = new GameOutcomeDto() {
-                        Total = friend.Stats.GamesPlayed,
-                        Wins = friend.Stats.Wins,
-                        Loses = friend.Stats.Loses,
-                        Draws = friend.Stats.Draws,
+                        Total = friend.Stats.OnlineGamesPlayed,
+                        Wins = friend.Stats.OnlineWins,
+                        Loses = friend.Stats.OnlineLoses,
+                        Draws = friend.Stats.OnlineDraws,
                     },
 
                     OutcomeTogether = new GameOutcomeDto() {

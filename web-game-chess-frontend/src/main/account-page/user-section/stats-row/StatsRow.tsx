@@ -34,7 +34,7 @@ function StatsRow({ type, user }: StatsRowProps) {
               {stat.label} {stat.icon}
             </span>
 
-            <span>{stat.value}</span>
+            <span>{!isNaN(stat.value) && stat.value}</span>
           </div>
         ))}
 

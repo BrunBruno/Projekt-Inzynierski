@@ -36,6 +36,7 @@ const mockFriends: GetAllFriendsByStatusDto[] = [
 ];
 
 const mockFullUser: GetFullUserDto = {
+  isPrivate: false,
   username: "User",
   name: "User",
   profilePicture: null,
@@ -43,7 +44,9 @@ const mockFullUser: GetFullUserDto = {
   email: "user@test.com",
   joinDate: new Date(),
   bio: null,
-  outcomeTotal: mockGameOutcome,
+  onlineOutcomeTotal: mockGameOutcome,
+  offlineOutcomeTotal: mockGameOutcome,
+  timingTypeGamesPlayed: { bullet: 10, blitz: 10, rapid: 10, classic: 10, daily: 10 },
   winsByCheckMate: 2,
   winsByTimeout: 5,
   winsByResignation: 1,

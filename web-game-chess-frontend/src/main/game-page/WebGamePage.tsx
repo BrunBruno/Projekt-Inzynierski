@@ -230,8 +230,6 @@ function WebGamePage() {
   // handle hub service game changed event
   // to redirect to new game
   const handleGamesChanged = async (): Promise<void> => {
-    console.log(newGameData);
-
     if (!newGameData) return;
 
     const model: CheckIfInGameModel = {

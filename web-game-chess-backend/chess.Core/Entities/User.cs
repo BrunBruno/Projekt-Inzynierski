@@ -72,7 +72,12 @@ public class User {
     /// <summary>
     /// User profile picture
     /// </summary>
-    public UserImage? Image { get; set; } = null;
+    public UserProfileImage? Image { get; set; } = null;
+
+    /// <summary>
+    /// User profile backgroud image
+    /// </summary>
+    public UserBackgroundImage? Background { get; set; } = null;
 
     /// <summary>
     /// Score points of player for different types

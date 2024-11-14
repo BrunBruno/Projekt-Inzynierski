@@ -11,5 +11,5 @@ public class UpdateUserDataRequest : IRequest {
     /// <summary>
     /// 
     /// </summary>
-    public bool? ProfileIsPrivate { get; set; }
+    public bool ProfileIsPrivate { get; set; }
 }

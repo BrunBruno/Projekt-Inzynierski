@@ -9,6 +9,7 @@ import IconCreator from "../../../shared/components/icon-creator/IconCreator";
 import { timingTypeIcons } from "../../../shared/svgs/iconsMap/TimingTypeIcons";
 import HistoryRecord from "./history-record/HistoryRecord";
 import { TimingTypeName, timingTypeNames } from "../../../shared/utils/objects/constantLists";
+import { useEffect, useState } from "react";
 
 type HistorySectionProps = {
   // game type name
@@ -19,6 +20,14 @@ type HistorySectionProps = {
 
 function HistorySection({ selectedType, typeHistory }: HistorySectionProps) {
   ///
+
+  const [data, setData] = useState<GetTypeHistoryDto[]>([]);
+
+  useEffect(() => {
+    if (!typeHistory) return;
+
+    setData(typeHistory.items.reverse());
+  }, [typeHistory]);
 
   const theme: Theme = createTheme({
     palette: {
@@ -42,15 +51,29 @@ function HistorySection({ selectedType, typeHistory }: HistorySectionProps) {
       {} as GroupedByCreatedAt
     );
 
-    const dates: string[] = Object.keys(groupedByCreatedAt);
-    const labels: Date[] = dates.map((date: string) => new Date(date));
+    let dates: string[];
+    let labels: Date[];
+    let values: number[];
 
-    const values: number[] = dates.map((date: string) => {
-      const group = groupedByCreatedAt[date];
-      const sum = group.reduce((acc: number, item: GetTypeHistoryDto) => acc + item.prevElo, 0);
+    if (Object.keys(groupedByCreatedAt).length === 1) {
+      dates = history.map((hist) => hist.createdAt.toString());
+      labels = history.map((hist) => new Date(hist.createdAt));
+      values = history.map((hist) => hist.prevElo);
 
-      return Math.round(sum / group.length);
-    });
+      console.log(dates, labels, values);
+    } else {
+      dates = Object.keys(groupedByCreatedAt);
+      labels = dates.map((date: string) => new Date(date));
+
+      values = dates.map((date: string) => {
+        const group = groupedByCreatedAt[date];
+        const sum = group.reduce((acc: number, item: GetTypeHistoryDto) => acc + item.prevElo, 0);
+
+        return Math.round(sum / group.length);
+      });
+
+      console.log(dates, labels, values);
+    }
 
     return (
       <ThemeProvider theme={theme}>
@@ -132,7 +155,7 @@ function HistorySection({ selectedType, typeHistory }: HistorySectionProps) {
           iconClass={classes["type-icon"]}
           color={mainColor.c0}
         />
-        <span>{selectedType}</span>
+        <span>{selectedType} timeline</span>
       </h2>
 
       <div className={classes.history__chart}>{createChart(typeHistory.items)}</div>
@@ -140,7 +163,7 @@ function HistorySection({ selectedType, typeHistory }: HistorySectionProps) {
       <div className={classes.history__items}>
         <HistoryRecord item={null} />
 
-        {typeHistory.items.reverse().map((item: GetTypeHistoryDto, index: number) => (
+        {data.map((item: GetTypeHistoryDto, index: number) => (
           <HistoryRecord key={`history-record-${index}`} item={item} />
         ))}
       </div>
