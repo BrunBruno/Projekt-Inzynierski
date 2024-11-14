@@ -1,7 +1,7 @@
 /* engine controller dtos */
 
 import { Guid } from "guid-typescript";
-import { MoveDto, PlayerDto } from "./abstractDtosAndModels";
+import { GameSettingsDto, MoveDto, PlayerDto } from "./abstractDtosAndModels";
 import { MessageType, PieceColor, TimingType } from "../objects/entitiesEnums";
 import { BlackPieceTag, WhitePieceTag } from "../objects/constantLists";
 
@@ -13,7 +13,6 @@ export type GetEngineGameDto = {
   enPassant: string | null;
   timingType: TimingType | null;
   allowUndo: boolean;
-
   canWhiteKingCastle: boolean;
   canWhiteShortRookCastle: boolean;
   canWhiteLongRookCastle: boolean;
@@ -22,6 +21,7 @@ export type GetEngineGameDto = {
   canBlackLongRookCastle: boolean;
   player: PlayerDto;
   moves: MoveDto[];
+  gameSettings: GameSettingsDto;
 };
 
 export type StartEngineGameDto = {

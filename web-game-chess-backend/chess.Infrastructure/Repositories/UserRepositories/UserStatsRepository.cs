@@ -15,7 +15,7 @@ public class UserStatsRepository : IUserStatsRepository {
 
     ///<inheritdoc/>
     public async Task Update(UserStats userStats) {
-
+        _dbContext.UserStats.Update(userStats);
         await _dbContext.SaveChangesAsync();
     }
 }

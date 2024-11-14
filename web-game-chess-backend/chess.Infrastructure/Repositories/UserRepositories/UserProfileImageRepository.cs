@@ -6,12 +6,12 @@ using Microsoft.EntityFrameworkCore;
 
 namespace chess.Infrastructure.Repositories.UserRepositories;
 
-public class UserImageRepository : IUserImageRepository {
+public class UserProfileImageRepository : IUserProfileImageRepository {
 
 
     private readonly ChessAppDbContext _dbContext;
 
-    public UserImageRepository(ChessAppDbContext dbContext) {
+    public UserProfileImageRepository(ChessAppDbContext dbContext) {
         _dbContext = dbContext;
     }
 
@@ -23,6 +23,12 @@ public class UserImageRepository : IUserImageRepository {
     ///<inheritdoc/>
     public async Task Create(UserProfileImage userImage) {
         await _dbContext.UserProfileImages.AddAsync(userImage);
+        await _dbContext.SaveChangesAsync();
+    }
+
+    ///<inheritdoc/>
+    public async Task Delete(UserProfileImage userImage) {
+        _dbContext.UserProfileImages.Remove(userImage);
         await _dbContext.SaveChangesAsync();
     }
 }

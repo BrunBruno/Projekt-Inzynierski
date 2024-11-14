@@ -1,6 +1,12 @@
 /* abstract types of dtos and models */
 
-import { PieceColor, TimingType } from "../objects/entitiesEnums";
+import {
+  AppearanceOfBoard,
+  AppearanceOfGamePage,
+  AppearanceOfPieces,
+  PieceColor,
+  TimingType,
+} from "../objects/entitiesEnums";
 
 // pagination result type
 export type PagedResult<T> = {
@@ -67,7 +73,15 @@ export type MoveDto = {
   capturedPiece: string;
 };
 
+//
 export type UserImage = {
   data: Uint8Array;
   contentType: string;
+};
+
+//
+export type GameSettingsDto = {
+  appearanceOfPieces: AppearanceOfPieces;
+  appearanceOfBoard: AppearanceOfBoard;
+  appearanceOfGamePage: AppearanceOfGamePage;
 };

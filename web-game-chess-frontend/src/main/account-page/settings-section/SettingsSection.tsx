@@ -30,7 +30,7 @@ function SettingsSection({ user }: SettingsSectionProps) {
           <span>Gameplay appearance and settings</span>
         </h3>
 
-        <GameplaySettings />
+        <GameplaySettings user={user} />
       </div>
     </section>
   );

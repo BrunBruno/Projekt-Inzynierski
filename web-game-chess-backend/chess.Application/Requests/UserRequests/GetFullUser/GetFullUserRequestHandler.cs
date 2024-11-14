@@ -78,6 +78,13 @@ public class GetFullUserRequestHandler : IRequestHandler<GetFullUserRequest, Get
                 Daily = user.Stats.DailyGamesPlayed,
             },
 
+            Settings = new GameSettingsDto
+            {
+                AppearanceOfPieces = user.Settings.AppearanceOfPieces,
+                AppearanceOfBoard = user.Settings.AppearanceOfBoard,
+                AppearanceOfGamePage = user.Settings.AppearanceOfGamePage,
+            },
+
             WinsByCheckMate = user.Stats.WinsByCheckMate,
             WinsByTimeout = user.Stats.WinsByTimeout,
             WinsByResignation = user.Stats.WinsByResignation,

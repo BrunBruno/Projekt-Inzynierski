@@ -59,8 +59,6 @@ function HistorySection({ selectedType, typeHistory }: HistorySectionProps) {
       dates = history.map((hist) => hist.createdAt.toString());
       labels = history.map((hist) => new Date(hist.createdAt));
       values = history.map((hist) => hist.prevElo);
-
-      console.log(dates, labels, values);
     } else {
       dates = Object.keys(groupedByCreatedAt);
       labels = dates.map((date: string) => new Date(date));
@@ -71,8 +69,6 @@ function HistorySection({ selectedType, typeHistory }: HistorySectionProps) {
 
         return Math.round(sum / group.length);
       });
-
-      console.log(dates, labels, values);
     }
 
     return (

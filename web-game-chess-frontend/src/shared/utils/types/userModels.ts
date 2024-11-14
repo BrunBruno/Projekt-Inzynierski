@@ -1,6 +1,6 @@
 /* user controller models to requests */
 
-import { TimingType } from "../objects/entitiesEnums";
+import { AppearanceOfBoard, AppearanceOfGamePage, AppearanceOfPieces, TimingType } from "../objects/entitiesEnums";
 import { PagedModel } from "./abstractDtosAndModels";
 
 /** POST models */
@@ -54,6 +54,12 @@ export type UpdateProfileModel = {
 
 export type UpdateUserDataModel = {
   profileIsPrivate?: boolean;
+};
+
+export type UpdateUserSettingsModel = {
+  appearanceOfBoard: AppearanceOfBoard | null;
+  appearanceOfGamePage: AppearanceOfGamePage | null;
+  appearanceOfPieces: AppearanceOfPieces | null;
 };
 
 /** GET models */

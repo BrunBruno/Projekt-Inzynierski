@@ -20,14 +20,14 @@ public class GetAllMessagesRequestHandler : IRequestHandler<GetAllMessagesReques
     private readonly IWebGamePlayerMessageRepository _playerMessageRepository;
     private readonly IWebGameMessageRepository _gameMessageRepository;
     private readonly IUserContextService _userContextService;
-    private readonly IUserImageRepository _userImageRepository;
+    private readonly IUserProfileImageRepository _userImageRepository;
 
     public GetAllMessagesRequestHandler(
         IWebGameRepository gameRepository,
         IWebGamePlayerMessageRepository playerMessageRepository,
         IWebGameMessageRepository gameMessageRepository,
         IUserContextService userContextService,
-        IUserImageRepository userImageRepository
+        IUserProfileImageRepository userImageRepository
     ) {
         _gameRepository = gameRepository;
         _playerMessageRepository = playerMessageRepository;

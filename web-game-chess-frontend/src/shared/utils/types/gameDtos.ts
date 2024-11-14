@@ -1,7 +1,7 @@
 /* game controller dtos */
 
 import { Guid } from "guid-typescript";
-import { MoveDto, PlayerDto, TimingTypeModel, UserImage } from "./abstractDtosAndModels";
+import { GameSettingsDto, MoveDto, PlayerDto, TimingTypeModel, UserImage } from "./abstractDtosAndModels";
 import { GameEndReason, MessageType, PieceColor, TimingType } from "../objects/entitiesEnums";
 
 export type CheckIfInGameDto = {
@@ -77,6 +77,7 @@ export type GetWebGameDto = {
   whitePlayer: PlayerDto;
   blackPlayer: PlayerDto;
   moves: MoveDto[];
+  gameSettings: GameSettingsDto;
 };
 
 export type GetTypeHistoryDto = {

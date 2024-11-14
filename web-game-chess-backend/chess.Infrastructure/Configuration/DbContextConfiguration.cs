@@ -32,7 +32,8 @@ public class DbContextConfiguration :
     IEntityTypeConfiguration<EngineGameMove>,
     IEntityTypeConfiguration<EngineGameState>,
     IEntityTypeConfiguration<EngineGameMessage>,
-    IEntityTypeConfiguration<UserBackgroundImage>
+    IEntityTypeConfiguration<UserBackgroundImage>,
+    IEntityTypeConfiguration<UserSettings>
 {
 
     public void Configure(EntityTypeBuilder<User> builder) {
@@ -269,6 +270,16 @@ public class DbContextConfiguration :
             .HasOne(egm => egm.Game)
             .WithMany(eg => eg.Messages)
             .HasForeignKey(egm => egm.GameId);
+    }
+
+    public void Configure(EntityTypeBuilder<UserSettings> builder) {
+        builder
+            .HasKey(us => us.Id);
+
+        builder
+            .HasOne(us => us.User)
+            .WithOne(u => u.Settings)
+            .HasForeignKey<UserSettings>(us => us.UserId);
     }
 
     private static IEnumerable<Role> GetRoles() {

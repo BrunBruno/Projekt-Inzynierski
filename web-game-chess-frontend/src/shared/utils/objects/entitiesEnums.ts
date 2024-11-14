@@ -47,3 +47,23 @@ export enum MessageType {
   drawAction = 1,
   bot = 2,
 }
+
+//
+export enum AppearanceOfBoard {
+  Default,
+  Rounded,
+  Wooden,
+  Grey,
+}
+
+//
+export enum AppearanceOfGamePage {
+  Simple,
+  Full,
+}
+
+//
+export enum AppearanceOfPieces {
+  Standard,
+  Simple,
+}

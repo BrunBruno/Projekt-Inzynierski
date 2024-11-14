@@ -1,4 +1,5 @@
 ﻿
+using chess.Application.Repositories.UserRepositories;
 using chess.Application.Repositories.WebGameRepositories;
 using chess.Application.Services;
 using chess.Core.Dtos;
@@ -18,18 +19,24 @@ public class GetWebGameRequestHandler : IRequestHandler<GetWebGameRequest, GetWe
 
     private readonly IWebGameRepository _gameRepository;
     private readonly IUserContextService _userContextService;
+    private readonly IUserSettingsRepository _userSettingsRepository;
 
     public GetWebGameRequestHandler(
         IWebGameRepository gameRepository,
-        IUserContextService userContextService
+        IUserContextService userContextService,
+        IUserSettingsRepository userSettingsRepository
     ) {
         _gameRepository = gameRepository;
         _userContextService = userContextService;
+        _userSettingsRepository = userSettingsRepository;
     }
 
     public async Task<GetWebGameDto> Handle(GetWebGameRequest request, CancellationToken cancellationToken) {
 
         var userId = _userContextService.GetUserId();
+
+        var settings = await _userSettingsRepository.GetByUserId( userId )
+            ?? throw new NotFoundException("Settings not found.");
 
         var game = await _gameRepository.GetById(request.GameId) 
             ?? throw new NotFoundException("Game not found.");
@@ -92,6 +99,13 @@ public class GetWebGameRequestHandler : IRequestHandler<GetWebGameRequest, GetWe
                 NewCoor = move.NewCoordinates,
                 CapturedPiece = move.CapturedPiece,
             }).ToList(),
+
+            GameSettings = new GameSettingsDto()
+            {
+                AppearanceOfGamePage = settings.AppearanceOfGamePage,
+                AppearanceOfBoard = settings.AppearanceOfBoard,
+                AppearanceOfPieces = settings.AppearanceOfPieces,
+            },
         };
 
 

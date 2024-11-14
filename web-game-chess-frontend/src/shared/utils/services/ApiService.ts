@@ -35,6 +35,7 @@ interface UserControllerPaths {
   changePassword: string;
   updateProfile: string;
   updateUserData: string;
+  updateUserSettings: string;
   //GET
   getUser: string;
   getFullUser: string;
@@ -58,6 +59,7 @@ interface UserController {
   changePassword: () => string;
   updateProfile: () => string;
   updateUserData: () => string;
+  updateUserSettings: () => string;
   getUser: () => string;
   getFullUser: () => string;
   getOtherUser: (userId: Guid) => string;
@@ -79,6 +81,7 @@ export const userControllerPaths: UserControllerPaths = {
   changePassword: `${userBaseUrl}/change-password`,
   updateProfile: `${userBaseUrl}/profile`,
   updateUserData: `${userBaseUrl}/data`,
+  updateUserSettings: `${userBaseUrl}/settings`,
   getUser: `${userBaseUrl}`,
   getFullUser: `${userBaseUrl}/full`,
   getOtherUser: `${userBaseUrl}/other`,
@@ -116,6 +119,9 @@ export const userController: UserController = {
 
   //
   updateUserData: () => `${userBaseUrl}/data`,
+
+  //
+  updateUserSettings: () => `${userBaseUrl}/settings`,
 
   // gets basic user info
   getUser: () => `${userBaseUrl}`,

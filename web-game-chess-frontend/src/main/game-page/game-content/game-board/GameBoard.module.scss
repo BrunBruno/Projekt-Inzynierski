@@ -21,26 +21,61 @@
 
     z-index: 10;
     grid-template-columns: repeat(8, 1fr) 0;
-    gap: 0.4rem;
+    border-radius: 0.5rem;
 
     .field {
-      @include rounded(0.5rem);
       @include flex();
 
       position: relative;
       z-index: 10;
 
-      &:nth-child(odd) {
-        background-color: rgba($mc0, 0.96);
-        &.old {
-          background-color: rgba($mc3, 0.96);
+      &.rounded {
+        margin: 0.2rem;
+        border-radius: 0.5rem;
+      }
+
+      &.grey {
+        &:nth-child(odd) {
+          background-color: rgba(#fff, 0.96);
+
+          &.old {
+            background-color: rgba($gc4, 0.96);
+          }
+          &.new {
+            background-color: rgba($gc4, 0.96);
+          }
         }
-        &.new {
-          background-color: rgba($mc3, 0.96);
+
+        &:nth-child(even) {
+          background-color: rgba(#000, 0.96);
+
+          &.old {
+            background-color: rgba($gc8, 0.96);
+          }
+          &.new {
+            background-color: rgba($gc8, 0.96);
+          }
         }
       }
+
+      &.wooden {
+        background-image: url("/images/wood.png");
+      }
+
+      &:nth-child(odd) {
+        background-color: rgba($mc0, 0.96);
+
+        &.old {
+          background-color: rgba($mc2, 0.96);
+        }
+        &.new {
+          background-color: rgba($mc2, 0.96);
+        }
+      }
+
       &:nth-child(even) {
         background-color: rgba($mc9, 0.96);
+
         &.old {
           background-color: rgba($mc4, 0.96);
         }
@@ -93,7 +128,7 @@
 
       &.tip {
         cursor: pointer;
-        background-image: radial-gradient(circle at 50% 50%, rgba(#000, 0.5) 30%, #0000 40%);
+        background-image: radial-gradient(circle at 50% 50%, rgba(#000, 0.5) 30%, rgba(#fff, 0.5) 35%, #0000 45%);
 
         // to display capture
         &:not(.selected) {
@@ -129,7 +164,7 @@
         }
 
         svg.piece-svg {
-          height: calc(((64rem - 2rem) / 8) * 0.8);
+          height: 80%;
           transform: translateZ(-1px);
           filter: drop-shadow(0 0 1rem #000);
           pointer-events: none;

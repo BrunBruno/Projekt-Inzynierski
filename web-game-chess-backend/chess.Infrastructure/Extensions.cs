@@ -110,9 +110,11 @@ public static class Extensions {
 
 
         services.AddScoped<IUserRepository, UserRepository>();
-        services.AddScoped<IUserImageRepository, UserImageRepository>();
+        services.AddScoped<IUserProfileImageRepository, UserProfileImageRepository>();
+        services.AddScoped<IUserBackgroundImageRepository, UserBackgroundImageRepository>();
         services.AddScoped<IUserEloRepository, UserEloRepository>();
         services.AddScoped<IUserStatsRepository, UserStatsRepository>();
+        services.AddScoped<IUserSettingsRepository, UserSettingsRepository>();
         services.AddScoped<IUserBanRepository, UserBanRepository>();
         services.AddScoped<IUserVerificationCodeRepository, UserVerificationCodeRepository>();
 

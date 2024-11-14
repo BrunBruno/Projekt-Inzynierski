@@ -12,7 +12,7 @@ using chess.Infrastructure.Contexts;
 namespace chess.Infrastructure.Migrations
 {
     [DbContext(typeof(ChessAppDbContext))]
-    [Migration("20241112182401_Init")]
+    [Migration("20241114175348_Init")]
     partial class Init
     {
         /// <inheritdoc />
@@ -429,6 +429,31 @@ namespace chess.Infrastructure.Migrations
                     b.ToTable("Users");
                 });
 
+            modelBuilder.Entity("chess.Core.Entities.UserBackgroundImage", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("ContentType")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<byte[]>("Data")
+                        .IsRequired()
+                        .HasColumnType("bytea");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId")
+                        .IsUnique();
+
+                    b.ToTable("UserBackgroundImages");
+                });
+
             modelBuilder.Entity("chess.Core.Entities.UserBan", b =>
                 {
                     b.Property<Guid>("Id")
@@ -488,7 +513,7 @@ namespace chess.Infrastructure.Migrations
                     b.ToTable("UserElos");
                 });
 
-            modelBuilder.Entity("chess.Core.Entities.UserImage", b =>
+            modelBuilder.Entity("chess.Core.Entities.UserProfileImage", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -510,7 +535,33 @@ namespace chess.Infrastructure.Migrations
                     b.HasIndex("UserId")
                         .IsUnique();
 
-                    b.ToTable("UserImages");
+                    b.ToTable("UserProfileImages");
+                });
+
+            modelBuilder.Entity("chess.Core.Entities.UserSettings", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<int>("AppearanceOfBoard")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("AppearanceOfGamePage")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("AppearanceOfPieces")
+                        .HasColumnType("integer");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId")
+                        .IsUnique();
+
+                    b.ToTable("UserSettings");
                 });
 
             modelBuilder.Entity("chess.Core.Entities.UserStats", b =>
@@ -519,10 +570,16 @@ namespace chess.Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<int>("Draws")
+                    b.Property<int>("BlitzGamesPlayed")
                         .HasColumnType("integer");
 
-                    b.Property<int>("Loses")
+                    b.Property<int>("BulletGamesPlayed")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("ClassicGamesPlayed")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("DailyGamesPlayed")
                         .HasColumnType("integer");
 
                     b.Property<int>("LosesByCheckMate")
@@ -534,11 +591,29 @@ namespace chess.Infrastructure.Migrations
                     b.Property<int>("LosesByTimeout")
                         .HasColumnType("integer");
 
+                    b.Property<int>("OfflineDraws")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("OfflineLoses")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("OfflineWins")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("OnlineDraws")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("OnlineLoses")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("OnlineWins")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("RapidGamesPlayed")
+                        .HasColumnType("integer");
+
                     b.Property<Guid>("UserId")
                         .HasColumnType("uuid");
-
-                    b.Property<int>("Wins")
-                        .HasColumnType("integer");
 
                     b.Property<int>("WinsByCheckMate")
                         .HasColumnType("integer");
@@ -983,6 +1058,17 @@ namespace chess.Infrastructure.Migrations
                     b.Navigation("Role");
                 });
 
+            modelBuilder.Entity("chess.Core.Entities.UserBackgroundImage", b =>
+                {
+                    b.HasOne("chess.Core.Entities.User", "User")
+                        .WithOne("Background")
+                        .HasForeignKey("chess.Core.Entities.UserBackgroundImage", "UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("chess.Core.Entities.UserBan", b =>
                 {
                     b.HasOne("chess.Core.Entities.User", "User")
@@ -1005,11 +1091,22 @@ namespace chess.Infrastructure.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("chess.Core.Entities.UserImage", b =>
+            modelBuilder.Entity("chess.Core.Entities.UserProfileImage", b =>
                 {
                     b.HasOne("chess.Core.Entities.User", "User")
                         .WithOne("Image")
-                        .HasForeignKey("chess.Core.Entities.UserImage", "UserId")
+                        .HasForeignKey("chess.Core.Entities.UserProfileImage", "UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("chess.Core.Entities.UserSettings", b =>
+                {
+                    b.HasOne("chess.Core.Entities.User", "User")
+                        .WithOne("Settings")
+                        .HasForeignKey("chess.Core.Entities.UserSettings", "UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -1156,6 +1253,8 @@ namespace chess.Infrastructure.Migrations
 
             modelBuilder.Entity("chess.Core.Entities.User", b =>
                 {
+                    b.Navigation("Background");
+
                     b.Navigation("Elo")
                         .IsRequired();
 
@@ -1168,6 +1267,9 @@ namespace chess.Infrastructure.Migrations
                     b.Navigation("ReceivedFriendships");
 
                     b.Navigation("RequestedFriendships");
+
+                    b.Navigation("Settings")
+                        .IsRequired();
 
                     b.Navigation("Stats")
                         .IsRequired();

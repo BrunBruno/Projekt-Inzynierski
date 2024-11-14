@@ -17,6 +17,7 @@ using chess.Application.Requests.UserRequests.ResetPassword;
 using chess.Application.Requests.UserRequests.SendResetPasswordCode;
 using chess.Application.Requests.UserRequests.UpdateProfile;
 using chess.Application.Requests.UserRequests.UpdateUserData;
+using chess.Application.Requests.UserRequests.UpdateUserSettings;
 using chess.Application.Requests.UserRequests.VerifyEmail;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -179,6 +180,17 @@ public class UserController : ControllerBase {
     public async Task<IActionResult> UpdateUserData([FromBody] UpdateUserDataModel model) {
 
         var request = _mapper.Map<UpdateUserDataRequest>(model);
+
+        await _mediator.Send(request);
+
+        return Ok();
+    }
+
+    [HttpPut("settings")]
+    [Authorize(Policy = "IsVerified")]
+    public async Task<IActionResult> UpdateUserSettings([FromBody] UpdateUserSettingsModel model) {
+
+        var request = _mapper.Map<UpdateUserSettingsRequest>(model);
 
         await _mediator.Send(request);
 

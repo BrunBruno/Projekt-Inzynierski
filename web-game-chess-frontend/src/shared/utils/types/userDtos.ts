@@ -1,7 +1,7 @@
 /* user controller dtos */
 
 import { Guid } from "guid-typescript";
-import { EloDto, UserDto, GameOutcomeDto, UserImage } from "./abstractDtosAndModels";
+import { EloDto, UserDto, GameOutcomeDto, UserImage, GameSettingsDto } from "./abstractDtosAndModels";
 
 export type GetRegisterConfDto = {
   minLength: number | null;
@@ -35,6 +35,7 @@ export type GetFullUserDto = UserDto & {
   onlineOutcomeTotal: GameOutcomeDto;
   offlineOutcomeTotal: GameOutcomeDto;
   timingTypeGamesPlayed: EloDto;
+  settings: GameSettingsDto;
   winsByCheckMate: number;
   winsByTimeout: number;
   winsByResignation: number;

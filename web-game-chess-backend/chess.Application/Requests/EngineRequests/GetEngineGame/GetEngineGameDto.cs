@@ -63,4 +63,9 @@ public class GetEngineGameDto {
     /// List of moves that was made during game
     /// </summary>
     public required List<MoveDto> Moves { get; set; }
+
+    /// <summary>
+    /// Game settings based on user settings
+    /// </summary>
+    public required GameSettingsDto GameSettings { get; set; }
 }

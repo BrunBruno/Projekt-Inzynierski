@@ -141,6 +141,26 @@ namespace chess.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "UserBackgroundImages",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    UserId = table.Column<Guid>(type: "uuid", nullable: false),
+                    Data = table.Column<byte[]>(type: "bytea", nullable: false),
+                    ContentType = table.Column<string>(type: "text", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_UserBackgroundImages", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_UserBackgroundImages_Users_UserId",
+                        column: x => x.UserId,
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "UserBans",
                 columns: table => new
                 {
@@ -185,19 +205,40 @@ namespace chess.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "UserImages",
+                name: "UserProfileImages",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    UserId = table.Column<Guid>(type: "uuid", nullable: false),
                     Data = table.Column<byte[]>(type: "bytea", nullable: false),
-                    ContentType = table.Column<string>(type: "text", nullable: false),
+                    ContentType = table.Column<string>(type: "text", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_UserProfileImages", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_UserProfileImages_Users_UserId",
+                        column: x => x.UserId,
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "UserSettings",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    AppearanceOfPieces = table.Column<int>(type: "integer", nullable: false),
+                    AppearanceOfBoard = table.Column<int>(type: "integer", nullable: false),
+                    AppearanceOfGamePage = table.Column<int>(type: "integer", nullable: false),
                     UserId = table.Column<Guid>(type: "uuid", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_UserImages", x => x.Id);
+                    table.PrimaryKey("PK_UserSettings", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_UserImages_Users_UserId",
+                        name: "FK_UserSettings_Users_UserId",
                         column: x => x.UserId,
                         principalTable: "Users",
                         principalColumn: "Id",
@@ -209,15 +250,23 @@ namespace chess.Infrastructure.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    Wins = table.Column<int>(type: "integer", nullable: false),
-                    Loses = table.Column<int>(type: "integer", nullable: false),
-                    Draws = table.Column<int>(type: "integer", nullable: false),
+                    OnlineWins = table.Column<int>(type: "integer", nullable: false),
+                    OnlineDraws = table.Column<int>(type: "integer", nullable: false),
+                    OnlineLoses = table.Column<int>(type: "integer", nullable: false),
+                    BulletGamesPlayed = table.Column<int>(type: "integer", nullable: false),
+                    BlitzGamesPlayed = table.Column<int>(type: "integer", nullable: false),
+                    RapidGamesPlayed = table.Column<int>(type: "integer", nullable: false),
+                    ClassicGamesPlayed = table.Column<int>(type: "integer", nullable: false),
+                    DailyGamesPlayed = table.Column<int>(type: "integer", nullable: false),
                     WinsByCheckMate = table.Column<int>(type: "integer", nullable: false),
                     WinsByTimeout = table.Column<int>(type: "integer", nullable: false),
                     WinsByResignation = table.Column<int>(type: "integer", nullable: false),
                     LosesByCheckMate = table.Column<int>(type: "integer", nullable: false),
                     LosesByTimeout = table.Column<int>(type: "integer", nullable: false),
                     LosesByResignation = table.Column<int>(type: "integer", nullable: false),
+                    OfflineWins = table.Column<int>(type: "integer", nullable: false),
+                    OfflineDraws = table.Column<int>(type: "integer", nullable: false),
+                    OfflineLoses = table.Column<int>(type: "integer", nullable: false),
                     UserId = table.Column<Guid>(type: "uuid", nullable: false)
                 },
                 constraints: table =>
@@ -623,6 +672,12 @@ namespace chess.Infrastructure.Migrations
                 column: "RequestorId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_UserBackgroundImages_UserId",
+                table: "UserBackgroundImages",
+                column: "UserId",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_UserBans_UserId",
                 table: "UserBans",
                 column: "UserId",
@@ -635,8 +690,8 @@ namespace chess.Infrastructure.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_UserImages_UserId",
-                table: "UserImages",
+                name: "IX_UserProfileImages_UserId",
+                table: "UserProfileImages",
                 column: "UserId",
                 unique: true);
 
@@ -644,6 +699,12 @@ namespace chess.Infrastructure.Migrations
                 name: "IX_Users_RoleId",
                 table: "Users",
                 column: "RoleId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserSettings_UserId",
+                table: "UserSettings",
+                column: "UserId",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_UserStats_UserId",
@@ -726,13 +787,19 @@ namespace chess.Infrastructure.Migrations
                 name: "Friendships");
 
             migrationBuilder.DropTable(
+                name: "UserBackgroundImages");
+
+            migrationBuilder.DropTable(
                 name: "UserBans");
 
             migrationBuilder.DropTable(
                 name: "UserElos");
 
             migrationBuilder.DropTable(
-                name: "UserImages");
+                name: "UserProfileImages");
+
+            migrationBuilder.DropTable(
+                name: "UserSettings");
 
             migrationBuilder.DropTable(
                 name: "UserStats");

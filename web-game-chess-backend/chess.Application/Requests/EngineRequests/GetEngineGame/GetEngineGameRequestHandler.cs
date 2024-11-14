@@ -1,5 +1,6 @@
 ﻿
 using chess.Application.Repositories.EngineGameRepositories;
+using chess.Application.Repositories.UserRepositories;
 using chess.Application.Services;
 using chess.Core.Dtos;
 using chess.Shared.Exceptions;
@@ -16,18 +17,24 @@ public class GetEngineGameRequestHandler : IRequestHandler<GetEngineGameRequest,
 
     private readonly IUserContextService _userContextService;
     private readonly IEngineGameRepository _engineGameRepository;
+    private readonly IUserSettingsRepository _userSettingsRepository;
 
     public GetEngineGameRequestHandler(
         IUserContextService userContextService,
-        IEngineGameRepository engineGameRepository
+        IEngineGameRepository engineGameRepository,
+        IUserSettingsRepository userSettingsRepository
     ) {
         _userContextService = userContextService;
         _engineGameRepository = engineGameRepository;
+        _userSettingsRepository = userSettingsRepository;
     }
 
     public async Task<GetEngineGameDto> Handle(GetEngineGameRequest request, CancellationToken cancellationToken) {
 
         var userId = _userContextService.GetUserId();
+
+        var settings = await _userSettingsRepository.GetByUserId(userId)
+            ?? throw new NotFoundException("Settings not found.");
 
         var game = await _engineGameRepository.GetById(request.GameId)
             ?? throw new NotFoundException("Game not found.");
@@ -73,6 +80,13 @@ public class GetEngineGameRequestHandler : IRequestHandler<GetEngineGameRequest,
                 NewCoor = move.NewCoordinates,
                 CapturedPiece = move.CapturedPiece,
             }).ToList(),
+
+            GameSettings = new GameSettingsDto()
+            {
+                AppearanceOfGamePage = settings.AppearanceOfGamePage,
+                AppearanceOfBoard = settings.AppearanceOfBoard,
+                AppearanceOfPieces = settings.AppearanceOfPieces,
+            },
         };
 
         return gameDto;

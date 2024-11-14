@@ -23,6 +23,7 @@ public class UserRepository : IUserRepository {
                     .Include(u => u.Background)
                     .Include(u => u.Elo)
                     .Include(u => u.Stats)
+                    .Include(u => u.Settings)
                     .FirstOrDefaultAsync(u => u.Id == id);
 
     ///<inheritdoc/>

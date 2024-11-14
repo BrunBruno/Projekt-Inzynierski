@@ -43,6 +43,11 @@ public class GetFullUserDto : UserDto {
     /// </summary>
     public required EloDto TimingTypeGamesPlayed { get; set; }
 
+    /// <summary>
+    /// User game settings
+    /// </summary>
+    public required GameSettingsDto Settings { get; set; }
+
 
     /// <summary>
     /// Wins by some win option

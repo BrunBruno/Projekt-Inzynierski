@@ -90,6 +90,11 @@ public class User {
     public UserStats Stats { get; set; }
 
     /// <summary>
+    /// User account and game preferences settings
+    /// </summary>
+    public UserSettings Settings { get; set; }
+
+    /// <summary>
     /// Players for each online game
     /// </summary>
     public List<WebGamePlayer> Players { get; set; }

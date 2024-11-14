@@ -17,14 +17,14 @@ public class GetAllMessagesRequestHandlerTests {
     private readonly Mock<IWebGameMessageRepository> _mockGameMessageRepository;
     private readonly Mock<IWebGameRepository> _mockGameRepository;
     private readonly Mock<IUserContextService> _mockUserContextService;
-    private readonly Mock<IUserImageRepository> _mockUserImageRepository;
+    private readonly Mock<IUserProfileImageRepository> _mockUserImageRepository;
 
     public GetAllMessagesRequestHandlerTests() {
         _mockPlayerMessageRepository = new Mock<IWebGamePlayerMessageRepository>();
         _mockGameMessageRepository = new Mock<IWebGameMessageRepository>();
         _mockGameRepository = new Mock<IWebGameRepository>();
         _mockUserContextService = new Mock<IUserContextService>();
-        _mockUserImageRepository = new Mock<IUserImageRepository>();
+        _mockUserImageRepository = new Mock<IUserProfileImageRepository>();
     }
 
     [Fact]

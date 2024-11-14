@@ -535,6 +535,32 @@ namespace chess.Infrastructure.Migrations
                     b.ToTable("UserProfileImages");
                 });
 
+            modelBuilder.Entity("chess.Core.Entities.UserSettings", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<int>("AppearanceOfBoard")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("AppearanceOfGamePage")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("AppearanceOfPieces")
+                        .HasColumnType("integer");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId")
+                        .IsUnique();
+
+                    b.ToTable("UserSettings");
+                });
+
             modelBuilder.Entity("chess.Core.Entities.UserStats", b =>
                 {
                     b.Property<Guid>("Id")
@@ -1073,6 +1099,17 @@ namespace chess.Infrastructure.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("chess.Core.Entities.UserSettings", b =>
+                {
+                    b.HasOne("chess.Core.Entities.User", "User")
+                        .WithOne("Settings")
+                        .HasForeignKey("chess.Core.Entities.UserSettings", "UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("chess.Core.Entities.UserStats", b =>
                 {
                     b.HasOne("chess.Core.Entities.User", "User")
@@ -1227,6 +1264,9 @@ namespace chess.Infrastructure.Migrations
                     b.Navigation("ReceivedFriendships");
 
                     b.Navigation("RequestedFriendships");
+
+                    b.Navigation("Settings")
+                        .IsRequired();
 
                     b.Navigation("Stats")
                         .IsRequired();

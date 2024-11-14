@@ -8,7 +8,6 @@ import IconCreator from "../../../../shared/components/icon-creator/IconCreator"
 import { PieceTag } from "../../../../shared/utils/objects/constantLists";
 import { dangerColor } from "../../../../shared/utils/objects/colorMaps";
 import { symbolIcons } from "../../../../shared/svgs/iconsMap/SymbolIcons";
-import { defaultPiecesImages } from "../../../../shared/svgs/iconsMap/DefaultPieceImageSvgs";
 import { GetEngineGameDto } from "../../../../shared/utils/types/engineDtos";
 import {
   Coordinate,
@@ -19,6 +18,8 @@ import {
 } from "../../../../shared/utils/chess-game/gameSates";
 import { areCoorEqual, checkIfOwnPiece, posToIndex, toCoor } from "../../../../shared/utils/chess-game/general";
 import {
+  changeBoardByUserSettings,
+  changePiecesByUserSettings,
   onClearHighlights,
   onHighlightFile,
   performMoveAnimation,
@@ -181,10 +182,11 @@ function EngineGameBoard({
           >
             {/* piece icon */}
             <IconCreator
-              icons={defaultPiecesImages}
+              icons={changePiecesByUserSettings(gameData.gameSettings.appearanceOfPieces)}
               iconName={char.toLowerCase() as PieceTag}
               iconClass={classes["piece-svg"]}
               color={getPieceSideColor(char as PieceTag)}
+              active={true}
             />
 
             {/* capture icon */}
@@ -192,10 +194,11 @@ function EngineGameBoard({
               <div className={classes.capture}>
                 <IconCreator icons={symbolIcons} iconName={"x"} iconClass={classes.x} color={dangerColor.mid} />
                 <IconCreator
-                  icons={defaultPiecesImages}
+                  icons={changePiecesByUserSettings(gameData.gameSettings.appearanceOfPieces)}
                   iconName={capturedPiece.toLowerCase() as PieceTag}
                   iconClass={classes["capture-svg"]}
                   color={getPieceSideColor(capturedPiece as PieceTag)}
+                  active={true}
                 />
               </div>
             )}
@@ -212,6 +215,7 @@ function EngineGameBoard({
           ${isInCheck ? classes.check : ""} 
           ${isOldFiled ? classes.old : ""} 
           ${isNewField ? classes.new : ""}
+          ${changeBoardByUserSettings(gameData.gameSettings.appearanceOfBoard, classes)}
         `}
       />
     );
