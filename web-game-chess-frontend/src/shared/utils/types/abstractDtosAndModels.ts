@@ -71,6 +71,7 @@ export type MoveDto = {
   oldCoor: string;
   newCoor: string;
   capturedPiece: string;
+  position: string;
 };
 
 //

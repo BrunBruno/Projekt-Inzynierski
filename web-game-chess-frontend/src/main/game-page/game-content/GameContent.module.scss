@@ -9,6 +9,8 @@
   z-index: 0;
   border-radius: 8rem;
 
+  // border: solid $gc8 3px;
+
   &__content {
     @include square(64rem);
     @include rounded(2rem);

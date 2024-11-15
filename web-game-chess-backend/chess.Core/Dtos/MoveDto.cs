@@ -31,4 +31,6 @@ public class MoveDto {
     /// Capture piece tag
     /// </summary>
     public string? CapturedPiece { get; set; }
+
+    public string Position { get; set; }
 }

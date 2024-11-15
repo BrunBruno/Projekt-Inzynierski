@@ -2,26 +2,38 @@ import classes from "./GameRightSidebar.module.scss";
 import AvatarImage from "../../../shared/components/avatar-image/AvatarImage";
 import { MoveDto, PlayerDto } from "../../../shared/utils/types/abstractDtosAndModels";
 import { GetEngineGameDto } from "../../../shared/utils/types/engineDtos";
-import { PieceColor } from "../../../shared/utils/objects/entitiesEnums";
+import { AppearanceOfGamePage, PieceColor } from "../../../shared/utils/objects/entitiesEnums";
 import EngineGameMoveRecord from "./game-move-record/EngineGameMoveRecord";
 import EngineGameMessages from "./game-messages/EngineGameMessages";
 import { Guid } from "guid-typescript";
-import { useEffect, useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
 import { pieceTagMap } from "../../../shared/utils/objects/piecesNameMaps";
 import IconCreator from "../../../shared/components/icon-creator/IconCreator";
 import { specialPiecesSvgs } from "../../../shared/svgs/iconsMap/SpecialPiecesSvgs";
 import { greyColor } from "../../../shared/utils/objects/colorMaps";
-import { ElementClass } from "../../../shared/utils/types/commonTypes";
+import { ElementClass, StateProp } from "../../../shared/utils/types/commonTypes";
+import { GameWindowInterface } from "../../../shared/utils/objects/interfacesEnums";
 
 type EngineGameRightSidebarProps = {
-  // game id
-  gameId: Guid;
   // game data
+  gameId: Guid;
   gameData: GetEngineGameDto;
+  // to set previous position
+  historyPositionState: StateProp<MoveDto | null>;
+  // for showing history view
+  displayedWindowState: StateProp<GameWindowInterface>;
 };
 
-function EngineGameRightSidebar({ gameId, gameData }: EngineGameRightSidebarProps) {
+function EngineGameRightSidebar({
+  gameId,
+  gameData,
+  historyPositionState,
+  displayedWindowState,
+}: EngineGameRightSidebarProps) {
   ///
+
+  // for handling scroll of records
+  const recordsRef = useRef<HTMLDivElement>(null);
 
   // for pieces advantage display
   const [playersAdvantage, setPlayersAdvantage] = useState<number>(0);
@@ -170,8 +182,36 @@ function EngineGameRightSidebar({ gameId, gameData }: EngineGameRightSidebarProp
   };
   //*/
 
+  // to return to default view
+  const closeHistory = (): void => {
+    if (displayedWindowState.get !== GameWindowInterface.history) return;
+
+    historyPositionState.set(null);
+    displayedWindowState.set(GameWindowInterface.none);
+  };
+  //*/
+
+  // to handle record scroll
+  useEffect(() => {
+    const handleRecordsScroll = (): void => {
+      const records = recordsRef.current;
+
+      if (records) {
+        records.scrollTop = records.scrollHeight;
+      }
+    };
+
+    handleRecordsScroll();
+  }, [gameData]);
+  //*/
+
   return (
-    <section className={classes.bar}>
+    <section
+      className={`
+        ${classes.bar} 
+        ${gameData.gameSettings.appearanceOfGamePage === AppearanceOfGamePage.Simple ? classes["simple-view"] : ""}
+      `}
+    >
       <div
         className={`
           ${classes.bar__content} 
@@ -210,21 +250,33 @@ function EngineGameRightSidebar({ gameId, gameData }: EngineGameRightSidebarProp
         {/* --- */}
 
         {/* game history records */}
-        <div className={`${classes.bar__content__block} ${classes["records-block"]}`}>
-          <div className={classes.bar__content__block__list}>
+        <div
+          ref={recordsRef}
+          className={`${classes["bar-block"]} ${classes["records-block"]}`}
+          onMouseLeave={() => {
+            closeHistory();
+          }}
+        >
+          <div className={classes["bar-list"]}>
             {gameData.moves.length > 0
               ? gameData.moves.map((move: MoveDto, i: number) => (
-                  <EngineGameMoveRecord key={i} recordNum={i} move={move} />
+                  <EngineGameMoveRecord
+                    key={`move-record-${i}`}
+                    recordNum={i}
+                    move={move}
+                    historyPositionState={historyPositionState}
+                    displayedWindowState={displayedWindowState}
+                  />
                 ))
               : Array.from({ length: 10 }).map((_, i: number) => (
-                  <EngineGameMoveRecord key={i} recordNum={i} move={null} />
+                  <EngineGameMoveRecord key={i} recordNum={i} move={null} displayedWindowState={displayedWindowState} />
                 ))}
           </div>
         </div>
         {/* --- */}
 
         {/* game messages */}
-        <div className={`${classes.bar__content__block} ${classes["messages-block"]}`}>
+        <div className={`${classes["bar-block"]} ${classes["messages-block"]}`}>
           <EngineGameMessages gameId={gameId} />
         </div>
         {/* --- */}

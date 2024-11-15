@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import LogoIcon from "../../../shared/svgs/icons/LogoIcon";
-import { PieceColor } from "../../../shared/utils/objects/entitiesEnums";
+import { AppearanceOfGamePage, PieceColor } from "../../../shared/utils/objects/entitiesEnums";
 import classes from "./GameLeftSidebar.module.scss";
 import { usePopup } from "../../../shared/utils/hooks/usePopUp";
 import { getErrMessage } from "../../../shared/utils/functions/errors";
@@ -14,6 +14,7 @@ import GameCapturedPieces from "./game-captured-pieces/GameCapturedPieces";
 import { StartEngineGameModel, UndoMoveModel } from "../../../shared/utils/types/engineModels";
 import axios from "axios";
 import { engineController, getAuthorization } from "../../../shared/utils/services/ApiService";
+import { StateProp } from "../../../shared/utils/types/commonTypes";
 
 type EngineGameLeftSidebarProps = {
   // game id
@@ -24,12 +25,12 @@ type EngineGameLeftSidebarProps = {
   getGame: () => Promise<void>;
   // to finish game by click
   endGame: (loserColor: PieceColor | null) => Promise<void>;
-  // to show confirm window
+  // to show confirm window with correct text
   setShowConfirm: Dispatch<SetStateAction<GameActionInterface | null>>;
   // to set confirm action
   setConfirmAction: Dispatch<SetStateAction<() => void>>;
-  //
-  setDisplayedWindow: Dispatch<SetStateAction<GameWindowInterface>>;
+  // to display confirm windows
+  displayedWindowState: StateProp<GameWindowInterface>;
 };
 
 function EngineGameLeftSidebar({
@@ -39,7 +40,7 @@ function EngineGameLeftSidebar({
   endGame,
   setShowConfirm,
   setConfirmAction,
-  setDisplayedWindow,
+  displayedWindowState,
 }: EngineGameLeftSidebarProps) {
   ///
 
@@ -56,7 +57,9 @@ function EngineGameLeftSidebar({
 
   // to show confirm window and select chosen action
   const onSelectResign = (): void => {
-    setDisplayedWindow(GameWindowInterface.confirm);
+    if (displayedWindowState.get !== GameWindowInterface.none) return;
+
+    displayedWindowState.set(GameWindowInterface.confirm);
     setShowConfirm(GameActionInterface.resign);
     setConfirmAction(() => onResign);
   };
@@ -116,12 +119,25 @@ function EngineGameLeftSidebar({
   };
   //*/
 
-  const onChangeEngine = async (): Promise<void> => {};
+  const onChangeEngine = async (): Promise<void> => {
+    if (displayedWindowState.get !== GameWindowInterface.none) return;
 
-  const onShowSettings = (): void => {};
+    displayedWindowState.set(GameWindowInterface.engine);
+  };
+
+  const onShowSettings = (): void => {
+    if (displayedWindowState.get !== GameWindowInterface.none) return;
+
+    displayedWindowState.set(GameWindowInterface.settings);
+  };
 
   return (
-    <section className={classes.bar}>
+    <section
+      className={`
+        ${classes.bar} 
+        ${gameData.gameSettings.appearanceOfGamePage === AppearanceOfGamePage.Simple ? classes["simple-view"] : ""}
+      `}
+    >
       <div className={classes.bar__content}>
         <div
           className={classes.bar__content__logo}

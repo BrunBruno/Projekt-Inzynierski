@@ -79,6 +79,7 @@ public class GetEngineGameRequestHandler : IRequestHandler<GetEngineGameRequest,
                 OldCoor = move.OldCoordinates,
                 NewCoor = move.NewCoordinates,
                 CapturedPiece = move.CapturedPiece,
+                Position = move.Position,
             }).ToList(),
 
             GameSettings = new GameSettingsDto()

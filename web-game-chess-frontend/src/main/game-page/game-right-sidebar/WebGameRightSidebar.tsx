@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
 import {
   EndGameDto,
   FetchTimeDto,
@@ -7,7 +7,7 @@ import {
   GetPlayerDto,
 } from "../../../shared/utils/types/gameDtos";
 import classes from "./GameRightSidebar.module.scss";
-import { PieceColor } from "../../../shared/utils/objects/entitiesEnums";
+import { AppearanceOfGamePage, PieceColor } from "../../../shared/utils/objects/entitiesEnums";
 import AvatarImage from "../../../shared/components/avatar-image/AvatarImage";
 import { Guid } from "guid-typescript";
 import { MoveDto, PlayerDto } from "../../../shared/utils/types/abstractDtosAndModels";
@@ -18,23 +18,37 @@ import { pieceTagMap } from "../../../shared/utils/objects/piecesNameMaps";
 import IconCreator from "../../../shared/components/icon-creator/IconCreator";
 import { greyColor } from "../../../shared/utils/objects/colorMaps";
 import { specialPiecesSvgs } from "../../../shared/svgs/iconsMap/SpecialPiecesSvgs";
-import { ElementClass } from "../../../shared/utils/types/commonTypes";
+import { ElementClass, StateProp } from "../../../shared/utils/types/commonTypes";
+import { GameWindowInterface } from "../../../shared/utils/objects/interfacesEnums";
 
 type WebGameRightSidebarProps = {
-  // game id
+  // game and player data
   gameId: Guid;
-  // game data
   gameData: GetWebGameDto;
-  // player data
   playerData: GetPlayerDto;
   // times left for players
   playersTimes: FetchTimeDto | null;
   // winner dto of the game
   winner: EndGameDto | GetEndedGameDto | null;
+  // to set previous position
+  historyPositionState: StateProp<MoveDto | null>;
+  // for showing history view
+  displayedWindowState: StateProp<GameWindowInterface>;
 };
 
-function WebGameRightSidebar({ gameId, gameData, playerData, playersTimes, winner }: WebGameRightSidebarProps) {
+function WebGameRightSidebar({
+  gameId,
+  gameData,
+  playerData,
+  playersTimes,
+  winner,
+  historyPositionState,
+  displayedWindowState,
+}: WebGameRightSidebarProps) {
   ///
+
+  // for handling scroll of records
+  const recordsRef = useRef<HTMLDivElement>(null);
 
   // for pieces advantage display
   const [playersAdvantage, setPlayersAdvantage] = useState<number>(0);
@@ -165,9 +179,42 @@ function WebGameRightSidebar({ gameId, gameData, playerData, playersTimes, winne
   };
   //*/
 
+  // to return to default view
+  const closeHistory = (): void => {
+    if (displayedWindowState.get !== GameWindowInterface.history) return;
+
+    historyPositionState.set(null);
+    displayedWindowState.set(GameWindowInterface.none);
+  };
+  //*/
+
+  // to handle record scroll
+  useEffect(() => {
+    const handleRecordsScroll = (): void => {
+      const records = recordsRef.current;
+
+      if (records) {
+        records.scrollTop = records.scrollHeight;
+      }
+    };
+
+    handleRecordsScroll();
+  }, [gameData]);
+  //*/
+
   return (
-    <section className={classes.bar}>
-      <div className={classes.bar__content}>
+    <section
+      className={`
+        ${classes.bar}
+        ${gameData.gameSettings.appearanceOfGamePage === AppearanceOfGamePage.Simple ? classes["simple-view"] : ""}
+     `}
+    >
+      <div
+        className={`
+          ${classes.bar__content} 
+          ${!gameData.timingType ? classes["null-timing"] : ""}
+        `}
+      >
         {/* players data */}
         <div className={classes.bar__content__header}>
           {gameData.whitePlayer.name == playerData.name
@@ -197,21 +244,33 @@ function WebGameRightSidebar({ gameId, gameData, playerData, playersTimes, winne
         {/* --- */}
 
         {/* game history records */}
-        <div className={`${classes.bar__content__block} ${classes["records-block"]}`}>
-          <div className={classes.bar__content__block__list}>
+        <div
+          ref={recordsRef}
+          className={`${classes["bar-block"]} ${classes["records-block"]}`}
+          onMouseLeave={() => {
+            closeHistory();
+          }}
+        >
+          <div className={classes["bar-list"]}>
             {gameData.moves.length > 0
               ? gameData.moves.map((move: MoveDto, i: number) => (
-                  <WebGameMoveRecord key={i} recordNum={i} move={move} />
+                  <WebGameMoveRecord
+                    key={`move-record-${i}`}
+                    recordNum={i}
+                    move={move}
+                    historyPositionState={historyPositionState}
+                    displayedWindowState={displayedWindowState}
+                  />
                 ))
               : Array.from({ length: 10 }).map((_, i: number) => (
-                  <WebGameMoveRecord key={i} recordNum={i} move={null} />
+                  <WebGameMoveRecord key={i} recordNum={i} move={null} displayedWindowState={displayedWindowState} />
                 ))}
           </div>
         </div>
         {/* --- */}
 
         {/* game messenger */}
-        <div className={`${classes.bar__content__block} ${classes["messages-block"]}`}>
+        <div className={`${classes["bar-block"]} ${classes["messages-block"]}`}>
           <WebGameMessages gameId={gameId} playerData={playerData} />
         </div>
         {/* --- */}

@@ -98,6 +98,7 @@ public class GetWebGameRequestHandler : IRequestHandler<GetWebGameRequest, GetWe
                 OldCoor = move.OldCoordinates,
                 NewCoor = move.NewCoordinates,
                 CapturedPiece = move.CapturedPiece,
+                Position = move.Position,
             }).ToList(),
 
             GameSettings = new GameSettingsDto()

@@ -1,7 +1,7 @@
-import { Dispatch, SetStateAction, useEffect, useReducer } from "react";
+import { useEffect, useReducer } from "react";
 import classes from "./GameContent.module.scss";
 import { Guid } from "guid-typescript";
-import { SMatrix } from "../../../shared/utils/types/commonTypes";
+import { SMatrix, StateProp } from "../../../shared/utils/types/commonTypes";
 import { EndEngineGameDto, GetEngineGameDto, GetEngineGameMoveDto } from "../../../shared/utils/types/engineDtos";
 import {
   gameInitialStates,
@@ -33,28 +33,31 @@ import EngineGameWinner from "./game-winner/EngineGameWinner";
 import EngineGameConfirm from "./game-confirm/EngineGameConfirm";
 import { GameActionInterface, GameWindowInterface } from "../../../shared/utils/objects/interfacesEnums";
 import GameEngine from "./game-engine/GameEngine";
+import GameHistory from "./game-history/GameHistory";
+import { MoveDto } from "../../../shared/utils/types/abstractDtosAndModels";
 
 type EngineGameContentProps = {
-  // game id
+  // game data
   gameId: Guid;
-  // current game data
   gameData: GetEngineGameDto;
+
   //
   getGame: () => Promise<void>;
-  //
   endGame: (loserColor: PieceColor | null) => Promise<void>;
+
   //
   winner: EndEngineGameDto | null;
-  // to display confirm window
-  showConfirm: GameActionInterface | null;
-  // to hide confirm window
-  setShowConfirm: Dispatch<SetStateAction<GameActionInterface | null>>;
+
+  //
+  historyPositionState: StateProp<MoveDto | null>;
+
+  // to display/hide confirm window
+  showConfirmState: StateProp<GameActionInterface | null>;
   // to perform action on confirm
   confirmAction: () => void;
+
   //
-  displayedWindow: GameWindowInterface;
-  //
-  setDisplayedWindow: Dispatch<SetStateAction<GameWindowInterface>>;
+  displayedWindowState: StateProp<GameWindowInterface>;
 };
 
 function EngineGameContent({
@@ -63,11 +66,10 @@ function EngineGameContent({
   getGame,
   endGame,
   winner,
-  showConfirm,
-  setShowConfirm,
+  historyPositionState,
+  showConfirmState,
   confirmAction,
-  displayedWindow,
-  setDisplayedWindow,
+  displayedWindowState,
 }: EngineGameContentProps) {
   ///
 
@@ -295,39 +297,50 @@ function EngineGameContent({
           setSelectionStates={setSelectionStates}
           chosePiece={chosePiece}
           getGame={getGame}
-          setDisplayedWindow={setDisplayedWindow}
+          setDisplayedWindow={displayedWindowState.set}
         />
         {/* --- */}
 
         {/* promotion box */}
-        {displayedWindow === GameWindowInterface.promotion && selectionStates.promotionCoor && !gameData.hasEnded && (
-          <EngineGamePromotion
-            gameData={gameData}
-            gameStates={gameStates}
-            selectionStates={selectionStates}
-            setSelectionStates={setSelectionStates}
-            getGame={getGame}
-            setDisplayedWindow={setDisplayedWindow}
-          />
-        )}
+        {displayedWindowState.get === GameWindowInterface.promotion &&
+          selectionStates.promotionCoor &&
+          !gameData.hasEnded && (
+            <EngineGamePromotion
+              gameData={gameData}
+              gameStates={gameStates}
+              selectionStates={selectionStates}
+              setSelectionStates={setSelectionStates}
+              getGame={getGame}
+              setDisplayedWindow={displayedWindowState.set}
+            />
+          )}
 
         {/* confirm box */}
-        {displayedWindow === GameWindowInterface.confirm && showConfirm && !gameData.hasEnded && (
+        {displayedWindowState.get === GameWindowInterface.confirm && showConfirmState && !gameData.hasEnded && (
           <EngineGameConfirm
             confirmAction={confirmAction}
-            showConfirm={showConfirm}
-            setShowConfirm={setShowConfirm}
-            setDisplayedWindow={setDisplayedWindow}
+            showConfirmState={showConfirmState}
+            setDisplayedWindow={displayedWindowState.set}
           />
         )}
 
         {/* end game info*/}
-        {displayedWindow === GameWindowInterface.winner && winner && (
+        {displayedWindowState.get === GameWindowInterface.winner && winner && (
           <EngineGameWinner gameId={gameId} gameData={gameData} winner={winner} />
         )}
 
         {/* engine selection */}
-        {displayedWindow === GameWindowInterface.engine && <GameEngine />}
+        {displayedWindowState.get === GameWindowInterface.engine && <GameEngine />}
+
+        {/* previous position show */}
+        {displayedWindowState.get === GameWindowInterface.history && (
+          <GameHistory
+            gameData={gameData}
+            playerData={gameData.player}
+            historyPositionState={historyPositionState}
+            setDisplayedWindow={displayedWindowState.set}
+          />
+        )}
       </div>
     </section>
   );

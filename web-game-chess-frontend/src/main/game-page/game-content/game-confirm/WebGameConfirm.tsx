@@ -1,19 +1,20 @@
 import { Dispatch, SetStateAction } from "react";
 import { GameActionInterface, GameWindowInterface } from "../../../../shared/utils/objects/interfacesEnums";
 import classes from "./GameConfirm.module.scss";
+import { StateProp } from "../../../../shared/utils/types/commonTypes";
 
 type WebGameConfirmProps = {
   // action to execution on confirm
   confirmAction: () => void;
-  // to select correct action to confirm
-  showConfirm: GameActionInterface | null;
-  // to display confirm window
-  setShowConfirm: Dispatch<SetStateAction<GameActionInterface | null>>;
+
+  // to select correct action to confirm and display confirm window
+  showConfirmState: StateProp<GameActionInterface | null>;
+
   // modal window id setter
   setDisplayedWindow: Dispatch<SetStateAction<GameWindowInterface>>;
 };
 
-function WebGameConfirm({ confirmAction, showConfirm, setShowConfirm, setDisplayedWindow }: WebGameConfirmProps) {
+function WebGameConfirm({ confirmAction, showConfirmState, setDisplayedWindow }: WebGameConfirmProps) {
   ///
 
   // to render correct title based on user selection
@@ -51,7 +52,7 @@ function WebGameConfirm({ confirmAction, showConfirm, setShowConfirm, setDisplay
     confirmAction();
 
     // clear
-    setShowConfirm(null);
+    showConfirmState.set(null);
     setDisplayedWindow(GameWindowInterface.none);
   };
   //*/
@@ -59,17 +60,17 @@ function WebGameConfirm({ confirmAction, showConfirm, setShowConfirm, setDisplay
   // to reject action
   const onNoClick = () => {
     // clear
-    setShowConfirm(null);
+    showConfirmState.set(null);
     setDisplayedWindow(GameWindowInterface.none);
   };
   //*/
 
-  if (showConfirm === null) return <></>;
+  if (!showConfirmState || !showConfirmState.get) return <></>;
 
   return (
     <div className={classes.window}>
       <div className={classes.window__content}>
-        <div className={classes.window__content__header}>{renderText(showConfirm)}</div>
+        <div className={classes.window__content__header}>{renderText(showConfirmState.get)}</div>
         <div className={classes.window__content__actions}>
           <button
             className={`

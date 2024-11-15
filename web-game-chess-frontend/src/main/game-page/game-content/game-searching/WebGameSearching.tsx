@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import classes from "./GameSearching.module.scss";
 import GameHubService from "../../../../shared/utils/services/GameHubService";
 import { webGameController, getAuthorization } from "../../../../shared/utils/services/ApiService";
@@ -9,16 +9,16 @@ import { usePopup } from "../../../../shared/utils/hooks/usePopUp";
 import { getErrMessage } from "../../../../shared/utils/functions/errors";
 import IconCreator from "../../../../shared/components/icon-creator/IconCreator";
 import { webGameSearchingIcons } from "./WebGameSearchingIcons";
+import { StateProp } from "../../../../shared/utils/types/commonTypes";
 
 const numOfPawns = 8;
 
 type WebGameSearchingProps = {
   // ids obtained from new game search and corresponding setter
-  newGameData: SearchWebGameDto | null;
-  setNewGameData: Dispatch<SetStateAction<SearchWebGameDto | null>>;
+  newGameDataState: StateProp<SearchWebGameDto | null>;
 };
 
-function WebGameSearching({ newGameData, setNewGameData }: WebGameSearchingProps) {
+function WebGameSearching({ newGameDataState }: WebGameSearchingProps) {
   ///
 
   const { showPopup } = usePopup();
@@ -65,18 +65,18 @@ function WebGameSearching({ newGameData, setNewGameData }: WebGameSearchingProps
 
   // game search abort
   const onCancelSearch = async (): Promise<void> => {
-    if (!newGameData) return;
+    if (!newGameDataState.get) return;
 
     try {
       const abortSearchModel: AbortSearchModel = {
-        playerId: newGameData.playerId,
+        playerId: newGameDataState.get.playerId,
       };
 
       await axios.delete(webGameController.abortSearch(abortSearchModel), getAuthorization());
 
-      await GameHubService.PlayerLeaved(newGameData.timingId);
+      await GameHubService.PlayerLeaved(newGameDataState.get.timingId);
 
-      setNewGameData(null);
+      newGameDataState.set(null);
     } catch (err) {
       showPopup(getErrMessage(err), "warning");
     }

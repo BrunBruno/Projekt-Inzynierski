@@ -59,7 +59,13 @@
       }
 
       &.wooden {
-        background-image: url("/images/wood.png");
+        &::after {
+          @include subCl();
+
+          background-image: url("/images/wood.png");
+          background-size: cover;
+          opacity: 0.2;
+        }
       }
 
       &:nth-child(odd) {
@@ -128,28 +134,30 @@
 
       &.tip {
         cursor: pointer;
-        background-image: radial-gradient(circle at 50% 50%, rgba(#000, 0.5) 30%, rgba(#fff, 0.5) 35%, #0000 45%);
+        background-image: radial-gradient(
+          circle at 50% 50%,
+          rgba(#000, 0.5) 20%,
+          rgba($gc8, 0.5) 30%,
+          rgba($gc5, 0.5) 40%,
+          #0000 45%
+        );
 
         // to display capture
         &:not(.selected) {
           &:has(.piece) {
-            svg.piece-svg {
-              filter: drop-shadow(0 0 1rem $danger-color-m);
-            }
+            filter: drop-shadow(0 0 0.5rem $danger-color-m);
           }
         }
       }
 
       &.selected {
         .piece {
-          svg.piece-svg {
-            filter: drop-shadow(0 0 1rem #000) brightness(60%);
-          }
+          filter: brightness(80%);
         }
       }
 
       .piece {
-        @include square(100%);
+        @include wh100();
         @include flex();
 
         position: relative;

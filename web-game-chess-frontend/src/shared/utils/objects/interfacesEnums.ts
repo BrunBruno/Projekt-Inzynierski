@@ -31,6 +31,8 @@ export enum GameActionInterface {
   abort = 2,
   resign = 3,
   draw = 4,
+  block = 5,
+  report = 6,
 }
 
 // for displaying game window
@@ -42,6 +44,7 @@ export enum GameWindowInterface {
   search,
   engine,
   settings,
+  history,
 }
 
 export enum AccountPageInterface {

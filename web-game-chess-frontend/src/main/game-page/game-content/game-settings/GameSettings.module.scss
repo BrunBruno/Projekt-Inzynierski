@@ -1,0 +1,165 @@
+@use "../../../../shared/styles/shared.scss" as *;
+
+.settings {
+  @include absCenter();
+  @include wh100();
+  @include rounded(2rem);
+
+  z-index: 100;
+  background-color: rgba(#000, 0.9);
+  overflow-y: scroll;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+
+  &__row {
+    border-bottom: solid 0.3rem $gc8;
+    padding: 2rem 0;
+
+    .row-title {
+      font-weight: 600;
+      font-size: 2rem;
+      color: $gc3;
+    }
+
+    .row-options {
+      @include flex(row, start, center, 2rem);
+
+      padding: 2rem;
+
+      .option {
+        @include rounded(1.5rem);
+        @include flex(column, center, center, 1rem);
+
+        border: solid 0.3rem $gc8;
+        background-color: $gc9;
+
+        &:hover {
+          cursor: pointer;
+          filter: brightness(80%);
+        }
+
+        .option-text {
+          @include flex(row, start, center, 0.5rem);
+
+          .ind {
+            @include circle(1.4rem);
+
+            background-color: $mc0;
+
+            &.active {
+              background-color: $mc9;
+              border: solid 0.3rem $mc0;
+            }
+          }
+
+          span {
+            font-size: 1.4rem;
+          }
+        }
+
+        .pieces-look {
+          @include square(6rem);
+
+          .piece-icon {
+            height: 100%;
+          }
+        }
+
+        .board-look {
+          @include square(6rem);
+
+          display: grid;
+          grid-template-columns: repeat(3, 1fr);
+          border-radius: 1rem;
+          overflow: hidden;
+          background-color: #000;
+
+          p {
+            &:nth-child(even) {
+              background-color: $mc0;
+            }
+
+            &:nth-child(odd) {
+              background-color: $mc9;
+            }
+
+            &.tile-rounded {
+              @include rounded(0.5rem);
+              border: solid 0.2rem #000;
+            }
+            &.tile-wooden {
+              position: relative;
+              &::after {
+                @include subCl();
+                position: absolute;
+
+                background-image: url("/images/wood.png");
+                background-size: cover;
+                opacity: 0.5;
+              }
+            }
+            &.tile-bnw {
+              filter: grayscale(1);
+            }
+          }
+        }
+
+        .screen {
+          @include flex(row, space-between, start, 0);
+
+          position: relative;
+          width: 12rem;
+          aspect-ratio: 16/9;
+          background-color: #000;
+          outline: solid 0.2rem $mc9;
+          border-radius: 1rem;
+          overflow: hidden;
+
+          .board {
+            @include absCenter();
+            @include square(5rem);
+
+            border-radius: 0.5rem;
+            overflow: hidden;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+
+            p {
+              &:nth-child(even) {
+                background-color: $mc0;
+              }
+
+              &:nth-child(odd) {
+                background-color: $mc9;
+              }
+            }
+          }
+
+          .lsb-o {
+            background-color: $gc8;
+            height: 100%;
+            width: 2.5rem;
+          }
+          .rsb-o {
+            background-color: $gc8;
+            height: 100%;
+            width: 2.5rem;
+          }
+
+          .lsb-h {
+            background-color: $gc8;
+            height: 100%;
+            width: 1rem;
+          }
+          .rsb-h {
+            background-color: $gc8;
+            height: 2.5rem;
+            width: 2.5rem;
+          }
+        }
+      }
+    }
+  }
+}

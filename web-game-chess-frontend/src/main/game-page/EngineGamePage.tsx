@@ -15,6 +15,7 @@ import { PieceColor } from "../../shared/utils/objects/entitiesEnums";
 import EngineGameLeftSidebar from "./game-left-sidebar/EngineGameLeftSidebar";
 import EngineGameContent from "./game-content/EngineGameContent";
 import EngineGameRightSidebar from "./game-right-sidebar/EngineGameRightSidebar";
+import { MoveDto } from "../../shared/utils/types/abstractDtosAndModels";
 
 function EngineGamePage() {
   ///
@@ -52,6 +53,9 @@ function EngineGamePage() {
   // states for displaying actions confirmation window
   const [showConfirm, setShowConfirm] = useState<GameActionInterface | null>(null);
   const [confirmAction, setConfirmAction] = useState<() => void>(() => {});
+
+  // for showing done moves
+  const [historyPosition, setHistoryPosition] = useState<MoveDto | null>(null);
 
   // display enter popups
   useEffect(() => {
@@ -120,7 +124,7 @@ function EngineGamePage() {
         endGame={endGame}
         setShowConfirm={setShowConfirm}
         setConfirmAction={setConfirmAction}
-        setDisplayedWindow={setDisplayedWindow}
+        displayedWindowState={{ get: displayedWindow, set: setDisplayedWindow }}
       />
 
       <EngineGameContent
@@ -129,14 +133,18 @@ function EngineGamePage() {
         getGame={getGame}
         endGame={endGame}
         winner={winner}
-        showConfirm={showConfirm}
-        setShowConfirm={setShowConfirm}
+        historyPositionState={{ get: historyPosition, set: setHistoryPosition }}
+        showConfirmState={{ get: showConfirm, set: setShowConfirm }}
         confirmAction={confirmAction}
-        displayedWindow={displayedWindow}
-        setDisplayedWindow={setDisplayedWindow}
+        displayedWindowState={{ get: displayedWindow, set: setDisplayedWindow }}
       />
 
-      <EngineGameRightSidebar gameId={gameId} gameData={gameData} />
+      <EngineGameRightSidebar
+        gameId={gameId}
+        gameData={gameData}
+        historyPositionState={{ get: historyPosition, set: setHistoryPosition }}
+        displayedWindowState={{ get: displayedWindow, set: setDisplayedWindow }}
+      />
 
       <MainPopUp />
     </main>

@@ -26,6 +26,7 @@ import { GameActionInterface, GameWindowInterface, StateOptions } from "../../sh
 import WebGameLeftSidebar from "./game-left-sidebar/WebGameLeftSidebar";
 import WebGameContent from "./game-content/WebGameContent";
 import WebGameRightSidebar from "./game-right-sidebar/WebGameRightSidebar";
+import { MoveDto } from "../../shared/utils/types/abstractDtosAndModels";
 
 function WebGamePage() {
   ///
@@ -55,6 +56,9 @@ function WebGamePage() {
   const [selectedTiming, setSelectedTiming] = useState<GetGameTimingDto | null>(null);
   const [newGameData, setNewGameData] = useState<SearchWebGameDto | null>(null);
   const [rematchData, setRematchData] = useState<CreateRematchGameDto | null>(null);
+
+  // for showing done moves
+  const [historyPosition, setHistoryPosition] = useState<MoveDto | null>(null);
 
   // set game id as Guid
   useEffect(() => {
@@ -280,7 +284,7 @@ function WebGamePage() {
         gameData={gameData}
         setShowConfirm={setShowConfirm}
         setConfirmAction={setConfirmAction}
-        setDisplayedWindow={setDisplayedWindow}
+        displayedWindowState={{ get: displayedWindow, set: setDisplayedWindow }}
       />
 
       <WebGameContent
@@ -289,14 +293,12 @@ function WebGamePage() {
         playerData={playerData}
         winner={winner}
         selectedTiming={selectedTiming}
+        historyPositionState={{ get: historyPosition, set: setHistoryPosition }}
+        newGameDataState={{ get: newGameData, set: setNewGameData }}
         rematchData={rematchData}
-        newGameData={newGameData}
-        setNewGameData={setNewGameData}
-        showConfirm={showConfirm}
-        setShowConfirm={setShowConfirm}
+        showConfirmState={{ get: showConfirm, set: setShowConfirm }}
         confirmAction={confirmAction}
-        displayedWindow={displayedWindow}
-        setDisplayedWindow={setDisplayedWindow}
+        displayedWindowState={{ get: displayedWindow, set: setDisplayedWindow }}
       />
 
       <WebGameRightSidebar
@@ -305,6 +307,8 @@ function WebGamePage() {
         playerData={playerData}
         playersTimes={playersTimes}
         winner={winner}
+        historyPositionState={{ get: historyPosition, set: setHistoryPosition }}
+        displayedWindowState={{ get: displayedWindow, set: setDisplayedWindow }}
       />
 
       <MainPopUp />
