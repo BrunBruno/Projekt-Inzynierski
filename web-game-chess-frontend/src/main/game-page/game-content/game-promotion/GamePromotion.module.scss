@@ -2,15 +2,15 @@
 
 // pawn promotion container
 .promotion {
-  @include absCenter();
-  @include wh100();
+  @include abs-center;
+  @include wh100;
 
   z-index: 100;
   background-color: rgba(#000, 0.7);
 
   &__pieces {
-    @include absCenter();
-    @include flex();
+    @include abs-center;
+    @include flex;
     @include rounded(1rem);
 
     background-color: $gc9;
@@ -23,15 +23,6 @@
       @include square($h);
 
       position: relative;
-
-      &:hover {
-        cursor: pointer;
-        background-color: rgba(#000, 0.5);
-
-        span.indicator {
-          display: block;
-        }
-      }
 
       svg.promoted-pawn-svg {
         height: calc($h - 2 * 1rem);
@@ -48,8 +39,17 @@
         background-color: #111;
         transform: translateX(-50%);
       }
+
+      &:hover {
+        cursor: pointer;
+        background-color: rgba(#000, 0.5);
+
+        span.indicator {
+          display: block;
+        }
+      }
     }
   }
 }
 
-//resize
+// resize

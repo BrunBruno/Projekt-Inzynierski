@@ -10,7 +10,6 @@
   border-radius: 1rem;
   border-bottom: solid 0.3rem $mc7;
   user-select: none;
-
   transform: scale(1);
   transition: transform 0.3s;
 
@@ -33,7 +32,7 @@
     }
 
     .moves {
-      @include flex();
+      @include flex;
       @include circle(3rem);
 
       font-weight: 600;
@@ -57,11 +56,9 @@
     .field {
       background-size: contain;
       background-repeat: no-repeat;
-
       opacity: 0.1;
 
       .bg-piece {
-        // display: none;
         transform: scale(0.8);
       }
     }
@@ -69,63 +66,17 @@
     .light-f {
       background-color: $mc0;
     }
+
     .dark-f {
       background-color: $mc9;
     }
 
     .players {
-      @include absCenter();
+      @include abs-center;
 
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       gap: 2rem;
-
-      .player {
-        display: grid;
-        grid-template-rows: 6rem auto;
-        gap: 1rem;
-
-        @mixin playerImg($bg_color) {
-          @include flex();
-          @include square(6rem);
-
-          padding: 0.6rem;
-          border-radius: 100%;
-          background-color: $bg_color;
-
-          .player-img {
-            @include wh100();
-
-            border-radius: 100%;
-            object-fit: cover;
-          }
-        }
-
-        .white-player-img {
-          @include playerImg(#fff);
-        }
-
-        .black-player-img {
-          @include playerImg(#000);
-        }
-
-        .player-data {
-          @include flex($direction: column);
-
-          span {
-            font-size: 1.6rem;
-
-            span {
-              color: $mc3;
-            }
-
-            &:nth-child(3) {
-              font-size: 1.8rem;
-              font-weight: bold;
-            }
-          }
-        }
-      }
 
       &__sep {
         @include flex($direction: column, $gap: 1rem);
@@ -134,7 +85,7 @@
         font-weight: bold;
 
         span {
-          @include flex();
+          @include flex;
 
           position: relative;
           white-space: nowrap;
@@ -158,13 +109,62 @@
           }
 
           span.p {
-            @include sign();
+            @include sign;
+
             color: $success-color-m;
           }
 
           span.m {
-            @include sign();
+            @include sign;
+
             color: $danger-color-m;
+          }
+        }
+      }
+
+      .player {
+        display: grid;
+        grid-template-rows: 6rem auto;
+        gap: 1rem;
+
+        @mixin player-img($bg_color) {
+          @include flex;
+          @include square(6rem);
+
+          padding: 0.6rem;
+          border-radius: 100%;
+          background-color: $bg_color;
+
+          .player-img {
+            @include wh100;
+
+            border-radius: 100%;
+            object-fit: cover;
+          }
+        }
+
+        .white-player-img {
+          @include player-img(#fff);
+        }
+
+        .black-player-img {
+          @include player-img(#000);
+        }
+
+        .player-data {
+          @include flex($direction: column);
+
+          span {
+            font-size: 1.6rem;
+
+            span {
+              color: $mc3;
+            }
+
+            &:nth-child(3) {
+              font-size: 1.8rem;
+              font-weight: bold;
+            }
           }
         }
       }
@@ -181,11 +181,11 @@
 }
 
 // resize
-@media (max-width: 700px) {
+@media (width <= 700px) {
   .card {
     .game-data {
       .timing-type {
-        @include flex();
+        @include flex;
 
         svg {
           height: 5rem;
@@ -193,7 +193,7 @@
       }
 
       .is-winner {
-        @include flex();
+        @include flex;
 
         svg {
           height: 5rem;

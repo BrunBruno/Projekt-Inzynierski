@@ -7,8 +7,8 @@
 
   // page background
   &::before {
-    @include subCl();
-    @include gridBg(16rem, $mc9, $mc0, 0.1);
+    @include sub-class;
+    @include grid-bg(16rem, $mc9, $mc0, 0.1);
 
     position: fixed;
     top: 0;
@@ -54,8 +54,8 @@
 
           // navigation element
           li.content-button {
-            $iconWh: 3.6rem;
-            $conPad: 1.2rem;
+            $icon-wh: 3.6rem;
+            $con-pad: 1.2rem;
 
             @include flex(row, start, center, 1rem);
 
@@ -69,39 +69,8 @@
             border-radius: 1rem;
             border: solid 0.2rem $gc9;
 
-            &:hover {
-              cursor: pointer;
-              background-color: $mc8;
-
-              .arrow-icon {
-                width: calc($iconWh + 2 * $conPad);
-              }
-            }
-
-            &.active {
-              .arrow-icon {
-                animation: buttonAni 0.6s;
-              }
-
-              span {
-                display: none;
-              }
-
-              @keyframes buttonAni {
-                0% {
-                  width: calc($iconWh + 2 * $conPad);
-                }
-                50% {
-                  width: 100%;
-                }
-                100% {
-                  width: 0;
-                }
-              }
-            }
-
             span {
-              font-size: calc($iconWh * 0.7);
+              font-size: calc($icon-wh * 0.7);
             }
 
             .arrow-icon {
@@ -109,12 +78,12 @@
 
               background-color: $mc5;
               height: 100%;
-              padding: $conPad;
+              padding: $con-pad;
               width: 0;
               transition: width 0.3s;
 
               svg {
-                @include square($iconWh);
+                @include square($icon-wh);
 
                 padding: 0.2rem;
               }
@@ -125,6 +94,39 @@
 
               .arrow-svg-right {
                 transform: rotate(180deg);
+              }
+            }
+
+            &:hover {
+              cursor: pointer;
+              background-color: $mc8;
+
+              .arrow-icon {
+                width: calc($icon-wh + 2 * $con-pad);
+              }
+            }
+
+            &.active {
+              .arrow-icon {
+                animation: button-ani 0.6s;
+              }
+
+              span {
+                display: none;
+              }
+
+              @keyframes button-ani {
+                0% {
+                  width: calc($icon-wh + 2 * $con-pad);
+                }
+
+                50% {
+                  width: 100%;
+                }
+
+                100% {
+                  width: 0;
+                }
               }
             }
           }
@@ -140,7 +142,7 @@
 }
 
 // resize
-@media (max-width: 800px) {
+@media (width <= 800px) {
   .about-main {
     $nav-size: 10rem;
 
@@ -164,7 +166,6 @@
 
         &__nav {
           position: unset;
-
           width: 100%;
           height: $nav-size;
           padding: 0;
@@ -193,7 +194,7 @@
   }
 }
 
-@media (max-width: 400px) {
+@media (width <= 400px) {
   .about-main {
     $nav-size: 18rem;
 

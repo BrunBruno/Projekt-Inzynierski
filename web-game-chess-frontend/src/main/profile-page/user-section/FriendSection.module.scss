@@ -1,12 +1,14 @@
 @use "../../../shared/styles/shared.scss" as *;
 
-@keyframes loadingBlock {
+@keyframes loading-block {
   0% {
     opacity: 0.1;
   }
+
   50% {
     opacity: 0.5;
   }
+
   100% {
     opacity: 0.1;
   }
@@ -36,8 +38,8 @@
     min-height: 25rem;
 
     &::before {
-      @include subCl();
-      @include absCenter();
+      @include sub-class;
+      @include abs-center;
 
       z-index: 0;
       background-image: radial-gradient(circle at 00%, rgba($gc9, 0.5) 0%, $gc9 40%, #111 100%),
@@ -61,7 +63,7 @@
 
       label.set-img {
         @include circle(5rem);
-        @include flex();
+        @include flex;
 
         position: absolute;
         left: 1rem;
@@ -71,6 +73,7 @@
 
         &:hover {
           cursor: pointer;
+
           svg {
             filter: brightness(80%);
           }
@@ -120,7 +123,7 @@
       z-index: 2;
 
       .icon-con {
-        @include flex();
+        @include flex;
 
         position: relative;
 
@@ -132,7 +135,7 @@
 
         .icon {
           @include circle(4rem);
-          @include flex();
+          @include flex;
 
           overflow: hidden;
 
@@ -166,7 +169,7 @@
     min-height: calc(100vh - 25rem);
 
     &__stats {
-      @include wh100();
+      @include wh100;
       @include flex(column, start, start, 0.5rem);
 
       position: relative;
@@ -193,8 +196,7 @@
         width: 100%;
         background-color: $gc9;
         border-radius: 1rem;
-
-        animation: loadingBlock 2s infinite;
+        animation: loading-block 2s infinite;
       }
     }
 
@@ -211,7 +213,6 @@
         font-size: 2.2rem;
         font-weight: 600;
         text-align: center;
-
         color: $gc4;
         background-color: rgba($gc8, 0.5);
         margin-bottom: 1rem;
@@ -219,7 +220,7 @@
 
       &__type {
         @include rounded(1rem);
-        @include flex();
+        @include flex;
 
         width: 100%;
 
@@ -243,7 +244,7 @@
 }
 
 // resize
-@media (max-width: 1200px) {
+@media (width <= 1200px) {
   .user {
     overflow: visible;
     box-shadow: none;
@@ -282,7 +283,7 @@
   }
 }
 
-@media (max-width: 700px) {
+@media (width <= 700px) {
   .user {
     height: fit-content;
 

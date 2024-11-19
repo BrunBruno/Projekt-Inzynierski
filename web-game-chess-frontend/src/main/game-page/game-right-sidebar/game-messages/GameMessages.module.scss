@@ -1,7 +1,7 @@
 @use "../../../../shared/styles/shared.scss" as *;
 
 .messages {
-  @include wh100();
+  @include wh100;
 
   display: grid;
   grid-template-rows: auto 6rem;
@@ -10,14 +10,6 @@
 
   &.closed {
     height: 3rem;
-  }
-
-  &.closed &__list {
-    display: none;
-  }
-
-  &.closed &__actions {
-    display: none;
   }
 
   &__list {
@@ -36,27 +28,31 @@
         @include circle(0.8rem);
 
         background-color: $gc5;
-        animation: typingAnimation 1.2s infinite;
+        animation: typing-animation 1.2s infinite;
 
         &:nth-child(1) {
           animation-delay: 0.2s;
         }
+
         &:nth-child(2) {
           animation-delay: 0.4s;
         }
+
         &:nth-child(3) {
           animation-delay: 0.6s;
         }
       }
     }
 
-    @keyframes typingAnimation {
+    @keyframes typing-animation {
       0% {
         transform: translateY(0);
       }
+
       20% {
         transform: translateY(-0.5rem);
       }
+
       40% {
         transform: translateY(0);
       }
@@ -69,17 +65,15 @@
     @include flex(row, start, center, 1rem);
 
     textarea.message-input {
-      @include cInput($input-size, $gc9, $gc5);
+      @include c-input($input-size, $gc9, $gc5);
 
-      & {
-        width: 100% !important;
-        height: calc(3 * $input-size) !important;
-        resize: none;
-        border: solid 0.2rem $gc8;
-        text-align: start;
-        border-radius: 1.6rem;
-        padding: 0.4rem 1.6rem;
-      }
+      width: 100% !important;
+      height: calc(3 * $input-size) !important;
+      resize: none;
+      border: solid 0.2rem $gc8;
+      text-align: start;
+      border-radius: 1.6rem;
+      padding: 0.4rem 1.6rem;
 
       &:focus {
         border-color: $gc7;
@@ -91,7 +85,7 @@
     }
 
     button.send-button {
-      @include flex();
+      @include flex;
       @include circle(3 * $input-size);
 
       background-color: #0000;
@@ -108,10 +102,18 @@
       }
     }
   }
+
+  &.closed &__list {
+    display: none;
+  }
+
+  &.closed &__actions {
+    display: none;
+  }
 }
 
 // resize
-@media (max-width: 1000px) {
+@media (width <= 1000px) {
   .messages {
     @include square(36rem);
 
@@ -149,4 +151,3 @@
     }
   }
 }
-//

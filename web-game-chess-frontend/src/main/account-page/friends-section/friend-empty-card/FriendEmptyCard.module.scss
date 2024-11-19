@@ -2,7 +2,7 @@
 
 // empty cards
 .empty {
-  @include wh100();
+  @include wh100;
 
   grid-column: 1 / 5;
   display: grid;
@@ -10,7 +10,7 @@
   gap: 2rem;
 
   .no-data {
-    @include absCenter();
+    @include abs-center;
 
     z-index: 1;
     text-align: center;

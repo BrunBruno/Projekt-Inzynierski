@@ -1,24 +1,16 @@
 @use "../../../shared/styles/shared.scss" as *;
 
-@mixin inputButton($size) {
+@mixin input-button($size) {
   @include circle($size);
-  @include flex();
+  @include flex;
 
   position: absolute;
   top: 0;
   right: 0;
 
-  &:hover {
-    cursor: pointer;
-
-    &::after {
-      display: block;
-    }
-  }
-
   &::after {
     @include rounded(0.4rem);
-    @include subCl(fit-content, fit-content);
+    @include sub-class(fit-content, fit-content);
 
     display: none;
     content: "";
@@ -28,6 +20,14 @@
     color: #000;
     background-color: $gc1;
     font-size: 1.2rem;
+  }
+
+  &:hover {
+    cursor: pointer;
+
+    &::after {
+      display: block;
+    }
   }
 
   svg.input-button-svg {
@@ -44,13 +44,11 @@
   height: 100%;
   padding: 0 6rem;
   margin: 0 4rem;
-
   border-radius: 4rem;
   border: solid 1rem rgba($mc4, 0.5);
   background-color: $gc9;
   box-shadow: 0 0 1rem 0 $mc9;
-
-  animation: formOpenAnimation 0.5s;
+  animation: form-open-animation 0.5s;
 
   .bg-svg {
     position: absolute;
@@ -60,31 +58,12 @@
     height: 40rem;
     opacity: 0.02;
     pointer-events: none;
-
     transform: rotate(-10deg);
   }
 
   h2.form-title {
     font-size: 3.2rem;
     margin-bottom: 1rem;
-  }
-
-  .change-form {
-    position: relative;
-    z-index: 1;
-    font-size: 1.4rem;
-    color: $gc1;
-
-    span {
-      color: $mc5;
-      text-decoration: underline;
-      user-select: none;
-
-      &:hover {
-        cursor: pointer;
-        color: $mc4;
-      }
-    }
   }
 
   // sing in / sign up inputs
@@ -108,13 +87,11 @@
       }
 
       .form-input {
-        @include tInput(2rem);
+        @include t-input(2rem);
 
-        & {
-          width: 100%;
-          max-width: 26rem;
-          padding-right: 4rem;
-        }
+        width: 100%;
+        max-width: 26rem;
+        padding-right: 4rem;
 
         &:focus ~ .reg-pass-ind {
           opacity: 1;
@@ -145,24 +122,20 @@
 
       input[type="number"]::-webkit-inner-spin-button,
       input[type="number"]::-webkit-outer-spin-button {
-        -webkit-appearance: none;
+        appearance: none;
       }
 
-      @mixin resetInputButton() {
-        & {
-          // background-color: $gc6;
-          border-radius: 0;
-          top: unset;
-          right: -1rem;
-          bottom: 0;
-          border-radius: 1rem;
-          border-bottom-left-radius: 0;
-        }
+      @mixin reset-input-button() {
+        top: unset;
+        right: -1rem;
+        bottom: 0;
+        border-radius: 1rem;
+        border-bottom-left-radius: 0;
       }
 
       .send {
-        @include inputButton(4rem);
-        @include resetInputButton();
+        @include input-button(4rem);
+        @include reset-input-button;
 
         &::after {
           content: "Send";
@@ -170,8 +143,8 @@
       }
 
       .paste {
-        @include inputButton(4rem);
-        @include resetInputButton();
+        @include input-button(4rem);
+        @include reset-input-button;
 
         &::after {
           content: "Paste";
@@ -179,14 +152,15 @@
       }
 
       .eye {
-        @include inputButton(4rem);
-        @include resetInputButton();
+        @include input-button(4rem);
+        @include reset-input-button;
 
         &.open {
           &::after {
             content: "Show";
           }
         }
+
         &.close {
           &::after {
             content: "Hide";
@@ -243,21 +217,20 @@
       position: relative;
 
       .verify-input {
-        @include cInput(2.4rem, $gc0, $mc9);
-        & {
-          width: 18rem;
-          text-align: start;
-          letter-spacing: 0.5rem;
-        }
+        @include c-input(2.4rem, $gc0, $mc9);
+
+        width: 18rem;
+        text-align: start;
+        letter-spacing: 0.5rem;
       }
 
       input[type="number"]::-webkit-inner-spin-button,
       input[type="number"]::-webkit-outer-spin-button {
-        -webkit-appearance: none;
+        appearance: none;
       }
 
       .paste {
-        @include inputButton(4.5rem);
+        @include input-button(4.5rem);
       }
     }
 
@@ -284,19 +257,13 @@
   // buttons
   button.registration-button {
     @include button(2rem);
+    @include main-m-button;
 
-    & {
-      @include mainMButton();
-
-      & {
-        width: 100%;
-        position: relative;
-        position: relative;
-        margin: 1rem;
-        z-index: 1;
-        padding: 1rem 0;
-      }
-    }
+    width: 100%;
+    position: relative;
+    margin: 1rem;
+    z-index: 1;
+    padding: 1rem 0;
   }
 
   .cancel {
@@ -310,10 +277,29 @@
     }
   }
 
-  @keyframes formOpenAnimation {
+  .change-form {
+    position: relative;
+    z-index: 1;
+    font-size: 1.4rem;
+    color: $gc1;
+
+    span {
+      color: $mc5;
+      text-decoration: underline;
+      user-select: none;
+
+      &:hover {
+        cursor: pointer;
+        color: $mc4;
+      }
+    }
+  }
+
+  @keyframes form-open-animation {
     from {
       opacity: 0;
     }
+
     to {
       opacity: 1;
     }
@@ -321,7 +307,7 @@
 }
 
 // resize
-@media (max-width: 700px) {
+@media (width <= 700px) {
   .registration-form {
     gap: 2rem;
 

@@ -10,16 +10,15 @@
   box-shadow: calc(-1 * Index.$border-width) calc(-1 * Index.$border-width) 0 0 Index.$border-color;
 
   &::before {
-    @include subCl(16rem, 16rem);
+    @include sub-class(16rem, 16rem);
 
     top: calc(-2rem - 16rem);
     right: -2rem;
-
     border: solid Index.$border-width Index.$border-color;
     border-top: none;
     border-left: none;
     border-bottom-right-radius: Index.$border-radius;
-    box-shadow: 0rem 10rem 0 #000;
+    box-shadow: 0 10rem 0 #000;
   }
 
   &__intro {
@@ -27,7 +26,7 @@
 
     .footer-title {
       @include flex(row, start, center, 2rem);
-      @include secFont(6rem);
+      @include sec-font(6rem);
 
       font-size: 6rem;
       color: $mc5;
@@ -108,7 +107,7 @@
           .youtube-svg {
             g {
               g {
-                fill: rgba(#ff0000, 0.8);
+                fill: rgba(#f00, 0.8);
               }
             }
           }
@@ -124,6 +123,51 @@
           @include flex(row, start, center, 2rem);
 
           position: relative;
+
+          p.action-text {
+            font-size: 2rem;
+
+            &::after {
+              @include sub-class(0, 0.2rem);
+
+              position: unset;
+              display: block;
+              margin-top: 0.3rem;
+              background-color: $gc3;
+              transition: all 0.3s;
+            }
+          }
+
+          @mixin row-svg() {
+            height: 2rem;
+            width: 2rem;
+          }
+
+          svg.social-svg {
+            @include row-svg;
+          }
+
+          svg.legal-svg {
+            @include row-svg;
+          }
+
+          .r-arr {
+            @include row-svg;
+
+            opacity: 0;
+            transform: translateX(-2rem);
+            transition: all 0.3s;
+
+            circle {
+              fill: #000;
+              transition: all 0.3s;
+            }
+
+            rect {
+              fill: $mc0;
+              transition: all 0.3s;
+            }
+          }
 
           &:hover {
             cursor: pointer;
@@ -147,51 +191,6 @@
               }
             }
           }
-
-          p.action-text {
-            font-size: 2rem;
-
-            &::after {
-              @include subCl(0, 0.2rem);
-
-              position: unset;
-              display: block;
-              margin-top: 0.3rem;
-              background-color: $gc3;
-              transition: all 0.3s;
-            }
-          }
-
-          @mixin rowSvg() {
-            height: 2rem;
-            width: 2rem;
-          }
-
-          svg.social-svg {
-            @include rowSvg();
-          }
-
-          svg.legal-svg {
-            @include rowSvg();
-          }
-
-          .r-arr {
-            @include rowSvg();
-
-            opacity: 0;
-            transform: translateX(-2rem);
-            transition: all 0.3s;
-
-            circle {
-              fill: #000;
-              transition: all 0.3s;
-            }
-
-            rect {
-              fill: $mc0;
-              transition: all 0.3s;
-            }
-          }
         }
       }
     }
@@ -204,7 +203,7 @@
 }
 
 // resize
-@media (max-width: 700px) {
+@media (width <= 700px) {
   .footer {
     padding: 2rem;
 

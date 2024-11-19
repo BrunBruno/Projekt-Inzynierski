@@ -1,7 +1,7 @@
 /* shared text styles */
 
 // preventing long texts
-@mixin longText() {
+@mixin long-text() {
   width: 1px;
   min-width: 100%;
   overflow: hidden;
@@ -10,7 +10,7 @@
 }
 
 // use second font
-@mixin secFont($size) {
+@mixin sec-font($size) {
   font-size: $size;
   font-family: "Knewave";
   user-select: none;

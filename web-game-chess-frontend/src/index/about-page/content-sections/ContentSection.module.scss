@@ -3,15 +3,13 @@
 // content container
 .content {
   @include flex(column, start, start, 1rem);
-  @include showAni();
+  @include show-ani;
 
-  & {
-    position: relative;
-    height: fit-content;
-    text-align: justify;
-    text-shadow: 1px 1px #000;
-    padding-bottom: 10rem;
-  }
+  position: relative;
+  height: fit-content;
+  text-align: justify;
+  text-shadow: 1px 1px #000;
+  padding-bottom: 10rem;
 
   h1.section-title {
     position: sticky;
@@ -46,7 +44,7 @@
 
         &:nth-child(1) {
           @include square(6rem);
-          @include flex();
+          @include flex;
 
           background-color: $mc5;
           border-top-left-radius: 1rem;
@@ -98,7 +96,7 @@
 }
 
 // resize
-@media (max-width: 800px) {
+@media (width <= 800px) {
   .content {
     margin-top: 2rem;
 

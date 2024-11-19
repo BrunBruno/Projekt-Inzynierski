@@ -21,21 +21,13 @@
         position: relative;
 
         .form-input {
-          @include tInput(2rem);
+          @include t-input(2rem);
         }
 
         .visibility-label {
           @include flex(row, start, center, 2rem);
 
           margin-bottom: 1rem;
-
-          &:hover {
-            cursor: pointer;
-
-            .check-mark {
-              background-color: $gc5;
-            }
-          }
 
           .radio-input {
             display: none;
@@ -53,6 +45,14 @@
 
           span {
             font-size: 2rem;
+          }
+
+          &:hover {
+            cursor: pointer;
+
+            .check-mark {
+              background-color: $gc5;
+            }
           }
         }
 
@@ -107,15 +107,10 @@
 
       button.form-button {
         @include button(2rem);
+        @include main-m-button;
 
-        & {
-          @include mainMButton();
-
-          & {
-            padding: 1rem 4rem;
-            margin-top: 2rem;
-          }
-        }
+        padding: 1rem 4rem;
+        margin-top: 2rem;
       }
     }
   }

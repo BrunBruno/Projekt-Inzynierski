@@ -12,18 +12,18 @@
   background-color: rgba(#000, 1);
 
   .intro-logo {
-    @include absCenter();
+    @include abs-center;
     @include flex($gap: 2rem);
 
     opacity: 0;
-    animation: introInit 1s forwards;
+    animation: intro-init 1s forwards;
 
     .intro-svg {
       height: 16rem;
       scale: 0.2;
-      animation: svgInit 0.5s 0s forwards;
+      animation: svg-init 0.5s 0s forwards;
 
-      @keyframes svgInit {
+      @keyframes svg-init {
         to {
           scale: 1;
         }
@@ -31,19 +31,19 @@
     }
 
     .intro-text {
-      @include secFont(12rem);
+      @include sec-font(12rem);
 
       width: 0;
-      animation: textInit 0.5s 0.5s forwards;
+      animation: text-init 0.5s 0.5s forwards;
 
-      @keyframes textInit {
+      @keyframes text-init {
         to {
           width: 32rem;
         }
       }
     }
 
-    @keyframes introInit {
+    @keyframes intro-init {
       to {
         opacity: 1;
       }
@@ -52,9 +52,9 @@
 }
 
 .intro-begin {
-  animation: introBegin 0.5s ease-in 1.5s forwards;
+  animation: intro-begin 0.5s ease-in 1.5s forwards;
 
-  @keyframes introBegin {
+  @keyframes intro-begin {
     to {
       background-color: rgba(#000, 0);
     }
@@ -64,10 +64,9 @@
     transform-origin: left;
     opacity: 1;
     scale: 1;
+    animation: logo-disappear 0.5s ease-in 1.5s forwards;
 
-    animation: logoDisappear 0.5s ease-in 1.5s forwards;
-
-    @keyframes logoDisappear {
+    @keyframes logo-disappear {
       to {
         scale: 0;
         opacity: 0;

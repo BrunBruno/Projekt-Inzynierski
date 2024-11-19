@@ -2,7 +2,7 @@
 
 // avatar image default styles
 .avatar-image {
-  @include flex();
+  @include flex;
 
   border-radius: 100%;
 

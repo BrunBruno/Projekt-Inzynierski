@@ -2,7 +2,7 @@
 
 // clock container
 .clock {
-  @include flex();
+  @include flex;
 
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -10,7 +10,7 @@
   padding: 0 2rem;
 
   .time {
-    @include flex();
+    @include flex;
     @include rounded(1rem);
 
     font-size: 2rem;

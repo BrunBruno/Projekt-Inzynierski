@@ -2,26 +2,23 @@
 
 // timing control selection
 .search {
-  @include wh100();
+  @include wh100;
 
   position: relative;
 
   &__grid {
-    $tag_size: 3rem;
+    $tag-size: 3rem;
 
-    @include absCenter();
+    @include abs-center;
     @include rounded(2rem);
-    @include showAni();
+    @include show-ani;
 
-    & {
-      // width: calc(100% - 2 * 8rem);
-      height: fit-content;
-      display: grid;
-      grid-template-columns: 1fr;
-      grid-template-rows: auto repeat(5, 1fr);
-      gap: 1rem;
-      background-color: rgba($gc9, 0.3);
-    }
+    height: fit-content;
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: auto repeat(5, 1fr);
+    gap: 1rem;
+    background-color: rgba($gc9, 0.3);
 
     &__header {
       position: relative;
@@ -45,7 +42,7 @@
     }
 
     &__row {
-      height: calc(2.4 * $tag_size);
+      height: calc(2.4 * $tag-size);
       display: grid;
       grid-template-columns: 16rem repeat(4, 1fr);
       grid-template-rows: 1fr;
@@ -91,13 +88,13 @@
       }
 
       .time-control {
-        @include flex();
+        @include flex;
 
         position: relative;
         border-bottom: solid 0.4rem $gc8;
         border-radius: 1rem;
         overflow: hidden;
-        width: calc(5 * $tag_size);
+        width: calc(5 * $tag-size);
 
         &:hover {
           cursor: pointer;
@@ -123,31 +120,31 @@
         }
 
         &::after {
-          @include subCl();
+          @include sub-class;
 
           z-index: 0;
           background-color: $gc9;
         }
 
         .timing-tag {
-          @include flex();
-          @include wh100();
+          @include flex;
+          @include wh100;
 
-          height: $tag_size;
+          height: $tag-size;
           z-index: 1;
           color: $gc6;
 
           .num {
             z-index: 1;
             height: 100%;
-            font-size: $tag_size;
+            font-size: $tag-size;
 
             &:nth-child(2) {
-              margin-right: calc($tag_size / 5);
+              margin-right: calc($tag-size / 5);
             }
 
             &:nth-child(6) {
-              margin-right: calc($tag_size / 5);
+              margin-right: calc($tag-size / 5);
             }
           }
 
@@ -156,17 +153,17 @@
             display: flex;
             align-items: end;
             height: 100%;
-            font-size: calc($tag_size * 0.6);
+            font-size: calc($tag-size * 0.6);
 
             &:nth-child(2) {
-              margin-left: calc($tag_size / 5);
+              margin-left: calc($tag-size / 5);
             }
           }
 
           .sep {
             z-index: 1;
-            font-size: calc($tag_size * 0.6);
-            margin: calc($tag_size / 5);
+            font-size: calc($tag-size * 0.6);
+            margin: calc($tag-size / 5);
           }
         }
       }
@@ -175,8 +172,8 @@
 }
 
 // resize
-@media (max-width: 700px) {
-  $tag_size: 3.2rem;
+@media (width <= 700px) {
+  $tag-size: 3.2rem;
 
   .search {
     height: 100%;
@@ -203,7 +200,6 @@
 
         .timing-header {
           grid-column: span 4;
-
           padding: 2rem;
 
           .header-icon {
@@ -217,34 +213,34 @@
         }
 
         .time-control {
-          height: calc(3 * $tag_size);
+          height: calc(3 * $tag-size);
 
           .timing-tag {
-            height: $tag_size;
+            height: $tag-size;
 
             .num {
-              font-size: $tag_size;
+              font-size: $tag-size;
 
               &:nth-child(2) {
-                margin-right: calc($tag_size / 5);
+                margin-right: calc($tag-size / 5);
               }
 
               &:nth-child(6) {
-                margin-right: calc($tag_size / 5);
+                margin-right: calc($tag-size / 5);
               }
             }
 
             .char {
-              font-size: calc($tag_size * 0.6);
+              font-size: calc($tag-size * 0.6);
 
               &:nth-child(2) {
-                margin-left: calc($tag_size / 5);
+                margin-left: calc($tag-size / 5);
               }
             }
 
             .sep {
-              font-size: calc($tag_size * 0.6);
-              margin: calc($tag_size / 5);
+              font-size: calc($tag-size * 0.6);
+              margin: calc($tag-size / 5);
             }
           }
         }

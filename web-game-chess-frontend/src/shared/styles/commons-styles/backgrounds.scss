@@ -1,7 +1,7 @@
 /* shared background */
 
 // creates grid background with given size and colors
-@mixin gridBg($size: 24rem, $bgColor: #212529, $extraColor: #343a40, $opacity: 0.05) {
+@mixin grid-bg($size: 24rem, $bgColor: #212529, $extraColor: #343a40, $opacity: 0.05) {
   background-size: $size $size;
   background-image: repeating-linear-gradient(
       -45deg,
@@ -17,8 +17,7 @@
 }
 
 // default setting for background fitting text
-@mixin textBg() {
+@mixin text-bg() {
   background-clip: text;
-  -webkit-background-clip: text;
   color: #0000;
 }

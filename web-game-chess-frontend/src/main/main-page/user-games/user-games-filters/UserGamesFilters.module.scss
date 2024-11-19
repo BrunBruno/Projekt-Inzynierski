@@ -12,7 +12,7 @@
   border: solid 0.5rem $gc7;
 
   &::after {
-    @include subCl(6rem, 6rem);
+    @include sub-class(6rem, 6rem);
 
     background-color: $gc9;
     z-index: 1;
@@ -57,10 +57,9 @@
 }
 
 // resize
-@media (max-width: 700px) {
+@media (width <= 700px) {
   .filters {
     top: 16rem;
     right: 4rem;
   }
 }
-//

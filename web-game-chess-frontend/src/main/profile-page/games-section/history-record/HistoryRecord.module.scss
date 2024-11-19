@@ -37,7 +37,6 @@
 
     &:first-child {
       padding-left: 2rem;
-
       text-align: left;
     }
 
@@ -48,7 +47,7 @@
 }
 
 // resize
-@media (max-width: 700px) {
+@media (width <= 700px) {
   .record {
     @include rounded(1rem);
   }

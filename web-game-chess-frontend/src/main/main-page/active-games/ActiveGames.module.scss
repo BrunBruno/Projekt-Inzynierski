@@ -2,20 +2,18 @@
 
 // game section container
 .games {
-  $header_height: 6rem;
+  $header-height: 6rem;
 
-  @include wh100();
-  @include showAni();
+  @include wh100;
+  @include show-ani;
 
-  & {
-    padding: 4rem 8rem;
-  }
+  padding: 4rem 8rem;
 
   // games cards sections header
   &__header {
     @include flex(row, space-between, center, 0);
 
-    height: $header_height;
+    height: $header-height;
     padding: 1rem;
     padding-right: 4rem;
 
@@ -47,10 +45,7 @@
       button.filter-button {
         @include flex($gap: 1rem);
         @include button(2rem);
-
-        & {
-          @include mainMButton();
-        }
+        @include main-m-button;
 
         &.disabled {
           filter: grayscale(100%);
@@ -79,10 +74,9 @@
   // list of game cards or empty cards
   &__list {
     position: relative;
-    height: calc(100% - $header_height);
+    height: calc(100% - $header-height);
     padding: 0.5rem;
-    overflow-y: scroll;
-    overflow-x: hidden;
+    overflow: hidden scroll;
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 2rem;
@@ -104,16 +98,16 @@
 }
 
 // resize
-@media (max-width: 700px) {
+@media (width <= 700px) {
   .games {
     height: 100%;
     overflow: hidden;
     padding: 4rem 2rem;
 
-    $header_height: 10rem;
+    $header-height: 10rem;
 
     &__header {
-      height: $header_height;
+      height: $header-height;
 
       h2 {
         font-size: 3.6rem;
@@ -127,7 +121,7 @@
     }
 
     &__list {
-      height: calc(100% - $header_height);
+      height: calc(100% - $header-height);
       grid-template-columns: repeat(2, 1fr);
     }
   }

@@ -19,18 +19,20 @@
   button.interface-button {
     @include flex(row, start, center, 2rem);
     @include button(2.4rem);
+    @include main-g-button;
 
-    & {
-      @include mainGButton();
+    width: 100%;
+    padding: 2rem;
+    background-color: rgba($gc8, 0.1);
+    border-radius: 1rem;
+    border: none;
+    border-right: solid 0.3rem $gc9;
 
-      & {
-        width: 100%;
-        padding: 2rem;
-        background-color: rgba($gc8, 0.1);
-        border-radius: 1rem;
-        border: none;
-        border-right: solid 0.3rem $gc9;
-      }
+    span {
+      @include long-text;
+
+      min-width: calc(100% - 4rem - 2rem);
+      text-align: start;
     }
 
     &:hover {
@@ -50,13 +52,11 @@
 
       .vs-player-icon {
         filter: drop-shadow($mc0 0 0 0.5rem);
-
         fill: $mc0;
       }
 
       .vs-computer-icon {
         filter: drop-shadow($mc0 0 0 0.5rem);
-
         fill: $mc0;
       }
 
@@ -85,7 +85,7 @@
             stroke: $mc0;
           }
 
-          &:not(:nth-child(1)):not(:nth-child(2)) {
+          &:not(:nth-child(1), :nth-child(2)) {
             fill: $mc0;
           }
         }
@@ -93,7 +93,6 @@
 
       .invitations-icon {
         filter: drop-shadow($mc0 0 0 0.5rem);
-
         fill: $mc0;
       }
     }
@@ -129,13 +128,11 @@
 
       .vs-player-icon {
         filter: drop-shadow($mc0 0 0 0.5rem);
-
         fill: $mc0;
       }
 
       .vs-computer-icon {
         filter: drop-shadow($mc0 0 0 0.5rem);
-
         fill: $mc0;
       }
 
@@ -164,7 +161,7 @@
             stroke: $mc0;
           }
 
-          &:not(:nth-child(1)):not(:nth-child(2)) {
+          &:not(:nth-child(1), :nth-child(2)) {
             fill: $mc0;
           }
         }
@@ -172,22 +169,14 @@
 
       .invitations-icon {
         filter: drop-shadow($mc0 0 0 0.5rem);
-
         fill: $mc0;
       }
-    }
-
-    span {
-      @include longText();
-
-      min-width: calc(100% - 4rem - 2rem);
-      text-align: start;
     }
   }
 }
 
 // resize
-@media (max-width: 700px) {
+@media (width <= 700px) {
   .buttons {
     @include flex(row, space-evenly, center, 0);
 
@@ -196,15 +185,15 @@
     overflow: hidden;
 
     &::before {
-      @include subCl(100%, 0.1rem);
+      @include sub-class(100%, 0.1rem);
+
       top: 100%;
       left: 0;
-
       box-shadow: 0 0 1rem 0.1rem $mc0;
     }
 
     button.interface-button {
-      @include flex();
+      @include flex;
       @include square(8rem);
 
       gap: 0;

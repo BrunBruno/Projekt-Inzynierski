@@ -40,20 +40,21 @@
     .light-f {
       @include field($mc0);
     }
+
     .dark-f {
       @include field($mc9);
     }
 
     .players {
-      @include absCenter();
+      @include abs-center;
 
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       gap: 2rem;
 
       .player {
-        @mixin playerImg($bg_color) {
-          @include flex();
+        @mixin player-img($bg_color) {
+          @include flex;
           @include square(6rem);
 
           padding: 0.6rem;
@@ -61,18 +62,19 @@
           background-color: $bg_color;
 
           .player-img {
-            @include wh100();
+            @include wh100;
+
             border-radius: 100%;
             object-fit: cover;
           }
         }
 
         .white-player-img {
-          @include playerImg(#fff);
+          @include player-img(#fff);
         }
 
         .black-player-img {
-          @include playerImg(#000);
+          @include player-img(#000);
         }
       }
 

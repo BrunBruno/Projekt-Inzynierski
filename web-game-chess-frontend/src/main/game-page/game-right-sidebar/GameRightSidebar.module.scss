@@ -3,38 +3,17 @@
 
 // right side bar container
 .bar {
-  @include wh100();
+  @include wh100;
 
   max-height: 100vh;
   position: relative;
 
-  &.simple-view {
-    height: fit-content;
-
-    &::after {
-      display: none;
-    }
-
-    .bar-block {
-      display: none;
-    }
-
-    .bar__content {
-      border-bottom-left-radius: 4rem;
-
-      &.null-timing {
-        gap: 0;
-      }
-    }
-  }
-
   &::after {
-    @include subCl();
+    @include sub-class;
 
     z-index: 1;
     top: 0;
     right: 100%;
-
     border-top-right-radius: 8rem;
     border-bottom-right-radius: 8rem;
     box-shadow: 10rem 0 0 10rem $gc9;
@@ -54,18 +33,14 @@
     grid-template-rows: 8rem 4rem calc((100% - 18rem) / 2) calc((100% - 18rem) / 2);
     gap: 2rem;
 
-    &.null-timing {
-      grid-template-rows: 12rem calc((100% - 18rem) / 2) calc((100% - 18rem) / 2);
-    }
-
     &__header {
       @include flex($gap: 2rem);
 
       &__player {
         @include flex($direction: row, $gap: 1rem);
 
-        @mixin playerImg($bg_color) {
-          @include flex();
+        @mixin player-img($bg_color) {
+          @include flex;
           @include circle(5rem);
 
           padding: 0.6rem;
@@ -74,29 +49,28 @@
           background-color: $bg_color;
 
           .player-img {
-            @include wh100();
+            @include wh100;
 
             border-radius: 100%;
           }
         }
 
         .white-player-img {
-          @include playerImg(#fff);
+          @include player-img(#fff);
         }
 
         .black-player-img {
-          @include playerImg(#000);
+          @include player-img(#000);
         }
 
         .player-data {
           display: grid;
           grid-template-rows: repeat(3, 1fr);
           gap: 0.2rem;
-
           overflow: hidden;
 
           .name {
-            @include longText();
+            @include long-text;
 
             width: fit-content;
             max-width: 10rem;
@@ -105,6 +79,7 @@
 
           .elo {
             font-size: 1.2rem;
+
             span {
               color: $mc3;
             }
@@ -125,13 +100,13 @@
     }
 
     .fetching {
-      @include flex();
+      @include flex;
 
       font-size: 1.6rem;
     }
 
     .bar-block {
-      @include GamePage.barBlock();
+      @include GamePage.bar-block;
 
       overflow-y: scroll;
 
@@ -146,11 +121,35 @@
         height: fit-content;
       }
     }
+
+    &.null-timing {
+      grid-template-rows: 12rem calc((100% - 18rem) / 2) calc((100% - 18rem) / 2);
+    }
+  }
+
+  &.simple-view {
+    height: fit-content;
+
+    &::after {
+      display: none;
+    }
+
+    .bar-block {
+      display: none;
+    }
+
+    .bar__content {
+      border-bottom-left-radius: 4rem;
+
+      &.null-timing {
+        gap: 0;
+      }
+    }
   }
 }
 
 // resize
-@media (max-width: 1000px) {
+@media (width <= 1000px) {
   .bar {
     border-top: solid 0.5rem $gc8;
 
@@ -192,11 +191,9 @@
 
         &.messages-block {
           position: absolute;
-
           right: 1rem;
           bottom: 100%;
           background-color: $gc9;
-
           padding: 0;
           border-radius: 0;
           border: solid 0.5rem $gc8;

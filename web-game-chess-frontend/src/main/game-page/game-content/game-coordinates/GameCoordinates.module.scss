@@ -2,17 +2,17 @@
 
 // board coordinates
 .coordinates {
-  @include absCenter();
-  @include wh100();
+  @include abs-center;
+  @include wh100;
 
   // files indicators
-  @mixin filesIndicators() {
+  @mixin files-indicators() {
     position: absolute;
     display: grid;
     background-color: #000;
 
     div {
-      @include flex();
+      @include flex;
 
       font-size: 1.2rem;
       font-weight: 600;
@@ -21,27 +21,23 @@
   }
 
   &__rows {
-    @include filesIndicators();
+    @include files-indicators;
 
-    & {
-      top: 2rem;
-      left: 0;
-      width: 2rem;
-      height: calc(100% - 2 * 2rem);
-      grid-template-rows: repeat(8, 1fr);
-    }
+    top: 2rem;
+    left: 0;
+    width: 2rem;
+    height: calc(100% - 2 * 2rem);
+    grid-template-rows: repeat(8, 1fr);
   }
 
   &__columns {
-    @include filesIndicators();
+    @include files-indicators;
 
-    & {
-      bottom: 0;
-      left: 2rem;
-      width: calc(100% - 2 * 2rem);
-      height: 2rem;
-      grid-template-columns: repeat(8, 1fr);
-    }
+    bottom: 0;
+    left: 2rem;
+    width: calc(100% - 2 * 2rem);
+    height: 2rem;
+    grid-template-columns: repeat(8, 1fr);
   }
 
   .white-indicators {

@@ -2,9 +2,9 @@
 
 // winner window container
 .winner {
-  @include absCenter();
-  @include wh100();
-  @include flex();
+  @include abs-center;
+  @include wh100;
+  @include flex;
 
   z-index: 100;
   background-color: rgba(#000, 0.7);
@@ -20,15 +20,13 @@
   }
 
   &__content {
-    @include emergeAni();
+    @include emerge-ani;
 
-    & {
-      background-color: $gc9;
-      border-radius: 4rem;
-      overflow: hidden;
-      pointer-events: all;
-      width: 44rem;
-    }
+    background-color: $gc9;
+    border-radius: 4rem;
+    overflow: hidden;
+    pointer-events: all;
+    width: 44rem;
 
     .title {
       position: relative;
@@ -40,8 +38,8 @@
       text-align: center;
       text-shadow: 0.2rem 0 $mc9;
 
-      @mixin subEle() {
-        @include subCl(2rem);
+      @mixin sub-element() {
+        @include sub-class(2rem);
 
         width: 4rem;
         height: 8rem;
@@ -49,14 +47,14 @@
       }
 
       &::after {
-        @include subEle();
+        @include sub-element;
 
         left: 0;
         border-top-left-radius: 4rem;
       }
 
       &::before {
-        @include subEle();
+        @include sub-element;
 
         right: 0;
         border-top-right-radius: 4rem;
@@ -64,9 +62,11 @@
 
       &.white-winner {
         background-color: #fff;
+
         &::after {
           box-shadow: -0.1rem -4rem 0 0 #fff;
         }
+
         &::before {
           box-shadow: 0.1rem -4rem 0 0 #fff;
         }
@@ -74,9 +74,11 @@
 
       &.black-winner {
         background-color: #000;
+
         &::after {
           box-shadow: -0.1rem -4rem 0 0 #000;
         }
+
         &::before {
           box-shadow: 0.1rem -4rem 0 0 #000;
         }
@@ -118,52 +120,6 @@
         width: 100%;
         padding: 2rem;
 
-        .player {
-          @include flex($direction: column, $gap: 0.5rem);
-
-          @mixin playerImg($bg-color) {
-            @include flex();
-            @include circle(10rem);
-
-            padding: 1rem;
-            background-color: $bg-color;
-
-            .player-img {
-              @include wh100();
-              border-radius: 100%;
-            }
-          }
-
-          .white-player-img {
-            @include playerImg(#fff);
-          }
-
-          .black-player-img {
-            @include playerImg(#000);
-          }
-
-          .player-data {
-            @include flex($direction: column, $gap: 0.2rem);
-
-            overflow: hidden;
-
-            .name {
-              @include longText();
-
-              width: fit-content;
-              max-width: 12rem;
-              font-size: 2rem;
-            }
-
-            .elo {
-              font-size: 2rem;
-              span {
-                color: $mc3;
-              }
-            }
-          }
-        }
-
         .vs {
           @include flex($direction: column, $gap: 1rem);
 
@@ -171,7 +127,7 @@
           font-weight: bold;
 
           span {
-            @include flex();
+            @include flex;
 
             position: relative;
             white-space: nowrap;
@@ -195,32 +151,80 @@
             }
 
             span.p {
-              @include sign();
+              @include sign;
+
               color: $success-color-m;
             }
 
             span.m {
-              @include sign();
+              @include sign;
+
               color: $danger-color-m;
+            }
+          }
+        }
+
+        .player {
+          @include flex($direction: column, $gap: 0.5rem);
+
+          @mixin player-img($bg-color) {
+            @include flex;
+            @include circle(10rem);
+
+            padding: 1rem;
+            background-color: $bg-color;
+
+            .player-img {
+              @include wh100;
+
+              border-radius: 100%;
+            }
+          }
+
+          .white-player-img {
+            @include player-img(#fff);
+          }
+
+          .black-player-img {
+            @include player-img(#000);
+          }
+
+          .player-data {
+            @include flex($direction: column, $gap: 0.2rem);
+
+            overflow: hidden;
+
+            .name {
+              @include long-text;
+
+              width: fit-content;
+              max-width: 12rem;
+              font-size: 2rem;
+            }
+
+            .elo {
+              font-size: 2rem;
+
+              span {
+                color: $mc3;
+              }
             }
           }
         }
       }
 
       &__buttons {
-        @include flex();
+        @include flex;
 
         width: 100%;
         padding: 2rem;
 
-        @mixin gameActionButton() {
+        @mixin game-action-button() {
           @include button(2.4rem);
 
-          & {
-            border-radius: 0;
-            width: 50%;
-            padding: 1rem 4rem;
-          }
+          border-radius: 0;
+          width: 50%;
+          padding: 1rem 4rem;
 
           &:active,
           &:focus {
@@ -230,28 +234,19 @@
         }
 
         .new-game {
-          @include gameActionButton();
+          @include game-action-button;
+          @include main-m-button;
 
-          & {
-            @include mainMButton();
-
-            & {
-              border-top-left-radius: 1rem;
-              border-bottom-left-radius: 1rem;
-            }
-          }
+          border-top-left-radius: 1rem;
+          border-bottom-left-radius: 1rem;
         }
 
         .re-game {
-          @include gameActionButton();
-          & {
-            @include secMButton();
+          @include game-action-button;
+          @include sec-m-button;
 
-            & {
-              border-top-right-radius: 1rem;
-              border-bottom-right-radius: 1rem;
-            }
-          }
+          border-top-right-radius: 1rem;
+          border-bottom-right-radius: 1rem;
         }
       }
 
@@ -259,11 +254,9 @@
         button {
           @include button(1.6rem);
 
-          & {
-            color: $mc0;
-            background-color: #0000;
-            border-radius: 0;
-          }
+          color: $mc0;
+          background-color: #0000;
+          border-radius: 0;
 
           &:hover {
             color: $mc4;

@@ -3,7 +3,7 @@
 
 // settings container
 .settings {
-  @include mainScrollbar();
+  @include main-scrollbar;
 
   padding: 0 2rem;
   overflow-y: scroll;
@@ -19,7 +19,7 @@
       }
 
       .cat-icon {
-        @include flex();
+        @include flex;
         @include circle(calc(5rem));
 
         padding: 1rem;
@@ -31,7 +31,7 @@
       padding: 2rem 0;
 
       .action-button {
-        @include ActionButton.actionButton(2rem);
+        @include ActionButton.action-button(2rem);
 
         margin: 0 2rem;
         margin-top: 3rem;

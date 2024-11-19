@@ -80,19 +80,23 @@
 
             &.tile-rounded {
               @include rounded(0.5rem);
+
               border: solid 0.2rem #000;
             }
+
             &.tile-wooden {
               position: relative;
-              &::after {
-                @include subCl();
-                position: absolute;
 
+              &::after {
+                @include sub-class;
+
+                position: absolute;
                 background-image: url("/images/wood.png");
                 background-size: cover;
                 opacity: 0.5;
               }
             }
+
             &.tile-bnw {
               filter: grayscale(1);
             }
@@ -111,7 +115,7 @@
           overflow: hidden;
 
           .board {
-            @include absCenter();
+            @include abs-center;
             @include square(5rem);
 
             border-radius: 0.5rem;
@@ -135,6 +139,7 @@
             height: 100%;
             width: 2.5rem;
           }
+
           .rsb-o {
             background-color: $gc8;
             height: 100%;
@@ -146,6 +151,7 @@
             height: 100%;
             width: 1rem;
           }
+
           .rsb-h {
             background-color: $gc8;
             height: 2.5rem;
@@ -156,15 +162,10 @@
 
       .clear-button {
         @include button(2rem);
+        @include main-m-button;
 
-        & {
-          @include mainMButton();
-
-          & {
-            padding: 1rem 4rem;
-            margin-top: 2rem;
-          }
-        }
+        padding: 1rem 4rem;
+        margin-top: 2rem;
       }
     }
   }

@@ -2,8 +2,8 @@
 
 // game container
 .game {
-  @include wh100();
-  @include flex();
+  @include wh100;
+  @include flex;
 
   position: relative;
   z-index: 0;
@@ -19,13 +19,12 @@
     z-index: 10;
     background-color: rgba(#000, 0.9);
     overflow: hidden;
-
     border: solid 1rem rgba($mc9, 0.2);
   }
 }
 
 // resize
-@media (max-width: 1000px) {
+@media (width <= 1000px) {
   .game {
     &__content {
       @include square(68rem);
@@ -33,10 +32,7 @@
   }
 }
 
-@media (max-width: 350px) {
-}
-
-@media (max-height: 500px) {
+@media (height <= 500px) {
   .game {
     &__content {
       margin: 6rem 0;

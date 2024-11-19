@@ -3,12 +3,12 @@
 @use "../shared/styles/shared.scss" as *;
 
 // space for shared navigation panel
-@mixin forNav() {
-  @media (min-width: 700px) {
+@mixin for-nav() {
+  @media (width >= 700px) {
     padding-right: 6rem;
   }
 
-  @media (max-width: 700px) {
+  @media (width <= 700px) {
     padding-top: 6rem;
   }
 }

@@ -1,34 +1,32 @@
 @use "../../../shared/styles/shared.scss" as *;
 @use "../../../shared/components/action-button/ActionButton.module.scss" as ActionButton;
 
-$sqr_size: 7rem;
+$sqr-size: 7rem;
 
 .bot {
-  @include wh100();
+  @include wh100;
 
   position: relative;
 
   &__content {
-    @include absCenter();
+    @include abs-center;
     @include rounded(2rem);
-    @include showAni();
+    @include show-ani;
 
-    & {
-      width: calc(100% - 2 * 16rem);
-      height: fit-content;
-      display: grid;
-      grid-template-columns: calc(5 * $sqr_size + 4 * 1rem) auto;
-      background-color: rgba($gc9, 0.3);
-      gap: 2rem;
-    }
+    width: calc(100% - 2 * 16rem);
+    height: fit-content;
+    display: grid;
+    grid-template-columns: calc(5 * $sqr-size + 4 * 1rem) auto;
+    background-color: rgba($gc9, 0.3);
+    gap: 2rem;
 
     &__level {
-      width: calc(5 * $sqr_size + 4 * 1rem);
+      width: calc(5 * $sqr-size + 4 * 1rem);
 
       &__header {
-        @include flex();
+        @include flex;
 
-        height: $sqr_size;
+        height: $sqr-size;
         padding-bottom: 1rem;
 
         h2 {
@@ -45,9 +43,9 @@ $sqr_size: 7rem;
         gap: 1rem;
 
         .engine-level {
-          @include square($sqr_size);
+          @include square($sqr-size);
           @include rounded(1rem);
-          @include flex();
+          @include flex;
 
           position: relative;
           background-color: $gc9;
@@ -81,7 +79,7 @@ $sqr_size: 7rem;
           }
 
           span {
-            @include secFont(3rem);
+            @include sec-font(3rem);
 
             width: 100%;
             text-align: center;
@@ -91,7 +89,7 @@ $sqr_size: 7rem;
           }
 
           .lvl-icon {
-            @include absCenter();
+            @include abs-center;
 
             z-index: 0;
             height: 80%;
@@ -123,7 +121,7 @@ $sqr_size: 7rem;
       @include flex(column, start, start, 2rem);
 
       position: relative;
-      margin-top: $sqr_size;
+      margin-top: $sqr-size;
       width: 100%;
       padding-left: 2rem;
       border-left: solid 0.3rem $gc9;
@@ -153,19 +151,15 @@ $sqr_size: 7rem;
           width: 100%;
 
           .option-button {
-            & {
-              @include button(1.4rem);
-              @include mainGButton();
+            @include button(1.4rem);
+            @include main-g-button;
 
-              & {
-                width: 5rem;
-                box-sizing: content-box;
-                border: none;
-                padding: 0.8rem 1.6rem;
-                transition: all 0.3s;
-                color: $gc0;
-              }
-            }
+            width: 5rem;
+            box-sizing: content-box;
+            border: none;
+            padding: 0.8rem 1.6rem;
+            transition: all 0.3s;
+            color: $gc0;
 
             &:hover {
               border-color: #0000;
@@ -186,7 +180,7 @@ $sqr_size: 7rem;
       }
 
       .continue-button {
-        @include ActionButton.actionButton(2rem);
+        @include ActionButton.action-button(2rem);
 
         position: absolute;
         left: 50%;
@@ -198,12 +192,11 @@ $sqr_size: 7rem;
 }
 
 // resize
-@media (max-width: 700px) {
-  $sqr_size: 10rem;
+@media (width <= 700px) {
+  $sqr-size: 10rem;
 
   .bot {
     height: calc(100dvh - 18rem);
-    padding: 0;
     overflow-y: scroll;
     padding: 4rem 0;
 
@@ -218,7 +211,6 @@ $sqr_size: 7rem;
       top: unset;
       left: unset;
       transform: unset;
-
       padding: 0;
       width: 100%;
       height: fit-content;
@@ -226,11 +218,11 @@ $sqr_size: 7rem;
       background-color: #0000;
 
       &__level {
-        width: calc(5 * $sqr_size + 4 * 1rem);
+        width: calc(5 * $sqr-size + 4 * 1rem);
 
         &__grid {
           .engine-level {
-            @include square($sqr_size);
+            @include square($sqr-size);
           }
         }
       }
@@ -258,7 +250,7 @@ $sqr_size: 7rem;
         }
 
         .continue-button {
-          @include ActionButton.actionButton(3rem);
+          @include ActionButton.action-button(3rem);
 
           position: relative;
           left: unset;

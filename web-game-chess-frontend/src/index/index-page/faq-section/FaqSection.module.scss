@@ -3,7 +3,7 @@
 
 // faq container
 .section {
-  @include wh100();
+  @include wh100;
 
   position: relative;
   padding-top: 10rem;
@@ -12,16 +12,15 @@
   box-shadow: Index.$border-width calc(-1 * Index.$border-width) 0 0 Index.$border-color;
 
   &::before {
-    @include subCl(16rem, 16rem);
+    @include sub-class(16rem, 16rem);
 
     top: calc(-2rem - 16rem);
     left: -2rem;
-
     border: solid Index.$border-width Index.$border-color;
     border-top: none;
     border-right: none;
     border-bottom-left-radius: Index.$border-radius;
-    box-shadow: 0rem 10rem 0 #000;
+    box-shadow: 0 10rem 0 #000;
   }
 
   &__intro {
@@ -47,7 +46,7 @@
 
     &__category {
       @include flex(row, start, center, 2rem);
-      @include longText();
+      @include long-text;
 
       height: $category-size;
       grid-column: 1 / -1;
@@ -59,8 +58,8 @@
         color: $mc3;
       }
 
-      @mixin catIcon() {
-        @include flex();
+      @mixin cat-icon() {
+        @include flex;
         @include circle(calc($category-size * 0.7));
 
         padding: 1rem;
@@ -68,17 +67,18 @@
       }
 
       .account-category-icon {
-        @include catIcon();
+        @include cat-icon;
       }
+
       .gameplay-category-icon {
-        @include catIcon();
+        @include cat-icon;
       }
     }
 
     &__arrow {
       // border: solid 1rem red;
 
-      @include flex();
+      @include flex;
 
       filter: brightness(60%);
 
@@ -92,18 +92,18 @@
         border-bottom-left-radius: 4rem;
       }
 
-      @mixin arrowSvg($deg) {
+      @mixin arrow-svg($deg) {
         height: 4rem;
         transition: all 0.3s;
         transform: rotateZ($deg);
       }
 
       .arrow-left {
-        @include arrowSvg(180deg);
+        @include arrow-svg(180deg);
       }
 
       .arrow-right {
-        @include arrowSvg(0deg);
+        @include arrow-svg(0deg);
       }
 
       &:hover {
@@ -129,8 +129,7 @@
 
       @include flex(row, space-evenly, center, 0);
 
-      overflow-x: scroll;
-      overflow-y: hidden;
+      overflow: scroll hidden;
       padding: calc($category-size / 2) 0;
 
       &::-webkit-scrollbar {
@@ -146,6 +145,7 @@
 
       .ind-point {
         @include circle(calc($indicator-size * 0.6));
+
         background-color: $mc7;
         opacity: 0.2;
 
@@ -158,7 +158,7 @@
 }
 
 // resize
-@media (max-width: 700px) {
+@media (width <= 700px) {
   .section {
     border-top-right-radius: 10rem;
 

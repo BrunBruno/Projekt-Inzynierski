@@ -2,7 +2,7 @@
 
 // default game section view container
 .default {
-  @include wh100();
+  @include wh100;
 
   overflow-y: scroll;
 
@@ -23,6 +23,7 @@
       position: fixed;
       z-index: -1;
       pointer-events: none;
+
       // right panel / nav bar / padding
       width: calc(100% - 25% - 6rem - 2 * 6rem);
       height: calc(100vh - 2 * 6rem);
@@ -38,7 +39,7 @@
 }
 
 // resize
-@media (max-width: 700px) {
+@media (width <= 700px) {
   .default {
     &__container {
       margin-top: 4rem;

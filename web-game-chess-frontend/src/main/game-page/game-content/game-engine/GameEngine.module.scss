@@ -1,9 +1,9 @@
 @use "../../../../shared/styles/shared.scss" as *;
 
 .engine {
-  @include absCenter();
-  @include wh100();
-  @include flex();
+  @include abs-center;
+  @include wh100;
+  @include flex;
 
   z-index: 100;
 }

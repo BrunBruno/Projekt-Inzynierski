@@ -1,14 +1,12 @@
 @use "../../../../shared/styles/shared.scss" as *;
 
 .history {
-  @include absCenter();
-  @include wh100();
-  @include flex();
+  @include abs-center;
+  @include wh100;
+  @include flex;
 
-  & {
-    z-index: 100;
-    background-color: rgba(#000, 0.8);
-  }
+  z-index: 100;
+  background-color: rgba(#000, 0.8);
 
   &__container {
     @include square(64rem);
@@ -17,7 +15,8 @@
     position: relative;
 
     &__board {
-      @include wh100();
+      @include wh100;
+
       position: relative;
       display: grid;
       grid-template-rows: repeat(8, 1fr);
@@ -31,7 +30,8 @@
       }
 
       .field {
-        @include flex();
+        @include flex;
+
         aspect-ratio: 1/1;
 
         &.rounded {
@@ -46,6 +46,7 @@
             &.old {
               background-color: rgba($gc4, 0.96);
             }
+
             &.new {
               background-color: rgba($gc4, 0.96);
             }
@@ -57,6 +58,7 @@
             &.old {
               background-color: rgba($gc8, 0.96);
             }
+
             &.new {
               background-color: rgba($gc8, 0.96);
             }
@@ -65,7 +67,7 @@
 
         &.wooden {
           &::after {
-            @include subCl();
+            @include sub-class;
 
             background-image: url("/images/wood.png");
             background-size: cover;
@@ -79,6 +81,7 @@
           &.old {
             background-color: $mc2;
           }
+
           &.new {
             background-color: $mc2;
           }
@@ -90,6 +93,7 @@
           &.old {
             background-color: $mc4;
           }
+
           &.new {
             background-color: r$mc4;
           }

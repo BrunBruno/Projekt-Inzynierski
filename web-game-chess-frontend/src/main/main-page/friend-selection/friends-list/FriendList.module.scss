@@ -2,19 +2,18 @@
 
 // vs-friend search friend list container
 .list {
-  @include wh100();
+  @include wh100;
   @include flex(column, start, center, 1rem);
 
   padding-left: 2rem;
-  overflow-y: scroll;
-  overflow-x: hidden;
+  overflow: hidden scroll;
 
   &::-webkit-scrollbar {
     display: none;
   }
 
   &__empty {
-    @include wh100();
+    @include wh100;
 
     overflow: hidden;
 
@@ -57,7 +56,7 @@
 }
 
 // resize
-@media (max-width: 1100px) {
+@media (width <= 1100px) {
   .list {
     padding: 0;
     display: grid;
@@ -65,7 +64,7 @@
   }
 }
 
-@media (max-width: 500px) {
+@media (width <= 500px) {
   .list {
     display: flex;
   }

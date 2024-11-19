@@ -3,14 +3,12 @@
 
 // user page container
 .users-main {
-  @include wh100();
-  @include gridBg();
-  @include Main.forNav();
+  @include wh100;
+  @include grid-bg;
+  @include Main.for-nav;
 
-  & {
-    display: grid;
-    grid-template-columns: 36rem auto;
-  }
+  display: grid;
+  grid-template-columns: 36rem auto;
 
   .users-list {
     position: relative;
@@ -18,7 +16,7 @@
 }
 
 // resize
-@media (max-width: 700px) {
+@media (width <= 700px) {
   .users-main {
     padding: 0;
     padding-top: 6rem;

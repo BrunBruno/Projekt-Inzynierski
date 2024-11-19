@@ -10,7 +10,7 @@
 }
 
 // default setting for centered element
-@mixin absCenter() {
+@mixin abs-center() {
   position: absolute;
   top: 50%;
   left: 50%;
@@ -18,7 +18,7 @@
 }
 
 // styles for sub class after and before
-@mixin subCl($w: 100%, $h: 100%) {
+@mixin sub-class($w: 100%, $h: 100%) {
   content: "";
   position: absolute;
   width: $w;

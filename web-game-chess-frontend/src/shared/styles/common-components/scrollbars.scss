@@ -3,7 +3,7 @@
 @use "../variables/color.scss" as color;
 
 // default setting for main scrollbar
-@mixin mainScrollbar($bgColor: #000, $mainColor: #343a40, $sideColor: #495057) {
+@mixin main-scrollbar($bgColor: #000, $mainColor: #343a40, $sideColor: #495057) {
   &::-webkit-scrollbar {
     width: 1.2rem;
     z-index: 999;

@@ -8,8 +8,8 @@
 
   // flashlights
   // to add light effect on board
-  @mixin boardSubElement {
-    @include subCl(30rem, 30rem);
+  @mixin board-sub-element {
+    @include sub-class(30rem, 30rem);
 
     z-index: -1;
     background-color: rgba($gc0, 0.2);
@@ -19,14 +19,14 @@
   }
 
   &::after {
-    @include boardSubElement();
+    @include board-sub-element;
 
     top: 0;
     left: -5rem;
   }
 
   &::before {
-    @include boardSubElement();
+    @include board-sub-element;
 
     bottom: -3rem;
     right: -3rem;
@@ -35,11 +35,9 @@
   &__grid {
     position: relative;
     overflow: hidden;
-
     border-radius: 4rem;
     background-color: $gc9;
     box-shadow: -2rem 2rem 0 0 $gc9;
-
     transform: rotateX(10deg) rotateY(10deg) rotateZ(-5deg);
     transform-style: preserve-3d;
 
@@ -50,11 +48,9 @@
       grid-template-columns: auto;
       grid-template-rows: repeat(8, 1fr);
       gap: 0.5rem;
-
       overflow: hidden;
       border-radius: 4rem;
       border: solid 1rem $gc8;
-
       transition: box-shadow 1s, border-color 1s;
 
       .indicator {
@@ -62,11 +58,9 @@
 
         z-index: -2;
         position: absolute;
-
         opacity: 0;
         background-color: $gc0;
         filter: blur(4rem);
-
         transform: translate(-60%, -60%);
       }
 
@@ -88,6 +82,7 @@
             &:nth-child(odd) {
               background-color: rgba($mc1, 0.5);
             }
+
             &:nth-child(even) {
               background-color: rgba($mc9, 0.5);
             }
@@ -99,6 +94,7 @@
             &:nth-child(even) {
               background-color: rgba($mc1, 0.5);
             }
+
             &:nth-child(odd) {
               background-color: rgba($mc9, 0.5);
             }
@@ -114,7 +110,7 @@
 
     // outer board
     &__outer {
-      @include absCenter;
+      @include abs-center;
       @include square(100%);
 
       display: grid;
@@ -123,7 +119,7 @@
       border: solid 1rem #0000;
 
       .board-svg {
-        @include absCenter;
+        @include abs-center;
 
         height: 30%;
         filter: brightness(50%) drop-shadow(0 0 2rem $mc0);
@@ -144,20 +140,22 @@
 }
 
 // resize
-@media (min-width: 1000px) {
+@media (width >= 1000px) {
   .board {
     &__grid {
       .visible-outer {
         .board-svg {
-          animation: boardLogoAni 3s infinite linear 1s;
+          animation: board-logo-ani 3s infinite linear 1s;
 
-          @keyframes boardLogoAni {
+          @keyframes board-logo-ani {
             0% {
               filter: brightness(80%) drop-shadow(0 0 1rem $mc0);
             }
+
             50% {
               filter: brightness(80%) drop-shadow(0 0 2rem $mc0);
             }
+
             100% {
               filter: brightness(80%) drop-shadow(0 0 1rem $mc0);
             }

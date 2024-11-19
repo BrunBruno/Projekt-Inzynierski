@@ -3,7 +3,7 @@
 
 // searching for game container
 .searching {
-  @include wh100();
+  @include wh100;
 
   &__content {
     position: relative;
@@ -23,6 +23,7 @@
       svg {
         g {
           transform: translate(16%, 16%);
+
           path {
             fill: rgba($mc9, 0.05);
             transition: all 1s;
@@ -62,6 +63,11 @@
         height: 3rem;
         transition: transform 0.3s;
 
+        path {
+          fill: $mc0;
+          transition: fill 2s;
+        }
+
         &.active {
           transform: translateY(-2rem) scale(1.2);
 
@@ -70,22 +76,14 @@
             transition: fill 0.1s;
           }
         }
-
-        path {
-          fill: $mc0;
-          transition: fill 2s;
-        }
       }
     }
 
     button.cancel {
       @include button(2.6rem);
-      & {
-        @include mainMButton();
-      }
+      @include main-m-button;
     }
   }
 }
 
 // resize
-//

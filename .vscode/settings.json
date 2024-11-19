@@ -14,11 +14,13 @@
     "outro",
     "Queenside",
     "rnbqkbnr",
+    "scrollbars",
     "signalr",
     "Stockfish",
     "svgs",
     "testid",
     "webgame",
-    "Xunit"
+    "Xunit",
+    "zpattern"
   ]
 }

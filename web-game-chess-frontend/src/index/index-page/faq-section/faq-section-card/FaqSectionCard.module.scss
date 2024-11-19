@@ -9,11 +9,11 @@
   width: 50%;
   aspect-ratio: 16/9;
   flex-shrink: 0;
-
   border-top: solid 0.4rem $mc7;
   border-bottom: solid 0.4rem #0000;
   background-image: conic-gradient(from 70deg at 30% 120%, rgba($mc7, 0.1), #0000);
   overflow: hidden;
+
   // box-shadow: 0 1rem 1rem -0.2rem $gc9;
 
   transform: scale(0.8);
@@ -22,7 +22,6 @@
   .question {
     font-size: 3.2rem;
     width: calc(100% - 4rem);
-
     transform-origin: 0 0;
     transform: scale(1);
     transition: transform 0.3s;
@@ -36,19 +35,17 @@
     font-size: 2rem;
     opacity: 0;
     color: $gc3;
-
     transform-origin: 50% 0;
     transform: scaleY(0);
     transition: all 0.3s;
   }
 
   .action {
-    @include absCenter();
+    @include abs-center;
 
     top: unset;
     bottom: 2rem;
     width: 80%;
-
     font-size: 3rem;
     color: $gc5;
     text-align: right;
@@ -78,7 +75,7 @@
 }
 
 // resize
-@media (max-width: 700px) {
+@media (width <= 700px) {
   .card {
     width: 100%;
     transform: scale(1);

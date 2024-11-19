@@ -2,7 +2,7 @@
 @use "../../../Index.scss" as Index;
 
 // pawns images
-@mixin imagePawnStyles($mainColor, $sideColor, $shadowColor) {
+@mixin image-pawn-styles($mainColor, $sideColor, $shadowColor) {
   .pb {
     &:nth-child(odd) {
       background-color: $mainColor;
@@ -11,13 +11,13 @@
 
     &:nth-child(even) {
       background-color: $shadowColor;
-      box-shadow: 0 0 0rem 1rem $shadowColor;
+      box-shadow: 0 0 0 1rem $shadowColor;
       z-index: -1;
     }
   }
 }
 
-@mixin imagePawn($div) {
+@mixin image-pawn($div) {
   position: absolute;
   transform-style: preserve-3d;
   transition: top 0.3s;
@@ -46,6 +46,7 @@
       border-radius: 100%;
       top: calc((8rem - 3rem) / $div);
     }
+
     &:nth-child(5),
     &:nth-child(6) {
       width: calc(16rem / $div);
@@ -57,9 +58,11 @@
     &:nth-child(1) {
       z-index: 9;
     }
+
     &:nth-child(3) {
       z-index: 8;
     }
+
     &:nth-child(5) {
       z-index: 7;
     }
@@ -84,7 +87,7 @@
 
   // extra bg
   &__background {
-    @include actions();
+    @include actions;
 
     overflow: hidden;
     border-bottom-left-radius: 4rem;
@@ -103,15 +106,13 @@
       grid-template-columns: repeat(5, 1fr);
       grid-template-rows: repeat(5, 1fr);
       gap: 0;
-
       border: solid 0.5rem $gc0;
       box-shadow: 0 0 4rem 3rem rgba($gc0, 0.5);
-
       transform-style: preserve-3d;
       transform: rotateX(70deg) rotateZ(45deg);
 
       &::after {
-        @include subCl();
+        @include sub-class;
 
         background-image: linear-gradient(to top left, #0000 0%, rgba($mc7, 0.95) 60%);
       }
@@ -122,7 +123,7 @@
         border: solid 0.5rem $gc0;
 
         &::after {
-          @include subCl(200%, 30%);
+          @include sub-class(200%, 30%);
 
           rotate: 15deg;
         }
@@ -146,30 +147,28 @@
     }
 
     .img-pawn-container {
-      @include imagePawn(2);
+      @include image-pawn(2);
 
-      & {
-        filter: blur(0.3rem) brightness(70%);
-      }
+      filter: blur(0.3rem) brightness(70%);
     }
 
     .pawn-white {
-      @include imagePawnStyles($mc2, $mc3, #111);
+      @include image-pawn-styles($mc2, $mc3, #111);
     }
 
     .pawn-black {
-      @include imagePawnStyles($gc9, #000, $mc2);
+      @include image-pawn-styles($gc9, #000, $mc2);
     }
   }
 
   // extra actions
   &__content {
-    @include actions();
+    @include actions;
 
     padding: 6rem;
 
     .actions-pawns {
-      @include wh100();
+      @include wh100;
       @include flex(row, center, start, 0);
 
       // pawn settings
@@ -181,6 +180,45 @@
         height: calc(6rem + 10rem + 12rem);
         user-select: none;
 
+        &::after {
+          @include sub-class(22rem, 4rem);
+
+          z-index: -1;
+          left: 50%;
+          top: calc(6rem + 10rem + 12rem - 5rem);
+          border-radius: 100%;
+          opacity: 0.9;
+          background-color: #000;
+          filter: blur(4px);
+          transform: translateZ(-1px) translateX(-50%);
+          transition: all 0.3s;
+        }
+
+        .img-pawn-container {
+          @include image-pawn(1);
+
+          z-index: 3;
+          top: 0;
+          width: 100%;
+          height: calc(6rem + 10rem + 12rem);
+        }
+
+        .img-pawn-text {
+          position: absolute;
+          z-index: 2;
+          top: calc(6rem + 10rem + 12rem - 10rem - 4rem);
+          height: 0;
+          width: 18rem;
+          padding: 2rem;
+          border-bottom-left-radius: 2rem;
+          border-bottom-right-radius: 2rem;
+          font-size: 3rem;
+          font-weight: 600;
+          opacity: 0;
+          text-align: center;
+          transition: height 0.3s, opacity 0.1s;
+        }
+
         &:hover {
           cursor: pointer;
 
@@ -188,22 +226,6 @@
             width: 23rem;
             opacity: 0.7;
           }
-        }
-
-        &::after {
-          @include subCl(22rem, 4rem);
-
-          z-index: -1;
-          left: 50%;
-          top: calc(6rem + 10rem + 12rem - 5rem);
-
-          border-radius: 100%;
-          opacity: 0.9;
-          background-color: #000;
-          filter: blur(4px);
-
-          transform: translateZ(-1px) translateX(-50%);
-          transition: all 0.3s;
         }
 
         &:hover > .img-pawn-container {
@@ -215,42 +237,13 @@
           height: 8rem;
           transition: height 0.1s 0s, opacity 0.3s 0.1s;
         }
-
-        .img-pawn-container {
-          @include imagePawn(1);
-          & {
-            z-index: 3;
-            top: 0rem;
-            width: 100%;
-            height: calc(6rem + 10rem + 12rem);
-          }
-        }
-
-        .img-pawn-text {
-          position: absolute;
-          z-index: 2;
-          top: calc(6rem + 10rem + 12rem - 10rem - 4rem);
-          height: 0;
-          width: 18rem;
-
-          padding: 2rem;
-          border-bottom-left-radius: 2rem;
-          border-bottom-right-radius: 2rem;
-
-          font-size: 3rem;
-          font-weight: 600;
-          opacity: 0;
-          text-align: center;
-
-          transition: height 0.3s, opacity 0.1s;
-        }
       }
 
       .sign-in-pawn {
         left: 0;
 
         .img-pawn-container {
-          @include imagePawnStyles($mc2, $mc3, #111);
+          @include image-pawn-styles($mc2, $mc3, #111);
         }
 
         p.img-pawn-text {
@@ -263,7 +256,7 @@
         right: 0;
 
         .img-pawn-container {
-          @include imagePawnStyles($gc9, #000, $mc2);
+          @include image-pawn-styles($gc9, #000, $mc2);
         }
 
         p.img-pawn-text {
@@ -276,26 +269,28 @@
 }
 
 // resize
-@media (max-width: 1250px) {
+@media (width <= 1250px) {
   .actions {
     top: unset;
     bottom: 10rem;
   }
 }
 
-@media (min-width: 1000px) {
+@media (width >= 1000px) {
   .actions {
     &__background {
       .board-grid {
-        animation: boardHighlight 3s infinite;
+        animation: board-highlight 3s infinite;
 
-        @keyframes boardHighlight {
+        @keyframes board-highlight {
           0% {
             box-shadow: 0 0 4rem 2rem rgba($gc0, 0.5);
           }
+
           50% {
             box-shadow: 0 0 4rem 3rem rgba($gc0, 0.5);
           }
+
           100% {
             box-shadow: 0 0 4rem 2rem rgba($gc0, 0.5);
           }

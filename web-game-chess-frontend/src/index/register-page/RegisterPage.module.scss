@@ -3,19 +3,18 @@
 
 // register page container
 .register {
-  @include gridBg();
+  @include grid-bg;
 
   position: relative;
   height: 100%;
 
   &__content {
-    @include absCenter();
+    @include abs-center;
 
     width: 100rem;
     height: 60rem;
     display: grid;
     grid-template-columns: calc(100% - 60rem) auto calc(100% - 60rem);
-
     border-radius: 4rem;
     background-image: linear-gradient(rgba(#000, 0.8), rgba(#000, 0.8)), url("images/register-bg.jpg");
     background-size: cover;
@@ -29,7 +28,7 @@
       text-align: center;
       opacity: 0;
       transition: opacity 1s;
-      animation: introAnimation 1s;
+      animation: intro-animation 1s;
 
       &.active {
         opacity: 1;
@@ -47,13 +46,14 @@
       }
 
       .action-button {
-        @include actionButton.actionButton(1.6rem);
+        @include actionButton.action-button(1.6rem);
       }
 
-      @keyframes introAnimation {
+      @keyframes intro-animation {
         from {
           opacity: 0;
         }
+
         to {
           opacity: 1;
         }
@@ -70,19 +70,17 @@
 
     position: absolute;
     top: 0;
-
     background-color: $gc9;
     border: solid 0.5rem $gc8;
     background-image: repeating-conic-gradient(from 0deg at 25% 75%, #0000 20%, rgba(#000, 0.1) 35%);
 
     &::after {
-      @include subCl(6rem, 6rem);
+      @include sub-class(6rem, 6rem);
 
       position: absolute;
       top: 0;
       left: 50%;
       transform: translate(-50%, calc(-50% - $icon-up)) rotate(45deg);
-
       background-color: $gc9;
       border-radius: 100%;
       border: solid 0.5rem $gc8;
@@ -119,14 +117,12 @@
 }
 
 // resize
-@media (max-width: 500px) {
+@media (width <= 500px) {
   .register {
     position: relative;
     height: 100dvh;
 
     &__content {
-      $content_space: 8rem;
-
       @include flex(column-reverse, start, center, 0);
 
       position: relative;
@@ -145,7 +141,7 @@
     }
 
     &__form {
-      @include absCenter();
+      @include abs-center;
 
       width: calc(100vw - 2rem);
       height: calc(100vw - 2rem);

@@ -2,23 +2,21 @@
 
 // play section container
 .section {
-  @include wh100();
+  @include wh100;
 
   position: relative;
 
   // play section intro
   &__intro {
-    @include textBg();
+    @include text-bg;
 
     position: relative;
     width: 100%;
     margin: 10rem 0;
-
     background-image: linear-gradient(-60deg, $mc1 60%, $mc3 60%, $mc3 80%, $mc1 80%);
     background-attachment: fixed;
     opacity: 1;
     filter: drop-shadow(0 0 0.4rem $mc0);
-
     transition: all 1s 0.3s;
 
     .intro-h2 {
@@ -27,6 +25,7 @@
       &:nth-child(1) {
         margin-left: 12rem;
       }
+
       &:nth-child(2) {
         margin-left: 18rem;
       }
@@ -48,6 +47,7 @@
       &:nth-child(1) {
         margin-left: -40rem;
       }
+
       &:nth-child(2) {
         margin-left: 40rem;
       }
@@ -83,7 +83,7 @@
 
         .actions-row {
           &.show {
-            @include emergeAni(1s, 0s, 6rem);
+            @include emerge-ani(1s, 0s, 6rem);
           }
 
           h3.buttons-title {
@@ -107,7 +107,7 @@
           }
 
           .vs-player-button {
-            @include mainMButton();
+            @include main-m-button;
 
             .vs-player-icon {
               path {
@@ -117,7 +117,7 @@
           }
 
           .vs-computer-button {
-            @include secMButton();
+            @include sec-m-button;
 
             .vs-computer-icon {
               path {
@@ -139,7 +139,7 @@
 }
 
 // resize
-@media (max-width: 700px) {
+@media (width <= 700px) {
   .section {
     &__intro {
       margin: 0;
@@ -164,7 +164,7 @@
 
         &__buttons {
           .actions-row {
-            @include flex();
+            @include flex;
 
             h4.buttons-text {
               max-width: 80%;

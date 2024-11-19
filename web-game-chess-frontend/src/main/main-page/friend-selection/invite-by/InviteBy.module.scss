@@ -13,13 +13,13 @@
   }
 
   .input-holder {
-    @include flex();
+    @include flex;
 
     position: relative;
     width: fit-content;
 
     input {
-      @include cInput();
+      @include c-input;
     }
 
     input.input-search {
@@ -48,16 +48,19 @@
 
     button.generate-button {
       @include button(2rem);
-
-      & {
-        @include secMButton();
-      }
+      @include sec-m-button;
     }
 
     .game-link {
       @include flex(column, start, center, 1rem);
 
       max-width: 100%;
+
+      span {
+        text-align: center;
+        font-size: 1.4rem;
+        color: $gc4;
+      }
 
       .link-display {
         @include rounded(1rem);
@@ -91,12 +94,6 @@
             display: block;
           }
         }
-      }
-
-      span {
-        text-align: center;
-        font-size: 1.4rem;
-        color: $gc4;
       }
     }
   }

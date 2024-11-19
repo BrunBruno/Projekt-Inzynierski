@@ -2,18 +2,18 @@
 
 // invitations container
 .invitations {
-  @include wh100();
+  @include wh100;
 
   padding: 4rem 8rem;
   overflow: hidden;
 
-  $header_height: 6rem;
+  $header-height: 6rem;
 
   // invitations section header
   &__header {
     @include flex(row, space-between, center, 0);
 
-    height: $header_height;
+    height: $header-height;
     padding: 1rem;
     padding-right: 4rem;
 
@@ -31,6 +31,7 @@
 
       span.counter {
         @include flex($gap: 0.5rem);
+
         width: fit-content;
 
         span.sym {
@@ -43,10 +44,7 @@
     .filters {
       button.filter-button {
         @include button(2rem);
-
-        & {
-          @include mainMButton();
-        }
+        @include main-m-button;
 
         &.disabled {
           filter: grayscale(100%);
@@ -62,13 +60,13 @@
   }
 
   // lists of invitations cards or empty cards
-  @mixin invitationsList() {
+  @mixin invitations-list() {
     position: relative;
-    height: calc(100% - $header_height);
+    height: calc(100% - $header-height);
   }
 
   &__list {
-    @include invitationsList();
+    @include invitations-list;
 
     overflow-y: scroll;
 
@@ -78,23 +76,23 @@
   }
 
   &__empty {
-    @include invitationsList();
+    @include invitations-list;
 
     overflow: hidden;
   }
 }
 
 // resize
-@media (max-width: 700px) {
+@media (width <= 700px) {
   .games {
     height: 100%;
     overflow: hidden;
     padding: 4rem 2rem;
 
-    $header_height: 10rem;
+    $header-height: 10rem;
 
     &__header {
-      height: $header_height;
+      height: $header-height;
 
       h2 {
         font-size: 3.6rem;
@@ -108,7 +106,7 @@
     }
 
     &__list {
-      height: calc(100% - $header_height);
+      height: calc(100% - $header-height);
     }
   }
 }

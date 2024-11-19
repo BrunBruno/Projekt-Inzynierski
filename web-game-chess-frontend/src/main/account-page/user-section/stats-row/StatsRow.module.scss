@@ -1,6 +1,6 @@
 @use "../../../../shared/styles/shared.scss" as *;
 
-@mixin setStatDimensions($row-font-size) {
+@mixin set-stat-dimensions($row-font-size) {
   $row-gap: calc($row-font-size);
   $data-size: calc(5 * $row-font-size);
 
@@ -47,7 +47,8 @@
 }
 
 $row-font-size: 1.8rem;
-@include setStatDimensions($row-font-size);
+
+@include set-stat-dimensions($row-font-size);
 
 // game starts rows
 .stats {
@@ -110,12 +111,14 @@ $row-font-size: 1.8rem;
 }
 
 // resize
-@media (max-width: 1200px) {
+@media (width <= 1200px) {
   $row-font-size: 2.6rem;
-  @include setStatDimensions($row-font-size);
+
+  @include set-stat-dimensions($row-font-size);
 }
 
-@media (max-width: 700px) {
+@media (width <= 700px) {
   $row-font-size: 3rem;
-  @include setStatDimensions($row-font-size);
+
+  @include set-stat-dimensions($row-font-size);
 }

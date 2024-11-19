@@ -1,7 +1,7 @@
 @use "../../../../shared/styles/shared.scss" as *;
 
 @mixin board() {
-  @include wh100();
+  @include wh100;
 
   position: relative;
   aspect-ratio: 1/1;
@@ -11,20 +11,20 @@
 }
 
 .board {
-  @include wh100();
+  @include wh100;
 
   position: relative;
 
   // inner board
   &__inner {
-    @include board();
+    @include board;
 
     z-index: 10;
     grid-template-columns: repeat(8, 1fr) 0;
     border-radius: 0.5rem;
 
     .field {
-      @include flex();
+      @include flex;
 
       position: relative;
       z-index: 10;
@@ -41,6 +41,7 @@
           &.old {
             background-color: rgba($gc4, 0.96);
           }
+
           &.new {
             background-color: rgba($gc4, 0.96);
           }
@@ -52,6 +53,7 @@
           &.old {
             background-color: rgba($gc8, 0.96);
           }
+
           &.new {
             background-color: rgba($gc8, 0.96);
           }
@@ -60,7 +62,7 @@
 
       &.wooden {
         &::after {
-          @include subCl();
+          @include sub-class;
 
           background-image: url("/images/wood.png");
           background-size: cover;
@@ -74,6 +76,7 @@
         &.old {
           background-color: rgba($mc2, 0.96);
         }
+
         &.new {
           background-color: rgba($mc2, 0.96);
         }
@@ -85,6 +88,7 @@
         &.old {
           background-color: rgba($mc4, 0.96);
         }
+
         &.new {
           background-color: rgba($mc4, 0.96);
         }
@@ -112,7 +116,7 @@
 
   // outer board
   &__outer {
-    @include board();
+    @include board;
 
     position: absolute;
     top: 0;
@@ -121,7 +125,7 @@
     grid-template-columns: repeat(8, 1fr);
 
     .field {
-      @include flex();
+      @include flex;
 
       position: relative;
       z-index: 10;
@@ -156,8 +160,8 @@
       }
 
       .piece {
-        @include wh100();
-        @include flex();
+        @include wh100;
+        @include flex;
 
         position: relative;
         user-select: none;
@@ -165,6 +169,7 @@
 
         &.own {
           cursor: grab;
+
           &:active {
             cursor: grabbing;
           }
@@ -187,14 +192,14 @@
           right: 0;
 
           svg.x {
-            @include absCenter();
+            @include abs-center;
 
             height: 3rem;
             z-index: 21;
           }
 
           svg.capture-svg {
-            @include absCenter();
+            @include abs-center;
 
             height: 2rem;
             z-index: 20;

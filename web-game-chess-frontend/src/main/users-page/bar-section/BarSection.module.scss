@@ -2,7 +2,7 @@
 
 // center bar container
 .bar {
-  @include wh100();
+  @include wh100;
 
   position: relative;
   background-color: rgba($gc9, 0.5);
@@ -30,13 +30,11 @@
       }
 
       input.search-input {
-        @include cInput();
+        @include c-input;
 
-        & {
-          color: $gc0;
-          width: 100%;
-          background-color: $gc8;
-        }
+        color: $gc0;
+        width: 100%;
+        background-color: $gc8;
 
         &:focus {
           background-color: $gc7;
@@ -105,7 +103,7 @@
         }
 
         svg.panel-arrow {
-          @include absCenter();
+          @include abs-center;
 
           height: 1.6rem;
           right: 1rem;
@@ -129,7 +127,7 @@
 }
 
 // resize
-@media (max-width: 700px) {
+@media (width <= 700px) {
   .bar {
     border-left: none;
     border-right: none;

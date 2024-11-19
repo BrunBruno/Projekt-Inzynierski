@@ -3,7 +3,7 @@
 $banner-size: 6rem;
 
 .table {
-  @include wh100();
+  @include wh100;
 
   position: relative;
 
@@ -14,6 +14,7 @@ $banner-size: 6rem;
     &:nth-child(1) {
       left: -30rem;
     }
+
     &:nth-child(2) {
       right: -30rem;
     }
@@ -21,6 +22,7 @@ $banner-size: 6rem;
     svg.bg-icon {
       // - padding + top
       height: calc(100vh - 16rem + 6rem);
+
       //   display: none;
 
       path {
@@ -47,6 +49,7 @@ $banner-size: 6rem;
         left: -6rem;
         transform: rotateZ(35deg);
       }
+
       &:nth-child(2) {
         right: -6rem;
         transform: rotateZ(-35deg);
@@ -80,7 +83,7 @@ $banner-size: 6rem;
 
         &:nth-child(1) {
           &::after {
-            @include subCl(calc($banner-size / 2), calc(2 * $banner-size));
+            @include sub-class(calc($banner-size / 2), calc(2 * $banner-size));
 
             position: absolute;
             top: 0;
@@ -91,14 +94,13 @@ $banner-size: 6rem;
           }
 
           &::before {
-            @include subCl(calc($banner-size / 2), $banner-size);
+            @include sub-class(calc($banner-size / 2), $banner-size);
 
             z-index: 1;
             position: absolute;
             top: $banner-size;
             left: calc(-1 * $banner-size / 2);
             background-color: rgba(#000, 0.5);
-
             border-top-left-radius: $banner-size;
             border-bottom-left-radius: $banner-size;
           }
@@ -106,7 +108,7 @@ $banner-size: 6rem;
 
         &:nth-child(2) {
           &::after {
-            @include subCl(calc($banner-size / 2), calc(2 * $banner-size));
+            @include sub-class(calc($banner-size / 2), calc(2 * $banner-size));
 
             position: absolute;
             top: 0;
@@ -117,14 +119,13 @@ $banner-size: 6rem;
           }
 
           &::before {
-            @include subCl(calc($banner-size / 2), $banner-size);
+            @include sub-class(calc($banner-size / 2), $banner-size);
 
             z-index: 1;
             position: absolute;
             top: $banner-size;
             right: calc(-1 * $banner-size / 2);
             background-color: rgba(#000, 0.5);
-
             border-top-right-radius: $banner-size;
             border-bottom-right-radius: $banner-size;
           }
@@ -138,17 +139,15 @@ $banner-size: 6rem;
       background-color: #000;
       display: grid;
       grid-template-columns: 75% 25%;
-
       padding-top: 4rem;
       border-radius: 2rem;
       overflow: hidden;
       border: solid 0.5rem $gc9;
-
       box-shadow: inset 0 0 20rem 0 rgba($gc0, 0.1);
 
       &::after {
-        @include subCl();
-        @include absCenter();
+        @include sub-class;
+        @include abs-center;
         @include square(100rem);
 
         top: 100%;
@@ -160,7 +159,6 @@ $banner-size: 6rem;
           linear-gradient(45deg, $mc9 25%, #0000 25%, #0000 75%, $mc9 75%, $mc9),
           linear-gradient(45deg, $mc9 25%, #0000 25%, #0000 75%, $mc9 75%, $mc9);
         background-position: 0 0, 12rem 12rem, 12rem 0, 0 12rem;
-
         transform-origin: 0 0;
         transform: rotateX(70deg) rotateZ(45deg) translate(-50%, -50%);
       }
@@ -170,7 +168,6 @@ $banner-size: 6rem;
         height: 100%;
         padding: 2rem;
         padding-top: 6rem;
-
         display: grid;
         grid-template-columns: 100%;
         grid-template-rows: repeat(12, 1fr);
@@ -208,12 +205,12 @@ $banner-size: 6rem;
           }
 
           .col {
-            @include flex();
+            @include flex;
 
             padding-right: 1rem;
 
             span {
-              @include longText();
+              @include long-text;
 
               font-size: 1.4rem;
             }
@@ -254,17 +251,16 @@ $banner-size: 6rem;
       }
 
       .table-option {
-        @include wh100();
+        @include wh100;
 
         position: relative;
         overflow: hidden;
         z-index: 1;
-
         padding: 2rem;
         padding-top: 6rem;
 
         &::before {
-          @include subCl(0.3rem, calc(100% - 6rem - 2rem));
+          @include sub-class(0.3rem, calc(100% - 6rem - 2rem));
 
           left: 0;
           background-color: rgba($gc9, 0.5);

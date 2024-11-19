@@ -2,7 +2,7 @@
 
 // game page container
 .game-main {
-  @include gridBg();
+  @include grid-bg;
 
   position: relative;
   height: 100vh;
@@ -12,7 +12,7 @@
   overflow: hidden;
 }
 
-@mixin barBlock() {
+@mixin bar-block() {
   @include rounded(2rem);
 
   border: solid 0.3rem $gc8;
@@ -21,7 +21,7 @@
 }
 
 // resize
-@media (max-width: 1000px) {
+@media (width <= 1000px) {
   .game-main {
     height: 100dvh;
     grid-template-columns: 100%;
@@ -29,9 +29,9 @@
   }
 }
 
-@media (max-height: 500px) {
+@media (height <= 500px) {
   .game-main {
-    @include mainScrollbar();
+    @include main-scrollbar;
 
     overflow-y: scroll;
   }
