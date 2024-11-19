@@ -44,7 +44,7 @@ function DefaultView({ setInterfaceById, setOnlineGameIds }: DefaultViewProps) {
         </div>
 
         <div className={classes.default__container__row}>
-          <LastGames setInterfaceById={setInterfaceById} />{" "}
+          <LastGames setInterfaceById={setInterfaceById} />
         </div>
       </div>
     </div>

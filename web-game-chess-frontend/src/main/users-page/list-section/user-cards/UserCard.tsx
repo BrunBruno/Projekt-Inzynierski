@@ -42,7 +42,6 @@ function UserCard({ user, getAllUsers, setNonFriend }: UserCardProps) {
       showPopup(getErrMessage(err), "warning");
     }
   };
-  //*/
 
   // get non friend profile to display
   const onShowProfile = async (): Promise<void> => {
@@ -54,7 +53,6 @@ function UserCard({ user, getAllUsers, setNonFriend }: UserCardProps) {
       showPopup(getErrMessage(err), "warning");
     }
   };
-  //*/
 
   // delete friend /  remove friendship
   // used to unblock blocked friends
@@ -71,7 +69,6 @@ function UserCard({ user, getAllUsers, setNonFriend }: UserCardProps) {
       showPopup(getErrMessage(err), "warning");
     }
   };
-  //*/
 
   return (
     <div className={classes.card}>

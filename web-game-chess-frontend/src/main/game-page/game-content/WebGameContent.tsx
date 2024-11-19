@@ -161,7 +161,6 @@ function WebGameContent({
       updateStates();
     }, 100);
   }, [gameData]);
-  //*/
 
   // to check if game should end
   useEffect(() => {
@@ -193,7 +192,6 @@ function WebGameContent({
       }
     }
   }, [gameStates.matrix]);
-  //*/
 
   // set selected piece and corresponding coordinates
   const chosePiece = (piece: PieceOption, coordinates: Coordinate) => {
@@ -212,7 +210,6 @@ function WebGameContent({
       payload: availableFields,
     });
   }, [selectionStates.coordinates]);
-  //*/
 
   return (
     <section className={classes.game}>

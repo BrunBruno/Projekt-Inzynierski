@@ -42,7 +42,6 @@ function WebGamePromotion({
     setSelectionStates({ type: "SET_PROMOTION_COOR", payload: null });
     setDisplayedWindow(GameWindowInterface.none);
   };
-  //*/
 
   return (
     <div className={classes.promotion}>

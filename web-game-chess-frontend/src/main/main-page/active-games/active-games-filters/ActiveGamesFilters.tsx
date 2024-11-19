@@ -6,6 +6,7 @@ import IconCreator from "../../../../shared/components/icon-creator/IconCreator"
 import { timingTypeIcons } from "../../../../shared/svgs/iconsMap/TimingTypeIcons";
 import { mainColor } from "../../../../shared/utils/objects/colorMaps";
 import { TimingTypeName } from "../../../../shared/utils/objects/constantLists";
+import { displayFromLowercase } from "../../../../shared/utils/functions/enums";
 
 type ActiveGamesFiltersProps = {
   // list to filter timing types
@@ -39,12 +40,13 @@ function ActiveGamesFilters({ timingTypeFilters, setTimingTypeFilters }: ActiveG
             key={`type-${i}`}
             className={`
               ${classes.option} 
-              ${timingTypeFilters.includes(element.value) ? classes.active : ""}`}
+              ${timingTypeFilters.includes(element.value) ? classes.active : ""}
+            `}
             onClick={() => {
               activateTimingTypeFilter(element.value);
             }}
           >
-            <span>{element.label}</span>
+            <span>{displayFromLowercase(element.label)}</span>
             <IconCreator
               icons={timingTypeIcons}
               iconName={element.label.toLocaleLowerCase() as TimingTypeName}

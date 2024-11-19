@@ -39,13 +39,10 @@ function FriendSection({ friendshipId }: FriendSectionProps) {
     }
   };
 
-  //*/
-
   // get data on load
   useEffect(() => {
     getFriend();
   }, []);
-  //*/
 
   return (
     <section className={classes.user}>

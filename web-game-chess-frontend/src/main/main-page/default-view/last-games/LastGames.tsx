@@ -12,6 +12,7 @@ import IconCreator from "../../../../shared/components/icon-creator/IconCreator"
 import { symbolIcons } from "../../../../shared/svgs/iconsMap/SymbolIcons";
 import { greyColor } from "../../../../shared/utils/objects/colorMaps";
 import { GameSearchInterface } from "../../../../shared/utils/objects/interfacesEnums";
+import { mainPageIcons } from "../../MainPageIcons";
 
 type LastGamesProps = {
   setInterfaceById: (interfaceId: GameSearchInterface) => void;
@@ -47,7 +48,6 @@ function LastGames({ setInterfaceById }: LastGamesProps) {
 
     getGames();
   }, []);
-  //*/
 
   const handelMoreGamesClick = () => {
     setInterfaceById(GameSearchInterface.userGames);
@@ -58,7 +58,13 @@ function LastGames({ setInterfaceById }: LastGamesProps) {
   return (
     <div className={classes.games}>
       <div className={classes.games__header}>
-        <span>Your last games:</span>
+        <IconCreator
+          icons={mainPageIcons}
+          iconName={"userGames"}
+          iconClass={classes["header-icon"]}
+          color={greyColor.c0}
+        />
+        <span>Last Games</span>
       </div>
 
       <div className={classes.games__cards}>

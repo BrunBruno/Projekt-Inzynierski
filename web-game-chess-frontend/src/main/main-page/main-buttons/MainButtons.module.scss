@@ -10,19 +10,10 @@
   background-color: rgba($gc9, 0.3);
   overflow-y: scroll;
   box-shadow: 0 0 1rem 0.1rem $mc0;
+  border-left: 0.1rem solid $mc0;
 
   &::-webkit-scrollbar {
     display: none;
-  }
-
-  &::before {
-    @include subCl(0.1rem, 100%);
-
-    top: 0;
-    left: 0;
-
-    background-color: $mc0;
-    box-shadow: 0 0 1rem 0.1rem $mc0;
   }
 
   button.interface-button {
@@ -115,6 +106,8 @@
     .user-games-icon,
     .invitations-icon {
       @include square(4rem);
+
+      flex-shrink: 0;
     }
 
     &:focus {
@@ -183,6 +176,13 @@
         fill: $mc0;
       }
     }
+
+    span {
+      @include longText();
+
+      min-width: calc(100% - 4rem - 2rem);
+      text-align: start;
+    }
   }
 }
 
@@ -220,4 +220,3 @@
     }
   }
 }
-//*/

@@ -46,7 +46,6 @@ function WebGamePage() {
       navigate("/main", { state: state });
     }
   }, [isCriticalError]);
-  //*/
 
   // obtained game id from url
   const { gameIdStr } = useParams<{ gameIdStr: string }>();
@@ -82,7 +81,6 @@ function WebGamePage() {
       setIsCriticalError(true);
     }
   }, [gameIdStr]);
-  //*/
 
   // obtained game data
   const [gameData, setGameData] = useState<GetWebGameDto | null>(null);
@@ -137,7 +135,7 @@ function WebGamePage() {
     }
   };
 
-  // to finish the game
+  // to finish the game and get winner data
   const endGame = (endGameData: EndGameDto): void => {
     setWinner(endGameData);
     setDisplayedWindow(GameWindowInterface.winner);
@@ -153,7 +151,6 @@ function WebGamePage() {
   const cancelRematch = (): void => {
     setRematchData(null);
   };
-  //*/
 
   // to handle new games
   const handleGameAccepted = (newGameId: Guid): void => {
@@ -165,7 +162,6 @@ function WebGamePage() {
 
     window.location.reload(); //???
   };
-  //*/
 
   // add game hub listeners
   // first fetch for game data
@@ -229,7 +225,6 @@ function WebGamePage() {
 
     fetchTime();
   }, [gameData]);
-  //*/
 
   // handle hub service game changed event
   // to redirect to new game
@@ -256,7 +251,6 @@ function WebGamePage() {
       showPopup(getErrMessage(err), "warning");
     }
   };
-  //*/
 
   // to enable new matches and rematches
   useEffect(() => {
@@ -272,7 +266,6 @@ function WebGamePage() {
       }
     };
   }, [newGameData]);
-  //*/
 
   if (!gameId || !gameData || !playerData) return <LoadingPage />;
 

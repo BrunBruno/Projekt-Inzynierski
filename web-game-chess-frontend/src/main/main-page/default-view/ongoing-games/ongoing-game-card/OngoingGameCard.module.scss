@@ -14,7 +14,7 @@ $board-size: 20rem;
   .mini-grid {
     @include square($board-size);
 
-    // aspect-ratio: 1/1 !important;
+    aspect-ratio: 1/1 !important;
     position: relative;
     display: grid;
     grid-template-columns: repeat(8, 1fr);
@@ -147,9 +147,6 @@ $board-size: 20rem;
       color: $gc5;
     }
   }
-  //*/
 }
-//*/
 
 // resize
-//*/

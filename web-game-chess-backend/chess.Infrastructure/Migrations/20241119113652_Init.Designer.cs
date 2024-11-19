@@ -12,7 +12,7 @@ using chess.Infrastructure.Contexts;
 namespace chess.Infrastructure.Migrations
 {
     [DbContext(typeof(ChessAppDbContext))]
-    [Migration("20241114175348_Init")]
+    [Migration("20241119113652_Init")]
     partial class Init
     {
         /// <inheritdoc />
@@ -94,6 +94,9 @@ namespace chess.Infrastructure.Migrations
 
                     b.Property<int>("EngineLevel")
                         .HasColumnType("integer");
+
+                    b.Property<double>("EngineTimeLeft")
+                        .HasColumnType("double precision");
 
                     b.Property<string>("FenPosition")
                         .IsRequired()
@@ -971,7 +974,7 @@ namespace chess.Infrastructure.Migrations
 
             modelBuilder.Entity("chess.Core.Entities.EngineGame", b =>
                 {
-                    b.HasOne("chess.Core.Entities.GameTiming", null)
+                    b.HasOne("chess.Core.Entities.GameTiming", "GameTiming")
                         .WithMany("EngineGames")
                         .HasForeignKey("GameTimingId");
 
@@ -980,6 +983,8 @@ namespace chess.Infrastructure.Migrations
                         .HasForeignKey("chess.Core.Entities.EngineGame", "PlayerId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("GameTiming");
 
                     b.Navigation("Player");
                 });

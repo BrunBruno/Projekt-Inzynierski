@@ -38,7 +38,6 @@ function InvitationCard({ invitation, updateInvitations }: InvitationCardProps) 
       showPopup(getErrMessage(err), "warning");
     }
   };
-  //*/
 
   // to decline previous invitations
   const onDeclineInvitation = async (): Promise<void> => {
@@ -57,7 +56,6 @@ function InvitationCard({ invitation, updateInvitations }: InvitationCardProps) 
       showPopup(getErrMessage(err), "warning");
     }
   };
-  //*/
 
   return (
     <div className={classes.card}>

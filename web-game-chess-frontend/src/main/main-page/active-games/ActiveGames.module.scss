@@ -45,6 +45,7 @@
 
     .filters {
       button.filter-button {
+        @include flex($gap: 1rem);
         @include button(2rem);
 
         & {
@@ -60,10 +61,20 @@
           filter: grayscale(0%);
           pointer-events: all;
         }
+
+        .filters-icon {
+          height: 2rem;
+        }
+
+        span {
+          &:nth-child(3) {
+            font-weight: 100;
+            font-size: 1.6rem;
+          }
+        }
       }
     }
   }
-  //*/
 
   // list of game cards or empty cards
   &__list {
@@ -90,9 +101,7 @@
       overflow: hidden;
     }
   }
-  //*/
 }
-//*/
 
 // resize
 @media (max-width: 700px) {
@@ -123,4 +132,3 @@
     }
   }
 }
-//*/

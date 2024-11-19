@@ -56,7 +56,6 @@ function FriendsSection() {
       window.removeEventListener("resize", setDefSize);
     };
   }, [friendList]);
-  //*/
 
   // to get friend list
   useEffect(() => {
@@ -83,13 +82,11 @@ function FriendsSection() {
 
     getFriends();
   }, [pageNumber, pageSize]);
-  //*/
 
   // to deactivate friend selection
   const clearSelection = (): void => {
     if (selectedFriend) selectedFriend.classList.remove(cardClasses.active);
   };
-  //*/
 
   return (
     <div

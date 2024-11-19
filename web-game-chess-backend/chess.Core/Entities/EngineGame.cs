@@ -26,6 +26,11 @@ public class EngineGame : Game {
     public TimingTypes? TimingType { get; set; } = null;
 
     /// <summary>
+    /// 
+    /// </summary>
+    public double EngineTimeLeft { get; set; }
+
+    /// <summary>
     /// Level of engine depth
     /// </summary>
     public int EngineLevel { get; set; } = 1;
@@ -44,6 +49,16 @@ public class EngineGame : Game {
     /// Current player
     /// </summary>
     public EngineGamePlayer Player { get; set; }
+
+    /// <summary>
+    /// Timing id for game or null when game with no timing
+    /// </summary>
+    public Guid? GameTimingId { get; set; }
+
+    /// <summary>
+    /// Time and increment that each player have for moves
+    /// </summary>
+    public GameTiming? GameTiming { get; set; }
 
     /// <summary>
     /// Game state

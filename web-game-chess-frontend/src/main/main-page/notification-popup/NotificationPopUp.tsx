@@ -42,7 +42,6 @@ function NotificationPopUp({ allowNotification, setAllowNotification }: Notifica
       }
     };
   }, [allowNotification]);
-  //*/
 
   // to accept incoming game invitation
   const onAcceptInvitation = async (): Promise<void> => {
@@ -63,7 +62,6 @@ function NotificationPopUp({ allowNotification, setAllowNotification }: Notifica
       showPopup(getErrMessage(err), "warning");
     }
   };
-  //*/
 
   // to decline incoming game invitation
   const onDeclineInvitation = async (): Promise<void> => {
@@ -83,7 +81,6 @@ function NotificationPopUp({ allowNotification, setAllowNotification }: Notifica
       showPopup(getErrMessage(err), "warning");
     }
   };
-  //*/
 
   if (!notification) return <></>;
 

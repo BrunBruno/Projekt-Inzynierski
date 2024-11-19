@@ -87,7 +87,6 @@ function UserSection({ user, elo, fetchData, setSelectedContent }: UserSectionPr
       showPopup(getErrMessage(err), "warning");
     }
   };
-  //*/
 
   // handle file input and update profile picture
   const handleProfilePicture = (event: ChangeEvent<HTMLInputElement>) => {
@@ -113,7 +112,6 @@ function UserSection({ user, elo, fetchData, setSelectedContent }: UserSectionPr
     updateUser(updateProps);
     setImageSettingsOpen(false);
   };
-  //*/
 
   // handle file input and update background picture
   const handleBackgroundPicture = (event: ChangeEvent<HTMLInputElement>) => {
@@ -139,7 +137,6 @@ function UserSection({ user, elo, fetchData, setSelectedContent }: UserSectionPr
     updateUser(updateProps);
     setImageSettingsOpen(false);
   };
-  //*/
 
   return (
     <section className={classes.user}>

@@ -12,6 +12,7 @@ import IconCreator from "../../../../shared/components/icon-creator/IconCreator"
 import { symbolIcons } from "../../../../shared/svgs/iconsMap/SymbolIcons";
 import { greyColor } from "../../../../shared/utils/objects/colorMaps";
 import OngoingGameCard from "./ongoing-game-card/OngoingGameCard";
+import { mainPageIcons } from "../../MainPageIcons";
 
 type OngoingGamesProps = {
   setInterfaceById: (interfaceId: GameSearchInterface) => void;
@@ -47,7 +48,6 @@ function OngoingGames({ setInterfaceById }: OngoingGamesProps) {
 
     getGames();
   }, []);
-  //*/
 
   const handelMoreGamesClick = () => {
     setInterfaceById(GameSearchInterface.activeGames);
@@ -58,7 +58,13 @@ function OngoingGames({ setInterfaceById }: OngoingGamesProps) {
   return (
     <div className={classes.games}>
       <div className={classes.games__header}>
-        <span>Active games:</span>
+        <IconCreator
+          icons={mainPageIcons}
+          iconName={"activeGames"}
+          iconClass={classes["header-icon"]}
+          color={greyColor.c0}
+        />
+        <span>Active Games</span>
       </div>
 
       <div className={classes.games__cards}>

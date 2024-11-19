@@ -87,7 +87,6 @@ function WebGameMessages({ gameId, playerData }: WebGameMessagesProps) {
       }
     };
   }, []);
-  //*/
 
   // to send new message
   const sendMessage = async (): Promise<void> => {
@@ -108,7 +107,6 @@ function WebGameMessages({ gameId, playerData }: WebGameMessagesProps) {
       showPopup(getErrMessage(err), "warning");
     }
   };
-  //*/
 
   // handle message input
   const handleMessageInputChange = (event: ChangeEvent<HTMLTextAreaElement>): void => {
@@ -140,7 +138,6 @@ function WebGameMessages({ gameId, playerData }: WebGameMessagesProps) {
       showPopup(getErrMessage(err), "warning");
     }
   };
-  //*/
 
   const [isLess, setIsLess] = useState<boolean>(window.innerWidth <= 1000);
   const [messagesClosed, setMessagesClose] = useState<boolean>(false);
@@ -169,7 +166,6 @@ function WebGameMessages({ gameId, playerData }: WebGameMessagesProps) {
       setMessagesClose(false);
     }
   }, [isLess]);
-  //*/
 
   // show or hide messages by click
   const showMessages = (): void => {
@@ -181,7 +177,6 @@ function WebGameMessages({ gameId, playerData }: WebGameMessagesProps) {
   const onHideMessages = (): void => {
     setMessagesClose(true);
   };
-  //*/
 
   return (
     <div

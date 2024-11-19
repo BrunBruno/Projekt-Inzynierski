@@ -90,7 +90,6 @@ function TableSection({}: TableSectionProps) {
       getFriendsRating();
     }
   }, [isGlobalList, selectedTiming, pageNumber, pageSize]);
-  //*/
 
   // options setters
   const onSetSelectedList = (isGlobal: boolean): void => {
@@ -104,7 +103,6 @@ function TableSection({}: TableSectionProps) {
     setDefPageNumber(1);
     setSelectedTiming(value);
   };
-  //*/
 
   const onChangePage = (addValue: number): void => {
     if (!usersRanking) return;

@@ -2,26 +2,23 @@ import { useEffect, useState } from "react";
 import { makeTimeFromMinutes } from "../../../../shared/utils/functions/datetime";
 import { GameEndReason, PieceColor } from "../../../../shared/utils/objects/entitiesEnums";
 import { PlayerDto } from "../../../../shared/utils/types/abstractDtosAndModels";
-import { EndGameDto, FetchTimeDto, GetEndedGameDto, GetWebGameDto } from "../../../../shared/utils/types/gameDtos";
+import { FetchTimeDto, GetWebGameDto } from "../../../../shared/utils/types/gameDtos";
 import classes from "./GameClock.module.scss";
 import { Guid } from "guid-typescript";
 import { EndGameModel } from "../../../../shared/utils/types/gameModels";
 import GameHubService from "../../../../shared/utils/services/GameHubService";
+import { GetEngineGameDto } from "../../../../shared/utils/types/engineDtos";
 
-type WebGameClockProps = {
-  // game id
+type GameClockProps = {
+  // game and player data
   gameId: Guid;
-  // game data
-  gameData: GetWebGameDto;
-  // player data
+  gameData: GetWebGameDto | GetEngineGameDto;
   playerData: PlayerDto;
   // times for both players
   playersTimes: FetchTimeDto | null;
-  // winner data if game has ended
-  winner: EndGameDto | GetEndedGameDto | null;
 };
 
-function WebGameClock({ gameId, gameData, playerData, playersTimes, winner }: WebGameClockProps) {
+function GameClock({ gameId, gameData, playerData, playersTimes }: GameClockProps) {
   ///
 
   const [localWhiteTime, setLocalWhiteTime] = useState<number>(playersTimes?.whiteTimeLeft || 0);
@@ -44,11 +41,10 @@ function WebGameClock({ gameId, gameData, playerData, playersTimes, winner }: We
 
     return elements;
   };
-  //*/
 
   // sets time left for both players
   useEffect(() => {
-    if (playersTimes === null || gameData.hasEnded || winner !== null) return;
+    if (playersTimes === null || gameData.hasEnded) return;
 
     const tick = () => {
       if (gameData.turn % 2 === 0) {
@@ -63,7 +59,7 @@ function WebGameClock({ gameId, gameData, playerData, playersTimes, winner }: We
     return () => {
       clearInterval(interval);
     };
-  }, [gameData, winner]);
+  }, [gameData]);
 
   useEffect(() => {
     if (localWhiteTime <= 0 && playersTimes) {
@@ -73,7 +69,6 @@ function WebGameClock({ gameId, gameData, playerData, playersTimes, winner }: We
       GameHubService.EndGame({ gameId, loserColor: PieceColor.black, endGameType: GameEndReason.outOfTime });
     }
   }, [localWhiteTime, localBlackTime, gameId, playersTimes]);
-  //*/
 
   // to finish game by time outage
   const endGame = async (loserColor: number | null, endGameType: number): Promise<void> => {
@@ -95,7 +90,6 @@ function WebGameClock({ gameId, gameData, playerData, playersTimes, winner }: We
       endGame(PieceColor.black, GameEndReason.outOfTime);
     }
   }, [playersTimes]);
-  //*/
 
   if (!playersTimes) return <></>;
 
@@ -133,4 +127,4 @@ function WebGameClock({ gameId, gameData, playerData, playersTimes, winner }: We
   );
 }
 
-export default WebGameClock;
+export default GameClock;

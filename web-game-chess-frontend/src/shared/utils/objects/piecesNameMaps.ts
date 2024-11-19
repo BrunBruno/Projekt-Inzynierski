@@ -58,7 +58,6 @@ export const piecePromotionMap: PiecePromotionMap = {
   white: ["N", "B", "R", "Q"],
   black: ["n", "b", "r", "q"],
 };
-//*/
 
 // to gat side color name by piece tag
 export function getPieceSideColor(tag: string): SideColor | undefined {

@@ -61,7 +61,6 @@ function WebGameLeftSidebar({
       showPopup(getErrMessage(err), "warning");
     }
   };
-  //*/
 
   // to send draw offer
   const createDrawOffer = async (): Promise<void> => {
@@ -71,25 +70,21 @@ function WebGameLeftSidebar({
       showPopup(getErrMessage(err), "warning");
     }
   };
-  //*/
 
   // draw on first moves
   const onDraw = (): void => {
     endGame(null, GameEndReason.agreement);
   };
-  //*/
 
   // to resign the game
   const onResign = (): void => {
     endGame(playerData.color, GameEndReason.resignation);
   };
-  //*/
 
   // to offer a draw
   const onDrawOffer = (): void => {
     createDrawOffer();
   };
-  //*/
 
   // to show confirm window and select chosen action
   const onSelectAction = (action: GameActionInterface): void => {
@@ -130,7 +125,6 @@ function WebGameLeftSidebar({
       }
     }
   };
-  //*/
 
   //
   const setLeaveOption = (): void => {
@@ -147,7 +141,6 @@ function WebGameLeftSidebar({
       }
     }
   };
-  //*/
 
   const onShowSettings = (): void => {
     if (displayedWindowState.get !== GameWindowInterface.none) return;

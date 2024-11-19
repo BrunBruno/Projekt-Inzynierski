@@ -49,7 +49,6 @@ function ProfileSection({ userProfile, friendProfile, closeProfile }: ProfileSec
       <div className={classes.profile__content}>
         <div className={classes.profile__content__bg}>
           <div className={classes.profile__content__bg__box}>
-            {" "}
             <div
               className={classes.bg}
               style={{

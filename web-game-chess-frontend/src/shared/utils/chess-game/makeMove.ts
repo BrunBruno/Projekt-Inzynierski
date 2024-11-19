@@ -5,7 +5,7 @@ import GameHubService from "../services/GameHubService";
 import { MakeWebGameMoveModel } from "../types/gameModels";
 import { areCoorEqual, intToChar, toCoor } from "./general";
 import { Coordinate, EngineGameStates, PieceOption, SelectionStates, TypeOfGame, WebGameStates } from "./gameSates";
-import { engineController, getAuthorization } from "../services/ApiService";
+import { engineGameController, getAuthorization } from "../services/ApiService";
 import { BlackPieceTag, WhitePieceTag } from "../objects/constantLists";
 import { MakeEngineGameMoveModel } from "../types/engineModels";
 
@@ -190,7 +190,7 @@ export const makeMove = async (
         blackLongRookMoved: blackLongRookMoved,
       };
 
-      await axios.post(engineController.makeEngineGameMove(gameState.gameId), model, getAuthorization());
+      await axios.post(engineGameController.makeEngineGameMove(gameState.gameId), model, getAuthorization());
 
       break;
     }

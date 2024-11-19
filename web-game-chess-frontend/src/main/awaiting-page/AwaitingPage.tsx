@@ -36,7 +36,6 @@ function AwaitingPage() {
       navigate("/main", { state: state });
     }
   }, [gameIdStr]);
-  //*/
 
   // to check if update is required
   // used for game via urls
@@ -60,7 +59,6 @@ function AwaitingPage() {
 
     updateIfRequired();
   }, [gameId]);
-  //*/
 
   // connect hub methods
   useEffect(() => {
@@ -95,7 +93,6 @@ function AwaitingPage() {
       }
     };
   }, [gameId]);
-  //*/
 
   // to remove created private game
   const onCancelPrivateGame = async (): Promise<void> => {
@@ -114,7 +111,6 @@ function AwaitingPage() {
       showPopup(getErrMessage(err), "warning");
     }
   };
-  //*/
 
   if (!gameId) return <></>;
 

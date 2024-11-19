@@ -93,7 +93,6 @@ function VerifyEmailModal({ userPath, setModal }: VerifyEmailModalProps) {
       setProcessing(false);
     }
   };
-  //*/
 
   // regenerates verification code
   const regenerateCode = async (): Promise<void> => {
@@ -111,7 +110,6 @@ function VerifyEmailModal({ userPath, setModal }: VerifyEmailModalProps) {
       errorDisplay(err, setErrorMess);
     }
   };
-  //*/
 
   // handle code input on change
   const handleCodeInputChange = (event: ChangeEvent<HTMLInputElement>): void => {
@@ -120,7 +118,6 @@ function VerifyEmailModal({ userPath, setModal }: VerifyEmailModalProps) {
       setCodeValue(inputValue);
     }
   };
-  //*/
 
   // auto pasting
   const onPasteCode = async (): Promise<void> => {
@@ -135,7 +132,6 @@ function VerifyEmailModal({ userPath, setModal }: VerifyEmailModalProps) {
       showPopup("ERROR PASTING CODE", "error");
     }
   };
-  //*/
 
   if (processing) return <LoadingPage />;
 

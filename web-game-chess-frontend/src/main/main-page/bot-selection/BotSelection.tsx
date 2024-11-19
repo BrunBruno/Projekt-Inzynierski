@@ -33,7 +33,6 @@ function BotSelection({ setOfflineGameOptions }: BotSelectionProps) {
 
     setGameOptions(options);
   }, [gameOptions]);
-  //*/
 
   // to select options
   const onSelectLevel = (level: number) => {
@@ -47,13 +46,11 @@ function BotSelection({ setOfflineGameOptions }: BotSelectionProps) {
   const onEnableUndo = (enable: boolean) => {
     setGameOptions((prev) => (prev ? { ...prev, enableUndo: enable } : prev));
   };
-  //*/
 
   // confirm selection
   const onConfirmSelection = () => {
     setOfflineGameOptions(gameOptions);
   };
-  //*/
 
   if (!gameOptions) return <></>;
 
@@ -93,7 +90,7 @@ function BotSelection({ setOfflineGameOptions }: BotSelectionProps) {
                 color={greyColor.c0}
               />
 
-              <span>Game with timing:</span>
+              <span>Game with timing</span>
             </div>
 
             <div className={`${classes["timing-option"]} ${classes["buttons"]}`}>
@@ -133,7 +130,7 @@ function BotSelection({ setOfflineGameOptions }: BotSelectionProps) {
                 color={greyColor.c0}
               />
 
-              <span>Allow move undoing:</span>
+              <span>Allow move undoing</span>
             </div>
 
             <div className={`${classes["undo-option"]} ${classes["buttons"]}`}>

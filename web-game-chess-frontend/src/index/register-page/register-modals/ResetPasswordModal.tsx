@@ -176,7 +176,6 @@ function ResetPasswordModal({ userPath, setModal, userPassConf }: ResetPasswordM
       setProcessing(false);
     }
   };
-  //*/
 
   // regenerates verification code
   const sendPasswordRecoveryCode = async (): Promise<void> => {
@@ -207,7 +206,6 @@ function ResetPasswordModal({ userPath, setModal, userPassConf }: ResetPasswordM
       errorDisplay(err, setErrorMess);
     }
   };
-  //*/
 
   // regenerates verification code
   // for logging again without verification
@@ -222,7 +220,6 @@ function ResetPasswordModal({ userPath, setModal, userPassConf }: ResetPasswordM
       errorDisplay(err, setErrorMess);
     }
   };
-  //*/
 
   // handle click
   // focus to input
@@ -232,7 +229,6 @@ function ResetPasswordModal({ userPath, setModal, userPassConf }: ResetPasswordM
       inputRef.current.classList.remove(classes.err);
     }
   };
-  //*/
 
   // handle code input on change
   const handleCodeInputChange = (event: ChangeEvent<HTMLInputElement>): void => {
@@ -241,14 +237,12 @@ function ResetPasswordModal({ userPath, setModal, userPassConf }: ResetPasswordM
       setCodeValue(inputValue);
     }
   };
-  //*/
 
   // handle email input on change
   const handleEmailInputChange = (event: ChangeEvent<HTMLInputElement>): void => {
     const inputValue = event.target.value;
     setEmailValue(inputValue);
   };
-  //*/
 
   // auto pasting
   const onPasteCode = async (): Promise<void> => {
@@ -260,7 +254,6 @@ function ResetPasswordModal({ userPath, setModal, userPassConf }: ResetPasswordM
       showPopup("ERROR PASTING CODE", "error");
     }
   };
-  //*/
 
   // password show
   const onShowPassword = (): void => {
@@ -282,7 +275,6 @@ function ResetPasswordModal({ userPath, setModal, userPassConf }: ResetPasswordM
       });
     }
   };
-  //*/
 
   // handle on password input change
   // change password strength indicator
@@ -313,7 +305,6 @@ function ResetPasswordModal({ userPath, setModal, userPassConf }: ResetPasswordM
       indRef.current.style.backgroundColor = color;
     }
   };
-  //*/
 
   if (processing) return <LoadingPage text="Logging in..." />;
 

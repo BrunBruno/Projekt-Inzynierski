@@ -45,3 +45,9 @@ export type GetAllEngineGameMessagesDto = {
   sentAt: Date;
   type: MessageType;
 };
+
+export type FetchEngineGameTimeDto = {
+  turn: number;
+  whiteTimeLeft: number;
+  blackTimeLeft: number;
+};

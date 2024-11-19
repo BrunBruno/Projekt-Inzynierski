@@ -13,7 +13,6 @@ export type IconSvgProps = {
 export type IconMap<T extends string> = {
   [key in T]: (iconClass?: ElementClass, color?: ColorValue, active?: boolean) => JSX.Element;
 };
-//*/
 
 // handle on scroll function type
 export type HandleOnScroll = {

@@ -78,7 +78,6 @@ const mockUpdateRequired: CheckIfUpdateRequiredDto = {
   increment: 0,
   isRequired: false,
 };
-//*/
 
 // set up server
 const server = createMockServer({
@@ -107,7 +106,6 @@ vi.mock("react-router-dom", async () => {
     useParams: vi.fn(() => ({ gameIdStr: mockPrivateGame.gameId.toString() })),
   };
 });
-//*/
 
 describe("MainPage Components", () => {
   beforeEach(() => {

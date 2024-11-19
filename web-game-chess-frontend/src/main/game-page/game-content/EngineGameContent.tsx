@@ -22,7 +22,7 @@ import findMoves from "../../../shared/utils/chess-game/findMoves";
 import EngineGameCoordinates from "./game-coordinates/EngineGameCoordinates";
 import EngineGameBoard from "./game-board/EngineGameBoard";
 import EngineGamePromotion from "./game-promotion/EngineGamePromotion";
-import { engineController, getAuthorization } from "../../../shared/utils/services/ApiService";
+import { engineGameController, getAuthorization } from "../../../shared/utils/services/ApiService";
 import axios from "axios";
 import { makeMove } from "../../../shared/utils/chess-game/makeMove";
 import { usePopup } from "../../../shared/utils/hooks/usePopUp";
@@ -156,7 +156,6 @@ function EngineGameContent({
       updateStates();
     }, 100);
   }, [gameData]);
-  //*/
 
   // to check if game should end
   useEffect(() => {
@@ -178,7 +177,6 @@ function EngineGameContent({
       }
     }
   }, [gameStates.matrix]);
-  //*/
 
   // set selected piece and corresponding coordinates
   const chosePiece = (piece: PieceOption, coordinates: Coordinate) => {
@@ -197,7 +195,6 @@ function EngineGameContent({
       payload: availableFields,
     });
   }, [selectionStates.coordinates]);
-  //*/
 
   // make move by engine
   const getEngineMove = async (): Promise<void> => {
@@ -220,7 +217,7 @@ function EngineGameContent({
       };
 
       const response = await axios.get<GetEngineGameMoveDto>(
-        engineController.getEngineGameMove(gameId),
+        engineGameController.getEngineGameMove(gameId),
         getAuthorization()
       );
 
@@ -282,7 +279,6 @@ function EngineGameContent({
       getEngineMove();
     }
   }, [gameStates.matrix]);
-  //*/
 
   return (
     <section className={classes.game}>

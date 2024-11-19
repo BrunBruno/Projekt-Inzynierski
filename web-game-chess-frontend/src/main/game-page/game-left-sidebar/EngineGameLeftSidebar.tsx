@@ -13,7 +13,7 @@ import { gameLeftSideBarIcons } from "./GameLeftSidebarIcons";
 import GameCapturedPieces from "./game-captured-pieces/GameCapturedPieces";
 import { StartEngineGameModel, UndoMoveModel } from "../../../shared/utils/types/engineModels";
 import axios from "axios";
-import { engineController, getAuthorization } from "../../../shared/utils/services/ApiService";
+import { engineGameController, getAuthorization } from "../../../shared/utils/services/ApiService";
 import { StateProp } from "../../../shared/utils/types/commonTypes";
 
 type EngineGameLeftSidebarProps = {
@@ -51,7 +51,6 @@ function EngineGameLeftSidebar({
   const onResign = (): void => {
     endGame(gameData.player.color);
   };
-  //*/
 
   // to offer a draw
 
@@ -63,7 +62,6 @@ function EngineGameLeftSidebar({
     setShowConfirm(GameActionInterface.resign);
     setConfirmAction(() => onResign);
   };
-  //*/
 
   const onLeaveGame = (): void => {
     navigate("/main");
@@ -78,7 +76,7 @@ function EngineGameLeftSidebar({
     };
 
     try {
-      await axios.put(engineController.undoMove(gameId), model, getAuthorization());
+      await axios.put(engineGameController.undoMove(gameId), model, getAuthorization());
 
       showPopup("MOVE UNDONE", "success");
 
@@ -87,7 +85,6 @@ function EngineGameLeftSidebar({
       showPopup(getErrMessage(err), "warning");
     }
   };
-  //*/
 
   // for game restart
   const onRestartGame = async (): Promise<void> => {
@@ -101,7 +98,7 @@ function EngineGameLeftSidebar({
 
     try {
       const response = await axios.post<StartEngineGameDto>(
-        engineController.startEngineGame(),
+        engineGameController.startEngineGame(),
         model,
         getAuthorization()
       );
@@ -117,7 +114,6 @@ function EngineGameLeftSidebar({
       showPopup(getErrMessage(err), "warning");
     }
   };
-  //*/
 
   const onChangeEngine = async (): Promise<void> => {
     if (displayedWindowState.get !== GameWindowInterface.none) return;

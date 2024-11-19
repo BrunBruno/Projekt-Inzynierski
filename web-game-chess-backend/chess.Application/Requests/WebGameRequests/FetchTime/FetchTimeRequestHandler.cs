@@ -35,8 +35,7 @@ public class FetchTimeRequestHandler : IRequestHandler<FetchTimeRequest, FetchTi
 
 
         double timeDifference = (currentTime - lastTimeRecorded).TotalSeconds;
-        double whiteTimeLeft;
-        double blackTimeLeft;
+        double whiteTimeLeft, blackTimeLeft;
 
         if (game.Turn % 2 == 0) {
 

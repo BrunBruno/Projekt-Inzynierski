@@ -55,7 +55,6 @@ export const movementMap: MovementMap = {
     [-1, -1],
   ],
 };
-//*/
 
 // all special ranks and files
 type RankType = {
@@ -102,4 +101,3 @@ export const rankMap: RankMap = {
     longRookFile: 1,
   },
 };
-//*/

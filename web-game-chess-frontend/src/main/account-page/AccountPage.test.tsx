@@ -73,7 +73,6 @@ const mockTypeHistory: GetTypeHistoryDto[] = [
     createdAt: new Date(),
   },
 ];
-//*/
 
 // set up server
 const server = createMockServer({
@@ -86,7 +85,6 @@ const server = createMockServer({
 beforeAll(() => server.listen());
 afterEach(() => server.resetHandlers());
 afterAll(() => server.close());
-//*/
 
 describe("UserSection Component", () => {
   it("should renders FriendsSection by default without crashing", async () => {

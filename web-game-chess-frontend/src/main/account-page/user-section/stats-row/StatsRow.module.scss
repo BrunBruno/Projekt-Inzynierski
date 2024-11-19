@@ -106,10 +106,8 @@ $row-font-size: 1.8rem;
         }
       }
     }
-    //*/
   }
 }
-//*/
 
 // resize
 @media (max-width: 1200px) {
@@ -121,4 +119,3 @@ $row-font-size: 1.8rem;
   $row-font-size: 3rem;
   @include setStatDimensions($row-font-size);
 }
-//*/

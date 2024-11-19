@@ -45,7 +45,7 @@
     @include circle(10rem);
 
     position: relative;
-    background-color: $gc9;
+    background-color: rgba($gc9, 0.7);
     border: dashed 0.3rem $gc5;
     overflow: hidden;
 
@@ -91,4 +91,3 @@
     display: none;
   }
 }
-//*/

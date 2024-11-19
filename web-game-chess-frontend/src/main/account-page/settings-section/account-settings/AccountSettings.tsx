@@ -62,7 +62,6 @@ function AccountSettings({ user }: AccountSettingsProps) {
 
     getDataConfiguration();
   }, []);
-  //*/
 
   const changePassword = async (event: FormEvent<HTMLFormElement>): Promise<void> => {
     event.preventDefault();
@@ -125,7 +124,6 @@ function AccountSettings({ user }: AccountSettingsProps) {
       inputRef.current.classList.remove(classes.err);
     }
   };
-  //*/
 
   const changeProfileVisibility = async (isPrivate: boolean): Promise<void> => {
     const model: UpdateUserDataModel = {
@@ -158,7 +156,6 @@ function AccountSettings({ user }: AccountSettingsProps) {
 
     setPasswordIndicators(newPassInd);
   };
-  //*/
 
   if (!user || !userPassConf) return <LoadingPage />;
 

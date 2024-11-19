@@ -100,7 +100,6 @@ function HistorySection({ selectedType, typeHistory }: HistorySectionProps) {
       </ThemeProvider>
     );
   };
-  //*/
 
   // render placeholder
   if (typeHistory === null || selectedType === null || typeHistory.items.length === 0) {
@@ -140,7 +139,6 @@ function HistorySection({ selectedType, typeHistory }: HistorySectionProps) {
       </div>
     );
   }
-  //*/
 
   return (
     <div data-testid="account-page-history-section" className={classes.history}>

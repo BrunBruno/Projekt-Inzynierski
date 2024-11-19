@@ -92,6 +92,9 @@ namespace chess.Infrastructure.Migrations
                     b.Property<int>("EngineLevel")
                         .HasColumnType("integer");
 
+                    b.Property<double>("EngineTimeLeft")
+                        .HasColumnType("double precision");
+
                     b.Property<string>("FenPosition")
                         .IsRequired()
                         .HasColumnType("text");
@@ -968,7 +971,7 @@ namespace chess.Infrastructure.Migrations
 
             modelBuilder.Entity("chess.Core.Entities.EngineGame", b =>
                 {
-                    b.HasOne("chess.Core.Entities.GameTiming", null)
+                    b.HasOne("chess.Core.Entities.GameTiming", "GameTiming")
                         .WithMany("EngineGames")
                         .HasForeignKey("GameTimingId");
 
@@ -977,6 +980,8 @@ namespace chess.Infrastructure.Migrations
                         .HasForeignKey("chess.Core.Entities.EngineGame", "PlayerId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("GameTiming");
 
                     b.Navigation("Player");
                 });

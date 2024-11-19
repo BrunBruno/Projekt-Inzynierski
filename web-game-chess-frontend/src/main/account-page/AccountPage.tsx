@@ -35,7 +35,6 @@ function AccountPage() {
   useEffect(() => {
     setDefPageSize(1000); // ???
   }, [selectedHistory]);
-  //*/
 
   // all current user data
   const [user, setUser] = useState<GetFullUserDto | null>(null);
@@ -66,13 +65,11 @@ function AccountPage() {
     getUser();
     getElo();
   };
-  //*/
 
   // get data on load
   useEffect(() => {
     fetchData();
   }, []);
-  //*/
 
   // gets timing type history for selected timing
   // to display time line charts
@@ -102,7 +99,6 @@ function AccountPage() {
       showPopup(getErrMessage(err), "warning");
     }
   };
-  //*/
 
   // for changing displayed content
   const setSelectedContent = (interfaceId: AccountPageInterface, type?: TimingType): void => {
@@ -132,7 +128,6 @@ function AccountPage() {
   useEffect(() => {
     setSelectedContent(AccountPageInterface.settings);
   }, [user]);
-  //*/
 
   return (
     <main className={classes["account-main"]}>

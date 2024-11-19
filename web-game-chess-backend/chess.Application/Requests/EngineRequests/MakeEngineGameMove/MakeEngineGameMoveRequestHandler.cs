@@ -2,6 +2,7 @@
 using chess.Application.Repositories.EngineGameRepositories;
 using chess.Application.Services;
 using chess.Core.Entities;
+using chess.Core.Enums;
 using chess.Shared.Exceptions;
 using MediatR;
 
@@ -43,21 +44,22 @@ public class MakeEngineGameMoveRequestHandler : IRequestHandler<MakeEngineGameMo
             throw new BadRequestException("Game is finished.");
 
         // update times
-        /*
         DateTime lastTimeRecorded = (game.Moves.Count == 0 ? game.StartedAt : game.Moves[^1].DoneAt)
           ?? throw new BadRequestException("Game starting error.");
 
         double timeDifference = (DateTime.UtcNow - lastTimeRecorded).TotalSeconds;
+        bool isWhitePlayer = game.Player.Color == PieceColor.White;
 
-        if (game.Turn % 2 == 0) {
-            game.WhitePlayer.TimeLeft -= timeDifference;
-            game.WhitePlayer.TimeLeft += game.GameTiming.Increment;
-        } else {
-            game.BlackPlayer.TimeLeft -= timeDifference;
-            game.BlackPlayer.TimeLeft += game.GameTiming.Increment;
+        if (game.GameTiming is not null) {
+            if ((game.Turn % 2 == 0 && isWhitePlayer) || (game.Turn % 2 == 1 && !isWhitePlayer)) {
+                game.Player.TimeLeft -= timeDifference;
+                game.Player.TimeLeft += game.GameTiming.Increment;
+            } else {
+                game.EngineTimeLeft -= timeDifference;
+                game.EngineTimeLeft += game.GameTiming.Increment;
+            }
         }
-        */
-
+        
 
         // update states
         game.CurrentState.EnPassant = request.EnPassant;

@@ -18,7 +18,6 @@ function HeroHeader({}: HeroHeaderProps) {
 
     navigate("/registration", { state: state });
   };
-  //*/
 
   return (
     <header className={classes.header}>

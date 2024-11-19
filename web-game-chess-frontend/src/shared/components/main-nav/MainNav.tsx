@@ -21,7 +21,6 @@ function MainNav(): JSX.Element {
 
     navigate("/", { state: state });
   };
-  //*/
 
   return (
     <nav className={classes.nav}>
@@ -53,7 +52,7 @@ function MainNav(): JSX.Element {
           }}
         >
           <IconCreator icons={mainNavIcons} iconName={"friendsPage"} iconClass={classes["nav-icon"]} />
-          <span className={classes.ind}>Add friend</span>
+          <span className={classes.ind}>Users</span>
         </div>
 
         <div
@@ -63,7 +62,7 @@ function MainNav(): JSX.Element {
           }}
         >
           <IconCreator icons={mainNavIcons} iconName={"rankingPage"} iconClass={classes["nav-icon"]} />
-          <span className={classes.ind}>See ranking</span>
+          <span className={classes.ind}>Ranking</span>
         </div>
 
         {/* placeholders */}

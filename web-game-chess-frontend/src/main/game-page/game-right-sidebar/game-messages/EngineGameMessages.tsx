@@ -3,7 +3,7 @@ import classes from "./GameMessages.module.scss";
 import { getErrMessage } from "../../../../shared/utils/functions/errors";
 import { usePopup } from "../../../../shared/utils/hooks/usePopUp";
 import axios from "axios";
-import { getAuthorization, engineController } from "../../../../shared/utils/services/ApiService";
+import { getAuthorization, engineGameController } from "../../../../shared/utils/services/ApiService";
 import { Guid } from "guid-typescript";
 import EngineGameMessage from "./game-message/EngineGameMessage";
 import { GetAllEngineGameMessagesDto } from "../../../../shared/utils/types/engineDtos";
@@ -32,7 +32,7 @@ function EngineGameMessages({ gameId }: EngineGameMessagesProps) {
   const getMessages = async (): Promise<void> => {
     try {
       const response = await axios.get<GetAllEngineGameMessagesDto[]>(
-        engineController.getAllEngineGameMessages(gameId),
+        engineGameController.getAllEngineGameMessages(gameId),
         getAuthorization()
       );
 
@@ -85,7 +85,6 @@ function EngineGameMessages({ gameId }: EngineGameMessagesProps) {
       setMessagesClose(false);
     }
   }, [isLess]);
-  //*/
 
   // show or hide messages by click
   const showMessages = (): void => {
@@ -97,7 +96,6 @@ function EngineGameMessages({ gameId }: EngineGameMessagesProps) {
   const onHideMessages = (): void => {
     setMessagesClose(true);
   };
-  //*/
 
   return (
     <div

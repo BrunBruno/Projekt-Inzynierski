@@ -149,14 +149,12 @@ const FaqSection = forwardRef<HandleOnScroll, FaqSectionProps>(
         }
       }
     };
-    //*/
 
     // handle faq onscroll
     const handleOnScroll = () => {};
     useImperativeHandle(ref, () => ({
       handleOnScroll,
     }));
-    //*/
 
     return (
       <section id="faq-section" ref={sectionRef} className={classes.section}>

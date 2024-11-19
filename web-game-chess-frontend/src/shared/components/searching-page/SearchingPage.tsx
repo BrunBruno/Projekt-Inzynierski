@@ -56,7 +56,6 @@ function SearchingPage({ isPrivate, onCancel, containerTestId, cancelButtonTestI
       // onCancel();
     };
   }, []);
-  //*/
 
   return (
     <div data-testid={containerTestId} className={classes.searching}>

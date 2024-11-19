@@ -159,7 +159,6 @@ function SignUpModal({ setModal, userNameConf, userPassConf }: SignUpModalProps)
       setProcessing(false);
     }
   };
-  //*/
 
   // handle on password input change
   // change password strength indicator
@@ -190,7 +189,6 @@ function SignUpModal({ setModal, userNameConf, userPassConf }: SignUpModalProps)
       indRef.current.style.backgroundColor = color;
     }
   };
-  //*/
 
   // handle on input click
   // to focus on input
@@ -200,7 +198,6 @@ function SignUpModal({ setModal, userNameConf, userPassConf }: SignUpModalProps)
     inputRef.current.focus();
     inputRef.current.classList.remove(classes.err);
   };
-  //*/
 
   // password peek
   const onShowPassword = (): void => {
@@ -227,7 +224,6 @@ function SignUpModal({ setModal, userNameConf, userPassConf }: SignUpModalProps)
       });
     }
   };
-  //*/
 
   if (processing) return <LoadingPage text="Creating account..." />;
 

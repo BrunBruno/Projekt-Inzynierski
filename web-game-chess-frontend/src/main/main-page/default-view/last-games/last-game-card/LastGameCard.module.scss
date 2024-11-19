@@ -30,6 +30,8 @@ $board-size: 20rem;
     flex-shrink: 0 !important;
 
     .field {
+      @include square(calc($board-size / 8));
+
       background-size: contain;
       background-repeat: no-repeat;
 
@@ -152,9 +154,6 @@ $board-size: 20rem;
       color: $gc5;
     }
   }
-  //*/
 }
-//*/
 
 // resize
-//*/

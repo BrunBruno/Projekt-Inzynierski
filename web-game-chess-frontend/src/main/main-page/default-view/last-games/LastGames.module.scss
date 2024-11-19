@@ -13,10 +13,17 @@
   backdrop-filter: blur(1rem);
 
   &__header {
+    @include flex(row, start, center, 1rem);
+
+    padding-left: 1rem;
     margin-bottom: 1rem;
 
     span {
       font-size: 2rem;
+    }
+
+    .header-icon {
+      height: 2rem;
     }
   }
 
@@ -48,7 +55,6 @@
         overflow: hidden;
       }
     }
-    //*/
 
     &__button {
       @include rounded(1rem);
@@ -57,7 +63,6 @@
 
       &:hover {
         cursor: pointer;
-        background-color: rgba($gc9, 0.5);
 
         svg.more-arrow {
           g {
@@ -83,7 +88,6 @@
     }
   }
 }
-//*/
 
 // resize
 @media (max-width: 700px) {
@@ -100,4 +104,3 @@
     }
   }
 }
-//*/

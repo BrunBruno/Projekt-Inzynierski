@@ -77,14 +77,12 @@ function GameHistory({ gameData, historyPositionState, playerData, setDisplayedW
 
     return fields;
   };
-  //*/
 
   // hide previous position
   const closeHistory = (): void => {
     historyPositionState.set(null);
     setDisplayedWindow(GameWindowInterface.none);
   };
-  //*/
 
   if (!historyPositionState) return <></>;
 

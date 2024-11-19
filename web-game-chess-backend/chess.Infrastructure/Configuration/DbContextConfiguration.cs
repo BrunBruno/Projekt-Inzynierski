@@ -230,6 +230,11 @@ public class DbContextConfiguration :
             .HasOne(eg => eg.Player)
             .WithOne(egp => egp.Game)
             .HasForeignKey<EngineGame>(eg => eg.PlayerId);
+
+        builder
+            .HasOne(g => g.GameTiming)
+            .WithMany(gt => gt.EngineGames)
+            .HasForeignKey(g => g.GameTimingId);
     }
 
     public void Configure(EntityTypeBuilder<EngineGamePlayer> builder) {

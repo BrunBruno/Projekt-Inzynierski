@@ -129,6 +129,8 @@ $sqr_size: 7rem;
       border-left: solid 0.3rem $gc9;
 
       &__option {
+        width: 100%;
+
         .option-name {
           @include flex(row, start, center, 1rem);
 
@@ -147,16 +149,19 @@ $sqr_size: 7rem;
         .buttons {
           @include flex(row, start, center, 1rem);
 
+          padding-left: calc(2rem + 1rem);
+          width: 100%;
+
           .option-button {
             & {
-              @include button(1.8rem);
+              @include button(1.4rem);
               @include mainGButton();
 
               & {
                 width: 5rem;
                 box-sizing: content-box;
                 border: none;
-                padding: 1rem 2rem;
+                padding: 0.8rem 1.6rem;
                 transition: all 0.3s;
                 color: $gc0;
               }
@@ -265,4 +270,3 @@ $sqr_size: 7rem;
     }
   }
 }
-//*/

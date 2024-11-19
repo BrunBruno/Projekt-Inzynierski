@@ -41,7 +41,6 @@ function EngineGameMoveRecord({
       displayedWindowState.set(GameWindowInterface.history);
     }
   };
-  //*/
 
   // case when game has not started yet
   if (!move) {

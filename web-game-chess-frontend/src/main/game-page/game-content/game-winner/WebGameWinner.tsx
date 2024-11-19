@@ -90,7 +90,6 @@ function WebGameWinner({
       showPopup(getErrMessage(err), "warning");
     }
   };
-  //*/
 
   //
   const onCreateRematchRequest = async (): Promise<void> => {
@@ -115,7 +114,6 @@ function WebGameWinner({
       showPopup(getErrMessage(err), "warning");
     }
   };
-  //*/
 
   // to accept rematch
   const onAcceptRematchRequest = async () => {
@@ -130,7 +128,6 @@ function WebGameWinner({
       showPopup(getErrMessage(err), "warning");
     }
   };
-  //*/
 
   // to remove created rematch game
   const onCancelRematchRequest = async (): Promise<void> => {
@@ -149,7 +146,6 @@ function WebGameWinner({
       showPopup(getErrMessage(err), "warning");
     }
   };
-  //*/
 
   // return to main if something went wrong
   const returnOnFail = (): void => {
@@ -159,7 +155,6 @@ function WebGameWinner({
 
     navigate("/main", { state: state });
   };
-  //*/
 
   // generate players schema
   const generatePlayers = (): JSX.Element => {
@@ -218,7 +213,6 @@ function WebGameWinner({
       </div>
     );
   };
-  //*/
 
   // to look at board after game has ended
   const showWinner = (event: MouseEvent<HTMLDivElement>) => {
@@ -240,7 +234,6 @@ function WebGameWinner({
       container.classList.add(classes["close"]);
     }
   };
-  //*/
 
   if (!winner) return <></>;
 

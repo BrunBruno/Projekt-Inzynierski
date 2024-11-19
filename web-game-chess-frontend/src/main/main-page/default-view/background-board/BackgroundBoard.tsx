@@ -58,7 +58,6 @@ function BackgroundBoard({ defaultViewRef }: BackgroundBoardProps) {
       window.removeEventListener("mousemove", handleMouseMove);
     };
   }, [defaultViewRef]);
-  //*/
 
   // generate board
   const generateGrid = (): JSX.Element[] => {
@@ -88,7 +87,6 @@ function BackgroundBoard({ defaultViewRef }: BackgroundBoardProps) {
 
     return boardRows;
   };
-  //*/
 
   return (
     <div className={classes.board}>

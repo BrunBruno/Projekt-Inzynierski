@@ -1,5 +1,3 @@
-import { useNavigate } from "react-router-dom";
-import ActionButton from "../../../shared/components/action-button/ActionButton";
 import classes from "./BarSection.module.scss";
 import { FriendshipStatus } from "../../../shared/utils/objects/entitiesEnums";
 import { delayAction } from "../../../shared/utils/functions/events";
@@ -21,21 +19,17 @@ type BarSectionProps = {
 function BarSection({ setSelectedUsername, selectedList, setSelectedList }: BarSectionProps) {
   ///
 
-  const navigate = useNavigate();
-
   // to filter friends by username
   const onSearch = (event: ChangeEvent<HTMLInputElement>) => {
     const target = event.target as HTMLInputElement;
     const username = target.value.toLocaleLowerCase();
     setSelectedUsername(username);
   };
-  //*/
 
   // to change displayed list
   const onSelectList = (listType: FriendshipStatus) => {
     setSelectedList(listType);
   };
-  //*/
 
   const renderTitle = (): string => {
     switch (selectedList) {
@@ -136,19 +130,6 @@ function BarSection({ setSelectedUsername, selectedList, setSelectedList }: BarS
             <IconCreator icons={userPageIcons} iconName={"decline"} iconClass={classes["panel-svg"]} />
             <span>Declined friendships</span>
             <IconCreator icons={symbolIcons} iconName="arrow" iconClass={classes["panel-arrow"]} color={greyColor.c7} />
-          </div>
-        </div>
-        {/* --- */}
-
-        {/* return button */}
-        <div className={classes.bar__content__outro}>
-          <div
-            className={classes["action-button"]}
-            onClick={() => {
-              navigate("/main");
-            }}
-          >
-            <ActionButton text="Home page" />
           </div>
         </div>
         {/* --- */}

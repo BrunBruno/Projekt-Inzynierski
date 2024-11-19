@@ -50,7 +50,6 @@ function ActiveGamesCard({ game }: ActiveGamesCardProps) {
       window.removeEventListener("resize", resizeCard);
     };
   }, []);
-  //*/
 
   // display players based on user player color
   const displayPlayer = (game: GetAllActiveGamesDto): JSX.Element => {
@@ -111,7 +110,6 @@ function ActiveGamesCard({ game }: ActiveGamesCardProps) {
 
     return <></>;
   };
-  //*/
 
   // create board from game position
   const mapFromPosition = (position: string): JSX.Element[] => {
@@ -163,7 +161,6 @@ function ActiveGamesCard({ game }: ActiveGamesCardProps) {
 
     return fields;
   };
-  //*/
 
   // to rejoin the game
   const onRejoinGame = (): void => {
@@ -175,7 +172,6 @@ function ActiveGamesCard({ game }: ActiveGamesCardProps) {
 
     navigate(`/main/game/${game.gameId}`, { state: state });
   };
-  //*/
 
   return (
     <div

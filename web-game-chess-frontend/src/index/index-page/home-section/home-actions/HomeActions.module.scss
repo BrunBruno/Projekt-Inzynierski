@@ -65,7 +65,6 @@
     }
   }
 }
-//*/
 
 // home section actions
 .actions {
@@ -162,7 +161,6 @@
       @include imagePawnStyles($gc9, #000, $mc2);
     }
   }
-  //*/
 
   // extra actions
   &__content {
@@ -247,7 +245,6 @@
           transition: height 0.3s, opacity 0.1s;
         }
       }
-      //*/
 
       .sign-in-pawn {
         left: 0;
@@ -276,9 +273,7 @@
       }
     }
   }
-  //*/
 }
-//*/
 
 // resize
 @media (max-width: 1250px) {
@@ -309,4 +304,3 @@
     }
   }
 }
-//*/

@@ -64,13 +64,11 @@ const InviteByUrl = forwardRef<InviteByUrlRef, InviteByUrlProps>(
     useImperativeHandle(ref, () => ({
       onInviteByUrl,
     }));
-    //*/
 
     // to display time selection for generating new game link
     const onSelectByUrl = (): void => {
       setSelectedByUrl(true);
     };
-    //*/
 
     const showUrlIndicator = (event: MouseEvent<HTMLDivElement>): void => {
       const indEle = indRef.current;

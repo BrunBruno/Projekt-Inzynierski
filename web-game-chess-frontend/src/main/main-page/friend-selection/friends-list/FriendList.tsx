@@ -58,7 +58,6 @@ function FriendList({ selectedUsername, setSelectedFriend }: FriendListProps) {
 
     getFriends();
   }, [selectedUsername, pageSize]);
-  //*/
 
   // set default page size based on list to elements size ratio
   // add resize handler to update default size
@@ -94,7 +93,6 @@ function FriendList({ selectedUsername, setSelectedFriend }: FriendListProps) {
       window.removeEventListener("resize", setDefSize);
     };
   }, [friends]);
-  //*/
 
   return (
     <div ref={scrollRef} data-testid="main-page-vs-friend-section-friend-list" className={classes.list}>

@@ -80,7 +80,6 @@ function EngineGameWinner({ gameData, winner }: EngineGameWinnerProps) {
       </div>
     );
   };
-  //*/
 
   // to look at board
   const showWinner = (event: MouseEvent<HTMLDivElement>) => {
@@ -102,7 +101,6 @@ function EngineGameWinner({ gameData, winner }: EngineGameWinnerProps) {
       container.classList.add(classes["close"]);
     }
   };
-  //*/
 
   if (!winner) return <></>;
 

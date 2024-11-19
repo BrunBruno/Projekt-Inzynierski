@@ -33,7 +33,6 @@ function FriendCard({ friend, setSelectedFriend, clearSelection }: FriendCardPro
 
     navigate(`/main`, { state: state });
   };
-  //*/
 
   // to activate card
   const setActive = (event: MouseEvent<HTMLDivElement>): void => {
@@ -45,7 +44,6 @@ function FriendCard({ friend, setSelectedFriend, clearSelection }: FriendCardPro
 
     target.classList.add(classes.active);
   };
-  //*/
 
   return (
     <div
@@ -75,7 +73,7 @@ function FriendCard({ friend, setSelectedFriend, clearSelection }: FriendCardPro
           <span>{friend.outcomeTotal.draws}</span>
           {" | "}
           <span>{friend.outcomeTotal.loses}</span>
-        </div>{" "}
+        </div>
       </div>
       {/* --- */}
 

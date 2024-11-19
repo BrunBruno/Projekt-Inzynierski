@@ -69,7 +69,6 @@ function Invitations({}: InvitationsProps) {
   useEffect(() => {
     updateInvitations();
   }, [pageSize, pageNumber, expirationFilters]);
-  //*/
 
   // to update invitation when new one was recently received
   useEffect(() => {
@@ -83,7 +82,6 @@ function Invitations({}: InvitationsProps) {
       }
     };
   }, []);
-  //*/
 
   // increase page size on scroll
   const handleListOnScroll = (): void => {
@@ -98,7 +96,6 @@ function Invitations({}: InvitationsProps) {
       }
     }
   };
-  //*/
 
   // to display filters
   const onShowFilters = (): void => {
@@ -106,7 +103,6 @@ function Invitations({}: InvitationsProps) {
       setShowFilters((prev: boolean) => !prev);
     }
   };
-  //*/
 
   return (
     <div className={classes.invitations}>

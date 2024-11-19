@@ -1,7 +1,15 @@
-import { ColorValue, mainColor } from "../../shared/utils/objects/colorMaps";
+import { ColorValue, greyColor, mainColor } from "../../shared/utils/objects/colorMaps";
 import { ElementClass, IconMap } from "../../shared/utils/types/commonTypes";
 
-type IconNames = "home" | "vsPlayer" | "vsComputer" | "vsFriend" | "activeGames" | "userGames" | "gameInvitations";
+type IconNames =
+  | "home"
+  | "vsPlayer"
+  | "vsComputer"
+  | "vsFriend"
+  | "activeGames"
+  | "userGames"
+  | "gameInvitations"
+  | "filters";
 
 export const mainPageIcons: IconMap<IconNames> = {
   home: (iconClass?: ElementClass, color?: ColorValue) => (
@@ -115,6 +123,17 @@ export const mainPageIcons: IconMap<IconNames> = {
       <path
         d="m1387.688 1315.136 387.307 498.24H144.275l387.413-498.24 89.28 71.573h677.44l89.28-71.573ZM53 932.235l395.413 316.48L53 1756.98V932.235Zm1813.333.053v824.64l-395.413-508.267 395.413-316.373ZM1546.408-.011v498.347l319.893 277.333v19.947l-426.666 341.44v-1030.4h-960v1030.4L52.968 795.616v-19.947l320-277.333V-.011h1173.44ZM1013 266.667v266.666h266.667V640H1013v266.667H906.333V640H639.667V533.333h266.666V266.667H1013Z"
         fillRule="evenodd"
+      />
+    </svg>
+  ),
+
+  filters: (iconClass?: ElementClass, color?: ColorValue) => (
+    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className={iconClass}>
+      <path
+        d="M19 4V10M19 10C17.8954 10 17 10.8954 17 12C17 13.1046 17.8954 14 19 14M19 10C20.1046 10 21 10.8954 21 12C21 13.1046 20.1046 14 19 14M19 14V20M12 4V16M12 16C10.8954 16 10 16.8954 10 18C10 19.1046 10.8954 20 12 20C13.1046 20 14 19.1046 14 18C14 16.8954 13.1046 16 12 16ZM5 8V20M5 8C6.10457 8 7 7.10457 7 6C7 4.89543 6.10457 4 5 4C3.89543 4 3 4.89543 3 6C3 7.10457 3.89543 8 5 8Z"
+        stroke={color ? color : greyColor.c0}
+        strokeWidth="1.5"
+        strokeLinecap="round"
       />
     </svg>
   ),

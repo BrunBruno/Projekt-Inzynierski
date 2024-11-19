@@ -59,7 +59,6 @@ const NavSection = forwardRef<HandleOnScroll, NavSectionProps>(
     useImperativeHandle(ref, () => ({
       handleOnScroll,
     }));
-    //*/
 
     return (
       <div ref={navRef} className={`${classes.nav} ${classes["nav-none"]}`}>

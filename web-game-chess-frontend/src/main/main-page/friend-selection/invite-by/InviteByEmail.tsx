@@ -82,7 +82,6 @@ const InviteByEmail = forwardRef<InviteByEmailRef, InviteByEmailProps>(
     useImperativeHandle(ref, () => ({
       onInviteByEmail,
     }));
-    //*/
 
     // to get user data by provide email
     const getByEmail = async (): Promise<void> => {
@@ -113,7 +112,6 @@ const InviteByEmail = forwardRef<InviteByEmailRef, InviteByEmailProps>(
       event.preventDefault();
       getByEmail();
     };
-    //*/
 
     // to set email address
     const setEmail = (event: ChangeEvent<HTMLInputElement>): void => {
@@ -121,7 +119,6 @@ const InviteByEmail = forwardRef<InviteByEmailRef, InviteByEmailProps>(
       const email = target.value.toLocaleLowerCase();
       setSelectedEmail(email);
     };
-    //*/
 
     return (
       <div className={classes.invite}>

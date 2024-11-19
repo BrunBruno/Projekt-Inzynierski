@@ -1,16 +1,17 @@
 // filters options
 
 import { TimingTypeName } from "../../../../shared/utils/objects/constantLists";
+import { TimingType } from "../../../../shared/utils/objects/entitiesEnums";
 
 export type TimingTypeListFilterOption = {
-  value: number;
+  value: TimingType;
   label: TimingTypeName;
 };
 
 export const timingTypeListFilterOptions: TimingTypeListFilterOption[] = [
-  { value: 0, label: "bullet" },
-  { value: 1, label: "blitz" },
-  { value: 2, label: "rapid" },
-  { value: 3, label: "classic" },
-  { value: 4, label: "daily" },
+  { value: TimingType.bullet, label: "bullet" },
+  { value: TimingType.blitz, label: "blitz" },
+  { value: TimingType.rapid, label: "rapid" },
+  { value: TimingType.classic, label: "classic" },
+  { value: TimingType.daily, label: "daily" },
 ];

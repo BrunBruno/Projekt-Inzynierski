@@ -37,6 +37,8 @@ $tag_size: 2rem;
   &__controls {
     @include flex(row, space-evenly, center, 2rem);
 
+    padding: 1rem;
+
     .time-control {
       @include flex();
       @include rounded(calc($tag_size));
@@ -44,12 +46,17 @@ $tag_size: 2rem;
       position: relative;
       border-bottom: solid 0.4rem $gc8;
       border-radius: 1rem;
-      overflow: hidden;
+      background-color: $gc9;
       width: calc(7 * $tag_size);
+      user-select: none;
 
       &:hover {
         cursor: pointer;
         border-color: $gc0;
+
+        &::before {
+          background-color: $gc5;
+        }
 
         .timing-icon {
           filter: drop-shadow(0 0 1rem $gc0);
@@ -84,17 +91,21 @@ $tag_size: 2rem;
       &:active {
         border-top: solid 0.3rem #0000;
         border-bottom: none;
+        background-color: $gc8;
 
-        &::after {
-          background-color: $gc8;
+        &::before {
+          display: none;
         }
       }
 
-      &::after {
+      &::before {
         @include subCl();
 
-        z-index: 0;
-        background-color: $gc9;
+        z-index: -1;
+        transform: translate(0, 1rem);
+        background-color: #111;
+        border-radius: 1rem;
+        filter: blur(0.5rem);
       }
 
       .timing-icon {
@@ -108,7 +119,7 @@ $tag_size: 2rem;
 
         height: $tag_size;
         z-index: 1;
-        color: $gc6;
+        color: $gc4;
 
         .num {
           z-index: 1;

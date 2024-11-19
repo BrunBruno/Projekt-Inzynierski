@@ -72,7 +72,10 @@ function GameplaySettings({ user }: GameplaySettingsProps) {
   return (
     <div className={classes.settings}>
       <div className={classes.settings__row}>
-        <p className={classes["row-title"]}>Pieces</p>
+        <h3 className={classes["row-title"]}>
+          <span>Customize Chess Pieces</span>
+        </h3>
+        <p className={classes["row-text"]}>Adjust the style of your chess pieces to suit your preferences.</p>
 
         <div className={classes["row-options"]}>
           <div
@@ -125,7 +128,12 @@ function GameplaySettings({ user }: GameplaySettingsProps) {
       </div>
 
       <div className={classes.settings__row}>
-        <p className={classes["row-title"]}>Board</p>
+        <h3 className={classes["row-title"]}>
+          <span>Personalize Your Chess Board</span>
+        </h3>
+        <p className={classes["row-text"]}>
+          Transform your chessboard to match your aesthetic and enhance your experience.
+        </p>
 
         <div className={classes["row-options"]}>
           <div
@@ -223,7 +231,10 @@ function GameplaySettings({ user }: GameplaySettingsProps) {
       </div>
 
       <div className={classes.settings__row}>
-        <p className={classes["row-title"]}>Page appearance</p>
+        <h3 className={classes["row-title"]}>
+          <span>Overall Page Style</span>
+        </h3>
+        <p className={classes["row-text"]}>Modify the layout and style of the game page for the look you prefer.</p>
 
         <div className={classes["row-options"]}>
           <div
@@ -279,6 +290,22 @@ function GameplaySettings({ user }: GameplaySettingsProps) {
               <span>Full view</span>
             </div>
           </div>
+        </div>
+      </div>
+
+      <div className={classes.settings__row}>
+        <h3 className={classes["row-title"]}>
+          <span>Restore Default Settings</span>
+        </h3>
+
+        <p className={classes["row-text"]}>
+          Revert all appearance and layout settings to their original default values.
+        </p>
+
+        <div className={classes["row-options"]}>
+          <button className={classes["clear-button"]}>
+            <span>Reset to Default</span>
+          </button>
         </div>
       </div>
     </div>

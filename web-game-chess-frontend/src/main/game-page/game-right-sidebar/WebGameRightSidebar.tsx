@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   EndGameDto,
   FetchTimeDto,
@@ -11,7 +11,6 @@ import { AppearanceOfGamePage, PieceColor } from "../../../shared/utils/objects/
 import AvatarImage from "../../../shared/components/avatar-image/AvatarImage";
 import { Guid } from "guid-typescript";
 import { MoveDto, PlayerDto } from "../../../shared/utils/types/abstractDtosAndModels";
-import WebGameClock from "./game-clock/WebGameClock";
 import WebGameMoveRecord from "./game-move-record/WebGameMoveRecord";
 import WebGameMessages from "./game-messages/WebGameMessages";
 import { pieceTagMap } from "../../../shared/utils/objects/piecesNameMaps";
@@ -20,6 +19,7 @@ import { greyColor } from "../../../shared/utils/objects/colorMaps";
 import { specialPiecesSvgs } from "../../../shared/svgs/iconsMap/SpecialPiecesSvgs";
 import { ElementClass, StateProp } from "../../../shared/utils/types/commonTypes";
 import { GameWindowInterface } from "../../../shared/utils/objects/interfacesEnums";
+import GameClock from "./game-clock/GameClock";
 
 type WebGameRightSidebarProps = {
   // game and player data
@@ -146,7 +146,6 @@ function WebGameRightSidebar({
   useEffect(() => {
     calculateAdvantage();
   }, [gameData]);
-  //*/
 
   // for players display
   const renderPlayer = (player: PlayerDto, colorClass: ElementClass, avatarClass: ElementClass): JSX.Element => {
@@ -177,7 +176,6 @@ function WebGameRightSidebar({
       </div>
     );
   };
-  //*/
 
   // to return to default view
   const closeHistory = (): void => {
@@ -186,7 +184,6 @@ function WebGameRightSidebar({
     historyPositionState.set(null);
     displayedWindowState.set(GameWindowInterface.none);
   };
-  //*/
 
   // to handle record scroll
   useEffect(() => {
@@ -200,7 +197,6 @@ function WebGameRightSidebar({
 
     handleRecordsScroll();
   }, [gameData]);
-  //*/
 
   return (
     <section
@@ -233,13 +229,7 @@ function WebGameRightSidebar({
         {!playersTimes ? (
           <div className={classes["fetching"]}>Fetching time...</div>
         ) : (
-          <WebGameClock
-            gameId={gameId}
-            gameData={gameData}
-            playerData={playerData}
-            playersTimes={playersTimes}
-            winner={winner}
-          />
+          <GameClock gameId={gameId} gameData={gameData} playerData={playerData} playersTimes={playersTimes} />
         )}
         {/* --- */}
 

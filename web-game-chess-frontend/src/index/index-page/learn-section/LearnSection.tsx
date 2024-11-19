@@ -26,7 +26,6 @@ const LearnSection = forwardRef<HandleOnScroll, LearnSectionProps>(
     useImperativeHandle(ref, () => ({
       handleOnScroll,
     }));
-    //*/
 
     // to apply card open on intersection
     useEffect(() => {
@@ -46,7 +45,6 @@ const LearnSection = forwardRef<HandleOnScroll, LearnSectionProps>(
         observer.disconnect();
       };
     }, []);
-    //*/
 
     // to generate cards
     const generateCards = (): JSX.Element[] => {
@@ -77,7 +75,6 @@ const LearnSection = forwardRef<HandleOnScroll, LearnSectionProps>(
 
       return cards;
     };
-    //*/
 
     return (
       <section id="learn-section" ref={sectionRef} className={classes.section}>

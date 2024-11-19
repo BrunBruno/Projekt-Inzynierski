@@ -147,7 +147,6 @@ export const userController: UserController = {
   //
   getUsersRanking: (model: GetUsersRankingModel) => `${userBaseUrl}/ranking?${stringifyModel(model)}`,
 };
-//*/
 
 // game controller
 const webGameBaseUrl: string = baseUrl + "/webgame";
@@ -252,7 +251,7 @@ export const webGameController: WebGameController = {
   // gets all data of player
   getPlayer: (gameId: Guid) => `${webGameBaseUrl}/${gameId}/player`,
 
-  // gets time left for user
+  // gets time left for users
   fetchTime: (gameId: Guid) => `${webGameBaseUrl}/${gameId}/time`,
 
   // gets opponent data from previous game
@@ -288,7 +287,6 @@ export const webGameController: WebGameController = {
   //
   cancelPrivateGame: (gameId: Guid) => `${webGameBaseUrl}/${gameId}/cancel`,
 };
-//*/
 
 // friendship controller
 const friendshipBaseUrl: string = baseUrl + "/friendship";
@@ -359,12 +357,11 @@ export const friendshipController: FriendshipController = {
   // removes friendships
   removeFriend: (friendshipId: Guid) => `${friendshipBaseUrl}/${friendshipId}`,
 };
-//*/
 
 // engine controller
 const engineBaseUrl: string = baseUrl + "/enginegame";
 
-interface EngineControllerPaths {
+interface EngineGameControllerPaths {
   //POST
   startEngineGame: string;
   makeEngineGameMove: string;
@@ -375,22 +372,12 @@ interface EngineControllerPaths {
   //GET
   getEngineGame: string;
   getEngineGameMove: string;
+  fetchTime: string;
   getAllEngineGameMessages: string;
   //DELETE
 }
 
-interface EngineController {
-  startEngineGame: () => string;
-  makeEngineGameMove: (gameId: Guid) => string;
-  endEngineGame: (gameId: Guid) => string;
-  changeEngineLevel: (gameId: Guid) => string;
-  undoMove: (gameId: Guid) => string;
-  getEngineGame: (gameId: Guid) => string;
-  getEngineGameMove: (gameId: Guid) => string;
-  getAllEngineGameMessages: (gameId: Guid) => string;
-}
-
-export const engineControllerPaths: EngineControllerPaths = {
+export const engineGameControllerPaths: EngineGameControllerPaths = {
   // static
   startEngineGame: `${engineBaseUrl}/start`,
 
@@ -401,10 +388,23 @@ export const engineControllerPaths: EngineControllerPaths = {
   changeEngineLevel: `${engineBaseUrl}/:gameId/change-engine`,
   undoMove: `${engineBaseUrl}/:gameId/undo-move`,
   getEngineGameMove: `${engineBaseUrl}/:gameId/engine-move`,
+  fetchTime: `${engineBaseUrl}/:gameId/time`,
   getAllEngineGameMessages: `${engineBaseUrl}/:gameId/all-messages`,
 };
 
-export const engineController: EngineController = {
+interface EngineGameController {
+  startEngineGame: () => string;
+  makeEngineGameMove: (gameId: Guid) => string;
+  endEngineGame: (gameId: Guid) => string;
+  changeEngineLevel: (gameId: Guid) => string;
+  undoMove: (gameId: Guid) => string;
+  getEngineGame: (gameId: Guid) => string;
+  getEngineGameMove: (gameId: Guid) => string;
+  fetchTime: (gameId: Guid) => string;
+  getAllEngineGameMessages: (gameId: Guid) => string;
+}
+
+export const engineGameController: EngineGameController = {
   // creates new game with engine
   startEngineGame: () => `${engineBaseUrl}/start`,
 
@@ -426,10 +426,12 @@ export const engineController: EngineController = {
   // to get move done by engine
   getEngineGameMove: (gameId: Guid) => `${engineBaseUrl}/${gameId}/engine-move`,
 
+  //
+  fetchTime: (gameId: Guid) => `${engineBaseUrl}/${gameId}/time`,
+
   // to get all messages from current game
   getAllEngineGameMessages: (gameId: Guid) => `${engineBaseUrl}/${gameId}/all-messages`,
 };
-//*/
 
 type Headers = {
   headers: {

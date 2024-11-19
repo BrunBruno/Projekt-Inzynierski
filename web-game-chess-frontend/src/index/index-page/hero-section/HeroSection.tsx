@@ -39,7 +39,6 @@ const HeroSection = forwardRef<HandleOnScroll, HeroSectionProps>(
     useImperativeHandle(ref, () => ({
       handleOnScroll,
     }));
-    //*/
 
     return (
       <section ref={heroSectionRef} className={classes.section}>

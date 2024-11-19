@@ -27,7 +27,6 @@ function InvitationsFilters({ expirationFilters, setExpirationFilters }: Invitat
       return newTypes;
     });
   };
-  //*/
 
   return (
     <div className={classes.filters}>

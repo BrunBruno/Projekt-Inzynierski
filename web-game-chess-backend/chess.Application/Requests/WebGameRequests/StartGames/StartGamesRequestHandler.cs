@@ -15,6 +15,7 @@ namespace chess.Application.Requests.WebGameRequests.StartGames;
 /// </summary>
 public class StartGamesRequestHandler : IRequestHandler<StartGamesRequest> {
 
+    private readonly Random _random = new();
     private readonly IWebGameRepository _gameRepository;
     private readonly IWebGamePlayerRepository _playerRepository;
     private readonly IWebGameStateRepository _gameStateRepository;
@@ -40,7 +41,6 @@ public class StartGamesRequestHandler : IRequestHandler<StartGamesRequest> {
         var players = await _playerRepository.GetAllAvailablePlayersForTiming(request.TimingId);
 
         var matchedPlayers = new List<WebGamePlayer>();
-        var random = new Random();
         var eloRange = GetRange(players.Count);
 
         foreach (var player in players) {
@@ -72,7 +72,7 @@ public class StartGamesRequestHandler : IRequestHandler<StartGamesRequest> {
                 closestPlayer.GameId = game.Id;
 
 
-                var randomChoice = random.Next(2) == 0;
+                var randomChoice = _random.Next(2) == 0;
                 game.WhitePlayerId = randomChoice ? player.Id : closestPlayer.Id;
                 game.BlackPlayerId = randomChoice ? closestPlayer.Id : player.Id;
 

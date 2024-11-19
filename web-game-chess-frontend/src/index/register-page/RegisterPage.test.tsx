@@ -29,7 +29,6 @@ const mockUser: GetUserDto = {
   userId: Guid.create(),
   email: "user@test.com",
 };
-//*/
 
 // set up server
 const server = createMockServer({
@@ -46,7 +45,6 @@ vi.mock("../shared/utils/services/GameHubService", () => ({
   startConnectionWithToken: vi.fn().mockResolvedValueOnce(undefined),
   AddSelfNotification: vi.fn().mockResolvedValueOnce(undefined),
 }));
-//*/
 
 describe("RegisterPage Components", () => {
   beforeEach(() => {

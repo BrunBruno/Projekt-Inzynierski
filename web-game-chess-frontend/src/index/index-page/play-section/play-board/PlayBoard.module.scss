@@ -31,7 +31,6 @@
     bottom: -3rem;
     right: -3rem;
   }
-  //*/
 
   &__grid {
     position: relative;
@@ -112,7 +111,6 @@
       border-color: $gc0;
       box-shadow: inset 0 0 1rem 0.5rem $gc0;
     }
-    //*/
 
     // outer board
     &__outer {
@@ -142,10 +140,8 @@
         filter: brightness(80%) drop-shadow(0 0 2rem $mc0);
       }
     }
-    //*/
   }
 }
-//*/
 
 // resize
 @media (min-width: 1000px) {
@@ -171,4 +167,3 @@
     }
   }
 }
-//*/

@@ -62,7 +62,6 @@ function UserGames({}: UserGamesProps) {
       window.removeEventListener("resize", setDefSize);
     };
   }, [games]);
-  //*/
 
   // get all finished games
   useEffect(() => {
@@ -94,15 +93,13 @@ function UserGames({}: UserGamesProps) {
 
     getGames();
   }, [pageSize, timingTypeFilters, resultFilters, pageNumber]);
-  //*/
 
   // to display filters
   const onShowFilters = () => {
-    if (games && games.length > 0) {
+    if ((games && games.length > 0) || timingTypeFilters.length > 0 || resultFilters.length > 0) {
       setShowFilters((prev) => !prev);
     }
   };
-  //*/
 
   return (
     <div className={classes.games}>
@@ -129,14 +126,27 @@ function UserGames({}: UserGamesProps) {
         <div className={classes.filters}>
           <button
             className={`
-                ${classes["filter-button"]} 
-                ${!games || games.length === 0 ? classes["disabled"] : classes["enabled"]}
-              `}
+              ${classes["filter-button"]} 
+              ${
+                (!games || games.length === 0) && timingTypeFilters.length + resultFilters.length === 0
+                  ? classes["disabled"]
+                  : classes["enabled"]
+              }
+            `}
             onClick={() => {
               onShowFilters();
             }}
           >
+            <IconCreator
+              icons={mainPageIcons}
+              iconName={"filters"}
+              iconClass={classes["filters-icon"]}
+              color={mainColor.c0}
+            />
             <span>Filters</span>
+            {timingTypeFilters.length + resultFilters.length > 0 && (
+              <span>({timingTypeFilters.length + resultFilters.length})</span>
+            )}
           </button>
         </div>
       </div>

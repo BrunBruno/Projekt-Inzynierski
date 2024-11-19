@@ -59,7 +59,6 @@ const PlaySection = forwardRef<HandleOnScroll, PlaySectionProps>(
         actionsObserver.disconnect();
       };
     }, [actionRefs]);
-    //*/
 
     // to go to registration page
     const navigateToPlay = (regOptions: GameSearchInterface): void => {
@@ -69,7 +68,6 @@ const PlaySection = forwardRef<HandleOnScroll, PlaySectionProps>(
 
       navigate("/main", { state: state });
     };
-    //*/
 
     return (
       <section id="play-section" ref={sectionRef} className={classes.section}>

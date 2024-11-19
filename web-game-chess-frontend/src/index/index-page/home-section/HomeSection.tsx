@@ -40,7 +40,6 @@ const HomeSection = forwardRef<HandleOnScroll, HomeSectionProps>(
     useImperativeHandle(ref, () => ({
       handleOnScroll,
     }));
-    //*/
 
     // to observe home intro
     useEffect(() => {
@@ -59,7 +58,6 @@ const HomeSection = forwardRef<HandleOnScroll, HomeSectionProps>(
         introObserver.disconnect();
       };
     }, [introRef]);
-    //*/
 
     return (
       <section id="home-section" ref={sectionRef} className={classes.section}>

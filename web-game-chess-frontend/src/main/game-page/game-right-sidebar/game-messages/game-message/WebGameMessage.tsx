@@ -37,7 +37,6 @@ function WebGameMessage({ gameId, playerData, message }: WebGameMessageProps) {
       showPopup(getErrMessage(err), "warning");
     }
   };
-  //*/
 
   // accept/ decline draw offer
   const onAcceptDraw = async (): Promise<void> => {
@@ -67,7 +66,6 @@ function WebGameMessage({ gameId, playerData, message }: WebGameMessageProps) {
       showPopup(getErrMessage(err), "warning");
     }
   };
-  //*/
 
   return (
     <div className={classes.message}>

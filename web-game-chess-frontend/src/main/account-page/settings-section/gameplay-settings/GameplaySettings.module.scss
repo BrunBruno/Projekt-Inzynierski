@@ -11,6 +11,11 @@
       color: $gc3;
     }
 
+    .row-text {
+      font-size: 1.4rem;
+      color: $gc5;
+    }
+
     .row-options {
       @include flex(row, start, center, 2rem);
 
@@ -145,6 +150,19 @@
             background-color: $gc8;
             height: 2.5rem;
             width: 2.5rem;
+          }
+        }
+      }
+
+      .clear-button {
+        @include button(2rem);
+
+        & {
+          @include mainMButton();
+
+          & {
+            padding: 1rem 4rem;
+            margin-top: 2rem;
           }
         }
       }

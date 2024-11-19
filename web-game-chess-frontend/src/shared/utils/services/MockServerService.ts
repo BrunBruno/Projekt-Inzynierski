@@ -208,7 +208,6 @@ export const createMockServer = (mockResult: CreateMockServerParams) => {
       }
     }),
   ];
-  //*/
 
   // game controller handlers
   const webGameControllerHandlers: RestHandler<MockedRequest<DefaultBodyType>>[] = [
@@ -457,7 +456,6 @@ export const createMockServer = (mockResult: CreateMockServerParams) => {
       return res(ctx.status(200));
     }),
   ];
-  //*/
 
   return setupServer(
     ...[...externHandlers, ...userControllerHandlers, ...webGameControllerHandlers, ...friendshipControllerHandlers]

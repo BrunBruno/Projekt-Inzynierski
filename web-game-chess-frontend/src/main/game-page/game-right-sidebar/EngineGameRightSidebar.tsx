@@ -1,23 +1,26 @@
 import classes from "./GameRightSidebar.module.scss";
 import AvatarImage from "../../../shared/components/avatar-image/AvatarImage";
 import { MoveDto, PlayerDto } from "../../../shared/utils/types/abstractDtosAndModels";
-import { GetEngineGameDto } from "../../../shared/utils/types/engineDtos";
+import { FetchEngineGameTimeDto, GetEngineGameDto } from "../../../shared/utils/types/engineDtos";
 import { AppearanceOfGamePage, PieceColor } from "../../../shared/utils/objects/entitiesEnums";
 import EngineGameMoveRecord from "./game-move-record/EngineGameMoveRecord";
 import EngineGameMessages from "./game-messages/EngineGameMessages";
 import { Guid } from "guid-typescript";
-import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { pieceTagMap } from "../../../shared/utils/objects/piecesNameMaps";
 import IconCreator from "../../../shared/components/icon-creator/IconCreator";
 import { specialPiecesSvgs } from "../../../shared/svgs/iconsMap/SpecialPiecesSvgs";
 import { greyColor } from "../../../shared/utils/objects/colorMaps";
 import { ElementClass, StateProp } from "../../../shared/utils/types/commonTypes";
 import { GameWindowInterface } from "../../../shared/utils/objects/interfacesEnums";
+import GameClock from "./game-clock/GameClock";
 
 type EngineGameRightSidebarProps = {
   // game data
   gameId: Guid;
   gameData: GetEngineGameDto;
+  // times left for players
+  playersTimes: FetchEngineGameTimeDto | null;
   // to set previous position
   historyPositionState: StateProp<MoveDto | null>;
   // for showing history view
@@ -27,6 +30,7 @@ type EngineGameRightSidebarProps = {
 function EngineGameRightSidebar({
   gameId,
   gameData,
+  playersTimes,
   historyPositionState,
   displayedWindowState,
 }: EngineGameRightSidebarProps) {
@@ -131,7 +135,6 @@ function EngineGameRightSidebar({
   useEffect(() => {
     calculateAdvantage();
   }, [gameData]);
-  //*/
 
   // for players display
   const renderPlayer = (
@@ -180,7 +183,6 @@ function EngineGameRightSidebar({
       </div>
     );
   };
-  //*/
 
   // to return to default view
   const closeHistory = (): void => {
@@ -189,7 +191,6 @@ function EngineGameRightSidebar({
     historyPositionState.set(null);
     displayedWindowState.set(GameWindowInterface.none);
   };
-  //*/
 
   // to handle record scroll
   useEffect(() => {
@@ -203,7 +204,6 @@ function EngineGameRightSidebar({
 
     handleRecordsScroll();
   }, [gameData]);
-  //*/
 
   return (
     <section
@@ -237,15 +237,10 @@ function EngineGameRightSidebar({
         {/* game clock */}
         {!gameData.timingType ? (
           <></>
-        ) : null === null ? (
+        ) : !playersTimes ? (
           <div className={classes["fetching"]}>Fetching time...</div>
         ) : (
-          // <EngineGameClock
-          //   gameData={gameData}
-          //   whitePlayerSeconds={playersTimes.whiteTimeLeft}
-          //   blackPlayerSeconds={playersTimes.blackTimeLeft}
-          // />
-          <></>
+          <GameClock gameId={gameId} gameData={gameData} playerData={gameData.player} playersTimes={playersTimes} />
         )}
         {/* --- */}
 

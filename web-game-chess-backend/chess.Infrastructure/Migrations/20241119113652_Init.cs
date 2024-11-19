@@ -336,6 +336,7 @@ namespace chess.Infrastructure.Migrations
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
                     IsWinner = table.Column<bool>(type: "boolean", nullable: true),
                     TimingType = table.Column<int>(type: "integer", nullable: true),
+                    EngineTimeLeft = table.Column<double>(type: "double precision", nullable: false),
                     EngineLevel = table.Column<int>(type: "integer", nullable: false),
                     AllowUndo = table.Column<bool>(type: "boolean", nullable: false),
                     PlayerId = table.Column<Guid>(type: "uuid", nullable: false),

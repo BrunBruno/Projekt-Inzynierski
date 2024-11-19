@@ -17,6 +17,9 @@ import LoadingPage from "../../../shared/components/loading-page/LoadingPage";
 import { GetOtherUserDto } from "../../../shared/utils/types/userDtos";
 import { getErrMessage } from "../../../shared/utils/functions/errors";
 import { PagedResult } from "../../../shared/utils/types/abstractDtosAndModels";
+import IconCreator from "../../../shared/components/icon-creator/IconCreator";
+import { symbolIcons } from "../../../shared/svgs/iconsMap/SymbolIcons";
+import { mainColor } from "../../../shared/utils/objects/colorMaps";
 
 type ListSectionProps = {
   // provided username to match
@@ -91,7 +94,6 @@ function ListSection({ selectedUsername, selectedList, setUserProfile, setFriend
   useEffect(() => {
     getAllUsers();
   }, [selectedUsername, selectedList, pageSize, pageNumber]);
-  //*/
 
   // set empty list class
   useEffect(() => {
@@ -104,7 +106,6 @@ function ListSection({ selectedUsername, selectedList, setUserProfile, setFriend
       }
     }
   }, [users, friends, listRef]);
-  //*/
 
   // set default page size based on list to elements size ratio
   // add resize handler to update default size
@@ -146,7 +147,6 @@ function ListSection({ selectedUsername, selectedList, setUserProfile, setFriend
       window.removeEventListener("resize", setDefSize);
     };
   }, [users, friends]);
-  //*/
 
   // setter for profile data
   const setNonFriend = (user: GetOtherUserDto): void => {
@@ -158,7 +158,6 @@ function ListSection({ selectedUsername, selectedList, setUserProfile, setFriend
     setUserProfile(null);
     setFriendProfile(friend);
   };
-  //*/
 
   // to display loading on scroll
   useEffect(() => {
@@ -196,8 +195,6 @@ function ListSection({ selectedUsername, selectedList, setUserProfile, setFriend
     };
   }, [scrollRef]);
 
-  //*/
-
   return (
     <section ref={listRef} className={classes.list}>
       <div className={classes["bg-corner"]} />
@@ -233,8 +230,13 @@ function ListSection({ selectedUsername, selectedList, setUserProfile, setFriend
         </div>
       ) : (
         <div className={classes["empty-search"]}>
-          <span>No users</span>
-          <span>found</span>
+          <IconCreator
+            icons={symbolIcons}
+            iconName={"error"}
+            iconClass={classes["no-data-icon"]}
+            color={mainColor.c9}
+          />
+          <span>No users found</span>
         </div>
       )}
       {/* --- */}

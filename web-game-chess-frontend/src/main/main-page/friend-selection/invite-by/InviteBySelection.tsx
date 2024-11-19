@@ -71,7 +71,6 @@ const InviteBySelection = forwardRef<InviteBySelectionRef, InviteBySelectionProp
     useImperativeHandle(ref, () => ({
       onInviteBySelection,
     }));
-    //*/
 
     // to filter users by names
     const onSearch = (event: ChangeEvent<HTMLInputElement>): void => {
@@ -80,7 +79,6 @@ const InviteBySelection = forwardRef<InviteBySelectionRef, InviteBySelectionProp
 
       setSelectedUsername(username);
     };
-    //*/
 
     return (
       <div className={classes.invite}>

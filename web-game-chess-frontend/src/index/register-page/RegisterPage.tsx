@@ -63,7 +63,6 @@ function RegisterPage() {
       setUserPath(locationState.path);
     }
   }, [location.state]);
-  //*/
 
   // to set form modal
   const renderModal = (): JSX.Element => {
@@ -80,7 +79,6 @@ function RegisterPage() {
         return <></>;
     }
   };
-  //*/
 
   // to set right class of form
   // sets class based on selected interface and size of window
@@ -127,7 +125,6 @@ function RegisterPage() {
       addFormTransform();
     }, 300);
   }, []);
-  //*/
 
   // to get register configuration
   useEffect(() => {
@@ -159,7 +156,6 @@ function RegisterPage() {
 
     getDataConfiguration();
   }, []);
-  //*/
 
   if (!modalClass) return <></>;
 

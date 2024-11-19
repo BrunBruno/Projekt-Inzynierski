@@ -68,7 +68,6 @@ function FriendSelection({ privateGameOptions, setPrivateGameOptions }: FriendSe
       inviteByUrlRef.current.onInviteByUrl(header, values);
     }
   };
-  //*/
 
   // to invite user base on selection
   const onInviteToPrivateGame = (options: PrivateGameOptions): void => {
@@ -97,7 +96,6 @@ function FriendSelection({ privateGameOptions, setPrivateGameOptions }: FriendSe
     setSelectedUser(null);
     setSelectedByUrl(false);
   };
-  //*/
 
   // set for timing selection
   useEffect(() => {
@@ -113,7 +111,6 @@ function FriendSelection({ privateGameOptions, setPrivateGameOptions }: FriendSe
       setPrivateGameOptions(options);
     }
   }, [selectedFriend, selectedUser, selectedByUrl]);
-  //*/
 
   useEffect(() => {
     if (!privateGameOptions) return;

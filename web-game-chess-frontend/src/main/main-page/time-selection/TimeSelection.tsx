@@ -54,7 +54,6 @@ function TimeSelection({ setOnlineGameIds, setOfflineGameOptions, setPrivateGame
       showPopup(getErrMessage(err), "warning");
     }
   };
-  //*/
 
   // to start offline game
   const onStartOfflineGame = async (header: TimingTypeName, values: [number, number]): Promise<void> => {
@@ -67,7 +66,6 @@ function TimeSelection({ setOnlineGameIds, setOfflineGameOptions, setPrivateGame
 
     setOfflineGameOptions((prevOptions) => (prevOptions ? { ...prevOptions, ...newOptions } : prevOptions));
   };
-  //*/
 
   //
   const onStartPrivateGame = (header: TimingTypeName, values: [number, number]) => {
@@ -80,7 +78,6 @@ function TimeSelection({ setOnlineGameIds, setOfflineGameOptions, setPrivateGame
 
     setPrivateGameOptions((prevOptions) => (prevOptions ? { ...prevOptions, ...newOptions } : prevOptions));
   };
-  //*/
 
   const onControlSelected = (header: TimingTypeName, values: [number, number]): void => {
     if (setOnlineGameIds) onSearchForOnlineGame(header, values);
@@ -119,7 +116,6 @@ function TimeSelection({ setOnlineGameIds, setOfflineGameOptions, setPrivateGame
 
     return <div className={classes["timing-tag"]}>{transformedTag}</div>;
   };
-  //*/
 
   // to show header based on current searching
   const displaySectionHeader = (): JSX.Element => {
@@ -149,7 +145,6 @@ function TimeSelection({ setOnlineGameIds, setOfflineGameOptions, setPrivateGame
 
     return <></>;
   };
-  //*/
 
   return (
     <div data-testid="main-page-vs-player-section" className={classes.search}>

@@ -74,7 +74,6 @@ const server = createMockServer({
 beforeAll(() => server.listen());
 afterEach(() => server.resetHandlers());
 afterAll(() => server.close());
-//*/
 
 describe("UsersPage Components", () => {
   // default render test

@@ -49,7 +49,6 @@ function QuickGame({ setOnlineGameIds }: QuickGameProps) {
       showPopup(getErrMessage(err), "warning");
     }
   };
-  //*/
 
   // display time controls buttons
   const transformTag = (tag: string): JSX.Element => {
@@ -80,7 +79,6 @@ function QuickGame({ setOnlineGameIds }: QuickGameProps) {
 
     return <div className={classes["timing-tag"]}>{transformedTag}</div>;
   };
-  //*/
 
   return (
     <div className={classes.quick}>
@@ -102,7 +100,7 @@ function QuickGame({ setOnlineGameIds }: QuickGameProps) {
               icons={timingTypeIcons}
               iconName={control.header}
               iconClass={`${classes["timing-icon"]} ${classes[control.header]}`}
-              color={greyColor.c6}
+              color={greyColor.c4}
             />
             {transformTag(control.tag)}
           </div>

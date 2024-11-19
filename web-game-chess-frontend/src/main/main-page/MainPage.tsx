@@ -19,7 +19,7 @@ import GameHubService from "../../shared/utils/services/GameHubService";
 import { HubConnectionState } from "@microsoft/signalr";
 import { Guid } from "guid-typescript";
 import { getErrMessage } from "../../shared/utils/functions/errors";
-import { engineController, getAuthorization, webGameController } from "../../shared/utils/services/ApiService";
+import { engineGameController, getAuthorization, webGameController } from "../../shared/utils/services/ApiService";
 import axios from "axios";
 import { AbortSearchModel, CheckIfInGameModel } from "../../shared/utils/types/gameModels";
 import { StartEngineGameDto } from "../../shared/utils/types/engineDtos";
@@ -52,7 +52,6 @@ function MainPage() {
       setProvidedInterface(locationState.interface);
     }
   }, [location.state]);
-  //*/
 
   /** online public */
   // ids for online games
@@ -77,7 +76,6 @@ function MainPage() {
       setInterfaceById(providedInterface);
     }
   }, [providedInterface]);
-  //*/
 
   /** ONLINE PUBLIC GAME */
 
@@ -107,7 +105,6 @@ function MainPage() {
       showPopup(getErrMessage(err), "warning");
     }
   };
-  //*/
 
   // public game search abort
   // remove player, clear ids and go back to vs-player search
@@ -130,7 +127,6 @@ function MainPage() {
       showPopup(getErrMessage(err), "warning");
     }
   };
-  //*/
 
   /** ONLINE PUBLIC GAMES END */
 
@@ -148,7 +144,6 @@ function MainPage() {
   const handleGameDeclined = () => {
     showPopup("INVITATION DECLINED", "error");
   };
-  //*/
 
   useEffect(() => {
     if (privateGameOptions) {
@@ -187,7 +182,6 @@ function MainPage() {
       }
     };
   }, [onlineGameIds]);
-  //*/
 
   /** OFFLINE GAMES */
 
@@ -209,7 +203,7 @@ function MainPage() {
 
     try {
       const response = await axios.post<StartEngineGameDto>(
-        engineController.startEngineGame(),
+        engineGameController.startEngineGame(),
         model,
         getAuthorization()
       );
@@ -219,7 +213,6 @@ function MainPage() {
       showPopup(getErrMessage(err), "warning");
     }
   };
-  //*/
 
   // start offline game
   useEffect(() => {
@@ -231,7 +224,6 @@ function MainPage() {
 
     navigate(`/main/engine-game/${offlineGameIds.gameId}`, { state: state });
   }, [offlineGameIds]);
-  //*/
 
   // go to timing selection for offline game
   useEffect(() => {
@@ -243,7 +235,6 @@ function MainPage() {
       onStartOfflineGame();
     }
   }, [offlineGameOptions]);
-  //*/
 
   /** OFFLINE GAMES END */
 
@@ -306,7 +297,6 @@ function MainPage() {
         break;
     }
   };
-  //*/
 
   // set default interface
   useEffect(() => {

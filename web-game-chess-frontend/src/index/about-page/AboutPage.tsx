@@ -52,7 +52,6 @@ function AboutPage() {
       navigate(`/about/introduction`, { replace: true });
     }
   }, [contentName]);
-  //*/
 
   // to change content
   const onSetSelectedContent = (content: ContentType, event: MouseEvent<HTMLLIElement>) => {
@@ -76,7 +75,6 @@ function AboutPage() {
       }
     }, 300);
   };
-  //*/
 
   return (
     <main className={classes["about-main"]}>

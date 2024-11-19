@@ -4,9 +4,15 @@ import { timingTypeIcons } from "../../../../shared/svgs/iconsMap/TimingTypeIcon
 import { mainColor } from "../../../../shared/utils/objects/colorMaps";
 import { GameResultName, TimingTypeName } from "../../../../shared/utils/objects/constantLists";
 import classes from "./UserGamesFilters.module.scss";
-import { resultList, timingTypeList } from "./UserGamesFiltersData";
+import {
+  ResultListFilterOption,
+  resultListFilterOptions,
+  TimingTypeListFilterOption,
+  timingTypeListFilterOptions,
+} from "./UserGamesFiltersData";
 import { TimingType } from "../../../../shared/utils/objects/entitiesEnums";
 import { gameResultIcons } from "../../../../shared/svgs/iconsMap/GameResultIcons";
+import { displayFromLowercase } from "../../../../shared/utils/functions/enums";
 
 type UserGamesFiltersProps = {
   // list to filter timing types
@@ -54,13 +60,12 @@ function UserGamesFilters({
       return newTypes;
     });
   };
-  //*/
 
   return (
     <div className={classes.filters}>
       {/* filter by types */}
       <div className={classes.filters__row}>
-        {timingTypeList.map((element, i) => (
+        {timingTypeListFilterOptions.map((element: TimingTypeListFilterOption, i: number) => (
           <div
             key={`type-${i}`}
             className={`
@@ -71,7 +76,7 @@ function UserGamesFilters({
               activateTimingTypeFilter(element.value);
             }}
           >
-            <span>{element.label}</span>
+            <span>{displayFromLowercase(element.label)}</span>
             <IconCreator
               icons={timingTypeIcons}
               iconName={element.label.toLocaleLowerCase() as TimingTypeName}
@@ -86,7 +91,7 @@ function UserGamesFilters({
       {/* filter by result */}
       <div className={classes.filters__row}>
         <div />
-        {resultList.map((element, i) => (
+        {resultListFilterOptions.map((element: ResultListFilterOption, i: number) => (
           <div
             key={`result-${i}`}
             className={`

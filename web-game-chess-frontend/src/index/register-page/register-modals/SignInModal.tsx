@@ -91,7 +91,6 @@ function SignInModal({ userPath, setModal }: SignInModalProps) {
       setProcessing(false);
     }
   };
-  //*/
 
   // regenerates verification code
   // for logging again without verification
@@ -106,7 +105,6 @@ function SignInModal({ userPath, setModal }: SignInModalProps) {
       errorDisplay(err, setErrorMess);
     }
   };
-  //*/
 
   // handle click
   // focus to input
@@ -116,7 +114,6 @@ function SignInModal({ userPath, setModal }: SignInModalProps) {
       inputRef.current.classList.remove(classes.err);
     }
   };
-  //*/
 
   if (processing) return <LoadingPage text="Logging in..." />;
 

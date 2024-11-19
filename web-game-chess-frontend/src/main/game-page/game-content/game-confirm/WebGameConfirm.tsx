@@ -44,7 +44,6 @@ function WebGameConfirm({ confirmAction, showConfirmState, setDisplayedWindow }:
         return <></>;
     }
   };
-  //*/
 
   // to confirm action
   const onYesClick = () => {
@@ -55,7 +54,6 @@ function WebGameConfirm({ confirmAction, showConfirmState, setDisplayedWindow }:
     showConfirmState.set(null);
     setDisplayedWindow(GameWindowInterface.none);
   };
-  //*/
 
   // to reject action
   const onNoClick = () => {
@@ -63,7 +61,6 @@ function WebGameConfirm({ confirmAction, showConfirmState, setDisplayedWindow }:
     showConfirmState.set(null);
     setDisplayedWindow(GameWindowInterface.none);
   };
-  //*/
 
   if (!showConfirmState || !showConfirmState.get) return <></>;
 

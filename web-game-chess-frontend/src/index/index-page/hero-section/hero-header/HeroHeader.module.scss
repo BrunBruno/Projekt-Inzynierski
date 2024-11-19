@@ -39,7 +39,6 @@ $line-width: 0.2rem;
       @include secFont(3rem);
     }
   }
-  //*/
 
   // actions
   &__actions {
@@ -92,9 +91,7 @@ $line-width: 0.2rem;
       }
     }
   }
-  //*/
 }
-//*/
 
 // resize
 @media (max-width: 700px) {
@@ -146,4 +143,3 @@ $line-width: 0.2rem;
     }
   }
 }
-//*/

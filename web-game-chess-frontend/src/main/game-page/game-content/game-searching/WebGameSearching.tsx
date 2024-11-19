@@ -61,7 +61,6 @@ function WebGameSearching({ newGameDataState }: WebGameSearchingProps) {
       // onCancelSearch();
     };
   }, []);
-  //*/
 
   // game search abort
   const onCancelSearch = async (): Promise<void> => {
@@ -81,7 +80,6 @@ function WebGameSearching({ newGameDataState }: WebGameSearchingProps) {
       showPopup(getErrMessage(err), "warning");
     }
   };
-  //*/
 
   return (
     <div className={classes.searching}>

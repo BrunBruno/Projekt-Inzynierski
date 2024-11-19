@@ -35,7 +35,6 @@ function WebGameMoveRecord({ recordNum, move, historyPositionState, displayedWin
       displayedWindowState.set(GameWindowInterface.history);
     }
   };
-  //*/
 
   // case when game has not started yet
   if (!move) {

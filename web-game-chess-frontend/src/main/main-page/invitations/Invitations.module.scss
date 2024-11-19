@@ -60,7 +60,6 @@
       }
     }
   }
-  //*/
 
   // lists of invitations cards or empty cards
   @mixin invitationsList() {
@@ -83,9 +82,7 @@
 
     overflow: hidden;
   }
-  //*/
 }
-//*/
 
 // resize
 @media (max-width: 700px) {
@@ -115,4 +112,3 @@
     }
   }
 }
-//*/

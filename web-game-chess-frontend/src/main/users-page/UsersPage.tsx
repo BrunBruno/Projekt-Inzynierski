@@ -26,7 +26,6 @@ function UsersPage() {
     setUserProfile(null);
     setFriendProfile(null);
   };
-  //*/
 
   return (
     <main className={classes["users-main"]}>
