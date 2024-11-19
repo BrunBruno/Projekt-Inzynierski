@@ -3,13 +3,13 @@
 import {
   AcceptInvitationModel,
   CancelRematchModel,
-  CreateRematchGameModel,
+  CreateWebGameRematchModel,
   DeclineInvitationModel,
   EndGameModel,
   MakeWebGameMoveModel,
   NotifyUserModel,
   SendGameMessageModel,
-  SendMessageModel,
+  SendPlayerMessageModel,
   TypingStatusModel,
 } from "../types/gameModels";
 import { Guid } from "guid-typescript";
@@ -99,7 +99,7 @@ class GameHub {
   }
 
   // creates rematch game
-  public async CreateRematchGame(model: CreateRematchGameModel): Promise<void> {
+  public async CreateWebGameRematch(model: CreateWebGameRematchModel): Promise<void> {
     try {
       await this.connection?.invoke("rematch", model);
     } catch (err) {
@@ -117,7 +117,7 @@ class GameHub {
   }
 
   // to send new messages
-  public async SendMessage(model: SendMessageModel): Promise<void> {
+  public async SendPlayerMessage(model: SendPlayerMessageModel): Promise<void> {
     try {
       await this.connection?.invoke("send-message", model);
     } catch (err) {

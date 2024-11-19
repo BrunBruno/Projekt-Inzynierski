@@ -17,7 +17,7 @@ namespace chess.Application.Requests.WebGameRequests.GetWebGame;
 /// </summary>
 public class GetWebGameRequestHandler : IRequestHandler<GetWebGameRequest, GetWebGameDto> {
 
-    private readonly IWebGameRepository _gameRepository;
+    private readonly IWebGameRepository _webGameRepository;
     private readonly IUserContextService _userContextService;
     private readonly IUserSettingsRepository _userSettingsRepository;
 
@@ -26,7 +26,7 @@ public class GetWebGameRequestHandler : IRequestHandler<GetWebGameRequest, GetWe
         IUserContextService userContextService,
         IUserSettingsRepository userSettingsRepository
     ) {
-        _gameRepository = gameRepository;
+        _webGameRepository = gameRepository;
         _userContextService = userContextService;
         _userSettingsRepository = userSettingsRepository;
     }
@@ -38,7 +38,7 @@ public class GetWebGameRequestHandler : IRequestHandler<GetWebGameRequest, GetWe
         var settings = await _userSettingsRepository.GetByUserId( userId )
             ?? throw new NotFoundException("Settings not found.");
 
-        var game = await _gameRepository.GetById(request.GameId) 
+        var game = await _webGameRepository.GetById(request.GameId) 
             ?? throw new NotFoundException("Game not found.");
 
         if (game.WhitePlayer.UserId != userId && game.BlackPlayer.UserId != userId)
@@ -47,7 +47,7 @@ public class GetWebGameRequestHandler : IRequestHandler<GetWebGameRequest, GetWe
         if(game.StartedAt is null) {
             game.StartedAt = DateTime.UtcNow;
 
-            await _gameRepository.Update(game);
+            await _webGameRepository.Update(game);
         }
 
         var gameDto = new GetWebGameDto()

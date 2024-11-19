@@ -4,7 +4,7 @@ import { Guid } from "guid-typescript";
 import { GameSettingsDto, MoveDto, PlayerDto, TimingTypeModel, UserImage } from "./abstractDtosAndModels";
 import { GameEndReason, MessageType, PieceColor, TimingType } from "../objects/entitiesEnums";
 
-export type CheckIfInGameDto = {
+export type CheckIfInWebGameDto = {
   isInGame: boolean;
   gameId: Guid | null;
 };
@@ -26,12 +26,7 @@ export type FetchTimeDto = {
   blackTimeLeft: number;
 };
 
-export type GetEndedGameDto = {
-  winnerColor: PieceColor | null;
-  eloGain: number;
-};
-
-export type GetPlayerDto = PlayerDto & {};
+export type GetWebGamePlayerDto = PlayerDto & {};
 
 export type GetAllFinishedGamesDto = {
   gameId: Guid;
@@ -101,7 +96,7 @@ export type SearchWebGameDto = {
   timingId: Guid;
 };
 
-export type CreateGameByEmailDto = {
+export type CreatePrivateGameByEmailDto = {
   friendId: Guid;
   gameId: Guid;
   inviter: string;
@@ -131,7 +126,7 @@ export type CreateGameWithLinkDto = {
   gameUrl: string;
 };
 
-export type CheckIfUpdateRequiredDto = TimingTypeModel & {
+export type CheckIfUpdateOnPrivateGameRequiredDto = TimingTypeModel & {
   isRequired: boolean;
 };
 
@@ -141,7 +136,7 @@ export type GetOpponentDto = {
   opponentId: Guid;
 };
 
-export type CreateRematchGameDto = {
+export type CreateWebGameRematchDto = {
   gameId: Guid;
   opponentName: string;
 };

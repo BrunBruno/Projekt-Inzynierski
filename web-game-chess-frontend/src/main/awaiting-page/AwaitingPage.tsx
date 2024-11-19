@@ -6,7 +6,7 @@ import { HubConnectionState } from "@microsoft/signalr";
 import { usePopup } from "../../shared/utils/hooks/usePopUp";
 import { getErrMessage } from "../../shared/utils/functions/errors";
 import axios from "axios";
-import { CheckIfUpdateRequiredDto } from "../../shared/utils/types/gameDtos";
+import { CheckIfUpdateOnPrivateGameRequiredDto } from "../../shared/utils/types/gameDtos";
 import { webGameController, getAuthorization } from "../../shared/utils/services/ApiService";
 import SearchingPage from "../../shared/components/searching-page/SearchingPage";
 import { GameSearchInterface, StateOptions } from "../../shared/utils/objects/interfacesEnums";
@@ -44,7 +44,7 @@ function AwaitingPage() {
       if (!gameId) return;
 
       try {
-        const response = await axios.get<CheckIfUpdateRequiredDto>(
+        const response = await axios.get<CheckIfUpdateOnPrivateGameRequiredDto>(
           webGameController.checkIfUpdateRequired(gameId),
           getAuthorization()
         );

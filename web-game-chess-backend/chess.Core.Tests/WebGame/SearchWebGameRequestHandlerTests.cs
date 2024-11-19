@@ -8,7 +8,6 @@ using chess.Core.Enums;
 using chess.Shared.Exceptions;
 using FluentAssertions;
 using Moq;
-using chess.Application.Repositories;
 
 namespace chess.Core.Tests.WebGame;
 
@@ -17,13 +16,13 @@ public class SearchWebGameRequestHandlerTests {
     private readonly Mock<IUserContextService> _mockUserContextService;
     private readonly Mock<IUserRepository> _mockUserRepository;
     private readonly Mock<IWebGamePlayerRepository> _mockPlayerRepository;
-    private readonly Mock<IGameTimingRepository> _mockGameTimingRepository;
+    private readonly Mock<IWebGameTimingRepository> _mockGameTimingRepository;
 
     public SearchWebGameRequestHandlerTests() {
         _mockUserContextService = new Mock<IUserContextService>();
         _mockUserRepository = new Mock<IUserRepository>();
         _mockPlayerRepository = new Mock<IWebGamePlayerRepository>();
-        _mockGameTimingRepository = new Mock<IGameTimingRepository>();
+        _mockGameTimingRepository = new Mock<IWebGameTimingRepository>();
     }
 
     [Fact]
@@ -39,7 +38,7 @@ public class SearchWebGameRequestHandlerTests {
             Elo = new UserElo(),
         };
 
-        var gameTiming = new GameTiming()
+        var gameTiming = new WebGameTiming()
         {
             Id = Guid.NewGuid(),
             Type = TimingTypes.Bullet,
@@ -85,7 +84,7 @@ public class SearchWebGameRequestHandlerTests {
         _mockUserContextService.Verify(x => x.GetUserId(), Times.Once);
         _mockUserRepository.Verify(x => x.GetById(userId), Times.Once);
         _mockGameTimingRepository.Verify(x => x.FindTiming(request.Type, request.Minutes * 60, request.Increment), Times.Once);
-        _mockGameTimingRepository.Verify(x => x.Create(It.IsAny<GameTiming>()), Times.Never);
+        _mockGameTimingRepository.Verify(x => x.Create(It.IsAny<WebGameTiming>()), Times.Never);
         _mockPlayerRepository.Verify(x => x.GetAwaitingPlayer(userId, gameTiming.Id), Times.Once);
         _mockPlayerRepository.Verify(x => x.Create(It.IsAny<WebGamePlayer>()), Times.Never);
     }
@@ -103,7 +102,7 @@ public class SearchWebGameRequestHandlerTests {
             Elo = new UserElo(),
         };
 
-        var gameTiming = new GameTiming()
+        var gameTiming = new WebGameTiming()
         {
             Id = Guid.NewGuid(),
             Type = TimingTypes.Bullet,
@@ -142,7 +141,7 @@ public class SearchWebGameRequestHandlerTests {
         _mockUserContextService.Verify(x => x.GetUserId(), Times.Once);
         _mockUserRepository.Verify(x => x.GetById(userId), Times.Once);
         _mockGameTimingRepository.Verify(x => x.FindTiming(request.Type, request.Minutes * 60, request.Increment), Times.Once);
-        _mockGameTimingRepository.Verify(x => x.Create(It.IsAny<GameTiming>()), Times.Never);
+        _mockGameTimingRepository.Verify(x => x.Create(It.IsAny<WebGameTiming>()), Times.Never);
         _mockPlayerRepository.Verify(x => x.GetAwaitingPlayer(userId, gameTiming.Id), Times.Once);
         _mockPlayerRepository.Verify(x => x.Create(It.IsAny<WebGamePlayer>()), Times.Once);
     }
@@ -189,7 +188,7 @@ public class SearchWebGameRequestHandlerTests {
         _mockUserContextService.Verify(x => x.GetUserId(), Times.Once);
         _mockUserRepository.Verify(x => x.GetById(userId), Times.Once);
         _mockGameTimingRepository.Verify(x => x.FindTiming(request.Type, request.Minutes * 60, request.Increment), Times.Once);
-        _mockGameTimingRepository.Verify(x => x.Create(It.IsAny<GameTiming>()), Times.Once);
+        _mockGameTimingRepository.Verify(x => x.Create(It.IsAny<WebGameTiming>()), Times.Once);
         _mockPlayerRepository.Verify(x => x.GetAwaitingPlayer(userId, It.IsAny<Guid>()), Times.Once);
         _mockPlayerRepository.Verify(x => x.Create(It.IsAny<WebGamePlayer>()), Times.Once);
     }
@@ -225,7 +224,7 @@ public class SearchWebGameRequestHandlerTests {
         _mockUserContextService.Verify(x => x.GetUserId(), Times.Once);
         _mockUserRepository.Verify(x => x.GetById(userId), Times.Once);
         _mockGameTimingRepository.Verify(x => x.FindTiming(request.Type, request.Minutes * 60, request.Increment), Times.Never);
-        _mockGameTimingRepository.Verify(x => x.Create(It.IsAny<GameTiming>()), Times.Never);
+        _mockGameTimingRepository.Verify(x => x.Create(It.IsAny<WebGameTiming>()), Times.Never);
         _mockPlayerRepository.Verify(x => x.GetAwaitingPlayer(userId, It.IsAny<Guid>()), Times.Never);
         _mockPlayerRepository.Verify(x => x.Create(It.IsAny<WebGamePlayer>()), Times.Never);
     }

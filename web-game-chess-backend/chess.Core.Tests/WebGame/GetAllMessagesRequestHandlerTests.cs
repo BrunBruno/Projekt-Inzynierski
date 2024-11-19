@@ -38,8 +38,7 @@ public class GetAllMessagesRequestHandlerTests {
         var game = new Entities.WebGame()
         {
             Id = gameId,
-            WhitePlayerRegistered = true,
-            BlackPlayerRegistered = true,
+
             WhitePlayerId = whitePlayerId,
             WhitePlayer = new WebGamePlayer() { 
                 Id = whitePlayerId,
@@ -138,8 +137,6 @@ public class GetAllMessagesRequestHandlerTests {
         {
             Id = gameId,
 
-              WhitePlayerRegistered = true,
-            BlackPlayerRegistered = true,
             WhitePlayerId = whitePlayerId,
             WhitePlayer = new WebGamePlayer()
             {

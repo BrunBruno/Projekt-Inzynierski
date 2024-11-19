@@ -10,9 +10,10 @@ namespace chess.Core.Entities;
 public class WebGameMove : Move {
 
     /// <summary>
-    /// Id
+    /// Id pk
     /// </summary>
     public Guid Id { get; set; }
+
 
     /// <summary>
     /// Time left for white player
@@ -24,13 +25,10 @@ public class WebGameMove : Move {
     /// </summary>
     public double BlackTime {  get; set; }
 
-    /// <summary>
-    /// game id
-    /// </summary>
-    public Guid GameId { get; set; }
 
     /// <summary>
     /// Game for which moves belong to
     /// </summary>
+    public Guid GameId { get; set; }
     public WebGame Game {  get; set; }
 }

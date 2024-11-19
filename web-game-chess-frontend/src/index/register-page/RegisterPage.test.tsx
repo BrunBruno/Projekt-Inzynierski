@@ -25,6 +25,7 @@ const mockUser: GetUserDto = {
   username: "Username",
   name: "User",
   profilePicture: null,
+  backgroundImage: null,
   country: "PL",
   userId: Guid.create(),
   email: "user@test.com",

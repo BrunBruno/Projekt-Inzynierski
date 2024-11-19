@@ -1,6 +1,4 @@
-﻿
-using chess.Application.Repositories;
-using chess.Application.Repositories.FriendshipRepositories;
+﻿using chess.Application.Repositories.FriendshipRepositories;
 using chess.Application.Repositories.UserRepositories;
 using chess.Application.Repositories.WebGameRepositories;
 using chess.Application.Services;
@@ -27,10 +25,10 @@ public class CreatePrivateGameRequestHandler : IRequestHandler<CreatePrivateGame
 
     private readonly IUserContextService _userContextService;
     private readonly IUserRepository _userRepository;
-    private readonly IWebGameRepository _gameRepository;
-    private readonly IGameTimingRepository _gameTimingRepository;
+    private readonly IWebGameRepository _webGameRepository;
+    private readonly IWebGameTimingRepository _webGameTimingRepository;
     private readonly IWebGameStateRepository _gameStateRepository;
-    private readonly IWebGamePlayerRepository _playerRepository;
+    private readonly IWebGamePlayerRepository _webGamePlayerRepository;
     private readonly IFriendshipRepository _friendshipRepository;
     private readonly IWebGameInvitationRepository _gameInvitationRepository;
     private readonly ISmtpService _smtpService;
@@ -39,7 +37,7 @@ public class CreatePrivateGameRequestHandler : IRequestHandler<CreatePrivateGame
         IUserContextService userContextService,
         IUserRepository userRepository,
         IWebGameRepository gameRepository,
-        IGameTimingRepository gameTimingRepository,
+        IWebGameTimingRepository gameTimingRepository,
         IWebGameStateRepository gameStateRepository,
         IWebGamePlayerRepository playerRepository,
         IFriendshipRepository friendshipRepository,
@@ -49,10 +47,10 @@ public class CreatePrivateGameRequestHandler : IRequestHandler<CreatePrivateGame
     ) {
         _userContextService = userContextService;
         _userRepository = userRepository;
-        _gameRepository = gameRepository;
-        _gameTimingRepository = gameTimingRepository;
+        _webGameRepository = gameRepository;
+        _webGameTimingRepository = gameTimingRepository;
         _gameStateRepository = gameStateRepository;
-        _playerRepository = playerRepository;
+        _webGamePlayerRepository = playerRepository;
         _friendshipRepository = friendshipRepository;
         _gameInvitationRepository = gameInvitationRepository;
         _smtpService = smtpService;
@@ -76,13 +74,13 @@ public class CreatePrivateGameRequestHandler : IRequestHandler<CreatePrivateGame
         var friend = await _userRepository.GetById(friendId)
              ?? throw new NotFoundException("Friend not found.");
 
-        var existingGameTiming = await _gameTimingRepository.FindTiming(request.Type, request.Minutes * 60, request.Increment);
+        var existingGameTiming = await _webGameTimingRepository.FindTiming(request.Type, request.Minutes * 60, request.Increment);
 
 
         var timing = existingGameTiming;
         if (existingGameTiming is null) {
 
-            var gameTiming = new GameTiming()
+            var gameTiming = new WebGameTiming()
             {
                 Id = Guid.NewGuid(),
                 Type = request.Type,
@@ -90,7 +88,7 @@ public class CreatePrivateGameRequestHandler : IRequestHandler<CreatePrivateGame
                 Increment = request.Increment,
             };
 
-            await _gameTimingRepository.Create(gameTiming);
+            await _webGameTimingRepository.Create(gameTiming);
 
             timing = gameTiming;
 
@@ -121,8 +119,8 @@ public class CreatePrivateGameRequestHandler : IRequestHandler<CreatePrivateGame
         };
 
 
-        await _playerRepository.Create(userPlayer);
-        await _playerRepository.Create(friendPlayer);
+        await _webGamePlayerRepository.Create(userPlayer);
+        await _webGamePlayerRepository.Create(friendPlayer);
 
 
         var game = new WebGame()
@@ -131,9 +129,6 @@ public class CreatePrivateGameRequestHandler : IRequestHandler<CreatePrivateGame
             IsPrivate = true,
             TimingType = timing.Type,
             GameTimingId = timing!.Id,
-
-            WhitePlayerRegistered = false,
-            BlackPlayerRegistered = false,
         };
 
         userPlayer.GameId = game.Id;
@@ -143,9 +138,6 @@ public class CreatePrivateGameRequestHandler : IRequestHandler<CreatePrivateGame
         var randomChoice = random.Next(2) == 0;
         game.WhitePlayerId = randomChoice ? userPlayer.Id : friendPlayer.Id;
         game.BlackPlayerId = randomChoice ? friendPlayer.Id : userPlayer.Id;
-
-        game.WhitePlayerRegistered = true;
-        game.BlackPlayerRegistered = true;
 
         userPlayer.Color = randomChoice ? PieceColor.White : PieceColor.Black;
         friendPlayer.Color = randomChoice ? PieceColor.Black : PieceColor.White;
@@ -168,7 +160,7 @@ public class CreatePrivateGameRequestHandler : IRequestHandler<CreatePrivateGame
         };
 
 
-        await _gameRepository.Create(game);
+        await _webGameRepository.Create(game);
         await _gameStateRepository.Create(gameState);
         await _gameInvitationRepository.Create(invitation);
 

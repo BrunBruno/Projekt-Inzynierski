@@ -1,7 +1,7 @@
 import classes from "./GameRightSidebar.module.scss";
 import AvatarImage from "../../../shared/components/avatar-image/AvatarImage";
 import { MoveDto, PlayerDto } from "../../../shared/utils/types/abstractDtosAndModels";
-import { FetchEngineGameTimeDto, GetEngineGameDto } from "../../../shared/utils/types/engineDtos";
+import { GetEngineGameDto } from "../../../shared/utils/types/engineDtos";
 import { AppearanceOfGamePage, PieceColor } from "../../../shared/utils/objects/entitiesEnums";
 import EngineGameMoveRecord from "./game-move-record/EngineGameMoveRecord";
 import EngineGameMessages from "./game-messages/EngineGameMessages";
@@ -13,14 +13,11 @@ import { specialPiecesSvgs } from "../../../shared/svgs/iconsMap/SpecialPiecesSv
 import { greyColor } from "../../../shared/utils/objects/colorMaps";
 import { ElementClass, StateProp } from "../../../shared/utils/types/commonTypes";
 import { GameWindowInterface } from "../../../shared/utils/objects/interfacesEnums";
-import GameClock from "./game-clock/GameClock";
 
 type EngineGameRightSidebarProps = {
   // game data
   gameId: Guid;
   gameData: GetEngineGameDto;
-  // times left for players
-  playersTimes: FetchEngineGameTimeDto | null;
   // to set previous position
   historyPositionState: StateProp<MoveDto | null>;
   // for showing history view
@@ -30,7 +27,6 @@ type EngineGameRightSidebarProps = {
 function EngineGameRightSidebar({
   gameId,
   gameData,
-  playersTimes,
   historyPositionState,
   displayedWindowState,
 }: EngineGameRightSidebarProps) {
@@ -215,7 +211,7 @@ function EngineGameRightSidebar({
       <div
         className={`
           ${classes.bar__content} 
-          ${!gameData.timingType ? classes["null-timing"] : ""}
+          ${classes["null-timing"]}
         `}
       >
         {/* players data */}
@@ -232,16 +228,6 @@ function EngineGameRightSidebar({
             ? renderPlayer(null, classes["white-player"], classes["white-player-img"])
             : renderPlayer(null, classes["black-player"], classes["black-player-img"])}
         </div>
-        {/* --- */}
-
-        {/* game clock */}
-        {!gameData.timingType ? (
-          <></>
-        ) : !playersTimes ? (
-          <div className={classes["fetching"]}>Fetching time...</div>
-        ) : (
-          <GameClock gameId={gameId} gameData={gameData} playerData={gameData.player} playersTimes={playersTimes} />
-        )}
         {/* --- */}
 
         {/* game history records */}

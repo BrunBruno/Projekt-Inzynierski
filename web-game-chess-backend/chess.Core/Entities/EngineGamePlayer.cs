@@ -10,28 +10,21 @@ namespace chess.Core.Entities;
 public class EngineGamePlayer : Player {
 
     /// <summary>
-    /// Id
+    /// Id pk
     /// </summary>
     public Guid Id { get; set; }
 
-    /// <summary>
-    /// User id
-    /// </summary>
-    public Guid UserId { get; set; }
 
     /// <summary>
     /// User for which player belong to
     /// </summary>
+    public Guid UserId { get; set; }
     public User User { get; set; }
 
-    /// <summary>
-    /// Game id
-    /// </summary>
-    public Guid GameId { get; set; }
 
     /// <summary>
-    /// Game in which player is playing as white
-    /// null if playing as black
+    /// Game for which user is player
     /// </summary>
+    public Guid GameId { get; set; }
     public EngineGame Game { get; set; }
 }

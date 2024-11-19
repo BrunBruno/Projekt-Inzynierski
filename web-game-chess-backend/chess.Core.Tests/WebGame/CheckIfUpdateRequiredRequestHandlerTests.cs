@@ -1,7 +1,5 @@
-﻿
-using chess.Application.Repositories;
-using chess.Application.Repositories.WebGameRepositories;
-using chess.Application.Requests.WebGameRequests.CheckIfUpdateRequired;
+﻿using chess.Application.Repositories.WebGameRepositories;
+using chess.Application.Requests.WebGameRequests.CheckIfUpdateOnPrivateGameRequired;
 using chess.Core.Entities;
 using chess.Core.Enums;
 using chess.Shared.Exceptions;
@@ -10,13 +8,13 @@ using Moq;
 
 namespace chess.Core.Tests.WebGame;
 
-public class CheckIfUpdateRequiredRequestHandlerTests {
+public class CheckIfUpdateOnPrivateGameRequiredRequestHandlerTests {
 
-    private readonly Mock<IGameTimingRepository> _mockGameTimingRepository;
+    private readonly Mock<IWebGameTimingRepository> _mockGameTimingRepository;
     private readonly Mock<IWebGameRepository> _mockGameRepository;
 
-    public CheckIfUpdateRequiredRequestHandlerTests() {
-        _mockGameTimingRepository = new Mock<IGameTimingRepository>();
+    public CheckIfUpdateOnPrivateGameRequiredRequestHandlerTests() {
+        _mockGameTimingRepository = new Mock<IWebGameTimingRepository>();
         _mockGameRepository = new Mock<IWebGameRepository>();
     }
 
@@ -26,7 +24,7 @@ public class CheckIfUpdateRequiredRequestHandlerTests {
         var userId = Guid.NewGuid();
         var gameId = Guid.NewGuid();
 
-        var gameTiming = new GameTiming()
+        var gameTiming = new WebGameTiming()
         {
             Id = Guid.NewGuid(),
             Type = TimingTypes.Rapid,
@@ -41,8 +39,6 @@ public class CheckIfUpdateRequiredRequestHandlerTests {
 
             GameTimingId = gameTiming.Id,
 
-            WhitePlayerRegistered = true,
-            BlackPlayerRegistered = false, // not registered
             WhitePlayer = new WebGamePlayer()
             {
                 Name = "Username",
@@ -56,6 +52,7 @@ public class CheckIfUpdateRequiredRequestHandlerTests {
             {
                 Name = "Placeholder",
                 UserId = userId,
+                IsTemp = true, // not registered
                 User = new Entities.User()
                 {
                     Email = "test@test.com",
@@ -65,7 +62,7 @@ public class CheckIfUpdateRequiredRequestHandlerTests {
             CurrentState = new WebGameState(),
         };
 
-        var request = new CheckIfUpdateRequiredRequest()
+        var request = new CheckIfUpdateOnPrivateGameRequiredRequest()
         {
             GameId = gameId,
         };
@@ -75,7 +72,7 @@ public class CheckIfUpdateRequiredRequestHandlerTests {
         _mockGameTimingRepository.Setup(x => x.GetById(game.GameTimingId)).ReturnsAsync(gameTiming);
 
 
-        var handler = new CheckIfUpdateRequiredRequestHandler(
+        var handler = new CheckIfUpdateOnPrivateGameRequiredRequestHandler(
             _mockGameRepository.Object,
             _mockGameTimingRepository.Object
         );
@@ -97,7 +94,7 @@ public class CheckIfUpdateRequiredRequestHandlerTests {
         var userId = Guid.NewGuid();
         var gameId = Guid.NewGuid();
 
-        var gameTiming = new GameTiming()
+        var gameTiming = new WebGameTiming()
         {
             Id = Guid.NewGuid(),
             Type = TimingTypes.Rapid,
@@ -112,8 +109,6 @@ public class CheckIfUpdateRequiredRequestHandlerTests {
 
             GameTimingId = gameTiming.Id,
 
-              WhitePlayerRegistered = true,
-            BlackPlayerRegistered = true,
             WhitePlayer = new WebGamePlayer()
             {
                 Name = "Username",
@@ -127,7 +122,7 @@ public class CheckIfUpdateRequiredRequestHandlerTests {
             CurrentState = new WebGameState(),
         };
 
-        var request = new CheckIfUpdateRequiredRequest()
+        var request = new CheckIfUpdateOnPrivateGameRequiredRequest()
         {
             GameId = gameId,
         };
@@ -135,7 +130,7 @@ public class CheckIfUpdateRequiredRequestHandlerTests {
         // game not returned
 
 
-        var handler = new CheckIfUpdateRequiredRequestHandler(
+        var handler = new CheckIfUpdateOnPrivateGameRequiredRequestHandler(
             _mockGameRepository.Object,
             _mockGameTimingRepository.Object
         );
@@ -154,7 +149,7 @@ public class CheckIfUpdateRequiredRequestHandlerTests {
         var userId = Guid.NewGuid();
         var gameId = Guid.NewGuid();
 
-        var gameTiming = new GameTiming()
+        var gameTiming = new WebGameTiming()
         {
             Id = Guid.NewGuid(),
             Type = TimingTypes.Rapid,
@@ -169,8 +164,6 @@ public class CheckIfUpdateRequiredRequestHandlerTests {
 
             GameTimingId = gameTiming.Id,
 
-            WhitePlayerRegistered = true,
-            BlackPlayerRegistered = true,
             WhitePlayer = new WebGamePlayer()
             {
                 Name = "Username",
@@ -183,7 +176,7 @@ public class CheckIfUpdateRequiredRequestHandlerTests {
             },
         };
 
-        var request = new CheckIfUpdateRequiredRequest()
+        var request = new CheckIfUpdateOnPrivateGameRequiredRequest()
         {
             GameId = gameId,
         };
@@ -193,7 +186,7 @@ public class CheckIfUpdateRequiredRequestHandlerTests {
         // game timing not returned
 
 
-        var handler = new CheckIfUpdateRequiredRequestHandler(
+        var handler = new CheckIfUpdateOnPrivateGameRequiredRequestHandler(
             _mockGameRepository.Object,
             _mockGameTimingRepository.Object
         );

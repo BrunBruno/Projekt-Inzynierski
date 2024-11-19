@@ -1,16 +1,15 @@
 import { useNavigate } from "react-router-dom";
 import {
   EndGameDto,
-  GetEndedGameDto,
   GetWebGameDto,
   GetOpponentDto,
   SearchWebGameDto,
-  CreateRematchGameDto,
+  CreateWebGameRematchDto,
 } from "../../../../shared/utils/types/gameDtos";
 import classes from "./GameWinner.module.scss";
 import {
   CancelRematchModel,
-  CreateRematchGameModel,
+  CreateWebGameRematchModel,
   SearchWebGameModel,
 } from "../../../../shared/utils/types/gameModels";
 import { webGameController, getAuthorization } from "../../../../shared/utils/services/ApiService";
@@ -34,14 +33,14 @@ type WebGameWinnerProps = {
   gameData: GetWebGameDto;
   playerData: PlayerDto;
   // game result data
-  winner: EndGameDto | GetEndedGameDto | null;
+  winner: EndGameDto | null;
 
   // timing for new game or rematch
   selectedTiming: SearchWebGameModel | null;
   // to start new game search
   setNewGameData: Dispatch<SetStateAction<SearchWebGameDto | null>>;
   // rematch game id
-  rematchData: CreateRematchGameDto | null;
+  rematchData: CreateWebGameRematchDto | null;
 
   // for changing dismayed window
   setDisplayedWindow: Dispatch<SetStateAction<GameWindowInterface>>;
@@ -101,7 +100,7 @@ function WebGameWinner({
     try {
       const response = await axios.get<GetOpponentDto>(webGameController.getOpponent(gameId), getAuthorization());
 
-      const model: CreateRematchGameModel = {
+      const model: CreateWebGameRematchModel = {
         type: selectedTiming.type,
         minutes: selectedTiming.minutes,
         increment: selectedTiming.increment,
@@ -109,7 +108,7 @@ function WebGameWinner({
         previousGameId: gameId,
       };
 
-      await GameHubService.CreateRematchGame(model);
+      await GameHubService.CreateWebGameRematch(model);
     } catch (err) {
       showPopup(getErrMessage(err), "warning");
     }

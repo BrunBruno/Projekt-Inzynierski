@@ -17,7 +17,7 @@ namespace chess.Application.Requests.WebGameRequests.MakeWebGameMove;
 /// </summary>
 public class MakeWebGameMoveRequestHandler : IRequestHandler<MakeWebGameMoveRequest> {
 
-    private readonly IWebGameRepository _gameRepository;
+    private readonly IWebGameRepository _webGameRepository;
     private readonly IWebGameMoveRepository _moveRepository;
     private readonly IUserContextService _userContextService;
 
@@ -26,7 +26,7 @@ public class MakeWebGameMoveRequestHandler : IRequestHandler<MakeWebGameMoveRequ
         IWebGameMoveRepository moveRepository,
         IUserContextService userContextService
     ) {
-        _gameRepository = gameRepository;
+        _webGameRepository = gameRepository;
         _moveRepository = moveRepository;
         _userContextService = userContextService;
     }
@@ -35,7 +35,7 @@ public class MakeWebGameMoveRequestHandler : IRequestHandler<MakeWebGameMoveRequ
 
         var userId = _userContextService.GetUserId();
 
-        var game = await _gameRepository.GetById(request.GameId) 
+        var game = await _webGameRepository.GetById(request.GameId) 
             ?? throw new NotFoundException("Game not found.");
 
         if (game.HasEnded)
@@ -99,6 +99,6 @@ public class MakeWebGameMoveRequestHandler : IRequestHandler<MakeWebGameMoveRequ
 
 
         await _moveRepository.Create(move);
-        await _gameRepository.Update(game);
+        await _webGameRepository.Update(game);
     }
 }

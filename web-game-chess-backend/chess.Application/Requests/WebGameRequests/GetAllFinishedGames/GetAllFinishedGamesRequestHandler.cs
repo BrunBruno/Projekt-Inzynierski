@@ -16,14 +16,14 @@ namespace chess.Application.Requests.WebGameRequests.GetAllFinishedGames;
 public class GetAllFinishedGamesRequestHandler : IRequestHandler<GetAllFinishedGamesRequest, PagedResult<GetAllFinishedGamesDto>> {
 
     private readonly IUserContextService _userContextService;
-    private readonly IWebGamePlayerRepository _playerRepository;
+    private readonly IWebGamePlayerRepository _webGamePlayerRepository;
 
     public GetAllFinishedGamesRequestHandler(
         IUserContextService userContextService,
         IWebGamePlayerRepository playerRepository
     ) {
         _userContextService = userContextService;
-        _playerRepository = playerRepository;
+        _webGamePlayerRepository = playerRepository;
     }
 
 
@@ -31,7 +31,7 @@ public class GetAllFinishedGamesRequestHandler : IRequestHandler<GetAllFinishedG
 
         var userId = _userContextService.GetUserId();
 
-        var players = await _playerRepository.GetAllFinishedForUser(userId);
+        var players = await _webGamePlayerRepository.GetAllFinishedForUser(userId);
 
         var finishedGames = new List<GetAllFinishedGamesDto>();
 

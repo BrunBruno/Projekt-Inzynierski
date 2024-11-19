@@ -85,10 +85,10 @@ public class GetFriendProfileRequestHandler : IRequestHandler<GetFriendProfileRe
             },
 
             OutcomeTogether = new GameOutcomeDto() {
-                Total = friendship.GamesPlayed,
-                Wins = friendship.RequestorId == userId ? friendship.RequestorWins : friendship.RequestorLoses,
-                Loses = friendship.RequestorId == userId ? friendship.RequestorLoses : friendship.RequestorWins,
-                Draws = friendship.RequestorDraws,
+                Total = friendship.Stats.GamesPlayed,
+                Wins = friendship.RequestorId == userId ? friendship.Stats.RequestorWins : friendship.Stats.RequestorLoses,
+                Loses = friendship.RequestorId == userId ? friendship.Stats.RequestorLoses : friendship.Stats.RequestorWins,
+                Draws = friendship.Stats.RequestorDraws,
             },
         };
 

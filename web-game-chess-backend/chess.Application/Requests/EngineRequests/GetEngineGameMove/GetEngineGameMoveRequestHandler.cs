@@ -20,18 +20,15 @@ public class GetEngineGameMoveRequestHandler : IRequestHandler<GetEngineGameMove
 
     private readonly IEngineService _engineService;
     private readonly IEngineGameRepository _engineGameRepository;
-    private readonly IEngineGameMoveRepository _engineGameMoveRepository;
     private readonly IUserContextService _userContextService;
 
     public GetEngineGameMoveRequestHandler(
         IEngineService engineService,
         IEngineGameRepository engineGameRepository,
-        IEngineGameMoveRepository engineGameMoveRepository,
         IUserContextService userContextService
     ) {
         _engineService = engineService;
         _engineGameRepository = engineGameRepository;
-        _engineGameMoveRepository = engineGameMoveRepository;
         _userContextService = userContextService;
     }
 
@@ -90,7 +87,7 @@ public class GetEngineGameMoveRequestHandler : IRequestHandler<GetEngineGameMove
         string from = bestMove.Substring(0, 2);
         string to = bestMove.Substring(2, 2);
 
-        string? promotedPiece = bestMove.Length == 5 ? bestMove[4].ToString() : null; //???
+        string? promotedPiece = bestMove.Length == 5 ? bestMove[4].ToString() : null; //??? tododo
 
         var oldCoordinates = $"{from[0] - 'a' + 1},{from[1]}";
         var newCoordinates = $"{to[0] - 'a' + 1},{to[1]}";

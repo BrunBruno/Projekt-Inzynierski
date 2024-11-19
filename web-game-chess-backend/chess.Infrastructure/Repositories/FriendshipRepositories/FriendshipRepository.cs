@@ -18,6 +18,7 @@ public class FriendshipRepository : IFriendshipRepository {
     ///<inheritdoc/>
     public async Task<List<Friendship>> GetAllForUserByStatus(Guid userId, FriendshipStatus status)
         => await _dbContext.Friendships
+                    .Include(f => f.Stats)
                     .Where(f => (f.RequestorId == userId || f.ReceiverId == userId) && f.Status == status)
                     .ToListAsync();
 
@@ -31,11 +32,13 @@ public class FriendshipRepository : IFriendshipRepository {
     ///<inheritdoc/>
     public async Task<Friendship?> GetById(Guid friendshipId)
         => await _dbContext.Friendships
+                    .Include(f => f.Stats)  
                     .FirstOrDefaultAsync(f => f.Id == friendshipId);
 
     ///<inheritdoc/>
     public async Task<Friendship?> GetByUsersIds(Guid requestorId, Guid receiverId)
         => await _dbContext.Friendships
+                    .Include(f => f.Stats)
                     .FirstOrDefaultAsync(f =>
                         f.RequestorId == receiverId && f.ReceiverId == receiverId ||
                         f.RequestorId == receiverId && f.ReceiverId == requestorId);

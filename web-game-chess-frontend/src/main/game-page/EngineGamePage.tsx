@@ -9,7 +9,7 @@ import { getErrMessage } from "../../shared/utils/functions/errors";
 import MainPopUp from "../../shared/components/main-popup/MainPopUp";
 import { Guid } from "guid-typescript";
 import { GameActionInterface, GameWindowInterface, StateOptions } from "../../shared/utils/objects/interfacesEnums";
-import { EndEngineGameDto, FetchEngineGameTimeDto, GetEngineGameDto } from "../../shared/utils/types/engineDtos";
+import { EndEngineGameDto, GetEngineGameDto } from "../../shared/utils/types/engineDtos";
 import { EndEngineGameModel } from "../../shared/utils/types/engineModels";
 import { PieceColor } from "../../shared/utils/objects/entitiesEnums";
 import EngineGameLeftSidebar from "./game-left-sidebar/EngineGameLeftSidebar";
@@ -46,8 +46,6 @@ function EngineGamePage() {
   const [gameData, setGameData] = useState<GetEngineGameDto | null>(null);
   // winner data
   const [winner, setWinner] = useState<EndEngineGameDto | null>(null);
-  // time left for player and computer
-  const [playersTimes, setPlayersTimes] = useState<FetchEngineGameTimeDto | null>(null);
 
   //
   const [displayedWindow, setDisplayedWindow] = useState<GameWindowInterface>(GameWindowInterface.none);
@@ -118,30 +116,6 @@ function EngineGamePage() {
     if (gameData.hasEnded) endGame(null);
   }, [gameData]);
 
-  // get players remaining times
-  const fetchTime = async (): Promise<void> => {
-    if (!gameId) return;
-
-    try {
-      const response = await axios.get<FetchEngineGameTimeDto>(
-        engineGameController.fetchTime(gameId),
-        getAuthorization()
-      );
-
-      console.log(response.data);
-
-      setPlayersTimes(response.data);
-    } catch (err) {
-      showPopup(getErrMessage(err), "warning");
-    }
-  };
-
-  useEffect(() => {
-    if (!gameId || !gameData) return;
-
-    fetchTime();
-  }, [gameData]);
-
   if (!gameId || !gameData) return <LoadingPage />;
 
   return (
@@ -171,7 +145,6 @@ function EngineGamePage() {
       <EngineGameRightSidebar
         gameId={gameId}
         gameData={gameData}
-        playersTimes={playersTimes}
         historyPositionState={{ get: historyPosition, set: setHistoryPosition }}
         displayedWindowState={{ get: displayedWindow, set: setDisplayedWindow }}
       />

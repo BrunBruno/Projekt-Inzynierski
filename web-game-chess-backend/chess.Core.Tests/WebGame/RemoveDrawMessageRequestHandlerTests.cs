@@ -37,8 +37,6 @@ public class RemoveDrawMessageRequestHandlerTests {
         var game = new Entities.WebGame()
         {
             Id = gameId,
-            WhitePlayerRegistered = true,
-            BlackPlayerRegistered = true,
 
             WhitePlayerId = Guid.NewGuid(),
             WhitePlayer = new WebGamePlayer()
@@ -130,8 +128,6 @@ public class RemoveDrawMessageRequestHandlerTests {
         var game = new Entities.WebGame()
         {
             Id = gameId,
-            WhitePlayerRegistered = true,
-            BlackPlayerRegistered = true,
 
             WhitePlayerId = Guid.NewGuid(),
             WhitePlayer = new WebGamePlayer()
@@ -185,8 +181,6 @@ public class RemoveDrawMessageRequestHandlerTests {
         {
             Id = gameId,
 
-            WhitePlayerRegistered = true,
-            BlackPlayerRegistered = true,
             WhitePlayerId = Guid.NewGuid(),
             WhitePlayer = new WebGamePlayer()
             {

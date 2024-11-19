@@ -10,9 +10,10 @@ namespace chess.Core.Entities;
 public class Friendship {
 
     /// <summary>
-    /// Id
+    /// Id pk
     /// </summary>
     public Guid Id { get; set; }
+
 
     /// <summary>
     /// Status of friendship
@@ -29,43 +30,23 @@ public class Friendship {
     /// </summary>
     public DateTime? RequestRespondedAt { get; set; } = null;
 
-    /// <summary>
-    /// Wins of friendship requestor
-    /// </summary>
-    public int RequestorWins { get; set; } = 0;
 
     /// <summary>
-    /// Loses of friendship requestor
+    /// Game statistic within friendship
     /// </summary>
-    public int RequestorLoses { get; set; } = 0;
+    public FriendshipStats Stats { get; set; }
 
-    /// <summary>
-    /// Draws of friendship requestor
-    /// </summary>
-    public int RequestorDraws { get; set; } = 0;
-
-    /// <summary>
-    /// Total games played in relationship
-    /// </summary>
-    public int GamesPlayed => RequestorWins + RequestorLoses + RequestorDraws;
-
-    /// <summary>
-    /// Requestor id
-    /// </summary>
-    public Guid RequestorId { get; set; }
 
     /// <summary>
     /// User that requested to be friend of other user
     /// </summary>
+    public Guid RequestorId { get; set; }
     public User Requestor { get; set; }
 
-    /// <summary>
-    /// Receiver id
-    /// </summary>
-    public Guid ReceiverId { get; set; }
 
     /// <summary>
     /// User that gets friendship request
     /// </summary>
+    public Guid ReceiverId { get; set; }
     public User Receiver { get; set; }
 }

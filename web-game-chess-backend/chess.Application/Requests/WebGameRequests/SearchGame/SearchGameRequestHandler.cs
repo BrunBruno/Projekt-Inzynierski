@@ -1,6 +1,4 @@
-﻿
-using chess.Application.Repositories;
-using chess.Application.Repositories.UserRepositories;
+﻿using chess.Application.Repositories.UserRepositories;
 using chess.Application.Repositories.WebGameRepositories;
 using chess.Application.Services;
 using chess.Core.Entities;
@@ -19,21 +17,21 @@ namespace chess.Application.Requests.WebGameRequests.SearchGame;
 /// </summary>
 public class SearchGameRequestHandler : IRequestHandler<SearchGameRequest, SearchGameDto> {
 
-    private readonly IWebGamePlayerRepository _playerRepository;
+    private readonly IWebGamePlayerRepository _webGamePlayerRepository;
     private readonly IUserContextService _userContextService;
     private readonly IUserRepository _userRepository;
-    private readonly IGameTimingRepository _gameTimingRepository;
+    private readonly IWebGameTimingRepository _webGameTimingRepository;
 
     public SearchGameRequestHandler(
         IWebGamePlayerRepository playerRepository,
         IUserContextService userContextService,
         IUserRepository userRepository,
-        IGameTimingRepository gameTimingRepository
+        IWebGameTimingRepository gameTimingRepository
     ) { 
-        _playerRepository = playerRepository;
+        _webGamePlayerRepository = playerRepository;
         _userContextService = userContextService;
         _userRepository = userRepository;
-        _gameTimingRepository = gameTimingRepository;
+        _webGameTimingRepository = gameTimingRepository;
     }
 
     public async Task<SearchGameDto> Handle(SearchGameRequest request, CancellationToken cancellationToken) {
@@ -43,12 +41,12 @@ public class SearchGameRequestHandler : IRequestHandler<SearchGameRequest, Searc
         var user = await _userRepository.GetById(userId)
             ?? throw new NotFoundException("User not found.");
 
-        var existingGameTiming = await _gameTimingRepository.FindTiming(request.Type, request.Minutes * 60, request.Increment);
+        var existingGameTiming = await _webGameTimingRepository.FindTiming(request.Type, request.Minutes * 60, request.Increment);
 
         Guid timingId;
         if (existingGameTiming is null) {
 
-            var gameTiming = new GameTiming()
+            var gameTiming = new WebGameTiming()
             {
                 Id = Guid.NewGuid(),
                 Type = request.Type,
@@ -56,7 +54,7 @@ public class SearchGameRequestHandler : IRequestHandler<SearchGameRequest, Searc
                 Increment = request.Increment,
             };
 
-            await _gameTimingRepository.Create(gameTiming);
+            await _webGameTimingRepository.Create(gameTiming);
 
             timingId = gameTiming.Id;
 
@@ -67,7 +65,7 @@ public class SearchGameRequestHandler : IRequestHandler<SearchGameRequest, Searc
 
         int playerElo = user.Elo.GetElo(request.Type);
 
-        var alreadyAwaitingPlayer = await _playerRepository.GetAwaitingPlayer(userId, timingId);
+        var alreadyAwaitingPlayer = await _webGamePlayerRepository.GetAwaitingPlayer(userId, timingId);
 
         Guid playerId;
         if (alreadyAwaitingPlayer is null) {
@@ -83,7 +81,7 @@ public class SearchGameRequestHandler : IRequestHandler<SearchGameRequest, Searc
             };
 
 
-            await _playerRepository.Create(player);
+            await _webGamePlayerRepository.Create(player);
 
             playerId = player.Id;
 

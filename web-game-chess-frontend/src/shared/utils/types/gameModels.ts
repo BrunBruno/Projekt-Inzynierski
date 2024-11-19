@@ -13,11 +13,11 @@ export type CreatePrivateGameModel = TimingTypeModel & {
   friendshipId: Guid;
 };
 
-export type CreateGameByEmailModel = TimingTypeModel & {
+export type CreatePrivateGameByEmailModel = TimingTypeModel & {
   email: string;
 };
 
-export type CreateRematchGameModel = TimingTypeModel & {
+export type CreateWebGameRematchModel = TimingTypeModel & {
   opponentId: Guid;
   previousGameId: Guid;
 };
@@ -39,7 +39,7 @@ export type MakeWebGameMoveModel = {
   blackLongRookMoved: boolean;
 };
 
-export type SendMessageModel = {
+export type SendPlayerMessageModel = {
   gameId: Guid;
   message: string;
 };
@@ -56,7 +56,7 @@ export type CreateGameWithLinkModel = TimingTypeModel & {};
 export type EndGameModel = {
   gameId: Guid;
   loserColor: PieceColor | null;
-  endGameType: GameEndReason;
+  endGameType: GameEndReason | null;
 };
 
 export type AcceptInvitationModel = {
@@ -67,7 +67,7 @@ export type AcceptInvitationModel = {
 
 /** GET models */
 
-export type CheckIfInGameModel = {
+export type CheckIfInWebGameModel = {
   playerId: Guid;
 };
 

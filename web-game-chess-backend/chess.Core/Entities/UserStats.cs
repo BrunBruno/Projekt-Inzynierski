@@ -9,7 +9,7 @@ namespace chess.Core.Entities;
 public class UserStats {
 
     /// <summary>
-    /// Id
+    /// Id pk
     /// </summary>
     public Guid Id { get; set; }
 
@@ -25,7 +25,6 @@ public class UserStats {
     /// </summary>
     public int OnlineGamesPlayed => OnlineWins + OnlineLoses + OnlineDraws;
 
-    
     /// <summary>
     /// Games played for each timing type
     /// </summary>
@@ -34,7 +33,6 @@ public class UserStats {
     public int RapidGamesPlayed { get; set; } = 0;
     public int ClassicGamesPlayed { get; set; } = 0;
     public int DailyGamesPlayed { get; set; } = 0;
-
 
     /// <summary>
     /// All wins by end reason
@@ -64,12 +62,8 @@ public class UserStats {
 
 
     /// <summary>
-    /// User id
-    /// </summary>
-    public Guid UserId { get; set; }
-
-    /// <summary>
     /// User that stats belongs to
     /// </summary>
+    public Guid UserId { get; set; }
     public User User { get; set; }
 }

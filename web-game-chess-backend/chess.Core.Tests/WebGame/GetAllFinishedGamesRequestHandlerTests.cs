@@ -103,8 +103,6 @@ public class GetAllFinishedGamesRequestHandlerTests {
                 EndedAt = DateTime.UtcNow.AddMinutes(-10),
                 WinnerColor = PieceColor.White,
                 TimingType = TimingTypes.Classic,
-                WhitePlayerRegistered = true,
-                BlackPlayerRegistered = true,
 
                 WhitePlayer = whitePlayer,
                 BlackPlayer = blackPlayer,

@@ -1,6 +1,6 @@
 import { Guid } from "guid-typescript";
 import { BlackPieceTag, WhitePieceTag } from "../objects/constantLists";
-import { GetWebGameDto, GetPlayerDto } from "../types/gameDtos";
+import { GetWebGameDto, GetWebGamePlayerDto } from "../types/gameDtos";
 import { SMatrix } from "../types/commonTypes";
 import { GetEngineGameDto } from "../types/engineDtos";
 import { PlayerDto } from "../types/abstractDtosAndModels";
@@ -24,7 +24,7 @@ export type WebGameStates = {
   // game data obtained from get game call
   gameData: GetWebGameDto | null;
   // current player data
-  playerData: GetPlayerDto | null;
+  playerData: GetWebGamePlayerDto | null;
   // board in matrix form
   matrix: SMatrix;
   // current state of board represented by controlled areas by each side

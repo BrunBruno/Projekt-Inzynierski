@@ -41,9 +41,6 @@ public class GetWebGameRequestHandlerTests {
         var game = new Entities.WebGame()
         {
             Id = gameId,
-
-            WhitePlayerRegistered = true,
-            BlackPlayerRegistered = true,
             StartedAt = DateTime.UtcNow,
 
             WhitePlayer = new WebGamePlayer()
@@ -117,9 +114,6 @@ public class GetWebGameRequestHandlerTests {
         var game = new Entities.WebGame()
         {
             Id = gameId,
-
-            WhitePlayerRegistered = true,
-            BlackPlayerRegistered = true,
             // game not started
 
             WhitePlayer = new WebGamePlayer()
@@ -226,8 +220,6 @@ public class GetWebGameRequestHandlerTests {
         {
             Id = gameId,
 
-            WhitePlayerRegistered = true,
-            BlackPlayerRegistered = true,
             WhitePlayer = new WebGamePlayer()
             {
                 Name = "Other",

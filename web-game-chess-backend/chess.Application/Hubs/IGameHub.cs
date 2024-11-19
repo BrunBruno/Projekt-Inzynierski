@@ -1,5 +1,5 @@
 ﻿
-using chess.Application.Requests.WebGameRequests.CreateRematchGame;
+using chess.Application.Requests.WebGameRequests.CreateWebGameRematch;
 using chess.Application.Requests.WebGameRequests.EndWebGame;
 using chess.Application.Requests.WebGameRequests.InvitedToGame;
 
@@ -67,7 +67,7 @@ public interface IGameHub {
     /// </summary>
     /// <param name=""></param>
     /// <returns></returns>
-    Task RematchRequested(CreateRematchGameDto gameData);
+    Task RematchRequested(CreateWebGameRematchDto gameData);
 
     /// <summary>
     /// For notifying about rematch request cancellation

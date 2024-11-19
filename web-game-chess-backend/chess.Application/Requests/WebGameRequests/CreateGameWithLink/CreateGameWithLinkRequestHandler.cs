@@ -6,7 +6,6 @@ using chess.Shared.Exceptions;
 using MediatR;
 using chess.Core.Maps.MapOfElo;
 using chess.Application.Repositories.UserRepositories;
-using chess.Application.Repositories;
 using chess.Application.Repositories.WebGameRepositories;
 
 namespace chess.Application.Requests.WebGameRequests.CreateGameWithLink;
@@ -24,25 +23,25 @@ public class CreateGameWithLinkRequestHandler : IRequestHandler<CreateGameWithLi
 
     private readonly IUserContextService _userContextService;
     private readonly IUserRepository _userRepository;
-    private readonly IWebGameRepository _gameRepository;
-    private readonly IGameTimingRepository _gameTimingRepository;
+    private readonly IWebGameRepository _webGameRepository;
+    private readonly IWebGameTimingRepository _webGameTimingRepository;
     private readonly IWebGameStateRepository _gameStateRepository;
-    private readonly IWebGamePlayerRepository _playerRepository;
+    private readonly IWebGamePlayerRepository _webGamePlayerRepository;
 
     public CreateGameWithLinkRequestHandler(
         IUserContextService userContextService,
         IUserRepository userRepository,
         IWebGameRepository gameRepository,
-        IGameTimingRepository gameTimingRepository,
+        IWebGameTimingRepository gameTimingRepository,
         IWebGameStateRepository gameStateRepository,
         IWebGamePlayerRepository playerRepository
     ) {
         _userContextService = userContextService;
         _userRepository = userRepository;
-        _gameRepository = gameRepository;
-        _gameTimingRepository = gameTimingRepository;
+        _webGameRepository = gameRepository;
+        _webGameTimingRepository = gameTimingRepository;
         _gameStateRepository = gameStateRepository;
-        _playerRepository = playerRepository;
+        _webGamePlayerRepository = playerRepository;
     }
 
     public async Task<CreateGameWithLinkDto> Handle(CreateGameWithLinkRequest request, CancellationToken cancellationToken) {
@@ -52,13 +51,13 @@ public class CreateGameWithLinkRequestHandler : IRequestHandler<CreateGameWithLi
         var user = await _userRepository.GetById(userId)
             ?? throw new NotFoundException("User not found.");
 
-        var existingGameTiming = await _gameTimingRepository.FindTiming(request.Type, request.Minutes * 60, request.Increment);
+        var existingGameTiming = await _webGameTimingRepository.FindTiming(request.Type, request.Minutes * 60, request.Increment);
 
 
         var timing = existingGameTiming;
         if (timing is null) {
 
-            var gameTiming = new GameTiming()
+            var gameTiming = new WebGameTiming()
             {
                 Id = Guid.NewGuid(),
                 Type = request.Type,
@@ -66,7 +65,7 @@ public class CreateGameWithLinkRequestHandler : IRequestHandler<CreateGameWithLi
                 Increment = request.Increment,
             };
 
-            await _gameTimingRepository.Create(gameTiming);
+            await _webGameTimingRepository.Create(gameTiming);
 
             timing = gameTiming;
         }
@@ -91,13 +90,14 @@ public class CreateGameWithLinkRequestHandler : IRequestHandler<CreateGameWithLi
             TimingId = timing.Id,
 
             // update this on start
+            IsTemp = true,
             Name = "",
-            UserId = userId,
+            UserId = userId, // needed for db relation
         };
 
 
-        await _playerRepository.Create(userPlayer);
-        await _playerRepository.Create(placeholderPlayer);
+        await _webGamePlayerRepository.Create(userPlayer);
+        await _webGamePlayerRepository.Create(placeholderPlayer);
 
 
         var game = new WebGame()
@@ -106,9 +106,6 @@ public class CreateGameWithLinkRequestHandler : IRequestHandler<CreateGameWithLi
             IsPrivate = true,
             TimingType = timing!.Type,
             GameTimingId = timing!.Id,
-
-            WhitePlayerRegistered = false,
-            BlackPlayerRegistered = false,
         };
 
         userPlayer.GameId = game.Id;
@@ -129,7 +126,7 @@ public class CreateGameWithLinkRequestHandler : IRequestHandler<CreateGameWithLi
         };
 
 
-        await _gameRepository.Create(game);
+        await _webGameRepository.Create(game);
         await _gameStateRepository.Create(gameState);
 
 

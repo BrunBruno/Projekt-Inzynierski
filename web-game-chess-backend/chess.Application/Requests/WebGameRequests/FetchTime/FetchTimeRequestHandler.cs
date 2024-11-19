@@ -13,15 +13,15 @@ namespace chess.Application.Requests.WebGameRequests.FetchTime;
 /// </summary>
 public class FetchTimeRequestHandler : IRequestHandler<FetchTimeRequest, FetchTimeDto> {
 
-    private readonly IWebGameRepository _gameRepository;
+    private readonly IWebGameRepository _webGameRepository;
 
     public FetchTimeRequestHandler(IWebGameRepository gameRepository) {
-        _gameRepository = gameRepository;
+        _webGameRepository = gameRepository;
     }
 
     public async Task<FetchTimeDto> Handle(FetchTimeRequest request, CancellationToken cancellationToken) {
 
-        var game = await _gameRepository.GetById(request.GameId)
+        var game = await _webGameRepository.GetById(request.GameId)
             ?? throw new NotFoundException("Game not found.");
 
 

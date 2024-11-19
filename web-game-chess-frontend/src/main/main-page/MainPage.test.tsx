@@ -7,7 +7,7 @@ import { Guid } from "guid-typescript";
 import { JwtService } from "../../shared/utils/services/MockJwtService";
 import { mockElo, mockUserForToken, mockGameOutcome } from "../../shared/utils/objects/generalMocks";
 import {
-  CheckIfUpdateRequiredDto,
+  CheckIfUpdateOnPrivateGameRequiredDto,
   CreatePrivateGameDto,
   GetGameTimingDto,
   SearchWebGameDto,
@@ -25,6 +25,7 @@ const mockUser: GetUserDto = {
   username: "User",
   name: null,
   profilePicture: null,
+  backgroundImage: null,
   country: "PL",
   userId: Guid.create(),
   email: "user@test.com",
@@ -40,6 +41,7 @@ const mockFriends: GetAllFriendsByStatusDto[] = [
     username: "Friend 1",
     name: null,
     profilePicture: null,
+    backgroundImage: null,
     country: "PL",
     friendshipId: Guid.create(),
     elo: mockElo,
@@ -51,6 +53,7 @@ const mockFriends: GetAllFriendsByStatusDto[] = [
     username: "Friend 2",
     name: null,
     profilePicture: null,
+    backgroundImage: null,
     country: "PL",
     friendshipId: Guid.create(),
     elo: mockElo,
@@ -72,7 +75,7 @@ const mockGameTiming: GetGameTimingDto = {
   increment: 0,
 };
 
-const mockUpdateRequired: CheckIfUpdateRequiredDto = {
+const mockUpdateRequired: CheckIfUpdateOnPrivateGameRequiredDto = {
   type: TimingType.bullet,
   minutes: 1,
   increment: 0,

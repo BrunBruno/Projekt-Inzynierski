@@ -4,7 +4,7 @@ using chess.Api.Models.WebGameModels;
 using chess.Application.Hubs;
 using chess.Application.Requests.WebGameRequests.AcceptInvitation;
 using chess.Application.Requests.WebGameRequests.AcceptWebGameRematch;
-using chess.Application.Requests.WebGameRequests.CreateRematchGame;
+using chess.Application.Requests.WebGameRequests.CreateWebGameRematch;
 using chess.Application.Requests.WebGameRequests.DeclineInvitation;
 using chess.Application.Requests.WebGameRequests.EndWebGame;
 using chess.Application.Requests.WebGameRequests.InvitedToGame;
@@ -12,8 +12,8 @@ using chess.Application.Requests.WebGameRequests.MakeWebGameMove;
 using chess.Application.Requests.WebGameRequests.RemoveDrawMessage;
 using chess.Application.Requests.WebGameRequests.SendDrawMessage;
 using chess.Application.Requests.WebGameRequests.SendWebGameMessage;
-using chess.Application.Requests.WebGameRequests.SendMessage;
-using chess.Application.Requests.WebGameRequests.StartGames;
+using chess.Application.Requests.WebGameRequests.SendPlayerMessage;
+using chess.Application.Requests.WebGameRequests.StartWebGames;
 using chess.Application.Requests.WebGameRequests.UpdatePrivateGame;
 using chess.Application.Requests.WebGameRequests.AddPlayerToWebGame;
 using chess.Application.Services;
@@ -22,7 +22,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.SignalR;
 using SignalRSwaggerGen.Attributes;
 using SignalRSwaggerGen.Enums;
-using chess.Application.Requests.WebGameRequests.CancelRematch;
+using chess.Application.Requests.WebGameRequests.CancelWebGameRematch;
 
 namespace chess.Api.Hubs;
 
@@ -90,7 +90,7 @@ public class GameHub : Hub<IGameHub> {
 
         await Groups.AddToGroupAsync(Context.ConnectionId, $"queue-{typeId}");
 
-        var request = new StartGamesRequest() 
+        var request = new StartWebGamesRequest() 
         { 
             TimingId = typeId,
         };
@@ -108,10 +108,10 @@ public class GameHub : Hub<IGameHub> {
     /// <returns> Essential for game creation </returns>
     [HubMethodName("rematch")]
     [Authorize(Policy = "IsVerified")]
-    [SignalRMethod("CreateRematchGame", Operation.Post)]
-    public async Task CreateRematchGame(CreateRematchWebGameModel model) {
+    [SignalRMethod("CreateWebGameRematch", Operation.Post)]
+    public async Task CreateWebGameRematch(CreateRematchWebGameModel model) {
 
-        var request = _mapper.Map<CreateRematchGameRequest>(model);
+        var request = _mapper.Map<CreateWebGameRematchRequest>(model);
 
         var gameData = await _mediator.Send(request);
 
@@ -145,10 +145,10 @@ public class GameHub : Hub<IGameHub> {
     /// <returns></returns>
     [HubMethodName("send-message")]
     [Authorize(Policy = "IsVerified")]
-    [SignalRMethod("SendMessage", Operation.Post)]
-    public async Task SendMessage(SendMessageModel model) {
+    [SignalRMethod("SendPlayerMessage", Operation.Post)]
+    public async Task SendPlayerMessage(SendPlayerMessageModel model) {
 
-        var request = _mapper.Map<SendMessageRequest>(model);
+        var request = _mapper.Map<SendPlayerMessageRequest>(model);
 
         await _mediator.Send(request);
 
@@ -399,7 +399,7 @@ public class GameHub : Hub<IGameHub> {
     [SignalRMethod("CancelRematch", Operation.Delete)]
     public async Task CancelRematch(CancelRematchModel model) {
 
-        var request = _mapper.Map<CancelRematchRequest>(model);
+        var request = _mapper.Map<CancelWebGameRematchRequest>(model);
 
         await _mediator.Send(request);
 

@@ -1,32 +1,31 @@
 ﻿
 using chess.Application.Repositories.WebGameRepositories;
 using chess.Application.Repositories.UserRepositories;
-using chess.Application.Requests.WebGameRequests.CreateRematchGame;
+using chess.Application.Requests.WebGameRequests.CreateWebGameRematch;
 using chess.Application.Services;
 using chess.Core.Entities;
 using chess.Core.Enums;
 using chess.Shared.Exceptions;
 using FluentAssertions;
 using Moq;
-using chess.Application.Repositories;
 
 namespace chess.Core.Tests.WebGame;
 
-public class CreateRematchGameRequestHandlerTests {
+public class CreateWebGameRematchRequestHandlerTests {
 
     private readonly Mock<IUserContextService> _mockUserContextService;
     private readonly Mock<IUserRepository> _mockUserRepository;
     private readonly Mock<IWebGamePlayerRepository> _mockPlayerRepository;
     private readonly Mock<IWebGameRepository> _mockGameRepository;
-    private readonly Mock<IGameTimingRepository> _mockGameTimingRepository;
+    private readonly Mock<IWebGameTimingRepository> _mockGameTimingRepository;
     private readonly Mock<IWebGameStateRepository> _mockGameStateRepository;
 
-    public CreateRematchGameRequestHandlerTests() {
+    public CreateWebGameRematchRequestHandlerTests() {
         _mockUserContextService = new Mock<IUserContextService>();
         _mockUserRepository = new Mock<IUserRepository>();
         _mockPlayerRepository = new Mock<IWebGamePlayerRepository>();
         _mockGameRepository = new Mock<IWebGameRepository>();
-        _mockGameTimingRepository = new Mock<IGameTimingRepository>();
+        _mockGameTimingRepository = new Mock<IWebGameTimingRepository>();
         _mockGameStateRepository = new Mock<IWebGameStateRepository>();
     }
 
@@ -51,7 +50,7 @@ public class CreateRematchGameRequestHandlerTests {
             Elo = new UserElo(),
         };
 
-        var gameTiming = new GameTiming()
+        var gameTiming = new WebGameTiming()
         {
             Id = Guid.NewGuid(),
             Type = TimingTypes.Rapid,
@@ -59,7 +58,7 @@ public class CreateRematchGameRequestHandlerTests {
             Increment = 0,
         };
 
-        var request = new CreateRematchGameRequest()
+        var request = new CreateWebGameRematchRequest()
         {
             OpponentId = friendId,
             Type = gameTiming.Type,
@@ -74,7 +73,7 @@ public class CreateRematchGameRequestHandlerTests {
         _mockUserRepository.Setup(x => x.GetById(request.OpponentId)).ReturnsAsync(friend);
 
 
-        var handler = new CreateRematchGameRequestHandler(
+        var handler = new CreateWebGameRematchRequestHandler(
              _mockGameTimingRepository.Object,
              _mockGameRepository.Object,
              _mockPlayerRepository.Object,
@@ -105,7 +104,7 @@ public class CreateRematchGameRequestHandlerTests {
         var userId = Guid.NewGuid();
         var friendId = Guid.NewGuid();
 
-        var gameTiming = new GameTiming()
+        var gameTiming = new WebGameTiming()
         {
             Id = Guid.NewGuid(),
             Type = TimingTypes.Rapid,
@@ -113,7 +112,7 @@ public class CreateRematchGameRequestHandlerTests {
             Increment = 0,
         };
 
-        var request = new CreateRematchGameRequest()
+        var request = new CreateWebGameRematchRequest()
         {
             OpponentId = friendId,
             Type = gameTiming.Type,
@@ -126,7 +125,7 @@ public class CreateRematchGameRequestHandlerTests {
         // game timing not returned
 
 
-        var handler = new CreateRematchGameRequestHandler(
+        var handler = new CreateWebGameRematchRequestHandler(
              _mockGameTimingRepository.Object,
              _mockGameRepository.Object,
              _mockPlayerRepository.Object,
@@ -155,7 +154,7 @@ public class CreateRematchGameRequestHandlerTests {
         var userId = Guid.NewGuid();
         var friendId = Guid.NewGuid();
 
-        var gameTiming = new GameTiming()
+        var gameTiming = new WebGameTiming()
         {
             Id = Guid.NewGuid(),
             Type = TimingTypes.Rapid,
@@ -163,7 +162,7 @@ public class CreateRematchGameRequestHandlerTests {
             Increment = 0,
         };
 
-        var request = new CreateRematchGameRequest()
+        var request = new CreateWebGameRematchRequest()
         {
             OpponentId = friendId,
             Type = gameTiming.Type,
@@ -177,7 +176,7 @@ public class CreateRematchGameRequestHandlerTests {
         // user not returned
 
 
-        var handler = new CreateRematchGameRequestHandler(
+        var handler = new CreateWebGameRematchRequestHandler(
              _mockGameTimingRepository.Object,
              _mockGameRepository.Object,
              _mockPlayerRepository.Object,
@@ -214,7 +213,7 @@ public class CreateRematchGameRequestHandlerTests {
             Elo = new UserElo(),
         };
 
-        var gameTiming = new GameTiming()
+        var gameTiming = new WebGameTiming()
         {
             Id = Guid.NewGuid(),
             Type = TimingTypes.Rapid,
@@ -222,7 +221,7 @@ public class CreateRematchGameRequestHandlerTests {
             Increment = 0,
         };
 
-        var request = new CreateRematchGameRequest()
+        var request = new CreateWebGameRematchRequest()
         {
             OpponentId = friendId,
             Type = gameTiming.Type,
@@ -237,7 +236,7 @@ public class CreateRematchGameRequestHandlerTests {
         // opponent user not returned
 
 
-        var handler = new CreateRematchGameRequestHandler(
+        var handler = new CreateWebGameRematchRequestHandler(
              _mockGameTimingRepository.Object,
              _mockGameRepository.Object,
              _mockPlayerRepository.Object,

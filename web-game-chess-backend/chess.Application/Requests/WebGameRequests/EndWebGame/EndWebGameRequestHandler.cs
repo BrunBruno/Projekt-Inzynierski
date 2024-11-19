@@ -42,7 +42,21 @@ public class EndWebGameRequestHandler : IRequestHandler<EndWebGameRequest, EndWe
 
         var userId = _userContextService.GetUserId();
 
-        if((
+        var game = await _webGameRepository.GetById(request.GameId)
+            ?? throw new NotFoundException("Game not found.");
+
+        // game already has ended
+        if (game.HasEnded == true) {
+            var prevDto = new EndWebGameDto()
+            {
+                WinnerColor = game.WinnerColor,
+                EloGain = game.EloGain,
+            };
+
+            return prevDto;
+        }
+
+        if ((
             request.LoserColor == null && 
                 (request.EndGameType == GameEndReason.CheckMate ||
                 request.EndGameType == GameEndReason.OutOfTime ||
@@ -58,22 +72,10 @@ public class EndWebGameRequestHandler : IRequestHandler<EndWebGameRequest, EndWe
             throw new BadRequestException("Incorrect game result.");
         }
 
-        var game = await _webGameRepository.GetById(request.GameId) 
-            ?? throw new NotFoundException("Game not found.");
+
 
         if (game.WhitePlayer.UserId != userId && game.BlackPlayer.UserId != userId)
             throw new UnauthorizedException("Not user game.");
-
-        // game already has ended
-        if (game.HasEnded == true) {
-            var prevDto = new EndWebGameDto()
-            {
-                WinnerColor = game.WinnerColor,
-                EloGain = game.EloGain,
-            };
-
-            return prevDto;
-        }
 
 
         var whiteUser = await _userRepository.GetById(game.WhitePlayer.UserId) 
@@ -124,11 +126,11 @@ public class EndWebGameRequestHandler : IRequestHandler<EndWebGameRequest, EndWe
             // friendship
             if(friendship is not null){
                 if(friendship.RequestorId == whiteUser.Id) { 
-                    friendship.RequestorLoses +=1;
+                    friendship.Stats.RequestorLoses +=1;
                 }
 
                 if(friendship.RequestorId == blackUser.Id) {
-                    friendship.RequestorWins +=1;
+                    friendship.Stats.RequestorWins +=1;
                 }
             }
 
@@ -181,11 +183,11 @@ public class EndWebGameRequestHandler : IRequestHandler<EndWebGameRequest, EndWe
             // friendship stats
             if(friendship is not null){
                 if(friendship.RequestorId == whiteUser.Id) { 
-                    friendship.RequestorWins +=1;
+                    friendship.Stats.RequestorWins +=1;
                 }
                 
                 if(friendship.RequestorId == blackUser.Id) {
-                    friendship.RequestorLoses +=1;
+                    friendship.Stats.RequestorLoses +=1;
                 }
             }
 
@@ -233,7 +235,7 @@ public class EndWebGameRequestHandler : IRequestHandler<EndWebGameRequest, EndWe
             }
 
             if(friendship is not null){
-                friendship.RequestorDraws += 1;
+                friendship.Stats.RequestorDraws += 1;
             }
         }
 

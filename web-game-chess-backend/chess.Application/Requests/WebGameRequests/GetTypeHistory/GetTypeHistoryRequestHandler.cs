@@ -16,21 +16,21 @@ namespace chess.Application.Requests.WebGameRequests.GetTypeHistory;
 public class GetTypeHistoryRequestHandler : IRequestHandler<GetTypeHistoryRequest, PagedResult<GetTypeHistoryDto>> {
 
     private readonly IUserContextService _userContextService;
-    private readonly IWebGamePlayerRepository _playerRepository;
+    private readonly IWebGamePlayerRepository _webGamePlayerRepository;
 
     public GetTypeHistoryRequestHandler(
         IUserContextService userContextService,
         IWebGamePlayerRepository playerRepository
     ) {
         _userContextService = userContextService;
-        _playerRepository = playerRepository;
+        _webGamePlayerRepository = playerRepository;
     }
 
     public async Task<PagedResult<GetTypeHistoryDto>> Handle(GetTypeHistoryRequest request, CancellationToken cancellationToken) {
 
         var userId = _userContextService.GetUserId();
 
-        var players = await _playerRepository.GetAllFinishedForUser(userId);
+        var players = await _webGamePlayerRepository.GetAllFinishedForUser(userId);
 
         var typeHistory = new List<GetTypeHistoryDto>();
 

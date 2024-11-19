@@ -55,8 +55,6 @@ public class EndWebGameRequestHandlerTests {
         {
             Id = gameId,
             HasEnded = false,
-            WhitePlayerRegistered = true,
-            BlackPlayerRegistered = true,
 
             WhitePlayer = new WebGamePlayer()
             {
@@ -141,8 +139,6 @@ public class EndWebGameRequestHandlerTests {
         {
             Id = gameId,
             HasEnded = false,
-            WhitePlayerRegistered = true,
-            BlackPlayerRegistered = true,
             IsPrivate = true, // game private
             TimingType =TimingTypes.Rapid,
 
@@ -237,8 +233,6 @@ public class EndWebGameRequestHandlerTests {
             HasEnded = true, // game is already ended
             EloGain = 10, // properties set
             WinnerColor = PieceColor.White, // properties set
-            WhitePlayerRegistered = true,
-            BlackPlayerRegistered = true,
             TimingType = TimingTypes.Rapid,
 
 
@@ -376,9 +370,6 @@ public class EndWebGameRequestHandlerTests {
         {
             Id = gameId,
             HasEnded = false,
-
-            WhitePlayerRegistered = true,
-            BlackPlayerRegistered = true,
             TimingType = TimingTypes.Rapid,
 
             WhitePlayer = new WebGamePlayer()
@@ -438,8 +429,6 @@ public class EndWebGameRequestHandlerTests {
         {
             Id = gameId,
             HasEnded = false,
-            WhitePlayerRegistered = true,
-            BlackPlayerRegistered = true,
             TimingType = TimingTypes.Rapid,
 
             WhitePlayer = new WebGamePlayer()
@@ -511,8 +500,6 @@ public class EndWebGameRequestHandlerTests {
         {
             Id = gameId,
             HasEnded = false,
-            WhitePlayerRegistered = true,
-            BlackPlayerRegistered = true,
             TimingType = TimingTypes.Rapid,
 
             WhitePlayer = new WebGamePlayer()

@@ -89,10 +89,6 @@ function EngineGameLeftSidebar({
   // for game restart
   const onRestartGame = async (): Promise<void> => {
     const model: StartEngineGameModel = {
-      type: gameData.timingType,
-      minutes: null,
-      increment: null,
-      allowUndo: gameData.allowUndo,
       engineLevel: gameData.engineLevel,
     };
 

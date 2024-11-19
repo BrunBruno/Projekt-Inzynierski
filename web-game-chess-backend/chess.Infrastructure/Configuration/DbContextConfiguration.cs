@@ -13,10 +13,10 @@ public class DbContextConfiguration :
     IEntityTypeConfiguration<User>,
     IEntityTypeConfiguration<Role>,
     IEntityTypeConfiguration<UserVerificationCode>,
-    IEntityTypeConfiguration<Core.Entities.DataConfiguration>,
+    IEntityTypeConfiguration<UserDataConfiguration>,
     IEntityTypeConfiguration<UserBan>,
     IEntityTypeConfiguration<WebGame>,
-    IEntityTypeConfiguration<GameTiming>,
+    IEntityTypeConfiguration<WebGameTiming>,
     IEntityTypeConfiguration<WebGameState>,
     IEntityTypeConfiguration<WebGamePlayer>,
     IEntityTypeConfiguration<WebGameMove>,
@@ -33,7 +33,8 @@ public class DbContextConfiguration :
     IEntityTypeConfiguration<EngineGameState>,
     IEntityTypeConfiguration<EngineGameMessage>,
     IEntityTypeConfiguration<UserBackgroundImage>,
-    IEntityTypeConfiguration<UserSettings>
+    IEntityTypeConfiguration<UserSettings>,
+    IEntityTypeConfiguration<FriendshipStats>
 {
 
     public void Configure(EntityTypeBuilder<User> builder) {
@@ -64,7 +65,7 @@ public class DbContextConfiguration :
             .HasForeignKey<UserVerificationCode>(evc => evc.UserId);
     }
 
-    public void Configure(EntityTypeBuilder<Core.Entities.DataConfiguration> builder) {
+    public void Configure(EntityTypeBuilder<Core.Entities.UserDataConfiguration> builder) {
         builder
             .HasKey(dc => dc.Id);
 
@@ -102,7 +103,7 @@ public class DbContextConfiguration :
             .HasForeignKey(g => g.GameTimingId);
     }
 
-    public void Configure(EntityTypeBuilder<GameTiming> builder) {
+    public void Configure(EntityTypeBuilder<WebGameTiming> builder) {
         builder
             .HasKey(gt => gt.Id);
     }
@@ -230,11 +231,6 @@ public class DbContextConfiguration :
             .HasOne(eg => eg.Player)
             .WithOne(egp => egp.Game)
             .HasForeignKey<EngineGame>(eg => eg.PlayerId);
-
-        builder
-            .HasOne(g => g.GameTiming)
-            .WithMany(gt => gt.EngineGames)
-            .HasForeignKey(g => g.GameTimingId);
     }
 
     public void Configure(EntityTypeBuilder<EngineGamePlayer> builder) {
@@ -287,6 +283,16 @@ public class DbContextConfiguration :
             .HasForeignKey<UserSettings>(us => us.UserId);
     }
 
+    public void Configure(EntityTypeBuilder<FriendshipStats> builder) {
+        builder
+            .HasKey(fs => fs.Id);
+
+        builder
+            .HasOne(fs => fs.Friendship)
+            .WithOne(f => f.Stats)
+            .HasForeignKey<FriendshipStats>(fs => fs.FreindshipId);
+    }
+
     private static IEnumerable<Role> GetRoles() {
 
         var roles = new List<Role> 
@@ -307,8 +313,8 @@ public class DbContextConfiguration :
         return roles;
     }
 
-    private static IEnumerable<Core.Entities.DataConfiguration> GetConfiguration() {
-        var configurations = new List<Core.Entities.DataConfiguration>
+    private static IEnumerable<Core.Entities.UserDataConfiguration> GetConfiguration() {
+        var configurations = new List<Core.Entities.UserDataConfiguration>
         {
             new()
             {

@@ -1,11 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import {
-  EndGameDto,
-  FetchTimeDto,
-  GetEndedGameDto,
-  GetWebGameDto,
-  GetPlayerDto,
-} from "../../../shared/utils/types/gameDtos";
+import { EndGameDto, FetchTimeDto, GetWebGameDto, GetWebGamePlayerDto } from "../../../shared/utils/types/gameDtos";
 import classes from "./GameRightSidebar.module.scss";
 import { AppearanceOfGamePage, PieceColor } from "../../../shared/utils/objects/entitiesEnums";
 import AvatarImage from "../../../shared/components/avatar-image/AvatarImage";
@@ -25,11 +19,11 @@ type WebGameRightSidebarProps = {
   // game and player data
   gameId: Guid;
   gameData: GetWebGameDto;
-  playerData: GetPlayerDto;
+  playerData: GetWebGamePlayerDto;
   // times left for players
   playersTimes: FetchTimeDto | null;
   // winner dto of the game
-  winner: EndGameDto | GetEndedGameDto | null;
+  winner: EndGameDto | null;
   // to set previous position
   historyPositionState: StateProp<MoveDto | null>;
   // for showing history view
@@ -46,6 +40,8 @@ function WebGameRightSidebar({
   displayedWindowState,
 }: WebGameRightSidebarProps) {
   ///
+
+  console.log("tododo", winner);
 
   // for handling scroll of records
   const recordsRef = useRef<HTMLDivElement>(null);

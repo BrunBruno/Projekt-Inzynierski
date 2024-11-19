@@ -17,7 +17,7 @@ namespace chess.Application.Requests.WebGameRequests.SendDrawMessage;
 public class SendDrawMessageRequestHandler : IRequestHandler<SendDrawMessageRequest> {
 
     private readonly IWebGameMessageRepository _gameMessageRepository;
-    private readonly IWebGameRepository _gameRepository;
+    private readonly IWebGameRepository _webGameRepository;
     private readonly IUserContextService _userContextService;
 
     public SendDrawMessageRequestHandler(
@@ -26,7 +26,7 @@ public class SendDrawMessageRequestHandler : IRequestHandler<SendDrawMessageRequ
         IUserContextService userContextService
     ) {
         _gameMessageRepository = gameMessageRepository;
-        _gameRepository = gameRepository;
+        _webGameRepository = gameRepository;
         _userContextService = userContextService;
     }
 
@@ -34,7 +34,7 @@ public class SendDrawMessageRequestHandler : IRequestHandler<SendDrawMessageRequ
 
         var userId = _userContextService.GetUserId();
 
-        var game = await _gameRepository.GetById(request.GameId)
+        var game = await _webGameRepository.GetById(request.GameId)
             ?? throw new NotFoundException("Game not found.");
 
         if (game.WhitePlayer.UserId != userId && game.BlackPlayer.UserId != userId)

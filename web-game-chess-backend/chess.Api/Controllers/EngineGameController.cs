@@ -3,7 +3,6 @@ using AutoMapper;
 using chess.Api.Models.EngineGameModels;
 using chess.Application.Requests.EngineRequests.ChangeEngineLevel;
 using chess.Application.Requests.EngineRequests.EndEngineGame;
-using chess.Application.Requests.EngineRequests.FetchEngineGameTime;
 using chess.Application.Requests.EngineRequests.GetAllEngineGameMessages;
 using chess.Application.Requests.EngineRequests.GetEngineGame;
 using chess.Application.Requests.EngineRequests.GetEngineGameMove;
@@ -152,26 +151,6 @@ public class EngineGameController : ControllerBase {
         var move = await _mediator.Send(request);
 
         return Ok(move);
-    }
-
-
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <param name="gameId"></param>
-    /// <returns></returns>
-    [HttpGet("{gameId}/time")]
-    [Authorize(Policy = "IsVerified")]
-    public async Task<IActionResult> FetchTime([FromRoute] Guid gameId) {
-
-        var request = new FetchEngineGameTimeRequest()
-        {
-            GameId = gameId,
-        };
-
-        var time = await _mediator.Send(request);
-
-        return Ok(time);
     }
 
 

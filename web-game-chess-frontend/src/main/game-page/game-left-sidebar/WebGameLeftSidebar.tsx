@@ -7,7 +7,7 @@ import {
   TimingType,
 } from "../../../shared/utils/objects/entitiesEnums";
 import GameHubService from "../../../shared/utils/services/GameHubService";
-import { GetWebGameDto, GetPlayerDto } from "../../../shared/utils/types/gameDtos";
+import { GetWebGameDto, GetWebGamePlayerDto } from "../../../shared/utils/types/gameDtos";
 import { EndGameModel } from "../../../shared/utils/types/gameModels";
 import classes from "./GameLeftSidebar.module.scss";
 import { usePopup } from "../../../shared/utils/hooks/usePopUp";
@@ -23,7 +23,7 @@ import { StateProp } from "../../../shared/utils/types/commonTypes";
 type WebGameLeftSidebarProps = {
   // game and player data
   gameId: Guid;
-  playerData: GetPlayerDto;
+  playerData: GetWebGamePlayerDto;
   gameData: GetWebGameDto;
 
   // to show confirm window with correct text

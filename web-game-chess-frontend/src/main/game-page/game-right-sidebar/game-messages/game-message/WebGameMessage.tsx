@@ -4,7 +4,7 @@ import { GameEndReason, MessageType } from "../../../../../shared/utils/objects/
 import { getErrMessage } from "../../../../../shared/utils/functions/errors";
 import { usePopup } from "../../../../../shared/utils/hooks/usePopUp";
 import GameHubService from "../../../../../shared/utils/services/GameHubService";
-import { GetAllMessagesDto, GetPlayerDto } from "../../../../../shared/utils/types/gameDtos";
+import { GetAllMessagesDto, GetWebGamePlayerDto } from "../../../../../shared/utils/types/gameDtos";
 import { EndGameModel, SendGameMessageModel } from "../../../../../shared/utils/types/gameModels";
 import classes from "./GameMessage.module.scss";
 import IconCreator from "../../../../../shared/components/icon-creator/IconCreator";
@@ -14,7 +14,7 @@ type WebGameMessageProps = {
   // game id
   gameId: Guid;
   // player data
-  playerData: GetPlayerDto;
+  playerData: GetWebGamePlayerDto;
   // message dto
   message: GetAllMessagesDto;
 };

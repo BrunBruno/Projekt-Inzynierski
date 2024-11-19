@@ -16,8 +16,6 @@ using chess.Infrastructure.Repositories.FriendshipRepositories;
 using chess.Application.Repositories.FriendshipRepositories;
 using chess.Application.Repositories.EngineGameRepositories;
 using chess.Infrastructure.Repositories.EngineGameRepositories;
-using chess.Infrastructure.Repositories;
-using chess.Application.Repositories;
 using chess.Infrastructure.Repositories.WebGameRepositories;
 using chess.Application.Repositories.WebGameRepositories;
 
@@ -105,8 +103,6 @@ public static class Extensions {
         services.AddDbContext<ChessAppDbContext>(ctx
             => ctx.UseNpgsql(options.ConnectionString));
 
-        services.AddScoped<IDataConfigurationRepository, DataConfigurationRepository>();
-        services.AddScoped<IGameTimingRepository, GameTimingRepository>();
 
 
         services.AddScoped<IUserRepository, UserRepository>();
@@ -117,10 +113,13 @@ public static class Extensions {
         services.AddScoped<IUserSettingsRepository, UserSettingsRepository>();
         services.AddScoped<IUserBanRepository, UserBanRepository>();
         services.AddScoped<IUserVerificationCodeRepository, UserVerificationCodeRepository>();
+        services.AddScoped<IUserDataConfigurationRepository, UserDataConfigurationRepository>();
 
         services.AddScoped<IFriendshipRepository, FriendshipRepository>();
+        services.AddScoped<IFriendshipStatsRepository, FriendshipStatsRepository>();
 
         services.AddScoped<IWebGameRepository, WebGameRepository>();
+        services.AddScoped<IWebGameTimingRepository, WebGameTimingRepository>();
         services.AddScoped<IWebGameStateRepository, WebGameStateRepository>();
         services.AddScoped<IWebGameInvitationRepository, WebGameInvitationRepository>();
         services.AddScoped<IWebGameMessageRepository, WebGameMessageRepository>();

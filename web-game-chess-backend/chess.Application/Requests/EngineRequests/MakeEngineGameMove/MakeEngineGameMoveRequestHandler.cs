@@ -2,7 +2,6 @@
 using chess.Application.Repositories.EngineGameRepositories;
 using chess.Application.Services;
 using chess.Core.Entities;
-using chess.Core.Enums;
 using chess.Shared.Exceptions;
 using MediatR;
 
@@ -42,23 +41,6 @@ public class MakeEngineGameMoveRequestHandler : IRequestHandler<MakeEngineGameMo
 
         if (game.HasEnded)
             throw new BadRequestException("Game is finished.");
-
-        // update times
-        DateTime lastTimeRecorded = (game.Moves.Count == 0 ? game.StartedAt : game.Moves[^1].DoneAt)
-          ?? throw new BadRequestException("Game starting error.");
-
-        double timeDifference = (DateTime.UtcNow - lastTimeRecorded).TotalSeconds;
-        bool isWhitePlayer = game.Player.Color == PieceColor.White;
-
-        if (game.GameTiming is not null) {
-            if ((game.Turn % 2 == 0 && isWhitePlayer) || (game.Turn % 2 == 1 && !isWhitePlayer)) {
-                game.Player.TimeLeft -= timeDifference;
-                game.Player.TimeLeft += game.GameTiming.Increment;
-            } else {
-                game.EngineTimeLeft -= timeDifference;
-                game.EngineTimeLeft += game.GameTiming.Increment;
-            }
-        }
         
 
         // update states
@@ -82,7 +64,7 @@ public class MakeEngineGameMoveRequestHandler : IRequestHandler<MakeEngineGameMo
         game.Round = (game.Turn / 2) + 1;
         game.Turn += 1;
 
-        var playerMove = new EngineGameMove()
+        var move = new EngineGameMove()
         {
             Id = Guid.NewGuid(),
             DoneMove = request.Move,
@@ -92,13 +74,11 @@ public class MakeEngineGameMoveRequestHandler : IRequestHandler<MakeEngineGameMo
             NewCoordinates = request.NewCoor,
             Turn = game.Turn,
             CapturedPiece = request.CapturedPiece,
-            //WhiteTime = game.WhitePlayer.TimeLeft,
-            //BlackTime = game.BlackPlayer.TimeLeft,
             GameId = game.Id,
         };
 
 
-        await _engineGameMoveRepository.Create(playerMove);
+        await _engineGameMoveRepository.Create(move);
         await _engineGameRepository.Update(game);
     }
 }

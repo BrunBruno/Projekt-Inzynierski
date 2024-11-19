@@ -30,7 +30,7 @@ internal static partial class DbFilter {
 
         await dbContext.Roles.AddRangeAsync(roles);
 
-        var configurations = new List<Core.Entities.DataConfiguration>
+        var configurations = new List<Core.Entities.UserDataConfiguration>
         {
             new()
             {

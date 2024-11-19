@@ -15,35 +15,35 @@ namespace chess.Application.Requests.WebGameRequests.AcceptWebGameRematch;
 /// </summary>
 public class AcceptWebGameRematchRequestHandler : IRequestHandler<AcceptWebGameRematchRequest, AcceptWebGameRematchDto> {
 
-    private readonly IWebGameRepository _gameRepository;
+    private readonly IWebGameRepository _webGameRepository;
     private readonly IUserContextService _userContextService;
-    private readonly IWebGamePlayerRepository _playerRepository;
+    private readonly IWebGamePlayerRepository _webGamePlayerRepository;
 
     public AcceptWebGameRematchRequestHandler(
         IWebGameRepository gameRepository,
         IUserContextService userContextService,
         IWebGamePlayerRepository playerRepository
     ) {
-        _gameRepository = gameRepository;
+        _webGameRepository = gameRepository;
         _userContextService = userContextService;
-        _playerRepository = playerRepository;
+        _webGamePlayerRepository = playerRepository;
     }
 
     public async Task<AcceptWebGameRematchDto> Handle(AcceptWebGameRematchRequest request, CancellationToken cancellationToken) {
 
         var userId = _userContextService.GetUserId();
 
-        var game = await _gameRepository.GetById(request.GameId)
+        var game = await _webGameRepository.GetById(request.GameId)
             ?? throw new NotFoundException("Game not found.");
 
         if (game.WhitePlayer.UserId != userId && game.BlackPlayer.UserId != userId)
             throw new UnauthorizedException("This is not user game.");
 
 
-        var whitePlayer = await _playerRepository.GetById(game.WhitePlayerId)
+        var whitePlayer = await _webGamePlayerRepository.GetById(game.WhitePlayerId)
             ?? throw new NotFoundException("Player not found.");
 
-        var blackPlayer = await _playerRepository.GetById(game.BlackPlayerId)
+        var blackPlayer = await _webGamePlayerRepository.GetById(game.BlackPlayerId)
             ?? throw new NotFoundException("Player not found.");
 
 
@@ -51,8 +51,8 @@ public class AcceptWebGameRematchRequestHandler : IRequestHandler<AcceptWebGameR
         blackPlayer.IsPlaying = true;
 
 
-        await _playerRepository.Update(whitePlayer);
-        await _playerRepository.Update(blackPlayer);
+        await _webGamePlayerRepository.Update(whitePlayer);
+        await _webGamePlayerRepository.Update(blackPlayer);
 
 
         var returnDto = new AcceptWebGameRematchDto()

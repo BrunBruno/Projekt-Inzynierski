@@ -14,19 +14,19 @@ namespace chess.Application.Requests.WebGameRequests.SendWebGameMessage;
 public class SendWebGameMessageRequestHandler : IRequestHandler<SendWebGameMessageRequest> {
 
     private readonly IWebGameMessageRepository _gameMessageRepository;
-    private readonly IWebGameRepository _gameRepository;
+    private readonly IWebGameRepository _webGameRepository;
 
     public SendWebGameMessageRequestHandler(
         IWebGameMessageRepository gameMessageRepository,
         IWebGameRepository gameRepository
     ) {
         _gameMessageRepository = gameMessageRepository;
-        _gameRepository = gameRepository;
+        _webGameRepository = gameRepository;
     }
 
     public async Task Handle(SendWebGameMessageRequest request, CancellationToken cancellationToken) {
 
-        var game = await _gameRepository.GetById(request.GameId)
+        var game = await _webGameRepository.GetById(request.GameId)
             ?? throw new NotFoundException("Game not found.");
 
 

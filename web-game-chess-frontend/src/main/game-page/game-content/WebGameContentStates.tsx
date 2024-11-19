@@ -1,7 +1,7 @@
 /* game states */
 
 import { Guid } from "guid-typescript";
-import { GetWebGameDto, GetPlayerDto } from "../../../shared/utils/types/gameDtos";
+import { GetWebGameDto, GetWebGamePlayerDto } from "../../../shared/utils/types/gameDtos";
 import { SMatrix } from "../../../shared/utils/types/commonTypes";
 import { Coordinate, PieceOption, SelectionStates, WebGameStates } from "../../../shared/utils/chess-game/gameSates";
 
@@ -23,7 +23,7 @@ export const gameInitialStates: WebGameStates = {
 export type GameAction =
   | { type: "SET_GAME_ID"; payload: Guid }
   | { type: "SET_GAME_DATA"; payload: GetWebGameDto }
-  | { type: "SET_PLAYER_DATA"; payload: GetPlayerDto }
+  | { type: "SET_PLAYER_DATA"; payload: GetWebGamePlayerDto }
   | { type: "SET_MATRIX"; payload: SMatrix }
   | { type: "SET_CONTROLLED_AREAS"; payload: { white: Coordinate[]; black: Coordinate[] } }
   | { type: "SET_CHECK_AREAS"; payload: { white: Coordinate[]; black: Coordinate[] } };

@@ -1,11 +1,10 @@
 import { useEffect, useReducer } from "react";
 import {
   EndGameDto,
-  GetEndedGameDto,
   GetWebGameDto,
-  GetPlayerDto,
+  GetWebGamePlayerDto,
   SearchWebGameDto,
-  CreateRematchGameDto,
+  CreateWebGameRematchDto,
 } from "../../../shared/utils/types/gameDtos";
 import classes from "./GameContent.module.scss";
 import { GameEndReason, PieceColor } from "../../../shared/utils/objects/entitiesEnums";
@@ -39,9 +38,9 @@ type WebGameContentProps = {
   // game and player data
   gameId: Guid;
   gameData: GetWebGameDto;
-  playerData: GetPlayerDto;
+  playerData: GetWebGamePlayerDto;
   // winner color if game is finished
-  winner: EndGameDto | GetEndedGameDto | null;
+  winner: EndGameDto | null;
 
   // timing of current game for new games and rematches
   selectedTiming: SearchWebGameModel | null;
@@ -53,7 +52,7 @@ type WebGameContentProps = {
   newGameDataState: StateProp<SearchWebGameDto | null>;
 
   //rematch game data
-  rematchData: CreateRematchGameDto | null;
+  rematchData: CreateWebGameRematchDto | null;
 
   // to display/hide confirm window
   showConfirmState: StateProp<GameActionInterface | null>;

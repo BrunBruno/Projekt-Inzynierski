@@ -1,8 +1,8 @@
 import { useNavigate } from "react-router-dom";
 import classes from "./InviteBy.module.scss";
 import { usePopup } from "../../../../shared/utils/hooks/usePopUp";
-import { CreateGameByEmailModel, NotifyUserModel } from "../../../../shared/utils/types/gameModels";
-import { CreateGameByEmailDto } from "../../../../shared/utils/types/gameDtos";
+import { CreatePrivateGameByEmailModel, NotifyUserModel } from "../../../../shared/utils/types/gameModels";
+import { CreatePrivateGameByEmailDto } from "../../../../shared/utils/types/gameDtos";
 import axios from "axios";
 import { webGameController, getAuthorization, userController } from "../../../../shared/utils/services/ApiService";
 import GameHubService from "../../../../shared/utils/services/GameHubService";
@@ -47,14 +47,14 @@ const InviteByEmail = forwardRef<InviteByEmailRef, InviteByEmailProps>(
       try {
         const typeValue = getEnumValueByKey(TimingType, header.toLowerCase());
 
-        const model: CreateGameByEmailModel = {
+        const model: CreatePrivateGameByEmailModel = {
           email: email,
           type: typeValue,
           minutes: values[0],
           increment: values[1],
         };
 
-        const privateGameResponse = await axios.post<CreateGameByEmailDto>(
+        const privateGameResponse = await axios.post<CreatePrivateGameByEmailDto>(
           webGameController.createGameByEmail(),
           model,
           getAuthorization()

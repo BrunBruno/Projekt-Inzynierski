@@ -2,7 +2,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { GameSearchInterface, StateOptions } from "../../shared/utils/objects/interfacesEnums";
 import classes from "./MainPage.module.scss";
 import { usePopup } from "../../shared/utils/hooks/usePopUp";
-import { CheckIfInGameDto, SearchWebGameDto } from "../../shared/utils/types/gameDtos";
+import { CheckIfInWebGameDto, SearchWebGameDto } from "../../shared/utils/types/gameDtos";
 import { useEffect, useState } from "react";
 import { OfflineGameOptions, PrivateGameOptions } from "./MainPageData";
 import MainPopUp from "../../shared/components/main-popup/MainPopUp";
@@ -21,13 +21,11 @@ import { Guid } from "guid-typescript";
 import { getErrMessage } from "../../shared/utils/functions/errors";
 import { engineGameController, getAuthorization, webGameController } from "../../shared/utils/services/ApiService";
 import axios from "axios";
-import { AbortSearchModel, CheckIfInGameModel } from "../../shared/utils/types/gameModels";
+import { AbortSearchModel, CheckIfInWebGameModel } from "../../shared/utils/types/gameModels";
 import { StartEngineGameDto } from "../../shared/utils/types/engineDtos";
 import NotificationPopUp from "./notification-popup/NotificationPopUp";
 import MainButtons from "./main-buttons/MainButtons";
 import { StartEngineGameModel } from "../../shared/utils/types/engineModels";
-import { getEnumValueByKey } from "../../shared/utils/functions/enums";
-import { TimingType } from "../../shared/utils/objects/entitiesEnums";
 
 function MainPage() {
   ///
@@ -84,12 +82,12 @@ function MainPage() {
     if (!onlineGameIds) return;
 
     try {
-      const isInGameModel: CheckIfInGameModel = {
+      const isInGameModel: CheckIfInWebGameModel = {
         playerId: onlineGameIds.playerId,
       };
 
       // check if user was joined to game
-      const isInGameResponse = await axios.get<CheckIfInGameDto>(
+      const isInGameResponse = await axios.get<CheckIfInWebGameDto>(
         webGameController.checkIfInGame(isInGameModel),
         getAuthorization()
       );
@@ -189,15 +187,7 @@ function MainPage() {
   const onStartOfflineGame = async (): Promise<void> => {
     if (!offlineGameOptions) return;
 
-    const typeValue = offlineGameOptions.header
-      ? getEnumValueByKey(TimingType, offlineGameOptions.header.toLowerCase())
-      : undefined;
-
     const model: StartEngineGameModel = {
-      type: typeValue ? typeValue : null,
-      minutes: offlineGameOptions.values ? offlineGameOptions.values[0] : null,
-      increment: offlineGameOptions.values ? offlineGameOptions.values[1] : null,
-      allowUndo: offlineGameOptions.enableUndo ? offlineGameOptions.enableUndo : false,
       engineLevel: offlineGameOptions.engineLevel ? offlineGameOptions.engineLevel : 1,
     };
 

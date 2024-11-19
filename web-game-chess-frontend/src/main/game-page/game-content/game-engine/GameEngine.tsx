@@ -1,4 +1,6 @@
 import IconCreator from "../../../../shared/components/icon-creator/IconCreator";
+import { symbolIcons } from "../../../../shared/svgs/iconsMap/SymbolIcons";
+import { greyColor } from "../../../../shared/utils/objects/colorMaps";
 import { gameLeftSideBarIcons } from "../../game-left-sidebar/GameLeftSidebarIcons";
 import classes from "./GameEngine.module.scss";
 
@@ -9,12 +11,23 @@ type GameEngineProps = {};
 function GameEngine({}: GameEngineProps) {
   ///
 
-  const onChangeEngineLevel = async (level: number): Promise<void> => {};
+  const onChangeEngineLevel = async (level: number): Promise<void> => {
+    console.log("tododo", level);
+  };
 
   const onCancel = (): void => {};
 
   return (
     <div className={classes.bot__content__level__grid}>
+      <div
+        className={classes["x"]}
+        onClick={() => {
+          onCancel();
+        }}
+      >
+        <IconCreator icons={symbolIcons} iconName={"x"} iconClass={classes["x-icon"]} color={greyColor.c5} />
+      </div>
+
       {Array.from({ length: levels }).map((_, level: number) => (
         <div
           key={`engine-level-${level}`}

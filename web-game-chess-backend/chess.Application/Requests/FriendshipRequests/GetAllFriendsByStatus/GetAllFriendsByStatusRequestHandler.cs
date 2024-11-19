@@ -89,10 +89,10 @@ public class GetAllFriendsByStatusRequestHandler : IRequestHandler<GetAllFriends
                     },
 
                     OutcomeTogether = new GameOutcomeDto() {
-                        Total = friendship.GamesPlayed,
-                        Wins = isRequestor ? friendship.RequestorWins : friendship.RequestorLoses,
-                        Loses = isRequestor ? friendship.RequestorLoses : friendship.RequestorWins,
-                        Draws = friendship.RequestorDraws,
+                        Total = friendship.Stats.GamesPlayed,
+                        Wins = isRequestor ? friendship.Stats.RequestorWins : friendship.Stats.RequestorLoses,
+                        Loses = isRequestor ? friendship.Stats.RequestorLoses : friendship.Stats.RequestorWins,
+                        Draws = friendship.Stats.RequestorDraws,
                     },
                 });
             }

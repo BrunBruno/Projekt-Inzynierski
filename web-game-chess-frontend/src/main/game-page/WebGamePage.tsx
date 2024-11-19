@@ -3,20 +3,19 @@ import classes from "./GamePage.module.scss";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import {
-  CheckIfInGameDto,
-  CreateRematchGameDto,
+  CheckIfInWebGameDto,
+  CreateWebGameRematchDto,
   EndGameDto,
   FetchTimeDto,
-  GetEndedGameDto,
   GetWebGameDto,
   GetGameTimingDto,
-  GetPlayerDto,
+  GetWebGamePlayerDto,
   SearchWebGameDto,
 } from "../../shared/utils/types/gameDtos";
 import { webGameController, getAuthorization } from "../../shared/utils/services/ApiService";
 import LoadingPage from "../../shared/components/loading-page/LoadingPage";
 import GameHubService from "../../shared/utils/services/GameHubService";
-import { CheckIfInGameModel } from "../../shared/utils/types/gameModels";
+import { CheckIfInWebGameModel, EndGameModel } from "../../shared/utils/types/gameModels";
 import { usePopup } from "../../shared/utils/hooks/usePopUp";
 import { getErrMessage } from "../../shared/utils/functions/errors";
 import MainPopUp from "../../shared/components/main-popup/MainPopUp";
@@ -54,7 +53,7 @@ function WebGamePage() {
   // selected timing and data for new games and rematch games
   const [selectedTiming, setSelectedTiming] = useState<GetGameTimingDto | null>(null);
   const [newGameData, setNewGameData] = useState<SearchWebGameDto | null>(null);
-  const [rematchData, setRematchData] = useState<CreateRematchGameDto | null>(null);
+  const [rematchData, setRematchData] = useState<CreateWebGameRematchDto | null>(null);
 
   // for showing done moves
   const [historyPosition, setHistoryPosition] = useState<MoveDto | null>(null);
@@ -85,9 +84,9 @@ function WebGamePage() {
   // obtained game data
   const [gameData, setGameData] = useState<GetWebGameDto | null>(null);
   // obtained current player data
-  const [playerData, setPlayerData] = useState<GetPlayerDto | null>(null);
+  const [playerData, setPlayerData] = useState<GetWebGamePlayerDto | null>(null);
   // winner data
-  const [winner, setWinner] = useState<EndGameDto | GetEndedGameDto | null>(null);
+  const [winner, setWinner] = useState<EndGameDto | null>(null);
   // time left for both players
   const [playersTimes, setPlayersTimes] = useState<FetchTimeDto | null>(null);
 
@@ -126,7 +125,7 @@ function WebGamePage() {
     try {
       if (!gameId) return;
 
-      const response = await axios.get<GetPlayerDto>(webGameController.getPlayer(gameId), getAuthorization());
+      const response = await axios.get<GetWebGamePlayerDto>(webGameController.getPlayer(gameId), getAuthorization());
 
       setPlayerData(response.data);
     } catch (err) {
@@ -144,7 +143,7 @@ function WebGamePage() {
   };
 
   // to create and cancel rematches
-  const setRematch = (rematchData: CreateRematchGameDto): void => {
+  const setRematch = (rematchData: CreateWebGameRematchDto): void => {
     setRematchData(rematchData);
   };
 
@@ -210,15 +209,15 @@ function WebGamePage() {
   useEffect(() => {
     if (!gameId || !gameData) return;
 
+    // just for updated
     const getWinner = async (): Promise<void> => {
-      try {
-        const response = await axios.get<GetEndedGameDto>(webGameController.getEndedGame(gameId), getAuthorization());
+      const model: EndGameModel = {
+        gameId: gameId,
+        loserColor: null,
+        endGameType: null,
+      };
 
-        setWinner(response.data);
-        setDisplayedWindow(GameWindowInterface.winner);
-      } catch (err) {
-        showPopup(getErrMessage(err), "warning");
-      }
+      await GameHubService.EndGame(model);
     };
 
     if (gameData.hasEnded) getWinner();
@@ -231,12 +230,12 @@ function WebGamePage() {
   const handleGamesChanged = async (): Promise<void> => {
     if (!newGameData) return;
 
-    const model: CheckIfInGameModel = {
+    const model: CheckIfInWebGameModel = {
       playerId: newGameData.playerId,
     };
 
     try {
-      const response = await axios.get<CheckIfInGameDto>(webGameController.checkIfInGame(model), getAuthorization());
+      const response = await axios.get<CheckIfInWebGameDto>(webGameController.checkIfInGame(model), getAuthorization());
 
       if (response.data.isInGame) {
         const state: StateOptions = {

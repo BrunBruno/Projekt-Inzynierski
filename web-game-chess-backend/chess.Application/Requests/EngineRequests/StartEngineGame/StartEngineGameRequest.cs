@@ -1,6 +1,4 @@
 ﻿
-using chess.Core.Enums;
-using chess.Core.Models;
 using MediatR;
 
 namespace chess.Application.Requests.EngineRequests.StartEngineGame;
@@ -8,19 +6,7 @@ namespace chess.Application.Requests.EngineRequests.StartEngineGame;
 /// <summary>
 /// Request for creating and staring new game with engine
 /// </summary>
-public class StartEngineGameRequest : TimingTypeModel, IRequest<StartEngineGameDto> {
-
-    /// <summary>
-    /// Nullable variants from TimingTypeModel, as timing is optional
-    /// </summary>
-    public new TimingTypes? Type { get; set; }
-    public new int? Minutes { get; set; }
-    public new int? Increment { get; set; }
-
-    /// <summary>
-    /// If player enables undo
-    /// </summary>
-    public bool AllowUndo { get; set; }
+public class StartEngineGameRequest : IRequest<StartEngineGameDto> {
 
     /// <summary>
     /// Engine level

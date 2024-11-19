@@ -27,8 +27,6 @@ public class FetchTimeRequestHandlerTests {
             HasEnded = false,
             StartedAt = DateTime.UtcNow,
 
-              WhitePlayerRegistered = true,
-            BlackPlayerRegistered = true,
             WhitePlayer = new WebGamePlayer() 
             { 
                 Id = Guid.NewGuid(),
@@ -102,8 +100,6 @@ public class FetchTimeRequestHandlerTests {
         {
             Id = gameId,
             HasEnded = false,
-            WhitePlayerRegistered = true,
-            BlackPlayerRegistered = true,
             // started at not set
 
             WhitePlayer = new WebGamePlayer()
@@ -153,8 +149,6 @@ public class FetchTimeRequestHandlerTests {
             HasEnded = false,
             StartedAt = DateTime.UtcNow.AddHours(1), // start time incorrect
 
-            WhitePlayerRegistered = true,
-            BlackPlayerRegistered = true,
             WhitePlayer = new WebGamePlayer()
             {
                 Id = Guid.NewGuid(),

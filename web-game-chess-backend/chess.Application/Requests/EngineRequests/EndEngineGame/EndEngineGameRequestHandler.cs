@@ -60,7 +60,6 @@ public class EndEngineGameRequestHandler : IRequestHandler<EndEngineGameRequest,
 
         game.HasEnded = true;
         game.EndedAt = DateTime.UtcNow;
-        game.IsWinner = request.LoserColor != game.Player.Color;
         game.WinnerColor = request.LoserColor == PieceColor.White ? PieceColor.Black : request.LoserColor == PieceColor.Black ? PieceColor.White : null;
 
 

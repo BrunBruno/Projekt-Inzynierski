@@ -51,8 +51,8 @@ public class GetEngineGameRequestHandler : IRequestHandler<GetEngineGameRequest,
             Position = game.Position,
             Turn = game.Turn,
             EngineLevel = game.EngineLevel,
-            TimingType = game.TimingType,
-            AllowUndo = game.AllowUndo,
+            AllowUndo = settings.EngineGameCheats,
+            // no game timing tododo
 
             EnPassant = game.CurrentState.EnPassant,
             CanWhiteKingCastle = game.CurrentState.CanWhiteKingCastle,

@@ -35,11 +35,6 @@ public class GetEngineGameDto {
     public string? EnPassant { get; set; }
 
     /// <summary>
-    /// Game selected timing or none
-    /// </summary>
-    public TimingTypes? TimingType { get; set; }
-
-    /// <summary>
     /// If player allowed move undoing
     /// </summary>
     public bool AllowUndo { get; set; }

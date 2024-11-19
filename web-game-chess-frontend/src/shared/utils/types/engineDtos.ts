@@ -2,7 +2,7 @@
 
 import { Guid } from "guid-typescript";
 import { GameSettingsDto, MoveDto, PlayerDto } from "./abstractDtosAndModels";
-import { MessageType, PieceColor, TimingType } from "../objects/entitiesEnums";
+import { MessageType, PieceColor } from "../objects/entitiesEnums";
 import { BlackPieceTag, WhitePieceTag } from "../objects/constantLists";
 
 export type GetEngineGameDto = {
@@ -11,7 +11,6 @@ export type GetEngineGameDto = {
   engineLevel: number;
   hasEnded: boolean;
   enPassant: string | null;
-  timingType: TimingType | null;
   allowUndo: boolean;
   canWhiteKingCastle: boolean;
   canWhiteShortRookCastle: boolean;
@@ -44,10 +43,4 @@ export type GetAllEngineGameMessagesDto = {
   senderName: string;
   sentAt: Date;
   type: MessageType;
-};
-
-export type FetchEngineGameTimeDto = {
-  turn: number;
-  whiteTimeLeft: number;
-  blackTimeLeft: number;
 };

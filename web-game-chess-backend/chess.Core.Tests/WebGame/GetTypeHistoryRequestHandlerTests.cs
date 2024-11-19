@@ -92,8 +92,6 @@ public class GetTypeHistoryRequestHandlerTests {
 
                 WhitePlayer = whitePlayer,
                 BlackPlayer = blackPlayer,
-                WhitePlayerRegistered = true,
-                BlackPlayerRegistered = true,
             };
 
             players.Add(whitePlayer);

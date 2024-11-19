@@ -19,7 +19,7 @@ internal static partial class DbFilter {
 
         Guid timingId = Guid.NewGuid();
 
-        var gameTiming = new GameTiming()
+        var gameTiming = new WebGameTiming()
         {
             Id = timingId,
             Type = timingType.Type,
@@ -78,8 +78,6 @@ internal static partial class DbFilter {
             BlackPlayerId = blackPlayerId,
             GameTimingId = timingId,
             IsPrivate = isPrivate,
-            WhitePlayerRegistered = false,
-            BlackPlayerRegistered = false,
         };
 
         var state = new WebGameState()
@@ -112,11 +110,6 @@ internal static partial class DbFilter {
 
         var player = await dbContext.WebGamePlayers.FirstOrDefaultAsync(p => p.Id == playerId)
             ?? throw new InvalidOperationException("Player not added.");
-
-        if (player.Color == PieceColor.White)
-            game.WhitePlayerRegistered = true;
-        if (player.Color == PieceColor.Black)
-            game.BlackPlayerRegistered = true;
 
         player.GameId = gameId;
         player.IsPlaying = true;
@@ -200,7 +193,7 @@ internal static partial class DbFilter {
     /// <returns></returns>
     internal static async Task AddGames(this ChessAppDbContext dbContext, bool isFinished, bool withInvitation) {
 
-        var bulletTiming = new GameTiming()
+        var bulletTiming = new WebGameTiming()
         {
             Id = Guid.NewGuid(),
             Type = TimingTypes.Bullet,
@@ -208,7 +201,7 @@ internal static partial class DbFilter {
             Increment = 1,
         };
 
-        var rapidTiming = new GameTiming()
+        var rapidTiming = new WebGameTiming()
         {
             Id = Guid.NewGuid(),
             Type = TimingTypes.Rapid,
@@ -278,8 +271,6 @@ internal static partial class DbFilter {
                 StartedAt = DateTime.UtcNow.AddMinutes(-20),
                 EndedAt = isFinished == true ? DateTime.UtcNow : null,
 
-                WhitePlayerRegistered = true,
-                BlackPlayerRegistered = true,
                 WhitePlayerId = i % 2 == 0 ? userPlayer.Id : enemyPlayer.Id,
                 WhitePlayer = i % 2 == 0 ? userPlayer : enemyPlayer,
                 BlackPlayerId = i % 2 == 0 ? enemyPlayer.Id : userPlayer.Id,

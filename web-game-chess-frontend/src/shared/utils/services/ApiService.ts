@@ -8,7 +8,7 @@ import {
 } from "../types/friendshipModels";
 import {
   AbortSearchModel,
-  CheckIfInGameModel,
+  CheckIfInWebGameModel,
   GetAllInvitationsModel,
   GetAllFinishedGamesModel,
   GetTypeHistoryModel,
@@ -182,7 +182,7 @@ interface WebGameController {
   createPrivateGame: () => string;
   createGameByEmail: () => string;
   createGameWithLink: () => string;
-  checkIfInGame: (model: CheckIfInGameModel) => string;
+  checkIfInGame: (model: CheckIfInWebGameModel) => string;
   checkIfUpdateRequired: (gameId: Guid) => string;
   getGame: (gameId: Guid) => string;
   getPlayer: (gameId: Guid) => string;
@@ -240,7 +240,7 @@ export const webGameController: WebGameController = {
   createGameWithLink: () => `${webGameBaseUrl}/link`,
 
   // check if player was matched and the game has started
-  checkIfInGame: (model: CheckIfInGameModel) => `${webGameBaseUrl}/is-in-game?${stringifyModel(model)}`,
+  checkIfInGame: (model: CheckIfInWebGameModel) => `${webGameBaseUrl}/is-in-game?${stringifyModel(model)}`,
 
   // check if for game created by url the update on players is required
   checkIfUpdateRequired: (gameId: Guid) => `${webGameBaseUrl}/${gameId}/update-required`,

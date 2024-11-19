@@ -1,6 +1,6 @@
 ﻿
 using chess.Application.Repositories.WebGameRepositories;
-using chess.Application.Requests.WebGameRequests.GetPlayer;
+using chess.Application.Requests.WebGameRequests.GetWebGamePlayer;
 using chess.Application.Services;
 using chess.Core.Entities;
 using chess.Core.Enums;
@@ -40,7 +40,7 @@ public class GetWebGamePlayerRequestHandlerTests {
             }
         };
 
-        var request = new GetPlayerRequest()
+        var request = new GetWebGamePlayerRequest()
         {
             GameId = gameId,
         };
@@ -50,7 +50,7 @@ public class GetWebGamePlayerRequestHandlerTests {
         _mockPlayerRepository.Setup(x => x.GetByUserIdAndGameId(userId, gameId)).ReturnsAsync(player);
 
 
-        var handler = new GetPlayerRequestHandler(
+        var handler = new GetWebGamePlayerRequestHandler(
             _mockPlayerRepository.Object,
             _mockUserContextService.Object
         );
@@ -70,7 +70,7 @@ public class GetWebGamePlayerRequestHandlerTests {
         var userId = Guid.NewGuid();
         var gameId = Guid.NewGuid();
 
-        var request = new GetPlayerRequest()
+        var request = new GetWebGamePlayerRequest()
         {
             GameId = gameId,
         };
@@ -80,7 +80,7 @@ public class GetWebGamePlayerRequestHandlerTests {
         // player not returned
 
 
-        var handler = new GetPlayerRequestHandler(
+        var handler = new GetWebGamePlayerRequestHandler(
             _mockPlayerRepository.Object,
             _mockUserContextService.Object
         );
@@ -107,7 +107,7 @@ public class GetWebGamePlayerRequestHandlerTests {
             IsPlaying = false, // is not playing yet
         };
 
-        var request = new GetPlayerRequest()
+        var request = new GetWebGamePlayerRequest()
         {
             GameId = gameId,
         };
@@ -117,7 +117,7 @@ public class GetWebGamePlayerRequestHandlerTests {
         _mockPlayerRepository.Setup(x => x.GetByUserIdAndGameId(userId, gameId)).ReturnsAsync(player);
 
 
-        var handler = new GetPlayerRequestHandler(
+        var handler = new GetWebGamePlayerRequestHandler(
             _mockPlayerRepository.Object,
             _mockUserContextService.Object
         );

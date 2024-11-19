@@ -14,21 +14,21 @@ namespace chess.Application.Requests.WebGameRequests.GetOpponent;
 public class GetOpponentRequestHandler : IRequestHandler<GetOpponentRequest, GetOpponentDto> {
 
     private readonly IUserContextService _userContextService;
-    private readonly IWebGameRepository _gameRepository;
+    private readonly IWebGameRepository _webGameRepository;
 
     public GetOpponentRequestHandler(
         IUserContextService userContextService,
         IWebGameRepository gameRepository
     ) {
         _userContextService = userContextService;
-        _gameRepository = gameRepository;
+        _webGameRepository = gameRepository;
     }
 
     public async Task<GetOpponentDto> Handle(GetOpponentRequest request, CancellationToken cancellationToken) {
 
         var userId = _userContextService.GetUserId();
 
-        var game = await _gameRepository.GetById(request.GameId)
+        var game = await _webGameRepository.GetById(request.GameId)
             ?? throw new NotFoundException("Game not found.");
 
         if (game.WhitePlayer.UserId != userId && game.BlackPlayer.UserId != userId)

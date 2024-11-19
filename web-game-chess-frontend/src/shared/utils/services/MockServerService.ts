@@ -1,20 +1,19 @@
 import { setupServer } from "msw/node";
 import { DefaultBodyType, MockedRequest, rest, RestHandler } from "msw";
 import {
-  CheckIfInGameDto,
-  CheckIfUpdateRequiredDto,
-  CreateGameByEmailDto,
+  CheckIfInWebGameDto,
+  CheckIfUpdateOnPrivateGameRequiredDto,
+  CreatePrivateGameByEmailDto,
   CreateGameWithLinkDto,
   CreatePrivateGameDto,
   FetchTimeDto,
   GetAllFinishedGamesDto,
   GetAllInvitationsDto,
   GetAllMessagesDto,
-  GetEndedGameDto,
   GetWebGameDto,
   GetGameTimingDto,
   GetOpponentDto,
-  GetPlayerDto,
+  GetWebGamePlayerDto,
   GetTypeHistoryDto,
   SearchWebGameDto,
 } from "../types/gameDtos";
@@ -46,15 +45,14 @@ type UserControllerServerParams = {
 type webGameControllerServerParams = {
   SearchWebGameDto?: SearchWebGameDto;
   createPrivateGameDto?: CreatePrivateGameDto;
-  createGameByEmailDto?: CreateGameByEmailDto;
+  createGameByEmailDto?: CreatePrivateGameByEmailDto;
   createGameWithLinkDto?: CreateGameWithLinkDto;
-  checkIfInGameDto?: CheckIfInGameDto;
-  checkIfUpdateRequiredDto?: CheckIfUpdateRequiredDto;
+  checkIfInGameDto?: CheckIfInWebGameDto;
+  checkIfUpdateRequiredDto?: CheckIfUpdateOnPrivateGameRequiredDto;
   GetWebGameDto?: GetWebGameDto;
-  getPlayerDto?: GetPlayerDto;
+  getPlayerDto?: GetWebGamePlayerDto;
   fetchTimeDto?: FetchTimeDto;
   getOpponentDto?: GetOpponentDto;
-  getEndedGameDto?: GetEndedGameDto;
   getGameTimingDto?: GetGameTimingDto;
   getAllFinishedGamesDtoList?: GetAllFinishedGamesDto[];
   getTypeHistoryDtoList?: GetTypeHistoryDto[];
@@ -236,11 +234,11 @@ export const createMockServer = (mockResult: CreateMockServerParams) => {
     // create game by email
     rest.post(webGameControllerPaths.createGameByEmail, (_, res, ctx) => {
       if (!mockResult.createGameByEmailDto) {
-        console.error("mock CreateGameByEmailDto not provided");
+        console.error("mock CreatePrivateGameByEmailDto not provided");
         return res(ctx.status(500), ctx.json(null));
       }
 
-      return res(ctx.status(200), ctx.json<CreateGameByEmailDto>(mockResult.createGameByEmailDto));
+      return res(ctx.status(200), ctx.json<CreatePrivateGameByEmailDto>(mockResult.createGameByEmailDto));
     }),
 
     // create game with link
@@ -261,11 +259,11 @@ export const createMockServer = (mockResult: CreateMockServerParams) => {
     // check if in game
     rest.get(webGameControllerPaths.checkIfInGame, (_, res, ctx) => {
       if (!mockResult.checkIfInGameDto) {
-        console.error("mock CheckIfInGameDto not provided");
+        console.error("mock CheckIfInWebGameDto not provided");
         return res(ctx.status(500), ctx.json(null));
       }
 
-      return res(ctx.status(200), ctx.json<CheckIfInGameDto>(mockResult.checkIfInGameDto));
+      return res(ctx.status(200), ctx.json<CheckIfInWebGameDto>(mockResult.checkIfInGameDto));
     }),
 
     // get all finished games
@@ -324,11 +322,11 @@ export const createMockServer = (mockResult: CreateMockServerParams) => {
     // get player
     rest.get(webGameControllerPaths.getPlayer, (_, res, ctx) => {
       if (!mockResult.getPlayerDto) {
-        console.error("mock GetPlayerDto not provided");
+        console.error("mock GetWebGamePlayerDto not provided");
         return res(ctx.status(500), ctx.json(null));
       }
 
-      return res(ctx.status(200), ctx.json<GetPlayerDto>(mockResult.getPlayerDto));
+      return res(ctx.status(200), ctx.json<GetWebGamePlayerDto>(mockResult.getPlayerDto));
     }),
 
     // fetch time
@@ -349,16 +347,6 @@ export const createMockServer = (mockResult: CreateMockServerParams) => {
       }
 
       return res(ctx.status(200), ctx.json<GetOpponentDto>(mockResult.getOpponentDto));
-    }),
-
-    // get ended game
-    rest.get(webGameControllerPaths.getEndedGame, (_, res, ctx) => {
-      if (!mockResult.getEndedGameDto) {
-        console.error("mock GetEndedGameDto not provided");
-        return res(ctx.status(500), ctx.json(null));
-      }
-
-      return res(ctx.status(200), ctx.json<GetEndedGameDto>(mockResult.getEndedGameDto));
     }),
 
     // get game timing
@@ -391,11 +379,11 @@ export const createMockServer = (mockResult: CreateMockServerParams) => {
     // check if update required
     rest.get(webGameControllerPaths.checkIfUpdateRequired, (_, res, ctx) => {
       if (!mockResult.checkIfUpdateRequiredDto) {
-        console.error("mock CheckIfUpdateRequiredDto not provided");
+        console.error("mock CheckIfUpdateOnPrivateGameRequiredDto not provided");
         return res(ctx.status(500), ctx.json(null));
       }
 
-      return res(ctx.status(200), ctx.json<CheckIfUpdateRequiredDto>(mockResult.checkIfUpdateRequiredDto));
+      return res(ctx.status(200), ctx.json<CheckIfUpdateOnPrivateGameRequiredDto>(mockResult.checkIfUpdateRequiredDto));
     }),
   ];
 

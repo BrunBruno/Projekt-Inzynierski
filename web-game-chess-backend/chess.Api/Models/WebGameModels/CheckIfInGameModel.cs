@@ -1,6 +1,6 @@
 ﻿
 namespace chess.Api.Models.WebGameModels;
 
-public class CheckIfInGameModel {
+public class CheckIfInWebGameModel {
     public Guid PlayerId { get; set; }
 }

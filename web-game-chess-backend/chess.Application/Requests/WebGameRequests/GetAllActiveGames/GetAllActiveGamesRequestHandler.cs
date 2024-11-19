@@ -19,21 +19,21 @@ namespace chess.Application.Requests.WebGameRequests.GetAllActiveGames;
 public class GetAllActiveGamesRequestHandler : IRequestHandler<GetAllActiveGamesRequest, PagedResult<GetAllActiveGamesDto>> {
 
     private readonly IUserContextService _userContextService;
-    private readonly IWebGamePlayerRepository _playerRepository;
+    private readonly IWebGamePlayerRepository _webGamePlayerRepository;
 
     public GetAllActiveGamesRequestHandler(
         IUserContextService userContextService,
         IWebGamePlayerRepository playerRepository
     ) {
         _userContextService = userContextService;
-        _playerRepository = playerRepository;
+        _webGamePlayerRepository = playerRepository;
     }
 
     public async Task<PagedResult<GetAllActiveGamesDto>> Handle(GetAllActiveGamesRequest request, CancellationToken cancellationToken) {
 
         var userId = _userContextService.GetUserId();
 
-        var players = await _playerRepository.GetAllActiveForUser(userId);
+        var players = await _webGamePlayerRepository.GetAllActiveForUser(userId);
 
         var finishedGames = new List<GetAllActiveGamesDto>();
 

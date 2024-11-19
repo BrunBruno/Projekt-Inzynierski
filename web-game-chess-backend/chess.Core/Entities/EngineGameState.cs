@@ -10,18 +10,15 @@ namespace chess.Core.Entities;
 public class EngineGameState : GameState {
 
     /// <summary>
-    /// Id
+    /// Id pk
     /// </summary>
     public Guid Id { get; set; }
 
-    /// <summary>
-    /// Game id
-    /// </summary>
-    public Guid GameId { get; set; }
 
     /// <summary>
     /// Game for which states belong to
     /// </summary>
+    public Guid GameId { get; set; }
     public EngineGame Game { get; set; }
 }
 

@@ -46,8 +46,6 @@ public class AcceptWebGameRematchRequestHandlerTests {
 
         var game = new Entities.WebGame(){
             Id = gameId,
-            WhitePlayerRegistered = true,
-            BlackPlayerRegistered = true,
 
             WhitePlayerId = whitePlayer.Id,
             WhitePlayer = whitePlayer,
@@ -145,8 +143,6 @@ public class AcceptWebGameRematchRequestHandlerTests {
 
         var game = new Entities.WebGame(){
             Id = gameId,
-            WhitePlayerRegistered = true,
-            BlackPlayerRegistered = true,
 
             WhitePlayerId = whitePlayer.Id,
             WhitePlayer = whitePlayer,
@@ -203,8 +199,6 @@ public class AcceptWebGameRematchRequestHandlerTests {
 
         var game = new Entities.WebGame(){
             Id = gameId,
-            WhitePlayerRegistered = true,
-            BlackPlayerRegistered = true,
 
             WhitePlayerId = whitePlayer.Id,
             WhitePlayer = whitePlayer,
@@ -264,8 +258,6 @@ public class AcceptWebGameRematchRequestHandlerTests {
 
         var game = new Entities.WebGame(){
             Id = gameId,
-            WhitePlayerRegistered = true,
-            BlackPlayerRegistered = true,
 
             WhitePlayerId = whitePlayer.Id,
             WhitePlayer = whitePlayer,

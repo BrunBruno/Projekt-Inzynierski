@@ -1,7 +1,7 @@
 import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
 import classes from "./GameBoard.module.scss";
 import { PieceColor } from "../../../../shared/utils/objects/entitiesEnums";
-import { GetWebGameDto, GetPlayerDto } from "../../../../shared/utils/types/gameDtos";
+import { GetWebGameDto, GetWebGamePlayerDto } from "../../../../shared/utils/types/gameDtos";
 import { getPieceSideColor, pieceTagMap } from "../../../../shared/utils/objects/piecesNameMaps";
 import { SelectionAction } from "../WebGameContentStates";
 import { generateRandomId } from "../../../../shared/utils/functions/random";
@@ -31,7 +31,7 @@ type WebGameBoardProps = {
   // current game data
   gameData: GetWebGameDto;
   // player data
-  playerData: GetPlayerDto;
+  playerData: GetWebGamePlayerDto;
   // game states
   gameStates: WebGameStates;
   // user selection states
@@ -161,16 +161,17 @@ function WebGameBoard({
           event.preventDefault();
           onHighlightFile(innerBoardRef, coordinates, classes.highlight, classes.field);
         }}
-        // onDragStartCapture={() => {
-        //   onDragPiece(char, coordinates);
-        // }}
-        // onDragOver={(event) => {
-        //   event.preventDefault();
-        // }}
-        // onDrop={(event) => {
-        //   event.preventDefault();
-        //   onDropPiece(coordinates, isInTipFields, sameCoor);
-        // }}
+        //tododo
+        onDragStartCapture={() => {
+          onDragPiece(char, coordinates);
+        }}
+        onDragOver={(event) => {
+          event.preventDefault();
+        }}
+        onDrop={(event) => {
+          event.preventDefault();
+          onDropPiece(coordinates, isInTipFields, sameCoor);
+        }}
       >
         {char && shouldDisplay && (
           <div

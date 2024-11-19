@@ -26,8 +26,6 @@ public class SendWebGameMessageRequestHandlerTests {
         var game = new Entities.WebGame()
         {
             Id = gameId,
-            WhitePlayerRegistered = true,
-            BlackPlayerRegistered = true,
         };
 
         var request = new SendWebGameMessageRequest()

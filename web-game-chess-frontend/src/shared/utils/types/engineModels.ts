@@ -1,15 +1,12 @@
 /* engine controller models */
 
 import { Guid } from "guid-typescript";
-import { TimingTypeModel } from "./abstractDtosAndModels";
 import { BlackPieceTag, WhitePieceTag } from "../objects/constantLists";
 import { PieceColor } from "../objects/entitiesEnums";
-import { Nullable } from "./commonTypes";
 
 /** POST models */
 
-export type StartEngineGameModel = Nullable<TimingTypeModel> & {
-  allowUndo: boolean;
+export type StartEngineGameModel = {
   engineLevel: number;
 };
 

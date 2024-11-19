@@ -9,47 +9,30 @@ namespace chess.Core.Entities;
 public class UserElo {
 
     /// <summary>
-    /// Id
+    /// Id pk
     /// </summary>
     public Guid Id { get; set; }
 
+
     /// <summary>
-    /// Bullet type points
+    /// Ele points for all timing types
     /// Starts at 1000
     /// </summary>
     public int Bullet { get; set; } = 1000;
-
-    /// <summary>
-    /// Blitz type points
-    /// Starts at 1000
-    /// </summary>
     public int Blitz {  get; set; } = 1000;
-
-    /// <summary>
-    /// Rapid type points
-    /// Starts at 1000
-    /// </summary>
     public int Rapid { get; set; } = 1000;
-
-    /// <summary>
-    /// Classic type points
-    /// Starts at 1000
-    /// </summary>
     public int Classic { get; set; } = 1000;
-
-    /// <summary>
-    /// Daily type points
-    /// Starts at 1000
-    /// </summary>
     public int Daily { get; set; } = 1000;
 
     /// <summary>
-    /// User id
+    /// Elo for games with engine
     /// </summary>
-    public Guid UserId { get; set; }
+    public int Engine { get; set; } = 1000;
+
 
     /// <summary>
     /// User to which elo belongs to
     /// </summary>
+    public Guid UserId { get; set; }
     public User User { get; set; }
 }

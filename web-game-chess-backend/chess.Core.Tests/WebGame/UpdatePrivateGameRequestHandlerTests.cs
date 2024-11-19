@@ -42,8 +42,6 @@ public class UpdatePrivateGameRequestHandlerTests {
         {
             Id = gameId,
             IsPrivate = true,
-            WhitePlayerRegistered = true,
-            BlackPlayerRegistered = true,
 
             WhitePlayer = new WebGamePlayer() 
             { 
@@ -111,8 +109,6 @@ public class UpdatePrivateGameRequestHandlerTests {
             Id = gameId,
             IsPrivate = true,
 
-            WhitePlayerRegistered = true,
-            BlackPlayerRegistered = false,
             WhitePlayer = new WebGamePlayer()
             {
                 Id = Guid.NewGuid(),

@@ -1,6 +1,6 @@
 ﻿
 using chess.Application.Repositories.WebGameRepositories;
-using chess.Application.Requests.WebGameRequests.CheckIfInGame;
+using chess.Application.Requests.WebGameRequests.CheckIfInWebGame;
 using chess.Application.Services;
 using chess.Core.Entities;
 using chess.Shared.Exceptions;
@@ -9,13 +9,13 @@ using Moq;
 
 namespace chess.Core.Tests.WebGame;
 
-public class CheckIfInGameRequestHandlerTests {
+public class CheckIfInWebGameRequestHandlerTests {
 
     private readonly Mock<IUserContextService> _mockUserContextService;
     private readonly Mock<IWebGamePlayerRepository> _mockPlayerRepository;
     private readonly Mock<IWebGameRepository> _mockGameRepository;
 
-    public CheckIfInGameRequestHandlerTests() {
+    public CheckIfInWebGameRequestHandlerTests() {
         _mockUserContextService = new Mock<IUserContextService>();
         _mockPlayerRepository = new Mock<IWebGamePlayerRepository>();
         _mockGameRepository = new Mock<IWebGameRepository>();
@@ -40,11 +40,9 @@ public class CheckIfInGameRequestHandlerTests {
         var exampleGame = new Entities.WebGame()
         {
             Id = gameId,
-            WhitePlayerRegistered = true,
-            BlackPlayerRegistered = true,
         };
 
-        var request = new CheckIfInGameRequest() 
+        var request = new CheckIfInWebGameRequest() 
         { 
             PlayerId = playerId,
         };
@@ -55,7 +53,7 @@ public class CheckIfInGameRequestHandlerTests {
         _mockGameRepository.Setup(x => x.GetGameForPlayer(playerId)).ReturnsAsync(exampleGame);
 
 
-        var handler = new CheckIfInGameRequestHandler(
+        var handler = new CheckIfInWebGameRequestHandler(
             _mockPlayerRepository.Object,
             _mockGameRepository.Object,
             _mockUserContextService.Object
@@ -88,7 +86,7 @@ public class CheckIfInGameRequestHandlerTests {
             GameId = gameId,
         };
 
-        var request = new CheckIfInGameRequest()
+        var request = new CheckIfInWebGameRequest()
         {
             PlayerId = playerId,
         };
@@ -99,7 +97,7 @@ public class CheckIfInGameRequestHandlerTests {
         // no game returned
 
 
-        var handler = new CheckIfInGameRequestHandler(
+        var handler = new CheckIfInWebGameRequestHandler(
             _mockPlayerRepository.Object,
             _mockGameRepository.Object,
             _mockUserContextService.Object
@@ -123,7 +121,7 @@ public class CheckIfInGameRequestHandlerTests {
         var playerId = Guid.NewGuid();
         var gameId = Guid.NewGuid();
 
-        var request = new CheckIfInGameRequest()
+        var request = new CheckIfInWebGameRequest()
         {
             PlayerId = playerId,
         };
@@ -133,7 +131,7 @@ public class CheckIfInGameRequestHandlerTests {
         // player not exists
 
 
-        var handler = new CheckIfInGameRequestHandler(
+        var handler = new CheckIfInWebGameRequestHandler(
             _mockPlayerRepository.Object,
             _mockGameRepository.Object,
             _mockUserContextService.Object
@@ -155,7 +153,7 @@ public class CheckIfInGameRequestHandlerTests {
         var playerId = Guid.NewGuid();
         var gameId = Guid.NewGuid();
 
-        var request = new CheckIfInGameRequest()
+        var request = new CheckIfInWebGameRequest()
         {
             PlayerId = playerId,
         };
@@ -174,7 +172,7 @@ public class CheckIfInGameRequestHandlerTests {
         _mockPlayerRepository.Setup(x => x.GetById(playerId)).ReturnsAsync(examplePlayer);
 
 
-        var handler = new CheckIfInGameRequestHandler(
+        var handler = new CheckIfInWebGameRequestHandler(
             _mockPlayerRepository.Object,
             _mockGameRepository.Object,
             _mockUserContextService.Object
@@ -196,7 +194,7 @@ public class CheckIfInGameRequestHandlerTests {
         var playerId = Guid.NewGuid();
         var gameId = Guid.NewGuid();
 
-        var request = new CheckIfInGameRequest()
+        var request = new CheckIfInWebGameRequest()
         {
             PlayerId = playerId,
         };
@@ -216,7 +214,7 @@ public class CheckIfInGameRequestHandlerTests {
         // game not exists
 
 
-        var handler = new CheckIfInGameRequestHandler(
+        var handler = new CheckIfInWebGameRequestHandler(
             _mockPlayerRepository.Object,
             _mockGameRepository.Object,
             _mockUserContextService.Object

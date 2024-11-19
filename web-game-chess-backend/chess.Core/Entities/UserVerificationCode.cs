@@ -10,9 +10,10 @@ namespace chess.Core.Entities;
 public class UserVerificationCode {
 
     /// <summary>
-    /// Code id
+    /// Id pk
     /// </summary>
     public Guid Id { get; set; }
+
 
     /// <summary>
     /// Hashed code used for verifying user email
@@ -29,13 +30,10 @@ public class UserVerificationCode {
     /// </summary>
     public required UserCodesTypes Type { get; set; }
 
-    /// <summary>
-    /// User id
-    /// </summary>
-    public Guid UserId { get; set; }
 
     /// <summary>
     /// User
     /// </summary>
+    public Guid UserId { get; set; }
     public User User { get; set; }
 }
