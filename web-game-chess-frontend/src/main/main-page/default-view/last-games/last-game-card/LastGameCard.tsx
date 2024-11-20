@@ -1,6 +1,6 @@
 import { useEffect, useRef } from "react";
 import classes from "./LastGameCard.module.scss";
-import { GetAllFinishedGamesDto } from "../../../../../shared/utils/types/gameDtos";
+import { GetAllFinishedGamesDto } from "../../../../../shared/utils/types/webGameDtos";
 import { PlayerDto } from "../../../../../shared/utils/types/abstractDtosAndModels";
 import AvatarImage from "../../../../../shared/components/avatar-image/AvatarImage";
 import IconCreator from "../../../../../shared/components/icon-creator/IconCreator";

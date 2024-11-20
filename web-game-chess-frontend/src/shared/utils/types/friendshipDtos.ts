@@ -5,14 +5,16 @@ import { EloDto, UserDto, GameOutcomeDto, UserImage } from "./abstractDtosAndMod
 
 export type GetAllFriendsByStatusDto = UserDto & {
   friendshipId: Guid;
-  elo: EloDto;
   isRequestor: boolean;
+
+  elo: EloDto;
   outcomeTotal: GameOutcomeDto;
   outcomeTogether: GameOutcomeDto;
 };
 
 export type GetAllNonFriendsDto = UserDto & {
   userId: Guid;
+
   elo: EloDto;
   outcomeTotal: GameOutcomeDto;
 };
@@ -21,6 +23,7 @@ export type GetFriendProfileDto = UserDto & {
   bio: string | null;
   joinDate: Date;
   friendsSince: Date | null;
+
   elo: EloDto;
   outcomeTotal: GameOutcomeDto;
   outcomeTogether: GameOutcomeDto;

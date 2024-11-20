@@ -171,7 +171,7 @@ public class UserController : ControllerBase {
 
 
     /// <summary>
-    /// 
+    /// To change user data
     /// </summary>
     /// <param name="model"></param>
     /// <returns></returns>
@@ -186,6 +186,12 @@ public class UserController : ControllerBase {
         return Ok();
     }
 
+
+    /// <summary>
+    /// To change user settings
+    /// </summary>
+    /// <param name="model"></param>
+    /// <returns></returns>
     [HttpPut("settings")]
     [Authorize(Policy = "IsVerified")]
     public async Task<IActionResult> UpdateUserSettings([FromBody] UpdateUserSettingsModel model) {
@@ -206,7 +212,7 @@ public class UserController : ControllerBase {
     [Authorize]
     public async Task<IActionResult> GetUser() {
 
-        var request = new GetUserRequest();
+        var request = new GetUserRequest() { };
 
         var user = await _mediator.Send(request);
 
@@ -222,7 +228,7 @@ public class UserController : ControllerBase {
     [Authorize(Policy = "IsVerified")]
     public async Task<IActionResult> GetFullUser() {
 
-        var request = new GetFullUserRequest();
+        var request = new GetFullUserRequest() { };
 
         var user = await _mediator.Send(request);
 

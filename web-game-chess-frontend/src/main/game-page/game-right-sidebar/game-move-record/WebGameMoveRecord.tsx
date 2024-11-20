@@ -12,7 +12,7 @@ type WebGameMoveRecordProps = {
   recordNum: number;
   // done move dto
   move: MoveDto | null;
-  //
+  // for settings previous positions
   historyPositionState?: StateProp<MoveDto | null>;
   // for showing history view
   displayedWindowState: StateProp<GameWindowInterface>;
@@ -80,7 +80,8 @@ function WebGameMoveRecord({ recordNum, move, historyPositionState, displayedWin
           iconName={move.move[0].toLowerCase() as PieceTag}
           color={recordNum % 2 === 0 ? mainColor.c0 : mainColor.c9}
         />
-        <span>{move.move.charAt(0).toUpperCase() + move.move.slice(1).toLowerCase()}</span>
+        {/* <span>{move.move.charAt(0).toUpperCase() + move.move.slice(1).toLowerCase()}</span> */}
+        <span>{move.fenMove}</span>
       </p>
     </div>
   );

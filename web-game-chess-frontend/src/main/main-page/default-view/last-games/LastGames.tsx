@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { usePopup } from "../../../../shared/utils/hooks/usePopUp";
-import { GetAllFinishedGamesDto } from "../../../../shared/utils/types/gameDtos";
-import { GetAllFinishedGamesModel } from "../../../../shared/utils/types/gameModels";
+import { GetAllFinishedGamesDto } from "../../../../shared/utils/types/webGameDtos";
+import { GetAllFinishedGamesModel } from "../../../../shared/utils/types/webGameModels";
 import axios from "axios";
 import { PagedResult } from "../../../../shared/utils/types/abstractDtosAndModels";
 import { webGameController, getAuthorization } from "../../../../shared/utils/services/ApiService";
@@ -50,7 +50,7 @@ function LastGames({ setInterfaceById }: LastGamesProps) {
   }, []);
 
   const handelMoreGamesClick = () => {
-    setInterfaceById(GameSearchInterface.userGames);
+    setInterfaceById(GameSearchInterface.finishedGames);
   };
 
   if (!games || games.length === 0) return <></>;

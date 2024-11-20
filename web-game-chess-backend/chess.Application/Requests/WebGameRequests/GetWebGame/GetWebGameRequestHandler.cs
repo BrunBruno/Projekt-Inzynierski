@@ -94,6 +94,7 @@ public class GetWebGameRequestHandler : IRequestHandler<GetWebGameRequest, GetWe
             Moves = game.Moves.Select(move => new MoveDto
             {
                 Move = move.DoneMove,
+                FenMove = move.FenMove,
                 Turn = move.Turn,
                 OldCoor = move.OldCoordinates,
                 NewCoor = move.NewCoordinates,

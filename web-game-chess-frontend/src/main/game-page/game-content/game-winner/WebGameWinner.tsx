@@ -1,17 +1,17 @@
 import { useNavigate } from "react-router-dom";
 import {
-  EndGameDto,
+  EndWebGameDto,
   GetWebGameDto,
   GetOpponentDto,
   SearchWebGameDto,
   CreateWebGameRematchDto,
-} from "../../../../shared/utils/types/gameDtos";
+} from "../../../../shared/utils/types/webGameDtos";
 import classes from "./GameWinner.module.scss";
 import {
-  CancelRematchModel,
+  CancelWebGameRematchModel,
   CreateWebGameRematchModel,
   SearchWebGameModel,
-} from "../../../../shared/utils/types/gameModels";
+} from "../../../../shared/utils/types/webGameModels";
 import { webGameController, getAuthorization } from "../../../../shared/utils/services/ApiService";
 import axios from "axios";
 import GameHubService from "../../../../shared/utils/services/GameHubService";
@@ -33,7 +33,7 @@ type WebGameWinnerProps = {
   gameData: GetWebGameDto;
   playerData: PlayerDto;
   // game result data
-  winner: EndGameDto | null;
+  winner: EndWebGameDto | null;
 
   // timing for new game or rematch
   selectedTiming: SearchWebGameModel | null;
@@ -108,7 +108,7 @@ function WebGameWinner({
         previousGameId: gameId,
       };
 
-      await GameHubService.CreateWebGameRematch(model);
+      await GameHubService.CreateRematch(model);
     } catch (err) {
       showPopup(getErrMessage(err), "warning");
     }
@@ -132,7 +132,7 @@ function WebGameWinner({
   const onCancelRematchRequest = async (): Promise<void> => {
     if (!rematchData) return;
 
-    const model: CancelRematchModel = {
+    const model: CancelWebGameRematchModel = {
       currentGameId: gameId,
       newGameId: rematchData.gameId,
     };

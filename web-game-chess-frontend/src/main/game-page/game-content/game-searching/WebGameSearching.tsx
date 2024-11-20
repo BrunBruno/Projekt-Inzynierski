@@ -3,8 +3,8 @@ import classes from "./GameSearching.module.scss";
 import GameHubService from "../../../../shared/utils/services/GameHubService";
 import { webGameController, getAuthorization } from "../../../../shared/utils/services/ApiService";
 import axios from "axios";
-import { AbortSearchModel } from "../../../../shared/utils/types/gameModels";
-import { SearchWebGameDto } from "../../../../shared/utils/types/gameDtos";
+import { AbortWebGameSearchModel } from "../../../../shared/utils/types/webGameModels";
+import { SearchWebGameDto } from "../../../../shared/utils/types/webGameDtos";
 import { usePopup } from "../../../../shared/utils/hooks/usePopUp";
 import { getErrMessage } from "../../../../shared/utils/functions/errors";
 import IconCreator from "../../../../shared/components/icon-creator/IconCreator";
@@ -67,11 +67,11 @@ function WebGameSearching({ newGameDataState }: WebGameSearchingProps) {
     if (!newGameDataState.get) return;
 
     try {
-      const abortSearchModel: AbortSearchModel = {
+      const AbortWebGameSearchModel: AbortWebGameSearchModel = {
         playerId: newGameDataState.get.playerId,
       };
 
-      await axios.delete(webGameController.abortSearch(abortSearchModel), getAuthorization());
+      await axios.delete(webGameController.abortSearch(AbortWebGameSearchModel), getAuthorization());
 
       await GameHubService.PlayerLeaved(newGameDataState.get.timingId);
 

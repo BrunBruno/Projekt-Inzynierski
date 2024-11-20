@@ -5,17 +5,17 @@ import axios from "axios";
 import {
   CheckIfInWebGameDto,
   CreateWebGameRematchDto,
-  EndGameDto,
+  EndWebGameDto,
   FetchTimeDto,
   GetWebGameDto,
   GetGameTimingDto,
   GetWebGamePlayerDto,
   SearchWebGameDto,
-} from "../../shared/utils/types/gameDtos";
+} from "../../shared/utils/types/webGameDtos";
 import { webGameController, getAuthorization } from "../../shared/utils/services/ApiService";
 import LoadingPage from "../../shared/components/loading-page/LoadingPage";
 import GameHubService from "../../shared/utils/services/GameHubService";
-import { CheckIfInWebGameModel, EndGameModel } from "../../shared/utils/types/gameModels";
+import { CheckIfInWebGameModel } from "../../shared/utils/types/webGameModels";
 import { usePopup } from "../../shared/utils/hooks/usePopUp";
 import { getErrMessage } from "../../shared/utils/functions/errors";
 import MainPopUp from "../../shared/components/main-popup/MainPopUp";
@@ -86,7 +86,7 @@ function WebGamePage() {
   // obtained current player data
   const [playerData, setPlayerData] = useState<GetWebGamePlayerDto | null>(null);
   // winner data
-  const [winner, setWinner] = useState<EndGameDto | null>(null);
+  const [winner, setWinner] = useState<EndWebGameDto | null>(null);
   // time left for both players
   const [playersTimes, setPlayersTimes] = useState<FetchTimeDto | null>(null);
 
@@ -135,7 +135,7 @@ function WebGamePage() {
   };
 
   // to finish the game and get winner data
-  const endGame = (endGameData: EndGameDto): void => {
+  const endGame = (endGameData: EndWebGameDto): void => {
     setWinner(endGameData);
     setDisplayedWindow(GameWindowInterface.winner);
 
@@ -211,13 +211,7 @@ function WebGamePage() {
 
     // just for updated
     const getWinner = async (): Promise<void> => {
-      const model: EndGameModel = {
-        gameId: gameId,
-        loserColor: null,
-        endGameType: null,
-      };
-
-      await GameHubService.EndGame(model);
+      await GameHubService.GetEndedGame(gameId);
     };
 
     if (gameData.hasEnded) getWinner();

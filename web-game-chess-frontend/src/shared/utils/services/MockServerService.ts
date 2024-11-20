@@ -4,7 +4,7 @@ import {
   CheckIfInWebGameDto,
   CheckIfUpdateOnPrivateGameRequiredDto,
   CreatePrivateGameByEmailDto,
-  CreateGameWithLinkDto,
+  CreatePrivateGameWithLinkDto,
   CreatePrivateGameDto,
   FetchTimeDto,
   GetAllFinishedGamesDto,
@@ -16,7 +16,7 @@ import {
   GetWebGamePlayerDto,
   GetTypeHistoryDto,
   SearchWebGameDto,
-} from "../types/gameDtos";
+} from "../types/webGameDtos";
 import { PagedResult } from "../types/abstractDtosAndModels";
 import { friendshipControllerPaths, webGameControllerPaths, userControllerPaths } from "./ApiService";
 import {
@@ -46,7 +46,7 @@ type webGameControllerServerParams = {
   SearchWebGameDto?: SearchWebGameDto;
   createPrivateGameDto?: CreatePrivateGameDto;
   createGameByEmailDto?: CreatePrivateGameByEmailDto;
-  createGameWithLinkDto?: CreateGameWithLinkDto;
+  CreatePrivateGameWithLinkDto?: CreatePrivateGameWithLinkDto;
   checkIfInGameDto?: CheckIfInWebGameDto;
   checkIfUpdateRequiredDto?: CheckIfUpdateOnPrivateGameRequiredDto;
   GetWebGameDto?: GetWebGameDto;
@@ -243,12 +243,12 @@ export const createMockServer = (mockResult: CreateMockServerParams) => {
 
     // create game with link
     rest.post(webGameControllerPaths.createGameWithLink, (_, res, ctx) => {
-      if (!mockResult.createGameWithLinkDto) {
+      if (!mockResult.CreatePrivateGameWithLinkDto) {
         console.error("mock CreateGameWithLinDto not provided");
         return res(ctx.status(500), ctx.json(null));
       }
 
-      return res(ctx.status(200), ctx.json<CreateGameWithLinkDto>(mockResult.createGameWithLinkDto));
+      return res(ctx.status(200), ctx.json<CreatePrivateGameWithLinkDto>(mockResult.CreatePrivateGameWithLinkDto));
     }),
 
     // create rematch game

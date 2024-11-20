@@ -22,7 +22,7 @@
     @include main-g-button;
 
     width: 100%;
-    padding: 2rem;
+    padding: 1.6rem 2rem;
     background-color: rgba($gc8, 0.1);
     border-radius: 1rem;
     border: none;
@@ -91,6 +91,11 @@
         }
       }
 
+      .engine-games-icon {
+        filter: drop-shadow($mc0 0 0 0.5rem);
+        fill: $mc0;
+      }
+
       .invitations-icon {
         filter: drop-shadow($mc0 0 0 0.5rem);
         fill: $mc0;
@@ -103,6 +108,7 @@
     .vs-friend-icon,
     .active-games-icon,
     .user-games-icon,
+    .engine-games-icon,
     .invitations-icon {
       @include square(4rem);
 

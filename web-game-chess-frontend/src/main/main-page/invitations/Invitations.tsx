@@ -1,8 +1,8 @@
 import axios from "axios";
 import classes from "./Invitations.module.scss";
-import { GetAllInvitationsDto } from "../../../shared/utils/types/gameDtos";
+import { GetAllInvitationsDto } from "../../../shared/utils/types/webGameDtos";
 import { webGameController, getAuthorization } from "../../../shared/utils/services/ApiService";
-import { GetAllInvitationsModel } from "../../../shared/utils/types/gameModels";
+import { GetAllInvitationsModel } from "../../../shared/utils/types/webGameModels";
 import { useEffect, useRef, useState } from "react";
 import InvitationCard from "./invitation-card/InvitationCard";
 import LoadingPage from "../../../shared/components/loading-page/LoadingPage";

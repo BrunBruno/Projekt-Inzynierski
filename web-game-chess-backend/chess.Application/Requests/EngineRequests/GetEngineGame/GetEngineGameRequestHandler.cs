@@ -52,7 +52,6 @@ public class GetEngineGameRequestHandler : IRequestHandler<GetEngineGameRequest,
             Turn = game.Turn,
             EngineLevel = game.EngineLevel,
             AllowUndo = settings.EngineGameCheats,
-            // no game timing tododo
 
             EnPassant = game.CurrentState.EnPassant,
             CanWhiteKingCastle = game.CurrentState.CanWhiteKingCastle,
@@ -75,6 +74,7 @@ public class GetEngineGameRequestHandler : IRequestHandler<GetEngineGameRequest,
 
             Moves = game.Moves.Select(move => new MoveDto() { 
                 Move = move.DoneMove,
+                FenMove = move.FenMove,
                 Turn = move.Turn,
                 OldCoor = move.OldCoordinates,
                 NewCoor = move.NewCoordinates,

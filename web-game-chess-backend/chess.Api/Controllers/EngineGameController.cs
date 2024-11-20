@@ -1,15 +1,18 @@
 ﻿
 using AutoMapper;
 using chess.Api.Models.EngineGameModels;
+using chess.Api.Models.WebGameModels;
 using chess.Application.Requests.EngineRequests.ChangeEngineLevel;
 using chess.Application.Requests.EngineRequests.EndEngineGame;
 using chess.Application.Requests.EngineRequests.GetAllEngineGameMessages;
+using chess.Application.Requests.EngineRequests.GetAllEngineGames;
 using chess.Application.Requests.EngineRequests.GetEngineGame;
 using chess.Application.Requests.EngineRequests.GetEngineGameMove;
 using chess.Application.Requests.EngineRequests.MakeEngineGameMove;
 using chess.Application.Requests.EngineRequests.StartEngineGame;
 using chess.Application.Requests.EngineRequests.UndoMove;
 using chess.Application.Requests.WebGameRequests.FetchTime;
+using chess.Application.Requests.WebGameRequests.GetAllActiveGames;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -171,5 +174,22 @@ public class EngineGameController : ControllerBase {
         var messages = await _mediator.Send(request);
 
         return Ok(messages);
+    }
+
+
+    /// <summary>
+    /// To get all games with engine
+    /// </summary>
+    /// <param name="model"></param>
+    /// <returns></returns>
+    [HttpGet("all-games")]
+    [Authorize(Policy = "IsVerified")]
+    public async Task<IActionResult> GetAllEngineGames([FromQuery] GetAllEngineGamesModel model) {
+
+        var request = _mapper.Map<GetAllEngineGamesRequest>(model);
+
+        var games = await _mediator.Send(request);
+
+        return Ok(games);
     }
 }

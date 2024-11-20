@@ -1,5 +1,10 @@
 import { useEffect, useRef, useState } from "react";
-import { EndGameDto, FetchTimeDto, GetWebGameDto, GetWebGamePlayerDto } from "../../../shared/utils/types/gameDtos";
+import {
+  EndWebGameDto,
+  FetchTimeDto,
+  GetWebGameDto,
+  GetWebGamePlayerDto,
+} from "../../../shared/utils/types/webGameDtos";
 import classes from "./GameRightSidebar.module.scss";
 import { AppearanceOfGamePage, PieceColor } from "../../../shared/utils/objects/entitiesEnums";
 import AvatarImage from "../../../shared/components/avatar-image/AvatarImage";
@@ -23,7 +28,7 @@ type WebGameRightSidebarProps = {
   // times left for players
   playersTimes: FetchTimeDto | null;
   // winner dto of the game
-  winner: EndGameDto | null;
+  winner: EndWebGameDto | null;
   // to set previous position
   historyPositionState: StateProp<MoveDto | null>;
   // for showing history view

@@ -1,6 +1,5 @@
 ﻿
 using AutoMapper;
-using chess.Application.Requests.WebGameRequests.SearchGame;
 using chess.Application.Requests.WebGameRequests.AbortWebGameSearch;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -17,12 +16,13 @@ using chess.Application.Requests.WebGameRequests.GetAllInvitations;
 using chess.Application.Requests.WebGameRequests.GetGameTiming;
 using chess.Application.Requests.WebGameRequests.GetAllFinishedGames;
 using chess.Application.Requests.WebGameRequests.GetAllMessages;
-using chess.Application.Requests.WebGameRequests.CreateGameWithLink;
 using chess.Application.Requests.WebGameRequests.CheckIfUpdateOnPrivateGameRequired;
 using chess.Application.Requests.WebGameRequests.CancelPrivateGame;
 using chess.Application.Requests.WebGameRequests.GetAllActiveGames;
 using chess.Api.Models.WebGameModels;
 using chess.Application.Requests.WebGameRequests.GetTotalGamesStats;
+using chess.Application.Requests.WebGameRequests.CreatePrivateGameWithLink;
+using chess.Application.Requests.WebGameRequests.SearchWebGame;
 
 namespace chess.Api.Controllers;
 
@@ -49,7 +49,7 @@ public class WebGameController : ControllerBase {
     [Authorize(Policy = "IsVerified")]
     public async Task<IActionResult> StartSearch([FromBody] SearchWebGameModel model) {
 
-        var request = _mapper.Map<SearchGameRequest>(model);
+        var request = _mapper.Map<SearchWebGameRequest>(model);
 
         var gameData = await _mediator.Send(request);
 
@@ -65,7 +65,7 @@ public class WebGameController : ControllerBase {
     /// <returns> Essential for game creation </returns>
     [HttpPost("private")]
     [Authorize(Policy = "IsVerified")]
-    public async Task<IActionResult> CreatePrivateGame([FromBody] CreatePrivateWebGameModel model) {
+    public async Task<IActionResult> CreatePrivateGame([FromBody] CreatePrivateGameModel model) {
 
         var request = _mapper.Map<CreatePrivateGameRequest>(model);
 
@@ -83,7 +83,7 @@ public class WebGameController : ControllerBase {
     /// <returns> Essential for game creation </returns>
     [HttpPost("email")]
     [Authorize(Policy = "IsVerified")]
-    public async Task<IActionResult> CreatePrivateGameByEmail([FromBody] CreateWebGameByEmailModel model) {
+    public async Task<IActionResult> CreatePrivateGameByEmail([FromBody] CreatePrivateGameByEmailModel model) {
 
         var request = _mapper.Map<CreatePrivateGameByEmailRequest>(model);
 
@@ -100,9 +100,9 @@ public class WebGameController : ControllerBase {
     /// <returns> Essential for game creation </returns>
     [HttpPost("link")]
     [Authorize(Policy = "IsVerified")]
-    public async Task<IActionResult> CreateGameWithLink([FromBody] CreateWebGameWithLinkModel model) {
+    public async Task<IActionResult> CreateGameWithLink([FromBody] CreatePrivateGameWithLinkModel model) {
 
-        var request = _mapper.Map<CreateGameWithLinkRequest>(model);
+        var request = _mapper.Map<CreatePrivateGameWithLinkRequest>(model);
 
         var gameData = await _mediator.Send(request);
 
@@ -117,7 +117,7 @@ public class WebGameController : ControllerBase {
     /// <returns> bool value </returns>
     [HttpGet("is-in-game")]
     [Authorize(Policy = "IsVerified")]
-    public async Task<IActionResult> CheckIfInWebGame([FromQuery] CheckIfInWebGameModel model) {
+    public async Task<IActionResult> CheckIfInGame([FromQuery] CheckIfInWebGameModel model) {
 
         var request = _mapper.Map<CheckIfInWebGameRequest>(model);
 
@@ -134,7 +134,7 @@ public class WebGameController : ControllerBase {
     /// <returns> bool value </returns>
     [HttpGet("{gameId}/update-required")]
     [Authorize(Policy = "IsVerified")]
-    public async Task<IActionResult> CheckIfUpdateOnPrivateGameRequired([FromRoute] Guid gameId) {
+    public async Task<IActionResult> CheckIfUpdateRequired([FromRoute] Guid gameId) {
 
         var request = new CheckIfUpdateOnPrivateGameRequiredRequest()
         { 
@@ -174,7 +174,7 @@ public class WebGameController : ControllerBase {
     /// <returns> Player </returns>
     [HttpGet("{gameId}/player")]
     [Authorize(Policy = "IsVerified")]
-    public async Task<IActionResult> GetWebGamePlayer([FromRoute] Guid gameId) {
+    public async Task<IActionResult> GetPlayer([FromRoute] Guid gameId) {
 
         var request = new GetWebGamePlayerRequest()
         {
@@ -254,7 +254,7 @@ public class WebGameController : ControllerBase {
     /// <returns>  Page result of games </returns>
     [HttpGet("all-ongoing")]
     [Authorize(Policy = "IsVerified")]
-    public async Task<IActionResult> GetAllActiveGames([FromQuery] GetAllActiveWebGamesModel model) {
+    public async Task<IActionResult> GetAllActiveGames([FromQuery] GetAllActiveGamesModel model) {
 
         var request = _mapper.Map<GetAllActiveGamesRequest>(model);
 
@@ -271,7 +271,7 @@ public class WebGameController : ControllerBase {
     /// <returns>  Page result of games </returns>
     [HttpGet("all-finished")]
     [Authorize(Policy = "IsVerified")]
-    public async Task<IActionResult> GetAllFinishedGames([FromQuery] GetAllFinishedWebGamesModel model) {
+    public async Task<IActionResult> GetAllFinishedGames([FromQuery] GetAllFinishedGamesModel model) {
 
         var request = _mapper.Map<GetAllFinishedGamesRequest>(model);
 
@@ -342,9 +342,9 @@ public class WebGameController : ControllerBase {
     /// <returns></returns>
     [HttpGet("stats")]
     [Authorize(Policy = "IsVerified")]
-    public async Task<IActionResult> GetTotalGamesStats([FromQuery] GetTotalGamesStatsModel model) {
+    public async Task<IActionResult> GetTotalGamesStats() {
 
-        var request = _mapper.Map<GetTotalGamesStatsRequest>(model);
+        var request = new GetTotalGamesStatsRequest() { };
 
         var data = await _mediator.Send(request);
 

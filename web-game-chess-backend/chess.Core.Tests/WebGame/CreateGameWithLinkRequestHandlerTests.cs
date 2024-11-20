@@ -49,7 +49,7 @@ public class CreateGameWithLinkRequestHandlerTests {
             Increment = 0,
         };
 
-        var request = new CreateGameWithLinkRequest()
+        var request = new CreatePrivateGameWithLinkRequest()
         {
             Type = gameTiming.Type,
             Minutes = gameTiming.Seconds / 60,
@@ -62,7 +62,7 @@ public class CreateGameWithLinkRequestHandlerTests {
         _mockGameTimingRepository.Setup(x => x.FindTiming(request.Type, request.Minutes * 60, request.Increment)).ReturnsAsync(gameTiming);
 
 
-        var handler = new CreateGameWithLinkRequestHandler(
+        var handler = new CreatePrivateGameWithLinkRequestHandler(
              _mockUserContextService.Object,
              _mockUserRepository.Object,
              _mockGameRepository.Object,
@@ -107,7 +107,7 @@ public class CreateGameWithLinkRequestHandlerTests {
             Increment = 0,
         };
 
-        var request = new CreateGameWithLinkRequest()
+        var request = new CreatePrivateGameWithLinkRequest()
         {
             Type = gameTiming.Type,
             Minutes = gameTiming.Seconds / 60,
@@ -120,7 +120,7 @@ public class CreateGameWithLinkRequestHandlerTests {
         // game timing not returned
 
 
-        var handler = new CreateGameWithLinkRequestHandler(
+        var handler = new CreatePrivateGameWithLinkRequestHandler(
              _mockUserContextService.Object,
              _mockUserRepository.Object,
              _mockGameRepository.Object,
@@ -157,7 +157,7 @@ public class CreateGameWithLinkRequestHandlerTests {
             Increment = 0,
         };
 
-        var request = new CreateGameWithLinkRequest()
+        var request = new CreatePrivateGameWithLinkRequest()
         {
             Type = gameTiming.Type,
             Minutes = gameTiming.Seconds / 60,
@@ -169,7 +169,7 @@ public class CreateGameWithLinkRequestHandlerTests {
         // user not returned
 
 
-        var handler = new CreateGameWithLinkRequestHandler(
+        var handler = new CreatePrivateGameWithLinkRequestHandler(
              _mockUserContextService.Object,
              _mockUserRepository.Object,
              _mockGameRepository.Object,

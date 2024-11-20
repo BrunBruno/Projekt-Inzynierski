@@ -41,7 +41,7 @@ public class CreatePrivateGameByEmailTests : IClassFixture<TestWebApplicationFac
         await _dbContext.AddUser();
         await _dbContext.AddUserWithEmail(friendEmail);
 
-        var model = new CreateWebGameByEmailModel()
+        var model = new CreatePrivateGameByEmailModel()
         {
             Email = friendEmail,
             Type = TimingTypes.Blitz,
@@ -85,7 +85,7 @@ public class CreatePrivateGameByEmailTests : IClassFixture<TestWebApplicationFac
         await _dbContext.AddUser();
         // friend not exists
 
-        var model = new CreateWebGameByEmailModel()
+        var model = new CreatePrivateGameByEmailModel()
         {
             Email = friendEmail,
             Type = TimingTypes.Blitz,

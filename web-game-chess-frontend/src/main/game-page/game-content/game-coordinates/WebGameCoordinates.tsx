@@ -1,6 +1,6 @@
 import { PieceColor } from "../../../../shared/utils/objects/entitiesEnums";
 import classes from "./GameCoordinates.module.scss";
-import { GetWebGamePlayerDto } from "../../../../shared/utils/types/gameDtos";
+import { GetWebGamePlayerDto } from "../../../../shared/utils/types/webGameDtos";
 import { intToChar } from "../../../../shared/utils/chess-game/general";
 
 const fileAndRankSize = 8;

@@ -1,6 +1,6 @@
 import { ChangeEvent, useEffect, useRef, useState, KeyboardEvent, FormEvent } from "react";
 import classes from "./GameMessages.module.scss";
-import { GetAllMessagesDto, GetWebGamePlayerDto } from "../../../../shared/utils/types/gameDtos";
+import { GetAllMessagesDto, GetWebGamePlayerDto } from "../../../../shared/utils/types/webGameDtos";
 import IconCreator from "../../../../shared/components/icon-creator/IconCreator";
 import GameHubService from "../../../../shared/utils/services/GameHubService";
 import { HubConnectionState } from "@microsoft/signalr";
@@ -8,7 +8,7 @@ import { getErrMessage } from "../../../../shared/utils/functions/errors";
 import { usePopup } from "../../../../shared/utils/hooks/usePopUp";
 import axios from "axios";
 import { webGameController, getAuthorization } from "../../../../shared/utils/services/ApiService";
-import { SendPlayerMessageModel, TypingStatusModel } from "../../../../shared/utils/types/gameModels";
+import { SendPlayerMessageModel, TypingStatusModel } from "../../../../shared/utils/types/webGameModels";
 import { Guid } from "guid-typescript";
 import { gameRightSidebarIcons } from "../GameRightSidebarIcons";
 import WebGameMessage from "./game-message/WebGameMessage";

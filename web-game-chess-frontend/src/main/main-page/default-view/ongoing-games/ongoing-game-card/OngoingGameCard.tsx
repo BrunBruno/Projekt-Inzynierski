@@ -1,5 +1,5 @@
 import { useEffect, useRef } from "react";
-import { GetAllActiveGamesDto } from "../../../../../shared/utils/types/gameDtos";
+import { GetAllActiveGamesDto } from "../../../../../shared/utils/types/webGameDtos";
 import AvatarImage from "../../../../../shared/components/avatar-image/AvatarImage";
 import classes from "./OngoingGameCard.module.scss";
 import { PlayerDto } from "../../../../../shared/utils/types/abstractDtosAndModels";

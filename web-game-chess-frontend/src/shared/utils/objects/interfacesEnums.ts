@@ -8,12 +8,12 @@ export enum GameSearchInterface {
   defaultView,
   vsPlayerTimeSelection,
   vsPlayerSearching,
-  vsComputerTimeSelection,
   vsComputerOptions,
   vsFriendTimeSelection,
   vsFriendsOptions,
   activeGames,
-  userGames,
+  finishedGames,
+  engineGames,
   invitations,
 }
 
@@ -33,6 +33,7 @@ export enum GameActionInterface {
   draw = 4,
   block = 5,
   report = 6,
+  restart = 7,
 }
 
 // for displaying game window

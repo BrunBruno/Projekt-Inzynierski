@@ -2,12 +2,12 @@ import axios from "axios";
 import { rankMap } from "../objects/piecesMovementMap";
 import { pieceTagMap } from "../objects/piecesNameMaps";
 import GameHubService from "../services/GameHubService";
-import { MakeWebGameMoveModel } from "../types/gameModels";
+import { MakeWebGameMoveModel } from "../types/webGameModels";
 import { areCoorEqual, intToChar, toCoor } from "./general";
 import { Coordinate, EngineGameStates, PieceOption, SelectionStates, TypeOfGame, WebGameStates } from "./gameSates";
 import { engineGameController, getAuthorization } from "../services/ApiService";
 import { BlackPieceTag, WhitePieceTag } from "../objects/constantLists";
-import { MakeEngineGameMoveModel } from "../types/engineModels";
+import { MakeEngineGameMoveModel } from "../types/engineGameModels";
 
 // make move
 export const makeMove = async (

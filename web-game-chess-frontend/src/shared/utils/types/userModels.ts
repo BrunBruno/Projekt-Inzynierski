@@ -1,6 +1,12 @@
 /* user controller models to requests */
 
-import { AppearanceOfBoard, AppearanceOfGamePage, AppearanceOfPieces, TimingType } from "../objects/entitiesEnums";
+import {
+  AppearanceOfBoard,
+  AppearanceOfGamePage,
+  AppearanceOfPieces,
+  DataConfiguration,
+  TimingType,
+} from "../objects/entitiesEnums";
 import { PagedModel } from "./abstractDtosAndModels";
 
 /** POST models */
@@ -69,9 +75,11 @@ export type GetByEmailModel = {
 };
 
 export type GetRegisterConfModel = {
-  configurationId: number;
+  configurationId: DataConfiguration;
 };
 
 export type GetUsersRankingModel = PagedModel & {
   type: TimingType;
 };
+
+/** DELETE models */

@@ -32,10 +32,12 @@ export type GetFullUserDto = UserDto & {
   email: string;
   joinDate: Date;
   bio: string | null;
+
   onlineOutcomeTotal: GameOutcomeDto;
   offlineOutcomeTotal: GameOutcomeDto;
   timingTypeGamesPlayed: EloDto;
   settings: GameSettingsDto;
+
   winsByCheckMate: number;
   winsByTimeout: number;
   winsByResignation: number;
@@ -53,6 +55,7 @@ export type GetOtherUserDto = UserDto & {
   joinDate: Date;
   bio: string | null;
   gamesPlayed: number;
+
   elo: EloDto;
 };
 

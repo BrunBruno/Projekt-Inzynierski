@@ -31,6 +31,7 @@ public class GetWebGameDto {
 
     public TimingTypes TimingType { get; set; }
 
+
     /// <summary>
     /// Bool values relate to castling options
     /// </summary>
@@ -40,6 +41,7 @@ public class GetWebGameDto {
     public bool CanBlackKingCastle { get; set; } 
     public bool CanBlackShortRookCastle { get; set; } 
     public bool CanBlackLongRookCastle { get; set; } 
+
 
     /// <summary>
     /// White player data

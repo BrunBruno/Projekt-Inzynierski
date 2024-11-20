@@ -7,16 +7,16 @@ import {
   GetFriendshipRankingModel,
 } from "../types/friendshipModels";
 import {
-  AbortSearchModel,
+  AbortWebGameSearchModel,
   CheckIfInWebGameModel,
   GetAllInvitationsModel,
   GetAllFinishedGamesModel,
   GetTypeHistoryModel,
   GetAllActiveGamesModel,
-  GetTotalGamesStatsModel,
-} from "../types/gameModels";
+} from "../types/webGameModels";
 import { GetByEmailModel, GetRegisterConfModel, GetUsersRankingModel } from "../types/userModels";
 import { host } from "../../../../globals";
+import { GetAllEngineGamesModel } from "../types/engineGameModels";
 
 const baseUrl: string = `http://${host}:5125/api`;
 
@@ -48,8 +48,32 @@ interface UserControllerPaths {
   //DELETE
 }
 
+// paths in user controller
+export const userControllerPaths: UserControllerPaths = {
+  // static
+  registerUser: `${userBaseUrl}/sign-up`,
+  logInUser: `${userBaseUrl}/sign-in`,
+  regenerateCode: `${userBaseUrl}/regenerate-code`,
+  verifyEmail: `${userBaseUrl}/verify-email`,
+  sendResetPasswordCode: `${userBaseUrl}/send-password-code`,
+  resetPassword: `${userBaseUrl}/reset-password`,
+  changePassword: `${userBaseUrl}/change-password`,
+  updateProfile: `${userBaseUrl}/profile`,
+  updateUserData: `${userBaseUrl}/data`,
+  updateUserSettings: `${userBaseUrl}/settings`,
+  getUser: `${userBaseUrl}`,
+  getFullUser: `${userBaseUrl}/full`,
+  getOtherUser: `${userBaseUrl}/other`,
+  getElo: `${userBaseUrl}/elo`,
+  isVerified: `${userBaseUrl}/is-verified`,
+  getByEmail: `${userBaseUrl}/by-email`,
+  getRegisterConf: `${userBaseUrl}/configuration`,
+  getUsersRanking: `${userBaseUrl}/ranking`,
+
+  // dynamic
+};
+
 interface UserController {
-  //POST
   registerUser: () => string;
   logInUser: () => string;
   regenerateCode: () => string;
@@ -69,28 +93,6 @@ interface UserController {
   getRegisterConf: (model: GetRegisterConfModel) => string;
   getUsersRanking: (model: GetUsersRankingModel) => string;
 }
-
-// paths in user controller
-export const userControllerPaths: UserControllerPaths = {
-  registerUser: `${userBaseUrl}/sign-up`,
-  logInUser: `${userBaseUrl}/sign-in`,
-  regenerateCode: `${userBaseUrl}/regenerate-code`,
-  verifyEmail: `${userBaseUrl}/verify-email`,
-  sendResetPasswordCode: `${userBaseUrl}/send-password-code`,
-  resetPassword: `${userBaseUrl}/reset-password`,
-  changePassword: `${userBaseUrl}/change-password`,
-  updateProfile: `${userBaseUrl}/profile`,
-  updateUserData: `${userBaseUrl}/data`,
-  updateUserSettings: `${userBaseUrl}/settings`,
-  getUser: `${userBaseUrl}`,
-  getFullUser: `${userBaseUrl}/full`,
-  getOtherUser: `${userBaseUrl}/other`,
-  getElo: `${userBaseUrl}/elo`,
-  isVerified: `${userBaseUrl}/is-verified`,
-  getByEmail: `${userBaseUrl}/by-email`,
-  getRegisterConf: `${userBaseUrl}/configuration`,
-  getUsersRanking: `${userBaseUrl}/ranking`,
-};
 
 export const userController: UserController = {
   // registers user and sends email verification code
@@ -117,10 +119,10 @@ export const userController: UserController = {
   // updates updatable data for user
   updateProfile: () => `${userBaseUrl}/profile`,
 
-  //
+  // to change user data
   updateUserData: () => `${userBaseUrl}/data`,
 
-  //
+  // to change user settings
   updateUserSettings: () => `${userBaseUrl}/settings`,
 
   // gets basic user info
@@ -144,7 +146,7 @@ export const userController: UserController = {
   // gets registration configurations
   getRegisterConf: (model: GetRegisterConfModel) => `${userBaseUrl}/configuration?${stringifyModel(model)}`,
 
-  //
+  // gets global users ranking
   getUsersRanking: (model: GetUsersRankingModel) => `${userBaseUrl}/ranking?${stringifyModel(model)}`,
 };
 
@@ -177,29 +179,6 @@ interface WebGameControllerPaths {
   cancelPrivateGame: string;
 }
 
-interface WebGameController {
-  startSearch: () => string;
-  createPrivateGame: () => string;
-  createGameByEmail: () => string;
-  createGameWithLink: () => string;
-  checkIfInGame: (model: CheckIfInWebGameModel) => string;
-  checkIfUpdateRequired: (gameId: Guid) => string;
-  getGame: (gameId: Guid) => string;
-  getPlayer: (gameId: Guid) => string;
-  fetchTime: (gameId: Guid) => string;
-  getOpponent: (gameId: Guid) => string;
-  getEndedGame: (gameId: Guid) => string;
-  getGameTiming: (gameId: Guid) => string;
-  getAllActiveGames: (model: GetAllActiveGamesModel) => string;
-  getAllFinishedGames: (model: GetAllFinishedGamesModel) => string;
-  getTypeHistory: (model: GetTypeHistoryModel) => string;
-  getAllInvitations: (model: GetAllInvitationsModel) => string;
-  getAllMessages: (gameId: Guid) => string;
-  getTotalGamesStats: (model: GetTotalGamesStatsModel) => string;
-  abortSearch: (model: AbortSearchModel) => string;
-  cancelPrivateGame: (gameId: Guid) => string;
-}
-
 // paths in game controller
 export const webGameControllerPaths: WebGameControllerPaths = {
   // static
@@ -225,6 +204,29 @@ export const webGameControllerPaths: WebGameControllerPaths = {
   cancelPrivateGame: `${webGameBaseUrl}/:gameId/cancel`,
   checkIfUpdateRequired: `${webGameBaseUrl}/:gameId/update-required`,
 };
+
+interface WebGameController {
+  startSearch: () => string;
+  createPrivateGame: () => string;
+  createGameByEmail: () => string;
+  createGameWithLink: () => string;
+  checkIfInGame: (model: CheckIfInWebGameModel) => string;
+  checkIfUpdateRequired: (gameId: Guid) => string;
+  getGame: (gameId: Guid) => string;
+  getPlayer: (gameId: Guid) => string;
+  fetchTime: (gameId: Guid) => string;
+  getOpponent: (gameId: Guid) => string;
+  getEndedGame: (gameId: Guid) => string;
+  getGameTiming: (gameId: Guid) => string;
+  getAllActiveGames: (model: GetAllActiveGamesModel) => string;
+  getAllFinishedGames: (model: GetAllFinishedGamesModel) => string;
+  getTypeHistory: (model: GetTypeHistoryModel) => string;
+  getAllInvitations: (model: GetAllInvitationsModel) => string;
+  getAllMessages: (gameId: Guid) => string;
+  getTotalGamesStats: () => string;
+  abortSearch: (model: AbortWebGameSearchModel) => string;
+  cancelPrivateGame: (gameId: Guid) => string;
+}
 
 export const webGameController: WebGameController = {
   // creates player if player not exists
@@ -279,12 +281,12 @@ export const webGameController: WebGameController = {
   getAllMessages: (gameId: Guid) => `${webGameBaseUrl}/${gameId}/messages`,
 
   // gets daily stats
-  getTotalGamesStats: (model: GetTotalGamesStatsModel) => `${webGameBaseUrl}/stats?${stringifyModel(model)}`,
+  getTotalGamesStats: () => `${webGameBaseUrl}/stats`,
 
   // removes player
-  abortSearch: (model: AbortSearchModel) => `${webGameBaseUrl}/abort?${stringifyModel(model)}`,
+  abortSearch: (model: AbortWebGameSearchModel) => `${webGameBaseUrl}/abort?${stringifyModel(model)}`,
 
-  //
+  // removes private games / removes players
   cancelPrivateGame: (gameId: Guid) => `${webGameBaseUrl}/${gameId}/cancel`,
 };
 
@@ -306,17 +308,6 @@ interface FriendshipControllerPaths {
   removeFriend: string;
 }
 
-interface FriendshipController {
-  inviteFriend: () => string;
-  blockUser: () => string;
-  respondToFriendRequest: (friendshipId: Guid) => string;
-  getAllFriendsByStatus: (model: GetAllFriendsByStatusModel) => string;
-  getAllNonFriends: (model: GetAllNonFriendsModel) => string;
-  getFriendProfile: (friendshipId: Guid) => string;
-  getFriendshipRanking: (model: GetFriendshipRankingModel) => string;
-  removeFriend: (friendshipId: Guid) => string;
-}
-
 export const friendshipControllerPaths: FriendshipControllerPaths = {
   // static
   inviteFriend: `${friendshipBaseUrl}/invite`,
@@ -330,6 +321,17 @@ export const friendshipControllerPaths: FriendshipControllerPaths = {
   getFriendProfile: `${friendshipBaseUrl}/:friendshipId/profile`,
   removeFriend: `${friendshipBaseUrl}/:friendshipId`,
 };
+
+interface FriendshipController {
+  inviteFriend: () => string;
+  blockUser: () => string;
+  respondToFriendRequest: (friendshipId: Guid) => string;
+  getAllFriendsByStatus: (model: GetAllFriendsByStatusModel) => string;
+  getAllNonFriends: (model: GetAllNonFriendsModel) => string;
+  getFriendProfile: (friendshipId: Guid) => string;
+  getFriendshipRanking: (model: GetFriendshipRankingModel) => string;
+  removeFriend: (friendshipId: Guid) => string;
+}
 
 export const friendshipController: FriendshipController = {
   // creates new friendship, with pending status
@@ -351,7 +353,7 @@ export const friendshipController: FriendshipController = {
   // get user data for other user with established friendship
   getFriendProfile: (friendshipId: Guid) => `${friendshipBaseUrl}/${friendshipId}/profile`,
 
-  //
+  // to get ranking among user friends
   getFriendshipRanking: (model: GetFriendshipRankingModel) => `${friendshipBaseUrl}/ranking?${stringifyModel(model)}`,
 
   // removes friendships
@@ -372,14 +374,15 @@ interface EngineGameControllerPaths {
   //GET
   getEngineGame: string;
   getEngineGameMove: string;
-  fetchTime: string;
   getAllEngineGameMessages: string;
+  getAllEngineGames: string;
   //DELETE
 }
 
 export const engineGameControllerPaths: EngineGameControllerPaths = {
   // static
   startEngineGame: `${engineBaseUrl}/start`,
+  getAllEngineGames: `${engineBaseUrl}/all-games`,
 
   // dynamic
   getEngineGame: `${engineBaseUrl}/:gameId`,
@@ -388,7 +391,6 @@ export const engineGameControllerPaths: EngineGameControllerPaths = {
   changeEngineLevel: `${engineBaseUrl}/:gameId/change-engine`,
   undoMove: `${engineBaseUrl}/:gameId/undo-move`,
   getEngineGameMove: `${engineBaseUrl}/:gameId/engine-move`,
-  fetchTime: `${engineBaseUrl}/:gameId/time`,
   getAllEngineGameMessages: `${engineBaseUrl}/:gameId/all-messages`,
 };
 
@@ -400,8 +402,8 @@ interface EngineGameController {
   undoMove: (gameId: Guid) => string;
   getEngineGame: (gameId: Guid) => string;
   getEngineGameMove: (gameId: Guid) => string;
-  fetchTime: (gameId: Guid) => string;
   getAllEngineGameMessages: (gameId: Guid) => string;
+  getAllEngineGames: (model: GetAllEngineGamesModel) => string;
 }
 
 export const engineGameController: EngineGameController = {
@@ -415,7 +417,7 @@ export const engineGameController: EngineGameController = {
   endEngineGame: (gameId: Guid) => `${engineBaseUrl}/${gameId}/end-game`,
 
   // changes engine level
-  changeEngineLevel: (gameId: Guid) => `${engineBaseUrl}/${gameId}/end-game`,
+  changeEngineLevel: (gameId: Guid) => `${engineBaseUrl}/${gameId}/change-engine`,
 
   // to remove last done moves
   undoMove: (gameId: Guid) => `${engineBaseUrl}/${gameId}/undo-move`,
@@ -426,11 +428,11 @@ export const engineGameController: EngineGameController = {
   // to get move done by engine
   getEngineGameMove: (gameId: Guid) => `${engineBaseUrl}/${gameId}/engine-move`,
 
-  //
-  fetchTime: (gameId: Guid) => `${engineBaseUrl}/${gameId}/time`,
-
   // to get all messages from current game
   getAllEngineGameMessages: (gameId: Guid) => `${engineBaseUrl}/${gameId}/all-messages`,
+
+  // to get all games with engine
+  getAllEngineGames: (model: GetAllEngineGamesModel) => `${engineBaseUrl}/all-games?${stringifyModel(model)}`,
 };
 
 type Headers = {

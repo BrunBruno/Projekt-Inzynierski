@@ -1,0 +1,128 @@
+@use "../../../shared/styles/shared.scss" as *;
+
+// game section container
+.games {
+  $header-height: 6rem;
+
+  @include wh100;
+  @include show-ani;
+
+  padding: 4rem 8rem;
+
+  // games cards sections header
+  &__header {
+    @include flex(row, space-between, center, 0);
+
+    height: $header-height;
+    padding: 1rem;
+    padding-right: 4rem;
+
+    h2.header-title {
+      @include flex(row, start, center, 1rem);
+
+      .header-icon {
+        height: 3rem;
+      }
+
+      span {
+        font-size: 3rem;
+        font-weight: bold;
+      }
+
+      span.counter {
+        @include flex($gap: 0.5rem);
+
+        width: fit-content;
+
+        span.sym {
+          font-size: 2rem;
+          color: $gc4;
+        }
+      }
+    }
+
+    .filters {
+      button.filter-button {
+        @include flex($gap: 1rem);
+        @include button(2rem);
+        @include main-m-button;
+
+        &.disabled {
+          filter: grayscale(100%);
+          pointer-events: none;
+        }
+
+        &.enabled {
+          filter: grayscale(0%);
+          pointer-events: all;
+        }
+
+        .filters-icon {
+          height: 2rem;
+        }
+
+        span {
+          &:nth-child(3) {
+            font-weight: 100;
+            font-size: 1.6rem;
+          }
+        }
+      }
+    }
+  }
+
+  // list of game cards or empty cards
+  &__list {
+    position: relative;
+    height: calc(100% - $header-height);
+    padding: 0.5rem;
+    overflow: hidden scroll;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+
+    &::-webkit-scrollbar {
+      width: 1rem;
+      background-color: #0000;
+
+      &-thumb {
+        background-color: $gc9;
+        border-radius: 1rem;
+      }
+    }
+
+    &.empty {
+      overflow: hidden;
+    }
+  }
+}
+
+// resize
+@media (width <= 700px) {
+  .games {
+    height: 100%;
+    overflow: hidden;
+    padding: 4rem 2rem;
+
+    $header-height: 10rem;
+
+    &__header {
+      height: $header-height;
+
+      h2 {
+        font-size: 3.6rem;
+      }
+
+      .filters {
+        button.filter-button {
+          font-size: 2.6rem;
+        }
+      }
+    }
+
+    &__list {
+      height: calc(100% - $header-height);
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+}

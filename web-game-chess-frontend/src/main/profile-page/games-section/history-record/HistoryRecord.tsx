@@ -1,4 +1,4 @@
-import { GetTypeHistoryDto } from "../../../../shared/utils/types/gameDtos";
+import { GetTypeHistoryDto } from "../../../../shared/utils/types/webGameDtos";
 import classes from "./HistoryRecord.module.scss";
 
 type HistoryRecordProps = {

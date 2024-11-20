@@ -9,6 +9,13 @@ namespace chess.Application.Repositories.EngineGameRepositories;
 public interface IEngineGamePlayerRepository {
 
     /// <summary>
+    /// To get all players of engine games for current user
+    /// </summary>
+    /// <param name="userId"></param>
+    /// <returns></returns>
+    Task<List<EngineGamePlayer>> GetAllForUser(Guid userId);  
+
+    /// <summary>
     /// Creates user player for engine game 
     /// </summary>
     /// <param name="player"></param>

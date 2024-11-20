@@ -1,8 +1,8 @@
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import classes from "./NotificationPopUp.module.scss";
 import GameHubService from "../../../shared/utils/services/GameHubService";
-import { InvitedToGameDto } from "../../../shared/utils/types/gameDtos";
-import { AcceptInvitationModel, DeclineInvitationModel } from "../../../shared/utils/types/gameModels";
+import { InvitedToGameDto } from "../../../shared/utils/types/webGameDtos";
+import { AcceptInvitationModel, DeclineInvitationModel } from "../../../shared/utils/types/webGameModels";
 import { usePopup } from "../../../shared/utils/hooks/usePopUp";
 import { getErrMessage } from "../../../shared/utils/functions/errors";
 import { HubConnectionState } from "@microsoft/signalr";

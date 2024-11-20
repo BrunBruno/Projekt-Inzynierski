@@ -1,9 +1,124 @@
 @use "../../../../shared/styles/shared.scss" as *;
 
+$sqr-size: 7rem;
+
 .engine {
   @include abs-center;
   @include wh100;
   @include flex;
 
   z-index: 100;
+  background-color: rgba(#000, 0.7);
+
+  &__grid {
+    @include rounded(2rem);
+    @include emerge-ani;
+
+    background-color: rgba($gc9, 1);
+    overflow: hidden;
+    border-bottom: solid 0.5rem $gc8;
+
+    width: fit-content;
+    height: fit-content;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    grid-template-rows: repeat(4, 1fr);
+    gap: 1rem;
+
+    &__header {
+      @include flex;
+      grid-column: span 5;
+
+      h2 {
+        font-size: 3rem;
+        font-weight: 600;
+      }
+    }
+
+    .engine-level {
+      @include square($sqr-size);
+      @include rounded(1rem);
+      @include flex;
+
+      position: relative;
+      background-color: $gc9;
+      border: solid 0.3rem $gc8;
+
+      &:hover {
+        cursor: pointer;
+        box-shadow: 0 0 1rem 0 $gc0;
+
+        span {
+          color: $mc0;
+          filter: drop-shadow(0 0 1rem $mc0);
+        }
+
+        .lvl-icon {
+          opacity: 0.2;
+        }
+      }
+
+      &.selected {
+        box-shadow: 0 0 1rem 0 $gc0;
+
+        span {
+          color: $mc0;
+          filter: drop-shadow(0 0 1rem $mc0);
+        }
+
+        .lvl-icon {
+          opacity: 0.2;
+        }
+      }
+
+      span {
+        @include sec-font(3rem);
+
+        width: 100%;
+        text-align: center;
+        z-index: 1;
+        color: $mc9;
+        text-shadow: 0.1rem 0.1rem 0 #000;
+      }
+
+      .lvl-icon {
+        @include abs-center;
+
+        z-index: 0;
+        height: 80%;
+        opacity: 0.05;
+
+        line {
+          fill: none;
+          stroke: $mc0;
+          stroke-width: 2;
+          stroke-linecap: round;
+          stroke-linejoin: round;
+          stroke-miterlimit: 10;
+        }
+
+        path {
+          fill: none;
+          stroke: $mc0;
+          stroke-width: 2;
+          stroke-linecap: round;
+          stroke-linejoin: round;
+          stroke-miterlimit: 10;
+        }
+      }
+    }
+
+    .x-icon {
+      @include circle(4rem);
+      position: absolute;
+
+      top: 2rem;
+      right: 2rem;
+
+      &:hover {
+        cursor: pointer;
+        filter: brightness(80%);
+      }
+    }
+  }
 }

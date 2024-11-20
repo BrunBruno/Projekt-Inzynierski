@@ -1,6 +1,6 @@
 import GameHubService from "../../../../shared/utils/services/GameHubService";
-import { GetAllInvitationsDto } from "../../../../shared/utils/types/gameDtos";
-import { AcceptInvitationModel, DeclineInvitationModel } from "../../../../shared/utils/types/gameModels";
+import { GetAllInvitationsDto } from "../../../../shared/utils/types/webGameDtos";
+import { AcceptInvitationModel, DeclineInvitationModel } from "../../../../shared/utils/types/webGameModels";
 import classes from "./InvitationCard.module.scss";
 import { TimingTypeName, timingTypeNames } from "../../../../shared/utils/objects/constantLists";
 import { usePopup } from "../../../../shared/utils/hooks/usePopUp";

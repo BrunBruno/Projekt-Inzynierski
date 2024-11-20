@@ -4,9 +4,9 @@ import { mainPageIcons } from "../MainPageIcons";
 import classes from "./MainButtons.module.scss";
 
 type MainButtonsProps = {
-  //
+  // selected interface id
   interfaceId: GameSearchInterface;
-  //
+  // to change interface
   setInterfaceById: (interfaceId: GameSearchInterface) => void;
 };
 
@@ -50,12 +50,7 @@ function MainButtons({ interfaceId, setInterfaceById }: MainButtonsProps) {
         data-testid="main-page-game-hub-vs-computer-button"
         className={`
             ${classes["interface-button"]}
-            ${
-              interfaceId === GameSearchInterface.vsComputerOptions ||
-              interfaceId === GameSearchInterface.vsComputerTimeSelection
-                ? classes["active-button"]
-                : ""
-            }`}
+            ${interfaceId === GameSearchInterface.vsComputerOptions ? classes["active-button"] : ""}`}
         onClick={() => {
           setInterfaceById(GameSearchInterface.vsComputerOptions);
         }}
@@ -83,7 +78,7 @@ function MainButtons({ interfaceId, setInterfaceById }: MainButtonsProps) {
       </button>
 
       <button
-        data-testid="main-page-game-hub-active-games-button"
+        data-testid="main-page-game-hub-invitations-button"
         className={`
             ${classes["interface-button"]}
             ${interfaceId === GameSearchInterface.activeGames ? classes["active-button"] : ""}`}
@@ -92,16 +87,15 @@ function MainButtons({ interfaceId, setInterfaceById }: MainButtonsProps) {
         }}
       >
         <IconCreator icons={mainPageIcons} iconName={"activeGames"} iconClass={classes["active-games-icon"]} />
-        <span>Active games</span>
+        <span>Active Games</span>
       </button>
 
       <button
-        data-testid="main-page-game-hub-user-games-button"
         className={`
             ${classes["interface-button"]}
-            ${interfaceId === GameSearchInterface.userGames ? classes["active-button"] : ""}`}
+            ${interfaceId === GameSearchInterface.finishedGames ? classes["active-button"] : ""}`}
         onClick={() => {
-          setInterfaceById(GameSearchInterface.userGames);
+          setInterfaceById(GameSearchInterface.finishedGames);
         }}
       >
         <IconCreator icons={mainPageIcons} iconName={"userGames"} iconClass={classes["user-games-icon"]} />
@@ -109,7 +103,18 @@ function MainButtons({ interfaceId, setInterfaceById }: MainButtonsProps) {
       </button>
 
       <button
-        data-testid="main-page-game-hub-invitations-button"
+        className={`
+            ${classes["interface-button"]}
+            ${interfaceId === GameSearchInterface.engineGames ? classes["active-button"] : ""}`}
+        onClick={() => {
+          setInterfaceById(GameSearchInterface.engineGames);
+        }}
+      >
+        <IconCreator icons={mainPageIcons} iconName={"engineGames"} iconClass={classes["engine-games-icon"]} />
+        <span>Engine Games</span>
+      </button>
+
+      <button
         className={`
             ${classes["interface-button"]}
             ${interfaceId === GameSearchInterface.invitations ? classes["active-button"] : ""}`}

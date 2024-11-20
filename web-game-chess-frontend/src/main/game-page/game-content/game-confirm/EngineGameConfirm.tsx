@@ -20,28 +20,14 @@ function EngineGameConfirm({ confirmAction, showConfirmState, setDisplayedWindow
   // to render correct title based on user selection
   const renderText = (action: GameActionInterface): JSX.Element => {
     switch (action) {
-      case GameActionInterface.leave:
-        return (
-          <span>
-            The game will be draw. <br /> Are you sure?
-          </span>
-        );
-
-      case GameActionInterface.abort:
-        return (
-          <span>
-            The game will be resign. <br /> Are you sure?
-          </span>
-        );
-
       case GameActionInterface.resign:
         return <span>Resign the game?</span>;
 
-      case GameActionInterface.draw:
-        return <span>Send draw offer?</span>;
+      case GameActionInterface.restart:
+        return <span>Start new game?</span>;
 
       default:
-        return <></>;
+        return <span>Sure?</span>;
     }
   };
 

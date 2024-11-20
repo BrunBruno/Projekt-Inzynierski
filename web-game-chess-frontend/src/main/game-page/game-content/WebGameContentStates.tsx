@@ -1,7 +1,7 @@
 /* game states */
 
 import { Guid } from "guid-typescript";
-import { GetWebGameDto, GetWebGamePlayerDto } from "../../../shared/utils/types/gameDtos";
+import { GetWebGameDto, GetWebGamePlayerDto } from "../../../shared/utils/types/webGameDtos";
 import { SMatrix } from "../../../shared/utils/types/commonTypes";
 import { Coordinate, PieceOption, SelectionStates, WebGameStates } from "../../../shared/utils/chess-game/gameSates";
 

@@ -8,7 +8,7 @@ import IconCreator from "../../../../shared/components/icon-creator/IconCreator"
 import { PieceTag } from "../../../../shared/utils/objects/constantLists";
 import { dangerColor } from "../../../../shared/utils/objects/colorMaps";
 import { symbolIcons } from "../../../../shared/svgs/iconsMap/SymbolIcons";
-import { GetEngineGameDto } from "../../../../shared/utils/types/engineDtos";
+import { GetEngineGameDto } from "../../../../shared/utils/types/engineGameDtos";
 import {
   Coordinate,
   EngineGameStates,

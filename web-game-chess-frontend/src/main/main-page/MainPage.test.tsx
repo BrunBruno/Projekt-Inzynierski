@@ -11,7 +11,7 @@ import {
   CreatePrivateGameDto,
   GetGameTimingDto,
   SearchWebGameDto,
-} from "../../shared/utils/types/gameDtos";
+} from "../../shared/utils/types/webGameDtos";
 import { GetAllFriendsByStatusDto } from "../../shared/utils/types/friendshipDtos";
 import { TimingType } from "../../shared/utils/objects/entitiesEnums";
 import MainPage from "./MainPage";

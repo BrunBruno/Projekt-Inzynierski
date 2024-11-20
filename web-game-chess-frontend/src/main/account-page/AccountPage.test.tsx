@@ -4,7 +4,7 @@ import { MemoryRouter } from "react-router-dom";
 import { GetAllFriendsByStatusDto } from "../../shared/utils/types/friendshipDtos";
 import { Guid } from "guid-typescript";
 import { GetFullUserDto } from "../../shared/utils/types/userDtos";
-import { GetTypeHistoryDto } from "../../shared/utils/types/gameDtos";
+import { GetTypeHistoryDto } from "../../shared/utils/types/webGameDtos";
 import { createMockServer } from "../../shared/utils/services/MockServerService";
 import { mockElo, mockGameOutcome } from "../../shared/utils/objects/generalMocks";
 import { AppearanceOfBoard, AppearanceOfGamePage, AppearanceOfPieces } from "../../shared/utils/objects/entitiesEnums";

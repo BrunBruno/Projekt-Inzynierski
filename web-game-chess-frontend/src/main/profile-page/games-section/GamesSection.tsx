@@ -1,4 +1,4 @@
-import { GetAllFinishedGamesDto } from "../../../shared/utils/types/gameDtos";
+import { GetAllFinishedGamesDto } from "../../../shared/utils/types/webGameDtos";
 import classes from "./GamesSection.module.scss";
 
 import { PagedResult } from "../../../shared/utils/types/abstractDtosAndModels";

@@ -108,8 +108,8 @@ public class GameHub : Hub<IGameHub> {
     /// <returns> Essential for game creation </returns>
     [HubMethodName("rematch")]
     [Authorize(Policy = "IsVerified")]
-    [SignalRMethod("CreateWebGameRematch", Operation.Post)]
-    public async Task CreateWebGameRematch(CreateRematchWebGameModel model) {
+    [SignalRMethod("CreateRematch", Operation.Post)]
+    public async Task CreateRematch(CreateWebGameRematchModel model) {
 
         var request = _mapper.Map<CreateWebGameRematchRequest>(model);
 
@@ -143,7 +143,7 @@ public class GameHub : Hub<IGameHub> {
     /// </summary>
     /// <param name="model"></param>
     /// <returns></returns>
-    [HubMethodName("send-message")]
+    [HubMethodName("send-player-message")]
     [Authorize(Policy = "IsVerified")]
     [SignalRMethod("SendPlayerMessage", Operation.Post)]
     public async Task SendPlayerMessage(SendPlayerMessageModel model) {
@@ -179,9 +179,9 @@ public class GameHub : Hub<IGameHub> {
     /// </summary>
     /// <param name="gameId"></param>
     /// <returns></returns>
-    [HubMethodName("send-draw")]
+    [HubMethodName("send-draw-message")]
     [Authorize(Policy = "IsVerified")]
-    [SignalRMethod("SendDraw", Operation.Post)]
+    [SignalRMethod("SendDrawMessage", Operation.Post)]
     public async Task SendDrawMessage(Guid gameId) {
 
         var request = new SendDrawMessageRequest() 
@@ -211,6 +211,22 @@ public class GameHub : Hub<IGameHub> {
 
         await Clients.Groups($"game-{model.GameId}").GameEnded(endGameDto);
     }
+
+    [HubMethodName("ended-game")]
+    [Authorize(Policy = "IsVerified")]
+    [SignalRMethod("GetEndedGame", Operation.Get)]
+    public async Task GetEndedGame(Guid gameId) {
+
+        var request =new EndWebGameRequest()
+        {
+            GameId = gameId, 
+        };
+
+        var endGameDto = await _mediator.Send(request);
+
+        await Clients.Groups($"game-{gameId}").GameEnded(endGameDto);
+    }
+
 
 
     /// <summary>
@@ -358,7 +374,7 @@ public class GameHub : Hub<IGameHub> {
     [HubMethodName("decline-invitation")]
     [Authorize(Policy = "IsVerified")]
     [SignalRMethod("DeclineInvitation", Operation.Delete)]
-    public async Task DeclineInvitation(DeclineWebGameInvitationModel model) {
+    public async Task DeclineInvitation(DeclineInvitationModel model) {
 
         var request = _mapper.Map<DeclineInvitationRequest>(model);
 
@@ -397,7 +413,7 @@ public class GameHub : Hub<IGameHub> {
     [HubMethodName("cancel-rematch")]
     [Authorize(Policy = "IsVerified")]
     [SignalRMethod("CancelRematch", Operation.Delete)]
-    public async Task CancelRematch(CancelRematchModel model) {
+    public async Task CancelRematch(CancelWebGameRematchModel model) {
 
         var request = _mapper.Map<CancelWebGameRematchRequest>(model);
 

@@ -2,7 +2,7 @@ import { useEffect, useReducer } from "react";
 import classes from "./GameContent.module.scss";
 import { Guid } from "guid-typescript";
 import { SMatrix, StateProp } from "../../../shared/utils/types/commonTypes";
-import { EndEngineGameDto, GetEngineGameDto, GetEngineGameMoveDto } from "../../../shared/utils/types/engineDtos";
+import { EndEngineGameDto, GetEngineGameDto, GetEngineGameMoveDto } from "../../../shared/utils/types/engineGameDtos";
 import {
   gameInitialStates,
   gameStatesReducer,
@@ -35,6 +35,7 @@ import { GameActionInterface, GameWindowInterface } from "../../../shared/utils/
 import GameEngine from "./game-engine/GameEngine";
 import GameHistory from "./game-history/GameHistory";
 import { MoveDto } from "../../../shared/utils/types/abstractDtosAndModels";
+import GameSettings from "./game-settings/GameSettings";
 
 type EngineGameContentProps = {
   // game data
@@ -325,9 +326,6 @@ function EngineGameContent({
           <EngineGameWinner gameId={gameId} gameData={gameData} winner={winner} />
         )}
 
-        {/* engine selection */}
-        {displayedWindowState.get === GameWindowInterface.engine && <GameEngine />}
-
         {/* previous position show */}
         {displayedWindowState.get === GameWindowInterface.history && (
           <GameHistory
@@ -336,6 +334,14 @@ function EngineGameContent({
             historyPositionState={historyPositionState}
             setDisplayedWindow={displayedWindowState.set}
           />
+        )}
+
+        {/* settings */}
+        {displayedWindowState.get === GameWindowInterface.settings && <GameSettings gameData={gameData} />}
+
+        {/* engine selection */}
+        {displayedWindowState.get === GameWindowInterface.engine && (
+          <GameEngine gameId={gameId} setDisplayedWindow={displayedWindowState.set} />
         )}
       </div>
     </section>

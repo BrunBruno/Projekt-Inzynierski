@@ -2,18 +2,18 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { GameSearchInterface, StateOptions } from "../../shared/utils/objects/interfacesEnums";
 import classes from "./MainPage.module.scss";
 import { usePopup } from "../../shared/utils/hooks/usePopUp";
-import { CheckIfInWebGameDto, SearchWebGameDto } from "../../shared/utils/types/gameDtos";
+import { CheckIfInWebGameDto, SearchWebGameDto } from "../../shared/utils/types/webGameDtos";
 import { useEffect, useState } from "react";
 import { OfflineGameOptions, PrivateGameOptions } from "./MainPageData";
 import MainPopUp from "../../shared/components/main-popup/MainPopUp";
 import MainNav from "../../shared/components/main-nav/MainNav";
 import DefaultView from "./default-view/DefaultView";
 import Invitations from "./invitations/Invitations";
-import UserGames from "./user-games/UserGames";
-import ActiveGames from "./active-games/ActiveGames";
-import TimeSelection from "./time-selection/TimeSelection";
-import FriendSelection from "./friend-selection/FriendSelection";
-import BotSelection from "./bot-selection/BotSelection";
+import UserGames from "./games-finished/UserGames";
+import ActiveGames from "./games-active/ActiveGames";
+import TimeSelection from "./selection-time/TimeSelection";
+import FriendSelection from "./selection-friends/FriendSelection";
+import BotSelection from "./selection-bot/BotSelection";
 import SearchingPage from "../../shared/components/searching-page/SearchingPage";
 import GameHubService from "../../shared/utils/services/GameHubService";
 import { HubConnectionState } from "@microsoft/signalr";
@@ -21,11 +21,12 @@ import { Guid } from "guid-typescript";
 import { getErrMessage } from "../../shared/utils/functions/errors";
 import { engineGameController, getAuthorization, webGameController } from "../../shared/utils/services/ApiService";
 import axios from "axios";
-import { AbortSearchModel, CheckIfInWebGameModel } from "../../shared/utils/types/gameModels";
-import { StartEngineGameDto } from "../../shared/utils/types/engineDtos";
+import { AbortWebGameSearchModel, CheckIfInWebGameModel } from "../../shared/utils/types/webGameModels";
+import { StartEngineGameDto } from "../../shared/utils/types/engineGameDtos";
 import NotificationPopUp from "./notification-popup/NotificationPopUp";
 import MainButtons from "./main-buttons/MainButtons";
-import { StartEngineGameModel } from "../../shared/utils/types/engineModels";
+import { StartEngineGameModel } from "../../shared/utils/types/engineGameModels";
+import EngineGames from "./games-engine/EngineGames";
 
 function MainPage() {
   ///
@@ -110,11 +111,11 @@ function MainPage() {
     if (!onlineGameIds) return;
 
     try {
-      const abortSearchModel: AbortSearchModel = {
+      const AbortWebGameSearchModel: AbortWebGameSearchModel = {
         playerId: onlineGameIds.playerId,
       };
 
-      await axios.delete(webGameController.abortSearch(abortSearchModel), getAuthorization());
+      await axios.delete(webGameController.abortSearch(AbortWebGameSearchModel), getAuthorization());
 
       await GameHubService.PlayerLeaved(onlineGameIds.timingId);
 
@@ -219,11 +220,7 @@ function MainPage() {
   useEffect(() => {
     if (!offlineGameOptions) return;
 
-    if (offlineGameOptions.enableTiming && (!offlineGameOptions.header || !offlineGameOptions.values)) {
-      setInterfaceById(GameSearchInterface.vsComputerTimeSelection);
-    } else {
-      onStartOfflineGame();
-    }
+    onStartOfflineGame();
   }, [offlineGameOptions]);
 
   /** OFFLINE GAMES END */
@@ -256,10 +253,6 @@ function MainPage() {
         setInterfaceContent(<BotSelection setOfflineGameOptions={setOfflineGameOptions} />);
         break;
 
-      case GameSearchInterface.vsComputerTimeSelection:
-        setInterfaceContent(<TimeSelection setOfflineGameOptions={setOfflineGameOptions} />);
-        break;
-
       case GameSearchInterface.vsFriendsOptions:
         setInterfaceContent(
           <FriendSelection setPrivateGameOptions={setPrivateGameOptions} privateGameOptions={privateGameOptions} />
@@ -274,8 +267,12 @@ function MainPage() {
         setInterfaceContent(<ActiveGames />);
         break;
 
-      case GameSearchInterface.userGames:
+      case GameSearchInterface.finishedGames:
         setInterfaceContent(<UserGames />);
+        break;
+
+      case GameSearchInterface.engineGames:
+        setInterfaceContent(<EngineGames />);
         break;
 
       case GameSearchInterface.invitations:

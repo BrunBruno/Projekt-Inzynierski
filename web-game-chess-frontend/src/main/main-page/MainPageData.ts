@@ -4,11 +4,7 @@ import { GetByEmailDto } from "../../shared/utils/types/userDtos";
 
 // options of offlie game creation
 export type OfflineGameOptions = {
-  header: TimingTypeName | null;
-  values: [number, number] | null;
-
   engineLevel?: number;
-  enableTiming?: boolean;
   enableUndo?: boolean;
 };
 

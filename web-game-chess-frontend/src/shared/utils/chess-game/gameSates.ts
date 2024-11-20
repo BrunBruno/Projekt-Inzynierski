@@ -1,8 +1,8 @@
 import { Guid } from "guid-typescript";
 import { BlackPieceTag, WhitePieceTag } from "../objects/constantLists";
-import { GetWebGameDto, GetWebGamePlayerDto } from "../types/gameDtos";
+import { GetWebGameDto, GetWebGamePlayerDto } from "../types/webGameDtos";
 import { SMatrix } from "../types/commonTypes";
-import { GetEngineGameDto } from "../types/engineDtos";
+import { GetEngineGameDto } from "../types/engineGameDtos";
 import { PlayerDto } from "../types/abstractDtosAndModels";
 
 // available coordinate numbers

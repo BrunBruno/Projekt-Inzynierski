@@ -44,6 +44,7 @@ public class GetAllActiveGamesDto {
     /// </summary>
     public double TimeLeft { get; set; }
 
+
     /// <summary>
     /// White player data
     /// </summary>

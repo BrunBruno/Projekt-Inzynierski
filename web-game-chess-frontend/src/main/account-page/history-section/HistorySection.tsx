@@ -1,4 +1,4 @@
-import { GetTypeHistoryDto } from "../../../shared/utils/types/gameDtos";
+import { GetTypeHistoryDto } from "../../../shared/utils/types/webGameDtos";
 import classes from "./HistorySection.module.scss";
 import { LineChart } from "@mui/x-charts";
 import { Theme, ThemeProvider, createTheme } from "@mui/material/styles";

@@ -1,9 +1,8 @@
 import { useEffect, useRef, useState } from "react";
 import classes from "./ClockWindow.module.scss";
-import { GetTotalGamesStatsDto } from "../../../../shared/utils/types/gameDtos";
+import { GetTotalGamesStatsDto } from "../../../../shared/utils/types/webGameDtos";
 import { getErrMessage } from "../../../../shared/utils/functions/errors";
 import { usePopup } from "../../../../shared/utils/hooks/usePopUp";
-import { GetTotalGamesStatsModel } from "../../../../shared/utils/types/gameModels";
 import axios from "axios";
 import { getAuthorization, webGameController } from "../../../../shared/utils/services/ApiService";
 import IconCreator from "../../../../shared/components/icon-creator/IconCreator";
@@ -23,6 +22,7 @@ function ClockWindow({}: ClockWindowProps) {
 
   const [gamesStats, setGamesStats] = useState<GetTotalGamesStatsDto | null>(null);
 
+  // clock operation
   useEffect(() => {
     const setTime = (): void => {
       const date = new Date();
@@ -43,13 +43,12 @@ function ClockWindow({}: ClockWindowProps) {
     return () => clearInterval(interval);
   }, []);
 
+  // to get daily stats
   useEffect(() => {
     const getGamesStats = async (): Promise<void> => {
-      const model: GetTotalGamesStatsModel = {};
-
       try {
         const response = await axios.get<GetTotalGamesStatsDto>(
-          webGameController.getTotalGamesStats(model),
+          webGameController.getTotalGamesStats(),
           getAuthorization()
         );
 

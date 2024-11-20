@@ -8,10 +8,10 @@ import { Guid } from "guid-typescript";
 import IconCreator from "../../../shared/components/icon-creator/IconCreator";
 import { GameActionInterface, GameWindowInterface, StateOptions } from "../../../shared/utils/objects/interfacesEnums";
 import { Dispatch, SetStateAction } from "react";
-import { GetEngineGameDto, StartEngineGameDto } from "../../../shared/utils/types/engineDtos";
+import { GetEngineGameDto, StartEngineGameDto } from "../../../shared/utils/types/engineGameDtos";
 import { gameLeftSideBarIcons } from "./GameLeftSidebarIcons";
 import GameCapturedPieces from "./game-captured-pieces/GameCapturedPieces";
-import { StartEngineGameModel, UndoMoveModel } from "../../../shared/utils/types/engineModels";
+import { StartEngineGameModel, UndoMoveModel } from "../../../shared/utils/types/engineGameModels";
 import axios from "axios";
 import { engineGameController, getAuthorization } from "../../../shared/utils/services/ApiService";
 import { StateProp } from "../../../shared/utils/types/commonTypes";
@@ -47,24 +47,23 @@ function EngineGameLeftSidebar({
   const navigate = useNavigate();
   const { showPopup } = usePopup();
 
-  // to resign the game
-  const onResign = (): void => {
-    endGame(gameData.player.color);
+  // to leave
+  const onLeaveGame = (): void => {
+    navigate("/main");
   };
-
-  // to offer a draw
 
   // to show confirm window and select chosen action
   const onSelectResign = (): void => {
-    if (displayedWindowState.get !== GameWindowInterface.none) return;
+    if (displayNotAllowed()) return;
 
     displayedWindowState.set(GameWindowInterface.confirm);
     setShowConfirm(GameActionInterface.resign);
     setConfirmAction(() => onResign);
   };
 
-  const onLeaveGame = (): void => {
-    navigate("/main");
+  // to resign the game
+  const onResign = (): void => {
+    endGame(gameData.player.color);
   };
 
   // move undoing
@@ -84,6 +83,14 @@ function EngineGameLeftSidebar({
     } catch (err) {
       showPopup(getErrMessage(err), "warning");
     }
+  };
+
+  const onSelectGameRestart = () => {
+    if (displayNotAllowed()) return;
+
+    displayedWindowState.set(GameWindowInterface.confirm);
+    setShowConfirm(GameActionInterface.restart);
+    setConfirmAction(() => onRestartGame);
   };
 
   // for game restart
@@ -111,16 +118,34 @@ function EngineGameLeftSidebar({
     }
   };
 
-  const onChangeEngine = async (): Promise<void> => {
-    if (displayedWindowState.get !== GameWindowInterface.none) return;
+  // to show engine level change
+  const onChangeEngine = (): void => {
+    if (displayedWindowState.get === GameWindowInterface.engine) displayedWindowState.set(GameWindowInterface.none);
+
+    if (displayNotAllowed()) return;
 
     displayedWindowState.set(GameWindowInterface.engine);
   };
 
+  // to show game settings
   const onShowSettings = (): void => {
-    if (displayedWindowState.get !== GameWindowInterface.none) return;
+    if (displayedWindowState.get === GameWindowInterface.settings) displayedWindowState.set(GameWindowInterface.none);
+
+    if (displayNotAllowed()) return;
 
     displayedWindowState.set(GameWindowInterface.settings);
+  };
+
+  const displayNotAllowed = (): boolean => {
+    if (
+      displayedWindowState.get === GameWindowInterface.winner ||
+      displayedWindowState.get === GameWindowInterface.promotion ||
+      displayedWindowState.get === GameWindowInterface.search
+    ) {
+      return true;
+    }
+
+    return false;
   };
 
   return (
@@ -157,7 +182,7 @@ function EngineGameLeftSidebar({
           <li
             className={classes.bar__content__list__element}
             onClick={() => {
-              onRestartGame();
+              onSelectGameRestart();
             }}
           >
             <IconCreator icons={gameLeftSideBarIcons} iconName={"restart"} iconClass={classes["list-icon"]} />

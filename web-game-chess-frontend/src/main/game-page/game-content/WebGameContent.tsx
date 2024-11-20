@@ -1,14 +1,14 @@
 import { useEffect, useReducer } from "react";
 import {
-  EndGameDto,
+  EndWebGameDto,
   GetWebGameDto,
   GetWebGamePlayerDto,
   SearchWebGameDto,
   CreateWebGameRematchDto,
-} from "../../../shared/utils/types/gameDtos";
+} from "../../../shared/utils/types/webGameDtos";
 import classes from "./GameContent.module.scss";
 import { GameEndReason, PieceColor } from "../../../shared/utils/objects/entitiesEnums";
-import { EndGameModel, SearchWebGameModel } from "../../../shared/utils/types/gameModels";
+import { EndWebGameModel, SearchWebGameModel } from "../../../shared/utils/types/webGameModels";
 import GameHubService from "../../../shared/utils/services/GameHubService";
 import { Guid } from "guid-typescript";
 import { GameActionInterface, GameWindowInterface } from "../../../shared/utils/objects/interfacesEnums";
@@ -40,7 +40,7 @@ type WebGameContentProps = {
   gameData: GetWebGameDto;
   playerData: GetWebGamePlayerDto;
   // winner color if game is finished
-  winner: EndGameDto | null;
+  winner: EndWebGameDto | null;
 
   // timing of current game for new games and rematches
   selectedTiming: SearchWebGameModel | null;
@@ -164,7 +164,7 @@ function WebGameContent({
   // to check if game should end
   useEffect(() => {
     const endGame = async (loserColor: PieceColor | null, gameEndReason: GameEndReason) => {
-      const loserPlayer: EndGameModel = {
+      const loserPlayer: EndWebGameModel = {
         gameId: gameId,
         loserColor: loserColor,
         endGameType: gameEndReason,
@@ -275,6 +275,7 @@ function WebGameContent({
           />
         )}
 
+        {/* settings */}
         {displayedWindowState.get === GameWindowInterface.settings && <GameSettings gameData={gameData} />}
 
         {/* searching */}

@@ -2,12 +2,12 @@ import { useEffect, useState } from "react";
 import { makeTimeFromMinutes } from "../../../../shared/utils/functions/datetime";
 import { GameEndReason, PieceColor } from "../../../../shared/utils/objects/entitiesEnums";
 import { PlayerDto } from "../../../../shared/utils/types/abstractDtosAndModels";
-import { FetchTimeDto, GetWebGameDto } from "../../../../shared/utils/types/gameDtos";
+import { FetchTimeDto, GetWebGameDto } from "../../../../shared/utils/types/webGameDtos";
 import classes from "./GameClock.module.scss";
 import { Guid } from "guid-typescript";
-import { EndGameModel } from "../../../../shared/utils/types/gameModels";
+import { EndWebGameModel } from "../../../../shared/utils/types/webGameModels";
 import GameHubService from "../../../../shared/utils/services/GameHubService";
-import { GetEngineGameDto } from "../../../../shared/utils/types/engineDtos";
+import { GetEngineGameDto } from "../../../../shared/utils/types/engineGameDtos";
 
 type GameClockProps = {
   // game and player data
@@ -72,7 +72,7 @@ function GameClock({ gameId, gameData, playerData, playersTimes }: GameClockProp
 
   // to finish game by time outage
   const endGame = async (loserColor: number | null, endGameType: number): Promise<void> => {
-    const loserPlayer: EndGameModel = {
+    const loserPlayer: EndWebGameModel = {
       gameId: gameId,
       loserColor: loserColor,
       endGameType: endGameType,

@@ -13,8 +13,8 @@ import { usePopup } from "../../../../shared/utils/hooks/usePopUp";
 import { getErrMessage } from "../../../../shared/utils/functions/errors";
 import axios from "axios";
 import { getAuthorization, userController } from "../../../../shared/utils/services/ApiService";
-import { GetEngineGameDto } from "../../../../shared/utils/types/engineDtos";
-import { GetWebGameDto } from "../../../../shared/utils/types/gameDtos";
+import { GetEngineGameDto } from "../../../../shared/utils/types/engineGameDtos";
+import { GetWebGameDto } from "../../../../shared/utils/types/webGameDtos";
 
 type GameSettingsProps = {
   // game data

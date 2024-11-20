@@ -7,7 +7,7 @@ import LastGames from "./last-games/LastGames";
 import ProfileWindow from "./profile-window/ProfileWindow";
 import ClockWindow from "./clock-window/ClockWindow";
 import QuickGame from "./quick-game/QuickGame";
-import { SearchWebGameDto } from "../../../shared/utils/types/gameDtos";
+import { SearchWebGameDto } from "../../../shared/utils/types/webGameDtos";
 
 type DefaultViewProps = {
   //

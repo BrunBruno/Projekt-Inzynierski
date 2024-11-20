@@ -28,6 +28,7 @@ public class GetFullUserDto : UserDto {
     /// </summary>
     public string? Bio { get; set; }
 
+
     /// <summary>
     /// Wins, draws and loses in online games
     /// </summary>

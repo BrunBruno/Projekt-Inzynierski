@@ -1,9 +1,9 @@
 import { Fragment, useEffect, useState } from "react";
 import IconCreator from "../../../../shared/components/icon-creator/IconCreator";
 import { BlackPieceTag, pieceTags, WhitePieceTag } from "../../../../shared/utils/objects/constantLists";
-import { GetWebGameDto } from "../../../../shared/utils/types/gameDtos";
+import { GetWebGameDto } from "../../../../shared/utils/types/webGameDtos";
 import classes from "./GameCapturedPieces.module.scss";
-import { GetEngineGameDto } from "../../../../shared/utils/types/engineDtos";
+import { GetEngineGameDto } from "../../../../shared/utils/types/engineGameDtos";
 import { BlackCapturedPiecesRecord, WhiteCapturedPiecesRecord } from "./GameCapturedPieceData";
 import { symbolIcons } from "../../../../shared/svgs/iconsMap/SymbolIcons";
 import { greyColor } from "../../../../shared/utils/objects/colorMaps";

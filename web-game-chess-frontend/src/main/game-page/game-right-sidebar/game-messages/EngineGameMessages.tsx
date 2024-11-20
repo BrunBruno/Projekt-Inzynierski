@@ -6,7 +6,7 @@ import axios from "axios";
 import { getAuthorization, engineGameController } from "../../../../shared/utils/services/ApiService";
 import { Guid } from "guid-typescript";
 import EngineGameMessage from "./game-message/EngineGameMessage";
-import { GetAllEngineGameMessagesDto } from "../../../../shared/utils/types/engineDtos";
+import { GetAllEngineGameMessagesDto } from "../../../../shared/utils/types/engineGameDtos";
 import IconCreator from "../../../../shared/components/icon-creator/IconCreator";
 import { symbolIcons } from "../../../../shared/svgs/iconsMap/SymbolIcons";
 import { greyColor } from "../../../../shared/utils/objects/colorMaps";

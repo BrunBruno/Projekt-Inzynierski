@@ -41,7 +41,7 @@ function WebGameConfirm({ confirmAction, showConfirmState, setDisplayedWindow }:
         return <span>Send draw offer?</span>;
 
       default:
-        return <></>;
+        return <span>Sure?</span>;
     }
   };
 

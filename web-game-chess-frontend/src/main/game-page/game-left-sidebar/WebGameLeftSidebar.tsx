@@ -7,8 +7,8 @@ import {
   TimingType,
 } from "../../../shared/utils/objects/entitiesEnums";
 import GameHubService from "../../../shared/utils/services/GameHubService";
-import { GetWebGameDto, GetWebGamePlayerDto } from "../../../shared/utils/types/gameDtos";
-import { EndGameModel } from "../../../shared/utils/types/gameModels";
+import { GetWebGameDto, GetWebGamePlayerDto } from "../../../shared/utils/types/webGameDtos";
+import { EndWebGameModel } from "../../../shared/utils/types/webGameModels";
 import classes from "./GameLeftSidebar.module.scss";
 import { usePopup } from "../../../shared/utils/hooks/usePopUp";
 import { getErrMessage } from "../../../shared/utils/functions/errors";
@@ -50,7 +50,7 @@ function WebGameLeftSidebar({
   // to finish the game by some action option
   const endGame = async (loserColor: PieceColor | null, endGameType: GameEndReason): Promise<void> => {
     try {
-      const loserPlayer: EndGameModel = {
+      const loserPlayer: EndWebGameModel = {
         gameId: gameId,
         loserColor: loserColor,
         endGameType: endGameType,

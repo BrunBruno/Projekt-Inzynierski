@@ -67,6 +67,7 @@ export type PlayerDto = {
 // general move dto
 export type MoveDto = {
   move: string;
+  fenMove: string;
   turn: number;
   oldCoor: string;
   newCoor: string;
@@ -74,13 +75,13 @@ export type MoveDto = {
   position: string;
 };
 
-//
+// general image dto
 export type UserImage = {
   data: Uint8Array;
   contentType: string;
 };
 
-//
+// general user settings dto
 export type GameSettingsDto = {
   appearanceOfPieces: AppearanceOfPieces;
   appearanceOfBoard: AppearanceOfBoard;

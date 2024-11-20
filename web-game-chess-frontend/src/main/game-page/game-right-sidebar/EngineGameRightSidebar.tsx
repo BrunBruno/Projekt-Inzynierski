@@ -1,7 +1,7 @@
 import classes from "./GameRightSidebar.module.scss";
 import AvatarImage from "../../../shared/components/avatar-image/AvatarImage";
 import { MoveDto, PlayerDto } from "../../../shared/utils/types/abstractDtosAndModels";
-import { GetEngineGameDto } from "../../../shared/utils/types/engineDtos";
+import { GetEngineGameDto } from "../../../shared/utils/types/engineGameDtos";
 import { AppearanceOfGamePage, PieceColor } from "../../../shared/utils/objects/entitiesEnums";
 import EngineGameMoveRecord from "./game-move-record/EngineGameMoveRecord";
 import EngineGameMessages from "./game-messages/EngineGameMessages";

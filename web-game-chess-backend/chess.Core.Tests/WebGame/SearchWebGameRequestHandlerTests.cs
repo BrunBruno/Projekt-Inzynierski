@@ -53,7 +53,7 @@ public class SearchWebGameRequestHandlerTests {
             IsPlaying = false,
         };
 
-        var request = new SearchGameRequest()
+        var request = new SearchWebGameRequest()
         {
             Type = TimingTypes.Bullet,
             Minutes = 1,
@@ -67,7 +67,7 @@ public class SearchWebGameRequestHandlerTests {
         _mockPlayerRepository.Setup(x => x.GetAwaitingPlayer(userId, gameTiming.Id)).ReturnsAsync(player);
 
 
-        var handler = new SearchGameRequestHandler(
+        var handler = new SearchWebGameRequestHandler(
             _mockPlayerRepository.Object,
             _mockUserContextService.Object,
             _mockUserRepository.Object,
@@ -110,7 +110,7 @@ public class SearchWebGameRequestHandlerTests {
             Increment = 1,
         };
 
-        var request = new SearchGameRequest() 
+        var request = new SearchWebGameRequest() 
         {
             Type = TimingTypes.Bullet,
             Minutes = 1,
@@ -124,7 +124,7 @@ public class SearchWebGameRequestHandlerTests {
         // player not exists
 
 
-        var handler = new SearchGameRequestHandler(
+        var handler = new SearchWebGameRequestHandler(
             _mockPlayerRepository.Object,
             _mockUserContextService.Object,
             _mockUserRepository.Object,
@@ -159,7 +159,7 @@ public class SearchWebGameRequestHandlerTests {
             Elo = new UserElo(),
         };
 
-        var request = new SearchGameRequest()
+        var request = new SearchWebGameRequest()
         {
             Type = TimingTypes.Bullet,
             Minutes = 1,
@@ -171,7 +171,7 @@ public class SearchWebGameRequestHandlerTests {
         _mockUserRepository.Setup(x => x.GetById(userId)).ReturnsAsync(user);
 
 
-        var handler = new SearchGameRequestHandler(
+        var handler = new SearchWebGameRequestHandler(
             _mockPlayerRepository.Object,
             _mockUserContextService.Object,
             _mockUserRepository.Object,
@@ -198,7 +198,7 @@ public class SearchWebGameRequestHandlerTests {
 
         var userId = Guid.NewGuid();
 
-        var request = new SearchGameRequest()
+        var request = new SearchWebGameRequest()
         {
             Type = TimingTypes.Bullet,
             Minutes = 1,
@@ -209,7 +209,7 @@ public class SearchWebGameRequestHandlerTests {
         _mockUserContextService.Setup(x => x.GetUserId()).Returns(userId);
 
 
-        var handler = new SearchGameRequestHandler(
+        var handler = new SearchWebGameRequestHandler(
             _mockPlayerRepository.Object,
             _mockUserContextService.Object,
             _mockUserRepository.Object,
