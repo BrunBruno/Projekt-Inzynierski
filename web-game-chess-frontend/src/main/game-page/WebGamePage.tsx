@@ -15,7 +15,7 @@ import {
 import { webGameController, getAuthorization } from "../../shared/utils/services/ApiService";
 import LoadingPage from "../../shared/components/loading-page/LoadingPage";
 import GameHubService from "../../shared/utils/services/GameHubService";
-import { CheckIfInWebGameModel } from "../../shared/utils/types/webGameModels";
+import { CheckIfInWebGameModel, EndWebGameModel } from "../../shared/utils/types/webGameModels";
 import { usePopup } from "../../shared/utils/hooks/usePopUp";
 import { getErrMessage } from "../../shared/utils/functions/errors";
 import MainPopUp from "../../shared/components/main-popup/MainPopUp";
@@ -26,6 +26,7 @@ import WebGameLeftSidebar from "./game-left-sidebar/WebGameLeftSidebar";
 import WebGameContent from "./game-content/WebGameContent";
 import WebGameRightSidebar from "./game-right-sidebar/WebGameRightSidebar";
 import { MoveDto } from "../../shared/utils/types/abstractDtosAndModels";
+import { GameEndReason } from "../../shared/utils/objects/entitiesEnums";
 
 function WebGamePage() {
   ///
@@ -214,7 +215,19 @@ function WebGamePage() {
       await GameHubService.GetEndedGame(gameId);
     };
 
+    const drawBy50MoveRule = async (): Promise<void> => {
+      const model: EndWebGameModel = {
+        gameId: gameId,
+        loserColor: null,
+        endGameType: GameEndReason.fiftyMovesRule,
+      };
+
+      await GameHubService.EndGame(model);
+    };
+
     if (gameData.hasEnded) getWinner();
+
+    if (gameData.halfmoveClock >= 100) drawBy50MoveRule();
 
     fetchTime();
   }, [gameData]);

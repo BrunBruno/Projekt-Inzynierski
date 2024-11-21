@@ -37,7 +37,12 @@ public class GetEngineGameDto {
     /// <summary>
     /// If player allowed move undoing
     /// </summary>
-    public bool AllowUndo { get; set; }
+    public bool AllowCheats { get; set; }
+
+    /// <summary>
+    /// For 50 move rule ending
+    /// </summary>
+    public int HalfmoveClock { get; set; }
 
     /// <summary>
     /// Bool values relate to castling options

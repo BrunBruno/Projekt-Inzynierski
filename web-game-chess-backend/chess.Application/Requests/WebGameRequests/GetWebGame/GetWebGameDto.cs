@@ -29,7 +29,15 @@ public class GetWebGameDto {
     /// </summary>
     public string? EnPassant { get; set; }
 
+    /// <summary>
+    /// Timing type of game
+    /// </summary>
     public TimingTypes TimingType { get; set; }
+
+    /// <summary>
+    /// For 50 move rule ending
+    /// </summary>
+    public int HalfmoveClock { get; set; }
 
 
     /// <summary>

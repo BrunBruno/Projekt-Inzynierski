@@ -56,6 +56,7 @@ public class GetWebGameRequestHandler : IRequestHandler<GetWebGameRequest, GetWe
             Position = game.Position,
             Turn = game.Turn,
             TimingType = game.TimingType,
+            HalfmoveClock = game.CurrentState.HalfMove,
 
             EnPassant = game.CurrentState.EnPassant,
             CanWhiteKingCastle = game.CurrentState.CanWhiteKingCastle,

@@ -5,6 +5,8 @@
   @include abs-center;
   @include wh100;
 
+  user-select: none;
+
   // files indicators
   @mixin files-indicators() {
     position: absolute;

@@ -114,6 +114,10 @@ function EngineGamePage() {
     if (!gameId || !gameData) return;
 
     if (gameData.hasEnded) endGame(null);
+
+    if (gameData.halfmoveClock >= 100) {
+      endGame(null);
+    }
   }, [gameData]);
 
   if (!gameId || !gameData) return <LoadingPage />;

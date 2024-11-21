@@ -11,7 +11,8 @@ export type GetEngineGameDto = {
   engineLevel: number;
   hasEnded: boolean;
   enPassant: string | null;
-  allowUndo: boolean;
+  allowCheats: boolean;
+  halfmoveClock: number;
 
   canWhiteKingCastle: boolean;
   canWhiteShortRookCastle: boolean;

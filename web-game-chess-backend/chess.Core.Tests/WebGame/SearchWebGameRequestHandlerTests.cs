@@ -1,7 +1,7 @@
 ﻿
 using chess.Application.Repositories.WebGameRepositories;
 using chess.Application.Repositories.UserRepositories;
-using chess.Application.Requests.WebGameRequests.SearchGame;
+using chess.Application.Requests.WebGameRequests.SearchWebGame;
 using chess.Application.Services;
 using chess.Core.Entities;
 using chess.Core.Enums;

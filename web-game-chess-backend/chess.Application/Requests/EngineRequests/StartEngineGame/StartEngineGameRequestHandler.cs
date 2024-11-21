@@ -49,6 +49,7 @@ public class StartEngineGameRequestHandler : IRequestHandler<StartEngineGameRequ
             Id = Guid.NewGuid(),
             Name = user.Username,
             Color = _random.Next(2) == 0 ? PieceColor.White : PieceColor.Black,
+            Elo = user.Elo.Engine,
             UserId = userId,
         };
 

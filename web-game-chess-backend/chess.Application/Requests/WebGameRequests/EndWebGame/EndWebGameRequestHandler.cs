@@ -99,7 +99,7 @@ public class EndWebGameRequestHandler : IRequestHandler<EndWebGameRequest, EndWe
         int eloToUpdate;
 
 
-        // updates stats and elos / white loses
+        // updates stats and elo / white loses
         if (game.WhitePlayer.Color == request.LoserColor) {
             game.WinnerColor = game.BlackPlayer.Color;
 

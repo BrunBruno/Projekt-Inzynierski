@@ -49,7 +49,7 @@ public class GetEngineGameMoveRequestHandler : IRequestHandler<GetEngineGameMove
         _engineService.SendCommand($"position fen {fullFen}");
         _engineService.SendCommand($"go depth {game.EngineLevel}");
 
-        await Task.Delay(2000, cancellationToken);
+        await Task.Delay(300, cancellationToken);
 
         var bestMoveOutput = _engineService.ReadOutput();
 
@@ -125,7 +125,7 @@ public class GetEngineGameMoveRequestHandler : IRequestHandler<GetEngineGameMove
         var enPassant = enPassantParts == null ? "-" : $"{(char)('a' + (int.Parse(enPassantParts[0]) - 1))}{enPassantParts[1]}";
 
         // half move clock
-        var halfMoveClock = "0"; //todo
+        var halfMoveClock = game.CurrentState.HalfMove;
 
         // full move clock
         var fullMoveNumber = ((game.Turn / 2) + 1).ToString();

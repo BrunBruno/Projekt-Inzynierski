@@ -44,7 +44,7 @@ export const performMoveAnimation = (
   coorFrom: Coordinate,
   coorTo: Coordinate
 ) => {
-  if (boardRef && coorFrom && coorTo) {
+  if (selectedTarget && boardRef && coorFrom && coorTo) {
     const tileWidth = boardRef.getBoundingClientRect().width / 8;
     const tileHeight = boardRef.getBoundingClientRect().height / 8;
     const xChange = coorFrom[0] - coorTo[0];
@@ -56,9 +56,7 @@ export const performMoveAnimation = (
     if (playerData.color === PieceColor.white) translateX = translateX * -1;
     if (playerData.color === PieceColor.black) translateY = translateY * -1;
 
-    if (selectedTarget) {
-      selectedTarget.style.transform = `translateX(${translateX}px) translateY(${translateY}px)`;
-    }
+    selectedTarget.style.transform = `translateX(${translateX}px) translateY(${translateY}px)`;
   }
 };
 

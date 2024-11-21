@@ -16,6 +16,12 @@ public class EngineGamePlayer : Player {
 
 
     /// <summary>
+    /// Elo points for engine games
+    /// </summary>
+    public int Elo { get; set; }
+
+
+    /// <summary>
     /// User for which player belong to
     /// </summary>
     public Guid UserId { get; set; }

@@ -63,9 +63,23 @@ public class EndEngineGameRequestHandler : IRequestHandler<EndEngineGameRequest,
         game.WinnerColor = request.LoserColor == PieceColor.White ? PieceColor.Black : request.LoserColor == PieceColor.Black ? PieceColor.White : null;
 
 
-        if (game.Player.Color == request.LoserColor) user.Stats.OfflineLoses += 1;
-        else if (request.LoserColor == null) user.Stats.OfflineDraws += 1;
-        else  user.Stats.OfflineWins += 1;
+        if (game.Player.Color == request.LoserColor){
+
+            user.Elo.Engine -= game.EngineLevel;
+            user.Stats.OfflineLoses += 1;
+            game.EloGain = -game.EngineLevel;
+
+        } else if (request.LoserColor == null) {
+            
+            user.Elo.Engine += game.EngineLevel;
+            user.Stats.OfflineDraws += 1;
+            game.EloGain = game.EngineLevel;
+
+        } else {
+
+            user.Stats.OfflineWins += 1;
+            game.EloGain = 0;
+        }
 
 
         var endMessage = new EngineGameMessage() { 

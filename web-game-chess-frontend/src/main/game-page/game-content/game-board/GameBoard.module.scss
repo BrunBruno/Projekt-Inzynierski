@@ -73,24 +73,28 @@
       &:nth-child(odd) {
         background-color: rgba($mc0, 0.96);
 
-        &.old {
-          background-color: rgba($mc2, 0.96);
-        }
-
+        &.old,
         &.new {
           background-color: rgba($mc2, 0.96);
+          box-shadow: inset 0 0 1rem 0 $mc9;
+
+          &.highlight {
+            background-color: $danger-color-l;
+          }
         }
       }
 
       &:nth-child(even) {
         background-color: rgba($mc9, 0.96);
 
-        &.old {
-          background-color: rgba($mc4, 0.96);
-        }
-
+        &.old,
         &.new {
-          background-color: rgba($mc4, 0.96);
+          background-color: rgba($mc5, 0.96);
+          box-shadow: inset 0 0 1rem 0 $mc2;
+
+          &.highlight {
+            background-color: $danger-color-l;
+          }
         }
       }
 
@@ -167,6 +171,9 @@
         user-select: none;
         transition: transform 0.1s;
 
+        border: solid 2px blue;
+        transform: scale(0.5);
+
         &.own {
           cursor: grab;
 
@@ -205,6 +212,19 @@
             z-index: 20;
           }
         }
+
+        span {
+          font-size: 6rem;
+          color: red;
+        }
+      }
+
+      .empty {
+        @include wh100;
+
+        transition: transform 0.1s;
+        border: solid red 1rem;
+        transform: scale(0.5);
       }
     }
   }

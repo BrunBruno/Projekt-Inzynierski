@@ -63,6 +63,7 @@ export type GetWebGameDto = {
   increment: number;
   enPassant: string | null;
   timingType: TimingType;
+  halfmoveClock: number;
 
   canWhiteKingCastle: boolean;
   canWhiteShortRookCastle: boolean;

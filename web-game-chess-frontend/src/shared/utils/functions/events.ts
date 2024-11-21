@@ -6,3 +6,8 @@ export const delayAction = (func: () => void, delay: number): void => {
   clearTimeout(timeOut);
   timeOut = setTimeout(func, delay);
 };
+
+export const delayAsyncAction = (func: () => Promise<void>, delay: number): void => {
+  clearTimeout(timeOut);
+  timeOut = setTimeout(func, delay);
+};

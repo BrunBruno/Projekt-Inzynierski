@@ -64,6 +64,9 @@ public class MakeEngineGameMoveRequestHandler : IRequestHandler<MakeEngineGameMo
         game.Round = (game.Turn / 2) + 1;
         game.Turn += 1;
 
+        if(request.Move[0] == 'p' || request.Move[0] == 'P') game.CurrentState.HalfMove = 0;
+        else game.CurrentState.HalfMove += 1;
+
         var move = new EngineGameMove()
         {
             Id = Guid.NewGuid(),

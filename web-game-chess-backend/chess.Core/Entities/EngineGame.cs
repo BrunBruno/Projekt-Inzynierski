@@ -20,6 +20,11 @@ public class EngineGame : Game {
     /// </summary>
     public int EngineLevel { get; set; } = 1;
 
+    /// <summary>
+    /// Elo gained or lost after game has ended
+    /// </summary>
+    public int EloGain { get; set; }
+
 
     /// <summary>
     /// Current player

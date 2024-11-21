@@ -144,42 +144,42 @@ function WebGameBoard({
       <div
         key={`${coordinates[0]}-${coordinates[1]}`}
         className={`
-          ${classes.field}
+          ${classes.filed}
           ${isInTipFields ? classes.tip : ""}
           ${sameCoor ? classes.selected : ""}
         `}
         onMouseDown={(event) => {
           if (event.button === 0) onClearHighlights(classes.highlight);
         }}
-        onClick={(event) => {
-          const target = event.target as HTMLElement;
-          if (char) setSelectionStates({ type: "SET_TARGET", payload: target });
-
-          onSelectField(char, coordinates, isInTipFields, sameCoor);
-        }}
         onContextMenu={(event) => {
           event.preventDefault();
           onHighlightFile(innerBoardRef, coordinates, classes.highlight, classes.field);
         }}
-        //tododo
-        onDragStartCapture={() => {
-          onDragPiece(char, coordinates);
-        }}
-        onDragOver={(event) => {
-          event.preventDefault();
-        }}
-        onDrop={(event) => {
-          event.preventDefault();
-          onDropPiece(coordinates, isInTipFields, sameCoor);
-        }}
       >
-        {char && shouldDisplay && (
+        {char && shouldDisplay ? (
           <div
             className={`
               ${classes.piece}
               ${checkIfOwnPiece(char, playerData) ? classes.own : ""}
             `}
             draggable={checkIfOwnPiece(char, playerData)}
+            onClick={() => {
+              onSelectField(char, coordinates, isInTipFields, sameCoor);
+            }}
+            onDragStartCapture={() => {
+              onDragPiece(char, coordinates);
+            }}
+            onDragOver={(event) => {
+              event.preventDefault();
+              event.stopPropagation();
+            }}
+            onDrop={(event) => {
+              event.preventDefault();
+              onDropPiece(coordinates, isInTipFields, sameCoor);
+            }}
+            onDragEndCapture={() => {
+              clearDrag();
+            }}
           >
             {/* piece icon */}
             <IconCreator
@@ -204,6 +204,24 @@ function WebGameBoard({
               </div>
             )}
           </div>
+        ) : (
+          <div
+            className={classes.empty}
+            onClick={(event) => {
+              onSelectField(char, coordinates, isInTipFields, sameCoor);
+            }}
+            onDragOver={(event) => {
+              event.preventDefault();
+              event.stopPropagation();
+            }}
+            onDrop={(event) => {
+              event.preventDefault();
+              onDropPiece(coordinates, isInTipFields, sameCoor);
+            }}
+            onDragEndCapture={() => {
+              clearDrag();
+            }}
+          ></div>
         )}
       </div>
     );
@@ -370,6 +388,11 @@ function WebGameBoard({
     } else {
       chosePiece("", null);
     }
+  };
+
+  const clearDrag = () => {
+    setSelectionStates({ type: "SET_IS_DRAGGING", payload: false });
+    chosePiece("", null);
   };
 
   return (

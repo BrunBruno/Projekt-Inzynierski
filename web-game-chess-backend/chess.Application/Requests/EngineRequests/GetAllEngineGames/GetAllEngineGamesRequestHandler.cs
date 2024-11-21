@@ -51,14 +51,14 @@ public class GetAllEngineGamesRequestHandler : IRequestHandler<GetAllEngineGames
                 Turn = game.Turn,
                 Moves = game.Round,
                 IsWinner = isWinner,
-                EloGained = 0, //tododo
+                EloGained = game.EloGain,
                 CreatedAt = game.CreatedAt,
 
                 // current user player
                 WhitePlayer = isPlayerWhite ? new PlayerDto()
                 {
                     Name = player.Name,
-                    //Elo = player.Elo, tododo
+                    Elo = player.Elo,
 
                     ProfilePicture = player.User.Image != null ? new ImageDto()
                     {
@@ -71,7 +71,7 @@ public class GetAllEngineGamesRequestHandler : IRequestHandler<GetAllEngineGames
                 BlackPlayer = !isPlayerWhite ? new PlayerDto()
                 {
                     Name = player.Name,
-                    //Elo = player.Elo, tododo
+                    Elo = player.Elo,
 
                     ProfilePicture = player.User.Image != null ? new ImageDto()
                     {
