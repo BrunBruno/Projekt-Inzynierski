@@ -17,9 +17,8 @@ import { engineGameController, getAuthorization } from "../../../shared/utils/se
 import { StateProp } from "../../../shared/utils/types/commonTypes";
 
 type EngineGameLeftSidebarProps = {
-  // game id
-  gameId: Guid;
   // current game data
+  gameId: Guid;
   gameData: GetEngineGameDto;
   // for refresh
   getGame: () => Promise<void>;
@@ -68,7 +67,7 @@ function EngineGameLeftSidebar({
 
   // move undoing
   const onUndoMove = async (): Promise<void> => {
-    if (!gameData.allowUndo) return;
+    if (!gameData.allowCheats || gameData.hasEnded) return;
 
     const model: UndoMoveModel = {
       gameId: gameId,
@@ -85,7 +84,13 @@ function EngineGameLeftSidebar({
     }
   };
 
+  // to select restart options
+  // shows confirm window if game is ongoing, otherwise restarts game
   const onSelectGameRestart = () => {
+    if (displayedWindowState.get === GameWindowInterface.winner) {
+      onRestartGame();
+    }
+
     if (displayNotAllowed()) return;
 
     displayedWindowState.set(GameWindowInterface.confirm);
@@ -120,6 +125,7 @@ function EngineGameLeftSidebar({
 
   // to show engine level change
   const onChangeEngine = (): void => {
+    if (!gameData.allowCheats) return;
     if (displayedWindowState.get === GameWindowInterface.engine) displayedWindowState.set(GameWindowInterface.none);
 
     if (displayNotAllowed()) return;
@@ -202,7 +208,8 @@ function EngineGameLeftSidebar({
           <li
             className={`
               ${classes.bar__content__list__element} 
-              ${!gameData.allowUndo ? classes["un-active"] : ""}`}
+              ${!gameData.allowCheats ? classes["un-active"] : ""}
+            `}
             onClick={() => {
               onUndoMove();
             }}
@@ -212,7 +219,10 @@ function EngineGameLeftSidebar({
           </li>
 
           <li
-            className={classes.bar__content__list__element}
+            className={`
+              ${classes.bar__content__list__element} 
+              ${!gameData.allowCheats ? classes["un-active"] : ""}
+            `}
             onClick={() => {
               onChangeEngine();
             }}

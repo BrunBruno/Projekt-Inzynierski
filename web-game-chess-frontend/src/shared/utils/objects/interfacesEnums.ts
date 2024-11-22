@@ -41,6 +41,7 @@ export enum GameWindowInterface {
   none,
   confirm,
   winner,
+  inspect,
   promotion,
   search,
   engine,

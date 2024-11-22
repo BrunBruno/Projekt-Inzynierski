@@ -16,7 +16,7 @@ import {
   SelectionStates,
   TypeOfGame,
 } from "../../../../shared/utils/chess-game/gameSates";
-import { areCoorEqual, checkIfOwnPiece, posToIndex, toCoor } from "../../../../shared/utils/chess-game/general";
+import { areCoorEqual, checkIfOwnPiece, toCoor } from "../../../../shared/utils/chess-game/general";
 import {
   changeBoardByUserSettings,
   changePiecesByUserSettings,
@@ -32,15 +32,14 @@ type EngineGameBoardProps = {
   gameData: GetEngineGameDto;
   // current game states
   gameStates: EngineGameStates;
-  // user selection states
+  // user selection states and setters
   selectionStates: SelectionStates;
-  // selection setters
   setSelectionStates: Dispatch<SelectionAction>;
   // piece selection setter
   chosePiece: (piece: PieceOption, coordinates: Coordinate) => void;
-  //
+  // for game updates
   getGame: () => Promise<void>;
-  //
+  // for changing displayed window
   setDisplayedWindow: Dispatch<SetStateAction<GameWindowInterface>>;
 };
 
@@ -89,12 +88,11 @@ function EngineGameBoard({
       // animation after opponents move
       if (
         innerBoardRef.current &&
-        ((gameData.player.color === PieceColor.white && gameData.turn % 2 === 1) ||
-          (gameData.player.color === PieceColor.black && gameData.turn % 2 === 0))
+        ((gameData.player.color === PieceColor.white && gameData.turn % 2 === 0) ||
+          (gameData.player.color === PieceColor.black && gameData.turn % 2 === 1))
       ) {
-        const fieldNodes = innerBoardRef.current.querySelectorAll(`.${classes.field}`);
+        const pieceParent = document.getElementById(`field-${oldCoor![0]}-${oldCoor![1]}`);
 
-        const pieceParent = fieldNodes[posToIndex(oldCoor)] as HTMLElement;
         if (pieceParent) {
           const movedPiece = pieceParent.firstElementChild as HTMLElement;
 
@@ -142,9 +140,10 @@ function EngineGameBoard({
     // add field
     outerFields.push(
       <div
+        id={`field-${coordinates[0]}-${coordinates[1]}`}
         key={`${coordinates[0]}-${coordinates[1]}`}
         className={`
-         ${classes.field}
+          ${classes.field}
           ${isInTipFields ? classes.tip : ""}
           ${sameCoor ? classes.selected : ""}
         `}
@@ -163,7 +162,11 @@ function EngineGameBoard({
               ${checkIfOwnPiece(char, gameData.player) ? classes.own : ""}
             `}
             draggable={checkIfOwnPiece(char, gameData.player)}
-            onClick={() => {
+            style={{ transform: "none" }} // clear
+            onClick={(event) => {
+              const target = event.target as HTMLDivElement;
+              if (target) setSelectionStates({ type: "SET_TARGET", payload: target });
+
               onSelectField(char, coordinates, isInTipFields, sameCoor);
             }}
             onDragStartCapture={() => {
@@ -181,9 +184,8 @@ function EngineGameBoard({
               clearDrag();
             }}
           >
-            <span>{char}</span>
             {/* piece icon */}
-            {/*
+
             <IconCreator
               icons={changePiecesByUserSettings(gameData.gameSettings.appearanceOfPieces)}
               iconName={char.toLowerCase() as PieceTag}
@@ -191,9 +193,8 @@ function EngineGameBoard({
               color={getPieceSideColor(char as PieceTag)}
               active={true}
             />
-            */}
+
             {/* capture icon */}
-            {/*
             {showCapture && (
               <div className={classes.capture}>
                 <IconCreator icons={symbolIcons} iconName={"x"} iconClass={classes.x} color={dangerColor.mid} />
@@ -206,7 +207,6 @@ function EngineGameBoard({
                 />
               </div>
             )}
-            */}
           </div>
         ) : (
           <div
@@ -329,22 +329,19 @@ function EngineGameBoard({
 
     // make move if is in tips
     if (isInTipFields) {
-      console.log(selectionStates.target);
-      // performMoveAnimation(
-      //   outerBoardRef.current,
-      //   selectionStates.target,
-      //   gameData.player,
-      //   selectionStates.coordinates,
-      //   coordinates
-      // );
+      performMoveAnimation(
+        outerBoardRef.current,
+        selectionStates.target,
+        gameData.player,
+        selectionStates.coordinates,
+        coordinates
+      );
 
       setTimeout(async () => {
         await makeMove(TypeOfGame.engine, gameStates, selectionStates, coordinates, null);
 
         // refresh
         await getGame();
-
-        console.log(selectionStates.target);
       }, 100);
 
       return;

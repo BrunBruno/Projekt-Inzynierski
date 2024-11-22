@@ -65,6 +65,7 @@ public class GetEngineGameRequestHandler : IRequestHandler<GetEngineGameRequest,
             Player = new PlayerDto() { 
                 Name = game.Player.Name,
                 Color = game.Player.Color.Value,
+                Elo = game.Player.Elo,
 
                 ProfilePicture = game.Player.User.Image != null ? new ImageDto()
                 {

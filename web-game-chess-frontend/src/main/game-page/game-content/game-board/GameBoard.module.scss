@@ -171,9 +171,6 @@
         user-select: none;
         transition: transform 0.1s;
 
-        border: solid 2px blue;
-        transform: scale(0.5);
-
         &.own {
           cursor: grab;
 
@@ -212,19 +209,10 @@
             z-index: 20;
           }
         }
-
-        span {
-          font-size: 6rem;
-          color: red;
-        }
       }
 
       .empty {
         @include wh100;
-
-        transition: transform 0.1s;
-        border: solid red 1rem;
-        transform: scale(0.5);
       }
     }
   }

@@ -7,8 +7,10 @@
   @include grid-bg;
   @include Main.for-nav;
 
-  display: grid;
-  grid-template-columns: 36rem auto;
+  & {
+    display: grid;
+    grid-template-columns: 36rem auto;
+  }
 
   .users-list {
     position: relative;

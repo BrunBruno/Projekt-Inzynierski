@@ -1,37 +1,37 @@
-import { useEffect, useState } from "react";
-import IconCreator from "../../../shared/components/icon-creator/IconCreator";
-import LoadingPage from "../../../shared/components/loading-page/LoadingPage";
-import { getErrMessage } from "../../../shared/utils/functions/errors";
-import { mainColor } from "../../../shared/utils/objects/colorMaps";
-import { engineGameController, getAuthorization } from "../../../shared/utils/services/ApiService";
-import { GetAllEngineGamesDto } from "../../../shared/utils/types/engineGameDtos";
-import { GetAllEngineGamesModel } from "../../../shared/utils/types/engineGameModels";
-import { mainPageIcons } from "../MainPageIcons";
-import classes from "./EngineGames.module.scss";
-import { PagedResult } from "../../../shared/utils/types/abstractDtosAndModels";
 import axios from "axios";
+import classes from "./UserGames.module.scss";
+import { useEffect, useState } from "react";
 import { usePopup } from "../../../shared/utils/hooks/usePopUp";
 import usePagination from "../../../shared/utils/hooks/usePagination";
-import EngineGamesFilters from "./engine-games-filters/EngineGamesFilters";
-import EngineGamesCard from "./engine-games-card/EngineGamesCard";
-import EngineGamesEmptyCard from "./engine-games-empty-card/EngineGamesEmptyCard";
+import { GetAllActiveGamesDto } from "../../../shared/utils/types/webGameDtos";
+import { GetAllActiveGamesModel } from "../../../shared/utils/types/webGameModels";
+import { getAuthorization, webGameController } from "../../../shared/utils/services/ApiService";
+import { PagedResult } from "../../../shared/utils/types/abstractDtosAndModels";
+import { getErrMessage } from "../../../shared/utils/functions/errors";
+import LoadingPage from "../../../shared/components/loading-page/LoadingPage";
+import IconCreator from "../../../shared/components/icon-creator/IconCreator";
+import { mainPageIcons } from "../MainPageIcons";
+import { mainColor } from "../../../shared/utils/objects/colorMaps";
+import UserGamesEmptyCard from "./user-games-empty-card/UserGamesEmptyCard";
+import ActiveGamesCard from "./user-games-card/ActiveGamesCard";
+import ActiveGamesFilters from "./user-games-filters/ActiveGamesFilters";
 
-type EngineGamesProps = {};
+type ActiveGamesProps = {};
 
-function EngineGames({}: EngineGamesProps) {
+function ActiveGames({}: ActiveGamesProps) {
   ///
 
   const { showPopup } = usePopup();
   const { scrollRef, pageNumber, pageSize, totalItemsCount, setDefPageSize, setTotalItemsCount } = usePagination();
 
   // obtained game list
-  const [games, setGames] = useState<GetAllEngineGamesDto[] | null>(null);
+  const [games, setGames] = useState<GetAllActiveGamesDto[] | null>(null);
   const [itemsCount, setItemsCount] = useState<number>(0);
 
   // to display filters options
   const [showFilters, setShowFilters] = useState<boolean>(false);
   // list for setting up search filters
-  const [resultFilters, setResultFilters] = useState<(boolean | null)[]>([]);
+  const [timingTypeFilters, setTimingTypeFilters] = useState<number[]>([]);
 
   // send set default pagination page size
   useEffect(() => {
@@ -65,15 +65,15 @@ function EngineGames({}: EngineGamesProps) {
   // get all finished games
   useEffect(() => {
     const getGames = async (): Promise<void> => {
-      const model: GetAllEngineGamesModel = {
+      const model: GetAllActiveGamesModel = {
         pageNumber: pageNumber,
         pageSize: pageSize,
-        resultFilters: resultFilters,
+        timingTypeFilters: timingTypeFilters,
       };
 
       try {
-        const response = await axios.get<PagedResult<GetAllEngineGamesDto>>(
-          engineGameController.getAllEngineGames(model),
+        const response = await axios.get<PagedResult<GetAllActiveGamesDto>>(
+          webGameController.getAllActiveGames(model),
           getAuthorization()
         );
 
@@ -90,11 +90,11 @@ function EngineGames({}: EngineGamesProps) {
     };
 
     getGames();
-  }, [pageSize, resultFilters, pageNumber]);
+  }, [pageSize, timingTypeFilters, pageNumber]);
 
   // to display filters
   const onShowFilters = () => {
-    if ((games && games.length > 0) || resultFilters.length > 0) {
+    if (games && games.length > 0) {
       setShowFilters((prev) => !prev);
     }
   };
@@ -105,12 +105,12 @@ function EngineGames({}: EngineGamesProps) {
         <h2 className={classes["header-title"]}>
           <IconCreator
             icons={mainPageIcons}
-            iconName={"engineGames"}
+            iconName={"activeGames"}
             iconClass={classes["header-icon"]}
             color={mainColor.c0}
           />
 
-          <span>Your games with engine: </span>
+          <span>Your active games: </span>
 
           <span className={classes["counter"]}>
             <span className={classes["sym"]}>(</span>
@@ -125,7 +125,11 @@ function EngineGames({}: EngineGamesProps) {
           <button
             className={`
               ${classes["filter-button"]} 
-              ${(!games || games.length === 0) && resultFilters.length === 0 ? classes["disabled"] : classes["enabled"]}
+              ${
+                (!games || games.length === 0) && timingTypeFilters.length === 0
+                  ? classes["disabled"]
+                  : classes["enabled"]
+              }
             `}
             onClick={() => {
               onShowFilters();
@@ -138,7 +142,7 @@ function EngineGames({}: EngineGamesProps) {
               color={mainColor.c0}
             />
             <span>Filters</span>
-            {resultFilters.length > 0 && <span>({resultFilters.length})</span>}
+            {timingTypeFilters.length > 0 && <span>({timingTypeFilters.length})</span>}
           </button>
         </div>
       </div>
@@ -148,20 +152,22 @@ function EngineGames({}: EngineGamesProps) {
       ) : games.length === 0 ? (
         <div ref={scrollRef} className={`${classes.games__list} ${classes.empty}`}>
           {Array.from({ length: pageSize }).map((_, i: number) => (
-            <EngineGamesEmptyCard key={i} />
+            <UserGamesEmptyCard key={i} />
           ))}
         </div>
       ) : (
         <div ref={scrollRef} className={classes.games__list}>
-          {games.map((game: GetAllEngineGamesDto, i: number) => (
-            <EngineGamesCard key={`game-${i}`} game={game} />
+          {games.map((game: GetAllActiveGamesDto, i: number) => (
+            <ActiveGamesCard key={`game-${i}`} game={game} />
           ))}
         </div>
       )}
 
-      {showFilters && <EngineGamesFilters resultFilters={resultFilters} setResultFilters={setResultFilters} />}
+      {showFilters && (
+        <ActiveGamesFilters timingTypeFilters={timingTypeFilters} setTimingTypeFilters={setTimingTypeFilters} />
+      )}
     </div>
   );
 }
 
-export default EngineGames;
+export default ActiveGames;

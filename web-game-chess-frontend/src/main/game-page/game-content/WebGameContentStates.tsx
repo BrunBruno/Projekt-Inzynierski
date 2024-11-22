@@ -60,6 +60,7 @@ export const selectionInitialStates: SelectionStates = {
 export type SelectionAction =
   | { type: "SET_PIECE"; payload: PieceOption }
   | { type: "SET_IS_DRAGGING"; payload: boolean }
+  | { type: "SET_TARGET"; payload: HTMLElement | null }
   | { type: "SET_COORDINATES"; payload: Coordinate }
   | { type: "SET_PROMOTION_COOR"; payload: Coordinate }
   | { type: "SET_AVAILABLE_FIELDS"; payload: Coordinate[] };
@@ -71,6 +72,8 @@ export const selectionStatesReducer = (state: SelectionStates, action: Selection
       return { ...state, piece: action.payload };
     case "SET_IS_DRAGGING":
       return { ...state, isDragging: action.payload };
+    case "SET_TARGET":
+      return { ...state, target: action.payload };
     case "SET_COORDINATES":
       return { ...state, coordinates: action.payload };
     case "SET_PROMOTION_COOR":

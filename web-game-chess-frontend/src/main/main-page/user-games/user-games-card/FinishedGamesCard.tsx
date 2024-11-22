@@ -15,12 +15,12 @@ import { gameResultIcons } from "../../../../shared/svgs/iconsMap/GameResultIcon
 import { getPieceSideColor } from "../../../../shared/utils/objects/piecesNameMaps";
 import { useNavigate } from "react-router-dom";
 
-type UserGamesCardProps = {
+type FinishedGamesCardProps = {
   // finished game data
   game: GetAllFinishedGamesDto;
 };
 
-function UserGamesCard({ game }: UserGamesCardProps) {
+function FinishedGamesCard({ game }: FinishedGamesCardProps) {
   ///
 
   const navigate = useNavigate();
@@ -261,4 +261,4 @@ function UserGamesCard({ game }: UserGamesCardProps) {
   );
 }
 
-export default UserGamesCard;
+export default FinishedGamesCard;

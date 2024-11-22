@@ -133,8 +133,10 @@
           @include button(4rem);
           @include sec-m-button;
 
-          position: relative;
-          margin-top: 4rem;
+          & {
+            position: relative;
+            margin-top: 4rem;
+          }
 
           &::after {
             @include sub-class(0, 0);

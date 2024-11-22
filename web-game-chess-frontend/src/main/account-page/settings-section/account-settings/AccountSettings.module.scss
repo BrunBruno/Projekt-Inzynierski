@@ -109,8 +109,10 @@
         @include button(2rem);
         @include main-m-button;
 
-        padding: 1rem 4rem;
-        margin-top: 2rem;
+        & {
+          padding: 1rem 4rem;
+          margin-top: 2rem;
+        }
       }
     }
   }

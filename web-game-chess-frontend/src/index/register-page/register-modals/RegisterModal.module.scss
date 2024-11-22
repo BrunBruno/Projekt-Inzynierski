@@ -259,11 +259,13 @@
     @include button(2rem);
     @include main-m-button;
 
-    width: 100%;
-    position: relative;
-    margin: 1rem;
-    z-index: 1;
-    padding: 1rem 0;
+    & {
+      width: 100%;
+      position: relative;
+      margin: 1rem;
+      z-index: 1;
+      padding: 1rem 0;
+    }
   }
 
   .cancel {

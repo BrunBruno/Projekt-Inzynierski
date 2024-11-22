@@ -13,23 +13,75 @@
     display: none;
   }
 
+  &__header {
+    @include flex(row, start, center, 0);
+
+    position: relative;
+    width: 100%;
+
+    .title {
+      @include flex($gap: 1rem);
+
+      .header-icon {
+        height: 2rem;
+      }
+
+      span {
+        font-size: 2rem;
+      }
+    }
+
+    .actions {
+      @include flex($gap: 1rem);
+
+      position: absolute;
+      top: 0;
+      right: 0;
+
+      .set-button {
+        @include flex($gap: 1rem);
+
+        background-color: #0000;
+        border: none;
+
+        span {
+          color: $gc0;
+          font-size: 2rem;
+        }
+
+        svg.action-icon {
+          height: 3rem;
+        }
+
+        &:hover {
+          cursor: pointer;
+          filter: brightness(70%);
+        }
+      }
+    }
+  }
+
   &__row {
     border-bottom: solid 0.3rem $gc8;
-    padding: 2rem 0;
+    padding: 1rem 0;
+
+    &:last-child {
+      border: none;
+    }
 
     .row-title {
       font-weight: 600;
-      font-size: 2rem;
+      font-size: 1.4rem;
       color: $gc3;
     }
 
     .row-options {
       @include flex(row, start, center, 2rem);
 
-      padding: 2rem;
+      padding: 1.4rem;
 
       .option {
-        @include rounded(1.5rem);
+        @include rounded(1.2rem);
         @include flex(column, center, center, 1rem);
 
         border: solid 0.3rem $gc8;
@@ -60,7 +112,7 @@
         }
 
         .pieces-look {
-          @include square(6rem);
+          @include square(5rem);
 
           .piece-icon {
             height: 100%;
@@ -68,7 +120,7 @@
         }
 
         .board-look {
-          @include square(6rem);
+          @include square(5rem);
 
           display: grid;
           grid-template-columns: repeat(3, 1fr);
@@ -114,7 +166,7 @@
           @include flex(row, space-between, start, 0);
 
           position: relative;
-          width: 12rem;
+          width: 10rem;
           aspect-ratio: 16/9;
           background-color: #000;
           outline: solid 0.2rem $mc9;
@@ -123,7 +175,7 @@
 
           .board {
             @include abs-center;
-            @include square(5rem);
+            @include square(3rem);
 
             border-radius: 0.5rem;
             overflow: hidden;

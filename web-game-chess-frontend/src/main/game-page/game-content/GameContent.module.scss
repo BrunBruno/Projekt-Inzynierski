@@ -9,8 +9,6 @@
   z-index: 0;
   border-radius: 8rem;
 
-  // border: solid $gc8 3px;
-
   &__content {
     @include square(64rem);
     @include rounded(2rem);
@@ -19,7 +17,7 @@
     z-index: 10;
     background-color: rgba(#000, 0.9);
     overflow: hidden;
-    border: solid 1rem rgba($mc9, 0.2);
+    outline: solid 1rem rgba(#000, 0.2);
   }
 }
 

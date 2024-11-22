@@ -148,7 +148,9 @@
     button.main-button {
       @include main-m-button;
 
-      background-color: $mc5;
+      & {
+        background-color: $mc5;
+      }
 
       &:hover {
         background-color: $mc9;

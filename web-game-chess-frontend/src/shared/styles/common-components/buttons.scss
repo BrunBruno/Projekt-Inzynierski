@@ -15,10 +15,6 @@
   text-align: center;
   white-space: nowrap;
   transition: all 0.2s;
-
-  &:hover {
-    cursor: pointer;
-  }
 }
 
 // default button, main main colored
@@ -27,6 +23,7 @@
   background-color: color.$mc9;
 
   &:hover {
+    cursor: pointer;
     border-color: color.$mc9;
     background-color: color.$mc5;
   }
@@ -43,6 +40,7 @@
   color: color.$mc9;
 
   &:hover {
+    cursor: pointer;
     border-color: color.$mc0;
     background-color: color.$mc4;
     color: color.$mc0;
@@ -60,6 +58,7 @@
   background-color: color.$gc9;
 
   &:hover {
+    cursor: pointer;
     background-color: color.$gc8;
     color: color.$gc0;
     border-color: color.$gc0;
@@ -77,6 +76,7 @@
   color: color.$gc9;
 
   &:hover {
+    cursor: pointer;
     background-color: color.$gc0;
     border-color: color.$gc8;
     color: color.$gc8;

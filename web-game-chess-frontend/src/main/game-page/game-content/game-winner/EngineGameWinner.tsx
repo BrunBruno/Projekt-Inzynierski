@@ -81,7 +81,7 @@ function EngineGameWinner({ gameData, winner }: EngineGameWinnerProps) {
     );
   };
 
-  // to look at board
+  // to show winner window again
   const showWinner = (event: MouseEvent<HTMLDivElement>) => {
     const target = event.target as HTMLDivElement;
 
@@ -93,6 +93,7 @@ function EngineGameWinner({ gameData, winner }: EngineGameWinnerProps) {
     }
   };
 
+  // to look at board
   const hideWinner = (): void => {
     const container = containerRef.current;
     if (!container) return;

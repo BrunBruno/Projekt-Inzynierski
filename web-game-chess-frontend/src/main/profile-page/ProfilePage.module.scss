@@ -7,9 +7,11 @@
   @include grid-bg;
   @include Main.for-nav;
 
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  overflow: hidden;
+  & {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    overflow: hidden;
+  }
 }
 
 // resize

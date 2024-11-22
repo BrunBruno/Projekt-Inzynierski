@@ -337,7 +337,9 @@ function EngineGameContent({
         )}
 
         {/* settings */}
-        {displayedWindowState.get === GameWindowInterface.settings && <GameSettings gameData={gameData} />}
+        {displayedWindowState.get === GameWindowInterface.settings && (
+          <GameSettings gameData={gameData} setDisplayedWindow={displayedWindowState.set} />
+        )}
 
         {/* engine selection */}
         {displayedWindowState.get === GameWindowInterface.engine && (

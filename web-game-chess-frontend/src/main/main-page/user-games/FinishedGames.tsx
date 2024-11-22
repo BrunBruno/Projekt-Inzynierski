@@ -1,13 +1,11 @@
 import axios from "axios";
-import classes from "./UserGame.module.scss";
+import classes from "./UserGames.module.scss";
 import { GetAllFinishedGamesDto } from "../../../shared/utils/types/webGameDtos";
 import { webGameController, getAuthorization } from "../../../shared/utils/services/ApiService";
 import { GetAllFinishedGamesModel } from "../../../shared/utils/types/webGameModels";
 import { useEffect, useState } from "react";
 import LoadingPage from "../../../shared/components/loading-page/LoadingPage";
-import UserGamesFilters from "./user-games-filters/UserGamesFilters";
 import usePagination from "../../../shared/utils/hooks/usePagination";
-import UserGamesCard from "./user-games-card/UserGamesCard";
 import { usePopup } from "../../../shared/utils/hooks/usePopUp";
 import { getErrMessage } from "../../../shared/utils/functions/errors";
 import { PagedResult } from "../../../shared/utils/types/abstractDtosAndModels";
@@ -15,10 +13,12 @@ import UserGamesEmptyCard from "./user-games-empty-card/UserGamesEmptyCard";
 import IconCreator from "../../../shared/components/icon-creator/IconCreator";
 import { mainPageIcons } from "../MainPageIcons";
 import { mainColor } from "../../../shared/utils/objects/colorMaps";
+import FinishedGamesFilters from "./user-games-filters/FinishedGamesFilters";
+import FinishedGamesCard from "./user-games-card/FinishedGamesCard";
 
-type UserGamesProps = {};
+type FinishedGamesProps = {};
 
-function UserGames({}: UserGamesProps) {
+function FinishedGames({}: FinishedGamesProps) {
   ///
 
   const { showPopup } = usePopup();
@@ -162,13 +162,13 @@ function UserGames({}: UserGamesProps) {
       ) : (
         <div ref={scrollRef} className={classes.games__list}>
           {games.map((game: GetAllFinishedGamesDto, i: number) => (
-            <UserGamesCard key={`game-${i}`} game={game} />
+            <FinishedGamesCard key={`game-${i}`} game={game} />
           ))}
         </div>
       )}
 
       {showFilters && (
-        <UserGamesFilters
+        <FinishedGamesFilters
           timingTypeFilters={timingTypeFilters}
           setTimingTypeFilters={setTimingTypeFilters}
           resultFilters={resultFilters}
@@ -179,4 +179,4 @@ function UserGames({}: UserGamesProps) {
   );
 }
 
-export default UserGames;
+export default FinishedGames;

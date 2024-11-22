@@ -34,6 +34,9 @@ public class GetAllEngineGamesRequestHandler : IRequestHandler<GetAllEngineGames
     
             var game = player.Game;
 
+            if (!game.HasEnded)
+                continue;
+
             bool isPlayerWhite = player.Color == PieceColor.White;
             bool? isWinner = game.WinnerColor != null ? player.Color == game.WinnerColor : null;
 
@@ -65,7 +68,7 @@ public class GetAllEngineGamesRequestHandler : IRequestHandler<GetAllEngineGames
                         Data = player.User.Image.Data,
                         ContentType = player.User.Image.ContentType,
                     } : null,
-                } : new PlayerDto() { Name = "BOT" },
+                } : new PlayerDto() { Name = "BOT", Elo = game.EngineLevel },
 
                 // opponents player
                 BlackPlayer = !isPlayerWhite ? new PlayerDto()
@@ -78,7 +81,7 @@ public class GetAllEngineGamesRequestHandler : IRequestHandler<GetAllEngineGames
                         Data = player.User.Image.Data,
                         ContentType = player.User.Image.ContentType,
                     } : null,
-                } : new PlayerDto() { Name = "BOT" },
+                } : new PlayerDto() { Name = "BOT", Elo = game.EngineLevel },
 
             };
 

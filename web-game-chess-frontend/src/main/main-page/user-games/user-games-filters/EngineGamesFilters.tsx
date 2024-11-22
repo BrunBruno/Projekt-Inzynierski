@@ -1,8 +1,8 @@
 import { Dispatch, SetStateAction } from "react";
 import IconCreator from "../../../../shared/components/icon-creator/IconCreator";
 import { GameResultName } from "../../../../shared/utils/objects/constantLists";
-import classes from "./EngineGamesFilters.module.scss";
-import { ResultListFilterOption, resultListFilterOptions } from "./EngineGamesFiltersData";
+import classes from "./UserGamesFilters.module.scss";
+import { ResultListFilterOption, resultListFilterOptions } from "./UserGamesFiltersData";
 import { gameResultIcons } from "../../../../shared/svgs/iconsMap/GameResultIcons";
 
 type EngineGamesFiltersProps = {
@@ -32,8 +32,7 @@ function EngineGamesFilters({ resultFilters, setResultFilters }: EngineGamesFilt
   return (
     <div className={classes.filters}>
       {/* filter by result */}
-      <div className={classes.filters__row}>
-        <div />
+      <div className={`${classes.filters__row} ${classes["sm-row"]}`}>
         {resultListFilterOptions.map((element: ResultListFilterOption, i: number) => (
           <div
             key={`result-${i}`}

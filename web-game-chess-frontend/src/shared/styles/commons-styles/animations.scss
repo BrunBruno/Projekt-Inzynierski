@@ -2,42 +2,42 @@
 
 // emerge from side animation
 // transform - start pos - end pos
+@keyframes emerge-animation {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 @mixin emerge-ani($duration: 0.3s, $delay: 0s, $translate: 1rem) {
   opacity: 0;
   transform: translateY($translate);
   animation: emerge-animation $duration ease-in $delay forwards;
-
-  @keyframes emerge-animation {
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
 }
 
 // scale from center animation
 // scale 0 - 1
+@keyframes open-animation {
+  to {
+    transform: scaleY(1);
+  }
+}
+
 @mixin open-ani($duration: 0.2s, $delay: 0s) {
   transform-origin: center 0;
   transform: scaleY(0);
   animation: open-animation $duration ease-in $delay forwards;
-
-  @keyframes open-animation {
-    to {
-      transform: scaleY(1);
-    }
-  }
 }
 
 // show animation
 // opacity 0 - 1
+@keyframes show-animation {
+  to {
+    opacity: 1;
+  }
+}
+
 @mixin show-ani($duration: 0.2s, $delay: 0s) {
   opacity: 0;
   animation: show-animation $duration ease-in $delay forwards;
-
-  @keyframes show-animation {
-    to {
-      opacity: 1;
-    }
-  }
 }

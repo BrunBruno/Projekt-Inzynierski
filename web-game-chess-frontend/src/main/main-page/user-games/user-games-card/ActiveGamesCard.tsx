@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { GetAllActiveGamesDto } from "../../../../shared/utils/types/webGameDtos";
-import classes from "./ActiveGamesCard.module.scss";
+import classes from "./UserGamesCard.module.scss";
 import { useEffect, useRef } from "react";
 import AvatarImage from "../../../../shared/components/avatar-image/AvatarImage";
 import { PlayerDto } from "../../../../shared/utils/types/abstractDtosAndModels";

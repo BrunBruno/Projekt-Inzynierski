@@ -10,15 +10,6 @@
   background-color: rgba(#000, 0.7);
   pointer-events: none;
 
-  &.close {
-    background-color: rgba(#000, 0.2);
-    pointer-events: all;
-  }
-
-  &.close > .winner__content {
-    display: none;
-  }
-
   &__content {
     @include emerge-ani;
 
@@ -237,16 +228,20 @@
           @include game-action-button;
           @include main-m-button;
 
-          border-top-left-radius: 1rem;
-          border-bottom-left-radius: 1rem;
+          & {
+            border-top-left-radius: 1rem;
+            border-bottom-left-radius: 1rem;
+          }
         }
 
         .re-game {
           @include game-action-button;
           @include sec-m-button;
 
-          border-top-right-radius: 1rem;
-          border-bottom-right-radius: 1rem;
+          & {
+            border-top-right-radius: 1rem;
+            border-bottom-right-radius: 1rem;
+          }
         }
       }
 
@@ -265,6 +260,15 @@
         }
       }
     }
+  }
+
+  &.close {
+    background-color: rgba(#000, 0.2);
+    pointer-events: all;
+  }
+
+  &.close > .winner__content {
+    display: none;
   }
 }
 

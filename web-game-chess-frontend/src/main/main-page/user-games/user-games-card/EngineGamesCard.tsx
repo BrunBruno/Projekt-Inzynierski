@@ -1,7 +1,7 @@
 import { useEffect, useRef } from "react";
 import AvatarImage from "../../../../shared/components/avatar-image/AvatarImage";
 import { PlayerDto } from "../../../../shared/utils/types/abstractDtosAndModels";
-import classes from "./EngineGamesCard.module.scss";
+import classes from "./UserGamesCard.module.scss";
 import IconCreator from "../../../../shared/components/icon-creator/IconCreator";
 import { defaultPiecesImages } from "../../../../shared/svgs/iconsMap/DefaultPieceImageSvgs";
 import { PieceTag } from "../../../../shared/utils/objects/constantLists";
@@ -50,7 +50,7 @@ function EngineGamesCard({ game }: EngineGamesCardProps) {
   const onRejoinGame = (): void => {
     if (!game.gameId) return;
 
-    navigate(`/main/game/${game.gameId}`);
+    navigate(`/main/engine-game/${game.gameId}`);
   };
 
   // display players based on user player color
@@ -74,7 +74,15 @@ function EngineGamesCard({ game }: EngineGamesCardProps) {
         <div className={classes["player-data"]}>
           <span>{player.name}</span>
           <span>
-            (<span>{player.elo + eloGained}</span>)
+            (
+            <span>
+              {isNaN(player.elo) || isNaN(eloGained)
+                ? "-"
+                : player.name === "BOT"
+                ? `lvl ${player.elo}`
+                : player.elo + eloGained}
+            </span>
+            )
           </span>
         </div>
       </div>
@@ -82,72 +90,44 @@ function EngineGamesCard({ game }: EngineGamesCardProps) {
 
     // white player case
     if (userInfoObject.username === game.whitePlayer.name) {
-      const wasOpponentBetter =
-        game.whitePlayer.elo === game.blackPlayer.elo ? null : game.whitePlayer.elo < game.blackPlayer.elo;
-
-      const sign =
-        game.isWinner === null
-          ? wasOpponentBetter === null
-            ? ""
-            : wasOpponentBetter
-            ? "+"
-            : "-"
-          : game.isWinner
-          ? "+"
-          : "-";
-
-      const eloGained = parseInt(sign + game.eloGained);
+      const sign = game.isWinner === null ? "" : game.isWinner ? "+" : "-";
 
       return (
         <div className={classes.players}>
-          {renderPlayer(game.whitePlayer, true, eloGained)}
+          {renderPlayer(game.whitePlayer, true, game.eloGained)}
 
           <div className={classes.players__sep}>
             <span>vs</span>
 
             <span>
               <span className={sign === "+" ? classes.p : classes.m}>{sign}</span>
-              {game.eloGained}
+              {Math.abs(game.eloGained)}
             </span>
           </div>
 
-          {renderPlayer(game.blackPlayer, false, -eloGained)}
+          {renderPlayer(game.blackPlayer, false, -game.eloGained)}
         </div>
       );
     }
 
     // black player case
     if (userInfoObject.username === game.blackPlayer.name) {
-      const wasOpponentBetter =
-        game.whitePlayer.elo === game.blackPlayer.elo ? null : game.blackPlayer.elo < game.whitePlayer.elo;
-
-      const sign =
-        game.isWinner === null
-          ? wasOpponentBetter === null
-            ? ""
-            : wasOpponentBetter
-            ? "+"
-            : "-"
-          : game.isWinner
-          ? "+"
-          : "-";
-
-      const eloGained = parseInt(sign + game.eloGained);
+      const sign = game.isWinner === null ? "" : game.isWinner ? "+" : "-";
 
       return (
         <div className={classes.players}>
-          {renderPlayer(game.blackPlayer, false, eloGained)}
+          {renderPlayer(game.blackPlayer, false, game.eloGained)}
 
           <div className={classes.players__sep}>
             <span>vs</span>
 
             <span>
               <span className={sign === "+" ? classes.p : classes.m}>{sign}</span>
-              {game.eloGained}
+              {Math.abs(game.eloGained)}
             </span>
           </div>
 
-          {renderPlayer(game.whitePlayer, true, -eloGained)}
+          {renderPlayer(game.whitePlayer, true, -game.eloGained)}
         </div>
       );
     }

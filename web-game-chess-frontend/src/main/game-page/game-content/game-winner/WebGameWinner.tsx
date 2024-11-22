@@ -213,7 +213,7 @@ function WebGameWinner({
     );
   };
 
-  // to look at board after game has ended
+  // to display winner window again
   const showWinner = (event: MouseEvent<HTMLDivElement>) => {
     const target = event.target as HTMLDivElement;
 
@@ -225,6 +225,7 @@ function WebGameWinner({
     }
   };
 
+  // to look at board after game has ended
   const hideWinner = (): void => {
     const container = containerRef.current;
     if (!container) return;

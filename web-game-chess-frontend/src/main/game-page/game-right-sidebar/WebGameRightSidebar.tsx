@@ -46,7 +46,7 @@ function WebGameRightSidebar({
 }: WebGameRightSidebarProps) {
   ///
 
-  console.log("tododo", winner);
+  // console.log("tododo", winner);
 
   // for handling scroll of records
   const recordsRef = useRef<HTMLDivElement>(null);

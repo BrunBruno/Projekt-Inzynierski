@@ -44,6 +44,7 @@ export const performMoveAnimation = (
   coorFrom: Coordinate,
   coorTo: Coordinate
 ) => {
+  console.log(selectedTarget);
   if (selectedTarget && boardRef && coorFrom && coorTo) {
     const tileWidth = boardRef.getBoundingClientRect().width / 8;
     const tileHeight = boardRef.getBoundingClientRect().height / 8;
@@ -60,7 +61,7 @@ export const performMoveAnimation = (
   }
 };
 
-//
+// for provided correct class by user settings
 export const changeBoardByUserSettings = (appearance: AppearanceOfBoard, classes: CSSModuleClasses): ElementClass => {
   switch (appearance) {
     case AppearanceOfBoard.Default:
@@ -80,7 +81,7 @@ export const changeBoardByUserSettings = (appearance: AppearanceOfBoard, classes
   }
 };
 
-//
+// for provided correct icons by user settings
 export const changePiecesByUserSettings = (appearance: AppearanceOfPieces): IconMap<PieceTag> => {
   switch (appearance) {
     case AppearanceOfPieces.Standard:

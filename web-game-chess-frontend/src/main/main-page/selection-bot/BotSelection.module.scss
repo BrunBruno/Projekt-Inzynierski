@@ -141,16 +141,19 @@ $sqr-size: 8rem;
               filter: drop-shadow(0 0 0.3rem $success-color-m);
             }
           }
+
           &:nth-child(7) {
             span {
               filter: drop-shadow(0 0 0.3rem $success-color-l);
             }
           }
+
           &:nth-child(13) {
             span {
               filter: drop-shadow(0 0 0.3rem $danger-color-l);
             }
           }
+
           &:nth-child(19) {
             span {
               filter: drop-shadow(0 0 0.3rem $danger-color-m);
@@ -159,6 +162,7 @@ $sqr-size: 8rem;
         }
       }
     }
+
     /*
     &__options {
       @include flex(column, start, start, 2rem);

@@ -14,7 +14,7 @@ import { TimingType } from "../../../../shared/utils/objects/entitiesEnums";
 import { gameResultIcons } from "../../../../shared/svgs/iconsMap/GameResultIcons";
 import { displayFromLowercase } from "../../../../shared/utils/functions/enums";
 
-type UserGamesFiltersProps = {
+type FinishedGamesFiltersProps = {
   // list to filter timing types
   timingTypeFilters: number[];
   // set timing list
@@ -25,12 +25,12 @@ type UserGamesFiltersProps = {
   setResultFilters: Dispatch<SetStateAction<(boolean | null)[]>>;
 };
 
-function UserGamesFilters({
+function FinishedGamesFilters({
   timingTypeFilters,
   setTimingTypeFilters,
   resultFilters,
   setResultFilters,
-}: UserGamesFiltersProps) {
+}: FinishedGamesFiltersProps) {
   ///
 
   // sets timing type filter list
@@ -116,4 +116,4 @@ function UserGamesFilters({
   );
 }
 
-export default UserGamesFilters;
+export default FinishedGamesFilters;

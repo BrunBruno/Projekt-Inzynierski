@@ -9,8 +9,6 @@ import MainPopUp from "../../shared/components/main-popup/MainPopUp";
 import MainNav from "../../shared/components/main-nav/MainNav";
 import DefaultView from "./default-view/DefaultView";
 import Invitations from "./invitations/Invitations";
-import UserGames from "./games-finished/UserGames";
-import ActiveGames from "./games-active/ActiveGames";
 import TimeSelection from "./selection-time/TimeSelection";
 import FriendSelection from "./selection-friends/FriendSelection";
 import BotSelection from "./selection-bot/BotSelection";
@@ -26,7 +24,9 @@ import { StartEngineGameDto } from "../../shared/utils/types/engineGameDtos";
 import NotificationPopUp from "./notification-popup/NotificationPopUp";
 import MainButtons from "./main-buttons/MainButtons";
 import { StartEngineGameModel } from "../../shared/utils/types/engineGameModels";
-import EngineGames from "./games-engine/EngineGames";
+import ActiveGames from "./user-games/ActiveGames";
+import FinishedGames from "./user-games/FinishedGames";
+import EngineGames from "./user-games/EngineGames";
 
 function MainPage() {
   ///
@@ -268,7 +268,7 @@ function MainPage() {
         break;
 
       case GameSearchInterface.finishedGames:
-        setInterfaceContent(<UserGames />);
+        setInterfaceContent(<FinishedGames />);
         break;
 
       case GameSearchInterface.engineGames:

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import IconCreator from "../../../../shared/components/icon-creator/IconCreator";
 import { defaultPiecesImages } from "../../../../shared/svgs/iconsMap/DefaultPieceImageSvgs";
 import { specialPiecesSvgs } from "../../../../shared/svgs/iconsMap/SpecialPiecesSvgs";
@@ -15,19 +15,27 @@ import axios from "axios";
 import { getAuthorization, userController } from "../../../../shared/utils/services/ApiService";
 import { GetEngineGameDto } from "../../../../shared/utils/types/engineGameDtos";
 import { GetWebGameDto } from "../../../../shared/utils/types/webGameDtos";
+import { greyColor } from "../../../../shared/utils/objects/colorMaps";
+import { gameSettingsIcons } from "./GameSettingsIcons";
+import { GameWindowInterface } from "../../../../shared/utils/objects/interfacesEnums";
+import { gameResultIcons } from "../../../../shared/svgs/iconsMap/GameResultIcons";
 
 type GameSettingsProps = {
   // game data
   gameData: GetEngineGameDto | GetWebGameDto;
+  // for closing window
+  setDisplayedWindow: Dispatch<SetStateAction<GameWindowInterface>>;
 };
 
-function GameSettings({ gameData }: GameSettingsProps) {
+function GameSettings({ gameData, setDisplayedWindow }: GameSettingsProps) {
   ///
 
   const { showPopup } = usePopup();
 
+  // current appearance and for update
   const [appearance, setAppearance] = useState<UpdateUserSettingsModel | null>(null);
 
+  // to set values of current settings
   useEffect(() => {
     const prevAppearance: UpdateUserSettingsModel = {
       appearanceOfBoard: gameData.gameSettings.appearanceOfBoard,
@@ -37,47 +45,109 @@ function GameSettings({ gameData }: GameSettingsProps) {
     setAppearance(prevAppearance);
   }, [gameData]);
 
-  const updateUserSettings = async ({
-    appearanceOfBoard,
-    appearanceOfGamePage,
-    appearanceOfPieces,
-  }: Partial<UpdateUserSettingsModel>): Promise<void> => {
-    const model: Partial<UpdateUserSettingsModel> = {
-      ...(appearanceOfBoard !== undefined && { appearanceOfBoard }),
-      ...(appearanceOfGamePage !== undefined && { appearanceOfGamePage }),
-      ...(appearanceOfPieces !== undefined && { appearanceOfPieces }),
+  const updateUserSettings = async (): Promise<void> => {
+    if (!appearance) return;
+
+    const model: UpdateUserSettingsModel = {
+      ...appearance,
     };
 
     try {
       await axios.put(userController.updateUserSettings(), model, getAuthorization());
-
-      setAppearance((prev) => {
-        if (!prev) return prev;
-
-        return {
-          ...prev,
-          ...(appearanceOfBoard !== undefined && { appearanceOfBoard }),
-          ...(appearanceOfGamePage !== undefined && { appearanceOfGamePage }),
-          ...(appearanceOfPieces !== undefined && { appearanceOfPieces }),
-        };
-      });
     } catch (err) {
       showPopup(getErrMessage(err), "warning");
     }
+  };
+
+  const changeBoardAppearance = (newLook: AppearanceOfBoard): void => {
+    if (!appearance) return;
+    setAppearance({
+      ...appearance,
+      appearanceOfBoard: newLook,
+    });
+  };
+
+  const changePiecesAppearance = (newLook: AppearanceOfPieces): void => {
+    if (!appearance) return;
+    setAppearance({
+      ...appearance,
+      appearanceOfPieces: newLook,
+    });
+  };
+
+  const changeWindowAppearance = (newLook: AppearanceOfGamePage): void => {
+    if (!appearance) return;
+    setAppearance({
+      ...appearance,
+      appearanceOfGamePage: newLook,
+    });
+  };
+
+  const onApplySettings = async (): Promise<void> => {
+    await updateUserSettings();
+
+    window.location.reload();
+  };
+
+  const onCancelSettings = (): void => {
+    setDisplayedWindow(GameWindowInterface.none);
   };
 
   if (!appearance) return <></>;
 
   return (
     <div className={classes.settings}>
+      <div className={classes.settings__header}>
+        <h2 className={classes["title"]}>
+          <IconCreator
+            icons={gameSettingsIcons}
+            iconName={"settings"}
+            iconClass={classes["header-icon"]}
+            color={greyColor.c0}
+          />
+          <span>Settings</span>
+        </h2>
+
+        <div className={classes["actions"]}>
+          <button
+            className={classes["set-button"]}
+            onClick={() => {
+              onApplySettings();
+            }}
+          >
+            <IconCreator
+              icons={gameResultIcons}
+              iconName={"win"}
+              iconClass={classes["action-icon"]}
+              color={greyColor.c5}
+            />
+            <span>Apply</span>
+          </button>
+          <button
+            className={classes["set-button"]}
+            onClick={() => {
+              onCancelSettings();
+            }}
+          >
+            <IconCreator
+              icons={gameResultIcons}
+              iconName={"lose"}
+              iconClass={classes["action-icon"]}
+              color={greyColor.c5}
+            />
+            <span>Cancel</span>
+          </button>
+        </div>
+      </div>
+
       <div className={classes.settings__row}>
-        <p className={classes["row-title"]}>Pieces</p>
+        <p className={classes["row-title"]}>Pieces appearance</p>
 
         <div className={classes["row-options"]}>
           <div
             className={classes["option"]}
             onClick={() => {
-              updateUserSettings({ appearanceOfPieces: AppearanceOfPieces.Standard });
+              changePiecesAppearance(AppearanceOfPieces.Standard);
             }}
           >
             <div className={classes["pieces-look"]}>
@@ -102,7 +172,7 @@ function GameSettings({ gameData }: GameSettingsProps) {
           <div
             className={classes["option"]}
             onClick={() => {
-              updateUserSettings({ appearanceOfPieces: AppearanceOfPieces.Simple });
+              changePiecesAppearance(AppearanceOfPieces.Simple);
             }}
           >
             <div className={classes["pieces-look"]}>
@@ -122,13 +192,13 @@ function GameSettings({ gameData }: GameSettingsProps) {
       </div>
 
       <div className={classes.settings__row}>
-        <p className={classes["row-title"]}>Board</p>
+        <p className={classes["row-title"]}>Board appearance</p>
 
         <div className={classes["row-options"]}>
           <div
             className={classes["option"]}
             onClick={() => {
-              updateUserSettings({ appearanceOfBoard: AppearanceOfBoard.Default });
+              changeBoardAppearance(AppearanceOfBoard.Default);
             }}
           >
             <div className={classes["board-look"]}>
@@ -150,7 +220,7 @@ function GameSettings({ gameData }: GameSettingsProps) {
           <div
             className={classes["option"]}
             onClick={() => {
-              updateUserSettings({ appearanceOfBoard: AppearanceOfBoard.Rounded });
+              changeBoardAppearance(AppearanceOfBoard.Rounded);
             }}
           >
             <div className={classes["board-look"]}>
@@ -172,7 +242,7 @@ function GameSettings({ gameData }: GameSettingsProps) {
           <div
             className={classes["option"]}
             onClick={() => {
-              updateUserSettings({ appearanceOfBoard: AppearanceOfBoard.Wooden });
+              changeBoardAppearance(AppearanceOfBoard.Wooden);
             }}
           >
             <div className={classes["board-look"]}>
@@ -194,7 +264,7 @@ function GameSettings({ gameData }: GameSettingsProps) {
           <div
             className={classes["option"]}
             onClick={() => {
-              updateUserSettings({ appearanceOfBoard: AppearanceOfBoard.Grey });
+              changeBoardAppearance(AppearanceOfBoard.Grey);
             }}
           >
             <div className={classes["board-look"]}>
@@ -222,7 +292,7 @@ function GameSettings({ gameData }: GameSettingsProps) {
           <div
             className={classes["option"]}
             onClick={() => {
-              updateUserSettings({ appearanceOfGamePage: AppearanceOfGamePage.Simple });
+              changeWindowAppearance(AppearanceOfGamePage.Simple);
             }}
           >
             <div className={classes["screen"]}>
@@ -248,7 +318,7 @@ function GameSettings({ gameData }: GameSettingsProps) {
           <div
             className={classes["option"]}
             onClick={() => {
-              updateUserSettings({ appearanceOfGamePage: AppearanceOfGamePage.Full });
+              changeWindowAppearance(AppearanceOfGamePage.Full);
             }}
           >
             <div className={classes["screen"]}>

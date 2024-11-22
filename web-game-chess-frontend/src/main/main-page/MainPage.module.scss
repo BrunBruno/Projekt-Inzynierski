@@ -7,8 +7,10 @@
   @include grid-bg;
   @include Main.for-nav;
 
-  position: relative;
-  overflow: hidden;
+  & {
+    position: relative;
+    overflow: hidden;
+  }
 
   &__container {
     @include wh100;

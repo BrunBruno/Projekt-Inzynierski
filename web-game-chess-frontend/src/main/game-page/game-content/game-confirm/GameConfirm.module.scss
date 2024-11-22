@@ -33,10 +33,12 @@
         @include button(3rem);
         @include main-g-button;
 
-        width: 5rem;
-        box-sizing: content-box;
-        border-left: none;
-        border-right: none;
+        & {
+          width: 5rem;
+          box-sizing: content-box;
+          border-left: none;
+          border-right: none;
+        }
 
         &.yes-btn {
           color: $success-color-m;

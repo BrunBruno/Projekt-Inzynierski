@@ -12,7 +12,7 @@
 // use second font
 @mixin sec-font($size) {
   font-size: $size;
-  font-family: "Knewave";
+  font-family: Knewave;
   user-select: none;
   overflow: hidden;
 }

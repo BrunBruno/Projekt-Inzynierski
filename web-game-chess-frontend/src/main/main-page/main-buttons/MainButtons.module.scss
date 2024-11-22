@@ -21,12 +21,14 @@
     @include button(2.4rem);
     @include main-g-button;
 
-    width: 100%;
-    padding: 1.6rem 2rem;
-    background-color: rgba($gc8, 0.1);
-    border-radius: 1rem;
-    border: none;
-    border-right: solid 0.3rem $gc9;
+    & {
+      width: 100%;
+      padding: 1.6rem 2rem;
+      background-color: rgba($gc8, 0.1);
+      border-radius: 1rem;
+      border: none;
+      border-right: solid 0.3rem $gc9;
+    }
 
     span {
       @include long-text;
@@ -171,6 +173,11 @@
             fill: $mc0;
           }
         }
+      }
+
+      .engine-games-icon {
+        filter: drop-shadow($mc0 0 0 0.5rem);
+        fill: $mc0;
       }
 
       .invitations-icon {

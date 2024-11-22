@@ -17,7 +17,6 @@ $sqr-size: 7rem;
     background-color: rgba($gc9, 1);
     overflow: hidden;
     border-bottom: solid 0.5rem $gc8;
-
     width: fit-content;
     height: fit-content;
     display: grid;
@@ -27,6 +26,7 @@ $sqr-size: 7rem;
 
     &__header {
       @include flex;
+
       grid-column: span 5;
 
       h2 {
@@ -43,33 +43,6 @@ $sqr-size: 7rem;
       position: relative;
       background-color: $gc9;
       border: solid 0.3rem $gc8;
-
-      &:hover {
-        cursor: pointer;
-        box-shadow: 0 0 1rem 0 $gc0;
-
-        span {
-          color: $mc0;
-          filter: drop-shadow(0 0 1rem $mc0);
-        }
-
-        .lvl-icon {
-          opacity: 0.2;
-        }
-      }
-
-      &.selected {
-        box-shadow: 0 0 1rem 0 $gc0;
-
-        span {
-          color: $mc0;
-          filter: drop-shadow(0 0 1rem $mc0);
-        }
-
-        .lvl-icon {
-          opacity: 0.2;
-        }
-      }
 
       span {
         @include sec-font(3rem);
@@ -106,12 +79,39 @@ $sqr-size: 7rem;
           stroke-miterlimit: 10;
         }
       }
+
+      &:hover {
+        cursor: pointer;
+        box-shadow: 0 0 1rem 0 $gc0;
+
+        span {
+          color: $mc0;
+          filter: drop-shadow(0 0 1rem $mc0);
+        }
+
+        .lvl-icon {
+          opacity: 0.2;
+        }
+      }
+
+      &.selected {
+        box-shadow: 0 0 1rem 0 $gc0;
+
+        span {
+          color: $mc0;
+          filter: drop-shadow(0 0 1rem $mc0);
+        }
+
+        .lvl-icon {
+          opacity: 0.2;
+        }
+      }
     }
 
     .x-icon {
       @include circle(4rem);
-      position: absolute;
 
+      position: absolute;
       top: 2rem;
       right: 2rem;
 

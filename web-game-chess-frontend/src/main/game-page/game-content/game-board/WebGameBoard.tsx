@@ -16,7 +16,7 @@ import {
   TypeOfGame,
   WebGameStates,
 } from "../../../../shared/utils/chess-game/gameSates";
-import { areCoorEqual, checkIfOwnPiece, posToIndex, toCoor } from "../../../../shared/utils/chess-game/general";
+import { areCoorEqual, checkIfOwnPiece, toCoor } from "../../../../shared/utils/chess-game/general";
 import {
   changeBoardByUserSettings,
   changePiecesByUserSettings,
@@ -28,19 +28,17 @@ import { makeMove } from "../../../../shared/utils/chess-game/makeMove";
 import { GameWindowInterface } from "../../../../shared/utils/objects/interfacesEnums";
 
 type WebGameBoardProps = {
-  // current game data
+  // current game and player data
   gameData: GetWebGameDto;
-  // player data
   playerData: GetWebGamePlayerDto;
   // game states
   gameStates: WebGameStates;
-  // user selection states
+  // user selection states and setters
   selectionStates: SelectionStates;
-  // selection sates setters
   setSelectionStates: Dispatch<SelectionAction>;
   // to selection piece
   chosePiece: (piece: PieceOption, coordinates: Coordinate) => void;
-  //
+  // for changing displayed window
   setDisplayedWindow: Dispatch<SetStateAction<GameWindowInterface>>;
 };
 
@@ -89,12 +87,11 @@ function WebGameBoard({
       // animation after opponents move
       if (
         innerBoardRef.current &&
-        ((playerData.color === PieceColor.white && gameData.turn % 2 === 1) ||
-          (playerData.color === PieceColor.black && gameData.turn % 2 === 0))
+        ((playerData.color === PieceColor.white && gameData.turn % 2 === 0) ||
+          (playerData.color === PieceColor.black && gameData.turn % 2 === 1))
       ) {
-        const fieldNodes = innerBoardRef.current.querySelectorAll(`.${classes.field}`);
+        const pieceParent = document.getElementById(`field-${oldCoor![0]}-${oldCoor![1]}`);
 
-        const pieceParent = fieldNodes[posToIndex(oldCoor)] as HTMLElement;
         if (pieceParent) {
           const movedPiece = pieceParent.firstElementChild as HTMLElement;
 
@@ -142,9 +139,10 @@ function WebGameBoard({
     // add field
     outerFields.push(
       <div
+        id={`field-${coordinates[0]}-${coordinates[1]}`}
         key={`${coordinates[0]}-${coordinates[1]}`}
         className={`
-          ${classes.filed}
+          ${classes.field}
           ${isInTipFields ? classes.tip : ""}
           ${sameCoor ? classes.selected : ""}
         `}
@@ -163,7 +161,11 @@ function WebGameBoard({
               ${checkIfOwnPiece(char, playerData) ? classes.own : ""}
             `}
             draggable={checkIfOwnPiece(char, playerData)}
-            onClick={() => {
+            style={{ transform: "none" }} // clear
+            onClick={(event) => {
+              const target = event.target as HTMLDivElement;
+              if (target) setSelectionStates({ type: "SET_TARGET", payload: target });
+
               onSelectField(char, coordinates, isInTipFields, sameCoor);
             }}
             onDragStartCapture={() => {
@@ -207,7 +209,7 @@ function WebGameBoard({
         ) : (
           <div
             className={classes.empty}
-            onClick={(event) => {
+            onClick={() => {
               onSelectField(char, coordinates, isInTipFields, sameCoor);
             }}
             onDragOver={(event) => {

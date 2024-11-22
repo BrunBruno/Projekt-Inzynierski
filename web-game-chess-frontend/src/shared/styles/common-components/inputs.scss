@@ -3,7 +3,7 @@
 @use "../variables/color.scss" as color;
 
 // setting for default inputs
-@mixin c-input($size: 2rem, $mcolor: color.$mc0, $sColor: color.$mc9) {
+@mixin c-input($size: 2rem, $m-color: color.$mc0, $sColor: color.$mc9) {
   box-sizing: border-box;
   padding: calc($size / 4) $size;
   border: solid calc($size / 8) #0000;
@@ -12,7 +12,7 @@
   font-size: $size;
   text-align: center;
   color: $sColor;
-  background-color: $mcolor;
+  background-color: $m-color;
 
   &:focus,
   &:active {

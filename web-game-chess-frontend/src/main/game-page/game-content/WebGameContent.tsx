@@ -276,7 +276,9 @@ function WebGameContent({
         )}
 
         {/* settings */}
-        {displayedWindowState.get === GameWindowInterface.settings && <GameSettings gameData={gameData} />}
+        {displayedWindowState.get === GameWindowInterface.settings && (
+          <GameSettings gameData={gameData} setDisplayedWindow={displayedWindowState.set} />
+        )}
 
         {/* searching */}
         {displayedWindowState.get === GameWindowInterface.search && newGameDataState.get && (

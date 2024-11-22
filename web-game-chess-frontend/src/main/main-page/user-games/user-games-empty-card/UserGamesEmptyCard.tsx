@@ -33,7 +33,7 @@ function UserGamesEmptyCard({}: UserGamesEmptyCardProps) {
     };
   }, []);
 
-  // create board from game position
+  // create empty board
   const mapFromPosition = (): JSX.Element[] => {
     const fields: JSX.Element[] = [];
 

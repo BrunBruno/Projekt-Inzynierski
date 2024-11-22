@@ -22,29 +22,6 @@
       font-size: 2.6rem;
     }
 
-    &__indicator {
-      @include flex($gap: 1rem);
-
-      .pawn {
-        height: 3rem;
-        transition: transform 0.3s;
-
-        path {
-          fill: $mc0;
-          transition: fill 2s;
-        }
-      }
-
-      .active {
-        transform: translateY(-2rem) scale(1.2);
-
-        path {
-          fill: $mc9;
-          transition: fill 0.1s;
-        }
-      }
-    }
-
     &__background {
       @include square(60rem);
 
@@ -76,6 +53,29 @@
               }
             }
           }
+        }
+      }
+    }
+
+    &__indicator {
+      @include flex($gap: 1rem);
+
+      .pawn {
+        height: 3rem;
+        transition: transform 0.3s;
+
+        path {
+          fill: $mc0;
+          transition: fill 2s;
+        }
+      }
+
+      .active {
+        transform: translateY(-2rem) scale(1.2);
+
+        path {
+          fill: $mc9;
+          transition: fill 0.1s;
         }
       }
     }

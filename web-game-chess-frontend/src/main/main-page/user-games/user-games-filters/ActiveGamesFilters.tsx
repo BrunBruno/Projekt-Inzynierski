@@ -1,7 +1,7 @@
 import { Dispatch, SetStateAction } from "react";
-import classes from "./ActiveGamesFilters.module.scss";
+import classes from "./UserGamesFilters.module.scss";
 import { TimingType } from "../../../../shared/utils/objects/entitiesEnums";
-import { TimingTypeListFilterOption, timingTypeListFilterOptions } from "./ActiveGamesFiltersData";
+import { TimingTypeListFilterOption, timingTypeListFilterOptions } from "./UserGamesFiltersData";
 import IconCreator from "../../../../shared/components/icon-creator/IconCreator";
 import { timingTypeIcons } from "../../../../shared/svgs/iconsMap/TimingTypeIcons";
 import { mainColor } from "../../../../shared/utils/objects/colorMaps";
