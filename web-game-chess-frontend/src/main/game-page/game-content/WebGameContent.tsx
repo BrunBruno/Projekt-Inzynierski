@@ -225,7 +225,6 @@ function WebGameContent({
           chosePiece={chosePiece}
           setDisplayedWindow={displayedWindowState.set}
         />
-        {/* --- */}
 
         {/* promotion box */}
         {displayedWindowState.get === GameWindowInterface.promotion &&

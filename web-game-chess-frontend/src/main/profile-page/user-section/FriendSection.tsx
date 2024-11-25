@@ -14,6 +14,7 @@ import { Guid } from "guid-typescript";
 import { GetFriendProfileDto } from "../../../shared/utils/types/friendshipDtos";
 
 type FriendSectionProps = {
+  // friendship id
   friendshipId: Guid;
 };
 
@@ -77,7 +78,6 @@ function FriendSection({ friendshipId }: FriendSectionProps) {
           </div>
         </div>
       )}
-      {/* --- */}
 
       {/* user stats */}
       <div className={classes.user__data}>
@@ -177,9 +177,7 @@ function FriendSection({ friendshipId }: FriendSectionProps) {
             </div>
           </div>
         )}
-        {/* --- */}
       </div>
-      {/* --- */}
     </section>
   );
 }

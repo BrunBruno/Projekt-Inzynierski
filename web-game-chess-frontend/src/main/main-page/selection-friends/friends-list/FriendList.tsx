@@ -28,6 +28,7 @@ function FriendList({ selectedUsername, setSelectedFriend }: FriendListProps) {
   // current user friend list
   const [friends, setFriends] = useState<GetAllFriendsByStatusDto[] | null>(null);
 
+  // def def paged size
   useEffect(() => {
     setDefPageSize(10);
   }, []);
@@ -36,21 +37,21 @@ function FriendList({ selectedUsername, setSelectedFriend }: FriendListProps) {
 
   useEffect(() => {
     const getFriends = async (): Promise<void> => {
-      try {
-        const model: GetAllFriendsByStatusModel = {
-          username: selectedUsername,
-          status: FriendshipStatus.accepted,
-          pageSize: pageSize,
-          pageNumber: pageNumber,
-        };
+      const model: GetAllFriendsByStatusModel = {
+        username: selectedUsername,
+        status: FriendshipStatus.accepted,
+        pageSize: pageSize,
+        pageNumber: pageNumber,
+      };
 
-        const friendsResponse = await axios.get<PagedResult<GetAllFriendsByStatusDto>>(
+      try {
+        const response = await axios.get<PagedResult<GetAllFriendsByStatusDto>>(
           friendshipController.getAllFriendsByStatus(model),
           getAuthorization()
         );
 
-        setFriends(friendsResponse.data.items);
-        setTotalItemsCount(friendsResponse.data.totalItemsCount);
+        setFriends(response.data.items);
+        setTotalItemsCount(response.data.totalItemsCount);
       } catch (err) {
         showPopup(getErrMessage(err), "warning");
       }

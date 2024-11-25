@@ -296,7 +296,6 @@ function EngineGameContent({
           getGame={getGame}
           setDisplayedWindow={displayedWindowState.set}
         />
-        {/* --- */}
 
         {/* promotion box */}
         {displayedWindowState.get === GameWindowInterface.promotion &&

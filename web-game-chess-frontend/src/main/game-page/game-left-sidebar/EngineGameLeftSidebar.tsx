@@ -241,7 +241,6 @@ function EngineGameLeftSidebar({
             <span>Settings</span>
           </li>
         </ul>
-        {/* --- */}
 
         <div className={classes.bar__content__captures}>
           <GameCapturedPieces gameData={gameData} />

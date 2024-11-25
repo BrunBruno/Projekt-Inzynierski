@@ -60,7 +60,6 @@ function StatsRow({ type, friend }: StatsRowProps) {
           </div>
         </div>
       </div>
-      {/* --- */}
     </div>
   );
 }

@@ -193,7 +193,6 @@ function IndexPage() {
           {renderSection(section.name, section.scrollRef, section.sectionRef)}
         </Fragment>
       ))}
-      {/* --- */}
 
       <FooterSection />
 

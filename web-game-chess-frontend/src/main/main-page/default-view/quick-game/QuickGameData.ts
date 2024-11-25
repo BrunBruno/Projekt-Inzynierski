@@ -1,5 +1,6 @@
 import { TimingTypeName } from "../../../../shared/utils/objects/constantLists";
 
+// control
 export type QuickTimeControl = {
   header: TimingTypeName;
   tag: string;

@@ -6,7 +6,9 @@ import classes from "./FriendEmptyCard.module.scss";
 const cardCount = 16;
 
 type FriendEmptyCardProps = {
+  // to display loading page when data is still fetched
   isLoaded: boolean;
+  // for settings paged size
   firstEmptyCardRef: RefObject<HTMLDivElement>;
 };
 

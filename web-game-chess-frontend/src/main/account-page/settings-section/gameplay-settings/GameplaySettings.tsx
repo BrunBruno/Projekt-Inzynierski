@@ -16,6 +16,7 @@ import axios from "axios";
 import { getAuthorization, userController } from "../../../../shared/utils/services/ApiService";
 
 type GameplaySettingsProps = {
+  // user data for settings updates
   user: GetFullUserDto | null;
 };
 
@@ -24,8 +25,10 @@ function GameplaySettings({ user }: GameplaySettingsProps) {
 
   const { showPopup } = usePopup();
 
+  // current game appearance
   const [appearance, setAppearance] = useState<UpdateUserSettingsModel | null>(null);
 
+  // set current appearance
   useEffect(() => {
     if (!user) return;
 
@@ -38,6 +41,7 @@ function GameplaySettings({ user }: GameplaySettingsProps) {
     setAppearance(prevAppearance);
   }, [user]);
 
+  // to update user global settings
   const updateUserSettings = async ({
     appearanceOfBoard,
     appearanceOfGamePage,

@@ -13,12 +13,15 @@ import { getErrMessage } from "../../../shared/utils/functions/errors";
 import { PagedResult } from "../../../shared/utils/types/abstractDtosAndModels";
 import FriendEmptyCard from "./friend-empty-card/FriendEmptyCard";
 
-function FriendsSection() {
+type FriendsSectionProps = {};
+
+function FriendsSection({}: FriendsSectionProps) {
   ///
 
   const { showPopup } = usePopup();
   const { scrollRef, pageNumber, pageSize, totalItemsCount, setDefPageSize, setTotalItemsCount } = usePagination();
 
+  // empty friend card ref
   const firstEmptyCardRef = useRef<HTMLDivElement>(null);
 
   // list of friends state

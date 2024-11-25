@@ -1,6 +1,7 @@
 import classes from "./InvitationCard.module.scss";
 
 type InvitationEmptyCardProps = {
+  // index number
   index: number;
 };
 

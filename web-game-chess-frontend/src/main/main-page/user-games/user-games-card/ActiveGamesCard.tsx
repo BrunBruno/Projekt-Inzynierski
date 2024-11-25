@@ -52,7 +52,7 @@ function ActiveGamesCard({ game }: ActiveGamesCardProps) {
   }, []);
 
   // display players based on user player color
-  const displayPlayer = (game: GetAllActiveGamesDto): JSX.Element => {
+  const displayPlayers = (game: GetAllActiveGamesDto): JSX.Element => {
     const userInfo = localStorage.getItem("userInfo");
 
     if (!userInfo) return <></>;
@@ -183,7 +183,7 @@ function ActiveGamesCard({ game }: ActiveGamesCardProps) {
     >
       <div ref={gridRef} className={`${classes["mini-grid"]}`}>
         {mapFromPosition(game.position)}
-        {displayPlayer(game)}
+        {displayPlayers(game)}
         <div className={classes.date}>{new Date(game.createdAt).toLocaleDateString()}</div>
       </div>
 

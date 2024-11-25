@@ -54,7 +54,7 @@ function TimeSelection({ setOnlineGameIds, setPrivateGameOptions }: TimeSelectio
   };
 
   // to start private games
-  const onStartPrivateGame = (header: TimingTypeName, values: [number, number]) => {
+  const onStartPrivateGame = (header: TimingTypeName, values: [number, number]): void => {
     if (setPrivateGameOptions === undefined) return;
 
     var newOptions: PrivateGameOptions = {
@@ -154,10 +154,8 @@ function TimeSelection({ setOnlineGameIds, setPrivateGameOptions }: TimeSelectio
                 {transformTag(tag)}
               </div>
             ))}
-            {/* --- */}
           </div>
         ))}
-        {/* --- */}
       </div>
     </div>
   );

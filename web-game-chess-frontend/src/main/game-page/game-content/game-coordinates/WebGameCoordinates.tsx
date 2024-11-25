@@ -28,7 +28,6 @@ function WebGameCoordinates({ playerData }: WebGameCoordinatesProps) {
             <div key={`row${i}`}>{row}</div>
           ))}
       </div>
-      {/* --- */}
 
       {/* display files */}
       <div
@@ -41,7 +40,6 @@ function WebGameCoordinates({ playerData }: WebGameCoordinatesProps) {
           <div key={`col${i}`}>{row}</div>
         ))}
       </div>
-      {/* --- */}
     </div>
   );
 }

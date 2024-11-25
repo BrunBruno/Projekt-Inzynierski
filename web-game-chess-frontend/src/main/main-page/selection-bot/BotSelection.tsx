@@ -15,6 +15,8 @@ type BotSelectionProps = {
 function BotSelection({ setOfflineGameOptions }: BotSelectionProps) {
   ///
 
+  // tododo
+
   // confirm selection after selection level
   const onSelectLevel = (level: number) => {
     const gameOptions: OfflineGameOptions = {

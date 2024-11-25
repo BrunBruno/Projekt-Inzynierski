@@ -11,7 +11,7 @@ type GamesSectionProps = {
 function GamesSection({ games }: GamesSectionProps) {
   ///
 
-  if (!games) return <>todo</>;
+  if (!games) return <>tododo</>;
 
   return (
     <div className={classes.games}>

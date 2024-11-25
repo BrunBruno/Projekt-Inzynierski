@@ -69,7 +69,6 @@ function BarSection({ setSelectedUsername, selectedList, setSelectedList }: BarS
             }}
           />
         </div>
-        {/* --- */}
 
         {/* list options */}
         <div className={classes.bar__content__options}>
@@ -132,7 +131,6 @@ function BarSection({ setSelectedUsername, selectedList, setSelectedList }: BarS
             <IconCreator icons={symbolIcons} iconName="arrow" iconClass={classes["panel-arrow"]} color={greyColor.c7} />
           </div>
         </div>
-        {/* --- */}
       </div>
     </section>
   );

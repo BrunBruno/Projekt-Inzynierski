@@ -5,6 +5,7 @@ import { MousePosition } from "../../../../shared/utils/types/commonTypes";
 let timer: NodeJS.Timeout;
 
 type BackgroundBoardProps = {
+  // container ref for obtaining sizes
   defaultViewRef: RefObject<HTMLDivElement>;
 };
 
@@ -22,7 +23,7 @@ function BackgroundBoard({ defaultViewRef }: BackgroundBoardProps) {
 
   // to handle mouse movement and map to board movement
   useEffect(() => {
-    const handleMouseMove = (event: MouseEvent) => {
+    const handleMouseMove = (event: MouseEvent): void => {
       const defElement = defaultViewRef.current;
 
       if (defElement) {

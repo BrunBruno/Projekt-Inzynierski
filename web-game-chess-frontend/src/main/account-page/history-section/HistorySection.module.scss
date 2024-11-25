@@ -39,36 +39,6 @@
   }
 }
 
-// no data placeholder
-.empty {
-  @include flex($direction: column, $gap: 1rem);
-
-  position: relative;
-
-  &__chart {
-    @include wh100;
-
-    opacity: 0.1;
-    pointer-events: none;
-    padding: 1rem;
-  }
-
-  &__text {
-    @include abs-center;
-    @include flex(column, center, center, 2rem);
-
-    span {
-      font-size: 4rem;
-      text-align: center;
-
-      &:last-child {
-        color: $mc5;
-        font-weight: 600;
-      }
-    }
-  }
-}
-
 // resize
 @media (width <= 1200px) {
   .history {

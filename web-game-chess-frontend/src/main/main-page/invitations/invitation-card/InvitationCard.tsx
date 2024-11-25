@@ -9,12 +9,13 @@ import IconCreator from "../../../../shared/components/icon-creator/IconCreator"
 import { mainColor } from "../../../../shared/utils/objects/colorMaps";
 import { timingTypeIcons } from "../../../../shared/svgs/iconsMap/TimingTypeIcons";
 import { timeSpanLongerThan } from "../../../../shared/utils/functions/datetime";
+import { UpdateInvitations } from "../InvitationsData";
 
 type InvitationCardProps = {
   // invitation data
   invitation: GetAllInvitationsDto;
   // to refresh invitation list
-  updateInvitations: () => void;
+  updateInvitations: UpdateInvitations;
 };
 
 function InvitationCard({ invitation, updateInvitations }: InvitationCardProps) {
@@ -101,7 +102,6 @@ function InvitationCard({ invitation, updateInvitations }: InvitationCardProps) 
           </>
         )}
       </div>
-      {/* --- */}
 
       <div className={classes.card__date}>
         <span>{new Date(invitation.createdAt).toLocaleString()}</span>

@@ -27,13 +27,13 @@ type PasswordIconOption = {
 type ResetPasswordModalProps = {
   // path that user wanted
   userPath: string;
-  // to change displayed modal
-  setModal: Dispatch<SetStateAction<number>>;
   // for checking new password
   userPassConf: GetRegisterConfDto | null;
+  // to change displayed modal
+  setModal: Dispatch<SetStateAction<RegistrationInterface>>;
 };
 
-function ResetPasswordModal({ userPath, setModal, userPassConf }: ResetPasswordModalProps) {
+function ResetPasswordModal({ userPath, userPassConf, setModal }: ResetPasswordModalProps) {
   ///
 
   const navigate = useNavigate();
@@ -68,8 +68,8 @@ function ResetPasswordModal({ userPath, setModal, userPassConf }: ResetPasswordM
     class: classes.open,
   });
 
+  // check for email format
   useEffect(() => {
-    // check for email format
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (emailRegex.test(emailValue)) {
       setIsEmailValid(true);
@@ -244,7 +244,7 @@ function ResetPasswordModal({ userPath, setModal, userPassConf }: ResetPasswordM
     setEmailValue(inputValue);
   };
 
-  // auto pasting
+  // auto pasting code
   const onPasteCode = async (): Promise<void> => {
     try {
       const code = await navigator.clipboard.readText();
@@ -469,7 +469,6 @@ function ResetPasswordModal({ userPath, setModal, userPassConf }: ResetPasswordM
           <IconCreator icons={registerPageIcons} iconName={"arrow"} iconClass={classes.arrow} />
         </div>
       </div>
-      {/* --- */}
 
       <div className={classes.error}>
         <span>{errorMess}</span>

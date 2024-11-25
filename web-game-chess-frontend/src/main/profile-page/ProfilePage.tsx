@@ -13,9 +13,11 @@ function ProfilePage() {
 
   const navigate = useNavigate();
 
+  // friendship id from url
   const { friendshipIdStr } = useParams<{ friendshipIdStr: string }>();
   const [friendshipId, setFriendshipId] = useState<Guid | null>(null);
 
+  // set friendship id
   useEffect(() => {
     if (friendshipIdStr) {
       const guid: Guid = Guid.parse(friendshipIdStr).toJSON().value;

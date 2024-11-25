@@ -17,7 +17,7 @@ type VerifyEmailModalProps = {
   // path that user wanted
   userPath: string;
   // to set current modal
-  setModal: Dispatch<SetStateAction<number>>;
+  setModal: Dispatch<SetStateAction<RegistrationInterface>>;
 };
 
 function VerifyEmailModal({ userPath, setModal }: VerifyEmailModalProps) {
@@ -119,7 +119,7 @@ function VerifyEmailModal({ userPath, setModal }: VerifyEmailModalProps) {
     }
   };
 
-  // auto pasting
+  // auto pasting code
   const onPasteCode = async (): Promise<void> => {
     try {
       const code = await navigator.clipboard.readText();
@@ -193,7 +193,6 @@ function VerifyEmailModal({ userPath, setModal }: VerifyEmailModalProps) {
           <span>Resend</span>
         </p>
       </div>
-      {/* --- */}
 
       {/* error */}
       <div className={classes.error}>
@@ -213,7 +212,6 @@ function VerifyEmailModal({ userPath, setModal }: VerifyEmailModalProps) {
       >
         <span>Cancel</span>
       </p>
-      {/* --- */}
     </form>
   );
 }

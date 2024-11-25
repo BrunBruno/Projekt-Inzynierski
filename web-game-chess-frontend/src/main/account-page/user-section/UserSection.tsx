@@ -15,11 +15,7 @@ import { greyColor, mainColor } from "../../../shared/utils/objects/colorMaps";
 import { timingTypeIcons } from "../../../shared/svgs/iconsMap/TimingTypeIcons";
 import { TimingType } from "../../../shared/utils/objects/entitiesEnums";
 import { AccountPageInterface } from "../../../shared/utils/objects/interfacesEnums";
-
-type UpdateUserProps = {
-  clearImage?: boolean;
-  clearBackground?: boolean;
-};
+import { FetchDataFunc, SetSelectedContentFunc, UpdateUserFunctionProps } from "../AccountPageData";
 
 type UserSectionProps = {
   // user data
@@ -27,10 +23,9 @@ type UserSectionProps = {
   elo: GetEloDto | null;
 
   // get data
-  fetchData: () => void;
-
+  fetchData: FetchDataFunc;
   // to change selected content
-  setSelectedContent: (interfaceId: AccountPageInterface, type?: TimingType) => void;
+  setSelectedContent: SetSelectedContentFunc;
 };
 
 function UserSection({ user, elo, fetchData, setSelectedContent }: UserSectionProps) {
@@ -44,23 +39,19 @@ function UserSection({ user, elo, fetchData, setSelectedContent }: UserSectionPr
   const [profilePicture, setProfilePicture] = useState<File | null>(null);
   const [backgroundImage, setBackgroundImage] = useState<File | null>(null);
 
-  //
+  // show/hide image options
   const [imageSettingsOpen, setImageSettingsOpen] = useState<boolean>(false);
 
+  // fill current values
   useEffect(() => {
     if (!user) return;
 
-    if (user.name !== null) {
-      setName(user.name);
-    }
-
-    if (user.bio !== null) {
-      setBio(user.bio);
-    }
+    if (user.name !== null) setName(user.name);
+    if (user.bio !== null) setBio(user.bio);
   }, [user]);
 
   // to change and update user personal data
-  const updateUser = async ({ clearImage, clearBackground }: UpdateUserProps = {}): Promise<void> => {
+  const updateUser = async ({ clearImage, clearBackground }: UpdateUserFunctionProps = {}): Promise<void> => {
     const model: UpdateProfileModel = {
       name: name === "" ? null : name,
       bio: bio === "" ? null : bio,
@@ -70,11 +61,11 @@ function UserSection({ user, elo, fetchData, setSelectedContent }: UserSectionPr
       clearImage: clearImage,
     };
 
-    try {
-      const options: AuthorizationOptions = {
-        contentType: "multipart/form-data",
-      };
+    const options: AuthorizationOptions = {
+      contentType: "multipart/form-data",
+    };
 
+    try {
       await axios.put(userController.updateProfile(), model, getAuthorization(options));
 
       setName("");
@@ -89,7 +80,7 @@ function UserSection({ user, elo, fetchData, setSelectedContent }: UserSectionPr
   };
 
   // handle file input and update profile picture
-  const handleProfilePicture = (event: ChangeEvent<HTMLInputElement>) => {
+  const handleProfilePicture = (event: ChangeEvent<HTMLInputElement>): void => {
     const files = event.target.files;
     if (!files) return;
 
@@ -100,12 +91,14 @@ function UserSection({ user, elo, fetchData, setSelectedContent }: UserSectionPr
     }
   };
 
+  // update user profile picture
   useEffect(() => {
     if (profilePicture) updateUser();
   }, [profilePicture]);
 
+  // delete profile picture
   const forceImageClear = (): void => {
-    const updateProps: UpdateUserProps = {
+    const updateProps: UpdateUserFunctionProps = {
       clearImage: true,
     };
 
@@ -125,12 +118,14 @@ function UserSection({ user, elo, fetchData, setSelectedContent }: UserSectionPr
     }
   };
 
+  // update user background image
   useEffect(() => {
     if (backgroundImage) updateUser();
   }, [backgroundImage]);
 
+  // delete background image
   const forceBackgroundClear = (): void => {
-    const updateProps: UpdateUserProps = {
+    const updateProps: UpdateUserFunctionProps = {
       clearBackground: true,
     };
 
@@ -299,7 +294,6 @@ function UserSection({ user, elo, fetchData, setSelectedContent }: UserSectionPr
           </div>
         </div>
       )}
-      {/* --- */}
 
       <div className={classes.user__data}>
         {/* history view setter */}
@@ -427,7 +421,6 @@ function UserSection({ user, elo, fetchData, setSelectedContent }: UserSectionPr
             </div>
           </div>
         )}
-        {/* --- */}
 
         {/* user stats */}
         {!user ? (
@@ -448,18 +441,16 @@ function UserSection({ user, elo, fetchData, setSelectedContent }: UserSectionPr
               <span>Online games</span>
             </div>
 
-            {/* Total games played: <span>{user.onlineOutcomeTotal.total}</span> */}
-
             <div className={classes.user__data__stats__row}>
-              <StatsRow type={"games"} user={user} />
+              <StatsRow type={"onlineGamesStats"} user={user} />
             </div>
 
             <div className={classes.user__data__stats__row}>
-              <StatsRow type={"wins"} user={user} />
+              <StatsRow type={"onlineGamesWins"} user={user} />
             </div>
 
             <div className={classes.user__data__stats__row}>
-              <StatsRow type={"loses"} user={user} />
+              <StatsRow type={"onlineGamesLoses"} user={user} />
             </div>
 
             <div className={classes.user__data__stats__header}>
@@ -473,11 +464,10 @@ function UserSection({ user, elo, fetchData, setSelectedContent }: UserSectionPr
             </div>
 
             <div className={classes.user__data__stats__row}>
-              <StatsRow type={"offlineGamesOutcome"} user={user} />
+              <StatsRow type={"offlineGamesStats"} user={user} />
             </div>
           </div>
         )}
-        {/* --- */}
       </div>
     </section>
   );

@@ -31,18 +31,22 @@ function TableSection({}: TableSectionProps) {
   const { pageNumber, pageSize, setDefPageSize, setDefPageNumber, setTotalItemsCount } = usePagination();
   const { showPopup } = usePopup();
 
+  // paged result of user ranking
   const [usersRanking, setUsersRanking] = useState<
     PagedResult<GetUserRankingDto> | PagedResult<GetFriendshipRankingDto> | null
   >(null);
 
+  // global or friends ranking mark
   const [isGlobalList, steIsGlobalList] = useState<boolean>(true);
+  // selected timing type
   const [selectedTiming, setSelectedTiming] = useState<TimingType>(TimingType.bullet);
 
+  // default paged size set
   useEffect(() => {
     setDefPageSize(constPageSize);
   }, []);
 
-  // get rating based on user selection
+  // get global user ranking
   const getUsersRating = async (): Promise<void> => {
     const model: GetUsersRankingModel = {
       pageNumber: pageNumber,
@@ -63,6 +67,7 @@ function TableSection({}: TableSectionProps) {
     }
   };
 
+  // get friends ranking
   const getFriendsRating = async (): Promise<void> => {
     const model: GetFriendshipRankingModel = {
       pageNumber: pageNumber,
@@ -83,6 +88,7 @@ function TableSection({}: TableSectionProps) {
     }
   };
 
+  // get ranking based on user selection
   useEffect(() => {
     if (isGlobalList) {
       getUsersRating();
@@ -91,12 +97,13 @@ function TableSection({}: TableSectionProps) {
     }
   }, [isGlobalList, selectedTiming, pageNumber, pageSize]);
 
-  // options setters
+  // global or local setter
   const onSetSelectedList = (isGlobal: boolean): void => {
     setDefPageNumber(1);
     steIsGlobalList(isGlobal);
   };
 
+  // timing type setter
   const onSetSelectedTiming = (timingName: TimingTypeName): void => {
     const value: TimingType = getEnumValueByKey(TimingType, timingName);
 
@@ -104,6 +111,7 @@ function TableSection({}: TableSectionProps) {
     setSelectedTiming(value);
   };
 
+  // pagination page up/down handler
   const onChangePage = (addValue: number): void => {
     if (!usersRanking) return;
 
@@ -115,7 +123,7 @@ function TableSection({}: TableSectionProps) {
     });
   };
 
-  if (!usersRanking) return <LoadingPage />;
+  if (!usersRanking) return <LoadingPage text="Loading data..." />;
 
   return (
     <section className={classes.table}>

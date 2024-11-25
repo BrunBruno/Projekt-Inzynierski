@@ -26,7 +26,6 @@ function FooterSection({}: FooterSectionProps) {
           <span>BRN CHESS</span>
         </h2>
       </div>
-      {/* --- */}
 
       {/* footer content */}
       <div className={classes.footer__grid}>
@@ -118,7 +117,6 @@ function FooterSection({}: FooterSectionProps) {
           </a>
         </div>
       </div>
-      {/* --- */}
 
       <div className={classes.footer__outro}>
         <span>2024</span>

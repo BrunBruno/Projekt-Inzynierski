@@ -51,15 +51,8 @@ function FinishedGamesCard({ game }: FinishedGamesCardProps) {
     };
   }, []);
 
-  // to rejoin the game
-  const onRejoinGame = (): void => {
-    if (!game.gameId) return;
-
-    navigate(`/main/game/${game.gameId}`);
-  };
-
   // display players based on user player color
-  const displayPlayer = (game: GetAllFinishedGamesDto): JSX.Element => {
+  const displayPlayers = (game: GetAllFinishedGamesDto): JSX.Element => {
     const userInfo = localStorage.getItem("userInfo");
 
     if (!userInfo) return <></>;
@@ -211,6 +204,13 @@ function FinishedGamesCard({ game }: FinishedGamesCardProps) {
     return fields;
   };
 
+  // to rejoin the game
+  const onRejoinGame = (): void => {
+    if (!game.gameId) return;
+
+    navigate(`/main/game/${game.gameId}`);
+  };
+
   return (
     <div
       ref={cardRef}
@@ -221,7 +221,7 @@ function FinishedGamesCard({ game }: FinishedGamesCardProps) {
     >
       <div ref={gridRef} className={`${classes["mini-grid"]}`}>
         {mapFromPosition(game.position)}
-        {displayPlayer(game)}
+        {displayPlayers(game)}
         <div className={classes.date}>{new Date(game.createdAt).toLocaleDateString()}</div>
       </div>
 

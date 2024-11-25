@@ -19,10 +19,10 @@ export enum GameSearchInterface {
 
 // to distinguish registration modals
 export enum RegistrationInterface {
-  signIn = 1,
-  signUp = 2,
-  verify = 3,
-  reset = 4,
+  signIn,
+  signUp,
+  verify,
+  reset,
 }
 
 // for displaying game board confirmation window

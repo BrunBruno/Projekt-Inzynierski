@@ -46,15 +46,8 @@ function EngineGamesCard({ game }: EngineGamesCardProps) {
     };
   }, []);
 
-  // to rejoin the game
-  const onRejoinGame = (): void => {
-    if (!game.gameId) return;
-
-    navigate(`/main/engine-game/${game.gameId}`);
-  };
-
   // display players based on user player color
-  const displayPlayer = (game: GetAllEngineGamesDto): JSX.Element => {
+  const displayPlayers = (game: GetAllEngineGamesDto): JSX.Element => {
     const userInfo = localStorage.getItem("userInfo");
 
     if (!userInfo) return <></>;
@@ -186,6 +179,13 @@ function EngineGamesCard({ game }: EngineGamesCardProps) {
     return fields;
   };
 
+  // to rejoin the game
+  const onRejoinGame = (): void => {
+    if (!game.gameId) return;
+
+    navigate(`/main/engine-game/${game.gameId}`);
+  };
+
   return (
     <div
       ref={cardRef}
@@ -196,20 +196,11 @@ function EngineGamesCard({ game }: EngineGamesCardProps) {
     >
       <div ref={gridRef} className={`${classes["mini-grid"]}`}>
         {mapFromPosition(game.position)}
-        {displayPlayer(game)}
+        {displayPlayers(game)}
         <div className={classes.date}>{new Date(game.createdAt).toLocaleDateString()}</div>
       </div>
 
       <div ref={dataRef} className={classes["game-data"]}>
-        {/*
-        <div className={classes["timing-type"]}>
-          <IconCreator
-            icons={timingTypeIcons}
-            iconName={getEnumKeyByEnumValue(TimingType, game.timingType) as TimingTypeName}
-            color={mainColor.c5}
-          />
-        </div> */}
-
         {/* game result */}
         <div className={classes["is-winner"]}>
           {game.isWinner === null ? (
@@ -223,13 +214,6 @@ function EngineGamesCard({ game }: EngineGamesCardProps) {
 
         {/* moves */}
         <div className={classes.moves}>{game.moves}</div>
-
-        {/* <div className={classes["win-type"]}>
-          <IconCreator
-            icons={gameEndReasonIcons}
-            iconName={getEnumKeyByEnumValue(GameEndReason, game.endGameType) as GameEndReasonName}
-          />
-        </div> */}
       </div>
     </div>
   );

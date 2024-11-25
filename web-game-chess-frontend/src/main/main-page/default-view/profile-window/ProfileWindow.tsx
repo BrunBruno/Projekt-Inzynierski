@@ -22,32 +22,25 @@ function ProfileWindow({}: ProfileWindowProps): JSX.Element {
   const navigate = useNavigate();
   const { showPopup } = usePopup();
 
+  // user data
   const [userData, setUserData] = useState<GetFullUserDto | null>(null);
   const [eloData, setEloData] = useState<GetEloDto | null>(null);
 
+  // for getting user data onload
   useEffect(() => {
-    const getUser = async () => {
+    const getUserData = async (): Promise<void> => {
       try {
-        const response = await axios.get<GetFullUserDto>(userController.getFullUser(), getAuthorization());
+        const userResponse = await axios.get<GetFullUserDto>(userController.getFullUser(), getAuthorization());
+        const eloResponse = await axios.get<GetEloDto>(userController.getElo(), getAuthorization());
 
-        setUserData(response.data);
+        setUserData(userResponse.data);
+        setEloData(eloResponse.data);
       } catch (err) {
         showPopup(getErrMessage(err), "warning");
       }
     };
 
-    const getElo = async () => {
-      try {
-        const response = await axios.get<GetEloDto>(userController.getElo(), getAuthorization());
-
-        setEloData(response.data);
-      } catch (err) {
-        showPopup(getErrMessage(err), "warning");
-      }
-    };
-
-    getUser();
-    getElo();
+    getUserData();
   }, []);
 
   if (!userData || !eloData) return <></>;

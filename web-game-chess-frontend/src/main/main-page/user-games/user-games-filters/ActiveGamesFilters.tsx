@@ -1,4 +1,3 @@
-import { Dispatch, SetStateAction } from "react";
 import classes from "./UserGamesFilters.module.scss";
 import { TimingType } from "../../../../shared/utils/objects/entitiesEnums";
 import { TimingTypeListFilterOption, timingTypeListFilterOptions } from "./UserGamesFiltersData";
@@ -7,19 +6,19 @@ import { timingTypeIcons } from "../../../../shared/svgs/iconsMap/TimingTypeIcon
 import { mainColor } from "../../../../shared/utils/objects/colorMaps";
 import { TimingTypeName } from "../../../../shared/utils/objects/constantLists";
 import { displayFromLowercase } from "../../../../shared/utils/functions/enums";
+import { StateProp } from "../../../../shared/utils/types/commonTypes";
 
 type ActiveGamesFiltersProps = {
   // list to filter timing types
-  timingTypeFilters: number[];
-  setTimingTypeFilters: Dispatch<SetStateAction<TimingType[]>>;
+  timingTypeFiltersProp: StateProp<TimingType[]>;
 };
 
-function ActiveGamesFilters({ timingTypeFilters, setTimingTypeFilters }: ActiveGamesFiltersProps) {
+function ActiveGamesFilters({ timingTypeFiltersProp }: ActiveGamesFiltersProps) {
   ///
 
   // sets timing type filter list
   const activateTimingTypeFilter = (value: number) => {
-    setTimingTypeFilters((prevTypes) => {
+    timingTypeFiltersProp.set((prevTypes) => {
       const newTypes = [...prevTypes];
       if (newTypes.includes(value)) {
         newTypes.splice(newTypes.indexOf(value), 1);
@@ -40,7 +39,7 @@ function ActiveGamesFilters({ timingTypeFilters, setTimingTypeFilters }: ActiveG
             key={`type-${i}`}
             className={`
               ${classes.option} 
-              ${timingTypeFilters.includes(element.value) ? classes.active : ""}
+              ${timingTypeFiltersProp.get.includes(element.value) ? classes.active : ""}
             `}
             onClick={() => {
               activateTimingTypeFilter(element.value);
@@ -56,7 +55,6 @@ function ActiveGamesFilters({ timingTypeFilters, setTimingTypeFilters }: ActiveG
           </div>
         ))}
       </div>
-      {/* --- */}
     </div>
   );
 }

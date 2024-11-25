@@ -1,23 +1,21 @@
-import { Dispatch, SetStateAction } from "react";
 import IconCreator from "../../../../shared/components/icon-creator/IconCreator";
 import { GameResultName } from "../../../../shared/utils/objects/constantLists";
 import classes from "./UserGamesFilters.module.scss";
 import { ResultListFilterOption, resultListFilterOptions } from "./UserGamesFiltersData";
 import { gameResultIcons } from "../../../../shared/svgs/iconsMap/GameResultIcons";
+import { StateProp } from "../../../../shared/utils/types/commonTypes";
 
 type EngineGamesFiltersProps = {
   // list to filter result of the game
-  resultFilters: (boolean | null)[];
-  // set result list
-  setResultFilters: Dispatch<SetStateAction<(boolean | null)[]>>;
+  resultFiltersProp: StateProp<(boolean | null)[]>;
 };
 
-function EngineGamesFilters({ resultFilters, setResultFilters }: EngineGamesFiltersProps) {
+function EngineGamesFilters({ resultFiltersProp }: EngineGamesFiltersProps) {
   ///
 
   // sets game result filter list
-  const activateResultFilter = (value: boolean | null) => {
-    setResultFilters((prevTypes) => {
+  const activateResultFilter = (value: boolean | null): void => {
+    resultFiltersProp.set((prevTypes) => {
       const newTypes = [...prevTypes];
       if (newTypes.includes(value)) {
         newTypes.splice(newTypes.indexOf(value), 1);
@@ -38,7 +36,7 @@ function EngineGamesFilters({ resultFilters, setResultFilters }: EngineGamesFilt
             key={`result-${i}`}
             className={`
               ${classes.option} 
-              ${resultFilters.includes(element.value) ? classes.active : ""}
+              ${resultFiltersProp.get.includes(element.value) ? classes.active : ""}
             `}
             onClick={() => {
               activateResultFilter(element.value);
@@ -53,7 +51,6 @@ function EngineGamesFilters({ resultFilters, setResultFilters }: EngineGamesFilt
           </div>
         ))}
       </div>
-      {/* --- */}
     </div>
   );
 }

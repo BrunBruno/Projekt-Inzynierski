@@ -77,7 +77,6 @@ const HomeSection = forwardRef<HandleOnScroll, HomeSectionProps>(
               experience to outmaneuver their opponents and claim victory on the board.
             </p>
           </div>
-          {/* --- */}
 
           <HomeActions />
         </div>

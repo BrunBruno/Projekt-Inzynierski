@@ -7,21 +7,22 @@ import { greyColor, mainColor } from "../../../shared/utils/objects/colorMaps";
 import { TimingTypeName, timingTypeNames } from "../../../shared/utils/objects/constantLists";
 import { GetFriendProfileDto } from "../../../shared/utils/types/friendshipDtos";
 import { GetOtherUserDto } from "../../../shared/utils/types/userDtos";
+import { CloseProfileFunc } from "../UsersPageData";
 import classes from "./ProfileSection.module.scss";
 import { MouseEvent } from "react";
 
 type ProfileSectionProps = {
-  // user data when non friend is selected
+  // selected user data
   userProfile: GetOtherUserDto | null;
-  // user data when friend is selected
   friendProfile: GetFriendProfileDto | null;
   // to close profile page
-  closeProfile: () => void;
+  closeProfile: CloseProfileFunc;
 };
 
 function ProfileSection({ userProfile, friendProfile, closeProfile }: ProfileSectionProps) {
   ///
 
+  // create profile
   const generateProfileModal = (userData: GetOtherUserDto | GetFriendProfileDto): JSX.Element => {
     const mapUserElo = (userData: GetOtherUserDto | GetFriendProfileDto): JSX.Element[] => {
       const elos: JSX.Element[] = [];
@@ -100,6 +101,7 @@ function ProfileSection({ userProfile, friendProfile, closeProfile }: ProfileSec
     );
   };
 
+  // to close profile
   const handleSectionClick = (event: MouseEvent<HTMLElement>): void => {
     const target = event.target as HTMLElement;
     if (target.classList.contains(classes.profile)) {

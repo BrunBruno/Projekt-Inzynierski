@@ -44,26 +44,26 @@ const InviteByEmail = forwardRef<InviteByEmailRef, InviteByEmailProps>(
 
     // to invite friend to game by providing user email
     const onInviteByEmail = async (email: string, header: TimingTypeName, values: [number, number]): Promise<void> => {
+      const typeValue = getEnumValueByKey(TimingType, header.toLowerCase());
+
+      const model: CreatePrivateGameByEmailModel = {
+        email: email,
+        type: typeValue,
+        minutes: values[0],
+        increment: values[1],
+      };
+
       try {
-        const typeValue = getEnumValueByKey(TimingType, header.toLowerCase());
-
-        const model: CreatePrivateGameByEmailModel = {
-          email: email,
-          type: typeValue,
-          minutes: values[0],
-          increment: values[1],
-        };
-
-        const privateGameResponse = await axios.post<CreatePrivateGameByEmailDto>(
+        const response = await axios.post<CreatePrivateGameByEmailDto>(
           webGameController.createGameByEmail(),
           model,
           getAuthorization()
         );
 
         const notifyModel: NotifyUserModel = {
-          friendId: privateGameResponse.data.friendId,
-          gameId: privateGameResponse.data.gameId,
-          inviter: privateGameResponse.data.inviter,
+          friendId: response.data.friendId,
+          gameId: response.data.gameId,
+          inviter: response.data.inviter,
           type: typeValue,
           minutes: values[0],
           increment: values[1],
@@ -73,7 +73,7 @@ const InviteByEmail = forwardRef<InviteByEmailRef, InviteByEmailProps>(
 
         showPopup("USER INVITED", "success");
 
-        navigate(`/main/await/${privateGameResponse.data.gameId}`);
+        navigate(`/main/await/${response.data.gameId}`);
       } catch (err) {
         showPopup(getErrMessage(err), "warning");
       }
@@ -92,22 +92,18 @@ const InviteByEmail = forwardRef<InviteByEmailRef, InviteByEmailProps>(
         return;
       }
 
-      const getByEmailModel: GetByEmailModel = {
+      const model: GetByEmailModel = {
         email: selectedEmail,
       };
 
       try {
-        const userResponse = await axios.get<GetByEmailDto>(
-          userController.getByEmail(getByEmailModel),
-          getAuthorization()
-        );
+        const userResponse = await axios.get<GetByEmailDto>(userController.getByEmail(model), getAuthorization());
 
         setSelectedUser(userResponse.data);
       } catch (err) {
         showPopup(getErrMessage(err), "warning");
       }
     };
-
     const submitEmail = (event: FormEvent<HTMLFormElement>): void => {
       event.preventDefault();
       getByEmail();

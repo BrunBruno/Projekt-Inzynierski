@@ -118,7 +118,6 @@ const LearnSection = forwardRef<HandleOnScroll, LearnSectionProps>(
             </a>
           </div>
         </div>
-        {/* --- */}
       </section>
     );
   }

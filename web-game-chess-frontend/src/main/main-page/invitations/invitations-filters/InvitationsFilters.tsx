@@ -1,21 +1,19 @@
-import { Dispatch, SetStateAction } from "react";
 import IconCreator from "../../../../shared/components/icon-creator/IconCreator";
 import { symbolIcons } from "../../../../shared/svgs/iconsMap/SymbolIcons";
 import classes from "./InvitationsFilters.module.scss";
+import { StateProp } from "../../../../shared/utils/types/commonTypes";
 
 type InvitationsFiltersProps = {
-  // list to filter invitations by expiration
-  expirationFilters: boolean[];
-  // set expiration filters list
-  setExpirationFilters: Dispatch<SetStateAction<boolean[]>>;
+  // list to filter invitations by expiration and setter
+  expirationFiltersProps: StateProp<boolean[]>;
 };
 
-function InvitationsFilters({ expirationFilters, setExpirationFilters }: InvitationsFiltersProps) {
+function InvitationsFilters({ expirationFiltersProps }: InvitationsFiltersProps) {
   ///
 
   // sets expiration filters
-  const activateExpirationFilter = (value: boolean) => {
-    setExpirationFilters((prevTypes: boolean[]) => {
+  const activateExpirationFilter = (value: boolean): void => {
+    expirationFiltersProps.set((prevTypes: boolean[]) => {
       const newTypes = [...prevTypes];
 
       if (newTypes.includes(value)) {
@@ -34,9 +32,9 @@ function InvitationsFilters({ expirationFilters, setExpirationFilters }: Invitat
       <div className={classes.filters__row}>
         <div
           className={`
-              ${classes.option} 
-              ${expirationFilters.includes(true) ? classes.active : ""}
-            `}
+            ${classes.option} 
+            ${expirationFiltersProps.get.includes(true) ? classes.active : ""}
+          `}
           onClick={() => {
             activateExpirationFilter(true);
           }}
@@ -47,9 +45,9 @@ function InvitationsFilters({ expirationFilters, setExpirationFilters }: Invitat
 
         <div
           className={`
-              ${classes.option} 
-              ${expirationFilters.includes(false) ? classes.active : ""}
-            `}
+            ${classes.option} 
+            ${expirationFiltersProps.get.includes(false) ? classes.active : ""}
+          `}
           onClick={() => {
             activateExpirationFilter(false);
           }}
@@ -58,7 +56,6 @@ function InvitationsFilters({ expirationFilters, setExpirationFilters }: Invitat
           <IconCreator icons={symbolIcons} iconName={"error"} iconClass={classes["option-svg"]} />
         </div>
       </div>
-      {/* --- */}
     </div>
   );
 }

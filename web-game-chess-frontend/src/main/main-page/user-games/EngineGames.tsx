@@ -93,7 +93,7 @@ function EngineGames({}: EngineGamesProps) {
   }, [pageSize, resultFilters, pageNumber]);
 
   // to display filters
-  const onShowFilters = () => {
+  const onShowFilters = (): void => {
     if ((games && games.length > 0) || resultFilters.length > 0) {
       setShowFilters((prev) => !prev);
     }
@@ -159,7 +159,7 @@ function EngineGames({}: EngineGamesProps) {
         </div>
       )}
 
-      {showFilters && <EngineGamesFilters resultFilters={resultFilters} setResultFilters={setResultFilters} />}
+      {showFilters && <EngineGamesFilters resultFiltersProp={{ get: resultFilters, set: setResultFilters }} />}
     </div>
   );
 }

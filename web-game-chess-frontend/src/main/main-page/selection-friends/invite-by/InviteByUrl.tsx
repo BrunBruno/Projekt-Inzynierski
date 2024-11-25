@@ -39,15 +39,15 @@ const InviteByUrl = forwardRef<InviteByUrlRef, InviteByUrlProps>(
     // invite to game by url
     // obtains game link
     const onInviteByUrl = async (header: string, values: [number, number]): Promise<void> => {
+      const typeValue = getEnumValueByKey(TimingType, header.toLowerCase());
+
+      const model: CreatePrivateGameWithLinkModel = {
+        type: typeValue,
+        minutes: values[0],
+        increment: values[1],
+      };
+
       try {
-        const typeValue = getEnumValueByKey(TimingType, header.toLowerCase());
-
-        const model: CreatePrivateGameWithLinkModel = {
-          type: typeValue,
-          minutes: values[0],
-          increment: values[1],
-        };
-
         const response = await axios.post<CreatePrivateGameWithLinkDto>(
           webGameController.createGameWithLink(),
           model,
@@ -70,6 +70,7 @@ const InviteByUrl = forwardRef<InviteByUrlRef, InviteByUrlProps>(
       setSelectedByUrl(true);
     };
 
+    // auto copy icon display
     const showUrlIndicator = (event: MouseEvent<HTMLDivElement>): void => {
       const indEle = indRef.current;
       const parentContainer = event.currentTarget;
@@ -87,6 +88,7 @@ const InviteByUrl = forwardRef<InviteByUrlRef, InviteByUrlProps>(
       }
     };
 
+    // auto url copy
     const copyUrl = async (): Promise<void> => {
       if (!newGameLink) return;
 

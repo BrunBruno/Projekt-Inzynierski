@@ -61,7 +61,6 @@ function HeroHeader({}: HeroHeaderProps) {
           <span>Sign Up</span>
         </button>
       </div>
-      {/* --- */}
     </header>
   );
 }

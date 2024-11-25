@@ -84,7 +84,6 @@ function HomeActions({}: HomeActionsProps) {
               <span>Sign In</span>
             </p>
           </div>
-          {/* --- */}
 
           {/* sign up pawn */}
           <div
@@ -104,7 +103,6 @@ function HomeActions({}: HomeActionsProps) {
               <span>Sign Up</span>
             </p>
           </div>
-          {/* --- */}
         </div>
       </div>
     </div>

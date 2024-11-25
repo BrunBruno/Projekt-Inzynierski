@@ -80,14 +80,12 @@ const PlaySection = forwardRef<HandleOnScroll, PlaySectionProps>(
             <span>STARTED</span>
           </h2>
         </div>
-        {/* --- */}
 
         <div className={classes.section__content}>
           {/* board */}
           <div className={classes.section__content__board}>
             <PlayBoard ref={ref} />
           </div>
-          {/* --- */}
 
           {/* actions */}
           <div className={classes.section__content__actions}>
@@ -141,7 +139,6 @@ const PlaySection = forwardRef<HandleOnScroll, PlaySectionProps>(
               </div>
             </div>
           </div>
-          {/* --- */}
         </div>
 
         <div>

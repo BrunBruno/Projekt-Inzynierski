@@ -95,7 +95,7 @@ function FinishedGames({}: FinishedGamesProps) {
   }, [pageSize, timingTypeFilters, resultFilters, pageNumber]);
 
   // to display filters
-  const onShowFilters = () => {
+  const onShowFilters = (): void => {
     if ((games && games.length > 0) || timingTypeFilters.length > 0 || resultFilters.length > 0) {
       setShowFilters((prev) => !prev);
     }
@@ -131,8 +131,7 @@ function FinishedGames({}: FinishedGamesProps) {
                 (!games || games.length === 0) && timingTypeFilters.length + resultFilters.length === 0
                   ? classes["disabled"]
                   : classes["enabled"]
-              }
-            `}
+              }`}
             onClick={() => {
               onShowFilters();
             }}
@@ -169,10 +168,8 @@ function FinishedGames({}: FinishedGamesProps) {
 
       {showFilters && (
         <FinishedGamesFilters
-          timingTypeFilters={timingTypeFilters}
-          setTimingTypeFilters={setTimingTypeFilters}
-          resultFilters={resultFilters}
-          setResultFilters={setResultFilters}
+          timingTypeFiltersProp={{ get: timingTypeFilters, set: setTimingTypeFilters }}
+          resultFiltersProp={{ get: resultFilters, set: setResultFilters }}
         />
       )}
     </div>

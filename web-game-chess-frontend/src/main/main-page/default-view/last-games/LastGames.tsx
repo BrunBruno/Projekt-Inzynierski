@@ -13,9 +13,11 @@ import { symbolIcons } from "../../../../shared/svgs/iconsMap/SymbolIcons";
 import { greyColor } from "../../../../shared/utils/objects/colorMaps";
 import { GameSearchInterface } from "../../../../shared/utils/objects/interfacesEnums";
 import { mainPageIcons } from "../../MainPageIcons";
+import { SetInterfaceById } from "../../MainPageData";
 
 type LastGamesProps = {
-  setInterfaceById: (interfaceId: GameSearchInterface) => void;
+  // for setting finished games interface
+  setInterfaceById: SetInterfaceById;
 };
 
 function LastGames({ setInterfaceById }: LastGamesProps) {
@@ -28,6 +30,7 @@ function LastGames({ setInterfaceById }: LastGamesProps) {
 
   // get all finished games
   useEffect(() => {
+    // get last three games
     const getGames = async (): Promise<void> => {
       const getGamesOptions: GetAllFinishedGamesModel = {
         pageNumber: 1,
@@ -49,7 +52,8 @@ function LastGames({ setInterfaceById }: LastGamesProps) {
     getGames();
   }, []);
 
-  const handelMoreGamesClick = () => {
+  // set related interface
+  const handelMoreGamesClick = (): void => {
     setInterfaceById(GameSearchInterface.finishedGames);
   };
 

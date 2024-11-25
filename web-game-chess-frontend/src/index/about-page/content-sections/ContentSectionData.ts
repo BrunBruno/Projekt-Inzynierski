@@ -1,5 +1,6 @@
 /* data for all about page sections */
 
+// block in content section
 export type ContentElements = {
   title: string;
   texts?: string[];

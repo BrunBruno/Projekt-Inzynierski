@@ -7,7 +7,7 @@ import { GetAllFriendsByStatusDto } from "../../../../../shared/utils/types/frie
 import classes from "./FriendCard.module.scss";
 
 type FriendCardProps = {
-  // friend data
+  // friend data from map
   friend: GetAllFriendsByStatusDto;
   // to select user on "invite" button click
   setSelectedFriend: Dispatch<SetStateAction<GetAllFriendsByStatusDto | null>>;

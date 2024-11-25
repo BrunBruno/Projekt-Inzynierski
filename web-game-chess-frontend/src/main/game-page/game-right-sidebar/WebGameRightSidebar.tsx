@@ -224,7 +224,6 @@ function WebGameRightSidebar({
             ? renderPlayer(gameData.blackPlayer, classes["black-player"], classes["black-player-img"])
             : renderPlayer(gameData.whitePlayer, classes["white-player"], classes["white-player-img"])}
         </div>
-        {/* --- */}
 
         {/* game clock */}
         {!playersTimes ? (
@@ -232,7 +231,6 @@ function WebGameRightSidebar({
         ) : (
           <GameClock gameId={gameId} gameData={gameData} playerData={playerData} playersTimes={playersTimes} />
         )}
-        {/* --- */}
 
         {/* game history records */}
         <div
@@ -258,13 +256,11 @@ function WebGameRightSidebar({
                 ))}
           </div>
         </div>
-        {/* --- */}
 
         {/* game messenger */}
         <div className={`${classes["bar-block"]} ${classes["messages-block"]}`}>
           <WebGameMessages gameId={gameId} playerData={playerData} />
         </div>
-        {/* --- */}
       </div>
     </section>
   );

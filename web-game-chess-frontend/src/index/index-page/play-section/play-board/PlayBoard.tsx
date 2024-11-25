@@ -188,7 +188,6 @@ const PlayBoard = forwardRef<HandleOnScroll, PlayBoardProps>(
             <div id="indicator" className={classes.indicator} />
             {generateGrid()}
           </div>
-          {/* --- */}
 
           {/* outer board */}
           <div
@@ -207,7 +206,6 @@ const PlayBoard = forwardRef<HandleOnScroll, PlayBoardProps>(
           >
             <LogoIcon iconClass={classes["board-svg"]} />
           </div>
-          {/* --- */}
         </div>
       </div>
     );

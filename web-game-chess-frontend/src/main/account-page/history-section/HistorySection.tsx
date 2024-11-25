@@ -8,12 +8,13 @@ import { PagedResult } from "../../../shared/utils/types/abstractDtosAndModels";
 import IconCreator from "../../../shared/components/icon-creator/IconCreator";
 import { timingTypeIcons } from "../../../shared/svgs/iconsMap/TimingTypeIcons";
 import HistoryRecord from "./history-record/HistoryRecord";
-import { TimingTypeName, timingTypeNames } from "../../../shared/utils/objects/constantLists";
+import { TimingTypeName } from "../../../shared/utils/objects/constantLists";
 import { useEffect, useState } from "react";
+import HistoryEmpty from "./history-empty/HistoryEmpty";
 
 type HistorySectionProps = {
   // game type name
-  selectedType: (typeof timingTypeNames)[number];
+  selectedType: TimingTypeName;
   // paged result of type history dtos
   typeHistory: PagedResult<GetTypeHistoryDto> | null;
 };
@@ -21,6 +22,7 @@ type HistorySectionProps = {
 function HistorySection({ selectedType, typeHistory }: HistorySectionProps) {
   ///
 
+  // chart data
   const [data, setData] = useState<GetTypeHistoryDto[]>([]);
 
   useEffect(() => {
@@ -36,7 +38,7 @@ function HistorySection({ selectedType, typeHistory }: HistorySectionProps) {
   });
 
   // to create line chart for selected game timing type
-  const createChart = (history: GetTypeHistoryDto[]) => {
+  const createChart = (history: GetTypeHistoryDto[]): JSX.Element => {
     type GroupedByCreatedAt = Record<string, GetTypeHistoryDto[]>;
 
     const groupedByCreatedAt: GroupedByCreatedAt = history.reduce(
@@ -102,42 +104,8 @@ function HistorySection({ selectedType, typeHistory }: HistorySectionProps) {
   };
 
   // render placeholder
-  if (typeHistory === null || selectedType === null || typeHistory.items.length === 0) {
-    return (
-      <div className={classes.empty}>
-        <div className={classes.empty__chart}>
-          <ThemeProvider theme={theme}>
-            <LineChart
-              xAxis={[
-                {
-                  data: [0, 1, 2, 3, 4],
-                },
-              ]}
-              series={[
-                {
-                  data: [1000, 1200, 800, 1400, 1700],
-                  area: true,
-                  color: mainColor.c5,
-                  connectNulls: true,
-                  showMark: false,
-                },
-              ]}
-              grid={{ vertical: true, horizontal: true }}
-              slotProps={{
-                legend: {
-                  hidden: true,
-                },
-              }}
-            />
-          </ThemeProvider>
-        </div>
-
-        <div className={classes.empty__text}>
-          <span>No games found.</span>
-          <span>Play one now!</span>
-        </div>
-      </div>
-    );
+  if (!typeHistory || !selectedType || typeHistory.items.length === 0) {
+    return <HistoryEmpty />;
   }
 
   return (

@@ -33,7 +33,7 @@ function AccountPage() {
 
   // set default page size
   useEffect(() => {
-    setDefPageSize(1000); // ???
+    setDefPageSize(1000); // ??? tododo
   }, [selectedHistory]);
 
   // all current user data
@@ -51,6 +51,7 @@ function AccountPage() {
     }
   };
 
+  // get user elo
   const getElo = async (): Promise<void> => {
     try {
       const eloResponse = await axios.get<GetEloDto>(userController.getElo(), getAuthorization());
@@ -61,6 +62,7 @@ function AccountPage() {
     }
   };
 
+  // get all user data
   const fetchData = (): void => {
     getUser();
     getElo();
@@ -74,7 +76,6 @@ function AccountPage() {
   // gets timing type history for selected timing
   // to display time line charts
   const getTypeHistory = async (type: TimingType): Promise<void> => {
-    /** use pagination here */
     const model: GetTypeHistoryModel = {
       pageNumber: pageNumber,
       pageSize: pageSize,
@@ -125,6 +126,7 @@ function AccountPage() {
     }
   };
 
+  // set settings interface as default content
   useEffect(() => {
     setSelectedContent(AccountPageInterface.settings);
   }, [user]);

@@ -33,16 +33,16 @@ const InviteBySelection = forwardRef<InviteBySelectionRef, InviteBySelectionProp
       header: TimingTypeName,
       values: [number, number]
     ): Promise<void> => {
+      const typeValue: TimingType = getEnumValueByKey(TimingType, header.toLowerCase());
+
+      const model: CreatePrivateGameModel = {
+        friendshipId: friendshipId,
+        type: typeValue,
+        minutes: values[0],
+        increment: values[1],
+      };
+
       try {
-        const typeValue: TimingType = getEnumValueByKey(TimingType, header.toLowerCase());
-
-        const model: CreatePrivateGameModel = {
-          friendshipId: friendshipId,
-          type: typeValue,
-          minutes: values[0],
-          increment: values[1],
-        };
-
         const response = await axios.post<CreatePrivateGameDto>(
           webGameController.createPrivateGame(),
           model,

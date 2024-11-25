@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import classes from "./NotificationPopUp.module.scss";
 import GameHubService from "../../../shared/utils/services/GameHubService";
 import { InvitedToGameDto } from "../../../shared/utils/types/webGameDtos";
@@ -6,15 +6,14 @@ import { AcceptInvitationModel, DeclineInvitationModel } from "../../../shared/u
 import { usePopup } from "../../../shared/utils/hooks/usePopUp";
 import { getErrMessage } from "../../../shared/utils/functions/errors";
 import { HubConnectionState } from "@microsoft/signalr";
+import { StateProp } from "../../../shared/utils/types/commonTypes";
 
 type NotificationPopUpProps = {
-  // if notification should be displayed
-  allowNotification: boolean;
-  // to remove notification
-  setAllowNotification: Dispatch<SetStateAction<boolean>>;
+  // if notification should be displayed and to remove notification
+  allowNotificationProp: StateProp<boolean>;
 };
 
-function NotificationPopUp({ allowNotification, setAllowNotification }: NotificationPopUpProps) {
+function NotificationPopUp({ allowNotificationProp }: NotificationPopUpProps) {
   ///
 
   const { showPopup } = usePopup();
@@ -29,7 +28,7 @@ function NotificationPopUp({ allowNotification, setAllowNotification }: Notifica
 
   useEffect(() => {
     if (
-      allowNotification &&
+      allowNotificationProp.get &&
       GameHubService.connection &&
       GameHubService.connection.state === HubConnectionState.Connected
     ) {
@@ -41,23 +40,23 @@ function NotificationPopUp({ allowNotification, setAllowNotification }: Notifica
         GameHubService.connection.off("InvitedToGame", handleNotificationChange);
       }
     };
-  }, [allowNotification]);
+  }, [allowNotificationProp]);
 
   // to accept incoming game invitation
   const onAcceptInvitation = async (): Promise<void> => {
     if (!notification) return;
 
-    try {
-      const model: AcceptInvitationModel = {
-        gameId: notification.gameId,
-        inviteeId: notification.inviteeId,
-        inviterId: notification.inviterId,
-      };
+    const model: AcceptInvitationModel = {
+      gameId: notification.gameId,
+      inviteeId: notification.inviteeId,
+      inviterId: notification.inviterId,
+    };
 
+    try {
       await GameHubService.AcceptInvitation(model);
 
       setNotification(null);
-      setAllowNotification(false);
+      allowNotificationProp.set(false);
     } catch (err) {
       showPopup(getErrMessage(err), "warning");
     }
@@ -67,16 +66,16 @@ function NotificationPopUp({ allowNotification, setAllowNotification }: Notifica
   const onDeclineInvitation = async (): Promise<void> => {
     if (!notification) return;
 
-    try {
-      const model: DeclineInvitationModel = {
-        gameId: notification.gameId,
-        friendId: notification.inviterId,
-      };
+    const model: DeclineInvitationModel = {
+      gameId: notification.gameId,
+      friendId: notification.inviterId,
+    };
 
+    try {
       await GameHubService.DeclineInvitation(model);
 
       setNotification(null);
-      setAllowNotification(false);
+      allowNotificationProp.set(false);
     } catch (err) {
       showPopup(getErrMessage(err), "warning");
     }
@@ -121,7 +120,6 @@ function NotificationPopUp({ allowNotification, setAllowNotification }: Notifica
               <span>decline</span>
             </button>
           </div>
-          {/* --- */}
         </div>
       </div>
     </div>

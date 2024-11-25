@@ -239,7 +239,6 @@ const LearnBlocks = ({}: LearnBlocksProps) => {
           </div>
         )
       )}
-      {/* --- */}
     </div>
   );
 };

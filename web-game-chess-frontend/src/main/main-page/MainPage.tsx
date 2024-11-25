@@ -35,6 +35,7 @@ function MainPage() {
   const navigate = useNavigate();
   const { showPopup } = usePopup();
 
+  // interface id obtained from url
   const [providedInterface, setProvidedInterface] = useState<number | null>(null);
 
   // to display main page popups
@@ -53,7 +54,6 @@ function MainPage() {
   }, [location.state]);
 
   /** online public */
-  // ids for online games
   const [onlineGameIds, setOnlineGameIds] = useState<SearchWebGameDto | null>(null);
 
   /** online private */
@@ -82,24 +82,21 @@ function MainPage() {
   const handleGamesChanged = async (): Promise<void> => {
     if (!onlineGameIds) return;
 
+    const model: CheckIfInWebGameModel = {
+      playerId: onlineGameIds.playerId,
+    };
+
     try {
-      const isInGameModel: CheckIfInWebGameModel = {
-        playerId: onlineGameIds.playerId,
+      // check if user was joined to game
+      const response = await axios.get<CheckIfInWebGameDto>(webGameController.checkIfInGame(model), getAuthorization());
+
+      if (!response.data.isInGame) return;
+
+      const state: StateOptions = {
+        popup: { text: "GAME STARTED", type: "info" },
       };
 
-      // check if user was joined to game
-      const isInGameResponse = await axios.get<CheckIfInWebGameDto>(
-        webGameController.checkIfInGame(isInGameModel),
-        getAuthorization()
-      );
-
-      if (isInGameResponse.data.isInGame) {
-        const state: StateOptions = {
-          popup: { text: "GAME STARTED", type: "info" },
-        };
-
-        navigate(`/main/game/${isInGameResponse.data.gameId}`, { state: state });
-      }
+      navigate(`/main/game/${response.data.gameId}`, { state: state });
     } catch (err) {
       showPopup(getErrMessage(err), "warning");
     }
@@ -110,12 +107,12 @@ function MainPage() {
   const onCancelSearch = async (): Promise<void> => {
     if (!onlineGameIds) return;
 
-    try {
-      const AbortWebGameSearchModel: AbortWebGameSearchModel = {
-        playerId: onlineGameIds.playerId,
-      };
+    const model: AbortWebGameSearchModel = {
+      playerId: onlineGameIds.playerId,
+    };
 
-      await axios.delete(webGameController.abortSearch(AbortWebGameSearchModel), getAuthorization());
+    try {
+      await axios.delete(webGameController.abortSearch(model), getAuthorization());
 
       await GameHubService.PlayerLeaved(onlineGameIds.timingId);
 
@@ -127,7 +124,21 @@ function MainPage() {
     }
   };
 
-  /** ONLINE PUBLIC GAMES END */
+  // connect game hub handlers for public games
+  useEffect(() => {
+    if (onlineGameIds) setInterfaceById(GameSearchInterface.vsPlayerSearching);
+
+    if (GameHubService.connection && GameHubService.connection.state === HubConnectionState.Connected) {
+      // for handling public search
+      GameHubService.connection.on("GamesChanged", handleGamesChanged);
+    }
+
+    return () => {
+      if (GameHubService.connection) {
+        GameHubService.connection.off("GamesChanged", handleGamesChanged);
+      }
+    };
+  }, [onlineGameIds]);
 
   /** ONLINE PRIVATE GAMES */
 
@@ -140,47 +151,42 @@ function MainPage() {
     navigate(`/main/game/${gameId}`, { state: state });
   };
 
-  const handleGameDeclined = () => {
+  // show popup on invitation declined
+  const handleGameDeclined = (): void => {
     showPopup("INVITATION DECLINED", "error");
   };
 
+  // to navigate to time selection when fired was selected
+  // otherwise set interface to friend selection
   useEffect(() => {
-    if (privateGameOptions) {
-      if (privateGameOptions.header === null) {
-        setInterfaceById(GameSearchInterface.vsFriendTimeSelection);
-      } else {
-        setInterfaceById(GameSearchInterface.vsFriendsOptions);
-      }
+    if (!privateGameOptions) return;
+
+    if (privateGameOptions.header === null) {
+      setInterfaceById(GameSearchInterface.vsFriendTimeSelection);
+    } else {
+      setInterfaceById(GameSearchInterface.vsFriendsOptions);
     }
   }, [privateGameOptions]);
 
-  /** ONLINE PRIVATE GAMES END */
-
-  // connect game hub handlers
+  // connect game hub handlers for private games
   useEffect(() => {
-    if (onlineGameIds) {
-      setInterfaceById(GameSearchInterface.vsPlayerSearching);
-    }
-
     if (GameHubService.connection && GameHubService.connection.state === HubConnectionState.Connected) {
-      // for handling public search
-      GameHubService.connection.on("GamesChanged", handleGamesChanged);
       // for handling private game accepted
       GameHubService.connection.on("GameAccepted", handleGameAccepted);
       // for handling private game declined
       GameHubService.connection.on("InvitationDeclined", handleGameDeclined);
 
+      // ???
       setAllowNotification(true);
     }
 
     return () => {
       if (GameHubService.connection) {
-        GameHubService.connection.off("GamesChanged", handleGamesChanged);
         GameHubService.connection.off("GameAccepted", handleGameAccepted);
         GameHubService.connection.off("InvitationDeclined", handleGameDeclined);
       }
     };
-  }, [onlineGameIds]);
+  }, []);
 
   /** OFFLINE GAMES */
 
@@ -205,7 +211,7 @@ function MainPage() {
     }
   };
 
-  // start offline game
+  // navigate to offline game
   useEffect(() => {
     if (!offlineGameIds) return;
 
@@ -222,8 +228,6 @@ function MainPage() {
 
     onStartOfflineGame();
   }, [offlineGameOptions]);
-
-  /** OFFLINE GAMES END */
 
   // set game section content
   const setInterfaceById = (interfaceId: GameSearchInterface): void => {
@@ -255,7 +259,7 @@ function MainPage() {
 
       case GameSearchInterface.vsFriendsOptions:
         setInterfaceContent(
-          <FriendSelection setPrivateGameOptions={setPrivateGameOptions} privateGameOptions={privateGameOptions} />
+          <FriendSelection privateGameOptionsProp={{ get: privateGameOptions, set: setPrivateGameOptions }} />
         );
         break;
 
@@ -289,7 +293,6 @@ function MainPage() {
   useEffect(() => {
     setInterfaceById(GameSearchInterface.defaultView);
   }, []);
-  ///*
 
   return (
     <main data-testid="main-main-page" className={classes.main}>
@@ -303,7 +306,7 @@ function MainPage() {
 
           <MainButtons interfaceId={interfaceId} setInterfaceById={setInterfaceById} />
 
-          <NotificationPopUp allowNotification={allowNotification} setAllowNotification={setAllowNotification} />
+          <NotificationPopUp allowNotificationProp={{ get: allowNotification, set: setAllowNotification }} />
         </div>
       </section>
 

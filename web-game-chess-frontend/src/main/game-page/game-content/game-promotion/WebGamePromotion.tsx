@@ -88,7 +88,6 @@ function WebGamePromotion({
         ) : (
           <></>
         )}
-        {/* --- */}
       </div>
     </div>
   );

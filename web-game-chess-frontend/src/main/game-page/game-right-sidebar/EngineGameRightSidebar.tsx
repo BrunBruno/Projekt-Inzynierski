@@ -228,7 +228,6 @@ function EngineGameRightSidebar({
             ? renderPlayer(null, classes["white-player"], classes["white-player-img"])
             : renderPlayer(null, classes["black-player"], classes["black-player-img"])}
         </div>
-        {/* --- */}
 
         {/* game history records */}
         <div
@@ -254,13 +253,11 @@ function EngineGameRightSidebar({
                 ))}
           </div>
         </div>
-        {/* --- */}
 
         {/* game messages */}
         <div className={`${classes["bar-block"]} ${classes["messages-block"]}`}>
           <EngineGameMessages gameId={gameId} />
         </div>
-        {/* --- */}
       </div>
     </section>
   );

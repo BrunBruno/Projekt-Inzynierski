@@ -13,9 +13,11 @@ import { symbolIcons } from "../../../../shared/svgs/iconsMap/SymbolIcons";
 import { greyColor } from "../../../../shared/utils/objects/colorMaps";
 import OngoingGameCard from "./ongoing-game-card/OngoingGameCard";
 import { mainPageIcons } from "../../MainPageIcons";
+import { SetInterfaceById } from "../../MainPageData";
 
 type OngoingGamesProps = {
-  setInterfaceById: (interfaceId: GameSearchInterface) => void;
+  // for setting interface to active games
+  setInterfaceById: SetInterfaceById;
 };
 
 function OngoingGames({ setInterfaceById }: OngoingGamesProps) {
@@ -28,6 +30,7 @@ function OngoingGames({ setInterfaceById }: OngoingGamesProps) {
 
   // get all finished games
   useEffect(() => {
+    // get last three games
     const getGames = async (): Promise<void> => {
       const model: GetAllActiveGamesModel = {
         pageNumber: 1,
@@ -49,7 +52,8 @@ function OngoingGames({ setInterfaceById }: OngoingGamesProps) {
     getGames();
   }, []);
 
-  const handelMoreGamesClick = () => {
+  // set related interface
+  const handelMoreGamesClick = (): void => {
     setInterfaceById(GameSearchInterface.activeGames);
   };
 

@@ -14,6 +14,16 @@ import { ChartObject } from "../../../../shared/utils/types/commonTypes";
 import { GetFullUserDto } from "../../../../shared/utils/types/userDtos";
 import { userSectionIcons } from "../UserSectionIcons";
 
+// available stats types
+export const statsConfigTypes = [
+  "onlineGamesStats",
+  "onlineGamesWins",
+  "onlineGamesLoses",
+  "offlineGamesStats",
+] as const;
+export type StatsConfigType = (typeof statsConfigTypes)[number];
+
+// stat row configuration
 export type StatsConfig = {
   title: string;
   data: ChartObject[];
@@ -22,9 +32,9 @@ export type StatsConfig = {
 };
 
 // to get row stats data
-export const getStatsConfig = (type: string, user: GetFullUserDto): StatsConfig | null => {
+export const getStatsConfig = (type: StatsConfigType, user: GetFullUserDto): StatsConfig | null => {
   switch (type) {
-    case "games":
+    case "onlineGamesStats":
       return {
         title: "Game outcomes:",
         data: [
@@ -61,7 +71,7 @@ export const getStatsConfig = (type: string, user: GetFullUserDto): StatsConfig 
         ],
       };
 
-    case "wins":
+    case "onlineGamesWins":
       return {
         title: "Wins by:",
         data: [
@@ -98,7 +108,7 @@ export const getStatsConfig = (type: string, user: GetFullUserDto): StatsConfig 
         ],
       };
 
-    case "loses":
+    case "onlineGamesLoses":
       return {
         title: "Loses by:",
         data: [
@@ -135,7 +145,7 @@ export const getStatsConfig = (type: string, user: GetFullUserDto): StatsConfig 
         ],
       };
 
-    case "offlineGamesOutcome":
+    case "offlineGamesStats":
       return {
         title: "Game outcomes:",
         data: [

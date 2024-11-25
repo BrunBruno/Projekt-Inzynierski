@@ -44,19 +44,19 @@ function Invitations({}: InvitationsProps) {
 
   // to get all awaiting and expired invitations
   const getInvitations = async (): Promise<void> => {
-    try {
-      const invitationsModel: GetAllInvitationsModel = {
-        pageNumber: pageNumber,
-        pageSize: pageSize,
-        expirationFilters: expirationFilters,
-      };
+    const model: GetAllInvitationsModel = {
+      pageNumber: pageNumber,
+      pageSize: pageSize,
+      expirationFilters: expirationFilters,
+    };
 
-      const invitationsResponse = await axios.get<PagedResult<GetAllInvitationsDto>>(
-        webGameController.getAllInvitations(invitationsModel),
+    try {
+      const response = await axios.get<PagedResult<GetAllInvitationsDto>>(
+        webGameController.getAllInvitations(model),
         getAuthorization()
       );
 
-      setInvitations(invitationsResponse.data);
+      setInvitations(response.data);
     } catch (err) {
       showPopup(getErrMessage(err), "warning");
     }
@@ -66,6 +66,7 @@ function Invitations({}: InvitationsProps) {
     getInvitations();
   };
 
+  // handle pagination
   useEffect(() => {
     updateInvitations();
   }, [pageSize, pageNumber, expirationFilters]);
@@ -166,7 +167,7 @@ function Invitations({}: InvitationsProps) {
       )}
 
       {showFilters && (
-        <InvitationsFilters expirationFilters={expirationFilters} setExpirationFilters={setExpirationFilters} />
+        <InvitationsFilters expirationFiltersProps={{ get: expirationFilters, set: setExpirationFilters }} />
       )}
     </div>
   );

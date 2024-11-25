@@ -17,7 +17,7 @@ type SignInModalProps = {
   // path that user wanted
   userPath: string;
   // to change displayed modal
-  setModal: Dispatch<SetStateAction<number>>;
+  setModal: Dispatch<SetStateAction<RegistrationInterface>>;
 };
 
 function SignInModal({ userPath, setModal }: SignInModalProps) {
@@ -181,7 +181,6 @@ function SignInModal({ userPath, setModal }: SignInModalProps) {
           <IconCreator icons={registerPageIcons} iconName={"arrow"} iconClass={classes.arrow} />
         </div>
       </div>
-      {/* --- */}
 
       <div className={classes.error}>
         <span>{errorMess}</span>

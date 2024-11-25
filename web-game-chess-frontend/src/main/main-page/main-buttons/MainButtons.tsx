@@ -1,13 +1,14 @@
 import IconCreator from "../../../shared/components/icon-creator/IconCreator";
 import { GameSearchInterface } from "../../../shared/utils/objects/interfacesEnums";
+import { SetInterfaceById } from "../MainPageData";
 import { mainPageIcons } from "../MainPageIcons";
 import classes from "./MainButtons.module.scss";
 
 type MainButtonsProps = {
-  // selected interface id
+  // selected interface id for button highlight
   interfaceId: GameSearchInterface;
   // to change interface
-  setInterfaceById: (interfaceId: GameSearchInterface) => void;
+  setInterfaceById: SetInterfaceById;
 };
 
 function MainButtons({ interfaceId, setInterfaceById }: MainButtonsProps) {
@@ -31,13 +32,13 @@ function MainButtons({ interfaceId, setInterfaceById }: MainButtonsProps) {
       <button
         data-testid="main-page-game-hub-vs-player-button"
         className={`
-            ${classes["interface-button"]}
-            ${
-              interfaceId === GameSearchInterface.vsPlayerTimeSelection ||
-              interfaceId === GameSearchInterface.vsPlayerSearching
-                ? classes["active-button"]
-                : ""
-            }`}
+          ${classes["interface-button"]}
+          ${
+            interfaceId === GameSearchInterface.vsPlayerTimeSelection ||
+            interfaceId === GameSearchInterface.vsPlayerSearching
+              ? classes["active-button"]
+              : ""
+          }`}
         onClick={() => {
           setInterfaceById(GameSearchInterface.vsPlayerTimeSelection);
         }}
@@ -49,8 +50,9 @@ function MainButtons({ interfaceId, setInterfaceById }: MainButtonsProps) {
       <button
         data-testid="main-page-game-hub-vs-computer-button"
         className={`
-            ${classes["interface-button"]}
-            ${interfaceId === GameSearchInterface.vsComputerOptions ? classes["active-button"] : ""}`}
+          ${classes["interface-button"]}
+          ${interfaceId === GameSearchInterface.vsComputerOptions ? classes["active-button"] : ""}
+        `}
         onClick={() => {
           setInterfaceById(GameSearchInterface.vsComputerOptions);
         }}
@@ -62,13 +64,13 @@ function MainButtons({ interfaceId, setInterfaceById }: MainButtonsProps) {
       <button
         data-testid="main-page-game-hub-vs-friend-button"
         className={`
-            ${classes["interface-button"]}
-            ${
-              interfaceId === GameSearchInterface.vsFriendsOptions ||
-              interfaceId === GameSearchInterface.vsFriendTimeSelection
-                ? classes["active-button"]
-                : ""
-            }`}
+          ${classes["interface-button"]}
+          ${
+            interfaceId === GameSearchInterface.vsFriendsOptions ||
+            interfaceId === GameSearchInterface.vsFriendTimeSelection
+              ? classes["active-button"]
+              : ""
+          }`}
         onClick={() => {
           setInterfaceById(GameSearchInterface.vsFriendsOptions);
         }}
@@ -78,10 +80,11 @@ function MainButtons({ interfaceId, setInterfaceById }: MainButtonsProps) {
       </button>
 
       <button
-        data-testid="main-page-game-hub-invitations-button"
+        data-testid="main-page-game-hub-active-games-button"
         className={`
-            ${classes["interface-button"]}
-            ${interfaceId === GameSearchInterface.activeGames ? classes["active-button"] : ""}`}
+          ${classes["interface-button"]}
+          ${interfaceId === GameSearchInterface.activeGames ? classes["active-button"] : ""}
+        `}
         onClick={() => {
           setInterfaceById(GameSearchInterface.activeGames);
         }}
@@ -91,9 +94,11 @@ function MainButtons({ interfaceId, setInterfaceById }: MainButtonsProps) {
       </button>
 
       <button
+        data-testid="main-page-game-hub-finished-games-button"
         className={`
-            ${classes["interface-button"]}
-            ${interfaceId === GameSearchInterface.finishedGames ? classes["active-button"] : ""}`}
+          ${classes["interface-button"]}
+          ${interfaceId === GameSearchInterface.finishedGames ? classes["active-button"] : ""}
+        `}
         onClick={() => {
           setInterfaceById(GameSearchInterface.finishedGames);
         }}
@@ -103,9 +108,11 @@ function MainButtons({ interfaceId, setInterfaceById }: MainButtonsProps) {
       </button>
 
       <button
+        data-testid="main-page-game-hub-engine-games-button"
         className={`
-            ${classes["interface-button"]}
-            ${interfaceId === GameSearchInterface.engineGames ? classes["active-button"] : ""}`}
+          ${classes["interface-button"]}
+          ${interfaceId === GameSearchInterface.engineGames ? classes["active-button"] : ""}
+        `}
         onClick={() => {
           setInterfaceById(GameSearchInterface.engineGames);
         }}
@@ -115,9 +122,11 @@ function MainButtons({ interfaceId, setInterfaceById }: MainButtonsProps) {
       </button>
 
       <button
+        data-testid="main-page-game-hub-invitations-button"
         className={`
-            ${classes["interface-button"]}
-            ${interfaceId === GameSearchInterface.invitations ? classes["active-button"] : ""}`}
+          ${classes["interface-button"]}
+          ${interfaceId === GameSearchInterface.invitations ? classes["active-button"] : ""}
+        `}
         onClick={() => {
           setInterfaceById(GameSearchInterface.invitations);
         }}

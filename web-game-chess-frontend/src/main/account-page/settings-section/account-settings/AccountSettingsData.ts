@@ -9,6 +9,7 @@ export type ValidationResult = {
 };
 
 // to check user input with db configuration record
+// for password validation
 export const checkFromConfiguration = (
   field: string,
   data: string,
@@ -52,4 +53,5 @@ export const checkFromConfiguration = (
   return result;
 };
 
+// names for passwords requirements
 export const passwordRequirements = ["Min length", "Max length", "Uppercase", "Lowercase", "Number", "Special char"];

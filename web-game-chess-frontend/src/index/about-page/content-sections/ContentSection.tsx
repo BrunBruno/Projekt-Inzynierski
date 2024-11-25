@@ -58,7 +58,6 @@ function ContentSection({ title, elements }: ContentSectionProps) {
           </Fragment>
         ))}
       </div>
-      {/* --- */}
     </section>
   );
 }

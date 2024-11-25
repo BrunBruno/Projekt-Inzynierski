@@ -20,15 +20,15 @@ type PasswordIconOption = {
 };
 
 type SignUpModalProps = {
-  // change displayed modal
-  setModal: Dispatch<SetStateAction<number>>;
   // restrictions on user username
   userNameConf: GetRegisterConfDto | null;
   // restrictions on user password
   userPassConf: GetRegisterConfDto | null;
+  // change displayed modal
+  setModal: Dispatch<SetStateAction<RegistrationInterface>>;
 };
 
-function SignUpModal({ setModal, userNameConf, userPassConf }: SignUpModalProps) {
+function SignUpModal({ userNameConf, userPassConf, setModal }: SignUpModalProps) {
   ///
 
   const { showPopup } = usePopup();
@@ -355,7 +355,6 @@ function SignUpModal({ setModal, userNameConf, userPassConf }: SignUpModalProps)
           <IconCreator icons={registerPageIcons} iconName={"arrow"} iconClass={classes.arrow} />
         </div>
       </div>
-      {/* --- */}
 
       <div className={classes.error}>
         <span>{errorMess}</span>

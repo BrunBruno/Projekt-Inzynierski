@@ -1,4 +1,3 @@
-import { Dispatch, SetStateAction } from "react";
 import IconCreator from "../../../../shared/components/icon-creator/IconCreator";
 import { timingTypeIcons } from "../../../../shared/svgs/iconsMap/TimingTypeIcons";
 import { mainColor } from "../../../../shared/utils/objects/colorMaps";
@@ -13,29 +12,21 @@ import {
 import { TimingType } from "../../../../shared/utils/objects/entitiesEnums";
 import { gameResultIcons } from "../../../../shared/svgs/iconsMap/GameResultIcons";
 import { displayFromLowercase } from "../../../../shared/utils/functions/enums";
+import { StateProp } from "../../../../shared/utils/types/commonTypes";
 
 type FinishedGamesFiltersProps = {
   // list to filter timing types
-  timingTypeFilters: number[];
-  // set timing list
-  setTimingTypeFilters: Dispatch<SetStateAction<TimingType[]>>;
+  timingTypeFiltersProp: StateProp<TimingType[]>;
   // list to filter result of the game
-  resultFilters: (boolean | null)[];
-  // set result list
-  setResultFilters: Dispatch<SetStateAction<(boolean | null)[]>>;
+  resultFiltersProp: StateProp<(boolean | null)[]>;
 };
 
-function FinishedGamesFilters({
-  timingTypeFilters,
-  setTimingTypeFilters,
-  resultFilters,
-  setResultFilters,
-}: FinishedGamesFiltersProps) {
+function FinishedGamesFilters({ timingTypeFiltersProp, resultFiltersProp }: FinishedGamesFiltersProps) {
   ///
 
   // sets timing type filter list
-  const activateTimingTypeFilter = (value: number) => {
-    setTimingTypeFilters((prevTypes) => {
+  const activateTimingTypeFilter = (value: number): void => {
+    timingTypeFiltersProp.set((prevTypes) => {
       const newTypes = [...prevTypes];
       if (newTypes.includes(value)) {
         newTypes.splice(newTypes.indexOf(value), 1);
@@ -48,8 +39,8 @@ function FinishedGamesFilters({
   };
 
   // sets game result filter list
-  const activateResultFilter = (value: boolean | null) => {
-    setResultFilters((prevTypes) => {
+  const activateResultFilter = (value: boolean | null): void => {
+    resultFiltersProp.set((prevTypes) => {
       const newTypes = [...prevTypes];
       if (newTypes.includes(value)) {
         newTypes.splice(newTypes.indexOf(value), 1);
@@ -70,7 +61,7 @@ function FinishedGamesFilters({
             key={`type-${i}`}
             className={`
               ${classes.option} 
-              ${timingTypeFilters.includes(element.value) ? classes.active : ""}
+              ${timingTypeFiltersProp.get.includes(element.value) ? classes.active : ""}
             `}
             onClick={() => {
               activateTimingTypeFilter(element.value);
@@ -86,7 +77,6 @@ function FinishedGamesFilters({
           </div>
         ))}
       </div>
-      {/* --- */}
 
       {/* filter by result */}
       <div className={classes.filters__row}>
@@ -96,7 +86,7 @@ function FinishedGamesFilters({
             key={`result-${i}`}
             className={`
               ${classes.option} 
-              ${resultFilters.includes(element.value) ? classes.active : ""}
+              ${resultFiltersProp.get.includes(element.value) ? classes.active : ""}
             `}
             onClick={() => {
               activateResultFilter(element.value);
@@ -111,7 +101,6 @@ function FinishedGamesFilters({
           </div>
         ))}
       </div>
-      {/* --- */}
     </div>
   );
 }

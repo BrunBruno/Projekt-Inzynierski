@@ -17,7 +17,7 @@ import IconCreator from "../../../../shared/components/icon-creator/IconCreator"
 import { gameResultIcons } from "../../../../shared/svgs/iconsMap/GameResultIcons";
 
 type AccountSettingsProps = {
-  // user data
+  // user data for settings update
   user: GetFullUserDto | null;
 };
 

@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import classes from "./FriendSelection.module.scss";
 import { GetAllFriendsByStatusDto } from "../../../shared/utils/types/friendshipDtos";
 import FriendList from "./friends-list/FriendList";
@@ -13,15 +13,14 @@ import { useLocation } from "react-router-dom";
 import { StateOptions } from "../../../shared/utils/objects/interfacesEnums";
 import { PrivateGameOptions } from "../MainPageData";
 import { usePopup } from "../../../shared/utils/hooks/usePopUp";
+import { StateProp } from "../../../shared/utils/types/commonTypes";
 
 type FriendSelectionProps = {
-  //
-  privateGameOptions: PrivateGameOptions | null;
-  //
-  setPrivateGameOptions: Dispatch<SetStateAction<PrivateGameOptions | null>>;
+  // private game options state
+  privateGameOptionsProp: StateProp<PrivateGameOptions | null>;
 };
 
-function FriendSelection({ privateGameOptions, setPrivateGameOptions }: FriendSelectionProps) {
+function FriendSelection({ privateGameOptionsProp }: FriendSelectionProps) {
   ///
 
   const { showPopup } = usePopup();
@@ -108,15 +107,15 @@ function FriendSelection({ privateGameOptions, setPrivateGameOptions }: FriendSe
     };
 
     if (selectedFriend || selectedUser || selectedByUrl) {
-      setPrivateGameOptions(options);
+      privateGameOptionsProp.set(options);
     }
   }, [selectedFriend, selectedUser, selectedByUrl]);
 
   useEffect(() => {
-    if (!privateGameOptions) return;
+    if (!privateGameOptionsProp.get) return;
 
-    onInviteToPrivateGame(privateGameOptions);
-  }, [privateGameOptions]);
+    onInviteToPrivateGame(privateGameOptionsProp.get);
+  }, [privateGameOptionsProp]);
 
   return (
     <div data-testid="main-page-vs-friend-section" className={classes.search}>
@@ -131,13 +130,11 @@ function FriendSelection({ privateGameOptions, setPrivateGameOptions }: FriendSe
 
           <InviteByUrl ref={inviteByUrlRef} setSelectedByUrl={setSelectedByUrl} />
         </div>
-        {/* --- */}
 
         {/* right side content */}
         <div className={classes.search__split__list}>
           <FriendList selectedUsername={selectedUsername} setSelectedFriend={setSelectedFriend} />
         </div>
-        {/* --- */}
       </div>
     </div>
   );

@@ -65,7 +65,6 @@ const HeroSection = forwardRef<HandleOnScroll, HeroSectionProps>(
               <p className={classes["arrow-zoom"]} />
             </a>
           </div>
-          {/* --- */}
         </div>
       </section>
     );

@@ -93,7 +93,7 @@ function ActiveGames({}: ActiveGamesProps) {
   }, [pageSize, timingTypeFilters, pageNumber]);
 
   // to display filters
-  const onShowFilters = () => {
+  const onShowFilters = (): void => {
     if (games && games.length > 0) {
       setShowFilters((prev) => !prev);
     }
@@ -129,8 +129,7 @@ function ActiveGames({}: ActiveGamesProps) {
                 (!games || games.length === 0) && timingTypeFilters.length === 0
                   ? classes["disabled"]
                   : classes["enabled"]
-              }
-            `}
+              }`}
             onClick={() => {
               onShowFilters();
             }}
@@ -164,7 +163,7 @@ function ActiveGames({}: ActiveGamesProps) {
       )}
 
       {showFilters && (
-        <ActiveGamesFilters timingTypeFilters={timingTypeFilters} setTimingTypeFilters={setTimingTypeFilters} />
+        <ActiveGamesFilters timingTypeFiltersProp={{ get: timingTypeFilters, set: setTimingTypeFilters }} />
       )}
     </div>
   );

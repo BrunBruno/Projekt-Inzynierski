@@ -17,7 +17,7 @@ import { TimingType } from "../../../../shared/utils/objects/entitiesEnums";
 import { Dispatch, SetStateAction } from "react";
 
 type QuickGameProps = {
-  //
+  // to set new web game data
   setOnlineGameIds: Dispatch<SetStateAction<SearchWebGameDto | null>>;
 };
 
@@ -84,7 +84,9 @@ function QuickGame({ setOnlineGameIds }: QuickGameProps) {
     <div className={classes.quick}>
       <div className={classes.quick__header}>
         <IconCreator icons={defaultViewIcons} iconName={"quick"} iconClass={classes["quick-icon"]} />
+
         <h2 className={classes["heading"]}>Quick game</h2>
+
         <IconCreator icons={defaultViewIcons} iconName={"quick"} iconClass={classes["quick-icon"]} />
       </div>
       <div className={classes.quick__controls}>
