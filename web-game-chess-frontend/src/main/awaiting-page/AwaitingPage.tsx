@@ -51,6 +51,12 @@ function AwaitingPage() {
 
         if (response.data.isRequired) {
           await GameHubService.UpdatePrivateGame(gameId);
+
+          const state: StateOptions = {
+            popup: { text: "GAME STARTED", type: "info" },
+          };
+
+          navigate(`/main/game/${gameId}`, { state: state });
         }
       } catch (err) {
         showPopup(getErrMessage(err), "warning");

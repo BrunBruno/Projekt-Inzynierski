@@ -170,5 +170,152 @@
         }
       }
     }
+
+    .settings-form {
+      @include flex(column, center, start, 1rem);
+
+      position: relative;
+      padding: 2rem;
+
+      .form-row {
+        position: relative;
+
+        .visibility-label {
+          @include flex(row, start, center, 2rem);
+
+          margin-bottom: 1rem;
+
+          .radio-input {
+            display: none;
+          }
+
+          .check-mark {
+            @include circle(2rem);
+
+            background-color: $gc2;
+          }
+
+          .radio-input:checked ~ .check-mark {
+            border: solid 0.5rem $mc9;
+          }
+
+          span {
+            font-size: 2rem;
+          }
+
+          &:hover {
+            cursor: pointer;
+
+            .check-mark {
+              background-color: $gc5;
+            }
+          }
+        }
+
+        .text {
+          font-size: 1.6rem;
+          color: $gc5;
+        }
+      }
+    }
+
+    .options-grid {
+      @include rounded(2rem);
+      @include emerge-ani;
+
+      overflow: hidden;
+      width: fit-content;
+      height: fit-content;
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      grid-template-rows: repeat(4, 1fr);
+      gap: 1rem;
+
+      .engine-level {
+        @include square(7rem);
+        @include rounded(1rem);
+        @include flex;
+
+        position: relative;
+        background-color: $gc9;
+        border: solid 0.3rem $gc8;
+
+        span {
+          @include sec-font(3rem);
+
+          width: 100%;
+          text-align: center;
+          z-index: 1;
+          color: $mc9;
+          text-shadow: 0.1rem 0.1rem 0 #000;
+        }
+
+        .lvl-icon {
+          @include abs-center;
+
+          z-index: 0;
+          height: 80%;
+          opacity: 0.05;
+
+          line {
+            fill: none;
+            stroke: $mc0;
+            stroke-width: 2;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            stroke-miterlimit: 10;
+          }
+
+          path {
+            fill: none;
+            stroke: $mc0;
+            stroke-width: 2;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            stroke-miterlimit: 10;
+          }
+        }
+
+        &:hover {
+          cursor: pointer;
+          box-shadow: 0 0 1rem 0 $gc0;
+
+          span {
+            color: $mc0;
+            filter: drop-shadow(0 0 1rem $mc0);
+          }
+
+          .lvl-icon {
+            opacity: 0.2;
+          }
+        }
+
+        &.active {
+          box-shadow: 0 0 1rem 0 $gc0;
+
+          span {
+            color: $mc0;
+            filter: drop-shadow(0 0 1rem $mc0);
+          }
+
+          .lvl-icon {
+            opacity: 0.2;
+          }
+        }
+      }
+
+      .x-icon {
+        @include circle(4rem);
+
+        position: absolute;
+        top: 2rem;
+        right: 2rem;
+
+        &:hover {
+          cursor: pointer;
+          filter: brightness(80%);
+        }
+      }
+    }
   }
 }

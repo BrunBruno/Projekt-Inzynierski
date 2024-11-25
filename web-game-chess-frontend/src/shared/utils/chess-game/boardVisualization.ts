@@ -44,7 +44,6 @@ export const performMoveAnimation = (
   coorFrom: Coordinate,
   coorTo: Coordinate
 ) => {
-  console.log(selectedTarget);
   if (selectedTarget && boardRef && coorFrom && coorTo) {
     const tileWidth = boardRef.getBoundingClientRect().width / 8;
     const tileHeight = boardRef.getBoundingClientRect().height / 8;

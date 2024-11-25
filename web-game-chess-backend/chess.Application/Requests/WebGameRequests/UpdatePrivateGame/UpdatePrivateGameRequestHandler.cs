@@ -42,10 +42,11 @@ public class UpdatePrivateGameRequestHandler : IRequestHandler<UpdatePrivateGame
         var game = await _webGameRepository.GetById(request.GameId)
             ?? throw new NotFoundException("Game not found");
 
-        if((game.WhitePlayer.IsTemp && game.WhitePlayer.UserId == userId) ||
-           (game.BlackPlayer.IsTemp && game.BlackPlayer.UserId == userId)) {
+        if((game.WhitePlayer.IsTemp && game.WhitePlayer.UserId != userId) ||
+           (game.BlackPlayer.IsTemp && game.BlackPlayer.UserId != userId)) {
 
             var userPlayer = game.WhitePlayer.IsTemp ? game.WhitePlayer : game.BlackPlayer;
+            var opponentPlayer = !game.WhitePlayer.IsTemp ? game.WhitePlayer : game.BlackPlayer;
 
             int userElo = user.Elo.GetElo(game.TimingType);
 
@@ -56,15 +57,16 @@ public class UpdatePrivateGameRequestHandler : IRequestHandler<UpdatePrivateGame
             userPlayer.Name = user.Username;
             userPlayer.IsPlaying = true;
 
+            opponentPlayer.IsPlaying = true;
+
             await _webGameRepository.Update(game);
             await _webGamePlayerRepository.Update(userPlayer);
-
+            await _webGamePlayerRepository.Update(opponentPlayer);
         }
+
 
         var updateDto = new UpdatePrivateGameDto()
         {
-            // start when players are registered
-            ShouldStart = !game.WhitePlayer.IsTemp && !game.BlackPlayer.IsTemp, 
             WhitePlayerUserId = game.WhitePlayer.UserId,
             BlackPlayerUserId = game.BlackPlayer.UserId,
         };

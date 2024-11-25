@@ -45,6 +45,10 @@ export type ChangeEngineLevelModel = {
   level: number;
 };
 
+export type UpdateEngineSettingsModel = {
+  allowCheats: boolean | null;
+};
+
 /** GET models */
 
 export type GetAllEngineGamesModel = PagedModel & {

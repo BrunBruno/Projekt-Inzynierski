@@ -11,6 +11,7 @@ export enum GameSearchInterface {
   vsComputerOptions,
   vsFriendTimeSelection,
   vsFriendsOptions,
+  vsFriendSearching,
   activeGames,
   finishedGames,
   engineGames,

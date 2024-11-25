@@ -13,7 +13,8 @@ import { UpdateUserSettingsModel } from "../../../../shared/utils/types/userMode
 import { usePopup } from "../../../../shared/utils/hooks/usePopUp";
 import { getErrMessage } from "../../../../shared/utils/functions/errors";
 import axios from "axios";
-import { getAuthorization, userController } from "../../../../shared/utils/services/ApiService";
+import { engineGameController, getAuthorization, userController } from "../../../../shared/utils/services/ApiService";
+import { UpdateEngineSettingsModel } from "../../../../shared/utils/types/engineGameModels";
 
 type GameplaySettingsProps = {
   // user data for settings updates
@@ -27,6 +28,8 @@ function GameplaySettings({ user }: GameplaySettingsProps) {
 
   // current game appearance
   const [appearance, setAppearance] = useState<UpdateUserSettingsModel | null>(null);
+  // engine games related settings
+  const [areCheatsAllowed, setAreCheatsAllowed] = useState<boolean>(false);
 
   // set current appearance
   useEffect(() => {
@@ -39,6 +42,7 @@ function GameplaySettings({ user }: GameplaySettingsProps) {
     };
 
     setAppearance(prevAppearance);
+    setAreCheatsAllowed(user.settings.allowCheats);
   }, [user]);
 
   // to update user global settings
@@ -47,10 +51,10 @@ function GameplaySettings({ user }: GameplaySettingsProps) {
     appearanceOfGamePage,
     appearanceOfPieces,
   }: Partial<UpdateUserSettingsModel>): Promise<void> => {
-    const model: Partial<UpdateUserSettingsModel> = {
-      ...(appearanceOfBoard !== undefined && { appearanceOfBoard }),
-      ...(appearanceOfGamePage !== undefined && { appearanceOfGamePage }),
-      ...(appearanceOfPieces !== undefined && { appearanceOfPieces }),
+    const model: UpdateUserSettingsModel = {
+      appearanceOfBoard: appearanceOfBoard !== undefined ? appearanceOfBoard : null,
+      appearanceOfGamePage: appearanceOfGamePage !== undefined ? appearanceOfGamePage : null,
+      appearanceOfPieces: appearanceOfPieces !== undefined ? appearanceOfPieces : null,
     };
 
     try {
@@ -66,6 +70,21 @@ function GameplaySettings({ user }: GameplaySettingsProps) {
           ...(appearanceOfPieces !== undefined && { appearanceOfPieces }),
         };
       });
+    } catch (err) {
+      showPopup(getErrMessage(err), "warning");
+    }
+  };
+
+  //
+  const changeEngineSettings = async (allow: boolean): Promise<void> => {
+    const model: UpdateEngineSettingsModel = {
+      allowCheats: allow,
+    };
+
+    try {
+      await axios.put(engineGameController.updateEngineSettings(), model, getAuthorization());
+
+      setAreCheatsAllowed(allow);
     } catch (err) {
       showPopup(getErrMessage(err), "warning");
     }
@@ -299,7 +318,7 @@ function GameplaySettings({ user }: GameplaySettingsProps) {
 
       <div className={classes.settings__row}>
         <h3 className={classes["row-title"]}>
-          <span>Restore Default Settings</span>
+          <span>Restore Default Appearance Settings</span>
         </h3>
 
         <p className={classes["row-text"]}>
@@ -311,6 +330,54 @@ function GameplaySettings({ user }: GameplaySettingsProps) {
             <span>Reset to Default</span>
           </button>
         </div>
+      </div>
+
+      <div className={classes.settings__row}>
+        <p className={classes["row-title"]}>Cheats During Games With Engine</p>
+
+        <form className={classes["settings-form"]}>
+          <div className={classes["form-row"]}>
+            <label className={classes["visibility-label"]}>
+              <input
+                name="visibility"
+                type="radio"
+                className={classes["radio-input"]}
+                checked={!areCheatsAllowed}
+                onChange={() => {
+                  changeEngineSettings(false);
+                }}
+              />
+              <span className={classes["check-mark"]}></span>
+              <span>Disable Cheats</span>
+            </label>
+
+            <p className={classes["text"]}>
+              Restrict in-game cheats. Players will be unable to undo moves or modify the chess engine during the match,
+              ensuring a fair and uninterrupted experience.
+            </p>
+          </div>
+
+          <div className={classes["form-row"]}>
+            <label className={classes["visibility-label"]}>
+              <input
+                name="visibility"
+                type="radio"
+                className={classes["radio-input"]}
+                checked={areCheatsAllowed}
+                onChange={() => {
+                  changeEngineSettings(true);
+                }}
+              />
+              <span className={classes["check-mark"]}></span>
+              <span>Allow Cheats</span>
+            </label>
+
+            <p className={classes["text"]}>
+              Enable in-game cheats, allowing players to undo moves and change the chess engine settings during
+              gameplay.
+            </p>
+          </div>
+        </form>
       </div>
     </div>
   );

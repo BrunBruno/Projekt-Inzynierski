@@ -43,7 +43,7 @@ function SettingsSection({ user }: SettingsSectionProps) {
             iconClass={classes["cat-icon"]}
             color={mainColor.c3}
           />
-          <span>Gameplay appearance and settings</span>
+          <span>Gameplay settings and appearance</span>
         </h3>
 
         <GameplaySettings user={user} />

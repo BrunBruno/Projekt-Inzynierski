@@ -371,6 +371,7 @@ interface EngineGameControllerPaths {
   endEngineGame: string;
   changeEngineLevel: string;
   undoMove: string;
+  updateEngineSettings: string;
   //GET
   getEngineGame: string;
   getEngineGameMove: string;
@@ -383,6 +384,7 @@ export const engineGameControllerPaths: EngineGameControllerPaths = {
   // static
   startEngineGame: `${engineBaseUrl}/start`,
   getAllEngineGames: `${engineBaseUrl}/all-games`,
+  updateEngineSettings: `${engineBaseUrl}/update-settings`,
 
   // dynamic
   getEngineGame: `${engineBaseUrl}/:gameId`,
@@ -400,6 +402,7 @@ interface EngineGameController {
   endEngineGame: (gameId: Guid) => string;
   changeEngineLevel: (gameId: Guid) => string;
   undoMove: (gameId: Guid) => string;
+  updateEngineSettings: () => string;
   getEngineGame: (gameId: Guid) => string;
   getEngineGameMove: (gameId: Guid) => string;
   getAllEngineGameMessages: (gameId: Guid) => string;
@@ -421,6 +424,9 @@ export const engineGameController: EngineGameController = {
 
   // to remove last done moves
   undoMove: (gameId: Guid) => `${engineBaseUrl}/${gameId}/undo-move`,
+
+  // to update engine games related settings
+  updateEngineSettings: () => `${engineBaseUrl}/update-settings`,
 
   // to get all game data
   getEngineGame: (gameId: Guid) => `${engineBaseUrl}/${gameId}`,

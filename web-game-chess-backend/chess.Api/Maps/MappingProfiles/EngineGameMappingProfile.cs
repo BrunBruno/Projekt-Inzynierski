@@ -7,6 +7,7 @@ using chess.Application.Requests.EngineRequests.GetAllEngineGames;
 using chess.Application.Requests.EngineRequests.MakeEngineGameMove;
 using chess.Application.Requests.EngineRequests.StartEngineGame;
 using chess.Application.Requests.EngineRequests.UndoMove;
+using chess.Application.Requests.EngineRequests.UpdateEngineSettings;
 
 namespace chess.Api.Maps.MappingProfiles;
 
@@ -23,5 +24,6 @@ public class EngineGameMappingProfile : Profile {
 		CreateMap<ChangeEngineLevelModel, ChangeEngineLevelRequest>();
 		CreateMap<UndoMoveModel, UndoMoveRequest>();
 		CreateMap<GetAllEngineGamesModel, GetAllEngineGamesRequest>();
+		CreateMap<UpdateEngineSettingsModel, UpdateEngineSettingsRequest>();
 	}
 }

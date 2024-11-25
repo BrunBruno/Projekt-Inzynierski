@@ -61,7 +61,6 @@ class GameHub {
 
     try {
       await this.connection.start();
-      console.log("SignalR Connected");
     } catch (err) {
       console.error(err);
       setTimeout(() => {

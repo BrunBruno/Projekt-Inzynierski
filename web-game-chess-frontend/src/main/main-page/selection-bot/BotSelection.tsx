@@ -1,10 +1,10 @@
-import { Dispatch, Fragment, SetStateAction } from "react";
+import { Dispatch, Fragment, SetStateAction, useState } from "react";
 import classes from "./BotSelection.module.scss";
 import { botSelectionIcons } from "./BotSelectionIcons";
 import IconCreator from "../../../shared/components/icon-creator/IconCreator";
 import { OfflineGameOptions } from "../MainPageData";
 import { mainPageIcons } from "../MainPageIcons";
-import { engineDifficulty, engineLevels } from "./BotSelectionData";
+import { engineDifficultyNames, engineLevels } from "./BotSelectionData";
 import { mainColor } from "../../../shared/utils/objects/colorMaps";
 
 type BotSelectionProps = {
@@ -15,7 +15,7 @@ type BotSelectionProps = {
 function BotSelection({ setOfflineGameOptions }: BotSelectionProps) {
   ///
 
-  // tododo
+  const [engineDifficulty, setEngineDifficulty] = useState<number>(0);
 
   // confirm selection after selection level
   const onSelectLevel = (level: number) => {
@@ -27,9 +27,9 @@ function BotSelection({ setOfflineGameOptions }: BotSelectionProps) {
     setOfflineGameOptions(gameOptions);
   };
 
-  // const onEnableUndo = (enable: boolean) => {
-  //   setGameOptions((prev) => (prev ? { ...prev, enableUndo: enable } : prev));
-  // };
+  const changeEngineDifficulty = (level: number) => {
+    setEngineDifficulty(Math.floor(level / 5));
+  };
 
   return (
     <div className={classes.search}>
@@ -45,7 +45,13 @@ function BotSelection({ setOfflineGameOptions }: BotSelectionProps) {
             {Array.from({ length: engineLevels }).map((_, level: number) => (
               <Fragment key={`fragment-${level}`}>
                 {level % 5 === 0 && (
-                  <div key={`difficulty-${Math.round(level / 5)}`} className={classes["engine-difficulty"]}>
+                  <div
+                    key={`difficulty-${Math.round(level / 5)}`}
+                    className={`
+                      ${classes["engine-difficulty"]} 
+                      ${engineDifficulty === Math.floor(level / 5) ? classes["active"] : ""}
+                    `}
+                  >
                     <IconCreator
                       icons={botSelectionIcons}
                       iconName={"emptyBot"}
@@ -60,7 +66,7 @@ function BotSelection({ setOfflineGameOptions }: BotSelectionProps) {
                           : mainColor.c9
                       }
                     />
-                    <span>{engineDifficulty[Math.round(level / 5)]}</span>
+                    <span>{engineDifficultyNames[Math.round(level / 5)]}</span>
                   </div>
                 )}
                 <div
@@ -68,6 +74,9 @@ function BotSelection({ setOfflineGameOptions }: BotSelectionProps) {
                   className={classes["engine-level"]}
                   onClick={() => {
                     onSelectLevel(level + 1);
+                  }}
+                  onMouseEnter={() => {
+                    changeEngineDifficulty(level);
                   }}
                 >
                   <span>{level + 1}</span>
@@ -77,50 +86,6 @@ function BotSelection({ setOfflineGameOptions }: BotSelectionProps) {
             ))}
           </div>
         </div>
-
-        {/* <div className={classes.search__content__options}>
-          <div className={classes.search__content__options__option}>
-            <div className={classes["option-name"]}>
-              <IconCreator
-                icons={botSelectionIcons}
-                iconName={"undo"}
-                iconClass={classes["option-icon"]}
-                color={greyColor.c0}
-              />
-
-              <span>Allow move undoing</span>
-            </div>
-
-            <div className={`${classes["undo-option"]} ${classes["buttons"]}`}>
-              <button
-                className={`
-                    ${classes["option-button"]}
-                    ${classes["yes-button"]} 
-                    ${gameOptions.enableUndo ? classes["active-button"] : ""}
-                `}
-                onClick={() => {
-                  onEnableUndo(true);
-                }}
-              >
-                <span>Yes</span>
-              </button>
-
-              <button
-                className={`
-                    ${classes["option-button"]}
-                    ${classes["no-button"]} 
-                    ${!gameOptions.enableUndo ? classes["active-button"] : ""}
-                `}
-                onClick={() => {
-                  onEnableUndo(false);
-                }}
-              >
-                <span>No</span>
-              </button>
-            </div>
-          </div>
-
-        </div> */}
       </div>
     </div>
   );

@@ -38,6 +38,7 @@
         border-left: solid 0.2rem $gc0;
         opacity: 0;
         transition: opacity 0.3s;
+        pointer-events: none;
       }
 
       p {

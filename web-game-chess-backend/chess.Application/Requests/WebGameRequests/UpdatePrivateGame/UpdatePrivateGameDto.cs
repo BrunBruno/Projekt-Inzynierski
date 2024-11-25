@@ -9,7 +9,7 @@ public class UpdatePrivateGameDto {
     /// <summary>
     /// Flag if game should start
     /// </summary>
-    public bool ShouldStart { get; set; }
+    //public bool ShouldStart { get; set; }
 
     /// <summary>
     /// User playing as white id

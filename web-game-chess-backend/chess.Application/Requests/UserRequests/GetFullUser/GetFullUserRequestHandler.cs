@@ -83,6 +83,7 @@ public class GetFullUserRequestHandler : IRequestHandler<GetFullUserRequest, Get
                 AppearanceOfPieces = user.Settings.AppearanceOfPieces,
                 AppearanceOfBoard = user.Settings.AppearanceOfBoard,
                 AppearanceOfGamePage = user.Settings.AppearanceOfGamePage,
+                AllowCheats = user.Settings.EngineGameCheats,
             },
 
             WinsByCheckMate = user.Stats.WinsByCheckMate,

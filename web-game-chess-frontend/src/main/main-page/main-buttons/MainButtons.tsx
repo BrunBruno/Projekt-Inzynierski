@@ -67,7 +67,8 @@ function MainButtons({ interfaceId, setInterfaceById }: MainButtonsProps) {
           ${classes["interface-button"]}
           ${
             interfaceId === GameSearchInterface.vsFriendsOptions ||
-            interfaceId === GameSearchInterface.vsFriendTimeSelection
+            interfaceId === GameSearchInterface.vsFriendTimeSelection ||
+            interfaceId === GameSearchInterface.vsFriendSearching
               ? classes["active-button"]
               : ""
           }`}

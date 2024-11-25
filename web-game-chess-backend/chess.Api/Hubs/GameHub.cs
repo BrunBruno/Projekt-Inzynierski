@@ -289,10 +289,8 @@ public class GameHub : Hub<IGameHub> {
 
         var startGameDto = await _mediator.Send(request);
 
-        if (startGameDto.ShouldStart) {
-            await Clients.Groups($"user-{startGameDto.WhitePlayerUserId}").GameAccepted(gameId);
-            await Clients.Groups($"user-{startGameDto.BlackPlayerUserId}").GameAccepted(gameId);
-        }
+        await Clients.Groups($"user-{startGameDto.WhitePlayerUserId}").GameAccepted(gameId);
+        await Clients.Groups($"user-{startGameDto.BlackPlayerUserId}").GameAccepted(gameId);
     }
 
 

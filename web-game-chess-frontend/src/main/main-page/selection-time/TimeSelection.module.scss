@@ -171,6 +171,11 @@ $tag-size: 3rem;
       }
     }
   }
+
+  &.inactive {
+    opacity: 0.5;
+    pointer-events: none;
+  }
 }
 
 // resize

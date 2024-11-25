@@ -22,4 +22,9 @@ public class GameSettingsDto {
     /// Page appearance
     /// </summary>
     public AppearanceOfGamePage AppearanceOfGamePage { get; set; }
+
+    /// <summary>
+    /// If cheats in engine games are allowed 
+    /// </summary>
+    public bool AllowCheats { get; set; }
 }

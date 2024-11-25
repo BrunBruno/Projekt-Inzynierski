@@ -136,27 +136,33 @@ $sqr-size: 8rem;
             font-size: 2rem;
           }
 
-          &:nth-child(1) {
+          &.active {
             span {
-              filter: drop-shadow(0 0 0.3rem $success-color-m);
+              filter: drop-shadow(0 0 0.5rem $mc0);
             }
-          }
 
-          &:nth-child(7) {
-            span {
-              filter: drop-shadow(0 0 0.3rem $success-color-l);
+            &:nth-child(1) {
+              .bot-difficulty-icon {
+                filter: drop-shadow(0 0 1rem $mc0);
+              }
             }
-          }
 
-          &:nth-child(13) {
-            span {
-              filter: drop-shadow(0 0 0.3rem $danger-color-l);
+            &:nth-child(7) {
+              .bot-difficulty-icon {
+                filter: drop-shadow(0 0 1rem $mc3);
+              }
             }
-          }
 
-          &:nth-child(19) {
-            span {
-              filter: drop-shadow(0 0 0.3rem $danger-color-m);
+            &:nth-child(13) {
+              .bot-difficulty-icon {
+                filter: drop-shadow(0 0 1rem $mc6);
+              }
+            }
+
+            &:nth-child(19) {
+              .bot-difficulty-icon {
+                filter: drop-shadow(0 0 1rem $mc9);
+              }
             }
           }
         }

@@ -155,6 +155,7 @@
 // resize
 @media (width <= 1000px) {
   .bar {
+    width: 100% !important;
     border-bottom: solid 0.5rem $gc8;
 
     &::after {
@@ -164,11 +165,12 @@
     &__content {
       grid-template-rows: 1fr;
       grid-template-columns: 6rem auto 24rem;
+      padding: 0;
 
       &__logo {
         @include flex(row, start, center, 1rem);
 
-        padding: 1rem;
+        padding: 1rem !important;
 
         .logo-svg {
           height: 100%;
@@ -180,10 +182,13 @@
       }
 
       &__list {
+        @include flex(row, start, center, 1rem);
+
         width: 100%;
         min-width: 36rem;
-        grid-template-rows: 1fr;
-        grid-template-columns: repeat(6, 6rem);
+        background-color: #0000;
+        border: none;
+        box-shadow: none;
 
         &__element {
           @include square(6rem);
@@ -194,6 +199,10 @@
           span {
             display: none;
           }
+
+          &:last-child {
+            border: solid 0.3rem $gc8;
+          }
         }
       }
 
@@ -201,6 +210,9 @@
         @include flex;
 
         padding: 1rem 0;
+        background-color: #0000;
+        border: none;
+        box-shadow: none;
       }
     }
   }

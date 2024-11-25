@@ -1,7 +1,7 @@
 import { ColorValue, mainColor } from "../../../shared/utils/objects/colorMaps";
 import { ElementClass, IconMap } from "../../../shared/utils/types/commonTypes";
 
-type IconNames = "account" | "gameplay";
+type IconNames = "account" | "gameplay" | "engine";
 
 export const settingsSectionIcons: IconMap<IconNames> = {
   account: (iconClass?: ElementClass, color?: ColorValue) => (
@@ -51,6 +51,31 @@ export const settingsSectionIcons: IconMap<IconNames> = {
       <path
         d="M16.75 11C17.1642 11 17.5 11.3358 17.5 11.75C17.5 12.1642 17.1642 12.5 16.75 12.5C16.3358 12.5 16 12.1642 16 11.75C16 11.3358 16.3358 11 16.75 11Z"
         fill={color ? color : mainColor.c3}
+      />
+    </svg>
+  ),
+
+  engine: (iconClass?: ElementClass, color?: ColorValue) => (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      xmlnsXlink="http://www.w3.org/1999/xlink"
+      viewBox="0 0 32 32"
+      xmlSpace="preserve"
+      className={iconClass}
+      stroke="none"
+      fill={color ? color : mainColor.c5}
+      strokeWidth={2}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeMiterlimit={10}
+    >
+      <path
+        d="M29,15c0.6,0,1-0.4,1-1s-0.4-1-1-1h-3v-2h3c0.6,0,1-0.4,1-1s-0.4-1-1-1h-3c0-1.7-1.3-3-3-3V3c0-0.6-0.4-1-1-1s-1,0.4-1,1v3
+          h-2V3c0-0.6-0.4-1-1-1s-1,0.4-1,1v3h-2V3c0-0.6-0.4-1-1-1s-1,0.4-1,1v3h-2V3c0-0.6-0.4-1-1-1S9,2.4,9,3v3C7.3,6,6,7.3,6,9H3
+          c-0.6,0-1,0.4-1,1s0.4,1,1,1h3v2H3c-0.6,0-1,0.4-1,1s0.4,1,1,1h3v2H3c-0.6,0-1,0.4-1,1s0.4,1,1,1h3v2H3c-0.6,0-1,0.4-1,1s0.4,1,1,1
+          h3c0,1.7,1.3,3,3,3v3c0,0.6,0.4,1,1,1s1-0.4,1-1v-3h2v3c0,0.6,0.4,1,1,1s1-0.4,1-1v-3h2v3c0,0.6,0.4,1,1,1s1-0.4,1-1v-3h2v3
+          c0,0.6,0.4,1,1,1s1-0.4,1-1v-3c1.7,0,3-1.3,3-3h3c0.6,0,1-0.4,1-1s-0.4-1-1-1h-3v-2h3c0.6,0,1-0.4,1-1s-0.4-1-1-1h-3v-2H29z M22,19
+          c0,1.7-1.3,3-3,3h-6c-1.7,0-3-1.3-3-3v-6c0-1.7,1.3-3,3-3h6c1.7,0,3,1.3,3,3V19z"
       />
     </svg>
   ),

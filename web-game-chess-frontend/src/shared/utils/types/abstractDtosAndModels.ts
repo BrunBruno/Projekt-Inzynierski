@@ -86,4 +86,5 @@ export type GameSettingsDto = {
   appearanceOfPieces: AppearanceOfPieces;
   appearanceOfBoard: AppearanceOfBoard;
   appearanceOfGamePage: AppearanceOfGamePage;
+  allowCheats: boolean;
 };

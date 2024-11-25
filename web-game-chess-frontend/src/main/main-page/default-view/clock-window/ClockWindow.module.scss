@@ -3,8 +3,21 @@
 @mixin clock-block() {
   @include flex($direction: column, $gap: 0.6rem);
 
+  position: relative;
+
   .block-icon {
     height: 3rem;
+  }
+
+  &::after {
+    @include sub-class();
+    @include square(2rem);
+
+    content: "+";
+    top: -1rem;
+    right: 0;
+    font-size: 2.5rem;
+    text-align: center;
   }
 
   span {
@@ -42,7 +55,7 @@
   }
 
   &__face {
-    @include circle(10rem);
+    @include circle(8rem);
 
     position: relative;
     background-color: rgba($gc9, 0.7);

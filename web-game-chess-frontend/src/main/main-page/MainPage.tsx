@@ -2,7 +2,13 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { GameSearchInterface, StateOptions } from "../../shared/utils/objects/interfacesEnums";
 import classes from "./MainPage.module.scss";
 import { usePopup } from "../../shared/utils/hooks/usePopUp";
-import { CheckIfInWebGameDto, SearchWebGameDto } from "../../shared/utils/types/webGameDtos";
+import {
+  CheckIfInWebGameDto,
+  CreatePrivateGameByEmailDto,
+  CreatePrivateGameDto,
+  CreatePrivateGameWithLinkDto,
+  SearchWebGameDto,
+} from "../../shared/utils/types/webGameDtos";
 import { useEffect, useState } from "react";
 import { OfflineGameOptions, PrivateGameOptions } from "./MainPageData";
 import MainPopUp from "../../shared/components/main-popup/MainPopUp";
@@ -58,6 +64,10 @@ function MainPage() {
 
   /** online private */
   const [privateGameOptions, setPrivateGameOptions] = useState<PrivateGameOptions | null>(null);
+  const [privateGameIds, setPrivateGameIds] = useState<
+    CreatePrivateGameDto | CreatePrivateGameByEmailDto | CreatePrivateGameWithLinkDto | null
+  >(null);
+  const [gameUrl, setGameUrl] = useState<string>("");
 
   /** offline */
   const [offlineGameOptions, setOfflineGameOptions] = useState<OfflineGameOptions | null>(null);
@@ -104,7 +114,7 @@ function MainPage() {
 
   // public game search abort
   // remove player, clear ids and go back to vs-player search
-  const onCancelSearch = async (): Promise<void> => {
+  const onCancelPublicSearch = async (): Promise<void> => {
     if (!onlineGameIds) return;
 
     const model: AbortWebGameSearchModel = {
@@ -144,6 +154,9 @@ function MainPage() {
 
   // to navigate to game page
   const handleGameAccepted = async (gameId: Guid): Promise<void> => {
+    setPrivateGameIds(null);
+    setPrivateGameOptions(null);
+
     const state: StateOptions = {
       popup: { text: "GAME STARTED", type: "info" },
     };
@@ -153,6 +166,11 @@ function MainPage() {
 
   // show popup on invitation declined
   const handleGameDeclined = (): void => {
+    if (interfaceId === GameSearchInterface.vsFriendSearching) setInterfaceById(GameSearchInterface.vsFriendsOptions);
+
+    setPrivateGameIds(null);
+    setPrivateGameOptions(null);
+
     showPopup("INVITATION DECLINED", "error");
   };
 
@@ -161,15 +179,13 @@ function MainPage() {
   useEffect(() => {
     if (!privateGameOptions) return;
 
-    if (privateGameOptions.header === null) {
-      setInterfaceById(GameSearchInterface.vsFriendTimeSelection);
-    } else {
-      setInterfaceById(GameSearchInterface.vsFriendsOptions);
-    }
+    if (privateGameOptions.header === null) setInterfaceById(GameSearchInterface.vsFriendTimeSelection);
   }, [privateGameOptions]);
 
   // connect game hub handlers for private games
   useEffect(() => {
+    if (privateGameIds) setInterfaceById(GameSearchInterface.vsFriendSearching);
+
     if (GameHubService.connection && GameHubService.connection.state === HubConnectionState.Connected) {
       // for handling private game accepted
       GameHubService.connection.on("GameAccepted", handleGameAccepted);
@@ -186,7 +202,24 @@ function MainPage() {
         GameHubService.connection.off("InvitationDeclined", handleGameDeclined);
       }
     };
-  }, []);
+  }, [privateGameIds, interfaceId]);
+
+  // to remove created private game
+  const onCancelPrivateGame = async (): Promise<void> => {
+    setPrivateGameIds(null);
+    setPrivateGameOptions(null);
+    setGameUrl("");
+
+    setInterfaceById(GameSearchInterface.vsFriendsOptions);
+
+    if (!privateGameIds) return;
+
+    try {
+      await axios.delete(webGameController.cancelPrivateGame(privateGameIds.gameId), getAuthorization());
+    } catch (err) {
+      showPopup(getErrMessage(err), "warning");
+    }
+  };
 
   /** OFFLINE GAMES */
 
@@ -246,7 +279,7 @@ function MainPage() {
         setInterfaceContent(
           <SearchingPage
             isPrivate={false}
-            onCancel={onCancelSearch}
+            onCancel={onCancelPublicSearch}
             containerTestId="searching-page-vs-player-search"
             cancelButtonTestId="searching-page-vs-player-cancel-button"
           />
@@ -264,7 +297,25 @@ function MainPage() {
         break;
 
       case GameSearchInterface.vsFriendTimeSelection:
-        setInterfaceContent(<TimeSelection setPrivateGameOptions={setPrivateGameOptions} />);
+        setInterfaceContent(
+          <TimeSelection
+            privateGameOptions={privateGameOptions}
+            setGameUrl={setGameUrl}
+            setPrivateGameIds={setPrivateGameIds}
+          />
+        );
+        break;
+
+      case GameSearchInterface.vsFriendSearching:
+        setInterfaceContent(
+          <SearchingPage
+            isPrivate={true}
+            onCancel={onCancelPrivateGame}
+            gameUrl={gameUrl}
+            containerTestId="searching-page-vs-friend-search"
+            cancelButtonTestId="searching-page-vs-friend-cancel-button"
+          />
+        );
         break;
 
       case GameSearchInterface.activeGames:

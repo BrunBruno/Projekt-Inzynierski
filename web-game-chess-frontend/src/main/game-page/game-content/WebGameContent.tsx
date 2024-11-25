@@ -210,6 +210,12 @@ function WebGameContent({
     });
   }, [selectionStates.coordinates]);
 
+  useEffect(() => {
+    const handleResize = () => {};
+
+    window.addEventListener("resize", handleResize);
+  }, []);
+
   return (
     <section className={classes.game}>
       <div className={classes.game__content}>

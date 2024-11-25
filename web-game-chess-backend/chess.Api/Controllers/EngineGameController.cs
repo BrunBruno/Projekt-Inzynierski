@@ -11,6 +11,7 @@ using chess.Application.Requests.EngineRequests.GetEngineGameMove;
 using chess.Application.Requests.EngineRequests.MakeEngineGameMove;
 using chess.Application.Requests.EngineRequests.StartEngineGame;
 using chess.Application.Requests.EngineRequests.UndoMove;
+using chess.Application.Requests.EngineRequests.UpdateEngineSettings;
 using chess.Application.Requests.WebGameRequests.FetchTime;
 using chess.Application.Requests.WebGameRequests.GetAllActiveGames;
 using MediatR;
@@ -110,6 +111,23 @@ public class EngineGameController : ControllerBase {
     public async Task<IActionResult> UndoMove([FromBody] UndoMoveModel model) {
 
         var request = _mapper.Map<UndoMoveRequest>(model);
+
+        await _mediator.Send(request);
+
+        return Ok();
+    }
+
+
+    /// <summary>
+    /// To update engine games related settings
+    /// </summary>
+    /// <param name="model"></param>
+    /// <returns></returns>
+    [HttpPut("update-settings")]
+    [Authorize(Policy = "IsVerified")]
+    public async Task<IActionResult> UpdateEngineSettings([FromBody] UpdateEngineSettingsModel model) {
+
+        var request = _mapper.Map<UpdateEngineSettingsRequest>(model);
 
         await _mediator.Send(request);
 

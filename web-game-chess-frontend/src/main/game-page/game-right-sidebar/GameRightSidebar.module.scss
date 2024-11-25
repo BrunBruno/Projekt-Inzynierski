@@ -151,6 +151,7 @@
 // resize
 @media (width <= 1000px) {
   .bar {
+    height: 100% !important;
     border-top: solid 0.5rem $gc8;
 
     &::after {
@@ -161,6 +162,7 @@
       grid-template-rows: 100%;
       grid-template-columns: 1fr 1fr;
       padding: 0;
+      border-radius: 0 !important;
 
       &__header {
         height: 100%;
@@ -184,7 +186,7 @@
         }
       }
 
-      &__block {
+      .bar-block {
         &.records-block {
           display: none;
         }

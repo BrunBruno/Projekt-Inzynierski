@@ -70,9 +70,9 @@
 
     position: absolute;
     top: 0;
-    background-color: $gc9;
+    background-color: #151515;
     border: solid 0.5rem $gc8;
-    background-image: repeating-conic-gradient(from 0deg at 25% 75%, #0000 20%, rgba(#000, 0.1) 35%);
+    background-image: repeating-conic-gradient(from 0deg at 25% 75%, #0000 20%, rgba($gc9, 0.3) 35%);
 
     &::after {
       @include sub-class(6rem, 6rem);

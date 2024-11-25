@@ -1,9 +1,20 @@
 import axios from "axios";
 import classes from "./TimeSelection.module.scss";
 import { webGameController, getAuthorization } from "../../../shared/utils/services/ApiService";
-import { SearchWebGameDto } from "../../../shared/utils/types/webGameDtos";
+import {
+  CreatePrivateGameByEmailDto,
+  CreatePrivateGameDto,
+  CreatePrivateGameWithLinkDto,
+  SearchWebGameDto,
+} from "../../../shared/utils/types/webGameDtos";
 import GameHubService from "../../../shared/utils/services/GameHubService";
-import { SearchWebGameModel } from "../../../shared/utils/types/webGameModels";
+import {
+  CreatePrivateGameByEmailModel,
+  CreatePrivateGameModel,
+  CreatePrivateGameWithLinkModel,
+  NotifyUserModel,
+  SearchWebGameModel,
+} from "../../../shared/utils/types/webGameModels";
 import { usePopup } from "../../../shared/utils/hooks/usePopUp";
 import { getErrMessage } from "../../../shared/utils/functions/errors";
 import { displayFromLowercase, getEnumValueByKey } from "../../../shared/utils/functions/enums";
@@ -12,22 +23,33 @@ import { mainColor } from "../../../shared/utils/objects/colorMaps";
 import { timingTypeIcons } from "../../../shared/svgs/iconsMap/TimingTypeIcons";
 import { TimingTypeName } from "../../../shared/utils/objects/constantLists";
 import { TimingType } from "../../../shared/utils/objects/entitiesEnums";
-import { Dispatch, SetStateAction } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
 import { defaultTimeControls, TimeControl } from "../../../shared/utils/objects/gameTimingMaps";
 import { PrivateGameOptions } from "../MainPageData";
 import { mainPageIcons } from "../MainPageIcons";
+import { Guid } from "guid-typescript";
+
+type NN = [number, number];
 
 type TimeSelectionProps = {
   // to set online game ids
   setOnlineGameIds?: Dispatch<SetStateAction<SearchWebGameDto | null>>;
+  //
+  privateGameOptions?: PrivateGameOptions | null;
+  //
+  setGameUrl?: Dispatch<SetStateAction<string>>;
   // to invite to private game
-  setPrivateGameOptions?: Dispatch<SetStateAction<PrivateGameOptions | null>>;
+  setPrivateGameIds?: Dispatch<
+    SetStateAction<CreatePrivateGameDto | CreatePrivateGameByEmailDto | CreatePrivateGameWithLinkDto | null>
+  >;
 };
 
-function TimeSelection({ setOnlineGameIds, setPrivateGameOptions }: TimeSelectionProps) {
+function TimeSelection({ setOnlineGameIds, privateGameOptions, setGameUrl, setPrivateGameIds }: TimeSelectionProps) {
   ///
 
   const { showPopup } = usePopup();
+
+  const [inactiveControls, setInactiveControls] = useState<boolean>(false);
 
   // to search for online game
   const onSearchForOnlineGame = async (header: TimingTypeName, values: [number, number]): Promise<void> => {
@@ -53,22 +75,135 @@ function TimeSelection({ setOnlineGameIds, setPrivateGameOptions }: TimeSelectio
     }
   };
 
-  // to start private games
-  const onStartPrivateGame = (header: TimingTypeName, values: [number, number]): void => {
-    if (setPrivateGameOptions === undefined) return;
+  // to invite friend to game via selection from friend list
+  const onInviteBySelection = async (friendshipId: Guid, header: TimingTypeName, values: NN): Promise<void> => {
+    if (!setPrivateGameIds) return;
 
-    var newOptions: PrivateGameOptions = {
-      header: header,
-      values: values,
+    const typeValue: TimingType = getEnumValueByKey(TimingType, header.toLowerCase());
+
+    const model: CreatePrivateGameModel = {
+      friendshipId: friendshipId,
+      type: typeValue,
+      minutes: values[0],
+      increment: values[1],
     };
 
-    setPrivateGameOptions((prevOptions) => (prevOptions ? { ...prevOptions, ...newOptions } : prevOptions));
+    try {
+      const response = await axios.post<CreatePrivateGameDto>(
+        webGameController.createPrivateGame(),
+        model,
+        getAuthorization()
+      );
+
+      const notifyModel: NotifyUserModel = {
+        friendId: response.data.friendId,
+        gameId: response.data.gameId,
+        inviter: response.data.inviter,
+        type: typeValue,
+        minutes: values[0],
+        increment: values[1],
+      };
+
+      await GameHubService.NotifyUser(notifyModel);
+
+      showPopup("USER INVITED", "success");
+
+      setPrivateGameIds(response.data);
+    } catch (err) {
+      showPopup(getErrMessage(err), "warning");
+    }
+  };
+
+  // to invite friend to game by providing user email
+  const onInviteByEmail = async (email: string, header: TimingTypeName, values: NN): Promise<void> => {
+    if (!setPrivateGameIds) return;
+
+    const typeValue = getEnumValueByKey(TimingType, header.toLowerCase());
+
+    const model: CreatePrivateGameByEmailModel = {
+      email: email,
+      type: typeValue,
+      minutes: values[0],
+      increment: values[1],
+    };
+
+    try {
+      const response = await axios.post<CreatePrivateGameByEmailDto>(
+        webGameController.createGameByEmail(),
+        model,
+        getAuthorization()
+      );
+
+      const notifyModel: NotifyUserModel = {
+        friendId: response.data.friendId,
+        gameId: response.data.gameId,
+        inviter: response.data.inviter,
+        type: typeValue,
+        minutes: values[0],
+        increment: values[1],
+      };
+
+      await GameHubService.NotifyUser(notifyModel);
+
+      showPopup("USER INVITED", "success");
+
+      setPrivateGameIds(response.data);
+    } catch (err) {
+      showPopup(getErrMessage(err), "warning");
+    }
+  };
+
+  // invite to game by url
+  const onInviteByUrl = async (header: string, values: NN): Promise<void> => {
+    if (!setPrivateGameIds || !setGameUrl) return;
+
+    const typeValue = getEnumValueByKey(TimingType, header.toLowerCase());
+
+    const model: CreatePrivateGameWithLinkModel = {
+      type: typeValue,
+      minutes: values[0],
+      increment: values[1],
+    };
+
+    try {
+      const response = await axios.post<CreatePrivateGameWithLinkDto>(
+        webGameController.createGameWithLink(),
+        model,
+        getAuthorization()
+      );
+
+      showPopup("GAME CREATED", "success");
+
+      setGameUrl(response.data.gameUrl);
+      setPrivateGameIds(response.data);
+    } catch (err) {
+      showPopup(getErrMessage(err), "warning");
+    }
+  };
+
+  // to start private games
+  const onStartPrivateGame = (header: TimingTypeName, values: [number, number]): void => {
+    if (!privateGameOptions) return;
+
+    if (privateGameOptions.selectedFriend) {
+      onInviteBySelection(privateGameOptions.selectedFriend.friendshipId, header, values);
+    }
+
+    if (privateGameOptions.selectedUser) {
+      onInviteByEmail(privateGameOptions.selectedUser.email, header, values);
+    }
+
+    if (privateGameOptions.selectedByUrl) {
+      onInviteByUrl(header, values);
+    }
   };
 
   // apply correct action after control selection
   const onControlSelected = (header: TimingTypeName, values: [number, number]): void => {
+    setInactiveControls(true);
+
     if (setOnlineGameIds) onSearchForOnlineGame(header, values);
-    if (setPrivateGameOptions) onStartPrivateGame(header, values);
+    if (setPrivateGameIds) onStartPrivateGame(header, values);
   };
 
   // display time controls buttons
@@ -111,7 +246,7 @@ function TimeSelection({ setOnlineGameIds, setPrivateGameOptions }: TimeSelectio
         </h2>
       );
 
-    if (setPrivateGameOptions)
+    if (setPrivateGameIds)
       return (
         <h2 className={classes["section-header"]}>
           <IconCreator icons={mainPageIcons} iconName={"vsFriend"} iconClass={classes["time-selection-icon"]} />
@@ -123,7 +258,10 @@ function TimeSelection({ setOnlineGameIds, setPrivateGameOptions }: TimeSelectio
   };
 
   return (
-    <div data-testid="main-page-vs-player-section" className={classes.search}>
+    <div
+      data-testid="main-page-vs-player-section"
+      className={`${classes.search} ${inactiveControls ? classes.inactive : ""}`}
+    >
       <div className={classes.search__grid}>
         <div className={classes.search__grid__header}>{displaySectionHeader()}</div>
 

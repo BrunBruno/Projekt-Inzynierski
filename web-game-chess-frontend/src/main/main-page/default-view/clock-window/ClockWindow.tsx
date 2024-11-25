@@ -88,7 +88,7 @@ function ClockWindow({}: ClockWindowProps) {
             iconClass={classes["block-icon"]}
             color={greyColor.c0}
           />
-          <span>Games today</span>
+          <span>Games played</span>
           <span>{gamesStats.gamesPlayed}</span>
         </div>
       </div>

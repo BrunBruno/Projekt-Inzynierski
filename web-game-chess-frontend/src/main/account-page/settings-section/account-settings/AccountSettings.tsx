@@ -26,16 +26,18 @@ function AccountSettings({ user }: AccountSettingsProps) {
 
   const { showPopup } = usePopup();
 
+  // inputs refs
   const oldPasswordInputRef = useRef<HTMLInputElement>(null);
   const newPasswordInputRef = useRef<HTMLInputElement>(null);
   const confPasswordInputRef = useRef<HTMLInputElement>(null);
 
+  // reset password error message
   const [errorMess, setErrorMess] = useState<string>("");
-
+  // password configuration
   const [userPassConf, setUserPassConf] = useState<GetRegisterConfDto | null>(null);
-
+  // profile status
   const [isAccountPrivate, setIsAccountPrivate] = useState<boolean>(false);
-
+  // password indicators
   const [passwordIndicators, setPasswordIndicators] = useState<boolean[]>([false, false, false, false, false, false]);
 
   useEffect(() => {
@@ -109,7 +111,12 @@ function AccountSettings({ user }: AccountSettingsProps) {
     }
 
     try {
-      await axios.put(userController.changePassword(), model);
+      await axios.put(userController.changePassword(), model, getAuthorization());
+
+      oldPasswordInputRef.current.value = "";
+      newPasswordInputRef.current.value = "";
+      confPasswordInputRef.current.value = "";
+      setErrorMess("");
 
       showPopup("PASSWORD CHANGED", "success");
     } catch (err) {
@@ -162,7 +169,7 @@ function AccountSettings({ user }: AccountSettingsProps) {
   return (
     <div className={classes.settings}>
       <div className={classes.settings__row}>
-        <p className={classes["row-title"]}>Change password</p>
+        <p className={classes["row-title"]}>Change Account Password</p>
 
         <form
           className={classes["settings-form"]}
@@ -252,7 +259,7 @@ function AccountSettings({ user }: AccountSettingsProps) {
       </div>
 
       <div className={classes.settings__row}>
-        <p className={classes["row-title"]}>Profile visibility</p>
+        <p className={classes["row-title"]}>Profile Visibility</p>
 
         <form className={classes["settings-form"]}>
           <div className={classes["form-row"]}>
