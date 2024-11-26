@@ -36,11 +36,12 @@
     &__container {
       &__content {
         grid-template-columns: 1fr;
-        // btn size + pad 7 + 2
-        grid-template-rows: 9rem auto;
+        // btn size + pad
+        grid-template-rows: 11rem auto;
 
         .game-interface {
-          height: calc(100vh - 9rem - 6rem);
+          // 100 vh - main buttons - nav
+          height: calc(100dvh - 11rem - 6rem);
         }
       }
     }

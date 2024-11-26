@@ -91,6 +91,7 @@ namespace chess.Infrastructure.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    Elo = table.Column<int>(type: "integer", nullable: false),
                     UserId = table.Column<Guid>(type: "uuid", nullable: false),
                     GameId = table.Column<Guid>(type: "uuid", nullable: false),
                     Name = table.Column<string>(type: "text", nullable: false),
@@ -335,6 +336,7 @@ namespace chess.Infrastructure.Migrations
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
                     EngineLevel = table.Column<int>(type: "integer", nullable: false),
+                    EloGain = table.Column<int>(type: "integer", nullable: false),
                     PlayerId = table.Column<Guid>(type: "uuid", nullable: false),
                     WebGameTimingId = table.Column<Guid>(type: "uuid", nullable: true),
                     Position = table.Column<string>(type: "text", nullable: false),

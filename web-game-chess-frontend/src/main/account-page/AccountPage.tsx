@@ -13,7 +13,7 @@ import MainPopUp from "../../shared/components/main-popup/MainPopUp";
 import { getErrMessage } from "../../shared/utils/functions/errors";
 import { usePopup } from "../../shared/utils/hooks/usePopUp";
 import { PagedResult } from "../../shared/utils/types/abstractDtosAndModels";
-import { timingTypeNames } from "../../shared/utils/objects/constantLists";
+import { TimingTypeName, timingTypeNames } from "../../shared/utils/objects/constantLists";
 import { TimingType } from "../../shared/utils/objects/entitiesEnums";
 import usePagination from "../../shared/utils/hooks/usePagination";
 import SettingsSection from "./settings-section/SettingsSection";
@@ -33,7 +33,7 @@ function AccountPage() {
 
   // set default page size
   useEffect(() => {
-    setDefPageSize(1000); // ??? tododo
+    setDefPageSize(1000); //  tododo
   }, [selectedHistory]);
 
   // all current user data
@@ -94,7 +94,12 @@ function AccountPage() {
       setContent(<LoadingPage text="Loading data" />);
 
       setTimeout(() => {
-        setContent(<HistorySection selectedType={timingTypeNames[type - 1]} typeHistory={response.data} />);
+        setContent(
+          <HistorySection
+            selectedType={timingTypeNames[type - 1].toLocaleLowerCase() as TimingTypeName}
+            typeHistory={response.data}
+          />
+        );
       }, 100);
     } catch (err) {
       showPopup(getErrMessage(err), "warning");
@@ -133,13 +138,15 @@ function AccountPage() {
 
   return (
     <main className={classes["account-main"]}>
-      <MainNav />
+      <div className={classes["main-container"]}>
+        <MainNav />
 
-      <UserSection user={user} elo={elo} fetchData={fetchData} setSelectedContent={setSelectedContent} />
+        <UserSection user={user} elo={elo} fetchData={fetchData} setSelectedContent={setSelectedContent} />
 
-      <Fragment>{content}</Fragment>
+        <Fragment>{content}</Fragment>
 
-      <MainPopUp />
+        <MainPopUp />
+      </div>
     </main>
   );
 }

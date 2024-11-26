@@ -42,12 +42,10 @@ public class CancelPrivateGameRequestHandler : IRequestHandler<CancelPrivateGame
 
         if (!gameToDelete.IsPrivate)
             throw new BadRequestException("Can not remove this game.");
+       
 
-        var whitePlayer = await _webGamePlayerRepository.GetById(gameToDelete.WhitePlayerId)
-             ?? throw new NotFoundException("White player not found.");
-
-        var blackPlayer = await _webGamePlayerRepository.GetById(gameToDelete.BlackPlayerId)
-             ?? throw new NotFoundException("Black player not found.");
+        var whitePlayer = gameToDelete.WhitePlayer;
+        var blackPlayer = gameToDelete.BlackPlayer;
 
 
         await _webGameRepository.Delete(gameToDelete);

@@ -26,6 +26,8 @@
   .game {
     &__content {
       @include square(68rem);
+
+      margin: 2rem 0;
     }
   }
 }

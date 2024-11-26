@@ -190,16 +190,17 @@
 
 // resize
 @media (width <= 700px) {
+  $btn-size: 9rem;
+
   .buttons {
-    @include flex(row, space-evenly, center, 0);
+    @include flex(row, space-evenly, center, 1rem);
 
     width: 100vw;
     grid-row: 1;
     overflow: hidden;
-    height: fit-content;
-    padding: 1rem !important;
+    height: calc($btn-size + 2rem);
+    padding: 0 1rem !important;
     border: none;
-    box-shadow: none;
 
     &::before {
       @include sub-class(100%, 0.1rem);
@@ -207,22 +208,24 @@
       top: 100%;
       left: 0;
       background-color: $mc0;
-      box-shadow: 0 0 1rem 0.1rem $mc0;
+      box-shadow: 0 0 0.3rem 0.1rem $mc0;
     }
 
     button.interface-button {
       @include flex;
-      @include square(7rem);
+      @include square($btn-size);
 
+      width: 100%;
       gap: 0;
-      padding: 0;
+      padding: 1.5rem;
+      border: none;
 
       span {
         display: none;
       }
 
       svg {
-        height: 100%;
+        @include square(calc($btn-size - 3rem) !important);
       }
     }
   }

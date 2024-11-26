@@ -59,7 +59,7 @@ public class WebGamePlayerRepository : IWebGamePlayerRepository {
     ///<inheritdoc/>
     public async Task<WebGamePlayer?> GetAwaitingPlayer(Guid userId, Guid timingId)
         => await _dbContext.WebGamePlayers
-                    .FirstOrDefaultAsync(p => p.UserId == userId && p.TimingId == timingId && p.IsPlaying == false);
+                    .FirstOrDefaultAsync(p => p.UserId == userId && p.TimingId == timingId && p.IsPlaying == false && p.IsPrivate == false);
 
     ///<inheritdoc/>
     public async Task<WebGamePlayer?> GetById(Guid id)

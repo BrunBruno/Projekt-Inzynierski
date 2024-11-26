@@ -31,7 +31,7 @@ $sqr-size: 8rem;
         height: $sqr-size;
         padding-bottom: 1rem;
 
-        h2.section-header {
+        .section-header {
           @include flex($gap: 2rem);
 
           span {
@@ -39,7 +39,7 @@ $sqr-size: 8rem;
             color: $mc0;
           }
 
-          svg.time-selection-icon {
+          .time-selection-icon {
             height: 4rem;
             filter: drop-shadow(0 0 1rem $mc9);
           }
@@ -177,7 +177,7 @@ $sqr-size: 8rem;
 
 // resize
 @media (width <= 700px) {
-  $sqr-size: 10rem;
+  $sqr-size: 12rem;
 
   .search {
     height: 100%;
@@ -196,16 +196,40 @@ $sqr-size: 8rem;
       background-color: #0000;
 
       &__level {
+        &__header {
+          padding: 0;
+          padding-bottom: 8rem;
+
+          .section-header {
+            span {
+              font-size: 4rem;
+            }
+
+            .time-selection-icon {
+              height: 6rem;
+            }
+          }
+        }
+
         &__grid {
           grid-template-columns: repeat(5, 1fr);
+          grid-template-rows: repeat(4, calc($sqr-size / 2) $sqr-size);
 
           .engine-level {
             @include square($sqr-size);
+
+            span {
+              font-size: calc($sqr-size * 0.4);
+            }
           }
 
           .engine-difficulty {
-            height: $sqr-size;
+            height: calc($sqr-size / 2);
             grid-column: span 5;
+
+            span {
+              font-size: 3rem;
+            }
           }
         }
       }

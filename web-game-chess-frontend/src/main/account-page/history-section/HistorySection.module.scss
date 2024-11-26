@@ -42,7 +42,7 @@
 // resize
 @media (width <= 1200px) {
   .history {
-    height: 100%;
+    height: fit-content;
     max-height: unset;
     padding-top: 10rem;
     grid-template-rows: 4rem 50rem auto;

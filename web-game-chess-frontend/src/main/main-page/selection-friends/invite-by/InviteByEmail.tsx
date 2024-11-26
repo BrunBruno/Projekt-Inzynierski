@@ -59,7 +59,7 @@ function InviteByEmail({ setSelectedUser }: InviteByEmailProps) {
   return (
     <div className={classes.invite}>
       <p className={classes.header}>
-        <span>Invite using email:</span>
+        <span>Invite Using Email</span>
       </p>
 
       <p className={classes.text}>

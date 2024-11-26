@@ -1,4 +1,4 @@
-import { useEffect, useReducer } from "react";
+import { useEffect, useReducer, useRef } from "react";
 import {
   EndWebGameDto,
   GetWebGameDto,
@@ -210,15 +210,41 @@ function WebGameContent({
     });
   }, [selectionStates.coordinates]);
 
+  const containerRef = useRef<HTMLDivElement>(null);
+  const boardRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
-    const handleResize = () => {};
+    const handleResize = (): void => {
+      const container = containerRef.current;
+      const board = boardRef.current;
+      if (!board || !container) return;
+
+      const sizes = container.getBoundingClientRect();
+      console.log(sizes);
+
+      if (sizes.width >= sizes.height) {
+        board.style.width = "";
+        board.style.height = "";
+        return;
+      }
+      const wh = window.innerWidth;
+
+      if (wh > 1000) return;
+
+      board.style.width = `${wh}px`;
+      board.style.height = `${wh}px`;
+    };
 
     window.addEventListener("resize", handleResize);
-  }, []);
+    handleResize();
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, [boardRef, containerRef]);
 
   return (
-    <section className={classes.game}>
-      <div className={classes.game__content}>
+    <section ref={containerRef} className={classes.game}>
+      <div ref={boardRef} className={classes.game__content}>
         {/* game board */}
         <WebGameCoordinates playerData={playerData} />
 

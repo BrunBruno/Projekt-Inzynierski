@@ -11,7 +11,8 @@ type IconNames =
   | "history"
   | "online"
   | "offline"
-  | "games";
+  | "games"
+  | "stats";
 
 export const userSectionIcons: IconMap<IconNames> = {
   addProfile: (iconClass?: ElementClass, color?: ColorValue) => (
@@ -226,6 +227,17 @@ export const userSectionIcons: IconMap<IconNames> = {
       <path
         d="M16.75 11C17.1642 11 17.5 11.3358 17.5 11.75C17.5 12.1642 17.1642 12.5 16.75 12.5C16.3358 12.5 16 12.1642 16 11.75C16 11.3358 16.3358 11 16.75 11Z"
         fill={color ? color : greyColor.c0}
+      />
+    </svg>
+  ),
+
+  stats: (iconClass?: ElementClass, color?: string) => (
+    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" className={iconClass}>
+      <path
+        fill={color ? color : greyColor.c0}
+        fillRule="evenodd"
+        d="M1008,456a12,12,0,1,1,12-12A12,12,0,0,1,1008,456Zm0-22a10,10,0,1,0,10,10A10,10,0,0,0,1008,434Zm4,15a0.991,0.991,0,0,1-.99-1v-4.99a0.99,0.99,0,1,1,1.98,0V448A0.991,0.991,0,0,1,1012,449Zm-4,0a1,1,0,0,1-1-1v-8a1,1,0,0,1,2,0v8A1,1,0,0,1,1008,449Zm-4,0a0.991,0.991,0,0,1-.99-1v-2.989a0.99,0.99,0,1,1,1.98,0V448A0.991,0.991,0,0,1,1004,449Z"
+        transform="translate(-996 -432)"
       />
     </svg>
   ),

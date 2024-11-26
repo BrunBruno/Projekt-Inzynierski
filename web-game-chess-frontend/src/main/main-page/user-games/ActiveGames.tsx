@@ -65,6 +65,8 @@ function ActiveGames({}: ActiveGamesProps) {
   // get all finished games
   useEffect(() => {
     const getGames = async (): Promise<void> => {
+      if (pageNumber <= 0 || pageSize <= 0) return;
+
       const model: GetAllActiveGamesModel = {
         pageNumber: pageNumber,
         pageSize: pageSize,

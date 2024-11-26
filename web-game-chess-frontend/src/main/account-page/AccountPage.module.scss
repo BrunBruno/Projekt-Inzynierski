@@ -8,6 +8,12 @@
   @include Main.for-nav;
 
   & {
+    overflow: hidden;
+  }
+
+  .main-container {
+    @include wh100;
+
     display: grid;
     grid-template-columns: 1fr 1fr;
     overflow: hidden;
@@ -17,7 +23,16 @@
 // resize
 @media (width <= 1200px) {
   .account-main {
-    grid-template-columns: 1fr;
-    overflow: visible;
+    height: 100vh;
+    height: 100dvh;
+
+    .main-container {
+      display: block;
+      overflow: scroll;
+
+      &::-webkit-scrollbar {
+        display: none;
+      }
+    }
   }
 }

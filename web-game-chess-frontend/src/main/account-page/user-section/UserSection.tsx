@@ -41,6 +41,22 @@ function UserSection({ user, elo, fetchData, setSelectedContent }: UserSectionPr
 
   // show/hide image options
   const [imageSettingsOpen, setImageSettingsOpen] = useState<boolean>(false);
+  //
+  const [statsOpen, setStatsOpen] = useState<boolean>(false);
+  const [isSmallDevice, setIsSmallDevice] = useState<boolean>(false);
+
+  useEffect(() => {
+    const handleResize = (): void => {
+      if (window.innerWidth <= 1200 && !isSmallDevice) setIsSmallDevice(true);
+      else if (window.innerWidth > 1200 && isSmallDevice) setIsSmallDevice(false);
+    };
+
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, [isSmallDevice]);
 
   // fill current values
   useEffect(() => {
@@ -131,6 +147,10 @@ function UserSection({ user, elo, fetchData, setSelectedContent }: UserSectionPr
 
     updateUser(updateProps);
     setImageSettingsOpen(false);
+  };
+
+  const showStats = (): void => {
+    setStatsOpen((prev) => !prev);
   };
 
   return (
@@ -266,6 +286,21 @@ function UserSection({ user, elo, fetchData, setSelectedContent }: UserSectionPr
               </div>
               <span>{user.country}</span>
             </div>
+
+            {isSmallDevice && (
+              <div className={classes["icon-con"]}>
+                <div
+                  data-testid="set-friends-button"
+                  className={`${classes.icon} ${classes["stats"]}`}
+                  onClick={() => {
+                    showStats();
+                  }}
+                >
+                  <IconCreator icons={userSectionIcons} iconName={"stats"} />
+                </div>
+                <span>Stats</span>
+              </div>
+            )}
 
             <div className={classes["icon-con"]}>
               <div
@@ -430,7 +465,13 @@ function UserSection({ user, elo, fetchData, setSelectedContent }: UserSectionPr
             ))}
           </div>
         ) : (
-          <div className={classes.user__data__stats}>
+          <div
+            className={`
+              ${classes.user__data__stats}
+              ${statsOpen ? classes["open-stats"] : ""}
+            `}
+            style={{ display: !statsOpen && isSmallDevice ? "none" : "flex" }}
+          >
             <div className={classes.user__data__stats__header}>
               <IconCreator
                 icons={userSectionIcons}

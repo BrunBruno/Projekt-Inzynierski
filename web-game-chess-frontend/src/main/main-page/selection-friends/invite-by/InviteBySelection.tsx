@@ -21,7 +21,7 @@ function InviteBySelection({ setSelectedUsername }: InviteBySelectionProps) {
   return (
     <div className={classes.invite}>
       <p className={classes.header}>
-        <span>Search among friends:</span>
+        <span>Search Among Friends</span>
       </p>
 
       <p className={classes.text}>

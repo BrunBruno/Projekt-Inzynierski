@@ -42,6 +42,9 @@ public class UpdatePrivateGameRequestHandler : IRequestHandler<UpdatePrivateGame
         var game = await _webGameRepository.GetById(request.GameId)
             ?? throw new NotFoundException("Game not found");
 
+        if (userId == game.WhitePlayer.UserId || userId == game.BlackPlayer.UserId)
+            throw new BadRequestException("Nothing to update");
+
         if((game.WhitePlayer.IsTemp && game.WhitePlayer.UserId != userId) ||
            (game.BlackPlayer.IsTemp && game.BlackPlayer.UserId != userId)) {
 

@@ -61,6 +61,9 @@ public class CreatePrivateGameByEmailRequestHandler : IRequestHandler<CreatePriv
         var friend = await _userRepository.GetByEmail(request.Email)
              ?? throw new NotFoundException("Friend not found.");
 
+        if (user.Id == friend.Id)
+            throw new BadRequestException("Can not invite yourself.");
+
         var existingGameTiming = await _webGameTimingRepository.FindTiming(request.Type, request.Minutes * 60, request.Increment);
 
         var timing = existingGameTiming;

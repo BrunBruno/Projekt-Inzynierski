@@ -17,7 +17,7 @@ function InviteByUrl({ setSelectedByUrl }: InviteByUrlProps) {
   return (
     <div className={classes.invite}>
       <p className={classes.header}>
-        <span>Invite by link:</span>
+        <span>Invite By Link</span>
       </p>
 
       <p className={classes.text}>

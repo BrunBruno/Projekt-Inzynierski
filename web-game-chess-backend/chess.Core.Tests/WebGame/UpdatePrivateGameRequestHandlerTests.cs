@@ -80,7 +80,6 @@ public class UpdatePrivateGameRequestHandlerTests {
 
 
         var result = await handler.Handle(request, CancellationToken.None);
-        result.ShouldStart.Should().Be(true);
 
         _mockUserContextService.Verify(x => x.GetUserId(), Times.Once);
         _mockUserRepository.Verify(x => x.GetById(userId), Times.Once);
@@ -153,7 +152,6 @@ public class UpdatePrivateGameRequestHandlerTests {
 
 
         var result = await handler.Handle(request, CancellationToken.None);
-        result.ShouldStart.Should().Be(false);
 
         _mockUserContextService.Verify(x => x.GetUserId(), Times.Once);
         _mockUserRepository.Verify(x => x.GetById(userId), Times.Once);

@@ -30,7 +30,7 @@ $tag-size: 3rem;
       padding-left: 16rem;
       text-align: center;
 
-      h2.section-header {
+      .section-header {
         @include flex($gap: 2rem);
 
         span {
@@ -38,7 +38,7 @@ $tag-size: 3rem;
           color: $mc0;
         }
 
-        svg.time-selection-icon {
+        .time-selection-icon {
           height: 4rem;
           filter: drop-shadow(0 0 1rem $mc9);
         }
@@ -137,6 +137,7 @@ $tag-size: 3rem;
           height: $tag-size;
           z-index: 1;
           color: $gc6;
+          font-weight: bold;
 
           .num {
             z-index: 1;
@@ -182,7 +183,7 @@ $tag-size: 3rem;
 
 // resize
 @media (width <= 700px) {
-  $tag-size: 3.2rem;
+  $tag-size: 3.6rem;
 
   .search {
     height: 100%;
@@ -200,6 +201,17 @@ $tag-size: 3rem;
 
       &__header {
         padding: 0;
+        padding-bottom: 8rem;
+
+        .section-header {
+          span {
+            font-size: 4rem;
+          }
+
+          .time-selection-icon {
+            height: 6rem;
+          }
+        }
       }
 
       &__row {
