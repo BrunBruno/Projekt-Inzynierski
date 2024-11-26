@@ -8,8 +8,7 @@ import IconCreator from "../../../../shared/components/icon-creator/IconCreator"
 import { PieceTag } from "../../../../shared/utils/objects/constantLists";
 import { dangerColor } from "../../../../shared/utils/objects/colorMaps";
 import { symbolIcons } from "../../../../shared/svgs/iconsMap/SymbolIcons";
-import { defaultPiecesImages } from "../../../../shared/svgs/iconsMap/DefaultPieceImageSvgs";
-import { GetEngineGameDto } from "../../../../shared/utils/types/engineDtos";
+import { GetEngineGameDto } from "../../../../shared/utils/types/engineGameDtos";
 import {
   Coordinate,
   EngineGameStates,
@@ -17,8 +16,10 @@ import {
   SelectionStates,
   TypeOfGame,
 } from "../../../../shared/utils/chess-game/gameSates";
-import { areCoorEqual, checkIfOwnPiece, posToIndex, toCoor } from "../../../../shared/utils/chess-game/general";
+import { areCoorEqual, checkIfOwnPiece, toCoor } from "../../../../shared/utils/chess-game/general";
 import {
+  changeBoardByUserSettings,
+  changePiecesByUserSettings,
   onClearHighlights,
   onHighlightFile,
   performMoveAnimation,
@@ -31,15 +32,14 @@ type EngineGameBoardProps = {
   gameData: GetEngineGameDto;
   // current game states
   gameStates: EngineGameStates;
-  // user selection states
+  // user selection states and setters
   selectionStates: SelectionStates;
-  // selection setters
   setSelectionStates: Dispatch<SelectionAction>;
   // piece selection setter
   chosePiece: (piece: PieceOption, coordinates: Coordinate) => void;
-  //
+  // for game updates
   getGame: () => Promise<void>;
-  //
+  // for changing displayed window
   setDisplayedWindow: Dispatch<SetStateAction<GameWindowInterface>>;
 };
 
@@ -88,12 +88,11 @@ function EngineGameBoard({
       // animation after opponents move
       if (
         innerBoardRef.current &&
-        ((gameData.player.color === PieceColor.white && gameData.turn % 2 === 1) ||
-          (gameData.player.color === PieceColor.black && gameData.turn % 2 === 0))
+        ((gameData.player.color === PieceColor.white && gameData.turn % 2 === 0) ||
+          (gameData.player.color === PieceColor.black && gameData.turn % 2 === 1))
       ) {
-        const fieldNodes = innerBoardRef.current.querySelectorAll(`.${classes.field}`);
+        const pieceParent = document.getElementById(`field-${oldCoor![0]}-${oldCoor![1]}`);
 
-        const pieceParent = fieldNodes[posToIndex(oldCoor)] as HTMLElement;
         if (pieceParent) {
           const movedPiece = pieceParent.firstElementChild as HTMLElement;
 
@@ -141,6 +140,7 @@ function EngineGameBoard({
     // add field
     outerFields.push(
       <div
+        id={`field-${coordinates[0]}-${coordinates[1]}`}
         key={`${coordinates[0]}-${coordinates[1]}`}
         className={`
           ${classes.field}
@@ -150,41 +150,48 @@ function EngineGameBoard({
         onMouseDown={(event) => {
           if (event.button === 0) onClearHighlights(classes.highlight);
         }}
-        onClick={(event) => {
-          const target = event.target as HTMLElement;
-          if (char) setSelectionStates({ type: "SET_TARGET", payload: target });
-
-          onSelectField(char, coordinates, isInTipFields, sameCoor);
-        }}
         onContextMenu={(event) => {
           event.preventDefault();
           onHighlightFile(innerBoardRef, coordinates, classes.highlight, classes.field);
         }}
-        // onDragStartCapture={() => {
-        //   onDragPiece(char, coordinates);
-        // }}
-        // onDragOver={(event) => {
-        //   event.preventDefault();
-        // }}
-        // onDrop={(event) => {
-        //   event.preventDefault();
-        //   onDropPiece(coordinates, isInTipFields, sameCoor);
-        // }}
       >
-        {char && shouldDisplay && (
+        {char && shouldDisplay ? (
           <div
             className={`
               ${classes.piece}
               ${checkIfOwnPiece(char, gameData.player) ? classes.own : ""}
             `}
             draggable={checkIfOwnPiece(char, gameData.player)}
+            style={{ transform: "none" }} // clear
+            onClick={(event) => {
+              const target = event.target as HTMLDivElement;
+              if (target) setSelectionStates({ type: "SET_TARGET", payload: target });
+
+              onSelectField(char, coordinates, isInTipFields, sameCoor);
+            }}
+            onDragStartCapture={() => {
+              onDragPiece(char, coordinates);
+            }}
+            onDragOver={(event) => {
+              event.preventDefault();
+              event.stopPropagation();
+            }}
+            onDrop={(event) => {
+              event.preventDefault();
+              onDropPiece(coordinates, isInTipFields, sameCoor);
+            }}
+            onDragEndCapture={() => {
+              clearDrag();
+            }}
           >
             {/* piece icon */}
+
             <IconCreator
-              icons={defaultPiecesImages}
+              icons={changePiecesByUserSettings(gameData.gameSettings.appearanceOfPieces)}
               iconName={char.toLowerCase() as PieceTag}
               iconClass={classes["piece-svg"]}
               color={getPieceSideColor(char as PieceTag)}
+              active={true}
             />
 
             {/* capture icon */}
@@ -192,14 +199,33 @@ function EngineGameBoard({
               <div className={classes.capture}>
                 <IconCreator icons={symbolIcons} iconName={"x"} iconClass={classes.x} color={dangerColor.mid} />
                 <IconCreator
-                  icons={defaultPiecesImages}
+                  icons={changePiecesByUserSettings(gameData.gameSettings.appearanceOfPieces)}
                   iconName={capturedPiece.toLowerCase() as PieceTag}
                   iconClass={classes["capture-svg"]}
                   color={getPieceSideColor(capturedPiece as PieceTag)}
+                  active={true}
                 />
               </div>
             )}
           </div>
+        ) : (
+          <div
+            className={classes.empty}
+            onClick={() => {
+              onSelectField(char, coordinates, isInTipFields, sameCoor);
+            }}
+            onDragOver={(event) => {
+              event.preventDefault();
+              event.stopPropagation();
+            }}
+            onDrop={(event) => {
+              event.preventDefault();
+              onDropPiece(coordinates, isInTipFields, sameCoor);
+            }}
+            onDragEndCapture={() => {
+              clearDrag();
+            }}
+          ></div>
         )}
       </div>
     );
@@ -212,6 +238,7 @@ function EngineGameBoard({
           ${isInCheck ? classes.check : ""} 
           ${isOldFiled ? classes.old : ""} 
           ${isNewField ? classes.new : ""}
+          ${changeBoardByUserSettings(gameData.gameSettings.appearanceOfBoard, classes)}
         `}
       />
     );
@@ -289,6 +316,7 @@ function EngineGameBoard({
       return;
     }
 
+    // pawn promotions
     if (
       isInTipFields &&
       ((selectionStates.piece === pieceTagMap.white.pawn && coordinates[1] === 8) ||
@@ -371,6 +399,11 @@ function EngineGameBoard({
     } else {
       chosePiece("", null);
     }
+  };
+
+  const clearDrag = () => {
+    setSelectionStates({ type: "SET_IS_DRAGGING", payload: false });
+    chosePiece("", null);
   };
 
   return (

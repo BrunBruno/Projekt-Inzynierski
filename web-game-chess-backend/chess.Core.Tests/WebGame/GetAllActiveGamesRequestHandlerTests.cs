@@ -106,8 +106,6 @@ public class GetAllActiveGamesRequestHandlerTests {
                 EndedAt = null,
                 WinnerColor = PieceColor.White,
                 TimingType = TimingTypes.Daily,
-                WhitePlayerRegistered = true,
-                BlackPlayerRegistered = true,
 
                 WhitePlayer = whitePlayer,
                 BlackPlayer = blackPlayer,

@@ -1,7 +1,7 @@
 @use "../../../../shared/styles/shared.scss" as *;
 
 @mixin board() {
-  @include wh100();
+  @include wh100;
 
   position: relative;
   aspect-ratio: 1/1;
@@ -11,41 +11,90 @@
 }
 
 .board {
-  @include wh100();
+  @include wh100;
 
   position: relative;
 
   // inner board
   &__inner {
-    @include board();
+    @include board;
 
     z-index: 10;
     grid-template-columns: repeat(8, 1fr) 0;
-    gap: 0.4rem;
+    border-radius: 0.5rem;
 
     .field {
-      @include rounded(0.5rem);
-      @include flex();
+      @include flex;
 
       position: relative;
       z-index: 10;
 
-      &:nth-child(odd) {
-        background-color: rgba($mc0, 0.96);
-        &.old {
-          background-color: rgba($mc3, 0.96);
+      &.rounded {
+        margin: 0.2rem;
+        border-radius: 0.5rem;
+      }
+
+      &.grey {
+        &:nth-child(odd) {
+          background-color: rgba(#fff, 0.96);
+
+          &.old {
+            background-color: rgba($gc4, 0.96);
+          }
+
+          &.new {
+            background-color: rgba($gc4, 0.96);
+          }
         }
-        &.new {
-          background-color: rgba($mc3, 0.96);
+
+        &:nth-child(even) {
+          background-color: rgba(#000, 0.96);
+
+          &.old {
+            background-color: rgba($gc8, 0.96);
+          }
+
+          &.new {
+            background-color: rgba($gc8, 0.96);
+          }
         }
       }
+
+      &.wooden {
+        &::after {
+          @include sub-class;
+
+          background-image: url("/images/wood.png");
+          background-size: cover;
+          opacity: 0.2;
+        }
+      }
+
+      &:nth-child(odd) {
+        background-color: rgba($mc0, 0.96);
+
+        &.old,
+        &.new {
+          background-color: rgba($mc2, 0.96);
+          box-shadow: inset 0 0 1rem 0 $mc9;
+
+          &.highlight {
+            background-color: $danger-color-l;
+          }
+        }
+      }
+
       &:nth-child(even) {
         background-color: rgba($mc9, 0.96);
-        &.old {
-          background-color: rgba($mc4, 0.96);
-        }
+
+        &.old,
         &.new {
-          background-color: rgba($mc4, 0.96);
+          background-color: rgba($mc5, 0.96);
+          box-shadow: inset 0 0 1rem 0 $mc2;
+
+          &.highlight {
+            background-color: $danger-color-l;
+          }
         }
       }
 
@@ -68,11 +117,10 @@
       width: 0;
     }
   }
-  //*/
 
   // outer board
   &__outer {
-    @include board();
+    @include board;
 
     position: absolute;
     top: 0;
@@ -81,7 +129,7 @@
     grid-template-columns: repeat(8, 1fr);
 
     .field {
-      @include flex();
+      @include flex;
 
       position: relative;
       z-index: 10;
@@ -93,29 +141,31 @@
 
       &.tip {
         cursor: pointer;
-        background-image: radial-gradient(circle at 50% 50%, rgba(#000, 0.5) 30%, #0000 40%);
+        background-image: radial-gradient(
+          circle at 50% 50%,
+          rgba(#000, 0.5) 20%,
+          rgba($gc8, 0.5) 30%,
+          rgba($gc5, 0.5) 40%,
+          #0000 45%
+        );
 
         // to display capture
         &:not(.selected) {
           &:has(.piece) {
-            svg.piece-svg {
-              filter: drop-shadow(0 0 1rem $danger-color-m);
-            }
+            filter: drop-shadow(0 0 0.5rem $danger-color-m);
           }
         }
       }
 
       &.selected {
         .piece {
-          svg.piece-svg {
-            filter: drop-shadow(0 0 1rem #000) brightness(60%);
-          }
+          filter: brightness(80%);
         }
       }
 
       .piece {
-        @include square(100%);
-        @include flex();
+        @include wh100;
+        @include flex;
 
         position: relative;
         user-select: none;
@@ -123,13 +173,14 @@
 
         &.own {
           cursor: grab;
+
           &:active {
             cursor: grabbing;
           }
         }
 
         svg.piece-svg {
-          height: calc(((64rem - 2rem) / 8) * 0.8);
+          height: 80%;
           transform: translateZ(-1px);
           filter: drop-shadow(0 0 1rem #000);
           pointer-events: none;
@@ -145,23 +196,26 @@
           right: 0;
 
           svg.x {
-            @include absCenter();
+            @include abs-center;
 
             height: 3rem;
             z-index: 21;
           }
 
           svg.capture-svg {
-            @include absCenter();
+            @include abs-center;
 
             height: 2rem;
             z-index: 20;
           }
         }
       }
+
+      .empty {
+        @include wh100;
+      }
     }
   }
-  //*/
 
   .white-board {
     transform: rotate(0deg);
@@ -181,29 +235,3 @@
 }
 
 // resize
-@media (max-width: 1000px) {
-  .board {
-    width: unset;
-    height: 96%;
-    aspect-ratio: 1/1 !important;
-  }
-}
-
-@media (max-width: 750px) {
-  .board {
-    height: 80%;
-  }
-}
-
-@media (max-width: 600px) {
-  .board {
-    height: 60%;
-  }
-}
-
-@media (max-width: 500px) {
-  .board {
-    height: 50%;
-  }
-}
-//*/

@@ -14,12 +14,14 @@ public class EngineGameMessageRepository : IEngineGameMessageRepository {
         _dbContext = dbContext;
     }
 
+    ///<inheritdoc/>
     public async Task<List<EngineGameMessage>> GetAllForGame(Guid gameId)
         => await _dbContext.EngineGameMessages
                     .Where(egm => egm.GameId == gameId)
                     .OrderBy(egm => egm.SentAt)
                     .ToListAsync();
-
+                    
+    ///<inheritdoc/>
     public async Task Create(EngineGameMessage message) {
         await _dbContext.EngineGameMessages.AddAsync(message);
         await _dbContext.SaveChangesAsync();

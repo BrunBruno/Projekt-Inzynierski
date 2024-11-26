@@ -1,4 +1,5 @@
-﻿using chess.Application.Repositories.UserRepositories;
+﻿
+using chess.Application.Repositories.UserRepositories;
 using chess.Application.Requests.UserRequests.GetFullUser;
 using chess.Application.Services;
 using chess.Core.Entities;
@@ -33,7 +34,7 @@ public class GetFullUserRequestHandlerTests {
             RoleId = (int)Roles.User,
             Elo = new UserElo(),
             Stats = new UserStats(),
-            Image = new UserImage() { 
+            Image = new UserProfileImage() { 
                 ContentType = "Content-Type",
                 Data = ""u8.ToArray()
             }

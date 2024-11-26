@@ -1,0 +1,321 @@
+@use "../../../../shared/styles/shared.scss" as *;
+
+.settings {
+  &__row {
+    border-bottom: solid 0.5rem $gc9;
+    padding: 2rem 0;
+
+    .row-title {
+      font-weight: 600;
+      font-size: 2rem;
+      color: $gc3;
+    }
+
+    .row-text {
+      font-size: 1.4rem;
+      color: $gc5;
+    }
+
+    .row-options {
+      @include flex(row, start, center, 2rem);
+
+      padding: 2rem;
+
+      .option {
+        @include rounded(2rem);
+        @include flex(column, center, center, 2rem);
+
+        border: solid 0.3rem $gc8;
+        background-color: $gc9;
+
+        &:hover {
+          cursor: pointer;
+          filter: brightness(80%);
+        }
+
+        .option-text {
+          @include flex(row, start, center, 0.5rem);
+
+          .ind {
+            @include circle(1.4rem);
+
+            background-color: $mc0;
+
+            &.active {
+              background-color: $mc9;
+              border: solid 0.3rem $mc0;
+            }
+          }
+
+          span {
+            font-size: 1.4rem;
+          }
+        }
+
+        .pieces-look {
+          @include square(8rem);
+
+          .piece-icon {
+            height: 100%;
+          }
+        }
+
+        .board-look {
+          @include square(9rem);
+
+          display: grid;
+          grid-template-columns: repeat(3, 1fr);
+          border-radius: 1rem;
+          overflow: hidden;
+          background-color: #000;
+
+          p {
+            &:nth-child(even) {
+              background-color: $mc0;
+            }
+
+            &:nth-child(odd) {
+              background-color: $mc9;
+            }
+
+            &.tile-rounded {
+              @include rounded(0.5rem);
+
+              border: solid 0.2rem #000;
+            }
+
+            &.tile-wooden {
+              position: relative;
+
+              &::after {
+                @include sub-class;
+
+                position: absolute;
+                background-image: url("/images/wood.png");
+                background-size: cover;
+                opacity: 0.5;
+              }
+            }
+
+            &.tile-bnw {
+              filter: grayscale(1);
+            }
+          }
+        }
+
+        .screen {
+          @include flex(row, space-between, start, 0);
+
+          position: relative;
+          width: 12rem;
+          aspect-ratio: 16/9;
+          background-color: #000;
+          outline: solid 0.2rem $mc9;
+          border-radius: 1rem;
+          overflow: hidden;
+
+          .board {
+            @include abs-center;
+            @include square(5rem);
+
+            border-radius: 0.5rem;
+            overflow: hidden;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+
+            p {
+              &:nth-child(even) {
+                background-color: $mc0;
+              }
+
+              &:nth-child(odd) {
+                background-color: $mc9;
+              }
+            }
+          }
+
+          .lsb-o {
+            background-color: $gc8;
+            height: 100%;
+            width: 2.5rem;
+          }
+
+          .rsb-o {
+            background-color: $gc8;
+            height: 100%;
+            width: 2.5rem;
+          }
+
+          .lsb-h {
+            background-color: $gc8;
+            height: 100%;
+            width: 1rem;
+          }
+
+          .rsb-h {
+            background-color: $gc8;
+            height: 2.5rem;
+            width: 2.5rem;
+          }
+        }
+      }
+
+      .clear-button {
+        @include button(2rem);
+        @include main-m-button;
+
+        & {
+          padding: 1rem 4rem;
+          margin-top: 2rem;
+        }
+      }
+    }
+
+    .settings-form {
+      @include flex(column, center, start, 1rem);
+
+      position: relative;
+      padding: 2rem;
+
+      .form-row {
+        position: relative;
+
+        .visibility-label {
+          @include flex(row, start, center, 2rem);
+
+          margin-bottom: 1rem;
+
+          .radio-input {
+            display: none;
+          }
+
+          .check-mark {
+            @include circle(2rem);
+
+            background-color: $gc2;
+          }
+
+          .radio-input:checked ~ .check-mark {
+            border: solid 0.5rem $mc9;
+          }
+
+          span {
+            font-size: 2rem;
+          }
+
+          &:hover {
+            cursor: pointer;
+
+            .check-mark {
+              background-color: $gc5;
+            }
+          }
+        }
+
+        .text {
+          font-size: 1.6rem;
+          color: $gc5;
+        }
+      }
+    }
+
+    .options-grid {
+      @include rounded(2rem);
+      @include emerge-ani;
+
+      overflow: hidden;
+      width: fit-content;
+      height: fit-content;
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      grid-template-rows: repeat(4, 1fr);
+      gap: 1rem;
+
+      .engine-level {
+        @include square(7rem);
+        @include rounded(1rem);
+        @include flex;
+
+        position: relative;
+        background-color: $gc9;
+        border: solid 0.3rem $gc8;
+
+        span {
+          @include sec-font(3rem);
+
+          width: 100%;
+          text-align: center;
+          z-index: 1;
+          color: $mc9;
+          text-shadow: 0.1rem 0.1rem 0 #000;
+        }
+
+        .lvl-icon {
+          @include abs-center;
+
+          z-index: 0;
+          height: 80%;
+          opacity: 0.05;
+
+          line {
+            fill: none;
+            stroke: $mc0;
+            stroke-width: 2;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            stroke-miterlimit: 10;
+          }
+
+          path {
+            fill: none;
+            stroke: $mc0;
+            stroke-width: 2;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            stroke-miterlimit: 10;
+          }
+        }
+
+        &:hover {
+          cursor: pointer;
+          box-shadow: 0 0 1rem 0 $gc0;
+
+          span {
+            color: $mc0;
+            filter: drop-shadow(0 0 1rem $mc0);
+          }
+
+          .lvl-icon {
+            opacity: 0.2;
+          }
+        }
+
+        &.active {
+          box-shadow: 0 0 1rem 0 $gc0;
+
+          span {
+            color: $mc0;
+            filter: drop-shadow(0 0 1rem $mc0);
+          }
+
+          .lvl-icon {
+            opacity: 0.2;
+          }
+        }
+      }
+
+      .x-icon {
+        @include circle(4rem);
+
+        position: absolute;
+        top: 2rem;
+        right: 2rem;
+
+        &:hover {
+          cursor: pointer;
+          filter: brightness(80%);
+        }
+      }
+    }
+  }
+}

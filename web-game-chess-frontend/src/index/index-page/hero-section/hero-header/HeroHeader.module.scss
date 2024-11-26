@@ -5,7 +5,7 @@ $line-width: 0.2rem;
 // side bar
 .header {
   @include flex(row, space-between, center, 0);
-  @include absCenter();
+  @include abs-center;
 
   top: 6rem;
   z-index: 100;
@@ -25,21 +25,20 @@ $line-width: 0.2rem;
       width: fit-content;
       height: fit-content;
 
-      &:hover {
-        cursor: pointer;
-      }
-
       svg.logo-svg {
         height: 4rem;
         filter: grayscale(60%);
       }
+
+      &:hover {
+        cursor: pointer;
+      }
     }
 
     p.logo-text {
-      @include secFont(3rem);
+      @include sec-font(3rem);
     }
   }
-  //*/
 
   // actions
   &__actions {
@@ -53,25 +52,15 @@ $line-width: 0.2rem;
     .hero-button {
       @include button(1.6rem);
 
-      & {
-        background-color: #0000;
-        transition: all 0.5s;
-      }
-
-      &:hover {
-        span {
-          &::after {
-            width: 100%;
-          }
-        }
-      }
+      background-color: #0000;
+      transition: all 0.5s;
 
       span {
         color: $gc3;
         transition: color 0.5s;
 
         &::after {
-          @include subCl(0, 0.2rem);
+          @include sub-class(0, 0.2rem);
 
           position: unset;
           display: block;
@@ -90,14 +79,20 @@ $line-width: 0.2rem;
           }
         }
       }
+
+      &:hover {
+        span {
+          &::after {
+            width: 100%;
+          }
+        }
+      }
     }
   }
-  //*/
 }
-//*/
 
 // resize
-@media (max-width: 700px) {
+@media (width <= 700px) {
   .header {
     width: calc(100% - 4rem);
 
@@ -123,7 +118,7 @@ $line-width: 0.2rem;
   }
 }
 
-@media (max-width: 300px) {
+@media (width <= 300px) {
   .header {
     &__logo {
       a.logo-reload {
@@ -146,4 +141,3 @@ $line-width: 0.2rem;
     }
   }
 }
-//*/

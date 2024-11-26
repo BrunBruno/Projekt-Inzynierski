@@ -22,11 +22,10 @@ function UsersPage() {
   const [friendProfile, setFriendProfile] = useState<GetFriendProfileDto | null>(null);
 
   // to hide profile window
-  const closeProfile = () => {
+  const closeProfile = (): void => {
     setUserProfile(null);
     setFriendProfile(null);
   };
-  //*/
 
   return (
     <main className={classes["users-main"]}>

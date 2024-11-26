@@ -13,12 +13,15 @@ import { getErrMessage } from "../../../shared/utils/functions/errors";
 import { PagedResult } from "../../../shared/utils/types/abstractDtosAndModels";
 import FriendEmptyCard from "./friend-empty-card/FriendEmptyCard";
 
-function FriendsSection() {
+type FriendsSectionProps = {};
+
+function FriendsSection({}: FriendsSectionProps) {
   ///
 
   const { showPopup } = usePopup();
   const { scrollRef, pageNumber, pageSize, totalItemsCount, setDefPageSize, setTotalItemsCount } = usePagination();
 
+  // empty friend card ref
   const firstEmptyCardRef = useRef<HTMLDivElement>(null);
 
   // list of friends state
@@ -56,7 +59,6 @@ function FriendsSection() {
       window.removeEventListener("resize", setDefSize);
     };
   }, [friendList]);
-  //*/
 
   // to get friend list
   useEffect(() => {
@@ -83,13 +85,11 @@ function FriendsSection() {
 
     getFriends();
   }, [pageNumber, pageSize]);
-  //*/
 
   // to deactivate friend selection
   const clearSelection = (): void => {
     if (selectedFriend) selectedFriend.classList.remove(cardClasses.active);
   };
-  //*/
 
   return (
     <div

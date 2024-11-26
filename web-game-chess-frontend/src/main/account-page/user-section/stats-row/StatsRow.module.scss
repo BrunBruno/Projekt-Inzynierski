@@ -1,17 +1,16 @@
 @use "../../../../shared/styles/shared.scss" as *;
 
-@mixin setStatDimensions($row-font-size) {
-  $row-gap: calc(0.5 * $row-font-size);
+@mixin set-stat-dimensions($row-font-size) {
+  $row-gap: calc($row-font-size);
   $data-size: calc(5 * $row-font-size);
 
   .stats {
     &__title {
       font-size: calc(1.2 * $row-font-size);
-      width: calc(3 * $data-size + 2 * $row-gap);
     }
 
     &__data {
-      grid-template-columns: repeat(4, $data-size);
+      grid-template-columns: repeat(5, $data-size);
       gap: $row-gap;
 
       .games {
@@ -36,7 +35,7 @@
         @include square($data-size);
 
         .chart {
-          left: calc(5 * $row-gap);
+          left: calc($row-gap);
 
           .pie-chart {
             @include square(calc(1.2 * $data-size));
@@ -47,34 +46,39 @@
   }
 }
 
-$row-font-size: 1.6rem;
-@include setStatDimensions($row-font-size);
+$row-font-size: 1.8rem;
+
+@include set-stat-dimensions($row-font-size);
 
 // game starts rows
 .stats {
   position: relative;
   width: 100%;
+  padding: 1rem;
+  border-bottom: solid 0.1rem $gc8;
 
   &__title {
     @include rounded(0.5rem);
 
     font-weight: bold;
     color: $gc3;
-    padding-left: 2rem;
-    background-color: rgba($gc8, 0.5);
+    background-color: rgba($gc8, 0.2);
+    width: fit-content;
+    padding: 0.5rem 3rem;
+    border-right: solid 0.2rem $gc8;
+    border-left: solid 0.2rem $gc8;
   }
 
   &__data {
     display: grid;
-    margin-top: 1rem;
-    margin-bottom: 2rem;
+    margin: 1rem 0;
 
     .games {
       @include flex($direction: column);
 
       span {
         &:nth-child(1) {
-          @include flex($gap: 0.3rem);
+          @include flex($gap: 0.5rem);
 
           color: $gc5;
         }
@@ -103,19 +107,18 @@ $row-font-size: 1.6rem;
         }
       }
     }
-    //*/
   }
 }
-//*/
 
 // resize
-@media (max-width: 1200px) {
+@media (width <= 1200px) {
   $row-font-size: 2.6rem;
-  @include setStatDimensions($row-font-size);
+
+  @include set-stat-dimensions($row-font-size);
 }
 
-@media (max-width: 700px) {
+@media (width <= 700px) {
   $row-font-size: 3rem;
-  @include setStatDimensions($row-font-size);
+
+  @include set-stat-dimensions($row-font-size);
 }
-//*/

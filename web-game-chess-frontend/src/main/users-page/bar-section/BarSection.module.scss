@@ -1,9 +1,8 @@
 @use "../../../shared/styles/shared.scss" as *;
-@use "../../../shared/components/action-button/ActionButton.module.scss" as actionButton;
 
 // center bar container
 .bar {
-  @include wh100();
+  @include wh100;
 
   position: relative;
   background-color: rgba($gc9, 0.5);
@@ -13,7 +12,7 @@
   &__content {
     height: 100%;
     display: grid;
-    grid-template-rows: 5rem 10rem auto 10rem;
+    grid-template-rows: 5rem 10rem auto;
     padding: 2rem;
 
     &__intro {
@@ -31,13 +30,11 @@
       }
 
       input.search-input {
-        @include cInput();
+        @include c-input;
 
-        & {
-          color: $gc0;
-          width: 100%;
-          background-color: $gc8;
-        }
+        color: $gc0;
+        width: 100%;
+        background-color: $gc8;
 
         &:focus {
           background-color: $gc7;
@@ -106,7 +103,7 @@
         }
 
         svg.panel-arrow {
-          @include absCenter();
+          @include abs-center;
 
           height: 1.6rem;
           right: 1rem;
@@ -126,31 +123,68 @@
         }
       }
     }
+  }
+}
 
-    &__outro {
-      @include flex();
+// resize
+@media (width <= 700px) {
+  .bar {
+    border: none;
 
-      .action-button {
-        @include actionButton.actionButton(1.6rem);
+    &__content {
+      @include flex(row, space-between, center, 0);
+
+      padding: 0 4rem;
+
+      &__intro {
+        @include flex;
+      }
+
+      &__search {
+        @include flex;
+
+        p.search-tag {
+          display: none;
+        }
+      }
+
+      &__options {
+        flex-direction: row;
+
+        .option {
+          @include square(6rem);
+
+          span {
+            display: none;
+          }
+
+          svg.panel-arrow {
+            display: none;
+          }
+
+          &:first-child {
+            border-radius: 0;
+            border-top-left-radius: 1rem;
+            border-bottom-left-radius: 1rem;
+          }
+
+          &:last-child {
+            border-radius: 0;
+            border-top-right-radius: 1rem;
+            border-bottom-right-radius: 1rem;
+          }
+        }
       }
     }
   }
 }
-//*/
 
-// resize
-@media (max-width: 700px) {
+@media (width <= 500px) {
   .bar {
-    border-left: none;
-    border-right: none;
-
     &__content {
-      grid-template-columns: 30rem auto 0;
-
-      &__outro {
+      &__intro {
         display: none;
       }
     }
   }
 }
-//*/

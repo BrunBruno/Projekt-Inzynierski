@@ -1,13 +1,10 @@
 ﻿
-using chess.Core.Enums;
+using chess.Core.Models;
 
 namespace chess.Api.Models.WebGameModels;
 
-public class NotifyUserModel {
-    public Guid FriendId { get; set; }
+public class NotifyUserModel : TimingTypeModel {
     public Guid GameId { get; set; }
+    public Guid FriendId { get; set; }
     public required string Inviter { get; set; }
-    public TimingTypes Type { get; set; }
-    public int Minutes { get; set; }
-    public int Increment { get; set; }
 }

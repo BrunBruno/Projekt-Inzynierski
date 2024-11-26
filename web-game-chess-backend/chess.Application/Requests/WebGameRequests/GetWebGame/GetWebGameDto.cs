@@ -29,7 +29,16 @@ public class GetWebGameDto {
     /// </summary>
     public string? EnPassant { get; set; }
 
+    /// <summary>
+    /// Timing type of game
+    /// </summary>
     public TimingTypes TimingType { get; set; }
+
+    /// <summary>
+    /// For 50 move rule ending
+    /// </summary>
+    public int HalfmoveClock { get; set; }
+
 
     /// <summary>
     /// Bool values relate to castling options
@@ -40,6 +49,7 @@ public class GetWebGameDto {
     public bool CanBlackKingCastle { get; set; } 
     public bool CanBlackShortRookCastle { get; set; } 
     public bool CanBlackLongRookCastle { get; set; } 
+
 
     /// <summary>
     /// White player data
@@ -55,6 +65,11 @@ public class GetWebGameDto {
     /// List of moves that was made during game
     /// </summary>
     public required List<MoveDto> Moves { get; set; }
+
+    /// <summary>
+    /// Game settings based on user settings
+    /// </summary>
+    public required GameSettingsDto GameSettings { get; set; }
 }
 
 

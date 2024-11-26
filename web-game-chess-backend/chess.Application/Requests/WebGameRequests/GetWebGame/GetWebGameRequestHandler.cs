@@ -1,7 +1,9 @@
 ﻿
+using chess.Application.Repositories.UserRepositories;
 using chess.Application.Repositories.WebGameRepositories;
 using chess.Application.Services;
 using chess.Core.Dtos;
+using chess.Core.Enums;
 using chess.Shared.Exceptions;
 using MediatR;
 
@@ -15,22 +17,28 @@ namespace chess.Application.Requests.WebGameRequests.GetWebGame;
 /// </summary>
 public class GetWebGameRequestHandler : IRequestHandler<GetWebGameRequest, GetWebGameDto> {
 
-    private readonly IWebGameRepository _gameRepository;
+    private readonly IWebGameRepository _webGameRepository;
     private readonly IUserContextService _userContextService;
+    private readonly IUserSettingsRepository _userSettingsRepository;
 
     public GetWebGameRequestHandler(
         IWebGameRepository gameRepository,
-        IUserContextService userContextService
+        IUserContextService userContextService,
+        IUserSettingsRepository userSettingsRepository
     ) {
-        _gameRepository = gameRepository;
+        _webGameRepository = gameRepository;
         _userContextService = userContextService;
+        _userSettingsRepository = userSettingsRepository;
     }
 
     public async Task<GetWebGameDto> Handle(GetWebGameRequest request, CancellationToken cancellationToken) {
 
         var userId = _userContextService.GetUserId();
 
-        var game = await _gameRepository.GetById(request.GameId) 
+        var settings = await _userSettingsRepository.GetByUserId( userId )
+            ?? throw new NotFoundException("Settings not found.");
+
+        var game = await _webGameRepository.GetById(request.GameId) 
             ?? throw new NotFoundException("Game not found.");
 
         if (game.WhitePlayer.UserId != userId && game.BlackPlayer.UserId != userId)
@@ -39,7 +47,7 @@ public class GetWebGameRequestHandler : IRequestHandler<GetWebGameRequest, GetWe
         if(game.StartedAt is null) {
             game.StartedAt = DateTime.UtcNow;
 
-            await _gameRepository.Update(game);
+            await _webGameRepository.Update(game);
         }
 
         var gameDto = new GetWebGameDto()
@@ -48,6 +56,7 @@ public class GetWebGameRequestHandler : IRequestHandler<GetWebGameRequest, GetWe
             Position = game.Position,
             Turn = game.Turn,
             TimingType = game.TimingType,
+            HalfmoveClock = game.CurrentState.HalfMove,
 
             EnPassant = game.CurrentState.EnPassant,
             CanWhiteKingCastle = game.CurrentState.CanWhiteKingCastle,
@@ -61,6 +70,7 @@ public class GetWebGameRequestHandler : IRequestHandler<GetWebGameRequest, GetWe
             {
                 Name = game.WhitePlayer.Name,
                 Elo = game.WhitePlayer.Elo,
+                Color = (PieceColor)game.WhitePlayer.Color!,
 
                 ProfilePicture = game.WhitePlayer.User.Image != null ? new ImageDto() 
                 {
@@ -73,6 +83,7 @@ public class GetWebGameRequestHandler : IRequestHandler<GetWebGameRequest, GetWe
             {
                 Name = game.BlackPlayer.Name,
                 Elo = game.BlackPlayer.Elo,
+                Color = (PieceColor)game.BlackPlayer.Color!,
 
                 ProfilePicture = game.BlackPlayer.User.Image != null ? new ImageDto() 
                 {
@@ -84,11 +95,20 @@ public class GetWebGameRequestHandler : IRequestHandler<GetWebGameRequest, GetWe
             Moves = game.Moves.Select(move => new MoveDto
             {
                 Move = move.DoneMove,
+                FenMove = move.FenMove,
                 Turn = move.Turn,
                 OldCoor = move.OldCoordinates,
                 NewCoor = move.NewCoordinates,
                 CapturedPiece = move.CapturedPiece,
+                Position = move.Position,
             }).ToList(),
+
+            GameSettings = new GameSettingsDto()
+            {
+                AppearanceOfGamePage = settings.AppearanceOfGamePage,
+                AppearanceOfBoard = settings.AppearanceOfBoard,
+                AppearanceOfPieces = settings.AppearanceOfPieces,
+            },
         };
 
 

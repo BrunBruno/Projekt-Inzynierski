@@ -14,14 +14,14 @@ namespace chess.Application.Requests.WebGameRequests.AbortWebGameSearch;
 /// </summary>
 public class AbortWebGameSearchRequestHandler : IRequestHandler<AbortWebGameSearchRequest> {
 
-    private readonly IWebGamePlayerRepository _playerRepository;
+    private readonly IWebGamePlayerRepository _webGamePlayerRepository;
     private readonly IUserContextService _userContextService;
 
     public AbortWebGameSearchRequestHandler(
         IWebGamePlayerRepository playerRepository,
         IUserContextService userContextService
     ) {
-        _playerRepository = playerRepository;
+        _webGamePlayerRepository = playerRepository;
         _userContextService = userContextService;
     }
 
@@ -29,7 +29,7 @@ public class AbortWebGameSearchRequestHandler : IRequestHandler<AbortWebGameSear
 
         var userId = _userContextService.GetUserId();
 
-        var playerToDelete = await _playerRepository.GetById(request.PlayerId) 
+        var playerToDelete = await _webGamePlayerRepository.GetById(request.PlayerId) 
             ?? throw new NotFoundException("Player not found.");
 
         if (userId != playerToDelete.UserId)
@@ -39,6 +39,6 @@ public class AbortWebGameSearchRequestHandler : IRequestHandler<AbortWebGameSear
             throw new BadRequestException("Can not remove player that is in game.");
 
 
-        await _playerRepository.Delete(playerToDelete);
+        await _webGamePlayerRepository.Delete(playerToDelete);
     }
 }

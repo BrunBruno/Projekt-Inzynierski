@@ -1,5 +1,6 @@
 ﻿
 using chess.Application.Repositories.EngineGameRepositories;
+using chess.Application.Repositories.UserRepositories;
 using chess.Application.Services;
 using chess.Core.Entities;
 using chess.Core.Enums;
@@ -8,25 +9,38 @@ using MediatR;
 
 namespace chess.Application.Requests.EngineRequests.EndEngineGame;
 
+/// <summary>
+/// Gets game and checks if user is player of game
+/// Checks if game has not been already ended
+/// Creates ending message
+/// Updates game properties
+/// Returns end game dto
+/// </summary>
 public class EndEngineGameRequestHandler : IRequestHandler<EndEngineGameRequest, EndEngineGameDto> {
 
     private readonly IEngineGameRepository _engineGameRepository;
     private readonly IUserContextService _userContextService;
     private readonly IEngineGameMessageRepository _engineGameMessageRepository;
+    private readonly IUserRepository _userRepository;
 
     public EndEngineGameRequestHandler(
         IEngineGameRepository engineGameRepository,
         IUserContextService userContextService,
-        IEngineGameMessageRepository engineGameMessageRepository
+        IEngineGameMessageRepository engineGameMessageRepository,
+        IUserRepository userRepository
     ) { 
         _engineGameRepository = engineGameRepository;
         _userContextService = userContextService;
         _engineGameMessageRepository = engineGameMessageRepository;
+        _userRepository = userRepository;
     }
 
     public async Task<EndEngineGameDto> Handle(EndEngineGameRequest request, CancellationToken cancellationToken) {
 
         var userId = _userContextService.GetUserId();
+
+        var user = await _userRepository.GetById(userId)
+            ?? throw new NotFoundException("User not found.");
 
         var game = await _engineGameRepository.GetById(request.GameId)
             ?? throw new NotFoundException("Game not found.");
@@ -46,8 +60,27 @@ public class EndEngineGameRequestHandler : IRequestHandler<EndEngineGameRequest,
 
         game.HasEnded = true;
         game.EndedAt = DateTime.UtcNow;
-        game.IsWinner = request.LoserColor != game.Player.Color;
         game.WinnerColor = request.LoserColor == PieceColor.White ? PieceColor.Black : request.LoserColor == PieceColor.Black ? PieceColor.White : null;
+
+
+        if (game.Player.Color == request.LoserColor){
+
+            user.Elo.Engine -= game.EngineLevel;
+            user.Stats.OfflineLoses += 1;
+            game.EloGain = -game.EngineLevel;
+
+        } else if (request.LoserColor == null) {
+            
+            user.Elo.Engine += game.EngineLevel;
+            user.Stats.OfflineDraws += 1;
+            game.EloGain = game.EngineLevel;
+
+        } else {
+
+            user.Stats.OfflineWins += 1;
+            game.EloGain = 0;
+        }
+
 
         var endMessage = new EngineGameMessage() { 
             Id = Guid.NewGuid(),

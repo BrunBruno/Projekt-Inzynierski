@@ -30,8 +30,7 @@ public class DeclineInvitationRequestHandlerTests {
         var game = new Entities.WebGame()
         {
             Id = gameId,
-              WhitePlayerRegistered = true,
-            BlackPlayerRegistered = true,
+
             WhitePlayer = new WebGamePlayer() {
                 Id = Guid.NewGuid(),
                 Name = "User",
@@ -119,8 +118,6 @@ public class DeclineInvitationRequestHandlerTests {
         var game = new Entities.WebGame()
         {
             Id = gameId,
-            WhitePlayerRegistered = true,
-            BlackPlayerRegistered = true,
 
             WhitePlayer = new WebGamePlayer()
             {
@@ -172,8 +169,6 @@ public class DeclineInvitationRequestHandlerTests {
         {
             Id = gameId,
 
-              WhitePlayerRegistered = true,
-            BlackPlayerRegistered = true,
             WhitePlayer = new WebGamePlayer()
             {
                 Id = Guid.NewGuid(),

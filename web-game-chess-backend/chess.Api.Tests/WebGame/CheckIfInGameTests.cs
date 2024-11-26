@@ -1,6 +1,6 @@
 ﻿
 using chess.Api.Tests.User;
-using chess.Application.Requests.WebGameRequests.CheckIfInGame;
+using chess.Application.Requests.WebGameRequests.CheckIfInWebGame;
 using chess.Core.Models;
 using chess.Core.Enums;
 using chess.Infrastructure.Contexts;
@@ -11,13 +11,13 @@ using System.Net;
 
 namespace chess.Api.Tests.WebGame;
 
-public class CheckIfInGameTests : IClassFixture<TestWebApplicationFactory<Program>> {
+public class CheckIfInWebGameTests : IClassFixture<TestWebApplicationFactory<Program>> {
 
     private readonly HttpClient _client;
     private readonly TestWebApplicationFactory<Program> _factory;
     private readonly ChessAppDbContext _dbContext;
 
-    public CheckIfInGameTests() {
+    public CheckIfInWebGameTests() {
         _factory = new TestWebApplicationFactory<Program>();
 
         _client = _factory.CreateClient();
@@ -31,7 +31,7 @@ public class CheckIfInGameTests : IClassFixture<TestWebApplicationFactory<Progra
     }
 
     [Fact]
-    public async Task CheckIfInGame_Should_Return_Bool_Value_On_Success() {
+    public async Task CheckIfInWebGame_Should_Return_Bool_Value_On_Success() {
 
         await _dbContext.Init();
         await _dbContext.AddUser();
@@ -52,7 +52,7 @@ public class CheckIfInGameTests : IClassFixture<TestWebApplicationFactory<Progra
 
         response_false.StatusCode.Should().Be(HttpStatusCode.OK);
 
-        var result_false = JsonConvert.DeserializeObject<CheckIfInGameDto>(await response_false.Content.ReadAsStringAsync());
+        var result_false = JsonConvert.DeserializeObject<CheckIfInWebGameDto>(await response_false.Content.ReadAsStringAsync());
         result_false.IsInGame.Should().Be(false);
         result_false.GameId.Should().Be(null);
 
@@ -68,7 +68,7 @@ public class CheckIfInGameTests : IClassFixture<TestWebApplicationFactory<Progra
 
         response_true.StatusCode.Should().Be(HttpStatusCode.OK);
 
-        var result_true = JsonConvert.DeserializeObject<CheckIfInGameDto>(await response_true.Content.ReadAsStringAsync());
+        var result_true = JsonConvert.DeserializeObject<CheckIfInWebGameDto>(await response_true.Content.ReadAsStringAsync());
         result_true.IsInGame.Should().Be(true);
         result_true.GameId.Should().Be(gameId);
     }
@@ -78,7 +78,7 @@ public class CheckIfInGameTests : IClassFixture<TestWebApplicationFactory<Progra
     /// </summary>
     /// <returns></returns>
     [Fact]
-    public async Task CheckIfInGame_Should_Return_NotFound_On_Fail() {
+    public async Task CheckIfInWebGame_Should_Return_NotFound_On_Fail() {
 
         await _dbContext.Init();
         await _dbContext.AddUser();
@@ -97,7 +97,7 @@ public class CheckIfInGameTests : IClassFixture<TestWebApplicationFactory<Progra
     /// </summary>
     /// <returns></returns>
     [Fact]
-    public async Task CheckIfInGame_Should_Return_Unauthorized_On_Fail() {
+    public async Task CheckIfInWebGame_Should_Return_Unauthorized_On_Fail() {
 
         await _dbContext.Init();
         await _dbContext.AddUser();

@@ -4,7 +4,7 @@ using chess.Core.Entities;
 namespace chess.Application.Repositories.WebGameRepositories;
 
 /// <summary>
-/// Move repository
+/// Web gae move repository
 /// </summary>
 public interface IWebGameMoveRepository {
 

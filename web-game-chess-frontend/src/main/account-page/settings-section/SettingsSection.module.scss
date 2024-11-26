@@ -1,9 +1,68 @@
 @use "../../../shared/styles/shared.scss" as *;
+@use "../../../shared/components/action-button/ActionButton.module.scss" as ActionButton;
 
 // settings container
 .settings {
+  @include main-scrollbar;
+
+  padding: 0 2rem;
+  overflow-y: scroll;
+
+  &__category {
+    padding: 2rem 0;
+
+    .category-header {
+      @include flex(row, start, center, 2rem);
+
+      span {
+        font-size: 3rem;
+      }
+
+      .cat-icon {
+        @include flex;
+        @include circle(calc(5rem));
+
+        padding: 1rem;
+        background-color: rgba($mc9, 0.5);
+      }
+    }
+
+    &__row {
+      padding: 2rem 0;
+
+      .action-button {
+        @include ActionButton.action-button(2rem);
+
+        margin: 0 2rem;
+        margin-top: 3rem;
+      }
+
+      .col-title {
+        font-size: 2rem;
+        color: $gc3;
+      }
+
+      p {
+        font-size: 1.4rem;
+        color: $gc5;
+      }
+
+      .contact {
+        margin: 1rem 2rem;
+
+        .contact-data {
+          font-size: 2rem;
+          color: $gc1;
+        }
+      }
+    }
+  }
 }
-//*/
 
 // resize
-//*/
+@media (width <= 1200px) {
+  .settings {
+    height: 100%;
+    overflow-y: visible;
+  }
+}

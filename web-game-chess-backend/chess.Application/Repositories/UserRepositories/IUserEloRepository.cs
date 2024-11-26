@@ -1,12 +1,12 @@
-﻿using chess.Core.Entities;
+﻿
+using chess.Core.Entities;
 
 namespace chess.Application.Repositories.UserRepositories;
 
 /// <summary>
 /// Elo repository
 /// </summary>
-public interface IUserEloRepository
-{
+public interface IUserEloRepository {
 
     /// <summary>
     /// Updates elo after game ended

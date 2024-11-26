@@ -1,7 +1,7 @@
 ﻿
 using chess.Api.Models.WebGameModels;
 using chess.Api.Tests.User;
-using chess.Application.Requests.WebGameRequests.SearchGame;
+using chess.Application.Requests.WebGameRequests.SearchWebGame;
 using chess.Core.Enums;
 using chess.Infrastructure.Contexts;
 using FluentAssertions;
@@ -56,7 +56,7 @@ public class StartSearchTests : IClassFixture<TestWebApplicationFactory<Program>
 
         response.StatusCode.Should().Be(HttpStatusCode.OK);
 
-        var result = JsonConvert.DeserializeObject<SearchGameDto>(await response.Content.ReadAsStringAsync());
+        var result = JsonConvert.DeserializeObject<SearchWebGameDto>(await response.Content.ReadAsStringAsync());
 
         var player = await assertDbContext.WebGamePlayers.FirstAsync();
         player.Id.Should().Be(result.PlayerId);

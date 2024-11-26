@@ -5,7 +5,6 @@
   position: absolute;
   right: 8rem;
   bottom: 8rem;
-
   transform-origin: 50% 100%;
   transform: scaleY(0);
   transition: transform 0.3s;
@@ -24,9 +23,9 @@
       opacity: 0.5;
 
       &::after {
-        @include subCl(150%, 150%);
-        @include absCenter();
-        @include gridBg(2rem, $mc0, #0000, 1);
+        @include sub-class(150%, 150%);
+        @include abs-center;
+        @include grid-bg(2rem, $mc0, #0000, 1);
 
         transform: translate(-50%, -50%) rotate(45deg);
       }
@@ -45,6 +44,7 @@
         span {
           font-size: 1.6rem;
         }
+
         span.user {
           color: $mc5;
         }
@@ -52,7 +52,27 @@
 
       &__actions {
         @include flex(row, end, center, 0);
-        @include wh100();
+        @include wh100;
+
+        button.accept {
+          &::after {
+            background-color: $mc5;
+          }
+
+          &:hover {
+            color: $mc5;
+          }
+        }
+
+        button.decline {
+          &::after {
+            background-color: $danger-color-m;
+          }
+
+          &:hover {
+            color: $danger-color-m;
+          }
+        }
 
         button.action {
           position: relative;
@@ -72,34 +92,15 @@
           }
 
           &::after {
-            @include subCl();
-            width: calc(100% - 2 * 1.2rem);
+            @include sub-class;
 
+            width: calc(100% - 2 * 1.2rem);
             height: 0.2rem;
             bottom: 0;
             left: 1.2rem;
-
             transform-origin: 0 0;
             transform: scaleX(0);
             transition: transform 0.1s;
-          }
-        }
-
-        button.accept {
-          &:hover {
-            color: $mc5;
-          }
-          &::after {
-            background-color: $mc5;
-          }
-        }
-
-        button.decline {
-          &:hover {
-            color: $danger-color-m;
-          }
-          &::after {
-            background-color: $danger-color-m;
           }
         }
       }
@@ -111,7 +112,5 @@
     transform: scaleY(1);
   }
 }
-//*/
 
 // resize
-//*/

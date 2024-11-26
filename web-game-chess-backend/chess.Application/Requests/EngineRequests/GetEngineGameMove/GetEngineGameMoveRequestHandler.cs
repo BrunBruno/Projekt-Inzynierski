@@ -8,24 +8,27 @@ using MediatR;
 namespace chess.Application.Requests.EngineRequests.GetEngineGameMove;
 
 /// <summary>
-/// 
+/// Gets game and checks if user is player
+/// Makes game position in fen format
+/// Sends position to engine
+/// Searches for bestmove
+/// Ends game if none move found
+/// Gets new position and engine move was done
+/// Creates adn returns move dto
 /// </summary>
 public class GetEngineGameMoveRequestHandler : IRequestHandler<GetEngineGameMoveRequest, GetEngineGameMoveDto> {
 
     private readonly IEngineService _engineService;
     private readonly IEngineGameRepository _engineGameRepository;
-    private readonly IEngineGameMoveRepository _engineGameMoveRepository;
     private readonly IUserContextService _userContextService;
 
     public GetEngineGameMoveRequestHandler(
         IEngineService engineService,
         IEngineGameRepository engineGameRepository,
-        IEngineGameMoveRepository engineGameMoveRepository,
         IUserContextService userContextService
     ) {
         _engineService = engineService;
         _engineGameRepository = engineGameRepository;
-        _engineGameMoveRepository = engineGameMoveRepository;
         _userContextService = userContextService;
     }
 
@@ -46,7 +49,7 @@ public class GetEngineGameMoveRequestHandler : IRequestHandler<GetEngineGameMove
         _engineService.SendCommand($"position fen {fullFen}");
         _engineService.SendCommand($"go depth {game.EngineLevel}");
 
-        //await Task.Delay(10000, cancellationToken);
+        await Task.Delay(300, cancellationToken);
 
         var bestMoveOutput = _engineService.ReadOutput();
 
@@ -81,12 +84,10 @@ public class GetEngineGameMoveRequestHandler : IRequestHandler<GetEngineGameMove
 
         var newPosition = newFenPosition.Split(' ')[0];
 
-        Console.WriteLine(bestMove);
-
         string from = bestMove.Substring(0, 2);
         string to = bestMove.Substring(2, 2);
 
-        string? promotedPiece = bestMove.Length == 5 ? bestMove[4].ToString() : null; //???
+        string? promotedPiece = bestMove.Length == 5 ? bestMove[4].ToString() : null; //??? tododo
 
         var oldCoordinates = $"{from[0] - 'a' + 1},{from[1]}";
         var newCoordinates = $"{to[0] - 'a' + 1},{to[1]}";
@@ -102,6 +103,7 @@ public class GetEngineGameMoveRequestHandler : IRequestHandler<GetEngineGameMove
             PromotedPiece = promotedPiece,
         };
 
+
         return dto;
     }
 
@@ -109,7 +111,7 @@ public class GetEngineGameMoveRequestHandler : IRequestHandler<GetEngineGameMove
         // active color
         var activeColor = (game.Turn % 2 == 0) ? "w" : "b";
 
-        // castling avalibility
+        // castling availability
         string whiteKingsideCastle = game.CurrentState.CanWhiteKingCastle == true && game.CurrentState.CanWhiteShortRookCastle == true ? "K" : "";
         string whiteQueensideCastle = game.CurrentState.CanWhiteKingCastle == true && game.CurrentState.CanWhiteLongRookCastle == true ? "Q" : "";
         string blackKingsideCastle = game.CurrentState.CanBlackKingCastle == true && game.CurrentState.CanBlackShortRookCastle == true ? "k" : "";
@@ -123,12 +125,12 @@ public class GetEngineGameMoveRequestHandler : IRequestHandler<GetEngineGameMove
         var enPassant = enPassantParts == null ? "-" : $"{(char)('a' + (int.Parse(enPassantParts[0]) - 1))}{enPassantParts[1]}";
 
         // half move clock
-        var halfmoveClock = "0";
+        var halfMoveClock = game.CurrentState.HalfMove;
 
         // full move clock
-        var fullmoveNumber = ((game.Turn / 2) + 1).ToString();
+        var fullMoveNumber = ((game.Turn / 2) + 1).ToString();
 
-        var fenPosition = $"{game.Position} {activeColor} {castlingAvailability} {enPassant} {halfmoveClock} {fullmoveNumber}";
+        var fenPosition = $"{game.Position} {activeColor} {castlingAvailability} {enPassant} {halfMoveClock} {fullMoveNumber}";
 
         return fenPosition;
     }

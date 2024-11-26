@@ -1,0 +1,87 @@
+@use "../../../../shared/styles/shared.scss" as *;
+
+// vs-friend search friend list container
+.list {
+  @include wh100;
+  @include flex(column, start, center, 1rem);
+
+  padding-left: 2rem;
+  overflow: hidden scroll;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+
+  &__empty {
+    @include wh100;
+
+    overflow: hidden;
+
+    .empty-card {
+      @include rounded(1rem);
+
+      width: 100%;
+      background-color: $gc9;
+      display: grid;
+      grid-template-columns: 6rem auto;
+      gap: 2rem;
+      margin-bottom: 1rem;
+      opacity: 0.3;
+
+      .blank-avatar {
+        height: 6rem;
+        filter: grayscale(1) brightness(50%);
+      }
+
+      .texts {
+        @include flex(column, start, start, 1rem);
+
+        p.blank-text {
+          @include rounded(1rem);
+
+          width: 80%;
+          background-color: $gc8;
+        }
+      }
+    }
+  }
+
+  &__indicator {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    font-size: 1.4rem;
+    text-align: center;
+  }
+}
+
+// resize
+@media (width <= 1100px) {
+  .list {
+    height: 100%;
+    overflow: hidden visible;
+    padding: 0;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+
+    &__indicator {
+      position: fixed;
+      width: calc(100% - 38rem);
+    }
+  }
+}
+
+@media (width <= 700px) {
+  .list {
+    &__indicator {
+      width: 100%;
+    }
+  }
+}
+
+@media (width <= 500px) {
+  .list {
+    display: block;
+  }
+}

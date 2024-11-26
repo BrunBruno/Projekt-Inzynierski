@@ -24,7 +24,6 @@ function LoadingPage({ text = "" }: LoadingPageProps): JSX.Element {
       setSize(borderWidth);
     }
   }, []);
-  //*/
 
   return (
     <div ref={loadingRef} className={classes.loading}>

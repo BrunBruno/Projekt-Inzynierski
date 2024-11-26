@@ -1,4 +1,5 @@
-﻿using chess.Application.Repositories.WebGameRepositories;
+﻿
+using chess.Application.Repositories.WebGameRepositories;
 using chess.Application.Requests.WebGameRequests.RemoveDrawMessage;
 using chess.Application.Services;
 using chess.Core.Entities;
@@ -36,8 +37,6 @@ public class RemoveDrawMessageRequestHandlerTests {
         var game = new Entities.WebGame()
         {
             Id = gameId,
-            WhitePlayerRegistered = true,
-            BlackPlayerRegistered = true,
 
             WhitePlayerId = Guid.NewGuid(),
             WhitePlayer = new WebGamePlayer()
@@ -129,8 +128,6 @@ public class RemoveDrawMessageRequestHandlerTests {
         var game = new Entities.WebGame()
         {
             Id = gameId,
-            WhitePlayerRegistered = true,
-            BlackPlayerRegistered = true,
 
             WhitePlayerId = Guid.NewGuid(),
             WhitePlayer = new WebGamePlayer()
@@ -184,8 +181,6 @@ public class RemoveDrawMessageRequestHandlerTests {
         {
             Id = gameId,
 
-            WhitePlayerRegistered = true,
-            BlackPlayerRegistered = true,
             WhitePlayerId = Guid.NewGuid(),
             WhitePlayer = new WebGamePlayer()
             {

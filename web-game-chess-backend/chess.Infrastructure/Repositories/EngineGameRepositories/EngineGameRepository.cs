@@ -24,12 +24,13 @@ public class EngineGameRepository : IEngineGameRepository {
                     .Include(eg => eg.Moves)
                     .FirstOrDefaultAsync(x => x.Id == gameId);
 
-     ///<inheritdoc/>
+    ///<inheritdoc/>
     public async Task Create(EngineGame game) {
         await _dbContext.EngineGames.AddAsync(game);
         await _dbContext.SaveChangesAsync();
     }
 
+    ///<inheritdoc/>
     public async Task Update(EngineGame game) {
         _dbContext.EngineGames.Update(game);
         await _dbContext.SaveChangesAsync();

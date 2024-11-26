@@ -9,67 +9,61 @@ namespace chess.Core.Entities;
 public class UserStats {
 
     /// <summary>
-    /// Id
+    /// Id pk
     /// </summary>
     public Guid Id { get; set; }
 
     /// <summary>
-    /// All wins
+    /// Games outcomes
     /// </summary>
-    public int Wins { get; set; } = 0;
-
-    /// <summary>
-    /// All loses
-    /// </summary>
-    public int Loses { get; set; } = 0;
-
-    /// <summary>
-    /// All draws
-    /// </summary>
-    public int Draws { get; set; } = 0;
+    public int OnlineWins { get; set; } = 0;
+    public int OnlineDraws { get; set; } = 0;
+    public int OnlineLoses { get; set; } = 0;
 
     /// <summary>
     /// All games played
     /// </summary>
-    public int GamesPlayed => Wins + Loses + Draws;
+    public int OnlineGamesPlayed => OnlineWins + OnlineLoses + OnlineDraws;
 
     /// <summary>
-    /// All wins by checkmate
+    /// Games played for each timing type
     /// </summary>
-    public int WinsByCheckMate { get; set; }
+    public int BulletGamesPlayed {  get; set; } = 0;
+    public int BlitzGamesPlayed { get; set; } = 0;
+    public int RapidGamesPlayed { get; set; } = 0;
+    public int ClassicGamesPlayed { get; set; } = 0;
+    public int DailyGamesPlayed { get; set; } = 0;
 
     /// <summary>
-    /// All wins by running oot of time
+    /// All wins by end reason
     /// </summary>
-    public int WinsByTimeout { get; set; }
+    public int WinsByCheckMate { get; set; } = 0;
+    public int WinsByTimeout { get; set; } = 0;
+    public int WinsByResignation { get; set; } = 0;
 
     /// <summary>
-    /// All wins by resignation
+    /// All loses by end reason
     /// </summary>
-    public int WinsByResignation { get; set; }
+    public int LosesByCheckMate { get; set; } = 0;
+    public int LosesByTimeout { get; set; } = 0;
+    public int LosesByResignation { get; set; } = 0;
 
     /// <summary>
-    /// All loses by checkmate
+    /// Games outcomes for offline games
     /// </summary>
-    public int LosesByCheckMate { get; set; }
+    public int OfflineWins { get; set; } = 0;
+    public int OfflineDraws { get; set; } = 0;
+    public int OfflineLoses { get; set; } = 0;
 
     /// <summary>
-    /// All loses by running oot of time
+    /// All games played
     /// </summary>
-    public int LosesByTimeout { get; set; }
+    public int OfflineGamesPlayed => OfflineWins + OfflineLoses + OfflineDraws;
 
-    /// <summary>
-    /// All loses by resignation
-    /// </summary>
-    public int LosesByResignation { get; set; }
-
-    /// <summary>
-    /// User id
-    /// </summary>
-    public Guid UserId { get; set; }
 
     /// <summary>
     /// User that stats belongs to
     /// </summary>
+    public Guid UserId { get; set; }
     public User User { get; set; }
 }

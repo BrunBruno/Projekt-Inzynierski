@@ -10,6 +10,11 @@ namespace chess.Application.Requests.WebGameRequests.GetAllFinishedGames;
 public class GetAllFinishedGamesDto {
 
     /// <summary>
+    /// Id for rejoining
+    /// </summary>
+    public Guid GameId { get; set; }
+
+    /// <summary>
     /// Position at which game has ended
     /// </summary>
     public required string Position { get; set; }
@@ -48,6 +53,7 @@ public class GetAllFinishedGamesDto {
     /// Reason why game has ended
     /// </summary>
     public GameEndReason? EndGameType { get; set; }  
+
 
     /// <summary>
     /// White player data

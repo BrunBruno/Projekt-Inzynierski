@@ -50,7 +50,7 @@ const PlaySection = forwardRef<HandleOnScroll, PlaySectionProps>(
       const actionsObserver: IntersectionObserver = createOneTimeObserver(actionsObserverAction, {});
 
       actionRefs.forEach((element) => {
-        if (element.current) {
+        if (element.current && window.innerWidth > 700) {
           actionsObserver.observe(element.current);
         }
       });
@@ -59,7 +59,6 @@ const PlaySection = forwardRef<HandleOnScroll, PlaySectionProps>(
         actionsObserver.disconnect();
       };
     }, [actionRefs]);
-    //*/
 
     // to go to registration page
     const navigateToPlay = (regOptions: GameSearchInterface): void => {
@@ -69,7 +68,6 @@ const PlaySection = forwardRef<HandleOnScroll, PlaySectionProps>(
 
       navigate("/main", { state: state });
     };
-    //*/
 
     return (
       <section id="play-section" ref={sectionRef} className={classes.section}>
@@ -82,14 +80,12 @@ const PlaySection = forwardRef<HandleOnScroll, PlaySectionProps>(
             <span>STARTED</span>
           </h2>
         </div>
-        {/* --- */}
 
         <div className={classes.section__content}>
           {/* board */}
           <div className={classes.section__content__board}>
             <PlayBoard ref={ref} />
           </div>
-          {/* --- */}
 
           {/* actions */}
           <div className={classes.section__content__actions}>
@@ -143,7 +139,6 @@ const PlaySection = forwardRef<HandleOnScroll, PlaySectionProps>(
               </div>
             </div>
           </div>
-          {/* --- */}
         </div>
 
         <div>

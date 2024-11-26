@@ -16,30 +16,14 @@ public class UserRepository : IUserRepository {
     }
 
     ///<inheritdoc/>
-    public async Task<List<User>> GetAllNonFriends(List<Guid> ids, Guid userId)
-        => await _dbContext.Users
-                    .Include(u => u.Image)
-                    .Include(u => u.Elo)
-                    .Include(u => u.Stats)
-                    .Where(u => !ids.Contains(u.Id) && u.IsVerified && u.Id != userId)
-                    .ToListAsync();
-
-    ///<inheritdoc/>
-    public async Task<List<User>> GetAllFriends(List<Guid> ids, Guid userId)
-        => await _dbContext.Users
-                    .Include(u => u.Image)
-                    .Include(u => u.Elo)
-                    .Include(u => u.Stats)
-                    .Where(u => ids.Contains(u.Id) && u.IsVerified && u.Id != userId)
-                    .ToListAsync();
-
-    ///<inheritdoc/>
     public async Task<User?> GetById(Guid id)
         => await _dbContext.Users
                     .Include(u => u.Role)
                     .Include(u => u.Image)
+                    .Include(u => u.Background)
                     .Include(u => u.Elo)
                     .Include(u => u.Stats)
+                    .Include(u => u.Settings)
                     .FirstOrDefaultAsync(u => u.Id == id);
 
     ///<inheritdoc/>
@@ -66,24 +50,51 @@ public class UserRepository : IUserRepository {
                     .FirstOrDefaultAsync(u => u.Email == value || u.Username == value);
 
     ///<inheritdoc/>
-    public async Task<List<User>> GetAllJoinedToday() 
+    public async Task<List<User>> GetAllNonFriends(List<Guid> ids, Guid userId)
+        => await _dbContext.Users
+                    .Include(u => u.Image)
+                    .Include(u => u.Elo)
+                    .Include(u => u.Stats)
+                    .Where(u => !ids.Contains(u.Id) && u.IsVerified && u.Id != userId && !u.IsPrivate)
+                    .ToListAsync();
+
+    ///<inheritdoc/>
+    public async Task<List<User>> GetAllFriends(List<Guid> ids, Guid userId)
+        => await _dbContext.Users
+                    .Include(u => u.Image)
+                    .Include(u => u.Elo)
+                    .Include(u => u.Stats)
+                    .Where(u => ids.Contains(u.Id) && u.IsVerified && u.Id != userId)
+                    .ToListAsync();
+
+    ///<inheritdoc/>
+    public async Task<List<User>> GetAllJoinedToday()
         => await _dbContext.Users
                     .Where(u => u.JoinDate.Date == DateTime.UtcNow.Date)
                     .ToListAsync();
 
     ///<inheritdoc/>
-    public async Task<List<User>> GetAllOrderByRating(TimingTypes type)
-        => await _dbContext.Users
-                    .Include(u => u.Image)
-                    .Include(u => u.Elo)
-                    .Include(u => u.Stats)
-                    .OrderByDescending(u => 
-                        type == TimingTypes.Bullet ? u.Elo.Bullet : 
-                        type == TimingTypes.Blitz ? u.Elo.Blitz :
-                        type == TimingTypes.Rapid ? u.Elo.Rapid :
-                        type == TimingTypes.Classic ? u.Elo.Classic :
-                        type == TimingTypes.Daily ? u.Elo.Daily : 0)
-                    .ToListAsync();
+    public async Task<List<User>> GetAllOrderByRating(TimingTypes type) {
+        var users = _dbContext.Users
+            .Include(u => u.Image)
+            .Include(u => u.Elo)
+            .Include(u => u.Stats)
+            .Where(u => u.IsVerified);
+
+        var result = await users.ToListAsync();
+
+        var orderedResult = result
+            .OrderByDescending(u =>
+                type == TimingTypes.Bullet ? u.Elo.Bullet :
+                type == TimingTypes.Blitz ? u.Elo.Blitz :
+                type == TimingTypes.Rapid ? u.Elo.Rapid :
+                type == TimingTypes.Classic ? u.Elo.Classic :
+                type == TimingTypes.Daily ? u.Elo.Daily : 0)
+            .ThenByDescending(u => u.Stats.OnlineWins)
+            .ToList();
+
+        return orderedResult;
+    }
 
     ///<inheritdoc/>
     public async Task Add(User user) {
@@ -101,20 +112,5 @@ public class UserRepository : IUserRepository {
     public async Task Delete(User user) {
         _dbContext.Users.Remove(user);
         await _dbContext.SaveChangesAsync();
-    }
-
-    private static int GetEloByType(UserElo elo, TimingTypes type) {
-        if (elo == null)
-            return 0;
-
-        return type switch
-        {
-            TimingTypes.Bullet => elo.Bullet,
-            TimingTypes.Blitz => elo.Blitz,
-            TimingTypes.Rapid => elo.Rapid,
-            TimingTypes.Classic => elo.Classic,
-            TimingTypes.Daily => elo.Daily,
-            _ => 0
-        };
     }
 }

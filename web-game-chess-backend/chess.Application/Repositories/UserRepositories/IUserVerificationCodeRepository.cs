@@ -1,12 +1,12 @@
-﻿using chess.Core.Entities;
+﻿
+using chess.Core.Entities;
 
 namespace chess.Application.Repositories.UserRepositories;
 
 /// <summary>
 /// Email verification codes interface
 /// </summary>
-public interface IUserVerificationCodeRepository
-{
+public interface IUserVerificationCodeRepository {
 
     /// <summary>
     /// Gets code by user id

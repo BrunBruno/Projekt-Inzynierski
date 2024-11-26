@@ -4,7 +4,7 @@ import AvatarImage from "../../../../shared/components/avatar-image/AvatarImage"
 import { PieceColor } from "../../../../shared/utils/objects/entitiesEnums";
 import { PlayerDto } from "../../../../shared/utils/types/abstractDtosAndModels";
 import { Guid } from "guid-typescript";
-import { EndEngineGameDto, GetEngineGameDto } from "../../../../shared/utils/types/engineDtos";
+import { EndEngineGameDto, GetEngineGameDto } from "../../../../shared/utils/types/engineGameDtos";
 import { useRef, MouseEvent } from "react";
 import { symbolIcons } from "../../../../shared/svgs/iconsMap/SymbolIcons";
 import { greyColor } from "../../../../shared/utils/objects/colorMaps";
@@ -80,9 +80,8 @@ function EngineGameWinner({ gameData, winner }: EngineGameWinnerProps) {
       </div>
     );
   };
-  //*/
 
-  // to look at board
+  // to show winner window again
   const showWinner = (event: MouseEvent<HTMLDivElement>) => {
     const target = event.target as HTMLDivElement;
 
@@ -94,6 +93,7 @@ function EngineGameWinner({ gameData, winner }: EngineGameWinnerProps) {
     }
   };
 
+  // to look at board
   const hideWinner = (): void => {
     const container = containerRef.current;
     if (!container) return;
@@ -102,7 +102,6 @@ function EngineGameWinner({ gameData, winner }: EngineGameWinnerProps) {
       container.classList.add(classes["close"]);
     }
   };
-  //*/
 
   if (!winner) return <></>;
 

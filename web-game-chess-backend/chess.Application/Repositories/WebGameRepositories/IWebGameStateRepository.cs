@@ -4,7 +4,7 @@ using chess.Core.Entities;
 namespace chess.Application.Repositories.WebGameRepositories;
 
 /// <summary>
-/// Game state repository
+/// Web game ame state repository
 /// </summary>
 public interface IWebGameStateRepository {
 

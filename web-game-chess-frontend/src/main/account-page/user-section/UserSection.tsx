@@ -11,86 +11,77 @@ import { getErrMessage } from "../../../shared/utils/functions/errors";
 import AvatarImage from "../../../shared/components/avatar-image/AvatarImage";
 import IconCreator from "../../../shared/components/icon-creator/IconCreator";
 import { userSectionIcons } from "./UserSectionIcons";
-import { mainColor } from "../../../shared/utils/objects/colorMaps";
+import { greyColor, mainColor } from "../../../shared/utils/objects/colorMaps";
 import { timingTypeIcons } from "../../../shared/svgs/iconsMap/TimingTypeIcons";
 import { TimingType } from "../../../shared/utils/objects/entitiesEnums";
+import { AccountPageInterface } from "../../../shared/utils/objects/interfacesEnums";
+import { FetchDataFunc, SetSelectedContentFunc, UpdateUserFunctionProps } from "../AccountPageData";
 
 type UserSectionProps = {
-  // to obtain game timing history by selection timing type
-  // sends right column view to type history chart
-  getTypeHistory: (type: TimingType) => void;
-  // to view send to friend list
-  setFriendSection: () => void;
+  // user data
+  user: GetFullUserDto | null;
+  elo: GetEloDto | null;
+
+  // get data
+  fetchData: FetchDataFunc;
+  // to change selected content
+  setSelectedContent: SetSelectedContentFunc;
 };
 
-function UserSection({ getTypeHistory, setFriendSection }: UserSectionProps) {
+function UserSection({ user, elo, fetchData, setSelectedContent }: UserSectionProps) {
   ///
 
   const { showPopup } = usePopup();
-
-  // all current user data
-  const [user, setUser] = useState<GetFullUserDto | null>(null);
-  const [elo, setElo] = useState<GetEloDto | null>(null);
 
   // states for setting changeable data
   const [name, setName] = useState<string>("");
   const [bio, setBio] = useState<string>("");
   const [profilePicture, setProfilePicture] = useState<File | null>(null);
+  const [backgroundImage, setBackgroundImage] = useState<File | null>(null);
 
-  // to gat user data
-  const getUser = async (): Promise<void> => {
-    try {
-      const userResponse = await axios.get<GetFullUserDto>(userController.getFullUser(), getAuthorization());
+  // show/hide image options
+  const [imageSettingsOpen, setImageSettingsOpen] = useState<boolean>(false);
+  //
+  const [statsOpen, setStatsOpen] = useState<boolean>(false);
+  const [isSmallDevice, setIsSmallDevice] = useState<boolean>(false);
 
-      setUser(userResponse.data);
-
-      if (userResponse.data.name !== null) {
-        setName(userResponse.data.name);
-      }
-
-      if (userResponse.data.bio !== null) {
-        setBio(userResponse.data.bio);
-      }
-    } catch (err) {
-      showPopup(getErrMessage(err), "warning");
-    }
-  };
-
-  const getElo = async (): Promise<void> => {
-    try {
-      const eloResponse = await axios.get<GetEloDto>(userController.getElo(), getAuthorization());
-
-      setElo(eloResponse.data);
-    } catch (err) {
-      showPopup(getErrMessage(err), "warning");
-    }
-  };
-
-  const fetchData = (): void => {
-    getUser();
-    getElo();
-  };
-  //*/
-
-  // get data on load
   useEffect(() => {
-    fetchData();
-  }, []);
-  //*/
+    const handleResize = (): void => {
+      if (window.innerWidth <= 1200 && !isSmallDevice) setIsSmallDevice(true);
+      else if (window.innerWidth > 1200 && isSmallDevice) setIsSmallDevice(false);
+    };
+
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, [isSmallDevice]);
+
+  // fill current values
+  useEffect(() => {
+    if (!user) return;
+
+    if (user.name !== null) setName(user.name);
+    if (user.bio !== null) setBio(user.bio);
+  }, [user]);
 
   // to change and update user personal data
-  const updateUser = async (): Promise<void> => {
+  const updateUser = async ({ clearImage, clearBackground }: UpdateUserFunctionProps = {}): Promise<void> => {
     const model: UpdateProfileModel = {
       name: name === "" ? null : name,
       bio: bio === "" ? null : bio,
       imageFile: profilePicture === null ? null : profilePicture,
+      backgroundFile: backgroundImage === null ? null : backgroundImage,
+      clearBackground: clearBackground,
+      clearImage: clearImage,
+    };
+
+    const options: AuthorizationOptions = {
+      contentType: "multipart/form-data",
     };
 
     try {
-      const options: AuthorizationOptions = {
-        contentType: "multipart/form-data",
-      };
-
       await axios.put(userController.updateProfile(), model, getAuthorization(options));
 
       setName("");
@@ -103,25 +94,64 @@ function UserSection({ getTypeHistory, setFriendSection }: UserSectionProps) {
       showPopup(getErrMessage(err), "warning");
     }
   };
-  //*/
 
   // handle file input and update profile picture
-  const handleProfilePicture = (event: ChangeEvent<HTMLInputElement>) => {
+  const handleProfilePicture = (event: ChangeEvent<HTMLInputElement>): void => {
     const files = event.target.files;
     if (!files) return;
 
     const imageFile = files[0];
     if (imageFile.type === "image/jpeg" || imageFile.type === "image/png" || imageFile.type === "image/jpg") {
       setProfilePicture(imageFile);
+      setImageSettingsOpen(false);
     }
   };
 
+  // update user profile picture
   useEffect(() => {
-    if (profilePicture) {
-      updateUser();
-    }
+    if (profilePicture) updateUser();
   }, [profilePicture]);
-  //*/
+
+  // delete profile picture
+  const forceImageClear = (): void => {
+    const updateProps: UpdateUserFunctionProps = {
+      clearImage: true,
+    };
+
+    updateUser(updateProps);
+    setImageSettingsOpen(false);
+  };
+
+  // handle file input and update background picture
+  const handleBackgroundPicture = (event: ChangeEvent<HTMLInputElement>) => {
+    const files = event.target.files;
+    if (!files) return;
+
+    const imageFile = files[0];
+    if (imageFile.type === "image/jpeg" || imageFile.type === "image/png" || imageFile.type === "image/jpg") {
+      setBackgroundImage(imageFile);
+      setImageSettingsOpen(false);
+    }
+  };
+
+  // update user background image
+  useEffect(() => {
+    if (backgroundImage) updateUser();
+  }, [backgroundImage]);
+
+  // delete background image
+  const forceBackgroundClear = (): void => {
+    const updateProps: UpdateUserFunctionProps = {
+      clearBackground: true,
+    };
+
+    updateUser(updateProps);
+    setImageSettingsOpen(false);
+  };
+
+  const showStats = (): void => {
+    setStatsOpen((prev) => !prev);
+  };
 
   return (
     <section className={classes.user}>
@@ -132,15 +162,22 @@ function UserSection({ getTypeHistory, setFriendSection }: UserSectionProps) {
         </div>
       ) : (
         <div className={classes.user__profile}>
-          <div className={classes.user__profile__avatar}>
-            <AvatarImage
-              username={user.username}
-              profilePicture={user.profilePicture}
-              imageClass={classes["avatar-img"]}
-            />
+          <div
+            className={classes.user__profile__background}
+            style={{
+              backgroundImage: user.backgroundImage
+                ? `url('data:${user.backgroundImage.contentType};base64,${user.backgroundImage.data}')`
+                : "url('/images/account-bg.jpg')",
+            }}
+          />
 
+          <div className={classes.user__profile__avatar}>
             <label className={classes["set-img"]}>
-              <IconCreator icons={userSectionIcons} iconName={"image"} />
+              <AvatarImage
+                username={user.username}
+                profilePicture={user.profilePicture}
+                imageClass={classes["avatar-img"]}
+              />
               <input
                 type="file"
                 accept="image/jpeg,image/png,image/jpg"
@@ -150,6 +187,67 @@ function UserSection({ getTypeHistory, setFriendSection }: UserSectionProps) {
                 }}
               />
             </label>
+
+            <div
+              className={classes["background-settings"]}
+              onClick={() => {
+                setImageSettingsOpen(true);
+              }}
+            >
+              <IconCreator icons={userSectionIcons} iconName="settings" />
+            </div>
+          </div>
+
+          <div className={`${classes["image-setters"]} ${imageSettingsOpen ? classes["active"] : ""}`}>
+            <label>
+              <IconCreator icons={userSectionIcons} iconName={"addProfile"} iconClass={classes["setter-icon"]} />
+              <span>Add profile</span>
+
+              <input
+                type="file"
+                accept="image/jpeg,image/png,image/jpg"
+                onChange={(event) => {
+                  handleProfilePicture(event);
+                }}
+              />
+            </label>
+            <label
+              onClick={() => {
+                forceImageClear();
+              }}
+            >
+              <IconCreator icons={userSectionIcons} iconName={"removeProfile"} iconClass={classes["setter-icon"]} />
+              <span>Remove profile</span>
+            </label>
+            <label>
+              <IconCreator icons={userSectionIcons} iconName={"addBackground"} iconClass={classes["setter-icon"]} />
+              <span>Add background</span>
+
+              <input
+                type="file"
+                accept="image/jpeg,image/png,image/jpg"
+                onChange={(event) => {
+                  handleBackgroundPicture(event);
+                }}
+              />
+            </label>
+            <label
+              onClick={() => {
+                forceBackgroundClear();
+              }}
+            >
+              <IconCreator icons={userSectionIcons} iconName={"removeBackground"} iconClass={classes["setter-icon"]} />
+              <span>Remove background</span>
+            </label>
+
+            <button
+              className={classes["cancel-image-button"]}
+              onClick={() => {
+                setImageSettingsOpen(false);
+              }}
+            >
+              <span>Cancel</span>
+            </button>
           </div>
 
           <div className={classes.user__profile__info}>
@@ -188,20 +286,42 @@ function UserSection({ getTypeHistory, setFriendSection }: UserSectionProps) {
               </div>
               <span>{user.country}</span>
             </div>
+
+            {isSmallDevice && (
+              <div className={classes["icon-con"]}>
+                <div
+                  data-testid="set-friends-button"
+                  className={`${classes.icon} ${classes["stats"]}`}
+                  onClick={() => {
+                    showStats();
+                  }}
+                >
+                  <IconCreator icons={userSectionIcons} iconName={"stats"} />
+                </div>
+                <span>Stats</span>
+              </div>
+            )}
+
             <div className={classes["icon-con"]}>
               <div
                 data-testid="set-friends-button"
                 className={`${classes.icon} ${classes["friends"]}`}
                 onClick={() => {
-                  setFriendSection();
+                  setSelectedContent(AccountPageInterface.friends);
                 }}
               >
                 <IconCreator icons={userSectionIcons} iconName={"friends"} />
               </div>
               <span>Friends</span>
             </div>
+
             <div className={classes["icon-con"]}>
-              <div className={`${classes.icon} ${classes["settings"]}`}>
+              <div
+                className={`${classes.icon} ${classes["settings"]}`}
+                onClick={() => {
+                  setSelectedContent(AccountPageInterface.settings);
+                }}
+              >
                 <IconCreator icons={userSectionIcons} iconName="settings" />
               </div>
               <span>Settings</span>
@@ -209,49 +329,27 @@ function UserSection({ getTypeHistory, setFriendSection }: UserSectionProps) {
           </div>
         </div>
       )}
-      {/* --- */}
 
-      {/* user stats */}
       <div className={classes.user__data}>
-        {!user ? (
-          <div className={classes.user__data__stats}>
-            {Array.from({ length: 10 }).map((_, i: number) => (
-              <p key={i} className={classes["loading-block"]} />
-            ))}
-          </div>
-        ) : (
-          <div className={classes.user__data__stats}>
-            <div className={classes.user__data__stats__header}>
-              Total games played: <span>{user.outcomeTotal.total}</span>
-            </div>
-
-            <div className={classes.user__data__stats__row}>
-              <StatsRow type={"games"} user={user} />
-            </div>
-
-            <div className={classes.user__data__stats__row}>
-              <StatsRow type={"wins"} user={user} />
-            </div>
-
-            <div className={classes.user__data__stats__row}>
-              <StatsRow type={"loses"} user={user} />
-            </div>
-          </div>
-        )}
-
         {/* history view setter */}
-        {!elo ? (
+        {!elo || !user ? (
           <div className={classes.user__data__elo} />
         ) : (
           <div className={classes.user__data__elo}>
             <div className={classes.user__data__elo__header}>
+              <IconCreator
+                icons={userSectionIcons}
+                iconName={"history"}
+                iconClass={classes["history-icon"]}
+                color={greyColor.c4}
+              />
               <span>Check history</span>
             </div>
             <div
               data-testid="set-history-bullet-button"
               className={classes.user__data__elo__type}
               onClick={() => {
-                getTypeHistory(TimingType.bullet);
+                setSelectedContent(AccountPageInterface.history, TimingType.bullet);
               }}
             >
               <div className={classes["elo-points"]}>
@@ -261,7 +359,11 @@ function UserSection({ getTypeHistory, setFriendSection }: UserSectionProps) {
                   iconClass={classes["elo-icon"]}
                   color={mainColor.c5}
                 />
-                <span>{elo.bullet}</span>{" "}
+                <span>{elo.bullet}</span>
+              </div>
+
+              <div className={classes["type-games"]}>
+                <span>Games: {user.timingTypeGamesPlayed.bullet}</span>
               </div>
             </div>
 
@@ -269,7 +371,7 @@ function UserSection({ getTypeHistory, setFriendSection }: UserSectionProps) {
               data-testid="set-history-blitz-button"
               className={classes.user__data__elo__type}
               onClick={() => {
-                getTypeHistory(TimingType.blitz);
+                setSelectedContent(AccountPageInterface.history, TimingType.blitz);
               }}
             >
               <div className={classes["elo-points"]}>
@@ -279,7 +381,11 @@ function UserSection({ getTypeHistory, setFriendSection }: UserSectionProps) {
                   iconClass={classes["elo-icon"]}
                   color={mainColor.c5}
                 />
-                <span>{elo.blitz}</span>{" "}
+                <span>{elo.blitz}</span>
+              </div>
+
+              <div className={classes["type-games"]}>
+                <span>Games: {user.timingTypeGamesPlayed.blitz}</span>
               </div>
             </div>
 
@@ -287,7 +393,7 @@ function UserSection({ getTypeHistory, setFriendSection }: UserSectionProps) {
               data-testid="set-history-rapid-button"
               className={classes.user__data__elo__type}
               onClick={() => {
-                getTypeHistory(TimingType.rapid);
+                setSelectedContent(AccountPageInterface.history, TimingType.rapid);
               }}
             >
               <div className={classes["elo-points"]}>
@@ -297,7 +403,11 @@ function UserSection({ getTypeHistory, setFriendSection }: UserSectionProps) {
                   iconClass={classes["elo-icon"]}
                   color={mainColor.c5}
                 />
-                <span>{elo.rapid}</span>{" "}
+                <span>{elo.rapid}</span>
+              </div>
+
+              <div className={classes["type-games"]}>
+                <span>Games: {user.timingTypeGamesPlayed.rapid}</span>
               </div>
             </div>
 
@@ -305,7 +415,7 @@ function UserSection({ getTypeHistory, setFriendSection }: UserSectionProps) {
               data-testid="set-history-classic-button"
               className={classes.user__data__elo__type}
               onClick={() => {
-                getTypeHistory(TimingType.classic);
+                setSelectedContent(AccountPageInterface.history, TimingType.classic);
               }}
             >
               <div className={classes["elo-points"]}>
@@ -315,7 +425,11 @@ function UserSection({ getTypeHistory, setFriendSection }: UserSectionProps) {
                   iconClass={classes["elo-icon"]}
                   color={mainColor.c5}
                 />
-                <span>{elo.classic}</span>{" "}
+                <span>{elo.classic}</span>
+              </div>
+
+              <div className={classes["type-games"]}>
+                <span>Games: {user.timingTypeGamesPlayed.classic}</span>
               </div>
             </div>
 
@@ -323,7 +437,7 @@ function UserSection({ getTypeHistory, setFriendSection }: UserSectionProps) {
               data-testid="set-history-daily-button"
               className={classes.user__data__elo__type}
               onClick={() => {
-                getTypeHistory(TimingType.daily);
+                setSelectedContent(AccountPageInterface.history, TimingType.daily);
               }}
             >
               <div className={classes["elo-points"]}>
@@ -333,14 +447,69 @@ function UserSection({ getTypeHistory, setFriendSection }: UserSectionProps) {
                   iconClass={classes["elo-icon"]}
                   color={mainColor.c5}
                 />
-                <span>{elo.daily}</span>{" "}
+                <span>{elo.daily}</span>
+              </div>
+
+              <div className={classes["type-games"]}>
+                <span>Games: {user.timingTypeGamesPlayed.daily}</span>
               </div>
             </div>
           </div>
         )}
-        {/* --- */}
+
+        {/* user stats */}
+        {!user ? (
+          <div className={classes.user__data__stats}>
+            {Array.from({ length: 10 }).map((_, i: number) => (
+              <p key={i} className={classes["loading-block"]} />
+            ))}
+          </div>
+        ) : (
+          <div
+            className={`
+              ${classes.user__data__stats}
+              ${statsOpen ? classes["open-stats"] : ""}
+            `}
+            style={{ display: !statsOpen && isSmallDevice ? "none" : "flex" }}
+          >
+            <div className={classes.user__data__stats__header}>
+              <IconCreator
+                icons={userSectionIcons}
+                iconName={"online"}
+                iconClass={classes["header-icon"]}
+                color={greyColor.c4}
+              />
+              <span>Online games</span>
+            </div>
+
+            <div className={classes.user__data__stats__row}>
+              <StatsRow type={"onlineGamesStats"} user={user} />
+            </div>
+
+            <div className={classes.user__data__stats__row}>
+              <StatsRow type={"onlineGamesWins"} user={user} />
+            </div>
+
+            <div className={classes.user__data__stats__row}>
+              <StatsRow type={"onlineGamesLoses"} user={user} />
+            </div>
+
+            <div className={classes.user__data__stats__header}>
+              <IconCreator
+                icons={userSectionIcons}
+                iconName={"offline"}
+                iconClass={classes["header-icon"]}
+                color={greyColor.c4}
+              />
+              <span>Offline games</span>
+            </div>
+
+            <div className={classes.user__data__stats__row}>
+              <StatsRow type={"offlineGamesStats"} user={user} />
+            </div>
+          </div>
+        )}
       </div>
-      {/* --- */}
     </section>
   );
 }

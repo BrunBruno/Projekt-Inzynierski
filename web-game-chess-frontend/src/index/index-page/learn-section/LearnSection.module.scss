@@ -4,7 +4,7 @@
 .section {
   margin-bottom: 30rem;
 
-  @include wh100();
+  @include wh100;
 
   // join button container
   &__join {
@@ -21,18 +21,16 @@
       z-index: 0;
       width: 70rem;
       aspect-ratio: 7/5;
-
       padding: 2rem;
       border-radius: 4rem;
       border: dashed 1rem;
       background-color: #000;
       overflow: hidden;
       filter: brightness(70%);
-
       transition: transform 1s 0.5s;
 
       &::after {
-        @include subCl();
+        @include sub-class;
 
         top: 0;
         left: 0;
@@ -45,6 +43,7 @@
         transform: translateX(-20%);
         rotate: 10deg;
       }
+
       &:nth-child(even) {
         right: 50%;
         transform: translateX(20%);
@@ -52,7 +51,7 @@
       }
 
       &__inner {
-        @include wh100();
+        @include wh100;
 
         border-radius: 2rem;
         background-size: cover;
@@ -64,28 +63,32 @@
         &:nth-child(1) {
           transform: translateX(26rem) rotate(40deg);
         }
+
         &:nth-child(2) {
           transform: translateX(-26rem) rotate(-40deg);
         }
+
         &:nth-child(3) {
           transform: translateX(40rem) rotate(0deg);
         }
+
         &:nth-child(4) {
           transform: translateX(-40rem) rotate(0deg);
         }
+
         &:nth-child(5) {
           transform: translateX(30rem) translateY(20rem) rotate(30deg);
         }
+
         &:nth-child(6) {
           transform: translateX(-30rem) translateY(20rem) rotate(-30deg);
         }
       }
     }
-    //*/
 
     // button
     &__content {
-      @include absCenter();
+      @include abs-center;
       @include flex(column, center, center, 4rem);
 
       z-index: -1;
@@ -99,22 +102,22 @@
         @include flex($gap: 1rem);
 
         font-size: $join-header-size;
-        font-family: "Knewave";
+        font-family: Knewave;
         user-select: none;
         text-align: center;
         color: $mc7;
 
-        @mixin joinHorse($deg) {
+        @mixin join-horse($deg) {
           height: $join-header-size;
           transform: rotateY($deg) rotateZ(-30deg);
         }
 
         svg.join-l-horse {
-          @include joinHorse(0);
+          @include join-horse(0);
         }
 
         svg.join-r-horse {
-          @include joinHorse(180deg);
+          @include join-horse(180deg);
         }
       }
 
@@ -128,17 +131,16 @@
       a.join-action {
         button.join-button {
           @include button(4rem);
+          @include sec-m-button;
+
           & {
-            @include secMButton();
-            & {
-              position: relative;
-              margin-top: 4rem;
-            }
+            position: relative;
+            margin-top: 4rem;
           }
 
           &::after {
-            @include subCl(0, 0);
-            @include absCenter();
+            @include sub-class(0, 0);
+            @include abs-center;
             @include circle(40rem);
 
             z-index: -1;
@@ -157,18 +159,14 @@
         }
       }
     }
-    //*/
   }
-  //*/
 }
-//*/
 
 // resize
-@media (max-width: 700px) {
-  .learn {
+@media (width <= 700px) {
+  .section {
     &__join {
       padding-top: 100rem;
     }
   }
 }
-//*/

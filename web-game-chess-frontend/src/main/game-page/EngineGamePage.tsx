@@ -2,19 +2,20 @@ import { useLocation, useNavigate, useParams } from "react-router-dom";
 import classes from "./GamePage.module.scss";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { engineController, getAuthorization } from "../../shared/utils/services/ApiService";
+import { engineGameController, getAuthorization } from "../../shared/utils/services/ApiService";
 import LoadingPage from "../../shared/components/loading-page/LoadingPage";
 import { usePopup } from "../../shared/utils/hooks/usePopUp";
 import { getErrMessage } from "../../shared/utils/functions/errors";
 import MainPopUp from "../../shared/components/main-popup/MainPopUp";
 import { Guid } from "guid-typescript";
 import { GameActionInterface, GameWindowInterface, StateOptions } from "../../shared/utils/objects/interfacesEnums";
-import { EndEngineGameDto, GetEngineGameDto } from "../../shared/utils/types/engineDtos";
-import { EndEngineGameModel } from "../../shared/utils/types/engineModels";
+import { EndEngineGameDto, GetEngineGameDto } from "../../shared/utils/types/engineGameDtos";
+import { EndEngineGameModel } from "../../shared/utils/types/engineGameModels";
 import { PieceColor } from "../../shared/utils/objects/entitiesEnums";
 import EngineGameLeftSidebar from "./game-left-sidebar/EngineGameLeftSidebar";
 import EngineGameContent from "./game-content/EngineGameContent";
 import EngineGameRightSidebar from "./game-right-sidebar/EngineGameRightSidebar";
+import { MoveDto } from "../../shared/utils/types/abstractDtosAndModels";
 
 function EngineGamePage() {
   ///
@@ -40,7 +41,6 @@ function EngineGamePage() {
       navigate("/main", { state: state });
     }
   }, [gameIdStr]);
-  //*/
 
   // obtained game data
   const [gameData, setGameData] = useState<GetEngineGameDto | null>(null);
@@ -52,6 +52,9 @@ function EngineGamePage() {
   // states for displaying actions confirmation window
   const [showConfirm, setShowConfirm] = useState<GameActionInterface | null>(null);
   const [confirmAction, setConfirmAction] = useState<() => void>(() => {});
+
+  // for showing done moves
+  const [historyPosition, setHistoryPosition] = useState<MoveDto | null>(null);
 
   // display enter popups
   useEffect(() => {
@@ -68,7 +71,10 @@ function EngineGamePage() {
     try {
       if (!gameId) return;
 
-      const response = await axios.get<GetEngineGameDto>(engineController.getEngineGame(gameId), getAuthorization());
+      const response = await axios.get<GetEngineGameDto>(
+        engineGameController.getEngineGame(gameId),
+        getAuthorization()
+      );
 
       setGameData(response.data);
     } catch (err) {
@@ -80,6 +86,7 @@ function EngineGamePage() {
     getGame();
   }, [gameId]);
 
+  // to finish the game and get winner data
   const endGame = async (loserColor: PieceColor | null): Promise<void> => {
     if (!gameId) return;
 
@@ -90,7 +97,7 @@ function EngineGamePage() {
       };
 
       const response = await axios.put<EndEngineGameDto>(
-        engineController.endEngineGame(gameId),
+        engineGameController.endEngineGame(gameId),
         model,
         getAuthorization()
       );
@@ -107,6 +114,10 @@ function EngineGamePage() {
     if (!gameId || !gameData) return;
 
     if (gameData.hasEnded) endGame(null);
+
+    if (gameData.halfmoveClock >= 100) {
+      endGame(null);
+    }
   }, [gameData]);
 
   if (!gameId || !gameData) return <LoadingPage />;
@@ -116,9 +127,11 @@ function EngineGamePage() {
       <EngineGameLeftSidebar
         gameId={gameId}
         gameData={gameData}
+        getGame={getGame}
+        endGame={endGame}
         setShowConfirm={setShowConfirm}
         setConfirmAction={setConfirmAction}
-        setDisplayedWindow={setDisplayedWindow}
+        displayedWindowState={{ get: displayedWindow, set: setDisplayedWindow }}
       />
 
       <EngineGameContent
@@ -127,14 +140,18 @@ function EngineGamePage() {
         getGame={getGame}
         endGame={endGame}
         winner={winner}
-        showConfirm={showConfirm}
-        setShowConfirm={setShowConfirm}
+        historyPositionState={{ get: historyPosition, set: setHistoryPosition }}
+        showConfirmState={{ get: showConfirm, set: setShowConfirm }}
         confirmAction={confirmAction}
-        displayedWindow={displayedWindow}
-        setDisplayedWindow={setDisplayedWindow}
+        displayedWindowState={{ get: displayedWindow, set: setDisplayedWindow }}
       />
 
-      <EngineGameRightSidebar gameId={gameId} gameData={gameData} />
+      <EngineGameRightSidebar
+        gameId={gameId}
+        gameData={gameData}
+        historyPositionState={{ get: historyPosition, set: setHistoryPosition }}
+        displayedWindowState={{ get: displayedWindow, set: setDisplayedWindow }}
+      />
 
       <MainPopUp />
     </main>

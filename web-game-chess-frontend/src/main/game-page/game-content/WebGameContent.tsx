@@ -1,18 +1,18 @@
-import { Dispatch, SetStateAction, useEffect, useReducer } from "react";
+import { useEffect, useReducer, useRef } from "react";
 import {
-  EndGameDto,
-  GetEndedGameDto,
-  GetGameDto,
-  GetPlayerDto,
+  EndWebGameDto,
+  GetWebGameDto,
+  GetWebGamePlayerDto,
   SearchWebGameDto,
-} from "../../../shared/utils/types/gameDtos";
+  CreateWebGameRematchDto,
+} from "../../../shared/utils/types/webGameDtos";
 import classes from "./GameContent.module.scss";
 import { GameEndReason, PieceColor } from "../../../shared/utils/objects/entitiesEnums";
-import { EndGameModel, SearchWebGameModel } from "../../../shared/utils/types/gameModels";
+import { EndWebGameModel, SearchWebGameModel } from "../../../shared/utils/types/webGameModels";
 import GameHubService from "../../../shared/utils/services/GameHubService";
 import { Guid } from "guid-typescript";
 import { GameActionInterface, GameWindowInterface } from "../../../shared/utils/objects/interfacesEnums";
-import { SMatrix } from "../../../shared/utils/types/commonTypes";
+import { SMatrix, StateProp } from "../../../shared/utils/types/commonTypes";
 import {
   gameInitialStates,
   gameStatesReducer,
@@ -30,34 +30,38 @@ import WebGameBoard from "./game-board/WebGameBoard";
 import WebGamePromotion from "./game-promotion/WebGamePromotion";
 import WebGameConfirm from "./game-confirm/WebGameConfirm";
 import WebGameWinner from "./game-winner/WebGameWinner";
+import { MoveDto } from "../../../shared/utils/types/abstractDtosAndModels";
+import GameHistory from "./game-history/GameHistory";
+import GameSettings from "./game-settings/GameSettings";
 
 type WebGameContentProps = {
-  // game id
+  // game and player data
   gameId: Guid;
-  // current game data
-  gameData: GetGameDto;
-  // current player data
-  playerData: GetPlayerDto;
+  gameData: GetWebGameDto;
+  playerData: GetWebGamePlayerDto;
   // winner color if game is finished
-  winner: EndGameDto | GetEndedGameDto | null;
-  // obtained ids for rematch game
-  searchIds: SearchWebGameDto | null;
-  //rematch game id
-  newGameId: Guid | null;
-  // setter of obtained ids
-  setSearchIds: Dispatch<SetStateAction<SearchWebGameDto | null>>;
-  // timing of current game
+  winner: EndWebGameDto | null;
+
+  // timing of current game for new games and rematches
   selectedTiming: SearchWebGameModel | null;
-  // to display confirm window
-  showConfirm: GameActionInterface | null;
-  // to hide confirm window
-  setShowConfirm: Dispatch<SetStateAction<GameActionInterface | null>>;
+
+  //
+  historyPositionState: StateProp<MoveDto | null>;
+
+  // obtained ids for rematch game and setter
+  newGameDataState: StateProp<SearchWebGameDto | null>;
+
+  //rematch game data
+  rematchData: CreateWebGameRematchDto | null;
+
+  // to display/hide confirm window
+  showConfirmState: StateProp<GameActionInterface | null>;
+
   // to perform action on confirm
   confirmAction: () => void;
-  //
-  displayedWindow: GameWindowInterface;
-  //
-  setDisplayedWindow: Dispatch<SetStateAction<GameWindowInterface>>;
+
+  // selected window modal to show/hide
+  displayedWindowState: StateProp<GameWindowInterface>;
 };
 
 function WebGameContent({
@@ -65,15 +69,13 @@ function WebGameContent({
   gameData,
   playerData,
   winner,
-  searchIds,
-  newGameId,
-  setSearchIds,
   selectedTiming,
-  showConfirm,
-  setShowConfirm,
+  historyPositionState,
+  newGameDataState,
+  rematchData,
+  showConfirmState,
   confirmAction,
-  displayedWindow,
-  setDisplayedWindow,
+  displayedWindowState,
 }: WebGameContentProps) {
   ///
 
@@ -158,12 +160,11 @@ function WebGameContent({
       updateStates();
     }, 100);
   }, [gameData]);
-  //*/
 
   // to check if game should end
   useEffect(() => {
     const endGame = async (loserColor: PieceColor | null, gameEndReason: GameEndReason) => {
-      const loserPlayer: EndGameModel = {
+      const loserPlayer: EndWebGameModel = {
         gameId: gameId,
         loserColor: loserColor,
         endGameType: gameEndReason,
@@ -190,7 +191,6 @@ function WebGameContent({
       }
     }
   }, [gameStates.matrix]);
-  //*/
 
   // set selected piece and corresponding coordinates
   const chosePiece = (piece: PieceOption, coordinates: Coordinate) => {
@@ -209,11 +209,42 @@ function WebGameContent({
       payload: availableFields,
     });
   }, [selectionStates.coordinates]);
-  //*/
+
+  const containerRef = useRef<HTMLDivElement>(null);
+  const boardRef = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    const handleResize = (): void => {
+      const container = containerRef.current;
+      const board = boardRef.current;
+      if (!board || !container) return;
+
+      const sizes = container.getBoundingClientRect();
+      console.log(sizes);
+
+      if (sizes.width >= sizes.height) {
+        board.style.width = "";
+        board.style.height = "";
+        return;
+      }
+      const wh = window.innerWidth;
+
+      if (wh > 1000) return;
+
+      board.style.width = `${wh}px`;
+      board.style.height = `${wh}px`;
+    };
+
+    window.addEventListener("resize", handleResize);
+    handleResize();
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, [boardRef, containerRef]);
 
   return (
-    <section className={classes.game}>
-      <div className={classes.game__content}>
+    <section ref={containerRef} className={classes.game}>
+      <div ref={boardRef} className={classes.game__content}>
         {/* game board */}
         <WebGameCoordinates playerData={playerData} />
 
@@ -224,47 +255,65 @@ function WebGameContent({
           selectionStates={selectionStates}
           setSelectionStates={setSelectionStates}
           chosePiece={chosePiece}
-          setDisplayedWindow={setDisplayedWindow}
+          setDisplayedWindow={displayedWindowState.set}
         />
-        {/* --- */}
 
         {/* promotion box */}
-        {displayedWindow === GameWindowInterface.promotion && selectionStates.promotionCoor && !gameData.hasEnded && (
-          <WebGamePromotion
-            playerData={playerData}
-            gameStates={gameStates}
-            selectionStates={selectionStates}
-            setSelectionStates={setSelectionStates}
-            setDisplayedWindow={setDisplayedWindow}
-          />
-        )}
+        {displayedWindowState.get === GameWindowInterface.promotion &&
+          selectionStates.promotionCoor &&
+          !gameData.hasEnded && (
+            <WebGamePromotion
+              playerData={playerData}
+              gameStates={gameStates}
+              selectionStates={selectionStates}
+              setSelectionStates={setSelectionStates}
+              setDisplayedWindow={displayedWindowState.set}
+            />
+          )}
 
         {/* confirm box */}
-        {displayedWindow === GameWindowInterface.confirm && showConfirm && !gameData.hasEnded && (
-          <WebGameConfirm
-            confirmAction={confirmAction}
-            showConfirm={showConfirm}
-            setShowConfirm={setShowConfirm}
-            setDisplayedWindow={setDisplayedWindow}
-          />
-        )}
+        {displayedWindowState.get === GameWindowInterface.confirm &&
+          showConfirmState.get !== null &&
+          !gameData.hasEnded && (
+            <WebGameConfirm
+              confirmAction={confirmAction}
+              showConfirmState={showConfirmState}
+              setDisplayedWindow={displayedWindowState.set}
+            />
+          )}
 
         {/* end game info*/}
-        {displayedWindow === GameWindowInterface.winner && winner && !searchIds && (
+        {displayedWindowState.get === GameWindowInterface.winner && winner && (
           <WebGameWinner
             gameId={gameId}
             gameData={gameData}
             playerData={playerData}
             winner={winner}
-            setSearchIds={setSearchIds}
             selectedTiming={selectedTiming}
-            newGameId={newGameId}
+            setNewGameData={newGameDataState.set}
+            rematchData={rematchData}
+            setDisplayedWindow={displayedWindowState.set}
           />
         )}
 
+        {/* previous position show */}
+        {displayedWindowState.get === GameWindowInterface.history && (
+          <GameHistory
+            gameData={gameData}
+            playerData={playerData}
+            historyPositionState={historyPositionState}
+            setDisplayedWindow={displayedWindowState.set}
+          />
+        )}
+
+        {/* settings */}
+        {displayedWindowState.get === GameWindowInterface.settings && (
+          <GameSettings gameData={gameData} setDisplayedWindow={displayedWindowState.set} />
+        )}
+
         {/* searching */}
-        {displayedWindow === GameWindowInterface.search && winner && searchIds && (
-          <WebGameSearching searchIds={searchIds} setSearchIds={setSearchIds} />
+        {displayedWindowState.get === GameWindowInterface.search && newGameDataState.get && (
+          <WebGameSearching newGameDataState={newGameDataState} />
         )}
       </div>
     </section>

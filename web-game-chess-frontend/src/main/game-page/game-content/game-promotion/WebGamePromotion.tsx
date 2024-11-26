@@ -4,7 +4,7 @@ import { defaultPiecesImages } from "../../../../shared/svgs/iconsMap/DefaultPie
 import { PieceTag } from "../../../../shared/utils/objects/constantLists";
 import { PieceColor } from "../../../../shared/utils/objects/entitiesEnums";
 import { getPieceName, piecePromotionMap } from "../../../../shared/utils/objects/piecesNameMaps";
-import { GetPlayerDto } from "../../../../shared/utils/types/gameDtos";
+import { GetWebGamePlayerDto } from "../../../../shared/utils/types/webGameDtos";
 import classes from "./GamePromotion.module.scss";
 import { SelectionAction } from "../../../game-page/game-content/WebGameContentStates";
 import { PieceOption, SelectionStates, TypeOfGame, WebGameStates } from "../../../../shared/utils/chess-game/gameSates";
@@ -13,7 +13,7 @@ import { GameWindowInterface } from "../../../../shared/utils/objects/interfaces
 
 type WebGamePromotionProps = {
   // player data
-  playerData: GetPlayerDto;
+  playerData: GetWebGamePlayerDto;
   // current game states
   gameStates: WebGameStates;
   // user selection states
@@ -42,7 +42,6 @@ function WebGamePromotion({
     setSelectionStates({ type: "SET_PROMOTION_COOR", payload: null });
     setDisplayedWindow(GameWindowInterface.none);
   };
-  //*/
 
   return (
     <div className={classes.promotion}>
@@ -89,7 +88,6 @@ function WebGamePromotion({
         ) : (
           <></>
         )}
-        {/* --- */}
       </div>
     </div>
   );

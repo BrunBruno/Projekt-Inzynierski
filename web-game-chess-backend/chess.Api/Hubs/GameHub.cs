@@ -4,7 +4,7 @@ using chess.Api.Models.WebGameModels;
 using chess.Application.Hubs;
 using chess.Application.Requests.WebGameRequests.AcceptInvitation;
 using chess.Application.Requests.WebGameRequests.AcceptWebGameRematch;
-using chess.Application.Requests.WebGameRequests.CreateRematchGame;
+using chess.Application.Requests.WebGameRequests.CreateWebGameRematch;
 using chess.Application.Requests.WebGameRequests.DeclineInvitation;
 using chess.Application.Requests.WebGameRequests.EndWebGame;
 using chess.Application.Requests.WebGameRequests.InvitedToGame;
@@ -12,8 +12,8 @@ using chess.Application.Requests.WebGameRequests.MakeWebGameMove;
 using chess.Application.Requests.WebGameRequests.RemoveDrawMessage;
 using chess.Application.Requests.WebGameRequests.SendDrawMessage;
 using chess.Application.Requests.WebGameRequests.SendWebGameMessage;
-using chess.Application.Requests.WebGameRequests.SendMessage;
-using chess.Application.Requests.WebGameRequests.StartGames;
+using chess.Application.Requests.WebGameRequests.SendPlayerMessage;
+using chess.Application.Requests.WebGameRequests.StartWebGames;
 using chess.Application.Requests.WebGameRequests.UpdatePrivateGame;
 using chess.Application.Requests.WebGameRequests.AddPlayerToWebGame;
 using chess.Application.Services;
@@ -22,6 +22,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.SignalR;
 using SignalRSwaggerGen.Attributes;
 using SignalRSwaggerGen.Enums;
+using chess.Application.Requests.WebGameRequests.CancelWebGameRematch;
 
 namespace chess.Api.Hubs;
 
@@ -89,7 +90,7 @@ public class GameHub : Hub<IGameHub> {
 
         await Groups.AddToGroupAsync(Context.ConnectionId, $"queue-{typeId}");
 
-        var request = new StartGamesRequest() 
+        var request = new StartWebGamesRequest() 
         { 
             TimingId = typeId,
         };
@@ -107,10 +108,10 @@ public class GameHub : Hub<IGameHub> {
     /// <returns> Essential for game creation </returns>
     [HubMethodName("rematch")]
     [Authorize(Policy = "IsVerified")]
-    [SignalRMethod("CreateRematchGame", Operation.Post)]
-    public async Task CreateRematchGame(CreateRematchWebGameModel model) {
+    [SignalRMethod("CreateRematch", Operation.Post)]
+    public async Task CreateRematch(CreateWebGameRematchModel model) {
 
-        var request = _mapper.Map<CreateRematchGameRequest>(model);
+        var request = _mapper.Map<CreateWebGameRematchRequest>(model);
 
         var gameData = await _mediator.Send(request);
 
@@ -142,12 +143,12 @@ public class GameHub : Hub<IGameHub> {
     /// </summary>
     /// <param name="model"></param>
     /// <returns></returns>
-    [HubMethodName("send-message")]
+    [HubMethodName("send-player-message")]
     [Authorize(Policy = "IsVerified")]
-    [SignalRMethod("SendMessage", Operation.Post)]
-    public async Task SendMessage(SendMessageModel model) {
+    [SignalRMethod("SendPlayerMessage", Operation.Post)]
+    public async Task SendPlayerMessage(SendPlayerMessageModel model) {
 
-        var request = _mapper.Map<SendMessageRequest>(model);
+        var request = _mapper.Map<SendPlayerMessageRequest>(model);
 
         await _mediator.Send(request);
 
@@ -178,9 +179,9 @@ public class GameHub : Hub<IGameHub> {
     /// </summary>
     /// <param name="gameId"></param>
     /// <returns></returns>
-    [HubMethodName("send-draw")]
+    [HubMethodName("send-draw-message")]
     [Authorize(Policy = "IsVerified")]
-    [SignalRMethod("SendDraw", Operation.Post)]
+    [SignalRMethod("SendDrawMessage", Operation.Post)]
     public async Task SendDrawMessage(Guid gameId) {
 
         var request = new SendDrawMessageRequest() 
@@ -272,10 +273,8 @@ public class GameHub : Hub<IGameHub> {
 
         var startGameDto = await _mediator.Send(request);
 
-        if (startGameDto.ShouldStart) {
-            await Clients.Groups($"user-{startGameDto.WhitePlayerUserId}").GameAccepted(gameId);
-            await Clients.Groups($"user-{startGameDto.BlackPlayerUserId}").GameAccepted(gameId);
-        }
+        await Clients.Groups($"user-{startGameDto.WhitePlayerUserId}").GameAccepted(gameId);
+        await Clients.Groups($"user-{startGameDto.BlackPlayerUserId}").GameAccepted(gameId);
     }
 
 
@@ -290,6 +289,27 @@ public class GameHub : Hub<IGameHub> {
     public async Task TypingStatus(TypingStatusModel model) {
 
         await Clients.OthersInGroup($"game-{model.GameId}").TypingStatus(model.IsTyping);
+    }
+
+
+    /// <summary>
+    /// To get already finsihed game
+    /// </summary>
+    /// <param name="gameId"></param>
+    /// <returns></returns>
+    [HubMethodName("ended-game")]
+    [Authorize(Policy = "IsVerified")]
+    [SignalRMethod("GetEndedGame", Operation.Get)]
+    public async Task GetEndedGame(Guid gameId) {
+
+        var request = new EndWebGameRequest()
+        {
+            GameId = gameId,
+        };
+
+        var endGameDto = await _mediator.Send(request);
+
+        await Clients.Groups($"game-{gameId}").GameEnded(endGameDto);
     }
 
 
@@ -357,7 +377,7 @@ public class GameHub : Hub<IGameHub> {
     [HubMethodName("decline-invitation")]
     [Authorize(Policy = "IsVerified")]
     [SignalRMethod("DeclineInvitation", Operation.Delete)]
-    public async Task DeclineInvitation(DeclineWebGameInvitationModel model) {
+    public async Task DeclineInvitation(DeclineInvitationModel model) {
 
         var request = _mapper.Map<DeclineInvitationRequest>(model);
 
@@ -385,5 +405,23 @@ public class GameHub : Hub<IGameHub> {
         await _mediator.Send(request);
 
         await Clients.Groups($"game-{gameId}").MessagesUpdated();
+    }
+
+
+    /// <summary>
+    /// To cancel created rematch offer
+    /// </summary>
+    /// <param name="gameId"></param>
+    /// <returns></returns>
+    [HubMethodName("cancel-rematch")]
+    [Authorize(Policy = "IsVerified")]
+    [SignalRMethod("CancelRematch", Operation.Delete)]
+    public async Task CancelRematch(CancelWebGameRematchModel model) {
+
+        var request = _mapper.Map<CancelWebGameRematchRequest>(model);
+
+        await _mediator.Send(request);
+
+        await Clients.Groups($"game-{model.CurrentGameId}").RematchCanceled();
     }
 }

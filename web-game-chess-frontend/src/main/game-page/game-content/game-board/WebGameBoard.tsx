@@ -1,7 +1,7 @@
 import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
 import classes from "./GameBoard.module.scss";
 import { PieceColor } from "../../../../shared/utils/objects/entitiesEnums";
-import { GetGameDto, GetPlayerDto } from "../../../../shared/utils/types/gameDtos";
+import { GetWebGameDto, GetWebGamePlayerDto } from "../../../../shared/utils/types/webGameDtos";
 import { getPieceSideColor, pieceTagMap } from "../../../../shared/utils/objects/piecesNameMaps";
 import { SelectionAction } from "../WebGameContentStates";
 import { generateRandomId } from "../../../../shared/utils/functions/random";
@@ -9,7 +9,6 @@ import IconCreator from "../../../../shared/components/icon-creator/IconCreator"
 import { PieceTag } from "../../../../shared/utils/objects/constantLists";
 import { dangerColor } from "../../../../shared/utils/objects/colorMaps";
 import { symbolIcons } from "../../../../shared/svgs/iconsMap/SymbolIcons";
-import { defaultPiecesImages } from "../../../../shared/svgs/iconsMap/DefaultPieceImageSvgs";
 import {
   Coordinate,
   PieceOption,
@@ -17,8 +16,10 @@ import {
   TypeOfGame,
   WebGameStates,
 } from "../../../../shared/utils/chess-game/gameSates";
-import { areCoorEqual, checkIfOwnPiece, posToIndex, toCoor } from "../../../../shared/utils/chess-game/general";
+import { areCoorEqual, checkIfOwnPiece, toCoor } from "../../../../shared/utils/chess-game/general";
 import {
+  changeBoardByUserSettings,
+  changePiecesByUserSettings,
   onClearHighlights,
   onHighlightFile,
   performMoveAnimation,
@@ -27,19 +28,17 @@ import { makeMove } from "../../../../shared/utils/chess-game/makeMove";
 import { GameWindowInterface } from "../../../../shared/utils/objects/interfacesEnums";
 
 type WebGameBoardProps = {
-  // current game data
-  gameData: GetGameDto;
-  // player data
-  playerData: GetPlayerDto;
+  // current game and player data
+  gameData: GetWebGameDto;
+  playerData: GetWebGamePlayerDto;
   // game states
   gameStates: WebGameStates;
-  // user selection states
+  // user selection states and setters
   selectionStates: SelectionStates;
-  // selection sates setters
   setSelectionStates: Dispatch<SelectionAction>;
   // to selection piece
   chosePiece: (piece: PieceOption, coordinates: Coordinate) => void;
-  //
+  // for changing displayed window
   setDisplayedWindow: Dispatch<SetStateAction<GameWindowInterface>>;
 };
 
@@ -88,12 +87,11 @@ function WebGameBoard({
       // animation after opponents move
       if (
         innerBoardRef.current &&
-        ((playerData.color === PieceColor.white && gameData.turn % 2 === 1) ||
-          (playerData.color === PieceColor.black && gameData.turn % 2 === 0))
+        ((playerData.color === PieceColor.white && gameData.turn % 2 === 0) ||
+          (playerData.color === PieceColor.black && gameData.turn % 2 === 1))
       ) {
-        const fieldNodes = innerBoardRef.current.querySelectorAll(`.${classes.field}`);
+        const pieceParent = document.getElementById(`field-${oldCoor![0]}-${oldCoor![1]}`);
 
-        const pieceParent = fieldNodes[posToIndex(oldCoor)] as HTMLElement;
         if (pieceParent) {
           const movedPiece = pieceParent.firstElementChild as HTMLElement;
 
@@ -141,6 +139,7 @@ function WebGameBoard({
     // add field
     outerFields.push(
       <div
+        id={`field-${coordinates[0]}-${coordinates[1]}`}
         key={`${coordinates[0]}-${coordinates[1]}`}
         className={`
           ${classes.field}
@@ -150,41 +149,47 @@ function WebGameBoard({
         onMouseDown={(event) => {
           if (event.button === 0) onClearHighlights(classes.highlight);
         }}
-        onClick={(event) => {
-          const target = event.target as HTMLElement;
-          if (char) setSelectionStates({ type: "SET_TARGET", payload: target });
-
-          onSelectField(char, coordinates, isInTipFields, sameCoor);
-        }}
         onContextMenu={(event) => {
           event.preventDefault();
           onHighlightFile(innerBoardRef, coordinates, classes.highlight, classes.field);
         }}
-        // onDragStartCapture={() => {
-        //   onDragPiece(char, coordinates);
-        // }}
-        // onDragOver={(event) => {
-        //   event.preventDefault();
-        // }}
-        // onDrop={(event) => {
-        //   event.preventDefault();
-        //   onDropPiece(coordinates, isInTipFields, sameCoor);
-        // }}
       >
-        {char && shouldDisplay && (
+        {char && shouldDisplay ? (
           <div
             className={`
               ${classes.piece}
               ${checkIfOwnPiece(char, playerData) ? classes.own : ""}
             `}
             draggable={checkIfOwnPiece(char, playerData)}
+            style={{ transform: "none" }} // clear
+            onClick={(event) => {
+              const target = event.target as HTMLDivElement;
+              if (target) setSelectionStates({ type: "SET_TARGET", payload: target });
+
+              onSelectField(char, coordinates, isInTipFields, sameCoor);
+            }}
+            onDragStartCapture={() => {
+              onDragPiece(char, coordinates);
+            }}
+            onDragOver={(event) => {
+              event.preventDefault();
+              event.stopPropagation();
+            }}
+            onDrop={(event) => {
+              event.preventDefault();
+              onDropPiece(coordinates, isInTipFields, sameCoor);
+            }}
+            onDragEndCapture={() => {
+              clearDrag();
+            }}
           >
             {/* piece icon */}
             <IconCreator
-              icons={defaultPiecesImages}
+              icons={changePiecesByUserSettings(gameData.gameSettings.appearanceOfPieces)}
               iconName={char.toLowerCase() as PieceTag}
               iconClass={classes["piece-svg"]}
               color={getPieceSideColor(char as PieceTag)}
+              active={true}
             />
 
             {/* capture icon */}
@@ -192,14 +197,33 @@ function WebGameBoard({
               <div className={classes.capture}>
                 <IconCreator icons={symbolIcons} iconName={"x"} iconClass={classes.x} color={dangerColor.mid} />
                 <IconCreator
-                  icons={defaultPiecesImages}
+                  icons={changePiecesByUserSettings(gameData.gameSettings.appearanceOfPieces)}
                   iconName={capturedPiece.toLowerCase() as PieceTag}
                   iconClass={classes["capture-svg"]}
                   color={getPieceSideColor(capturedPiece as PieceTag)}
+                  active={true}
                 />
               </div>
             )}
           </div>
+        ) : (
+          <div
+            className={classes.empty}
+            onClick={() => {
+              onSelectField(char, coordinates, isInTipFields, sameCoor);
+            }}
+            onDragOver={(event) => {
+              event.preventDefault();
+              event.stopPropagation();
+            }}
+            onDrop={(event) => {
+              event.preventDefault();
+              onDropPiece(coordinates, isInTipFields, sameCoor);
+            }}
+            onDragEndCapture={() => {
+              clearDrag();
+            }}
+          ></div>
         )}
       </div>
     );
@@ -212,6 +236,7 @@ function WebGameBoard({
           ${isInCheck ? classes.check : ""} 
           ${isOldFiled ? classes.old : ""} 
           ${isNewField ? classes.new : ""}
+          ${changeBoardByUserSettings(gameData.gameSettings.appearanceOfBoard, classes)}
         `}
       />
     );
@@ -365,6 +390,11 @@ function WebGameBoard({
     } else {
       chosePiece("", null);
     }
+  };
+
+  const clearDrag = () => {
+    setSelectionStates({ type: "SET_IS_DRAGGING", payload: false });
+    chosePiece("", null);
   };
 
   return (

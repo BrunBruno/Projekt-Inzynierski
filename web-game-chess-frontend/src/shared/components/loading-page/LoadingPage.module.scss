@@ -2,12 +2,12 @@
 
 // loading page container
 .loading {
-  @include wh100();
+  @include wh100;
 
   position: relative;
 
   &__container {
-    @include absCenter();
+    @include abs-center;
     @include flex($direction: column, $gap: 1rem);
 
     width: 20%;
@@ -19,14 +19,13 @@
     }
 
     &__inner {
-      @include flex();
+      @include flex;
 
       width: 100%;
       aspect-ratio: 1/1;
       border-radius: 100%;
       border: solid 0 $mc8;
       border-bottom: solid 0 #0000;
-
       animation: loading 3s linear infinite;
 
       &__outer {
@@ -35,7 +34,6 @@
         border-radius: 100%;
         border: solid 0 $mc4;
         border-top: solid 0 #0000;
-
         animation: loading 1s linear infinite reverse;
       }
     }
@@ -44,13 +42,12 @@
       from {
         transform: rotate(0deg);
       }
+
       to {
         transform: rotate(360deg);
       }
     }
   }
 }
-//*/
 
-//resize
-//*/
+// resize

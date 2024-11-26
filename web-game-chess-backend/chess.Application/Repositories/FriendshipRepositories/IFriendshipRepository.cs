@@ -1,4 +1,5 @@
-﻿using chess.Core.Entities;
+﻿
+using chess.Core.Entities;
 using chess.Core.Enums;
 
 namespace chess.Application.Repositories.FriendshipRepositories;
@@ -6,8 +7,7 @@ namespace chess.Application.Repositories.FriendshipRepositories;
 /// <summary>
 /// Friendship repository
 /// </summary>
-public interface IFriendshipRepository
-{
+public interface IFriendshipRepository {
 
     /// <summary>
     /// Gets all friendship for user, with given status

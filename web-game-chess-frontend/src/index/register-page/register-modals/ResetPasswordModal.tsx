@@ -27,13 +27,13 @@ type PasswordIconOption = {
 type ResetPasswordModalProps = {
   // path that user wanted
   userPath: string;
-  // to change displayed modal
-  setModal: Dispatch<SetStateAction<number>>;
   // for checking new password
   userPassConf: GetRegisterConfDto | null;
+  // to change displayed modal
+  setModal: Dispatch<SetStateAction<RegistrationInterface>>;
 };
 
-function ResetPasswordModal({ userPath, setModal, userPassConf }: ResetPasswordModalProps) {
+function ResetPasswordModal({ userPath, userPassConf, setModal }: ResetPasswordModalProps) {
   ///
 
   const navigate = useNavigate();
@@ -68,8 +68,8 @@ function ResetPasswordModal({ userPath, setModal, userPassConf }: ResetPasswordM
     class: classes.open,
   });
 
+  // check for email format
   useEffect(() => {
-    // check for email format
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (emailRegex.test(emailValue)) {
       setIsEmailValid(true);
@@ -176,7 +176,6 @@ function ResetPasswordModal({ userPath, setModal, userPassConf }: ResetPasswordM
       setProcessing(false);
     }
   };
-  //*/
 
   // regenerates verification code
   const sendPasswordRecoveryCode = async (): Promise<void> => {
@@ -207,7 +206,6 @@ function ResetPasswordModal({ userPath, setModal, userPassConf }: ResetPasswordM
       errorDisplay(err, setErrorMess);
     }
   };
-  //*/
 
   // regenerates verification code
   // for logging again without verification
@@ -222,7 +220,6 @@ function ResetPasswordModal({ userPath, setModal, userPassConf }: ResetPasswordM
       errorDisplay(err, setErrorMess);
     }
   };
-  //*/
 
   // handle click
   // focus to input
@@ -232,7 +229,6 @@ function ResetPasswordModal({ userPath, setModal, userPassConf }: ResetPasswordM
       inputRef.current.classList.remove(classes.err);
     }
   };
-  //*/
 
   // handle code input on change
   const handleCodeInputChange = (event: ChangeEvent<HTMLInputElement>): void => {
@@ -241,16 +237,14 @@ function ResetPasswordModal({ userPath, setModal, userPassConf }: ResetPasswordM
       setCodeValue(inputValue);
     }
   };
-  //*/
 
   // handle email input on change
   const handleEmailInputChange = (event: ChangeEvent<HTMLInputElement>): void => {
     const inputValue = event.target.value;
     setEmailValue(inputValue);
   };
-  //*/
 
-  // auto pasting
+  // auto pasting code
   const onPasteCode = async (): Promise<void> => {
     try {
       const code = await navigator.clipboard.readText();
@@ -260,7 +254,6 @@ function ResetPasswordModal({ userPath, setModal, userPassConf }: ResetPasswordM
       showPopup("ERROR PASTING CODE", "error");
     }
   };
-  //*/
 
   // password show
   const onShowPassword = (): void => {
@@ -282,7 +275,6 @@ function ResetPasswordModal({ userPath, setModal, userPassConf }: ResetPasswordM
       });
     }
   };
-  //*/
 
   // handle on password input change
   // change password strength indicator
@@ -313,7 +305,6 @@ function ResetPasswordModal({ userPath, setModal, userPassConf }: ResetPasswordM
       indRef.current.style.backgroundColor = color;
     }
   };
-  //*/
 
   if (processing) return <LoadingPage text="Logging in..." />;
 
@@ -478,7 +469,6 @@ function ResetPasswordModal({ userPath, setModal, userPassConf }: ResetPasswordM
           <IconCreator icons={registerPageIcons} iconName={"arrow"} iconClass={classes.arrow} />
         </div>
       </div>
-      {/* --- */}
 
       <div className={classes.error}>
         <span>{errorMess}</span>

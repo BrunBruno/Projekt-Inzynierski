@@ -7,13 +7,11 @@ using Microsoft.EntityFrameworkCore;
 
 namespace chess.Infrastructure.Repositories.WebGameRepositories;
 
-public class WebGameMessageRepository : IWebGameMessageRepository
-{
+public class WebGameMessageRepository : IWebGameMessageRepository {
 
     private readonly ChessAppDbContext _dbContext;
 
-    public WebGameMessageRepository(ChessAppDbContext dbContext)
-    {
+    public WebGameMessageRepository(ChessAppDbContext dbContext) {
         _dbContext = dbContext;
     }
 
@@ -31,15 +29,13 @@ public class WebGameMessageRepository : IWebGameMessageRepository
                     .FirstOrDefaultAsync(m => m.GameId == gameId && m.Type == MessageType.DrawAction);
 
     ///<inheritdoc/>
-    public async Task Create(WebGameMessage message)
-    {
+    public async Task Create(WebGameMessage message) {
         await _dbContext.WebGameMessages.AddAsync(message);
         await _dbContext.SaveChangesAsync();
     }
 
     ///<inheritdoc/>
-    public async Task Delete(WebGameMessage message)
-    {
+    public async Task Delete(WebGameMessage message) {
         _dbContext.WebGameMessages.Remove(message);
         await _dbContext.SaveChangesAsync();
     }

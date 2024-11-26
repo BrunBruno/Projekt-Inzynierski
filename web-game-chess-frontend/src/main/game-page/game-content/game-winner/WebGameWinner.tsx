@@ -1,13 +1,17 @@
 import { useNavigate } from "react-router-dom";
 import {
-  EndGameDto,
-  GetEndedGameDto,
-  GetGameDto,
+  EndWebGameDto,
+  GetWebGameDto,
   GetOpponentDto,
   SearchWebGameDto,
-} from "../../../../shared/utils/types/gameDtos";
+  CreateWebGameRematchDto,
+} from "../../../../shared/utils/types/webGameDtos";
 import classes from "./GameWinner.module.scss";
-import { CreateRematchGameModel, SearchWebGameModel } from "../../../../shared/utils/types/gameModels";
+import {
+  CancelWebGameRematchModel,
+  CreateWebGameRematchModel,
+  SearchWebGameModel,
+} from "../../../../shared/utils/types/webGameModels";
 import { webGameController, getAuthorization } from "../../../../shared/utils/services/ApiService";
 import axios from "axios";
 import GameHubService from "../../../../shared/utils/services/GameHubService";
@@ -16,7 +20,7 @@ import { usePopup } from "../../../../shared/utils/hooks/usePopUp";
 import AvatarImage from "../../../../shared/components/avatar-image/AvatarImage";
 import { PieceColor } from "../../../../shared/utils/objects/entitiesEnums";
 import { Dispatch, SetStateAction, useRef, MouseEvent } from "react";
-import { StateOptions } from "../../../../shared/utils/objects/interfacesEnums";
+import { GameWindowInterface, StateOptions } from "../../../../shared/utils/objects/interfacesEnums";
 import { PlayerDto } from "../../../../shared/utils/types/abstractDtosAndModels";
 import { Guid } from "guid-typescript";
 import IconCreator from "../../../../shared/components/icon-creator/IconCreator";
@@ -24,20 +28,22 @@ import { symbolIcons } from "../../../../shared/svgs/iconsMap/SymbolIcons";
 import { greyColor } from "../../../../shared/utils/objects/colorMaps";
 
 type WebGameWinnerProps = {
-  // game id
+  // game and player data
   gameId: Guid;
-  // current game data
-  gameData: GetGameDto;
-  // player data
+  gameData: GetWebGameDto;
   playerData: PlayerDto;
-  // game result data data
-  winner: EndGameDto | GetEndedGameDto | null;
-  // to start new game search
-  setSearchIds: Dispatch<SetStateAction<SearchWebGameDto | null>>;
+  // game result data
+  winner: EndWebGameDto | null;
+
   // timing for new game or rematch
   selectedTiming: SearchWebGameModel | null;
+  // to start new game search
+  setNewGameData: Dispatch<SetStateAction<SearchWebGameDto | null>>;
   // rematch game id
-  newGameId: Guid | null;
+  rematchData: CreateWebGameRematchDto | null;
+
+  // for changing dismayed window
+  setDisplayedWindow: Dispatch<SetStateAction<GameWindowInterface>>;
 };
 
 function WebGameWinner({
@@ -45,15 +51,17 @@ function WebGameWinner({
   gameData,
   playerData,
   winner,
-  setSearchIds,
+  setNewGameData,
   selectedTiming,
-  newGameId,
+  rematchData,
+  setDisplayedWindow,
 }: WebGameWinnerProps) {
   ///
 
   const navigate = useNavigate();
   const { showPopup } = usePopup();
 
+  // state for hiding and showing winner window on click
   const containerRef = useRef<HTMLDivElement>(null);
 
   // to search for new game
@@ -72,14 +80,15 @@ function WebGameWinner({
     try {
       const response = await axios.post<SearchWebGameDto>(webGameController.startSearch(), model, getAuthorization());
 
-      setSearchIds(response.data);
-
       await GameHubService.PlayerJoined(response.data.timingId);
+
+      setNewGameData(response.data);
+
+      setDisplayedWindow(GameWindowInterface.search);
     } catch (err) {
       showPopup(getErrMessage(err), "warning");
     }
   };
-  //*/
 
   //
   const onCreateRematchRequest = async (): Promise<void> => {
@@ -91,7 +100,7 @@ function WebGameWinner({
     try {
       const response = await axios.get<GetOpponentDto>(webGameController.getOpponent(gameId), getAuthorization());
 
-      const model: CreateRematchGameModel = {
+      const model: CreateWebGameRematchModel = {
         type: selectedTiming.type,
         minutes: selectedTiming.minutes,
         increment: selectedTiming.increment,
@@ -99,28 +108,45 @@ function WebGameWinner({
         previousGameId: gameId,
       };
 
-      await GameHubService.CreateRematchGame(model);
+      await GameHubService.CreateRematch(model);
     } catch (err) {
       showPopup(getErrMessage(err), "warning");
     }
   };
-  //*/
 
   // to accept rematch
   const onAcceptRematchRequest = async () => {
-    if (!newGameId) {
+    if (!rematchData) {
       returnOnFail();
       return;
     }
 
     try {
-      await GameHubService.AcceptRematch(newGameId);
+      await GameHubService.AcceptRematch(rematchData.gameId);
     } catch (err) {
       showPopup(getErrMessage(err), "warning");
     }
   };
-  //*/
 
+  // to remove created rematch game
+  const onCancelRematchRequest = async (): Promise<void> => {
+    if (!rematchData) return;
+
+    const model: CancelWebGameRematchModel = {
+      currentGameId: gameId,
+      newGameId: rematchData.gameId,
+    };
+
+    try {
+      await GameHubService.CancelRematch(model);
+
+      await axios.delete(webGameController.cancelPrivateGame(rematchData.gameId), getAuthorization());
+    } catch (err) {
+      showPopup(getErrMessage(err), "warning");
+    }
+  };
+
+  // return to main if something went wrong
   const returnOnFail = (): void => {
     const state: StateOptions = {
       popup: { text: "ERROR STARTING GAME", type: "error" },
@@ -186,9 +212,8 @@ function WebGameWinner({
       </div>
     );
   };
-  //*/
 
-  // to look at board
+  // to display winner window again
   const showWinner = (event: MouseEvent<HTMLDivElement>) => {
     const target = event.target as HTMLDivElement;
 
@@ -200,6 +225,7 @@ function WebGameWinner({
     }
   };
 
+  // to look at board after game has ended
   const hideWinner = (): void => {
     const container = containerRef.current;
     if (!container) return;
@@ -208,7 +234,6 @@ function WebGameWinner({
       container.classList.add(classes["close"]);
     }
   };
-  //*/
 
   if (!winner) return <></>;
 
@@ -256,7 +281,16 @@ function WebGameWinner({
               <span>New Game</span>
             </button>
 
-            {newGameId ? (
+            {!rematchData ? (
+              <button
+                className={classes["re-game"]}
+                onClick={() => {
+                  onCreateRematchRequest();
+                }}
+              >
+                <span>Rematch</span>
+              </button>
+            ) : rematchData.opponentName === playerData.name ? (
               <button
                 className={classes["re-game"]}
                 onClick={() => {
@@ -265,14 +299,23 @@ function WebGameWinner({
               >
                 <span>Accept</span>
               </button>
+            ) : rematchData.opponentName !== playerData.name ? (
+              <button
+                className={classes["re-game"]}
+                onClick={() => {
+                  onCancelRematchRequest();
+                }}
+              >
+                <span>Cancel</span>
+              </button>
             ) : (
               <button
                 className={classes["re-game"]}
                 onClick={() => {
-                  onCreateRematchRequest();
+                  navigate("/main");
                 }}
               >
-                <span>Rematch</span>
+                <span>Leave</span>
               </button>
             )}
           </div>

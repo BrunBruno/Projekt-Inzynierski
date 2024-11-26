@@ -1,6 +1,6 @@
-﻿using chess.Application.Repositories.UserRepositories;
+﻿
+using chess.Application.Repositories.UserRepositories;
 using chess.Application.Services;
-using chess.Core.Abstraction;
 using chess.Core.Dtos;
 using chess.Shared.Exceptions;
 using MediatR;
@@ -33,6 +33,7 @@ public class GetFullUserRequestHandler : IRequestHandler<GetFullUserRequest, Get
 
         var userDto = new GetFullUserDto() 
         { 
+            IsPrivate = user.IsPrivate,
             Email = user.Email,
             Username = user.Username,
             Name = user.Name,
@@ -45,13 +46,44 @@ public class GetFullUserRequestHandler : IRequestHandler<GetFullUserRequest, Get
                 Data = user.Image.Data,
                 ContentType = user.Image.ContentType,
             } : null,
-      
-            OutcomeTotal = new GameOutcomeDto()
+
+            BackgroundImage = user.Background != null ? new ImageDto()
             {
-                Total = user.Stats.GamesPlayed,
-                Wins = user.Stats.Wins,
-                Loses = user.Stats.Loses,
-                Draws = user.Stats.Draws,
+                Data = user.Background.Data,
+                ContentType = user.Background.ContentType,
+            } : null,
+
+            OnlineOutcomeTotal = new GameOutcomeDto()
+            {
+                Total = user.Stats.OnlineGamesPlayed,
+                Wins = user.Stats.OnlineWins,
+                Loses = user.Stats.OnlineLoses,
+                Draws = user.Stats.OnlineDraws,
+            },
+
+            OfflineOutcomeTotal = new GameOutcomeDto()
+            {
+                Total = user.Stats.OfflineGamesPlayed,
+                Wins = user.Stats.OfflineWins,
+                Loses = user.Stats.OfflineLoses,
+                Draws = user.Stats.OfflineDraws,
+            },
+
+            TimingTypeGamesPlayed = new EloDto()
+            {
+                Bullet = user.Stats.BulletGamesPlayed,
+                Blitz = user.Stats.BlitzGamesPlayed,
+                Rapid = user.Stats.RapidGamesPlayed,
+                Classic = user.Stats.ClassicGamesPlayed,
+                Daily = user.Stats.DailyGamesPlayed,
+            },
+
+            Settings = new GameSettingsDto
+            {
+                AppearanceOfPieces = user.Settings.AppearanceOfPieces,
+                AppearanceOfBoard = user.Settings.AppearanceOfBoard,
+                AppearanceOfGamePage = user.Settings.AppearanceOfGamePage,
+                AllowCheats = user.Settings.EngineGameCheats,
             },
 
             WinsByCheckMate = user.Stats.WinsByCheckMate,

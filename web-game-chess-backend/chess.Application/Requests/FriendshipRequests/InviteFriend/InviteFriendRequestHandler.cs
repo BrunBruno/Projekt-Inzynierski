@@ -79,6 +79,8 @@ public class InviteFriendRequestHandler : IRequestHandler<InviteFriendRequest> {
             RequestCreatedAt = DateTime.UtcNow,
             RequestorId = userId,
             ReceiverId = request.ReceiverId,
+
+            Stats = new FriendshipStats(),
         };
 
 

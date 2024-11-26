@@ -1,6 +1,6 @@
 ﻿
 using chess.Application.Repositories.WebGameRepositories;
-using chess.Application.Requests.WebGameRequests.CancelPrivateWebGame;
+using chess.Application.Requests.WebGameRequests.CancelPrivateGame;
 using chess.Application.Services;
 using chess.Core.Entities;
 using chess.Shared.Exceptions;
@@ -50,13 +50,11 @@ public class CancelPrivateGameRequestHandlerTests {
             WhitePlayer = whitePlayer,
             BlackPlayerId = blackPlayer.Id,
             BlackPlayer = blackPlayer,
-            WhitePlayerRegistered = true,
-            BlackPlayerRegistered = true,
 
             CurrentState = new WebGameState(),
         };
 
-        var request = new CancelPrivateWebGameRequest()
+        var request = new CancelPrivateGameRequest()
         {
             GameId = gameId,
         };
@@ -68,7 +66,7 @@ public class CancelPrivateGameRequestHandlerTests {
         _mockPlayerRepository.Setup(x => x.GetById(exampleGame.BlackPlayerId)).ReturnsAsync(blackPlayer);
 
 
-        var handler = new CancelPrivateWebGameRequestHandler(
+        var handler = new CancelPrivateGameRequestHandler(
             _mockGameRepository.Object,
             _mockUserContextService.Object,
             _mockPlayerRepository.Object
@@ -93,7 +91,7 @@ public class CancelPrivateGameRequestHandlerTests {
         var userId = Guid.NewGuid();
         var gameId = Guid.NewGuid();
 
-        var request = new CancelPrivateWebGameRequest()
+        var request = new CancelPrivateGameRequest()
         {
             GameId = gameId,
         };
@@ -103,7 +101,7 @@ public class CancelPrivateGameRequestHandlerTests {
         // game not exists
 
 
-        var handler = new CancelPrivateWebGameRequestHandler(
+        var handler = new CancelPrivateGameRequestHandler(
             _mockGameRepository.Object,
             _mockUserContextService.Object,
             _mockPlayerRepository.Object
@@ -145,8 +143,6 @@ public class CancelPrivateGameRequestHandlerTests {
             Id = gameId,
             IsPrivate = true,
 
-              WhitePlayerRegistered = true,
-            BlackPlayerRegistered = true,
             WhitePlayerId = whitePlayer.Id,
             WhitePlayer = whitePlayer,
             BlackPlayerId = blackPlayer.Id,
@@ -155,7 +151,7 @@ public class CancelPrivateGameRequestHandlerTests {
             CurrentState = new WebGameState(),
         };
 
-        var request = new CancelPrivateWebGameRequest()
+        var request = new CancelPrivateGameRequest()
         {
             GameId = gameId,
         };
@@ -165,7 +161,7 @@ public class CancelPrivateGameRequestHandlerTests {
         _mockGameRepository.Setup(x => x.GetById(gameId)).ReturnsAsync(exampleGame);
 
 
-        var handler = new CancelPrivateWebGameRequestHandler(
+        var handler = new CancelPrivateGameRequestHandler(
             _mockGameRepository.Object,
             _mockUserContextService.Object,
             _mockPlayerRepository.Object
@@ -211,13 +207,11 @@ public class CancelPrivateGameRequestHandlerTests {
             WhitePlayer = whitePlayer,
             BlackPlayerId = blackPlayer.Id,
             BlackPlayer = blackPlayer,
-            WhitePlayerRegistered = true,
-            BlackPlayerRegistered = true,
 
             CurrentState = new WebGameState(),
         };
 
-        var request = new CancelPrivateWebGameRequest()
+        var request = new CancelPrivateGameRequest()
         {
             GameId = gameId,
         };
@@ -227,7 +221,7 @@ public class CancelPrivateGameRequestHandlerTests {
         _mockGameRepository.Setup(x => x.GetById(gameId)).ReturnsAsync(exampleGame);
 
 
-        var handler = new CancelPrivateWebGameRequestHandler(
+        var handler = new CancelPrivateGameRequestHandler(
             _mockGameRepository.Object,
             _mockUserContextService.Object,
             _mockPlayerRepository.Object
@@ -269,8 +263,6 @@ public class CancelPrivateGameRequestHandlerTests {
             Id = gameId,
             IsPrivate = true,
 
-            WhitePlayerRegistered = true,
-            BlackPlayerRegistered = true,
             WhitePlayerId = whitePlayer.Id,
             WhitePlayer = whitePlayer,
             BlackPlayerId = blackPlayer.Id,
@@ -280,7 +272,7 @@ public class CancelPrivateGameRequestHandlerTests {
             CurrentState = new WebGameState(),
         };
 
-        var request = new CancelPrivateWebGameRequest()
+        var request = new CancelPrivateGameRequest()
         {
             GameId = gameId,
         };
@@ -291,7 +283,7 @@ public class CancelPrivateGameRequestHandlerTests {
         // white player not exists
 
 
-        var handler = new CancelPrivateWebGameRequestHandler(
+        var handler = new CancelPrivateGameRequestHandler(
             _mockGameRepository.Object,
             _mockUserContextService.Object,
             _mockPlayerRepository.Object
@@ -333,8 +325,6 @@ public class CancelPrivateGameRequestHandlerTests {
             Id = gameId,
             IsPrivate = true,
 
-              WhitePlayerRegistered = true,
-            BlackPlayerRegistered = true,
             WhitePlayerId = whitePlayer.Id,
             WhitePlayer = whitePlayer,
             BlackPlayerId = blackPlayer.Id,
@@ -343,7 +333,7 @@ public class CancelPrivateGameRequestHandlerTests {
             CurrentState = new WebGameState(),
         };
 
-        var request = new CancelPrivateWebGameRequest()
+        var request = new CancelPrivateGameRequest()
         {
             GameId = gameId,
         };
@@ -355,7 +345,7 @@ public class CancelPrivateGameRequestHandlerTests {
         // black player not exists
 
 
-        var handler = new CancelPrivateWebGameRequestHandler(
+        var handler = new CancelPrivateGameRequestHandler(
             _mockGameRepository.Object,
             _mockUserContextService.Object,
             _mockPlayerRepository.Object

@@ -6,47 +6,41 @@
 @mixin button($size: 2rem) {
   width: fit-content;
   padding: calc($size / 4) $size;
-
   font-size: $size;
   font-weight: bold;
   border: solid calc($size / 6) #0000;
   outline: none;
   border-radius: $size;
-  text-align: center;
   user-select: none;
   text-align: center;
   white-space: nowrap;
-
   transition: all 0.2s;
-
-  &:hover {
-    cursor: pointer;
-  }
 }
 
 // default button, main main colored
-@mixin mainMButton() {
+@mixin main-m-button() {
   color: color.$mc0;
   background-color: color.$mc9;
 
   &:hover {
+    cursor: pointer;
     border-color: color.$mc9;
     background-color: color.$mc5;
   }
 
   &:focus,
   &:active {
-    // box-shadow: 0 0 0.5rem 0.1rem color.$mc9;
     box-shadow: 0 0 0 0.1rem color.$mc9;
   }
 }
 
 // default button, secondary main colored
-@mixin secMButton() {
+@mixin sec-m-button() {
   background-color: color.$mc0;
   color: color.$mc9;
 
   &:hover {
+    cursor: pointer;
     border-color: color.$mc0;
     background-color: color.$mc4;
     color: color.$mc0;
@@ -54,17 +48,17 @@
 
   &:focus,
   &:active {
-    // box-shadow: 0 0 0.5rem 0.1rem color.$mc0;
     box-shadow: 0 0 0 0.1rem color.$mc0;
   }
 }
 
 // default button, main grey colored
-@mixin mainGButton() {
+@mixin main-g-button() {
   color: color.$gc2;
   background-color: color.$gc9;
 
   &:hover {
+    cursor: pointer;
     background-color: color.$gc8;
     color: color.$gc0;
     border-color: color.$gc0;
@@ -72,17 +66,17 @@
 
   &:focus,
   &:active {
-    // box-shadow: 0 0 0.5rem 0.1rem color.$gc2;
     box-shadow: 0 0 0 0.1rem color.$gc2;
   }
 }
 
 // default button, secondary grey colored
-@mixin secGButton() {
+@mixin sec-g-button() {
   background-color: color.$gc2;
   color: color.$gc9;
 
   &:hover {
+    cursor: pointer;
     background-color: color.$gc0;
     border-color: color.$gc8;
     color: color.$gc8;
@@ -90,7 +84,6 @@
 
   &:focus,
   &:active {
-    // box-shadow: 0 0 0.5rem 0.1rem color.$gc8;
     box-shadow: 0 0 0 0.1rem color.$gc8;
   }
 }

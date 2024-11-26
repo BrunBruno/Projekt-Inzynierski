@@ -1,5 +1,4 @@
-﻿
-using chess.Application.Repositories;
+﻿using chess.Application.Repositories.UserRepositories;
 using chess.Application.Requests.UserRequests.GetRegisterConf;
 using chess.Shared.Exceptions;
 using FluentAssertions;
@@ -9,16 +8,16 @@ namespace chess.Core.Tests.User;
 
 public class GetRegisterConfRequestHandlerTests {
 
-    private readonly Mock<IDataConfigurationRepository> _mockDataConfigurationRepository;
+    private readonly Mock<IUserDataConfigurationRepository> _mockDataConfigurationRepository;
 
     public GetRegisterConfRequestHandlerTests() {
-        _mockDataConfigurationRepository = new Mock<IDataConfigurationRepository>();
+        _mockDataConfigurationRepository = new Mock<IUserDataConfigurationRepository>();
     }
 
     [Fact]
     public async Task Handle_Returns_Register_Configuration_On_Success() {
 
-        var dataConfiguration = new Entities.DataConfiguration()
+        var dataConfiguration = new Entities.UserDataConfiguration()
         {
             Id = (int)Enums.DataConfiguration.UserPassword,
         };

@@ -31,7 +31,7 @@ function RegisterPage() {
   const formRef = useRef<HTMLDivElement>(null);
 
   // current modal and side class
-  const [modal, setModal] = useState<number>(0);
+  const [modal, setModal] = useState<RegistrationInterface>(RegistrationInterface.signIn);
   const [modalClass, setModalClass] = useState<string | null>(null);
   const [formActive, setFormActive] = useState<boolean>(false);
 
@@ -63,7 +63,6 @@ function RegisterPage() {
       setUserPath(locationState.path);
     }
   }, [location.state]);
-  //*/
 
   // to set form modal
   const renderModal = (): JSX.Element => {
@@ -80,7 +79,6 @@ function RegisterPage() {
         return <></>;
     }
   };
-  //*/
 
   // to set right class of form
   // sets class based on selected interface and size of window
@@ -103,6 +101,7 @@ function RegisterPage() {
     return classes["static-form"];
   };
 
+  // handle page resize
   useEffect(() => {
     const handleRegisterPageResize = (): void => {
       setModalClass(getFormClass());
@@ -127,7 +126,6 @@ function RegisterPage() {
       addFormTransform();
     }, 300);
   }, []);
-  //*/
 
   // to get register configuration
   useEffect(() => {
@@ -159,7 +157,6 @@ function RegisterPage() {
 
     getDataConfiguration();
   }, []);
-  //*/
 
   if (!modalClass) return <></>;
 
@@ -215,7 +212,6 @@ function RegisterPage() {
             <ActionButton text="Home Page" />
           </div>
         </div>
-        {/* --- */}
 
         {/* form */}
         <div
@@ -236,7 +232,6 @@ function RegisterPage() {
 
           {renderModal()}
         </div>
-        {/* --- */}
       </div>
 
       <MainPopUp />

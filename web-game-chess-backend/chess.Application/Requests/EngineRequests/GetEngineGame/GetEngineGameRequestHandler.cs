@@ -1,30 +1,49 @@
 ﻿
 using chess.Application.Repositories.EngineGameRepositories;
+using chess.Application.Repositories.UserRepositories;
+using chess.Application.Services;
 using chess.Core.Dtos;
 using chess.Shared.Exceptions;
 using MediatR;
 
 namespace chess.Application.Requests.EngineRequests.GetEngineGame;
 
+/// <summary>
+/// Gets game and checks if user is player
+/// Checks if player was initialized correctly
+/// Creates and return engine game dto
+/// </summary>
 public class GetEngineGameRequestHandler : IRequestHandler<GetEngineGameRequest, GetEngineGameDto> {
 
+    private readonly IUserContextService _userContextService;
     private readonly IEngineGameRepository _engineGameRepository;
+    private readonly IUserSettingsRepository _userSettingsRepository;
 
-    public GetEngineGameRequestHandler(IEngineGameRepository engineGameRepository) {
+    public GetEngineGameRequestHandler(
+        IUserContextService userContextService,
+        IEngineGameRepository engineGameRepository,
+        IUserSettingsRepository userSettingsRepository
+    ) {
+        _userContextService = userContextService;
         _engineGameRepository = engineGameRepository;
+        _userSettingsRepository = userSettingsRepository;
     }
 
     public async Task<GetEngineGameDto> Handle(GetEngineGameRequest request, CancellationToken cancellationToken) {
 
+        var userId = _userContextService.GetUserId();
+
+        var settings = await _userSettingsRepository.GetByUserId(userId)
+            ?? throw new NotFoundException("Settings not found.");
+
         var game = await _engineGameRepository.GetById(request.GameId)
             ?? throw new NotFoundException("Game not found.");
 
+        if(game.Player.UserId != userId)
+            throw new UnauthorizedException("Not user game.");
+
         if (game.Player.Color is null)
             throw new BadRequestException("Error starting game.");
-
-        var position = game.FenPosition.Split(" ")[0] 
-            ?? throw new BadRequestException("Error starting game.");
-
 
         var gameDto = new GetEngineGameDto()
         {
@@ -32,8 +51,8 @@ public class GetEngineGameRequestHandler : IRequestHandler<GetEngineGameRequest,
             Position = game.Position,
             Turn = game.Turn,
             EngineLevel = game.EngineLevel,
-            TimingType = game.TimingType,
-            AllowUndo = game.AllowUndo,
+            AllowCheats = settings.EngineGameCheats,
+            HalfmoveClock = game.CurrentState.HalfMove,
 
             EnPassant = game.CurrentState.EnPassant,
             CanWhiteKingCastle = game.CurrentState.CanWhiteKingCastle,
@@ -46,6 +65,7 @@ public class GetEngineGameRequestHandler : IRequestHandler<GetEngineGameRequest,
             Player = new PlayerDto() { 
                 Name = game.Player.Name,
                 Color = game.Player.Color.Value,
+                Elo = game.Player.Elo,
 
                 ProfilePicture = game.Player.User.Image != null ? new ImageDto()
                 {
@@ -56,11 +76,20 @@ public class GetEngineGameRequestHandler : IRequestHandler<GetEngineGameRequest,
 
             Moves = game.Moves.Select(move => new MoveDto() { 
                 Move = move.DoneMove,
+                FenMove = move.FenMove,
                 Turn = move.Turn,
                 OldCoor = move.OldCoordinates,
                 NewCoor = move.NewCoordinates,
                 CapturedPiece = move.CapturedPiece,
+                Position = move.Position,
             }).ToList(),
+
+            GameSettings = new GameSettingsDto()
+            {
+                AppearanceOfGamePage = settings.AppearanceOfGamePage,
+                AppearanceOfBoard = settings.AppearanceOfBoard,
+                AppearanceOfPieces = settings.AppearanceOfPieces,
+            },
         };
 
         return gameDto;

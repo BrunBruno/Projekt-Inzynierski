@@ -1,6 +1,7 @@
 ﻿
 using AutoMapper;
 using chess.Api.Models.UserModels;
+using chess.Application.Requests.UserRequests.ChangePassword;
 using chess.Application.Requests.UserRequests.GetByEmail;
 using chess.Application.Requests.UserRequests.GetElo;
 using chess.Application.Requests.UserRequests.GetFullUser;
@@ -15,6 +16,8 @@ using chess.Application.Requests.UserRequests.RegisterUser;
 using chess.Application.Requests.UserRequests.ResetPassword;
 using chess.Application.Requests.UserRequests.SendResetPasswordCode;
 using chess.Application.Requests.UserRequests.UpdateProfile;
+using chess.Application.Requests.UserRequests.UpdateUserData;
+using chess.Application.Requests.UserRequests.UpdateUserSettings;
 using chess.Application.Requests.UserRequests.VerifyEmail;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -77,9 +80,10 @@ public class UserController : ControllerBase {
     [Authorize(Policy = "IsNotVerified")]
     public async Task<IActionResult> RegenerateCode([FromBody] RegenerateCodeModel model) {
 
-        var request = new RegenerateCodeRequest() { };
+        var request = _mapper.Map<RegenerateCodeRequest>(model);
 
         await _mediator.Send(request);
+
         return Ok();
     }
 
@@ -96,6 +100,7 @@ public class UserController : ControllerBase {
         var request = _mapper.Map<VerifyEmailRequest>(model);
 
         await _mediator.Send(request);
+
         return Ok();
     }
 
@@ -126,6 +131,24 @@ public class UserController : ControllerBase {
         var request = _mapper.Map<ResetPasswordRequest>(model);
 
         await _mediator.Send(request);
+
+        return Ok();
+    }
+
+
+    /// <summary>
+    /// To update user password
+    /// </summary>
+    /// <param name="model"></param>
+    /// <returns></returns>
+    [HttpPut("change-password")]
+    [Authorize(Policy = "IsVerified")]
+    public async Task<IActionResult> ChangePassword([FromBody] ChangePasswordModel model) {
+
+        var request = _mapper.Map<ChangePasswordRequest>(model);
+
+        await _mediator.Send(request);
+
         return Ok();
     }
 
@@ -142,6 +165,41 @@ public class UserController : ControllerBase {
         var request = _mapper.Map<UpdateProfileRequest>(model);
 
         await _mediator.Send(request);
+        
+        return Ok();
+    }
+
+
+    /// <summary>
+    /// To change user data
+    /// </summary>
+    /// <param name="model"></param>
+    /// <returns></returns>
+    [HttpPut("data")]
+    [Authorize(Policy = "IsVerified")]
+    public async Task<IActionResult> UpdateUserData([FromBody] UpdateUserDataModel model) {
+
+        var request = _mapper.Map<UpdateUserDataRequest>(model);
+
+        await _mediator.Send(request);
+
+        return Ok();
+    }
+
+
+    /// <summary>
+    /// To change user settings
+    /// </summary>
+    /// <param name="model"></param>
+    /// <returns></returns>
+    [HttpPut("settings")]
+    [Authorize(Policy = "IsVerified")]
+    public async Task<IActionResult> UpdateUserSettings([FromBody] UpdateUserSettingsModel model) {
+
+        var request = _mapper.Map<UpdateUserSettingsRequest>(model);
+
+        await _mediator.Send(request);
+
         return Ok();
     }
 
@@ -154,7 +212,7 @@ public class UserController : ControllerBase {
     [Authorize]
     public async Task<IActionResult> GetUser() {
 
-        var request = new GetUserRequest();
+        var request = new GetUserRequest() { };
 
         var user = await _mediator.Send(request);
 
@@ -170,7 +228,7 @@ public class UserController : ControllerBase {
     [Authorize(Policy = "IsVerified")]
     public async Task<IActionResult> GetFullUser() {
 
-        var request = new GetFullUserRequest();
+        var request = new GetFullUserRequest() { };
 
         var user = await _mediator.Send(request);
 
@@ -258,12 +316,17 @@ public class UserController : ControllerBase {
 
         var request = _mapper.Map<GetRegisterConfRequest>(model);
 
-        var confguration = await _mediator.Send(request);
+        var configuration = await _mediator.Send(request);
 
-        return Ok(confguration);
+        return Ok(configuration);
     }
 
 
+    /// <summary>
+    /// Gets global users ranking
+    /// </summary>
+    /// <param name="model"></param>
+    /// <returns></returns>
     [HttpGet("ranking")]
     [Authorize(Policy = "IsVerified")]
     public async Task<IActionResult> GetUsersRanking([FromQuery] GetUsersRankingModel model) {

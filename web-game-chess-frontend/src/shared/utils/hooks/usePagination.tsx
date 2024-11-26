@@ -11,7 +11,7 @@ const usePagination = () => {
 
   // default values
   const [defPageNumber, setDefPageNumber] = useState<number>(1);
-  const [defPageSize, setDefPageSize] = useState<number>(6);
+  const [defPageSize, setDefPageSize] = useState<number>(10);
 
   // total items received
   const [totalItemsCount, setTotalItemsCount] = useState<number>(0);
@@ -25,7 +25,7 @@ const usePagination = () => {
   }, [defPageSize]);
 
   // update values based on scroll position
-  const handleScroll = () => {
+  const handleScroll = (): void => {
     const scrollingElement = scrollRef.current;
     if (scrollingElement) {
       if (scrollingElement.scrollHeight - 1.1 * scrollingElement.scrollTop <= scrollingElement.clientHeight) {
@@ -40,9 +40,11 @@ const usePagination = () => {
   useEffect(() => {
     const scrollingElement = scrollRef.current;
     if (scrollingElement) {
-      const delayedHandleScroll = () => delayAction(handleScroll, 100);
+      const delayedHandleScroll = (): void => {
+        delayAction(handleScroll, 100);
+      };
 
-      scrollingElement.addEventListener("wheel", delayedHandleScroll);
+      scrollingElement.addEventListener("wheel", delayedHandleScroll, { passive: true });
 
       return () => {
         scrollingElement.removeEventListener("wheel", delayedHandleScroll);

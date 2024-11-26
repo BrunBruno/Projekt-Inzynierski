@@ -1,19 +1,19 @@
 @use "../../../shared/styles/shared.scss" as *;
+@use "../GamePage.module.scss" as GamePage;
 
 // right side bar container
 .bar {
-  @include wh100();
+  @include wh100;
 
   max-height: 100vh;
   position: relative;
 
   &::after {
-    @include subCl();
+    @include sub-class;
 
     z-index: 1;
     top: 0;
     right: 100%;
-
     border-top-right-radius: 8rem;
     border-bottom-right-radius: 8rem;
     box-shadow: 10rem 0 0 10rem $gc9;
@@ -37,10 +37,10 @@
       @include flex($gap: 2rem);
 
       &__player {
-        @include flex($direction: column, $gap: 0.5rem);
+        @include flex($direction: row, $gap: 1rem);
 
-        @mixin playerImg($bg_color) {
-          @include flex();
+        @mixin player-img($bg_color) {
+          @include flex;
           @include circle(5rem);
 
           padding: 0.6rem;
@@ -49,27 +49,28 @@
           background-color: $bg_color;
 
           .player-img {
-            @include wh100();
+            @include wh100;
 
             border-radius: 100%;
           }
         }
 
         .white-player-img {
-          @include playerImg(#fff);
+          @include player-img(#fff);
         }
 
         .black-player-img {
-          @include playerImg(#000);
+          @include player-img(#000);
         }
 
         .player-data {
-          @include flex($direction: column, $gap: 0.2rem);
-
+          display: grid;
+          grid-template-rows: repeat(3, 1fr);
+          gap: 0.2rem;
           overflow: hidden;
 
           .name {
-            @include longText();
+            @include long-text;
 
             width: fit-content;
             max-width: 10rem;
@@ -78,8 +79,15 @@
 
           .elo {
             font-size: 1.2rem;
+
             span {
               color: $mc3;
+            }
+          }
+
+          .advantage {
+            .advantage-icon {
+              height: 1.2rem;
             }
           }
         }
@@ -92,17 +100,13 @@
     }
 
     .fetching {
-      @include flex();
+      @include flex;
 
       font-size: 1.6rem;
     }
 
-    &__block {
-      @include rounded(2rem);
-
-      border: solid 0.3rem $gc8;
-      box-shadow: inset 0 0 1rem 0.3rem $gc9;
-      background-color: rgba(#000, 0.1);
+    .bar-block {
+      @include GamePage.bar-block;
 
       overflow-y: scroll;
 
@@ -110,21 +114,46 @@
         display: none;
       }
 
-      &__list {
+      .bar-list {
         display: grid;
         grid-template-columns: 1fr 1fr;
         grid-template-rows: auto;
         height: fit-content;
       }
     }
+
+    &.null-timing {
+      grid-template-rows: 12rem calc((100% - 18rem) / 2) calc((100% - 18rem) / 2);
+    }
   }
-  //*/
+
+  &.simple-view {
+    height: fit-content;
+
+    &::after {
+      display: none;
+    }
+
+    .bar-block {
+      display: none;
+    }
+
+    .bar__content {
+      border-bottom-left-radius: 4rem;
+
+      &.null-timing {
+        gap: 0;
+      }
+    }
+  }
 }
-//*/
 
 // resize
-@media (max-width: 1000px) {
+@media (width <= 1000px) {
   .bar {
+    height: 100% !important;
+    border-top: solid 0.5rem $gc8;
+
     &::after {
       display: none;
     }
@@ -132,12 +161,48 @@
     &__content {
       grid-template-rows: 100%;
       grid-template-columns: 1fr 1fr;
-      gap: 20%;
-    }
+      padding: 0;
+      border-radius: 0 !important;
 
-    &__block {
-      display: none;
+      &__header {
+        height: 100%;
+
+        &__player {
+          .player-data {
+            .name {
+              font-size: 1.4rem;
+            }
+
+            .elo {
+              font-size: 1.4rem;
+            }
+
+            .advantage {
+              .advantage-icon {
+                height: 1.4rem;
+              }
+            }
+          }
+        }
+      }
+
+      .bar-block {
+        &.records-block {
+          display: none;
+        }
+
+        &.messages-block {
+          position: absolute;
+          right: 1rem;
+          bottom: 100%;
+          background-color: $gc9;
+          padding: 0;
+          border-radius: 0;
+          border: solid 0.5rem $gc8;
+          border-top-left-radius: 2rem;
+          border-top-right-radius: 2rem;
+        }
+      }
     }
   }
 }
-//*/

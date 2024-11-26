@@ -4,16 +4,42 @@ import { mainColor } from "../../../../shared/utils/objects/colorMaps";
 import { PieceTag } from "../../../../shared/utils/objects/constantLists";
 import { MoveDto } from "../../../../shared/utils/types/abstractDtosAndModels";
 import classes from "./GameMoveRecord.module.scss";
+import { GameWindowInterface } from "../../../../shared/utils/objects/interfacesEnums";
+import { StateProp } from "../../../../shared/utils/types/commonTypes";
 
 type EngineGameMoveRecordProps = {
   // turn number
   recordNum: number;
   // done move dto
   move: MoveDto | null;
+  // for settings previous positions
+  historyPositionState?: StateProp<MoveDto | null>;
+  // for showing history view
+  displayedWindowState: StateProp<GameWindowInterface>;
 };
 
-function EngineGameMoveRecord({ recordNum, move }: EngineGameMoveRecordProps) {
+function EngineGameMoveRecord({
+  recordNum,
+  move,
+  historyPositionState,
+  displayedWindowState,
+}: EngineGameMoveRecordProps) {
   ///
+
+  // to show history view
+  const displayPreviousPositions = (): void => {
+    if (
+      displayedWindowState.get !== GameWindowInterface.none &&
+      displayedWindowState.get !== GameWindowInterface.history
+    ) {
+      return;
+    }
+
+    if (historyPositionState) {
+      historyPositionState.set(move);
+      displayedWindowState.set(GameWindowInterface.history);
+    }
+  };
 
   // case when game has not started yet
   if (!move) {
@@ -38,13 +64,29 @@ function EngineGameMoveRecord({ recordNum, move }: EngineGameMoveRecordProps) {
       ) : (
         <p className={classes.sep}>:</p>
       )}
-      <p className={classes.move}>
+      <p
+        className={`
+          ${classes.move} 
+          ${
+            historyPositionState && historyPositionState.get && historyPositionState.get.position === move.position
+              ? classes.active
+              : ""
+          }
+        `}
+        onClick={() => {
+          displayPreviousPositions();
+        }}
+        onMouseEnter={() => {
+          displayPreviousPositions();
+        }}
+      >
         <IconCreator
           icons={specialPiecesSvgs}
           iconName={move.move[0].toLowerCase() as PieceTag}
           color={recordNum % 2 === 0 ? mainColor.c0 : mainColor.c9}
         />
-        <span>{move.move.charAt(0).toUpperCase() + move.move.slice(1).toLowerCase()}</span>
+        {/* <span>{move.move.charAt(0).toUpperCase() + move.move.slice(1).toLowerCase()}</span> */}
+        <span>{move.fenMove}</span>
       </p>
     </div>
   );

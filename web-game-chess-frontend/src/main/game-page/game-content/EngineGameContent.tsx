@@ -1,8 +1,8 @@
-import { Dispatch, SetStateAction, useEffect, useReducer } from "react";
+import { useEffect, useReducer, useRef } from "react";
 import classes from "./GameContent.module.scss";
 import { Guid } from "guid-typescript";
-import { SMatrix } from "../../../shared/utils/types/commonTypes";
-import { EndEngineGameDto, GetEngineGameDto, GetEngineGameMoveDto } from "../../../shared/utils/types/engineDtos";
+import { SMatrix, StateProp } from "../../../shared/utils/types/commonTypes";
+import { EndEngineGameDto, GetEngineGameDto, GetEngineGameMoveDto } from "../../../shared/utils/types/engineGameDtos";
 import {
   gameInitialStates,
   gameStatesReducer,
@@ -22,7 +22,7 @@ import findMoves from "../../../shared/utils/chess-game/findMoves";
 import EngineGameCoordinates from "./game-coordinates/EngineGameCoordinates";
 import EngineGameBoard from "./game-board/EngineGameBoard";
 import EngineGamePromotion from "./game-promotion/EngineGamePromotion";
-import { engineController, getAuthorization } from "../../../shared/utils/services/ApiService";
+import { engineGameController, getAuthorization } from "../../../shared/utils/services/ApiService";
 import axios from "axios";
 import { makeMove } from "../../../shared/utils/chess-game/makeMove";
 import { usePopup } from "../../../shared/utils/hooks/usePopUp";
@@ -33,28 +33,32 @@ import EngineGameWinner from "./game-winner/EngineGameWinner";
 import EngineGameConfirm from "./game-confirm/EngineGameConfirm";
 import { GameActionInterface, GameWindowInterface } from "../../../shared/utils/objects/interfacesEnums";
 import GameEngine from "./game-engine/GameEngine";
+import GameHistory from "./game-history/GameHistory";
+import { MoveDto } from "../../../shared/utils/types/abstractDtosAndModels";
+import GameSettings from "./game-settings/GameSettings";
 
 type EngineGameContentProps = {
-  // game id
+  // game data
   gameId: Guid;
-  // current game data
   gameData: GetEngineGameDto;
+
   //
   getGame: () => Promise<void>;
-  //
   endGame: (loserColor: PieceColor | null) => Promise<void>;
+
   //
   winner: EndEngineGameDto | null;
-  // to display confirm window
-  showConfirm: GameActionInterface | null;
-  // to hide confirm window
-  setShowConfirm: Dispatch<SetStateAction<GameActionInterface | null>>;
+
+  //
+  historyPositionState: StateProp<MoveDto | null>;
+
+  // to display/hide confirm window
+  showConfirmState: StateProp<GameActionInterface | null>;
   // to perform action on confirm
   confirmAction: () => void;
+
   //
-  displayedWindow: GameWindowInterface;
-  //
-  setDisplayedWindow: Dispatch<SetStateAction<GameWindowInterface>>;
+  displayedWindowState: StateProp<GameWindowInterface>;
 };
 
 function EngineGameContent({
@@ -63,11 +67,10 @@ function EngineGameContent({
   getGame,
   endGame,
   winner,
-  showConfirm,
-  setShowConfirm,
+  historyPositionState,
+  showConfirmState,
   confirmAction,
-  displayedWindow,
-  setDisplayedWindow,
+  displayedWindowState,
 }: EngineGameContentProps) {
   ///
 
@@ -154,7 +157,6 @@ function EngineGameContent({
       updateStates();
     }, 100);
   }, [gameData]);
-  //*/
 
   // to check if game should end
   useEffect(() => {
@@ -176,7 +178,6 @@ function EngineGameContent({
       }
     }
   }, [gameStates.matrix]);
-  //*/
 
   // set selected piece and corresponding coordinates
   const chosePiece = (piece: PieceOption, coordinates: Coordinate) => {
@@ -195,7 +196,6 @@ function EngineGameContent({
       payload: availableFields,
     });
   }, [selectionStates.coordinates]);
-  //*/
 
   // make move by engine
   const getEngineMove = async (): Promise<void> => {
@@ -218,7 +218,7 @@ function EngineGameContent({
       };
 
       const response = await axios.get<GetEngineGameMoveDto>(
-        engineController.getEngineGameMove(gameId),
+        engineGameController.getEngineGameMove(gameId),
         getAuthorization()
       );
 
@@ -280,11 +280,42 @@ function EngineGameContent({
       getEngineMove();
     }
   }, [gameStates.matrix]);
-  //*/
+
+  const containerRef = useRef<HTMLDivElement>(null);
+  const boardRef = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    const handleResize = (): void => {
+      const container = containerRef.current;
+      const board = boardRef.current;
+      if (!board || !container) return;
+
+      const sizes = container.getBoundingClientRect();
+      console.log(sizes);
+
+      if (sizes.width >= sizes.height) {
+        board.style.width = "";
+        board.style.height = "";
+        return;
+      }
+      const wh = window.innerWidth;
+
+      if (wh > 1000) return;
+
+      board.style.width = `${wh}px`;
+      board.style.height = `${wh}px`;
+    };
+
+    window.addEventListener("resize", handleResize);
+    handleResize();
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, [boardRef, containerRef]);
 
   return (
-    <section className={classes.game}>
-      <div className={classes.game__content}>
+    <section ref={containerRef} className={classes.game}>
+      <div ref={boardRef} className={classes.game__content}>
         {/* game board */}
         <EngineGameCoordinates gameData={gameData} />
 
@@ -295,39 +326,56 @@ function EngineGameContent({
           setSelectionStates={setSelectionStates}
           chosePiece={chosePiece}
           getGame={getGame}
-          setDisplayedWindow={setDisplayedWindow}
+          setDisplayedWindow={displayedWindowState.set}
         />
-        {/* --- */}
 
         {/* promotion box */}
-        {displayedWindow === GameWindowInterface.promotion && selectionStates.promotionCoor && !gameData.hasEnded && (
-          <EngineGamePromotion
-            gameData={gameData}
-            gameStates={gameStates}
-            selectionStates={selectionStates}
-            setSelectionStates={setSelectionStates}
-            getGame={getGame}
-            setDisplayedWindow={setDisplayedWindow}
-          />
-        )}
+        {displayedWindowState.get === GameWindowInterface.promotion &&
+          selectionStates.promotionCoor &&
+          !gameData.hasEnded && (
+            <EngineGamePromotion
+              gameData={gameData}
+              gameStates={gameStates}
+              selectionStates={selectionStates}
+              setSelectionStates={setSelectionStates}
+              getGame={getGame}
+              setDisplayedWindow={displayedWindowState.set}
+            />
+          )}
 
         {/* confirm box */}
-        {displayedWindow === GameWindowInterface.confirm && showConfirm && !gameData.hasEnded && (
+        {displayedWindowState.get === GameWindowInterface.confirm && showConfirmState && !gameData.hasEnded && (
           <EngineGameConfirm
             confirmAction={confirmAction}
-            showConfirm={showConfirm}
-            setShowConfirm={setShowConfirm}
-            setDisplayedWindow={setDisplayedWindow}
+            showConfirmState={showConfirmState}
+            setDisplayedWindow={displayedWindowState.set}
           />
         )}
 
         {/* end game info*/}
-        {displayedWindow === GameWindowInterface.winner && winner && (
+        {displayedWindowState.get === GameWindowInterface.winner && winner && (
           <EngineGameWinner gameId={gameId} gameData={gameData} winner={winner} />
         )}
 
+        {/* previous position show */}
+        {displayedWindowState.get === GameWindowInterface.history && (
+          <GameHistory
+            gameData={gameData}
+            playerData={gameData.player}
+            historyPositionState={historyPositionState}
+            setDisplayedWindow={displayedWindowState.set}
+          />
+        )}
+
+        {/* settings */}
+        {displayedWindowState.get === GameWindowInterface.settings && (
+          <GameSettings gameData={gameData} setDisplayedWindow={displayedWindowState.set} />
+        )}
+
         {/* engine selection */}
-        {displayedWindow === GameWindowInterface.engine && <GameEngine />}
+        {displayedWindowState.get === GameWindowInterface.engine && (
+          <GameEngine gameId={gameId} setDisplayedWindow={displayedWindowState.set} />
+        )}
       </div>
     </section>
   );

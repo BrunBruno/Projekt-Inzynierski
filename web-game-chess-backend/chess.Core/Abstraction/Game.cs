@@ -14,11 +14,6 @@ public abstract class Game {
     public string Position { get; set; } = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR";
 
     /// <summary>
-    /// Current FEN position
-    /// </summary>
-    public string FenPosition { get; set; } = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
-
-    /// <summary>
     /// Bool flag if game has ended
     /// </summary>
     public bool HasEnded { get; set; } = false;
@@ -45,7 +40,7 @@ public abstract class Game {
 
     /// <summary>
     /// Round of game (both players moved)
-    /// Fullmove
+    /// Full move
     /// </summary>
     public int Round { get; set; } = 1;
 

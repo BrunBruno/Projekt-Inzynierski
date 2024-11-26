@@ -3,9 +3,9 @@
 
 // user page container
 .users-main {
-  @include wh100();
-  @include gridBg();
-  @include Main.forNav();
+  @include wh100;
+  @include grid-bg;
+  @include Main.for-nav;
 
   & {
     display: grid;
@@ -14,15 +14,19 @@
 
   .users-list {
     position: relative;
+    height: 100%;
+    overflow: hidden;
   }
 }
-//*/
 
 // resize
-@media (max-width: 700px) {
+@media (width <= 700px) {
   .users-main {
+    height: 100vh;
+    height: 100dvh;
     padding: 0;
     padding-top: 6rem;
+    grid-template-columns: 1fr;
+    grid-template-rows: 12rem auto;
   }
 }
-//*/

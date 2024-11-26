@@ -1,4 +1,5 @@
-﻿using chess.Application.Repositories.WebGameRepositories;
+﻿
+using chess.Application.Repositories.WebGameRepositories;
 using chess.Application.Repositories.UserRepositories;
 using chess.Application.Requests.WebGameRequests.GetAllMessages;
 using chess.Application.Services;
@@ -16,14 +17,14 @@ public class GetAllMessagesRequestHandlerTests {
     private readonly Mock<IWebGameMessageRepository> _mockGameMessageRepository;
     private readonly Mock<IWebGameRepository> _mockGameRepository;
     private readonly Mock<IUserContextService> _mockUserContextService;
-    private readonly Mock<IUserImageRepository> _mockUserImageRepository;
+    private readonly Mock<IUserProfileImageRepository> _mockUserImageRepository;
 
     public GetAllMessagesRequestHandlerTests() {
         _mockPlayerMessageRepository = new Mock<IWebGamePlayerMessageRepository>();
         _mockGameMessageRepository = new Mock<IWebGameMessageRepository>();
         _mockGameRepository = new Mock<IWebGameRepository>();
         _mockUserContextService = new Mock<IUserContextService>();
-        _mockUserImageRepository = new Mock<IUserImageRepository>();
+        _mockUserImageRepository = new Mock<IUserProfileImageRepository>();
     }
 
     [Fact]
@@ -37,8 +38,7 @@ public class GetAllMessagesRequestHandlerTests {
         var game = new Entities.WebGame()
         {
             Id = gameId,
-            WhitePlayerRegistered = true,
-            BlackPlayerRegistered = true,
+
             WhitePlayerId = whitePlayerId,
             WhitePlayer = new WebGamePlayer() { 
                 Id = whitePlayerId,
@@ -137,8 +137,6 @@ public class GetAllMessagesRequestHandlerTests {
         {
             Id = gameId,
 
-              WhitePlayerRegistered = true,
-            BlackPlayerRegistered = true,
             WhitePlayerId = whitePlayerId,
             WhitePlayer = new WebGamePlayer()
             {

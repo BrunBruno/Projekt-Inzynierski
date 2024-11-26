@@ -1,4 +1,4 @@
-import { GetTypeHistoryDto } from "../../../shared/utils/types/gameDtos";
+import { GetTypeHistoryDto } from "../../../shared/utils/types/webGameDtos";
 import classes from "./HistorySection.module.scss";
 import { LineChart } from "@mui/x-charts";
 import { Theme, ThemeProvider, createTheme } from "@mui/material/styles";
@@ -9,16 +9,27 @@ import IconCreator from "../../../shared/components/icon-creator/IconCreator";
 import { timingTypeIcons } from "../../../shared/svgs/iconsMap/TimingTypeIcons";
 import HistoryRecord from "./history-record/HistoryRecord";
 import { TimingTypeName } from "../../../shared/utils/objects/constantLists";
+import { useEffect, useState } from "react";
+import HistoryEmpty from "./history-empty/HistoryEmpty";
 
 type HistorySectionProps = {
   // game type name
-  selectedType: string | null;
+  selectedType: TimingTypeName;
   // paged result of type history dtos
   typeHistory: PagedResult<GetTypeHistoryDto> | null;
 };
 
 function HistorySection({ selectedType, typeHistory }: HistorySectionProps) {
   ///
+
+  // chart data
+  const [data, setData] = useState<GetTypeHistoryDto[]>([]);
+
+  useEffect(() => {
+    if (!typeHistory) return;
+
+    setData(typeHistory.items.reverse());
+  }, [typeHistory]);
 
   const theme: Theme = createTheme({
     palette: {
@@ -27,7 +38,7 @@ function HistorySection({ selectedType, typeHistory }: HistorySectionProps) {
   });
 
   // to create line chart for selected game timing type
-  const createChart = (history: GetTypeHistoryDto[]) => {
+  const createChart = (history: GetTypeHistoryDto[]): JSX.Element => {
     type GroupedByCreatedAt = Record<string, GetTypeHistoryDto[]>;
 
     const groupedByCreatedAt: GroupedByCreatedAt = history.reduce(
@@ -42,15 +53,25 @@ function HistorySection({ selectedType, typeHistory }: HistorySectionProps) {
       {} as GroupedByCreatedAt
     );
 
-    const dates: string[] = Object.keys(groupedByCreatedAt);
-    const labels: Date[] = dates.map((date: string) => new Date(date));
+    let dates: string[];
+    let labels: Date[];
+    let values: number[];
 
-    const values: number[] = dates.map((date: string) => {
-      const group = groupedByCreatedAt[date];
-      const sum = group.reduce((acc: number, item: GetTypeHistoryDto) => acc + item.prevElo, 0);
+    if (Object.keys(groupedByCreatedAt).length === 1) {
+      dates = history.map((hist) => hist.createdAt.toString());
+      labels = history.map((hist) => new Date(hist.createdAt));
+      values = history.map((hist) => hist.prevElo);
+    } else {
+      dates = Object.keys(groupedByCreatedAt);
+      labels = dates.map((date: string) => new Date(date));
 
-      return Math.round(sum / group.length);
-    });
+      values = dates.map((date: string) => {
+        const group = groupedByCreatedAt[date];
+        const sum = group.reduce((acc: number, item: GetTypeHistoryDto) => acc + item.prevElo, 0);
+
+        return Math.round(sum / group.length);
+      });
+    }
 
     return (
       <ThemeProvider theme={theme}>
@@ -81,47 +102,11 @@ function HistorySection({ selectedType, typeHistory }: HistorySectionProps) {
       </ThemeProvider>
     );
   };
-  //*/
 
   // render placeholder
-  if (typeHistory === null || selectedType === null || typeHistory.items.length === 0) {
-    return (
-      <div className={classes.empty}>
-        <div className={classes.empty__chart}>
-          <ThemeProvider theme={theme}>
-            <LineChart
-              xAxis={[
-                {
-                  data: [0, 1, 2, 3, 4],
-                },
-              ]}
-              series={[
-                {
-                  data: [1000, 1200, 800, 1400, 1700],
-                  area: true,
-                  color: mainColor.c5,
-                  connectNulls: true,
-                  showMark: false,
-                },
-              ]}
-              grid={{ vertical: true, horizontal: true }}
-              slotProps={{
-                legend: {
-                  hidden: true,
-                },
-              }}
-            />
-          </ThemeProvider>
-        </div>
-
-        <div className={classes.empty__text}>
-          <span>No games found.</span>
-          <span>Play one now!</span>
-        </div>
-      </div>
-    );
+  if (!typeHistory || !selectedType || typeHistory.items.length === 0) {
+    return <HistoryEmpty />;
   }
-  //*/
 
   return (
     <div data-testid="account-page-history-section" className={classes.history}>
@@ -132,7 +117,7 @@ function HistorySection({ selectedType, typeHistory }: HistorySectionProps) {
           iconClass={classes["type-icon"]}
           color={mainColor.c0}
         />
-        <span>{selectedType}</span>
+        <span>{selectedType} timeline</span>
       </h2>
 
       <div className={classes.history__chart}>{createChart(typeHistory.items)}</div>
@@ -140,7 +125,7 @@ function HistorySection({ selectedType, typeHistory }: HistorySectionProps) {
       <div className={classes.history__items}>
         <HistoryRecord item={null} />
 
-        {typeHistory.items.reverse().map((item: GetTypeHistoryDto, index: number) => (
+        {data.map((item: GetTypeHistoryDto, index: number) => (
           <HistoryRecord key={`history-record-${index}`} item={item} />
         ))}
       </div>

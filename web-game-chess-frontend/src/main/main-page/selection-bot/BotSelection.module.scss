@@ -1,0 +1,244 @@
+@use "../../../shared/styles/shared.scss" as *;
+@use "../../../shared/components/action-button/ActionButton.module.scss" as ActionButton;
+
+$sqr-size: 8rem;
+
+.search {
+  @include wh100;
+  @include flex;
+
+  position: relative;
+  padding: 8rem 0;
+
+  &__content {
+    @include wh100;
+    @include rounded(2rem);
+    @include flex;
+    @include show-ani;
+
+    margin: auto;
+    width: fit-content;
+    height: fit-content;
+    background-color: rgba($gc9, 0.3);
+    padding: 2rem 6rem;
+
+    &__level {
+      @include wh100;
+
+      &__header {
+        @include flex;
+
+        height: $sqr-size;
+        padding-bottom: 1rem;
+
+        .section-header {
+          @include flex($gap: 2rem);
+
+          span {
+            font-size: 3.2rem;
+            color: $mc0;
+          }
+
+          .time-selection-icon {
+            height: 4rem;
+            filter: drop-shadow(0 0 1rem $mc9);
+          }
+        }
+      }
+
+      &__grid {
+        width: fit-content;
+        height: fit-content;
+        display: grid;
+        grid-template-columns: auto repeat(5, 1fr);
+        grid-template-rows: repeat(4, 1fr);
+        gap: 1rem;
+
+        .engine-level {
+          @include square($sqr-size);
+          @include rounded(1rem);
+          @include flex;
+
+          position: relative;
+          background-color: $gc9;
+          border: solid 0.3rem $gc8;
+
+          &:hover {
+            cursor: pointer;
+            box-shadow: 0 0 1rem 0 $gc0;
+
+            span {
+              color: $mc0;
+              filter: drop-shadow(0 0 1rem $mc0);
+            }
+
+            .lvl-icon {
+              opacity: 0.2;
+            }
+          }
+
+          &.selected {
+            box-shadow: 0 0 1rem 0 $gc0;
+
+            span {
+              color: $mc0;
+              filter: drop-shadow(0 0 1rem $mc0);
+            }
+
+            .lvl-icon {
+              opacity: 0.2;
+            }
+          }
+
+          span {
+            @include sec-font(3rem);
+
+            width: 100%;
+            text-align: center;
+            z-index: 1;
+            color: $mc9;
+            text-shadow: 0.1rem 0.1rem 0 #000;
+          }
+
+          .lvl-icon {
+            @include abs-center;
+
+            z-index: 0;
+            height: 80%;
+            opacity: 0.05;
+
+            line {
+              fill: none;
+              stroke: $mc0;
+              stroke-width: 2;
+              stroke-linecap: round;
+              stroke-linejoin: round;
+              stroke-miterlimit: 10;
+            }
+
+            path {
+              fill: none;
+              stroke: $mc0;
+              stroke-width: 2;
+              stroke-linecap: round;
+              stroke-linejoin: round;
+              stroke-miterlimit: 10;
+            }
+          }
+        }
+
+        .engine-difficulty {
+          @include flex(row, start, center, 2rem);
+
+          padding: 0 2rem;
+
+          .bot-difficulty-icon {
+            height: 6rem;
+          }
+
+          span {
+            font-size: 2rem;
+          }
+
+          &.active {
+            span {
+              filter: drop-shadow(0 0 0.5rem $mc0);
+            }
+
+            &:nth-child(1) {
+              .bot-difficulty-icon {
+                filter: drop-shadow(0 0 1rem $mc0);
+              }
+            }
+
+            &:nth-child(7) {
+              .bot-difficulty-icon {
+                filter: drop-shadow(0 0 1rem $mc3);
+              }
+            }
+
+            &:nth-child(13) {
+              .bot-difficulty-icon {
+                filter: drop-shadow(0 0 1rem $mc6);
+              }
+            }
+
+            &:nth-child(19) {
+              .bot-difficulty-icon {
+                filter: drop-shadow(0 0 1rem $mc9);
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+// resize
+@media (width <= 700px) {
+  $sqr-size: 12rem;
+
+  .search {
+    height: 100%;
+    padding: 0;
+    overflow-y: scroll;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+
+    &__content {
+      @include flex(column, center, center, 0);
+
+      padding: 0;
+      border-radius: 0;
+      background-color: #0000;
+
+      &__level {
+        &__header {
+          padding: 0;
+          padding-bottom: 8rem;
+
+          .section-header {
+            span {
+              font-size: 4rem;
+            }
+
+            .time-selection-icon {
+              height: 6rem;
+            }
+          }
+        }
+
+        &__grid {
+          grid-template-columns: repeat(5, 1fr);
+          grid-template-rows: repeat(4, calc($sqr-size / 2) $sqr-size);
+
+          .engine-level {
+            @include square($sqr-size);
+
+            span {
+              font-size: calc($sqr-size * 0.4);
+            }
+          }
+
+          .engine-difficulty {
+            height: calc($sqr-size / 2);
+            grid-column: span 5;
+
+            span {
+              font-size: 3rem;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+@media (height <= 700px) {
+  .search {
+    display: block;
+  }
+}

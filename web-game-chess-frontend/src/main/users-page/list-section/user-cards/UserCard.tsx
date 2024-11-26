@@ -11,14 +11,15 @@ import { Guid } from "guid-typescript";
 import { userPageIcons } from "../../UsersPageIcons";
 import { mainColor } from "../../../../shared/utils/objects/colorMaps";
 import IconCreator from "../../../../shared/components/icon-creator/IconCreator";
+import { GetAllUsersFunc, SetNonFriendFunc } from "../../UsersPageData";
 
 type UserCardProps = {
   // user data to create card
   user: GetAllNonFriendsDto;
   // to updated list when action was performed
-  getAllUsers: () => Promise<void>;
+  getAllUsers: GetAllUsersFunc;
   // to select profile to show
-  setNonFriend: (user: GetOtherUserDto) => void;
+  setNonFriend: SetNonFriendFunc;
 };
 
 function UserCard({ user, getAllUsers, setNonFriend }: UserCardProps) {
@@ -42,7 +43,6 @@ function UserCard({ user, getAllUsers, setNonFriend }: UserCardProps) {
       showPopup(getErrMessage(err), "warning");
     }
   };
-  //*/
 
   // get non friend profile to display
   const onShowProfile = async (): Promise<void> => {
@@ -54,7 +54,6 @@ function UserCard({ user, getAllUsers, setNonFriend }: UserCardProps) {
       showPopup(getErrMessage(err), "warning");
     }
   };
-  //*/
 
   // delete friend /  remove friendship
   // used to unblock blocked friends
@@ -71,7 +70,6 @@ function UserCard({ user, getAllUsers, setNonFriend }: UserCardProps) {
       showPopup(getErrMessage(err), "warning");
     }
   };
-  //*/
 
   return (
     <div className={classes.card}>

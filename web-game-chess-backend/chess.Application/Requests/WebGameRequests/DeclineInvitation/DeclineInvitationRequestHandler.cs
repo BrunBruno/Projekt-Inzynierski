@@ -15,7 +15,7 @@ namespace chess.Application.Requests.WebGameRequests.DeclineInvitation;
 public class DeclineInvitationRequestHandler : IRequestHandler<DeclineInvitationRequest> {
 
     private readonly IUserContextService _userContextService;
-    private readonly IWebGameRepository _gameRepository;
+    private readonly IWebGameRepository _webGameRepository;
     private readonly IWebGameInvitationRepository _gameInvitationRepository;
 
     public DeclineInvitationRequestHandler(
@@ -24,7 +24,7 @@ public class DeclineInvitationRequestHandler : IRequestHandler<DeclineInvitation
         IWebGameInvitationRepository gameInvitationRepository
     ) {
         _userContextService = userContextService;
-        _gameRepository = gameRepository;
+        _webGameRepository = gameRepository;
         _gameInvitationRepository = gameInvitationRepository;
     }
 
@@ -32,7 +32,7 @@ public class DeclineInvitationRequestHandler : IRequestHandler<DeclineInvitation
 
         var userId = _userContextService.GetUserId();
 
-        var game = await _gameRepository.GetById(request.GameId) 
+        var game = await _webGameRepository.GetById(request.GameId) 
             ?? throw new NotFoundException("Game not found.");
 
         if (game.WhitePlayer.UserId != userId && game.BlackPlayer.UserId != userId)

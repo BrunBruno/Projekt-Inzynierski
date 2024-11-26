@@ -7,17 +7,17 @@ import { TimingTypeName } from "../../../../shared/utils/objects/constantLists";
 import { defaultViewIcons } from "../DefaultViewIcons";
 import classes from "./QuickGame.module.scss";
 import { QuickTimeControl, quickTimeControls } from "./QuickGameData";
-import { SearchWebGameDto } from "../../../../shared/utils/types/gameDtos";
+import { SearchWebGameDto } from "../../../../shared/utils/types/webGameDtos";
 import { getAuthorization, webGameController } from "../../../../shared/utils/services/ApiService";
 import { getErrMessage } from "../../../../shared/utils/functions/errors";
 import GameHubService from "../../../../shared/utils/services/GameHubService";
-import { SearchWebGameModel } from "../../../../shared/utils/types/gameModels";
+import { SearchWebGameModel } from "../../../../shared/utils/types/webGameModels";
 import { getEnumValueByKey } from "../../../../shared/utils/functions/enums";
 import { TimingType } from "../../../../shared/utils/objects/entitiesEnums";
 import { Dispatch, SetStateAction } from "react";
 
 type QuickGameProps = {
-  //
+  // to set new web game data
   setOnlineGameIds: Dispatch<SetStateAction<SearchWebGameDto | null>>;
 };
 
@@ -49,7 +49,6 @@ function QuickGame({ setOnlineGameIds }: QuickGameProps) {
       showPopup(getErrMessage(err), "warning");
     }
   };
-  //*/
 
   // display time controls buttons
   const transformTag = (tag: string): JSX.Element => {
@@ -80,13 +79,14 @@ function QuickGame({ setOnlineGameIds }: QuickGameProps) {
 
     return <div className={classes["timing-tag"]}>{transformedTag}</div>;
   };
-  //*/
 
   return (
     <div className={classes.quick}>
       <div className={classes.quick__header}>
         <IconCreator icons={defaultViewIcons} iconName={"quick"} iconClass={classes["quick-icon"]} />
+
         <h2 className={classes["heading"]}>Quick game</h2>
+
         <IconCreator icons={defaultViewIcons} iconName={"quick"} iconClass={classes["quick-icon"]} />
       </div>
       <div className={classes.quick__controls}>
@@ -102,7 +102,7 @@ function QuickGame({ setOnlineGameIds }: QuickGameProps) {
               icons={timingTypeIcons}
               iconName={control.header}
               iconClass={`${classes["timing-icon"]} ${classes[control.header]}`}
-              color={greyColor.c6}
+              color={greyColor.c4}
             />
             {transformTag(control.tag)}
           </div>

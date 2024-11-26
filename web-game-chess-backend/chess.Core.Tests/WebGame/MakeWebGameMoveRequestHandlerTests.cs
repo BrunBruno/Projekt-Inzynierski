@@ -34,7 +34,7 @@ public class MakeWebGameMoveRequestHandlerTests {
             HasEnded = false,
             StartedAt = DateTime.UtcNow,
 
-            GameTiming = new GameTiming()
+            GameTiming = new WebGameTiming()
             {
                 Type = TimingTypes.Rapid,
                 Seconds = 10 * 60,
@@ -42,9 +42,6 @@ public class MakeWebGameMoveRequestHandlerTests {
             },
 
             CurrentState = new WebGameState(),
-
-            WhitePlayerRegistered = true,
-            BlackPlayerRegistered = true,
 
             WhitePlayer = new WebGamePlayer() 
             { 
@@ -143,10 +140,8 @@ public class MakeWebGameMoveRequestHandlerTests {
             Id = gameId,
             HasEnded = false,
             StartedAt = DateTime.UtcNow,
-            WhitePlayerRegistered = true,
-            BlackPlayerRegistered = true,
 
-            GameTiming = new GameTiming()
+            GameTiming = new WebGameTiming()
             {
                 Type = TimingTypes.Rapid,
                 Seconds = 10 * 60,
@@ -212,7 +207,7 @@ public class MakeWebGameMoveRequestHandlerTests {
             HasEnded = true, // has ended
             StartedAt = DateTime.UtcNow,
 
-            GameTiming = new GameTiming()
+            GameTiming = new WebGameTiming()
             {
                 Type = TimingTypes.Rapid,
                 Seconds = 10 * 60,
@@ -221,8 +216,6 @@ public class MakeWebGameMoveRequestHandlerTests {
 
             CurrentState = new WebGameState(),
 
-            WhitePlayerRegistered = true,
-            BlackPlayerRegistered = true,
             WhitePlayer = new WebGamePlayer()
             {
                 Name = "Username",
@@ -281,10 +274,7 @@ public class MakeWebGameMoveRequestHandlerTests {
             HasEnded = false,
             // game not started
 
-            WhitePlayerRegistered = true,
-            BlackPlayerRegistered = true,
-
-            GameTiming = new GameTiming()
+            GameTiming = new WebGameTiming()
             {
                 Type = TimingTypes.Rapid,
                 Seconds = 10 * 60,

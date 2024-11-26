@@ -1,4 +1,4 @@
-import { GetTypeHistoryDto } from "../../../../shared/utils/types/gameDtos";
+import { GetTypeHistoryDto } from "../../../../shared/utils/types/webGameDtos";
 import classes from "./HistoryRecord.module.scss";
 
 type HistoryRecordProps = {
@@ -9,7 +9,8 @@ type HistoryRecordProps = {
 function HistoryRecord({ item }: HistoryRecordProps) {
   ///
 
-  if (item === null) {
+  // list header
+  if (!item) {
     return (
       <div
         className={`

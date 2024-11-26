@@ -1,8 +1,5 @@
 @use "../../../shared/styles/shared.scss" as *;
-
-$index-border-width: 2rem;
-$index-border-radius: 16rem;
-$index-border-color: rgb(67, 43, 137);
+@use "../../Index.scss" as Index;
 
 // footer section container
 .footer {
@@ -10,19 +7,18 @@ $index-border-color: rgb(67, 43, 137);
   background-color: #000;
   padding: 8rem;
   padding-bottom: 0;
-  box-shadow: calc(-1 * $index-border-width) calc(-1 * $index-border-width) 0 0 $index-border-color;
+  box-shadow: calc(-1 * Index.$border-width) calc(-1 * Index.$border-width) 0 0 Index.$border-color;
 
   &::before {
-    @include subCl(16rem, 16rem);
+    @include sub-class(16rem, 16rem);
 
     top: calc(-2rem - 16rem);
     right: -2rem;
-
-    border: solid $index-border-width $index-border-color;
+    border: solid Index.$border-width Index.$border-color;
     border-top: none;
     border-left: none;
-    border-bottom-right-radius: $index-border-radius;
-    box-shadow: 0rem 10rem 0 #000;
+    border-bottom-right-radius: Index.$border-radius;
+    box-shadow: 0 10rem 0 #000;
   }
 
   &__intro {
@@ -30,7 +26,7 @@ $index-border-color: rgb(67, 43, 137);
 
     .footer-title {
       @include flex(row, start, center, 2rem);
-      @include secFont(6rem);
+      @include sec-font(6rem);
 
       font-size: 6rem;
       color: $mc5;
@@ -111,7 +107,7 @@ $index-border-color: rgb(67, 43, 137);
           .youtube-svg {
             g {
               g {
-                fill: rgba(#ff0000, 0.8);
+                fill: rgba(#f00, 0.8);
               }
             }
           }
@@ -127,6 +123,51 @@ $index-border-color: rgb(67, 43, 137);
           @include flex(row, start, center, 2rem);
 
           position: relative;
+
+          p.action-text {
+            font-size: 2rem;
+
+            &::after {
+              @include sub-class(0, 0.2rem);
+
+              position: unset;
+              display: block;
+              margin-top: 0.3rem;
+              background-color: $gc3;
+              transition: all 0.3s;
+            }
+          }
+
+          @mixin row-svg() {
+            height: 2rem;
+            width: 2rem;
+          }
+
+          svg.social-svg {
+            @include row-svg;
+          }
+
+          svg.legal-svg {
+            @include row-svg;
+          }
+
+          .r-arr {
+            @include row-svg;
+
+            opacity: 0;
+            transform: translateX(-2rem);
+            transition: all 0.3s;
+
+            circle {
+              fill: #000;
+              transition: all 0.3s;
+            }
+
+            rect {
+              fill: $mc0;
+              transition: all 0.3s;
+            }
+          }
 
           &:hover {
             cursor: pointer;
@@ -150,56 +191,10 @@ $index-border-color: rgb(67, 43, 137);
               }
             }
           }
-
-          p.action-text {
-            font-size: 2rem;
-
-            &::after {
-              @include subCl(0, 0.2rem);
-
-              position: unset;
-              display: block;
-              margin-top: 0.3rem;
-              background-color: $gc3;
-              transition: all 0.3s;
-            }
-          }
-
-          @mixin rowSvg() {
-            height: 2rem;
-            width: 2rem;
-          }
-
-          svg.social-svg {
-            @include rowSvg();
-          }
-
-          svg.legal-svg {
-            @include rowSvg();
-          }
-
-          .r-arr {
-            @include rowSvg();
-
-            opacity: 0;
-            transform: translateX(-2rem);
-            transition: all 0.3s;
-
-            circle {
-              fill: #000;
-              transition: all 0.3s;
-            }
-
-            rect {
-              fill: $mc0;
-              transition: all 0.3s;
-            }
-          }
         }
       }
     }
   }
-  //*/
 
   &__outro {
     text-align: center;
@@ -208,7 +203,7 @@ $index-border-color: rgb(67, 43, 137);
 }
 
 // resize
-@media (max-width: 700px) {
+@media (width <= 700px) {
   .footer {
     padding: 2rem;
 
@@ -221,19 +216,27 @@ $index-border-color: rgb(67, 43, 137);
 
       &__col {
         gap: 1rem;
+        border: none;
 
-        h3 {
-          font-size: 3rem;
+        h3.col-title {
+          font-size: 2.4rem;
           margin-bottom: 1rem;
         }
 
         .contact {
-          p {
-            font-size: 2rem;
+          p.contact-data {
+            font-size: 1.2rem;
+          }
+        }
+
+        a.link {
+          .element {
+            p.action-text {
+              font-size: 1.6rem;
+            }
           }
         }
       }
     }
   }
 }
-//*/

@@ -149,14 +149,12 @@ const FaqSection = forwardRef<HandleOnScroll, FaqSectionProps>(
         }
       }
     };
-    //*/
 
     // handle faq onscroll
     const handleOnScroll = () => {};
     useImperativeHandle(ref, () => ({
       handleOnScroll,
     }));
-    //*/
 
     return (
       <section id="faq-section" ref={sectionRef} className={classes.section}>
@@ -229,7 +227,6 @@ const FaqSection = forwardRef<HandleOnScroll, FaqSectionProps>(
               />
             ))}
           </div>
-          {/* --- */}
 
           {/* row 2 */}
           <div className={classes.section__content__category}>
@@ -298,9 +295,7 @@ const FaqSection = forwardRef<HandleOnScroll, FaqSectionProps>(
               />
             ))}
           </div>
-          {/* --- */}
         </div>
-        {/* --- */}
       </section>
     );
   }

@@ -1,5 +1,6 @@
-﻿using chess.Application.Repositories.WebGameRepositories;
-using chess.Application.Requests.WebGameRequests.SendMessage;
+﻿
+using chess.Application.Repositories.WebGameRepositories;
+using chess.Application.Requests.WebGameRequests.SendPlayerMessage;
 using chess.Application.Services;
 using chess.Core.Entities;
 using chess.Shared.Exceptions;
@@ -8,13 +9,13 @@ using Moq;
 
 namespace chess.Core.Tests.WebGame;
 
-public class SendMessageRequestHandlerTests {
+public class SendPlayerMessageRequestHandlerTests {
 
     private readonly Mock<IWebGamePlayerMessageRepository> _mockPlayerMessageRepository;
     private readonly Mock<IWebGameRepository> _mockGameRepository;
     private readonly Mock<IUserContextService> _mockUserContextService;
 
-    public SendMessageRequestHandlerTests() {
+    public SendPlayerMessageRequestHandlerTests() {
         _mockPlayerMessageRepository = new Mock<IWebGamePlayerMessageRepository>();
         _mockGameRepository = new Mock<IWebGameRepository>();
         _mockUserContextService = new Mock<IUserContextService>();
@@ -29,9 +30,6 @@ public class SendMessageRequestHandlerTests {
         var game = new Entities.WebGame()
         {
             Id = gameId,
-            WhitePlayerRegistered = true,
-            BlackPlayerRegistered = true,
-
             WhitePlayer = new WebGamePlayer() {
                 Id = Guid.NewGuid(),
                 Name = "Username",
@@ -47,7 +45,7 @@ public class SendMessageRequestHandlerTests {
             },
         };
 
-        var request = new SendMessageRequest()
+        var request = new SendPlayerMessageRequest()
         {
             GameId = gameId,
             Message = "Message",
@@ -58,7 +56,7 @@ public class SendMessageRequestHandlerTests {
         _mockGameRepository.Setup(x => x.GetById(gameId)).ReturnsAsync(game);
 
 
-        var handler = new SendMessageRequestHandler(
+        var handler = new SendPlayerMessageRequestHandler(
             _mockPlayerMessageRepository.Object,
             _mockGameRepository.Object,
             _mockUserContextService.Object
@@ -79,7 +77,7 @@ public class SendMessageRequestHandlerTests {
         var userId = Guid.NewGuid();
         var gameId = Guid.NewGuid();
 
-        var request = new SendMessageRequest()
+        var request = new SendPlayerMessageRequest()
         {
             GameId = gameId,
             Message = "Message",
@@ -90,7 +88,7 @@ public class SendMessageRequestHandlerTests {
         // game not returned
 
 
-        var handler = new SendMessageRequestHandler(
+        var handler = new SendPlayerMessageRequestHandler(
             _mockPlayerMessageRepository.Object,
             _mockGameRepository.Object,
             _mockUserContextService.Object
@@ -115,8 +113,6 @@ public class SendMessageRequestHandlerTests {
         {
             Id = gameId,
 
-            WhitePlayerRegistered = true,
-            BlackPlayerRegistered = true,
             WhitePlayer = new WebGamePlayer()
             {
                 Id = Guid.NewGuid(),
@@ -133,7 +129,7 @@ public class SendMessageRequestHandlerTests {
             },
         };
 
-        var request = new SendMessageRequest()
+        var request = new SendPlayerMessageRequest()
         {
             GameId = gameId,
             Message = "Message",
@@ -144,7 +140,7 @@ public class SendMessageRequestHandlerTests {
         _mockGameRepository.Setup(x => x.GetById(gameId)).ReturnsAsync(game);
 
 
-        var handler = new SendMessageRequestHandler(
+        var handler = new SendPlayerMessageRequestHandler(
             _mockPlayerMessageRepository.Object,
             _mockGameRepository.Object,
             _mockUserContextService.Object

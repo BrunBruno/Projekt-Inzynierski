@@ -12,6 +12,7 @@ const HeroSection = forwardRef<HandleOnScroll, HeroSectionProps>(
   ({ heroSectionRef }: HeroSectionProps, ref: ForwardedRef<HandleOnScroll>) => {
     ///
 
+    // dark background ref
     const heroBgRef = useRef<HTMLDivElement>(null);
 
     // to handle section background on scroll
@@ -38,7 +39,6 @@ const HeroSection = forwardRef<HandleOnScroll, HeroSectionProps>(
     useImperativeHandle(ref, () => ({
       handleOnScroll,
     }));
-    //*/
 
     return (
       <section ref={heroSectionRef} className={classes.section}>
@@ -65,7 +65,6 @@ const HeroSection = forwardRef<HandleOnScroll, HeroSectionProps>(
               <p className={classes["arrow-zoom"]} />
             </a>
           </div>
-          {/* --- */}
         </div>
       </section>
     );

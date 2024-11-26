@@ -16,20 +16,20 @@ namespace chess.Application.Requests.WebGameRequests.GetAllMessages;
 /// </summary>
 public class GetAllMessagesRequestHandler : IRequestHandler<GetAllMessagesRequest, List<GetAllMessagesDto>> {
 
-    private readonly IWebGameRepository _gameRepository;
+    private readonly IWebGameRepository _webGameRepository;
     private readonly IWebGamePlayerMessageRepository _playerMessageRepository;
     private readonly IWebGameMessageRepository _gameMessageRepository;
     private readonly IUserContextService _userContextService;
-    private readonly IUserImageRepository _userImageRepository;
+    private readonly IUserProfileImageRepository _userImageRepository;
 
     public GetAllMessagesRequestHandler(
         IWebGameRepository gameRepository,
         IWebGamePlayerMessageRepository playerMessageRepository,
         IWebGameMessageRepository gameMessageRepository,
         IUserContextService userContextService,
-        IUserImageRepository userImageRepository
+        IUserProfileImageRepository userImageRepository
     ) {
-        _gameRepository = gameRepository;
+        _webGameRepository = gameRepository;
         _playerMessageRepository = playerMessageRepository;
         _userContextService = userContextService;
         _userImageRepository = userImageRepository;
@@ -40,7 +40,7 @@ public class GetAllMessagesRequestHandler : IRequestHandler<GetAllMessagesReques
 
         var userId = _userContextService.GetUserId();
 
-        var game = await _gameRepository.GetById(request.GameId)
+        var game = await _webGameRepository.GetById(request.GameId)
             ?? throw new NotFoundException("Game not found.");
 
         if (game.WhitePlayer.UserId != userId && game.BlackPlayer.UserId != userId)

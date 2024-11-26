@@ -1,7 +1,7 @@
 ﻿
 using chess.Api.Models.WebGameModels;
 using chess.Api.Tests.User;
-using chess.Application.Requests.WebGameRequests.CreateGameWithLink;
+using chess.Application.Requests.WebGameRequests.CreatePrivateGameWithLink;
 using chess.Core.Enums;
 using chess.Infrastructure.Contexts;
 using FluentAssertions;
@@ -39,7 +39,7 @@ public class CreateGameWithLinkTests : IClassFixture<TestWebApplicationFactory<P
         await _dbContext.AddUser();
         await _dbContext.AddUserWithEmail("friend@test.com");
 
-        var model = new CreateWebGameWithLinkModel()
+        var model = new CreatePrivateGameWithLinkModel()
         {
             Type = TimingTypes.Rapid,
             Minutes = 15,
@@ -67,7 +67,7 @@ public class CreateGameWithLinkTests : IClassFixture<TestWebApplicationFactory<P
         game.TimingType.Should().Be(TimingTypes.Rapid);
         game.IsPrivate.Should().Be(true);
 
-        var result = JsonConvert.DeserializeObject<CreateGameWithLinkDto>(await response.Content.ReadAsStringAsync());
+        var result = JsonConvert.DeserializeObject<CreatePrivateGameWithLinkDto>(await response.Content.ReadAsStringAsync());
         result.GameId.Should().Be(game.Id);
     }
 
@@ -81,7 +81,7 @@ public class CreateGameWithLinkTests : IClassFixture<TestWebApplicationFactory<P
         await _dbContext.Init();
         // user not added
 
-        var model = new CreateWebGameWithLinkModel()
+        var model = new CreatePrivateGameWithLinkModel()
         {
             Type = TimingTypes.Rapid,
             Minutes = 15,

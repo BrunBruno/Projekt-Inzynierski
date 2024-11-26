@@ -11,6 +11,7 @@ public class MoveDto {
     /// piece tag + x (if capture) + coordinates xy + # if check
     /// </summary>
     public required string Move { get; set; }
+    public required string FenMove { get; set; }
 
     /// <summary>
     /// Turn at which move was made
@@ -31,4 +32,9 @@ public class MoveDto {
     /// Capture piece tag
     /// </summary>
     public string? CapturedPiece { get; set; }
+
+    /// <summary>
+    /// Positio after done move
+    /// </summary>
+    public required string Position { get; set; }
 }

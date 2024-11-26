@@ -2,8 +2,8 @@ import classes from "./OngoingGames.module.scss";
 import { useEffect, useState } from "react";
 import { usePopup } from "../../../../shared/utils/hooks/usePopUp";
 import { GameSearchInterface } from "../../../../shared/utils/objects/interfacesEnums";
-import { GetAllActiveGamesDto } from "../../../../shared/utils/types/gameDtos";
-import { GetAllActiveGamesModel } from "../../../../shared/utils/types/gameModels";
+import { GetAllActiveGamesDto } from "../../../../shared/utils/types/webGameDtos";
+import { GetAllActiveGamesModel } from "../../../../shared/utils/types/webGameModels";
 import axios from "axios";
 import { PagedResult } from "../../../../shared/utils/types/abstractDtosAndModels";
 import { webGameController, getAuthorization } from "../../../../shared/utils/services/ApiService";
@@ -12,9 +12,12 @@ import IconCreator from "../../../../shared/components/icon-creator/IconCreator"
 import { symbolIcons } from "../../../../shared/svgs/iconsMap/SymbolIcons";
 import { greyColor } from "../../../../shared/utils/objects/colorMaps";
 import OngoingGameCard from "./ongoing-game-card/OngoingGameCard";
+import { mainPageIcons } from "../../MainPageIcons";
+import { SetInterfaceById } from "../../MainPageData";
 
 type OngoingGamesProps = {
-  setInterfaceById: (interfaceId: GameSearchInterface) => void;
+  // for setting interface to active games
+  setInterfaceById: SetInterfaceById;
 };
 
 function OngoingGames({ setInterfaceById }: OngoingGamesProps) {
@@ -27,6 +30,7 @@ function OngoingGames({ setInterfaceById }: OngoingGamesProps) {
 
   // get all finished games
   useEffect(() => {
+    // get last three games
     const getGames = async (): Promise<void> => {
       const model: GetAllActiveGamesModel = {
         pageNumber: 1,
@@ -47,9 +51,9 @@ function OngoingGames({ setInterfaceById }: OngoingGamesProps) {
 
     getGames();
   }, []);
-  //*/
 
-  const handelMoreGamesClick = () => {
+  // set related interface
+  const handelMoreGamesClick = (): void => {
     setInterfaceById(GameSearchInterface.activeGames);
   };
 
@@ -58,7 +62,13 @@ function OngoingGames({ setInterfaceById }: OngoingGamesProps) {
   return (
     <div className={classes.games}>
       <div className={classes.games__header}>
-        <span>Active games:</span>
+        <IconCreator
+          icons={mainPageIcons}
+          iconName={"activeGames"}
+          iconClass={classes["header-icon"]}
+          color={greyColor.c0}
+        />
+        <span>Active Games</span>
       </div>
 
       <div className={classes.games__cards}>

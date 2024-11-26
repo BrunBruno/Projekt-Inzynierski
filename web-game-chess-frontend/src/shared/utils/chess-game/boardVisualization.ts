@@ -1,8 +1,12 @@
 import { posToIndex } from "./general";
 import { RefObject } from "react";
 import { Coordinate } from "./gameSates";
-import { PieceColor } from "../objects/entitiesEnums";
+import { AppearanceOfBoard, AppearanceOfPieces, PieceColor } from "../objects/entitiesEnums";
 import { PlayerDto } from "../types/abstractDtosAndModels";
+import { ElementClass, IconMap } from "../types/commonTypes";
+import { defaultPiecesImages } from "../../svgs/iconsMap/DefaultPieceImageSvgs";
+import { specialPiecesSvgs } from "../../svgs/iconsMap/SpecialPiecesSvgs";
+import { PieceTag } from "../objects/constantLists";
 
 // to highlighting selected file
 // for tip displaying
@@ -40,7 +44,7 @@ export const performMoveAnimation = (
   coorFrom: Coordinate,
   coorTo: Coordinate
 ) => {
-  if (boardRef && coorFrom && coorTo) {
+  if (selectedTarget && boardRef && coorFrom && coorTo) {
     const tileWidth = boardRef.getBoundingClientRect().width / 8;
     const tileHeight = boardRef.getBoundingClientRect().height / 8;
     const xChange = coorFrom[0] - coorTo[0];
@@ -52,8 +56,37 @@ export const performMoveAnimation = (
     if (playerData.color === PieceColor.white) translateX = translateX * -1;
     if (playerData.color === PieceColor.black) translateY = translateY * -1;
 
-    if (selectedTarget) {
-      selectedTarget.style.transform = `translateX(${translateX}px) translateY(${translateY}px)`;
-    }
+    selectedTarget.style.transform = `translateX(${translateX}px) translateY(${translateY}px)`;
+  }
+};
+
+// for provided correct class by user settings
+export const changeBoardByUserSettings = (appearance: AppearanceOfBoard, classes: CSSModuleClasses): ElementClass => {
+  switch (appearance) {
+    case AppearanceOfBoard.Default:
+      return "";
+
+    case AppearanceOfBoard.Rounded:
+      return classes["rounded"];
+
+    case AppearanceOfBoard.Grey:
+      return classes["grey"];
+
+    case AppearanceOfBoard.Wooden:
+      return classes["wooden"];
+
+    default:
+      return "";
+  }
+};
+
+// for provided correct icons by user settings
+export const changePiecesByUserSettings = (appearance: AppearanceOfPieces): IconMap<PieceTag> => {
+  switch (appearance) {
+    case AppearanceOfPieces.Standard:
+      return defaultPiecesImages;
+
+    case AppearanceOfPieces.Simple:
+      return specialPiecesSvgs;
   }
 };

@@ -3,7 +3,6 @@ using chess.Application.Pagination;
 using chess.Application.Repositories.FriendshipRepositories;
 using chess.Application.Repositories.UserRepositories;
 using chess.Application.Services;
-using chess.Core.Abstraction;
 using chess.Core.Dtos;
 using MediatR;
 
@@ -46,7 +45,6 @@ public class GetAllFriendsByStatusRequestHandler : IRequestHandler<GetAllFriends
         if (request.Username is not null) {
             friends = friends.Where(nf =>
                 nf.Username.ToLower().Contains(request.Username) ||
-                //nf.Email.ToLower().Contains(request.Username) ||
                 (nf.Name != null && nf.Name.ToLower().Contains(request.Username))
             ).ToList();
         }
@@ -84,17 +82,17 @@ public class GetAllFriendsByStatusRequestHandler : IRequestHandler<GetAllFriends
                     },
 
                     OutcomeTotal = new GameOutcomeDto() {
-                        Total = friend.Stats.GamesPlayed,
-                        Wins = friend.Stats.Wins,
-                        Loses = friend.Stats.Loses,
-                        Draws = friend.Stats.Draws,
+                        Total = friend.Stats.OnlineGamesPlayed,
+                        Wins = friend.Stats.OnlineWins,
+                        Loses = friend.Stats.OnlineLoses,
+                        Draws = friend.Stats.OnlineDraws,
                     },
 
                     OutcomeTogether = new GameOutcomeDto() {
-                        Total = friendship.GamesPlayed,
-                        Wins = isRequestor ? friendship.RequestorWins : friendship.RequestorLoses,
-                        Loses = isRequestor ? friendship.RequestorLoses : friendship.RequestorWins,
-                        Draws = friendship.RequestorDraws,
+                        Total = friendship.Stats.GamesPlayed,
+                        Wins = isRequestor ? friendship.Stats.RequestorWins : friendship.Stats.RequestorLoses,
+                        Loses = isRequestor ? friendship.Stats.RequestorLoses : friendship.Stats.RequestorWins,
+                        Draws = friendship.Stats.RequestorDraws,
                     },
                 });
             }

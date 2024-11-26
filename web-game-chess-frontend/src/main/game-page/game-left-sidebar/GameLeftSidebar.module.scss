@@ -1,18 +1,19 @@
 @use "../../../shared/styles/shared.scss" as *;
+@use "../GamePage.module.scss" as GamePage;
 
 // left side bar container
 .bar {
-  @include wh100();
+  @include wh100;
 
+  max-height: 100vh;
   position: relative;
 
   &::after {
-    @include subCl();
+    @include sub-class;
 
     z-index: 1;
     top: 0;
     left: 100%;
-
     border-top-left-radius: 8rem;
     border-bottom-left-radius: 8rem;
     box-shadow: -10rem 0 0 10rem $gc9;
@@ -25,6 +26,11 @@
     z-index: 2;
     height: 100%;
     background-color: $gc9;
+    padding: 2rem 1rem;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    grid-template-rows: 6rem calc(100% - 24rem - 6rem - 4rem) 24rem;
 
     &__logo {
       @include flex(row, start, center, 1rem);
@@ -37,25 +43,31 @@
       }
 
       p.logo-text {
-        @include secFont(2rem);
+        @include sec-font(2rem);
       }
     }
 
     &__list {
-      @include flex(column, start, center, 1rem);
+      @include GamePage.bar-block;
 
-      padding: 1rem;
+      display: grid;
+      grid-template-columns: 1fr;
+      grid-template-rows: repeat(6, 1fr);
+      padding: 0;
       list-style-type: none;
+      overflow: hidden;
+      max-height: 32rem;
 
       &__element {
         @include flex(row, start, center, 1rem);
-        @include rounded(1rem);
 
         width: 100%;
+        padding: 1rem;
         border-bottom: solid 0.3rem $gc8;
-        border-left: solid 0.3rem $gc8;
-        border-bottom-right-radius: 0;
-        border-top-left-radius: 0;
+
+        &:last-child {
+          border: none;
+        }
 
         &:hover {
           cursor: pointer;
@@ -69,9 +81,11 @@
 
         &.un-active {
           pointer-events: none;
+
           span {
             filter: brightness(50%);
           }
+
           svg.list-icon {
             filter: brightness(50%);
           }
@@ -79,33 +93,127 @@
 
         span {
           white-space: nowrap;
-          font-size: 2rem;
+          font-size: 1.8rem;
           color: $gc5;
         }
 
         svg.list-icon {
-          height: 3rem;
+          height: 2.6rem;
         }
+      }
+    }
+
+    &__captures {
+      @include wh100;
+      @include GamePage.bar-block;
+
+      padding: 1rem 0;
+    }
+  }
+
+  &.simple-view {
+    width: fit-content;
+
+    &::after {
+      display: none;
+    }
+
+    .bar__content {
+      &__logo {
+        @include flex;
+
+        padding: 0;
+
+        p.logo-text {
+          display: none;
+        }
+      }
+    }
+
+    .bar__content {
+      &__list {
+        width: fit-content;
+
+        &__element {
+          width: fit-content;
+
+          span {
+            display: none;
+          }
+        }
+      }
+    }
+
+    .bar__content {
+      &__captures {
+        display: none;
       }
     }
   }
 }
-//*/
 
 // resize
-@media (max-width: 1000px) {
+@media (width <= 1000px) {
   .bar {
+    width: 100% !important;
+    border-bottom: solid 0.5rem $gc8;
+
     &::after {
       display: none;
     }
 
     &__content {
-      @include flex(row, start, center, 0);
+      grid-template-rows: 1fr;
+      grid-template-columns: 6rem auto 24rem;
+      padding: 0;
+
+      &__logo {
+        @include flex(row, start, center, 1rem);
+
+        padding: 1rem !important;
+
+        .logo-svg {
+          height: 100%;
+        }
+
+        p.logo-text {
+          display: none;
+        }
+      }
 
       &__list {
-        flex-direction: row;
+        @include flex(row, start, center, 1rem);
+
+        width: 100%;
+        min-width: 36rem;
+        background-color: #0000;
+        border: none;
+        box-shadow: none;
+
+        &__element {
+          @include square(6rem);
+
+          border: solid 0.3rem $gc8;
+          border-radius: 1rem;
+
+          span {
+            display: none;
+          }
+
+          &:last-child {
+            border: solid 0.3rem $gc8;
+          }
+        }
+      }
+
+      &__captures {
+        @include flex;
+
+        padding: 1rem 0;
+        background-color: #0000;
+        border: none;
+        box-shadow: none;
       }
     }
   }
 }
-//*/

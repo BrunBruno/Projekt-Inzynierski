@@ -4,6 +4,7 @@ import { GetAllFriendsByStatusDto } from "../../../../shared/utils/types/friends
 import classes from "./FriendCard.module.scss";
 import { GameSearchInterface, StateOptions } from "../../../../shared/utils/objects/interfacesEnums";
 import { Dispatch, SetStateAction, MouseEvent } from "react";
+import { ClearSelectionFunc } from "../../AccountPageData";
 
 type FriendCardProps = {
   // friend data
@@ -11,7 +12,7 @@ type FriendCardProps = {
   // to select friend
   setSelectedFriend: Dispatch<SetStateAction<HTMLElement | null>>;
   // to clear selection
-  clearSelection: () => void;
+  clearSelection: ClearSelectionFunc;
 };
 
 function FriendCard({ friend, setSelectedFriend, clearSelection }: FriendCardProps) {
@@ -33,7 +34,6 @@ function FriendCard({ friend, setSelectedFriend, clearSelection }: FriendCardPro
 
     navigate(`/main`, { state: state });
   };
-  //*/
 
   // to activate card
   const setActive = (event: MouseEvent<HTMLDivElement>): void => {
@@ -45,7 +45,6 @@ function FriendCard({ friend, setSelectedFriend, clearSelection }: FriendCardPro
 
     target.classList.add(classes.active);
   };
-  //*/
 
   return (
     <div
@@ -75,9 +74,8 @@ function FriendCard({ friend, setSelectedFriend, clearSelection }: FriendCardPro
           <span>{friend.outcomeTotal.draws}</span>
           {" | "}
           <span>{friend.outcomeTotal.loses}</span>
-        </div>{" "}
+        </div>
       </div>
-      {/* --- */}
 
       {/* friend related actions */}
       <div className={classes.friend__actions}>
@@ -99,7 +97,6 @@ function FriendCard({ friend, setSelectedFriend, clearSelection }: FriendCardPro
           <span>Play</span>
         </button>
       </div>
-      {/* --- */}
     </div>
   );
 }

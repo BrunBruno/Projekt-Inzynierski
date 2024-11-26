@@ -1,9 +1,14 @@
 import { useNavigate } from "react-router-dom";
 import LogoIcon from "../../../shared/svgs/icons/LogoIcon";
-import { GameEndReason, PieceColor, TimingType } from "../../../shared/utils/objects/entitiesEnums";
+import {
+  AppearanceOfGamePage,
+  GameEndReason,
+  PieceColor,
+  TimingType,
+} from "../../../shared/utils/objects/entitiesEnums";
 import GameHubService from "../../../shared/utils/services/GameHubService";
-import { GetGameDto, GetPlayerDto } from "../../../shared/utils/types/gameDtos";
-import { EndGameModel } from "../../../shared/utils/types/gameModels";
+import { GetWebGameDto, GetWebGamePlayerDto } from "../../../shared/utils/types/webGameDtos";
+import { EndWebGameModel } from "../../../shared/utils/types/webGameModels";
 import classes from "./GameLeftSidebar.module.scss";
 import { usePopup } from "../../../shared/utils/hooks/usePopUp";
 import { getErrMessage } from "../../../shared/utils/functions/errors";
@@ -12,20 +17,21 @@ import IconCreator from "../../../shared/components/icon-creator/IconCreator";
 import { GameActionInterface, GameWindowInterface } from "../../../shared/utils/objects/interfacesEnums";
 import { Dispatch, SetStateAction } from "react";
 import { gameLeftSideBarIcons } from "./GameLeftSidebarIcons";
+import GameCapturedPieces from "./game-captured-pieces/GameCapturedPieces";
+import { StateProp } from "../../../shared/utils/types/commonTypes";
 
 type WebGameLeftSidebarProps = {
-  // game id
+  // game and player data
   gameId: Guid;
-  // current player data
-  playerData: GetPlayerDto;
-  // current game data
-  gameData: GetGameDto;
-  // to show confirm window
+  playerData: GetWebGamePlayerDto;
+  gameData: GetWebGameDto;
+
+  // to show confirm window with correct text
   setShowConfirm: Dispatch<SetStateAction<GameActionInterface | null>>;
   // to set confirm action
   setConfirmAction: Dispatch<SetStateAction<() => void>>;
-  //
-  setDisplayedWindow: Dispatch<SetStateAction<GameWindowInterface>>;
+  // to display confirm windows
+  displayedWindowState: StateProp<GameWindowInterface>;
 };
 
 function WebGameLeftSidebar({
@@ -34,7 +40,7 @@ function WebGameLeftSidebar({
   gameData,
   setShowConfirm,
   setConfirmAction,
-  setDisplayedWindow,
+  displayedWindowState,
 }: WebGameLeftSidebarProps) {
   ///
 
@@ -44,7 +50,7 @@ function WebGameLeftSidebar({
   // to finish the game by some action option
   const endGame = async (loserColor: PieceColor | null, endGameType: GameEndReason): Promise<void> => {
     try {
-      const loserPlayer: EndGameModel = {
+      const loserPlayer: EndWebGameModel = {
         gameId: gameId,
         loserColor: loserColor,
         endGameType: endGameType,
@@ -55,7 +61,6 @@ function WebGameLeftSidebar({
       showPopup(getErrMessage(err), "warning");
     }
   };
-  //*/
 
   // to send draw offer
   const createDrawOffer = async (): Promise<void> => {
@@ -65,60 +70,64 @@ function WebGameLeftSidebar({
       showPopup(getErrMessage(err), "warning");
     }
   };
-  //*/
 
   // draw on first moves
   const onDraw = (): void => {
     endGame(null, GameEndReason.agreement);
   };
-  //*/
 
   // to resign the game
   const onResign = (): void => {
     endGame(playerData.color, GameEndReason.resignation);
   };
-  //*/
 
   // to offer a draw
   const onDrawOffer = (): void => {
     createDrawOffer();
   };
-  //*/
 
   // to show confirm window and select chosen action
   const onSelectAction = (action: GameActionInterface): void => {
+    if (displayedWindowState.get !== GameWindowInterface.none) return;
+
     setShowConfirm(action);
 
     switch (action) {
-      case GameActionInterface.leave:
-        setDisplayedWindow(GameWindowInterface.confirm);
+      case GameActionInterface.leave: {
+        displayedWindowState.set(GameWindowInterface.confirm);
         setConfirmAction(() => onDraw);
         break;
+      }
 
-      case GameActionInterface.abort:
-        setDisplayedWindow(GameWindowInterface.confirm);
+      case GameActionInterface.abort: {
+        displayedWindowState.set(GameWindowInterface.confirm);
         setConfirmAction(() => onResign);
         break;
+      }
 
-      case GameActionInterface.resign:
-        setDisplayedWindow(GameWindowInterface.confirm);
+      case GameActionInterface.resign: {
+        displayedWindowState.set(GameWindowInterface.confirm);
         setConfirmAction(() => onResign);
         break;
+      }
 
-      case GameActionInterface.draw:
-        setDisplayedWindow(GameWindowInterface.confirm);
+      case GameActionInterface.draw: {
+        displayedWindowState.set(GameWindowInterface.confirm);
         setConfirmAction(() => onDrawOffer);
         break;
+      }
 
-      default:
-        setDisplayedWindow(GameWindowInterface.none);
+      default: {
+        displayedWindowState.set(GameWindowInterface.none);
         setConfirmAction(() => {});
         setShowConfirm(null);
+        break;
+      }
     }
   };
-  //*/
 
-  const setLeaveOption = () => {
+  //
+  const setLeaveOption = (): void => {
     if (gameData.timingType === TimingType.daily || gameData.timingType === TimingType.classic) {
       navigate("/main");
     } else {
@@ -133,8 +142,19 @@ function WebGameLeftSidebar({
     }
   };
 
+  const onShowSettings = (): void => {
+    if (displayedWindowState.get !== GameWindowInterface.none) return;
+
+    displayedWindowState.set(GameWindowInterface.settings);
+  };
+
   return (
-    <section className={classes.bar}>
+    <section
+      className={`
+      ${classes.bar} 
+      ${gameData.gameSettings.appearanceOfGamePage === AppearanceOfGamePage.Simple ? classes["simple-view"] : ""}
+    `}
+    >
       <div className={classes.bar__content}>
         <div
           className={classes.bar__content__logo}
@@ -182,15 +202,43 @@ function WebGameLeftSidebar({
             }}
           >
             <IconCreator icons={gameLeftSideBarIcons} iconName={"draw"} iconClass={classes["list-icon"]} />
-            <span>Offer Draw</span>
+            <span>Offer draw</span>
           </li>
 
-          <li className={classes.bar__content__list__element} onClick={() => {}}>
+          <li
+            className={classes.bar__content__list__element}
+            onClick={() => {
+              onSelectAction(GameActionInterface.block);
+            }}
+          >
+            <IconCreator icons={gameLeftSideBarIcons} iconName={"block"} iconClass={classes["list-icon"]} />
+            <span>Block user</span>
+          </li>
+
+          <li
+            className={classes.bar__content__list__element}
+            onClick={() => {
+              onSelectAction(GameActionInterface.report);
+            }}
+          >
+            <IconCreator icons={gameLeftSideBarIcons} iconName={"report"} iconClass={classes["list-icon"]} />
+            <span>Report</span>
+          </li>
+
+          <li
+            className={classes.bar__content__list__element}
+            onClick={() => {
+              onShowSettings();
+            }}
+          >
             <IconCreator icons={gameLeftSideBarIcons} iconName={"settings"} iconClass={classes["list-icon"]} />
             <span>Settings</span>
           </li>
         </ul>
-        {/* --- */}
+
+        <div className={classes.bar__content__captures}>
+          <GameCapturedPieces gameData={gameData} />
+        </div>
       </div>
     </section>
   );

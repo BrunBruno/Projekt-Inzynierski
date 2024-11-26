@@ -5,7 +5,7 @@ import axios from "axios";
 import { getAuthorization, userController } from "../shared/utils/services/ApiService";
 import LoadingPage from "../shared/components/loading-page/LoadingPage";
 import { GetUserDto, IsEmailVerifiedDto } from "../shared/utils/types/userDtos";
-import GamePage from "./game-page/WebGamePage";
+import WebGamePage from "./game-page/WebGamePage";
 import UsersPage from "./users-page/UsersPage";
 import GameHubService from "../shared/utils/services/GameHubService";
 import { HubConnectionState } from "@microsoft/signalr";
@@ -89,7 +89,6 @@ function MainRouter() {
 
     verifyUsersToken();
   }, []);
-  //*/
 
   if (!authorize) return <LoadingPage />;
 
@@ -99,7 +98,7 @@ function MainRouter() {
         <Route path="/" element={<MainPage />} />
         <Route path="/users" element={<UsersPage />} />
         <Route path="/await/:gameIdStr" element={<AwaitingPage />} />
-        <Route path="/game/:gameIdStr" element={<GamePage />} />
+        <Route path="/game/:gameIdStr" element={<WebGamePage />} />
         <Route path="/engine-game/:gameIdStr" element={<EngineGamePage />} />
         <Route path="/account" element={<AccountPage />} />
         <Route path="/profile/:friendshipIdStr" element={<ProfilePage />} />

@@ -1,49 +1,35 @@
 import { Dispatch, SetStateAction } from "react";
 import { GameActionInterface, GameWindowInterface } from "../../../../shared/utils/objects/interfacesEnums";
 import classes from "./GameConfirm.module.scss";
+import { StateProp } from "../../../../shared/utils/types/commonTypes";
 
 type EngineGameConfirmProps = {
   // action to execution on confirm
   confirmAction: () => void;
-  // to select correct action to confirm
-  showConfirm: GameActionInterface | null;
-  // to display confirm window
-  setShowConfirm: Dispatch<SetStateAction<GameActionInterface | null>>;
-  //
+
+  // to select correct action to confirm and display confirm window
+  showConfirmState: StateProp<GameActionInterface | null>;
+
+  // modal window id setter
   setDisplayedWindow: Dispatch<SetStateAction<GameWindowInterface>>;
 };
 
-function EngineGameConfirm({ confirmAction, showConfirm, setShowConfirm, setDisplayedWindow }: EngineGameConfirmProps) {
+function EngineGameConfirm({ confirmAction, showConfirmState, setDisplayedWindow }: EngineGameConfirmProps) {
   ///
 
   // to render correct title based on user selection
   const renderText = (action: GameActionInterface): JSX.Element => {
     switch (action) {
-      case GameActionInterface.leave:
-        return (
-          <span>
-            The game will be draw. <br /> Are you sure?
-          </span>
-        );
-
-      case GameActionInterface.abort:
-        return (
-          <span>
-            The game will be resign. <br /> Are you sure?
-          </span>
-        );
-
       case GameActionInterface.resign:
         return <span>Resign the game?</span>;
 
-      case GameActionInterface.draw:
-        return <span>Send draw offer?</span>;
+      case GameActionInterface.restart:
+        return <span>Start new game?</span>;
 
       default:
-        return <></>;
+        return <span>Sure?</span>;
     }
   };
-  //*/
 
   // to confirm action
   const onYesClick = () => {
@@ -51,25 +37,23 @@ function EngineGameConfirm({ confirmAction, showConfirm, setShowConfirm, setDisp
     confirmAction();
 
     // clear
-    setShowConfirm(null);
+    showConfirmState.set(null);
     setDisplayedWindow(GameWindowInterface.none);
   };
-  //*/
 
   // to reject action
   const onNoClick = () => {
     // clear
-    setShowConfirm(null);
+    showConfirmState.set(null);
     setDisplayedWindow(GameWindowInterface.none);
   };
-  //*/
 
-  if (!showConfirm) return <></>;
+  if (!showConfirmState || !showConfirmState.get) return <></>;
 
   return (
     <div className={classes.window}>
       <div className={classes.window__content}>
-        <div className={classes.window__content__header}>{renderText(showConfirm)}</div>
+        <div className={classes.window__content__header}>{renderText(showConfirmState.get)}</div>
         <div className={classes.window__content__actions}>
           <button
             className={`

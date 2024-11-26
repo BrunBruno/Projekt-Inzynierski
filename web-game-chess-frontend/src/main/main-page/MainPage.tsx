@@ -2,32 +2,37 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { GameSearchInterface, StateOptions } from "../../shared/utils/objects/interfacesEnums";
 import classes from "./MainPage.module.scss";
 import { usePopup } from "../../shared/utils/hooks/usePopUp";
-import { CheckIfInGameDto, SearchWebGameDto } from "../../shared/utils/types/gameDtos";
+import {
+  CheckIfInWebGameDto,
+  CreatePrivateGameByEmailDto,
+  CreatePrivateGameDto,
+  CreatePrivateGameWithLinkDto,
+  SearchWebGameDto,
+} from "../../shared/utils/types/webGameDtos";
 import { useEffect, useState } from "react";
 import { OfflineGameOptions, PrivateGameOptions } from "./MainPageData";
 import MainPopUp from "../../shared/components/main-popup/MainPopUp";
 import MainNav from "../../shared/components/main-nav/MainNav";
 import DefaultView from "./default-view/DefaultView";
 import Invitations from "./invitations/Invitations";
-import UserGames from "./user-games/UserGames";
-import ActiveGames from "./active-games/ActiveGames";
-import TimeSelection from "./time-selection/TimeSelection";
-import FriendSelection from "./friend-selection/FriendSelection";
-import BotSelection from "./bot-selection/BotSelection";
+import TimeSelection from "./selection-time/TimeSelection";
+import FriendSelection from "./selection-friends/FriendSelection";
+import BotSelection from "./selection-bot/BotSelection";
 import SearchingPage from "../../shared/components/searching-page/SearchingPage";
 import GameHubService from "../../shared/utils/services/GameHubService";
 import { HubConnectionState } from "@microsoft/signalr";
 import { Guid } from "guid-typescript";
 import { getErrMessage } from "../../shared/utils/functions/errors";
-import { engineController, getAuthorization, webGameController } from "../../shared/utils/services/ApiService";
+import { engineGameController, getAuthorization, webGameController } from "../../shared/utils/services/ApiService";
 import axios from "axios";
-import { AbortSearchModel, CheckIfInGameModel } from "../../shared/utils/types/gameModels";
-import { StartEngineGameDto } from "../../shared/utils/types/engineDtos";
+import { AbortWebGameSearchModel, CheckIfInWebGameModel } from "../../shared/utils/types/webGameModels";
+import { StartEngineGameDto } from "../../shared/utils/types/engineGameDtos";
 import NotificationPopUp from "./notification-popup/NotificationPopUp";
 import MainButtons from "./main-buttons/MainButtons";
-import { StartEngineGameModel } from "../../shared/utils/types/engineModels";
-import { getEnumValueByKey } from "../../shared/utils/functions/enums";
-import { TimingType } from "../../shared/utils/objects/entitiesEnums";
+import { StartEngineGameModel } from "../../shared/utils/types/engineGameModels";
+import ActiveGames from "./user-games/ActiveGames";
+import FinishedGames from "./user-games/FinishedGames";
+import EngineGames from "./user-games/EngineGames";
 
 function MainPage() {
   ///
@@ -36,6 +41,7 @@ function MainPage() {
   const navigate = useNavigate();
   const { showPopup } = usePopup();
 
+  // interface id obtained from url
   const [providedInterface, setProvidedInterface] = useState<number | null>(null);
 
   // to display main page popups
@@ -52,14 +58,16 @@ function MainPage() {
       setProvidedInterface(locationState.interface);
     }
   }, [location.state]);
-  //*/
 
   /** online public */
-  // ids for online games
   const [onlineGameIds, setOnlineGameIds] = useState<SearchWebGameDto | null>(null);
 
   /** online private */
   const [privateGameOptions, setPrivateGameOptions] = useState<PrivateGameOptions | null>(null);
+  const [privateGameIds, setPrivateGameIds] = useState<
+    CreatePrivateGameDto | CreatePrivateGameByEmailDto | CreatePrivateGameWithLinkDto | null
+  >(null);
+  const [gameUrl, setGameUrl] = useState<string>("");
 
   /** offline */
   const [offlineGameOptions, setOfflineGameOptions] = useState<OfflineGameOptions | null>(null);
@@ -77,7 +85,6 @@ function MainPage() {
       setInterfaceById(providedInterface);
     }
   }, [providedInterface]);
-  //*/
 
   /** ONLINE PUBLIC GAME */
 
@@ -85,41 +92,37 @@ function MainPage() {
   const handleGamesChanged = async (): Promise<void> => {
     if (!onlineGameIds) return;
 
+    const model: CheckIfInWebGameModel = {
+      playerId: onlineGameIds.playerId,
+    };
+
     try {
-      const isInGameModel: CheckIfInGameModel = {
-        playerId: onlineGameIds.playerId,
+      // check if user was joined to game
+      const response = await axios.get<CheckIfInWebGameDto>(webGameController.checkIfInGame(model), getAuthorization());
+
+      if (!response.data.isInGame) return;
+
+      const state: StateOptions = {
+        popup: { text: "GAME STARTED", type: "info" },
       };
 
-      // check if user was joined to game
-      const isInGameResponse = await axios.get<CheckIfInGameDto>(
-        webGameController.checkIfInGame(isInGameModel),
-        getAuthorization()
-      );
-
-      if (isInGameResponse.data.isInGame) {
-        const state: StateOptions = {
-          popup: { text: "GAME STARTED", type: "info" },
-        };
-
-        navigate(`/main/game/${isInGameResponse.data.gameId}`, { state: state });
-      }
+      navigate(`/main/game/${response.data.gameId}`, { state: state });
     } catch (err) {
       showPopup(getErrMessage(err), "warning");
     }
   };
-  //*/
 
   // public game search abort
   // remove player, clear ids and go back to vs-player search
-  const onCancelSearch = async (): Promise<void> => {
+  const onCancelPublicSearch = async (): Promise<void> => {
     if (!onlineGameIds) return;
 
-    try {
-      const abortSearchModel: AbortSearchModel = {
-        playerId: onlineGameIds.playerId,
-      };
+    const model: AbortWebGameSearchModel = {
+      playerId: onlineGameIds.playerId,
+    };
 
-      await axios.delete(webGameController.abortSearch(abortSearchModel), getAuthorization());
+    try {
+      await axios.delete(webGameController.abortSearch(model), getAuthorization());
 
       await GameHubService.PlayerLeaved(onlineGameIds.timingId);
 
@@ -130,14 +133,30 @@ function MainPage() {
       showPopup(getErrMessage(err), "warning");
     }
   };
-  //*/
 
-  /** ONLINE PUBLIC GAMES END */
+  // connect game hub handlers for public games
+  useEffect(() => {
+    if (onlineGameIds) setInterfaceById(GameSearchInterface.vsPlayerSearching);
+
+    if (GameHubService.connection && GameHubService.connection.state === HubConnectionState.Connected) {
+      // for handling public search
+      GameHubService.connection.on("GamesChanged", handleGamesChanged);
+    }
+
+    return () => {
+      if (GameHubService.connection) {
+        GameHubService.connection.off("GamesChanged", handleGamesChanged);
+      }
+    };
+  }, [onlineGameIds]);
 
   /** ONLINE PRIVATE GAMES */
 
   // to navigate to game page
   const handleGameAccepted = async (gameId: Guid): Promise<void> => {
+    setPrivateGameIds(null);
+    setPrivateGameOptions(null);
+
     const state: StateOptions = {
       popup: { text: "GAME STARTED", type: "info" },
     };
@@ -145,49 +164,62 @@ function MainPage() {
     navigate(`/main/game/${gameId}`, { state: state });
   };
 
-  const handleGameDeclined = () => {
+  // show popup on invitation declined
+  const handleGameDeclined = (): void => {
+    if (interfaceId === GameSearchInterface.vsFriendSearching) setInterfaceById(GameSearchInterface.vsFriendsOptions);
+
+    setPrivateGameIds(null);
+    setPrivateGameOptions(null);
+
     showPopup("INVITATION DECLINED", "error");
   };
-  //*/
 
+  // to navigate to time selection when fired was selected
+  // otherwise set interface to friend selection
   useEffect(() => {
-    if (privateGameOptions) {
-      if (privateGameOptions.header === null) {
-        setInterfaceById(GameSearchInterface.vsFriendTimeSelection);
-      } else {
-        setInterfaceById(GameSearchInterface.vsFriendsOptions);
-      }
-    }
+    if (!privateGameOptions) return;
+
+    if (privateGameOptions.header === null) setInterfaceById(GameSearchInterface.vsFriendTimeSelection);
   }, [privateGameOptions]);
 
-  /** ONLINE PRIVATE GAMES END */
-
-  // connect game hub handlers
+  // connect game hub handlers for private games
   useEffect(() => {
-    if (onlineGameIds) {
-      setInterfaceById(GameSearchInterface.vsPlayerSearching);
-    }
+    if (privateGameIds) setInterfaceById(GameSearchInterface.vsFriendSearching);
 
     if (GameHubService.connection && GameHubService.connection.state === HubConnectionState.Connected) {
-      // for handling public search
-      GameHubService.connection.on("GamesChanged", handleGamesChanged);
       // for handling private game accepted
       GameHubService.connection.on("GameAccepted", handleGameAccepted);
       // for handling private game declined
       GameHubService.connection.on("InvitationDeclined", handleGameDeclined);
 
+      // ???
       setAllowNotification(true);
     }
 
     return () => {
       if (GameHubService.connection) {
-        GameHubService.connection.off("GamesChanged", handleGamesChanged);
         GameHubService.connection.off("GameAccepted", handleGameAccepted);
         GameHubService.connection.off("InvitationDeclined", handleGameDeclined);
       }
     };
-  }, [onlineGameIds]);
-  //*/
+  }, [privateGameIds, interfaceId]);
+
+  // to remove created private game
+  const onCancelPrivateGame = async (): Promise<void> => {
+    setPrivateGameIds(null);
+    setPrivateGameOptions(null);
+    setGameUrl("");
+
+    setInterfaceById(GameSearchInterface.vsFriendsOptions);
+
+    if (!privateGameIds) return;
+
+    try {
+      await axios.delete(webGameController.cancelPrivateGame(privateGameIds.gameId), getAuthorization());
+    } catch (err) {
+      showPopup(getErrMessage(err), "warning");
+    }
+  };
 
   /** OFFLINE GAMES */
 
@@ -195,21 +227,13 @@ function MainPage() {
   const onStartOfflineGame = async (): Promise<void> => {
     if (!offlineGameOptions) return;
 
-    const typeValue = offlineGameOptions.header
-      ? getEnumValueByKey(TimingType, offlineGameOptions.header.toLowerCase())
-      : undefined;
-
     const model: StartEngineGameModel = {
-      type: typeValue ? typeValue : null,
-      minutes: offlineGameOptions.values ? offlineGameOptions.values[0] : null,
-      increment: offlineGameOptions.values ? offlineGameOptions.values[1] : null,
-      allowUndo: offlineGameOptions.enableUndo ? offlineGameOptions.enableUndo : false,
       engineLevel: offlineGameOptions.engineLevel ? offlineGameOptions.engineLevel : 1,
     };
 
     try {
       const response = await axios.post<StartEngineGameDto>(
-        engineController.startEngineGame(),
+        engineGameController.startEngineGame(),
         model,
         getAuthorization()
       );
@@ -219,9 +243,8 @@ function MainPage() {
       showPopup(getErrMessage(err), "warning");
     }
   };
-  //*/
 
-  // start offline game
+  // navigate to offline game
   useEffect(() => {
     if (!offlineGameIds) return;
 
@@ -231,21 +254,13 @@ function MainPage() {
 
     navigate(`/main/engine-game/${offlineGameIds.gameId}`, { state: state });
   }, [offlineGameIds]);
-  //*/
 
   // go to timing selection for offline game
   useEffect(() => {
     if (!offlineGameOptions) return;
 
-    if (offlineGameOptions.enableTiming && (!offlineGameOptions.header || !offlineGameOptions.values)) {
-      setInterfaceById(GameSearchInterface.vsComputerTimeSelection);
-    } else {
-      onStartOfflineGame();
-    }
+    onStartOfflineGame();
   }, [offlineGameOptions]);
-  //*/
-
-  /** OFFLINE GAMES END */
 
   // set game section content
   const setInterfaceById = (interfaceId: GameSearchInterface): void => {
@@ -264,7 +279,7 @@ function MainPage() {
         setInterfaceContent(
           <SearchingPage
             isPrivate={false}
-            onCancel={onCancelSearch}
+            onCancel={onCancelPublicSearch}
             containerTestId="searching-page-vs-player-search"
             cancelButtonTestId="searching-page-vs-player-cancel-button"
           />
@@ -275,26 +290,44 @@ function MainPage() {
         setInterfaceContent(<BotSelection setOfflineGameOptions={setOfflineGameOptions} />);
         break;
 
-      case GameSearchInterface.vsComputerTimeSelection:
-        setInterfaceContent(<TimeSelection setOfflineGameOptions={setOfflineGameOptions} />);
-        break;
-
       case GameSearchInterface.vsFriendsOptions:
         setInterfaceContent(
-          <FriendSelection setPrivateGameOptions={setPrivateGameOptions} privateGameOptions={privateGameOptions} />
+          <FriendSelection privateGameOptionsProp={{ get: privateGameOptions, set: setPrivateGameOptions }} />
         );
         break;
 
       case GameSearchInterface.vsFriendTimeSelection:
-        setInterfaceContent(<TimeSelection setPrivateGameOptions={setPrivateGameOptions} />);
+        setInterfaceContent(
+          <TimeSelection
+            privateGameOptions={privateGameOptions}
+            setGameUrl={setGameUrl}
+            setPrivateGameIds={setPrivateGameIds}
+          />
+        );
+        break;
+
+      case GameSearchInterface.vsFriendSearching:
+        setInterfaceContent(
+          <SearchingPage
+            isPrivate={true}
+            onCancel={onCancelPrivateGame}
+            gameUrl={gameUrl}
+            containerTestId="searching-page-vs-friend-search"
+            cancelButtonTestId="searching-page-vs-friend-cancel-button"
+          />
+        );
         break;
 
       case GameSearchInterface.activeGames:
         setInterfaceContent(<ActiveGames />);
         break;
 
-      case GameSearchInterface.userGames:
-        setInterfaceContent(<UserGames />);
+      case GameSearchInterface.finishedGames:
+        setInterfaceContent(<FinishedGames />);
+        break;
+
+      case GameSearchInterface.engineGames:
+        setInterfaceContent(<EngineGames />);
         break;
 
       case GameSearchInterface.invitations:
@@ -306,13 +339,11 @@ function MainPage() {
         break;
     }
   };
-  //*/
 
   // set default interface
   useEffect(() => {
     setInterfaceById(GameSearchInterface.defaultView);
   }, []);
-  ///*
 
   return (
     <main data-testid="main-main-page" className={classes.main}>
@@ -320,13 +351,11 @@ function MainPage() {
 
       <section className={classes.main__container}>
         <div className={classes.main__container__content}>
-          <div className={classes.game__content__col}>
-            <div className={classes["game-interface"]}>{interfaceContent}</div>
-          </div>
+          <div className={classes["game-interface"]}>{interfaceContent}</div>
 
           <MainButtons interfaceId={interfaceId} setInterfaceById={setInterfaceById} />
 
-          <NotificationPopUp allowNotification={allowNotification} setAllowNotification={setAllowNotification} />
+          <NotificationPopUp allowNotificationProp={{ get: allowNotification, set: setAllowNotification }} />
         </div>
       </section>
 

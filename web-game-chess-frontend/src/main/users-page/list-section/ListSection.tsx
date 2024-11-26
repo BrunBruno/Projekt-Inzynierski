@@ -17,15 +17,17 @@ import LoadingPage from "../../../shared/components/loading-page/LoadingPage";
 import { GetOtherUserDto } from "../../../shared/utils/types/userDtos";
 import { getErrMessage } from "../../../shared/utils/functions/errors";
 import { PagedResult } from "../../../shared/utils/types/abstractDtosAndModels";
+import IconCreator from "../../../shared/components/icon-creator/IconCreator";
+import { symbolIcons } from "../../../shared/svgs/iconsMap/SymbolIcons";
+import { mainColor } from "../../../shared/utils/objects/colorMaps";
 
 type ListSectionProps = {
-  // provided username to match
+  // provided username to filter
   selectedUsername: string;
   // type of user/friend list to get
   selectedList: number;
-  // set non friend data for profile
+  // set set selected user
   setUserProfile: Dispatch<SetStateAction<GetOtherUserDto | null>>;
-  // set  friend data for profile
   setFriendProfile: Dispatch<SetStateAction<GetFriendProfileDto | null>>;
 };
 
@@ -88,30 +90,32 @@ function ListSection({ selectedUsername, selectedList, setUserProfile, setFriend
     }
   };
 
+  // get users on state change
   useEffect(() => {
     getAllUsers();
   }, [selectedUsername, selectedList, pageSize, pageNumber]);
-  //*/
 
   // set empty list class
   useEffect(() => {
     const listElement = listRef.current;
-    if (listElement) {
-      if (users.length === 0 && friends.length === 0) {
-        listElement.classList.add(classes["empty-list"]);
-      } else {
-        listElement.classList.remove(classes["empty-list"]);
-      }
+    if (!listElement) return;
+
+    if (users.length === 0 && friends.length === 0) {
+      listElement.classList.add(classes["empty-list"]);
+    } else {
+      listElement.classList.remove(classes["empty-list"]);
     }
   }, [users, friends, listRef]);
-  //*/
 
   // set default page size based on list to elements size ratio
   // add resize handler to update default size
   useEffect(() => {
+    // for gird layout
     const getItemsPerRow = (): number => {
       const wh = window.innerWidth;
-      if (wh < 500) {
+      if (wh < 300) {
+        return 1;
+      } else if (wh < 600) {
         return 2;
       } else if (wh < 1800) {
         return 3;
@@ -122,6 +126,7 @@ function ListSection({ selectedUsername, selectedList, setUserProfile, setFriend
       }
     };
 
+    // setting paged result grid
     const setDefSize = (): void => {
       const container = scrollRef.current;
       const itemsPerRow = getItemsPerRow();
@@ -134,7 +139,7 @@ function ListSection({ selectedUsername, selectedList, setUserProfile, setFriend
         if (elementHeight > 0) {
           const count = Math.ceil(containerHeight / elementHeight) * itemsPerRow;
 
-          setDefPageSize(count);
+          if (count > 0) setDefPageSize(count);
         }
       }
     };
@@ -146,19 +151,18 @@ function ListSection({ selectedUsername, selectedList, setUserProfile, setFriend
       window.removeEventListener("resize", setDefSize);
     };
   }, [users, friends]);
-  //*/
 
-  // setter for profile data
+  // setter non friend data
   const setNonFriend = (user: GetOtherUserDto): void => {
     setFriendProfile(null);
     setUserProfile(user);
   };
 
+  // setter  friend data
   const setFriend = (friend: GetFriendProfileDto): void => {
     setUserProfile(null);
     setFriendProfile(friend);
   };
-  //*/
 
   // to display loading on scroll
   useEffect(() => {
@@ -184,19 +188,15 @@ function ListSection({ selectedUsername, selectedList, setUserProfile, setFriend
     const scrollElement = scrollRef.current as HTMLDivElement;
 
     if (scrollElement) {
-      // Convert to `unknown` first, then cast to `EventListener`
       scrollElement.addEventListener("wheel", handleLoading as unknown as EventListener, { passive: true });
     }
 
-    // Cleanup event listener
     return () => {
       if (scrollElement) {
         scrollElement.removeEventListener("wheel", handleLoading as unknown as EventListener);
       }
     };
   }, [scrollRef]);
-
-  //*/
 
   return (
     <section ref={listRef} className={classes.list}>
@@ -233,11 +233,15 @@ function ListSection({ selectedUsername, selectedList, setUserProfile, setFriend
         </div>
       ) : (
         <div className={classes["empty-search"]}>
-          <span>No users</span>
-          <span>found</span>
+          <IconCreator
+            icons={symbolIcons}
+            iconName={"error"}
+            iconClass={classes["no-data-icon"]}
+            color={mainColor.c9}
+          />
+          <span>No users found</span>
         </div>
       )}
-      {/* --- */}
 
       {/* indicator */}
       <div className={classes.list__indicator}>

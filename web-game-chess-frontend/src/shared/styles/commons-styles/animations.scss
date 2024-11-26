@@ -2,42 +2,42 @@
 
 // emerge from side animation
 // transform - start pos - end pos
-@mixin emergeAni($duration: 0.3s, $delay: 0s, $translate: 1rem) {
+@keyframes emerge-animation {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@mixin emerge-ani($duration: 0.3s, $delay: 0s, $translate: 1rem) {
   opacity: 0;
   transform: translateY($translate);
-  animation: emergeAnimation $duration ease-in $delay forwards;
-
-  @keyframes emergeAnimation {
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
+  animation: emerge-animation $duration ease-in $delay forwards;
 }
 
 // scale from center animation
 // scale 0 - 1
-@mixin openAni($duration: 0.2s, $delay: 0s) {
+@keyframes open-animation {
+  to {
+    transform: scaleY(1);
+  }
+}
+
+@mixin open-ani($duration: 0.2s, $delay: 0s) {
   transform-origin: center 0;
   transform: scaleY(0);
-  animation: openAnimation $duration ease-in $delay forwards;
-
-  @keyframes openAnimation {
-    to {
-      transform: scaleY(1);
-    }
-  }
+  animation: open-animation $duration ease-in $delay forwards;
 }
 
 // show animation
 // opacity 0 - 1
-@mixin showAni($duration: 0.2s, $delay: 0s) {
-  opacity: 0;
-  animation: showAnimation $duration ease-in $delay forwards;
-
-  @keyframes showAnimation {
-    to {
-      opacity: 1;
-    }
+@keyframes show-animation {
+  to {
+    opacity: 1;
   }
+}
+
+@mixin show-ani($duration: 0.2s, $delay: 0s) {
+  opacity: 0;
+  animation: show-animation $duration ease-in $delay forwards;
 }

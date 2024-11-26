@@ -1,7 +1,7 @@
 ﻿
 using chess.Api.Models.WebGameModels;
 using chess.Api.Tests.User;
-using chess.Application.Requests.WebGameRequests.CreateGameByEmail;
+using chess.Application.Requests.WebGameRequests.CreatePrivateGameByEmail;
 using chess.Core.Enums;
 using chess.Infrastructure.Contexts;
 using FluentAssertions;
@@ -13,13 +13,13 @@ using System.Text;
 
 namespace chess.Api.Tests.WebGame;
 
-public class CreateGameByEmailTests : IClassFixture<TestWebApplicationFactory<Program>> {
+public class CreatePrivateGameByEmailTests : IClassFixture<TestWebApplicationFactory<Program>> {
 
     private readonly HttpClient _client;
     private readonly TestWebApplicationFactory<Program> _factory;
     private readonly ChessAppDbContext _dbContext;
 
-    public CreateGameByEmailTests() {
+    public CreatePrivateGameByEmailTests() {
         _factory = new TestWebApplicationFactory<Program>();
 
         _client = _factory.CreateClient();
@@ -33,7 +33,7 @@ public class CreateGameByEmailTests : IClassFixture<TestWebApplicationFactory<Pr
     }
 
     [Fact]
-    public async Task CreateGameByEmail_Should_Create_Essentials_For_Private_Game() {
+    public async Task CreatePrivateGameByEmail_Should_Create_Essentials_For_Private_Game() {
 
         string friendEmail = "friend@test.com";
 
@@ -41,7 +41,7 @@ public class CreateGameByEmailTests : IClassFixture<TestWebApplicationFactory<Pr
         await _dbContext.AddUser();
         await _dbContext.AddUserWithEmail(friendEmail);
 
-        var model = new CreateWebGameByEmailModel()
+        var model = new CreatePrivateGameByEmailModel()
         {
             Email = friendEmail,
             Type = TimingTypes.Blitz,
@@ -67,7 +67,7 @@ public class CreateGameByEmailTests : IClassFixture<TestWebApplicationFactory<Pr
 
         game.TimingType.Should().Be(TimingTypes.Blitz);
 
-        var result = JsonConvert.DeserializeObject<CreateGameByEmailDto>(await response.Content.ReadAsStringAsync());
+        var result = JsonConvert.DeserializeObject<CreatePrivateGameByEmailDto>(await response.Content.ReadAsStringAsync());
         result.GameId.Should().Be(game.Id);
         result.Inviter.Should().Be("TestUserName");
     }
@@ -77,7 +77,7 @@ public class CreateGameByEmailTests : IClassFixture<TestWebApplicationFactory<Pr
     /// </summary>
     /// <returns></returns>
     [Fact]
-    public async Task CreateGameByEmail_Should_Return_NotFound_On_Fail() {
+    public async Task CreatePrivateGameByEmail_Should_Return_NotFound_On_Fail() {
 
         string friendEmail = "friend@test.com";
 
@@ -85,7 +85,7 @@ public class CreateGameByEmailTests : IClassFixture<TestWebApplicationFactory<Pr
         await _dbContext.AddUser();
         // friend not exists
 
-        var model = new CreateWebGameByEmailModel()
+        var model = new CreatePrivateGameByEmailModel()
         {
             Email = friendEmail,
             Type = TimingTypes.Blitz,

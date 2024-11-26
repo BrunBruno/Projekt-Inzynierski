@@ -1,6 +1,6 @@
 import GameHubService from "../../../../shared/utils/services/GameHubService";
-import { GetAllInvitationsDto } from "../../../../shared/utils/types/gameDtos";
-import { AcceptInvitationModel, DeclineInvitationModel } from "../../../../shared/utils/types/gameModels";
+import { GetAllInvitationsDto } from "../../../../shared/utils/types/webGameDtos";
+import { AcceptInvitationModel, DeclineInvitationModel } from "../../../../shared/utils/types/webGameModels";
 import classes from "./InvitationCard.module.scss";
 import { TimingTypeName, timingTypeNames } from "../../../../shared/utils/objects/constantLists";
 import { usePopup } from "../../../../shared/utils/hooks/usePopUp";
@@ -9,12 +9,13 @@ import IconCreator from "../../../../shared/components/icon-creator/IconCreator"
 import { mainColor } from "../../../../shared/utils/objects/colorMaps";
 import { timingTypeIcons } from "../../../../shared/svgs/iconsMap/TimingTypeIcons";
 import { timeSpanLongerThan } from "../../../../shared/utils/functions/datetime";
+import { UpdateInvitations } from "../InvitationsData";
 
 type InvitationCardProps = {
   // invitation data
   invitation: GetAllInvitationsDto;
   // to refresh invitation list
-  updateInvitations: () => void;
+  updateInvitations: UpdateInvitations;
 };
 
 function InvitationCard({ invitation, updateInvitations }: InvitationCardProps) {
@@ -38,7 +39,6 @@ function InvitationCard({ invitation, updateInvitations }: InvitationCardProps) 
       showPopup(getErrMessage(err), "warning");
     }
   };
-  //*/
 
   // to decline previous invitations
   const onDeclineInvitation = async (): Promise<void> => {
@@ -57,14 +57,13 @@ function InvitationCard({ invitation, updateInvitations }: InvitationCardProps) 
       showPopup(getErrMessage(err), "warning");
     }
   };
-  //*/
 
   return (
     <div className={classes.card}>
       <div className={classes.card__icon}>
         <IconCreator
           icons={timingTypeIcons}
-          iconName={timingTypeNames[invitation.type].toLowerCase() as TimingTypeName}
+          iconName={timingTypeNames[invitation.type - 1].toLowerCase() as TimingTypeName}
           color={mainColor.c5}
         />
       </div>
@@ -74,7 +73,7 @@ function InvitationCard({ invitation, updateInvitations }: InvitationCardProps) 
         <b className={classes["imp-data"]}>{invitation.inviterName}</b>
         <span> has invited you to new </span>
         <br />
-        <b className={classes["imp-data"]}>{timingTypeNames[invitation.type]}</b>
+        <b className={classes["imp-data"]}>{timingTypeNames[invitation.type - 1]}</b>
         <span> game.</span>
       </div>
 
@@ -103,7 +102,6 @@ function InvitationCard({ invitation, updateInvitations }: InvitationCardProps) 
           </>
         )}
       </div>
-      {/* --- */}
 
       <div className={classes.card__date}>
         <span>{new Date(invitation.createdAt).toLocaleString()}</span>

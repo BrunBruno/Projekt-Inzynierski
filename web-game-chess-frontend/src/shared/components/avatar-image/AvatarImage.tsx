@@ -34,7 +34,6 @@ function AvatarImage({ username, profilePicture, containerClass, imageClass, isB
       setImageSrc(`data:${profilePicture.contentType};base64,${profilePicture.data}`);
     }
   }, [profilePicture]);
-  //*/
 
   return (
     <div className={`${classes["avatar-image"]} ${containerClass}`}>

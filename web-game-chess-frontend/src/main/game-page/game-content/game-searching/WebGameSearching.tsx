@@ -1,25 +1,24 @@
-import { Dispatch, SetStateAction, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import classes from "./GameSearching.module.scss";
 import GameHubService from "../../../../shared/utils/services/GameHubService";
 import { webGameController, getAuthorization } from "../../../../shared/utils/services/ApiService";
 import axios from "axios";
-import { AbortSearchModel } from "../../../../shared/utils/types/gameModels";
-import { SearchWebGameDto } from "../../../../shared/utils/types/gameDtos";
+import { AbortWebGameSearchModel } from "../../../../shared/utils/types/webGameModels";
+import { SearchWebGameDto } from "../../../../shared/utils/types/webGameDtos";
 import { usePopup } from "../../../../shared/utils/hooks/usePopUp";
 import { getErrMessage } from "../../../../shared/utils/functions/errors";
 import IconCreator from "../../../../shared/components/icon-creator/IconCreator";
 import { webGameSearchingIcons } from "./WebGameSearchingIcons";
+import { StateProp } from "../../../../shared/utils/types/commonTypes";
 
 const numOfPawns = 8;
 
 type WebGameSearchingProps = {
-  // ids obtained from new game search
-  searchIds: SearchWebGameDto | null;
-  // to set obtained ids
-  setSearchIds: Dispatch<SetStateAction<SearchWebGameDto | null>>;
+  // ids obtained from new game search and corresponding setter
+  newGameDataState: StateProp<SearchWebGameDto | null>;
 };
 
-function WebGameSearching({ searchIds, setSearchIds }: WebGameSearchingProps) {
+function WebGameSearching({ newGameDataState }: WebGameSearchingProps) {
   ///
 
   const { showPopup } = usePopup();
@@ -62,27 +61,25 @@ function WebGameSearching({ searchIds, setSearchIds }: WebGameSearchingProps) {
       // onCancelSearch();
     };
   }, []);
-  //*/
 
   // game search abort
   const onCancelSearch = async (): Promise<void> => {
-    if (!searchIds) return;
+    if (!newGameDataState.get) return;
 
     try {
-      const abortSearchModel: AbortSearchModel = {
-        playerId: searchIds.playerId,
+      const AbortWebGameSearchModel: AbortWebGameSearchModel = {
+        playerId: newGameDataState.get.playerId,
       };
 
-      await axios.delete(webGameController.abortSearch(abortSearchModel), getAuthorization());
+      await axios.delete(webGameController.abortSearch(AbortWebGameSearchModel), getAuthorization());
 
-      await GameHubService.PlayerLeaved(searchIds.timingId);
+      await GameHubService.PlayerLeaved(newGameDataState.get.timingId);
 
-      setSearchIds(null);
+      newGameDataState.set(null);
     } catch (err) {
       showPopup(getErrMessage(err), "warning");
     }
   };
-  //*/
 
   return (
     <div className={classes.searching}>
@@ -90,6 +87,7 @@ function WebGameSearching({ searchIds, setSearchIds }: WebGameSearchingProps) {
         <div className={classes.searching__content__text}>
           <h1>Searching for Game</h1>
         </div>
+
         <div className={classes.searching__content__indicator}>
           {Array.from({ length: numOfPawns }).map((_, index: number) => (
             <IconCreator
@@ -100,6 +98,7 @@ function WebGameSearching({ searchIds, setSearchIds }: WebGameSearchingProps) {
             />
           ))}
         </div>
+
         <button
           className={classes.cancel}
           onClick={() => {

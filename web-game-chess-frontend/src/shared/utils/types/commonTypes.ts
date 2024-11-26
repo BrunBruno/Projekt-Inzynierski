@@ -1,5 +1,6 @@
 /* commonly occurred types */
 
+import { Dispatch, SetStateAction } from "react";
 import { ColorValue } from "../objects/colorMaps";
 import { popupIconTypes } from "../objects/constantLists";
 
@@ -12,7 +13,6 @@ export type IconSvgProps = {
 export type IconMap<T extends string> = {
   [key in T]: (iconClass?: ElementClass, color?: ColorValue, active?: boolean) => JSX.Element;
 };
-//*/
 
 // handle on scroll function type
 export type HandleOnScroll = {
@@ -46,4 +46,9 @@ export type ElementClass = string;
 
 export type Nullable<T> = {
   [P in keyof T]: T[P] | null;
+};
+
+export type StateProp<T> = {
+  get: T;
+  set: Dispatch<SetStateAction<T>>;
 };

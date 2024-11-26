@@ -1,0 +1,223 @@
+@use "../../../../shared/styles/shared.scss" as *;
+
+.settings {
+  @include abs-center;
+  @include wh100;
+  @include rounded(2rem);
+
+  z-index: 100;
+  background-color: rgba(#000, 0.9);
+  overflow-y: scroll;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+
+  &__header {
+    @include flex(row, start, center, 0);
+
+    position: relative;
+    width: 100%;
+
+    .title {
+      @include flex($gap: 1rem);
+
+      .header-icon {
+        height: 2rem;
+      }
+
+      span {
+        font-size: 2rem;
+      }
+    }
+
+    .actions {
+      @include flex($gap: 1rem);
+
+      position: absolute;
+      top: 0;
+      right: 0;
+
+      .set-button {
+        @include flex($gap: 1rem);
+
+        background-color: #0000;
+        border: none;
+
+        span {
+          color: $gc0;
+          font-size: 2rem;
+        }
+
+        svg.action-icon {
+          height: 3rem;
+        }
+
+        &:hover {
+          cursor: pointer;
+          filter: brightness(70%);
+        }
+      }
+    }
+  }
+
+  &__row {
+    border-bottom: solid 0.3rem $gc8;
+    padding: 1rem 0;
+
+    &:last-child {
+      border: none;
+    }
+
+    .row-title {
+      font-weight: 600;
+      font-size: 1.4rem;
+      color: $gc3;
+    }
+
+    .row-options {
+      @include flex(row, start, center, 2rem);
+
+      padding: 1.4rem;
+
+      .option {
+        @include rounded(1.2rem);
+        @include flex(column, center, center, 1rem);
+
+        border: solid 0.3rem $gc8;
+        background-color: $gc9;
+
+        &:hover {
+          cursor: pointer;
+          filter: brightness(80%);
+        }
+
+        .option-text {
+          @include flex(row, start, center, 0.5rem);
+
+          .ind {
+            @include circle(1.4rem);
+
+            background-color: $mc0;
+
+            &.active {
+              background-color: $mc9;
+              border: solid 0.3rem $mc0;
+            }
+          }
+
+          span {
+            font-size: 1.4rem;
+          }
+        }
+
+        .pieces-look {
+          @include square(5rem);
+
+          .piece-icon {
+            height: 100%;
+          }
+        }
+
+        .board-look {
+          @include square(5rem);
+
+          display: grid;
+          grid-template-columns: repeat(3, 1fr);
+          border-radius: 1rem;
+          overflow: hidden;
+          background-color: #000;
+
+          p {
+            &:nth-child(even) {
+              background-color: $mc0;
+            }
+
+            &:nth-child(odd) {
+              background-color: $mc9;
+            }
+
+            &.tile-rounded {
+              @include rounded(0.5rem);
+
+              border: solid 0.2rem #000;
+            }
+
+            &.tile-wooden {
+              position: relative;
+
+              &::after {
+                @include sub-class;
+
+                position: absolute;
+                background-image: url("/images/wood.png");
+                background-size: cover;
+                opacity: 0.5;
+              }
+            }
+
+            &.tile-bnw {
+              filter: grayscale(1);
+            }
+          }
+        }
+
+        .screen {
+          @include flex(row, space-between, start, 0);
+
+          position: relative;
+          width: 10rem;
+          aspect-ratio: 16/9;
+          background-color: #000;
+          outline: solid 0.2rem $mc9;
+          border-radius: 1rem;
+          overflow: hidden;
+
+          .board {
+            @include abs-center;
+            @include square(3rem);
+
+            border-radius: 0.5rem;
+            overflow: hidden;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+
+            p {
+              &:nth-child(even) {
+                background-color: $mc0;
+              }
+
+              &:nth-child(odd) {
+                background-color: $mc9;
+              }
+            }
+          }
+
+          .lsb-o {
+            background-color: $gc8;
+            height: 100%;
+            width: 2.5rem;
+          }
+
+          .rsb-o {
+            background-color: $gc8;
+            height: 100%;
+            width: 2.5rem;
+          }
+
+          .lsb-h {
+            background-color: $gc8;
+            height: 100%;
+            width: 1rem;
+          }
+
+          .rsb-h {
+            background-color: $gc8;
+            height: 2.5rem;
+            width: 2.5rem;
+          }
+        }
+      }
+    }
+  }
+}

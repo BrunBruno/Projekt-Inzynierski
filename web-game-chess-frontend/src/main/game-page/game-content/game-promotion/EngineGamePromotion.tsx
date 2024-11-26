@@ -6,7 +6,7 @@ import { PieceColor } from "../../../../shared/utils/objects/entitiesEnums";
 import { getPieceName, piecePromotionMap } from "../../../../shared/utils/objects/piecesNameMaps";
 import classes from "./GamePromotion.module.scss";
 import { SelectionAction } from "../EngineGameContentStates";
-import { GetEngineGameDto } from "../../../../shared/utils/types/engineDtos";
+import { GetEngineGameDto } from "../../../../shared/utils/types/engineGameDtos";
 import {
   EngineGameStates,
   PieceOption,
@@ -52,7 +52,6 @@ function EngineGamePromotion({
     setSelectionStates({ type: "SET_PROMOTION_COOR", payload: null });
     setDisplayedWindow(GameWindowInterface.none);
   };
-  //*/
 
   return (
     <div className={classes.promotion}>
@@ -99,7 +98,6 @@ function EngineGamePromotion({
         ) : (
           <></>
         )}
-        {/* --- */}
       </div>
     </div>
   );

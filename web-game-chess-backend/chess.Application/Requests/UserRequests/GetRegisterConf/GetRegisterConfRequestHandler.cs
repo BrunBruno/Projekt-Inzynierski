@@ -1,7 +1,8 @@
-﻿using chess.Core.Enums;
+﻿
+using chess.Core.Enums;
 using MediatR;
 using chess.Shared.Exceptions;
-using chess.Application.Repositories;
+using chess.Application.Repositories.UserRepositories;
 
 namespace chess.Application.Requests.UserRequests.GetRegisterConf;
 
@@ -12,9 +13,9 @@ namespace chess.Application.Requests.UserRequests.GetRegisterConf;
 /// </summary>
 public class GetRegisterConfRequestHandler : IRequestHandler<GetRegisterConfRequest, GetRegisterConfDto> {
 
-    private readonly IDataConfigurationRepository _dataConfigurationRepository;
+    private readonly IUserDataConfigurationRepository _dataConfigurationRepository;
 
-    public GetRegisterConfRequestHandler(IDataConfigurationRepository dataConfigurationRepository) {
+    public GetRegisterConfRequestHandler(IUserDataConfigurationRepository dataConfigurationRepository) {
         _dataConfigurationRepository = dataConfigurationRepository;
     }
 

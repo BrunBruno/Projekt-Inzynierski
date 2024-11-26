@@ -7,6 +7,12 @@ using MediatR;
 
 namespace chess.Application.Requests.EngineRequests.MakeEngineGameMove;
 
+/// <summary>
+/// Gets game and checks if user is player
+/// Checks if game has not ended
+/// Updates game and game state
+/// Creates new move
+/// </summary>
 public class MakeEngineGameMoveRequestHandler : IRequestHandler<MakeEngineGameMoveRequest> {
 
     private readonly IUserContextService _userContextService;
@@ -30,33 +36,17 @@ public class MakeEngineGameMoveRequestHandler : IRequestHandler<MakeEngineGameMo
         var game = await _engineGameRepository.GetById(request.GameId)
             ?? throw new NotFoundException("Game not found.");
 
-        if (game.HasEnded)
-            throw new BadRequestException("Game is finished.");
-
         if(game.Player.UserId != userId)
             throw new UnauthorizedException("Not user game.");
 
-        // update times
-        /*
-        DateTime lastTimeRecorded = (game.Moves.Count == 0 ? game.StartedAt : game.Moves[^1].DoneAt)
-          ?? throw new BadRequestException("Game starting error.");
-
-        double timeDifference = (DateTime.UtcNow - lastTimeRecorded).TotalSeconds;
-
-        if (game.Turn % 2 == 0) {
-            game.WhitePlayer.TimeLeft -= timeDifference;
-            game.WhitePlayer.TimeLeft += game.GameTiming.Increment;
-        } else {
-            game.BlackPlayer.TimeLeft -= timeDifference;
-            game.BlackPlayer.TimeLeft += game.GameTiming.Increment;
-        }
-        */
-
+        if (game.HasEnded)
+            throw new BadRequestException("Game is finished.");
+        
 
         // update states
         game.CurrentState.EnPassant = request.EnPassant;
         if (game.CurrentState.CanWhiteKingCastle)
-            game.CurrentState.CanWhiteKingCastle = !request.WhitekingMoved;
+            game.CurrentState.CanWhiteKingCastle = !request.WhiteKingMoved;
         if (game.CurrentState.CanWhiteShortRookCastle)
             game.CurrentState.CanWhiteShortRookCastle = !request.WhiteShortRookMoved;
         if (game.CurrentState.CanWhiteLongRookCastle)
@@ -74,7 +64,10 @@ public class MakeEngineGameMoveRequestHandler : IRequestHandler<MakeEngineGameMo
         game.Round = (game.Turn / 2) + 1;
         game.Turn += 1;
 
-        var playerMove = new EngineGameMove()
+        if(request.Move[0] == 'p' || request.Move[0] == 'P') game.CurrentState.HalfMove = 0;
+        else game.CurrentState.HalfMove += 1;
+
+        var move = new EngineGameMove()
         {
             Id = Guid.NewGuid(),
             DoneMove = request.Move,
@@ -84,13 +77,11 @@ public class MakeEngineGameMoveRequestHandler : IRequestHandler<MakeEngineGameMo
             NewCoordinates = request.NewCoor,
             Turn = game.Turn,
             CapturedPiece = request.CapturedPiece,
-            //WhiteTime = game.WhitePlayer.TimeLeft,
-            //BlackTime = game.BlackPlayer.TimeLeft,
             GameId = game.Id,
         };
 
 
-        await _engineGameMoveRepository.Create(playerMove);
+        await _engineGameMoveRepository.Create(move);
         await _engineGameRepository.Update(game);
     }
 }

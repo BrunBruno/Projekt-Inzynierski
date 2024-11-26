@@ -1,4 +1,5 @@
-﻿using chess.Application.Repositories.FriendshipRepositories;
+﻿
+using chess.Application.Repositories.FriendshipRepositories;
 using chess.Application.Repositories.UserRepositories;
 using chess.Application.Requests.FriendshipRequests.GetAllFriendsByStatus;
 using chess.Application.Services;

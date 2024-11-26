@@ -1,8 +1,8 @@
 import axios from "axios";
 import classes from "./Invitations.module.scss";
-import { GetAllInvitationsDto } from "../../../shared/utils/types/gameDtos";
+import { GetAllInvitationsDto } from "../../../shared/utils/types/webGameDtos";
 import { webGameController, getAuthorization } from "../../../shared/utils/services/ApiService";
-import { GetAllInvitationsModel } from "../../../shared/utils/types/gameModels";
+import { GetAllInvitationsModel } from "../../../shared/utils/types/webGameModels";
 import { useEffect, useRef, useState } from "react";
 import InvitationCard from "./invitation-card/InvitationCard";
 import LoadingPage from "../../../shared/components/loading-page/LoadingPage";
@@ -44,19 +44,19 @@ function Invitations({}: InvitationsProps) {
 
   // to get all awaiting and expired invitations
   const getInvitations = async (): Promise<void> => {
-    try {
-      const invitationsModel: GetAllInvitationsModel = {
-        pageNumber: pageNumber,
-        pageSize: pageSize,
-        expirationFilters: expirationFilters,
-      };
+    const model: GetAllInvitationsModel = {
+      pageNumber: pageNumber,
+      pageSize: pageSize,
+      expirationFilters: expirationFilters,
+    };
 
-      const invitationsResponse = await axios.get<PagedResult<GetAllInvitationsDto>>(
-        webGameController.getAllInvitations(invitationsModel),
+    try {
+      const response = await axios.get<PagedResult<GetAllInvitationsDto>>(
+        webGameController.getAllInvitations(model),
         getAuthorization()
       );
 
-      setInvitations(invitationsResponse.data);
+      setInvitations(response.data);
     } catch (err) {
       showPopup(getErrMessage(err), "warning");
     }
@@ -66,10 +66,10 @@ function Invitations({}: InvitationsProps) {
     getInvitations();
   };
 
+  // handle pagination
   useEffect(() => {
     updateInvitations();
   }, [pageSize, pageNumber, expirationFilters]);
-  //*/
 
   // to update invitation when new one was recently received
   useEffect(() => {
@@ -83,7 +83,6 @@ function Invitations({}: InvitationsProps) {
       }
     };
   }, []);
-  //*/
 
   // increase page size on scroll
   const handleListOnScroll = (): void => {
@@ -98,7 +97,6 @@ function Invitations({}: InvitationsProps) {
       }
     }
   };
-  //*/
 
   // to display filters
   const onShowFilters = (): void => {
@@ -106,7 +104,6 @@ function Invitations({}: InvitationsProps) {
       setShowFilters((prev: boolean) => !prev);
     }
   };
-  //*/
 
   return (
     <div className={classes.invitations}>
@@ -170,7 +167,7 @@ function Invitations({}: InvitationsProps) {
       )}
 
       {showFilters && (
-        <InvitationsFilters expirationFilters={expirationFilters} setExpirationFilters={setExpirationFilters} />
+        <InvitationsFilters expirationFiltersProps={{ get: expirationFilters, set: setExpirationFilters }} />
       )}
     </div>
   );

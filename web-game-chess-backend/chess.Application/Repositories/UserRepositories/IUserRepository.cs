@@ -10,22 +10,6 @@ namespace chess.Application.Repositories.UserRepositories;
 public interface IUserRepository {
 
     /// <summary>
-    /// Gets all users, that have not established relationship with current user
-    /// </summary>
-    /// <param name="ids"></param>
-    /// <param name="userId"></param>
-    /// <returns></returns>
-    Task<List<User>> GetAllNonFriends(List<Guid> ids, Guid userId);
-
-    /// <summary>
-    /// Gets all users, that have established relationship with current user
-    /// </summary>
-    /// <param name="ids"></param>
-    /// <param name="userId"></param>
-    /// <returns></returns>
-    Task<List<User>> GetAllFriends(List<Guid> ids, Guid userId);
-
-    /// <summary>
     /// Get user by id
     /// </summary>
     /// <param name="id"></param>
@@ -55,13 +39,29 @@ public interface IUserRepository {
     Task<User?> GetByEmailOrUsername(string value);
 
     /// <summary>
+    /// Gets all users, that have not established relationship with current user
+    /// </summary>
+    /// <param name="ids"></param>
+    /// <param name="userId"></param>
+    /// <returns></returns>
+    Task<List<User>> GetAllNonFriends(List<Guid> ids, Guid userId);
+
+    /// <summary>
+    /// Gets all users, that have established relationship with current user
+    /// </summary>
+    /// <param name="ids"></param>
+    /// <param name="userId"></param>
+    /// <returns></returns>
+    Task<List<User>> GetAllFriends(List<Guid> ids, Guid userId);
+
+    /// <summary>
     /// To get all users that joined today
     /// </summary>
     /// <returns></returns>
     Task<List<User>> GetAllJoinedToday();
 
     /// <summary>
-    /// 
+    /// Tp get users ranking
     /// </summary>
     /// <param name="type"></param>
     /// <returns></returns>

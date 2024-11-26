@@ -19,7 +19,6 @@ function MainPopUp(): JSX.Element {
       clearTimeout(timeout);
     };
   }, [popupContent]);
-  //*/
 
   if (!popupType) return <></>;
 

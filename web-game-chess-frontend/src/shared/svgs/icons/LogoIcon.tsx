@@ -1,4 +1,5 @@
 import { generateRandomId } from "../../utils/functions/random";
+import { mainColor } from "../../utils/objects/colorMaps";
 import { IconSvgProps } from "../../utils/types/commonTypes";
 
 function LogoIcon({ iconClass }: IconSvgProps): JSX.Element {
@@ -42,17 +43,17 @@ function LogoIcon({ iconClass }: IconSvgProps): JSX.Element {
           <stop offset="1" stopColor="#898399" />
         </linearGradient>
         <linearGradient id={defsIds.id2} x1="750" y1="0" x2="750" y2="500" gradientUnits="userSpaceOnUse">
-          <stop stopColor="#6741D9" />
-          <stop offset="1" stopColor="#372273" />
+          <stop stopColor={mainColor.c6} />
+          <stop offset="1" stopColor={mainColor.c9} />
         </linearGradient>
         <linearGradient id={defsIds.id3} x1="250" y1="500" x2="250" y2="1000" gradientUnits="userSpaceOnUse">
-          <stop stopColor="#6741D9" />
-          <stop offset="1" stopColor="#372273" />
+          <stop stopColor={mainColor.c6} />
+          <stop offset="1" stopColor={mainColor.c9} />
         </linearGradient>
         <linearGradient id={defsIds.id4} x1="250" y1="-150" x2="250" y2="350" gradientUnits="userSpaceOnUse">
-          <stop offset="0.50235" stopColor="#5F3DC4" />
-          <stop offset="1" stopColor="#2E1D5E" />
-          <stop offset="1" stopColor="#2E1D5E" />
+          <stop offset="0.50235" stopColor={mainColor.c8} />
+          <stop offset="1" stopColor={mainColor.c9} />
+          <stop offset="1" stopColor={mainColor.c9} />
         </linearGradient>
         <linearGradient id={defsIds.id5} x1="750" y1="-150" x2="750" y2="350" gradientUnits="userSpaceOnUse">
           <stop offset="0.497751" stopColor="#E5DBFF" />

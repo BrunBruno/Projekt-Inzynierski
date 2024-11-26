@@ -1,7 +1,5 @@
-﻿
-using chess.Application.Repositories;
-using chess.Application.Repositories.WebGameRepositories;
-using chess.Application.Requests.WebGameRequests.StartGames;
+﻿using chess.Application.Repositories.WebGameRepositories;
+using chess.Application.Requests.WebGameRequests.StartWebGames;
 using chess.Core.Entities;
 using chess.Core.Enums;
 using chess.Shared.Exceptions;
@@ -14,14 +12,14 @@ public class StartWebGamesRequestHandlerTests {
 
     private readonly Mock<IWebGamePlayerRepository> _mockPlayerRepository;
     private readonly Mock<IWebGameRepository> _mockGameRepository;
-    private readonly Mock<IGameTimingRepository> _mockGameTimingRepository;
+    private readonly Mock<IWebGameTimingRepository> _mockGameTimingRepository;
     private readonly Mock<IWebGameStateRepository> _mockGameStateRepository;
     private static readonly Random random = new();
 
     public StartWebGamesRequestHandlerTests() {
         _mockPlayerRepository = new Mock<IWebGamePlayerRepository>();
         _mockGameRepository = new Mock<IWebGameRepository>();
-        _mockGameTimingRepository = new Mock<IGameTimingRepository>();
+        _mockGameTimingRepository = new Mock<IWebGameTimingRepository>();
         _mockGameStateRepository = new Mock<IWebGameStateRepository>();
     }
 
@@ -31,7 +29,7 @@ public class StartWebGamesRequestHandlerTests {
         var timingId = Guid.NewGuid();
         var players = CreateAwaitingPlayers(timingId);
 
-        var gameTiming = new GameTiming()
+        var gameTiming = new WebGameTiming()
         {
             Id = timingId,
             Type = TimingTypes.Classic,
@@ -39,7 +37,7 @@ public class StartWebGamesRequestHandlerTests {
             Increment = 0,
         };
 
-        var request = new StartGamesRequest()
+        var request = new StartWebGamesRequest()
         {
             TimingId = timingId,
         };
@@ -49,7 +47,7 @@ public class StartWebGamesRequestHandlerTests {
         _mockPlayerRepository.Setup(x => x.GetAllAvailablePlayersForTiming(timingId)).ReturnsAsync(players);
 
 
-        var handler = new StartGamesRequestHandler(
+        var handler = new StartWebGamesRequestHandler(
             _mockGameRepository.Object,
             _mockPlayerRepository.Object,
             _mockGameStateRepository.Object,
@@ -70,7 +68,7 @@ public class StartWebGamesRequestHandlerTests {
 
         var timingId = Guid.NewGuid();
 
-        var request = new StartGamesRequest()
+        var request = new StartWebGamesRequest()
         {
             TimingId = timingId,
         };
@@ -79,7 +77,7 @@ public class StartWebGamesRequestHandlerTests {
         // game timing not returned
 
 
-        var handler = new StartGamesRequestHandler(
+        var handler = new StartWebGamesRequestHandler(
             _mockGameRepository.Object,
             _mockPlayerRepository.Object,
             _mockGameStateRepository.Object,

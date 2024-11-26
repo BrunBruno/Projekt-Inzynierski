@@ -1,6 +1,6 @@
 import { useEffect, useRef } from "react";
 import classes from "./LastGameCard.module.scss";
-import { GetAllFinishedGamesDto } from "../../../../../shared/utils/types/gameDtos";
+import { GetAllFinishedGamesDto } from "../../../../../shared/utils/types/webGameDtos";
 import { PlayerDto } from "../../../../../shared/utils/types/abstractDtosAndModels";
 import AvatarImage from "../../../../../shared/components/avatar-image/AvatarImage";
 import IconCreator from "../../../../../shared/components/icon-creator/IconCreator";
@@ -41,10 +41,9 @@ function LastGameCard({ game }: LastGameCardProps) {
       window.removeEventListener("resize", resizeCard);
     };
   }, []);
-  //*/
 
   // display players based on user player color
-  const displayPlayer = (game: GetAllFinishedGamesDto): JSX.Element => {
+  const displayPlayers = (game: GetAllFinishedGamesDto): JSX.Element => {
     const userInfo = localStorage.getItem("userInfo");
 
     if (!userInfo) return <></>;
@@ -144,7 +143,6 @@ function LastGameCard({ game }: LastGameCardProps) {
 
     return <></>;
   };
-  //*/
 
   // create board from game position
   const mapFromPosition = (position: string): JSX.Element[] => {
@@ -196,13 +194,17 @@ function LastGameCard({ game }: LastGameCardProps) {
 
     return fields;
   };
-  //*/
 
   return (
     <div ref={cardRef} className={classes.card}>
       <div ref={gridRef} className={`${classes["mini-grid"]}`}>
+        {/* bg board */}
         {mapFromPosition(game.position)}
-        {displayPlayer(game)}
+
+        {/* players */}
+        {displayPlayers(game)}
+
+        {/* played at */}
         <div className={classes.date}>{new Date(game.createdAt).toLocaleDateString()}</div>
       </div>
     </div>

@@ -1,4 +1,5 @@
-﻿using chess.Application.Repositories.WebGameRepositories;
+﻿
+using chess.Application.Repositories.WebGameRepositories;
 using chess.Application.Requests.WebGameRequests.GetAllFinishedGames;
 using chess.Application.Services;
 using chess.Core.Entities;
@@ -102,8 +103,6 @@ public class GetAllFinishedGamesRequestHandlerTests {
                 EndedAt = DateTime.UtcNow.AddMinutes(-10),
                 WinnerColor = PieceColor.White,
                 TimingType = TimingTypes.Classic,
-                WhitePlayerRegistered = true,
-                BlackPlayerRegistered = true,
 
                 WhitePlayer = whitePlayer,
                 BlackPlayer = blackPlayer,

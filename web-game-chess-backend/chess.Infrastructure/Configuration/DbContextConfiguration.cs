@@ -13,10 +13,10 @@ public class DbContextConfiguration :
     IEntityTypeConfiguration<User>,
     IEntityTypeConfiguration<Role>,
     IEntityTypeConfiguration<UserVerificationCode>,
-    IEntityTypeConfiguration<Core.Entities.DataConfiguration>,
+    IEntityTypeConfiguration<UserDataConfiguration>,
     IEntityTypeConfiguration<UserBan>,
     IEntityTypeConfiguration<WebGame>,
-    IEntityTypeConfiguration<GameTiming>,
+    IEntityTypeConfiguration<WebGameTiming>,
     IEntityTypeConfiguration<WebGameState>,
     IEntityTypeConfiguration<WebGamePlayer>,
     IEntityTypeConfiguration<WebGameMove>,
@@ -26,12 +26,15 @@ public class DbContextConfiguration :
     IEntityTypeConfiguration<WebGameMessage>,
     IEntityTypeConfiguration<UserStats>,
     IEntityTypeConfiguration<WebGameInvitation>,
-    IEntityTypeConfiguration<UserImage>,
+    IEntityTypeConfiguration<UserProfileImage>,
     IEntityTypeConfiguration<EngineGame>,
     IEntityTypeConfiguration<EngineGamePlayer>,
     IEntityTypeConfiguration<EngineGameMove>,
     IEntityTypeConfiguration<EngineGameState>,
-    IEntityTypeConfiguration<EngineGameMessage>
+    IEntityTypeConfiguration<EngineGameMessage>,
+    IEntityTypeConfiguration<UserBackgroundImage>,
+    IEntityTypeConfiguration<UserSettings>,
+    IEntityTypeConfiguration<FriendshipStats>
 {
 
     public void Configure(EntityTypeBuilder<User> builder) {
@@ -62,7 +65,7 @@ public class DbContextConfiguration :
             .HasForeignKey<UserVerificationCode>(evc => evc.UserId);
     }
 
-    public void Configure(EntityTypeBuilder<Core.Entities.DataConfiguration> builder) {
+    public void Configure(EntityTypeBuilder<Core.Entities.UserDataConfiguration> builder) {
         builder
             .HasKey(dc => dc.Id);
 
@@ -100,7 +103,7 @@ public class DbContextConfiguration :
             .HasForeignKey(g => g.GameTimingId);
     }
 
-    public void Configure(EntityTypeBuilder<GameTiming> builder) {
+    public void Configure(EntityTypeBuilder<WebGameTiming> builder) {
         builder
             .HasKey(gt => gt.Id);
     }
@@ -200,14 +203,24 @@ public class DbContextConfiguration :
             .HasForeignKey<WebGameInvitation>(i => i.GameId);
     }
 
-    public void Configure(EntityTypeBuilder<UserImage> builder) {
+    public void Configure(EntityTypeBuilder<UserProfileImage> builder) {
         builder
             .HasKey(ui => ui.Id);
 
         builder
-            .HasOne(ui => ui.User)
-            .WithOne(u => u.Image)
-            .HasForeignKey<UserImage>(ui => ui.UserId);
+           .HasOne(ui => ui.User)
+           .WithOne(u => u.Image)
+           .HasForeignKey<UserProfileImage>(ui => ui.UserId);
+    }
+
+    public void Configure(EntityTypeBuilder<UserBackgroundImage> builder) {
+        builder
+            .HasKey(ui => ui.Id);
+
+        builder
+           .HasOne(ui => ui.User)
+           .WithOne(u => u.Background)
+           .HasForeignKey<UserBackgroundImage>(ui => ui.UserId);
     }
 
     public void Configure(EntityTypeBuilder<EngineGame> builder) {
@@ -260,6 +273,26 @@ public class DbContextConfiguration :
             .HasForeignKey(egm => egm.GameId);
     }
 
+    public void Configure(EntityTypeBuilder<UserSettings> builder) {
+        builder
+            .HasKey(us => us.Id);
+
+        builder
+            .HasOne(us => us.User)
+            .WithOne(u => u.Settings)
+            .HasForeignKey<UserSettings>(us => us.UserId);
+    }
+
+    public void Configure(EntityTypeBuilder<FriendshipStats> builder) {
+        builder
+            .HasKey(fs => fs.Id);
+
+        builder
+            .HasOne(fs => fs.Friendship)
+            .WithOne(f => f.Stats)
+            .HasForeignKey<FriendshipStats>(fs => fs.FreindshipId);
+    }
+
     private static IEnumerable<Role> GetRoles() {
 
         var roles = new List<Role> 
@@ -280,8 +313,8 @@ public class DbContextConfiguration :
         return roles;
     }
 
-    private static IEnumerable<Core.Entities.DataConfiguration> GetConfiguration() {
-        var configurations = new List<Core.Entities.DataConfiguration>
+    private static IEnumerable<Core.Entities.UserDataConfiguration> GetConfiguration() {
+        var configurations = new List<Core.Entities.UserDataConfiguration>
         {
             new()
             {

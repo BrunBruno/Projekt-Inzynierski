@@ -42,7 +42,6 @@ const LearnBlocks = ({}: LearnBlocksProps) => {
   };
 
   const sectionBlocks: SectionBlock[] = sectionData.map((data) => generateSectionBlock(data));
-  //*/
 
   // create learn section icons
   const createIcon = (iconName: string, ref: RefObject<HTMLDivElement>): JSX.Element => {
@@ -115,7 +114,6 @@ const LearnBlocks = ({}: LearnBlocksProps) => {
         return <></>;
     }
   };
-  //*/
 
   // to observe blocks
   useEffect(() => {
@@ -162,7 +160,6 @@ const LearnBlocks = ({}: LearnBlocksProps) => {
       lineObserver.disconnect();
     };
   }, [sectionBlocks]);
-  //*/
 
   // for counter animation
   const incrementCount = (currentCount: number): void => {
@@ -173,7 +170,6 @@ const LearnBlocks = ({}: LearnBlocksProps) => {
       }, 10);
     }
   };
-  //*/
 
   return (
     <div className={classes.zpattern}>
@@ -243,7 +239,6 @@ const LearnBlocks = ({}: LearnBlocksProps) => {
           </div>
         )
       )}
-      {/* --- */}
     </div>
   );
 };

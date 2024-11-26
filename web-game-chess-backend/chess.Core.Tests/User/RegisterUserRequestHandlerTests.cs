@@ -1,4 +1,5 @@
-﻿using chess.Application.Repositories.UserRepositories;
+﻿
+using chess.Application.Repositories.UserRepositories;
 using chess.Application.Requests.UserRequests.RegisterUser;
 using chess.Application.Services;
 using chess.Core.Entities;

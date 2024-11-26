@@ -1,5 +1,5 @@
 import { useEffect, useRef } from "react";
-import { GetAllActiveGamesDto } from "../../../../../shared/utils/types/gameDtos";
+import { GetAllActiveGamesDto } from "../../../../../shared/utils/types/webGameDtos";
 import AvatarImage from "../../../../../shared/components/avatar-image/AvatarImage";
 import classes from "./OngoingGameCard.module.scss";
 import { PlayerDto } from "../../../../../shared/utils/types/abstractDtosAndModels";
@@ -41,10 +41,9 @@ function OngoingGameCard({ game }: OngoingGameCardProps) {
       window.removeEventListener("resize", resizeCard);
     };
   }, []);
-  //*/
 
   // display players based on user player color
-  const displayPlayer = (game: GetAllActiveGamesDto): JSX.Element => {
+  const displayPlayers = (game: GetAllActiveGamesDto): JSX.Element => {
     const userInfo = localStorage.getItem("userInfo");
 
     if (!userInfo) return <></>;
@@ -94,7 +93,6 @@ function OngoingGameCard({ game }: OngoingGameCardProps) {
 
     return <></>;
   };
-  //*/
 
   // create board from game position
   const mapFromPosition = (position: string): JSX.Element[] => {
@@ -146,13 +144,17 @@ function OngoingGameCard({ game }: OngoingGameCardProps) {
 
     return fields;
   };
-  //*/
 
   return (
     <div ref={cardRef} className={classes.card}>
       <div ref={gridRef} className={`${classes["mini-grid"]}`}>
+        {/* bg board */}
         {mapFromPosition(game.position)}
-        {displayPlayer(game)}
+
+        {/* players */}
+        {displayPlayers(game)}
+
+        {/* played at */}
         <div className={classes.date}>{new Date(game.createdAt).toLocaleDateString()}</div>
       </div>
     </div>

@@ -1,4 +1,5 @@
 ﻿
+using chess.Application.Repositories.UserRepositories;
 using chess.Application.Repositories.WebGameRepositories;
 using chess.Application.Requests.WebGameRequests.GetWebGame;
 using chess.Application.Services;
@@ -13,10 +14,12 @@ public class GetWebGameRequestHandlerTests {
 
     private readonly Mock<IUserContextService> _mockUserContextService;
     private readonly Mock<IWebGameRepository> _mockGameRepository;
+    private readonly Mock<IUserSettingsRepository> _mockUserSettingsRepository;
 
     public GetWebGameRequestHandlerTests() {
         _mockUserContextService = new Mock<IUserContextService>();
         _mockGameRepository = new Mock<IWebGameRepository>();
+        _mockUserSettingsRepository = new Mock<IUserSettingsRepository>();
     }
 
 
@@ -38,9 +41,6 @@ public class GetWebGameRequestHandlerTests {
         var game = new Entities.WebGame()
         {
             Id = gameId,
-
-            WhitePlayerRegistered = true,
-            BlackPlayerRegistered = true,
             StartedAt = DateTime.UtcNow,
 
             WhitePlayer = new WebGamePlayer()
@@ -80,7 +80,8 @@ public class GetWebGameRequestHandlerTests {
 
         var handler = new GetWebGameRequestHandler(
             _mockGameRepository.Object,
-            _mockUserContextService.Object
+            _mockUserContextService.Object,
+            _mockUserSettingsRepository.Object
         );
 
         var result = await handler.Handle(request, CancellationToken.None);
@@ -113,9 +114,6 @@ public class GetWebGameRequestHandlerTests {
         var game = new Entities.WebGame()
         {
             Id = gameId,
-
-            WhitePlayerRegistered = true,
-            BlackPlayerRegistered = true,
             // game not started
 
             WhitePlayer = new WebGamePlayer()
@@ -156,7 +154,8 @@ public class GetWebGameRequestHandlerTests {
 
         var handler = new GetWebGameRequestHandler(
             _mockGameRepository.Object,
-            _mockUserContextService.Object
+            _mockUserContextService.Object,
+            _mockUserSettingsRepository.Object
         );
 
         var result = await handler.Handle(request, CancellationToken.None);
@@ -189,7 +188,8 @@ public class GetWebGameRequestHandlerTests {
 
         var handler = new GetWebGameRequestHandler(
             _mockGameRepository.Object,
-            _mockUserContextService.Object
+            _mockUserContextService.Object,
+            _mockUserSettingsRepository.Object
         );
 
         var act = () => handler.Handle(request, CancellationToken.None);
@@ -220,8 +220,6 @@ public class GetWebGameRequestHandlerTests {
         {
             Id = gameId,
 
-            WhitePlayerRegistered = true,
-            BlackPlayerRegistered = true,
             WhitePlayer = new WebGamePlayer()
             {
                 Name = "Other",
@@ -248,7 +246,8 @@ public class GetWebGameRequestHandlerTests {
 
         var handler = new GetWebGameRequestHandler(
             _mockGameRepository.Object,
-            _mockUserContextService.Object
+            _mockUserContextService.Object,
+            _mockUserSettingsRepository.Object
         );
 
         var act = () => handler.Handle(request, CancellationToken.None);

@@ -19,9 +19,32 @@
 
     .element {
       @include circle(5rem);
-      @include flex();
+      @include flex;
 
       position: relative;
+
+      .nav-icon {
+        height: 4rem;
+      }
+
+      span.ind {
+        @include rounded(0.6rem);
+
+        position: absolute;
+        right: 100%;
+        white-space: nowrap;
+        font-size: 1.4rem;
+        background-color: $gc9;
+        border-left: solid 0.2rem $gc0;
+        opacity: 0;
+        transition: opacity 0.3s;
+        pointer-events: none;
+      }
+
+      p {
+        // placeholder
+        display: block;
+      }
 
       &:hover {
         cursor: pointer;
@@ -36,51 +59,27 @@
       }
 
       &::after {
-        @include subCl();
-        @include absCenter();
+        @include sub-class;
+        @include abs-center;
 
         z-index: -1;
         border-radius: 100%;
         filter: blur(1rem);
-
         transform: translate(-50%, -50%) scale(0.8);
         transition: all 0.3s;
-      }
-
-      .nav-icon {
-        height: 4rem;
-      }
-
-      span.ind {
-        @include rounded(0.6rem);
-
-        position: absolute;
-        right: 100%;
-
-        white-space: nowrap;
-        font-size: 1.4rem;
-        background-color: $gc9;
-        border-left: solid 0.2rem $gc0;
-        opacity: 0;
-
-        transition: opacity 0.3s;
-      }
-
-      p {
-        // placeholder
-        display: block;
       }
     }
   }
 }
-//*/
 
 // resize
-@media (max-width: 700px) {
+@media (width <= 700px) {
   .nav {
-    width: 100% !important;
+    width: 100vw;
     height: 6rem;
     padding: 0 2rem;
+    right: unset;
+    left: 0;
 
     &__elements {
       width: 100%;
@@ -88,11 +87,9 @@
 
       .element {
         span.ind {
-          right: unset;
-          top: 100%;
+          display: none;
         }
       }
     }
   }
 }
-//*/

@@ -1,6 +1,6 @@
 ﻿
 using chess.Api.Tests.User;
-using chess.Application.Requests.WebGameRequests.CheckIfUpdateRequired;
+using chess.Application.Requests.WebGameRequests.CheckIfUpdateOnPrivateGameRequired;
 using chess.Core.Models;
 using chess.Core.Enums;
 using chess.Infrastructure.Contexts;
@@ -11,13 +11,13 @@ using System.Net;
 
 namespace chess.Api.Tests.WebGame;
 
-public class CheckIfUpdateRequiredTests : IClassFixture<TestWebApplicationFactory<Program>> {
+public class CheckIfUpdateOnPrivateGameRequiredTests : IClassFixture<TestWebApplicationFactory<Program>> {
 
     private readonly HttpClient _client;
     private readonly TestWebApplicationFactory<Program> _factory;
     private readonly ChessAppDbContext _dbContext;
 
-    public CheckIfUpdateRequiredTests() {
+    public CheckIfUpdateOnPrivateGameRequiredTests() {
         _factory = new TestWebApplicationFactory<Program>();
 
         _client = _factory.CreateClient();
@@ -31,7 +31,7 @@ public class CheckIfUpdateRequiredTests : IClassFixture<TestWebApplicationFactor
     }
 
     [Fact]
-    public async Task CheckIfUpdateRequired_Returns_IsRequired_On_Success() {
+    public async Task CheckIfUpdateOnPrivateGameRequired_Returns_IsRequired_On_Success() {
 
         await _dbContext.Init();
         await _dbContext.AddUser();
@@ -55,7 +55,7 @@ public class CheckIfUpdateRequiredTests : IClassFixture<TestWebApplicationFactor
         response.StatusCode.Should().Be(HttpStatusCode.OK);
 
 
-        var result = JsonConvert.DeserializeObject<CheckIfUpdateRequiredDto>(await response.Content.ReadAsStringAsync());
+        var result = JsonConvert.DeserializeObject<CheckIfUpdateOnPrivateGameRequiredDto>(await response.Content.ReadAsStringAsync());
         result.IsRequired.Should().Be(true);
         result.Type.Should().Be(TimingTypes.Classic);
     }
@@ -65,7 +65,7 @@ public class CheckIfUpdateRequiredTests : IClassFixture<TestWebApplicationFactor
     /// </summary>
     /// <returns></returns>
     [Fact]
-    public async Task CheckIfUpdateRequired_Returns_NotFound_On_Fail() {
+    public async Task CheckIfUpdateOnPrivateGameRequired_Returns_NotFound_On_Fail() {
 
         await _dbContext.Init();
         await _dbContext.AddUser();

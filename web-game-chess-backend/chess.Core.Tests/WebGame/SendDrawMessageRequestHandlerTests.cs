@@ -1,4 +1,5 @@
-﻿using chess.Application.Repositories.WebGameRepositories;
+﻿
+using chess.Application.Repositories.WebGameRepositories;
 using chess.Application.Requests.WebGameRequests.SendDrawMessage;
 using chess.Application.Services;
 using chess.Core.Entities;
@@ -30,8 +31,7 @@ public class SendDrawMessageRequestHandlerTests {
         var game = new Entities.WebGame()
         {
             Id = gameId,
-            WhitePlayerRegistered = true,
-            BlackPlayerRegistered = true,
+
 
             WhitePlayerId = Guid.NewGuid(),
             WhitePlayer = new WebGamePlayer()
@@ -118,8 +118,7 @@ public class SendDrawMessageRequestHandlerTests {
         var game = new Entities.WebGame()
         {
             Id = gameId,
-            WhitePlayerRegistered = true,
-            BlackPlayerRegistered = true,
+        
 
             WhitePlayerId = Guid.NewGuid(),
             WhitePlayer = new WebGamePlayer()
@@ -178,9 +177,7 @@ public class SendDrawMessageRequestHandlerTests {
         var game = new Entities.WebGame()
         {
             Id = gameId,
-            WhitePlayerRegistered = true,
-            BlackPlayerRegistered = true,
-
+            
             WhitePlayerId = Guid.NewGuid(),
             WhitePlayer = new WebGamePlayer()
             {

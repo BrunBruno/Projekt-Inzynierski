@@ -1,6 +1,7 @@
 ﻿
 using AutoMapper;
 using chess.Api.Models.UserModels;
+using chess.Application.Requests.UserRequests.ChangePassword;
 using chess.Application.Requests.UserRequests.GetByEmail;
 using chess.Application.Requests.UserRequests.GetRegisterConf;
 using chess.Application.Requests.UserRequests.GetUsersRanking;
@@ -10,6 +11,8 @@ using chess.Application.Requests.UserRequests.RegisterUser;
 using chess.Application.Requests.UserRequests.ResetPassword;
 using chess.Application.Requests.UserRequests.SendResetPasswordCode;
 using chess.Application.Requests.UserRequests.UpdateProfile;
+using chess.Application.Requests.UserRequests.UpdateUserData;
+using chess.Application.Requests.UserRequests.UpdateUserSettings;
 using chess.Application.Requests.UserRequests.VerifyEmail;
 
 namespace chess.Api.Maps.MappingProfiles;
@@ -31,5 +34,8 @@ public class UserMappingProfile : Profile {
 		CreateMap<ResetPasswordModel, ResetPasswordRequest>();
 		CreateMap<SendResetPasswordCodeModel, SendResetPasswordCodeRequest>();
 		CreateMap<GetUsersRankingModel, GetUsersRankingRequest>();
+		CreateMap<ChangePasswordModel, ChangePasswordRequest>();
+		CreateMap<UpdateUserDataModel, UpdateUserDataRequest>();
+		CreateMap<UpdateUserSettingsModel, UpdateUserSettingsRequest>();
 	}
 }

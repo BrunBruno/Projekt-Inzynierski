@@ -1,4 +1,5 @@
-﻿using chess.Application.Repositories.UserRepositories;
+﻿
+using chess.Application.Repositories.UserRepositories;
 using chess.Application.Services;
 using chess.Core.Entities;
 using chess.Shared.Exceptions;
@@ -39,7 +40,7 @@ public class UpdateProfileRequestHandler : IRequestHandler<UpdateProfileRequest>
 
             await request.ImageFile.CopyToAsync(memoryStream, cancellationToken);
 
-            var profilePicture = new UserImage
+            var profilePicture = new UserProfileImage
             {
                 Data = memoryStream.ToArray(),
                 ContentType = request.ImageFile.ContentType,
@@ -47,6 +48,25 @@ public class UpdateProfileRequestHandler : IRequestHandler<UpdateProfileRequest>
             };
 
             user.Image = profilePicture;
+        } else if (request.ClearImage) {
+            user.Image = null;
+        }
+
+        if (request.BackgroundFile is not null) {
+            using var memoryStream = new MemoryStream();
+
+            await request.BackgroundFile.CopyToAsync(memoryStream, cancellationToken);
+
+            var backgroundImage = new UserBackgroundImage
+            {
+                Data = memoryStream.ToArray(),
+                ContentType = request.BackgroundFile.ContentType,
+                UserId = user.Id,
+            };
+
+            user.Background = backgroundImage;
+        } else if (request.ClearBackground) {
+            user.Background = null;
         }
 
 

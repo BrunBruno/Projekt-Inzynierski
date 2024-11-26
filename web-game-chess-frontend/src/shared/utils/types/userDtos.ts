@@ -1,7 +1,7 @@
 /* user controller dtos */
 
 import { Guid } from "guid-typescript";
-import { EloDto, UserDto, GameOutcomeDto } from "./abstractDtosAndModels";
+import { EloDto, UserDto, GameOutcomeDto, UserImage, GameSettingsDto } from "./abstractDtosAndModels";
 
 export type GetRegisterConfDto = {
   minLength: number | null;
@@ -28,10 +28,16 @@ export type IsEmailVerifiedDto = {
 export type GetEloDto = EloDto & {};
 
 export type GetFullUserDto = UserDto & {
+  isPrivate: boolean;
   email: string;
   joinDate: Date;
   bio: string | null;
-  outcomeTotal: GameOutcomeDto;
+
+  onlineOutcomeTotal: GameOutcomeDto;
+  offlineOutcomeTotal: GameOutcomeDto;
+  timingTypeGamesPlayed: EloDto;
+  settings: GameSettingsDto;
+
   winsByCheckMate: number;
   winsByTimeout: number;
   winsByResignation: number;
@@ -49,6 +55,7 @@ export type GetOtherUserDto = UserDto & {
   joinDate: Date;
   bio: string | null;
   gamesPlayed: number;
+
   elo: EloDto;
 };
 
@@ -57,5 +64,8 @@ export type GetUserRankingDto = {
   username: string;
   elo: number;
   gamesPlayed: number;
-  ratio: string;
+  typeGamesPlayed: number;
+  gamesRatio: string;
+  isUser: boolean;
+  profile: UserImage | null;
 };

@@ -2,21 +2,18 @@
 
 // index page container
 .home-main {
-  @include gridBg();
+  @include grid-bg;
 
   width: 100vw;
   max-width: 160rem;
   margin: auto;
   overflow: hidden;
 }
-//*/
 
 // observe pointer for observers work
 .observe {
   position: absolute;
   z-index: 999;
   width: 0;
-
   transform: translateY(50rem);
 }
-//*/

@@ -38,7 +38,6 @@ function IntroBackgroundSection({}: IntroBackgroundSectionProps) {
       };
     }
   }, []);
-  //*/
 
   return (
     <section ref={backgroundRef} className={`${classes["intro-background"]} ${classes["hidden-intro"]}`}>

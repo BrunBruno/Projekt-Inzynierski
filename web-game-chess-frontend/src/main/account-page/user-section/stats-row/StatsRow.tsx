@@ -2,11 +2,11 @@ import { PieChart } from "@mui/x-charts";
 import classes from "./StatsRow.module.scss";
 import { GetFullUserDto } from "../../../../shared/utils/types/userDtos";
 import { useEffect, useState } from "react";
-import { getStatsConfig, StatsConfig } from "./StatsRowData";
+import { getStatsConfig, StatsConfig, StatsConfigType } from "./StatsRowData";
 
 type StatsRowProps = {
   // name of stats category
-  type: string;
+  type: StatsConfigType;
   // current user data
   user: GetFullUserDto;
 };
@@ -34,7 +34,7 @@ function StatsRow({ type, user }: StatsRowProps) {
               {stat.label} {stat.icon}
             </span>
 
-            <span>{stat.value}</span>
+            <span>{!isNaN(stat.value) && stat.value}</span>
           </div>
         ))}
 
@@ -60,7 +60,6 @@ function StatsRow({ type, user }: StatsRowProps) {
           </div>
         </div>
       </div>
-      {/* --- */}
     </div>
   );
 }

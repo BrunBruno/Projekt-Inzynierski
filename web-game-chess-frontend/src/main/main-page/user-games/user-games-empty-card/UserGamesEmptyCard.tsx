@@ -32,9 +32,8 @@ function UserGamesEmptyCard({}: UserGamesEmptyCardProps) {
       window.removeEventListener("resize", resizeCard);
     };
   }, []);
-  //*/
 
-  // create board from game position
+  // create empty board
   const mapFromPosition = (): JSX.Element[] => {
     const fields: JSX.Element[] = [];
 
@@ -46,7 +45,6 @@ function UserGamesEmptyCard({}: UserGamesEmptyCardProps) {
 
     return fields;
   };
-  //*/
 
   return (
     <div ref={cardRef} className={classes.card}>

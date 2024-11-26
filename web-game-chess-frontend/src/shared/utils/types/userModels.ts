@@ -1,6 +1,12 @@
 /* user controller models to requests */
 
-import { TimingType } from "../objects/entitiesEnums";
+import {
+  AppearanceOfBoard,
+  AppearanceOfGamePage,
+  AppearanceOfPieces,
+  DataConfiguration,
+  TimingType,
+} from "../objects/entitiesEnums";
 import { PagedModel } from "./abstractDtosAndModels";
 
 /** POST models */
@@ -26,22 +32,6 @@ export type VerifyEmailModel = {
   code: string;
 };
 
-export type UpdateProfileModel = {
-  name: string | null;
-  bio: string | null;
-  imageFile: File | null;
-};
-
-/** GET models */
-
-export type GetByEmailModel = {
-  email: string | null;
-};
-
-export type GetRegisterConfModel = {
-  configurationId: number;
-};
-
 export type SendResetPasswordCodeModel = {
   email: string;
 };
@@ -53,7 +43,43 @@ export type ResetPasswordModel = {
   confirmPassword: string;
 };
 
+export type ChangePasswordModel = {
+  oldPassword: string;
+  newPassword: string;
+  confirmPassword: string;
+};
+
+export type UpdateProfileModel = {
+  name: string | null;
+  bio: string | null;
+  clearImage?: boolean;
+  imageFile: File | null;
+  clearBackground?: boolean;
+  backgroundFile: File | null;
+};
+
+export type UpdateUserDataModel = {
+  profileIsPrivate?: boolean;
+};
+
+export type UpdateUserSettingsModel = {
+  appearanceOfBoard: AppearanceOfBoard | null;
+  appearanceOfGamePage: AppearanceOfGamePage | null;
+  appearanceOfPieces: AppearanceOfPieces | null;
+};
+
+/** GET models */
+
+export type GetByEmailModel = {
+  email: string | null;
+};
+
+export type GetRegisterConfModel = {
+  configurationId: DataConfiguration;
+};
+
 export type GetUsersRankingModel = PagedModel & {
   type: TimingType;
-  global: boolean;
 };
+
+/** DELETE models */

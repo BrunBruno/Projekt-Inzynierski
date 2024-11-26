@@ -8,12 +8,13 @@ export enum GameSearchInterface {
   defaultView,
   vsPlayerTimeSelection,
   vsPlayerSearching,
-  vsComputerTimeSelection,
   vsComputerOptions,
   vsFriendTimeSelection,
   vsFriendsOptions,
+  vsFriendSearching,
   activeGames,
-  userGames,
+  finishedGames,
+  engineGames,
   invitations,
 }
 
@@ -27,10 +28,13 @@ export enum RegistrationInterface {
 
 // for displaying game board confirmation window
 export enum GameActionInterface {
-  leave,
-  abort,
-  resign,
-  draw,
+  leave = 1,
+  abort = 2,
+  resign = 3,
+  draw = 4,
+  block = 5,
+  report = 6,
+  restart = 7,
 }
 
 // for displaying game window
@@ -38,10 +42,18 @@ export enum GameWindowInterface {
   none,
   confirm,
   winner,
+  inspect,
   promotion,
   search,
   engine,
   settings,
+  history,
+}
+
+export enum AccountPageInterface {
+  settings,
+  friends,
+  history,
 }
 
 // use navigate state options

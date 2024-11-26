@@ -3,18 +3,30 @@
 
 // ranking page container
 .ranking-main {
-  @include wh100();
-  @include gridBg();
-  @include Main.forNav();
+  @include wh100;
+  @include grid-bg;
+  @include Main.for-nav;
 
   .ranking {
-    @include wh100();
+    @include wh100;
 
     position: relative;
-    padding: 10rem 24rem 4rem 24rem;
+    padding: 10rem 24rem 4rem;
   }
 }
-//*/
 
 // resize
-//*/
+@media (width <= 800px) {
+  .ranking-main {
+    padding-top: 6rem;
+    height: 100%;
+    overflow: hidden;
+
+    padding: 0;
+
+    .ranking {
+      padding: 4rem;
+      padding-top: 8rem;
+    }
+  }
+}

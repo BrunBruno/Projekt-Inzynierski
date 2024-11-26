@@ -52,7 +52,7 @@ public class MakeWebGameMoveRequest : IRequest {
     /// <summary>
     /// True is pieces used for castling just moved
     /// </summary>
-    public bool WhitekingMoved { get; set; }
+    public bool WhiteKingMoved { get; set; }
     public bool WhiteShortRookMoved { get; set; }
     public bool WhiteLongRookMoved { get; set; }
     public bool BlackKingMoved { get; set; }

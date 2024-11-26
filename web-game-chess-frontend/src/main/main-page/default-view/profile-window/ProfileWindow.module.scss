@@ -1,6 +1,6 @@
 @use "../../../../shared/styles/shared.scss" as *;
 
-@mixin profileBlock() {
+@mixin profile-block() {
   @include flex($direction: column, $gap: 0.6rem);
 
   .block-icon {
@@ -41,7 +41,7 @@
     }
 
     .user-name {
-      @include longText();
+      @include long-text;
 
       font-size: 2rem;
       font-weight: bold;
@@ -49,10 +49,17 @@
   }
 
   &__games {
-    @include profileBlock();
+    @include profile-block;
   }
 
   &__elo {
-    @include profileBlock();
+    @include profile-block;
+  }
+}
+
+// resize
+@media (width <= 700px) {
+  .profile {
+    margin: auto;
   }
 }

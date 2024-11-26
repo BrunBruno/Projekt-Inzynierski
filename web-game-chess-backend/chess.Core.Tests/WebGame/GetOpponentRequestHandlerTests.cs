@@ -31,8 +31,6 @@ public class GetOpponentRequestHandlerTests {
         {
             Id = gameId,
 
-              WhitePlayerRegistered = true,
-            BlackPlayerRegistered = true,
             WhitePlayer = new WebGamePlayer()
             {
                 Name = "Username",
@@ -109,8 +107,6 @@ public class GetOpponentRequestHandlerTests {
         var game = new Entities.WebGame()
         {
             Id = gameId,
-            WhitePlayerRegistered = true,
-            BlackPlayerRegistered = true,  
             
             WhitePlayer = new WebGamePlayer()
             {

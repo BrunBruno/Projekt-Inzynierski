@@ -52,7 +52,6 @@ function IndexPage() {
     createSection("learn"),
     createSection("faq"),
   ];
-  //*/
 
   // navbar scroll event ref
   const navScrollRef = useRef<HandleOnScroll>(null);
@@ -84,7 +83,6 @@ function IndexPage() {
       window.removeEventListener("scroll", handleScroll);
     };
   }, []);
-  //*/
 
   // navbar functionality
   useEffect(() => {
@@ -114,7 +112,6 @@ function IndexPage() {
       observer.disconnect();
     };
   }, [sections]);
-  //*/
 
   // set section indicators heights
   // for correct navbar indicator transition
@@ -139,7 +136,6 @@ function IndexPage() {
     setObservePoints();
     window.addEventListener("resize", setObservePoints);
   }, [sections]);
-  //*/
 
   // to render section from map
   // pass section refs
@@ -161,7 +157,6 @@ function IndexPage() {
         return <></>;
     }
   };
-  //*/
 
   // handle page popups
   useEffect(() => {
@@ -173,7 +168,6 @@ function IndexPage() {
       showPopup(locationState.popup.text, locationState.popup.type);
     }
   }, [location.state]);
-  //*/
 
   return (
     <main data-testid="main-index-page" className={classes["home-main"]}>
@@ -199,7 +193,6 @@ function IndexPage() {
           {renderSection(section.name, section.scrollRef, section.sectionRef)}
         </Fragment>
       ))}
-      {/* --- */}
 
       <FooterSection />
 

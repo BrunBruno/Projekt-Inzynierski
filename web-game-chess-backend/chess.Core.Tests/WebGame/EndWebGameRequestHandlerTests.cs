@@ -55,8 +55,6 @@ public class EndWebGameRequestHandlerTests {
         {
             Id = gameId,
             HasEnded = false,
-            WhitePlayerRegistered = true,
-            BlackPlayerRegistered = true,
 
             WhitePlayer = new WebGamePlayer()
             {
@@ -113,7 +111,7 @@ public class EndWebGameRequestHandlerTests {
     }
 
     [Fact]
-    public async Task Handle_Updates_Game_And_Firedship_On_Success() {
+    public async Task Handle_Updates_Game_And_Friendship_On_Success() {
 
         var userId = Guid.NewGuid();
         var opponentId = Guid.NewGuid();
@@ -141,9 +139,8 @@ public class EndWebGameRequestHandlerTests {
         {
             Id = gameId,
             HasEnded = false,
-            WhitePlayerRegistered = true,
-            BlackPlayerRegistered = true,
             IsPrivate = true, // game private
+            TimingType =TimingTypes.Rapid,
 
             WhitePlayer = new WebGamePlayer()
             {
@@ -161,7 +158,7 @@ public class EndWebGameRequestHandlerTests {
             }
         };
 
-        var freindship = new Entities.Friendship()
+        var friendship = new Entities.Friendship()
         {
             RequestorId = userId,
             ReceiverId = opponentId,
@@ -179,7 +176,7 @@ public class EndWebGameRequestHandlerTests {
         _mockGameRepository.Setup(x => x.GetById(gameId)).ReturnsAsync(game);
         _mockUserRepository.Setup(x => x.GetById(game.WhitePlayer.UserId)).ReturnsAsync(user);
         _mockUserRepository.Setup(x => x.GetById(game.BlackPlayer.UserId)).ReturnsAsync(opponent);
-        _mockFriendshipRepository.Setup(x => x.GetByUsersIds(userId, opponentId)).ReturnsAsync(freindship);
+        _mockFriendshipRepository.Setup(x => x.GetByUsersIds(userId, opponentId)).ReturnsAsync(friendship);
 
 
         var handler = new EndWebGameRequestHandler(
@@ -236,8 +233,7 @@ public class EndWebGameRequestHandlerTests {
             HasEnded = true, // game is already ended
             EloGain = 10, // properties set
             WinnerColor = PieceColor.White, // properties set
-            WhitePlayerRegistered = true,
-            BlackPlayerRegistered = true,
+            TimingType = TimingTypes.Rapid,
 
 
             WhitePlayer = new WebGamePlayer()
@@ -374,9 +370,7 @@ public class EndWebGameRequestHandlerTests {
         {
             Id = gameId,
             HasEnded = false,
-
-              WhitePlayerRegistered = true,
-            BlackPlayerRegistered = true,
+            TimingType = TimingTypes.Rapid,
 
             WhitePlayer = new WebGamePlayer()
             {
@@ -435,9 +429,8 @@ public class EndWebGameRequestHandlerTests {
         {
             Id = gameId,
             HasEnded = false,
+            TimingType = TimingTypes.Rapid,
 
-              WhitePlayerRegistered = true,
-            BlackPlayerRegistered = true,
             WhitePlayer = new WebGamePlayer()
             {
                 Id = Guid.NewGuid(),
@@ -507,8 +500,8 @@ public class EndWebGameRequestHandlerTests {
         {
             Id = gameId,
             HasEnded = false,
-              WhitePlayerRegistered = true,
-            BlackPlayerRegistered = true,
+            TimingType = TimingTypes.Rapid,
+
             WhitePlayer = new WebGamePlayer()
             {
                 Id = Guid.NewGuid(),

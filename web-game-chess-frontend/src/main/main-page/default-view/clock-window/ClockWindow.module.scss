@@ -1,10 +1,23 @@
 @use "../../../../shared/styles/shared.scss" as *;
 
-@mixin clockBlock() {
+@mixin clock-block() {
   @include flex($direction: column, $gap: 0.6rem);
+
+  position: relative;
 
   .block-icon {
     height: 3rem;
+  }
+
+  &::after {
+    @include sub-class();
+    @include square(2rem);
+
+    content: "+";
+    top: -1rem;
+    right: 0;
+    font-size: 2.5rem;
+    text-align: center;
   }
 
   span {
@@ -33,40 +46,40 @@
     @include flex($gap: 2rem);
 
     .total-games {
-      @include clockBlock();
+      @include clock-block;
     }
 
     .total-users {
-      @include clockBlock();
+      @include clock-block;
     }
   }
 
   &__face {
-    @include circle(10rem);
+    @include circle(8rem);
 
     position: relative;
-    background-color: $gc9;
+    background-color: rgba($gc9, 0.7);
     border: dashed 0.3rem $gc5;
     overflow: hidden;
 
     &::after {
-      @include subCl();
-      @include absCenter();
+      @include sub-class;
+      @include abs-center;
       @include circle(0.6rem);
 
       background-color: $gc5;
       z-index: 9;
     }
 
-    @mixin clockHand($size, $color, $reduce) {
-      @include absCenter();
+    @mixin clock-hand($size, $color, $reduce) {
+      @include abs-center;
 
       width: calc(100% - $reduce);
       height: $size;
       transform-origin: 0 0;
 
       &::after {
-        @include subCl(50%, 100%);
+        @include sub-class(50%, 100%);
 
         border-radius: $size;
         background-color: $color;
@@ -74,13 +87,22 @@
     }
 
     .hour-hand {
-      @include clockHand(0.4rem, $mc9, 40%);
+      @include clock-hand(0.4rem, $mc9, 40%);
     }
+
     .min-hand {
-      @include clockHand(0.2rem, $mc5, 20%);
+      @include clock-hand(0.2rem, $mc5, 20%);
     }
+
     .sec-hand {
-      @include clockHand(0.1rem, $mc0, 0%);
+      @include clock-hand(0.1rem, $mc0, 0%);
     }
+  }
+}
+
+// resize
+@media (width <= 700px) {
+  .clock {
+    display: none;
   }
 }

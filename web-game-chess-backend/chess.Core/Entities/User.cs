@@ -14,6 +14,12 @@ public class User {
     /// </summary>
     public Guid Id { get; set; }
 
+
+    /// <summary>
+    /// Is user email verified
+    /// </summary>
+    public bool IsVerified { get; set; } = false;
+
     /// <summary>
     /// Email address
     /// </summary>
@@ -40,11 +46,6 @@ public class User {
     public DateTime JoinDate { get; set; } = DateTime.UtcNow;
 
     /// <summary>
-    /// Is user email verified
-    /// </summary>
-    public bool IsVerified { get; set; } = false;
-
-    /// <summary>
     /// Country where user signed up
     /// </summary>
     public string Country { get; set; } = string.Empty;
@@ -59,48 +60,54 @@ public class User {
     /// </summary>
     public bool IsPrivate { get; set; } = false;
 
-    /// <summary>
-    /// Role id
-    /// </summary>
-    public int RoleId { get; set; } = (int)Roles.User;
 
     /// <summary>
     /// User role
     /// </summary>
+    public int RoleId { get; set; } = (int)Roles.User;
     public Role Role { get; set; }
 
+
     /// <summary>
-    /// User profile picture
+    /// User profile picture adn background image
     /// </summary>
-    public UserImage? Image { get; set; } = null;
+    public UserProfileImage? Image { get; set; } = null;
+    public UserBackgroundImage? Background { get; set; } = null;
+
 
     /// <summary>
     /// Score points of player for different types
     /// </summary>
     public UserElo Elo { get; set; }
 
+
     /// <summary>
     /// Statistics for users games
     /// </summary>
     public UserStats Stats { get; set; }
+
+
+    /// <summary>
+    /// User account and game preferences settings
+    /// </summary>
+    public UserSettings Settings { get; set; }
+
 
     /// <summary>
     /// Players for each online game
     /// </summary>
     public List<WebGamePlayer> Players { get; set; }
 
+
     /// <summary>
     /// Players for each offline game
     /// </summary>
     public List<EngineGamePlayer> EngineGamePlayers { get; set; }
 
-    /// <summary>
-    /// List of friendships that user requested
-    /// </summary>
-    public List<Friendship> RequestedFriendships { get; set; }
 
     /// <summary>
-    /// List of friendships that user received
+    /// List of friendships that user requested and received
     /// </summary>
+    public List<Friendship> RequestedFriendships { get; set; }
     public List<Friendship> ReceivedFriendships { get; set; }
 }

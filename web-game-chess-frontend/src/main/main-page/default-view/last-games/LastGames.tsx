@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { usePopup } from "../../../../shared/utils/hooks/usePopUp";
-import { GetAllFinishedGamesDto } from "../../../../shared/utils/types/gameDtos";
-import { GetAllFinishedGamesModel } from "../../../../shared/utils/types/gameModels";
+import { GetAllFinishedGamesDto } from "../../../../shared/utils/types/webGameDtos";
+import { GetAllFinishedGamesModel } from "../../../../shared/utils/types/webGameModels";
 import axios from "axios";
 import { PagedResult } from "../../../../shared/utils/types/abstractDtosAndModels";
 import { webGameController, getAuthorization } from "../../../../shared/utils/services/ApiService";
@@ -12,9 +12,12 @@ import IconCreator from "../../../../shared/components/icon-creator/IconCreator"
 import { symbolIcons } from "../../../../shared/svgs/iconsMap/SymbolIcons";
 import { greyColor } from "../../../../shared/utils/objects/colorMaps";
 import { GameSearchInterface } from "../../../../shared/utils/objects/interfacesEnums";
+import { mainPageIcons } from "../../MainPageIcons";
+import { SetInterfaceById } from "../../MainPageData";
 
 type LastGamesProps = {
-  setInterfaceById: (interfaceId: GameSearchInterface) => void;
+  // for setting finished games interface
+  setInterfaceById: SetInterfaceById;
 };
 
 function LastGames({ setInterfaceById }: LastGamesProps) {
@@ -27,6 +30,7 @@ function LastGames({ setInterfaceById }: LastGamesProps) {
 
   // get all finished games
   useEffect(() => {
+    // get last three games
     const getGames = async (): Promise<void> => {
       const getGamesOptions: GetAllFinishedGamesModel = {
         pageNumber: 1,
@@ -47,10 +51,10 @@ function LastGames({ setInterfaceById }: LastGamesProps) {
 
     getGames();
   }, []);
-  //*/
 
-  const handelMoreGamesClick = () => {
-    setInterfaceById(GameSearchInterface.userGames);
+  // set related interface
+  const handelMoreGamesClick = (): void => {
+    setInterfaceById(GameSearchInterface.finishedGames);
   };
 
   if (!games || games.length === 0) return <></>;
@@ -58,7 +62,13 @@ function LastGames({ setInterfaceById }: LastGamesProps) {
   return (
     <div className={classes.games}>
       <div className={classes.games__header}>
-        <span>Your last games:</span>
+        <IconCreator
+          icons={mainPageIcons}
+          iconName={"userGames"}
+          iconClass={classes["header-icon"]}
+          color={greyColor.c0}
+        />
+        <span>Last Games</span>
       </div>
 
       <div className={classes.games__cards}>

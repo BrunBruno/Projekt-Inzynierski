@@ -1,7 +1,7 @@
 @use "../../../shared/styles/shared.scss" as *;
 
 .buttons {
-  @include flex(column, start, center, 0.6rem);
+  @include flex(column, start, center, 0.5rem);
 
   position: relative;
   height: 100%;
@@ -10,36 +10,31 @@
   background-color: rgba($gc9, 0.3);
   overflow-y: scroll;
   box-shadow: 0 0 1rem 0.1rem $mc0;
+  border-left: 0.1rem solid $mc0;
 
   &::-webkit-scrollbar {
     display: none;
   }
 
-  &::before {
-    @include subCl(0.1rem, 100%);
-
-    top: 0;
-    left: 0;
-
-    background-color: $mc0;
-    box-shadow: 0 0 1rem 0.1rem $mc0;
-  }
-
   button.interface-button {
     @include flex(row, start, center, 2rem);
     @include button(2.4rem);
+    @include main-g-button;
 
     & {
-      @include mainGButton();
+      width: 100%;
+      padding: 1.6rem 2rem;
+      background-color: rgba($gc8, 0.1);
+      border-radius: 1rem;
+      border: none;
+      border-right: solid 0.3rem $gc9;
+    }
 
-      & {
-        width: 100%;
-        padding: 2rem;
-        background-color: rgba($gc8, 0.1);
-        border-radius: 1rem;
-        border: none;
-        border-right: solid 0.3rem $gc9;
-      }
+    span {
+      @include long-text;
+
+      min-width: calc(100% - 4rem - 2rem);
+      text-align: start;
     }
 
     &:hover {
@@ -59,13 +54,11 @@
 
       .vs-player-icon {
         filter: drop-shadow($mc0 0 0 0.5rem);
-
         fill: $mc0;
       }
 
       .vs-computer-icon {
         filter: drop-shadow($mc0 0 0 0.5rem);
-
         fill: $mc0;
       }
 
@@ -94,15 +87,19 @@
             stroke: $mc0;
           }
 
-          &:not(:nth-child(1)):not(:nth-child(2)) {
+          &:not(:nth-child(1), :nth-child(2)) {
             fill: $mc0;
           }
         }
       }
 
+      .engine-games-icon {
+        filter: drop-shadow($mc0 0 0 0.5rem);
+        fill: $mc0;
+      }
+
       .invitations-icon {
         filter: drop-shadow($mc0 0 0 0.5rem);
-
         fill: $mc0;
       }
     }
@@ -113,8 +110,11 @@
     .vs-friend-icon,
     .active-games-icon,
     .user-games-icon,
+    .engine-games-icon,
     .invitations-icon {
       @include square(4rem);
+
+      flex-shrink: 0;
     }
 
     &:focus {
@@ -136,13 +136,11 @@
 
       .vs-player-icon {
         filter: drop-shadow($mc0 0 0 0.5rem);
-
         fill: $mc0;
       }
 
       .vs-computer-icon {
         filter: drop-shadow($mc0 0 0 0.5rem);
-
         fill: $mc0;
       }
 
@@ -171,15 +169,19 @@
             stroke: $mc0;
           }
 
-          &:not(:nth-child(1)):not(:nth-child(2)) {
+          &:not(:nth-child(1), :nth-child(2)) {
             fill: $mc0;
           }
         }
       }
 
+      .engine-games-icon {
+        filter: drop-shadow($mc0 0 0 0.5rem);
+        fill: $mc0;
+      }
+
       .invitations-icon {
         filter: drop-shadow($mc0 0 0 0.5rem);
-
         fill: $mc0;
       }
     }
@@ -187,37 +189,44 @@
 }
 
 // resize
-@media (max-width: 700px) {
+@media (width <= 700px) {
+  $btn-size: 9rem;
+
   .buttons {
+    @include flex(row, space-evenly, center, 1rem);
+
+    width: 100vw;
     grid-row: 1;
-    flex-direction: row;
-    padding: 2rem;
     overflow: hidden;
+    height: calc($btn-size + 2rem);
+    padding: 0 1rem !important;
+    border: none;
 
     &::before {
-      @include subCl(100%, 0.1rem);
+      @include sub-class(100%, 0.1rem);
+
       top: 100%;
       left: 0;
-
-      box-shadow: 0 0 1rem 0.1rem $mc0;
+      background-color: $mc0;
+      box-shadow: 0 0 0.3rem 0.1rem $mc0;
     }
 
     button.interface-button {
-      @include flex();
-      @include square(10rem);
+      @include flex;
+      @include square($btn-size);
 
+      width: 100%;
       gap: 0;
-      padding: 0;
+      padding: 1.5rem;
+      border: none;
 
       span {
         display: none;
       }
 
       svg {
-        height: 6rem !important;
+        @include square(calc($btn-size - 3rem) !important);
       }
     }
   }
 }
-
-//*/

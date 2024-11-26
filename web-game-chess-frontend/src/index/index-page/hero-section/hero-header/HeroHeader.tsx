@@ -18,7 +18,6 @@ function HeroHeader({}: HeroHeaderProps) {
 
     navigate("/registration", { state: state });
   };
-  //*/
 
   return (
     <header className={classes.header}>
@@ -62,7 +61,6 @@ function HeroHeader({}: HeroHeaderProps) {
           <span>Sign Up</span>
         </button>
       </div>
-      {/* --- */}
     </header>
   );
 }

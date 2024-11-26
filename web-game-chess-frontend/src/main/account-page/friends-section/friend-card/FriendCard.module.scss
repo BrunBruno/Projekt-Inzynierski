@@ -35,7 +35,7 @@
     transition: all 0.3s;
 
     &__avatar {
-      @include flex();
+      @include flex;
 
       position: relative;
 
@@ -47,7 +47,7 @@
 
       .country {
         @include circle(2.4rem);
-        @include flex();
+        @include flex;
 
         position: absolute;
         top: 0;
@@ -68,7 +68,7 @@
       pointer-events: none;
 
       span {
-        @include longText();
+        @include long-text;
 
         text-align: center;
 
@@ -93,9 +93,11 @@
         &:nth-child(1) {
           color: $success-color-m;
         }
+
         &:nth-child(2) {
           color: $gc5;
         }
+
         &:nth-child(3) {
           color: $danger-color-m;
         }
@@ -122,11 +124,11 @@
       @include button(1.4rem);
 
       &:nth-child(1) {
-        @include mainMButton();
+        @include main-m-button;
       }
 
       &:nth-child(2) {
-        @include secMButton();
+        @include sec-m-button;
       }
     }
   }
@@ -138,7 +140,5 @@
     border-color: $gc0;
   }
 }
-//*/
 
 // resize
-//*/

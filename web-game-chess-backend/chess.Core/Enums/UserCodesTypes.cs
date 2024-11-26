@@ -2,6 +2,6 @@
 namespace chess.Core.Enums;
 
 public enum UserCodesTypes {
-    Email = 0,
-    Password = 1,
+    Email = 1,
+    Password = 2,
 }

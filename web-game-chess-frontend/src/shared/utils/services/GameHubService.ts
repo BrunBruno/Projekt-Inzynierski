@@ -2,15 +2,16 @@
 
 import {
   AcceptInvitationModel,
-  CreateRematchGameModel,
+  CancelWebGameRematchModel,
+  CreateWebGameRematchModel,
   DeclineInvitationModel,
-  EndGameModel,
+  EndWebGameModel,
   MakeWebGameMoveModel,
   NotifyUserModel,
   SendGameMessageModel,
-  SendMessageModel,
+  SendPlayerMessageModel,
   TypingStatusModel,
-} from "../types/gameModels";
+} from "../types/webGameModels";
 import { Guid } from "guid-typescript";
 import { HttpTransportType, HubConnection, HubConnectionBuilder, LogLevel } from "@microsoft/signalr";
 import { host } from "../../../../globals";
@@ -60,7 +61,6 @@ class GameHub {
 
     try {
       await this.connection.start();
-      console.log("SignalR Connected");
     } catch (err) {
       console.error(err);
       setTimeout(() => {
@@ -98,7 +98,7 @@ class GameHub {
   }
 
   // creates rematch game
-  public async CreateRematchGame(model: CreateRematchGameModel): Promise<void> {
+  public async CreateRematch(model: CreateWebGameRematchModel): Promise<void> {
     try {
       await this.connection?.invoke("rematch", model);
     } catch (err) {
@@ -116,9 +116,9 @@ class GameHub {
   }
 
   // to send new messages
-  public async SendMessage(model: SendMessageModel): Promise<void> {
+  public async SendPlayerMessage(model: SendPlayerMessageModel): Promise<void> {
     try {
-      await this.connection?.invoke("send-message", model);
+      await this.connection?.invoke("send-player-message", model);
     } catch (err) {
       console.error(err);
     }
@@ -136,16 +136,25 @@ class GameHub {
   // to send draw offer
   public async SendDrawMessage(gameId: Guid): Promise<void> {
     try {
-      await this.connection?.invoke("send-draw", gameId);
+      await this.connection?.invoke("send-draw-message", gameId);
     } catch (err) {
       console.error(err);
     }
   }
 
   // change game to finished
-  public async EndGame(model: EndGameModel): Promise<void> {
+  public async EndGame(model: EndWebGameModel): Promise<void> {
     try {
       await this.connection?.invoke("end-game", model);
+    } catch (err) {
+      console.error(err);
+    }
+  }
+
+  //
+  public async GetEndedGame(gameId: Guid): Promise<void> {
+    try {
+      await this.connection?.invoke("ended-game", gameId);
     } catch (err) {
       console.error(err);
     }
@@ -227,6 +236,15 @@ class GameHub {
   public async RemoveDrawMessage(gameId: Guid): Promise<void> {
     try {
       await this.connection?.invoke("remove-draw", gameId);
+    } catch (err) {
+      console.error(err);
+    }
+  }
+
+  // to cancel created rematch offer
+  public async CancelRematch(model: CancelWebGameRematchModel): Promise<void> {
+    try {
+      await this.connection?.invoke("cancel-rematch", model);
     } catch (err) {
       console.error(err);
     }

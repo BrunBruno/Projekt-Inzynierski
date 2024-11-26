@@ -10,6 +10,7 @@ import AvatarImage from "../../../../shared/components/avatar-image/AvatarImage"
 import IconCreator from "../../../../shared/components/icon-creator/IconCreator";
 import { userPageIcons } from "../../UsersPageIcons";
 import { mainColor } from "../../../../shared/utils/objects/colorMaps";
+import { GetAllUsersFunc, SetFriendFunc } from "../../UsersPageData";
 
 type FriendCardsProps = {
   // selected list type
@@ -17,9 +18,9 @@ type FriendCardsProps = {
   // user/friend dto
   friend: GetAllFriendsByStatusDto;
   // to update users
-  getAllUsers: () => Promise<void>;
+  getAllUsers: GetAllUsersFunc;
   // to select profile to show
-  setFriend: (friend: GetFriendProfileDto) => void;
+  setFriend: SetFriendFunc;
 };
 
 function FriendCard({ selectedList, friend, getAllUsers, setFriend }: FriendCardsProps) {
@@ -29,26 +30,22 @@ function FriendCard({ selectedList, friend, getAllUsers, setFriend }: FriendCard
 
   // response to friendship request
   const onRespondToRequest = async (accept: boolean): Promise<void> => {
-    try {
-      const model: RespondToFriendRequestModel = {
-        friendshipId: friend.friendshipId,
-        isAccepted: accept,
-      };
+    const model: RespondToFriendRequestModel = {
+      friendshipId: friend.friendshipId,
+      isAccepted: accept,
+    };
 
+    try {
       await axios.put(friendshipController.respondToFriendRequest(friend.friendshipId), model, getAuthorization());
 
-      if (accept === true) {
-        showPopup("USER ACCEPTED", "success");
-      } else {
-        showPopup("USER BLOCKED", "error");
-      }
+      if (accept) showPopup("USER ACCEPTED", "success");
+      else showPopup("USER BLOCKED", "error");
 
       getAllUsers();
     } catch (err) {
       showPopup(getErrMessage(err), "warning");
     }
   };
-  //*/
 
   // delete friend /  remove friendship
   // used to unblock blocked friends
@@ -56,18 +53,14 @@ function FriendCard({ selectedList, friend, getAllUsers, setFriend }: FriendCard
     try {
       await axios.delete(friendshipController.removeFriend(friend.friendshipId), getAuthorization());
 
-      if (action === true) {
-        showPopup("FRIEND REMOVED", "error");
-      } else {
-        showPopup("FRIEND UNBLOCKED", "success");
-      }
+      if (action) showPopup("FRIEND REMOVED", "error");
+      else showPopup("FRIEND UNBLOCKED", "success");
 
       getAllUsers();
     } catch (err) {
       showPopup(getErrMessage(err), "warning");
     }
   };
-  //*/
 
   // get friend data to display in profile
   const onShowProfile = async (): Promise<void> => {
@@ -82,11 +75,11 @@ function FriendCard({ selectedList, friend, getAllUsers, setFriend }: FriendCard
       showPopup(getErrMessage(err), "warning");
     }
   };
-  //*/
 
   // return correct button based on selected list
   const generateButtons = (): JSX.Element => {
     switch (selectedList) {
+      // accepted friendships
       case FriendshipStatus.accepted:
         return (
           <div className={classes.card__actions}>
@@ -124,6 +117,7 @@ function FriendCard({ selectedList, friend, getAllUsers, setFriend }: FriendCard
           </div>
         );
 
+      // pending friendships
       case FriendshipStatus.pending:
         return (
           <>
@@ -185,6 +179,7 @@ function FriendCard({ selectedList, friend, getAllUsers, setFriend }: FriendCard
           </>
         );
 
+      // rejected friendships
       case FriendshipStatus.rejected:
         return (
           <>
@@ -217,7 +212,6 @@ function FriendCard({ selectedList, friend, getAllUsers, setFriend }: FriendCard
         return <></>;
     }
   };
-  //*/
 
   return (
     <div className={classes.card}>

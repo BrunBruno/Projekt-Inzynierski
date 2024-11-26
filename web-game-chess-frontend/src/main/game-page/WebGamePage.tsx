@@ -3,20 +3,19 @@ import classes from "./GamePage.module.scss";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import {
-  CheckIfInGameDto,
-  CreateRematchGameDto,
-  EndGameDto,
+  CheckIfInWebGameDto,
+  CreateWebGameRematchDto,
+  EndWebGameDto,
   FetchTimeDto,
-  GetEndedGameDto,
-  GetGameDto,
+  GetWebGameDto,
   GetGameTimingDto,
-  GetPlayerDto,
+  GetWebGamePlayerDto,
   SearchWebGameDto,
-} from "../../shared/utils/types/gameDtos";
+} from "../../shared/utils/types/webGameDtos";
 import { webGameController, getAuthorization } from "../../shared/utils/services/ApiService";
 import LoadingPage from "../../shared/components/loading-page/LoadingPage";
 import GameHubService from "../../shared/utils/services/GameHubService";
-import { CheckIfInGameModel } from "../../shared/utils/types/gameModels";
+import { CheckIfInWebGameModel, EndWebGameModel } from "../../shared/utils/types/webGameModels";
 import { usePopup } from "../../shared/utils/hooks/usePopUp";
 import { getErrMessage } from "../../shared/utils/functions/errors";
 import MainPopUp from "../../shared/components/main-popup/MainPopUp";
@@ -26,6 +25,8 @@ import { GameActionInterface, GameWindowInterface, StateOptions } from "../../sh
 import WebGameLeftSidebar from "./game-left-sidebar/WebGameLeftSidebar";
 import WebGameContent from "./game-content/WebGameContent";
 import WebGameRightSidebar from "./game-right-sidebar/WebGameRightSidebar";
+import { MoveDto } from "../../shared/utils/types/abstractDtosAndModels";
+import { GameEndReason } from "../../shared/utils/objects/entitiesEnums";
 
 function WebGamePage() {
   ///
@@ -45,17 +46,18 @@ function WebGamePage() {
       navigate("/main", { state: state });
     }
   }, [isCriticalError]);
-  //*/
 
   // obtained game id from url
   const { gameIdStr } = useParams<{ gameIdStr: string }>();
   const [gameId, setGameId] = useState<Guid | null>(null);
 
-  // selected timing and ids in case of new game or rematch
+  // selected timing and data for new games and rematch games
   const [selectedTiming, setSelectedTiming] = useState<GetGameTimingDto | null>(null);
-  const [searchIds, setSearchIds] = useState<SearchWebGameDto | null>(null);
-  // game id for rematch
-  const [newGameId, setNewGameId] = useState<Guid | null>(null);
+  const [newGameData, setNewGameData] = useState<SearchWebGameDto | null>(null);
+  const [rematchData, setRematchData] = useState<CreateWebGameRematchDto | null>(null);
+
+  // for showing done moves
+  const [historyPosition, setHistoryPosition] = useState<MoveDto | null>(null);
 
   // set game id as Guid
   useEffect(() => {
@@ -79,14 +81,13 @@ function WebGamePage() {
       setIsCriticalError(true);
     }
   }, [gameIdStr]);
-  //*/
 
   // obtained game data
-  const [gameData, setGameData] = useState<GetGameDto | null>(null);
+  const [gameData, setGameData] = useState<GetWebGameDto | null>(null);
   // obtained current player data
-  const [playerData, setPlayerData] = useState<GetPlayerDto | null>(null);
+  const [playerData, setPlayerData] = useState<GetWebGamePlayerDto | null>(null);
   // winner data
-  const [winner, setWinner] = useState<EndGameDto | GetEndedGameDto | null>(null);
+  const [winner, setWinner] = useState<EndWebGameDto | null>(null);
   // time left for both players
   const [playersTimes, setPlayersTimes] = useState<FetchTimeDto | null>(null);
 
@@ -111,7 +112,7 @@ function WebGamePage() {
     try {
       if (!gameId) return;
 
-      const response = await axios.get<GetGameDto>(webGameController.getGame(gameId), getAuthorization());
+      const response = await axios.get<GetWebGameDto>(webGameController.getGame(gameId), getAuthorization());
 
       setGameData(response.data);
     } catch (err) {
@@ -125,7 +126,7 @@ function WebGamePage() {
     try {
       if (!gameId) return;
 
-      const response = await axios.get<GetPlayerDto>(webGameController.getPlayer(gameId), getAuthorization());
+      const response = await axios.get<GetWebGamePlayerDto>(webGameController.getPlayer(gameId), getAuthorization());
 
       setPlayerData(response.data);
     } catch (err) {
@@ -134,20 +135,24 @@ function WebGamePage() {
     }
   };
 
-  // to finish the game
-  const endGame = (endGameData: EndGameDto): void => {
+  // to finish the game and get winner data
+  const endGame = (endGameData: EndWebGameDto): void => {
     setWinner(endGameData);
     setDisplayedWindow(GameWindowInterface.winner);
 
     GameHubService.connection?.off("GameUpdated", getGame);
   };
 
-  //
-  const setRematch = (rematchData: CreateRematchGameDto) => {
-    setNewGameId(rematchData.gameId);
+  // to create and cancel rematches
+  const setRematch = (rematchData: CreateWebGameRematchDto): void => {
+    setRematchData(rematchData);
   };
 
-  //
+  const cancelRematch = (): void => {
+    setRematchData(null);
+  };
+
+  // to handle new games
   const handleGameAccepted = (newGameId: Guid): void => {
     const state: StateOptions = {
       popup: { text: "GAME STARTED", type: "info" },
@@ -173,6 +178,7 @@ function WebGamePage() {
     GameHubService.connection?.on("GameUpdated", getGame);
     GameHubService.connection?.on("GameEnded", endGame);
     GameHubService.connection?.on("RematchRequested", setRematch);
+    GameHubService.connection?.on("RematchCanceled", cancelRematch);
     GameHubService.connection?.on("GameAccepted", handleGameAccepted);
 
     getGame();
@@ -182,6 +188,7 @@ function WebGamePage() {
       GameHubService.connection?.off("GameUpdated", getGame);
       GameHubService.connection?.off("GameEnded", endGame);
       GameHubService.connection?.off("RematchRequested", setRematch);
+      GameHubService.connection?.off("RematchCanceled", cancelRematch);
       GameHubService.connection?.off("GameAccepted", handleGameAccepted);
     };
   }, [gameId]);
@@ -203,49 +210,57 @@ function WebGamePage() {
   useEffect(() => {
     if (!gameId || !gameData) return;
 
+    // just for updated
     const getWinner = async (): Promise<void> => {
-      try {
-        const response = await axios.get<GetEndedGameDto>(webGameController.getEndedGame(gameId), getAuthorization());
+      await GameHubService.GetEndedGame(gameId);
+    };
 
-        setWinner(response.data);
-        setDisplayedWindow(GameWindowInterface.winner);
-      } catch (err) {
-        showPopup(getErrMessage(err), "warning");
-      }
+    const drawBy50MoveRule = async (): Promise<void> => {
+      const model: EndWebGameModel = {
+        gameId: gameId,
+        loserColor: null,
+        endGameType: GameEndReason.fiftyMovesRule,
+      };
+
+      await GameHubService.EndGame(model);
     };
 
     if (gameData.hasEnded) getWinner();
 
+    if (gameData.halfmoveClock >= 100) drawBy50MoveRule();
+
     fetchTime();
   }, [gameData]);
 
-  // to enable new matches and rematches
-  useEffect(() => {
-    // handle hub service game changed event
-    // to redirect to new game
-    const handleGamesChanged = async (): Promise<void> => {
-      if (!searchIds) return;
+  // handle hub service game changed event
+  // to redirect to new game
+  const handleGamesChanged = async (): Promise<void> => {
+    if (!newGameData) return;
 
-      try {
-        const model: CheckIfInGameModel = {
-          playerId: searchIds.playerId,
+    const model: CheckIfInWebGameModel = {
+      playerId: newGameData.playerId,
+    };
+
+    try {
+      const response = await axios.get<CheckIfInWebGameDto>(webGameController.checkIfInGame(model), getAuthorization());
+
+      if (response.data.isInGame) {
+        const state: StateOptions = {
+          popup: { text: "GAME STARTED", type: "info" },
         };
 
-        const response = await axios.get<CheckIfInGameDto>(webGameController.checkIfInGame(model), getAuthorization());
+        navigate(`/main/game/${response.data.gameId}`, { state: state });
 
-        if (response.data.isInGame) {
-          const state: StateOptions = {
-            popup: { text: "GAME STARTED", type: "info" },
-          };
-
-          navigate(`/main/game/${response.data.gameId}`, { state: state });
-
-          window.location.reload();
-        }
-      } catch (err) {
-        showPopup(getErrMessage(err), "warning");
+        window.location.reload(); //???
       }
-    };
+    } catch (err) {
+      showPopup(getErrMessage(err), "warning");
+    }
+  };
+
+  // to enable new matches and rematches
+  useEffect(() => {
+    handleGamesChanged();
 
     if (GameHubService.connection && GameHubService.connection.state === HubConnectionState.Connected) {
       GameHubService.connection.on("GamesChanged", handleGamesChanged);
@@ -256,8 +271,7 @@ function WebGamePage() {
         GameHubService.connection.off("GamesChanged", handleGamesChanged);
       }
     };
-  }, [searchIds]);
-  //*/
+  }, [newGameData]);
 
   if (!gameId || !gameData || !playerData) return <LoadingPage />;
 
@@ -269,7 +283,7 @@ function WebGamePage() {
         gameData={gameData}
         setShowConfirm={setShowConfirm}
         setConfirmAction={setConfirmAction}
-        setDisplayedWindow={setDisplayedWindow}
+        displayedWindowState={{ get: displayedWindow, set: setDisplayedWindow }}
       />
 
       <WebGameContent
@@ -277,15 +291,13 @@ function WebGamePage() {
         gameData={gameData}
         playerData={playerData}
         winner={winner}
-        searchIds={searchIds}
-        newGameId={newGameId}
-        setSearchIds={setSearchIds}
         selectedTiming={selectedTiming}
-        showConfirm={showConfirm}
-        setShowConfirm={setShowConfirm}
+        historyPositionState={{ get: historyPosition, set: setHistoryPosition }}
+        newGameDataState={{ get: newGameData, set: setNewGameData }}
+        rematchData={rematchData}
+        showConfirmState={{ get: showConfirm, set: setShowConfirm }}
         confirmAction={confirmAction}
-        displayedWindow={displayedWindow}
-        setDisplayedWindow={setDisplayedWindow}
+        displayedWindowState={{ get: displayedWindow, set: setDisplayedWindow }}
       />
 
       <WebGameRightSidebar
@@ -293,8 +305,9 @@ function WebGamePage() {
         gameData={gameData}
         playerData={playerData}
         playersTimes={playersTimes}
-        setPlayersTimes={setPlayersTimes}
         winner={winner}
+        historyPositionState={{ get: historyPosition, set: setHistoryPosition }}
+        displayedWindowState={{ get: displayedWindow, set: setDisplayedWindow }}
       />
 
       <MainPopUp />

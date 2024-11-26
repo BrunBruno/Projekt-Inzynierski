@@ -5,6 +5,7 @@ using chess.Application.Requests.FriendshipRequests.BlockUser;
 using chess.Application.Requests.FriendshipRequests.GetAllFriendsByStatus;
 using chess.Application.Requests.FriendshipRequests.GetAllNonFriends;
 using chess.Application.Requests.FriendshipRequests.GetFriendProfile;
+using chess.Application.Requests.FriendshipRequests.GetFriendshipRanking;
 using chess.Application.Requests.FriendshipRequests.InviteFriend;
 using chess.Application.Requests.FriendshipRequests.RemoveFriend;
 using chess.Application.Requests.FriendshipRequests.RespondToFriendRequest;
@@ -45,7 +46,7 @@ public class FriendshipController : ControllerBase {
 
 
     /// <summary>
-    /// Creates freindship with rejected status
+    /// Creates friendship with rejected status
     /// </summary>
     /// <param name="model"></param>
     /// <returns></returns>
@@ -129,6 +130,23 @@ public class FriendshipController : ControllerBase {
         var friend = await _mediator.Send(request);
 
         return Ok(friend);
+    }
+
+
+    /// <summary>
+    /// To get ranking among user friends
+    /// </summary>
+    /// <param name="model"></param>
+    /// <returns></returns>
+    [HttpGet("ranking")]
+    [Authorize(Policy = "IsVerified")]
+    public async Task<IActionResult> GetFriendshipRanking([FromQuery] GetFriendshipRankingModel model) {
+
+        var request = _mapper.Map<GetFriendshipRankingRequest>(model);
+
+        var friends = await _mediator.Send(request);
+
+        return Ok(friends);
     }
 
 

@@ -1,4 +1,5 @@
-﻿using chess.Application.Repositories.WebGameRepositories;
+﻿
+using chess.Application.Repositories.WebGameRepositories;
 using chess.Application.Requests.WebGameRequests.GetTypeHistory;
 using chess.Application.Services;
 using chess.Core.Entities;
@@ -91,8 +92,6 @@ public class GetTypeHistoryRequestHandlerTests {
 
                 WhitePlayer = whitePlayer,
                 BlackPlayer = blackPlayer,
-                WhitePlayerRegistered = true,
-                BlackPlayerRegistered = true,
             };
 
             players.Add(whitePlayer);

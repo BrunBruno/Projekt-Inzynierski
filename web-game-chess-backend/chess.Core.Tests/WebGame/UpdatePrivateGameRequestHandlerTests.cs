@@ -1,4 +1,5 @@
-﻿using chess.Application.Repositories.WebGameRepositories;
+﻿
+using chess.Application.Repositories.WebGameRepositories;
 using chess.Application.Repositories.UserRepositories;
 using chess.Application.Requests.WebGameRequests.UpdatePrivateGame;
 using chess.Application.Services;
@@ -41,8 +42,6 @@ public class UpdatePrivateGameRequestHandlerTests {
         {
             Id = gameId,
             IsPrivate = true,
-            WhitePlayerRegistered = true,
-            BlackPlayerRegistered = true,
 
             WhitePlayer = new WebGamePlayer() 
             { 
@@ -81,7 +80,6 @@ public class UpdatePrivateGameRequestHandlerTests {
 
 
         var result = await handler.Handle(request, CancellationToken.None);
-        result.ShouldStart.Should().Be(true);
 
         _mockUserContextService.Verify(x => x.GetUserId(), Times.Once);
         _mockUserRepository.Verify(x => x.GetById(userId), Times.Once);
@@ -110,8 +108,6 @@ public class UpdatePrivateGameRequestHandlerTests {
             Id = gameId,
             IsPrivate = true,
 
-            WhitePlayerRegistered = true,
-            BlackPlayerRegistered = false,
             WhitePlayer = new WebGamePlayer()
             {
                 Id = Guid.NewGuid(),
@@ -156,7 +152,6 @@ public class UpdatePrivateGameRequestHandlerTests {
 
 
         var result = await handler.Handle(request, CancellationToken.None);
-        result.ShouldStart.Should().Be(false);
 
         _mockUserContextService.Verify(x => x.GetUserId(), Times.Once);
         _mockUserRepository.Verify(x => x.GetById(userId), Times.Once);

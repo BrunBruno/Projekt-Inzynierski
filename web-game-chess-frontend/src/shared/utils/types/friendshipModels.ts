@@ -1,7 +1,7 @@
 /* friendship controller models */
 
 import { Guid } from "guid-typescript";
-import { FriendshipStatus } from "../objects/entitiesEnums";
+import { FriendshipStatus, TimingType } from "../objects/entitiesEnums";
 import { PagedModel } from "./abstractDtosAndModels";
 
 /** POST models */
@@ -30,6 +30,10 @@ export type GetAllNonFriendsModel = PagedModel & {
 export type GetAllFriendsByStatusModel = PagedModel & {
   username: string | null;
   status: FriendshipStatus;
+};
+
+export type GetFriendshipRankingModel = PagedModel & {
+  type: TimingType;
 };
 
 /** DELETE models */

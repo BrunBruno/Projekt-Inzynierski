@@ -43,6 +43,7 @@ public class SmtpService : ISmtpService {
         }
     }
 
+    ///<inheritdoc/>
     public async Task SendPasswordResetVerificationCode(string email, string recipientName, string code) {
 
         string fromMail = _smtpOptions.FromMail!;
@@ -94,7 +95,6 @@ public class SmtpService : ISmtpService {
 
         await smtpClient.SendMailAsync(mailMessage);
     }
-
 
     private static AlternateView GetWelcomeMailBody(string imagePath, string code) {
 

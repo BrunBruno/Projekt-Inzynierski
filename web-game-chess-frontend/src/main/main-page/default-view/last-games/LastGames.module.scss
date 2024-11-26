@@ -6,17 +6,23 @@
 
   position: relative;
   z-index: 1;
-
   width: fit-content;
   background-color: rgba(#111, 0.5);
   border: solid 0.1rem $gc9;
   backdrop-filter: blur(1rem);
 
   &__header {
+    @include flex(row, start, center, 1rem);
+
+    padding-left: 1rem;
     margin-bottom: 1rem;
 
     span {
       font-size: 2rem;
+    }
+
+    .header-icon {
+      height: 2rem;
     }
   }
 
@@ -26,12 +32,11 @@
 
     // list of game cards or empty cards
     &__list {
-      @include flex();
+      @include flex;
 
       position: relative;
       padding: 0.5rem;
-      overflow-y: scroll;
-      overflow-x: hidden;
+      overflow: hidden scroll;
       gap: 2rem;
 
       &::-webkit-scrollbar {
@@ -48,7 +53,6 @@
         overflow: hidden;
       }
     }
-    //*/
 
     &__button {
       @include rounded(1rem);
@@ -57,7 +61,6 @@
 
       &:hover {
         cursor: pointer;
-        background-color: rgba($gc9, 0.5);
 
         svg.more-arrow {
           g {
@@ -69,13 +72,14 @@
       }
 
       svg.more-arrow {
-        @include absCenter();
+        @include abs-center;
 
         height: 4rem;
 
         &:first-child {
           left: 2rem;
         }
+
         &:last-child {
           left: 3rem;
         }
@@ -83,21 +87,17 @@
     }
   }
 }
-//*/
 
 // resize
-@media (max-width: 700px) {
+@media (width <= 700px) {
   .games {
     height: 100%;
     overflow: hidden;
     padding: 4rem 2rem;
 
-    $header_height: 10rem;
-
     &__list {
-      height: calc(100% - $header_height);
+      height: calc(100% - 10rem);
       grid-template-columns: repeat(2, 1fr);
     }
   }
 }
-//*/

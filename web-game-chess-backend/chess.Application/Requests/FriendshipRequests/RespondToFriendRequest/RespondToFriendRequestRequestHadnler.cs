@@ -1,4 +1,5 @@
-﻿using chess.Application.Repositories.FriendshipRepositories;
+﻿
+using chess.Application.Repositories.FriendshipRepositories;
 using chess.Application.Services;
 using chess.Core.Enums;
 using chess.Shared.Exceptions;

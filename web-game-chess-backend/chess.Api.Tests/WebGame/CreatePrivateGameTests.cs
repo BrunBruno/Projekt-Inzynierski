@@ -43,7 +43,7 @@ public class CreatePrivateGameTests : IClassFixture<TestWebApplicationFactory<Pr
         await _dbContext.AddUsers(friendId);
         await _dbContext.AddFriendship(friendshipId, friendId, Guid.Parse(Constants.UserId), FriendshipStatus.Accepted);
 
-        var model = new CreatePrivateWebGameModel()
+        var model = new CreatePrivateGameModel()
         {
             FriendshipId = friendshipId,
             Type = TimingTypes.Blitz,
@@ -88,7 +88,7 @@ public class CreatePrivateGameTests : IClassFixture<TestWebApplicationFactory<Pr
         await _dbContext.AddUsers(friendId);
         // friendship not added
 
-        var model = new CreatePrivateWebGameModel()
+        var model = new CreatePrivateGameModel()
         {
             FriendshipId = friendshipId,
             Type = TimingTypes.Blitz,

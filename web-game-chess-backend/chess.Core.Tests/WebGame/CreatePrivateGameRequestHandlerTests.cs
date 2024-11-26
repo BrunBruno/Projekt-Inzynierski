@@ -9,7 +9,6 @@ using chess.Core.Enums;
 using chess.Shared.Exceptions;
 using FluentAssertions;
 using Moq;
-using chess.Application.Repositories;
 
 namespace chess.Core.Tests.WebGame;
 public class CreatePrivateGameRequestHandlerTests {
@@ -18,7 +17,7 @@ public class CreatePrivateGameRequestHandlerTests {
     private readonly Mock<IUserRepository> _mockUserRepository;
     private readonly Mock<IWebGamePlayerRepository> _mockPlayerRepository;
     private readonly Mock<IWebGameRepository> _mockGameRepository;
-    private readonly Mock<IGameTimingRepository> _mockGameTimingRepository;
+    private readonly Mock<IWebGameTimingRepository> _mockGameTimingRepository;
     private readonly Mock<IWebGameStateRepository> _mockGameStateRepository;
     private readonly Mock<IFriendshipRepository> _mockFriendshipRepository;
     private readonly Mock<IWebGameInvitationRepository> _mockGameInvitationRepository;
@@ -29,7 +28,7 @@ public class CreatePrivateGameRequestHandlerTests {
         _mockUserRepository = new Mock<IUserRepository>();
         _mockPlayerRepository = new Mock<IWebGamePlayerRepository>();
         _mockGameRepository = new Mock<IWebGameRepository>();
-        _mockGameTimingRepository = new Mock<IGameTimingRepository>();
+        _mockGameTimingRepository = new Mock<IWebGameTimingRepository>();
         _mockGameStateRepository = new Mock<IWebGameStateRepository>();
         _mockFriendshipRepository = new Mock<IFriendshipRepository>();
         _mockGameInvitationRepository = new Mock<IWebGameInvitationRepository>();
@@ -66,7 +65,7 @@ public class CreatePrivateGameRequestHandlerTests {
             Status = FriendshipStatus.Accepted,
         };
 
-        var gameTiming = new GameTiming()
+        var gameTiming = new WebGameTiming()
         {
             Type = TimingTypes.Rapid,
             Seconds = 10 * 60,
@@ -114,7 +113,7 @@ public class CreatePrivateGameRequestHandlerTests {
         _mockFriendshipRepository.Verify(x => x.GetById(friendshipId), Times.Once);
         _mockUserRepository.Verify(x => x.GetById(friendId), Times.Once);
         _mockGameTimingRepository.Verify(x => x.FindTiming(request.Type, request.Minutes * 60, request.Increment), Times.Once);
-        _mockGameTimingRepository.Verify(x => x.Create(It.IsAny<GameTiming>()), Times.Never);
+        _mockGameTimingRepository.Verify(x => x.Create(It.IsAny<WebGameTiming>()), Times.Never);
         _mockPlayerRepository.Verify(x => x.Create(It.IsAny<WebGamePlayer>()), Times.Exactly(2));
         _mockGameRepository.Verify(x => x.Create(It.IsAny<Entities.WebGame>()), Times.Once);
         _mockGameStateRepository.Verify(x => x.Create(It.IsAny<WebGameState>()), Times.Once);
@@ -152,7 +151,7 @@ public class CreatePrivateGameRequestHandlerTests {
             Status = FriendshipStatus.Accepted,
         };
 
-        var gameTiming = new GameTiming()
+        var gameTiming = new WebGameTiming()
         {
             Type = TimingTypes.Rapid,
             Seconds = 10 * 60,
@@ -200,7 +199,7 @@ public class CreatePrivateGameRequestHandlerTests {
         _mockFriendshipRepository.Verify(x => x.GetById(friendshipId), Times.Once);
         _mockUserRepository.Verify(x => x.GetById(friendId), Times.Once);
         _mockGameTimingRepository.Verify(x => x.FindTiming(request.Type, request.Minutes * 60, request.Increment), Times.Once);
-        _mockGameTimingRepository.Verify(x => x.Create(It.IsAny<GameTiming>()), Times.Once);
+        _mockGameTimingRepository.Verify(x => x.Create(It.IsAny<WebGameTiming>()), Times.Once);
         _mockPlayerRepository.Verify(x => x.Create(It.IsAny<WebGamePlayer>()), Times.Exactly(2));
         _mockGameRepository.Verify(x => x.Create(It.IsAny<Entities.WebGame>()), Times.Once);
         _mockGameStateRepository.Verify(x => x.Create(It.IsAny<WebGameState>()), Times.Once);
@@ -215,7 +214,7 @@ public class CreatePrivateGameRequestHandlerTests {
         var friendId = Guid.NewGuid();
         var friendshipId = Guid.NewGuid();
 
-        var gameTiming = new GameTiming()
+        var gameTiming = new WebGameTiming()
         {
             Type = TimingTypes.Rapid,
             Seconds = 10 * 60,
@@ -256,7 +255,7 @@ public class CreatePrivateGameRequestHandlerTests {
         _mockFriendshipRepository.Verify(x => x.GetById(friendshipId), Times.Never);
         _mockUserRepository.Verify(x => x.GetById(friendId), Times.Never);
         _mockGameTimingRepository.Verify(x => x.FindTiming(request.Type, request.Minutes * 60, request.Increment), Times.Never);
-        _mockGameTimingRepository.Verify(x => x.Create(It.IsAny<GameTiming>()), Times.Never);
+        _mockGameTimingRepository.Verify(x => x.Create(It.IsAny<WebGameTiming>()), Times.Never);
         _mockPlayerRepository.Verify(x => x.Create(It.IsAny<WebGamePlayer>()), Times.Never);
         _mockGameRepository.Verify(x => x.Create(It.IsAny<Entities.WebGame>()), Times.Never);
         _mockGameStateRepository.Verify(x => x.Create(It.IsAny<WebGameState>()), Times.Never);
@@ -279,7 +278,7 @@ public class CreatePrivateGameRequestHandlerTests {
             Elo = new UserElo(),
         };
 
-        var gameTiming = new GameTiming()
+        var gameTiming = new WebGameTiming()
         {
             Type = TimingTypes.Rapid,
             Seconds = 10 * 60,
@@ -320,7 +319,7 @@ public class CreatePrivateGameRequestHandlerTests {
         _mockFriendshipRepository.Verify(x => x.GetById(friendshipId), Times.Once);
         _mockUserRepository.Verify(x => x.GetById(friendId), Times.Never);
         _mockGameTimingRepository.Verify(x => x.FindTiming(request.Type, request.Minutes * 60, request.Increment), Times.Never);
-        _mockGameTimingRepository.Verify(x => x.Create(It.IsAny<GameTiming>()), Times.Never);
+        _mockGameTimingRepository.Verify(x => x.Create(It.IsAny<WebGameTiming>()), Times.Never);
         _mockPlayerRepository.Verify(x => x.Create(It.IsAny<WebGamePlayer>()), Times.Never);
         _mockGameRepository.Verify(x => x.Create(It.IsAny<Entities.WebGame>()), Times.Never);
         _mockGameStateRepository.Verify(x => x.Create(It.IsAny<WebGameState>()), Times.Never);
@@ -351,7 +350,7 @@ public class CreatePrivateGameRequestHandlerTests {
             Status = FriendshipStatus.Rejected,
         };
 
-        var gameTiming = new GameTiming()
+        var gameTiming = new WebGameTiming()
         {
             Type = TimingTypes.Rapid,
             Seconds = 10 * 60,
@@ -393,7 +392,7 @@ public class CreatePrivateGameRequestHandlerTests {
         _mockFriendshipRepository.Verify(x => x.GetById(friendshipId), Times.Once);
         _mockUserRepository.Verify(x => x.GetById(friendId), Times.Never);
         _mockGameTimingRepository.Verify(x => x.FindTiming(request.Type, request.Minutes * 60, request.Increment), Times.Never);
-        _mockGameTimingRepository.Verify(x => x.Create(It.IsAny<GameTiming>()), Times.Never);
+        _mockGameTimingRepository.Verify(x => x.Create(It.IsAny<WebGameTiming>()), Times.Never);
         _mockPlayerRepository.Verify(x => x.Create(It.IsAny<WebGamePlayer>()), Times.Never);
         _mockGameRepository.Verify(x => x.Create(It.IsAny<Entities.WebGame>()), Times.Never);
         _mockGameStateRepository.Verify(x => x.Create(It.IsAny<WebGameState>()), Times.Never);
@@ -424,7 +423,7 @@ public class CreatePrivateGameRequestHandlerTests {
             Status = FriendshipStatus.Accepted,
         };
 
-        var gameTiming = new GameTiming()
+        var gameTiming = new WebGameTiming()
         {
             Type = TimingTypes.Rapid,
             Seconds = 10 * 60,
@@ -466,7 +465,7 @@ public class CreatePrivateGameRequestHandlerTests {
         _mockFriendshipRepository.Verify(x => x.GetById(friendshipId), Times.Once);
         _mockUserRepository.Verify(x => x.GetById(friendId), Times.Once);
         _mockGameTimingRepository.Verify(x => x.FindTiming(request.Type, request.Minutes * 60, request.Increment), Times.Never);
-        _mockGameTimingRepository.Verify(x => x.Create(It.IsAny<GameTiming>()), Times.Never);
+        _mockGameTimingRepository.Verify(x => x.Create(It.IsAny<WebGameTiming>()), Times.Never);
         _mockPlayerRepository.Verify(x => x.Create(It.IsAny<WebGamePlayer>()), Times.Never);
         _mockGameRepository.Verify(x => x.Create(It.IsAny<Entities.WebGame>()), Times.Never);
         _mockGameStateRepository.Verify(x => x.Create(It.IsAny<WebGameState>()), Times.Never);

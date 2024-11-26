@@ -1,9 +1,8 @@
 import { useEffect, useRef, useState } from "react";
 import classes from "./ClockWindow.module.scss";
-import { GetTotalGamesStatsDto } from "../../../../shared/utils/types/gameDtos";
+import { GetTotalGamesStatsDto } from "../../../../shared/utils/types/webGameDtos";
 import { getErrMessage } from "../../../../shared/utils/functions/errors";
 import { usePopup } from "../../../../shared/utils/hooks/usePopUp";
-import { GetTotalGamesStatsModel } from "../../../../shared/utils/types/gameModels";
 import axios from "axios";
 import { getAuthorization, webGameController } from "../../../../shared/utils/services/ApiService";
 import IconCreator from "../../../../shared/components/icon-creator/IconCreator";
@@ -17,19 +16,22 @@ function ClockWindow({}: ClockWindowProps) {
 
   const { showPopup } = usePopup();
 
+  // clock hands refs
   const hourHandRef = useRef<HTMLDivElement>(null);
   const minHandRef = useRef<HTMLDivElement>(null);
   const secHandRef = useRef<HTMLDivElement>(null);
 
+  // global stats
   const [gamesStats, setGamesStats] = useState<GetTotalGamesStatsDto | null>(null);
 
+  // clock operation
   useEffect(() => {
     const setTime = (): void => {
-      const date = new Date();
+      const dateNow = new Date();
 
-      const hourRotation = 360 * (date.getHours() / 12) + 90 + 30 * (date.getMinutes() / 60);
-      const minRotation = 360 * (date.getMinutes() / 60) + 90;
-      const secRotation = 360 * (date.getSeconds() / 60) + 90;
+      const hourRotation = 360 * (dateNow.getHours() / 12) + 90 + 30 * (dateNow.getMinutes() / 60);
+      const minRotation = 360 * (dateNow.getMinutes() / 60) + 90;
+      const secRotation = 360 * (dateNow.getSeconds() / 60) + 90;
 
       if (hourHandRef.current)
         hourHandRef.current.style.transform = `rotateZ(${hourRotation}deg) translate(-50% ,-50%)`;
@@ -40,16 +42,17 @@ function ClockWindow({}: ClockWindowProps) {
     setTime();
     const interval = setInterval(setTime, 1000);
 
-    return () => clearInterval(interval);
+    return () => {
+      clearInterval(interval);
+    };
   }, []);
 
+  // to get daily stats
   useEffect(() => {
     const getGamesStats = async (): Promise<void> => {
-      const model: GetTotalGamesStatsModel = {};
-
       try {
         const response = await axios.get<GetTotalGamesStatsDto>(
-          webGameController.getTotalGamesStats(model),
+          webGameController.getTotalGamesStats(),
           getAuthorization()
         );
 
@@ -85,7 +88,7 @@ function ClockWindow({}: ClockWindowProps) {
             iconClass={classes["block-icon"]}
             color={greyColor.c0}
           />
-          <span>Games today</span>
+          <span>Games played</span>
           <span>{gamesStats.gamesPlayed}</span>
         </div>
       </div>

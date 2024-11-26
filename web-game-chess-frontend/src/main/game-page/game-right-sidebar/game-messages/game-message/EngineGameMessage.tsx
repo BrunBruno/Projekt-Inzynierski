@@ -1,5 +1,5 @@
 import AvatarImage from "../../../../../shared/components/avatar-image/AvatarImage";
-import { GetAllEngineGameMessagesDto } from "../../../../../shared/utils/types/engineDtos";
+import { GetAllEngineGameMessagesDto } from "../../../../../shared/utils/types/engineGameDtos";
 import classes from "./GameMessage.module.scss";
 
 type EngineGameMessageProps = {

@@ -14,7 +14,7 @@ namespace chess.Application.Requests.WebGameRequests.AcceptInvitation;
 /// </summary>
 public class AcceptInvitationRequestHandler : IRequestHandler<AcceptInvitationRequest> {
 
-    private readonly IWebGamePlayerRepository _playerRepository;
+    private readonly IWebGamePlayerRepository _webGamePlayerRepository;
     private readonly IUserContextService _userContextService;
     private readonly IWebGameInvitationRepository _gameInvitationRepository;
 
@@ -23,7 +23,7 @@ public class AcceptInvitationRequestHandler : IRequestHandler<AcceptInvitationRe
         IUserContextService userContextService,
         IWebGameInvitationRepository gameInvitationRepository
     ) {
-        _playerRepository = playerRepository;
+        _webGamePlayerRepository = playerRepository;
         _userContextService = userContextService;
         _gameInvitationRepository = gameInvitationRepository;
     }
@@ -32,10 +32,10 @@ public class AcceptInvitationRequestHandler : IRequestHandler<AcceptInvitationRe
 
         var userId = _userContextService.GetUserId();
 
-        var inviter = await _playerRepository.GetByUserIdAndGameId(request.InviterId, request.GameId)
+        var inviter = await _webGamePlayerRepository.GetByUserIdAndGameId(request.InviterId, request.GameId)
             ?? throw new NotFoundException("Player not found.");
 
-        var invitee  = await _playerRepository.GetByUserIdAndGameId(request.InviteeId, request.GameId)
+        var invitee  = await _webGamePlayerRepository.GetByUserIdAndGameId(request.InviteeId, request.GameId)
             ?? throw new NotFoundException("Player not found.");
 
         if (userId != invitee.UserId)
@@ -50,8 +50,8 @@ public class AcceptInvitationRequestHandler : IRequestHandler<AcceptInvitationRe
         invitation.IsAccepted = true;
 
 
-        await _playerRepository.Update(inviter);
-        await _playerRepository.Update(invitee);
+        await _webGamePlayerRepository.Update(inviter);
+        await _webGamePlayerRepository.Update(invitee);
         await _gameInvitationRepository.Update(invitation);
     }
 }

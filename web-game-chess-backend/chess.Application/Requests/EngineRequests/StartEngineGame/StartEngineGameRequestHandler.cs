@@ -7,9 +7,13 @@ using chess.Core.Enums;
 using chess.Shared.Exceptions;
 using MediatR;
 
-
 namespace chess.Application.Requests.EngineRequests.StartEngineGame;
 
+/// <summary>
+/// Checks if user exists
+/// Creates player, game and starting message
+/// Returns game id
+/// </summary>
 public class StartEngineGameRequestHandler : IRequestHandler<StartEngineGameRequest, StartEngineGameDto> {
 
     private readonly Random _random = new ();
@@ -39,16 +43,14 @@ public class StartEngineGameRequestHandler : IRequestHandler<StartEngineGameRequ
 
         var user = await _userRepository.GetById(userId)
             ?? throw new NotFoundException("User not found.");
-        
 
         var player = new EngineGamePlayer()
         {
             Id = Guid.NewGuid(),
             Name = user.Username,
-            //Color = _random.Next(2) == 0 ? PieceColor.White : PieceColor.Black,
-            Color = PieceColor.Black,
+            Color = _random.Next(2) == 0 ? PieceColor.White : PieceColor.Black,
+            Elo = user.Elo.Engine,
             UserId = userId,
-            TimeLeft = request.Minutes != null ? (double)(request.Minutes * 60) : 0,
         };
 
 
@@ -61,8 +63,6 @@ public class StartEngineGameRequestHandler : IRequestHandler<StartEngineGameRequ
             PlayerId = player.Id,
             StartedAt = DateTime.UtcNow,
             CurrentState = new EngineGameState(),
-            TimingType = request.Type,
-            AllowUndo = request.AllowUndo,
             EngineLevel = request.EngineLevel,
         };
 

@@ -9,6 +9,14 @@ using MediatR;
 
 namespace chess.Application.Requests.FriendshipRequests.BlockUser;
 
+/// <summary>
+/// Checks if user is not blocking itself
+/// Gets user to block
+/// Checks if users have relationship 
+/// Checks if user is not already blocked
+/// Updates friendship if exists 
+/// Creates new friendship with rejected status is not exists
+/// </summary>
 public class BlockUserRequestHandler : IRequestHandler<BlockUserRequest> {
 
     private readonly IUserContextService _userContextService;
@@ -29,36 +37,39 @@ public class BlockUserRequestHandler : IRequestHandler<BlockUserRequest> {
 
         var userId = _userContextService.GetUserId();
 
-
         if (userId == request.UserId)
             throw new BadRequestException("Can not block yourself.");
-
 
         var userToBlock = await _userRepository.GetById(request.UserId)
             ?? throw new NotFoundException("User not found.");
 
 
+        var existingFriendship = await _friendshipRepository.GetByUsersIds(userId, userToBlock.Id);
 
-        var usersBlockedFriends = await _friendshipRepository.GetAllForUserByStatus(userId, FriendshipStatus.Rejected);
-        var blockedFriendIds = usersBlockedFriends
-            .Select(f => f.RequestorId == userId ? f.ReceiverId : f.RequestorId)
-            .ToList();
+        if(existingFriendship is not null){
 
-        if (blockedFriendIds.Contains(request.UserId))
-            throw new BadRequestException("User is blocked or has blocked you.");
+            if(existingFriendship.Status == FriendshipStatus.Rejected)
+                throw new BadRequestException("User is blocked or has blocked you.");
 
-
-
-        var friendship = new Friendship()
-        {
-            Id = Guid.NewGuid(),
-            Status = FriendshipStatus.Rejected,
-            RequestCreatedAt = DateTime.UtcNow,
-            RequestorId = userId,
-            ReceiverId = request.UserId,
-        };
+            existingFriendship.Status = FriendshipStatus.Rejected;
 
 
-        await _friendshipRepository.Create(friendship);
+            await _friendshipRepository.Update(existingFriendship);
+
+        } else {
+            
+            var friendship = new Friendship()
+            {
+                Id = Guid.NewGuid(),
+                Status = FriendshipStatus.Rejected,
+                RequestCreatedAt = DateTime.UtcNow,
+                RequestorId = userId,
+                ReceiverId = request.UserId,
+            };
+
+
+            await _friendshipRepository.Create(friendship);
+
+        }
     }
 }

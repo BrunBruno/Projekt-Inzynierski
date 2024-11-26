@@ -6,7 +6,7 @@ import { HubConnectionState } from "@microsoft/signalr";
 import { usePopup } from "../../shared/utils/hooks/usePopUp";
 import { getErrMessage } from "../../shared/utils/functions/errors";
 import axios from "axios";
-import { CheckIfUpdateRequiredDto } from "../../shared/utils/types/gameDtos";
+import { CheckIfUpdateOnPrivateGameRequiredDto } from "../../shared/utils/types/webGameDtos";
 import { webGameController, getAuthorization } from "../../shared/utils/services/ApiService";
 import SearchingPage from "../../shared/components/searching-page/SearchingPage";
 import { GameSearchInterface, StateOptions } from "../../shared/utils/objects/interfacesEnums";
@@ -36,7 +36,6 @@ function AwaitingPage() {
       navigate("/main", { state: state });
     }
   }, [gameIdStr]);
-  //*/
 
   // to check if update is required
   // used for game via urls
@@ -45,13 +44,19 @@ function AwaitingPage() {
       if (!gameId) return;
 
       try {
-        const response = await axios.get<CheckIfUpdateRequiredDto>(
+        const response = await axios.get<CheckIfUpdateOnPrivateGameRequiredDto>(
           webGameController.checkIfUpdateRequired(gameId),
           getAuthorization()
         );
 
         if (response.data.isRequired) {
           await GameHubService.UpdatePrivateGame(gameId);
+
+          const state: StateOptions = {
+            popup: { text: "GAME STARTED", type: "info" },
+          };
+
+          navigate(`/main/game/${gameId}`, { state: state });
         }
       } catch (err) {
         showPopup(getErrMessage(err), "warning");
@@ -60,7 +65,6 @@ function AwaitingPage() {
 
     updateIfRequired();
   }, [gameId]);
-  //*/
 
   // connect hub methods
   useEffect(() => {
@@ -95,7 +99,6 @@ function AwaitingPage() {
       }
     };
   }, [gameId]);
-  //*/
 
   // to remove created private game
   const onCancelPrivateGame = async (): Promise<void> => {
@@ -114,7 +117,6 @@ function AwaitingPage() {
       showPopup(getErrMessage(err), "warning");
     }
   };
-  //*/
 
   if (!gameId) return <></>;
 

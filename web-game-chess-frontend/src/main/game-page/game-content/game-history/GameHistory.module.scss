@@ -1,0 +1,109 @@
+@use "../../../../shared/styles/shared.scss" as *;
+
+.history {
+  @include abs-center;
+  @include wh100;
+  @include flex;
+
+  z-index: 100;
+  background-color: rgba(#000, 0.8);
+
+  &__container {
+    @include square(64rem);
+    @include rounded(5rem);
+
+    position: relative;
+
+    &__board {
+      @include wh100;
+
+      position: relative;
+      display: grid;
+      grid-template-rows: repeat(8, 1fr);
+      grid-template-columns: repeat(8, 1fr) 0;
+      overflow: hidden;
+      border-radius: 0.5rem;
+      filter: grayscale(0.5) brightness(80%);
+
+      &:hover {
+        cursor: pointer;
+      }
+
+      .field {
+        @include flex;
+
+        aspect-ratio: 1/1;
+
+        &.rounded {
+          margin: 0.2rem;
+          border-radius: 0.5rem;
+        }
+
+        &.grey {
+          &:nth-child(odd) {
+            background-color: rgba(#fff, 0.96);
+
+            &.old {
+              background-color: rgba($gc4, 0.96);
+            }
+
+            &.new {
+              background-color: rgba($gc4, 0.96);
+            }
+          }
+
+          &:nth-child(even) {
+            background-color: rgba(#000, 0.96);
+
+            &.old {
+              background-color: rgba($gc8, 0.96);
+            }
+
+            &.new {
+              background-color: rgba($gc8, 0.96);
+            }
+          }
+        }
+
+        &.wooden {
+          &::after {
+            @include sub-class;
+
+            background-image: url("/images/wood.png");
+            background-size: cover;
+            opacity: 0.2;
+          }
+        }
+
+        &:nth-child(odd) {
+          background-color: $mc0;
+
+          &.old {
+            background-color: $mc2;
+          }
+
+          &.new {
+            background-color: $mc2;
+          }
+        }
+
+        &:nth-child(even) {
+          background-color: $mc9;
+
+          &.old {
+            background-color: $mc4;
+          }
+
+          &.new {
+            background-color: r$mc4;
+          }
+        }
+
+        .piece-svg {
+          height: 80%;
+          transform: translateZ(-1px);
+        }
+      }
+    }
+  }
+}

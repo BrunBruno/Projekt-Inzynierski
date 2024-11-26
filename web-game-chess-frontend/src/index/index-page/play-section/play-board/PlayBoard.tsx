@@ -68,7 +68,6 @@ const PlayBoard = forwardRef<HandleOnScroll, PlayBoardProps>(
     useImperativeHandle(ref, () => ({
       handleOnScroll,
     }));
-    //*/
 
     // generate board
     const generateGrid = (): JSX.Element[] => {
@@ -102,7 +101,6 @@ const PlayBoard = forwardRef<HandleOnScroll, PlayBoardProps>(
 
       return boardRows;
     };
-    //*/
 
     // handle on click
     // to create wave pattern
@@ -159,7 +157,6 @@ const PlayBoard = forwardRef<HandleOnScroll, PlayBoardProps>(
         }, time);
       }
     };
-    //*/
 
     // handle board hover
     // to move "flashlight" over board
@@ -174,7 +171,6 @@ const PlayBoard = forwardRef<HandleOnScroll, PlayBoardProps>(
         indicator.style.top = `${offsetY}px`;
       }
     };
-    //*/
 
     // to show or hide indicator flashlight
     const handleIndicatorVisibility = (opacity: number) => {
@@ -183,7 +179,6 @@ const PlayBoard = forwardRef<HandleOnScroll, PlayBoardProps>(
         indicator.style.opacity = opacity.toString();
       }
     };
-    //*/
 
     return (
       <div ref={boardRef} className={classes.board}>
@@ -193,7 +188,6 @@ const PlayBoard = forwardRef<HandleOnScroll, PlayBoardProps>(
             <div id="indicator" className={classes.indicator} />
             {generateGrid()}
           </div>
-          {/* --- */}
 
           {/* outer board */}
           <div
@@ -212,7 +206,6 @@ const PlayBoard = forwardRef<HandleOnScroll, PlayBoardProps>(
           >
             <LogoIcon iconClass={classes["board-svg"]} />
           </div>
-          {/* --- */}
         </div>
       </div>
     );

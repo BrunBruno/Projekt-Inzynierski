@@ -2,39 +2,19 @@ import { useNavigate, useParams } from "react-router-dom";
 import classes from "./AboutPage.module.scss";
 import { useEffect, useState, MouseEvent } from "react";
 import { mainColor } from "../../shared/utils/objects/colorMaps";
-import {
-  ContentElements,
-  introductionElements,
-  objectivesElements,
-  privacyElements,
-  termsElements,
-} from "./content-sections/ContentSectionData";
 import ContentSection from "./content-sections/ContentSection";
 import LoadingPage from "../../shared/components/loading-page/LoadingPage";
 import IconCreator from "../../shared/components/icon-creator/IconCreator";
 import { symbolIcons } from "../../shared/svgs/iconsMap/SymbolIcons";
+import { ContentNames, contentOptions, ContentType } from "./AboutPageData";
 
 function AboutPage() {
   ///
 
-  const { contentName } = useParams<{ contentName: ContentNames }>();
   const navigate = useNavigate();
 
-  type ContentNames = "Introduction" | "Objectives" | "Terms" | "Privacy";
-  type ContentType = {
-    // title of selected content
-    title: ContentNames;
-    // list on sub sections of selected content
-    elements: ContentElements[];
-  };
-
-  // page interface options
-  const contentOptions: { [key in Lowercase<ContentNames>]: ContentType } = {
-    introduction: { title: "Introduction", elements: introductionElements },
-    objectives: { title: "Objectives", elements: objectivesElements },
-    terms: { title: "Terms", elements: termsElements },
-    privacy: { title: "Privacy", elements: privacyElements },
-  };
+  // content get from url
+  const { contentName } = useParams<{ contentName: ContentNames }>();
 
   // content to display based on selection
   const [selectedContent, setSelectedContent] = useState<ContentType | null>(null);
@@ -52,10 +32,9 @@ function AboutPage() {
       navigate(`/about/introduction`, { replace: true });
     }
   }, [contentName]);
-  //*/
 
   // to change content
-  const onSetSelectedContent = (content: ContentType, event: MouseEvent<HTMLLIElement>) => {
+  const onSetSelectedContent = (content: ContentType, event: MouseEvent<HTMLLIElement>): void => {
     setSelectedContent(null);
 
     const target = event.target as HTMLDivElement;
@@ -67,7 +46,7 @@ function AboutPage() {
         if (content.title === selectedContent.title) {
           setSelectedContent(content);
         } else {
-          navigate(`/about/${content.title.toLowerCase()}`);
+          navigate(`/about/${content.title.toLowerCase()}`, { replace: true });
         }
 
         setTimeout(() => {
@@ -76,7 +55,6 @@ function AboutPage() {
       }
     }, 300);
   };
-  //*/
 
   return (
     <main className={classes["about-main"]}>
@@ -107,7 +85,6 @@ function AboutPage() {
                 </li>
               ))}
             </ul>
-            {/* --- */}
 
             {/* return actions */}
             <ul className={classes["content-list"]}>
@@ -129,10 +106,8 @@ function AboutPage() {
                 <span>Home Page</span>
               </li>
             </ul>
-            {/* --- */}
           </div>
         </div>
-        {/* --- */}
 
         {/* content column */}
         <div className={classes.grid__column}>
@@ -147,7 +122,6 @@ function AboutPage() {
             )}
           </div>
         </div>
-        {/* --- */}
       </div>
     </main>
   );

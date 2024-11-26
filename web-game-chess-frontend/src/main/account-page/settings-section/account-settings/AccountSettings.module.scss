@@ -1,0 +1,121 @@
+@use "../../../../shared/styles/shared.scss" as *;
+
+.settings {
+  &__row {
+    border-bottom: solid 0.5rem $gc9;
+    padding: 2rem 0;
+
+    .row-title {
+      font-weight: 600;
+      font-size: 2rem;
+      color: $gc3;
+    }
+
+    .settings-form {
+      @include flex(column, center, start, 1rem);
+
+      position: relative;
+      padding: 2rem;
+
+      .form-row {
+        position: relative;
+
+        .form-input {
+          @include t-input(2rem);
+        }
+
+        .visibility-label {
+          @include flex(row, start, center, 2rem);
+
+          margin-bottom: 1rem;
+
+          .radio-input {
+            display: none;
+          }
+
+          .check-mark {
+            @include circle(2rem);
+
+            background-color: $gc2;
+          }
+
+          .radio-input:checked ~ .check-mark {
+            border: solid 0.5rem $mc9;
+          }
+
+          span {
+            font-size: 2rem;
+          }
+
+          &:hover {
+            cursor: pointer;
+
+            .check-mark {
+              background-color: $gc5;
+            }
+          }
+        }
+
+        .text {
+          font-size: 1.6rem;
+          color: $gc5;
+        }
+
+        .err {
+          &::placeholder {
+            color: $danger-color-m;
+          }
+        }
+      }
+
+      .password-indicator {
+        @include flex(column, start, start, 0.5rem);
+
+        position: absolute;
+        top: 0;
+        right: 1rem;
+
+        p {
+          font-size: 1.2rem;
+          color: $gc5;
+        }
+
+        .conf-ind {
+          @include flex(row, space-between, center, 1rem);
+
+          width: 100%;
+
+          span {
+            font-size: 1.4rem;
+            color: $gc6;
+          }
+
+          .ind-icon {
+            height: 1.6rem;
+            filter: brightness(70%);
+          }
+        }
+      }
+
+      // errors
+      .error {
+        height: 1.4rem;
+
+        span {
+          font-size: 1.4rem;
+          color: $danger-color-m;
+        }
+      }
+
+      button.form-button {
+        @include button(2rem);
+        @include main-m-button;
+
+        & {
+          padding: 1rem 4rem;
+          margin-top: 2rem;
+        }
+      }
+    }
+  }
+}

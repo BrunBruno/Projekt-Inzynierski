@@ -1,4 +1,5 @@
-﻿using chess.Application.Repositories.UserRepositories;
+﻿
+using chess.Application.Repositories.UserRepositories;
 using chess.Application.Services;
 using chess.Core.Entities;
 using chess.Core.Enums;
@@ -64,6 +65,7 @@ public class RegisterUserRequestHandler : IRequestHandler<RegisterUserRequest> {
             Country = request.Country,
             Elo = new UserElo(),
             Stats = new UserStats(),
+            Settings = new UserSettings()
         };
 
         var hashedPassword = _passwordHasher.HashPassword(user, request.Password);

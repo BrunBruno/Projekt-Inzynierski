@@ -9,7 +9,7 @@ namespace chess.Core.Abstraction;
 public abstract class Player {
 
     /// <summary>
-    /// User name
+    /// User username
     /// </summary>
     public required string Name { get; set; }
 

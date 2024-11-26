@@ -1,6 +1,12 @@
 /* abstract types of dtos and models */
 
-import { PieceColor, TimingType } from "../objects/entitiesEnums";
+import {
+  AppearanceOfBoard,
+  AppearanceOfGamePage,
+  AppearanceOfPieces,
+  PieceColor,
+  TimingType,
+} from "../objects/entitiesEnums";
 
 // pagination result type
 export type PagedResult<T> = {
@@ -30,6 +36,7 @@ export type PagedModel = {
 export type UserDto = {
   username: string;
   name: string | null;
+  backgroundImage: UserImage | null;
   profilePicture: UserImage | null;
   country: string;
 };
@@ -60,13 +67,24 @@ export type PlayerDto = {
 // general move dto
 export type MoveDto = {
   move: string;
+  fenMove: string;
   turn: number;
   oldCoor: string;
   newCoor: string;
   capturedPiece: string;
+  position: string;
 };
 
+// general image dto
 export type UserImage = {
   data: Uint8Array;
   contentType: string;
+};
+
+// general user settings dto
+export type GameSettingsDto = {
+  appearanceOfPieces: AppearanceOfPieces;
+  appearanceOfBoard: AppearanceOfBoard;
+  appearanceOfGamePage: AppearanceOfGamePage;
+  allowCheats: boolean;
 };

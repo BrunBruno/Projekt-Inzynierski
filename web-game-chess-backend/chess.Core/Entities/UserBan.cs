@@ -9,14 +9,15 @@ namespace chess.Core.Entities;
 public class UserBan {
 
     /// <summary>
-    /// Banned user id
+    /// Id pk
     /// </summary>
     public Guid Id { get; set; }
+
 
     /// <summary>
     /// Reason for ban
     /// </summary>
-    public string Reason { get; set; }
+    public required string Reason { get; set; }
 
     /// <summary>
     /// Is for ever
@@ -28,13 +29,10 @@ public class UserBan {
     /// </summary>
     public TimeSpan? Duration { get; set; }
 
-    /// <summary>
-    /// User id
-    /// </summary>
-    public Guid UserId { get; set; }
 
     /// <summary>
-    /// User
+    /// Banned user
     /// </summary>
+    public Guid UserId { get; set; }
     public User User { get; set; }
 }

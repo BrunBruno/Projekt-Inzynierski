@@ -1,0 +1,68 @@
+@use "../../../../shared/styles/shared.scss" as *;
+
+.captures {
+  height: 100%;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  padding: 2rem 0;
+  border-radius: 2rem;
+
+  &__col {
+    @include flex(column, start, center, 0.5rem);
+
+    &:nth-child(1) {
+      border-right: solid 0.3rem $gc8;
+    }
+
+    .piece {
+      @include flex(row, center, center, 0);
+
+      width: 100%;
+
+      .side-piece-icon {
+        height: 3rem;
+        filter: brightness(50%);
+      }
+
+      .x-icon {
+        height: 1.4rem;
+      }
+
+      span {
+        font-size: 1.8rem;
+        color: $gc7;
+        font-weight: 600;
+      }
+    }
+  }
+}
+
+@media (width <= 1000px) {
+  .captures {
+    width: fit-content;
+    height: 6rem;
+    padding: 0 2rem;
+    border-radius: 1rem;
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr 1fr;
+
+    &__col {
+      flex-direction: row;
+      border: none !important;
+
+      .piece {
+        .side-piece-icon {
+          height: 1.6rem;
+        }
+
+        .x-icon {
+          height: 1rem;
+        }
+
+        span {
+          font-size: 1.2rem;
+        }
+      }
+    }
+  }
+}

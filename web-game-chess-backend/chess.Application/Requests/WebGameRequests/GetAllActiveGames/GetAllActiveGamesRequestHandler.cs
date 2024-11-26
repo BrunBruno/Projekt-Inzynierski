@@ -19,21 +19,21 @@ namespace chess.Application.Requests.WebGameRequests.GetAllActiveGames;
 public class GetAllActiveGamesRequestHandler : IRequestHandler<GetAllActiveGamesRequest, PagedResult<GetAllActiveGamesDto>> {
 
     private readonly IUserContextService _userContextService;
-    private readonly IWebGamePlayerRepository _playerRepository;
+    private readonly IWebGamePlayerRepository _webGamePlayerRepository;
 
     public GetAllActiveGamesRequestHandler(
         IUserContextService userContextService,
         IWebGamePlayerRepository playerRepository
     ) {
         _userContextService = userContextService;
-        _playerRepository = playerRepository;
+        _webGamePlayerRepository = playerRepository;
     }
 
     public async Task<PagedResult<GetAllActiveGamesDto>> Handle(GetAllActiveGamesRequest request, CancellationToken cancellationToken) {
 
         var userId = _userContextService.GetUserId();
 
-        var players = await _playerRepository.GetAllActiveForUser(userId);
+        var players = await _webGamePlayerRepository.GetAllActiveForUser(userId);
 
         var finishedGames = new List<GetAllActiveGamesDto>();
 
@@ -57,6 +57,11 @@ public class GetAllActiveGamesRequestHandler : IRequestHandler<GetAllActiveGames
                     !request.TimingTypeFilters.Contains(player.WhiteGame.TimingType))
                     continue;
 
+                double timeDifference = 0;
+                var lastTimeRecorded = (game.Moves == null || game.Moves.Count == 0) ? game.StartedAt : game.Moves[^1].DoneAt;
+                if(lastTimeRecorded != null) {
+                    timeDifference = (DateTime.UtcNow - lastTimeRecorded.Value).TotalSeconds;
+                }
 
                 var gameDto = new GetAllActiveGamesDto()
                 {
@@ -66,7 +71,7 @@ public class GetAllActiveGamesRequestHandler : IRequestHandler<GetAllActiveGames
                     Moves = game.Round,
                     CreatedAt = game.CreatedAt,
                     TimingType = game.TimingType,
-                    TimeLeft = player.TimeLeft,
+                    TimeLeft = game.Turn % 2 == 0 ? player.TimeLeft - timeDifference : player.TimeLeft,
 
                     // current user player
                     WhitePlayer = new PlayerDto()
@@ -116,6 +121,12 @@ public class GetAllActiveGamesRequestHandler : IRequestHandler<GetAllActiveGames
                     !request.TimingTypeFilters.Contains(game.TimingType))
                     continue;
 
+                double timeDifference = 0;
+                var lastTimeRecorded = (game.Moves == null || game.Moves.Count == 0) ? game.StartedAt : game.Moves[^1].DoneAt;
+                if(lastTimeRecorded != null) {
+                    timeDifference = (DateTime.UtcNow - lastTimeRecorded.Value).TotalSeconds;
+                }
+
 
                 var gameDto = new GetAllActiveGamesDto()
                 {
@@ -125,7 +136,7 @@ public class GetAllActiveGamesRequestHandler : IRequestHandler<GetAllActiveGames
                     Moves = game.Round,
                     CreatedAt = game.CreatedAt,
                     TimingType = game.TimingType,
-                    TimeLeft = player.TimeLeft,
+                    TimeLeft = game.Turn % 2 == 1 ? player.TimeLeft - timeDifference : player.TimeLeft, 
 
                     // opponents players
                     WhitePlayer = new PlayerDto()

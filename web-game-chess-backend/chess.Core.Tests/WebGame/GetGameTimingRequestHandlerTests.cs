@@ -1,6 +1,4 @@
-﻿
-using chess.Application.Repositories;
-using chess.Application.Repositories.WebGameRepositories;
+﻿using chess.Application.Repositories.WebGameRepositories;
 using chess.Application.Requests.WebGameRequests.GetGameTiming;
 using chess.Core.Entities;
 using chess.Core.Enums;
@@ -13,11 +11,11 @@ namespace chess.Core.Tests.WebGame;
 public class GetGameTimingRequestHandlerTests {
 
     private readonly Mock<IWebGameRepository> _mockGameRepository;
-    private readonly Mock<IGameTimingRepository> _mockGameTimingRepository;
+    private readonly Mock<IWebGameTimingRepository> _mockGameTimingRepository;
 
     public GetGameTimingRequestHandlerTests() {
         _mockGameRepository = new Mock<IWebGameRepository>();
-        _mockGameTimingRepository = new Mock<IGameTimingRepository>();
+        _mockGameTimingRepository = new Mock<IWebGameTimingRepository>();
     }
 
     [Fact]
@@ -32,8 +30,6 @@ public class GetGameTimingRequestHandlerTests {
             Id = gameId,
             GameTimingId = timingId,
 
-              WhitePlayerRegistered = true,
-            BlackPlayerRegistered = true,
             WhitePlayer = new WebGamePlayer()
             {
                 Name = "Username",
@@ -46,7 +42,7 @@ public class GetGameTimingRequestHandlerTests {
             },
         };
 
-        var gameTiming = new GameTiming()
+        var gameTiming = new WebGameTiming()
         {
             Id = timingId,
             Type = TimingTypes.Daily,
@@ -117,8 +113,6 @@ public class GetGameTimingRequestHandlerTests {
             Id = gameId,
             GameTimingId = timingId,
 
-            WhitePlayerRegistered = true,
-            BlackPlayerRegistered = true,
             WhitePlayer = new WebGamePlayer()
             {
                 Name = "Username",

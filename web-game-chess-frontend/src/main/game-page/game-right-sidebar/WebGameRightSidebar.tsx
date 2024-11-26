@@ -1,35 +1,38 @@
-import { Dispatch, SetStateAction, useEffect } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
-  EndGameDto,
+  EndWebGameDto,
   FetchTimeDto,
-  GetEndedGameDto,
-  GetGameDto,
-  GetPlayerDto,
-} from "../../../shared/utils/types/gameDtos";
+  GetWebGameDto,
+  GetWebGamePlayerDto,
+} from "../../../shared/utils/types/webGameDtos";
 import classes from "./GameRightSidebar.module.scss";
-import { EndGameModel } from "../../../shared/utils/types/gameModels";
-import GameHubService from "../../../shared/utils/services/GameHubService";
-import { GameEndReason, PieceColor } from "../../../shared/utils/objects/entitiesEnums";
+import { AppearanceOfGamePage, PieceColor } from "../../../shared/utils/objects/entitiesEnums";
 import AvatarImage from "../../../shared/components/avatar-image/AvatarImage";
 import { Guid } from "guid-typescript";
-import { PlayerDto } from "../../../shared/utils/types/abstractDtosAndModels";
-import WebGameClock from "./game-clock/WebGameClock";
+import { MoveDto, PlayerDto } from "../../../shared/utils/types/abstractDtosAndModels";
 import WebGameMoveRecord from "./game-move-record/WebGameMoveRecord";
 import WebGameMessages from "./game-messages/WebGameMessages";
+import { pieceTagMap } from "../../../shared/utils/objects/piecesNameMaps";
+import IconCreator from "../../../shared/components/icon-creator/IconCreator";
+import { greyColor } from "../../../shared/utils/objects/colorMaps";
+import { specialPiecesSvgs } from "../../../shared/svgs/iconsMap/SpecialPiecesSvgs";
+import { ElementClass, StateProp } from "../../../shared/utils/types/commonTypes";
+import { GameWindowInterface } from "../../../shared/utils/objects/interfacesEnums";
+import GameClock from "./game-clock/GameClock";
 
 type WebGameRightSidebarProps = {
-  // game id
+  // game and player data
   gameId: Guid;
-  // game data
-  gameData: GetGameDto;
-  // player data
-  playerData: GetPlayerDto;
+  gameData: GetWebGameDto;
+  playerData: GetWebGamePlayerDto;
   // times left for players
   playersTimes: FetchTimeDto | null;
-  // time left setter
-  setPlayersTimes: Dispatch<SetStateAction<FetchTimeDto | null>>;
   // winner dto of the game
-  winner: EndGameDto | GetEndedGameDto | null;
+  winner: EndWebGameDto | null;
+  // to set previous position
+  historyPositionState: StateProp<MoveDto | null>;
+  // for showing history view
+  displayedWindowState: StateProp<GameWindowInterface>;
 };
 
 function WebGameRightSidebar({
@@ -37,70 +40,116 @@ function WebGameRightSidebar({
   gameData,
   playerData,
   playersTimes,
-  setPlayersTimes,
   winner,
+  historyPositionState,
+  displayedWindowState,
 }: WebGameRightSidebarProps) {
   ///
 
-  // sets time left for both players
-  useEffect(() => {
-    if (playersTimes === null || gameData.hasEnded || winner !== null) return;
+  // console.log("tododo", winner);
 
-    const whiteTick = (): void => {
-      setPlayersTimes((prevTimes) => {
-        if (!prevTimes) return null;
-        return {
-          ...prevTimes,
-          whiteTimeLeft: prevTimes.whiteTimeLeft > 0 ? prevTimes.whiteTimeLeft - 1 : 0,
-        };
-      });
-    };
+  // for handling scroll of records
+  const recordsRef = useRef<HTMLDivElement>(null);
 
-    const blackTick = (): void => {
-      setPlayersTimes((prevTimes) => {
-        if (!prevTimes) return null;
-        return {
-          ...prevTimes,
-          blackTimeLeft: prevTimes.blackTimeLeft > 0 ? prevTimes.blackTimeLeft - 1 : 0,
-        };
-      });
-    };
+  // for pieces advantage display
+  const [playersAdvantage, setPlayersAdvantage] = useState<number>(0);
+  const [playersAdvantageInPieces, setPlayersAdvantageInPieces] = useState<JSX.Element[]>([]);
 
-    let interval: NodeJS.Timeout;
-    if (gameData.turn % 2 === 0) {
-      interval = setInterval(whiteTick, 1000);
-    } else {
-      interval = setInterval(blackTick, 1000);
+  // to show advantage in pieces
+  const calculateAdvantage = () => {
+    let whitePoints: number = 0;
+    let blackPoints: number = 0;
+
+    for (let i = 0; i < gameData.position.length; i++) {
+      const piece = gameData.position.charAt(i);
+
+      if (piece === pieceTagMap.white.pawn) whitePoints += 1;
+      if (piece === pieceTagMap.white.knight || piece === pieceTagMap.white.bishop) whitePoints += 3;
+      if (piece === pieceTagMap.white.rook) whitePoints += 5;
+      if (piece === pieceTagMap.white.queen) whitePoints += 9;
+
+      if (piece === pieceTagMap.black.pawn) blackPoints += 1;
+      if (piece === pieceTagMap.black.knight || piece === pieceTagMap.black.bishop) blackPoints += 3;
+      if (piece === pieceTagMap.black.rook) blackPoints += 5;
+      if (piece === pieceTagMap.black.queen) blackPoints += 9;
     }
 
-    return () => {
-      clearInterval(interval);
-    };
-  }, [gameData, playersTimes, winner]);
-  //*/
+    const advantage = whitePoints - blackPoints;
 
-  // to finish game by time outage
-  const endGame = async (loserColor: number | null, endGameType: number): Promise<void> => {
-    const loserPlayer: EndGameModel = {
-      gameId: gameId,
-      loserColor: loserColor,
-      endGameType: endGameType,
-    };
-
-    await GameHubService.EndGame(loserPlayer);
+    setPlayersAdvantage(advantage);
   };
 
   useEffect(() => {
-    if (playersTimes !== null && playersTimes.whiteTimeLeft <= 0) {
-      endGame(PieceColor.white, GameEndReason.outOfTime);
-    }
-    if (playersTimes !== null && playersTimes.blackTimeLeft <= 0) {
-      endGame(PieceColor.black, GameEndReason.outOfTime);
-    }
-  }, [playersTimes]);
-  //*/
+    const countInPieceValue = (num: number): JSX.Element[] => {
+      const piecesAdvantage: JSX.Element[] = [];
 
-  const renderPlayer = (player: PlayerDto, colorClass: string, avatarClass: string): JSX.Element => {
+      let remainingValue: number;
+
+      let count9 = Math.floor(num / 9);
+      remainingValue = num - count9 * 9;
+
+      let count5 = Math.floor(remainingValue / 5);
+      remainingValue = remainingValue - count5 * 5;
+
+      let count3 = Math.floor(remainingValue / 3);
+      remainingValue = remainingValue - count3 * 3;
+
+      let count1 = remainingValue;
+
+      for (let i = 0; i < count9; i++)
+        piecesAdvantage.push(
+          <IconCreator
+            key={`q${i}`}
+            icons={specialPiecesSvgs}
+            iconName={"q"}
+            iconClass={classes["advantage-icon"]}
+            color={greyColor.c7}
+          />
+        );
+      for (let i = 0; i < count5; i++)
+        piecesAdvantage.push(
+          <IconCreator
+            key={`r${i}`}
+            icons={specialPiecesSvgs}
+            iconName={"r"}
+            iconClass={classes["advantage-icon"]}
+            color={greyColor.c7}
+          />
+        );
+      for (let i = 0; i < count3; i++)
+        piecesAdvantage.push(
+          <IconCreator
+            key={`n${i}`}
+            icons={specialPiecesSvgs}
+            iconName={"n"}
+            iconClass={classes["advantage-icon"]}
+            color={greyColor.c7}
+          />
+        );
+      for (let i = 0; i < count1; i++)
+        piecesAdvantage.push(
+          <IconCreator
+            key={`p${i}`}
+            icons={specialPiecesSvgs}
+            iconName={"p"}
+            iconClass={classes["advantage-icon"]}
+            color={greyColor.c7}
+          />
+        );
+
+      return piecesAdvantage;
+    };
+
+    const absValue: number = Math.abs(playersAdvantage);
+    setPlayersAdvantageInPieces(countInPieceValue(absValue));
+  }, [playersAdvantage]);
+
+  useEffect(() => {
+    calculateAdvantage();
+  }, [gameData]);
+
+  // for players display
+  const renderPlayer = (player: PlayerDto, colorClass: ElementClass, avatarClass: ElementClass): JSX.Element => {
     return (
       <div className={`${classes.bar__content__header__player} ${colorClass}`}>
         <AvatarImage
@@ -115,14 +164,54 @@ function WebGameRightSidebar({
           <span className={classes["elo"]}>
             (<span>{player.elo}</span>)
           </span>
+          <span className={classes["advantage"]}>
+            {player.color === PieceColor.white && playersAdvantage > 0 ? (
+              playersAdvantageInPieces
+            ) : player.color === PieceColor.black && playersAdvantage < 0 ? (
+              playersAdvantageInPieces
+            ) : (
+              <span />
+            )}
+          </span>
         </div>
       </div>
     );
   };
 
+  // to return to default view
+  const closeHistory = (): void => {
+    if (displayedWindowState.get !== GameWindowInterface.history) return;
+
+    historyPositionState.set(null);
+    displayedWindowState.set(GameWindowInterface.none);
+  };
+
+  // to handle record scroll
+  useEffect(() => {
+    const handleRecordsScroll = (): void => {
+      const records = recordsRef.current;
+
+      if (records) {
+        records.scrollTop = records.scrollHeight;
+      }
+    };
+
+    handleRecordsScroll();
+  }, [gameData]);
+
   return (
-    <section className={classes.bar}>
-      <div className={classes.bar__content}>
+    <section
+      className={`
+        ${classes.bar}
+        ${gameData.gameSettings.appearanceOfGamePage === AppearanceOfGamePage.Simple ? classes["simple-view"] : ""}
+     `}
+    >
+      <div
+        className={`
+          ${classes.bar__content} 
+          ${!gameData.timingType ? classes["null-timing"] : ""}
+        `}
+      >
         {/* players data */}
         <div className={classes.bar__content__header}>
           {gameData.whitePlayer.name == playerData.name
@@ -135,36 +224,43 @@ function WebGameRightSidebar({
             ? renderPlayer(gameData.blackPlayer, classes["black-player"], classes["black-player-img"])
             : renderPlayer(gameData.whitePlayer, classes["white-player"], classes["white-player-img"])}
         </div>
-        {/* --- */}
 
         {/* game clock */}
-        {playersTimes === null ? (
+        {!playersTimes ? (
           <div className={classes["fetching"]}>Fetching time...</div>
         ) : (
-          <WebGameClock
-            gameData={gameData}
-            playerData={playerData}
-            whitePlayerSeconds={playersTimes.whiteTimeLeft}
-            blackPlayerSeconds={playersTimes.blackTimeLeft}
-          />
+          <GameClock gameId={gameId} gameData={gameData} playerData={playerData} playersTimes={playersTimes} />
         )}
-        {/* --- */}
 
         {/* game history records */}
-        <div className={classes.bar__content__block}>
-          <div className={classes.bar__content__block__list}>
+        <div
+          ref={recordsRef}
+          className={`${classes["bar-block"]} ${classes["records-block"]}`}
+          onMouseLeave={() => {
+            closeHistory();
+          }}
+        >
+          <div className={classes["bar-list"]}>
             {gameData.moves.length > 0
-              ? gameData.moves.map((move, i) => <WebGameMoveRecord key={i} recordNum={i} move={move} />)
-              : Array.from({ length: 10 }).map((_, i) => <WebGameMoveRecord key={i} recordNum={i} move={null} />)}
+              ? gameData.moves.map((move: MoveDto, i: number) => (
+                  <WebGameMoveRecord
+                    key={`move-record-${i}`}
+                    recordNum={i}
+                    move={move}
+                    historyPositionState={historyPositionState}
+                    displayedWindowState={displayedWindowState}
+                  />
+                ))
+              : Array.from({ length: 10 }).map((_, i: number) => (
+                  <WebGameMoveRecord key={i} recordNum={i} move={null} displayedWindowState={displayedWindowState} />
+                ))}
           </div>
         </div>
-        {/* --- */}
 
         {/* game messenger */}
-        <div className={classes.bar__content__block}>
+        <div className={`${classes["bar-block"]} ${classes["messages-block"]}`}>
           <WebGameMessages gameId={gameId} playerData={playerData} />
         </div>
-        {/* --- */}
       </div>
     </section>
   );

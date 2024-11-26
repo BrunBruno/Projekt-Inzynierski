@@ -11,7 +11,7 @@ namespace chess.Core.Entities;
 public class WebGame : Game {
 
     /// <summary>
-    /// Id
+    /// Id pk
     /// </summary>
     public Guid Id { get; set; }
 
@@ -19,6 +19,11 @@ public class WebGame : Game {
     /// Determines if game is public or private
     /// </summary>
     public bool IsPrivate { get; set; } = false;
+
+    /// <summary>
+    /// Will the game count for user elo
+    /// </summary>
+    public bool IsRanked { get; set; } = true;
 
     /// <summary>
     /// Timing type for game
@@ -35,55 +40,41 @@ public class WebGame : Game {
     /// </summary>
     public int EloGain { get; set; }
 
+
     /// <summary>
     /// Id of player playing as white
-    /// </summary>
-    public Guid WhitePlayerId { get; set; }
-
-    /// <summary>
-    /// Is white player added to game
-    /// </summary>
-    public required bool WhitePlayerRegistered { get; set; }
-
-    /// <summary>
     /// White player
     /// </summary>
+    public Guid WhitePlayerId { get; set; }
     public WebGamePlayer WhitePlayer { get; set; }
     
+
     /// <summary>
     /// Id of player playing as black
-    /// </summary>
-    public Guid BlackPlayerId { get; set; }
-
-    /// <summary>
-    /// Is black player added to game
-    /// </summary>
-    public required bool BlackPlayerRegistered { get; set; }
-
-    /// <summary>
     /// Black player
     /// </summary>
+    public Guid BlackPlayerId { get; set; }
     public WebGamePlayer BlackPlayer { get; set; }
 
-    /// <summary>
-    /// Timing id for game
-    /// </summary>
-    public Guid GameTimingId { get; set; }
 
     /// <summary>
     /// Time and increment that each player have for moves
     /// </summary>
-    public GameTiming GameTiming { get; set; }
+    public Guid GameTimingId { get; set; }
+    public WebGameTiming GameTiming { get; set; }
+
 
     /// <summary>
     /// States related to game
     /// </summary>
     public WebGameState CurrentState { get; set; }
 
+
     /// <summary>
     /// List of moves that was done during game
     /// </summary>
     public List<WebGameMove> Moves { get; set; }
+
 
     /// <summary>
     /// List of auto messages for game

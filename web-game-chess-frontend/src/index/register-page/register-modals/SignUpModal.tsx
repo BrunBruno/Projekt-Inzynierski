@@ -20,15 +20,15 @@ type PasswordIconOption = {
 };
 
 type SignUpModalProps = {
-  // change displayed modal
-  setModal: Dispatch<SetStateAction<number>>;
   // restrictions on user username
   userNameConf: GetRegisterConfDto | null;
   // restrictions on user password
   userPassConf: GetRegisterConfDto | null;
+  // change displayed modal
+  setModal: Dispatch<SetStateAction<RegistrationInterface>>;
 };
 
-function SignUpModal({ setModal, userNameConf, userPassConf }: SignUpModalProps) {
+function SignUpModal({ userNameConf, userPassConf, setModal }: SignUpModalProps) {
   ///
 
   const { showPopup } = usePopup();
@@ -159,7 +159,6 @@ function SignUpModal({ setModal, userNameConf, userPassConf }: SignUpModalProps)
       setProcessing(false);
     }
   };
-  //*/
 
   // handle on password input change
   // change password strength indicator
@@ -190,7 +189,6 @@ function SignUpModal({ setModal, userNameConf, userPassConf }: SignUpModalProps)
       indRef.current.style.backgroundColor = color;
     }
   };
-  //*/
 
   // handle on input click
   // to focus on input
@@ -200,7 +198,6 @@ function SignUpModal({ setModal, userNameConf, userPassConf }: SignUpModalProps)
     inputRef.current.focus();
     inputRef.current.classList.remove(classes.err);
   };
-  //*/
 
   // password peek
   const onShowPassword = (): void => {
@@ -227,7 +224,6 @@ function SignUpModal({ setModal, userNameConf, userPassConf }: SignUpModalProps)
       });
     }
   };
-  //*/
 
   if (processing) return <LoadingPage text="Creating account..." />;
 
@@ -235,7 +231,9 @@ function SignUpModal({ setModal, userNameConf, userPassConf }: SignUpModalProps)
     <form
       data-testid="sign-up-form-modal"
       className={classes["registration-form"]}
-      onSubmit={(event) => signUpUser(event)}
+      onSubmit={(event) => {
+        signUpUser(event);
+      }}
     >
       <IconCreator icons={registerPageIcons} iconName="bgPawn" color={mainColor.c0} iconClass={classes["bg-svg"]} />
 
@@ -264,6 +262,9 @@ function SignUpModal({ setModal, userNameConf, userPassConf }: SignUpModalProps)
             ref={emailInputRef}
             name="email"
             type="text"
+            inputMode="text"
+            autoCapitalize="none"
+            autoCorrect="off"
             placeholder="E-mail"
             autoComplete="e-mail"
             className={classes["form-input"]}
@@ -282,6 +283,9 @@ function SignUpModal({ setModal, userNameConf, userPassConf }: SignUpModalProps)
             ref={usernameInputRef}
             name="userName"
             type="text"
+            inputMode="text"
+            autoCapitalize="none"
+            autoCorrect="off"
             placeholder="UserName"
             autoComplete="username"
             className={classes["form-input"]}
@@ -300,6 +304,8 @@ function SignUpModal({ setModal, userNameConf, userPassConf }: SignUpModalProps)
             ref={passwordInputRef}
             name="password"
             type="password"
+            autoCapitalize="none"
+            autoCorrect="off"
             placeholder="Password"
             autoComplete="off"
             className={classes["form-input"]}
@@ -339,6 +345,8 @@ function SignUpModal({ setModal, userNameConf, userPassConf }: SignUpModalProps)
             ref={confPassInputRef}
             name="confirmPassword"
             type="password"
+            autoCapitalize="none"
+            autoCorrect="off"
             placeholder="Confirm Password"
             autoComplete="off"
             className={classes["form-input"]}
@@ -347,7 +355,6 @@ function SignUpModal({ setModal, userNameConf, userPassConf }: SignUpModalProps)
           <IconCreator icons={registerPageIcons} iconName={"arrow"} iconClass={classes.arrow} />
         </div>
       </div>
-      {/* --- */}
 
       <div className={classes.error}>
         <span>{errorMess}</span>

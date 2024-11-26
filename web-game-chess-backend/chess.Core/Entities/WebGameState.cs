@@ -14,13 +14,10 @@ public class WebGameState : GameState {
     /// </summary>
     public Guid Id { get; set; }
 
-    /// <summary>
-    /// Game id
-    /// </summary>
-    public Guid GameId { get; set; }
 
     /// <summary>
     /// Game for which states belong to
     /// </summary>
+    public Guid GameId { get; set; }
     public WebGame Game { get; set; }
 }

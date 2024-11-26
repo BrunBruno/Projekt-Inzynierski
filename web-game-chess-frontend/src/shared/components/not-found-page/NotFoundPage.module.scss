@@ -1,13 +1,13 @@
 @use "../../styles/shared.scss" as *;
 
 .not-found {
-  @include wh100();
-  @include gridBg();
+  @include wh100;
+  @include grid-bg;
 
   position: relative;
 
   .not-found-header {
-    @include absCenter();
+    @include abs-center;
     @include flex($direction: column, $gap: 2rem);
 
     z-index: 1;
@@ -29,7 +29,7 @@
   }
 
   .bg-pawn-svg {
-    @include absCenter();
+    @include abs-center;
 
     transform: translate(-50%, -50%) rotateZ(15deg);
     height: 70%;

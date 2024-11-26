@@ -42,7 +42,21 @@ public class EndWebGameRequestHandler : IRequestHandler<EndWebGameRequest, EndWe
 
         var userId = _userContextService.GetUserId();
 
-        if((
+        var game = await _webGameRepository.GetById(request.GameId)
+            ?? throw new NotFoundException("Game not found.");
+
+        // game already has ended
+        if (game.HasEnded == true) {
+            var prevDto = new EndWebGameDto()
+            {
+                WinnerColor = game.WinnerColor,
+                EloGain = game.EloGain,
+            };
+
+            return prevDto;
+        }
+
+        if ((
             request.LoserColor == null && 
                 (request.EndGameType == GameEndReason.CheckMate ||
                 request.EndGameType == GameEndReason.OutOfTime ||
@@ -58,22 +72,10 @@ public class EndWebGameRequestHandler : IRequestHandler<EndWebGameRequest, EndWe
             throw new BadRequestException("Incorrect game result.");
         }
 
-        var game = await _webGameRepository.GetById(request.GameId) 
-            ?? throw new NotFoundException("Game not found.");
+
 
         if (game.WhitePlayer.UserId != userId && game.BlackPlayer.UserId != userId)
             throw new UnauthorizedException("Not user game.");
-
-        // game already has ended
-        if (game.HasEnded == true) {
-            var prevDto = new EndWebGameDto()
-            {
-                WinnerColor = game.WinnerColor,
-                EloGain = game.EloGain,
-            };
-
-            return prevDto;
-        }
 
 
         var whiteUser = await _userRepository.GetById(game.WhitePlayer.UserId) 
@@ -97,13 +99,14 @@ public class EndWebGameRequestHandler : IRequestHandler<EndWebGameRequest, EndWe
         int eloToUpdate;
 
 
-        // updates stats and elos / white loses
+        // updates stats and elo / white loses
         if (game.WhitePlayer.Color == request.LoserColor) {
             game.WinnerColor = game.BlackPlayer.Color;
 
-            blackUser.Stats.Wins += 1;
-            whiteUser.Stats.Loses += 1;
+            blackUser.Stats.OnlineWins += 1;
+            whiteUser.Stats.OnlineLoses += 1;
 
+            // elo
             if (whiteElo > blackElo) {
 
                 eloToUpdate = (int)Math.Ceiling(0.1 * eloDiff + 10);
@@ -120,16 +123,18 @@ public class EndWebGameRequestHandler : IRequestHandler<EndWebGameRequest, EndWe
 
             }
 
+            // friendship
             if(friendship is not null){
                 if(friendship.RequestorId == whiteUser.Id) { 
-                    friendship.RequestorLoses +=1;
+                    friendship.Stats.RequestorLoses +=1;
                 }
 
                 if(friendship.RequestorId == blackUser.Id) {
-                    friendship.RequestorWins +=1;
+                    friendship.Stats.RequestorWins +=1;
                 }
             }
 
+            // other stats
             switch (request.EndGameType) {
                 case GameEndReason.CheckMate:
 
@@ -155,9 +160,10 @@ public class EndWebGameRequestHandler : IRequestHandler<EndWebGameRequest, EndWe
         } else if(game.BlackPlayer.Color == request.LoserColor) {
             game.WinnerColor = game.WhitePlayer.Color;
 
-            whiteUser.Stats.Wins += 1;
-            blackUser.Stats.Loses += 1;
+            whiteUser.Stats.OnlineWins += 1;
+            blackUser.Stats.OnlineLoses += 1;
 
+            // elo
             if (blackElo > whiteElo) {
 
                 eloToUpdate = (int)Math.Ceiling(0.1 * eloDiff + 10);
@@ -174,16 +180,18 @@ public class EndWebGameRequestHandler : IRequestHandler<EndWebGameRequest, EndWe
 
             }
 
+            // friendship stats
             if(friendship is not null){
                 if(friendship.RequestorId == whiteUser.Id) { 
-                    friendship.RequestorWins +=1;
+                    friendship.Stats.RequestorWins +=1;
                 }
                 
                 if(friendship.RequestorId == blackUser.Id) {
-                    friendship.RequestorLoses +=1;
+                    friendship.Stats.RequestorLoses +=1;
                 }
             }
 
+            // other stats
             switch (request.EndGameType) {
                 case GameEndReason.CheckMate:
 
@@ -209,8 +217,8 @@ public class EndWebGameRequestHandler : IRequestHandler<EndWebGameRequest, EndWe
         } else {
             game.WinnerColor = null;
 
-            whiteUser.Stats.Draws += 1;
-            blackUser.Stats.Draws += 1;
+            whiteUser.Stats.OnlineDraws += 1;
+            blackUser.Stats.OnlineDraws += 1;
 
 
             eloToUpdate = (int)Math.Ceiling(0.05 * eloDiff);
@@ -227,9 +235,39 @@ public class EndWebGameRequestHandler : IRequestHandler<EndWebGameRequest, EndWe
             }
 
             if(friendship is not null){
-                friendship.RequestorDraws += 1;
+                friendship.Stats.RequestorDraws += 1;
             }
         }
+
+
+        // type stats
+        switch (game.TimingType) {
+            case TimingTypes.Bullet:
+                whiteUser.Stats.BulletGamesPlayed += 1;
+                blackUser.Stats.BulletGamesPlayed += 1;
+                break;
+
+            case TimingTypes.Blitz:
+                whiteUser.Stats.BlitzGamesPlayed += 1;
+                blackUser.Stats.BlitzGamesPlayed += 1;
+                break;
+
+            case TimingTypes.Rapid:
+                whiteUser.Stats.RapidGamesPlayed += 1;
+                blackUser.Stats.RapidGamesPlayed += 1;
+                break;
+
+            case TimingTypes.Classic:
+                whiteUser.Stats.ClassicGamesPlayed += 1;
+                blackUser.Stats.ClassicGamesPlayed += 1;
+                break;
+
+            case TimingTypes.Daily:
+                whiteUser.Stats.DailyGamesPlayed += 1;
+                blackUser.Stats.DailyGamesPlayed += 1;
+                break;
+        }
+
 
         game.EloGain = eloToUpdate;
         game.WhitePlayer.FinishedGame = true;

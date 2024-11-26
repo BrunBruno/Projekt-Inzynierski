@@ -17,7 +17,7 @@ type SignInModalProps = {
   // path that user wanted
   userPath: string;
   // to change displayed modal
-  setModal: Dispatch<SetStateAction<number>>;
+  setModal: Dispatch<SetStateAction<RegistrationInterface>>;
 };
 
 function SignInModal({ userPath, setModal }: SignInModalProps) {
@@ -91,7 +91,6 @@ function SignInModal({ userPath, setModal }: SignInModalProps) {
       setProcessing(false);
     }
   };
-  //*/
 
   // regenerates verification code
   // for logging again without verification
@@ -106,7 +105,6 @@ function SignInModal({ userPath, setModal }: SignInModalProps) {
       errorDisplay(err, setErrorMess);
     }
   };
-  //*/
 
   // handle click
   // focus to input
@@ -116,7 +114,6 @@ function SignInModal({ userPath, setModal }: SignInModalProps) {
       inputRef.current.classList.remove(classes.err);
     }
   };
-  //*/
 
   if (processing) return <LoadingPage text="Logging in..." />;
 
@@ -153,7 +150,10 @@ function SignInModal({ userPath, setModal }: SignInModalProps) {
             ref={emailInputRef}
             name="email"
             type="text"
-            placeholder="E-mail"
+            inputMode="text"
+            autoCapitalize="none"
+            autoCorrect="off"
+            placeholder="E-mail / Username"
             autoComplete="e-mail"
             className={classes["form-input"]}
           />
@@ -171,6 +171,8 @@ function SignInModal({ userPath, setModal }: SignInModalProps) {
             ref={passwordInputRef}
             name="password"
             type="password"
+            autoCapitalize="none"
+            autoCorrect="off"
             placeholder="Password"
             autoComplete="off"
             className={classes["form-input"]}
@@ -179,7 +181,6 @@ function SignInModal({ userPath, setModal }: SignInModalProps) {
           <IconCreator icons={registerPageIcons} iconName={"arrow"} iconClass={classes.arrow} />
         </div>
       </div>
-      {/* --- */}
 
       <div className={classes.error}>
         <span>{errorMess}</span>

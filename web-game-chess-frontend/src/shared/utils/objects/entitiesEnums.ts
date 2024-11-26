@@ -8,17 +8,17 @@ export enum DataConfiguration {
 
 // from back-end color enum
 export enum PieceColor {
-  white = 0,
-  black = 1,
+  white = 1,
+  black = 2,
 }
 
 // from back-end game timing type enum
 export enum TimingType {
-  bullet = 0,
-  blitz = 1,
-  rapid = 2,
-  classic = 3,
-  daily = 4,
+  bullet = 1,
+  blitz = 2,
+  rapid = 3,
+  classic = 4,
+  daily = 5,
 }
 
 // from back-end reasons why game has ended
@@ -35,10 +35,10 @@ export enum GameEndReason {
 
 // from back-end statuses of friendship requests
 export enum FriendshipStatus {
-  all = -1,
-  pending = 0,
-  accepted = 1,
-  rejected = 2,
+  all = 0,
+  pending = 1,
+  accepted = 2,
+  rejected = 3,
 }
 
 // message type enum
@@ -46,4 +46,24 @@ export enum MessageType {
   normal = 0,
   drawAction = 1,
   bot = 2,
+}
+
+//
+export enum AppearanceOfBoard {
+  Default,
+  Rounded,
+  Wooden,
+  Grey,
+}
+
+//
+export enum AppearanceOfGamePage {
+  Simple,
+  Full,
+}
+
+//
+export enum AppearanceOfPieces {
+  Standard,
+  Simple,
 }

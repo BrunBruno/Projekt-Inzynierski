@@ -1,4 +1,5 @@
-﻿using chess.Application.Repositories.UserRepositories;
+﻿
+using chess.Application.Repositories.UserRepositories;
 using chess.Core.Entities;
 using chess.Infrastructure.Contexts;
 using chess.Shared.Exceptions;
@@ -6,13 +7,11 @@ using Microsoft.EntityFrameworkCore;
 
 namespace chess.Infrastructure.Repositories.UserRepositories;
 
-public class UserVerificationCodeRepository : IUserVerificationCodeRepository
-{
+public class UserVerificationCodeRepository : IUserVerificationCodeRepository {
 
     private readonly ChessAppDbContext _dbContext;
 
-    public UserVerificationCodeRepository(ChessAppDbContext dbContext)
-    {
+    public UserVerificationCodeRepository(ChessAppDbContext dbContext) {
         _dbContext = dbContext;
     }
 
@@ -22,15 +21,13 @@ public class UserVerificationCodeRepository : IUserVerificationCodeRepository
                     .FirstOrDefaultAsync(c => c.UserId == userId);
 
     ///<inheritdoc/>
-    public async Task Add(UserVerificationCode code)
-    {
+    public async Task Add(UserVerificationCode code) {
         await _dbContext.UserVerificationCodes.AddAsync(code);
         await _dbContext.SaveChangesAsync();
     }
 
     ///<inheritdoc/>
-    public async Task RemoveByUserId(Guid userId)
-    {
+    public async Task RemoveByUserId(Guid userId) {
         var code = await GetByUserId(userId)
             ?? throw new NotFoundException("Code not found.");
 

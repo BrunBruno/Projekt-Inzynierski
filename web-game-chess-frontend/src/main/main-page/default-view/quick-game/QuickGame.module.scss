@@ -1,6 +1,6 @@
 @use "../../../../shared/styles/shared.scss" as *;
 
-$tag_size: 2rem;
+$tag-size: 2rem;
 
 .quick {
   @include rounded(2rem);
@@ -37,19 +37,83 @@ $tag_size: 2rem;
   &__controls {
     @include flex(row, space-evenly, center, 2rem);
 
+    padding: 1rem;
+
     .time-control {
-      @include flex();
-      @include rounded(calc($tag_size));
+      @include flex;
+      @include rounded(calc($tag-size));
 
       position: relative;
       border-bottom: solid 0.4rem $gc8;
       border-radius: 1rem;
-      overflow: hidden;
-      width: calc(7 * $tag_size);
+      background-color: $gc9;
+      width: calc(7 * $tag-size);
+      user-select: none;
+
+      .timing-icon {
+        @include square(calc($tag-size * 1.5));
+
+        z-index: 1;
+      }
+
+      .timing-tag {
+        @include flex;
+        @include wh100;
+
+        height: $tag-size;
+        z-index: 1;
+        color: $gc4;
+
+        .num {
+          z-index: 1;
+          height: 100%;
+          font-size: $tag-size;
+
+          &:nth-child(2) {
+            margin-right: calc($tag-size / 5);
+          }
+
+          &:nth-child(6) {
+            margin-right: calc($tag-size / 5);
+          }
+        }
+
+        .char {
+          z-index: 1;
+          display: flex;
+          align-items: end;
+          height: 100%;
+          font-size: calc($tag-size * 0.6);
+
+          &:nth-child(2) {
+            margin-left: calc($tag-size / 5);
+          }
+        }
+
+        .sep {
+          z-index: 1;
+          font-size: calc($tag-size * 0.6);
+          margin: calc($tag-size / 5);
+        }
+      }
+
+      &::before {
+        @include sub-class;
+
+        z-index: -1;
+        transform: translate(0, 1rem);
+        background-color: #111;
+        border-radius: 1rem;
+        filter: blur(0.5rem);
+      }
 
       &:hover {
         cursor: pointer;
         border-color: $gc0;
+
+        &::before {
+          background-color: $gc5;
+        }
 
         .timing-icon {
           filter: drop-shadow(0 0 1rem $gc0);
@@ -59,11 +123,13 @@ $tag_size: 2rem;
               fill: $gc0;
             }
           }
+
           &.blitz {
             polygon {
               stroke: $gc0;
             }
           }
+
           &.rapid {
             path {
               stroke: $gc0;
@@ -84,62 +150,10 @@ $tag_size: 2rem;
       &:active {
         border-top: solid 0.3rem #0000;
         border-bottom: none;
+        background-color: $gc8;
 
-        &::after {
-          background-color: $gc8;
-        }
-      }
-
-      &::after {
-        @include subCl();
-
-        z-index: 0;
-        background-color: $gc9;
-      }
-
-      .timing-icon {
-        @include square(calc($tag_size * 1.5));
-        z-index: 1;
-      }
-
-      .timing-tag {
-        @include flex();
-        @include wh100();
-
-        height: $tag_size;
-        z-index: 1;
-        color: $gc6;
-
-        .num {
-          z-index: 1;
-          height: 100%;
-          font-size: $tag_size;
-
-          &:nth-child(2) {
-            margin-right: calc($tag_size / 5);
-          }
-
-          &:nth-child(6) {
-            margin-right: calc($tag_size / 5);
-          }
-        }
-
-        .char {
-          z-index: 1;
-          display: flex;
-          align-items: end;
-          height: 100%;
-          font-size: calc($tag_size * 0.6);
-
-          &:nth-child(2) {
-            margin-left: calc($tag_size / 5);
-          }
-        }
-
-        .sep {
-          z-index: 1;
-          font-size: calc($tag_size * 0.6);
-          margin: calc($tag_size / 5);
+        &::before {
+          display: none;
         }
       }
     }

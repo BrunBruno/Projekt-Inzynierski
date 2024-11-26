@@ -47,7 +47,6 @@ function HomeActions({}: HomeActionsProps) {
 
     return pawns;
   };
-  //*/
 
   // to go to registration page
   const navigateToRegistration = (regOptions: RegistrationInterface): void => {
@@ -57,7 +56,6 @@ function HomeActions({}: HomeActionsProps) {
 
     navigate("/registration", { state: state });
   };
-  //*/
 
   return (
     <div className={classes.actions}>
@@ -86,7 +84,6 @@ function HomeActions({}: HomeActionsProps) {
               <span>Sign In</span>
             </p>
           </div>
-          {/* --- */}
 
           {/* sign up pawn */}
           <div
@@ -106,7 +103,6 @@ function HomeActions({}: HomeActionsProps) {
               <span>Sign Up</span>
             </p>
           </div>
-          {/* --- */}
         </div>
       </div>
     </div>

@@ -17,7 +17,7 @@ type VerifyEmailModalProps = {
   // path that user wanted
   userPath: string;
   // to set current modal
-  setModal: Dispatch<SetStateAction<number>>;
+  setModal: Dispatch<SetStateAction<RegistrationInterface>>;
 };
 
 function VerifyEmailModal({ userPath, setModal }: VerifyEmailModalProps) {
@@ -93,7 +93,6 @@ function VerifyEmailModal({ userPath, setModal }: VerifyEmailModalProps) {
       setProcessing(false);
     }
   };
-  //*/
 
   // regenerates verification code
   const regenerateCode = async (): Promise<void> => {
@@ -111,7 +110,6 @@ function VerifyEmailModal({ userPath, setModal }: VerifyEmailModalProps) {
       errorDisplay(err, setErrorMess);
     }
   };
-  //*/
 
   // handle code input on change
   const handleCodeInputChange = (event: ChangeEvent<HTMLInputElement>): void => {
@@ -120,9 +118,8 @@ function VerifyEmailModal({ userPath, setModal }: VerifyEmailModalProps) {
       setCodeValue(inputValue);
     }
   };
-  //*/
 
-  // auto pasting
+  // auto pasting code
   const onPasteCode = async (): Promise<void> => {
     try {
       const code = await navigator.clipboard.readText();
@@ -135,7 +132,6 @@ function VerifyEmailModal({ userPath, setModal }: VerifyEmailModalProps) {
       showPopup("ERROR PASTING CODE", "error");
     }
   };
-  //*/
 
   if (processing) return <LoadingPage />;
 
@@ -197,7 +193,6 @@ function VerifyEmailModal({ userPath, setModal }: VerifyEmailModalProps) {
           <span>Resend</span>
         </p>
       </div>
-      {/* --- */}
 
       {/* error */}
       <div className={classes.error}>
@@ -217,7 +212,6 @@ function VerifyEmailModal({ userPath, setModal }: VerifyEmailModalProps) {
       >
         <span>Cancel</span>
       </p>
-      {/* --- */}
     </form>
   );
 }

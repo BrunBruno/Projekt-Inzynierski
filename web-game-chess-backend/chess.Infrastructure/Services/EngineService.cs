@@ -33,11 +33,13 @@ public class EngineService : IEngineService {
         }
     }
 
+    ///<inheritdoc/>
     public void SendCommand(string command) {
         _stockfishProcess.StandardInput.WriteLine(command);
         _stockfishProcess.StandardInput.Flush();
     }
 
+    ///<inheritdoc/>
     public List<string> ReadOutput() {
         var engineOutputs = new List<string>();
         var stopwatch = Stopwatch.StartNew();
@@ -59,6 +61,7 @@ public class EngineService : IEngineService {
         return engineOutputs;
     }
 
+    ///<inheritdoc/>
     public void Close() {
         SendCommand("quit");
         _stockfishProcess.Close();

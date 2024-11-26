@@ -3,7 +3,7 @@
 
 // searching for game container
 .searching {
-  @include wh100();
+  @include wh100;
 
   &__content {
     position: relative;
@@ -23,6 +23,7 @@
       svg {
         g {
           transform: translate(16%, 16%);
+
           path {
             fill: rgba($mc9, 0.05);
             transition: all 1s;
@@ -49,9 +50,46 @@
     }
 
     &__text {
+      @include flex(column, start, center, 2rem);
+
+      max-width: 50rem;
+      text-align: center;
+
       h1.h1-header {
         font-size: 2.6rem;
         color: $mc0;
+      }
+
+      span {
+        font-size: 1.6rem;
+      }
+
+      p.game-url {
+        @include rounded(1rem);
+
+        position: relative;
+        font-size: 1.6rem;
+        background-color: $gc9;
+        color: $mc5;
+
+        &:hover {
+          cursor: pointer;
+          filter: brightness(80%);
+        }
+
+        span {
+          @include rounded(0.6rem);
+
+          position: absolute;
+          color: $gc4;
+          background-color: #111;
+          display: none;
+          transform: translateX(-50%);
+
+          &.show {
+            display: block;
+          }
+        }
       }
     }
 
@@ -62,6 +100,11 @@
         height: 3rem;
         transition: transform 0.3s;
 
+        path {
+          fill: $mc0;
+          transition: fill 2s;
+        }
+
         &.active {
           transform: translateY(-2rem) scale(1.2);
 
@@ -70,23 +113,14 @@
             transition: fill 0.1s;
           }
         }
-
-        path {
-          fill: $mc0;
-          transition: fill 2s;
-        }
       }
     }
 
     button.cancel {
       @include button(2.6rem);
-      & {
-        @include mainMButton();
-      }
+      @include main-m-button;
     }
   }
 }
-//*/
 
 // resize
-//

@@ -4,6 +4,9 @@ using MediatR;
 
 namespace chess.Application.Requests.EngineRequests.EndEngineGame;
 
+/// <summary>
+/// Request for ending games with engine
+/// </summary>
 public class EndEngineGameRequest : IRequest<EndEngineGameDto> {
 
     /// <summary>

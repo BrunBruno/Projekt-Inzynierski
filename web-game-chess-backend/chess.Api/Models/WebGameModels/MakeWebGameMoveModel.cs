@@ -10,7 +10,7 @@ public class MakeWebGameMoveModel {
     public required string NewCoor { get; set; }
     public string? CapturedPiece { get; set; }
     public string? EnPassant { get; set; }
-    public bool WhitekingMoved { get; set; }
+    public bool WhiteKingMoved { get; set; }
     public bool WhiteShortRookMoved { get; set; }
     public bool WhiteLongRookMoved { get; set; }
     public bool BlackKingMoved { get; set; }
