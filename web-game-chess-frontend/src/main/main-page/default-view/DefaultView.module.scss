@@ -41,6 +41,8 @@
 // resize
 @media (width <= 700px) {
   .default {
+    height: 100%;
+
     &__container {
       margin-top: 4rem;
       padding: 0;

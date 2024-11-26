@@ -82,7 +82,7 @@ function FriendList({ selectedUsername, setSelectedFriend }: FriendListProps) {
         if (elementHeight > 0) {
           const count = Math.ceil(containerHeight / elementHeight) * itemsPerRow;
 
-          setDefPageSize(count);
+          if (count > 0) setDefPageSize(count);
         }
       }
     };

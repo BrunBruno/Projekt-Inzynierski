@@ -16,7 +16,14 @@ function InviteByUrl({ setSelectedByUrl }: InviteByUrlProps) {
 
   return (
     <div className={classes.invite}>
-      <p className={classes.text}>Invite by link:</p>
+      <p className={classes.header}>
+        <span>Invite by link:</span>
+      </p>
+
+      <p className={classes.text}>
+        Click "Generate" to create a unique invite link that you can share with your friends.
+      </p>
+
       <div className={classes["input-holder"]}>
         <button
           className={classes["generate-button"]}

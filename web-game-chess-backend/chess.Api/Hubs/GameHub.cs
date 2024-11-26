@@ -212,22 +212,6 @@ public class GameHub : Hub<IGameHub> {
         await Clients.Groups($"game-{model.GameId}").GameEnded(endGameDto);
     }
 
-    [HubMethodName("ended-game")]
-    [Authorize(Policy = "IsVerified")]
-    [SignalRMethod("GetEndedGame", Operation.Get)]
-    public async Task GetEndedGame(Guid gameId) {
-
-        var request =new EndWebGameRequest()
-        {
-            GameId = gameId, 
-        };
-
-        var endGameDto = await _mediator.Send(request);
-
-        await Clients.Groups($"game-{gameId}").GameEnded(endGameDto);
-    }
-
-
 
     /// <summary>
     /// To accept game rematch
@@ -305,6 +289,27 @@ public class GameHub : Hub<IGameHub> {
     public async Task TypingStatus(TypingStatusModel model) {
 
         await Clients.OthersInGroup($"game-{model.GameId}").TypingStatus(model.IsTyping);
+    }
+
+
+    /// <summary>
+    /// To get already finsihed game
+    /// </summary>
+    /// <param name="gameId"></param>
+    /// <returns></returns>
+    [HubMethodName("ended-game")]
+    [Authorize(Policy = "IsVerified")]
+    [SignalRMethod("GetEndedGame", Operation.Get)]
+    public async Task GetEndedGame(Guid gameId) {
+
+        var request = new EndWebGameRequest()
+        {
+            GameId = gameId,
+        };
+
+        var endGameDto = await _mediator.Send(request);
+
+        await Clients.Groups($"game-{gameId}").GameEnded(endGameDto);
     }
 
 

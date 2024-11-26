@@ -129,13 +129,60 @@
 // resize
 @media (width <= 700px) {
   .bar {
-    border-left: none;
-    border-right: none;
+    border: none;
 
     &__content {
-      grid-template-columns: 30rem auto 0;
+      @include flex(row, space-between, center, 0);
 
-      &__outro {
+      padding: 0 4rem;
+
+      &__intro {
+        @include flex;
+      }
+
+      &__search {
+        @include flex;
+
+        p.search-tag {
+          display: none;
+        }
+      }
+
+      &__options {
+        flex-direction: row;
+
+        .option {
+          @include square(6rem);
+
+          span {
+            display: none;
+          }
+
+          svg.panel-arrow {
+            display: none;
+          }
+
+          &:first-child {
+            border-radius: 0;
+            border-top-left-radius: 1rem;
+            border-bottom-left-radius: 1rem;
+          }
+
+          &:last-child {
+            border-radius: 0;
+            border-top-right-radius: 1rem;
+            border-bottom-right-radius: 1rem;
+          }
+        }
+      }
+    }
+  }
+}
+
+@media (width <= 500px) {
+  .bar {
+    &__content {
+      &__intro {
         display: none;
       }
     }

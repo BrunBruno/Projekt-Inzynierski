@@ -8,19 +8,21 @@ $tag-size: 3rem;
   @include flex;
 
   position: relative;
-  padding: 8rem 12rem;
+  padding: 8rem 0;
 
   &__grid {
     @include wh100;
     @include rounded(2rem);
     @include show-ani;
 
+    width: fit-content;
     height: fit-content;
     display: grid;
     grid-template-columns: 1fr;
     grid-template-rows: auto repeat(5, 1fr);
     gap: 1rem;
     background-color: rgba($gc9, 0.3);
+    margin: auto;
 
     &__header {
       position: relative;
@@ -192,10 +194,9 @@ $tag-size: 3rem;
     }
 
     &__grid {
-      position: unset;
       width: 100%;
+      height: fit-content;
       background-color: #0000;
-      transform: none;
 
       &__header {
         padding: 0;
@@ -204,22 +205,24 @@ $tag-size: 3rem;
       &__row {
         grid-template-columns: repeat(4, 1fr);
         height: unset;
+        gap: 1rem;
 
         .timing-header {
           grid-column: span 4;
           padding: 2rem;
 
           .header-icon {
-            height: 3rem;
+            height: 4rem;
           }
 
           span {
-            font-size: 2.4rem;
+            font-size: 3rem;
             font-weight: 800;
           }
         }
 
         .time-control {
+          width: unset;
           height: calc(3 * $tag-size);
 
           .timing-tag {
@@ -253,5 +256,11 @@ $tag-size: 3rem;
         }
       }
     }
+  }
+}
+
+@media (height <= 700px) {
+  .search {
+    display: block;
   }
 }

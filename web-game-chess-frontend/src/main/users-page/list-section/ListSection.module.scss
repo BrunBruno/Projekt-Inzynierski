@@ -78,14 +78,6 @@
       font-weight: 600;
       color: $gc5;
     }
-
-    // .no-data-icon {
-    //   @include abs-center();
-    //   z-index: -1;
-
-    //   height: 20rem;
-    //   opacity: 0.2;
-    // }
   }
 
   &.empty-list {
@@ -103,7 +95,15 @@
 }
 
 // resize
-@media (width <= 500px) {
+@media (width <= 300px) {
+  .list {
+    &__grid {
+      grid-template-columns: 1fr !important;
+    }
+  }
+}
+
+@media (width <= 600px) {
   .list {
     &__grid {
       grid-template-columns: repeat(2, 1fr);

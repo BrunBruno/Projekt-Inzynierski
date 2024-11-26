@@ -48,6 +48,8 @@ function TableSection({}: TableSectionProps) {
 
   // get global user ranking
   const getUsersRating = async (): Promise<void> => {
+    if (pageSize <= 0 || pageNumber <= 0) return;
+
     const model: GetUsersRankingModel = {
       pageNumber: pageNumber,
       pageSize: pageSize,
@@ -61,6 +63,7 @@ function TableSection({}: TableSectionProps) {
       );
 
       setUsersRanking(response.data);
+
       setTotalItemsCount(response.data.items.length);
     } catch (err) {
       showPopup(getErrMessage(err), "warning");
@@ -69,6 +72,8 @@ function TableSection({}: TableSectionProps) {
 
   // get friends ranking
   const getFriendsRating = async (): Promise<void> => {
+    if (pageSize <= 0 || pageNumber <= 0) return;
+
     const model: GetFriendshipRankingModel = {
       pageNumber: pageNumber,
       pageSize: pageSize,
@@ -175,9 +180,18 @@ function TableSection({}: TableSectionProps) {
               <p className={classes["p-column"]}>No.</p>
               <p className={classes["p-column"]}></p>
               <p className={classes["p-column"]}>Username</p>
-              <p className={classes["p-column"]}>Elo</p>
-              <p className={classes["p-column"]}>Games</p>
-              <p className={classes["p-column"]}>Ratio</p>
+              <p className={classes["d-column"]}>
+                Variant <br /> Elo
+              </p>
+              <p className={classes["d-column"]}>
+                Variant <br /> Games
+              </p>
+              <p className={classes["d-column"]}>
+                Total <br /> Games
+              </p>
+              <p className={classes["d-column"]}>
+                W/D/L <br /> Rate
+              </p>
             </div>
 
             {usersRanking.items.map((user: GetUserRankingDto | GetFriendshipRankingDto, i: number) => (
@@ -205,6 +219,9 @@ function TableSection({}: TableSectionProps) {
                 </div>
                 <div className={classes["col"]}>
                   <span>{user.gamesPlayed}</span>
+                </div>
+                <div className={classes["col"]}>
+                  <span>{user.gamesRatio}</span>
                 </div>
               </div>
             ))}

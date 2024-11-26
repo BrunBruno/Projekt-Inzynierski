@@ -2,9 +2,10 @@ import { Dispatch, SetStateAction } from "react";
 import AvatarImage from "../../../../../shared/components/avatar-image/AvatarImage";
 import IconCreator from "../../../../../shared/components/icon-creator/IconCreator";
 import { timingTypeIcons } from "../../../../../shared/svgs/iconsMap/TimingTypeIcons";
-import { mainColor } from "../../../../../shared/utils/objects/colorMaps";
+import { greyColor, mainColor } from "../../../../../shared/utils/objects/colorMaps";
 import { GetAllFriendsByStatusDto } from "../../../../../shared/utils/types/friendshipDtos";
 import classes from "./FriendCard.module.scss";
+import { symbolIcons } from "../../../../../shared/svgs/iconsMap/SymbolIcons";
 
 type FriendCardProps = {
   // friend data from map
@@ -17,7 +18,13 @@ function FriendCard({ friend, setSelectedFriend }: FriendCardProps) {
   ///
 
   return (
-    <div key={friend.friendshipId.toString()} className={classes.card}>
+    <div
+      key={friend.friendshipId.toString()}
+      className={classes.card}
+      onClick={() => {
+        setSelectedFriend(friend);
+      }}
+    >
       <AvatarImage
         username={friend.username}
         profilePicture={friend.profilePicture}
@@ -66,14 +73,17 @@ function FriendCard({ friend, setSelectedFriend }: FriendCardProps) {
       </div>
 
       <div className={classes.invite}>
-        <button
-          data-testid="vs-friend-invite-to-game-button"
-          className={classes["invite-button"]}
-          onClick={() => {
-            setSelectedFriend(friend);
-          }}
-        >
-          <span>Invite</span>
+        <button data-testid="vs-friend-invite-to-game-button" className={classes["invite-button"]}>
+          {window.innerWidth > 1100 ? (
+            <span>Invite</span>
+          ) : (
+            <IconCreator
+              icons={symbolIcons}
+              iconName={"arrow"}
+              iconClass={classes["button-arrow"]}
+              color={greyColor.c6}
+            />
+          )}
         </button>
       </div>
     </div>

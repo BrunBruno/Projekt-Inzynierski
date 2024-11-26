@@ -113,7 +113,9 @@ function ListSection({ selectedUsername, selectedList, setUserProfile, setFriend
     // for gird layout
     const getItemsPerRow = (): number => {
       const wh = window.innerWidth;
-      if (wh < 500) {
+      if (wh < 300) {
+        return 1;
+      } else if (wh < 600) {
         return 2;
       } else if (wh < 1800) {
         return 3;
@@ -137,7 +139,7 @@ function ListSection({ selectedUsername, selectedList, setUserProfile, setFriend
         if (elementHeight > 0) {
           const count = Math.ceil(containerHeight / elementHeight) * itemsPerRow;
 
-          setDefPageSize(count);
+          if (count > 0) setDefPageSize(count);
         }
       }
     };

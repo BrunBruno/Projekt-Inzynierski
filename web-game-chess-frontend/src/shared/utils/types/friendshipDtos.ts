@@ -35,6 +35,7 @@ export type GetFriendshipRankingDto = {
   elo: number;
   gamesPlayed: number;
   typeGamesPlayed: number;
+  gamesRatio: string;
   isUser: boolean;
   profile: UserImage | null;
 };

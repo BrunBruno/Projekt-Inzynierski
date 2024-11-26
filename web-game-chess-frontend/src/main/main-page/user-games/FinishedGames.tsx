@@ -49,7 +49,7 @@ function FinishedGames({}: FinishedGamesProps) {
           if (elementHeight > 0) {
             const count = Math.ceil(containerHeight / elementHeight) * elemCount;
 
-            setDefPageSize(count);
+            if (count > 0) setDefPageSize(count);
           }
         }
       }
@@ -112,7 +112,7 @@ function FinishedGames({}: FinishedGamesProps) {
             color={mainColor.c0}
           />
 
-          <span>Your finished games: </span>
+          <span>Finished games: </span>
 
           <span className={classes["counter"]}>
             <span className={classes["sym"]}>(</span>

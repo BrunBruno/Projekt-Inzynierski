@@ -65,6 +65,7 @@ export type GetUserRankingDto = {
   elo: number;
   gamesPlayed: number;
   typeGamesPlayed: number;
+  gamesRatio: string;
   isUser: boolean;
   profile: UserImage | null;
 };

@@ -34,6 +34,11 @@ public class GetUsersRankingDto {
     public int TypeGamesPlayed { get; set; }
 
     /// <summary>
+    /// WDL ration for all games
+    /// </summary>
+    public required string GamesRatio { get; set; }
+
+    /// <summary>
     /// Is user a current user
     /// </summary>
     public bool IsUser { get; set; }

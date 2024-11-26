@@ -21,8 +21,6 @@ function FriendSelection({ privateGameOptionsProp }: FriendSelectionProps) {
 
   const location = useLocation();
 
-  // invite function refs
-
   // for filtering by username
   const [selectedUsername, setSelectedUsername] = useState<string>("");
 

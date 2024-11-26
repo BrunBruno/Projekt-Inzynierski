@@ -75,9 +75,11 @@
 // resize
 @media (width <= 700px) {
   .nav {
-    width: 100% !important;
+    width: 100vw;
     height: 6rem;
     padding: 0 2rem;
+    right: unset;
+    left: 0;
 
     &__elements {
       width: 100%;
@@ -85,8 +87,7 @@
 
       .element {
         span.ind {
-          right: unset;
-          top: 100%;
+          display: none;
         }
       }
     }

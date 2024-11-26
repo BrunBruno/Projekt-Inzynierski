@@ -58,7 +58,13 @@ function InviteByEmail({ setSelectedUser }: InviteByEmailProps) {
 
   return (
     <div className={classes.invite}>
-      <p className={classes.text}>Invite using email:</p>
+      <p className={classes.header}>
+        <span>Invite using email:</span>
+      </p>
+
+      <p className={classes.text}>
+        Enter your friend's email below to send them an invitation. Click the arrow to proceed.
+      </p>
 
       <form
         onSubmit={(event) => {
@@ -69,7 +75,7 @@ function InviteByEmail({ setSelectedUser }: InviteByEmailProps) {
           <input
             className={classes["input-mail"]}
             name="email"
-            placeholder="email"
+            placeholder="friend@example.com"
             value={selectedEmail}
             onChange={(event) => {
               setEmail(event);
@@ -85,7 +91,7 @@ function InviteByEmail({ setSelectedUser }: InviteByEmailProps) {
             <IconCreator
               icons={symbolIcons}
               iconName={"roundArrow"}
-              color={mainColor.c9}
+              color={mainColor.c5}
               iconClass={classes["arrow-svg"]}
             />
           </div>

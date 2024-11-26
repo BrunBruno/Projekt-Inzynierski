@@ -20,14 +20,18 @@ function InviteBySelection({ setSelectedUsername }: InviteBySelectionProps) {
 
   return (
     <div className={classes.invite}>
-      <p className={classes.text}>
+      <p className={classes.header}>
         <span>Search among friends:</span>
+      </p>
+
+      <p className={classes.text}>
+        Type your friend's username in the search bar to find them quickly and send an invite.
       </p>
 
       <div className={classes["input-holder"]}>
         <input
           className={classes["input-search"]}
-          placeholder="username"
+          placeholder="friend-username"
           onChange={(event) => {
             delayAction(() => {
               onSearch(event);

@@ -12,6 +12,7 @@
   user-select: none;
   transform: scale(1);
   transition: transform 0.3s;
+  max-width: 50rem;
 
   // game result data
   .game-data {

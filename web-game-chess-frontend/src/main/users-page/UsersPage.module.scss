@@ -14,13 +14,19 @@
 
   .users-list {
     position: relative;
+    height: 100%;
+    overflow: hidden;
   }
 }
 
 // resize
 @media (width <= 700px) {
   .users-main {
+    height: 100vh;
+    height: 100dvh;
     padding: 0;
     padding-top: 6rem;
+    grid-template-columns: 1fr;
+    grid-template-rows: 12rem auto;
   }
 }

@@ -25,10 +25,12 @@
   }
 
   &__title {
-    @include flex(row, start, center, 4rem);
-
     font-size: 2.2rem;
     color: $gc3;
+
+    &.empty-title {
+      @include flex(row, start, center, 4rem);
+    }
 
     b.imp-data {
       color: $mc5;
@@ -125,6 +127,12 @@
 
     &__icon {
       display: none;
+    }
+
+    &__title {
+      .empty-text {
+        width: 20rem;
+      }
     }
   }
 }

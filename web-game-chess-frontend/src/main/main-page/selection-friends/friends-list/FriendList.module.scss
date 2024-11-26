@@ -48,8 +48,9 @@
 
   &__indicator {
     position: absolute;
-    width: 100%;
+    left: 0;
     bottom: 0;
+    width: 100%;
     font-size: 1.4rem;
     text-align: center;
   }
@@ -58,14 +59,29 @@
 // resize
 @media (width <= 1100px) {
   .list {
+    height: 100%;
+    overflow: hidden visible;
     padding: 0;
     display: grid;
     grid-template-columns: 1fr 1fr;
+
+    &__indicator {
+      position: fixed;
+      width: calc(100% - 38rem);
+    }
+  }
+}
+
+@media (width <= 700px) {
+  .list {
+    &__indicator {
+      width: 100%;
+    }
   }
 }
 
 @media (width <= 500px) {
   .list {
-    display: flex;
+    display: block;
   }
 }

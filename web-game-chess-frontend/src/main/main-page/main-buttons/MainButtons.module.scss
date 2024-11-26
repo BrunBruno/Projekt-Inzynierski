@@ -196,18 +196,23 @@
     width: 100vw;
     grid-row: 1;
     overflow: hidden;
+    height: fit-content;
+    padding: 1rem !important;
+    border: none;
+    box-shadow: none;
 
     &::before {
       @include sub-class(100%, 0.1rem);
 
       top: 100%;
       left: 0;
+      background-color: $mc0;
       box-shadow: 0 0 1rem 0.1rem $mc0;
     }
 
     button.interface-button {
       @include flex;
-      @include square(8rem);
+      @include square(7rem);
 
       gap: 0;
       padding: 0;
@@ -217,7 +222,7 @@
       }
 
       svg {
-        height: 6rem;
+        height: 100%;
       }
     }
   }

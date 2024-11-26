@@ -351,9 +351,7 @@ function MainPage() {
 
       <section className={classes.main__container}>
         <div className={classes.main__container__content}>
-          <div className={classes.game__content__col}>
-            <div className={classes["game-interface"]}>{interfaceContent}</div>
-          </div>
+          <div className={classes["game-interface"]}>{interfaceContent}</div>
 
           <MainButtons interfaceId={interfaceId} setInterfaceById={setInterfaceById} />
 

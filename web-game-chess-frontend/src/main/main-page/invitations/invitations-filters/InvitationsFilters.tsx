@@ -52,7 +52,7 @@ function InvitationsFilters({ expirationFiltersProps }: InvitationsFiltersProps)
             activateExpirationFilter(false);
           }}
         >
-          <span>Active</span>
+          <span>Expired</span>
           <IconCreator icons={symbolIcons} iconName={"error"} iconClass={classes["option-svg"]} />
         </div>
       </div>

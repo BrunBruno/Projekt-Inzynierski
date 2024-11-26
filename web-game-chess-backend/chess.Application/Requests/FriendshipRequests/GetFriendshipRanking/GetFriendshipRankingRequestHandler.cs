@@ -70,6 +70,12 @@ public class GetFriendshipRankingRequestHandler : IRequestHandler<GetFriendshipR
                               request.Type == TimingTypes.Classic ? user.Stats.ClassicGamesPlayed :
                               request.Type == TimingTypes.Daily ? user.Stats.DailyGamesPlayed : 0,
 
+            GamesRatio = user.Stats.OnlineGamesPlayed > 0 ?
+                $"{(int)(100 * (double)user.Stats.OnlineWins / user.Stats.OnlineGamesPlayed)}" +
+                $"/{(int)(100 * (double)user.Stats.OnlineDraws / user.Stats.OnlineGamesPlayed)}" +
+                $"/{(int)(100 * (double)user.Stats.OnlineLoses / user.Stats.OnlineGamesPlayed)}"
+                : "---",
+
             IsUser = userId == user.Id,
 
             Profile = user.Image != null ? new ImageDto() {

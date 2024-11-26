@@ -4,13 +4,14 @@
 // register page container
 .register {
   @include grid-bg;
+  @include flex;
 
   position: relative;
   height: 100%;
+  min-height: 68rem;
 
   &__content {
-    @include abs-center;
-
+    position: relative;
     width: 100rem;
     height: 60rem;
     display: grid;
@@ -121,6 +122,7 @@
   .register {
     position: relative;
     height: 100dvh;
+    min-height: 88rem;
 
     &__content {
       @include flex(column-reverse, start, center, 0);

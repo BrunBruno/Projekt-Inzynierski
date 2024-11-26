@@ -93,3 +93,12 @@
 }
 
 // resize
+@media (height <= 400px) {
+  .board {
+    position: relative;
+    top: unset;
+    left: unset;
+    transform: none;
+    margin: auto;
+  }
+}

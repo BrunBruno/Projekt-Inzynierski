@@ -48,7 +48,7 @@ function EngineGames({}: EngineGamesProps) {
           if (elementHeight > 0) {
             const count = Math.ceil(containerHeight / elementHeight) * elemCount;
 
-            setDefPageSize(count);
+            if (count > 0) setDefPageSize(count);
           }
         }
       }
@@ -110,7 +110,7 @@ function EngineGames({}: EngineGamesProps) {
             color={mainColor.c0}
           />
 
-          <span>Your games with engine: </span>
+          <span>Offline games: </span>
 
           <span className={classes["counter"]}>
             <span className={classes["sym"]}>(</span>

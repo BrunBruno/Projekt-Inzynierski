@@ -175,7 +175,7 @@ $banner-size: 6rem;
 
         .table-header {
           display: grid;
-          grid-template-columns: 8rem 4rem 3fr 1fr 1fr 2fr;
+          grid-template-columns: 8rem 4rem 3fr repeat(4, 1fr);
 
           .p-column {
             @include flex(row, start, center, 0);
@@ -183,22 +183,23 @@ $banner-size: 6rem;
             color: $gc4;
             font-size: 1.6rem;
           }
+
+          .d-column {
+            color: $gc4;
+            font-size: 1.2rem;
+          }
         }
 
         .table-record {
           width: 100%;
           display: grid;
-          grid-template-columns: 8rem 4rem 3fr 1fr 1fr 2fr;
+          grid-template-columns: 8rem 4rem 3fr repeat(4, 1fr);
           border-bottom: solid 0.1rem $gc9;
           overflow: hidden;
 
           &.active-record {
             background-color: rgba($mc0, 0.1);
           }
-
-          // &:nth-last-child(2) {
-          //   border: none;
-          // }
 
           .avatar {
             @include circle(2.4rem);
@@ -213,6 +214,12 @@ $banner-size: 6rem;
               @include long-text;
 
               font-size: 1.4rem;
+            }
+
+            &:last-child {
+              span {
+                font-size: 1rem;
+              }
             }
           }
         }
@@ -365,6 +372,33 @@ $banner-size: 6rem;
               font-weight: 600;
             }
           }
+        }
+      }
+    }
+  }
+}
+
+// resize
+@media (width <= 800px) {
+  .table {
+    .bg-decorator {
+      display: none;
+    }
+
+    &__content {
+      &__data {
+        grid-template-columns: 1fr;
+        grid-template-rows: 32rem auto;
+        grid-auto-flow: dense;
+
+        .record-list {
+          grid-row: 2;
+        }
+
+        .table-option {
+          grid-row: 1;
+          display: grid;
+          grid-template-columns: 1fr 1fr;
         }
       }
     }

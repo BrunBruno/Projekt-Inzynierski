@@ -16,3 +16,19 @@
 }
 
 // resize
+@media (width <= 800px) {
+  .ranking-main {
+    padding-top: 6rem;
+    height: 100%;
+    overflow: hidden;
+
+    padding: 0;
+
+    .ranking {
+      padding: 4rem;
+      padding-top: 8rem;
+
+      border: solid red 1px;
+    }
+  }
+}
