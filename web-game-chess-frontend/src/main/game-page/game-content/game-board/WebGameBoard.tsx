@@ -23,6 +23,7 @@ import {
   onClearHighlights,
   onHighlightFile,
   performMoveAnimation,
+  playMoveSound,
 } from "../../../../shared/utils/chess-game/boardVisualization";
 import { makeMove } from "../../../../shared/utils/chess-game/makeMove";
 import { GameWindowInterface } from "../../../../shared/utils/objects/interfacesEnums";
@@ -79,25 +80,29 @@ function WebGameBoard({
       const newCoor = toCoor(lastMove.newCoor.split(",").map(Number));
       setNewCoordinates(newCoor);
 
-      const wasCap = lastMove.move[1] === "x";
-      setWasCapture(wasCap);
+      const wasCapture = lastMove.move[1] === "x";
+      setWasCapture(wasCapture);
 
       settCapturedPiece(lastMove.capturedPiece as PieceOption);
 
       // animation after opponents move
       if (
-        innerBoardRef.current &&
+        outerBoardRef.current &&
+        oldCoor &&
         ((playerData.color === PieceColor.white && gameData.turn % 2 === 0) ||
           (playerData.color === PieceColor.black && gameData.turn % 2 === 1))
       ) {
-        const pieceParent = document.getElementById(`field-${oldCoor![0]}-${oldCoor![1]}`);
+        const pieceParent = document.getElementById(`field-${oldCoor[0]}-${oldCoor[1]}`);
 
         if (pieceParent) {
           const movedPiece = pieceParent.firstElementChild as HTMLElement;
 
-          performMoveAnimation(innerBoardRef.current, movedPiece, playerData, oldCoor, newCoor);
+          performMoveAnimation(outerBoardRef.current, movedPiece, playerData, oldCoor, newCoor);
         }
       }
+
+      const wasCheck = lastMove.fenMove[lastMove.fenMove.length - 1] === "#";
+      playMoveSound(wasCapture, wasCheck);
     }
   }, [gameData]);
 

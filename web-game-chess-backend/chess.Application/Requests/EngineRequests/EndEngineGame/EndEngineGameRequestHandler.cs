@@ -14,9 +14,8 @@ namespace chess.Application.Requests.EngineRequests.EndEngineGame;
 /// Checks if game has not been already ended
 /// Creates ending message
 /// Updates game properties
-/// Returns end game dto
 /// </summary>
-public class EndEngineGameRequestHandler : IRequestHandler<EndEngineGameRequest, EndEngineGameDto> {
+public class EndEngineGameRequestHandler : IRequestHandler<EndEngineGameRequest> {
 
     private readonly IEngineGameRepository _engineGameRepository;
     private readonly IUserContextService _userContextService;
@@ -35,7 +34,7 @@ public class EndEngineGameRequestHandler : IRequestHandler<EndEngineGameRequest,
         _userRepository = userRepository;
     }
 
-    public async Task<EndEngineGameDto> Handle(EndEngineGameRequest request, CancellationToken cancellationToken) {
+    public async Task Handle(EndEngineGameRequest request, CancellationToken cancellationToken) {
 
         var userId = _userContextService.GetUserId();
 
@@ -48,19 +47,9 @@ public class EndEngineGameRequestHandler : IRequestHandler<EndEngineGameRequest,
         if (game.Player.UserId != userId)
             throw new UnauthorizedException("Not user game.");
 
-        // game already ended
-        if (game.HasEnded == true) {
-            var prevDto = new EndEngineGameDto()
-            {
-                WinnerColor = game.WinnerColor,
-            };
+        if (game.HasEnded == true)
+            throw new BadRequestException("Game is ended");
 
-            return prevDto;
-        }
-
-        game.HasEnded = true;
-        game.EndedAt = DateTime.UtcNow;
-        game.WinnerColor = request.LoserColor == PieceColor.White ? PieceColor.Black : request.LoserColor == PieceColor.Black ? PieceColor.White : null;
 
 
         if (game.Player.Color == request.LoserColor){
@@ -82,6 +71,7 @@ public class EndEngineGameRequestHandler : IRequestHandler<EndEngineGameRequest,
         }
 
 
+        // end message
         var endMessage = new EngineGameMessage() { 
             Id = Guid.NewGuid(),
             Content = "Game ended.",
@@ -91,15 +81,19 @@ public class EndEngineGameRequestHandler : IRequestHandler<EndEngineGameRequest,
         };
 
 
+        game.HasEnded = true;
+        game.EndedAt = DateTime.UtcNow;
+        game.WinnerColor = request.LoserColor == PieceColor.White ? PieceColor.Black : request.LoserColor == PieceColor.Black ? PieceColor.White : null;
+
+
+        // update last move to check mate
+        if (request.IsCheckMate && game.Moves.Count > 0) {
+            string lastMove = game.Moves[^1].FenMove;
+            game.Moves[^1].FenMove = lastMove[..^1] + "#";
+        }
+
+
         await _engineGameMessageRepository.Create(endMessage);
         await _engineGameRepository.Update(game);
-
-
-        var dto = new EndEngineGameDto()
-        {
-            WinnerColor = game.WinnerColor,
-        };
-
-        return dto;
     }
 }

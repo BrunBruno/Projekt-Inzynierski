@@ -101,6 +101,7 @@ public class GetWebGameRequestHandler : IRequestHandler<GetWebGameRequest, GetWe
                 NewCoor = move.NewCoordinates,
                 CapturedPiece = move.CapturedPiece,
                 Position = move.Position,
+                Duration = move.MoveDuration,
             }).ToList(),
 
             GameSettings = new GameSettingsDto()

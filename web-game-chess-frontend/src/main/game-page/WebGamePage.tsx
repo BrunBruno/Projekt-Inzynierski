@@ -142,20 +142,12 @@ function WebGamePage() {
 
   // to finish the game and get winner data
   const onGameEnded = (): void => {
-    // setWinner(endGameData);
-    // setDisplayedWindow(GameWindowInterface.winner);
-
-    console.log("get game");
     getGame();
-
-    // GameHubService.connection?.off("GameUpdated", getGame);
   };
 
   const onWinnerGet = (endGameData: GetWinnerDto): void => {
     setWinner(endGameData);
     setDisplayedWindow(GameWindowInterface.winner);
-
-    console.log("aaaa");
 
     GameHubService.connection?.off("GameUpdated", getGame);
   };
@@ -248,8 +240,6 @@ function WebGamePage() {
 
       await GameHubService.EndGame(model);
     };
-
-    console.log(gameData.hasEnded);
 
     // just to get already ended game
     if (gameData.hasEnded) refreshWinner();

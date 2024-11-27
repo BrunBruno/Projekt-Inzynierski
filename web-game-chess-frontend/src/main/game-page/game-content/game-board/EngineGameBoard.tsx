@@ -80,18 +80,20 @@ function EngineGameBoard({
       const newCoor = toCoor(lastMove.newCoor.split(",").map(Number));
       setNewCoordinates(newCoor);
 
-      const wasCap = lastMove.move[1] === "x";
-      setWasCapture(wasCap);
+      console.log(lastMove.move);
+      const wasCapture = lastMove.move[1] === "x";
+      setWasCapture(wasCapture);
 
       settCapturedPiece(lastMove.capturedPiece as PieceOption);
 
       // animation after opponents move
       if (
         innerBoardRef.current &&
+        oldCoor &&
         ((gameData.player.color === PieceColor.white && gameData.turn % 2 === 0) ||
           (gameData.player.color === PieceColor.black && gameData.turn % 2 === 1))
       ) {
-        const pieceParent = document.getElementById(`field-${oldCoor![0]}-${oldCoor![1]}`);
+        const pieceParent = document.getElementById(`field-${oldCoor[0]}-${oldCoor[1]}`);
 
         if (pieceParent) {
           const movedPiece = pieceParent.firstElementChild as HTMLElement;

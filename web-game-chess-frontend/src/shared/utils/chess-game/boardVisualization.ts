@@ -56,8 +56,23 @@ export const performMoveAnimation = (
     if (playerData.color === PieceColor.white) translateX = translateX * -1;
     if (playerData.color === PieceColor.black) translateY = translateY * -1;
 
-    selectedTarget.style.transform = `translateX(${translateX}px) translateY(${translateY}px)`;
+    if (selectedTarget.style.transform === "none")
+      selectedTarget.style.transform = `translateX(${translateX}px) translateY(${translateY}px)`;
   }
+};
+
+export const playMoveSound = (captureHappened: boolean, checkHappened: boolean): void => {
+  const sound: HTMLAudioElement = checkHappened
+    ? new Audio("/sounds/check.mp3")
+    : captureHappened
+    ? new Audio("/sounds/capture.mp3")
+    : new Audio("/sounds/move.mp3");
+
+  // if (selectedTarget.style.transform === "none") {
+  sound.play().catch((error) => {
+    console.error(error);
+  });
+  // }
 };
 
 // for provided correct class by user settings

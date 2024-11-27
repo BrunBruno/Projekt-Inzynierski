@@ -1,13 +1,12 @@
 ﻿
 using chess.Core.Enums;
 
-namespace chess.Application.Requests.EngineRequests.EndEngineGame;
+namespace chess.Application.Requests.EngineRequests.GetEngineGameWinner;
 
 /// <summary>
 /// Dto returned to present engine game winner
 /// </summary>
-public class EndEngineGameDto {
-
+public class GetEngineGameWinnerDto {
     /// <summary>
     /// Winner color
     /// </summary>

@@ -264,6 +264,12 @@ public class EndWebGameRequestHandler : IRequestHandler<EndWebGameRequest> {
         game.EndedAt = DateTime.UtcNow;
 
 
+        if (request.EndGameType == GameEndReason.CheckMate && game.Moves.Count > 0) {
+            string lastMove = game.Moves[^1].FenMove;
+            game.Moves[^1].FenMove = lastMove[..^1] + "#";
+        }
+
+
         await _webGameRepository.Update(game);
         await _userRepository.Update(whiteUser);
         await _userRepository.Update(blackUser);

@@ -8,6 +8,8 @@ import { Coordinate, EngineGameStates, PieceOption, SelectionStates, TypeOfGame,
 import { engineGameController, getAuthorization } from "../services/ApiService";
 import { BlackPieceTag, WhitePieceTag } from "../objects/constantLists";
 import { MakeEngineGameMoveModel } from "../types/engineGameModels";
+import { checkChecks } from "./controlledAreas";
+import { playMoveSound } from "./boardVisualization";
 
 // make move
 export const makeMove = async (
@@ -26,28 +28,30 @@ export const makeMove = async (
   const oldCoor = oldX + "," + oldY;
 
   const capturedPiece = gameState.matrix[newY - 1][newX - 1];
+  const wasCapture = capturedPiece !== "";
 
-  const capture = capturedPiece === "" ? "" : "x";
+  const capture = wasCapture ? "x" : "";
   gameState.matrix[oldY - 1][oldX - 1] = "";
   gameState.matrix[newY - 1][newX - 1] = promotedPiece ? promotedPiece : selectionState.piece;
 
+  // check for checks
+  const [wChecks, bChecks] = checkChecks(gameState.matrix);
+  const wasCheck = wChecks.length !== 0 || bChecks.length !== 0;
+
   // remove en passant pawn
   let enPassantCoor: number[] | null = null;
-  let enPassantFen: string | null = null;
   if (gameState.gameData.enPassant) {
     enPassantCoor = gameState.gameData.enPassant.split(",").map(Number);
 
     if (selectionState.piece === pieceTagMap.white.pawn) {
       if (areCoorEqual(toCoor(enPassantCoor), [newX, newY])) {
         gameState.matrix[newY - 1 - 1][newX - 1] = "";
-        enPassantFen = " e.p.";
       }
     }
 
     if (selectionState.piece === pieceTagMap.black.pawn) {
       if (areCoorEqual(toCoor(enPassantCoor), [newX, newY])) {
         gameState.matrix[newY - 1 + 1][newX - 1] = "";
-        enPassantFen = " e.p.";
       }
     }
   }
@@ -87,14 +91,24 @@ export const makeMove = async (
 
   const newPosition = makeNewPosition(gameState.matrix);
 
+  // for calculations, must be this way
   const move = selectionState.piece + capture + intToChar(newX) + newY;
 
-  const isPawnMove = selectionState.piece === "p" || selectionState.piece === "P";
-  const fenMove = castlingFen
-    ? castlingFen
-    : `${isPawnMove ? "" : selectionState.piece}${String.fromCharCode(96 + oldX)}${oldY}${capture}${String.fromCharCode(
-        96 + newX
-      )}${newY}${enPassantFen ? enPassantFen : ""}${promotedPiece ? "=" + promotedPiece : ""}`;
+  const isPawnMove = selectionState.piece === pieceTagMap.white.pawn || selectionState.piece === pieceTagMap.black.pawn;
+
+  // only for display
+  const fenMove =
+    castlingFen ||
+    (() => {
+      const piece = isPawnMove ? "" : selectionState.piece;
+      // const oldS = `${String.fromCharCode(96 + oldX)}${oldY}`;
+      const oldS = "";
+      const newS = `${String.fromCharCode(96 + newX)}${newY}`;
+      const prom = promotedPiece ? `=${promotedPiece}` : "";
+      const check = wasCheck ? "+" : "";
+
+      return `${piece}${oldS}${capture}${newS}${prom}${check}`;
+    })();
 
   // check for white en passant possibility
   let newEnPassant: string | null = null;
@@ -147,6 +161,9 @@ export const makeMove = async (
       areCoorEqual([oldX, oldY], [rankMap.black.longRookFile, rankMap.black.backRank])) ||
     (capturedPiece === pieceTagMap.black.rook &&
       areCoorEqual([newX, newY], [rankMap.black.shortRookFile, rankMap.black.backRank]));
+
+  // move sound after done move by player
+  playMoveSound(wasCapture, wasCheck);
 
   switch (typeofGame) {
     case TypeOfGame.web: {

@@ -38,24 +38,20 @@
         &:nth-child(odd) {
           background-color: rgba(#fff, 0.96);
 
-          &.old {
-            background-color: rgba($gc4, 0.96);
-          }
-
+          &.old,
           &.new {
             background-color: rgba($gc4, 0.96);
+            box-shadow: inset 0 0 1rem 0 $gc9;
           }
         }
 
         &:nth-child(even) {
-          background-color: rgba(#000, 0.96);
+          background-color: rgba(#111, 0.96);
 
-          &.old {
-            background-color: rgba($gc8, 0.96);
-          }
-
+          &.old,
           &.new {
             background-color: rgba($gc8, 0.96);
+            box-shadow: inset 0 0 1rem 0 $gc7;
           }
         }
       }

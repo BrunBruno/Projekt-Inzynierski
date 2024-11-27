@@ -6,4 +6,5 @@ namespace chess.Api.Models.EngineGameModels;
 public class EndEngineGameModel {
     public Guid GameId { get; set; }
     public PieceColor? LoserColor { get; set; }
+    public bool IsCheckMate { get; set; }
 }

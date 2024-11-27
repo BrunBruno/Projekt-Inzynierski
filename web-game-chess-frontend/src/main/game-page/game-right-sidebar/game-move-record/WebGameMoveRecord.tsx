@@ -6,6 +6,7 @@ import { MoveDto } from "../../../../shared/utils/types/abstractDtosAndModels";
 import classes from "./GameMoveRecord.module.scss";
 import { GameWindowInterface } from "../../../../shared/utils/objects/interfacesEnums";
 import { StateProp } from "../../../../shared/utils/types/commonTypes";
+import { getSimpleDuration } from "../../../../shared/utils/functions/datetime";
 
 type WebGameMoveRecordProps = {
   // turn number
@@ -79,9 +80,10 @@ function WebGameMoveRecord({ recordNum, move, historyPositionState, displayedWin
           icons={specialPiecesSvgs}
           iconName={move.move[0].toLowerCase() as PieceTag}
           color={recordNum % 2 === 0 ? mainColor.c0 : mainColor.c9}
+          iconClass={classes["piece-ind"]}
         />
-        {/* <span>{move.move.charAt(0).toUpperCase() + move.move.slice(1).toLowerCase()}</span> */}
         <span>{move.fenMove}</span>
+        <span>{getSimpleDuration(move.duration)}</span>
       </p>
     </div>
   );

@@ -4,7 +4,7 @@ import AvatarImage from "../../../../shared/components/avatar-image/AvatarImage"
 import { PieceColor } from "../../../../shared/utils/objects/entitiesEnums";
 import { PlayerDto } from "../../../../shared/utils/types/abstractDtosAndModels";
 import { Guid } from "guid-typescript";
-import { EndEngineGameDto, GetEngineGameDto } from "../../../../shared/utils/types/engineGameDtos";
+import { GetEngineGameWinner, GetEngineGameDto } from "../../../../shared/utils/types/engineGameDtos";
 import { useRef, MouseEvent } from "react";
 import { symbolIcons } from "../../../../shared/svgs/iconsMap/SymbolIcons";
 import { greyColor } from "../../../../shared/utils/objects/colorMaps";
@@ -16,7 +16,7 @@ type EngineGameWinnerProps = {
   // current game data
   gameData: GetEngineGameDto;
   // game result data data
-  winner: EndEngineGameDto | null;
+  winner: GetEngineGameWinner | null;
 };
 
 function EngineGameWinner({ gameData, winner }: EngineGameWinnerProps) {

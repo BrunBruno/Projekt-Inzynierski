@@ -9,7 +9,7 @@ import { getErrMessage } from "../../shared/utils/functions/errors";
 import MainPopUp from "../../shared/components/main-popup/MainPopUp";
 import { Guid } from "guid-typescript";
 import { GameActionInterface, GameWindowInterface, StateOptions } from "../../shared/utils/objects/interfacesEnums";
-import { EndEngineGameDto, GetEngineGameDto } from "../../shared/utils/types/engineGameDtos";
+import { GetEngineGameWinner, GetEngineGameDto } from "../../shared/utils/types/engineGameDtos";
 import { EndEngineGameModel } from "../../shared/utils/types/engineGameModels";
 import { PieceColor } from "../../shared/utils/objects/entitiesEnums";
 import EngineGameLeftSidebar from "./game-left-sidebar/EngineGameLeftSidebar";
@@ -50,7 +50,7 @@ function EngineGamePage() {
   // obtained game data
   const [gameData, setGameData] = useState<GetEngineGameDto | null>(null);
   // winner data
-  const [winner, setWinner] = useState<EndEngineGameDto | null>(null);
+  const [winner, setWinner] = useState<GetEngineGameWinner | null>(null);
 
   //
   const [displayedWindow, setDisplayedWindow] = useState<GameWindowInterface>(GameWindowInterface.none);
@@ -93,19 +93,28 @@ function EngineGamePage() {
 
   // to finish the game and get winner data
   const endGame = async (loserColor: PieceColor | null): Promise<void> => {
-    if (!gameId) return;
+    if (!gameId || !gameData || gameData.hasEnded) return;
 
     try {
       const model: EndEngineGameModel = {
         gameId: gameId,
         loserColor: loserColor,
+        isCheckMate: loserColor !== null,
       };
 
-      const response = await axios.put<EndEngineGameDto>(
-        engineGameController.endEngineGame(gameId),
-        model,
-        getAuthorization()
-      );
+      await axios.put(engineGameController.endEngineGame(gameId), model, getAuthorization());
+
+      getGame();
+    } catch (err) {
+      showPopup(getErrMessage(err), "warning");
+    }
+  };
+
+  const getWinner = async (): Promise<void> => {
+    if (!gameId) return;
+
+    try {
+      const response = await axios.get<GetEngineGameWinner>(engineGameController.getWinner(gameId), getAuthorization());
 
       setWinner(response.data);
       setDisplayedWindow(GameWindowInterface.winner);
@@ -118,8 +127,10 @@ function EngineGamePage() {
   useEffect(() => {
     if (!gameId || !gameData) return;
 
-    // just to get already ended game
-    if (gameData.hasEnded) endGame(null);
+    if (gameData.hasEnded) {
+      getWinner();
+      return;
+    }
 
     if (check50MoveRuleRepetition(gameData.halfmoveClock)) endGame(null);
     if (checkThreefoldRepetition(gameData.moves)) endGame(null);

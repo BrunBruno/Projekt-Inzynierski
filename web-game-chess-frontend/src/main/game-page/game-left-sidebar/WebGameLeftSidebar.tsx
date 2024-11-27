@@ -132,7 +132,6 @@ function WebGameLeftSidebar({
   // lave for ended games or long games
   // draw or resign for short games
   const setLeaveOption = async (): Promise<void> => {
-    console.log(gameData.hasEnded);
     if (gameData.hasEnded || winnerData !== null) {
       await GameHubService.LeaveGame(gameId);
       navigate("/main");

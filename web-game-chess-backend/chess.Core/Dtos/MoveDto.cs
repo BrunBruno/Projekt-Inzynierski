@@ -37,4 +37,9 @@ public class MoveDto {
     /// Positio after done move
     /// </summary>
     public required string Position { get; set; }
+
+    /// <summary>
+    /// Duration of a move
+    /// </summary>
+    public TimeSpan? Duration { get; set; }
 }

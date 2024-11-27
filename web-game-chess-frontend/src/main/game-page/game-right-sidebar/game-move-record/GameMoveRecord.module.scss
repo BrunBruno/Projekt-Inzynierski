@@ -10,18 +10,25 @@
   .move {
     @include flex(row, start, center, 0.5rem);
 
-    padding-left: 1rem;
+    position: relative;
     width: 100%;
-    padding-bottom: 0.2rem;
     border-bottom: solid 0.1rem $gc8;
     height: 2rem;
+    padding: 0 1rem 0.2rem 1rem;
 
-    svg {
+    .piece-ind {
       height: 1.4rem;
     }
 
     span {
       color: $gc5;
+
+      &:nth-child(3) {
+        margin-left: auto;
+        align-self: flex-start;
+        font-size: 1rem;
+        justify-self: end;
+      }
     }
 
     &:hover {

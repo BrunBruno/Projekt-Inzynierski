@@ -49,7 +49,8 @@ public class MakeWebGameMoveRequestHandler : IRequestHandler<MakeWebGameMoveRequ
         DateTime lastTimeRecorded = (game.Moves.Count == 0 ? game.StartedAt : game.Moves[^1].DoneAt)
           ?? throw new BadRequestException("Game starting error.");
 
-        double timeDifference = (DateTime.UtcNow - lastTimeRecorded).TotalSeconds;
+        var duration = DateTime.UtcNow - lastTimeRecorded;
+        double timeDifference = (duration).TotalSeconds;
 
         if (game.Turn % 2 == 0) {
             game.WhitePlayer.TimeLeft -= timeDifference;
@@ -81,6 +82,7 @@ public class MakeWebGameMoveRequestHandler : IRequestHandler<MakeWebGameMoveRequ
         game.Round = (game.Turn / 2) + 1;
         game.Turn += 1;
 
+        // 50 move rule
         if(request.Move[0] == 'p' || request.Move[0] == 'P') game.CurrentState.HalfMove = 0;
         else game.CurrentState.HalfMove += 1;
 
@@ -97,6 +99,7 @@ public class MakeWebGameMoveRequestHandler : IRequestHandler<MakeWebGameMoveRequ
             Turn = game.Turn,
             WhiteTime = game.WhitePlayer.TimeLeft,
             BlackTime = game.BlackPlayer.TimeLeft,
+            MoveDuration = duration,
             GameId = game.Id,
         };
 

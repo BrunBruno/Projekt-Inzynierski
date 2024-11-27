@@ -37,7 +37,7 @@ export type GetEngineGameMoveDto = {
   promotedPiece: WhitePieceTag | BlackPieceTag | null;
 };
 
-export type EndEngineGameDto = {
+export type GetEngineGameWinner = {
   winnerColor: PieceColor | null;
 };
 

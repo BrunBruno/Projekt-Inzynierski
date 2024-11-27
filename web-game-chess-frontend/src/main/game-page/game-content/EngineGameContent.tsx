@@ -2,7 +2,11 @@ import { useEffect, useReducer, useRef } from "react";
 import classes from "./GameContent.module.scss";
 import { Guid } from "guid-typescript";
 import { SMatrix, StateProp } from "../../../shared/utils/types/commonTypes";
-import { EndEngineGameDto, GetEngineGameDto, GetEngineGameMoveDto } from "../../../shared/utils/types/engineGameDtos";
+import {
+  GetEngineGameWinner,
+  GetEngineGameDto,
+  GetEngineGameMoveDto,
+} from "../../../shared/utils/types/engineGameDtos";
 import {
   gameInitialStates,
   gameStatesReducer,
@@ -42,14 +46,15 @@ type EngineGameContentProps = {
   gameId: Guid;
   gameData: GetEngineGameDto;
 
-  //
+  // for game refresh after done move
   getGame: () => Promise<void>;
+  // for ending the game
   endGame: (loserColor: PieceColor | null) => Promise<void>;
 
-  //
-  winner: EndEngineGameDto | null;
+  // obtained winner data
+  winner: GetEngineGameWinner | null;
 
-  //
+  // for displaying last moves
   historyPositionState: StateProp<MoveDto | null>;
 
   // to display/hide confirm window
@@ -57,7 +62,7 @@ type EngineGameContentProps = {
   // to perform action on confirm
   confirmAction: () => void;
 
-  //
+  // for displaying windows
   displayedWindowState: StateProp<GameWindowInterface>;
 };
 

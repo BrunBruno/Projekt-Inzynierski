@@ -84,9 +84,6 @@ export const checkMaterialDraw = (moves: MoveDto[]): boolean => {
     (blackMinorPieces === 1 && blackPieces === 1) ||
     (blackMinorPieces === 2 && blackPieces === 2 && !pieceCounts[pieceTagMap.black.knight] && blackHasBishopsSameColor);
 
-  console.log(whiteHasBishopsSameColor);
-  console.log(blackHasBishopsSameColor);
-
   return isWhiteDraw && isBlackDraw;
 };
 

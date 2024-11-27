@@ -1,19 +1,17 @@
 ﻿
 using AutoMapper;
 using chess.Api.Models.EngineGameModels;
-using chess.Api.Models.WebGameModels;
 using chess.Application.Requests.EngineRequests.ChangeEngineLevel;
 using chess.Application.Requests.EngineRequests.EndEngineGame;
 using chess.Application.Requests.EngineRequests.GetAllEngineGameMessages;
 using chess.Application.Requests.EngineRequests.GetAllEngineGames;
 using chess.Application.Requests.EngineRequests.GetEngineGame;
 using chess.Application.Requests.EngineRequests.GetEngineGameMove;
+using chess.Application.Requests.EngineRequests.GetEngineGameWinner;
 using chess.Application.Requests.EngineRequests.MakeEngineGameMove;
 using chess.Application.Requests.EngineRequests.StartEngineGame;
 using chess.Application.Requests.EngineRequests.UndoMove;
 using chess.Application.Requests.EngineRequests.UpdateEngineSettings;
-using chess.Application.Requests.WebGameRequests.FetchTime;
-using chess.Application.Requests.WebGameRequests.GetAllActiveGames;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -78,9 +76,9 @@ public class EngineGameController : ControllerBase {
 
         var request = _mapper.Map<EndEngineGameRequest>(model);
 
-        var result = await _mediator.Send(request);
+        await _mediator.Send(request);
 
-        return Ok(result);
+        return Ok();
     }
 
 
@@ -152,6 +150,26 @@ public class EngineGameController : ControllerBase {
         var game = await _mediator.Send(request);
 
         return Ok(game);
+    }
+
+
+    /// <summary>
+    /// To get winner from engine game
+    /// </summary>
+    /// <param name="gameId"></param>
+    /// <returns></returns>
+    [HttpGet("{gameId}/winner")]
+    [Authorize(Policy = "IsVerified")]
+    public async Task<IActionResult> GetWinner([FromRoute] Guid gameId) {
+
+        var request = new GetEngineGameWinnerRequest()
+        {
+            GameId = gameId,
+        };
+
+        var winner = await _mediator.Send(request);
+
+        return Ok(winner);
     }
 
 

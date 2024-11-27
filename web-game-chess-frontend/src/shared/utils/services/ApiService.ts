@@ -368,6 +368,7 @@ interface EngineGameControllerPaths {
   updateEngineSettings: string;
   //GET
   getEngineGame: string;
+  getWinner: string;
   getEngineGameMove: string;
   getAllEngineGameMessages: string;
   getAllEngineGames: string;
@@ -382,6 +383,7 @@ export const engineGameControllerPaths: EngineGameControllerPaths = {
 
   // dynamic
   getEngineGame: `${engineBaseUrl}/:gameId`,
+  getWinner: `${engineBaseUrl}/:gameId/winner`,
   makeEngineGameMove: `${engineBaseUrl}/:gameId/make-move`,
   endEngineGame: `${engineBaseUrl}/:gameId/end-game`,
   changeEngineLevel: `${engineBaseUrl}/:gameId/change-engine`,
@@ -398,6 +400,7 @@ interface EngineGameController {
   undoMove: (gameId: Guid) => string;
   updateEngineSettings: () => string;
   getEngineGame: (gameId: Guid) => string;
+  getWinner: (gameId: Guid) => string;
   getEngineGameMove: (gameId: Guid) => string;
   getAllEngineGameMessages: (gameId: Guid) => string;
   getAllEngineGames: (model: GetAllEngineGamesModel) => string;
@@ -424,6 +427,9 @@ export const engineGameController: EngineGameController = {
 
   // to get all game data
   getEngineGame: (gameId: Guid) => `${engineBaseUrl}/${gameId}`,
+
+  // to get engine game winner
+  getWinner: (gameId: Guid) => `${engineBaseUrl}/${gameId}/winner`,
 
   // to get move done by engine
   getEngineGameMove: (gameId: Guid) => `${engineBaseUrl}/${gameId}/engine-move`,

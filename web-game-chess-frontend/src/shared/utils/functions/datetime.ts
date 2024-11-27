@@ -57,3 +57,13 @@ export const getTimePlayed = (joinDate: Date): string => {
     return "1D";
   }
 };
+
+export const getSimpleDuration = (duration: string | null): string => {
+  if (!duration) return "";
+
+  const [hours, minutes, seconds] = duration.split(":").map(parseFloat);
+
+  if (hours !== 0) return `${hours.toFixed(1)}h`;
+  if (minutes !== 0) return `${minutes.toFixed(1)}m`;
+  return `${seconds.toFixed(1)}s`;
+};

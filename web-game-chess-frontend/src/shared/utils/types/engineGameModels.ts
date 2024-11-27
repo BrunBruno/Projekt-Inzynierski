@@ -34,6 +34,7 @@ export type MakeEngineGameMoveModel = {
 export type EndEngineGameModel = {
   gameId: Guid;
   loserColor: PieceColor | null;
+  isCheckMate: boolean;
 };
 
 export type UndoMoveModel = {
