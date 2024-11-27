@@ -94,7 +94,7 @@ export const makeMove = async (
     ? castlingFen
     : `${isPawnMove ? "" : selectionState.piece}${String.fromCharCode(96 + oldX)}${oldY}${capture}${String.fromCharCode(
         96 + newX
-      )}${newY}${enPassantFen ? enPassantFen : ""}`;
+      )}${newY}${enPassantFen ? enPassantFen : ""}${promotedPiece ? "=" + promotedPiece : ""}`;
 
   // check for white en passant possibility
   let newEnPassant: string | null = null;

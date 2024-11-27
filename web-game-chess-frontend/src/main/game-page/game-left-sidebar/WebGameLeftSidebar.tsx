@@ -7,7 +7,7 @@ import {
   TimingType,
 } from "../../../shared/utils/objects/entitiesEnums";
 import GameHubService from "../../../shared/utils/services/GameHubService";
-import { GetWebGameDto, GetWebGamePlayerDto } from "../../../shared/utils/types/webGameDtos";
+import { GetWinnerDto, GetWebGameDto, GetWebGamePlayerDto } from "../../../shared/utils/types/webGameDtos";
 import { EndWebGameModel } from "../../../shared/utils/types/webGameModels";
 import classes from "./GameLeftSidebar.module.scss";
 import { usePopup } from "../../../shared/utils/hooks/usePopUp";
@@ -25,6 +25,8 @@ type WebGameLeftSidebarProps = {
   gameId: Guid;
   playerData: GetWebGamePlayerDto;
   gameData: GetWebGameDto;
+  // winner data
+  winnerData: GetWinnerDto | null;
 
   // to show confirm window with correct text
   setShowConfirm: Dispatch<SetStateAction<GameActionInterface | null>>;
@@ -38,6 +40,7 @@ function WebGameLeftSidebar({
   gameId,
   playerData,
   gameData,
+  winnerData,
   setShowConfirm,
   setConfirmAction,
   displayedWindowState,
@@ -50,13 +53,13 @@ function WebGameLeftSidebar({
   // to finish the game by some action option
   const endGame = async (loserColor: PieceColor | null, endGameType: GameEndReason): Promise<void> => {
     try {
-      const loserPlayer: EndWebGameModel = {
+      const model: EndWebGameModel = {
         gameId: gameId,
         loserColor: loserColor,
         endGameType: endGameType,
       };
 
-      await GameHubService.EndGame(loserPlayer);
+      await GameHubService.EndGame(model);
     } catch (err) {
       showPopup(getErrMessage(err), "warning");
     }
@@ -126,9 +129,17 @@ function WebGameLeftSidebar({
     }
   };
 
-  //
-  const setLeaveOption = (): void => {
+  // lave for ended games or long games
+  // draw or resign for short games
+  const setLeaveOption = async (): Promise<void> => {
+    console.log(gameData.hasEnded);
+    if (gameData.hasEnded || winnerData !== null) {
+      await GameHubService.LeaveGame(gameId);
+      navigate("/main");
+    }
+
     if (gameData.timingType === TimingType.daily || gameData.timingType === TimingType.classic) {
+      await GameHubService.LeaveGame(gameId);
       navigate("/main");
     } else {
       if (

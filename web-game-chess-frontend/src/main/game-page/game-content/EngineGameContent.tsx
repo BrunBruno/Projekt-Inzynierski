@@ -290,7 +290,6 @@ function EngineGameContent({
       if (!board || !container) return;
 
       const sizes = container.getBoundingClientRect();
-      console.log(sizes);
 
       if (sizes.width >= sizes.height) {
         board.style.width = "";

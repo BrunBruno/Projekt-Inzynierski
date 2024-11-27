@@ -1,6 +1,6 @@
 import { useEffect, useReducer, useRef } from "react";
 import {
-  EndWebGameDto,
+  GetWinnerDto,
   GetWebGameDto,
   GetWebGamePlayerDto,
   SearchWebGameDto,
@@ -40,7 +40,7 @@ type WebGameContentProps = {
   gameData: GetWebGameDto;
   playerData: GetWebGamePlayerDto;
   // winner color if game is finished
-  winner: EndWebGameDto | null;
+  winner: GetWinnerDto | null;
 
   // timing of current game for new games and rematches
   selectedTiming: SearchWebGameModel | null;
@@ -164,13 +164,13 @@ function WebGameContent({
   // to check if game should end
   useEffect(() => {
     const endGame = async (loserColor: PieceColor | null, gameEndReason: GameEndReason) => {
-      const loserPlayer: EndWebGameModel = {
+      const model: EndWebGameModel = {
         gameId: gameId,
         loserColor: loserColor,
         endGameType: gameEndReason,
       };
 
-      GameHubService.EndGame(loserPlayer);
+      GameHubService.EndGame(model);
     };
 
     // end game if it has not been ended yet
@@ -219,7 +219,6 @@ function WebGameContent({
       if (!board || !container) return;
 
       const sizes = container.getBoundingClientRect();
-      console.log(sizes);
 
       if (sizes.width >= sizes.height) {
         board.style.width = "";

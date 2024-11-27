@@ -110,6 +110,10 @@
 
       overflow-y: scroll;
 
+      &.empty {
+        overflow: hidden;
+      }
+
       &::-webkit-scrollbar {
         display: none;
       }

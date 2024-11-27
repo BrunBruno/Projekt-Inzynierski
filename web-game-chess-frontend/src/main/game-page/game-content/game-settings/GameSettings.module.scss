@@ -5,6 +5,7 @@
   @include wh100;
   @include rounded(2rem);
 
+  padding: 4rem;
   z-index: 100;
   background-color: rgba(#000, 0.9);
   overflow-y: scroll;

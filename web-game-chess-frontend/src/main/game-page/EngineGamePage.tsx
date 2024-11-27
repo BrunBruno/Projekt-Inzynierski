@@ -16,6 +16,11 @@ import EngineGameLeftSidebar from "./game-left-sidebar/EngineGameLeftSidebar";
 import EngineGameContent from "./game-content/EngineGameContent";
 import EngineGameRightSidebar from "./game-right-sidebar/EngineGameRightSidebar";
 import { MoveDto } from "../../shared/utils/types/abstractDtosAndModels";
+import {
+  check50MoveRuleRepetition,
+  checkMaterialDraw,
+  checkThreefoldRepetition,
+} from "../../shared/utils/chess-game/checkDraws";
 
 function EngineGamePage() {
   ///
@@ -113,11 +118,12 @@ function EngineGamePage() {
   useEffect(() => {
     if (!gameId || !gameData) return;
 
+    // just to get already ended game
     if (gameData.hasEnded) endGame(null);
 
-    if (gameData.halfmoveClock >= 100) {
-      endGame(null);
-    }
+    if (check50MoveRuleRepetition(gameData.halfmoveClock)) endGame(null);
+    if (checkThreefoldRepetition(gameData.moves)) endGame(null);
+    if (checkMaterialDraw(gameData.moves)) endGame(null);
   }, [gameData]);
 
   if (!gameId || !gameData) return <LoadingPage />;

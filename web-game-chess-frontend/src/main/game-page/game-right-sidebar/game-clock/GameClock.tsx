@@ -16,9 +16,13 @@ type GameClockProps = {
   playerData: PlayerDto;
   // times for both players
   playersTimes: FetchTimeDto | null;
+  // white and black material points (excluding kings)
+  // for draw by insufficient material
+  whiteMaterial: number | null;
+  blackMaterial: number | null;
 };
 
-function GameClock({ gameId, gameData, playerData, playersTimes }: GameClockProps) {
+function GameClock({ gameId, gameData, playerData, playersTimes, whiteMaterial, blackMaterial }: GameClockProps) {
   ///
 
   const [localWhiteTime, setLocalWhiteTime] = useState<number>(playersTimes?.whiteTimeLeft || 0);
@@ -61,33 +65,44 @@ function GameClock({ gameId, gameData, playerData, playersTimes }: GameClockProp
     };
   }, [gameData]);
 
-  useEffect(() => {
-    if (localWhiteTime <= 0 && playersTimes) {
-      GameHubService.EndGame({ gameId, loserColor: PieceColor.white, endGameType: GameEndReason.outOfTime });
-    }
-    if (localBlackTime <= 0 && playersTimes) {
-      GameHubService.EndGame({ gameId, loserColor: PieceColor.black, endGameType: GameEndReason.outOfTime });
-    }
-  }, [localWhiteTime, localBlackTime, gameId, playersTimes]);
-
   // to finish game by time outage
   const endGame = async (loserColor: number | null, endGameType: number): Promise<void> => {
-    const loserPlayer: EndWebGameModel = {
+    const model: EndWebGameModel = {
       gameId: gameId,
       loserColor: loserColor,
       endGameType: endGameType,
     };
 
-    await GameHubService.EndGame(loserPlayer);
+    await GameHubService.EndGame(model);
   };
 
+  // end game by time running out
   useEffect(() => {
-    if (playersTimes !== null && playersTimes.whiteTimeLeft <= 0) {
-      endGame(PieceColor.white, GameEndReason.outOfTime);
+    // white lost on time
+    if (localWhiteTime <= 0 && playersTimes) {
+      if (blackMaterial === 0) endGame(null, GameEndReason.insufficientMaterial);
+      else endGame(PieceColor.white, GameEndReason.outOfTime);
     }
 
+    // black lost on time
+    if (localBlackTime <= 0 && playersTimes) {
+      if (whiteMaterial === 0) endGame(null, GameEndReason.insufficientMaterial);
+      else endGame(PieceColor.black, GameEndReason.outOfTime);
+    }
+  }, [localWhiteTime, localBlackTime, gameId, playersTimes]);
+
+  // end game after getting times (already should end)
+  useEffect(() => {
+    // white lost on time
+    if (playersTimes !== null && playersTimes.whiteTimeLeft <= 0) {
+      if (blackMaterial === 0) endGame(null, GameEndReason.insufficientMaterial);
+      else endGame(PieceColor.white, GameEndReason.outOfTime);
+    }
+
+    // black lost on time
     if (playersTimes !== null && playersTimes.blackTimeLeft <= 0) {
-      endGame(PieceColor.black, GameEndReason.outOfTime);
+      if (whiteMaterial === 0) endGame(null, GameEndReason.insufficientMaterial);
+      else endGame(PieceColor.black, GameEndReason.outOfTime);
     }
   }, [playersTimes]);
 

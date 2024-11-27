@@ -232,7 +232,11 @@ function EngineGameRightSidebar({
         {/* game history records */}
         <div
           ref={recordsRef}
-          className={`${classes["bar-block"]} ${classes["records-block"]}`}
+          className={`
+            ${classes["bar-block"]} 
+            ${classes["records-block"]} 
+            ${gameData.moves.length === 0 ? classes["empty"] : ""}
+          `}
           onMouseLeave={() => {
             closeHistory();
           }}
@@ -248,7 +252,7 @@ function EngineGameRightSidebar({
                     displayedWindowState={displayedWindowState}
                   />
                 ))
-              : Array.from({ length: 10 }).map((_, i: number) => (
+              : Array.from({ length: 20 }).map((_, i: number) => (
                   <EngineGameMoveRecord key={i} recordNum={i} move={null} displayedWindowState={displayedWindowState} />
                 ))}
           </div>

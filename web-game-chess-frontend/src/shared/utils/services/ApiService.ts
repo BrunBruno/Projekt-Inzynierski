@@ -167,7 +167,6 @@ interface WebGameControllerPaths {
   getPlayer: string;
   fetchTime: string;
   getOpponent: string;
-  getEndedGame: string;
   getGameTiming: string;
   getAllActiveGames: string;
   getAllFinishedGames: string;
@@ -198,7 +197,6 @@ export const webGameControllerPaths: WebGameControllerPaths = {
   getPlayer: `${webGameBaseUrl}/:gameId/player`,
   fetchTime: `${webGameBaseUrl}/:gameId/time`,
   getOpponent: `${webGameBaseUrl}/:gameId/opponent`,
-  getEndedGame: `${webGameBaseUrl}/:gameId/ended`,
   getGameTiming: `${webGameBaseUrl}/:gameId/timing`,
   getAllMessages: `${webGameBaseUrl}/:gameId/messages`,
   cancelPrivateGame: `${webGameBaseUrl}/:gameId/cancel`,
@@ -216,7 +214,6 @@ interface WebGameController {
   getPlayer: (gameId: Guid) => string;
   fetchTime: (gameId: Guid) => string;
   getOpponent: (gameId: Guid) => string;
-  getEndedGame: (gameId: Guid) => string;
   getGameTiming: (gameId: Guid) => string;
   getAllActiveGames: (model: GetAllActiveGamesModel) => string;
   getAllFinishedGames: (model: GetAllFinishedGamesModel) => string;
@@ -259,9 +256,6 @@ export const webGameController: WebGameController = {
   // gets opponent data from previous game
   getOpponent: (gameId: Guid) => `${webGameBaseUrl}/${gameId}/opponent`,
 
-  // gets ended game info
-  getEndedGame: (gameId: Guid) => `${webGameBaseUrl}/${gameId}/ended`,
-
   // gets game timing type and configuration
   getGameTiming: (gameId: Guid) => `${webGameBaseUrl}/${gameId}/timing`,
 
@@ -286,7 +280,7 @@ export const webGameController: WebGameController = {
   // removes player
   abortSearch: (model: AbortWebGameSearchModel) => `${webGameBaseUrl}/abort?${stringifyModel(model)}`,
 
-  // removes private games / removes players
+  // removes private games / removes players / removes rematches
   cancelPrivateGame: (gameId: Guid) => `${webGameBaseUrl}/${gameId}/cancel`,
 };
 

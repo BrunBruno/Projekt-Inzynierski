@@ -1,6 +1,6 @@
 ﻿
 using chess.Application.Requests.WebGameRequests.CreateWebGameRematch;
-using chess.Application.Requests.WebGameRequests.EndWebGame;
+using chess.Application.Requests.WebGameRequests.GetWinner;
 using chess.Application.Requests.WebGameRequests.InvitedToGame;
 
 namespace chess.Application.Hubs;
@@ -23,11 +23,10 @@ public interface IGameHub {
     Task GameUpdated();
 
     /// <summary>
-    /// Returns to all users in game group end game dto
+    /// To notify anbit game end
     /// </summary>
-    /// <param name="dto"></param>
     /// <returns></returns>
-    Task GameEnded(EndWebGameDto dto);
+    Task GameEnded();
 
     /// <summary>
     /// To get game invitation
@@ -74,4 +73,11 @@ public interface IGameHub {
     /// </summary>
     /// <returns></returns>
     Task RematchCanceled();
+
+    /// <summary>
+    /// Task to get winner of ended game
+    /// </summary>
+    /// <param name="dto"></param>
+    /// <returns></returns>
+    Task GetWinner(GetWinnerDto dto);
 }

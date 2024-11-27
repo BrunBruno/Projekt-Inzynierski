@@ -15,7 +15,7 @@ export type CreatePrivateGameDto = {
   inviter: string;
 };
 
-export type EndWebGameDto = {
+export type GetWinnerDto = {
   winnerColor: PieceColor | null;
   eloGain: number;
 };

@@ -13,13 +13,11 @@ namespace chess.Application.Requests.WebGameRequests.EndWebGame;
 /// <summary>
 /// Checks if game with provided id exists
 /// Checks if current user was a participant of the game
-/// If game has been finished returns end game dto
 /// Gets both players
 /// Gets friendship if game is private
 /// Sets all parameters for users (stats and elo points) and games according to result of the game
-/// Returns end game dto
 /// </summary>
-public class EndWebGameRequestHandler : IRequestHandler<EndWebGameRequest, EndWebGameDto> {
+public class EndWebGameRequestHandler : IRequestHandler<EndWebGameRequest> {
 
     private readonly IWebGameRepository _webGameRepository;
     private readonly IUserContextService _userContextService;
@@ -38,23 +36,19 @@ public class EndWebGameRequestHandler : IRequestHandler<EndWebGameRequest, EndWe
         _friendshipRepository = friendshipRepository;
     }   
 
-    public async Task<EndWebGameDto> Handle(EndWebGameRequest request, CancellationToken cancellationToken) {
+    public async Task Handle(EndWebGameRequest request, CancellationToken cancellationToken) {
 
         var userId = _userContextService.GetUserId();
 
         var game = await _webGameRepository.GetById(request.GameId)
-            ?? throw new NotFoundException("Game not found.");
+            ?? throw new NotFoundException("Game not found");
 
-        // game already has ended
-        if (game.HasEnded == true) {
-            var prevDto = new EndWebGameDto()
-            {
-                WinnerColor = game.WinnerColor,
-                EloGain = game.EloGain,
-            };
+        if (game.WhitePlayer.UserId != userId && game.BlackPlayer.UserId != userId)
+            throw new UnauthorizedException("Not user game");
 
-            return prevDto;
-        }
+        if (game.HasEnded)
+            throw new BadRequestException("Game is finished");
+      
 
         if ((
             request.LoserColor == null && 
@@ -69,13 +63,8 @@ public class EndWebGameRequestHandler : IRequestHandler<EndWebGameRequest, EndWe
                 request.EndGameType == GameEndReason.FiftyMovesRule ||
                 request.EndGameType == GameEndReason.InsufficientMaterial)
             )){
-            throw new BadRequestException("Incorrect game result.");
+            throw new BadRequestException("Incorrect game result");
         }
-
-
-
-        if (game.WhitePlayer.UserId != userId && game.BlackPlayer.UserId != userId)
-            throw new UnauthorizedException("Not user game.");
 
 
         var whiteUser = await _userRepository.GetById(game.WhitePlayer.UserId) 
@@ -278,14 +267,5 @@ public class EndWebGameRequestHandler : IRequestHandler<EndWebGameRequest, EndWe
         await _webGameRepository.Update(game);
         await _userRepository.Update(whiteUser);
         await _userRepository.Update(blackUser);
-
-
-        var dto = new EndWebGameDto()
-        {
-            WinnerColor = game.WinnerColor,
-            EloGain = eloToUpdate,
-        };
-
-        return dto;
     }
 }

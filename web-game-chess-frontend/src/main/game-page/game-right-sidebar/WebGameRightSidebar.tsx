@@ -1,10 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import {
-  EndWebGameDto,
-  FetchTimeDto,
-  GetWebGameDto,
-  GetWebGamePlayerDto,
-} from "../../../shared/utils/types/webGameDtos";
+import { FetchTimeDto, GetWebGameDto, GetWebGamePlayerDto } from "../../../shared/utils/types/webGameDtos";
 import classes from "./GameRightSidebar.module.scss";
 import { AppearanceOfGamePage, PieceColor } from "../../../shared/utils/objects/entitiesEnums";
 import AvatarImage from "../../../shared/components/avatar-image/AvatarImage";
@@ -27,8 +22,6 @@ type WebGameRightSidebarProps = {
   playerData: GetWebGamePlayerDto;
   // times left for players
   playersTimes: FetchTimeDto | null;
-  // winner dto of the game
-  winner: EndWebGameDto | null;
   // to set previous position
   historyPositionState: StateProp<MoveDto | null>;
   // for showing history view
@@ -40,13 +33,10 @@ function WebGameRightSidebar({
   gameData,
   playerData,
   playersTimes,
-  winner,
   historyPositionState,
   displayedWindowState,
 }: WebGameRightSidebarProps) {
   ///
-
-  // console.log("tododo", winner);
 
   // for handling scroll of records
   const recordsRef = useRef<HTMLDivElement>(null);
@@ -54,6 +44,8 @@ function WebGameRightSidebar({
   // for pieces advantage display
   const [playersAdvantage, setPlayersAdvantage] = useState<number>(0);
   const [playersAdvantageInPieces, setPlayersAdvantageInPieces] = useState<JSX.Element[]>([]);
+  const [whiteMaterial, setWhiteMaterial] = useState<number | null>(null);
+  const [blackMaterial, setBlackMaterial] = useState<number | null>(null);
 
   // to show advantage in pieces
   const calculateAdvantage = () => {
@@ -76,6 +68,8 @@ function WebGameRightSidebar({
 
     const advantage = whitePoints - blackPoints;
 
+    setWhiteMaterial(whitePoints);
+    setBlackMaterial(blackPoints);
     setPlayersAdvantage(advantage);
   };
 
@@ -229,13 +223,24 @@ function WebGameRightSidebar({
         {!playersTimes ? (
           <div className={classes["fetching"]}>Fetching time...</div>
         ) : (
-          <GameClock gameId={gameId} gameData={gameData} playerData={playerData} playersTimes={playersTimes} />
+          <GameClock
+            gameId={gameId}
+            gameData={gameData}
+            playerData={playerData}
+            playersTimes={playersTimes}
+            whiteMaterial={whiteMaterial}
+            blackMaterial={blackMaterial}
+          />
         )}
 
         {/* game history records */}
         <div
           ref={recordsRef}
-          className={`${classes["bar-block"]} ${classes["records-block"]}`}
+          className={`
+            ${classes["bar-block"]} 
+            ${classes["records-block"]} 
+            ${gameData.moves.length === 0 ? classes["empty"] : ""}
+          `}
           onMouseLeave={() => {
             closeHistory();
           }}
@@ -251,7 +256,7 @@ function WebGameRightSidebar({
                     displayedWindowState={displayedWindowState}
                   />
                 ))
-              : Array.from({ length: 10 }).map((_, i: number) => (
+              : Array.from({ length: 20 }).map((_, i: number) => (
                   <WebGameMoveRecord key={i} recordNum={i} move={null} displayedWindowState={displayedWindowState} />
                 ))}
           </div>

@@ -5,7 +5,7 @@ import axios from "axios";
 import {
   CheckIfInWebGameDto,
   CreateWebGameRematchDto,
-  EndWebGameDto,
+  GetWinnerDto,
   FetchTimeDto,
   GetWebGameDto,
   GetGameTimingDto,
@@ -27,6 +27,11 @@ import WebGameContent from "./game-content/WebGameContent";
 import WebGameRightSidebar from "./game-right-sidebar/WebGameRightSidebar";
 import { MoveDto } from "../../shared/utils/types/abstractDtosAndModels";
 import { GameEndReason } from "../../shared/utils/objects/entitiesEnums";
+import {
+  check50MoveRuleRepetition,
+  checkMaterialDraw,
+  checkThreefoldRepetition,
+} from "../../shared/utils/chess-game/checkDraws";
 
 function WebGamePage() {
   ///
@@ -87,7 +92,7 @@ function WebGamePage() {
   // obtained current player data
   const [playerData, setPlayerData] = useState<GetWebGamePlayerDto | null>(null);
   // winner data
-  const [winner, setWinner] = useState<EndWebGameDto | null>(null);
+  const [winner, setWinner] = useState<GetWinnerDto | null>(null);
   // time left for both players
   const [playersTimes, setPlayersTimes] = useState<FetchTimeDto | null>(null);
 
@@ -136,18 +141,31 @@ function WebGamePage() {
   };
 
   // to finish the game and get winner data
-  const endGame = (endGameData: EndWebGameDto): void => {
+  const onGameEnded = (): void => {
+    // setWinner(endGameData);
+    // setDisplayedWindow(GameWindowInterface.winner);
+
+    console.log("get game");
+    getGame();
+
+    // GameHubService.connection?.off("GameUpdated", getGame);
+  };
+
+  const onWinnerGet = (endGameData: GetWinnerDto): void => {
     setWinner(endGameData);
     setDisplayedWindow(GameWindowInterface.winner);
+
+    console.log("aaaa");
 
     GameHubService.connection?.off("GameUpdated", getGame);
   };
 
-  // to create and cancel rematches
+  // to create rematch
   const setRematch = (rematchData: CreateWebGameRematchDto): void => {
     setRematchData(rematchData);
   };
 
+  // to cancel rematch
   const cancelRematch = (): void => {
     setRematchData(null);
   };
@@ -175,8 +193,10 @@ function WebGamePage() {
     };
 
     addPlayerToGameGroup();
+
     GameHubService.connection?.on("GameUpdated", getGame);
-    GameHubService.connection?.on("GameEnded", endGame);
+    GameHubService.connection?.on("GameEnded", onGameEnded);
+    GameHubService.connection?.on("GetWinner", onWinnerGet);
     GameHubService.connection?.on("RematchRequested", setRematch);
     GameHubService.connection?.on("RematchCanceled", cancelRematch);
     GameHubService.connection?.on("GameAccepted", handleGameAccepted);
@@ -186,10 +206,14 @@ function WebGamePage() {
 
     return () => {
       GameHubService.connection?.off("GameUpdated", getGame);
-      GameHubService.connection?.off("GameEnded", endGame);
+      GameHubService.connection?.off("GameEnded", onGameEnded);
+      GameHubService.connection?.off("GetWinner", onWinnerGet);
       GameHubService.connection?.off("RematchRequested", setRematch);
       GameHubService.connection?.off("RematchCanceled", cancelRematch);
       GameHubService.connection?.off("GameAccepted", handleGameAccepted);
+
+      // remove from group
+      if (gameId) GameHubService.LeaveGame(gameId);
     };
   }, [gameId]);
 
@@ -208,26 +232,32 @@ function WebGamePage() {
 
   // to get winner if game has ended
   useEffect(() => {
-    if (!gameId || !gameData) return;
+    if (!gameId || !gameData || !playerData) return;
 
     // just for updated
-    const getWinner = async (): Promise<void> => {
-      await GameHubService.GetEndedGame(gameId);
+    const refreshWinner = async (): Promise<void> => {
+      await GameHubService.GetWinner(gameId);
     };
 
-    const drawBy50MoveRule = async (): Promise<void> => {
+    const forceDraw = async (endGameType: GameEndReason): Promise<void> => {
       const model: EndWebGameModel = {
         gameId: gameId,
         loserColor: null,
-        endGameType: GameEndReason.fiftyMovesRule,
+        endGameType: endGameType,
       };
 
       await GameHubService.EndGame(model);
     };
 
-    if (gameData.hasEnded) getWinner();
+    console.log(gameData.hasEnded);
 
-    if (gameData.halfmoveClock >= 100) drawBy50MoveRule();
+    // just to get already ended game
+    if (gameData.hasEnded) refreshWinner();
+
+    // draws
+    if (check50MoveRuleRepetition(gameData.halfmoveClock)) forceDraw(GameEndReason.fiftyMovesRule);
+    if (checkThreefoldRepetition(gameData.moves)) forceDraw(GameEndReason.threefold);
+    if (checkMaterialDraw(gameData.moves)) forceDraw(GameEndReason.insufficientMaterial);
 
     fetchTime();
   }, [gameData]);
@@ -281,6 +311,7 @@ function WebGamePage() {
         gameId={gameId}
         playerData={playerData}
         gameData={gameData}
+        winnerData={winner}
         setShowConfirm={setShowConfirm}
         setConfirmAction={setConfirmAction}
         displayedWindowState={{ get: displayedWindow, set: setDisplayedWindow }}
@@ -305,7 +336,6 @@ function WebGamePage() {
         gameData={gameData}
         playerData={playerData}
         playersTimes={playersTimes}
-        winner={winner}
         historyPositionState={{ get: historyPosition, set: setHistoryPosition }}
         displayedWindowState={{ get: displayedWindow, set: setDisplayedWindow }}
       />

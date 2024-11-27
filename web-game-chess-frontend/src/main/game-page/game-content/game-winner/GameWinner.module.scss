@@ -158,6 +158,8 @@
         .player {
           @include flex($direction: column, $gap: 0.5rem);
 
+          position: relative;
+
           @mixin player-img($bg-color) {
             @include flex;
             @include circle(10rem);
@@ -200,6 +202,13 @@
                 color: $mc3;
               }
             }
+          }
+
+          .crown-icon {
+            position: absolute;
+            top: -1.5rem;
+
+            height: 3rem;
           }
         }
       }

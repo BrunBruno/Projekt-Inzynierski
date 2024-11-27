@@ -2,6 +2,7 @@
 using chess.Application.Repositories.EngineGameRepositories;
 using chess.Application.Services;
 using chess.Core.Entities;
+using chess.Core.Enums;
 using chess.Shared.Exceptions;
 using MediatR;
 
@@ -49,12 +50,31 @@ public class GetEngineGameMoveRequestHandler : IRequestHandler<GetEngineGameMove
         _engineService.SendCommand($"position fen {fullFen}");
         _engineService.SendCommand($"go depth {game.EngineLevel}");
 
-        await Task.Delay(300, cancellationToken);
+        string? bestMoveLine = null;
 
-        var bestMoveOutput = _engineService.ReadOutput();
+        int checkIntervalMs = 50;
+        int timeoutMs = 5000;
+        var startTime = DateTime.UtcNow;
 
-        var bestMoveLine = bestMoveOutput.FirstOrDefault(line => line.StartsWith("bestmove"))
-            ?? throw new InvalidOperationException("Stockfish error.");
+        while (bestMoveLine == null && (DateTime.UtcNow - startTime).TotalMilliseconds < timeoutMs) {
+            cancellationToken.ThrowIfCancellationRequested();
+
+            var output = _engineService.ReadOutput();
+            bestMoveLine = output.FirstOrDefault(line => line.StartsWith("bestmove"));
+
+            if (bestMoveLine == null)
+                await Task.Delay(checkIntervalMs, cancellationToken);
+        }
+
+        //await Task.Delay(300, cancellationToken);
+
+        //var bestMoveOutput = _engineService.ReadOutput();
+
+        //var bestMoveLine = bestMoveOutput.FirstOrDefault(line => line.StartsWith("bestmove"))
+            //?? throw new InvalidOperationException("Stockfish error.");
+
+        if (bestMoveLine == null) 
+            throw new InvalidOperationException("Stockfish error.");
 
 
         var bestMove = bestMoveLine.Split(' ')[1];
@@ -87,7 +107,13 @@ public class GetEngineGameMoveRequestHandler : IRequestHandler<GetEngineGameMove
         string from = bestMove.Substring(0, 2);
         string to = bestMove.Substring(2, 2);
 
-        string? promotedPiece = bestMove.Length == 5 ? bestMove[4].ToString() : null; //??? tododo
+        string? promotedPiece = bestMove.Length == 5
+            ? (game.Player.Color == PieceColor.White
+                ? bestMove[4].ToString().ToLower()
+                : bestMove[4].ToString().ToUpper())
+            : null;
+
+
 
         var oldCoordinates = $"{from[0] - 'a' + 1},{from[1]}";
         var newCoordinates = $"{to[0] - 'a' + 1},{to[1]}";
@@ -98,6 +124,7 @@ public class GetEngineGameMoveRequestHandler : IRequestHandler<GetEngineGameMove
 
         var dto = new GetEngineGameMoveDto()
         {
+            ShouldEnd = false,
             OldCoordinates = oldCoordinates,
             NewCoordinates = newCoordinates,
             PromotedPiece = promotedPiece,

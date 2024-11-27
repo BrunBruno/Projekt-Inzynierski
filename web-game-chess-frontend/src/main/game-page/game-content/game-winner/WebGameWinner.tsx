@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import {
-  EndWebGameDto,
+  GetWinnerDto,
   GetWebGameDto,
   GetOpponentDto,
   SearchWebGameDto,
@@ -25,7 +25,8 @@ import { PlayerDto } from "../../../../shared/utils/types/abstractDtosAndModels"
 import { Guid } from "guid-typescript";
 import IconCreator from "../../../../shared/components/icon-creator/IconCreator";
 import { symbolIcons } from "../../../../shared/svgs/iconsMap/SymbolIcons";
-import { greyColor } from "../../../../shared/utils/objects/colorMaps";
+import { greyColor, mainColor } from "../../../../shared/utils/objects/colorMaps";
+import { gameWinnerIcons } from "./GameWinnerIcons";
 
 type WebGameWinnerProps = {
   // game and player data
@@ -33,7 +34,7 @@ type WebGameWinnerProps = {
   gameData: GetWebGameDto;
   playerData: PlayerDto;
   // game result data
-  winner: EndWebGameDto | null;
+  winner: GetWinnerDto | null;
 
   // timing for new game or rematch
   selectedTiming: SearchWebGameModel | null;
@@ -115,7 +116,7 @@ function WebGameWinner({
   };
 
   // to accept rematch
-  const onAcceptRematchRequest = async () => {
+  const onAcceptRematchRequest = async (): Promise<void> => {
     if (!rematchData) {
       returnOnFail();
       return;
@@ -159,9 +160,24 @@ function WebGameWinner({
   const generatePlayers = (): JSX.Element => {
     if (!winner) return <></>;
 
-    const renderPlayer = (player: PlayerDto, colorClass: string, avatarClass: string): JSX.Element => {
+    const renderPlayer = (
+      player: PlayerDto,
+      colorClass: string,
+      avatarClass: string,
+      isWinner: boolean | null
+    ): JSX.Element => {
       return (
         <div className={`${classes.player} ${colorClass}`}>
+          {isWinner && (
+            <IconCreator
+              icons={gameWinnerIcons}
+              iconName={"crown"}
+              iconClass={classes["crown-icon"]}
+              color={mainColor.c7}
+              active={winner.winnerColor === PieceColor.white}
+            />
+          )}
+
           <AvatarImage
             username={player.name}
             profilePicture={player.profilePicture}
@@ -182,9 +198,12 @@ function WebGameWinner({
     const wasOpponentBetter =
       gameData.whitePlayer.elo === gameData.blackPlayer.elo
         ? null
-        : gameData.whitePlayer.elo < gameData.blackPlayer.elo;
+        : playerData.color === PieceColor.white
+        ? gameData.whitePlayer.elo < gameData.blackPlayer.elo
+        : gameData.whitePlayer.elo > gameData.blackPlayer.elo;
 
     const isWinner = winner.winnerColor !== null ? (playerData.color === winner.winnerColor ? true : false) : null;
+    const isEnemyWinner = winner.winnerColor !== null ? (playerData.color === winner.winnerColor ? false : true) : null;
 
     const sign =
       isWinner === null ? (wasOpponentBetter === null ? "" : wasOpponentBetter ? "+" : "-") : isWinner ? "+" : "-";
@@ -193,9 +212,9 @@ function WebGameWinner({
 
     return (
       <div className={classes.winner__content__info__players}>
-        {gameData.whitePlayer.name == playerData.name
-          ? renderPlayer(gameData.whitePlayer, classes["white-player"], classes["white-player-img"])
-          : renderPlayer(gameData.blackPlayer, classes["black-player"], classes["black-player-img"])}
+        {gameData.whitePlayer.name === playerData.name
+          ? renderPlayer(gameData.whitePlayer, classes["white-player"], classes["white-player-img"], isWinner)
+          : renderPlayer(gameData.blackPlayer, classes["black-player"], classes["black-player-img"], isWinner)}
 
         <div className={classes.vs}>
           <span>vs</span>
@@ -206,9 +225,9 @@ function WebGameWinner({
           </span>
         </div>
 
-        {gameData.whitePlayer.name == playerData.name
-          ? renderPlayer(gameData.blackPlayer, classes["black-player"], classes["black-player-img"])
-          : renderPlayer(gameData.whitePlayer, classes["white-player"], classes["white-player-img"])}
+        {gameData.whitePlayer.name === playerData.name
+          ? renderPlayer(gameData.blackPlayer, classes["black-player"], classes["black-player-img"], isEnemyWinner)
+          : renderPlayer(gameData.whitePlayer, classes["white-player"], classes["white-player-img"], isEnemyWinner)}
       </div>
     );
   };
@@ -233,6 +252,12 @@ function WebGameWinner({
     if (!container.classList.contains(classes["close"])) {
       container.classList.add(classes["close"]);
     }
+  };
+
+  // return to main page / remove player from group
+  const returnToMainPage = async (): Promise<void> => {
+    await GameHubService.LeaveGame(gameId);
+    navigate("/main");
   };
 
   if (!winner) return <></>;
@@ -312,7 +337,7 @@ function WebGameWinner({
               <button
                 className={classes["re-game"]}
                 onClick={() => {
-                  navigate("/main");
+                  returnToMainPage();
                 }}
               >
                 <span>Leave</span>
@@ -323,7 +348,7 @@ function WebGameWinner({
           <div className={classes.leave}>
             <button
               onClick={() => {
-                navigate("/main");
+                returnToMainPage();
               }}
             >
               <span>Leave</span>
