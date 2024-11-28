@@ -4,7 +4,7 @@ import AvatarImage from "../../../../shared/components/avatar-image/AvatarImage"
 import { PieceColor } from "../../../../shared/utils/objects/entitiesEnums";
 import { PlayerDto } from "../../../../shared/utils/types/abstractDtosAndModels";
 import { Guid } from "guid-typescript";
-import { GetEngineGameWinner, GetEngineGameDto } from "../../../../shared/utils/types/engineGameDtos";
+import { GetEngineGameWinnerDto, GetEngineGameDto } from "../../../../shared/utils/types/engineGameDtos";
 import { useRef, MouseEvent } from "react";
 import { symbolIcons } from "../../../../shared/svgs/iconsMap/SymbolIcons";
 import { greyColor } from "../../../../shared/utils/objects/colorMaps";
@@ -16,10 +16,10 @@ type EngineGameWinnerProps = {
   // current game data
   gameData: GetEngineGameDto;
   // game result data data
-  winner: GetEngineGameWinner | null;
+  winnerData: GetEngineGameWinnerDto | null;
 };
 
-function EngineGameWinner({ gameData, winner }: EngineGameWinnerProps) {
+function EngineGameWinner({ gameData, winnerData }: EngineGameWinnerProps) {
   ///
 
   const navigate = useNavigate();
@@ -28,7 +28,7 @@ function EngineGameWinner({ gameData, winner }: EngineGameWinnerProps) {
 
   // generate players schema
   const generatePlayers = (): JSX.Element => {
-    if (!winner) return <></>;
+    if (!winnerData) return <></>;
 
     const renderPlayer = (playerDto: PlayerDto | null, colorClass: string, avatarClass: string): JSX.Element => {
       let isBot: boolean = false;
@@ -103,7 +103,7 @@ function EngineGameWinner({ gameData, winner }: EngineGameWinnerProps) {
     }
   };
 
-  if (!winner) return <></>;
+  if (!winnerData) return <></>;
 
   return (
     <div
@@ -117,14 +117,14 @@ function EngineGameWinner({ gameData, winner }: EngineGameWinnerProps) {
         <h2
           className={`
             ${classes.title}
-            ${winner.winnerColor === null ? classes["draw"] : ""}
-            ${winner.winnerColor === PieceColor.white ? classes["white-winner"] : ""}
-            ${winner.winnerColor === PieceColor.black ? classes["black-winner"] : ""}
+            ${winnerData.winnerColor === null ? classes["draw"] : ""}
+            ${winnerData.winnerColor === PieceColor.white ? classes["white-winner"] : ""}
+            ${winnerData.winnerColor === PieceColor.black ? classes["black-winner"] : ""}
           `}
         >
-          {winner.winnerColor === null && <span>Draw</span>}
-          {winner.winnerColor === PieceColor.white && <span>White Wins</span>}
-          {winner.winnerColor === PieceColor.black && <span>Black Wins</span>}
+          {winnerData.winnerColor === null && <span>Draw</span>}
+          {winnerData.winnerColor === PieceColor.white && <span>White Wins</span>}
+          {winnerData.winnerColor === PieceColor.black && <span>Black Wins</span>}
 
           <div
             className={classes["x"]}

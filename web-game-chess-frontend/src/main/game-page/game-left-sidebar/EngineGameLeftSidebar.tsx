@@ -8,7 +8,11 @@ import { Guid } from "guid-typescript";
 import IconCreator from "../../../shared/components/icon-creator/IconCreator";
 import { GameActionInterface, GameWindowInterface, StateOptions } from "../../../shared/utils/objects/interfacesEnums";
 import { Dispatch, SetStateAction } from "react";
-import { GetEngineGameDto, StartEngineGameDto } from "../../../shared/utils/types/engineGameDtos";
+import {
+  GetEngineGameDto,
+  GetEngineGameWinnerDto,
+  StartEngineGameDto,
+} from "../../../shared/utils/types/engineGameDtos";
 import { gameLeftSideBarIcons } from "./GameLeftSidebarIcons";
 import GameCapturedPieces from "./game-captured-pieces/GameCapturedPieces";
 import { StartEngineGameModel, UndoMoveModel } from "../../../shared/utils/types/engineGameModels";
@@ -20,6 +24,8 @@ type EngineGameLeftSidebarProps = {
   // current game data
   gameId: Guid;
   gameData: GetEngineGameDto;
+  // winner data
+  winnerData: GetEngineGameWinnerDto | null;
   // for refresh
   getGame: () => Promise<void>;
   // to finish game by click
@@ -35,6 +41,7 @@ type EngineGameLeftSidebarProps = {
 function EngineGameLeftSidebar({
   gameId,
   gameData,
+  winnerData,
   getGame,
   endGame,
   setShowConfirm,
@@ -53,7 +60,7 @@ function EngineGameLeftSidebar({
 
   // to show confirm window and select chosen action
   const onSelectResign = (): void => {
-    if (displayNotAllowed()) return;
+    if (displayNotAllowed() || gameData.hasEnded) return;
 
     displayedWindowState.set(GameWindowInterface.confirm);
     setShowConfirm(GameActionInterface.resign);
@@ -126,7 +133,12 @@ function EngineGameLeftSidebar({
   // to show engine level change
   const onChangeEngine = (): void => {
     if (!gameData.allowCheats) return;
-    if (displayedWindowState.get === GameWindowInterface.engine) displayedWindowState.set(GameWindowInterface.none);
+
+    if (displayedWindowState.get === GameWindowInterface.engine) {
+      if (winnerData) displayedWindowState.set(GameWindowInterface.winner);
+      else displayedWindowState.set(GameWindowInterface.none);
+      return;
+    }
 
     if (displayNotAllowed()) return;
 
@@ -135,7 +147,11 @@ function EngineGameLeftSidebar({
 
   // to show game settings
   const onShowSettings = (): void => {
-    if (displayedWindowState.get === GameWindowInterface.settings) displayedWindowState.set(GameWindowInterface.none);
+    if (displayedWindowState.get === GameWindowInterface.settings) {
+      if (winnerData) displayedWindowState.set(GameWindowInterface.winner);
+      else displayedWindowState.set(GameWindowInterface.none);
+      return;
+    }
 
     if (displayNotAllowed()) return;
 
@@ -144,7 +160,6 @@ function EngineGameLeftSidebar({
 
   const displayNotAllowed = (): boolean => {
     if (
-      displayedWindowState.get === GameWindowInterface.winner ||
       displayedWindowState.get === GameWindowInterface.promotion ||
       displayedWindowState.get === GameWindowInterface.search
     ) {

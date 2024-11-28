@@ -74,7 +74,7 @@ public class EndEngineGameRequestHandler : IRequestHandler<EndEngineGameRequest>
         // end message
         var endMessage = new EngineGameMessage() { 
             Id = Guid.NewGuid(),
-            Content = "Game ended.",
+            Content = $"Game over.",
             RequestorName = "BOT",
             Type = MessageType.Bot,
             GameId = game.Id,

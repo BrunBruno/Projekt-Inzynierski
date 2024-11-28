@@ -5,7 +5,7 @@ import axios from "axios";
 import {
   CheckIfInWebGameDto,
   CreateWebGameRematchDto,
-  GetWinnerDto,
+  GetWebGameWinnerDto,
   FetchTimeDto,
   GetWebGameDto,
   GetGameTimingDto,
@@ -92,7 +92,7 @@ function WebGamePage() {
   // obtained current player data
   const [playerData, setPlayerData] = useState<GetWebGamePlayerDto | null>(null);
   // winner data
-  const [winner, setWinner] = useState<GetWinnerDto | null>(null);
+  const [winnerData, setWinnerData] = useState<GetWebGameWinnerDto | null>(null);
   // time left for both players
   const [playersTimes, setPlayersTimes] = useState<FetchTimeDto | null>(null);
 
@@ -145,8 +145,8 @@ function WebGamePage() {
     getGame();
   };
 
-  const onWinnerGet = (endGameData: GetWinnerDto): void => {
-    setWinner(endGameData);
+  const onWinnerGet = (endGameData: GetWebGameWinnerDto): void => {
+    setWinnerData(endGameData);
     setDisplayedWindow(GameWindowInterface.winner);
 
     GameHubService.connection?.off("GameUpdated", getGame);
@@ -301,7 +301,7 @@ function WebGamePage() {
         gameId={gameId}
         playerData={playerData}
         gameData={gameData}
-        winnerData={winner}
+        winnerData={winnerData}
         setShowConfirm={setShowConfirm}
         setConfirmAction={setConfirmAction}
         displayedWindowState={{ get: displayedWindow, set: setDisplayedWindow }}
@@ -311,7 +311,7 @@ function WebGamePage() {
         gameId={gameId}
         gameData={gameData}
         playerData={playerData}
-        winner={winner}
+        winnerData={winnerData}
         selectedTiming={selectedTiming}
         historyPositionState={{ get: historyPosition, set: setHistoryPosition }}
         newGameDataState={{ get: newGameData, set: setNewGameData }}
@@ -325,6 +325,7 @@ function WebGamePage() {
         gameId={gameId}
         gameData={gameData}
         playerData={playerData}
+        winnerData={winnerData}
         playersTimes={playersTimes}
         historyPositionState={{ get: historyPosition, set: setHistoryPosition }}
         displayedWindowState={{ get: displayedWindow, set: setDisplayedWindow }}

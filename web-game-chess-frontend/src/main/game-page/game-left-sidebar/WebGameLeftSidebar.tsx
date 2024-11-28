@@ -7,8 +7,13 @@ import {
   TimingType,
 } from "../../../shared/utils/objects/entitiesEnums";
 import GameHubService from "../../../shared/utils/services/GameHubService";
-import { GetWinnerDto, GetWebGameDto, GetWebGamePlayerDto } from "../../../shared/utils/types/webGameDtos";
-import { EndWebGameModel } from "../../../shared/utils/types/webGameModels";
+import {
+  GetWebGameWinnerDto,
+  GetWebGameDto,
+  GetWebGamePlayerDto,
+  GetOpponentDto,
+} from "../../../shared/utils/types/webGameDtos";
+import { EndWebGameModel, SendGameMessageModel } from "../../../shared/utils/types/webGameModels";
 import classes from "./GameLeftSidebar.module.scss";
 import { usePopup } from "../../../shared/utils/hooks/usePopUp";
 import { getErrMessage } from "../../../shared/utils/functions/errors";
@@ -19,6 +24,9 @@ import { Dispatch, SetStateAction } from "react";
 import { gameLeftSideBarIcons } from "./GameLeftSidebarIcons";
 import GameCapturedPieces from "./game-captured-pieces/GameCapturedPieces";
 import { StateProp } from "../../../shared/utils/types/commonTypes";
+import { BlockUserModel } from "../../../shared/utils/types/friendshipModels";
+import { friendshipController, getAuthorization, webGameController } from "../../../shared/utils/services/ApiService";
+import axios from "axios";
 
 type WebGameLeftSidebarProps = {
   // game and player data
@@ -26,7 +34,7 @@ type WebGameLeftSidebarProps = {
   playerData: GetWebGamePlayerDto;
   gameData: GetWebGameDto;
   // winner data
-  winnerData: GetWinnerDto | null;
+  winnerData: GetWebGameWinnerDto | null;
 
   // to show confirm window with correct text
   setShowConfirm: Dispatch<SetStateAction<GameActionInterface | null>>;
@@ -89,9 +97,79 @@ function WebGameLeftSidebar({
     createDrawOffer();
   };
 
+  // lave for ended games or long games
+  // draw or resign for short games
+  const setLeaveOption = async (): Promise<void> => {
+    if (gameData.hasEnded || winnerData !== null) {
+      await GameHubService.LeaveGame(gameId);
+      navigate("/main");
+    }
+
+    if (gameData.timingType === TimingType.daily || gameData.timingType === TimingType.classic) {
+      await GameHubService.LeaveGame(gameId);
+      navigate("/main");
+    } else {
+      if (
+        (gameData.turn === 0 && playerData.color === PieceColor.white) ||
+        (gameData.turn <= 1 && playerData.color === PieceColor.black)
+      ) {
+        onSelectAction(GameActionInterface.leave);
+      } else {
+        onSelectAction(GameActionInterface.abort);
+      }
+    }
+  };
+
+  const blockUser = async (): Promise<void> => {
+    try {
+      const response = await axios.get<GetOpponentDto>(webGameController.getOpponent(gameId), getAuthorization());
+
+      const model: BlockUserModel = {
+        userId: response.data.opponentId,
+      };
+
+      await axios.post(friendshipController.blockUser(), model, getAuthorization());
+
+      const messageModel: SendGameMessageModel = {
+        gameId: gameId,
+        message: "Chat is off.",
+      };
+
+      await GameHubService.SendGameMessage(messageModel);
+
+      showPopup("USER BLOCKED", "error");
+    } catch (err) {
+      showPopup(getErrMessage(err), "warning");
+    }
+  };
+
+  // to display settings window
+  const onShowSettings = (): void => {
+    if (displayedWindowState.get === GameWindowInterface.settings) {
+      if (winnerData) displayedWindowState.set(GameWindowInterface.winner);
+      else displayedWindowState.set(GameWindowInterface.none);
+      return;
+    }
+
+    if (displayNotAllowed()) return;
+
+    displayedWindowState.set(GameWindowInterface.settings);
+  };
+
+  const displayNotAllowed = (): boolean => {
+    if (
+      displayedWindowState.get === GameWindowInterface.promotion ||
+      displayedWindowState.get === GameWindowInterface.search
+    ) {
+      return true;
+    }
+
+    return false;
+  };
+
   // to show confirm window and select chosen action
   const onSelectAction = (action: GameActionInterface): void => {
-    if (displayedWindowState.get !== GameWindowInterface.none) return;
+    if (displayNotAllowed() || gameData.hasEnded) return;
 
     setShowConfirm(action);
 
@@ -120,6 +198,12 @@ function WebGameLeftSidebar({
         break;
       }
 
+      case GameActionInterface.block: {
+        displayedWindowState.set(GameWindowInterface.confirm);
+        setConfirmAction(() => blockUser);
+        break;
+      }
+
       default: {
         displayedWindowState.set(GameWindowInterface.none);
         setConfirmAction(() => {});
@@ -127,35 +211,6 @@ function WebGameLeftSidebar({
         break;
       }
     }
-  };
-
-  // lave for ended games or long games
-  // draw or resign for short games
-  const setLeaveOption = async (): Promise<void> => {
-    if (gameData.hasEnded || winnerData !== null) {
-      await GameHubService.LeaveGame(gameId);
-      navigate("/main");
-    }
-
-    if (gameData.timingType === TimingType.daily || gameData.timingType === TimingType.classic) {
-      await GameHubService.LeaveGame(gameId);
-      navigate("/main");
-    } else {
-      if (
-        (gameData.turn === 0 && playerData.color === PieceColor.white) ||
-        (gameData.turn <= 1 && playerData.color === PieceColor.black)
-      ) {
-        onSelectAction(GameActionInterface.leave);
-      } else {
-        onSelectAction(GameActionInterface.abort);
-      }
-    }
-  };
-
-  const onShowSettings = (): void => {
-    if (displayedWindowState.get !== GameWindowInterface.none) return;
-
-    displayedWindowState.set(GameWindowInterface.settings);
   };
 
   return (
@@ -184,7 +239,8 @@ function WebGameLeftSidebar({
               setLeaveOption();
             }}
           >
-            {gameData.timingType === TimingType.daily ||
+            {gameData.hasEnded ||
+            gameData.timingType === TimingType.daily ||
             gameData.timingType === TimingType.classic ||
             (gameData.turn === 0 && playerData.color === PieceColor.white) ||
             (gameData.turn <= 1 && playerData.color === PieceColor.black) ? (

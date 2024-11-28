@@ -17,4 +17,9 @@ public class GetWinnerDto {
     /// Elo gained or lost after the game
     /// </summary>
     public int EloGain { get; set; }
+
+    /// <summary>
+    /// Reason why game has ended
+    /// </summary>
+    public GameEndReason GameEndReason { get; set; }
 }

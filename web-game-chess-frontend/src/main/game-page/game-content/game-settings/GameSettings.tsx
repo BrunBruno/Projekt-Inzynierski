@@ -13,8 +13,8 @@ import { usePopup } from "../../../../shared/utils/hooks/usePopUp";
 import { getErrMessage } from "../../../../shared/utils/functions/errors";
 import axios from "axios";
 import { getAuthorization, userController } from "../../../../shared/utils/services/ApiService";
-import { GetEngineGameDto } from "../../../../shared/utils/types/engineGameDtos";
-import { GetWebGameDto } from "../../../../shared/utils/types/webGameDtos";
+import { GetEngineGameDto, GetEngineGameWinnerDto } from "../../../../shared/utils/types/engineGameDtos";
+import { GetWebGameDto, GetWebGameWinnerDto } from "../../../../shared/utils/types/webGameDtos";
 import { greyColor } from "../../../../shared/utils/objects/colorMaps";
 import { gameSettingsIcons } from "./GameSettingsIcons";
 import { GameWindowInterface } from "../../../../shared/utils/objects/interfacesEnums";
@@ -23,11 +23,12 @@ import { gameResultIcons } from "../../../../shared/svgs/iconsMap/GameResultIcon
 type GameSettingsProps = {
   // game data
   gameData: GetEngineGameDto | GetWebGameDto;
+  winnerData: GetWebGameWinnerDto | GetEngineGameWinnerDto | null;
   // for closing window
   setDisplayedWindow: Dispatch<SetStateAction<GameWindowInterface>>;
 };
 
-function GameSettings({ gameData, setDisplayedWindow }: GameSettingsProps) {
+function GameSettings({ gameData, winnerData, setDisplayedWindow }: GameSettingsProps) {
   ///
 
   const { showPopup } = usePopup();
@@ -90,7 +91,8 @@ function GameSettings({ gameData, setDisplayedWindow }: GameSettingsProps) {
   };
 
   const onCancelSettings = (): void => {
-    setDisplayedWindow(GameWindowInterface.none);
+    if (winnerData) setDisplayedWindow(GameWindowInterface.winner);
+    else setDisplayedWindow(GameWindowInterface.none);
   };
 
   if (!appearance) return <></>;

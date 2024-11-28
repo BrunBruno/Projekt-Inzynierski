@@ -69,7 +69,7 @@ public class StartEngineGameRequestHandler : IRequestHandler<StartEngineGameRequ
         var message = new EngineGameMessage()
         {
             Id = Guid.NewGuid(),
-            Content = "Game Started",
+            Content = "Game started.",
             RequestorName = "BOT",
             Type = MessageType.Bot,
             GameId = game.Id,

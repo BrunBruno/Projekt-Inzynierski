@@ -80,7 +80,6 @@ function EngineGameBoard({
       const newCoor = toCoor(lastMove.newCoor.split(",").map(Number));
       setNewCoordinates(newCoor);
 
-      console.log(lastMove.move);
       const wasCapture = lastMove.move[1] === "x";
       setWasCapture(wasCapture);
 

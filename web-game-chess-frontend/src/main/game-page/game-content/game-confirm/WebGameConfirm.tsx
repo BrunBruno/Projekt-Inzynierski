@@ -40,6 +40,13 @@ function WebGameConfirm({ confirmAction, showConfirmState, setDisplayedWindow }:
       case GameActionInterface.draw:
         return <span>Send draw offer?</span>;
 
+      case GameActionInterface.block:
+        return (
+          <span>
+            The user will be blocked. <br /> Are you sure?
+          </span>
+        );
+
       default:
         return <span>Sure?</span>;
     }

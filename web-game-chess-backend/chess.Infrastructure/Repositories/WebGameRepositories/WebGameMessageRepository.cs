@@ -35,6 +35,12 @@ public class WebGameMessageRepository : IWebGameMessageRepository {
     }
 
     ///<inheritdoc/>
+    public async Task CreateMany(List<WebGameMessage> messages) {
+        await _dbContext.AddRangeAsync(messages);
+        await _dbContext.SaveChangesAsync();
+    }
+
+    ///<inheritdoc/>
     public async Task Delete(WebGameMessage message) {
         _dbContext.WebGameMessages.Remove(message);
         await _dbContext.SaveChangesAsync();

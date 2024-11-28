@@ -28,6 +28,7 @@
         align-self: flex-start;
         font-size: 1rem;
         justify-self: end;
+        color: $gc6;
       }
     }
 
@@ -47,7 +48,7 @@
   }
 
   .turn {
-    width: calc(1.6rem * 3);
+    width: calc(1.4rem * 3);
     color: $gc6;
   }
 

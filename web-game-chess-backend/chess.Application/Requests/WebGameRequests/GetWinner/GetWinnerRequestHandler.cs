@@ -1,6 +1,7 @@
 ﻿
 using chess.Application.Repositories.WebGameRepositories;
 using chess.Application.Services;
+using chess.Core.Enums;
 using chess.Shared.Exceptions;
 using MediatR;
 
@@ -33,13 +34,14 @@ public class GetWinnerRequestHandler : IRequestHandler<GetWinnerRequest, GetWinn
         if (game.WhitePlayer.UserId != userId && game.BlackPlayer.UserId != userId)
             throw new UnauthorizedException("Not user game");
 
-        if (!game.HasEnded)
+        if (!game.HasEnded || game.EndGameType == null)
             throw new BadRequestException("Game not ended");
 
         var winner = new GetWinnerDto()
         {
             WinnerColor = game.WinnerColor,
             EloGain = game.EloGain,
+            GameEndReason = (GameEndReason)game.EndGameType,
         };
 
         return winner;

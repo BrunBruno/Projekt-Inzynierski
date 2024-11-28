@@ -101,8 +101,7 @@ export const makeMove = async (
     castlingFen ||
     (() => {
       const piece = isPawnMove ? "" : selectionState.piece;
-      // const oldS = `${String.fromCharCode(96 + oldX)}${oldY}`;
-      const oldS = "";
+      const oldS = `${String.fromCharCode(96 + oldX)}${oldY}`;
       const newS = `${String.fromCharCode(96 + newX)}${newY}`;
       const prom = promotedPiece ? `=${promotedPiece}` : "";
       const check = wasCheck ? "+" : "";

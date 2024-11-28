@@ -3,7 +3,7 @@ import classes from "./GameContent.module.scss";
 import { Guid } from "guid-typescript";
 import { SMatrix, StateProp } from "../../../shared/utils/types/commonTypes";
 import {
-  GetEngineGameWinner,
+  GetEngineGameWinnerDto,
   GetEngineGameDto,
   GetEngineGameMoveDto,
 } from "../../../shared/utils/types/engineGameDtos";
@@ -52,7 +52,7 @@ type EngineGameContentProps = {
   endGame: (loserColor: PieceColor | null) => Promise<void>;
 
   // obtained winner data
-  winner: GetEngineGameWinner | null;
+  winnerData: GetEngineGameWinnerDto | null;
 
   // for displaying last moves
   historyPositionState: StateProp<MoveDto | null>;
@@ -71,7 +71,7 @@ function EngineGameContent({
   gameData,
   getGame,
   endGame,
-  winner,
+  winnerData,
   historyPositionState,
   showConfirmState,
   confirmAction,
@@ -357,8 +357,8 @@ function EngineGameContent({
         )}
 
         {/* end game info*/}
-        {displayedWindowState.get === GameWindowInterface.winner && winner && (
-          <EngineGameWinner gameId={gameId} gameData={gameData} winner={winner} />
+        {displayedWindowState.get === GameWindowInterface.winner && winnerData && (
+          <EngineGameWinner gameId={gameId} gameData={gameData} winnerData={winnerData} />
         )}
 
         {/* previous position show */}
@@ -373,7 +373,7 @@ function EngineGameContent({
 
         {/* settings */}
         {displayedWindowState.get === GameWindowInterface.settings && (
-          <GameSettings gameData={gameData} setDisplayedWindow={displayedWindowState.set} />
+          <GameSettings gameData={gameData} winnerData={winnerData} setDisplayedWindow={displayedWindowState.set} />
         )}
 
         {/* engine selection */}

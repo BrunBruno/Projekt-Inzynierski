@@ -9,7 +9,7 @@ import { getErrMessage } from "../../shared/utils/functions/errors";
 import MainPopUp from "../../shared/components/main-popup/MainPopUp";
 import { Guid } from "guid-typescript";
 import { GameActionInterface, GameWindowInterface, StateOptions } from "../../shared/utils/objects/interfacesEnums";
-import { GetEngineGameWinner, GetEngineGameDto } from "../../shared/utils/types/engineGameDtos";
+import { GetEngineGameWinnerDto, GetEngineGameDto } from "../../shared/utils/types/engineGameDtos";
 import { EndEngineGameModel } from "../../shared/utils/types/engineGameModels";
 import { PieceColor } from "../../shared/utils/objects/entitiesEnums";
 import EngineGameLeftSidebar from "./game-left-sidebar/EngineGameLeftSidebar";
@@ -50,7 +50,7 @@ function EngineGamePage() {
   // obtained game data
   const [gameData, setGameData] = useState<GetEngineGameDto | null>(null);
   // winner data
-  const [winner, setWinner] = useState<GetEngineGameWinner | null>(null);
+  const [winnerData, setWinnerData] = useState<GetEngineGameWinnerDto | null>(null);
 
   //
   const [displayedWindow, setDisplayedWindow] = useState<GameWindowInterface>(GameWindowInterface.none);
@@ -114,9 +114,12 @@ function EngineGamePage() {
     if (!gameId) return;
 
     try {
-      const response = await axios.get<GetEngineGameWinner>(engineGameController.getWinner(gameId), getAuthorization());
+      const response = await axios.get<GetEngineGameWinnerDto>(
+        engineGameController.getWinner(gameId),
+        getAuthorization()
+      );
 
-      setWinner(response.data);
+      setWinnerData(response.data);
       setDisplayedWindow(GameWindowInterface.winner);
     } catch (err) {
       showPopup(getErrMessage(err), "warning");
@@ -144,6 +147,7 @@ function EngineGamePage() {
       <EngineGameLeftSidebar
         gameId={gameId}
         gameData={gameData}
+        winnerData={winnerData}
         getGame={getGame}
         endGame={endGame}
         setShowConfirm={setShowConfirm}
@@ -156,7 +160,7 @@ function EngineGamePage() {
         gameData={gameData}
         getGame={getGame}
         endGame={endGame}
-        winner={winner}
+        winnerData={winnerData}
         historyPositionState={{ get: historyPosition, set: setHistoryPosition }}
         showConfirmState={{ get: showConfirm, set: setShowConfirm }}
         confirmAction={confirmAction}
@@ -166,6 +170,7 @@ function EngineGamePage() {
       <EngineGameRightSidebar
         gameId={gameId}
         gameData={gameData}
+        winnerData={winnerData}
         historyPositionState={{ get: historyPosition, set: setHistoryPosition }}
         displayedWindowState={{ get: displayedWindow, set: setDisplayedWindow }}
       />

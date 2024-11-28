@@ -65,6 +65,8 @@ public class BlockUserRequestHandler : IRequestHandler<BlockUserRequest> {
                 RequestCreatedAt = DateTime.UtcNow,
                 RequestorId = userId,
                 ReceiverId = request.UserId,
+
+                Stats = new FriendshipStats(),
             };
 
 

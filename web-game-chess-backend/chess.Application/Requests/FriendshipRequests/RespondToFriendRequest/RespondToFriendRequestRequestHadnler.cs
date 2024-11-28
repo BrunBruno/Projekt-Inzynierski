@@ -34,16 +34,22 @@ public class RespondToFriendRequestRequestHandler : IRequestHandler<RespondToFri
             ?? throw new NotFoundException("Friend request not found");
 
         if (friendship.RequestorId == userId)
-            throw new BadRequestException("This friend request was sent by you.");
+            throw new BadRequestException("This friend request was sent by you");
 
         if (friendship.ReceiverId != userId)
-            throw new UnauthorizedException("This is not your friend request.");
+            throw new UnauthorizedException("This is not your friendship request");
 
-        if(request.IsAccepted)
+        if (request.IsAccepted) {
+
             friendship.Status = FriendshipStatus.Accepted;
-        else
-            friendship.Status = FriendshipStatus.Rejected;
 
-        await _friendshipRepository.Update(friendship);
+            await _friendshipRepository.Update(friendship);
+
+        } else {
+
+            await _friendshipRepository.Delete(friendship);
+
+        }
+
     }
 }

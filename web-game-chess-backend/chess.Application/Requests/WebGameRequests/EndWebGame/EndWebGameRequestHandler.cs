@@ -3,6 +3,7 @@ using chess.Application.Repositories.FriendshipRepositories;
 using chess.Application.Repositories.UserRepositories;
 using chess.Application.Repositories.WebGameRepositories;
 using chess.Application.Services;
+using chess.Core.Entities;
 using chess.Core.Enums;
 using chess.Core.Maps.MapOfElo;
 using chess.Shared.Exceptions;
@@ -23,17 +24,20 @@ public class EndWebGameRequestHandler : IRequestHandler<EndWebGameRequest> {
     private readonly IUserContextService _userContextService;
     private readonly IUserRepository _userRepository;
     private readonly IFriendshipRepository _friendshipRepository;
+    private readonly IWebGameMessageRepository _webGameMessageRepository;
 
     public EndWebGameRequestHandler(
         IWebGameRepository webGameRepository,
         IUserContextService userContextService,
         IUserRepository userRepository,
-        IFriendshipRepository friendshipRepository
+        IFriendshipRepository friendshipRepository,
+        IWebGameMessageRepository webGameMessageRepository
     ) {
         _webGameRepository = webGameRepository;
         _userContextService = userContextService;
         _userRepository = userRepository;
         _friendshipRepository = friendshipRepository;
+        _webGameMessageRepository = webGameMessageRepository;
     }   
 
     public async Task Handle(EndWebGameRequest request, CancellationToken cancellationToken) {
@@ -269,9 +273,67 @@ public class EndWebGameRequestHandler : IRequestHandler<EndWebGameRequest> {
             game.Moves[^1].FenMove = lastMove[..^1] + "#";
         }
 
+        var winner = request.LoserColor == PieceColor.White ? game.BlackPlayer.Name : game.WhitePlayer.Name;
+        var loser = request.LoserColor == PieceColor.White ? game.WhitePlayer.Name : game.BlackPlayer.Name;
+
+        var endMessages = new List<WebGameMessage>() { 
+            new WebGameMessage(){
+                Id = Guid.NewGuid(),
+                RequestorName = "BOT",
+                Content = $"Game over.",
+                Type = MessageType.Bot,
+                GameId = game.Id
+            },
+
+             new WebGameMessage(){
+                Id = Guid.NewGuid(),
+                RequestorName = "BOT",
+                Content = "",
+                Type = MessageType.Bot,
+                GameId = game.Id
+            },
+        };
+
+
+        switch (request.EndGameType) {
+
+            case GameEndReason.CheckMate:
+                endMessages[1].Content = $"Player {winner} wins by check mate.";
+                break;
+
+            case GameEndReason.Resignation:
+                endMessages[1].Content = $"Player {loser} resigned.";
+                break;
+
+            case GameEndReason.OutOfTime:
+                endMessages[1].Content = $"Player {loser} run out of time.";
+                break;
+
+            case GameEndReason.StaleMate:
+                endMessages[1].Content = $"Game drawn by stalemate.";
+                break;
+
+            case GameEndReason.Agreement:
+                endMessages[1].Content = $"Game drawn by agreement.";
+                break;
+
+            case GameEndReason.FiftyMovesRule:
+                endMessages[1].Content = $"Game drawn by 50 move rule.";
+                break;
+
+            case GameEndReason.Threefold:
+                endMessages[1].Content = $"Game drawn by repetion.";
+                break;
+
+            case GameEndReason.InsufficientMaterial:
+                endMessages[1].Content = $"Game drawn by insufficient meterial.";
+                break;
+        }
+
 
         await _webGameRepository.Update(game);
         await _userRepository.Update(whiteUser);
         await _userRepository.Update(blackUser);
+        await _webGameMessageRepository.CreateMany(endMessages);
     }
 }

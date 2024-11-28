@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import {
-  GetWinnerDto,
+  GetWebGameWinnerDto,
   GetWebGameDto,
   GetOpponentDto,
   SearchWebGameDto,
@@ -18,7 +18,7 @@ import GameHubService from "../../../../shared/utils/services/GameHubService";
 import { getErrMessage } from "../../../../shared/utils/functions/errors";
 import { usePopup } from "../../../../shared/utils/hooks/usePopUp";
 import AvatarImage from "../../../../shared/components/avatar-image/AvatarImage";
-import { PieceColor } from "../../../../shared/utils/objects/entitiesEnums";
+import { GameEndReason, PieceColor } from "../../../../shared/utils/objects/entitiesEnums";
 import { Dispatch, SetStateAction, useRef, MouseEvent } from "react";
 import { GameWindowInterface, StateOptions } from "../../../../shared/utils/objects/interfacesEnums";
 import { PlayerDto } from "../../../../shared/utils/types/abstractDtosAndModels";
@@ -27,6 +27,9 @@ import IconCreator from "../../../../shared/components/icon-creator/IconCreator"
 import { symbolIcons } from "../../../../shared/svgs/iconsMap/SymbolIcons";
 import { greyColor, mainColor } from "../../../../shared/utils/objects/colorMaps";
 import { gameWinnerIcons } from "./GameWinnerIcons";
+import { gameEndReasonIcons } from "../../../../shared/svgs/iconsMap/GameEndReasonIcons";
+import { getEnumKeyByEnumValue } from "../../../../shared/utils/functions/enums";
+import { GameEndReasonName } from "../../../../shared/utils/objects/constantLists";
 
 type WebGameWinnerProps = {
   // game and player data
@@ -34,7 +37,7 @@ type WebGameWinnerProps = {
   gameData: GetWebGameDto;
   playerData: PlayerDto;
   // game result data
-  winner: GetWinnerDto | null;
+  winnerData: GetWebGameWinnerDto | null;
 
   // timing for new game or rematch
   selectedTiming: SearchWebGameModel | null;
@@ -51,7 +54,7 @@ function WebGameWinner({
   gameId,
   gameData,
   playerData,
-  winner,
+  winnerData,
   setNewGameData,
   selectedTiming,
   rematchData,
@@ -158,7 +161,7 @@ function WebGameWinner({
 
   // generate players schema
   const generatePlayers = (): JSX.Element => {
-    if (!winner) return <></>;
+    if (!winnerData) return <></>;
 
     const renderPlayer = (
       player: PlayerDto,
@@ -174,7 +177,7 @@ function WebGameWinner({
               iconName={"crown"}
               iconClass={classes["crown-icon"]}
               color={mainColor.c7}
-              active={winner.winnerColor === PieceColor.white}
+              active={winnerData.winnerColor === PieceColor.white}
             />
           )}
 
@@ -202,13 +205,15 @@ function WebGameWinner({
         ? gameData.whitePlayer.elo < gameData.blackPlayer.elo
         : gameData.whitePlayer.elo > gameData.blackPlayer.elo;
 
-    const isWinner = winner.winnerColor !== null ? (playerData.color === winner.winnerColor ? true : false) : null;
-    const isEnemyWinner = winner.winnerColor !== null ? (playerData.color === winner.winnerColor ? false : true) : null;
+    const isWinner =
+      winnerData.winnerColor !== null ? (playerData.color === winnerData.winnerColor ? true : false) : null;
+    const isEnemyWinner =
+      winnerData.winnerColor !== null ? (playerData.color === winnerData.winnerColor ? false : true) : null;
 
     const sign =
       isWinner === null ? (wasOpponentBetter === null ? "" : wasOpponentBetter ? "+" : "-") : isWinner ? "+" : "-";
 
-    const eloGained = Math.abs(winner.eloGain);
+    const eloGained = Math.abs(winnerData.eloGain);
 
     return (
       <div className={classes.winner__content__info__players}>
@@ -260,7 +265,7 @@ function WebGameWinner({
     navigate("/main");
   };
 
-  if (!winner) return <></>;
+  if (!winnerData) return <></>;
 
   return (
     <div
@@ -274,14 +279,35 @@ function WebGameWinner({
         <h2
           className={`
             ${classes.title}
-            ${winner.winnerColor === null ? classes["draw"] : ""}
-            ${winner.winnerColor === PieceColor.white ? classes["white-winner"] : ""}
-            ${winner.winnerColor === PieceColor.black ? classes["black-winner"] : ""}
+            ${winnerData.winnerColor === null ? classes["draw"] : ""}
+            ${winnerData.winnerColor === PieceColor.white ? classes["white-winner"] : ""}
+            ${winnerData.winnerColor === PieceColor.black ? classes["black-winner"] : ""}
           `}
         >
-          {winner.winnerColor === null && <span>Draw</span>}
-          {winner.winnerColor === PieceColor.white && <span>White Wins</span>}
-          {winner.winnerColor === PieceColor.black && <span>Black Wins</span>}
+          <div
+            className={classes["reason"]}
+            onClick={() => {
+              hideWinner();
+            }}
+          >
+            <IconCreator
+              icons={gameEndReasonIcons}
+              iconName={getEnumKeyByEnumValue(GameEndReason, winnerData.gameEndReason) as GameEndReasonName}
+              iconClass={classes["reason-icon"]}
+              color={
+                winnerData.winnerColor === null
+                  ? greyColor.c9
+                  : winnerData.winnerColor === PieceColor.white
+                  ? "#fff"
+                  : "#000"
+              }
+              active={true}
+            />
+          </div>
+
+          {winnerData.winnerColor === null && <span>Draw</span>}
+          {winnerData.winnerColor === PieceColor.white && <span>White Wins</span>}
+          {winnerData.winnerColor === PieceColor.black && <span>Black Wins</span>}
 
           <div
             className={classes["x"]}
@@ -289,7 +315,12 @@ function WebGameWinner({
               hideWinner();
             }}
           >
-            <IconCreator icons={symbolIcons} iconName={"x"} iconClass={classes["x-icon"]} color={greyColor.c9} />
+            <IconCreator
+              icons={symbolIcons}
+              iconName={"x"}
+              iconClass={classes["x-icon"]}
+              color={winnerData.winnerColor === PieceColor.black ? greyColor.c8 : greyColor.c5}
+            />
           </div>
         </h2>
 

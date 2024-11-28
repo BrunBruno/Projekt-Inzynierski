@@ -63,7 +63,7 @@ export const getSimpleDuration = (duration: string | null): string => {
 
   const [hours, minutes, seconds] = duration.split(":").map(parseFloat);
 
-  if (hours !== 0) return `${hours.toFixed(1)}h`;
-  if (minutes !== 0) return `${minutes.toFixed(1)}m`;
-  return `${seconds.toFixed(1)}s`;
+  if (hours !== 0) return `${hours.toFixed(0)}h`;
+  if (minutes !== 0) return `${minutes.toFixed(0)}m`;
+  return `${seconds.toFixed(0)}s`;
 };

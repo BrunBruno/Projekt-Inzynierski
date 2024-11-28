@@ -1,5 +1,10 @@
 import { useEffect, useRef, useState } from "react";
-import { FetchTimeDto, GetWebGameDto, GetWebGamePlayerDto } from "../../../shared/utils/types/webGameDtos";
+import {
+  FetchTimeDto,
+  GetWebGameDto,
+  GetWebGamePlayerDto,
+  GetWebGameWinnerDto,
+} from "../../../shared/utils/types/webGameDtos";
 import classes from "./GameRightSidebar.module.scss";
 import { AppearanceOfGamePage, PieceColor } from "../../../shared/utils/objects/entitiesEnums";
 import AvatarImage from "../../../shared/components/avatar-image/AvatarImage";
@@ -14,12 +19,17 @@ import { specialPiecesSvgs } from "../../../shared/svgs/iconsMap/SpecialPiecesSv
 import { ElementClass, StateProp } from "../../../shared/utils/types/commonTypes";
 import { GameWindowInterface } from "../../../shared/utils/objects/interfacesEnums";
 import GameClock from "./game-clock/GameClock";
+import { symbolIcons } from "../../../shared/svgs/iconsMap/SymbolIcons";
+import { taskDelay } from "../../../shared/utils/functions/events";
+import { gameRightSidebarIcons } from "./GameRightSidebarIcons";
 
 type WebGameRightSidebarProps = {
   // game and player data
   gameId: Guid;
   gameData: GetWebGameDto;
   playerData: GetWebGamePlayerDto;
+  // winner data
+  winnerData: GetWebGameWinnerDto | null;
   // times left for players
   playersTimes: FetchTimeDto | null;
   // to set previous position
@@ -32,6 +42,7 @@ function WebGameRightSidebar({
   gameId,
   gameData,
   playerData,
+  winnerData,
   playersTimes,
   historyPositionState,
   displayedWindowState,
@@ -46,6 +57,11 @@ function WebGameRightSidebar({
   const [playersAdvantageInPieces, setPlayersAdvantageInPieces] = useState<JSX.Element[]>([]);
   const [whiteMaterial, setWhiteMaterial] = useState<number | null>(null);
   const [blackMaterial, setBlackMaterial] = useState<number | null>(null);
+
+  // move index to records buttons
+  const [currentHistoryMoveIndex, setCurrentHistoryMoveIndex] = useState<number | null>(null);
+  // is the whole history playing
+  const [isPlaying, setIsPlaying] = useState<boolean>(false);
 
   // to show advantage in pieces
   const calculateAdvantage = () => {
@@ -172,12 +188,64 @@ function WebGameRightSidebar({
     );
   };
 
+  // to show previous poison on button click
+  const displayPreviousPositions = (move: MoveDto): void => {
+    if (
+      displayedWindowState.get !== GameWindowInterface.none &&
+      displayedWindowState.get !== GameWindowInterface.winner &&
+      displayedWindowState.get !== GameWindowInterface.history
+    ) {
+      return;
+    }
+
+    if (historyPositionState) {
+      historyPositionState.set(move);
+      displayedWindowState.set(GameWindowInterface.history);
+    }
+  };
+
+  useEffect(() => {
+    if (currentHistoryMoveIndex === null) return;
+
+    displayPreviousPositions(gameData.moves[currentHistoryMoveIndex]);
+  }, [currentHistoryMoveIndex]);
+
+  const changeHistoryMove = (increase: boolean) => {
+    setCurrentHistoryMoveIndex((prev) => {
+      if (prev === null) return increase ? gameData.moves.length - 1 : gameData.moves.length - 2;
+      if (increase && prev + 1 > gameData.moves.length - 1) return gameData.moves.length - 1;
+      if (!increase && prev - 1 < 0) return 0;
+
+      return increase ? prev + 1 : prev - 1;
+    });
+  };
+
   // to return to default view
   const closeHistory = (): void => {
     if (displayedWindowState.get !== GameWindowInterface.history) return;
+    if (isPlaying) return;
+
+    setCurrentHistoryMoveIndex(null);
 
     historyPositionState.set(null);
-    displayedWindowState.set(GameWindowInterface.none);
+
+    if (winnerData) displayedWindowState.set(GameWindowInterface.winner);
+    else displayedWindowState.set(GameWindowInterface.none);
+  };
+
+  // to show how game went
+  const playWholeGame = async (): Promise<void> => {
+    if (!gameData.hasEnded) return;
+
+    setIsPlaying(true);
+
+    for (const move of gameData.moves) {
+      displayPreviousPositions(move);
+      await taskDelay(500);
+    }
+
+    setIsPlaying(false);
+    displayedWindowState.set(GameWindowInterface.winner);
   };
 
   // to handle record scroll
@@ -246,25 +314,81 @@ function WebGameRightSidebar({
           }}
         >
           <div className={classes["bar-list"]}>
-            {gameData.moves.length > 0
-              ? gameData.moves.map((move: MoveDto, i: number) => (
-                  <WebGameMoveRecord
-                    key={`move-record-${i}`}
-                    recordNum={i}
-                    move={move}
-                    historyPositionState={historyPositionState}
-                    displayedWindowState={displayedWindowState}
+            <div className={classes["records"]}>
+              {gameData.moves.length > 0
+                ? gameData.moves.map((move: MoveDto, i: number) => (
+                    <WebGameMoveRecord
+                      key={`move-record-${i}-${move.fenMove}${move.position}`}
+                      recordNum={i}
+                      move={move}
+                      historyPositionState={historyPositionState}
+                      displayedWindowState={displayedWindowState}
+                    />
+                  ))
+                : Array.from({ length: 10 }).map((_, i: number) => (
+                    <WebGameMoveRecord key={i} recordNum={i} move={null} displayedWindowState={displayedWindowState} />
+                  ))}
+            </div>
+
+            <div className={classes["records-buttons"]}>
+              <div
+                className={classes["record-button"]}
+                onClick={() => {
+                  displayPreviousPositions(gameData.moves[0]);
+                }}
+              >
+                <IconCreator icons={symbolIcons} iconName="arrow" iconClass={classes["arrow"]} color={greyColor.c2} />
+                <IconCreator icons={symbolIcons} iconName="arrow" iconClass={classes["arrow"]} color={greyColor.c2} />
+              </div>
+              <div
+                className={classes["record-button"]}
+                onClick={() => {
+                  changeHistoryMove(false);
+                }}
+              >
+                <IconCreator icons={symbolIcons} iconName="arrow" iconClass={classes["arrow"]} color={greyColor.c2} />
+              </div>
+
+              {winnerData && (
+                <div
+                  className={classes["record-button"]}
+                  onClick={() => {
+                    playWholeGame();
+                  }}
+                >
+                  <IconCreator
+                    icons={gameRightSidebarIcons}
+                    iconName={"play"}
+                    iconClass={classes["play"]}
+                    color={greyColor.c2}
                   />
-                ))
-              : Array.from({ length: 20 }).map((_, i: number) => (
-                  <WebGameMoveRecord key={i} recordNum={i} move={null} displayedWindowState={displayedWindowState} />
-                ))}
+                </div>
+              )}
+
+              <div
+                className={classes["record-button"]}
+                onClick={() => {
+                  changeHistoryMove(true);
+                }}
+              >
+                <IconCreator icons={symbolIcons} iconName="arrow" iconClass={classes["arrow"]} color={greyColor.c2} />
+              </div>
+              <div
+                className={classes["record-button"]}
+                onClick={() => {
+                  displayPreviousPositions(gameData.moves[gameData.moves.length - 1]);
+                }}
+              >
+                <IconCreator icons={symbolIcons} iconName="arrow" iconClass={classes["arrow"]} color={greyColor.c2} />
+                <IconCreator icons={symbolIcons} iconName="arrow" iconClass={classes["arrow"]} color={greyColor.c2} />
+              </div>
+            </div>
           </div>
         </div>
 
         {/* game messenger */}
         <div className={`${classes["bar-block"]} ${classes["messages-block"]}`}>
-          <WebGameMessages gameId={gameId} playerData={playerData} />
+          <WebGameMessages gameId={gameId} playerData={playerData} winnerData={winnerData} />
         </div>
       </div>
     </section>

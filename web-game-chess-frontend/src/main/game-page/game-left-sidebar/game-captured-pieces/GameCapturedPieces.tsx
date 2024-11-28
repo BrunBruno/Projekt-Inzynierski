@@ -6,7 +6,7 @@ import classes from "./GameCapturedPieces.module.scss";
 import { GetEngineGameDto } from "../../../../shared/utils/types/engineGameDtos";
 import { BlackCapturedPiecesRecord, WhiteCapturedPiecesRecord } from "./GameCapturedPieceData";
 import { symbolIcons } from "../../../../shared/svgs/iconsMap/SymbolIcons";
-import { greyColor } from "../../../../shared/utils/objects/colorMaps";
+import { greyColor, mainColor } from "../../../../shared/utils/objects/colorMaps";
 import { specialPiecesSvgs } from "../../../../shared/svgs/iconsMap/SpecialPiecesSvgs";
 
 type GameCapturedPiecesProps = {
@@ -57,7 +57,7 @@ function GameCapturedPieces({ gameData }: GameCapturedPiecesProps) {
               <IconCreator
                 icons={specialPiecesSvgs}
                 iconName={piece}
-                color={"white"}
+                color={mainColor.c0}
                 iconClass={classes["side-piece-icon"]}
               />
               <IconCreator icons={symbolIcons} iconName={"x"} iconClass={classes["x-icon"]} color={greyColor.c7} />
@@ -75,7 +75,7 @@ function GameCapturedPieces({ gameData }: GameCapturedPiecesProps) {
               <IconCreator
                 icons={specialPiecesSvgs}
                 iconName={piece}
-                color={"black"}
+                color={mainColor.c9}
                 iconClass={classes["side-piece-icon"]}
               />
               <IconCreator icons={symbolIcons} iconName={"x"} iconClass={classes["x-icon"]} color={greyColor.c7} />

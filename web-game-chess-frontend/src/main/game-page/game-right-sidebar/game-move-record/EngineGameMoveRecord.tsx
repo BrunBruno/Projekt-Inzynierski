@@ -30,6 +30,7 @@ function EngineGameMoveRecord({
   const displayPreviousPositions = (): void => {
     if (
       displayedWindowState.get !== GameWindowInterface.none &&
+      displayedWindowState.get !== GameWindowInterface.winner &&
       displayedWindowState.get !== GameWindowInterface.history
     ) {
       return;

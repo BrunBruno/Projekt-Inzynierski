@@ -1,6 +1,6 @@
 import { useEffect, useReducer, useRef } from "react";
 import {
-  GetWinnerDto,
+  GetWebGameWinnerDto,
   GetWebGameDto,
   GetWebGamePlayerDto,
   SearchWebGameDto,
@@ -40,12 +40,12 @@ type WebGameContentProps = {
   gameData: GetWebGameDto;
   playerData: GetWebGamePlayerDto;
   // winner color if game is finished
-  winner: GetWinnerDto | null;
+  winnerData: GetWebGameWinnerDto | null;
 
   // timing of current game for new games and rematches
   selectedTiming: SearchWebGameModel | null;
 
-  //
+  // for display last done moves
   historyPositionState: StateProp<MoveDto | null>;
 
   // obtained ids for rematch game and setter
@@ -68,7 +68,7 @@ function WebGameContent({
   gameId,
   gameData,
   playerData,
-  winner,
+  winnerData,
   selectedTiming,
   historyPositionState,
   newGameDataState,
@@ -282,12 +282,12 @@ function WebGameContent({
           )}
 
         {/* end game info*/}
-        {displayedWindowState.get === GameWindowInterface.winner && winner && (
+        {displayedWindowState.get === GameWindowInterface.winner && winnerData && (
           <WebGameWinner
             gameId={gameId}
             gameData={gameData}
             playerData={playerData}
-            winner={winner}
+            winnerData={winnerData}
             selectedTiming={selectedTiming}
             setNewGameData={newGameDataState.set}
             rematchData={rematchData}
@@ -307,7 +307,7 @@ function WebGameContent({
 
         {/* settings */}
         {displayedWindowState.get === GameWindowInterface.settings && (
-          <GameSettings gameData={gameData} setDisplayedWindow={displayedWindowState.set} />
+          <GameSettings gameData={gameData} winnerData={winnerData} setDisplayedWindow={displayedWindowState.set} />
         )}
 
         {/* searching */}

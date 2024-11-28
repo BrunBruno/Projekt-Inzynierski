@@ -1,6 +1,10 @@
 import { ChangeEvent, useEffect, useRef, useState, KeyboardEvent, FormEvent } from "react";
 import classes from "./GameMessages.module.scss";
-import { GetAllMessagesDto, GetWebGamePlayerDto } from "../../../../shared/utils/types/webGameDtos";
+import {
+  GetAllMessagesDto,
+  GetWebGamePlayerDto,
+  GetWebGameWinnerDto,
+} from "../../../../shared/utils/types/webGameDtos";
 import IconCreator from "../../../../shared/components/icon-creator/IconCreator";
 import GameHubService from "../../../../shared/utils/services/GameHubService";
 import { HubConnectionState } from "@microsoft/signalr";
@@ -16,13 +20,14 @@ import { symbolIcons } from "../../../../shared/svgs/iconsMap/SymbolIcons";
 import { greyColor } from "../../../../shared/utils/objects/colorMaps";
 
 type WebGameMessagesProps = {
-  // game id
+  // game and player data
   gameId: Guid;
-  // player data
   playerData: GetWebGamePlayerDto;
+  // winner data
+  winnerData: GetWebGameWinnerDto | null;
 };
 
-function WebGameMessages({ gameId, playerData }: WebGameMessagesProps) {
+function WebGameMessages({ gameId, playerData, winnerData }: WebGameMessagesProps) {
   ///
 
   const { showPopup } = usePopup();
@@ -86,7 +91,7 @@ function WebGameMessages({ gameId, playerData }: WebGameMessagesProps) {
         GameHubService.connection.off("TypingStatus", typingStatusChange);
       }
     };
-  }, []);
+  }, [winnerData]);
 
   // to send new message
   const sendMessage = async (): Promise<void> => {
@@ -229,6 +234,7 @@ function WebGameMessages({ gameId, playerData }: WebGameMessagesProps) {
           ref={inputRef}
           className={classes["message-input"]}
           value={newMessage}
+          placeholder="Type here ..."
           onChange={(event) => {
             handleMessageInputChange(event);
           }}
@@ -244,7 +250,12 @@ function WebGameMessages({ gameId, playerData }: WebGameMessagesProps) {
         ></textarea>
 
         <button className={classes["send-button"]} type="submit">
-          <IconCreator icons={gameRightSidebarIcons} iconName={"send"} iconClass={classes["send-svg"]} />
+          <IconCreator
+            icons={gameRightSidebarIcons}
+            iconName={"send"}
+            iconClass={classes["send-svg"]}
+            color={greyColor.c2}
+          />
         </button>
       </form>
     </div>

@@ -26,6 +26,7 @@ function WebGameMoveRecord({ recordNum, move, historyPositionState, displayedWin
   const displayPreviousPositions = (): void => {
     if (
       displayedWindowState.get !== GameWindowInterface.none &&
+      displayedWindowState.get !== GameWindowInterface.winner &&
       displayedWindowState.get !== GameWindowInterface.history
     ) {
       return;
@@ -56,7 +57,7 @@ function WebGameMoveRecord({ recordNum, move, historyPositionState, displayedWin
   return (
     <div className={classes.record}>
       {recordNum % 2 === 0 ? (
-        <p className={classes.turn}>{Math.floor((move.turn - 1) / 2) + 1 + ". "}</p>
+        <p className={classes.turn}>{Math.floor((move.turn - 1) / 2) + 1 + ""}</p>
       ) : (
         <p className={classes.sep}>:</p>
       )}
