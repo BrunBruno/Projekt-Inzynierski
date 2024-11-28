@@ -1,4 +1,5 @@
 ﻿
+using chess.Application.Repositories.FriendshipRepositories;
 using chess.Application.Repositories.UserRepositories;
 using chess.Application.Repositories.WebGameRepositories;
 using chess.Application.Requests.WebGameRequests.GetWebGame;
@@ -15,11 +16,15 @@ public class GetWebGameRequestHandlerTests {
     private readonly Mock<IUserContextService> _mockUserContextService;
     private readonly Mock<IWebGameRepository> _mockGameRepository;
     private readonly Mock<IUserSettingsRepository> _mockUserSettingsRepository;
+    private readonly Mock<IWebGameMessageRepository> _mockWebGameMessageRepository;
+    private readonly Mock<IFriendshipRepository> _mockFriendshipRepository;
 
     public GetWebGameRequestHandlerTests() {
         _mockUserContextService = new Mock<IUserContextService>();
         _mockGameRepository = new Mock<IWebGameRepository>();
         _mockUserSettingsRepository = new Mock<IUserSettingsRepository>();
+        _mockWebGameMessageRepository = new Mock<IWebGameMessageRepository>();
+        _mockFriendshipRepository = new Mock<IFriendshipRepository>();
     }
 
 
@@ -81,7 +86,9 @@ public class GetWebGameRequestHandlerTests {
         var handler = new GetWebGameRequestHandler(
             _mockGameRepository.Object,
             _mockUserContextService.Object,
-            _mockUserSettingsRepository.Object
+            _mockUserSettingsRepository.Object,
+            _mockWebGameMessageRepository.Object,
+            _mockFriendshipRepository.Object
         );
 
         var result = await handler.Handle(request, CancellationToken.None);
@@ -155,7 +162,9 @@ public class GetWebGameRequestHandlerTests {
         var handler = new GetWebGameRequestHandler(
             _mockGameRepository.Object,
             _mockUserContextService.Object,
-            _mockUserSettingsRepository.Object
+            _mockUserSettingsRepository.Object,
+            _mockWebGameMessageRepository.Object,
+            _mockFriendshipRepository.Object
         );
 
         var result = await handler.Handle(request, CancellationToken.None);
@@ -189,7 +198,9 @@ public class GetWebGameRequestHandlerTests {
         var handler = new GetWebGameRequestHandler(
             _mockGameRepository.Object,
             _mockUserContextService.Object,
-            _mockUserSettingsRepository.Object
+            _mockUserSettingsRepository.Object,
+            _mockWebGameMessageRepository.Object,
+            _mockFriendshipRepository.Object
         );
 
         var act = () => handler.Handle(request, CancellationToken.None);
@@ -247,7 +258,9 @@ public class GetWebGameRequestHandlerTests {
         var handler = new GetWebGameRequestHandler(
             _mockGameRepository.Object,
             _mockUserContextService.Object,
-            _mockUserSettingsRepository.Object
+            _mockUserSettingsRepository.Object,
+            _mockWebGameMessageRepository.Object,
+            _mockFriendshipRepository.Object
         );
 
         var act = () => handler.Handle(request, CancellationToken.None);

@@ -15,12 +15,12 @@ export const generateControlledAreas = (matrix: SMatrix): [Coordinate[], Coordin
 
   boardMatrix = matrix;
 
-  for (let row in matrix) {
-    for (let col in matrix[row]) {
+  for (let row = 0; row < matrix.length; row++) {
+    for (let col = 0; col < matrix[row].length; col++) {
       const piece = matrix[row][col];
 
-      const xCoor = toCoorNum(parseInt(col) + 1);
-      const yCoor = toCoorNum(parseInt(row) + 1);
+      const xCoor = toCoorNum(col + 1);
+      const yCoor = toCoorNum(row + 1);
 
       let foundWhiteAreas: Set<Coordinate> = new Set();
       let foundBlackAreas: Set<Coordinate> = new Set();
@@ -270,14 +270,20 @@ export const checkChecks = (matrix: SMatrix): [Coordinate[], Coordinate[]] => {
 
     let isValid: boolean;
 
-    isValid = isValidAndIsEmptyField(wx - 1 + 1, wy - 1 + 1)[0];
-    if (isValid && matrix[wy - 1 + 1][wx - 1 + 1] === pieceTagMap.black.pawn) {
-      blackCheckAreas.push(toCoor([wx + 1, wy + 1]));
+    // add check areas made by black to whiteCheckAreas
+    let wPawnPosX: number;
+    let wPawnPosY: number;
+
+    [wPawnPosX, wPawnPosY] = [wx - 1, wy + 1];
+    isValid = isValidAndIsEmptyField(wPawnPosX, wPawnPosY)[0];
+    if (isValid && matrix[wPawnPosY - 1][wPawnPosX - 1] === pieceTagMap.black.pawn) {
+      blackCheckAreas.push(toCoor([wPawnPosX, wPawnPosY]));
     }
 
-    isValid = isValidAndIsEmptyField(wx - 1 - 1, wy - 1 + 1)[0];
-    if (isValid && matrix[wy - 1 + 1][wx - 1 - 1] === pieceTagMap.black.pawn) {
-      blackCheckAreas.push(toCoor([wx - 1, wy + 1]));
+    [wPawnPosX, wPawnPosY] = [wx + 1, wy + 1];
+    isValid = isValidAndIsEmptyField(wPawnPosX, wPawnPosY)[0];
+    if (isValid && matrix[wPawnPosY - 1][wPawnPosX - 1] === pieceTagMap.black.pawn) {
+      blackCheckAreas.push(toCoor([wPawnPosX, wPawnPosY]));
     }
 
     blackCheckAreas.push(
@@ -317,14 +323,20 @@ export const checkChecks = (matrix: SMatrix): [Coordinate[], Coordinate[]] => {
       )
     );
 
-    isValid = isValidAndIsEmptyField(bx - 1 + 1, by - 1 - 1)[0];
-    if (isValid && matrix[by - 1 - 1][bx - 1 + 1] === pieceTagMap.white.pawn) {
-      whiteCheckAreas.push(toCoor([bx + 1, by - 1]));
+    // add check areas made by black to whiteCheckAreas
+    let bPawnPosX: number;
+    let bPawnPosY: number;
+
+    [bPawnPosX, bPawnPosY] = [bx - 1, by - 1];
+    isValid = isValidAndIsEmptyField(bPawnPosX, bPawnPosY)[0];
+    if (isValid && matrix[bPawnPosY - 1][bPawnPosX - 1] === pieceTagMap.white.pawn) {
+      whiteCheckAreas.push(toCoor([bPawnPosX, bPawnPosY]));
     }
 
-    isValid = isValidAndIsEmptyField(bx - 1 - 1, by - 1 - 1)[0];
-    if (isValid && matrix[by - 1 - 1][bx - 1 - 1] === pieceTagMap.white.pawn) {
-      whiteCheckAreas.push(toCoor([bx - 1, by - 1]));
+    [bPawnPosX, bPawnPosY] = [bx + 1, by - 1];
+    isValid = isValidAndIsEmptyField(bPawnPosX, bPawnPosY)[0];
+    if (isValid && matrix[bPawnPosY - 1][bPawnPosX - 1] === pieceTagMap.white.pawn) {
+      whiteCheckAreas.push(toCoor([bPawnPosX, bPawnPosY]));
     }
 
     whiteCheckAreas.push(

@@ -18,12 +18,14 @@ public class EndWebGameRequestHandlerTests {
     private readonly Mock<IUserRepository> _mockUserRepository;
     private readonly Mock<IWebGameRepository> _mockGameRepository;
     private readonly Mock<IFriendshipRepository> _mockFriendshipRepository;
+    private readonly Mock<IWebGameMessageRepository> _mockWebGameMessageRepository;
 
     public EndWebGameRequestHandlerTests() {
         _mockUserContextService = new Mock<IUserContextService>();
         _mockUserRepository = new Mock<IUserRepository>();
         _mockGameRepository = new Mock<IWebGameRepository>();
         _mockFriendshipRepository = new Mock<IFriendshipRepository>();
+        _mockWebGameMessageRepository = new Mock<IWebGameMessageRepository>();
     }
 
     [Fact]
@@ -90,7 +92,8 @@ public class EndWebGameRequestHandlerTests {
             _mockGameRepository.Object,
             _mockUserContextService.Object,
             _mockUserRepository.Object,
-            _mockFriendshipRepository.Object
+            _mockFriendshipRepository.Object,
+            _mockWebGameMessageRepository.Object
         );
 
 
@@ -181,7 +184,8 @@ public class EndWebGameRequestHandlerTests {
             _mockGameRepository.Object,
             _mockUserContextService.Object,
             _mockUserRepository.Object,
-            _mockFriendshipRepository.Object
+            _mockFriendshipRepository.Object,
+            _mockWebGameMessageRepository.Object
         );
 
 
@@ -220,7 +224,8 @@ public class EndWebGameRequestHandlerTests {
             _mockGameRepository.Object,
             _mockUserContextService.Object,
             _mockUserRepository.Object,
-            _mockFriendshipRepository.Object
+            _mockFriendshipRepository.Object,
+            _mockWebGameMessageRepository.Object
         );
 
         var act = () => handler.Handle(request, CancellationToken.None);
@@ -257,7 +262,8 @@ public class EndWebGameRequestHandlerTests {
             _mockGameRepository.Object,
             _mockUserContextService.Object,
             _mockUserRepository.Object,
-            _mockFriendshipRepository.Object
+            _mockFriendshipRepository.Object,
+            _mockWebGameMessageRepository.Object
         );
 
         var act = () => handler.Handle(request, CancellationToken.None);
@@ -316,7 +322,8 @@ public class EndWebGameRequestHandlerTests {
             _mockGameRepository.Object,
             _mockUserContextService.Object,
             _mockUserRepository.Object,
-            _mockFriendshipRepository.Object
+            _mockFriendshipRepository.Object,
+            _mockWebGameMessageRepository.Object
         );
 
         var act = () => handler.Handle(request, CancellationToken.None);
@@ -376,7 +383,8 @@ public class EndWebGameRequestHandlerTests {
             _mockGameRepository.Object,
             _mockUserContextService.Object,
             _mockUserRepository.Object,
-            _mockFriendshipRepository.Object
+            _mockFriendshipRepository.Object,
+            _mockWebGameMessageRepository.Object
         );
 
         var act = () => handler.Handle(request, CancellationToken.None);
@@ -447,7 +455,8 @@ public class EndWebGameRequestHandlerTests {
             _mockGameRepository.Object,
             _mockUserContextService.Object,
             _mockUserRepository.Object,
-            _mockFriendshipRepository.Object
+            _mockFriendshipRepository.Object,
+            _mockWebGameMessageRepository.Object
         );
 
         var act = () => handler.Handle(request, CancellationToken.None);

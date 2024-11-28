@@ -1,4 +1,5 @@
 ﻿
+using chess.Application.Repositories.FriendshipRepositories;
 using chess.Application.Repositories.WebGameRepositories;
 using chess.Application.Requests.WebGameRequests.SendPlayerMessage;
 using chess.Application.Services;
@@ -14,11 +15,13 @@ public class SendPlayerMessageRequestHandlerTests {
     private readonly Mock<IWebGamePlayerMessageRepository> _mockPlayerMessageRepository;
     private readonly Mock<IWebGameRepository> _mockGameRepository;
     private readonly Mock<IUserContextService> _mockUserContextService;
+    private readonly Mock<IFriendshipRepository> _mockFriendshipRepository;
 
     public SendPlayerMessageRequestHandlerTests() {
         _mockPlayerMessageRepository = new Mock<IWebGamePlayerMessageRepository>();
         _mockGameRepository = new Mock<IWebGameRepository>();
         _mockUserContextService = new Mock<IUserContextService>();
+        _mockFriendshipRepository = new Mock<IFriendshipRepository>();
     }
 
     [Fact]
@@ -59,7 +62,8 @@ public class SendPlayerMessageRequestHandlerTests {
         var handler = new SendPlayerMessageRequestHandler(
             _mockPlayerMessageRepository.Object,
             _mockGameRepository.Object,
-            _mockUserContextService.Object
+            _mockUserContextService.Object,
+            _mockFriendshipRepository.Object
         );
 
         var act = () => handler.Handle(request, CancellationToken.None);
@@ -91,7 +95,8 @@ public class SendPlayerMessageRequestHandlerTests {
         var handler = new SendPlayerMessageRequestHandler(
             _mockPlayerMessageRepository.Object,
             _mockGameRepository.Object,
-            _mockUserContextService.Object
+            _mockUserContextService.Object,
+            _mockFriendshipRepository.Object
         );
 
         var act = () => handler.Handle(request, CancellationToken.None);
@@ -143,7 +148,8 @@ public class SendPlayerMessageRequestHandlerTests {
         var handler = new SendPlayerMessageRequestHandler(
             _mockPlayerMessageRepository.Object,
             _mockGameRepository.Object,
-            _mockUserContextService.Object
+            _mockUserContextService.Object,
+            _mockFriendshipRepository.Object
         );
 
         var act = () => handler.Handle(request, CancellationToken.None);
