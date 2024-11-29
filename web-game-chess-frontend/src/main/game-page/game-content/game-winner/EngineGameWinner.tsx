@@ -4,11 +4,21 @@ import AvatarImage from "../../../../shared/components/avatar-image/AvatarImage"
 import { PieceColor } from "../../../../shared/utils/objects/entitiesEnums";
 import { PlayerDto } from "../../../../shared/utils/types/abstractDtosAndModels";
 import { Guid } from "guid-typescript";
-import { GetEngineGameWinnerDto, GetEngineGameDto } from "../../../../shared/utils/types/engineGameDtos";
+import {
+  GetEngineGameWinnerDto,
+  GetEngineGameDto,
+  StartEngineGameDto,
+} from "../../../../shared/utils/types/engineGameDtos";
 import { useRef, MouseEvent } from "react";
 import { symbolIcons } from "../../../../shared/svgs/iconsMap/SymbolIcons";
 import { greyColor } from "../../../../shared/utils/objects/colorMaps";
 import IconCreator from "../../../../shared/components/icon-creator/IconCreator";
+import { StartEngineGameModel } from "../../../../shared/utils/types/engineGameModels";
+import axios from "axios";
+import { engineGameController, getAuthorization } from "../../../../shared/utils/services/ApiService";
+import { StateOptions } from "../../../../shared/utils/objects/interfacesEnums";
+import { getErrMessage } from "../../../../shared/utils/functions/errors";
+import { usePopup } from "../../../../shared/utils/hooks/usePopUp";
 
 type EngineGameWinnerProps = {
   // game id
@@ -23,8 +33,34 @@ function EngineGameWinner({ gameData, winnerData }: EngineGameWinnerProps) {
   ///
 
   const navigate = useNavigate();
+  const { showPopup } = usePopup();
 
   const containerRef = useRef<HTMLDivElement>(null);
+
+  // for game restart
+  const onStartNewGame = async (): Promise<void> => {
+    const model: StartEngineGameModel = {
+      engineLevel: gameData.engineLevel,
+    };
+
+    try {
+      const response = await axios.post<StartEngineGameDto>(
+        engineGameController.startEngineGame(),
+        model,
+        getAuthorization()
+      );
+
+      const state: StateOptions = {
+        popup: { text: "GAME STARTED", type: "info" },
+      };
+
+      navigate(`/main/engine-game/${response.data.gameId}`, { state: state });
+
+      window.location.reload(); //???
+    } catch (err) {
+      showPopup(getErrMessage(err), "warning");
+    }
+  };
 
   // generate players schema
   const generatePlayers = (): JSX.Element => {
@@ -82,7 +118,7 @@ function EngineGameWinner({ gameData, winnerData }: EngineGameWinnerProps) {
   };
 
   // to show winner window again
-  const showWinner = (event: MouseEvent<HTMLDivElement>) => {
+  const showWinner = (event: MouseEvent<HTMLDivElement>): void => {
     const target = event.target as HTMLDivElement;
 
     const container = containerRef.current;
@@ -140,7 +176,12 @@ function EngineGameWinner({ gameData, winnerData }: EngineGameWinnerProps) {
           {generatePlayers()}
 
           <div className={classes.winner__content__info__buttons}>
-            <button className={classes["new-game"]} onClick={() => {}}>
+            <button
+              className={classes["new-game"]}
+              onClick={() => {
+                onStartNewGame();
+              }}
+            >
               <span>New Game</span>
             </button>
 

@@ -56,7 +56,7 @@ export const defaultViewIcons: IconMap<IconNames> = {
       <path
         d="M16.6,11.2l-4-3A1,1,0,0,0,11,9v1L8.6,8.2A1,1,0,0,0,7,9v6a1,1,0,0,0,1.6.8L11,14v1a1,1,0,0,0,.55.89,1,1,0,0,0,1-.09l4-3a1,1,0,0,0,0-1.6Z"
         fill={color ? color : greyColor.c0}
-      ></path>
+      />
     </svg>
   ),
 };

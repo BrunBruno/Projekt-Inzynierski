@@ -65,5 +65,7 @@ export enum AppearanceOfGamePage {
 //
 export enum AppearanceOfPieces {
   Standard,
-  Simple,
+  VariantA,
+  VariantB,
+  VariantC,
 }

@@ -7,9 +7,10 @@ import { GetEngineGameDto } from "../../../../shared/utils/types/engineGameDtos"
 import { BlackCapturedPiecesRecord, WhiteCapturedPiecesRecord } from "./GameCapturedPieceData";
 import { symbolIcons } from "../../../../shared/svgs/iconsMap/SymbolIcons";
 import { greyColor, mainColor } from "../../../../shared/utils/objects/colorMaps";
-import { specialPiecesSvgs } from "../../../../shared/svgs/iconsMap/SpecialPiecesSvgs";
+import { changePiecesByUserSettings } from "../../../../shared/utils/chess-game/boardVisualization";
 
 type GameCapturedPiecesProps = {
+  // game data
   gameData: GetWebGameDto | GetEngineGameDto;
 };
 
@@ -55,7 +56,7 @@ function GameCapturedPieces({ gameData }: GameCapturedPiecesProps) {
           return (
             <div key={`white-captures-${i}`} className={classes.piece}>
               <IconCreator
-                icons={specialPiecesSvgs}
+                icons={changePiecesByUserSettings(gameData.gameSettings.appearanceOfPieces)}
                 iconName={piece}
                 color={mainColor.c0}
                 iconClass={classes["side-piece-icon"]}
@@ -73,7 +74,7 @@ function GameCapturedPieces({ gameData }: GameCapturedPiecesProps) {
           return (
             <div key={`black-captures-${i}`} className={classes.piece}>
               <IconCreator
-                icons={specialPiecesSvgs}
+                icons={changePiecesByUserSettings(gameData.gameSettings.appearanceOfPieces)}
                 iconName={piece}
                 color={mainColor.c9}
                 iconClass={classes["side-piece-icon"]}

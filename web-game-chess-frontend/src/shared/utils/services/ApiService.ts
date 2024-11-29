@@ -5,6 +5,7 @@ import {
   GetAllFriendsByStatusModel,
   GetAllNonFriendsModel,
   GetFriendshipRankingModel,
+  GetGamesOfFriendshipModel,
 } from "../types/friendshipModels";
 import {
   AbortWebGameSearchModel,
@@ -298,6 +299,7 @@ interface FriendshipControllerPaths {
   getAllNonFriends: string;
   getFriendProfile: string;
   getFriendshipRanking: string;
+  getGamesOfFriendship: string;
   //DELETE
   removeFriend: string;
 }
@@ -309,6 +311,7 @@ export const friendshipControllerPaths: FriendshipControllerPaths = {
   getAllFriendsByStatus: `${friendshipBaseUrl}/all-by-status`,
   getAllNonFriends: `${friendshipBaseUrl}/all-non`,
   getFriendshipRanking: `${friendshipBaseUrl}/ranking`,
+  getGamesOfFriendship: `${friendshipBaseUrl}/games`,
 
   // dynamic
   respondToFriendRequest: `${friendshipBaseUrl}/:friendshipId/respond`,
@@ -324,6 +327,7 @@ interface FriendshipController {
   getAllNonFriends: (model: GetAllNonFriendsModel) => string;
   getFriendProfile: (friendshipId: Guid) => string;
   getFriendshipRanking: (model: GetFriendshipRankingModel) => string;
+  getGamesOfFriendship: (model: GetGamesOfFriendshipModel) => string;
   removeFriend: (friendshipId: Guid) => string;
 }
 
@@ -349,6 +353,10 @@ export const friendshipController: FriendshipController = {
 
   // to get ranking among user friends
   getFriendshipRanking: (model: GetFriendshipRankingModel) => `${friendshipBaseUrl}/ranking?${stringifyModel(model)}`,
+
+  // to get all games of friendship
+  getGamesOfFriendship: (model: GetGamesOfFriendshipModel) =>
+    `${friendshipBaseUrl}/${model.friendshipId}/games?${stringifyModel(model)}`,
 
   // removes friendships
   removeFriend: (friendshipId: Guid) => `${friendshipBaseUrl}/${friendshipId}`,

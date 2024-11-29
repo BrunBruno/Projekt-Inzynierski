@@ -30,6 +30,14 @@ public interface IWebGameRepository {
     Task<List<WebGame>> GetAllPlayedToday();
 
     /// <summary>
+    /// To get all games for friendship
+    /// </summary>
+    /// <param name="requestorId"></param>
+    /// <param name="receiverId"></param>
+    /// <returns></returns>
+    Task<List<WebGame>> GetAllForFriendship(Guid requestorId, Guid receiverId);
+
+    /// <summary>
     /// Creates new game
     /// </summary>
     /// <param name="game"></param>

@@ -40,6 +40,7 @@
 
     &__avatar {
       margin-top: 1rem;
+      user-select: none;
 
       @mixin avatar() {
         @include circle(8rem);

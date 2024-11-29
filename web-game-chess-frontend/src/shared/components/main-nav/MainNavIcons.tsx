@@ -37,7 +37,7 @@ export const mainNavIcons: IconMap<IconNames> = {
         strokeLinecap="round"
         strokeLinejoin="round"
         strokeWidth="1.5"
-      ></path>
+      />
       <path
         data-name="secondary"
         d="M12,15a5,5,0,0,0-5,4.5,9,9,0,0,0,9.94,0A5,5,0,0,0,12,15Zm5-6h4M19,7v4"
@@ -46,7 +46,7 @@ export const mainNavIcons: IconMap<IconNames> = {
         strokeLinecap="round"
         strokeLinejoin="round"
         strokeWidth="1.5"
-      ></path>
+      />
       <path
         d="M20.48,15a8.86,8.86,0,0,1-2.12,3.36A9,9,0,1,1,16,3.94"
         fill="none"
@@ -54,7 +54,7 @@ export const mainNavIcons: IconMap<IconNames> = {
         strokeLinecap="round"
         strokeLinejoin="round"
         strokeWidth="1.5"
-      ></path>
+      />
     </svg>
   ),
 

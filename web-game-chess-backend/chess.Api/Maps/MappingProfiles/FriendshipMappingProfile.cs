@@ -5,6 +5,7 @@ using chess.Application.Requests.FriendshipRequests.BlockUser;
 using chess.Application.Requests.FriendshipRequests.GetAllFriendsByStatus;
 using chess.Application.Requests.FriendshipRequests.GetAllNonFriends;
 using chess.Application.Requests.FriendshipRequests.GetFriendshipRanking;
+using chess.Application.Requests.FriendshipRequests.GetGamesOfFriendship;
 using chess.Application.Requests.FriendshipRequests.InviteFriend;
 using chess.Application.Requests.FriendshipRequests.RespondToFriendRequest;
 
@@ -23,5 +24,6 @@ public class FriendshipMappingProfile : Profile {
 		CreateMap<GetAllNonFriendsModel, GetAllNonFriendsRequest>();
 		CreateMap<BlockUserModel, BlockUserRequest>();
 		CreateMap<GetFriendshipRankingModel, GetFriendshipRankingRequest>();
+		CreateMap<GetGamesOfFriendshipModel, GetGamesOfFriendshipRequest>();
 	}
 }

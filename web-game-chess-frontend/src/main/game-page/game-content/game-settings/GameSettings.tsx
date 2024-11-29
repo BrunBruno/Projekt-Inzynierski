@@ -1,7 +1,7 @@
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import IconCreator from "../../../../shared/components/icon-creator/IconCreator";
 import { defaultPiecesImages } from "../../../../shared/svgs/iconsMap/DefaultPieceImageSvgs";
-import { specialPiecesSvgs } from "../../../../shared/svgs/iconsMap/SpecialPiecesSvgs";
+import { piecesIconsVariantC } from "../../../../shared/svgs/iconsMap/PiecesIconsVariantC";
 import {
   AppearanceOfBoard,
   AppearanceOfGamePage,
@@ -19,6 +19,8 @@ import { greyColor } from "../../../../shared/utils/objects/colorMaps";
 import { gameSettingsIcons } from "./GameSettingsIcons";
 import { GameWindowInterface } from "../../../../shared/utils/objects/interfacesEnums";
 import { gameResultIcons } from "../../../../shared/svgs/iconsMap/GameResultIcons";
+import { piecesIconsVariantB } from "../../../../shared/svgs/iconsMap/PiecesIconsVariantB";
+import { piecesIconsVariantA } from "../../../../shared/svgs/iconsMap/PiecesIconsVariantA";
 
 type GameSettingsProps = {
   // game data
@@ -174,18 +176,73 @@ function GameSettings({ gameData, winnerData, setDisplayedWindow }: GameSettings
           <div
             className={classes["option"]}
             onClick={() => {
-              changePiecesAppearance(AppearanceOfPieces.Simple);
+              changePiecesAppearance(AppearanceOfPieces.VariantA);
             }}
           >
             <div className={classes["pieces-look"]}>
-              <IconCreator icons={specialPiecesSvgs} iconName={"p"} color={"white"} iconClass={classes["piece-icon"]} />
+              <IconCreator
+                icons={piecesIconsVariantA}
+                iconName={"p"}
+                color={"white"}
+                iconClass={classes["piece-icon"]}
+              />
             </div>
 
             <div className={classes["option-text"]}>
               <p
                 className={`
                   ${classes["ind"]} 
-                  ${appearance.appearanceOfPieces === AppearanceOfPieces.Simple ? classes.active : ""}
+                  ${appearance.appearanceOfPieces === AppearanceOfPieces.VariantA ? classes.active : ""}
+                `}
+              />
+            </div>
+          </div>
+
+          <div
+            className={classes["option"]}
+            onClick={() => {
+              changePiecesAppearance(AppearanceOfPieces.VariantB);
+            }}
+          >
+            <div className={classes["pieces-look"]}>
+              <IconCreator
+                icons={piecesIconsVariantB}
+                iconName={"p"}
+                color={"white"}
+                iconClass={classes["piece-icon"]}
+              />
+            </div>
+
+            <div className={classes["option-text"]}>
+              <p
+                className={`
+                  ${classes["ind"]} 
+                  ${appearance.appearanceOfPieces === AppearanceOfPieces.VariantB ? classes.active : ""}
+                `}
+              />
+            </div>
+          </div>
+
+          <div
+            className={classes["option"]}
+            onClick={() => {
+              changePiecesAppearance(AppearanceOfPieces.VariantC);
+            }}
+          >
+            <div className={classes["pieces-look"]}>
+              <IconCreator
+                icons={piecesIconsVariantC}
+                iconName={"p"}
+                color={"white"}
+                iconClass={classes["piece-icon"]}
+              />
+            </div>
+
+            <div className={classes["option-text"]}>
+              <p
+                className={`
+                  ${classes["ind"]} 
+                  ${appearance.appearanceOfPieces === AppearanceOfPieces.VariantC ? classes.active : ""}
                 `}
               />
             </div>

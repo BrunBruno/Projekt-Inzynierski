@@ -1,7 +1,8 @@
 /* friendship controller dtos */
 
 import { Guid } from "guid-typescript";
-import { EloDto, UserDto, GameOutcomeDto, UserImage } from "./abstractDtosAndModels";
+import { EloDto, UserDto, GameOutcomeDto, UserImage, PlayerDto } from "./abstractDtosAndModels";
+import { GameEndReason, TimingType } from "../objects/entitiesEnums";
 
 export type GetAllFriendsByStatusDto = UserDto & {
   friendshipId: Guid;
@@ -38,4 +39,19 @@ export type GetFriendshipRankingDto = {
   gamesRatio: string;
   isUser: boolean;
   profile: UserImage | null;
+};
+
+export type GetGamesOfFriendshipDto = {
+  gameId: Guid;
+  position: string;
+  turn: number;
+  moves: number;
+  isWinner: boolean | null;
+  eloGained: number;
+  createdAt: Date;
+
+  timingType: TimingType;
+  endGameType: GameEndReason;
+  whitePlayer: PlayerDto;
+  blackPlayer: PlayerDto;
 };

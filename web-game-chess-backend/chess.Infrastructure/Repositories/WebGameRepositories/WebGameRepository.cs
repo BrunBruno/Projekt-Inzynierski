@@ -40,6 +40,19 @@ public class WebGameRepository : IWebGameRepository {
                     .Where(wg => wg.CreatedAt.Date == DateTime.UtcNow.Date)
                     .ToListAsync();
 
+    public async Task<List<WebGame>> GetAllForFriendship(Guid requestorId, Guid receiverId)
+        => await _dbContext.WebGames
+                    .Include(wg => wg.WhitePlayer)
+                        .ThenInclude(p => p.User)
+                            .ThenInclude(u => u.Image)
+                    .Include(wg => wg.BlackPlayer)
+                        .ThenInclude(p => p.User)
+                            .ThenInclude(u => u.Image)
+                    .Where(wg => wg.IsPrivate == true && wg.HasEnded == true &&
+                          (wg.WhitePlayer.UserId == requestorId && wg.BlackPlayer.UserId == receiverId) ||
+                          (wg.WhitePlayer.UserId == receiverId && wg.BlackPlayer.UserId == requestorId))
+                    .ToListAsync();
+
     ///<inheritdoc/>
     public async Task Create(WebGame game) {
         await _dbContext.WebGames.AddAsync(game);

@@ -7,11 +7,19 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { Guid } from "guid-typescript";
 import { StateOptions } from "../../shared/utils/objects/interfacesEnums";
+import { PagedResult } from "../../shared/utils/types/abstractDtosAndModels";
+import { GetGamesOfFriendshipDto } from "../../shared/utils/types/friendshipDtos";
+import { GetGamesOfFriendshipModel } from "../../shared/utils/types/friendshipModels";
+import { usePopup } from "../../shared/utils/hooks/usePopUp";
+import { getErrMessage } from "../../shared/utils/functions/errors";
+import axios from "axios";
+import { friendshipController, getAuthorization } from "../../shared/utils/services/ApiService";
 
 function ProfilePage() {
   ///
 
   const navigate = useNavigate();
+  const { showPopup } = usePopup();
 
   // friendship id from url
   const { friendshipIdStr } = useParams<{ friendshipIdStr: string }>();
@@ -31,6 +39,33 @@ function ProfilePage() {
     }
   }, [friendshipIdStr]);
 
+  const [games, setGames] = useState<PagedResult<GetGamesOfFriendshipDto> | null>(null);
+
+  useEffect(() => {
+    const getGames = async (): Promise<void> => {
+      if (!friendshipId) return;
+
+      const model: GetGamesOfFriendshipModel = {
+        friendshipId: friendshipId,
+        pageNumber: 1,
+        pageSize: 100,
+      }; // tododo
+
+      try {
+        const response = await axios.get<PagedResult<GetGamesOfFriendshipDto>>(
+          friendshipController.getGamesOfFriendship(model),
+          getAuthorization()
+        );
+
+        setGames(response.data);
+      } catch (err) {
+        showPopup(getErrMessage(err), "warning");
+      }
+    };
+
+    getGames();
+  }, [friendshipId]);
+
   if (!friendshipId) return <></>;
 
   return (
@@ -39,7 +74,7 @@ function ProfilePage() {
 
       <UserSection friendshipId={friendshipId} />
 
-      <GamesSection games={null} />
+      <GamesSection games={games} />
       <MainPopUp />
     </main>
   );

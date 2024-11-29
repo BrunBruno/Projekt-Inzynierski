@@ -9,13 +9,13 @@ import { Guid } from "guid-typescript";
 import { useEffect, useRef, useState } from "react";
 import { pieceTagMap } from "../../../shared/utils/objects/piecesNameMaps";
 import IconCreator from "../../../shared/components/icon-creator/IconCreator";
-import { specialPiecesSvgs } from "../../../shared/svgs/iconsMap/SpecialPiecesSvgs";
 import { greyColor } from "../../../shared/utils/objects/colorMaps";
 import { ElementClass, StateProp } from "../../../shared/utils/types/commonTypes";
 import { GameWindowInterface } from "../../../shared/utils/objects/interfacesEnums";
 import { symbolIcons } from "../../../shared/svgs/iconsMap/SymbolIcons";
 import { taskDelay } from "../../../shared/utils/functions/events";
 import { gameRightSidebarIcons } from "./GameRightSidebarIcons";
+import { changePiecesByUserSettings } from "../../../shared/utils/chess-game/boardVisualization";
 
 type EngineGameRightSidebarProps = {
   // game data
@@ -95,7 +95,7 @@ function EngineGameRightSidebar({
         piecesAdvantage.push(
           <IconCreator
             key={`q${i}`}
-            icons={specialPiecesSvgs}
+            icons={changePiecesByUserSettings(gameData.gameSettings.appearanceOfPieces)}
             iconName={"q"}
             iconClass={classes["advantage-icon"]}
             color={greyColor.c7}
@@ -105,7 +105,7 @@ function EngineGameRightSidebar({
         piecesAdvantage.push(
           <IconCreator
             key={`r${i}`}
-            icons={specialPiecesSvgs}
+            icons={changePiecesByUserSettings(gameData.gameSettings.appearanceOfPieces)}
             iconName={"r"}
             iconClass={classes["advantage-icon"]}
             color={greyColor.c7}
@@ -115,7 +115,7 @@ function EngineGameRightSidebar({
         piecesAdvantage.push(
           <IconCreator
             key={`n${i}`}
-            icons={specialPiecesSvgs}
+            icons={changePiecesByUserSettings(gameData.gameSettings.appearanceOfPieces)}
             iconName={"n"}
             iconClass={classes["advantage-icon"]}
             color={greyColor.c7}
@@ -125,7 +125,7 @@ function EngineGameRightSidebar({
         piecesAdvantage.push(
           <IconCreator
             key={`p${i}`}
-            icons={specialPiecesSvgs}
+            icons={changePiecesByUserSettings(gameData.gameSettings.appearanceOfPieces)}
             iconName={"p"}
             iconClass={classes["advantage-icon"]}
             color={greyColor.c7}
@@ -314,6 +314,7 @@ function EngineGameRightSidebar({
                       move={move}
                       historyPositionState={historyPositionState}
                       displayedWindowState={displayedWindowState}
+                      gameData={gameData}
                     />
                   ))
                 : Array.from({ length: 10 }).map((_, i: number) => (

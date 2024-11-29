@@ -198,11 +198,12 @@
             z-index: 21;
           }
 
-          svg.capture-svg {
+          .capture-svg {
             @include abs-center;
 
             height: 2rem;
             z-index: 20;
+            transform: translate(-50%, -50%) !important;
           }
         }
       }

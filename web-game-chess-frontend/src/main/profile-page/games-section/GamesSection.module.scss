@@ -1,69 +1,179 @@
 @use "../../../shared/styles/shared.scss" as *;
 
 // type history container
-.history {
+.games {
   max-height: 100vh;
   height: 100%;
   display: grid;
-  grid-template-rows: 2rem 1fr 1fr;
+  grid-template-rows: 4rem 1fr;
   padding-top: 2rem;
-  padding-bottom: 2rem;
 
-  h2.history-title {
-    @include flex($gap: 1rem);
-
+  .games-title {
     width: 100%;
-    font-size: 4rem;
+    text-align: center;
 
-    .type-icon {
-      height: 4rem;
+    span {
+      font-size: 2rem;
+      font-weight: 600;
+      filter: drop-shadow(0 0 1rem $mc0);
     }
   }
 
-  &__chart {
-    padding: 0 2rem;
-    overflow: hidden;
-  }
-
   &__items {
-    @include flex(column, start, center, 1rem);
+    height: 100%;
+    padding: 0 4rem;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
 
-    position: relative;
-    padding: 0 8rem;
-    overflow-y: scroll;
-    padding-bottom: 2rem;
+    overflow: hidden scroll;
 
     &::-webkit-scrollbar {
       display: none;
     }
-  }
-}
 
-// no data placeholder
-.empty {
-  @include flex($direction: column, $gap: 1rem);
+    .game-card {
+      height: fit-content;
+      height: 20rem;
+      margin-bottom: 2rem;
 
-  position: relative;
+      overflow: hidden;
 
-  &__chart {
-    @include wh100;
+      .mini-grid {
+        width: 20rem;
+        aspect-ratio: 1/1 !important;
+        position: relative;
+        display: grid;
+        grid-template-columns: repeat(8, 1fr);
+        grid-template-rows: repeat(8, 1fr);
+        border-radius: 1rem;
+        overflow: hidden;
+        flex-shrink: 0 !important;
 
-    opacity: 0.1;
-    pointer-events: none;
-    padding: 1rem;
-  }
+        .field {
+          background-size: contain;
+          background-repeat: no-repeat;
+          opacity: 0.1;
 
-  &__text {
-    @include abs-center;
-    @include flex(column, center, center, 2rem);
+          .bg-piece {
+            transform: scale(0.8);
+          }
+        }
 
-    span {
-      font-size: 4rem;
-      text-align: center;
+        .light-f {
+          background-color: $mc0;
+        }
 
-      &:last-child {
-        color: $mc5;
-        font-weight: 600;
+        .dark-f {
+          background-color: $mc9;
+        }
+
+        .date {
+          position: absolute;
+          top: 0;
+          right: 0;
+          padding: 1rem;
+          color: $gc5;
+        }
+
+        .players {
+          @include abs-center;
+
+          display: grid;
+          grid-template-columns: repeat(3, 1fr);
+          gap: 2rem;
+
+          &__sep {
+            @include flex($direction: column, $gap: 1rem);
+
+            font-size: 2rem;
+            font-weight: bold;
+
+            span {
+              @include flex;
+
+              position: relative;
+              white-space: nowrap;
+              width: fit-content;
+
+              &:nth-child(1) {
+                height: 5rem;
+              }
+
+              &:nth-child(2) {
+                font-size: 1.8rem;
+                color: $mc0;
+              }
+
+              @mixin sign() {
+                position: absolute;
+                top: -1rem;
+                right: -1rem;
+                height: fit-content;
+                font-size: 2rem;
+              }
+
+              span.p {
+                @include sign;
+
+                color: $success-color-m;
+              }
+
+              span.m {
+                @include sign;
+
+                color: $danger-color-m;
+              }
+            }
+          }
+
+          .player {
+            display: grid;
+            grid-template-rows: 5rem auto;
+            gap: 1rem;
+
+            @mixin player-img($bg_color) {
+              @include flex;
+              @include square(5rem);
+
+              padding: 0.6rem;
+              border-radius: 100%;
+              background-color: $bg_color;
+
+              .player-img {
+                @include wh100;
+
+                border-radius: 100%;
+                object-fit: cover;
+              }
+            }
+
+            .white-player-img {
+              @include player-img(#fff);
+            }
+
+            .black-player-img {
+              @include player-img(#000);
+            }
+
+            .player-data {
+              @include flex($direction: column);
+
+              span {
+                font-size: 1.6rem;
+                white-space: nowrap;
+
+                span {
+                  color: $mc3;
+                }
+
+                &:nth-child(3) {
+                  font-size: 1.8rem;
+                  font-weight: bold;
+                }
+              }
+            }
+          }
+        }
       }
     }
   }
@@ -71,18 +181,10 @@
 
 // resize
 @media (width <= 1200px) {
-  .history {
+  .games {
     height: 100%;
     max-height: unset;
     padding-top: 10rem;
     grid-template-rows: 4rem 50rem auto;
-
-    &__chart {
-      height: 100%;
-    }
-
-    &__items {
-      overflow: visible;
-    }
   }
 }
