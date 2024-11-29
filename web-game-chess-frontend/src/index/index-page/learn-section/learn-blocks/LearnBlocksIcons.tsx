@@ -2,7 +2,7 @@ import { ColorValue, greyColor, mainColor } from "../../../../shared/utils/objec
 import { ElementClass, IconMap } from "../../../../shared/utils/types/commonTypes";
 import classes from "./LearnBlocks.module.scss";
 
-type IconNames = "pawnLine" | "engine" | "message" | "trophy" | "community" | "gameBoard" | "motherBoard";
+type IconNames = "pawnLine" | "engine" | "message" | "trophy" | "community" | "gameBoard" | "motherBoard" | "knight";
 
 export const learnBlocksIcons: IconMap<IconNames> = {
   pawnLine: (iconClass?: ElementClass, color?: ColorValue) => (
@@ -241,6 +241,24 @@ export const learnBlocksIcons: IconMap<IconNames> = {
         <path d="M2742 528 c-15 -15 -16 -45 -2 -53 6 -3 10 -40 10 -81 0 -43 4 -74 10 -74 6 0 10 30 10 69 0 49 4 72 15 81 21 17 19 47 -4 60 -24 13 -24 13 -39 -2z" />
         <path d="M2077 480 c-22 -18 -41 -20 -155 -20 -109 0 -131 3 -136 16 -4 10 -15 14 -33 12 -24 -3 -28 -8 -28 -33 0 -23 5 -31 21 -33 11 -2 27 4 34 13 19 23 276 22 302 -2 23 -21 51 -8 56 25 5 33 -30 46 -61 22z m51 -17 c5 -17 -26 -29 -40 -15 -6 6 -7 15 -3 22 9 14 37 9 43 -7z" />
         <path d="M3577 463 c-11 -10 -8 -51 3 -58 6 -4 10 -63 10 -145 0 -82 4 -141 10 -145 6 -4 10 45 10 139 0 84 4 146 9 146 16 0 23 40 11 55 -13 16 -42 20 -53 8z" />
+      </g>
+    </svg>
+  ),
+
+  knight: (iconClass?: ElementClass, color?: ColorValue) => (
+    <svg
+      fill={color ? color : mainColor.c0}
+      version="1.1"
+      id="Icons"
+      xmlns="http://www.w3.org/2000/svg"
+      xmlnsXlink="http://www.w3.org/1999/xlink"
+      viewBox="0 0 32 32"
+      xmlSpace="preserve"
+      className={iconClass}
+    >
+      <g>
+        <path d="M7.2,16l1.1-0.2c1.6-0.3,3.3-0.5,5-0.7c-2.4,2.3-3.9,5.3-4.7,7.9h14.7c0.4-1.5,1.1-3,2.3-4.1l0.2-0.2 c0.2-0.2,0.3-0.4,0.3-0.6C26.6,13,24.2,8,19.8,5.3c-0.8-1.4-2-2.4-3.6-2.9l-0.9-0.3C15,2,14.7,2,14.4,2.2C14.2,2.4,14,2.7,14,3v2.4 l-1.4,0.7C12.2,6.3,12,6.6,12,7v0.5l-4.7,3.1C6.5,11.1,6,12.1,6,13.1V15c0,0.3,0.1,0.6,0.4,0.8C6.6,16,6.9,16,7.2,16z" />
+        <path d="M6.8,25C6.3,25.5,6,26.2,6,27v2c0,0.6,0.4,1,1,1h18c0.6,0,1-0.4,1-1v-2c0-0.8-0.3-1.5-0.8-2H6.8z" />
       </g>
     </svg>
   ),

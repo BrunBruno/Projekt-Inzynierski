@@ -26,7 +26,7 @@
     }
 
     &:last-child {
-      font-size: 3em;
+      font-size: 2.4em;
     }
   }
 }
@@ -44,6 +44,8 @@
 
   &__data {
     @include flex($gap: 2rem);
+
+    text-align: center;
 
     .total-games {
       @include clock-block;

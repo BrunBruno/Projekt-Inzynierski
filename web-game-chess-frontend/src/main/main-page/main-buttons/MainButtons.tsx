@@ -105,7 +105,7 @@ function MainButtons({ interfaceId, setInterfaceById }: MainButtonsProps) {
         }}
       >
         <IconCreator icons={mainPageIcons} iconName={"userGames"} iconClass={classes["user-games-icon"]} />
-        <span>My Games</span>
+        <span>Finished Games</span>
       </button>
 
       <button
