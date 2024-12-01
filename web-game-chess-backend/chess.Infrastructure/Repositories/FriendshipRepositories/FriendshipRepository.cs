@@ -40,8 +40,8 @@ public class FriendshipRepository : IFriendshipRepository {
         => await _dbContext.Friendships
                     .Include(f => f.Stats)
                     .FirstOrDefaultAsync(f =>
-                        f.RequestorId == receiverId && f.ReceiverId == receiverId ||
-                        f.RequestorId == receiverId && f.ReceiverId == requestorId);
+                        (f.RequestorId == requestorId && f.ReceiverId == receiverId) ||
+                        (f.RequestorId == receiverId && f.ReceiverId == requestorId));
 
     ///<inheritdoc/>
     public async Task Create(Friendship friendship) {

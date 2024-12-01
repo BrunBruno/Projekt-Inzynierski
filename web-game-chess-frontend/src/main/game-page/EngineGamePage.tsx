@@ -3,7 +3,6 @@ import classes from "./GamePage.module.scss";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { engineGameController, getAuthorization } from "../../shared/utils/services/ApiService";
-import LoadingPage from "../../shared/components/loading-page/LoadingPage";
 import { usePopup } from "../../shared/utils/hooks/usePopUp";
 import { getErrMessage } from "../../shared/utils/functions/errors";
 import MainPopUp from "../../shared/components/main-popup/MainPopUp";
@@ -21,6 +20,7 @@ import {
   checkMaterialDraw,
   checkThreefoldRepetition,
 } from "../../shared/utils/chess-game/checkDraws";
+import LoadingBoard from "../../shared/components/loading-board/BoardLoading";
 
 function EngineGamePage() {
   ///
@@ -140,7 +140,7 @@ function EngineGamePage() {
     if (checkMaterialDraw(gameData.moves)) endGame(null);
   }, [gameData]);
 
-  if (!gameId || !gameData) return <LoadingPage />;
+  if (!gameId || !gameData) return <LoadingBoard />;
 
   return (
     <main className={classes["game-main"]}>

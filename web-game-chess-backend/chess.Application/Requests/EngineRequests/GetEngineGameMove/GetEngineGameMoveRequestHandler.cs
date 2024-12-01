@@ -66,12 +66,7 @@ public class GetEngineGameMoveRequestHandler : IRequestHandler<GetEngineGameMove
                 await Task.Delay(checkIntervalMs, cancellationToken);
         }
 
-        //await Task.Delay(300, cancellationToken);
-
-        //var bestMoveOutput = _engineService.ReadOutput();
-
-        //var bestMoveLine = bestMoveOutput.FirstOrDefault(line => line.StartsWith("bestmove"))
-            //?? throw new InvalidOperationException("Stockfish error.");
+        await Task.Delay(300, cancellationToken);
 
         if (bestMoveLine == null) 
             throw new InvalidOperationException("Stockfish error.");

@@ -132,6 +132,11 @@
 
           font-size: 3rem;
           font-weight: bold;
+          padding: 0 3rem;
+
+          .vs-icon {
+            height: 4rem;
+          }
 
           span {
             @include flex;
@@ -272,16 +277,29 @@
 
       .leave {
         button {
+          @include flex(row, center, center, 1rem);
           @include button(1.6rem);
 
           color: $mc0;
           background-color: #0000;
           border-radius: 0;
+          transition: all 0s;
+          transition: box-shadow 0.2s;
+
+          .leave-icon {
+            height: 2rem;
+          }
 
           &:hover {
             cursor: pointer;
             color: $mc4;
             box-shadow: inset 0 -0.2rem 0 0 $mc4;
+
+            .leave-icon {
+              path {
+                stroke: $mc4;
+              }
+            }
           }
         }
       }

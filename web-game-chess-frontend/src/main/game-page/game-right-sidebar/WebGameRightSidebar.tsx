@@ -22,6 +22,7 @@ import { symbolIcons } from "../../../shared/svgs/iconsMap/SymbolIcons";
 import { taskDelay } from "../../../shared/utils/functions/events";
 import { gameRightSidebarIcons } from "./GameRightSidebarIcons";
 import { changePiecesByUserSettings } from "../../../shared/utils/chess-game/boardVisualization";
+import VsIcon from "../../../shared/components/vs-icon/VsIcon";
 
 type WebGameRightSidebarProps = {
   // game and player data
@@ -280,7 +281,9 @@ function WebGameRightSidebar({
             ? renderPlayer(gameData.whitePlayer, classes["white-player"], classes["white-player-img"])
             : renderPlayer(gameData.blackPlayer, classes["black-player"], classes["black-player-img"])}
 
-          <p className={classes.vs}>vs</p>
+          <p className={classes.vs}>
+            <VsIcon iconClass={classes["vs-icon"]} />
+          </p>
 
           {gameData.whitePlayer.name == playerData.name
             ? renderPlayer(gameData.blackPlayer, classes["black-player"], classes["black-player-img"])
@@ -338,8 +341,20 @@ function WebGameRightSidebar({
                   displayPreviousPositions(gameData.moves[0]);
                 }}
               >
-                <IconCreator icons={symbolIcons} iconName="arrow" iconClass={classes["arrow"]} color={greyColor.c2} />
-                <IconCreator icons={symbolIcons} iconName="arrow" iconClass={classes["arrow"]} color={greyColor.c2} />
+                <IconCreator
+                  icons={symbolIcons}
+                  iconName="arrow"
+                  iconClass={classes["arrow"]}
+                  color={greyColor.c2}
+                  active={true}
+                />
+                <IconCreator
+                  icons={symbolIcons}
+                  iconName="arrow"
+                  iconClass={classes["arrow"]}
+                  color={greyColor.c2}
+                  active={true}
+                />
               </div>
               <div
                 className={classes["record-button"]}
@@ -347,7 +362,13 @@ function WebGameRightSidebar({
                   changeHistoryMove(false);
                 }}
               >
-                <IconCreator icons={symbolIcons} iconName="arrow" iconClass={classes["arrow"]} color={greyColor.c2} />
+                <IconCreator
+                  icons={symbolIcons}
+                  iconName="arrow"
+                  iconClass={classes["arrow"]}
+                  color={greyColor.c2}
+                  active={true}
+                />
               </div>
 
               {winnerData && (
@@ -372,7 +393,13 @@ function WebGameRightSidebar({
                   changeHistoryMove(true);
                 }}
               >
-                <IconCreator icons={symbolIcons} iconName="arrow" iconClass={classes["arrow"]} color={greyColor.c2} />
+                <IconCreator
+                  icons={symbolIcons}
+                  iconName="arrow"
+                  iconClass={classes["arrow"]}
+                  color={greyColor.c2}
+                  active={true}
+                />
               </div>
               <div
                 className={classes["record-button"]}
@@ -380,8 +407,20 @@ function WebGameRightSidebar({
                   displayPreviousPositions(gameData.moves[gameData.moves.length - 1]);
                 }}
               >
-                <IconCreator icons={symbolIcons} iconName="arrow" iconClass={classes["arrow"]} color={greyColor.c2} />
-                <IconCreator icons={symbolIcons} iconName="arrow" iconClass={classes["arrow"]} color={greyColor.c2} />
+                <IconCreator
+                  icons={symbolIcons}
+                  iconName="arrow"
+                  iconClass={classes["arrow"]}
+                  color={greyColor.c2}
+                  active={true}
+                />
+                <IconCreator
+                  icons={symbolIcons}
+                  iconName="arrow"
+                  iconClass={classes["arrow"]}
+                  color={greyColor.c2}
+                  active={true}
+                />
               </div>
             </div>
           </div>

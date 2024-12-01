@@ -7,6 +7,7 @@ import IconCreator from "../../../../../shared/components/icon-creator/IconCreat
 import { defaultPiecesImages } from "../../../../../shared/svgs/iconsMap/DefaultPieceImageSvgs";
 import { getPieceSideColor } from "../../../../../shared/utils/objects/piecesNameMaps";
 import { PieceTag } from "../../../../../shared/utils/objects/constantLists";
+import VsIcon from "../../../../../shared/components/vs-icon/VsIcon";
 
 type LastGameCardProps = {
   // finished game data
@@ -92,7 +93,7 @@ function LastGameCard({ game }: LastGameCardProps) {
           {renderPlayer(game.whitePlayer, true, eloGained)}
 
           <div className={classes.players__sep}>
-            <span>vs</span>
+            <VsIcon iconClass={classes["vs-icon"]} />
 
             <span>
               <span className={sign === "+" ? classes.p : classes.m}>{sign}</span>
@@ -128,7 +129,7 @@ function LastGameCard({ game }: LastGameCardProps) {
           {renderPlayer(game.blackPlayer, false, eloGained)}
 
           <div className={classes.players__sep}>
-            <span>vs</span>
+            <VsIcon iconClass={classes["vs-icon"]} />
 
             <span>
               <span className={sign === "+" ? classes.p : classes.m}>{sign}</span>

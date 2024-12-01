@@ -17,17 +17,15 @@
 // user profile container
 .user {
   height: 100%;
-  background-color: rgba($gc9, 0.5);
-  box-shadow: 0.1rem 0 1rem 0 $gc0;
   overflow-y: scroll;
   border-right: solid 0.5rem $gc8;
+  background-color: $gc9;
 
   &::-webkit-scrollbar {
     display: none;
   }
 
-  // profile
-  // personal data content
+  //  profile/ personal data content
   &__profile {
     position: relative;
     padding: 2rem 4rem;
@@ -36,16 +34,27 @@
     display: grid;
     grid-template-columns: 22rem 44rem;
     min-height: 25rem;
+    overflow: hidden;
 
     &::before {
       @include sub-class;
       @include abs-center;
 
-      z-index: 0;
-      background-image: radial-gradient(circle at 00%, rgba($gc9, 0.5) 0%, $gc9 40%, #111 100%),
-        url("/images/account-bg.jpg");
-      background-size: contain;
+      z-index: 1;
+      background-image: radial-gradient(circle at 00%, rgba(#000, 0.6) 0%, #000 100%);
+      background-size: cover;
       background-repeat: no-repeat;
+      background-position: center center;
+    }
+
+    &__background {
+      @include wh100;
+      @include abs-center;
+
+      z-index: 0;
+      background-size: cover;
+      background-repeat: no-repeat;
+      background-position: center center;
     }
 
     &__avatar {
@@ -60,34 +69,12 @@
 
         border: solid 1rem $mc9;
         object-fit: cover;
-      }
-
-      label.set-img {
-        @include circle(5rem);
-        @include flex;
-
-        position: absolute;
-        left: 1rem;
-        bottom: 1rem;
         background-color: $mc9;
-        padding: 1rem;
-
-        &:hover {
-          cursor: pointer;
-
-          svg {
-            filter: brightness(80%);
-          }
-        }
-
-        input.set-img-input {
-          display: none;
-        }
       }
     }
 
     &__info {
-      z-index: 1;
+      z-index: 2;
       height: 20rem;
       width: 100%;
       overflow: hidden;
@@ -101,6 +88,8 @@
       }
 
       .name {
+        @include t-input;
+
         border: none;
         font-size: 2rem;
         color: $gc3;
@@ -110,7 +99,6 @@
         width: 80%;
         height: 12rem;
         font-size: 1.4rem;
-        resize: none;
       }
     }
 
@@ -121,7 +109,8 @@
       top: 0;
       right: 0;
       padding: 2rem;
-      z-index: 2;
+      z-index: 3;
+      user-select: none;
 
       .icon-con {
         @include flex;
@@ -162,28 +151,105 @@
 
   // user statistics content
   &__data {
-    $data-gaps: 2rem;
+    @include flex(column, start, start, 2rem);
 
-    display: grid;
-    grid-template-columns: 66% 34%;
-    padding: $data-gaps;
-    min-height: calc(100vh - 25rem);
+    padding: 4rem 2rem;
+
+    &__elo {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 1rem;
+      z-index: 2;
+      width: 100%;
+      padding-bottom: 2rem;
+      border-bottom: solid 0.1rem $gc8;
+
+      &__header {
+        @include rounded(1rem);
+        @include flex($gap: 1rem);
+
+        grid-column: span 5;
+        width: fit-content;
+        padding: 1rem 4rem;
+        margin-bottom: 1rem;
+        background-color: rgba($gc8, 0.5);
+        border-left: solid 0.5rem $gc8;
+        border-right: solid 0.5rem $gc8;
+
+        span {
+          color: $gc4;
+          font-size: 2.4rem;
+          font-weight: 600;
+          filter: drop-shadow(0 0 0.5rem $gc4);
+        }
+
+        .history-icon {
+          height: 2.4rem;
+          filter: drop-shadow(0 0 0.5rem $gc4);
+        }
+      }
+
+      &__type {
+        @include rounded(0.5rem);
+        @include flex(column, center, center, 0);
+
+        width: 100%;
+        padding-top: 0;
+
+        .elo-points {
+          @include flex($gap: 1rem);
+
+          .elo-icon {
+            height: 4.5rem;
+          }
+
+          span {
+            width: 100%;
+            font-size: 2rem;
+          }
+        }
+
+        .type-games {
+          font-size: 1.2rem;
+        }
+      }
+    }
 
     &__stats {
       @include wh100;
       @include flex(column, start, start, 0.5rem);
 
       position: relative;
-      border-right: solid 0.5rem $gc8;
-      padding-right: $data-gaps;
+
+      &.stats-open {
+        background-color: red !important;
+      }
 
       &__header {
-        font-size: 2.8rem;
-        font-weight: 600;
-        padding: 0.5rem;
+        @include rounded(1rem);
+        @include flex($gap: 1rem);
+
+        grid-column: span 5;
+        width: fit-content;
+        padding: 1rem 4rem;
+
+        //    margin: auto;
+        margin-bottom: 1rem;
+        margin-top: 4rem;
+        background-color: rgba($gc8, 0.5);
+        border-left: solid 0.5rem $gc8;
+        border-right: solid 0.5rem $gc8;
 
         span {
-          color: $mc5;
+          color: $gc4;
+          font-size: 2.4rem;
+          font-weight: 600;
+          filter: drop-shadow(0 0 0.5rem $gc4);
+        }
+
+        .header-icon {
+          height: 2.4rem;
+          filter: drop-shadow(0 0 0.5rem $gc4);
         }
       }
 
@@ -200,47 +266,6 @@
         animation: loading-block 2s infinite;
       }
     }
-
-    &__elo {
-      @include flex(column, start, center, 0);
-
-      padding: 0 2rem;
-      z-index: 2;
-
-      &__header {
-        @include rounded(1rem);
-
-        width: 100%;
-        font-size: 2.2rem;
-        font-weight: 600;
-        text-align: center;
-        color: $gc4;
-        background-color: rgba($gc8, 0.5);
-        margin-bottom: 1rem;
-      }
-
-      &__type {
-        @include rounded(1rem);
-        @include flex;
-
-        width: 100%;
-
-        .elo-points {
-          @include flex($gap: 2rem);
-
-          width: 16rem;
-
-          .elo-icon {
-            height: 4.5rem;
-          }
-
-          span {
-            width: 100%;
-            font-size: 3rem;
-          }
-        }
-      }
-    }
   }
 }
 
@@ -248,7 +273,10 @@
 @media (width <= 1200px) {
   .user {
     overflow: visible;
-    box-shadow: none;
+    height: fit-content;
+
+    border-right: none;
+    border-bottom: solid 0.5rem $gc8;
 
     &__profile {
       background-size: cover !important;
@@ -262,6 +290,8 @@
       }
 
       &__elo {
+        border-bottom: none;
+
         &__header {
           font-size: 4rem;
         }

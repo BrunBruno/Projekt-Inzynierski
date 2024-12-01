@@ -141,13 +141,9 @@ function WebGameBoard({
     const isNewField = areCoorEqual(coordinates, newCoordinates);
     const showCapture = wasCapture && isNewField;
 
-    const wc = gameStates.checkAreas.black.some((area: Coordinate) => areCoorEqual(area, coordinates));
-    const bc = gameStates.checkAreas.white.some((area: Coordinate) => areCoorEqual(area, coordinates));
-
     // add field
     outerFields.push(
       <div
-        style={{ backgroundColor: wc ? "red" : bc ? "blue" : "#0000" }}
         id={`field-${coordinates[0]}-${coordinates[1]}`}
         key={`${coordinates[0]}-${coordinates[1]}`}
         className={`

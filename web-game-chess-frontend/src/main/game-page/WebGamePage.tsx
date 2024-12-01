@@ -13,7 +13,6 @@ import {
   SearchWebGameDto,
 } from "../../shared/utils/types/webGameDtos";
 import { webGameController, getAuthorization } from "../../shared/utils/services/ApiService";
-import LoadingPage from "../../shared/components/loading-page/LoadingPage";
 import GameHubService from "../../shared/utils/services/GameHubService";
 import { CheckIfInWebGameModel, EndWebGameModel } from "../../shared/utils/types/webGameModels";
 import { usePopup } from "../../shared/utils/hooks/usePopUp";
@@ -32,6 +31,7 @@ import {
   checkMaterialDraw,
   checkThreefoldRepetition,
 } from "../../shared/utils/chess-game/checkDraws";
+import LoadingBoard from "../../shared/components/loading-board/BoardLoading";
 
 function WebGamePage() {
   ///
@@ -293,7 +293,7 @@ function WebGamePage() {
     };
   }, [newGameData]);
 
-  if (!gameId || !gameData || !playerData) return <LoadingPage />;
+  if (!gameId || !gameData || !playerData) return <LoadingBoard />;
 
   return (
     <main className={classes["game-main"]}>

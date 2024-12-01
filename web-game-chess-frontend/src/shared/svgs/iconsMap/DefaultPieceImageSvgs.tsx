@@ -6,10 +6,8 @@ type IconNames = PieceTag;
 
 export const defaultPiecesImages: IconMap<IconNames> = {
   p: (iconClass?: ElementClass, color?: ColorValue): JSX.Element => {
-    const mColor = color === "white" ? "#fff" : color === "black" ? "#000" : "null";
-    const sColor = color === "white" ? "#000" : color === "black" ? "#fff" : "null";
-
-    if (mColor === "null") return <>P</>;
+    const mColor = color === "white" ? "#fff" : color === "black" ? "#000" : color;
+    const sColor = color === "white" ? "#000" : color === "black" ? "#fff" : color;
 
     return (
       <svg
@@ -38,10 +36,8 @@ export const defaultPiecesImages: IconMap<IconNames> = {
   },
 
   n: (iconClass?: ElementClass, color?: ColorValue): JSX.Element => {
-    const mColor = color === "white" ? "#fff" : color === "black" ? "#000" : "null";
-    const sColor = color === "white" ? "#000" : color === "black" ? "#fff" : "null";
-
-    if (mColor === "null") return <>N</>;
+    const mColor = color === "white" ? "#fff" : color === "black" ? "#000" : color;
+    const sColor = color === "white" ? "#000" : color === "black" ? "#fff" : color;
 
     return (
       <svg
@@ -70,10 +66,8 @@ export const defaultPiecesImages: IconMap<IconNames> = {
   },
 
   b: (iconClass?: ElementClass, color?: ColorValue): JSX.Element => {
-    const mColor = color === "white" ? "#fff" : color === "black" ? "#000" : "null";
-    const sColor = color === "white" ? "#000" : color === "black" ? "#fff" : "null";
-
-    if (mColor === "null") return <>B</>;
+    const mColor = color === "white" ? "#fff" : color === "black" ? "#000" : color;
+    const sColor = color === "white" ? "#000" : color === "black" ? "#fff" : color;
 
     return (
       <svg
@@ -102,10 +96,8 @@ export const defaultPiecesImages: IconMap<IconNames> = {
   },
 
   r: (iconClass?: ElementClass, color?: ColorValue): JSX.Element => {
-    const mColor = color === "white" ? "#fff" : color === "black" ? "#000" : "null";
-    const sColor = color === "white" ? "#000" : color === "black" ? "#fff" : "null";
-
-    if (mColor === "null") return <>R</>;
+    const mColor = color === "white" ? "#fff" : color === "black" ? "#000" : color;
+    const sColor = color === "white" ? "#000" : color === "black" ? "#fff" : color;
 
     return (
       <svg
@@ -134,10 +126,8 @@ export const defaultPiecesImages: IconMap<IconNames> = {
   },
 
   q: (iconClass?: ElementClass, color?: ColorValue): JSX.Element => {
-    const mColor = color === "white" ? "#fff" : color === "black" ? "#000" : "null";
-    const sColor = color === "white" ? "#000" : color === "black" ? "#fff" : "null";
-
-    if (mColor === "null") return <>Q</>;
+    const mColor = color === "white" ? "#fff" : color === "black" ? "#000" : color;
+    const sColor = color === "white" ? "#000" : color === "black" ? "#fff" : color;
 
     return (
       <svg
@@ -166,10 +156,8 @@ export const defaultPiecesImages: IconMap<IconNames> = {
   },
 
   k: (iconClass?: ElementClass, color?: ColorValue): JSX.Element => {
-    const mColor = color === "white" ? "#fff" : color === "black" ? "#000" : "null";
-    const sColor = color === "white" ? "#000" : color === "black" ? "#fff" : "null";
-
-    if (mColor === "null") return <>K</>;
+    const mColor = color === "white" ? "#fff" : color === "black" ? "#000" : color;
+    const sColor = color === "white" ? "#000" : color === "black" ? "#fff" : color;
 
     return (
       <svg

@@ -7,9 +7,7 @@ export const getCountry = async (): Promise<string> => {
   try {
     const response = await axios.get("https://ipinfo.io");
     return response.data.country;
-  } catch (err) {
-    console.error(err);
-  }
+  } catch (err) {}
 
   return "";
 };

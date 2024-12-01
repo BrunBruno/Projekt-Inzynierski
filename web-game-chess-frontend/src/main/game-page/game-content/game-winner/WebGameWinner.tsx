@@ -30,6 +30,7 @@ import { gameWinnerIcons } from "./GameWinnerIcons";
 import { gameEndReasonIcons } from "../../../../shared/svgs/iconsMap/GameEndReasonIcons";
 import { getEnumKeyByEnumValue } from "../../../../shared/utils/functions/enums";
 import { GameEndReasonName } from "../../../../shared/utils/objects/constantLists";
+import VsIcon from "../../../../shared/components/vs-icon/VsIcon";
 
 type WebGameWinnerProps = {
   // game and player data
@@ -222,7 +223,7 @@ function WebGameWinner({
           : renderPlayer(gameData.blackPlayer, classes["black-player"], classes["black-player-img"], isWinner)}
 
         <div className={classes.vs}>
-          <span>vs</span>
+          <VsIcon iconClass={classes["vs-icon"]} />
 
           <span>
             <span className={sign === "+" ? classes.p : classes.m}>{sign}</span>
@@ -383,6 +384,12 @@ function WebGameWinner({
               }}
             >
               <span>Leave</span>
+              <IconCreator
+                icons={gameWinnerIcons}
+                iconName={"leave"}
+                color={mainColor.c0}
+                iconClass={classes["leave-icon"]}
+              />
             </button>
           </div>
         </div>

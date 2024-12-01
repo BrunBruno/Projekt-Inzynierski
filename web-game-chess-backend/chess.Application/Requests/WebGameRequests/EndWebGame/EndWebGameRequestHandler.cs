@@ -78,7 +78,7 @@ public class EndWebGameRequestHandler : IRequestHandler<EndWebGameRequest> {
            ?? throw new NotFoundException("User not found");
 
 
-        var friendship = game.IsPrivate == true ? await _friendshipRepository.GetByUsersIds(whiteUser.Id, blackUser.Id) : null;
+        var friendship = await _friendshipRepository.GetByUsersIds(whiteUser.Id, blackUser.Id);
 
 
         game.HasEnded = true;

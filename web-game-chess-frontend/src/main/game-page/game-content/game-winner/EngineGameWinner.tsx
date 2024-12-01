@@ -19,6 +19,7 @@ import { engineGameController, getAuthorization } from "../../../../shared/utils
 import { StateOptions } from "../../../../shared/utils/objects/interfacesEnums";
 import { getErrMessage } from "../../../../shared/utils/functions/errors";
 import { usePopup } from "../../../../shared/utils/hooks/usePopUp";
+import VsIcon from "../../../../shared/components/vs-icon/VsIcon";
 
 type EngineGameWinnerProps = {
   // game id
@@ -107,7 +108,7 @@ function EngineGameWinner({ gameData, winnerData }: EngineGameWinnerProps) {
           : renderPlayer(gameData.player, classes["black-player"], classes["black-player-img"])}
 
         <div className={classes.vs}>
-          <span>vs</span>
+          <VsIcon iconClass={classes["vs-icon"]} />
         </div>
 
         {gameData.player.color === PieceColor.black

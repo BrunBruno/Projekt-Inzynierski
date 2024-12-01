@@ -49,8 +49,8 @@ public class WebGameRepository : IWebGameRepository {
                         .ThenInclude(p => p.User)
                             .ThenInclude(u => u.Image)
                     .Where(wg => wg.IsPrivate == true && wg.HasEnded == true &&
-                          (wg.WhitePlayer.UserId == requestorId && wg.BlackPlayer.UserId == receiverId) ||
-                          (wg.WhitePlayer.UserId == receiverId && wg.BlackPlayer.UserId == requestorId))
+                          ((wg.WhitePlayer.UserId == requestorId && wg.BlackPlayer.UserId == receiverId) ||
+                          (wg.WhitePlayer.UserId == receiverId && wg.BlackPlayer.UserId == requestorId)))
                     .ToListAsync();
 
     ///<inheritdoc/>

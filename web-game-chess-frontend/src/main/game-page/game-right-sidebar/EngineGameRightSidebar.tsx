@@ -16,6 +16,7 @@ import { symbolIcons } from "../../../shared/svgs/iconsMap/SymbolIcons";
 import { taskDelay } from "../../../shared/utils/functions/events";
 import { gameRightSidebarIcons } from "./GameRightSidebarIcons";
 import { changePiecesByUserSettings } from "../../../shared/utils/chess-game/boardVisualization";
+import VsIcon from "../../../shared/components/vs-icon/VsIcon";
 
 type EngineGameRightSidebarProps = {
   // game data
@@ -215,7 +216,9 @@ function EngineGameRightSidebar({
 
   const changeHistoryMove = (increase: boolean) => {
     setCurrentHistoryMoveIndex((prev) => {
-      if (prev === null) return increase ? gameData.moves.length - 1 : gameData.moves.length - 2;
+      if (gameData.moves.length === 0) return null;
+      if (prev === null)
+        return increase ? Math.max(0, gameData.moves.length - 1) : Math.max(0, gameData.moves.length - 2);
       if (increase && prev + 1 > gameData.moves.length - 1) return gameData.moves.length - 1;
       if (!increase && prev - 1 < 0) return 0;
 
@@ -284,7 +287,7 @@ function EngineGameRightSidebar({
             : renderPlayer(gameData.player, classes["black-player"], classes["black-player-img"])}
 
           <p className={classes.vs}>
-            <span>vs</span>
+            <VsIcon iconClass={classes["vs-icon"]} />
           </p>
 
           {gameData.player.color === PieceColor.black
@@ -294,7 +297,6 @@ function EngineGameRightSidebar({
 
         {/* game history records */}
         <div
-          ref={recordsRef}
           className={`
             ${classes["bar-block"]} 
             ${classes["records-block"]} 
@@ -304,7 +306,7 @@ function EngineGameRightSidebar({
             closeHistory();
           }}
         >
-          <div className={classes["bar-list"]}>
+          <div ref={recordsRef} className={classes["bar-list"]}>
             <div className={classes["records"]}>
               {gameData.moves.length > 0
                 ? gameData.moves.map((move: MoveDto, i: number) => (
@@ -334,8 +336,20 @@ function EngineGameRightSidebar({
                   displayPreviousPositions(gameData.moves[0]);
                 }}
               >
-                <IconCreator icons={symbolIcons} iconName="arrow" iconClass={classes["arrow"]} color={greyColor.c2} />
-                <IconCreator icons={symbolIcons} iconName="arrow" iconClass={classes["arrow"]} color={greyColor.c2} />
+                <IconCreator
+                  icons={symbolIcons}
+                  iconName="arrow"
+                  iconClass={classes["arrow"]}
+                  color={greyColor.c2}
+                  active={true}
+                />
+                <IconCreator
+                  icons={symbolIcons}
+                  iconName="arrow"
+                  iconClass={classes["arrow"]}
+                  color={greyColor.c2}
+                  active={true}
+                />
               </div>
               <div
                 className={classes["record-button"]}
@@ -343,7 +357,13 @@ function EngineGameRightSidebar({
                   changeHistoryMove(false);
                 }}
               >
-                <IconCreator icons={symbolIcons} iconName="arrow" iconClass={classes["arrow"]} color={greyColor.c2} />
+                <IconCreator
+                  icons={symbolIcons}
+                  iconName="arrow"
+                  iconClass={classes["arrow"]}
+                  color={greyColor.c2}
+                  active={true}
+                />
               </div>
 
               {winnerData && (
@@ -368,7 +388,13 @@ function EngineGameRightSidebar({
                   changeHistoryMove(true);
                 }}
               >
-                <IconCreator icons={symbolIcons} iconName="arrow" iconClass={classes["arrow"]} color={greyColor.c2} />
+                <IconCreator
+                  icons={symbolIcons}
+                  iconName="arrow"
+                  iconClass={classes["arrow"]}
+                  color={greyColor.c2}
+                  active={true}
+                />
               </div>
               <div
                 className={classes["record-button"]}
@@ -376,8 +402,20 @@ function EngineGameRightSidebar({
                   displayPreviousPositions(gameData.moves[gameData.moves.length - 1]);
                 }}
               >
-                <IconCreator icons={symbolIcons} iconName="arrow" iconClass={classes["arrow"]} color={greyColor.c2} />
-                <IconCreator icons={symbolIcons} iconName="arrow" iconClass={classes["arrow"]} color={greyColor.c2} />
+                <IconCreator
+                  icons={symbolIcons}
+                  iconName="arrow"
+                  iconClass={classes["arrow"]}
+                  color={greyColor.c2}
+                  active={true}
+                />
+                <IconCreator
+                  icons={symbolIcons}
+                  iconName="arrow"
+                  iconClass={classes["arrow"]}
+                  color={greyColor.c2}
+                  active={true}
+                />
               </div>
             </div>
           </div>

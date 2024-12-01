@@ -12,12 +12,12 @@ import { ElementClass, IconMap } from "../../utils/types/commonTypes";
 type IconNames = "arrow" | "roundArrow" | "x" | PopupIconName;
 
 export const symbolIcons: IconMap<IconNames> = {
-  arrow: (iconClass?: ElementClass, color?: ColorValue): JSX.Element => (
+  arrow: (iconClass?: ElementClass, color?: ColorValue, active?: boolean): JSX.Element => (
     <svg viewBox="-4.5 0 20 20" version="1.1" xmlns="http://www.w3.org/2000/svg" className={iconClass}>
       <g fill="none">
         <g
           transform="translate(-305.000000, -6679.000000)"
-          stroke={color ? color : greyColor.c0}
+          stroke={active && color ? color : "none"}
           fill={color ? color : greyColor.c0}
           strokeWidth={2}
         >

@@ -94,8 +94,11 @@
       }
 
       p.vs {
-        font-size: 2rem;
-        font-weight: bold;
+        padding: 0 1rem;
+
+        .vs-icon {
+          height: 3rem;
+        }
       }
     }
 
@@ -109,16 +112,16 @@
       @include GamePage.bar-block;
 
       position: relative;
-      padding-bottom: 3rem;
+      padding-bottom: 3.2rem;
       overflow: hidden;
+      padding-right: 1rem;
 
       .bar-list {
+        @include mini-scrollbar;
+
         height: 100%;
         overflow-y: scroll;
-
-        &::-webkit-scrollbar {
-          display: none;
-        }
+        padding-right: 1rem;
 
         &.empty {
           overflow: hidden;

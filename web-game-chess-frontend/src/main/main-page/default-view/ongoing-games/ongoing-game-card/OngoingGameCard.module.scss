@@ -55,6 +55,11 @@ $board-size: 20rem;
 
         font-size: calc(0.1 * $board-size);
         font-weight: bold;
+        padding: 0 1rem;
+
+        .vs-icon {
+          height: 3rem;
+        }
 
         span {
           @include flex;

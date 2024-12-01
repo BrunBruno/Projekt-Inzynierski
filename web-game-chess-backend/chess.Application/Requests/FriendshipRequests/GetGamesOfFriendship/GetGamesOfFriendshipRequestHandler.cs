@@ -63,7 +63,7 @@ public class GetGamesOfFriendshipRequestHandler : IRequestHandler<GetGamesOfFrie
                     ContentType = game.BlackPlayer.User.Image.ContentType,
                 } : null,
             }
-        }).ToList();
+        }).OrderByDescending(g => g.CreatedAt).ToList();
 
         var pagedResult = new PagedResult<GetGamesOfFriendshipDto>(friendshipGames, friendshipGames.Count, request.PageSize, request.PageNumber);
 

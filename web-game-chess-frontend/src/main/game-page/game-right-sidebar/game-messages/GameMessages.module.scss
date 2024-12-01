@@ -13,11 +13,9 @@
   }
 
   &__list {
-    overflow-y: scroll;
+    @include mini-scrollbar;
 
-    &::-webkit-scrollbar {
-      display: none;
-    }
+    overflow-y: scroll;
 
     .typing {
       @include flex(row, start, center, 0.8rem);
