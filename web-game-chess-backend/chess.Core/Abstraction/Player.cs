@@ -24,9 +24,4 @@ public abstract class Player {
     /// To arrange waiting queue
     /// </summary>
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
-
-    /// <summary>
-    /// Time left fro all moves according to game timing
-    /// </summary>
-    public double TimeLeft { get; set; }
 }

@@ -96,8 +96,7 @@ namespace chess.Infrastructure.Migrations
                     GameId = table.Column<Guid>(type: "uuid", nullable: false),
                     Name = table.Column<string>(type: "text", nullable: false),
                     Color = table.Column<int>(type: "integer", nullable: true),
-                    CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    TimeLeft = table.Column<double>(type: "double precision", nullable: false)
+                    CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -311,13 +310,13 @@ namespace chess.Infrastructure.Migrations
                     IsTemp = table.Column<bool>(type: "boolean", nullable: false),
                     FinishedGame = table.Column<bool>(type: "boolean", nullable: false),
                     Elo = table.Column<int>(type: "integer", nullable: false),
+                    TimeLeft = table.Column<double>(type: "double precision", nullable: false),
                     TimingId = table.Column<Guid>(type: "uuid", nullable: false),
                     UserId = table.Column<Guid>(type: "uuid", nullable: false),
                     GameId = table.Column<Guid>(type: "uuid", nullable: false),
                     Name = table.Column<string>(type: "text", nullable: false),
                     Color = table.Column<int>(type: "integer", nullable: true),
-                    CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    TimeLeft = table.Column<double>(type: "double precision", nullable: false)
+                    CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -338,7 +337,6 @@ namespace chess.Infrastructure.Migrations
                     EngineLevel = table.Column<int>(type: "integer", nullable: false),
                     EloGain = table.Column<int>(type: "integer", nullable: false),
                     PlayerId = table.Column<Guid>(type: "uuid", nullable: false),
-                    WebGameTimingId = table.Column<Guid>(type: "uuid", nullable: true),
                     Position = table.Column<string>(type: "text", nullable: false),
                     HasEnded = table.Column<bool>(type: "boolean", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
@@ -357,11 +355,6 @@ namespace chess.Infrastructure.Migrations
                         principalTable: "EngineGamePlayers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_EngineGames_GameTimings_WebGameTimingId",
-                        column: x => x.WebGameTimingId,
-                        principalTable: "GameTimings",
-                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -579,6 +572,7 @@ namespace chess.Infrastructure.Migrations
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
                     WhiteTime = table.Column<double>(type: "double precision", nullable: false),
                     BlackTime = table.Column<double>(type: "double precision", nullable: false),
+                    MoveDuration = table.Column<TimeSpan>(type: "interval", nullable: false),
                     GameId = table.Column<Guid>(type: "uuid", nullable: false),
                     DoneMove = table.Column<string>(type: "text", nullable: false),
                     FenMove = table.Column<string>(type: "text", nullable: false),
@@ -664,11 +658,6 @@ namespace chess.Infrastructure.Migrations
                 table: "EngineGames",
                 column: "PlayerId",
                 unique: true);
-
-            migrationBuilder.CreateIndex(
-                name: "IX_EngineGames_WebGameTimingId",
-                table: "EngineGames",
-                column: "WebGameTimingId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_EngineGameStates_GameId",

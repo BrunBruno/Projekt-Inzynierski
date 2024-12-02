@@ -12,8 +12,8 @@ using chess.Infrastructure.Contexts;
 namespace chess.Infrastructure.Migrations
 {
     [DbContext(typeof(ChessAppDbContext))]
-    [Migration("20241127203053_AddDurationToMoves")]
-    partial class AddDurationToMoves
+    [Migration("20241202084345_Init")]
+    partial class Init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -62,9 +62,6 @@ namespace chess.Infrastructure.Migrations
                     b.Property<int>("Turn")
                         .HasColumnType("integer");
 
-                    b.Property<Guid?>("WebGameTimingId")
-                        .HasColumnType("uuid");
-
                     b.Property<int?>("WinnerColor")
                         .HasColumnType("integer");
 
@@ -72,8 +69,6 @@ namespace chess.Infrastructure.Migrations
 
                     b.HasIndex("PlayerId")
                         .IsUnique();
-
-                    b.HasIndex("WebGameTimingId");
 
                     b.ToTable("EngineGames");
                 });
@@ -174,9 +169,6 @@ namespace chess.Infrastructure.Migrations
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("text");
-
-                    b.Property<double>("TimeLeft")
-                        .HasColumnType("double precision");
 
                     b.Property<Guid>("UserId")
                         .HasColumnType("uuid");
@@ -986,10 +978,6 @@ namespace chess.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("chess.Core.Entities.WebGameTiming", null)
-                        .WithMany("EngineGames")
-                        .HasForeignKey("WebGameTimingId");
-
                     b.Navigation("Player");
                 });
 
@@ -1315,8 +1303,6 @@ namespace chess.Infrastructure.Migrations
 
             modelBuilder.Entity("chess.Core.Entities.WebGameTiming", b =>
                 {
-                    b.Navigation("EngineGames");
-
                     b.Navigation("WebGames");
                 });
 #pragma warning restore 612, 618
