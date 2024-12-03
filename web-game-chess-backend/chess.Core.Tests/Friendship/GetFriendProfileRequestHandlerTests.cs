@@ -35,6 +35,8 @@ public class GetFriendProfileRequestHandlerTests {
             RequestorId = userId,
             ReceiverId = friendId,
             Status = FriendshipStatus.Accepted,
+
+            Stats = new FriendshipStats(),
         };
 
         var exampleFriend = new Entities.User() {

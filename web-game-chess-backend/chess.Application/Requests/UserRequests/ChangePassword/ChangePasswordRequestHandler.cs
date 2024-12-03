@@ -29,16 +29,16 @@ public class ChangePasswordRequestHandler : IRequestHandler<ChangePasswordReques
         var userId = _userContextService.GetUserId();
 
         var user = await _userRepository.GetById(userId)
-            ?? throw new NotFoundException("User not found.");
+            ?? throw new NotFoundException("User not found");
 
         if (!request.NewPassword.Equals(request.ConfirmPassword))
-            throw new BadRequestException("Passwords don't match.");
+            throw new BadRequestException("Passwords don't match");
 
 
         var result = _passwordHasher.VerifyHashedPassword(user, user.PasswordHash, request.OldPassword);
 
         if (result == PasswordVerificationResult.Failed)
-            throw new BadRequestException("Old password incorrect.");
+            throw new BadRequestException("Old password incorrect");
 
 
         var hashedPassword = _passwordHasher.HashPassword(user, request.NewPassword);

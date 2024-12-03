@@ -1,12 +1,12 @@
 ﻿
 using chess.Core.Enums;
 
-namespace chess.Application.Requests.WebGameRequests.GetWinner;
+namespace chess.Application.Requests.WebGameRequests.GetWebGameWinner;
 
 /// <summary>
 /// Dto returned to present web game winner
 /// </summary>
-public class GetWinnerDto {
+public class GetWebGameWinnerDto {
 
     /// <summary>
     /// Winner color

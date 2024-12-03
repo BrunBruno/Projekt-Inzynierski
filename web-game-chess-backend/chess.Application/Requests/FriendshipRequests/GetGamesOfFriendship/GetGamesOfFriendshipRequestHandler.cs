@@ -24,10 +24,10 @@ public class GetGamesOfFriendshipRequestHandler : IRequestHandler<GetGamesOfFrie
 
     public async Task<PagedResult<GetGamesOfFriendshipDto>> Handle(GetGamesOfFriendshipRequest request, CancellationToken cancellationToken) {
 
-        var freindship = await _friendshipRepository.GetById(request.FriendshipId)
+        var friendship = await _friendshipRepository.GetById(request.FriendshipId)
             ?? throw new NotFoundException("Friendship not found");
 
-        var games = await _webGameRepository.GetAllForFriendship(freindship.RequestorId, freindship.ReceiverId);
+        var games = await _webGameRepository.GetAllForFriendship(friendship.RequestorId, friendship.ReceiverId);
 
         var friendshipGames = games.Select(game => new GetGamesOfFriendshipDto()
         {

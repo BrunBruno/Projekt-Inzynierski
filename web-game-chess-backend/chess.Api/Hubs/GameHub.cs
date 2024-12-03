@@ -23,7 +23,7 @@ using Microsoft.AspNetCore.SignalR;
 using SignalRSwaggerGen.Attributes;
 using SignalRSwaggerGen.Enums;
 using chess.Application.Requests.WebGameRequests.CancelWebGameRematch;
-using chess.Application.Requests.WebGameRequests.GetWinner;
+using chess.Application.Requests.WebGameRequests.GetWebGameWinner;
 
 namespace chess.Api.Hubs;
 
@@ -303,7 +303,7 @@ public class GameHub : Hub<IGameHub> {
     [SignalRMethod("GetWinner", Operation.Get)]
     public async Task GetWinner(Guid gameId) {
 
-        var request = new GetWinnerRequest()
+        var request = new GetWebGameWinnerRequest()
         {
             GameId = gameId,
         };

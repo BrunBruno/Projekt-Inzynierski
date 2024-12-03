@@ -1,6 +1,6 @@
 ﻿
 using chess.Application.Requests.WebGameRequests.CreateWebGameRematch;
-using chess.Application.Requests.WebGameRequests.GetWinner;
+using chess.Application.Requests.WebGameRequests.GetWebGameWinner;
 using chess.Application.Requests.WebGameRequests.InvitedToGame;
 
 namespace chess.Application.Hubs;
@@ -79,5 +79,5 @@ public interface IGameHub {
     /// </summary>
     /// <param name="dto"></param>
     /// <returns></returns>
-    Task GetWinner(GetWinnerDto dto);
+    Task GetWinner(GetWebGameWinnerDto dto);
 }

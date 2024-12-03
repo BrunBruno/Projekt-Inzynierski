@@ -160,7 +160,7 @@ public class EngineGameController : ControllerBase {
     /// <returns></returns>
     [HttpGet("{gameId}/winner")]
     [Authorize(Policy = "IsVerified")]
-    public async Task<IActionResult> GetWinner([FromRoute] Guid gameId) {
+    public async Task<IActionResult> GetEngineGameWinner([FromRoute] Guid gameId) {
 
         var request = new GetEngineGameWinnerRequest()
         {
