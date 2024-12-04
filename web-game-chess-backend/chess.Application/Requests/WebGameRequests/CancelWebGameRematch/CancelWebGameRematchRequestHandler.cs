@@ -31,6 +31,6 @@ public class CancelWebGameRematchRequestHandler : IRequestHandler<CancelWebGameR
             ?? throw new NotFoundException("Game not found.");
 
         if (game.WhitePlayer.UserId != userId && game.BlackPlayer.UserId != userId)
-            throw new UnauthorizedAccessException("Not user game.");
+            throw new UnauthorizedException("Not user game.");
     }
 }

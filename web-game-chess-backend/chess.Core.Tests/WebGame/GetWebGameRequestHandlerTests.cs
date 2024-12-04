@@ -5,6 +5,7 @@ using chess.Application.Repositories.WebGameRepositories;
 using chess.Application.Requests.WebGameRequests.GetWebGame;
 using chess.Application.Services;
 using chess.Core.Entities;
+using chess.Core.Enums;
 using chess.Shared.Exceptions;
 using FluentAssertions;
 using Moq;
@@ -34,6 +35,8 @@ public class GetWebGameRequestHandlerTests {
         var userId = Guid.NewGuid();
         var gameId = Guid.NewGuid();
 
+        var settings = new UserSettings();
+
         var move = new WebGameMove()
         {
             DoneMove = "",
@@ -51,8 +54,10 @@ public class GetWebGameRequestHandlerTests {
             WhitePlayer = new WebGamePlayer()
             {
                 Name = "Username",
+                Color = PieceColor.White,
                 UserId = userId,
-                User = new Entities.User() { 
+                User = new Entities.User() 
+                { 
                     Email = "user@test.com",
                     Username = "User"
                 }
@@ -61,6 +66,7 @@ public class GetWebGameRequestHandlerTests {
             BlackPlayer = new WebGamePlayer()
             {
                 Name = "Opponent",
+                Color = PieceColor.Black,
                 UserId = Guid.NewGuid(),
                 User = new Entities.User()
                 {
@@ -80,6 +86,7 @@ public class GetWebGameRequestHandlerTests {
 
 
         _mockUserContextService.Setup(x => x.GetUserId()).Returns(userId);
+        _mockUserSettingsRepository.Setup(x => x.GetByUserId(userId)).ReturnsAsync(settings);
         _mockGameRepository.Setup(x => x.GetById(gameId)).ReturnsAsync(game);
 
 
@@ -100,8 +107,11 @@ public class GetWebGameRequestHandlerTests {
         result.Moves.Count.Should().Be(3);  
 
         _mockUserContextService.Verify(x => x.GetUserId(), Times.Once);
+        _mockUserSettingsRepository.Verify(x => x.GetByUserId(userId), Times.Once);
         _mockGameRepository.Verify(x => x.GetById(gameId), Times.Once);
+        _mockFriendshipRepository.Verify(x => x.GetByUsersIds(It.IsAny<Guid>(), It.IsAny<Guid>()), Times.Once);
         _mockGameRepository.Verify(x => x.Update(game), Times.Never);
+        _mockWebGameMessageRepository.Verify(x => x.CreateMany(It.IsAny<List<WebGameMessage>>()), Times.Never);
     }
 
     [Fact]
@@ -109,6 +119,8 @@ public class GetWebGameRequestHandlerTests {
 
         var userId = Guid.NewGuid();
         var gameId = Guid.NewGuid();
+
+        var settings = new UserSettings();
 
         var move = new WebGameMove() { 
             DoneMove = "",
@@ -126,6 +138,7 @@ public class GetWebGameRequestHandlerTests {
             WhitePlayer = new WebGamePlayer()
             {
                 Name = "Username",
+                Color = PieceColor.White,
                 UserId = userId,
                 User = new Entities.User()
                 {
@@ -137,6 +150,7 @@ public class GetWebGameRequestHandlerTests {
             BlackPlayer = new WebGamePlayer()
             {
                 Name = "Opponent",
+                Color = PieceColor.Black,
                 UserId = Guid.NewGuid(),
                 User = new Entities.User()
                 {
@@ -156,6 +170,7 @@ public class GetWebGameRequestHandlerTests {
 
 
         _mockUserContextService.Setup(x => x.GetUserId()).Returns(userId);
+        _mockUserSettingsRepository.Setup(x => x.GetByUserId(userId)).ReturnsAsync(settings);
         _mockGameRepository.Setup(x => x.GetById(gameId)).ReturnsAsync(game);
 
 
@@ -176,12 +191,15 @@ public class GetWebGameRequestHandlerTests {
         result.Moves.Count.Should().Be(3);
 
         _mockUserContextService.Verify(x => x.GetUserId(), Times.Once);
+        _mockUserSettingsRepository.Verify(x => x.GetByUserId(userId), Times.Once);
         _mockGameRepository.Verify(x => x.GetById(gameId), Times.Once);
+        _mockFriendshipRepository.Verify(x => x.GetByUsersIds(It.IsAny<Guid>(), It.IsAny<Guid>()), Times.Once);
         _mockGameRepository.Verify(x => x.Update(game), Times.Once);
+        _mockWebGameMessageRepository.Verify(x => x.CreateMany(It.IsAny<List<WebGameMessage>>()), Times.Once);
     }
 
     [Fact]
-    public async Task Handle_Throws_NotFoundException_When_Game_Does_Not_Exist() {
+    public async Task Handle_Throws_NotFoundException_When_UserSettings_Does_Not_Exist() {
 
         var userId = Guid.NewGuid();
         var gameId = Guid.NewGuid();
@@ -193,6 +211,7 @@ public class GetWebGameRequestHandlerTests {
 
 
         _mockUserContextService.Setup(x => x.GetUserId()).Returns(userId);
+        // settings not returned
 
 
         var handler = new GetWebGameRequestHandler(
@@ -204,12 +223,53 @@ public class GetWebGameRequestHandlerTests {
         );
 
         var act = () => handler.Handle(request, CancellationToken.None);
-
-
         await act.Should().ThrowAsync<NotFoundException>();
+
         _mockUserContextService.Verify(x => x.GetUserId(), Times.Once);
-        _mockGameRepository.Verify(x => x.GetById(gameId), Times.Once);
+        _mockUserSettingsRepository.Verify(x => x.GetByUserId(userId), Times.Once);
+        _mockGameRepository.Verify(x => x.GetById(gameId), Times.Never);
+        _mockFriendshipRepository.Verify(x => x.GetByUsersIds(It.IsAny<Guid>(), It.IsAny<Guid>()), Times.Never);
         _mockGameRepository.Verify(x => x.Update(It.IsAny<Entities.WebGame>()), Times.Never);
+        _mockWebGameMessageRepository.Verify(x => x.CreateMany(It.IsAny<List<WebGameMessage>>()), Times.Never);
+    }
+
+    [Fact]
+    public async Task Handle_Throws_NotFoundException_When_Game_Does_Not_Exist() {
+
+        var userId = Guid.NewGuid();
+        var gameId = Guid.NewGuid();
+
+        var settings = new UserSettings();
+
+        var request = new GetWebGameRequest()
+        {
+            GameId = gameId,
+        };
+
+
+        _mockUserContextService.Setup(x => x.GetUserId()).Returns(userId);
+        _mockUserSettingsRepository.Setup(x => x.GetByUserId(userId)).ReturnsAsync(settings);
+        // game not returned
+
+
+        var handler = new GetWebGameRequestHandler(
+            _mockGameRepository.Object,
+            _mockUserContextService.Object,
+            _mockUserSettingsRepository.Object,
+            _mockWebGameMessageRepository.Object,
+            _mockFriendshipRepository.Object
+        );
+
+        var act = () => handler.Handle(request, CancellationToken.None);
+        await act.Should().ThrowAsync<NotFoundException>();
+
+
+        _mockUserContextService.Verify(x => x.GetUserId(), Times.Once);
+        _mockUserSettingsRepository.Verify(x => x.GetByUserId(userId), Times.Once);
+        _mockGameRepository.Verify(x => x.GetById(gameId), Times.Once);
+        _mockFriendshipRepository.Verify(x => x.GetByUsersIds(It.IsAny<Guid>(), It.IsAny<Guid>()), Times.Never);
+        _mockGameRepository.Verify(x => x.Update(It.IsAny<Entities.WebGame>()), Times.Never);
+        _mockWebGameMessageRepository.Verify(x => x.CreateMany(It.IsAny<List<WebGameMessage>>()), Times.Never);
     }
 
     [Fact]
@@ -217,6 +277,8 @@ public class GetWebGameRequestHandlerTests {
 
         var userId = Guid.NewGuid();
         var gameId = Guid.NewGuid();
+
+        var settings = new UserSettings();
 
         var move = new WebGameMove()
         {
@@ -252,6 +314,7 @@ public class GetWebGameRequestHandlerTests {
 
 
         _mockUserContextService.Setup(x => x.GetUserId()).Returns(userId);
+        _mockUserSettingsRepository.Setup(x => x.GetByUserId(userId)).ReturnsAsync(settings);
         _mockGameRepository.Setup(x => x.GetById(gameId)).ReturnsAsync(game);
 
 
@@ -264,11 +327,14 @@ public class GetWebGameRequestHandlerTests {
         );
 
         var act = () => handler.Handle(request, CancellationToken.None);
-
-
         await act.Should().ThrowAsync<UnauthorizedException>();
+
+
         _mockUserContextService.Verify(x => x.GetUserId(), Times.Once);
+        _mockUserSettingsRepository.Verify(x => x.GetByUserId(userId), Times.Once);
         _mockGameRepository.Verify(x => x.GetById(gameId), Times.Once);
+        _mockFriendshipRepository.Verify(x => x.GetByUsersIds(It.IsAny<Guid>(), It.IsAny<Guid>()), Times.Never);
         _mockGameRepository.Verify(x => x.Update(game), Times.Never);
+        _mockWebGameMessageRepository.Verify(x => x.CreateMany(It.IsAny<List<WebGameMessage>>()), Times.Never);
     }
 }

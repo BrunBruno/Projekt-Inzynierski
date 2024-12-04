@@ -39,13 +39,13 @@ public class EndEngineGameRequestHandler : IRequestHandler<EndEngineGameRequest>
         var userId = _userContextService.GetUserId();
 
         var user = await _userRepository.GetById(userId)
-            ?? throw new NotFoundException("User not found.");
+            ?? throw new NotFoundException("User not found");
 
         var game = await _engineGameRepository.GetById(request.GameId)
-            ?? throw new NotFoundException("Game not found.");
+            ?? throw new NotFoundException("Game not found");
 
         if (game.Player.UserId != userId)
-            throw new UnauthorizedException("Not user game.");
+            throw new UnauthorizedException("Not user game");
 
         if (game.HasEnded == true)
             throw new BadRequestException("Game is ended");

@@ -58,6 +58,41 @@ internal static partial class DbFilter {
         return playerId;
     }
 
+    internal static async Task<Guid> AddGameWithTempPlayer(this ChessAppDbContext dbContext, Guid playerId, Guid timingId) {
+
+        Guid gameId = Guid.NewGuid();
+
+        var tempPlayer = new WebGamePlayer()
+        {
+            Id = Guid.NewGuid(),
+            Name = "",
+            IsTemp = true,
+            UserId = Guid.Parse(Constants.UserId),
+        };
+
+        var game = new Core.Entities.WebGame()
+        {
+            Id = gameId,
+            WhitePlayerId = playerId,
+            BlackPlayerId = tempPlayer.Id,
+            GameTimingId = timingId,
+            IsPrivate = true,
+        };
+
+        var state = new WebGameState()
+        {
+            Id = Guid.NewGuid(),
+            GameId = gameId,
+        };
+
+        await dbContext.WebGamePlayers.AddAsync(tempPlayer);
+        await dbContext.WebGames.AddAsync(game);
+        await dbContext.WebGameStates.AddAsync(state);
+        await dbContext.SaveChangesAsync();
+
+        return gameId;
+    }
+
 
     /// <summary>
     /// To create game
@@ -191,7 +226,7 @@ internal static partial class DbFilter {
     /// <param name="isFinished"></param>
     /// <param name="withInvitation"></param>
     /// <returns></returns>
-    internal static async Task AddGames(this ChessAppDbContext dbContext, bool isFinished, bool withInvitation) {
+    internal static async Task AddGames(this ChessAppDbContext dbContext, bool isFinished, bool withInvitation, Guid? friendshipId=null) {
 
         var bulletTiming = new WebGameTiming()
         {
@@ -219,7 +254,7 @@ internal static partial class DbFilter {
 
         var enemy = new Core.Entities.User()
         {
-            Id = Guid.NewGuid(),
+            Id = friendshipId != null ? (Guid)friendshipId : Guid.NewGuid(),
             Email = "enemy@test.com",
             Username = "Enemy",
             PasswordHash = Constants.PasswordHash,
@@ -267,6 +302,7 @@ internal static partial class DbFilter {
 
                 Id = Guid.NewGuid(),
                 HasEnded = isFinished,
+                IsPrivate = friendshipId != null,
                 CreatedAt = DateTime.UtcNow.AddMinutes(-30),
                 StartedAt = DateTime.UtcNow.AddMinutes(-20),
                 EndedAt = isFinished == true ? DateTime.UtcNow : null,

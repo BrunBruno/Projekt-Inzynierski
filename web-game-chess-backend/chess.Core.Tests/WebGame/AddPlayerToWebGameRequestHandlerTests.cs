@@ -86,7 +86,7 @@ public class AddPlayerToWebGameRequestHandlerTests {
         await act.Should().ThrowAsync<NotFoundException>();
 
         _mockUserContextService.Verify(x => x.GetUserId(), Times.Once);
-        _mockWebGameRepository.Verify(x => x.GetById(gameId), Times.Never);
+        _mockWebGameRepository.Verify(x => x.GetById(gameId), Times.Once);
     }
 
     [Fact]

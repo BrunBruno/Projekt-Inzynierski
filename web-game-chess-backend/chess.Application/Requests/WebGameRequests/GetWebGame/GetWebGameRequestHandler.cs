@@ -43,14 +43,14 @@ public class GetWebGameRequestHandler : IRequestHandler<GetWebGameRequest, GetWe
 
         var userId = _userContextService.GetUserId();
 
-        var settings = await _userSettingsRepository.GetByUserId( userId )
-            ?? throw new NotFoundException("Settings not found.");
+        var settings = await _userSettingsRepository.GetByUserId(userId)
+            ?? throw new NotFoundException("Settings not found");
 
         var game = await _webGameRepository.GetById(request.GameId) 
-            ?? throw new NotFoundException("Game not found.");
+            ?? throw new NotFoundException("Game not found");
 
         if (game.WhitePlayer.UserId != userId && game.BlackPlayer.UserId != userId)
-            throw new UnauthorizedException("This is not user game.");
+            throw new UnauthorizedException("This is not user game");
 
 
         var friendship = await _friendshipRepository.GetByUsersIds(game.WhitePlayer.UserId, game.BlackPlayer.UserId);
@@ -63,7 +63,7 @@ public class GetWebGameRequestHandler : IRequestHandler<GetWebGameRequest, GetWe
 
             // to send only one
             if (userId == game.WhitePlayer.UserId) {
-                var startMessagees = new List<WebGameMessage>() {
+                var startMessages = new List<WebGameMessage>() {
                     new() {
                         Id = Guid.NewGuid(),
                         RequestorName = "BOT",
@@ -75,7 +75,7 @@ public class GetWebGameRequestHandler : IRequestHandler<GetWebGameRequest, GetWe
 
 
                 if (friendship != null && friendship.Status == FriendshipStatus.Rejected) {
-                    startMessagees.Add(new()
+                    startMessages.Add(new()
                     {
                         Id = Guid.NewGuid(),
                         RequestorName = "BOT",
@@ -85,7 +85,7 @@ public class GetWebGameRequestHandler : IRequestHandler<GetWebGameRequest, GetWe
                     });
                 }
 
-                await _webGameMessageRepository.CreateMany(startMessagees);
+                await _webGameMessageRepository.CreateMany(startMessages);
             }
         }
 

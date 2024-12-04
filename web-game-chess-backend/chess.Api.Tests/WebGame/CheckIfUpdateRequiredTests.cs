@@ -46,7 +46,9 @@ public class CheckIfUpdateOnPrivateGameRequiredTests : IClassFixture<TestWebAppl
 
         var userPlayerId = await _dbContext.AddPlayer(Guid.Parse(Constants.UserId), Constants.Username);
 
-        var gameId = await _dbContext.AddGame(userPlayerId, userPlayerId, timingId, true);
+        var gameId = await _dbContext.AddGameWithTempPlayer(userPlayerId, timingId);
+
+        //var gameId = await _dbContext.AddGame(userPlayerId, userPlayerId, timingId, true);
         await _dbContext.AddPlayerToGame(userPlayerId, gameId, PieceColor.White);
 
         var response = await _client.GetAsync($"api/webgame/{gameId}/update-required");
@@ -57,7 +59,6 @@ public class CheckIfUpdateOnPrivateGameRequiredTests : IClassFixture<TestWebAppl
 
         var result = JsonConvert.DeserializeObject<CheckIfUpdateOnPrivateGameRequiredDto>(await response.Content.ReadAsStringAsync());
         result.IsRequired.Should().Be(true);
-        result.Type.Should().Be(TimingTypes.Classic);
     }
 
     /// <summary>

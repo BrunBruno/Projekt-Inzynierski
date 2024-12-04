@@ -73,6 +73,7 @@ internal static partial class DbFilter {
             Status = status,
             RequestorId = requestorId,
             ReceiverId = receiverId,
+            Stats = new FriendshipStats(),
         };
 
         await dbContext.Friendships.AddAsync(friendship);
@@ -101,9 +102,9 @@ internal static partial class DbFilter {
                 PasswordHash = Constants.PasswordHash,
                 JoinDate = DateTime.UtcNow,
                 IsVerified = true,
-                Elo = new UserElo() { },
-                Stats = new UserStats { },
-               
+                Elo = new UserElo(),
+                Stats = new UserStats(),
+                Settings = new UserSettings(),
             });
 
             if (i % 2 == 0) {
@@ -112,7 +113,7 @@ internal static partial class DbFilter {
                     ReceiverId = userId,
                     RequestorId = Guid.Parse(Constants.UserId),
                     Status = FriendshipStatus.Accepted,
-                    
+                    Stats = new FriendshipStats(),
                 });
             }
 
@@ -123,6 +124,7 @@ internal static partial class DbFilter {
                     ReceiverId = userId,
                     RequestorId = Guid.Parse(Constants.UserId),
                     Status = FriendshipStatus.Rejected,
+                    Stats = new FriendshipStats(),
                 });
             }
         }

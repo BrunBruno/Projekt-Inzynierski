@@ -56,7 +56,7 @@ public class UserController : ControllerBase {
 
 
     /// <summary>
-    /// Creates adn returs Jwt token
+    /// Creates and returns Jwt token
     /// </summary>
     /// <param name="model"></param>
     /// <returns></returns>
@@ -239,7 +239,7 @@ public class UserController : ControllerBase {
 
 
     /// <summary>
-    /// Gets unkonown user info for other users
+    /// Gets unknown user info for other users
     /// </summary>
     /// <param name="userId"></param>
     /// <returns></returns>

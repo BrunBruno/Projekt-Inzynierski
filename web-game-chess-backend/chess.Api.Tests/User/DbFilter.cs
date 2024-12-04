@@ -76,6 +76,7 @@ internal static partial class DbFilter {
 
             Elo = new UserElo(),
             Stats = new UserStats(),
+            Settings = new UserSettings(),
         };
 
         await dbContext.Users.AddAsync(user);

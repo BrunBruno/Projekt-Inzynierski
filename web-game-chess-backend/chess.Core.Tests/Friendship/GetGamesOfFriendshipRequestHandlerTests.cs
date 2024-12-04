@@ -97,10 +97,20 @@ public class GetGamesOfFriendshipRequestHandlerTests {
                 WhitePlayer = new WebGamePlayer()
                 {
                     Name = "Username",
+                    User = new Entities.User()
+                    {
+                        Email = "test@test.com",
+                        Username = "Usernme",
+                    },
                 },
                 BlackPlayer = new WebGamePlayer()
                 {
                     Name = "Opponent",
+                    User = new Entities.User()
+                    {
+                        Email = "opponent@test.com",
+                        Username = "Opponent",
+                    },
                 }
             });
         }

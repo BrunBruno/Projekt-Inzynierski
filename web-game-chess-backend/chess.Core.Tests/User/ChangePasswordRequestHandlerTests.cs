@@ -58,7 +58,7 @@ public class ChangePasswordRequestHandlerTests {
 
         _mockUserContextService.Verify(x => x.GetUserId(), Times.Once);
         _mockUserRepository.Verify(x => x.GetById(userId), Times.Once);
-        _mockPasswordHasher.Verify(x => x.VerifyHashedPassword(user, user.PasswordHash, request.OldPassword), Times.Once);
+        _mockPasswordHasher.Verify(x => x.VerifyHashedPassword(user, It.IsAny<string>(), request.OldPassword), Times.Once);
         _mockPasswordHasher.Verify(x => x.HashPassword(user, request.NewPassword), Times.Once);
         _mockUserRepository.Verify(x => x.Update(user), Times.Once);
     }

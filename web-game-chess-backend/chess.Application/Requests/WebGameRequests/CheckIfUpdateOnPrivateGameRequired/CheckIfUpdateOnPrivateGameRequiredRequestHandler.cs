@@ -26,10 +26,10 @@ public class CheckIfUpdateOnPrivateGameRequiredRequestHandler : IRequestHandler<
     public async Task<CheckIfUpdateOnPrivateGameRequiredDto> Handle(CheckIfUpdateOnPrivateGameRequiredRequest request, CancellationToken cancellationToken) {
 
         var game = await _webGameRepository.GetById(request.GameId)
-            ?? throw new NotFoundException("Game not found.");
+            ?? throw new NotFoundException("Game not found");
 
         var gameTiming = await _webGameTimingRepository.GetById(game.GameTimingId)
-            ?? throw new NotFoundException("Game timing not found.");
+            ?? throw new NotFoundException("Game timing not found");
 
         var isRequired = new CheckIfUpdateOnPrivateGameRequiredDto()
         {

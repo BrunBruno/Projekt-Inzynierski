@@ -44,30 +44,18 @@ public class GetTotalGamesStatsRequestHandlerTests {
     }
 
     private static List<Entities.User> ReturnExampleUsers() {
-
-        var exampleUsers = new List<Entities.User>();
-
-        for (int i = 0; i < 10; i++) {
-            exampleUsers.Add(new Entities.User() { 
-                Email = "test@test.com", 
-                Username = "username",
-                JoinDate = DateTime.Now,
-            });
-        }
-
-        return exampleUsers;
+        return Enumerable.Range(0, 10).Select(_ => new Entities.User
+        {
+            Email = "test@test.com",
+            Username = "username",
+            JoinDate = DateTime.Now,
+        }).ToList();
     }
 
-    private static List<Entities.WebGame> ReturnExampleGames() { 
-        
-        var exampleGames = new List<Entities.WebGame>();
-
-        for (int i = 0; i < 10; i++) {
-            exampleGames.Add(new Entities.WebGame() { 
-                CreatedAt = i < 5 ? DateTime.Now : DateTime.Now.AddDays(7),
-            });
-        }
-
-        return exampleGames;
+    private static List<Entities.WebGame> ReturnExampleGames() {
+        return Enumerable.Range(0, 5).Select(i => new Entities.WebGame
+        {
+            CreatedAt =  DateTime.Now,
+        }).ToList();
     }
 }

@@ -44,16 +44,6 @@ public class EndWebGameRequestHandler : IRequestHandler<EndWebGameRequest> {
 
         var userId = _userContextService.GetUserId();
 
-        var game = await _webGameRepository.GetById(request.GameId)
-            ?? throw new NotFoundException("Game not found");
-
-        if (game.WhitePlayer.UserId != userId && game.BlackPlayer.UserId != userId)
-            throw new UnauthorizedException("Not user game");
-
-        if (game.HasEnded)
-            throw new BadRequestException("Game is finished");
-      
-
         if ((
             request.LoserColor == null && 
                 (request.EndGameType == GameEndReason.CheckMate ||
@@ -69,6 +59,19 @@ public class EndWebGameRequestHandler : IRequestHandler<EndWebGameRequest> {
             )){
             throw new BadRequestException("Incorrect game result");
         }
+
+
+        var game = await _webGameRepository.GetById(request.GameId)
+            ?? throw new NotFoundException("Game not found");
+
+        if (game.WhitePlayer.UserId != userId && game.BlackPlayer.UserId != userId)
+            throw new UnauthorizedException("Not user game");
+
+        if (game.HasEnded)
+            throw new BadRequestException("Game is finished");
+      
+
+
 
 
         var whiteUser = await _userRepository.GetById(game.WhitePlayer.UserId) 
@@ -268,7 +271,7 @@ public class EndWebGameRequestHandler : IRequestHandler<EndWebGameRequest> {
         game.EndedAt = DateTime.UtcNow;
 
 
-        if (request.EndGameType == GameEndReason.CheckMate && game.Moves.Count > 0) {
+        if (request.EndGameType == GameEndReason.CheckMate && game.Moves != null && game.Moves.Count > 0) {
             string lastMove = game.Moves[^1].FenMove;
             game.Moves[^1].FenMove = lastMove[..^1] + "#";
         }

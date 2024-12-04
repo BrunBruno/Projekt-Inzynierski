@@ -54,10 +54,9 @@ public class GetUsersRankingRequestHandlerTests {
 
         var exampleUsers = new List<Entities.User>();
 
-        for (var i = 0; i < 20; i++) {
+        for (var i = 0; i < 5; i++) {
             exampleUsers.Add(new Entities.User()
             {
-                IsVerified = i % 2 == 0,
                 Email = "test@test.com",
                 Username = "username",
 

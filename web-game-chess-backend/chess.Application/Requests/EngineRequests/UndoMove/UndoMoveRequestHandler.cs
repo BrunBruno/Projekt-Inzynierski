@@ -33,15 +33,15 @@ public class UndoMoveRequestHandler : IRequestHandler<UndoMoveRequest> {
         var userId = _userContextService.GetUserId();
 
         var game = await _engineGameRepository.GetById(request.GameId)
-            ?? throw new NotFoundException("Game not found.");
+            ?? throw new NotFoundException("Game not found");
 
         if (game.Player.UserId != userId)
-            throw new UnauthorizedException("Not user game.");
+            throw new UnauthorizedException("Not user game");
 
         var moves = await _engineGameMoveRepository.GetAllForGame(game.Id);
 
         if (moves.Count < 2)
-            throw new BadRequestException("Can not undo now.");
+            throw new BadRequestException("Can not undo now");
 
 
         var firstMoveToRemove = moves[0];

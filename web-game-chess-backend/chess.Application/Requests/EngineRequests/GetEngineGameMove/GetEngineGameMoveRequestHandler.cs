@@ -38,10 +38,10 @@ public class GetEngineGameMoveRequestHandler : IRequestHandler<GetEngineGameMove
         var userId = _userContextService.GetUserId();
 
         var game = await _engineGameRepository.GetById(request.GameId)
-            ?? throw new NotFoundException("Game not found.");
+            ?? throw new NotFoundException("Game not found");
 
         if (game.Player.UserId != userId)
-            throw new UnauthorizedException("Not user game.");
+            throw new UnauthorizedException("Not user game");
 
 
         var fullFen = MakeFen(game);
@@ -69,12 +69,14 @@ public class GetEngineGameMoveRequestHandler : IRequestHandler<GetEngineGameMove
         await Task.Delay(300, cancellationToken);
 
         if (bestMoveLine == null) 
-            throw new InvalidOperationException("Stockfish error.");
+            throw new InvalidOperationException("Stockfish error");
 
 
         var bestMove = bestMoveLine.Split(' ')[1];
 
         if(bestMove == "(none)") {
+            _engineService.Close();
+
             var endDto = new GetEngineGameMoveDto()
             {
                 ShouldEnd = true,
@@ -92,14 +94,14 @@ public class GetEngineGameMoveRequestHandler : IRequestHandler<GetEngineGameMove
 
         var newPositionOutput = _engineService.ReadOutput();
         var newPositionLine = newPositionOutput.FirstOrDefault(line => line.Contains("Fen:"))
-            ?? throw new InvalidOperationException("Stockfish error.");
+            ?? throw new InvalidOperationException("Stockfish error");
 
         var newFenPosition = newPositionLine.Split("Fen:")[1].Trim()
-            ?? throw new InvalidOperationException("Stockfish error.");
+            ?? throw new InvalidOperationException("Stockfish error");
 
         var newPosition = newFenPosition.Split(' ')[0];
 
-        string from = bestMove.Substring(0, 2);
+        string from = bestMove[..2];
         string to = bestMove.Substring(2, 2);
 
         string? promotedPiece = bestMove.Length == 5
