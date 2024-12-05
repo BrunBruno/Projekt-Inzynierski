@@ -22,7 +22,7 @@ public class MakeEngineGameMoveRequestHandlerTests {
     }
 
     [Fact]
-    public async Task Handle_Creates_Move_And_Updaes_Game_On_Success() {
+    public async Task Handle_Creates_Move_And_Updates_Game_On_Success() {
     
         var userId = Guid.NewGuid();
         var gameId = Guid.NewGuid();

@@ -4,7 +4,7 @@ import { GetFullUserDto, GetRegisterConfDto } from "../../../../shared/utils/typ
 import {
   ChangePasswordModel,
   GetRegisterConfModel,
-  UpdateUserDataModel,
+  UpdateProfileVisibilityModel,
 } from "../../../../shared/utils/types/userModels";
 import { checkFromConfiguration, passwordRequirements, ValidationResult } from "./AccountSettingsData";
 import { errorDisplay, getErrMessage } from "../../../../shared/utils/functions/errors";
@@ -133,12 +133,12 @@ function AccountSettings({ user }: AccountSettingsProps) {
   };
 
   const changeProfileVisibility = async (isPrivate: boolean): Promise<void> => {
-    const model: UpdateUserDataModel = {
+    const model: UpdateProfileVisibilityModel = {
       profileIsPrivate: isPrivate,
     };
 
     try {
-      await axios.put(userController.updateUserData(), model, getAuthorization());
+      await axios.put(userController.updateProfileVisibility(), model, getAuthorization());
 
       setIsAccountPrivate(isPrivate);
     } catch (err) {

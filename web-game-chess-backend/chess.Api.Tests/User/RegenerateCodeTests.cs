@@ -47,10 +47,6 @@ public class RegenerateCodeTests : IClassFixture<TestWebApplicationFactory<Progr
         response.StatusCode.Should().Be(HttpStatusCode.OK);
     }
 
-    /// <summary>
-    /// Regenerating code, when user does not exist.
-    /// </summary>
-    /// <returns></returns>
     [Fact]
     public async Task RegenerateCode_Should_Returns_NotFound_On_Fail() {
         

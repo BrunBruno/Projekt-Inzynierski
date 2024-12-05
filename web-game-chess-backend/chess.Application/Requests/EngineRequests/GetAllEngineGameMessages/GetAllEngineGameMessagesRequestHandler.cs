@@ -32,10 +32,10 @@ public class GetAllEngineGameMessagesRequestHandler : IRequestHandler<GetAllEngi
         var userId = _userContextService.GetUserId();
 
         var game = await _engineGameRepository.GetById(request.GameId)
-            ?? throw new NotFoundException("Game not found.");
+            ?? throw new NotFoundException("Game not found");
 
         if (game.Player.UserId != userId)
-            throw new UnauthorizedException("Not user game.");
+            throw new UnauthorizedException("Not user game");
 
 
         var messages = await _engineGameMessageRepository.GetAllForGame(request.GameId);

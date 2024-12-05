@@ -35,9 +35,9 @@ public class ChangePasswordRequestHandlerTests {
         };
 
         var request = new ChangePasswordRequest() { 
-            OldPassword = "oldpass",
-            NewPassword = "newpass",
-            ConfirmPassword = "newpass"
+            OldPassword = "oldPass",
+            NewPassword = "newPass",
+            ConfirmPassword = "newPass"
         };
 
 
@@ -70,9 +70,9 @@ public class ChangePasswordRequestHandlerTests {
 
         var request = new ChangePasswordRequest()
         {
-            OldPassword = "oldpass",
-            NewPassword = "newpass",
-            ConfirmPassword = "newpass"
+            OldPassword = "oldPass",
+            NewPassword = "newPass",
+            ConfirmPassword = "newPass"
         };
 
 
@@ -112,9 +112,9 @@ public class ChangePasswordRequestHandlerTests {
 
         var request = new ChangePasswordRequest()
         {
-            OldPassword = "oldpass",
-            NewPassword = "newpass",
-            ConfirmPassword = "badpass" // wrong password
+            OldPassword = "oldPass",
+            NewPassword = "newPass",
+            ConfirmPassword = "badPass" // wrong password
         };
 
 
@@ -141,7 +141,7 @@ public class ChangePasswordRequestHandlerTests {
 
 
     [Fact]
-    public async Task Handle_Throws_BadRequestException_When_Old_Password_Is_Incorrent() {
+    public async Task Handle_Throws_BadRequestException_When_Old_Password_Is_Incorrect() {
 
         var userId = Guid.NewGuid();
 
@@ -155,15 +155,15 @@ public class ChangePasswordRequestHandlerTests {
 
         var request = new ChangePasswordRequest()
         {
-            OldPassword = "oldpass",
-            NewPassword = "newpass",
-            ConfirmPassword = "newpass"
+            OldPassword = "oldPass",
+            NewPassword = "newPass",
+            ConfirmPassword = "newPass"
         };
 
 
         _mockUserContextService.Setup(x => x.GetUserId()).Returns(userId);
         _mockUserRepository.Setup(x => x.GetById(userId)).ReturnsAsync(user);
-        _mockPasswordHasher.Setup(x => x.VerifyHashedPassword(user, user.PasswordHash, request.OldPassword)).Returns(PasswordVerificationResult.Failed); // pasword fail
+        _mockPasswordHasher.Setup(x => x.VerifyHashedPassword(user, user.PasswordHash, request.OldPassword)).Returns(PasswordVerificationResult.Failed); // password fail
 
 
         var handler = new ChangePasswordRequestHandler(

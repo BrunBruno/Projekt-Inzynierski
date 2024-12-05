@@ -73,10 +73,6 @@ public class CheckIfInWebGameTests : IClassFixture<TestWebApplicationFactory<Pro
         result_true.GameId.Should().Be(gameId);
     }
 
-    /// <summary>
-    /// Check for not existing player
-    /// </summary>
-    /// <returns></returns>
     [Fact]
     public async Task CheckIfInWebGame_Should_Return_NotFound_On_Fail() {
 
@@ -92,10 +88,6 @@ public class CheckIfInWebGameTests : IClassFixture<TestWebApplicationFactory<Pro
         response.StatusCode.Should().Be(HttpStatusCode.NotFound);
     }
 
-    /// <summary>
-    /// Check for not owned player
-    /// </summary>
-    /// <returns></returns>
     [Fact]
     public async Task CheckIfInWebGame_Should_Return_Unauthorized_On_Fail() {
 

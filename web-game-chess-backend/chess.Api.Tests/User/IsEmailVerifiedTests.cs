@@ -43,10 +43,6 @@ public class IsEmailVerifiedTests : IClassFixture<TestWebApplicationFactory<Prog
         result.IsEmailVerified.Should().Be(false);
     }
 
-    /// <summary>
-    /// Checking if email is verified for not existing user.
-    /// </summary>
-    /// <returns></returns>
     [Fact]
     public async Task IsEmailVerified_Should_Return_NotFound_On_Fail() {
 

@@ -1,7 +1,6 @@
 ﻿
 using chess.Api.Models.FriendshipModels;
 using chess.Api.Tests.User;
-using chess.Core.Entities;
 using chess.Core.Enums;
 using chess.Infrastructure.Contexts;
 using FluentAssertions;
@@ -65,10 +64,6 @@ public class RespondToFriendRequestTests : IClassFixture<TestWebApplicationFacto
         friendship.Status.Should().Be(FriendshipStatus.Accepted);
     }
 
-    /// <summary>
-    /// User was a requestor
-    /// </summary>
-    /// <returns></returns>
     [Fact]
     public async Task RespondToFriendRequest_Should_Return_BadRequest_On_Fail() {
 
@@ -96,10 +91,6 @@ public class RespondToFriendRequestTests : IClassFixture<TestWebApplicationFacto
         response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
     }
 
-    /// <summary>
-    /// Request to not existing friendship
-    /// </summary>
-    /// <returns></returns>
     [Fact]
     public async Task RespondToFriendRequest_Should_Return_NotFound_On_Fail() {
 

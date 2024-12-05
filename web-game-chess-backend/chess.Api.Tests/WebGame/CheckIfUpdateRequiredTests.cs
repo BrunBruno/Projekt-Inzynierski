@@ -61,10 +61,6 @@ public class CheckIfUpdateOnPrivateGameRequiredTests : IClassFixture<TestWebAppl
         result.IsRequired.Should().Be(true);
     }
 
-    /// <summary>
-    /// Game not added
-    /// </summary>
-    /// <returns></returns>
     [Fact]
     public async Task CheckIfUpdateOnPrivateGameRequired_Returns_NotFound_On_Fail() {
 

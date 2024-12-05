@@ -35,7 +35,7 @@ interface UserControllerPaths {
   resetPassword: string;
   changePassword: string;
   updateProfile: string;
-  updateUserData: string;
+  updateProfileVisibility: string;
   updateUserSettings: string;
   //GET
   getUser: string;
@@ -60,7 +60,7 @@ export const userControllerPaths: UserControllerPaths = {
   resetPassword: `${userBaseUrl}/reset-password`,
   changePassword: `${userBaseUrl}/change-password`,
   updateProfile: `${userBaseUrl}/profile`,
-  updateUserData: `${userBaseUrl}/data`,
+  updateProfileVisibility: `${userBaseUrl}/visibility`,
   updateUserSettings: `${userBaseUrl}/settings`,
   getUser: `${userBaseUrl}`,
   getFullUser: `${userBaseUrl}/full`,
@@ -83,7 +83,7 @@ interface UserController {
   resetPassword: () => string;
   changePassword: () => string;
   updateProfile: () => string;
-  updateUserData: () => string;
+  updateProfileVisibility: () => string;
   updateUserSettings: () => string;
   getUser: () => string;
   getFullUser: () => string;
@@ -121,7 +121,7 @@ export const userController: UserController = {
   updateProfile: () => `${userBaseUrl}/profile`,
 
   // to change user data
-  updateUserData: () => `${userBaseUrl}/data`,
+  updateProfileVisibility: () => `${userBaseUrl}/visibility`,
 
   // to change user settings
   updateUserSettings: () => `${userBaseUrl}/settings`,

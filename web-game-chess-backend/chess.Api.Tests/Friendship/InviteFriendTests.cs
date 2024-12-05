@@ -61,10 +61,6 @@ public class InviteFriendTests : IClassFixture<TestWebApplicationFactory<Program
 
     }
 
-    /// <summary>
-    /// User inviting itself
-    /// </summary>
-    /// <returns></returns>
     [Fact]
     public async Task InviteFriend_Should_Return_BadRequest_On_Fail() {
 
@@ -85,10 +81,6 @@ public class InviteFriendTests : IClassFixture<TestWebApplicationFactory<Program
         response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
     }
 
-    /// <summary>
-    /// Invite not existing user
-    /// </summary>
-    /// <returns></returns>
     [Fact]
     public async Task InviteFriend_Should_Return_NotFound_On_Fail() {
 

@@ -16,7 +16,7 @@ using chess.Application.Requests.UserRequests.RegisterUser;
 using chess.Application.Requests.UserRequests.ResetPassword;
 using chess.Application.Requests.UserRequests.SendResetPasswordCode;
 using chess.Application.Requests.UserRequests.UpdateProfile;
-using chess.Application.Requests.UserRequests.UpdateUserData;
+using chess.Application.Requests.UserRequests.UpdateProfileVisibility;
 using chess.Application.Requests.UserRequests.UpdateUserSettings;
 using chess.Application.Requests.UserRequests.VerifyEmail;
 using MediatR;
@@ -177,11 +177,11 @@ public class UserController : ControllerBase {
     /// </summary>
     /// <param name="model"></param>
     /// <returns></returns>
-    [HttpPut("data")]
+    [HttpPut("visibility")]
     [Authorize(Policy = "IsVerified")]
-    public async Task<IActionResult> UpdateUserData([FromBody] UpdateUserDataModel model) {
+    public async Task<IActionResult> UpdateProfileVisibility([FromBody] UpdateProfileVisibilityModel model) {
 
-        var request = _mapper.Map<UpdateUserDataRequest>(model);
+        var request = _mapper.Map<UpdateProfileVisibilityRequest>(model);
 
         await _mediator.Send(request);
 

@@ -64,11 +64,12 @@ internal static partial class DbFilter {
     /// </summary>
     /// <param name="dbContext"></param>
     /// <returns></returns>
-    internal static async Task AddUser(this ChessAppDbContext dbContext) {
+    internal static async Task AddUser(this ChessAppDbContext dbContext, bool isVerified = false) {
 
         var user = new Core.Entities.User
         {
             Id = Guid.Parse(Constants.UserId),
+            IsVerified = isVerified,
             Email = "test@test.com",
             Username = "TestUserName",
             PasswordHash = Constants.PasswordHash,
@@ -116,14 +117,14 @@ internal static partial class DbFilter {
     /// </summary>
     /// <param name="dbContext"></param>
     /// <returns></returns>
-    internal static async Task AddCodeForUser(this ChessAppDbContext dbContext) {
+    internal static async Task AddCodeForUser(this ChessAppDbContext dbContext, UserCodesTypes codeType=UserCodesTypes.Email) {
 
         var code = new UserVerificationCode()
         {
             Id = Guid.NewGuid(),
             CodeHash = "AQAAAAIAAYagAAAAENYYAzvI42t/TYNc5wQ58JFqttNZkv8S0/pZGxT/cic1PPSMcbiOsM8xi2w5HwmfOg==", // "57375"
             UserId = Guid.Parse(Constants.UserId),
-            Type = UserCodesTypes.Email,
+            Type = codeType,
             ExpirationDate = DateTime.Now.AddYears(10)
         };
 

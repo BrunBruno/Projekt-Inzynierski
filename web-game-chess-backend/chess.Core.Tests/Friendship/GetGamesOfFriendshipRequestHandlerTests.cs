@@ -100,7 +100,7 @@ public class GetGamesOfFriendshipRequestHandlerTests {
                     User = new Entities.User()
                     {
                         Email = "test@test.com",
-                        Username = "Usernme",
+                        Username = "Username",
                     },
                 },
                 BlackPlayer = new WebGamePlayer()

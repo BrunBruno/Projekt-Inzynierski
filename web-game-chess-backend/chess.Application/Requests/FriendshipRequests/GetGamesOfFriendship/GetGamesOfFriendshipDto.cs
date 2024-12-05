@@ -5,7 +5,7 @@ using chess.Core.Enums;
 namespace chess.Application.Requests.FriendshipRequests.GetGamesOfFriendship;
 
 /// <summary>
-/// Dto representing games played in friedships
+/// Dto representing games played in friendship
 /// </summary>
 public class GetGamesOfFriendshipDto {
 

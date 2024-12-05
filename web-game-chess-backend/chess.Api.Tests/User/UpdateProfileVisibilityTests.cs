@@ -10,13 +10,13 @@ using System.Text;
 
 namespace chess.Api.Tests.User;
 
-public class RegisterTests : IClassFixture<TestWebApplicationFactory<Program>> {
- 
+public class UpdateProfileVisibilityTests : IClassFixture<TestWebApplicationFactory<Program>> {
+
     private readonly HttpClient _client;
     private readonly TestWebApplicationFactory<Program> _factory;
     private readonly ChessAppDbContext _dbContext;
 
-    public RegisterTests() {
+    public UpdateProfileVisibilityTests() {
         _factory = new TestWebApplicationFactory<Program>();
 
         _client = _factory.CreateClient();
@@ -30,24 +30,21 @@ public class RegisterTests : IClassFixture<TestWebApplicationFactory<Program>> {
     }
 
     [Fact]
-    public async Task Register_Should_Create_User_On_Success() {
+    public async Task UpdateProfileVisibility_Updates_User_On_Success() {
 
         await _dbContext.Init();
+        await _dbContext.AddUser();
 
-        var model = new RegisterUserModel()
+        var model = new UpdateProfileVisibilityModel()
         {
-            Email= "test@test.com",
-            Username = "Test",
-            Password = "Password",
-            ConfirmPassword = "Password",
-            Country = "PL"
+            ProfileIsPrivate = true,
         };
+
 
         var json = JsonConvert.SerializeObject(model);
         var httpContent = new StringContent(json, Encoding.UTF8, "application/json");
 
-
-        var response = await _client.PostAsync("api/user/sign-up", httpContent);
+        var response = await _client.PutAsync("api/user/visibility", httpContent);
 
 
         var assertDbContext = _factory.GetDbContextForAsserts();
@@ -55,33 +52,27 @@ public class RegisterTests : IClassFixture<TestWebApplicationFactory<Program>> {
         response.StatusCode.Should().Be(HttpStatusCode.OK);
 
         var user = await assertDbContext.Users.FirstAsync();
-
-        user.Username.Should().Be("Test");
-        user.Email.Should().Be("test@test.com");
+        user.IsPrivate.Should().BeTrue();
     }
 
     [Fact]
-    public async Task Register_Should_Return_BadRequest_On_Fail() {
+    public async Task UpdateProfileVisibility_Throws_NotFound_On_Fail() {
 
         await _dbContext.Init();
-        await _dbContext.AddUserWithEmail("test@test.com"); // user already exists
+        // user not added
 
-        var model = new RegisterUserModel()
+        var model = new UpdateProfileVisibilityModel()
         {
-            Email = "test@test.com",
-            Username = "Test",
-            Password = "Password",
-            ConfirmPassword = "Password",
-            Country = "PL"
+            ProfileIsPrivate = true,
         };
+
 
         var json = JsonConvert.SerializeObject(model);
         var httpContent = new StringContent(json, Encoding.UTF8, "application/json");
 
+        var response = await _client.PutAsync("api/user/visibility", httpContent);
 
-        var response = await _client.PostAsync("api/user/sign-up", httpContent);
 
-
-        response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+        response.StatusCode.Should().Be(HttpStatusCode.NotFound);
     }
 }

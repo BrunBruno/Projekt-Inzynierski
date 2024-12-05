@@ -59,10 +59,6 @@ public class BlockUserTests : IClassFixture<TestWebApplicationFactory<Program>> 
         friendship!.Status.Should().Be(FriendshipStatus.Rejected);
     }
 
-    /// <summary>
-    /// User blocking himself
-    /// </summary>
-    /// <returns></returns>
     [Fact]
     public async Task BlockUser_Should_Return_BadRequest_On_Fail() {
 
@@ -85,10 +81,6 @@ public class BlockUserTests : IClassFixture<TestWebApplicationFactory<Program>> 
         response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
     }
 
-    /// <summary>
-    /// User not exists
-    /// </summary>
-    /// <returns></returns>
     [Fact]
     public async Task BlockUser_Should_Return_NotFound_On_Fail() {
 

@@ -1,7 +1,6 @@
 ﻿
 using chess.Api.Tests.User;
 using chess.Application.Pagination;
-using chess.Application.Requests.FriendshipRequests.GetAllFriendsByStatus;
 using chess.Application.Requests.FriendshipRequests.GetFriendshipRanking;
 using chess.Core.Enums;
 using chess.Infrastructure.Contexts;
@@ -33,7 +32,6 @@ public class GetFriendshipRankingTests : IClassFixture<TestWebApplicationFactory
 
     [Fact]
     public async Task GetFriendshipRanking_Should_Return_Ranking_On_Success() {
-
 
         await _dbContext.Init();
         await _dbContext.AddUser();

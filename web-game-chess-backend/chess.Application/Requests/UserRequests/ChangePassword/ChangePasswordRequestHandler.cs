@@ -8,6 +8,11 @@ using Microsoft.AspNetCore.Identity;
 
 namespace chess.Application.Requests.UserRequests.ChangePassword;
 
+/// <summary>
+/// Checks if user exists
+/// Checks if user provided correct password
+/// Creates new password hash and updates user
+/// </summary>
 public class ChangePasswordRequestHandler : IRequestHandler<ChangePasswordRequest> {
 
     private readonly IUserContextService _userContextService;

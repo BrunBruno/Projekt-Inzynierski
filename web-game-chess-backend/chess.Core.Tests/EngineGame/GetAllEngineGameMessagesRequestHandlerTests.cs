@@ -22,7 +22,7 @@ public class GetAllEngineGameMessagesRequestHandlerTests {
     }
 
     [Fact]
-    public async Task Handle_Returs_List_Of_Messages_On_Success() {
+    public async Task Handle_Returns_List_Of_Messages_On_Success() {
 
         var userId = Guid.NewGuid();
         var gameId = Guid.NewGuid();

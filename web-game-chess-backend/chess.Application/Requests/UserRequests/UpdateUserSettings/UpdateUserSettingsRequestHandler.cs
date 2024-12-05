@@ -7,6 +7,10 @@ using MediatR;
 
 namespace chess.Application.Requests.UserRequests.UpdateUserSettings;
 
+/// <summary>
+/// Checks if user settings exists
+/// Updates provided value of game settings
+/// </summary>
 public class UpdateUserSettingsRequestHandler : IRequestHandler<UpdateUserSettingsRequest> {
 
     private readonly IUserContextService _userContextService;
@@ -25,7 +29,7 @@ public class UpdateUserSettingsRequestHandler : IRequestHandler<UpdateUserSettin
         var userId = _userContextService.GetUserId();
 
         var settings = await _userSettingsRepository.GetByUserId(userId)
-            ?? throw new NotFoundException("User not found.");
+            ?? throw new NotFoundException("Settings not found");
 
 
         settings.AppearanceOfBoard = request.AppearanceOfBoard != null ? (AppearanceOfBoard)request.AppearanceOfBoard : settings.AppearanceOfBoard;

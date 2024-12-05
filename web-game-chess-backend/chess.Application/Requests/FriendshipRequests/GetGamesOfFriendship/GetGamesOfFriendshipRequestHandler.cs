@@ -9,6 +9,11 @@ using MediatR;
 
 namespace chess.Application.Requests.FriendshipRequests.GetGamesOfFriendship;
 
+/// <summary>
+/// Checks if friendship exists
+/// Gets all web games played between friends
+/// Creates and returns paged result of games dtos
+/// </summary>
 public class GetGamesOfFriendshipRequestHandler : IRequestHandler<GetGamesOfFriendshipRequest, PagedResult<GetGamesOfFriendshipDto>> {
 
     private readonly IFriendshipRepository _friendshipRepository;

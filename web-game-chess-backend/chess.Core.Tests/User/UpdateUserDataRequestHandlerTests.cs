@@ -1,6 +1,6 @@
 ﻿
 using chess.Application.Repositories.UserRepositories;
-using chess.Application.Requests.UserRequests.UpdateUserData;
+using chess.Application.Requests.UserRequests.UpdateProfileVisibility;
 using chess.Application.Services;
 using chess.Shared.Exceptions;
 using FluentAssertions;
@@ -30,7 +30,7 @@ public class UpdateUserDataRequestHandlerTests {
             IsPrivate = false,
         };
 
-        var request = new UpdateUserDataRequest()
+        var request = new UpdateProfileVisibilityRequest()
         {
             ProfileIsPrivate = true,
         };
@@ -40,7 +40,7 @@ public class UpdateUserDataRequestHandlerTests {
         _mockUserRepository.Setup(x => x.GetById(userId)).ReturnsAsync(user);
 
 
-        var handler = new UpdateUserDataRequestHandler(
+        var handler = new UpdateProfileVisibilityRequestHandler(
             _mockUserContextService.Object,
             _mockUserRepository.Object
         );
@@ -58,7 +58,7 @@ public class UpdateUserDataRequestHandlerTests {
 
         var userId = Guid.NewGuid();
 
-        var request = new UpdateUserDataRequest()
+        var request = new UpdateProfileVisibilityRequest()
         {
             ProfileIsPrivate = true,
         };
@@ -68,7 +68,7 @@ public class UpdateUserDataRequestHandlerTests {
         // user not returned
 
 
-        var handler = new UpdateUserDataRequestHandler(
+        var handler = new UpdateProfileVisibilityRequestHandler(
             _mockUserContextService.Object,
             _mockUserRepository.Object
         );

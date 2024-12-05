@@ -48,10 +48,6 @@ public class GetFriendProfileTests : IClassFixture<TestWebApplicationFactory<Pro
         result.Username.Should().Be("Receiver");
     }
 
-    /// <summary>
-    /// Gets not accepted friendship
-    /// </summary>
-    /// <returns></returns>
     [Fact]
     public async Task GetFriendProfile_Should_Return_BadRequest_On_Fail() {
 
@@ -67,10 +63,6 @@ public class GetFriendProfileTests : IClassFixture<TestWebApplicationFactory<Pro
         response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
     }
 
-    /// <summary>
-    /// Get non existing friendship
-    /// </summary>
-    /// <returns></returns>
     [Fact]
     public async Task GetFriendProfile_Should_Return_NotFound_On_Fail() {
 
@@ -89,10 +81,6 @@ public class GetFriendProfileTests : IClassFixture<TestWebApplicationFactory<Pro
         response.StatusCode.Should().Be(HttpStatusCode.NotFound);
     }
 
-    /// <summary>
-    /// Get someones friendship
-    /// </summary>
-    /// <returns></returns>
     [Fact]
     public async Task GetFriendProfile_Should_Return_Unauthorized_On_Fail() {
 

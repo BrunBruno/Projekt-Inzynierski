@@ -4,14 +4,18 @@ using chess.Application.Services;
 using chess.Shared.Exceptions;
 using MediatR;
 
-namespace chess.Application.Requests.UserRequests.UpdateUserData;
+namespace chess.Application.Requests.UserRequests.UpdateProfileVisibility;
 
-public class UpdateUserDataRequestHandler : IRequestHandler<UpdateUserDataRequest> {
+/// <summary>
+/// Checks if user exists
+/// Updates user
+/// </summary>
+public class UpdateProfileVisibilityRequestHandler : IRequestHandler<UpdateProfileVisibilityRequest> {
 
     private readonly IUserContextService _userContextService;
     private readonly IUserRepository _userRepository;
 
-    public UpdateUserDataRequestHandler(
+    public UpdateProfileVisibilityRequestHandler(
         IUserContextService userContextService,
         IUserRepository userRepository
     ) {
@@ -19,12 +23,12 @@ public class UpdateUserDataRequestHandler : IRequestHandler<UpdateUserDataReques
         _userRepository = userRepository;
     }
 
-    public async Task Handle(UpdateUserDataRequest request, CancellationToken cancellationToken) {
+    public async Task Handle(UpdateProfileVisibilityRequest request, CancellationToken cancellationToken) {
 
         var userId = _userContextService.GetUserId();
 
         var user = await _userRepository.GetById(userId)
-            ?? throw new NotFoundException("User not found.");
+            ?? throw new NotFoundException("User not found");
 
         user.IsPrivate = request.ProfileIsPrivate;
 

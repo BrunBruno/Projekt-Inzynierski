@@ -66,10 +66,6 @@ public class UpdateProfileTests : IClassFixture<TestWebApplicationFactory<Progra
         user!.Bio.Should().Be(bio);
     }
 
-    /// <summary>
-    /// Updates profile when user not exists
-    /// </summary>
-    /// <returns></returns>
     [Fact]
     public async Task UpdateProfile_Should_Returns_NotFound_On_Fail() {
 

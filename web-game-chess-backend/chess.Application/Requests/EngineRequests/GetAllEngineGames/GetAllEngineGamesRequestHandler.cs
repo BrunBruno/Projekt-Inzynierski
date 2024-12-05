@@ -9,6 +9,10 @@ using Microsoft.IdentityModel.Tokens;
 
 namespace chess.Application.Requests.EngineRequests.GetAllEngineGames;
 
+/// <summary>
+/// Get all engine game players for user
+/// Creates and returns paged result of engine game dtos
+/// </summary>
 public class GetAllEngineGamesRequestHandler : IRequestHandler<GetAllEngineGamesRequest, PagedResult<GetAllEngineGamesDto>> {
 
     private readonly IUserContextService _userContextService;

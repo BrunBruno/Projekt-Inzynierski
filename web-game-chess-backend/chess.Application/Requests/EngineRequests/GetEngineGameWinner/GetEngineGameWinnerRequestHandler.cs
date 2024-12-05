@@ -7,7 +7,9 @@ using MediatR;
 namespace chess.Application.Requests.EngineRequests.GetEngineGameWinner;
 
 /// <summary>
-/// 
+/// Checks if game exists and user is player
+/// Checks if game has ended
+/// Returns winner dto
 /// </summary>
 public class GetEngineGameWinnerRequestHandler : IRequestHandler<GetEngineGameWinnerRequest, GetEngineGameWinnerDto> {
 

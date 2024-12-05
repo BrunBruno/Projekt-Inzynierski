@@ -91,7 +91,7 @@ public class BlockUserRequestHandlerTests {
 
         _mockUserContextService.Setup(x => x.GetUserId()).Returns(userId);
         _mockUserRepository.Setup(x => x.GetById(userToBlockId)).ReturnsAsync(userToBlock);
-        // friendship not reurned
+        // friendship not returned
 
 
         var handler = new BlockUserRequestHandler(
@@ -191,7 +191,7 @@ public class BlockUserRequestHandlerTests {
 
         var friendship = new Entities.Friendship()
         {
-            Status = FriendshipStatus.Rejected, // already rejcted friendship
+            Status = FriendshipStatus.Rejected, // already rejected friendship
             ReceiverId = userId,
             RequestorId = userToBlockId,
         };

@@ -44,10 +44,6 @@ public class GetRegisterConfTests : IClassFixture<TestWebApplicationFactory<Prog
 
     }
 
-    /// <summary>
-    /// Gets with incorrect id
-    /// </summary>
-    /// <returns></returns>
     [Fact]
     public async Task GetRegisterConf_Should_Return_BadRequest_On_Fail() {
 

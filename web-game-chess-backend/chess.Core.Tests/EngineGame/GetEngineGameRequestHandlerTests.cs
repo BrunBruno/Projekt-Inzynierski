@@ -141,7 +141,7 @@ public class GetEngineGameRequestHandlerTests {
     }
 
     [Fact]
-    public async Task Handle_Throws_UnauthorizedException_Wehn_User_Is_Not_Player_Of_Game() {
+    public async Task Handle_Throws_UnauthorizedException_When_User_Is_Not_Player_Of_Game() {
 
         var userId = Guid.NewGuid();
         var gameId = Guid.NewGuid();

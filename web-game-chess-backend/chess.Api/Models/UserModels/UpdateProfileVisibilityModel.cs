@@ -1,6 +1,6 @@
 ﻿
 namespace chess.Api.Models.UserModels;
 
-public class UpdateUserDataModel {
+public class UpdateProfileVisibilityModel {
     public bool ProfileIsPrivate { get; set; }
 }

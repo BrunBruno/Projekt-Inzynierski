@@ -12,7 +12,7 @@ namespace chess.Application.Requests.WebGameRequests.SendPlayerMessage;
 /// <summary>
 /// Checks is game for provided id exists
 /// Checks if current user belongs to game
-/// Reject message creation if users have frinedship with rejected status
+/// Reject message creation if users have friendship with rejected status
 /// Creates new message
 /// </summary>
 public class SendPlayerMessageRequestHandler : IRequestHandler<SendPlayerMessageRequest> {

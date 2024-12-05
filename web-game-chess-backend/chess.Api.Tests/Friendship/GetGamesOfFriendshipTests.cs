@@ -3,8 +3,6 @@ using chess.Api.Tests.User;
 using chess.Api.Tests.WebGame;
 using chess.Application.Pagination;
 using chess.Application.Requests.FriendshipRequests.GetGamesOfFriendship;
-using chess.Application.Requests.WebGameRequests.GetAllFinishedGames;
-using chess.Core.Entities;
 using chess.Core.Enums;
 using chess.Infrastructure.Contexts;
 using FluentAssertions;

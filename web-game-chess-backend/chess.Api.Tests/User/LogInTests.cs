@@ -54,10 +54,6 @@ public class LogInTests : IClassFixture<TestWebApplicationFactory<Program>> {
         result.Token.Should().NotBeEmpty();
     }
 
-    /// <summary>
-    /// Log in with incorrect password
-    /// </summary>
-    /// <returns></returns>
     [Fact]
     public async Task LogIn_Should_Return_BadRequest_On_Fail() {
 

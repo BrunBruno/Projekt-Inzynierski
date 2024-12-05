@@ -34,16 +34,16 @@ public class GetEngineGameRequestHandler : IRequestHandler<GetEngineGameRequest,
         var userId = _userContextService.GetUserId();
 
         var settings = await _userSettingsRepository.GetByUserId(userId)
-            ?? throw new NotFoundException("Settings not found.");
+            ?? throw new NotFoundException("Settings not found");
 
         var game = await _engineGameRepository.GetById(request.GameId)
-            ?? throw new NotFoundException("Game not found.");
+            ?? throw new NotFoundException("Game not found");
 
         if(game.Player.UserId != userId)
-            throw new UnauthorizedException("Not user game.");
+            throw new UnauthorizedException("Not user game");
 
         if (game.Player.Color is null)
-            throw new BadRequestException("Error starting game.");
+            throw new BadRequestException("Error starting game");
 
         var gameDto = new GetEngineGameDto()
         {

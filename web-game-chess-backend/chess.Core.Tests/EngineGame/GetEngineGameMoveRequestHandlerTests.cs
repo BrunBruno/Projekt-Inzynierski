@@ -213,7 +213,7 @@ public class GetEngineGameMoveRequestHandlerTests {
     }
 
     [Fact]
-    public async Task Handle_Throws_InvalidOperationException_When_EngineSerives_Did_Not_Found_BestMove() {
+    public async Task Handle_Throws_InvalidOperationException_When_EngineService_Did_Not_Found_BestMove() {
 
 
         var userId = Guid.NewGuid();
@@ -266,7 +266,7 @@ public class GetEngineGameMoveRequestHandlerTests {
     }
 
     [Fact]
-    public async Task Handlde_Throws_InvalidOperationException_When_EngineSerive_Did_Not_Return_FenPosition() {
+    public async Task Handle_Throws_InvalidOperationException_When_EngineService_Did_Not_Return_FenPosition() {
 
 
         var userId = Guid.NewGuid();

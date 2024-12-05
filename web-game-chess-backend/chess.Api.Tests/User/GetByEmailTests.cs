@@ -45,10 +45,6 @@ public class GetByEmailTests : IClassFixture<TestWebApplicationFactory<Program>>
         result.Email.Should().Be(email);
     }
 
-    /// <summary>
-    /// Gets non existing user
-    /// </summary>
-    /// <returns></returns>
     [Fact]
     public async Task GetByEmail_Should_Return_NotFound_On_Fail() {
 
@@ -64,10 +60,6 @@ public class GetByEmailTests : IClassFixture<TestWebApplicationFactory<Program>>
         response.StatusCode.Should().Be(HttpStatusCode.NotFound);
     }
 
-    /// <summary>
-    /// Gets with incorrect email
-    /// </summary>
-    /// <returns></returns>
     [Fact]
     public async Task GetByEmail_Should_Return_BadRequest_On_Fail() {
 

@@ -112,7 +112,7 @@ public class UpdatePrivateGameRequestHandlerTests {
 
 
         _mockUserContextService.Setup(x => x.GetUserId()).Returns(joinerId);
-        // user not retirned
+        // user not returned
 
 
         var handler = new UpdatePrivateGameRequestHandler(
@@ -158,7 +158,7 @@ public class UpdatePrivateGameRequestHandlerTests {
 
         _mockUserContextService.Setup(x => x.GetUserId()).Returns(joinerId);
         _mockUserRepository.Setup(x => x.GetById(joinerId)).ReturnsAsync(user);
-        // game not retirned
+        // game not returned
 
 
         var handler = new UpdatePrivateGameRequestHandler(
@@ -228,7 +228,7 @@ public class UpdatePrivateGameRequestHandlerTests {
         };
 
 
-        _mockUserContextService.Setup(x => x.GetUserId()).Returns(creatorId); // creator trys to update
+        _mockUserContextService.Setup(x => x.GetUserId()).Returns(creatorId); // creator tries to update
         _mockUserRepository.Setup(x => x.GetById(creatorId)).ReturnsAsync(user);
         _mockGameRepository.Setup(x => x.GetById(gameId)).ReturnsAsync(game);
 
