@@ -35,7 +35,7 @@ public class StartWebGamesRequestHandler : IRequestHandler<StartWebGamesRequest>
     public async Task Handle(StartWebGamesRequest request, CancellationToken cancellationToken) {
 
         var timing = await _webGameTimingRepository.GetById(request.TimingId) 
-            ?? throw new NotFoundException("Timing not found.");
+            ?? throw new NotFoundException("Timing not found");
 
         var players = await _webGamePlayerRepository.GetAllAvailablePlayersForTiming(request.TimingId);
 
@@ -92,5 +92,6 @@ public class StartWebGamesRequestHandler : IRequestHandler<StartWebGamesRequest>
 
     private static int GetRange(int x) {
         return (int)Math.Pow(1.01, -(x - 1000)) + 10;
+        //todo
     }
 }
