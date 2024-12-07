@@ -5,11 +5,11 @@ import { ColorValue } from "../objects/colorMaps";
 import { popupIconTypes } from "../objects/constantLists";
 
 // type for svg icons maps and corresponding props
-// type for svg icons with params
 export type IconSvgProps = {
   iconClass: string;
 };
 
+// type for svg icons with params
 export type IconMap<T extends string> = {
   [key in T]: (iconClass?: ElementClass, color?: ColorValue, active?: boolean) => JSX.Element;
 };
@@ -42,12 +42,15 @@ export type PopupType = {
 export type SMatrix = string[][];
 export type NMatrix = number[][];
 
+// for indicating that sting is classname
 export type ElementClass = string;
 
+// type for nullable parameters
 export type Nullable<T> = {
   [P in keyof T]: T[P] | null;
 };
 
+// general type of passing state as property to child component
 export type StateProp<T> = {
   get: T;
   set: Dispatch<SetStateAction<T>>;

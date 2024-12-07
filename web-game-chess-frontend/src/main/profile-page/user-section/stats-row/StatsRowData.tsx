@@ -5,7 +5,7 @@ import { gameResultIcons } from "../../../../shared/svgs/iconsMap/GameResultIcon
 import { ColorValue, dangerColor, greyColor, successColor } from "../../../../shared/utils/objects/colorMaps";
 import { ChartObject } from "../../../../shared/utils/types/commonTypes";
 import { GetFriendProfileDto } from "../../../../shared/utils/types/friendshipDtos";
-import { friendSectionIcons } from "../FreindSectionIcons";
+import { friendSectionIcons } from "../FriendSectionIcons";
 
 export type StatsConfig = {
   title: string;

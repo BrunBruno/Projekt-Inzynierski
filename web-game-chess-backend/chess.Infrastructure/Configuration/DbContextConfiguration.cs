@@ -290,7 +290,7 @@ public class DbContextConfiguration :
         builder
             .HasOne(fs => fs.Friendship)
             .WithOne(f => f.Stats)
-            .HasForeignKey<FriendshipStats>(fs => fs.FreindshipId);
+            .HasForeignKey<FriendshipStats>(fs => fs.FriendshipId);
     }
 
     private static IEnumerable<Role> GetRoles() {

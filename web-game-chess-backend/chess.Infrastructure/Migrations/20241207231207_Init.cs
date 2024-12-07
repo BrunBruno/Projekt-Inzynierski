@@ -365,14 +365,14 @@ namespace chess.Infrastructure.Migrations
                     RequestorWins = table.Column<int>(type: "integer", nullable: false),
                     RequestorLoses = table.Column<int>(type: "integer", nullable: false),
                     RequestorDraws = table.Column<int>(type: "integer", nullable: false),
-                    FreindshipId = table.Column<Guid>(type: "uuid", nullable: false)
+                    FriendshipId = table.Column<Guid>(type: "uuid", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_FriendshipStats", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_FriendshipStats_Friendships_FreindshipId",
-                        column: x => x.FreindshipId,
+                        name: "FK_FriendshipStats_Friendships_FriendshipId",
+                        column: x => x.FriendshipId,
                         principalTable: "Friendships",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -676,9 +676,9 @@ namespace chess.Infrastructure.Migrations
                 column: "RequestorId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_FriendshipStats_FreindshipId",
+                name: "IX_FriendshipStats_FriendshipId",
                 table: "FriendshipStats",
-                column: "FreindshipId",
+                column: "FriendshipId",
                 unique: true);
 
             migrationBuilder.CreateIndex(

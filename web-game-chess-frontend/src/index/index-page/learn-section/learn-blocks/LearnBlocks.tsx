@@ -9,9 +9,6 @@ import { defaultPiecesImages } from "../../../../shared/svgs/iconsMap/DefaultPie
 import { symbolIcons } from "../../../../shared/svgs/iconsMap/SymbolIcons";
 import { BlackPieceTag, PieceTag, WhitePieceTag } from "../../../../shared/utils/objects/constantLists";
 import { getPieceSideColor } from "../../../../shared/utils/objects/piecesNameMaps";
-import { piecesIconsVariantA } from "../../../../shared/svgs/iconsMap/PiecesIconsVariantA";
-import { piecesIconsVariantB } from "../../../../shared/svgs/iconsMap/PiecesIconsVariantB";
-import { piecesIconsVariantC } from "../../../../shared/svgs/iconsMap/PiecesIconsVariantC";
 
 // row block components
 interface SectionBlock {

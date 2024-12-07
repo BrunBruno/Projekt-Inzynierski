@@ -40,6 +40,7 @@ public class WebGameRepository : IWebGameRepository {
                     .Where(wg => wg.CreatedAt.Date == DateTime.UtcNow.Date)
                     .ToListAsync();
 
+    ///<inheritdoc/>
     public async Task<List<WebGame>> GetAllForFriendship(Guid requestorId, Guid receiverId)
         => await _dbContext.WebGames
                     .Include(wg => wg.WhitePlayer)

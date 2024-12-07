@@ -254,7 +254,7 @@ namespace chess.Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<Guid>("FreindshipId")
+                    b.Property<Guid>("FriendshipId")
                         .HasColumnType("uuid");
 
                     b.Property<int>("RequestorDraws")
@@ -268,7 +268,7 @@ namespace chess.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("FreindshipId")
+                    b.HasIndex("FriendshipId")
                         .IsUnique();
 
                     b.ToTable("FriendshipStats");
@@ -1045,7 +1045,7 @@ namespace chess.Infrastructure.Migrations
                 {
                     b.HasOne("chess.Core.Entities.Friendship", "Friendship")
                         .WithOne("Stats")
-                        .HasForeignKey("chess.Core.Entities.FriendshipStats", "FreindshipId")
+                        .HasForeignKey("chess.Core.Entities.FriendshipStats", "FriendshipId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

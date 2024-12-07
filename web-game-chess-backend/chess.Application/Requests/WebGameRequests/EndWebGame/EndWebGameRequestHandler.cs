@@ -325,11 +325,11 @@ public class EndWebGameRequestHandler : IRequestHandler<EndWebGameRequest> {
                 break;
 
             case GameEndReason.Threefold:
-                endMessages[1].Content = $"Game drawn by repetion.";
+                endMessages[1].Content = $"Game drawn by repetition.";
                 break;
 
             case GameEndReason.InsufficientMaterial:
-                endMessages[1].Content = $"Game drawn by insufficient meterial.";
+                endMessages[1].Content = $"Game drawn by insufficient material.";
                 break;
         }
 

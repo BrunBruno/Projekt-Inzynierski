@@ -70,7 +70,7 @@ export const playMoveSound = (captureHappened: boolean, checkHappened: boolean):
     ? new Audio("/sounds/capture.mp3")
     : new Audio("/sounds/move.mp3");
 
-  // todo
+  // tododo
   // if (selectedTarget.style.transform === "none") {
   sound.play().catch((error) => {
     console.error(error);

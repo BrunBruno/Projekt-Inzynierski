@@ -12,7 +12,7 @@ import { greyColor, mainColor } from "../../../shared/utils/objects/colorMaps";
 import { timingTypeIcons } from "../../../shared/svgs/iconsMap/TimingTypeIcons";
 import { Guid } from "guid-typescript";
 import { GetFriendProfileDto } from "../../../shared/utils/types/friendshipDtos";
-import { friendSectionIcons } from "./FreindSectionIcons";
+import { friendSectionIcons } from "./FriendSectionIcons";
 
 type FriendSectionProps = {
   // friendship id

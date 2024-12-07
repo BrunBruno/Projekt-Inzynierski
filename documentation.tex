@@ -51,15 +51,15 @@
 
 
 \begin{minipage}[t]{0.3\textwidth}
-\begin{center}
-\normalsize{\textbf{Kierujący projektem:}\\dr inż. Zdzisław Sroczyński}
-\end{center}
+    \begin{center}
+    \normalsize{\textbf{Kierujący projektem:}\\dr inż. Zdzisław Sroczyński}
+    \end{center}
 \end{minipage}
 \hfill
 \begin{minipage}[t]{0.3\textwidth}
-\begin{center}
-\normalsize{\textbf{Autor:}\\Bruno Masłoń}
-\end{center}
+    \begin{center}
+    \normalsize{\textbf{Autor:}\\Bruno Masłoń}
+    \end{center}
 \end{minipage}
 
 \vfill
@@ -1049,6 +1049,378 @@ Termin ten kładzie nacisk na podział aplikacji na modułowe części wielokrot
 
 \newpage
 \section{Instrukcja obsługi}
+
+\subsection{Strona startowa}
+Strona tytułowa aplikacji do gry w szachy została zaprojektowana jako intuicyjny i funkcjonalny punkt startowy dla użytkowników. Umieszczono na niej wszystkie kluczowe elementy, które pozwalają na łatwe rozpoczęcie korzystania z platformy. W górnej części strony znajdują się przyciski umożliwiające logowanie oraz rejestrację, co pozwala zarówno nowym użytkownikom, jak i tym posiadającym konto na szybki dostęp do zasobów aplikacji.
+\\\\
+Centralna część strony prezentuje krótki opis funkcjonalności aplikacji. Zwrócono uwagę na najważniejsze elementy, takie jak możliwość gry online z innymi użytkownikami, rozbudowane narzędzia treningowe, tryb rozwiązywania łamigłówek szachowych oraz funkcje organizowania i uczestnictwa w turniejach. Wszystko to ma na celu wprowadzenie użytkownika w możliwości, jakie oferuje aplikacja, oraz zachęcenie do eksplorowania dostępnych funkcji.
+\\\\
+Na stronie znajduje się również sekcja umożliwiająca przejście do bardziej szczegółowego opisu zawartości aplikacji. Dzięki niej można zapoznać się z opisem poszczególnych funkcji oraz dowiedzieć się więcej o opcjach gry i trybach nauki. Dodatkowo zamieszczono odnośnik do działu FAQ, w którym zebrano odpowiedzi na najczęściej zadawane pytania, ułatwiając użytkownikom szybkie rozwiązanie ewentualnych wątpliwości.
+\\\\
+Całość zaprojektowano w sposób przejrzysty i estetyczny, aby zapewnić pozytywne pierwsze wrażenie oraz łatwość w poruszaniu się po stronie. Strona tytułowa pełni rolę wizytówki aplikacji, jednocześnie oferując dostęp do najważniejszych zasobów i funkcji.
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=1\textwidth]{zdj/ins_hero.png}
+    \caption{Widok strony startowej.}
+\end{figure}
+
+\newpage
+\subsection{Strona rejestracji}
+Strona rejestracji w aplikacji łączy w sobie wszystkie kluczowe funkcje niezbędne do zarządzania kontem użytkownika. Pozwala na założenie nowego profilu, zalogowanie się na istniejące konto, odzyskanie dostępu w przypadku utraty hasła oraz potwierdzenie adresu e-mail jako element weryfikacji konta. Wszystkie te opcje zostały zaprojektowane w sposób intuicyjny i łatwy w obsłudze, aby zapewnić jak najlepsze doświadczenie użytkownika.
+\\\\
+Proces rejestracji umożliwia szybkie i bezproblemowe utworzenie konta. Po podaniu podstawowych danych, takich jak adres e-mail, nawa użytkownika oraz hasło, użytkownik otrzymuje wiadomość e-mail z linkiem aktywacyjnym, który potwierdza poprawność podanych informacji i zabezpiecza konto przed nieautoryzowanym dostępem. Logowanie do istniejącego konta odbywa się poprzez wprowadzenie e-maila lub nazwy uzytkownika i hasła.
+\\\\
+W przypadku zapomnianego hasła, strona oferuje funkcję jego odzyskania. Po podaniu adresu e-mail użytkownik otrzymuje szczegółowe instrukcje dotyczące resetowania hasła, co pozwala w bezpieczny sposób odzyskać dostęp do konta. Proces jest prosty i zabezpieczony dodatkowymi krokami weryfikacyjnymi.
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=1\textwidth]{zdj/ins_reg.png}
+    \caption{Widok strony startowej.}
+\end{figure}
+
+Strona rejestracji jest zaprojektowana z myślą o czytelności i łatwości obsługi, dzięki czemu użytkownicy mogą bez przeszkód korzystać z jej funkcji niezależnie od poziomu zaawansowania. Wszystkie kroki są jasno opisane, a interfejs dostosowano do potrzeb zarówno nowych, jak i stałych użytkowników aplikacji.
+
+\newpage
+\subsection{Weryfikacja konta}
+
+\begin{minipage}[t]{0.45\textwidth} 
+    \vspace{0pt} 
+    \raggedright Weryfikacja konta to jeden z kluczowych etapów rejestracji, mający na celu zapewnienie bezpieczeństwa danych użytkowników oraz ochronę przed nieuprawnionym dostępem. Po zakończeniu procesu rejestracji aplikacja automatycznie generuje wiadomość e-mail, która zawiera wszystkie informacje niezbędne do ukończenia weryfikacji. System weryfikacyjny nie tylko wspiera proces zakładania konta, ale również jest wykorzystywany przy odzyskiwaniu hasła, co zapewnia spójność działania i zwiększa bezpieczeństwo użytkowników. 
+\end{minipage} 
+\hfill 
+\begin{minipage}[t]{0.45\textwidth} 
+    \vspace{0pt} 
+    \centering 
+    \includegraphics[width=\linewidth]{zdj/ins_min_ver.png} 
+\end{minipage}
+
+\vspace{1cm}
+
+\begin{minipage}[t]{0.45\textwidth} 
+    \vspace{0pt} 
+    \centering 
+    \includegraphics[width=\linewidth]{zdj/ins_min_mail.png} 
+\end{minipage} 
+\hfill 
+\begin{minipage}[t]{0.45\textwidth} 
+    \vspace{0pt} 
+    \raggedright Wiadomość e-mail, zatytułowana "Hello from BRN Chess", zawiera przyjazne powitanie, a także unikalny kod weryfikacyjny przypisany do konkretnego konta użytkownika. Treść e-maila została zaprojektowana tak, aby była czytelna i estetyczna, co pozwala na szybkie odnalezienie wymaganych informacji. Kod weryfikacyjny, przedstawiony w formie wyróżnionego tekstu, należy skopiować i wkleić w dedykowane pole tekstowe w oknie weryfikacji w aplikacji. Po wprowadzeniu kodu i jego zatwierdzeniu konto zostaje w pełni aktywowane, a użytkownik może rozpocząć korzystanie z platformy. 
+\end{minipage}
+
+\vspace{1cm}
+
+Cały proces został opracowany z myślą o wygodzie użytkownika. Okno weryfikacyjne w aplikacji jest intuicyjne, zawiera czytelne instrukcje oraz widoczne przyciski umożliwiające wprowadzenie kodu. Dodatkowo w przypadku problemów, takich jak brak dostarczenia wiadomości e-mail, aplikacja oferuje możliwość ponownego wysłania kodu weryfikacyjnego za pomocą jednego kliknięcia.
+\\\\
+Weryfikacja konta to proces szybki i bezproblemowy, a dzięki jasnym instrukcjom użytkownicy mogą sprawnie zakończyć konfigurację swojego konta i skupić się na odkrywaniu możliwości aplikacji.
+
+\newpage
+\subsection{Strona główna}
+Strona główna aplikacji szachowej została zaprojektowana z myślą o intuicyjnej nawigacji i szybkim dostępie do kluczowych funkcji, aby zapewnić użytkownikom wygodę i efektywność. Po prawej stronie ekranu znajduje się pasek nawigacji, który umożliwia łatwe przechodzenie między różnymi stronami aplikacji, zapewniając dostęp do wszystkich istotnych sekcji. Pasek został umieszczony w widocznym miejscu, dzięki czemu poruszanie się po aplikacji jest szybkie i płynne.
+\\\\
+Obok paska nawigacji umieszczono główne przyciski, które prowadzą do najważniejszych funkcji aplikacji. Każdy z nich odpowiada za inną czynność:
+\begin{itemize}
+    \item \textbf{Gra online:} umożliwia rozpoczęcie partii z innym graczem przez internet.
+    \item \textbf{Gra z komputerem:} pozwala zmierzyć się z silnikiem szachowym.
+    \item \textbf{Gra ze znajomymi:} umożliwia zapraszanie znajomych do wspólnej gry.
+    \item \textbf{Wgląd w gry użytkownika:} pokazujące zakończone jak i wciąż trwające partie.
+    \item \textbf{Zaproszenia do gier:} wyświetla listę otrzymanych zaproszeń do rozgrywek.
+\end{itemize}
+
+Pozostałą przestrzeń zajmują okna szybkiego dostępu, takie jak podgląd konta użytkownika, szybka gra online z wyborem trzech trybów czasowych (1 min, 3 min, 10 min), a także widok trzech ostatnich zakończonych i trzech aktywnych gier. Całość jest intuicyjna, zapewniając wygodne korzystanie z aplikacji.
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=1\textwidth]{zdj/ins_main.png}
+    \caption{Widok strony głównej.}
+\end{figure}
+
+\newpage
+\subsection{Gra online}
+Po kliknięciu na przycisk gry online, użytkownik zostaje przeniesiony do okna, które pozwala na wybór odpowiedniego trybu kontroli czasowej dla gry. W zależności od preferencji, dostępne są różne opcje czasowe, zgrupowane w kategorie, takie jak bullet, blitz, rapid, classic oraz daily.
+\\\\
+W sekcji bullet użytkownik ma do wyboru bardzo szybkie tryby, takie jak 1 minuta bez dodatkowego czasu (1min), z dodatkowymi sekundami (1m|1s), lub 2 minuty z opcją 1 sekundy dodatkowego czasu (2m|1s). Dla blitz oferowane są opcje 3 minuty, 3 minuty z 5 sekundami dodatkowego czasu, 5 minut, oraz 5 minut z 10 sekundami dodatkowymi. W przypadku rapid dostępne są opcje 10 minut, 15 minut oraz 30 minut. Tryby classic pozwalają na bardzo długie partie z czasem od 1 godziny do 5 godzin, w zależności od preferencji gracza. Ostatnia kategoria, daily, oferuje najbardziej rozciągnięte w czasie partie, gdzie każdy gracz ma od 1 do 30 dni na rozegranie partii.
+\\\\
+Po dokonaniu wyboru jednego z powyższych trybów, ekran zmienia się na widok wyszukiwania przeciwnika. W tym momencie system zaczyna szukać dostępnego gracza o podobnym czasie reakcji, aby rozpocząć rozgrywkę. Użytkownik może na bieżąco śledzić postęp tego procesu, a po znalezieniu przeciwnika następuje połączenie i rozpoczęcie gry.
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=1\textwidth]{zdj/ins_min_pvp.png}
+    \caption{Widok wyboru gry online.}
+\end{figure}
+
+\newpage
+\subsection{Gra offline}
+Po kliknięciu na przycisk "Gra z komputerem", użytkownik zostaje poproszony o wybór poziomu trudności silnika. Istnieje 20 poziomów, które symbolicznie podzielono na cztery kategorie: standard, intermediate, advanced oraz master. Należy jednak podkreślić, że podział ten ma charakter jedynie orientacyjny i nie wpływa w żaden sposób na faktyczny sposób działania silnika. Jest to tylko sposób ułatwiający użytkownikowi poruszanie się po dostępnych opcjach, a wybór konkretnego poziomu zależy od indywidualnych preferencji gracza.
+\\\\
+Po dokonaniu wyboru poziomu silnika gra uruchamia się natychmiastowo, a użytkownik może zacząć rywalizować z komputerowym przeciwnikiem. Warto dodać, że w przypadku gry z komputerem nie ma zastosowanej kontroli czasowej, co oznacza, że gracz może spokojnie analizować ruchy bez presji czasu.
+\\\\
+Dodatkowo, podczas gry z komputerem istnieje opcja oszukiwania, czyli możliwość cofania ruchów lub zmiany poziomu silnika w trakcie rozgrywki. Ta funkcja daje graczowi elastyczność i pozwala na dostosowanie poziomu trudności w trakcie gry, jeśli uzna to za konieczne. Opcja ta jest jednak dostępna tylko w tej formie w grze z komputerem. Użytkownik może także zmienić preferencje dotyczące oszukiwania, a także inne ustawienia, na stronie swojego profilu, którą opisujemy w dalszej części instrukcji.
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=1\textwidth]{zdj/ins_min_pvc.png}
+    \caption{Widok wyboru gry offline.}
+\end{figure}
+
+\newpage
+\subsection{Gra ze znajomymi}
+Po kliknięciu na przycisk „Gra ze znajomymi”, użytkownik zostaje przeniesiony do okna, gdzie po lewej stronie znajduje się opcje zapraszania do gry, a po prawej widoczna jest lista wszystkich znajomych, którzy mają konto w aplikacji. Po kliknięciu na kartę znajomego użytkownik zostaje przekierowany do ekranu wyboru czasu gry, podobnie jak w przypadku gry online z losowym przeciwnikiem, gdzie wybiera się jedną z dostępnych opcji czasowych. Po dokonaniu wyboru czasu, gra natychmiast przechodzi do strony oczekiwania na dołączenie drugiego gracza, użytkownik będzie czekał, aż zaproszona osoba zaakceptuje zaproszenie i dołączy do gry.
+\\\\
+
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=1\textwidth]{zdj/ins_min_pvf.png}
+    \caption{Widok wyboru gry ze znajomym.}
+\end{figure}
+
+\newpage
+
+Po prawej stronie ekranu znajdują się trzy główne opcje umożliwiające zapraszanie do gry. Pierwsza z nich pozwala na filtrowanie znajomych po nazwie użytkownika. Dzięki temu, w przypadku długiej listy znajomych, łatwiej można znaleźć konkretnego gracza. Druga opcja to bezpośrednie zaproszenie przez e-mail. Po podaniu prawidłowego adresu e-mail użytkownik zostaje przekierowany do wyboru czasu gry, tak jak ma to miejsce w przypadku zapraszania znajomego z listy. Jeśli jednak wprowadzony adres e-mail jest niepoprawny lub nie istnieje w systemie, aplikacja wyświetli komunikat informujący, że taki użytkownik nie istnieje. Dzięki tej funkcji użytkownicy mogą zapraszać do gry nie tylko swoich znajomych, ale także osoby spoza listy znajomych, wystarczy, że podadzą poprawny adres e-mail. Jeśli podany adres jest prawidłowy i istnieje w systemie, zaproszenie zostaje wysłane, a użytkownik zostaje przekierowany do wyboru czasu gry.
+\\\\
+Trzecia opcja, „Gra za pomocą wygenerowanego linka”, pozwala na zaproszenie do gry gracza, który nie jest bezpośrednio na liście znajomych. Po dokonaniu wyboru kontroli czasowej, wyświetla się zmodyfikowane okno oczekiwania, w którym pojawi się unikalny link. Link ten jest kluczowy dla całej procedury – to za jego pomocą zapraszający gracz będzie mógł zaprosić innego użytkownika do dołączenia do gry. W celu rozpoczęcia gry, zapraszający użytkownik musi skopiować wygenerowany link i wysłać go znajomemu za pomocą dowolnego komunikatora, na przykład e-maila, messengera lub innej aplikacji. Po kliknięciu w link przez zaproszonego gracza, następuje przekierowanie na specjalną stronę, która automatycznie dołączy tego gracza do gry. Kiedy obaj gracze wejdą na tę stronę, będą przekierowani do samej gry, gdzie rozgrywka się rozpocznie. Jeśli jednak zapraszający kliknie w link, aby dołączyć do gry, otrzyma komunikat o błędzie, ponieważ nie może dołączyć do własnej gry. System wyświetli informację, że musi to być inny gracz, który kliknie w link, aby rozpocząć rozgrywkę. Dzięki temu proces zapraszania i dołączania do gry jest prosty, a użytkownik zapraszający ma pełną kontrolę nad wysłaniem linku do odpowiedniej osoby.
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=1\textwidth]{zdj/ins_min_link.png}
+    \caption{Widok rozpoczynania gry przez link.}
+\end{figure}
+
+\newpage
+\subsection{Gry użytkownika}
+Po kliknięciu na przyciski wyświetlające gry, użytkownik zostaje przeniesiony do sekcji, w której pojawiają się karty gier. W zależności od wybranego przycisku, wyświetlane są gry w różnych stanach. W sekcji „Wciąż aktywne gry” znajdują się partie, które są w trakcie rozgrywki. Jest to szczególnie użyteczne przy długich czasach gry, gdyż gracze mogą wrócić do nierozgrywanych jeszcze partii, kontynuując je w dowolnym momencie. Sekcja „Zakończone gry” pozwala na przeglądanie gier, które już się zakończyły. Użytkownicy mogą sprawdzić, jak przebiegały rozgrywki, jakie strategie były stosowane i jakie były wyniki. Sekcja „Gry z komputerem” oferuje podobną funkcjonalność, umożliwiając przegląd zakończonych gier przeciwko komputerowemu przeciwnikowi. Dzięki temu gracze mogą łatwo wrócić do swoich partii, analizować je i śledzić postępy w grze. Aby powrocic do gry, użytkownik musi zwyczajnie kliknąć w wybraną kartę.
+\\\\
+Dodatkowo, we wszystkich tych sekcjach istnieją filtry, które umożliwiają łatwiejsze sortowanie gier. Gracze mogą filtrować partie po różnych kryteriach, takich jak rodzaj kontroli czasowej, co pozwala szybko znaleźć gry o określonym czasie, czy wynik gry, umożliwiając sortowanie na podstawie zwycięstw, porażek lub remisów. Filtry te ułatwiają przeglądanie dużej liczby gier, pomagając użytkownikom szybko odnaleźć interesujące ich rozgrywki i dostosować widok do swoich potrzeb.
+
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=1\textwidth]{zdj/ins_min_games.png}
+    \caption{Widok gier użytkownika.}
+\end{figure}
+
+\newpage
+\subsection{Zaproszenia}
+Ostatnia sekcja na głównej stronie to zaproszenia, gdzie użytkownik ma wgląd we wszystkie aktywne zaproszenia do gry. Zaproszenia te mają określony czas ważności – wygasają po 15 minutach, po czym przestają być widoczne. Dzięki temu użytkownicy mają tylko ograniczony czas na przyjęcie zaproszenia, co wprowadza element dynamiki i pilności w interakcje z innymi graczami.
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=1\textwidth]{zdj/ins_min_inv_card.png}
+    \caption{Widok zaproszeń do gry.}
+\end{figure}
+
+Dodatkowo, w przypadku gdy użytkownik jest aktywny na stronie, pojawia się specjalnie dedykowane okno popup. Jeśli użytkownik otrzyma zaproszenie do gry, komunikat wyświetli się automatycznie, informując o tym fakcie. W popupie znajdują się również opcje akceptacji lub odrzucenia zaproszenia, co umożliwia szybkie podjęcie decyzji o dołączeniu do gry lub jej odrzuceniu. Dzięki tej funkcji użytkownicy są na bieżąco informowani o zaproszeniach, co ułatwia interakcję i organizowanie rozgrywek. Użytkownik także może użyć filtrów, aby wyświetli już nieaktywne zaproszenia.
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.7\textwidth]{zdj/ins_min_inv_popup.png}
+    \caption{Wyskakujące okienko otrzymanego zaproszenia.}
+\end{figure}
+
+\newpage
+\subsection{Strona gry}
+Na stronie gry, w centralnej części, znajduje się szachownica, która stanowi główny element interfejsu. To tutaj odbywa się sama rozgrywka, a użytkownicy wykonują swoje ruchy. Po obu stronach szachownicy znajdują się panele, które oferują dodatkowe opcje i funkcjonalności, zapewniając pełniejszą kontrolę nad grą i umożliwiając dostęp do różnych narzędzi pomocniczych.
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.9\textwidth]{zdj/ins_webgame.png}
+    \caption{Strona gry online.}
+\end{figure}
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.9\textwidth]{zdj/ins_simpgame.png}
+    \caption{Uproszony widok gry.}
+\end{figure}
+
+\newpage
+
+W centralnej części ekranu znajduje się szachownica, której wygląd może być spersonalizowany przez użytkownika w ustawieniach. Po bokach planszy wyświetlane są koordynaty pól (oznaczone literami i cyframi), które pomagają w orientacji na szachownicy. Gracze mogą wybierać i wykonywać ruchy zarówno poprzez kliknięcia, jak i metodę drag and drop, przeciągając figury na odpowiednie pola. Po wykonaniu ruchu przez przeciwnika, odpowiednie pole zostaje podświetlone, co ułatwia śledzenie zmian na planszy. W przypadku zbicia figury, na polu, na którym nastąpiło zbicie, pojawia się mała przekreślona ikona, sygnalizująca utratę figury. Gdy król znajduje się w szachu, jego figura zostaje podświetlona na czerwono, co wskazuje na zagrożenie i konieczność podjęcia działań w celu ochrony króla.
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.9\textwidth]{zdj/ins_min_board.png}
+    \caption{Szachownica}
+\end{figure}
+
+\newpage
+
+
+\begin{minipage}[t]{0.45\textwidth} 
+    \vspace{0pt} 
+    \raggedright 
+    Na prawym pasku widnieje informacja o graczach. Pokazuje ich aktualną punktację ELO oraz przewagę materialną w grze, przeliczoną na figury. Dodatkow zaraz poniżej znajduję się czas jaki pozostał każdemu z graczy, istniejący tylko w grach online (nie istnieje podczas gier z silnikiem).
+\end{minipage} 
+\hfill 
+\begin{minipage}[t]{0.45\textwidth} 
+    \vspace{0pt} 
+    \centering 
+    \includegraphics[width=\linewidth]{zdj/ins_min_players.png} 
+\end{minipage}
+
+\vspace{1cm}
+
+\begin{minipage}[t]{0.45\textwidth} 
+    \vspace{0pt} 
+    \centering 
+    \includegraphics[width=\linewidth]{zdj/ins_min_moves.png} 
+\end{minipage} 
+\hfill 
+\begin{minipage}[t]{0.45\textwidth} 
+    \vspace{0pt} 
+    \raggedright 
+    Kolejna funkcjonalność to menu ruchów, które zostały wykonane. Każdy ruch jest pokazany z ikoną figury, która została użyta, notacją FEN opisującą ruch oraz przybliżonym czasem wykonania ruchu. Na dole menu znajdują się strzałki umożliwiające przewijanie i cofanie, co pozwala na szybki podgląd poprzednich pozycji i śledzenie przebiegu partii. Dodatkowo, najeżdżając na konkretny ruch, wyświetla się wizualizacja pozycji po wykonaniu tego ruchu. Po zakończeniu partii pojawia się przycisk umożliwiający animację całej gry, pozwalając na jej odtworzenie od początku do końca.
+\end{minipage}
+
+\vspace{1cm}
+
+\begin{minipage}[t]{0.45\textwidth} 
+    \vspace{0pt} 
+    \raggedright 
+    Ostatnia funkcjonalność na prawym pasku to menu wiadomości. Wyświetlane są tam wiadomości wysłane przez użytkowników, jak również automatyczne powiadomienia, takie jak informacje o rozpoczęciu/zakończeniu gry czy oferta remisu. Na dole menu znajduje się pole do wysyłania własnych wiadomości, co umożliwia graczom łatwą komunikację z innymi uczestnikami gry. W przypadku gry z silnikiem wysłanie wiadomosci jest zablokowane, a wyswietlane sa tylko wiadomosci systemowe.
+\end{minipage} 
+\hfill 
+\begin{minipage}[t]{0.45\textwidth} 
+    \vspace{0pt} 
+    \centering 
+    \includegraphics[width=\linewidth]{zdj/ins_min_mess.png} 
+\end{minipage}
+
+\newpage
+
+\begin{minipage}[t]{0.2\textwidth} 
+    \vspace{0pt} 
+    \centering 
+    \includegraphics[width=\linewidth]{zdj/ins_min_wopt.png} 
+\end{minipage} 
+\hfill 
+\begin{minipage}[t]{0.7\textwidth} 
+    \vspace{0pt} 
+    \raggedright 
+    Na lewym panelu w przypadku gry online dostępne są opcje zarządzania rozgrywką. Pierwsza z nich to opcja opuszczenia gry, która działa różnie w zależności od długości partii. Dla gier krótkich oznacza to remis, jeśli gra dopiero się rozpoczęła, lub poddanie się, jeśli gra trwa już dłużej. W przypadku gier długich, opuszczenie gry oznacza po prostu wyjście z partii. Kolejna opcja to poddanie się, które kończy grę i uznaje przeciwnika za zwycięzcę. Można również zaproponować remis, co skutkuje wysłaniem oferty do drugiego gracza, który może ją zaakceptować lub odrzucić. Dodatkowo, istnieje opcja blokowania użytkownika, co uniemożliwia wysyłanie wiadomości oraz dodanie takiej osoby do znajomych. Istnieje również możliwość zgłoszenia podejrzenia oszukiwania, co daje użytkownikom narzędzie do zgłaszania nieuczciwych praktyk. Na koniec, dostępne jest ustawienie wyglądu strony gry, w tym zmiana wyglądu szachownicy oraz figur, co pozwala na dostosowanie interfejsu do własnych preferencji.
+\end{minipage}
+
+\vspace{1cm}
+
+\begin{minipage}[t]{0.7\textwidth} 
+    \vspace{0pt} 
+    \raggedright 
+    W przypadku gry z silnikiem, lewy panel zawiera nieco inne opcje dostosowane do tego trybu gry. Pierwsza opcja to wyjście z gry, która kończy rozgrywkę. Można również zrestartować grę, co rozpoczyna ją od nowa. Dodatkowo dostępna jest opcja poddania się, kończąca partię na korzyść silnika. Istnieje także możliwość cofnięcia ruchu, ale jest to dostępne tylko wtedy, gdy opcja oszukiwania jest włączona w ustawieniach. Kolejną opcją jest zmiana poziomu silnika, która pozwala na dostosowanie trudności rozgrywki, jednak ta funkcja jest także dostępna tylko przy włączonej opcji oszukiwania. Na koniec, jak w przypadku gry online, dostępna jest opcja zmiany ustawień wyglądu strony gry, w tym szachownicy oraz figur, co pozwala na personalizację wizualną rozgrywki.
+\end{minipage} 
+\hfill 
+\begin{minipage}[t]{0.2\textwidth} 
+    \vspace{0pt} 
+    \centering 
+    \includegraphics[width=\linewidth]{zdj/ins_min_eopt.png} 
+\end{minipage}
+
+\vspace{1cm}
+
+\begin{minipage}[t]{0.2\textwidth} 
+    \vspace{0pt} 
+    \centering 
+    \includegraphics[width=\linewidth]{zdj/ins_min_capt.png} 
+\end{minipage} 
+\hfill 
+\begin{minipage}[t]{0.7\textwidth} 
+    \vspace{0pt} 
+    \raggedright 
+    Ostatnią opcją na lewym panelu jest wyświetlanie zbitych figur. W tej sekcji widoczne są wszystkie figury, które zostały już zbite przez graczy, a obok każdej figury wyświetlana jest liczba, ile ich pozostało. Dzięki temu użytkownicy mogą śledzić, jak przebiega gra pod względem materiału, co pomaga w ocenie pozycji na szachownicy.
+\end{minipage}
+
+\newpage
+Dodatkowo na planszy szachowej pojawiają się wyskakujące okna, które aktywują się po wybraniu odpowiednich opcji przez użytkownika. Takie okna zwykle służą do potwierdzenia wykonania konkretnej akcji, na przykład w przypadku chęci poddania się, opuszczenia gry czy zmiany ustawień. Wyskakujące okno zawiera pytanie, czy użytkownik na pewno chce wykonać daną czynność, a także opcje potwierdzenia lub anulowania decyzji. Dzięki temu gracze mają pewność, że nie dokonają niezamierzonych zmian czy działań.
+
+\begin{minipage}[t]{0.45\textwidth} 
+    \vspace{0pt} 
+    \centering 
+    Okno promocji pionka pojawia się, gdy pionek dotrze do ostatniej linii. Użytkownik wybiera jedną z czterech opcji: damę, wieżę, skoczka lub gońca, a pionek zostaje zamieniony na wybraną figurę.
+\end{minipage} 
+\hfill 
+\begin{minipage}[t]{0.45\textwidth} 
+    \vspace{0pt} 
+    \centering 
+    \includegraphics[width=\linewidth]{zdj/ins_min_prom.png} 
+\end{minipage}
+
+\vspace{1cm}
+
+\begin{minipage}[t]{0.45\textwidth} 
+    \vspace{0pt} 
+    \centering 
+    \includegraphics[width=\linewidth]{zdj/ins_min_prev.png} 
+\end{minipage} 
+\hfill 
+\begin{minipage}[t]{0.45\textwidth} 
+    \vspace{40pt}
+    \centering 
+    Pokazywanie poprzednich ruchów odbywa się po najechaniu myszką na menu z poprzednimi ruchami. Po wybraniu ruchu, na szachownicy pojawia się pomniejsza, przyciemniona plansza, która pokazuje wcześniejszą pozycję. Ta zmiana jest tylko wizualna, nie można nic zrobić na tej pomniejszonej planszy, służy ona jedynie do pokazania poprzedniego stanu gry.
+\end{minipage}
+
+
+\vspace{1cm}
+
+\begin{minipage}[t]{0.45\textwidth} 
+    \vspace{0pt} 
+    \centering 
+    Innym wyskakującym oknem jest okno, które pojawia się po zakończeniu gry, niezależnie od wyniku — wygranej, przegranej lub remisie. Na tym oknie wyświetlany jest rezultat gry, czyli informacja, kto wygrał, jaki był powód zakończenia gry oraz punkty zdobyte lub stracone przez graczy. Na dole okna znajdują się przyciski umożliwiające przejście do wyjścia z gry, rozpoczęcia nowej partii lub rozegrania rewanżu, przy czym będą one odbywać z dotychczasową kontrolą czasową. W przypadku gier z silnikiem dostępne są jedynie opcje restartu gry lub wyjścia z gry.
+\end{minipage} 
+\hfill 
+\begin{minipage}[t]{0.45\textwidth} 
+    \vspace{0pt} 
+    \centering 
+    \includegraphics[width=\linewidth]{zdj/ins_min_win.png} 
+\end{minipage}
+
+\newpage
+\subsection{Strona profilu}
+Strona profilu użytkownika zapewnia pełną kontrolę nad ustawieniami konta oraz personalizacją preferencji. Użytkownik ma możliwość edytowania swojego profilu, w tym zmiany danych osobowych, zdjęcia profilowego oraz innych informacji. Na stronie dostępne są szczegółowe statystyki gier, w tym wykresy punktacji dla różnych kategorii czasowych, które pozwalają na analizowanie postępów i wyników w różnych wariantach gier. Użytkownik może również przeglądać listę swoich znajomych, zapraszać ich do gry oraz oglądać ich profile.
+\\\\
+Dodatkowo, użytkownik ma możliwość edytowania ustawień konta, w tym zmiany hasła oraz zarządzania ustawieniami prywatności, takimi jak widoczność profilu. Można również dostosować wygląd strony gry, zmieniając szachownicę, pionki oraz inne elementy wizualne. Istnieje opcja włączenia funkcji oszukiwania podczas gry z silnikiem, co pozwala na cofanie ruchów lub zmianę poziomu trudności. Ponadto, użytkownik może zarządzać globalnymi ustawieniami aplikacji, takimi jak język czy powiadomienia. Strona profilu jest centralnym miejscem, w którym użytkownik może zarządzać wszystkimi aspektami swojego konta i dostosować aplikację do swoich potrzeb.
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=1\textwidth]{zdj/ins_account.png}
+    \caption{Strona profilu użytkownika.}
+\end{figure}
+
+\newpage
+\subsection{Strona zarządzania znajomymi}
+Strona użytkowników służy do zarządzania znajomymi i relacjami z innymi graczami w aplikacji. Jest podzielona na cztery główne sekcje, które pomagają w organizowaniu kontaktów.
+
+\begin{itemize}
+    \item \textbf{Wszyscy użytkownicy} – zawiera listę wszystkich graczy dostępnych w aplikacji. Z tej sekcji użytkownicy mogą zapraszać innych do znajomych oraz podglądać ich mini profile.
+    
+    \item \textbf{Twoi znajomi} – znajdują się tutaj osoby, które zostały już dodane do listy znajomych. Można stąd zapraszać znajomych do gry lub przejść do pełnego profilu danego użytkownika.
+    
+    \item \textbf{Oczekujące zaproszenia} – sekcja zawiera zaproszenia, które zostały wysłane, ale jeszcze nie zostały zaakceptowane przez drugą stronę. Użytkownicy mogą tu zobaczyć zarówno wysłane zaproszenia, jak i te, które czekają na odpowiedź.
+    
+    \item \textbf{Odrzucone zaproszenia} – lista osób, które odrzuciły zaproszenia do znajomych. Użytkownicy mają możliwość ponownego wysłania zaproszenia do tych osób, jeżeli zechcą.
+\end{itemize}
+
+Cała strona umożliwia łatwe zarządzanie znajomymi, zaproszeniami i relacjami z innymi graczami, co pozwala na lepszą organizację kontaktów w aplikacji.
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=1\textwidth]{zdj/ins_users.png}
+    \caption{Strona zarządzania znajomymi.}
+\end{figure}
+
+\newpage
+
+\subsection{Strona rankingu}
+Strona rankingu pozwala użytkownikom na sprawdzenie ich pozycji w hierarchii graczy aplikacji. Gracze mogą wybierać między dwoma głównymi opcjami: globalnym rankingiem, który obejmuje wszystkich zarejestrowanych użytkowników aplikacji, oraz rankingiem wśród znajomych, który ogranicza wyświetlane wyniki do osób dodanych do listy znajomych.
+\\\\
+Dodatkowo rankingi są podzielone na pięć kategorii, zależnie od typu kontroli czasowej: bullet, blitz, rapid, classic oraz daily. Dzięki temu gracze mają możliwość sprawdzenia swoich wyników i miejsca w rankingu w kontekście preferowanego rodzaju gry, zarówno na poziomie globalnym, jak i w gronie znajomych.
+\\\\
+Strona rankingu jest kluczowym elementem aplikacji, wspierającym rywalizację i pozwalającym graczom śledzić ich postępy oraz porównywać swoje osiągnięcia z innymi użytkownikami.
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=1\textwidth]{zdj/ins_rank.png}
+    \caption{Strona zarządzania znajomymi.}
+\end{figure}
 
 \newpage
 \section{Testy}

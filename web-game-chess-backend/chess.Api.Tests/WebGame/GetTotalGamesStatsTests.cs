@@ -1,8 +1,6 @@
 ﻿
 using chess.Api.Tests.User;
 using chess.Application.Requests.WebGameRequests.GetTotalGamesStats;
-using chess.Application.Requests.WebGameRequests.GetWebGamePlayer;
-using chess.Core.Enums;
 using chess.Infrastructure.Contexts;
 using FluentAssertions;
 using Microsoft.Extensions.DependencyInjection;

@@ -12,7 +12,7 @@ using chess.Infrastructure.Contexts;
 namespace chess.Infrastructure.Migrations
 {
     [DbContext(typeof(ChessAppDbContext))]
-    [Migration("20241202084345_Init")]
+    [Migration("20241207231207_Init")]
     partial class Init
     {
         /// <inheritdoc />
@@ -257,7 +257,7 @@ namespace chess.Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<Guid>("FreindshipId")
+                    b.Property<Guid>("FriendshipId")
                         .HasColumnType("uuid");
 
                     b.Property<int>("RequestorDraws")
@@ -271,7 +271,7 @@ namespace chess.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("FreindshipId")
+                    b.HasIndex("FriendshipId")
                         .IsUnique();
 
                     b.ToTable("FriendshipStats");
@@ -1048,7 +1048,7 @@ namespace chess.Infrastructure.Migrations
                 {
                     b.HasOne("chess.Core.Entities.Friendship", "Friendship")
                         .WithOne("Stats")
-                        .HasForeignKey("chess.Core.Entities.FriendshipStats", "FreindshipId")
+                        .HasForeignKey("chess.Core.Entities.FriendshipStats", "FriendshipId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

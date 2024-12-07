@@ -22,7 +22,7 @@ public class UserDto {
     public ImageDto? ProfilePicture { get; set; }
 
     /// <summary>
-    /// User backgroud image
+    /// User background image
     /// </summary>
     public ImageDto? BackgroundImage { get; set; }
 

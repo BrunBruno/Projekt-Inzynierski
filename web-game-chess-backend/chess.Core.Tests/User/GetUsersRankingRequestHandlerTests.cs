@@ -1,6 +1,5 @@
 ﻿
 using chess.Application.Repositories.UserRepositories;
-using chess.Application.Requests.UserRequests.GetUser;
 using chess.Application.Requests.UserRequests.GetUsersRanking;
 using chess.Application.Services;
 using chess.Core.Entities;

@@ -23,7 +23,7 @@ public interface IGameHub {
     Task GameUpdated();
 
     /// <summary>
-    /// To notify anbit game end
+    /// To notify about game end
     /// </summary>
     /// <returns></returns>
     Task GameEnded();

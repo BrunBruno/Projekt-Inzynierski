@@ -85,7 +85,7 @@ function WebGameConfirm({ confirmAction, showConfirmState, setDisplayedWindow }:
               onYesClick();
             }}
           >
-            Yes
+            <span>Yes</span>
           </button>
           <button
             className={`
@@ -96,7 +96,7 @@ function WebGameConfirm({ confirmAction, showConfirmState, setDisplayedWindow }:
               onNoClick();
             }}
           >
-            No
+            <span>No</span>
           </button>
         </div>
       </div>
