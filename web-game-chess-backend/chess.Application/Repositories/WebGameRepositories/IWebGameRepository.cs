@@ -38,6 +38,12 @@ public interface IWebGameRepository {
     Task<List<WebGame>> GetAllForFriendship(Guid requestorId, Guid receiverId);
 
     /// <summary>
+    /// To game all unfinished games, to check if should end
+    /// </summary>
+    /// <returns></returns>
+    Task<List<WebGame>> GetAllOngoing();
+
+    /// <summary>
     /// Creates new game
     /// </summary>
     /// <param name="game"></param>

@@ -41,25 +41,18 @@ type WebGameContentProps = {
   playerData: GetWebGamePlayerDto;
   // winner color if game is finished
   winnerData: GetWebGameWinnerDto | null;
-
   // timing of current game for new games and rematches
   selectedTiming: SearchWebGameModel | null;
-
   // for display last done moves
   historyPositionState: StateProp<MoveDto | null>;
-
   // obtained ids for rematch game and setter
   newGameDataState: StateProp<SearchWebGameDto | null>;
-
   //rematch game data
   rematchData: CreateWebGameRematchDto | null;
-
   // to display/hide confirm window
   showConfirmState: StateProp<GameActionInterface | null>;
-
   // to perform action on confirm
   confirmAction: () => void;
-
   // selected window modal to show/hide
   displayedWindowState: StateProp<GameWindowInterface>;
 };
@@ -78,6 +71,10 @@ function WebGameContent({
   displayedWindowState,
 }: WebGameContentProps) {
   ///
+
+  // boards ref for resize purpose
+  const containerRef = useRef<HTMLDivElement>(null);
+  const boardRef = useRef<HTMLDivElement>(null);
 
   // states of game and selections
   const [gameStates, setGameStates] = useReducer(gameStatesReducer, gameInitialStates);
@@ -210,8 +207,7 @@ function WebGameContent({
     });
   }, [selectionStates.coordinates]);
 
-  const containerRef = useRef<HTMLDivElement>(null);
-  const boardRef = useRef<HTMLDivElement>(null);
+  // to resize board on small devices
   useEffect(() => {
     const handleResize = (): void => {
       const container = containerRef.current;

@@ -98,7 +98,6 @@ Aplikacja ta ma na celu umożliwienie użytkownikom rozgrywkę w jedną z najpop
 \end{itemize}
 
 \newpage
-
 \section{Stos technologiczny}
 \subsection{Aplikacja internetowa - frontend}
 \subsubsection{Javascript}
@@ -160,14 +159,12 @@ Figma to jedno z nowocześniejszych i cieszących się dużą popularnością na
 Figma jako zewnętrzny program zalazła zastosowanie w projekcie głownie do projektowania własnych ikon, nieistniejących bądź niedostępnych bezpłatnie na internecie. Zastosowanie prostego, ale bardzo efektywnego narzędzia ma duże znaczenie dla rozwoju aplikacji gry mobilnej, w szczegolnosci nakierowanej na przyjemny dla uzytkownika interface. Dodatkowo Figma posłużyła do zaprojektowania i utworzenie modeli bierek do gry w szachy.  
 
 \newpage
-
 \section{Opis implementacji}
 \subsection{System kontroli wersji}
 
 W tym projekcie kontrola wersji jest zarządzana za pomocą Git i GitHub, z Sourcetree jako aplikacją desktopową do interakcji. Taka konfiguracja zapewnia zorganizowany i wydajny przepływ pracy w zakresie śledzenia zmian, współpracy i utrzymywania integralności bazy kodu.
 
 \newpage
-
 \subsection{Warstwa danych}
 \subsubsection{Schemat bazy danych}
 
@@ -625,22 +622,51 @@ Segment ten skupia się na aspekcie gry opartym na silniku, gdzie każda gra jes
 \end{itemize}
 
 \newpage
+\subsection{Backend} 
+\subsubsection{Architektura} 
+Architektura backendu została zaprojektowana w oparciu o podejście Onion Architecture, które promuje modularność, odwrócenie zależności oraz izolację logiki biznesowej od infrastruktury. Główne założenia tej architektury koncentrują się na umożliwieniu rozwoju aplikacji w sposób niezależny od technologii, co sprzyja łatwemu utrzymaniu oraz skalowaniu systemu. Struktura projektu jest podzielona na kilka warstw, które komunikują się ze sobą poprzez jasno zdefiniowane kontrakty i interfejsy. Kluczowym celem tego podejścia jest ochrona rdzenia aplikacji przed zmianami w zewnętrznych technologiach i zależnościach, co pozwala na łatwiejsze dostosowywanie aplikacji do nowych wymagań i technologii.
 
-\subsection{Backend}
-\subsubsection{Architektura}
+
+\begin{figure}[h!] 
+    \centering 
+    \includegraphics[width=0.7\textwidth]{zdj/struktura_back.png} 
+    \caption{Struktura projektów solucji.} 
+\end{figure}
+
+Zalety Onion Architecture to:
+\begin{itemize}
+    \item \textbf{Izolacja logiki biznesowej:} pozwala na pełną separację logiki biznesowej od zewnętrznych zależności, co umożliwia łatwe testowanie i modyfikowanie samej logiki bez wpływu na resztę systemu.
+    \item \textbf{Skalowalność i elastyczność:} modularność struktury pozwala na łatwą rozbudowę systemu, poprzez dodawanie nowych warstw lub rozszerzanie istniejących komponentów bez ryzyka wprowadzenia chaosu w kodzie.
+    \item \textbf{Testowalność:} dzięki wyodrębnieniu warstw odpowiedzialnych za różne aspekty systemu, testowanie staje się prostsze i bardziej zorganizowane, ponieważ możemy testować poszczególne warstwy niezależnie.
+    \item \textbf{Odwrócenie zależności:} warstwa zewnętrzna może korzystać z funkcjonalności warstw wewnętrznych, ale nie odwrotnie. To oznacza, że zmiany w bazach danych czy frameworkach nie wpływają na kluczową logikę biznesową aplikacji.
+\end{itemize}
+
+Podejście to pozwala na przejrzystość w organizacji kodu, ułatwiając zarządzanie projektem i współpracę zespołową. Dzięki jasnemu podziałowi na warstwy, każdy członek zespołu może skupić się na odpowiednim obszarze aplikacji, bez konieczności przyswajania całościowej struktury systemu. Dodatkowo, umożliwia łatwe przeprowadzanie migracji technologicznych w obrębie poszczególnych warstw, minimalizując ryzyko wprowadzenia błędów w działającej aplikacji.
+
+\newpage
+
+Zależności między poszczególnymi modułami zaprezentowane zostały za pomocą grafu, co pozwala na wizualizację i lepsze zrozumienie interakcji między warstwami. Graf ten odzwierciedla zasady Onion Architecture, w której zależności zawsze kierują się do wewnątrz, tj. od warstw zewnętrznych do bardziej wewnętrznych.
+\\\\
+Moduł .Api zależy wyłącznie od warstwy .Application, co oznacza, że obsługuje żądania i deleguje ich przetwarzanie do przypadków użycia w Application. Z kolei .Application komunikuje się z modułem .Core, który definiuje kluczowe modele domenowe. Warstwa .Core pozostaje całkowicie niezależna od innych modułów, co jest zgodne z zasadami odwrócenia zależności.
+\\
+Moduł .Infrastructure implementuje interfejsy zdefiniowane w .Application, dostarczając szczegóły techniczne, takie jak integracje czy dostęp do danych, ale nie wymusza zależności zwrotnej na rdzeniu. .Shared działa jako pomocniczy moduł, który może być używany przez dowolną warstwę, dostarczając wspólny kod i narzędzia.
 
 \begin{figure}[h!]
     \centering
-    \includegraphics[width=0.6\textwidth]{zdj/struktura_back.png}
-    \caption{Struktura.}
+    \includegraphics[width=1\textwidth]{zdj/backend_dependencies.png}
+    \caption{Graf zależności między projektami}
 \end{figure}
 
 \newpage
 
+\textbf{Warstwa prezentacji}\\
+Moduł .Api pełni funkcję warstwy zewnętrznej, odpowiedzialnej za obsługę żądań HTTP oraz przekazywanie ich do odpowiednich komponentów logiki aplikacji. Jest to punkt wejściowy dla użytkowników lub zewnętrznych integracji. Warstwa ta korzysta z usług dostarczanych przez moduł Application, pozostając przy tym niezależna od szczegółów implementacyjnych niższych warstw.
+
+\vspace{0.5cm}
 \begin{minipage}[t]{0.45\textwidth}
     \vspace{0pt}
     \raggedright
-    \lipsum[1] 
+    Warstwa prezentacji odpowiada za obsługę komunikacji zewnętrznej aplikacji, interpretację żądań od użytkowników oraz ich przekazywanie do warstw logiki aplikacyjnej. Zawiera kontrolery realizujące logikę obsługi poszczególnych zasobów oraz huby, takie jak SignalR Hub, które obsługują komunikację w czasie rzeczywistym. Modele w tym module reprezentują dane odbierane z endpointów aplikacji. Mapy przekształcają te modele na żądania odpowiadające wymaganiom warstwy aplikacyjnej. Moduł zapewnia również mechanizmy autoryzacji, umożliwiające kontrolę dostępu do zasobów i operacji w systemie.
 \end{minipage}
 \hfill
 \begin{minipage}[t]{0.45\textwidth}
@@ -648,9 +674,12 @@ Segment ten skupia się na aspekcie gry opartym na silniku, gdzie każda gra jes
     \centering
     \includegraphics[width=\linewidth]{zdj/struktura_back_api.png}
 \end{minipage}
+\vspace{0.5cm}
 
-\vspace{1cm}
+\textbf{Warstwa aplikacji}\\
+Moduł .Application zawiera logikę aplikacyjną, w tym definicje przypadków użycia (use cases), które realizują wymagania systemowe. Jest on pośrednikiem między warstwą interfejsu (Api) a rdzeniem systemu, reprezentowanym przez moduł .Core. Dzięki temu logika biznesowa jest chroniona przed szczegółami technicznymi, takimi jak sposób przetwarzania żądań czy dostęp do danych.
 
+\vspace{0.5cm}
 \begin{minipage}[t]{0.45\textwidth}
     \vspace{0pt}
     \centering
@@ -660,15 +689,18 @@ Segment ten skupia się na aspekcie gry opartym na silniku, gdzie każda gra jes
 \begin{minipage}[t]{0.45\textwidth}
     \vspace{0pt}
     \raggedright
-    \lipsum[2] 
+    Warstwa aplikacji łączy warstwy zewnętrzne z rdzeniem systemu. Zawiera interfejsy dla hubów SignalR (Hubs), repozytoriów (Repositories) i usług (Services), definiujące kluczowe kontrakty. W Requests znajdują się żądania obsługiwane przez MediatR, wspierające wzorzec CQRS. Moduł Pagination dostarcza abstrakcje do paginacji wyników, istotne przy operacjach na dużych zbiorach danych.
 \end{minipage}
+\vspace{0.5cm}
 
-\vspace{1cm}
+\textbf{Warstwa dostępu do danych}\\
+Moduł .Infrastructure obsługuje szczegóły techniczne, takie jak dostęp do bazy danych, integracje z zewnętrznymi usługami czy komunikacja z innymi systemami. Implementuje on interfejsy zdefiniowane w .Core, zapewniając zgodność z wymogami logiki biznesowej. Dzięki temu warstwa infrastrukturalna może być łatwo modyfikowana lub wymieniana bez wpływu na działanie innych części aplikacji.
 
+\vspace{0.5cm}
 \begin{minipage}[t]{0.45\textwidth}
     \vspace{0pt}
     \raggedright
-    \lipsum[3] 
+    Warstwa infrastruktury zawiera kluczowe elementy zarządzania danymi i konfiguracji aplikacji. W folderze Contexts znajduje się klasa kontekstu bazy danych, która mapuje encje aplikacji na tabele. W Configuration zapisane są relacje między encjami oraz konfiguracja ich mapowania. Foldery Services i Repositories zawierają implementacje interfejsów zdefiniowanych w warstwie aplikacji, które odpowiadają za dostęp do danych. Workers to klasy odpowiedzialne za zadania cykliczne działające w tle. Migrations natomiast zawiera skrypty migracji bazy danych, umożliwiające zarządzanie zmianami w schemacie bazy danych.
 \end{minipage}
 \hfill
 \begin{minipage}[t]{0.45\textwidth}
@@ -676,9 +708,12 @@ Segment ten skupia się na aspekcie gry opartym na silniku, gdzie każda gra jes
     \centering
     \includegraphics[width=\linewidth]{zdj/struktura_back_infrastructure.png} 
 \end{minipage}
+\vspace{0.5cm}
 
-\vspace{1cm}
+\textbf{Warstwa logiki biznesowej}\\
+Moduł .Core stanowi serce aplikacji i zawiera jej logikę biznesową oraz kluczowe modele domenowe. Jest to najbardziej niezależna warstwa, która nie zna szczegółów implementacyjnych zewnętrznych warstw. Wszystkie zależności są odwrócone – moduł .Core definiuje interfejsy, które są implementowane przez warstwę infrastrukturalną, co pozwala na łatwą wymianę technologii bez wpływu na rdzeń aplikacji.
 
+\vspace{0.5cm}
 \begin{minipage}[t]{0.45\textwidth}
     \vspace{0pt}
     \centering
@@ -688,15 +723,17 @@ Segment ten skupia się na aspekcie gry opartym na silniku, gdzie każda gra jes
 \begin{minipage}[t]{0.45\textwidth}
     \vspace{0pt}
     \raggedright
-    \lipsum[4] 
+    Warstwa domenowa stanowi fundament aplikacji, zawierając kluczowe definicje i logikę biznesową. W folderze Entities znajdują się główne encje, które odpowiadają za przechowywanie danych w systemie. Enums zawiera wyliczenia, które definiują stałe wartości. W Abstractions znajdują się abstrakcyjne klasy, które są dziedziczone przez podobne encje. Dtos zawiera obiekty transferu danych zwracane przez zapytania, w tym często wykorzystywane DTO, które są dzielone pomiędzy różnymi zapytaniami. Models przechowuje wspólne modele używane przez różne procesy. W Maps znajduje się logika mapowania danych w postaci słownika, który definiuje operacje pobierania, ustawiania i aktualizowania wartości w encjach..
 \end{minipage}
+\vspace{0.5cm}
 
-\vspace{1cm}
+\textbf{Warstwa wspólna }\\
+Moduł .Shared zawiera wspólne komponenty i funkcjonalności, które są wykorzystywane przez inne warstwy aplikacji. Celem tej warstwy jest centralizacja użytecznych elementów, które nie są specyficzne dla jednej warstwy, a są wykorzystywane przez różne części systemu. Dzięki temu wspólne elementy, takie jak wyjątki, middleware oraz konfiguracje, są łatwo dostępne, a zarządzanie nimi jest uproszczone. Warstwa ta pełni rolę wspierającą, zapewniając rozwiązania, które mogą być współdzielone przez inne warstwy aplikacji, co zwiększa spójność i ułatwia konserwację systemu.
 
 \begin{minipage}[t]{0.45\textwidth}
     \vspace{0pt}
     \raggedright
-    \lipsum[5] 
+    Warstwa wspólna .Shared zawiera wspólne komponenty, które są wykorzystywane przez inne warstwy aplikacji. Folder Exceptions przechowuje wyjątki, które pozwalają na precyzyjne zarządzanie błędami w systemie. Middleware zawiera komponenty pośredniczące, które przechwytują i obsługują błędy HTTP, zapewniając odpowiednie kody statusu oraz komunikaty w odpowiedzi. W folderze Options znajdują się rozszerzenia umożliwiające łatwe pobieranie konfiguracji z pliku appsettings, co zapewnia centralne zarządzanie ustawieniami aplikacji.
 \end{minipage}
 \hfill
 \begin{minipage}[t]{0.45\textwidth}
@@ -704,9 +741,12 @@ Segment ten skupia się na aspekcie gry opartym na silniku, gdzie każda gra jes
     \centering
     \includegraphics[width=\linewidth]{zdj/struktura_back_shared.png} 
 \end{minipage}
+\vspace{0.5cm}
 
-\vspace{1cm}
+\textbf{Warstwa testów integracyjnych}\\
+Moduł .Api.Tests zawiera testy integracyjne dla kontrolerów API, zapewniając weryfikację poprawności działania interfejsu API w kontekście integracji z innymi komponentami systemu, takimi jak baza danych czy logika aplikacyjna. Testy te sprawdzają, czy odpowiedzi API są zgodne z oczekiwaniami, weryfikując m.in. poprawność danych wejściowych i wyjściowych oraz obsługę błędów. Każdy folder w tym module odpowiada pojedynczemu kontrolerowi API, umożliwiając modularne testowanie poszczególnych elementów aplikacji. Dzięki testom integracyjnym możliwe jest sprawdzenie, czy aplikacja poprawnie reaguje na różnorodne scenariusze i przypadki brzegowe.
 
+\vspace{0.5cm}
 \begin{minipage}[t]{0.45\textwidth}
     \vspace{0pt}
     \centering
@@ -716,15 +756,18 @@ Segment ten skupia się na aspekcie gry opartym na silniku, gdzie każda gra jes
 \begin{minipage}[t]{0.45\textwidth}
     \vspace{0pt}
     \raggedright
-    \lipsum[6] 
+    Warstwa .Api.Tests zawiera testy integracyjne dla kontrolerów API. Każdy folder w tej warstwie odpowiada jednemu kontrolerowi API, umożliwiając modularne testowanie różnych części aplikacji. Testy wykorzystują narzędzia takie jak FluentAssertions i XUnit do tworzenia środowiska testowego. Testy te sprawdzają integrację kontrolera API z bazą danych oraz logiką aplikacyjną, testując poprawne działanie czy obsługę błędów w przypadku niepoprawnych danych wejściowych.
 \end{minipage}
+\vspace{0.5cm}
 
-\vspace{1cm}
+\textbf{Warstwa testów logiki biznesowej}\\
+Moduł .Core.Tests zawiera testy jednostkowe dla logiki biznesowej aplikacji. Testy te weryfikują poprawność działania poszczególnych komponentów wewnętrznych systemu, takich jak handled żądań, serwisy, repozytoria oraz inne elementy logiki biznesowej. Dzięki tym testom możliwe jest zapewnienie, że logika aplikacji działa zgodnie z wymaganiami, niezależnie od zewnętrznych zależności. Testy jednostkowe pozwalają na szybsze i łatwiejsze identyfikowanie błędów w samej logice aplikacji, zanim zmiany wpłyną na inne warstwy systemu.
 
+\vspace{0.5cm}
 \begin{minipage}[t]{0.45\textwidth}
     \vspace{0pt}
     \raggedright
-    \lipsum[7] 
+    Warstwa .Core.Tests zawiera testy jednostkowe dla logiki biznesowej aplikacji. Testy są podzielone na foldery odpowiadające poszczególnym kontrolerom. Celem tych testów jest weryfikacja poprawności działania komponentów aplikacji, takich jak handlerów żądań, serwisów, czy repozytoriów. Testy skupiają się na sprawdzeniu logiki biznesowej, walidacji danych, oraz obsługi wyjątków, wykorzystując narzędzia takie jak mocki, aby izolować testowane jednostki od zewnętrznych zależności. Dzięki temu możliwe jest testowanie samej logiki aplikacji bez potrzeby uruchamiania pełnej infrastruktury.
 \end{minipage}
 \hfill
 \begin{minipage}[t]{0.45\textwidth}
@@ -732,50 +775,25 @@ Segment ten skupia się na aspekcie gry opartym na silniku, gdzie każda gra jes
     \centering
     \includegraphics[width=\linewidth]{zdj/struktura_back_core_tests.png} 
 \end{minipage}
-
-\newpage
-
-\begin{figure}[h!]
-    \centering
-    \includegraphics[width=1\textwidth]{zdj/backend_dependencies.png}
-    \caption{Zależności.}
-\end{figure}
+\vspace{0.5cm}
 
 \newpage
 
 \subsubsection{Wykorzystane pakiety i biblioteki}
 
 W projekcie zastosowano szereg bibliotek, które wspierają rozwój i funkcjonalność aplikacji. Każda z wymienionych bibliotek została dobrana w celu spełnienia konkretnych wymagań funkcjonalnych i architektonicznych projektu, co pozwala na jego rozwój zgodny z najlepszymi praktykami. Poniżej przedstawiono szczegółowy opis wybranych komponentów:
-\begin{itemize}
-    \item \textbf{SignalRSwaggerGen}: SignalRSwaggerGen umożliwia integrację SignalR z generatorem dokumentacji Swagger. Dzięki temu można dokumentować huby SignalR w podobny sposób, jak w przypadku typowych API REST. To znacznie upraszcza korzystanie z SignalR w projektach, gdzie przejrzystość i zrozumiałość API jest kluczowa.
-    \item \textbf{Swashbuckle.AspNetCore}: Swashbuckle to jedno z najpopularniejszych narzędzi do generowania dokumentacji Swagger w projektach ASP.NET Core. Umożliwia automatyczne generowanie interaktywnej dokumentacji API, która może być używana do testowania endpointów bezpośrednio z poziomu przeglądarki.
-    \item \textbf{AutoMapper}: AutoMapper jest biblioteką ułatwiającą mapowanie obiektów, co pozwala na szybkie i bezbłędne przekształcanie danych pomiędzy różnymi warstwami aplikacji, np. z warstwy domenowej na DTO (Data Transfer Object) i odwrotnie. Dzięki temu eliminuje potrzebę ręcznego mapowania, co zmniejsza ryzyko błędów i przyspiesza rozwój.
-    \item \textbf{MediatR}: MediatR implementuje wzorzec Mediatora, umożliwiając luźne powiązania pomiędzy komponentami aplikacji. Jest szeroko stosowany w aplikacjach opartych na wzorcu CQRS (Command Query Responsibility Segregation). Dzięki MediatR można łatwo zarządzać logiką obsługi zdarzeń i zapytań, co poprawia modularność i testowalność kodu.
-    \item \textbf{Npgsql.EntityFrameworkCore.PostgreSQL}: Jest to dostawca Entity Framework Core dla bazy danych PostgreSQL. Umożliwia korzystanie z zaawansowanych funkcji PostgreSQL, takich jak typy JSON, tablice czy rozszerzenia specyficzne dla tej bazy danych, bezpośrednio w ramach Entity Framework Core.
-    \item \textbf{FluentAssertions}: FluentAssertions to biblioteka, która rozszerza możliwości standardowych asercji w testach jednostkowych. Umożliwia pisanie bardziej czytelnych i wyrażających zamiar asercji, takich jak result.Should().Be(expected) zamiast standardowego Assert.AreEqual(expected, result). Jest szeroko wykorzystywana w testach jednostkowych, ponieważ zapewnia lepszą czytelność i kontrolę nad wynikami testów.
-
-    \item \textbf{Microsoft.AspNetCore.SignalR}: To biblioteka w ekosystemie .NET, która umożliwia łatwe dodanie funkcjonalności komunikacji w czasie rzeczywistym do aplikacji webowych. SignalR abstrahuje nad złożonością protokołów komunikacji (takich jak WebSockets, Long Polling) i pozwala na łatwą wymianę danych w czasie rzeczywistym między serwerem a klientami, bez konieczności odświeżania strony. SignalR jest szczególnie użyteczny w aplikacjach wymagających bieżącej interakcji z użytkownikiem, takich jak czaty, powiadomienia, gry online, a także aplikacje, które wymagają synchronizacji danych w czasie rzeczywistym (np. aplikacje finansowe, analityczne).
-    \item \textbf{Microsoft.AspNetCore.OpenApi}: Biblioteka ta umożliwia integrację z OpenAPI, co pozwala na automatyczne generowanie dokumentacji API. Jest to szczególnie użyteczne w przypadku projektów opartych na architekturze REST, ponieważ pozwala deweloperom i użytkownikom końcowym lepiej rozumieć działanie aplikacji oraz dostępne endpointy.
-    \item \textbf{Microsoft.AspNetCore.Cors}: Biblioteka ta obsługuje Cross-Origin Resource Sharing (CORS), co umożliwia kontrolowanie, które domeny mają dostęp do zasobów serwera. Jest to kluczowe w aplikacjach internetowych komunikujących się z frontendem hostowanym na innych domenach.
-    \item \textbf{Microsoft.AspNetCore.Identity}: Microsoft.AspNetCore.Identity dostarcza rozbudowany framework do zarządzania użytkownikami, rolami, uwierzytelnianiem i autoryzacją. Umożliwia łatwą integrację takich funkcji, jak rejestracja, logowanie, resetowanie haseł czy zarządzanie rolami użytkowników.
-    \item \textbf{Microsoft.AspNetCore.Http.Abstractions}: Biblioteka dostarcza podstawowe interfejsy i klasy wspierające obsługę żądań i odpowiedzi HTTP w aplikacjach ASP.NET Core. Umożliwia budowanie lekkich middleware oraz operacje na poziomie HTTP, takie jak praca z HttpContext.
-    \item \textbf{Microsoft.AspNetCore.Authentication.JwtBearer}: Biblioteka ta obsługuje uwierzytelnianie oparte na JWT (JSON Web Tokens) w aplikacjach ASP.NET Core. Jest często używana w nowoczesnych aplikacjach webowych i API do implementacji bezpiecznych mechanizmów uwierzytelniania i autoryzacji.
-    \item \textbf{Microsoft.AspNetCore.Mvc.Core}: Biblioteka ta zawiera podstawowe funkcje MVC (Model-View-Controller) dla aplikacji ASP.NET Core. Jest wykorzystywana do budowy endpointów API oraz obsługi żądań HTTP, zapewniając spójność i elastyczność w projektowaniu warstwy prezentacji i komunikacji.
-    \item \textbf{Microsoft.AspNetCore.Mvc.Testing}: Biblioteka ta umożliwia łatwe testowanie aplikacji ASP.NET Core z wykorzystaniem WebApplicationFactory, które pozwala na uruchomienie aplikacji w testowym środowisku. Jest to kluczowa biblioteka do testów integracyjnych, ponieważ pozwala na testowanie całej aplikacji lub jej części, w tym kontrolerów, routingu i middleware, bez potrzeby uruchamiania pełnego serwera.
-    \item \textbf{Microsoft.IdentityModel.Tokens}: Jest to kluczowa biblioteka do obsługi tokenów, takich jak JWT (JSON Web Tokens). Umożliwia tworzenie i weryfikację tokenów, co jest niezbędne w aplikacjach z uwierzytelnianiem i autoryzacją opartą na tokenach.
-    \item \textbf{Microsoft.EntityFrameworkCore}: Entity Framework Core to nowoczesny ORM (Object-Relational Mapper) dla platformy .NET. Umożliwia łatwe mapowanie obiektów w aplikacji na tabele w relacyjnej bazie danych. Zapewnia wsparcie dla wielu funkcji, takich jak zapytania LINQ, migracje schematów bazy danych czy śledzenie zmian w danych.
-    \item \textbf{Microsoft.EntityFrameworkCore.Tools}: Narzędzie wspomagające pracę z Entity Framework Core. Umożliwia m.in. zarządzanie migracjami, tworzenie baz danych na podstawie modelu aplikacji oraz generowanie kodu odwrotnego (reverse engineering) z istniejącej bazy danych. Ustawienie PrivateAssets na all powoduje, że biblioteka ta nie jest uwzględniana w pakiecie wynikowym, ponieważ jej funkcje są wykorzystywane głównie podczas rozwoju aplikacji.
-    \item \textbf{Microsoft.EntityFrameworkCore.Design}: Ta biblioteka jest rozszerzeniem Entity Framework Core, które wspiera projektowanie i migrację baz danych. Dzięki niej można korzystać z narzędzi takich jak dotnet ef, które umożliwiają m.in. generowanie schematów baz danych, zarządzanie migracjami i synchronizowanie modeli danych z bazą.
-    \item \textbf{Microsoft.EntityFrameworkCore.InMemory}: Biblioteka ta jest implementacją bazy danych w pamięci (in-memory) dla Entity Framework Core. Umożliwia testowanie kodu, który współpracuje z bazą danych, bez potrzeby jej fizycznego uruchamiania. Jest to przydatne do testów jednostkowych i integracyjnych, gdzie potrzebne jest środowisko bazy danych, ale bez potrzeby używania rzeczywistego silnika bazy danych.
-    \item \textbf{Microsoft.Extensions.DependencyInjection}: Biblioteka ta dostarcza mechanizm wstrzykiwania zależności (Dependency Injection), co jest kluczowym elementem w projektowaniu nowoczesnych aplikacji. Dzięki niej można łatwo zarządzać cyklem życia obiektów, zmniejszając ich wzajemne powiązania.
-    \item \textbf{Microsoft.Extensions.DependencyInjection.Abstractions}: Dostarcza interfejsy oraz bazowe klasy do wstrzykiwania zależności (Dependency Injection). Pozwala na definiowanie i zarządzanie cyklem życia usług w aplikacji oraz wspiera luźne powiązanie komponentów, co jest kluczowe dla skalowalności i łatwości testowania kodu.
-    \item \textbf{Microsoft.Extensions.Configuration.Abstractions}: Biblioteka ta zapewnia interfejsy i podstawowe klasy do obsługi konfiguracji aplikacji. Umożliwia zarządzanie ustawieniami aplikacji z różnych źródeł, takich jak pliki JSON, zmienne środowiskowe czy dostawcy niestandardowi.
-    \item \textbf{Microsoft.Extensions.Configuration.Binder}: Biblioteka rozszerza możliwości systemu konfiguracji o mechanizm mapowania ustawień na typy obiektowe. Pozwala na łatwe wiązanie konfiguracji (np. z plików JSON) z obiektami w kodzie, dzięki czemu zarządzanie ustawieniami staje się bardziej przejrzyste i zorganizowane.
-
-    \item \textbf{Microsoft.NET.Test.Sdk}: Jest to biblioteka wspierająca framework testowy w ekosystemie .NET. Zawiera narzędzia do uruchamiania testów, generowania raportów oraz integracji z narzędziami do testowania. Jest to podstawowy komponent, który umożliwia działanie testów w projektach .NET.
-    \item \textbf{xUnit}: xUnit to jeden z popularniejszych frameworków testowych w ekosystemie .NET. Wspiera różne typy testów, takie jak testy jednostkowe, integracyjne, a także dostarcza zaawansowane funkcje, takie jak asercje, zestawy danych do testów czy zarządzanie cyklem życia testów.
-    \item \textbf{xUnit.runner.visualstudio}: Biblioteka ta integruje xUnit z Visual Studio, umożliwiając uruchamianie testów i przeglądanie wyników testów bezpośrednio w interfejsie użytkownika Visual Studio. Dzięki temu programiści mogą wygodnie wykonywać testy i analizować ich wyniki.
-    \item \textbf{Moq}: Moq to biblioteka do tworzenia obiektów "mock" (symulujących) w testach jednostkowych. Umożliwia zastąpienie prawdziwych zależności fałszywymi obiektami, co pozwala na testowanie logiki aplikacji w izolacji i bez potrzeby uruchamiania rzeczywistych komponentów zewnętrznych, takich jak bazy danych czy serwisy.
+\begin{itemize} 
+    \item \textbf{Swashbuckle.AspNetCore} i \textbf{SignalRSwaggerGen}: Obie biblioteki służą do generowania dokumentacji Swagger, co pozwala na dokumentowanie API REST i SignalR w jednej konfiguracji. 
+    \item \textbf{AutoMapper}: Biblioteka umożliwiająca mapowanie obiektów między różnymi warstwami aplikacji, eliminując potrzebę ręcznego mapowania. 
+    \item \textbf{MediatR}: Implementuje wzorzec Mediatora, co umożliwia luźne powiązanie komponentów aplikacji i jest powszechnie wykorzystywane w aplikacjach opartych na wzorcu CQRS. 
+    \item \textbf{Npgsql.EntityFrameworkCore.PostgreSQL} i \textbf{Microsoft.EntityFrameworkCore}: Npgsql to dostawca dla Entity Framework Core dla bazy danych PostgreSQL, co umożliwia korzystanie z tej bazy danych za pomocą EF Core w aplikacjach .NET. 
+    \item \textbf{FluentAssertions}: Biblioteka do tworzenia bardziej czytelnych i wyrażających zamiar asercji w testach jednostkowych. 
+    \item \textbf{Microsoft.AspNetCore.SignalR} i \textbf{Microsoft.AspNetCore.Cors}: Obie biblioteki obsługują komunikację w czasie rzeczywistym oraz kontrolują dostęp do zasobów serwera z innych domen w aplikacjach webowych. 
+    \item \textbf{Microsoft.AspNetCore.Identity} i \textbf{Microsoft.AspNetCore.Authentication.JwtBearer}: Biblioteki związane z bezpieczeństwem aplikacji, wspierające mechanizmy uwierzytelniania i autoryzacji, w tym logowanie z użyciem JWT. 
+    \item \textbf{Microsoft.AspNetCore.Mvc.Core} i \textbf{Microsoft.AspNetCore.Mvc.Testing}: Obie biblioteki są odpowiedzialne za budowanie endpointów API oraz testowanie aplikacji, w tym kontrolerów i routingu. 
+    \item \textbf{Microsoft.IdentityModel.Tokens}: Biblioteka do obsługi tokenów, takich jak JWT, niezbędna do tworzenia i weryfikacji tokenów w aplikacjach z uwierzytelnianiem opartym na tokenach. 
+    \item \textbf{Microsoft.Extensions.*}: Zestaw bibliotek wspierających konfigurację aplikacji oraz wstrzykiwanie zależności, kluczowy dla budowy skalowalnych aplikacji.
+    \item \textbf{Microsoft.NET.Test.Sdk}, \textbf{xUnit}, \textbf{xUnit.runner.visualstudio} i \textbf{Moq}: Zestaw bibliotek do testowania aplikacji, wspierający tworzenie testów jednostkowych i integracyjnych, w tym generowanie mocków i uruchamianie testów w Visual Studio. 
 \end{itemize}
 
 \newpage
@@ -786,19 +804,6 @@ Interfejsy API są najpopularniejszym sposobem interakcji programów i urządze�
 Zasób jest podstawowym pojęciem dla API REST. Zasób jest obiektem, który ma typ, powiązane dane, relacje z innymi zasobami i zestaw metod, które na nim działają. Jest bardzo podobny do idei obiektów w programowaniu, chociaż zdefiniowanych jest tylko kilka standardowych metod, typowych dla HTTP GET, POST, PUT i DELETE. Zasoby mogą istnieć same lub w zbiorach, które same są zasobami.
 \\\\
 W nowoczesnej informatyce wspólnym modelem - również podstawowym dla API REST - jest klient-serwer, gdzie klient, który potrzebuje zasobu, identyfikuje się i komunikuje z serwerem, który może go dostarczyć. W ten sposób zarządzany jest praktycznie cały ruch w chmurze, gdyż oferuje maksymalną elastyczność licznym klientom i pozwala na dostęp do licznych serwerów. Zasada ta sprawdza się również w przypadku tzw. architektur „bezserwerowych", w których miejsce serwera znanego klientowi zajmuje broker usług.
-
-\begin{minted}[fontsize=\small, bgcolor=lightgray]{csharp}
-    [HttpPost("start")]
-    [Authorize(Policy = "IsVerified")]
-    public async Task<IActionResult> StartEngineGame([FromBody] StartEngineGameModel model) {
-    
-        var request = _mapper.Map<StartEngineGameRequest>(model);
-    
-        var result = await _mediator.Send(request);
-    
-        return Ok(result);
-    }
-\end{minted}
 
 \newpage
 
@@ -930,121 +935,197 @@ Dzięki takiej implementacji, aplikacja może komunikować się z silnikiem szac
 \newpage
 \subsection{Frontend}
 \subsubsection{Architektura}
-Modułowa architektura frontendu
+
+Struktura frontendu w tym projekcie jest zorganizowana w sposób umożliwiający łatwe zarządzanie kodem, dzięki zastosowaniu odpowiednich folderów i podfolderów, które odpowiadają za różne aspekty aplikacji. W głównym folderze src znajdują się trzy foldery: index, main oraz shared. Każdy z nich ma swoją specyficzną rolę w organizacji kodu.
 \\\\
-Termin ten kładzie nacisk na podział aplikacji na modułowe części wielokrotnego użytku, takie jak "components", "pages", "hooks" i "services". Każdy moduł ma jasny cel, co ułatwia zarządzanie i skalowanie.
+Folder index zawiera router odpowiedzialny za strony ogólnodostępne, takie jak strona główna, rejestracja czy informacje o aplikacji. Folder main jest przeznaczony do zarządzania zasobami dostępnymi tylko dla zalogowanych i zweryfikowanych użytkowników. Dostęp do tych stron jest kontrolowany na podstawie stanu autoryzacji użytkownika, co zapewnia bezpieczeństwo aplikacji. Folder shared natomiast zawiera komponenty i funkcjonalności, które są współdzielone pomiędzy różnymi częściami aplikacji.
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.5\textwidth]{zdj/struktura_front.png}
+    \caption{Struktura projektu.}
+\end{figure}
+
+
+Taka organizacja pozwala na modularność i łatwiejsze utrzymanie aplikacji. Każda z sekcji ma wyraźnie określoną rolę i zakres odpowiedzialności, co sprzyja porządkowi w projekcie i ułatwia pracę.
+
+\newpage
+Folder shared w projekcie jest zaprojektowany w sposób, który sprzyja ponownemu wykorzystaniu kodu i organizacji wspólnych zasobów używanych w całej aplikacji. Zawiera on różnorodne podfoldery, które grupują funkcje, komponenty i style, w zależności od ich roli w projekcie.
+
+\begin{itemize}
+    \item \textbf{components:} przechowuje małe, wielokrotnie używane komponenty, które są wykorzystywane w różnych miejscach aplikacji. Mogą to być takie elementy jak  przyciski, okna ładowania czy inne fragmenty UI, które są stosowane w różnych częściach aplikacji.
+    \item \textbf{styles:} zawiera globalne definicje stylów SCSS. Są tam zdefiniowane zmienne, które ułatwiają zarządzanie kolorami, czcionkami, a także mixiny, które pomagają w definiowaniu jednolitych stylów elementów. Dzięki temu stylowanie jest bardziej spójne i łatwiejsze do modyfikacji w jednym miejscu. Wszystkie współdzielone style są zbierane z różnych plików do jednego - shared.scss, ktory to następnie jest importowany do wszystkich komponentów strony aby umożliwić ich działanie.
+    \item \textbf{svgs:} gromadzi wszystkie ikony i mapy ikon, które są wielokrotnie używane w aplikacji. Mapy ikon to funkcje, które na podstawie podanej nazwy ikony zwracają odpowiedni tag svg, co pozwala na łatwe zarządzanie ikonami w projekcie. Do tworzenia ikon stosowany jest specjalny komponent, ktory wymaga podania wybranej mapy oraz nazwy ikon, ktory nastepnie na podstawie tych parametrow zwraca i tworzy odpowiednia ikone.
+    \item \textbf{utils:} zawiera dodatkowe narzędzia, które wspomagają działanie aplikacji. Jest podzielony na kilka podfolderów:
+    \begin{itemize}
+        \item \textbf{functions:} zawiera globalne i współdzielone funkcje, podzielone na pliki w zależności od ich zastosowania. Można tu znaleźć funkcje pomocnicze, które są wykorzystywane w różnych częściach aplikacji.
+        \item \textbf{hooks:} zawiera niestandardowe hooki React, które są ponownie wykorzystywane w różnych komponentach. To funkcje, które upraszczają logikę i stan aplikacji.
+        \item \textbf{objects:} przechowuje stałe wartości, listy, obiekty i słowniki, które są wykorzystywane w aplikacji. Może to obejmować np. stałe, które odnoszą się do kategorii, statusów czy innych danych, które są wspólne dla różnych części aplikacji.
+        \item \textbf{services:} zawiera zbiory funkcji lub klasy odpowiedzialne za konkretne zadania w aplikacji. Na przykład może to być serwis do wysyłania zapytań przez SignalR, który obsługuje komunikację w czasie rzeczywistym. Może także obejmować serwisy do interakcji z backendem lub innymi zewnętrznymi usługami.
+        \item \textbf{types:} zawiera wszystkie ogólne typy i interfejsy TypeScript, które są wykorzystywane w aplikacji. Obejmuje to zarówno własne definicje typów, jak i przetłumaczone modele danych i DTO z backendu. Dzięki temu struktura danych w obu aplikacji jest spójna, co minimalizuje ryzyko błędów związanych z niezgodnością typów danych.
+    \end{itemize}
+\end{itemize}
+
+Cała struktura shared jest zaprojektowana w sposób umożliwiający łatwe zarządzanie wspólnymi zasobami, co ułatwia utrzymanie aplikacji i jej rozwój. Zastosowanie takich podziałów pozwala na organizację kodu, który może być wielokrotnie wykorzystywany w różnych częściach projektu, co prowadzi do mniejszej duplikacji kodu oraz lepszej modularności.
+
 
 \newpage
 \subsubsection{Routing aplikacji}
+Routing w aplikacji oparty na bibliotece react-router-dom jest kluczowym elementem zarządzania nawigacją oraz wyświetlaniem odpowiednich komponentów w zależności od adresu URL. Aplikacja jest podzielona na dwie główne sekcje routingu: ogólną i bardziej specyficzną, przeznaczoną dla głównych funkcji aplikacji. Routing w aplikacji jest podzielony na dwie główne sekcje: IndexRouter i MainRouter. Każda z tych sekcji zarządza dostępem do różnych zasobów w zależności od stanu uwierzytelnienia użytkownika.
+\\\\
 
-\begin{minted}[fontsize=\small, bgcolor=lightgray]{javascript}
-  return (
-    <PopupProvider>
-      <Routes>
-        <Route path="/" element={<IndexPage />} />
-        <Route path="/registration" element={<RegisterPage />} />
-        <Route path="/about" element={<AboutPage />} />
-        <Route path="/about/:contentName" element={<AboutPage />} />
-        <Route path="*" element={<NotFoundPage path={"/"} />} />
-      </Routes>
-    </PopupProvider>
-  );
-\end{minted}
+IndexRouter odpowiada za strony ogólnodostępne, które mogą być odwiedzane przez każdego użytkownika, bez konieczności logowania lub weryfikacji. Są to strony takie jak strona główna, rejestracja czy informacje o aplikacji. Użytkownicy mogą swobodnie przeglądać te zasoby, bez jakichkolwiek ograniczeń dostępu.
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.7\textwidth]{zdj/index_router.png}
+    \caption{Schemat routingu dla ogólnodostępnych stron w aplikacji.}
+\end{figure}
 
-\begin{minted}[fontsize=\small, bgcolor=lightgray]{javascript}
-  return (
-    <PopupProvider>
-      <Routes>
-        <Route path="/" element={<MainPage />} />
-        <Route path="/users" element={<UsersPage />} />
-        <Route path="/await/:gameIdStr" element={<AwaitingPage />} />
-        <Route path="/game/:gameIdStr" element={<WebGamePage />} />
-        <Route path="/engine-game/:gameIdStr" element={<EngineGamePage />} />
-        <Route path="/account" element={<AccountPage />} />
-        <Route path="/profile/:friendshipIdStr" element={<ProfilePage />} />
-        <Route path="/ranking" element={<RankingPage />} />
-        <Route path="*" element={<NotFoundPage path={"/main"} />} />
-      </Routes>
-    </PopupProvider>
-  );
-\end{minted}
+MainRouter natomiast obsługuje zasoby, które są dostępne tylko dla zarejestrowanych i zweryfikowanych użytkowników. W tej części aplikacji przed uzyskaniem dostępu do stron, takich jak profil użytkownika, ranking czy gra online, aplikacja przeprowadza weryfikację, czy użytkownik jest odpowiednio zalogowany i posiada uprawnienia do korzystania z tych zasobów. Jeśli użytkownik nie spełnia wymogów autentykacji, zostaje przekierowany do odpowiednich stron, takich jak strona logowania czy rejestracji.
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.7\textwidth]{zdj/main_router.png}
+    \caption{Schemat routingu dla zasobów dostępnych tylko dla zalogowanych i zweryfikowanych użytkowników.}
+\end{figure}
 
 \newpage
 
-\begin{minted}[fontsize=\small, bgcolor=lightgray]{javascript}
-    useEffect(() => {
-        const verifyUsersToken = async (): Promise<void> => {
-        const path = location.pathname;
+\textbf{Autoryzacja}\\
+Autoryzacja w MainRouterze polega na weryfikacji tokena użytkownika oraz stanu jego konta. Przy każdym wejściu na zasoby chronione, aplikacja najpierw sprawdza, czy w localStorage znajduje się token. Jeśli go brak, użytkownik jest przekierowywany do strony rejestracji. Następnie, jeśli token jest obecny, aplikacja sprawdza, czy adres e-mail użytkownika został zweryfikowany. W przypadku braku weryfikacji, użytkownik zostaje przekierowany do strony rejestracji z komunikatem o konieczności weryfikacji konta. Po pomyślnym zweryfikowaniu konta, aplikacja pobiera dane użytkownika, zapisuje je w localStorage i nawiązuje połączenie z serwisem gier. W przypadku jakichkolwiek problemów z autoryzacją, użytkownik jest również kierowany do strony rejestracji z odpowiednim komunikatem o błędzie.
 
-        try {
-            const token = localStorage.getItem("token");
-            if (!token) {
-            const state: StateOptions = /* details omitted */;
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=1\textwidth]{zdj/mrouter_authorization.png}
+    \caption{Fragment kodu pokazujący proces autoryzacji użytkownika.}
+\end{figure}
 
-            navigate("/registration", { state: state, replace: true });
-            return;
-            }
+\newpage
+\subsubsection{Komponenty interfejsu użytkownika}
 
-            const response = await axios.get<IsEmailVerifiedDto>(
-                userController.isVerified(), getAuthorization());
+Aplikacja korzysta z dwóch głównych routerów, z których pierwszy obsługuje strony dostępne publicznie, które stanowią wstęp do pełnej aplikacji i są dostępne bez konieczności logowania, zapewniając użytkownikom możliwość zapoznania się z funkcjami platformy przed założeniem konta. Drugi natomiast zarządza stronami, które są dostępne tylko po zalogowaniu się użytkownika i obejmują pełną funkcjonalność aplikacji. Strony te wymagają uwierzytelnienia, aby zapewnić bezpieczeństwo danych użytkowników oraz personalizację doświadczenia, co pozwala na pełne wykorzystanie możliwości aplikacji, takich jak interakcja z innymi graczami czy dostosowywanie ustawień profilu.
+\\\\
 
-            const isVerified = response.data.isEmailVerified;
-            if (!isVerified) {
-            const state: StateOptions = /* details omitted */;
+\textbf{Strona tytułowa (Index)}\\
+Strona tytułowa stanowi pierwsze spotkanie użytkownika z aplikacją. Zawiera ona szereg sekcji, które mają na celu zaprezentowanie aplikacji w sposób przejrzysty i zachęcający do dalszej interakcji. Sekcje na tej stronie mogą obejmować ogólne wprowadzenie do gry w szachy, zasady gry, możliwość rozpoczęcia gry online lub offline, a także funkcje aplikacji, takie jak zarządzanie znajomymi, zaproszenia do gry, czy dostęp do rankingów. Celem tej strony jest zainteresowanie użytkownika, zrozumienie, czym jest aplikacja i zachęcenie go do rejestracji lub logowania.
+\\
 
-            navigate("/registration", { state: state, replace: true });
-            return;
-            }
+\textbf{Strona informacyjna (About)}\\
+Strona informacyjna zawiera szczegółowe informacje na temat aplikacji, jej twórców, celu, zasad działania, jak również warunki korzystania z platformy i politykę prywatności. Jest to miejsce, gdzie użytkownicy mogą zapoznać się z pełnym opisem aplikacji, jej funkcji, zasadami bezpieczeństwa oraz wymaganiami. Dzięki tej stronie użytkownik zyskuje pełen obraz tego, czego może oczekiwać od aplikacji, a także jest informowany o zasadach korzystania z usługi.
+\\
 
-            const userInfoResponse = await axios.get<GetUserDto>(
-                userController.getUser(), getAuthorization());
-            localStorage.setItem("userInfo", JSON.stringify(userInfoResponse.data));
+\textbf{Strona do rejestracji (Register)}\\
+Strona rejestracji i logowania jest kluczowym komponentem, umożliwiającym użytkownikowi utworzenie konta, zalogowanie się lub przejście przez proces weryfikacji. Ta strona składa się z jednego okna, które zmienia się dynamicznie w zależności od podjętej akcji przez użytkownika. Może to obejmować różne stany, takie jak formularz rejestracji, formularz logowania lub okno informacyjne o konieczności weryfikacji konta po jego utworzeniu. Wszystkie te akcje są obsługiwane w ramach jednego komponentu, który dynamicznie przełącza widoki w zależności od wyboru użytkownika.
+\\
 
-            await GameHubService.startConnectionWithToken(token);
+\textbf{Strona główna (Main)}\\
+Strona główna, dostępna zaraz po zalogowaniu, stanowi centrum nawigacji aplikacji. Z jej poziomu użytkownik może rozpocząć grę, zapoznać się z historią swoich poprzednich gier, a także przejść do innych sekcji, takich jak konto użytkownika, znajomi, ranking czy ustawienia. Strona ta pełni rolę wprowadzenia do pełnej funkcjonalności aplikacji, umożliwiając użytkownikowi szybki dostęp do najistotniejszych opcji. Oprócz rozpoczęcia nowych gier i przeglądania starych, użytkownik może również zapraszać znajomych do gry lub przejrzeć dostępne tryby rozgrywki.
+\\
 
-            if (GameHubService.connection?.state === HubConnectionState.Connected) {
-            await GameHubService.AddSelfNotification();
+\textbf{Strona gry online (WebGame)}\\
+Jest to komponent odpowiedzialny za rozgrywki online. Mechanizm gry w tym przypadku oparty jest na interakcji dwóch graczy, którzy mogą rywalizować ze sobą w czasie rzeczywistym. Gra jest synchronizowana na bieżąco za pomocą mechanizmów, takich jak SignalR, co pozwala na natychmiastowe przesyłanie danych o wykonanych ruchach i stanie gry między użytkownikami. Strona ta oferuje interfejs umożliwiający pełną interakcję z planszą szachową, a także daje możliwość korzystania z dodatkowych funkcji, takich jak czat czy podgląd statystyk. Wygląd strony jest zoptymalizowany pod kątem dynamicznej gry online, zapewniając użytkownikowi płynne doświadczenie.
+\\
 
-            setAuthorize(true);
-            }
-        } catch (err) {
-            const state: StateOptions = /* details omitted */;
+\textbf{Strona gry offline (EngineGame)}\\
+Ten komponent odpowiada za tryb gry z komputerem, czyli tryb offline. W tym przypadku użytkownik gra przeciwko sztucznej inteligencji (AI), a rozgrywka jest realizowana w trybie offline, bez potrzeby połączenia z innym graczem. Mechanizmy gry różnią się od tych w trybie online, gdyż cała interakcja odbywa się tylko po stronie użytkownika i aplikacji, bez wymiany danych z zewnętrznymi źródłami. Strona EngineGame jest pod względem wyglądu podobna do strony WebGame, jednak w tym przypadku użytkownik nie ma możliwości zaproszenia znajomych do gry, a interakcja opiera się wyłącznie na grze z komputerem.
+\\
 
-            navigate("/registration", { state: state });
-        }
-        };
+\textbf{Strona konta użytkownika (Account)}\\
+Strona konta użytkownika to miejsce, w którym użytkownik może przeglądać i edytować swój profil. Zawiera ona informacje na temat użytkownika, takie jak nazwa, e-mail, zdjęcie profilowe oraz inne szczegóły, które można zmieniać. Dodatkowo, użytkownik ma dostęp do ustawień konta, takich jak zmiana hasła czy preferencje dotyczące powiadomień. Strona ta zawiera również sekcję z podsumowaniem statystyk gracza – liczba wygranych gier, ranking, liczba rozegranych partii i inne osiągnięcia.
+\\
 
-        verifyUsersToken();
-    }, []);
-\end{minted}
-            
+\textbf{Strona zarządzania znajomymi (Users)}\\
+Umożliwia ona użytkownikowi zarządzanie znajomymi i zapraszanie nowych osób do gry. Na tej stronie użytkownik może przeglądać swoich znajomych, wyszukiwać innych graczy, a także zapraszać ich do gry. Jest to także miejsce, gdzie można przeglądać historię zaproszeń i statusy graczy (czy są online, czy dostępni do gry). Użytkownik ma możliwość usuwania znajomych lub zatwierdzania nowych zaproszeń.
+\\
+
+\textbf{Strona profilu znajomego (Profile)}\\
+Strona ta pozwala na podgląd profili innych użytkowników. Dzięki tej stronie użytkownik może zapoznać się z danymi innych graczy, ich statystykami, historią gier oraz osiągnięciami. Umożliwia to łatwiejsze nawiązanie kontaktu i zaproszenie do gry. Strona ta pełni funkcję informacyjną, pozwalając użytkownikowi lepiej poznać innych graczy i ich styl gry.
+\\
+
+\textbf{Strona rankingu (Ranking)}\\
+Strona rankingu pokazuje aktualne rankingi graczy, zarówno na poziomie globalnym, jak i wśród znajomych. Użytkownik może przeglądać globalne rankingi, zobaczyć, jak plasuje się w porównaniu do innych graczy na całym świecie, jak również sprawdzić wyniki swoich znajomych. Ranking jest aktualizowany na bieżąco, odzwierciedlając wyniki wszystkich gier rozegranych w aplikacji. Dzięki temu użytkownicy mogą śledzić swoje postępy i starać się poprawić swoją pozycję w rankingu.
+\\
+
+\textbf{Strony ładowania (Loading)}\\
+Aplikacja zawiera również strony ładowania, które są wyświetlane w sytuacjach, gdy użytkownik musi poczekać na załadowanie zasobów lub wykonanie operacji, takich jak pobieranie danych z serwera. Strony te pełnią rolę informacyjną i zapewniają użytkownikowi feedback na temat aktualnego stanu procesu, na przykład ładowania gry, oczekiwania na odpowiedź z serwera lub innych operacji wymagających czasu.
+
+
+\newpage
+\subsubsection{Zarządzanie stanem aplikacji}
+Zarządzanie stanem aplikacji w projekcie opiera się na elastycznym wykorzystaniu kilku mechanizmów w zależności od charakteru stanu i jego zastosowania. Dzięki temu aplikacja jest w stanie skutecznie zarządzać zarówno lokalnym stanem komponentów, jak i bardziej złożonymi danymi związanymi z rozgrywką, zapewniając płynność i responsywność działania aplikacji w grze w szachy.
+
+\begin{itemize}
+    \item \textbf{Zarządzanie stanem lokalnym:} Do zarządzania stanem lokalnym, który jest związany z pojedynczymi komponentami, wykorzystywane jest useState. Tego typu stan przechowuje dane dotyczące interakcji użytkownika z interfejsem, na przykład wybór gry, filtrowanie wyników czy przechowywanie tymczasowych danych. Stan ten jest zmieniany w odpowiedzi na działania użytkownika lub pobieranie danych z serwera.
+    \item \textbf{Zarządzanie bardziej złożonym stanem:} W przypadku bardziej skomplikowanego stanu, takiego jak stan gry, używa się useReducer. Ta technika pozwala na lepsze zarządzanie złożonymi i dynamicznymi danymi, takimi jak aktualny stan rozgrywki, ruchy graczy, status gry czy zmiany na planszy. Dzięki zastosowaniu reducerów możliwe jest łatwe śledzenie zmian stanu oraz utrzymywanie porządku w logice aplikacji, szczególnie w sytuacjach, gdy wiele akcji może wpływać na jeden obiekt stanu.
+    \item \textbf{Globalny stan aplikacji:} Aby zarządzać danymi, które muszą być dostępne w wielu częściach aplikacji, wykorzystywany jest globalny stan oparty na useContext i createContext. Dzięki temu możliwe jest centralne przechowywanie i udostępnianie informacji, które są wykorzystywane w różnych miejscach aplikacji.
+    \item \textbf{Przechowywanie danych w localStorage:} Aplikacja wykorzystuje także localStorage do przechowywania niektórych danych, takich jak informacje o użytkowniku czy tokeny logowania. Dzięki temu dane te pozostają dostępne pomiędzy sesjami użytkownika, nawet po odświeżeniu strony lub zamknięciu aplikacji. localStorage zapewnia trwałość przechowywanych danych, co zwiększa komfort użytkownika, umożliwiając m.in. automatyczne logowanie się lub kontynuowanie gry bez potrzeby ponownego logowania.
+    \item \textbf{Komunikacja w czasie rzeczywistym z użyciem SignalR:}
+    W aplikacji szachowej, gdzie interakcja dwóch graczy musi odbywać się w czasie rzeczywistym, wykorzystano SignalR do synchronizacji stanu gry między graczami. Po wykonaniu ruchu przez jednego gracza, aplikacja natychmiastowo informuje drugiego gracza o zmianach, co pozwala na płynne i bieżące aktualizowanie stanu gry w czasie rzeczywistym. Dzięki SignalR, obaj gracze widzą zmiany na planszy bez opóźnień i mogą natychmiastowo reagować na ruchy przeciwnika.
+\end{itemize}
+
+\newpage
+\subsubsection{Gra w szachy}
+Proces zarządzania przebiegiem gry w szachy w aplikacji opiera się na dynamicznym śledzeniu i aktualizowaniu stanu gry w odpowiedzi na interakcje użytkownika. Cała procedura składa się z kilku etapów, które są ze sobą ściśle powiązane, aby zapewnić płynność rozgrywki i zgodność z zasadami szachów.
+\\\\
+
+\textbf{Pobranie stanu gry}\\
+Pierwszym krokiem jest pobranie aktualnego stanu gry z bazy danych, co pozwala na załadowanie pozycji wszystkich figur na planszy w chwili, gdy użytkownik wchodzi na stronę gry. Stan gry obejmuje pozycję wszystkich figur, informacje o graczach oraz inne dane związane z przebiegiem partii (np. liczba wykonanych ruchów, stan szachowy). Te dane są następnie zapisywane w bieżącym stanie aplikacji, co umożliwia dalsze operacje na szachownicy.
+\\
+\textbf{Mapowanie pozycji na macierz szachownicy}\\
+Po załadowaniu stanu gry, aplikacja przekształca dane dotyczące pozycji figur w odpowiednią macierz, która reprezentuje szachownicę. Dzięki temu można łatwo manipulować danymi i aktualizować widok planszy. Każda figura jest przypisana do konkretnych współrzędnych na planszy, co umożliwia jej wyświetlenie w odpowiednim miejscu. Mapowanie pozycji do macierzy pozwala również na łatwiejsze śledzenie możliwych ruchów dla każdej figury.
+\\
+
+\textbf{Kontrolowanie pól}\\
+Aplikacja następnie tworzy listy kontrolowanych pól dla obu graczy. Każde pole, na którym może spaść bicie, jest uwzględniane w tych listach. Ponadto, ważnym elementem jest zapewnienie, że król nie może wejść na pole, które jest zagrożone przez przeciwnika (czyli nie może stanąć na polu, które może zostać zaatakowane przez przeciwnika w kolejnej turze). Lista kontrolowanych pól jest dynamicznie aktualizowana po każdym ruchu, aby zapewnić prawidłową grę.
+\\
+
+\textbf{Sprawdzanie szacha}\\
+Kolejnym istotnym etapem jest sprawdzenie, czy w danej chwili istnieje szach. Szach to sytuacja, w której król jednego z graczy znajduje się pod bezpośrednim atakiem przeciwnika, co oznacza, że gracz musi podjąć działania w celu ochrony swojego króla. Jeśli występuje szach, aplikacja identyfikuje wszystkie pola, które biorą udział w szachu, co pozwala na zmuszenie gracza do podjęcia odpowiednich działań. Oznacza to, że gracz nie może swobodnie poruszać innymi figurami, a ruchy, które mogłyby zwiększyć zagrożenie, są blokowane.
+\\
+
+\textbf{Wyczyszczenie wcześniejszych wyborów}\\
+Po wykonaniu każdego ruchu lub interakcji z użytkownikiem, aplikacja wyczyści wszelkie wcześniejsze wybory dokonywane przez gracza. Na przykład, jeśli użytkownik wybrał figurę, a następnie nie wybrał jej nowej lokalizacji, poprzedni wybór zostaje anulowany. Zapewnia to, że nie pozostają żadne błędne lub nieaktualne dane, które mogłyby wpłynąć na dalszą grę.
+\\
+
+\textbf{Sprawdzanie możliwości ruchu}\\
+Zanim gracz będzie mógł dokonać wyboru figury, aplikacja sprawdza, czy istnieje jakikolwiek możliwy ruch, który można wykonać. Jeśli żaden ruch nie jest możliwy (np. w przypadku "matu" lub "patu"), gra zostaje zakończona. W przypadku matu (zamatowanie króla) jedna ze stron wygrywa, natomiast w przypadku pata (niemożliwość wykonania ruchu, ale król nie jest w szachu) gra kończy się remisem. Aplikacja automatycznie wykrywa te sytuacje i odpowiednio kończy grę.
+\\
+
+\textbf{Wybór figury i koordynat}\\
+Po sprawdzeniu dostępnych ruchów, gracz może wybrać figurę, którą chce ruszyć. Po dokonaniu wyboru, aplikacja zapisuje wybraną figurę oraz jej koordynaty na planszy. Następnie, użytkownik wybiera pole, na które chce wykonać ruch. W tym momencie aplikacja uruchamia procedurę obliczania wszystkich możliwych ruchów, jakie figura może wykonać na podstawie aktualnych zasad gry (np. ruchy dla pionka, wieży, gońca, itp.).
+\\
+
+\textbf{Podświetlanie dostępnych pól}\\
+Po obliczeniu dostępnych ruchów, aplikacja aktualizuje widok planszy, podświetlając odpowiednie pola, na które wybrana figura może się poruszyć. Dzięki temu użytkownik ma pełną widoczność swoich opcji i może łatwiej podjąć decyzję. Podświetlone są tylko te pola, które są zgodne z zasadami ruchów danej figury, co eliminuje możliwość wykonania błędnego ruchu.
+\\
+
+\textbf{Wykonanie ruchu}\\
+Po dokonaniu wyboru pola przez użytkownika, aplikacja sprawdza, czy ruch jest dozwolony. Jeśli tak, wykonuje ruch, przenosząc figurę na nowe pole. Jeżeli ruch jest nielegalny (np. figura nie może poruszyć się na to pole zgodnie z zasadami gry), aplikacja anuluje wybór i pozwala graczowi ponownie wybrać figurę i cel ruchu.
+\\
+
+\textbf{Aktualizacja stanu gry}\\
+Po wykonaniu ruchu aplikacja zapisuje nowy stan gry w bazie danych, co pozwala na kontynuowanie gry od tego punktu w przyszłości. Zmiany w stanie gry obejmują aktualizację pozycji figur, liczbę wykonanych ruchów oraz ewentualne zmiany w statusie gry (np. wprowadzenie szacha, matu lub pata). Dzięki temu stan gry jest synchronizowany i zabezpieczony na wypadek przerwania gry lub ponownego załadowania strony.
+\\
+
+\textbf{Powiadomienie drugiego gracza}\\
+Na końcu, po zapisaniu zmian w bazie, aplikacja powiadamia drugiego gracza o wykonanym ruchu, aby umożliwić mu podjęcie swojej tury. Powiadomienie jest realizowane za pomocą technologii SignalR, która zapewnia natychmiastową synchronizację stanu gry pomiędzy graczami. To kluczowy element umożliwiający grę online w czasie rzeczywistym, gdzie każdy ruch jednego gracza jest natychmiastowo widoczny dla drugiego gracza.
+\\
+
 \newpage
 \subsubsection{Wykorzystane biblioteki}
 
-\begin{itemize}
-    \item \textbf{@microsoft/signalr}: Biblioteka SignalR od Microsoftu pozwala na komunikację w czasie rzeczywistym między aplikacjami frontendowymi a serwerem. Jest to kluczowa biblioteka, umożliwiająca implementację funkcji czatu lub powiadomień w czasie rzeczywistym, np. w grze szachowej, w której użytkownicy mogą odbierać i wysyłać wiadomości na żywo.
-    \item \textbf{@mui/x-charts}: Biblioteka wykorzystywana do tworzenia interaktywnych wykresów i wizualizacji danych w aplikacjach React. Może być używana do wyświetlania analiz, statystyk lub wyników gier w postaci wykresów.
-    \item \textbf{@types/jsonwebtoken}: Typy TypeScript dla biblioteki jsonwebtoken. Używane do pracy z tokenami JWT (JSON Web Tokens), które mogą być wykorzystywane do uwierzytelniania i autoryzacji użytkowników w aplikacjach webowych.
-    \item \textbf{axios}: Klient HTTP, który ułatwia wykonywanie zapytań do API. Jest to popularne narzędzie do pracy z zapytaniami typu GET, POST, PUT, DELETE i innymi, pozwalające na łatwą obsługę odpowiedzi z serwera, w tym błędów.
-    \item \textbf{guid-typescript}: Biblioteka umożliwiająca generowanie i operowanie na identyfikatorach GUID (Globally Unique Identifiers) w aplikacjach TypeScript. Może być używana do generowania unikalnych identyfikatorów, np. dla nowych gier, użytkowników lub sesji.
-    \item \textbf{history}: Biblioteka zarządzająca historią przeglądarki, używana przez react-router-dom do zarządzania nawigacją w aplikacjach SPA (Single Page Application). Pozwala na manipulowanie historią przeglądarki (np. przechodzenie do nowych stron bez przeładowania strony).
-    \item \textbf{jsonwebtoken}: Biblioteka do tworzenia i weryfikacji tokenów JWT. JWT jest szeroko stosowanym standardem w aplikacjach webowych do zarządzania uwierzytelnianiem i autoryzacją użytkowników.
-    \item \textbf{jwt-decode}: Biblioteka do dekodowania tokenów JWT. Pomaga w ekstrakcji informacji z tokenów, takich jak dane użytkownika lub czas wygaśnięcia tokenu.
-    \item \textbf{msw}: Mock Service Worker – biblioteka służąca do tworzenia fikcyjnych serwisów (mocking API). Używana do testowania aplikacji frontendowych bez konieczności posiadania aktywnego backendu. Może służyć do mockowania odpowiedzi z API w trakcie rozwoju lub testów.
-    \item \textbf{react}: Podstawowa biblioteka do budowy interfejsów użytkownika w aplikacjach frontendowych. React jest wykorzystywany do tworzenia dynamicznych komponentów UI, które mogą się aktualizować w odpowiedzi na zmiany w danych.
-    \item \textbf{react-dom}: Zawiera funkcje do renderowania aplikacji React na stronie HTML. Jest to kluczowy komponent w ekosystemie React, umożliwiający integrację z DOM.
-    \item \textbf{react-router-dom}: Biblioteka do obsługi routingu w aplikacjach React. Umożliwia tworzenie linków, trasowanie i zarządzanie nawigacją między różnymi widokami (stronami) w aplikacji SPA.
-    \item \textbf{sass}: Preprocesor CSS, który pozwala na pisanie bardziej zorganizowanego i modularnego CSS. Zawiera funkcje takie jak zmienne, zagnieżdżanie, mixiny, które ułatwiają pisanie i utrzymanie kodu stylów.
-    \item \textbf{scss}: Skrócona nazwa dla SASS (Syntactically Awesome Stylesheets). SCSS to rozszerzenie składni SASS, które jest bardziej zbliżone do standardowego CSS i jest szeroko stosowane w nowoczesnych aplikacjach frontendowych.
-    \item \textbf{uuid}: Biblioteka do generowania unikalnych identyfikatorów UUID. Jest często używana w aplikacjach do generowania identyfikatorów dla elementów lub sesji.
-    \item \textbf{@eslint/js}: Biblioteka ESLint dla JavaScript, wykorzystywana do sprawdzania jakości kodu, wychwytywania błędów i utrzymywania spójnego stylu kodowania w zespole.
-    \item \textbf{@testing-library/dom}: Biblioteka do testowania DOM w aplikacjach frontendowych, pozwala na tworzenie testów jednostkowych i integracyjnych w React.
-    \item \textbf{@testing-library/react}: Biblioteka wspomagająca testowanie komponentów React, która integruje się z popularnymi narzędziami do testów, takimi jak Jest i React Testing Library.
-    \item \textbf{eslint}: Narzędzie do statycznej analizy kodu, wykorzystywane do zapewnienia jakości i spójności kodu JavaScript/TypeScript, zgodnie z określonymi zasadami.
-    \item \textbf{stylelint}: Narzędzie do analizy CSS i SCSS, które pomaga w utrzymaniu porządku i jakości kodu stylów.
-    \item \textbf{typescript}: Typowanie statyczne dla JavaScriptu. TypeScript dodaje do JavaScript typy i inne funkcje, które pomagają uniknąć błędów w kodzie i poprawiają skalowalność aplikacji.
-    \item \textbf{vite}: Szybki bundler i serwer deweloperski, który wspiera nowoczesne technologie, takie jak ES Modules, TypeScript i React, zapewniając szybki czas ładowania podczas pracy nad projektem.
-    \item \textbf{vitest}: Framework do testowania w ekosystemie Vite. Umożliwia szybkie uruchamianie testów jednostkowych, które są zgodne z biblioteką Jest, ale zoptymalizowane pod kątem Vite.
+\begin{itemize} 
+    \item \textbf{@microsoft/signalr}: Biblioteka umożliwiająca komunikację w czasie rzeczywistym między aplikacjami frontendowymi a serwerem. Jest kluczowa do implementacji funkcji czatu, powiadomień lub innych aplikacji wymagających bieżącej wymiany danych w czasie rzeczywistym.
+    \item \textbf{jsonwebtoken} i \textbf{jwt-decode}: Biblioteki związane z uwierzytelnianiem. `jsonwebtoken` służy do tworzenia i weryfikacji tokenów JWT, które są używane do autoryzacji użytkowników, a `jwt-decode` umożliwia dekodowanie tych tokenów, pozwalając na ekstrakcję danych, takich jak dane użytkownika lub czas wygaśnięcia tokenu.
+    \item \textbf{axios} i \textbf{msw}: Axios to klient HTTP do wysyłania zapytań do API, a MSW umożliwia mockowanie tych zapytań w trakcie rozwoju lub testowania aplikacji bez potrzeby aktywnego backendu. 
+    \item \textbf{guid-typescript} i \textbf{uuid}: Obie biblioteki umożliwiają generowanie unikalnych identyfikatorów, które mogą być używane w aplikacjach do identyfikowania elementów, sesji lub użytkowników. 
+    \item \textbf{history} i \textbf{react-router-dom}: History umożliwia zarządzanie historią przeglądarki, a react-router-dom korzysta z tej biblioteki do obsługi routingu i nawigacji w aplikacjach SPA. 
+    \item \textbf{react} i \textbf{react-dom}: React to biblioteka do tworzenia dynamicznych komponentów UI, a react-dom pozwala na renderowanie tych komponentów w DOM, integrując aplikację React z przeglądarką. 
+    \item \textbf{sass} i \textbf{scss}: Obie biblioteki to preprocesory CSS, gdzie SCSS jest bardziej zbliżoną do standardowego CSS wersją SASS. Używa się ich do organizowania i modularnego pisania stylów. 
+    \item \textbf{@testing-library/dom} i \textbf{@testing-library/react}: Biblioteki do testowania DOM i komponentów React, umożliwiające tworzenie testów jednostkowych i integracyjnych w aplikacjach frontendowych. 
+    \item \textbf{eslint} i \textbf{@eslint/js}: Narzędzia do statycznej analizy kodu w celu zapewnienia jakości i spójności kodu JavaScript, zgodnie z określonymi zasadami. 
+    \item \textbf{stylelint}: Narzędzie do analizy jakości CSS i SCSS, zapewniające porządek w kodzie stylów. 
+    \item \textbf{typescript}: Typowanie statyczne dla JavaScript, które pomaga unikać błędów w kodzie oraz poprawia jego skalowalność.
+    \item \textbf{vite} i \textbf{vitest}: Vite to bundler i serwer deweloperski, który wspiera nowoczesne technologie, a vitest to framework testowy zoptymalizowany pod kątem ekosystemu Vite, umożliwiający szybkie uruchamianie testów jednostkowych. 
 \end{itemize}
 
 \newpage

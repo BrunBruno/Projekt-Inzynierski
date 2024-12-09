@@ -55,6 +55,15 @@ public class WebGameRepository : IWebGameRepository {
                     .ToListAsync();
 
     ///<inheritdoc/>
+    public async Task<List<WebGame>> GetAllOngoing() 
+        => await _dbContext.WebGames
+                    .Include(wg => wg.WhitePlayer)
+                    .Include(wg => wg.BlackPlayer)
+                    .Include(wg => wg.Moves)
+                    .Where(wg => wg.HasEnded == false)      
+                    .ToListAsync();
+
+    ///<inheritdoc/>
     public async Task Create(WebGame game) {
         await _dbContext.WebGames.AddAsync(game);
         await _dbContext.SaveChangesAsync();
