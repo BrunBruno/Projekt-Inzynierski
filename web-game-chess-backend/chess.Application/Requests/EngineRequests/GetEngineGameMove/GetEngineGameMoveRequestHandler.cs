@@ -47,6 +47,7 @@ public class GetEngineGameMoveRequestHandler : IRequestHandler<GetEngineGameMove
         var fullFen = MakeFen(game);
 
         // make engine move
+
         _engineService.SendCommand($"position fen {fullFen}");
         _engineService.SendCommand($"go depth {game.EngineLevel}");
 

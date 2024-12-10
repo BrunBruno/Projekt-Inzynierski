@@ -16,9 +16,21 @@
 \usepackage{array}
 \usepackage{longtable}
 \usepackage{amsmath} 
+\usepackage{xcolor}
+\usepackage{tcolorbox}
 
 \usetikzlibrary{positioning}
 \selectlanguage{polish}
+
+\tcbset{
+    highlightstyle/.style={
+        colback=black!90,
+        coltext=white,
+        boxrule=0pt,
+        enhanced jigsaw,
+        sharp corners,
+    }
+}
 
 \begin{document}
 \clearpage
@@ -163,188 +175,268 @@ Figma jako zewnętrzny program zalazła zastosowanie w projekcie głownie do pro
 \section{Opis implementacji}
 \subsection{System kontroli wersji}
 
-W tym projekcie kontrola wersji jest zarządzana za pomocą Git i GitHub, z Sourcetree jako aplikacją desktopową do interakcji. Taka konfiguracja zapewnia zorganizowany i wydajny przepływ pracy w zakresie śledzenia zmian, współpracy i utrzymywania integralności bazy kodu.
+W projekcie zastosowano system kontroli wersji \textbf{Git}, który umożliwia efektywne zarządzanie historią zmian w kodzie oraz współpracę w zespole deweloperskim. Git jest jednym z najpopularniejszych narzędzi do kontroli wersji, oferującym rozproszoną architekturę, która pozwala na pracę na lokalnych repozytoriach oraz synchronizację z centralnym repozytorium. Dzięki Git, możliwe jest śledzenie zmian w kodzie, zarządzanie różnymi wersjami aplikacji, a także przywracanie wcześniejszych wersji w przypadku wystąpienia problemów.
+\\\\
+Do przechowywania repozytorium projektu wykorzystano  \textbf{GitHub}, który jest jednym z najpopularniejszych serwisów oferujących hosting repozytoriów Git. GitHub umożliwia łatwą synchronizację kodu z repozytorium, zarządzanie gałęziami, a także udostępnianie projektu innym osobom. Ponadto, GitHub oferuje szereg narzędzi wspierających procesy takie jak przegląd kodu, zarządzanie zgłoszeniami błędów, a także automatyzację procesów wdrożeniowych.
+\\\\
+Adres repozytorium projektu: \href{https://github.com/BrunBruno/Projekt-Inzynierski}{https://github.com/BrunBruno/Projekt-Inzynierski}.
+
+\vspace{1cm}
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=1\textwidth]{images/gh_repo.png}
+    \caption{Repozytorium na stronie github.com}
+\end{figure}
+\vspace{1cm}
+
+Do wygodniejszej pracy z Git na lokalnym użądleniu wykorzystany został program  \textbf{SourceTree}, czyli narzędzia desktopowego, które stanowi graficzny interfejs użytkownika do systemu Git. SourceTree pozwala na wygodne wywoływanie poleceń Git, takich jak commit, push, pull, czy merge w sposób bardziej intuicyjny i przystępny niż używanie terminala. Dzięki SourceTree zarządzanie gałęziami i wersjami jest bardzo proste i intuicyjne, a procesy takie jak przeglądanie historii commitów czy rozwiązywanie konfliktów w plikach są bardziej zorganizowane i mniej czasochłonne.
 
 \newpage
+
 \subsection{Warstwa danych}
+\subsubsection{Opis architektury bazy danych}
+
+Warstwa danych w aplikacji jest odpowiedzialna za zarządzanie przechowywaniem i dostępem do informacji w bazie danych. W omawianym projekcie wykorzystano system zarządzania bazą danych \textbf{PostgreSQL}, który jest jednym z najpopularniejszych rozwiązań bazodanowych o otwartym kodzie źródłowym. PostgreSQL charakteryzuje się dużą wydajnością, niezawodnością oraz elastycznością, co czyni go idealnym wyborem do obsługi wymagających aplikacji serwerowych.
+\\\\
+Z kolei do zarządzania interakcją z bazą danych w aplikacji serwerowej zastosowano bibliotekę \textbf{Entity Framework (EF)}. Entity Framework to popularny ORM (Object-Relational Mapping) dla .NET, który pozwala na mapowanie klas C\# na tabele w bazie danych, a także automatycznie generuje zapytania SQL na podstawie operacji na tych klasach. Dzięki EF, proces pracy z bazą danych jest znacznie uproszczony, ponieważ umożliwia on programistom operowanie na obiektach w aplikacji, a nie bezpośrednio na tabelach bazy danych.
+\\\\
+W tej aplikacji, każda encja (klasa reprezentująca dane) jest mapowana na odpowiednią tabelę w bazie danych, a właściwości tych klas odpowiadają kolumnom w tabelach. Dzięki temu, zapisane dane w postaci obiektów w aplikacji mogą być łatwo zapisywane i pobierane z bazy, co zapewnia spójność i łatwość w zarządzaniu danymi.
+\\\\
+Przykładowo, przy użyciu Entity Framework, klasy encji, które zostały zaprezentowane w dalszej części rozdziału, automatycznie generują odpowiednie tabele w bazie PostgreSQL. Ułatwia to pracę z danymi, pozwalając na ich łatwe przetwarzanie i manipulowanie, a jednocześnie zapewnia integralność danych w bazie.
+\\\\
+Do obsługi bazy danych, zarządzania danymi oraz monitorowania stanu bazy zastosowano narzędzie \textbf{PgAdmin4}. Jest ono popularnym interfejsem graficznym dla PostgreSQL, który umożliwia łatwe zarządzanie bazą danych, tworzenie zapytań SQL, monitorowanie wydajności oraz przeprowadzanie operacji na danych, takich jak dodawanie, edytowanie czy usuwanie rekordów. Dzięki temu narzędziu możliwe jest szybkie i wygodne wykonywanie operacji administracyjnych oraz wgląd w strukturę bazy danych, co wspiera procesy rozwoju i utrzymania aplikacji.
+\\\\
+Poniżej zaprezentowane zostały diagramy \textbf{ERD (Entity-Relationship Diagram)}, które ilustrują strukturę bazy danych oraz relacje pomiędzy encjami. Każda z tych encji odpowiada za przechowywanie specyficznych danych, które są następnie wykorzystywane przez różne warstwy aplikacji w celu zapewnienia pełnej funkcjonalności systemu. Opis poszczególnych encji i ich zależności pozwala na lepsze zrozumienie, jak dane są przechowywane i powiązane w systemie.
+
+\newpage
+
 \subsubsection{Schemat bazy danych}
 
 \noindent \textbf{Relacje użytkownika} \\
-Segment relacji z użytkownikami obejmuje kilka encji i ich relacji, które zarządzają danymi użytkownika. Encja User jest rdzeniem tego segmentu i jest powiązany z wieloma innymi jednostkami. Każdy użytkownik jest powiązany z rolą, która definiuje uprawnienia użytkownika w systemie, a relacja między nimi jest ustanawiana za pomocą klucza obcego na RoleId. Ponadto każdy użytkownik jest powiązany z kodem weryfikacyjnym do celów weryfikacji, a relacja ta jest jeden do jednego. Encje UserProfileImage i UserBackgroundImage przechowują dane związane z obrazem, tworząc relacje jeden-do-jednego z podmiotem User. Jednostki UserElo i UserStats śledzą odpowiednio ranking i statystyki użytkownika i są również powiązane z jednostką User poprzez relacje jeden-do-jednego.
+Segment relacji z użytkownikami obejmuje kilka encji i ich relacji, które zarządzają danymi użytkownika. Encja \textbf{\texttt{User}} jest rdzeniem tego segmentu i jest powiązany z wieloma innymi jednostkami. Każdy użytkownik jest powiązany z rolą, która definiuje uprawnienia użytkownika w systemie, a relacja między nimi jest ustanawiana za pomocą klucza obcego na \texttt{RoleId}. Ponadto każdy użytkownik jest powiązany z kodem weryfikacyjnym do celów weryfikacji w relacji ta jest jeden do jednego. Encje reprezentujące obrazy przechowują dane związane z zdjęciami, tworząc relacje jeden-do-jednego z podmiotem User. Jednostki odpowiadające za śledzenie ranking i statystyki użytkownika i są również powiązane z jednostką \texttt{User} poprzez relacje jeden-do-jednego. Sama jednostka \texttt{User} jest powiązana także z kilkoma innymi encjami łącząc pozostałem segment w jedną całość.
 
 \vspace{1cm}
 \begin{figure}[h!]
     \centering
-    \includegraphics[width=0.8\textwidth]{zdj/user_ERD.png}
-    \caption{Diagram relacji jednostka-relacja przedstawiający relacje użytkownika - wygenerowany za pomocą PgAdmin 4}
+    \includegraphics[width=0.9\textwidth]{images/ERD_user.png}
+    \caption{Diagram relacji jednostka-relacja przedstawiający relacje użytkownika - wygenerowany za pomocą PgAdmin4}
 \end{figure}
+
 \newpage
 
 \noindent \textbf{Relacje znajomości} \\
-Segment relacji przyjaźni jest zarządzany przez jednostkę przyjaźni, która reprezentuje połączenia społeczne między użytkownikami. Każda Encja Friendship ma dwóch kluczowych uczestników: Requestor (przyjmujacy) i Receiver (odbierający). Są to obaj użytkownicy, a relacje między tymi podmiotami są modelowane za pomocą kluczy obcych: RequestorId i ReceiverId. Ta relacja jest wiele-do-jednego, co oznacza, że użytkownik może mieć wiele przyjaźni zarówno jako żądający, jak i odbiorca. Dodatkowo, jednostka FriendshipStats śledzi statystyki związane z każdą przyjaźnią, tworząc relację jeden-do-jednego z jednostką Friendship.
+Segment relacji przyjaźni jest zarządzany przez jednostkę przyjaźni, która reprezentuje połączenia społeczne między użytkownikami. Każda Encja \textbf{\texttt{Friendship}} ma dwóch kluczowych uczestników: \texttt{Requestor} (przyjmujacy) i \texttt{Receiver} (odbierający). Są to obaj użytkownicy, a relacje między tymi podmiotami są modelowane za pomocą kluczy obcych: \texttt{RequestorId} i \texttt{ReceiverId}. Ta relacja jest wiele-do-jednego, co oznacza, że użytkownik może mieć wiele przyjaźni zarówno jako żądający, jak i odbiorca. Dodatkowo, istnieje jednostka statystyk przyjaźni śledząca statystyki związane z każdą przyjaźnią, tworząc relację jeden-do-jednego z encją \texttt{Friendship}. Same znajomości są grupowane na podstawie pola \texttt{Status}, który jest wartością wyliczeniową, określającą rodzaj znajomości - są to relacje zaakceptowane, oczekujące i zablokowane.
 
 \vspace{1cm}
 \begin{figure}[h!]
     \centering
-    \includegraphics[width=0.8\textwidth]{zdj/friendship_ERD.png}
-    \caption{Diagram relacji między podmiotami przedstawiający relacje przyjaźni między użytkownikami - wygenerowany za pomocą PgAdmin 4}
+    \includegraphics[width=0.9\textwidth]{images/ERD_friendship.png}
+    \caption{Diagram relacji między podmiotami przedstawiający relacje przyjaźni między użytkownikami - wygenerowany za pomocą PgAdmin4}
 \end{figure}
+
 \newpage
 
 \noindent \textbf{Relacje w grach sieciowych} \\
-Segment Web Game Relations obsługuje strukturę internetowej gry w szachy, z kilkoma jednostkami, które śledzą różne aspekty gry. Jednostka WebGame reprezentuje samą grę, łącząc graczy (WhitePlayer i BlackPlayer) poprzez relacje jeden-do-jednego. Stan i czas gry są kontrolowane przez encje WebGameState i WebGameTiming, które są połączone za pomocą kluczy obcych. Jednostka WebGamePlayer służy do śledzenia informacji specyficznych dla gracza dla każdej gry i odwołuje się do jednostki User. Ruchy wykonane w grze są przechowywane w encji WebGameMove, która ma relację wiele do jednego z WebGame. Dodatkowo, wiadomości wymieniane podczas gry są obsługiwane przez encje WebGameMessage i WebGamePlayerMessage, tworzące relacje odpowiednio z WebGame i WebGamePlayer.
+Segment relacji gier online obsługuje strukturę internetowej gry w szachy, z kilkoma jednostkami, które śledzą różne aspekty gry. Jednostka \textbf{\texttt{WebGame}} jest główną w tym segmencie i reprezentuje samą grę, łącząc dwóch graczy poprzez relacje jeden-do-jednego. Stan i czas gry są kontrolowane przez osobne encje, które są połączone za pomocą kluczy obcych. Jednostka \texttt{WebGamePlayer} służy do zapisywania informacji specyficznych dla gracza i odwołuje się do jednostki \texttt{User} - użytkownik posiada wielu graczy. Ruchy wykonane w grze są przechowywane w osobnej tabli, która ma relację wiele do jednego z główną encję gry. Dodatkowo, wiadomości wymieniane podczas gry są obsługiwane przez encje dwa osobne obiekty, tworzące relacje wiele-do-jednego odpowiednio z encjami samej gry jak i gracza.
 
 \vspace{1cm}
 \begin{figure}[h!]
     \centering
-    \includegraphics[width=0.8\textwidth]{zdj/online_ERD.png}
-    \caption{Diagram relacji między podmiotami ilustrujący strukturę interakcji w grach sieciowych - wygenerowany za pomocą PgAdmin 4}
+    \includegraphics[width=0.9\textwidth]{images/ERD_online.png}
+    \caption{Diagram relacji między podmiotami ilustrujący strukturę interakcji w grach sieciowych - wygenerowany za pomocą PgAdmin4}
 \end{figure}
+
 \newpage
 
 \noindent \textbf{Relacje w grach z silnikiem} \\
-Segment ten skupia się na aspekcie gry opartym na silniku, gdzie każda gra jest zarządzana przez encję EngineGame. Encja EngineGame jest powiązana z encją EngineGamePlayer, reprezentującą użytkownika, który gra w grę opartą na silniku, a relacja jeden-do-jednego jest ustanawiana poprzez PlayerId. Każdy ruch w grze jest przechwytywany w encji EngineGameMove, która jest powiązana z encją EngineGame poprzez klucz obcy. Encja EngineGameState przechowuje aktualny stan gry opartej na silniku i jest powiązana z EngineGame poprzez relację jeden-do-jednego. Dodatkowo, wiadomości specyficzne dla gier silnikowych są przechowywane w encji EngineGameMessage, która jest powiązana z EngineGame poprzez klucz obcy.
+Segment ten skupia się na aspekcie gry opartym na silniku, gdzie każda gra jest zarządzana przez encję \textbf{\texttt{EngineGame}}. Encja ta jest powiązana z encją gracza, reprezentującą użytkownika, który gra w grę opartą na silniku, a relacja jeden-do-jednego jest ustanawiana poprzez parametr \texttt{PlayerId}. Każdy ruch w grze jest przechwytywany w tabeli ruchów, która jest powiązana z główną encją poprzez klucz obcy. Encja stanu gry przechowuje aktualny stan gry opartej na silniku i jest powiązana z \texttt{EngineGame} poprzez relację jeden-do-jednego. Dodatkowo, wiadomości specyficzne dla gier silnikowych są przechowywane w osobnej liscie obiektów, która jest powiązana z \texttt{EngineGame} poprzez klucz obcy.
 
 \vspace{1cm}
 \begin{figure}[h!]
     \centering
-    \includegraphics[width=0.8\textwidth]{zdj/offline_ERD.png}
-    \caption{Diagram zależności między jednostkami przedstawiający relacje między silnikiem a grą - wygenerowany za pomocą PgAdmin 4}
+    \includegraphics[width=0.9\textwidth]{images/ERD_offline.png}
+    \caption{Diagram zależności między jednostkami przedstawiający relacje między silnikiem a grą - wygenerowany za pomocą PgAdmin4}
 \end{figure}
+
 \newpage
 
 
 \subsubsection{Opis encji}
+W ramach warstwy danych aplikacji, encje pełnią kluczową rolę w odwzorowywaniu struktury danych, które są przechowywane w bazie danych. W tym rozdziale przedstawione zostały wszystkie encje projektu, ich właściwości oraz powiązania między nimi. Każda z encji odpowiada za przechowywanie danych dotyczących określonych elementów systemu, takich jak użytkownicy, gry czy relacje, a ich odpowiedniki w bazie danych są realizowane za pomocą tabel.
+\\\\
+Ważnym aspektem w projekcie jest wykorzystanie klas abstrakcyjnych, które stanowią wspólne podstawy dla encji reprezentujących różne, ale podobne obiekty w systemie. Klasy abstrakcyjne nie mają swojego odwzorowania w bazie danych, jednak pełnią rolę pośredników, umożliwiając dziedziczenie i tworzenie bardziej specyficznych encji. Na przykład, encje reprezentujące gry online oraz gry z komputerem dziedziczą po klasach abstrakcyjnych, które definiują wspólne właściwości dla wszystkich gier. Jednak szczegóły, takie jak obecność kontroli czasu, różnią się w zależności od typu gry — gry online mogą mieć kontrolę czasu, podczas gdy gry offline nie.
+\\\\
+W samych encjach zdefiniowane są również powiązania z innymi encjami, które realizowane są przez klucze obce. Klucze obce są zapisane jako kolumny w tabelach, przyjmujące postać identyfikatorów powiązanych encji. Dzięki temu możliwe jest tworzenie odpowiednich relacji pomiędzy danymi w różnych tabelach. W przypadku relacji jeden do wielu, zastosowanie znajdują listy, które umożliwiają przypisanie wielu obiektów do jednej encji.
+\\\\
+Encje w projekcie zostały podzielone logicznie, zgodnie z rolą, jaką pełnią w systemie. Na przykład, encja użytkownika (User) jest powiązana z encją punktacji, jednak punktacja jest przechowywana w osobnej tabeli, ponieważ jest uzywana do konkretnych, innych funkcjonalności niż sam User. Dzięki takiemu podziałowi możliwe jest bardziej elastyczne zarządzanie danymi oraz lepsze odwzorowanie relacji pomiędzy różnymi elementami systemu.
+\\\\
+Poniżej zaprezentowano encje abstrakcyjne oraz te, które mają swoje odzwierciedlenie w bazie danych, z pominięciem abstrakcyjnych wartości. Dzięki temu możliwe jest zobrazowanie rzeczywistej struktury danych, które są przechowywane w systemie, oraz przedstawienie relacji między różnymi encjami, które są kluczowe dla prawidłowego funkcjonowania aplikacji.
+
+\newpage
+
+\textbf{Abstrakcyjne jednostki}\\
 
 \begin{itemize}
-    \item \textbf{DataConfigurations} - Zawiera ustawienia konfiguracji dla kluczowych pól użytkownika.
+    \item \textbf{Image}\\
+    Abstrakcyjna klasa reprezentująca pliki graficzne.
     \begin{longtable}{|m{4cm}|m{2cm}|m{8cm}|}
         \hline
         \textbf{Właściwość} & \textbf{Typ} & \textbf{Opis} \\ \hline
         \endhead
         \hline
-        Id & int & Identyfikator konfiguracji (PK) \\ \hline
-        MinLength & int? & Minimalna długość pola \\ \hline
-        MaxLength & int? & Maksymalna długość pola \\ \hline
-        RequireUppercase & bool & Czy wymagana jest wielka litera \\ \hline
-        RequireLowercase & bool & Czy wymagana jest mała litera \\ \hline
-        RequireDigit & bool & Czy wymagana jest cyfra \\ \hline
-        RequireSpecialChar & bool & Czy wymiany jest znak specjalny \\ \hline
+        Data & byte[] & Dane obrazu w postaci bajtów \\ \hline
+        ContentType & string & Typ zawartości obrazu (np. "image/png", "image/jpeg") \\ \hline
     \end{longtable}
 
-    \item \textbf{Roles} - Określa role użytkowników w systemie, takie jak "User" i "Admin".
+    \item \textbf{Game}\\
+    Klasa dziedziczona przez podmioty reprezentujące gry.
     \begin{longtable}{|m{4cm}|m{2cm}|m{8cm}|}
         \hline
         \textbf{Właściwość} & \textbf{Typ} & \textbf{Opis} \\ \hline
         \endhead
         \hline
-        Id & int & Identyfikator roli (PK) \\ \hline
-        Name & string & Nazwa roli \\ \hline
+        Position & string & Aktualna pozycja na szachownicy \\ \hline
+        HasEnded & bool & Flaga, czy gra się zakończyła \\ \hline
+        CreatedAt & DateTime & Data utworzenia gry \\ \hline
+        StartedAt & DateTime? & Data rozpoczęcia gry \\ \hline
+        EndedAt & DateTime? & Data zakończenia gry \\ \hline
+        Turn & int & Numer tury gry \\ \hline
+        Round & int & Numer rundy \\ \hline
+        WinnerColor & enum? & Kolor zwycięzcy (null oznacza remis) \\ \hline
     \end{longtable}
 
-    \item \textbf{Users} - Główna encja reprezentująca użytkownika.
+    \item \textbf{GameState}\\
+    Abstrakcyjna encja reprezentująca stan gry, zawierająca szczegółowe informacje, ktorych nie ma sposobu pozyskać w inny wypadku, niż poprzez zapisanie wystąpienia zdarzenia.
+    \begin{longtable}{|m{4cm}|m{2cm}|m{8cm}|}
+        \hline
+        \textbf{Właściwość} & \textbf{Typ} & \textbf{Opis} \\ \hline
+        \endhead
+        \hline
+        EnPassant & string? & Koordynaty dla ruchu en passant w formacie x,y \\ \hline
+        CWKing & bool & Czy biały król może jeszcze wykonać roszadę \\ \hline
+        CWShort & bool & Czy biały król może wykonać krótką roszadę \\ \hline
+        CWLong & bool & Czy biały król może wykonać długą roszadę \\ \hline
+        CBKing & bool & Czy czarny król może jeszcze wykonać roszadę \\ \hline
+        CBShort & bool & Czy czarny król może wykonać krótką roszadę \\ \hline
+        CBLong & bool & Czy czarny król może wykonać długą roszadę \\ \hline
+        HalfMove & int & Liczba ruchów nie będących ruchem pionkiem (dla zasady 50 ruchów) \\ \hline
+    \end{longtable}
+
+    \item \textbf{Message}\\
+    Generalna encja reprezentująca wiadomości tworzone podczas gry (automatycznie i poprzez użytkowników).
+    \begin{longtable}{|m{4cm}|m{2cm}|m{8cm}|}
+        \hline
+        \textbf{Właściwość} & \textbf{Typ} & \textbf{Opis} \\ \hline
+        \endhead
+        \hline
+        Content & string & Treść wiadomości \\ \hline
+        SentAt & DateTime & Data i godzina wysłania wiadomości \\ \hline
+        Type & enum & Typ wiadomości (automatyczna / wysłana) \\ \hline
+    \end{longtable}
+
+    \item \textbf{Move}\\
+    Abstrakcyjna encja przedstawiająca ruch wykonany podczas rozgrywki.
+    \begin{longtable}{|m{4cm}|m{2cm}|m{8cm}|}
+        \hline
+        \textbf{Właściwość} & \textbf{Typ} & \textbf{Opis} \\ \hline
+        \endhead
+        \hline
+        DoneMove & string & Wykonany ruch w formacie: tag figury + x (jeśli zbicie) + współrzędne xy \\ \hline
+        FenMove & string & Wykonany ruch w formacie FEN \\ \hline
+        OldCoordinates & string & Współrzędne, z których figura została przemieszczona w formacie x,y \\ \hline
+        NewCoordinates & string & Współrzędne, na które figura została przemieszczona w formacie x,y \\ \hline
+        Position & string & Pozycja na szachownicy po wykonaniu ruchu \\ \hline
+        Turn & int & Tura, w której ruch został wykonany \\ \hline
+        CapturedPiece & string? & Tag zbitej figury \\ \hline
+        DoneAt & DateTime & Data i godzina wykonania ruchu \\ \hline
+    \end{longtable}
+
+    \item \textbf{Player}\\
+    Generalna klasa przechowują podstawowe dane reprezentujące gracza.
+    \begin{longtable}{|m{4cm}|m{2cm}|m{8cm}|}
+        \hline
+        \textbf{Właściwość} & \textbf{Typ} & \textbf{Opis} \\ \hline
+        \endhead
+        \hline
+        Name & string & Nazwa gracza (nazwa użytkownika) \\ \hline
+        Color & enum? & Kolor gracza (czarny lub biały), null jeśli gracz szuka jeszcze gry \\ \hline
+        CreatedAt & DateTime & Data utworzenia gracza \\ \hline
+    \end{longtable}
+
+\end{itemize}
+
+\newpage
+
+\textbf{Tabele bazy danych}\\
+
+\begin{itemize}
+    \item \textbf{DataConfigurations}\\
+    Zawiera ustawienia konfiguracji dla kluczowych pól użytkownika (takie jak hasło i nazwa użytkownika). Nie jest powiązana z żadną inną jednostką.
+
+    \item \textbf{Roles}\\
+    Określa role użytkowników w systemie, takie jak "User" i "Admin".
+
+    \item \textbf{Users}\\
+    Główna encja reprezentująca użytkownika.
     \begin{longtable}{|m{4cm}|m{2cm}|m{8cm}|}
         \hline
         \textbf{Właściwość} & \textbf{Typ} & \textbf{Opis} \\ \hline
         \endhead
         \hline
         Id & Guid & Identyfikator użytkownika (PK) \\ \hline
-        IsVerified & bool & Czy email użytkownika jest zweryfikowany \\ \hline
+        IsVerified & bool & Flaga określająca czy email użytkownika jest zweryfikowany \\ \hline
+        IsPrivate & bool & Określa, czy profil użytkownika jest widoczny przez innych użytkowników \\ \hline
         Email & string & Adres email użytkownika \\ \hline
         Username & string & Unikalna nazwa użytkownika \\ \hline
-        Name & string? & Pełne imię i nazwisko użytkownika \\ \hline
+        Name & string? & Opcjonalne pełne imię i nazwisko \\ \hline
         PasswordHash & string & Zahashowane hasło użytkownika \\ \hline
         JoinDate & DateTime & Data dołączenia użytkownika do systemu \\ \hline
         Country & string & Kraj, w którym użytkownik się zarejestrował \\ \hline
         Bio & string? & Krótkie bio lub opis użytkownika \\ \hline
-        IsPrivate & bool & Określa, czy profil użytkownika jest prywatny \\ \hline
         RoleId & int & Identyfikator roli użytkownika\\ \hline
     \end{longtable}
 
-    \item \textbf{UserProfileImage} - zdjęcia profilowe użytkownika.
-    \begin{longtable}{|m{4cm}|m{2cm}|m{8cm}|}
-        \hline
-        \textbf{Właściwość} & \textbf{Typ} & \textbf{Opis} \\ \hline
-        \endhead
-        \hline
-        Id & Guid & Identyfikator obrazu użytkownika (PK) \\ \hline
-        UserId & Guid & Identyfikator użytkownika do którego należy obraz \\ \hline
-        Data & byte[] & Dane obrazu w postaci bajtów \\ \hline
-        ContentType & string & Typ zawartości obrazu (np. "image/png", "image/jpeg") \\ \hline
-    \end{longtable}
-        
-    \item \textbf{UserBackgroundImages} - tło profilu użytkownika.
-    \begin{longtable}{|m{4cm}|m{2cm}|m{8cm}|}
-        \hline
-        \textbf{Właściwość} & \textbf{Typ} & \textbf{Opis} \\ \hline
-        \endhead
-        \hline
-        Id & Guid & Identyfikator obrazu tła użytkownika (PK) \\ \hline
-        UserId & Guid & Identyfikator użytkownika, do którego należy obraz tła \\ \hline
-        Data & byte[] & Dane obrazu tła w postaci bajtów \\ \hline
-        ContentType & string & Typ zawartości obrazu tła (np. "image/png", "image/jpeg") \\ \hline
-    \end{longtable}
-        
-    \item \textbf{UserElos} - punktacja użytkownika dla poszczególnych trybów czasowych gry.
+    \item \textbf{UserProfileImage i UserBackgroundImages}\\
+    zdjęcia użytkownika. Powiązane w relacja jeden-do-jeden z użytkownikiem. Dziedziczą po klasie abstrakcyjnej \texttt{Image}, reprezentującą zdjęcia zapisane w bazie.
+         
+    \item \textbf{UserElos}\\
+    Punktacja użytkownika dla poszczególnych trybów czasowych gry.
     \begin{longtable}{|m{4cm}|m{2cm}|m{8cm}|}
         \hline
         \textbf{Właściwość} & \textbf{Typ} & \textbf{Opis} \\ \hline
         \endhead
         \hline
         Id & Guid & Identyfikator ELO (PK) \\ \hline
-        Bullet & int & Punkty ELO dla trybu Bullet \\ \hline
-        Blitz & int & Punkty ELO dla trybu Blitz \\ \hline
-        Rapid & int & Punkty ELO dla trybu Rapid \\ \hline
-        Classic & int & Punkty ELO dla trybu Classic \\ \hline
-        Daily & int & Punkty ELO dla trybu Daily \\ \hline
-        Engine & int & Punkty ELO dla gier z silnikiem \\ \hline
-        UserId & Guid & Identyfikator użytkownika, do którego należy ELO \\ \hline
+        (Kategorii kontroli) & int & Punkty ELO dla konkretnego trybu kontroli czasowej \\ \hline
+        UserId & Guid & Identyfikator użytkownika, do którego należy punktacja \\ \hline
     \end{longtable}
-        
-    \item \textbf{UserStats} - tablica statystyki użytkownika.
+
+    \item \textbf{UserStats}\\
+    Tablica statystyki użytkownika.
     \begin{longtable}{|m{4cm}|m{2cm}|m{8cm}|}
         \hline
         \textbf{Właściwość} & \textbf{Typ} & \textbf{Opis} \\ \hline
         \endhead
         \hline
         Id & Guid & Identyfikator statystyk użytkownika (PK) \\ \hline
-        OnlineWins & int & Liczba wygranych gier online \\ \hline
-        OnlineDraws & int & Liczba remisów gier online \\ \hline
-        OnlineLoses & int & Liczba przegranych gier online \\ \hline
-        OnlineGamesPlayed & int & Łączna liczba gier online \\ \hline
-        BulletGamesPlayed & int & Liczba gier online w trybie Bullet \\ \hline
-        BlitzGamesPlayed & int & Liczba gier online w trybie Blitz \\ \hline
-        RapidGamesPlayed & int & Liczba gier online w trybie Rapid \\ \hline
-        ClassicGamesPlayed & int & Liczba gier online w trybie Classic \\ \hline
-        DailyGamesPlayed & int & Liczba gier online w trybie Daily \\ \hline
-        WinsByCheckMate & int & Liczba wygranych przez mat \\ \hline
-        WinsByTimeout & int & Liczba wygranych przez czas \\ \hline
-        WinsByResignation & int & Liczba wygranych przez rezygnację \\ \hline
-        LosesByCheckMate & int & Liczba przegranych przez mat \\ \hline
-        LosesByTimeout & int & Liczba przegranych przez czas \\ \hline
-        LosesByResignation & int & Liczba przegranych przez rezygnację \\ \hline
-        OfflineWins & int & Liczba wygranych gier offline \\ \hline
-        OfflineDraws & int & Liczba remisów gier offline \\ \hline
-        OfflineLoses & int & Liczba przegranych gier offline \\ \hline
-        OfflineGamesPlayed & int & Łączna liczba gier offline \\ \hline
+        (Statystyki gier) & int & Zawiera różnorodne dane liczbowe dotyczące gier użytkownika, takie jak wygrane, przegrane, remisy, liczba rozegranych gier w różnych trybach oraz inne wskaźniki wyników \\ \hline
         UserId & Guid & Identyfikator użytkownika, do którego należą statystyki \\ \hline
     \end{longtable}
         
-    \item \textbf{UserSettings} - globalne ustawienia konta oraz gier.
+    \item \textbf{UserSettings}\\
+    Globalne ustawienia konta oraz gier.
     \begin{longtable}{|m{4cm}|m{2cm}|m{8cm}|}
         \hline
         \textbf{Właściwość} & \textbf{Typ} & \textbf{Opis} \\ \hline
         \endhead
         \hline
         Id & Guid & Identyfikator ustawień użytkownika (PK) \\ \hline
-        EngineGameCheats & bool & Określa, czy oszustwa w grze silnikiem są dozwolone \\ \hline
-        Ap-OfPieces & enum & Ustawienia wyglądu figur w grze \\ \hline
-        Ap-OfBoard & enum & Ustawienia wyglądu planszy w grze \\ \hline
-        Ap-OfGamePage & enum & Ustawienia wyglądu strony gry \\ \hline
+        (Ustawienia gry) & enum, bool & Określa ustawienia dotyczące gry z silnikiem oraz spersonalizowane ustawienia wyglądu strony \\ \hline
         UserId & Guid & Identyfikator użytkownika, do którego należą ustawienia \\ \hline
     \end{longtable}
 
-    \item \textbf{UserVerificationCodes} - tablica kodów weryfikacyjnych.
+    \item \textbf{UserVerificationCodes}\\
+    Tablica kodów weryfikacyjnych. Kody dzielą się na dwa typy, ze względu na rodzaj przeznaczenia - dotyczące weryfikacji kota oraz odzyskiwania hasła.
     \begin{longtable}{|m{4cm}|m{2cm}|m{8cm}|}
         \hline
         \textbf{Właściwość} & \textbf{Typ} & \textbf{Opis} \\ \hline
@@ -357,7 +449,8 @@ Segment ten skupia się na aspekcie gry opartym na silniku, gdzie każda gra jes
         UserId & Guid & Identyfikator użytkownika, do którego należy kod weryfikacyjny \\ \hline
     \end{longtable}
 
-    \item \textbf{Friendships} - tablica relacji pomiędzy użytkownikami.
+    \item \textbf{Friendships}\\
+    Tablica relacji pomiędzy użytkownikami.
     \begin{longtable}{|m{4cm}|m{2cm}|m{8cm}|}
         \hline
         \textbf{Właściwość} & \textbf{Typ} & \textbf{Opis} \\ \hline
@@ -370,23 +463,21 @@ Segment ten skupia się na aspekcie gry opartym na silniku, gdzie każda gra jes
         RequestorId & Guid & Identyfikator użytkownika, który wysłał prośbę o przyjaźń \\ \hline
         ReceiverId & Guid & Identyfikator użytkownika, który otrzymał prośbę o przyjaźń \\ \hline
     \end{longtable}
-        
   
-    \item \textbf{FriendshipStats} - Statystki dotyczące relacji uzytkownikow.
+    \item \textbf{FriendshipStats}\\
+    Statystki dotyczące relacji uzytkownikow.
     \begin{longtable}{|m{4cm}|m{2cm}|m{8cm}|}
         \hline
         \textbf{Właściwość} & \textbf{Typ} & \textbf{Opis} \\ \hline
         \endhead
         \hline
         Id & Guid & Identyfikator statystyk przyjaźni (PK) \\ \hline
-        RequestorWins & int & Liczba wygranych przez osobę, która wysłała prośbę o przyjaźń \\ \hline
-        RequestorLoses & int & Liczba przegranych przez osobę, która wysłała prośbę o przyjaźń \\ \hline
-        RequestorDraws & int & Liczba remisów osoby, która wysłała prośbę o przyjaźń \\ \hline
-        GamesPlayed & int & Łączna liczba rozegranych gier w relacji \\ \hline
+        (Statystyki gier) & int & Pole zawierają dane liczbowa dotyczące statystyk gier przeprowadzonych pomiędzy użytkownikami w relacji \\ \hline
         FriendshipId & Guid & Identyfikator relacji przyjaźni, do której należą statystyki \\ \hline
     \end{longtable}
         
-    \item \textbf{WebGames} - Gry online między użytkownikami.
+    \item \textbf{WebGames}\\
+    Gry online między użytkownikami. Każda gra zawiera powiązanie do dwóch gracz - oznaczonego jako białego i czarnego w zależności od strony jaką przyjmują. WebGame dziedziczy po abstrakcyjnej klasie gry.
     \begin{longtable}{|m{4cm}|m{2cm}|m{8cm}|}
         \hline
         \textbf{Właściwość} & \textbf{Typ} & \textbf{Opis} \\ \hline
@@ -401,51 +492,26 @@ Segment ten skupia się na aspekcie gry opartym na silniku, gdzie każda gra jes
         WhitePlayerId & Guid & Identyfikator gracza grającego białymi \\ \hline
         BlackPlayerId & Guid & Identyfikator gracza grającego czarnymi \\ \hline
         GameTimingId & Guid & Identyfikator ustawień czasu gry \\ \hline
-        Position & string & Aktualna pozycja na szachownicy \\ \hline
-        HasEnded & bool & Flaga, czy gra się zakończyła \\ \hline
-        CreatedAt & DateTime & Data utworzenia gry \\ \hline
-        StartedAt & DateTime? & Data rozpoczęcia gry \\ \hline
-        EndedAt & DateTime? & Data zakończenia gry \\ \hline
-        Turn & int & Numer tury gry \\ \hline
-        Round & int & Numer rundy \\ \hline
-        WinnerColor & enum? & Kolor zwycięzcy (null oznacza remis) \\ \hline
     \end{longtable}
-        
-        
  
-    \item \textbf{GameTimings} - kontrole czasowe dla gier z ograniczeniem czasu.
+    \item \textbf{GameTimings}\\
+    Kontrole czasowe dla gier z ograniczeniem czasu. Kontrola czasowa jest powiązana w grami w relacji jeden do wielu, co oznacza, że jeden rodzaj kontroli jest wykorzystywany w wielu grach.
     \begin{longtable}{|m{4cm}|m{2cm}|m{8cm}|}
         \hline
         \textbf{Właściwość} & \textbf{Typ} & \textbf{Opis} \\ \hline
         \endhead
         \hline
         Id & Guid & Identyfikator ustawienia czasu gry (PK) \\ \hline
-        Type & enum & Typ czasu (np. Bullet, Rapid) \\ \hline
+        Type & enum & Kategoria (typ) kontroli czasu (np. Bullet, Rapid) \\ \hline
         Seconds & int & Czas trwania gry w sekundach \\ \hline
         Increment & int & Inkrement czasowy w sekundach \\ \hline
     \end{longtable}
-        
 
-    \item \textbf{WebGameStates} - Stan gry online, przechowuje dane szczególne dotyczące obecnej gry.
-    \begin{longtable}{|m{4cm}|m{2cm}|m{8cm}|}
-        \hline
-        \textbf{Właściwość} & \textbf{Typ} & \textbf{Opis} \\ \hline
-        \endhead
-        \hline
-        Id & Guid & Identyfikator stanu gry (PK) \\ \hline
-        GameId & Guid & Identyfikator gry, do której należy stan \\ \hline
-        EnPassant & string? & Koordynaty dla ruchu en passant w formacie x,y \\ \hline
-        CWKing & bool & Czy biały król może jeszcze wykonać roszadę \\ \hline
-        CWShort & bool & Czy biały król może wykonać krótką roszadę \\ \hline
-        CWLong & bool & Czy biały król może wykonać długą roszadę \\ \hline
-        CBKing & bool & Czy czarny król może jeszcze wykonać roszadę \\ \hline
-        CBShort & bool & Czy czarny król może wykonać krótką roszadę \\ \hline
-        CBLong & bool & Czy czarny król może wykonać długą roszadę \\ \hline
-        HalfMove & int & Liczba ruchów nie będących ruchem pionkiem (dla zasady 50 ruchów) \\ \hline
-    \end{longtable}
-        
-
-    \item \textbf{WebGameInvitations} - Opcjonalne zaproszenia do gry.
+    \item \textbf{WebGameStates}\\
+    Stan gry online, przechowuje dane szczególne dotyczące obecnej gry. Dziedziczy w abstrakcyjnej klasie stanów gry.
+    
+    \item \textbf{WebGameInvitations}\\
+    Opcjonalne zaproszenia do gry. Generowane tylko do gier prywatach i służące do mechanizmów związanych z zapraszaniem do gry i odpowiedziami na zaproszenia.
     \begin{longtable}{|m{4cm}|m{2cm}|m{8cm}|}
         \hline
         \textbf{Właściwość} & \textbf{Typ} & \textbf{Opis} \\ \hline
@@ -461,24 +527,12 @@ Segment ten skupia się na aspekcie gry opartym na silniku, gdzie każda gra jes
         IsAccepted & bool & Flaga, która wskazuje, czy zaproszenie zostało zaakceptowane \\ \hline
         GameId & Guid & Identyfikator gry, do której zaproszenie należy \\ \hline
     \end{longtable}
-        
 
-    \item \textbf{WebGameMessages} - Wiadomości systemowe dotyczące gry online.
-    \begin{longtable}{|m{4cm}|m{2cm}|m{8cm}|}
-        \hline
-        \textbf{Właściwość} & \textbf{Typ} & \textbf{Opis} \\ \hline
-        \endhead
-        \hline
-        Id & Guid & Identyfikator wiadomości (PK) \\ \hline
-        RequestorName & string & Nazwa użytkownika, który zażądał remisu \\ \hline
-        GameId & Guid & Identyfikator gry, do której wiadomość należy \\ \hline
-        Content & string & Treść wiadomości \\ \hline
-        SentAt & DateTime & Data i godzina wysłania wiadomości \\ \hline
-        Type & enum & Typ wiadomości (np. prośba o remis) \\ \hline
-    \end{longtable}
-        
+    \item \textbf{WebGameMessages}\\
+    Wiadomości systemowe dotyczące gry online. Otrzymują własności po generalnej klasnie reprezentującą wiadomości. 
 
-    \item \textbf{WebGameMove} - Ruchy wykonane podczas gry online.
+    \item \textbf{WebGameMove}\\
+    Ruchy wykonane podczas gry online. Dziedziczy po klasie Move, a dodatkowo ze względu na kontrole czasową występującą w grach między użytkownikami zawiera pola związane z czasem.
     \begin{longtable}{|m{4cm}|m{2cm}|m{8cm}|}
         \hline
         \textbf{Właściwość} & \textbf{Typ} & \textbf{Opis} \\ \hline
@@ -489,17 +543,11 @@ Segment ten skupia się na aspekcie gry opartym na silniku, gdzie każda gra jes
         BlackTime & double & Czas pozostały dla czarnego gracza \\ \hline
         MoveDuration & TimeSpan & Czas, który gracz zużył na wykonanie ruchu \\ \hline
         GameId & Guid & Identyfikator gry, do której ruch należy \\ \hline
-        DoneMove & string & Wykonany ruch w formacie: tag figury + x (jeśli zbicie) + współrzędne xy \\ \hline
-        FenMove & string & Wykonany ruch w formacie FEN \\ \hline
-        OldCoordinates & string & Współrzędne, z których figura została przemieszczona w formacie x,y \\ \hline
-        NewCoordinates & string & Współrzędne, na które figura została przemieszczona w formacie x,y \\ \hline
-        Position & string & Pozycja na szachownicy po wykonaniu ruchu \\ \hline
-        Turn & int & Tura, w której ruch został wykonany \\ \hline
-        CapturedPiece & string? & Tag zbitej figury \\ \hline
-        DoneAt & DateTime & Data i godzina wykonania ruchu \\ \hline
     \end{longtable}
         
-    \item \textbf{WebGamePlayers} - Tablica graczy gry online.
+    \item \textbf{WebGamePlayers}\\
+    Tablica graczy gry online, reprezentujące użytkownika jako gracza należącego do gry. Dziedziczy po klasie Player oraz zawiera dodatkowe elementy, ze względu an czasowy charakter gry.
+
     \begin{longtable}{|m{4cm}|m{2cm}|m{8cm}|}
         \hline
         \textbf{Właściwość} & \textbf{Typ} & \textbf{Opis} \\ \hline
@@ -515,25 +563,13 @@ Segment ten skupia się na aspekcie gry opartym na silniku, gdzie każda gra jes
         TimingId & Guid & Identyfikator typu czasu, określający czas trwania i przyrost czasu dla wszystkich ruchów \\ \hline
         UserId & Guid & Identyfikator użytkownika, któremu gracz należy \\ \hline
         GameId & Guid & Identyfikator gry, w której gracz bierze udział \\ \hline
-        Name & string & Nazwa gracza (nazwa użytkownika) \\ \hline
-        Color & enum? & Kolor gracza (czarny lub biały), null jeśli gracz szuka jeszcze gry \\ \hline
-        CreatedAt & DateTime & Data utworzenia gracza \\ \hline
     \end{longtable}
 
-    \item \textbf{WebGamePlayerMessages} - wiadomości wysłane przez graczy podczas gry online.
-    \begin{longtable}{|m{4cm}|m{2cm}|m{8cm}|}
-        \hline
-        \textbf{Właściwość} & \textbf{Typ} & \textbf{Opis} \\ \hline
-        \endhead
-        \hline
-        Id & Guid & Identyfikator wiadomości (PK) \\ \hline
-        PlayerId & Guid & Identyfikator gracza, który wysłał wiadomość \\ \hline
-        Content & string & Treść wiadomości \\ \hline
-        SentAt & DateTime & Data i czas wysłania wiadomości \\ \hline
-        Type & enum & Typ wiadomości \\ \hline
-    \end{longtable}
+    \item \textbf{WebGamePlayerMessages}\\
+    Wiadomości wysłane przez graczy podczas gry online. Dziedziczą wartości po abstrakcyjnej klasie Message.
         
-    \item \textbf{EngineGames} - Tablica gier offline z silnikiem szachowym. 
+    \item \textbf{EngineGames}\\
+    Tablica gier offline z silnikiem szachowym. Dziedziczy także podobnie jak w przypadku gier online po abstrakcyjnej klasie Game.  
     \begin{longtable}{|m{4cm}|m{2cm}|m{8cm}|}
         \hline
         \textbf{Właściwość} & \textbf{Typ} & \textbf{Opis} \\ \hline
@@ -543,37 +579,13 @@ Segment ten skupia się na aspekcie gry opartym na silniku, gdzie każda gra jes
         EngineLevel & int & Poziom głębokości silnika \\ \hline
         EloGain & int & Zysk lub strata Elo po zakończeniu gry \\ \hline
         PlayerId & Guid & Identyfikator gracza \\ \hline
-        Position & string & Aktualna pozycja w grze \\ \hline
-        HasEnded & bool & Flaga informująca, czy gra zakończona \\ \hline
-        CreatedAt & DateTime & Data utworzenia gry \\ \hline
-        StartedAt & DateTime? & Data rozpoczęcia gry \\ \hline
-        EndedAt & DateTime? & Data zakończenia gry \\ \hline
-        Turn & int & Numer tury gry \\ \hline
-        Round & int & Numer rundy gry (pełny ruch) \\ \hline
-        WinnerColor & enum? & Kolor zwycięzcy (null oznacza remis) \\ \hline
-    \end{longtable}
-
-    
-    \item \textbf{EngineGameStates} - Stan gry offline, przechowuje dane szczególne dotyczące obecnej gry.
-    \begin{longtable}{|m{4cm}|m{2cm}|m{8cm}|}
-        \hline
-        \textbf{Właściwość} & \textbf{Typ} & \textbf{Opis} \\ \hline
-        \endhead
-        \hline
-        Id & Guid & Identyfikator stanu gry (PK) \\ \hline
-        GameId & Guid & Identyfikator gry, do której należy stan \\ \hline
-        EnPassant & string? & Współrzędne en passant, jeśli możliwe, w formacie x,y \\ \hline
-        CWKing & bool & Czy biały król może jeszcze wykonać roszadę \\ \hline
-        CWShort & bool & Czy biały król może wykonać krótką roszadę \\ \hline
-        CWLong & bool & Czy biały król może wykonać długą roszadę \\ \hline
-        CBKing & bool & Czy czarny król może jeszcze wykonać roszadę \\ \hline
-        CBShort & bool & Czy czarny król może wykonać krótką roszadę \\ \hline
-        CBLong & bool & Czy czarny król może wykonać długą roszadę \\ \hline
-        HalfMove & int & Liczba ruchów wykonanych przez graczy, z wyjątkiem pionków, dla zasady 50 ruchów \\ \hline
     \end{longtable}
     
+    \item \textbf{EngineGameStates}\\
+    Stan gry offline, przechowuje dane szczególne dotyczące obecnej gry. Implementuje własności z abstrakcyjnej klasy stanów gry.
 
-    \item \textbf{EngineGamePlayers} - Gracze gier offline.
+    \item \textbf{EngineGamePlayers}\\
+    Gracze gier offline, reprezentujące użytkownika jako gracza w grze z silnikiem szachowym. Dziedziczy podstawowe dane po klasie Player.
     \begin{longtable}{|m{4cm}|m{2cm}|m{8cm}|}
         \hline
         \textbf{Właściwość} & \textbf{Typ} & \textbf{Opis} \\ \hline
@@ -583,55 +595,27 @@ Segment ten skupia się na aspekcie gry opartym na silniku, gdzie każda gra jes
         Elo & int & Punkty Elo dla gier przeciwko silnikowi \\ \hline
         UserId & Guid & Identyfikator użytkownika, do którego należy gracz \\ \hline
         GameId & Guid & Identyfikator gry, w której gracz bierze udział \\ \hline
-        Name & string & Nazwa użytkownika (imię gracza) \\ \hline
-        Color & enum? & Kolor gracza (czarny lub biały), null oznacza oczekiwanie na grę \\ \hline
-        CreatedAt & DateTime & Data utworzenia gracza (do kolejek oczekujących) \\ \hline
     \end{longtable}
     
-    \item \textbf{EngineGameMoves} - Ruchy wykonane podczas gry offline.
-    \begin{longtable}{|m{4cm}|m{2cm}|m{8cm}|}
-        \hline
-        \textbf{Właściwość} & \textbf{Typ} & \textbf{Opis} \\ \hline
-        \endhead
-        \hline
-        Id & Guid & Identyfikator ruchu (PK) \\ \hline
-        GameId & Guid & Identyfikator gry, do której należy ruch \\ \hline
-        DoneMove & string & Wykonany ruch w formacie: oznaczenie figury + x (jeśli zbicie) + współrzędne xy \\ \hline
-        FenMove & string & Wykonany ruch w formacie FEN \\ \hline
-        OldCoordinates & string & Współrzędne, z których figura została przesunięta (format "x,y") \\ \hline
-        NewCoordinates & string & Współrzędne, na które figura została przesunięta (format "x,y") \\ \hline
-        Position & string & Pozycja po wykonaniu ruchu \\ \hline
-        Turn & int & Tura, w której wykonano ruch \\ \hline
-        CapturedPiece & string? & Zbita figura, jeśli dotyczy \\ \hline
-        DoneAt & DateTime & Data i godzina wykonania ruchu \\ \hline
-    \end{longtable}
+    \item \textbf{EngineGameMoves}\\
+    Ruchy wykonane podczas gry offline. Dziedziczą po abstrakcyjnej klasie ruchu oraz nie implementują żadnych własnych właściwości.
     
-    \item \textbf{EngineGameMessages} - Automatyczne wiadomości dotyczące gry offline.
-    \begin{longtable}{|m{4cm}|m{2cm}|m{8cm}|}
-        \hline
-        \textbf{Właściwość} & \textbf{Typ} & \textbf{Opis} \\ \hline
-        \endhead
-        \hline
-        Id & Guid & Identyfikator wiadomości (PK) \\ \hline
-        RequestorName & string & Nazwa osoby lub systemu wysyłającego wiadomość (domyślnie "BRN CHess") \\ \hline
-        GameId & Guid & Identyfikator gry, do której należy wiadomość \\ \hline
-        Content & string & Treść wiadomości \\ \hline
-        SentAt & DateTime & Data i godzina wysłania wiadomości \\ \hline
-        Type & enum & Typ wiadomości \\ \hline
-    \end{longtable}
+    \item \textbf{EngineGameMessages}\\
+    Automatyczne wiadomości dotyczące gry offline. Zaprojektowane identycznie jak w przypadku wiadomości aromatycznych gie online.
     
 \end{itemize}
 
 \newpage
-\subsection{Backend} 
-\subsubsection{Architektura} 
+
+\subsection{Warstwa Serwerowa (Backend)} 
+\subsubsection{Architektura i struktura} 
 Architektura backendu została zaprojektowana w oparciu o podejście Onion Architecture, które promuje modularność, odwrócenie zależności oraz izolację logiki biznesowej od infrastruktury. Główne założenia tej architektury koncentrują się na umożliwieniu rozwoju aplikacji w sposób niezależny od technologii, co sprzyja łatwemu utrzymaniu oraz skalowaniu systemu. Struktura projektu jest podzielona na kilka warstw, które komunikują się ze sobą poprzez jasno zdefiniowane kontrakty i interfejsy. Kluczowym celem tego podejścia jest ochrona rdzenia aplikacji przed zmianami w zewnętrznych technologiach i zależnościach, co pozwala na łatwiejsze dostosowywanie aplikacji do nowych wymagań i technologii.
 
 
 \begin{figure}[h!] 
     \centering 
-    \includegraphics[width=0.7\textwidth]{zdj/struktura_back.png} 
-    \caption{Struktura projektów solucji.} 
+    \includegraphics[width=0.7\textwidth]{images/struktura_back.png} 
+    \caption{Struktura projektów solucji warstwy serwerowej.} 
 \end{figure}
 
 Zalety Onion Architecture to:
@@ -654,7 +638,7 @@ Moduł .Infrastructure implementuje interfejsy zdefiniowane w .Application, dost
 
 \begin{figure}[h!]
     \centering
-    \includegraphics[width=1\textwidth]{zdj/backend_dependencies.png}
+    \includegraphics[width=1\textwidth]{images/diagram_dependencies.png}
     \caption{Graf zależności między projektami}
 \end{figure}
 
@@ -673,7 +657,7 @@ Moduł .Api pełni funkcję warstwy zewnętrznej, odpowiedzialnej za obsługę �
 \begin{minipage}[t]{0.45\textwidth}
     \vspace{0pt}
     \centering
-    \includegraphics[width=\linewidth]{zdj/struktura_back_api.png}
+    \includegraphics[width=\linewidth]{images/struktura_back_api.png}
 \end{minipage}
 \vspace{0.5cm}
 
@@ -684,7 +668,7 @@ Moduł .Application zawiera logikę aplikacyjną, w tym definicje przypadków u�
 \begin{minipage}[t]{0.45\textwidth}
     \vspace{0pt}
     \centering
-    \includegraphics[width=\linewidth]{zdj/struktura_back_application.png} 
+    \includegraphics[width=\linewidth]{images/struktura_back_application.png} 
 \end{minipage}
 \hfill
 \begin{minipage}[t]{0.45\textwidth}
@@ -707,7 +691,7 @@ Moduł .Infrastructure obsługuje szczegóły techniczne, takie jak dostęp do b
 \begin{minipage}[t]{0.45\textwidth}
     \vspace{0pt}
     \centering
-    \includegraphics[width=\linewidth]{zdj/struktura_back_infrastructure.png} 
+    \includegraphics[width=\linewidth]{images/struktura_back_infrastructure.png} 
 \end{minipage}
 \vspace{0.5cm}
 
@@ -718,7 +702,7 @@ Moduł .Core stanowi serce aplikacji i zawiera jej logikę biznesową oraz klucz
 \begin{minipage}[t]{0.45\textwidth}
     \vspace{0pt}
     \centering
-    \includegraphics[width=\linewidth]{zdj/struktura_back_core.png} 
+    \includegraphics[width=\linewidth]{images/struktura_back_core.png} 
 \end{minipage}
 \hfill
 \begin{minipage}[t]{0.45\textwidth}
@@ -740,7 +724,7 @@ Moduł .Shared zawiera wspólne komponenty i funkcjonalności, które są wykorz
 \begin{minipage}[t]{0.45\textwidth}
     \vspace{0pt}
     \centering
-    \includegraphics[width=\linewidth]{zdj/struktura_back_shared.png} 
+    \includegraphics[width=\linewidth]{images/struktura_back_shared.png} 
 \end{minipage}
 \vspace{0.5cm}
 
@@ -751,7 +735,7 @@ Moduł .Api.Tests zawiera testy integracyjne dla kontrolerów API, zapewniając 
 \begin{minipage}[t]{0.45\textwidth}
     \vspace{0pt}
     \centering
-    \includegraphics[width=\linewidth]{zdj/struktura_back_api_tests.png} 
+    \includegraphics[width=\linewidth]{images/struktura_back_api_tests.png} 
 \end{minipage}
 \hfill
 \begin{minipage}[t]{0.45\textwidth}
@@ -774,7 +758,7 @@ Moduł .Core.Tests zawiera testy jednostkowe dla logiki biznesowej aplikacji. Te
 \begin{minipage}[t]{0.45\textwidth}
     \vspace{0pt}
     \centering
-    \includegraphics[width=\linewidth]{zdj/struktura_back_core_tests.png} 
+    \includegraphics[width=\linewidth]{images/struktura_back_core_tests.png} 
 \end{minipage}
 \vspace{0.5cm}
 
@@ -785,159 +769,364 @@ Moduł .Core.Tests zawiera testy jednostkowe dla logiki biznesowej aplikacji. Te
 
 Interfejsy API są najpopularniejszym sposobem interakcji programów i urządzeń w nowoczesnych technologiach obliczeniowych. API to zestaw reguł opisujących, jak jeden program może się łączyć oraz komunikować z innym. Jak sama nazwa wskazuje, API REST przekazuje na każde żądanie stan każdej transakcji, co daje korzyści związane z opracowaniem, wydajnością i zasobami w porównaniu do innych metod. REST rozwija się w ciągu ponad dwóch dekad i jest bardzo powszechnym podejściem do architektur opartych na usługach i architektur rozproszonych.
 \\\\
-Zasób jest podstawowym pojęciem dla API REST. Zasób jest obiektem, który ma typ, powiązane dane, relacje z innymi zasobami i zestaw metod, które na nim działają. Jest bardzo podobny do idei obiektów w programowaniu, chociaż zdefiniowanych jest tylko kilka standardowych metod, typowych dla HTTP GET, POST, PUT i DELETE. Zasoby mogą istnieć same lub w zbiorach, które same są zasobami.
+Zasób jest podstawowym pojęciem dla API REST. Zasób jest obiektem, który ma typ, powiązane dane, relacje z innymi zasobami i zestaw metod, które na nim działają. Jest bardzo podobny do idei obiektów w programowaniu, chociaż zdefiniowanych jest tylko kilka standardowych metod, typowych dla HTTP \textbf{\colorbox{cyan!90}{\textcolor{white}{GET}}}, \textbf{\colorbox{green!90}{\textcolor{white}{POST}}}, \textbf{\colorbox{orange!90}{\textcolor{white}{PUT}}} i \textbf{\colorbox{red!90}{\textcolor{white}{DELETE}}}. Zasoby mogą istnieć same lub w zbiorach, które same są zasobami.
 \\\\
 W nowoczesnej informatyce wspólnym modelem - również podstawowym dla API REST - jest klient-serwer, gdzie klient, który potrzebuje zasobu, identyfikuje się i komunikuje z serwerem, który może go dostarczyć. W ten sposób zarządzany jest praktycznie cały ruch w chmurze, gdyż oferuje maksymalną elastyczność licznym klientom i pozwala na dostęp do licznych serwerów. Zasada ta sprawdza się również w przypadku tzw. architektur „bezserwerowych", w których miejsce serwera znanego klientowi zajmuje broker usług.
+\\\\
+
+\textbf{Kontrolery API} \\
+W systemie REST API zdefiniowane zostały cztery główne kontrolery, które odpowiadają za obsługę zapytań związanych z różnymi zasobami w aplikacji:
+
+\begin{itemize}
+    \item \textbf{UserController} - Odpowiada za zapytania związane z użytkownikami, takie jak rejestracja, logowanie, aktualizacja danych czy zarządzanie profilem.
+    \item \textbf{FriendshipController} - Obsługuje zapytania dotyczące znajomości między użytkownikami, takie jak zapraszanie do znajomości, akceptowanie lub odrzucanie zaproszeń oraz zarządzanie relacjami.
+    \item \textbf{WebGameController} - Zajmuje się zapytaniami dotyczącymi gier online pomiędzy użytkownikami, pozwalając na tworzenie, aktualizowanie i zarządzanie grami.
+    \item \textbf{EngineGameController} - Odpowiada za zapytania związane z grami offline, które są rozgrywane z wykorzystaniem silnika szachowego, w tym rozpoczęcie gry, wykonywanie ruchów czy zmiana poziomu trudności.
+\end{itemize}
+
+Na następnej stronie opisano szczegółowo poszczególne endpointy dostępne w ramach każdego z kontrolerów.
 
 \newpage
 
-\textbf{Endpointy}
-\begin{itemize}
-    \item \textbf{UserController}
-    \begin{itemize} 
-        \item \textbf{POST /api/user/sign-up} - Rejestruje użytkownika i wysyła kod weryfikacyjny e-mailem. 
-        \item \textbf{POST /api/user/sign-in} - Loguje użytkownika i generuje token JWT. 
-        \item \textbf{POST /api/user/regenerate-code} - Generuje nowy kod weryfikacyjny, usuwając stary, dla użytkowników, którzy jeszcze nie zweryfikowali swojego konta. 
-        \item \textbf{PUT /api/user/verify-email} - Weryfikuje adres e-mail użytkownika za pomocą dostarczonego kodu. 
-        \item \textbf{PUT /api/user/send-password-code} - Wysyła kod weryfikacyjny do odzyskania hasła. 
-        \item \textbf{PUT /api/user/reset-password} - Resetuje hasło użytkownika po podaniu kodu weryfikacyjnego. 
-        \item \textbf{PUT /api/user/change-password} - Zmienia hasło użytkownika, dostępne tylko dla użytkowników, którzy są zalogowani i zweryfikowani. 
-        \item \textbf{PUT /api/user/profile} - Aktualizuje dane profilu użytkownika. 
-        \item \textbf{PUT /api/user/data} - Zmienia dane użytkownika, takie jak imię, nazwisko itp. 
-        \item \textbf{PUT /api/user/settings} - Zmienia ustawienia użytkownika, np. preferencje konta. 
-        \item \textbf{GET /api/user} - Pobiera podstawowe informacje o użytkowniku. 
-        \item \textbf{GET /api/user/full} - Pobiera pełne informacje o użytkowniku, takie jak historia, rankingi, szczegóły profilu. 
-        \item \textbf{GET /api/user/{userId}/other} - Pobiera informacje o innym użytkowniku, np. publiczne dane profilu. 
-        \item \textbf{GET /api/user/elo} - Pobiera informacje o rankingu Elo użytkownika. 
-        \item \textbf{GET /api/user/is-verified} - Sprawdza, czy adres e-mail użytkownika jest zweryfikowany. 
-        \item \textbf{GET /api/user/by-email} - Pobiera dane użytkownika na podstawie podanego adresu e-mail. 
-        \item \textbf{GET /api/user/configuration} - Pobiera konfigurację rejestracji użytkownika. 
-        \item \textbf{GET /api/user/ranking} - Pobiera globalny ranking użytkowników. 
-    \end{itemize}
-    \begin{figure}[h!]
-        \centering
-        \includegraphics[width=1\textwidth]{zdj/user_controller.png}
-        \caption{Punkty końcowe API do rejestracji użytkowników, uwierzytelniania i zarządzania profilami.}
-    \end{figure}
-
-    \newpage
-
-    \item \textbf{FriendshipController}
-    \begin{itemize} 
-        \item \textbf{POST /api/friendship/invite} - Tworzy zaproszenie do znajomości z oczekującym statusem. 
-        \item \textbf{POST /api/friendship/block} - Tworzy zaproszenie do znajomości z odrzuconym statusem. 
-        \item \textbf{PUT /api/friendship/{friendshipId}/respond} - Zmienia status oczekującej znajomości (akceptacja lub odrzucenie zaproszenia). 
-        \item \textbf{GET /api/friendship/all-by-status} - Pobiera wszystkich użytkowników z określonym statusem relacji (np. znajomi, oczekujący). 
-        \item \textbf{GET /api/friendship/all-non} - Pobiera wszystkich użytkowników, którzy nie są w relacji z użytkownikiem. 
-        \item \textbf{GET /api/friendship/{friendshipId}/profile} - Pobiera profil znajomego na podstawie identyfikatora znajomości. 
-        \item \textbf{GET /api/friendship/ranking} - Pobiera ranking użytkowników wśród znajomych na podstawie wybranego modelu. 
-        \item \textbf{GET /api/friendship/{friendshipId}/games} - Pobiera listę gier rozegranych w ramach znajomości. 
-        \item \textbf{DELETE /api/friendship/{friendshipId}} - Usuwa znajomość i/lub odblokowuje użytkownika. 
-    \end{itemize}
-    \begin{figure}[h!]
-        \centering
-        \includegraphics[width=1\textwidth]{zdj/friendship_controller.png}
-        \caption{Punkty końcowe API do zarządzania zaproszeniami do znajomych, przyjaźniami i relacjami użytkowników.}
-    \end{figure}
-
-    \newpage
-
-    \item \textbf{WebGameController}
-    \begin{itemize} 
-        \item \textbf{POST /api/webgame/search} - Inicjuje poszukiwanie gry online, tworzy gracza i ustawia czas gry, jeśli nie istnieje. 
-        \item \textbf{POST /api/webgame/private} - Tworzy prywatną grę i zwraca jej identyfikator. 
-        \item \textbf{POST /api/webgame/email} - Tworzy prywatną grę przez podanie adresu e-mail przeciwnika, zwraca identyfikator gry. 
-        \item \textbf{POST /api/webgame/link} - Tworzy prywatną grę z linkiem, który umożliwia dostęp do gry, zwraca identyfikator gry. 
-        \item \textbf{GET /api/webgame/is-in-game} - Sprawdza, czy gracz jest już w grze. 
-        \item \textbf{GET /api/webgame/{gameId}/update-required} - Sprawdza, czy wymagana jest aktualizacja stanu gry dla gry stworzonej za pomocą linku. 
-        \item \textbf{GET /api/webgame/{gameId}} - Pobiera dane jednej gry na podstawie identyfikatora gry. 
-        \item \textbf{GET /api/webgame/{gameId}/player} - Pobiera dane gracza w danej grze. 
-        \item \textbf{GET /api/webgame/{gameId}/time} - Pobiera czas pozostały dla gracza w danej grze. 
-        \item \textbf{GET /api/webgame/{gameId}/opponent} - Pobiera dane przeciwnika z zakończonej gry. 
-        \item \textbf{GET /api/webgame/{gameId}/timing} - Pobiera konfigurację czasu gry (timing) dla danej gry. 
-        \item \textbf{GET /api/webgame/all-ongoing} - Pobiera wszystkie aktywne gry dla użytkownika. 
-        \item \textbf{GET /api/webgame/all-finished} - Pobiera wszystkie zakończone gry dla użytkownika. 
-        \item \textbf{GET /api/webgame/type-history} - Pobiera historię gier dla wybranego typu czasu gry. 
-        \item \textbf{GET /api/webgame/invitations} - Pobiera wszystkie zaproszenia do gier, które zostały jeszcze nieodebrane. 
-        \item \textbf{GET /api/webgame/{gameId}/messages} - Pobiera wszystkie wiadomości z danej gry. 
-        \item \textbf{GET /api/webgame/stats} - Pobiera statystyki wszystkich gier rozegranych przez użytkownika. 
-        \item \textbf{DELETE /api/webgame/abort} - Anuluje poszukiwanie gry online. 
-        \item \textbf{DELETE /api/webgame/{gameId}/cancel} - Anuluje prywatną grę, usuwając graczy. 
-    \end{itemize}
-    \begin{figure}[h!]
-        \centering
-        \includegraphics[width=1\textwidth]{zdj/webgame_controller.png}
-        \caption{Punkty końcowe API do zarządzania grami sieciowymi, w tym wyszukiwania, tworzenia i sprawdzania statusu graczy w grach publicznych i prywatnych.}
-    \end{figure}
-
-    \newpage
-
-    \item \textbf{EngineGameController}
-    \begin{itemize} 
-        \item \textbf{POST /api/enginegame/start} - Rozpoczyna nową grę z silnikiem szachowym. 
-        \item \textbf{POST /api/enginegame/{gameId}/make-move} - Wykonuje ruch w grze, wykonany przez gracza lub silnik.
-        \item \textbf{PUT /api/enginegame/{gameId}/end-game} - Kończy grę z silnikiem szachowym. 
-        \item \textbf{PUT /api/enginegame/{gameId}/change-engine} - Zmienia poziom trudności silnika szachowego. 
-        \item \textbf{PUT /api/enginegame/{gameId}/undo-move} - Cofnięcie ostatniego wykonanego ruchu. 
-        \item \textbf{PUT /api/enginegame/update-settings} - Aktualizuje ustawienia związane z grami z silnikiem szachowym. 
-        \item \textbf{GET /api/enginegame/{gameId}} - Pobiera wszystkie dane dotyczące gry z silnikiem szachowym.
-        \item \textbf{GET /api/enginegame/{gameId}/winner} - Pobiera zwycięzcę gry z silnikiem szachowym. 
-        \item \textbf{GET /api/enginegame/{gameId}/engine-move} - Pobiera ruch wykonany przez silnik w grze. 
-        \item \textbf{GET /api/enginegame/{gameId}/all-messages} - Pobiera wszystkie wiadomości związane z aktualną grą z silnikiem. 
-        \item \textbf{GET /api/enginegame/all-games} - Pobiera wszystkie gry z silnikiem szachowym. 
-    \end{itemize}
-    \begin{figure}[h!]
-        \centering
-        \includegraphics[width=1\textwidth]{zdj/enginegame_controller.png}
-        \caption{Punkty końcowe API do zarządzania grami silnika, w tym uruchamiania, wykonywania ruchów, zmiany ustawień i przeglądania danych gry.}
-    \end{figure}
+\textbf{Endpointy kontrolera UserController}
+\begin{itemize} 
+    \item \textbf{\colorbox{green!90}{\textcolor{white}{POST}} /api/user/sign-up} \\
+    Rejestruje użytkownika i wysyła kod weryfikacyjny e-mailem. 
+    \item \textbf{\colorbox{green!90}{\textcolor{white}{POST}} /api/user/sign-in} \\
+    Loguje użytkownika i generuje token JWT. 
+    \item \textbf{\colorbox{green!90}{\textcolor{white}{POST}} /api/user/regenerate-code} \\
+    Generuje nowy kod weryfikacyjny, usuwając stary, dla użytkowników, którzy jeszcze nie zweryfikowali swojego konta. 
+    \item \textbf{\colorbox{orange!90}{\textcolor{white}{PUT}} /api/user/verify-email} \\
+    Weryfikuje adres e-mail użytkownika za pomocą dostarczonego kodu. 
+    \item \textbf{\colorbox{orange!90}{\textcolor{white}{PUT}} /api/user/send-password-code} \\
+    Wysyła kod weryfikacyjny do odzyskania hasła. 
+    \item \textbf{\colorbox{orange!90}{\textcolor{white}{PUT}} /api/user/reset-password} \\
+    Resetuje hasło użytkownika po podaniu kodu weryfikacyjnego. 
+    \item \textbf{\colorbox{orange!90}{\textcolor{white}{PUT}} /api/user/change-password} \\
+    Zmienia hasło użytkownika, dostępne tylko dla użytkowników, którzy są zalogowani i zweryfikowani. 
+    \item \textbf{\colorbox{orange!90}{\textcolor{white}{PUT}} /api/user/profile} \\
+    Aktualizuje dane profilu użytkownika. 
+    \item \textbf{\colorbox{orange!90}{\textcolor{white}{PUT}} /api/user/data} \\
+    Zmienia dane użytkownika, takie jak imię, nazwisko itp. 
+    \item \textbf{\colorbox{orange!90}{\textcolor{white}{PUT}} /api/user/settings} \\
+    Zmienia ustawienia użytkownika, np. preferencje konta. 
+    \item \textbf{\colorbox{cyan!90}{\textcolor{white}{GET}} /api/user} \\
+    Pobiera podstawowe informacje o użytkowniku. 
+    \item \textbf{\colorbox{cyan!90}{\textcolor{white}{GET}} /api/user/full} \\
+    Pobiera pełne informacje o użytkowniku, takie jak historia, rankingi, szczegóły profilu. 
+    \item \textbf{\colorbox{cyan!90}{\textcolor{white}{GET}} /api/user/{userId}/other} \\
+    Pobiera informacje o innym użytkowniku, np. publiczne dane profilu. 
+    \item \textbf{\colorbox{cyan!90}{\textcolor{white}{GET}} /api/user/elo} \\
+    Pobiera informacje o rankingu Elo użytkownika. 
+    \item \textbf{\colorbox{cyan!90}{\textcolor{white}{GET}} /api/user/is-verified} \\
+    Sprawdza, czy adres e-mail użytkownika jest zweryfikowany. 
+    \item \textbf{\colorbox{cyan!90}{\textcolor{white}{GET}} /api/user/by-email} \\
+    Pobiera dane użytkownika na podstawie podanego adresu e-mail. 
+    \item \textbf{\colorbox{cyan!90}{\textcolor{white}{GET}} /api/user/configuration} \\
+    Pobiera konfigurację rejestracji użytkownika. 
+    \item \textbf{\colorbox{cyan!90}{\textcolor{white}{GET}} /api/user/ranking} \\
+    Pobiera globalny ranking użytkowników. 
 \end{itemize}
 
 \newpage
-\subsubsection{SignalR}
+
+\textbf{Endpointy kontrolera FriendshipController}
+\begin{itemize} 
+    \item \textbf{\colorbox{green!90}{\textcolor{white}{POST}} /api/friendship/invite} \\
+    Tworzy zaproszenie do znajomości z oczekującym statusem. 
+    \item \textbf{\colorbox{green!90}{\textcolor{white}{POST}} /api/friendship/block} \\
+    Tworzy zaproszenie do znajomości z odrzuconym statusem. 
+    \item \textbf{\colorbox{orange!90}{\textcolor{white}{PUT}} /api/friendship/{friendshipId}/respond} \\
+    Zmienia status oczekującej znajomości (akceptacja lub odrzucenie zaproszenia). 
+    \item \textbf{\colorbox{cyan!90}{\textcolor{white}{GET}} /api/friendship/all-by-status} \\
+    Pobiera wszystkich użytkowników z określonym statusem relacji (znajomi, oczekujący, zablokowani). 
+    \item \textbf{\colorbox{cyan!90}{\textcolor{white}{GET}} /api/friendship/all-non} \\
+    Pobiera wszystkich użytkowników, którzy nie są w relacji z użytkownikiem. 
+    \item \textbf{\colorbox{cyan!90}{\textcolor{white}{GET}} /api/friendship/{friendshipId}/profile} \\
+    Pobiera profil znajomego na podstawie identyfikatora znajomości. 
+    \item \textbf{\colorbox{cyan!90}{\textcolor{white}{GET}} /api/friendship/ranking} \\
+    Pobiera ranking użytkowników wśród znajomych na podstawie wybranego modelu. 
+    \item \textbf{\colorbox{cyan!90}{\textcolor{white}{GET}} /api/friendship/{friendshipId}/games} \\
+    Pobiera listę gier rozegranych w ramach znajomości. 
+    \item \textbf{\colorbox{red!90}{\textcolor{white}{DELETE}} /api/friendship/{friendshipId}} \\
+    Usuwa znajomość lub odblokowuje użytkownika (w zależności od istniejącej relacji). 
+\end{itemize}
 
 \newpage
-\subsubsection{Komunikacja z silnikiem}
-Komunikacja z silnikiem szachowym jest kluczowym elementem w budowie aplikacji, która ma na celu interakcję z popularnymi silnikami szachowymi, takimi jak Stockfish. W przedstawionym przykładzie wykorzystano klasę EngineService, która zapewnia funkcjonalność umożliwiającą komunikację z procesem silnika.
 
-Klasa EngineService implementuje interfejs IEngineService, co zapewnia jednolitość i ułatwia integrację z innymi komponentami aplikacji. W konstruktorze tej klasy tworzony jest obiekt typu Process, który uruchamia silnik szachowy. Proces jest konfigurowany tak, aby nie tworzył okna i umożliwiał przesyłanie danych zarówno do silnika - poprzez standardowe wejście, jak i z silnika - poprzez standardowe wyjście.
+\textbf{Endpointy kontrolera WebGameController}
+\begin{itemize} 
+    \item \textbf{\colorbox{green!90}{\textcolor{white}{POST}} /api/webgame/search} \\
+    Inicjuje poszukiwanie gry online, tworzy gracza i ustawia czas gry, jeśli nie istnieje. 
+    \item \textbf{\colorbox{green!90}{\textcolor{white}{POST}} /api/webgame/private} \\
+    Tworzy prywatną grę i zwraca jej identyfikator. 
+    \item \textbf{\colorbox{green!90}{\textcolor{white}{POST}} /api/webgame/email} \\
+    Tworzy prywatną grę przez podanie adresu e-mail przeciwnika, zwraca identyfikator gry. 
+    \item \textbf{\colorbox{green!90}{\textcolor{white}{POST}} /api/webgame/link} \\
+    Tworzy prywatną grę z linkiem, który umożliwia dostęp do gry, zwraca identyfikator gry. 
+    \item \textbf{\colorbox{cyan!90}{\textcolor{white}{GET}} /api/webgame/is-in-game} \\
+    Sprawdza, czy gracz jest już w grze. 
+    \item \textbf{\colorbox{cyan!90}{\textcolor{white}{GET}} /api/webgame/{gameId}/update-required} \\
+    Sprawdza, czy wymagana jest aktualizacja stanu gry dla gry stworzonej za pomocą linku. 
+    \item \textbf{\colorbox{cyan!90}{\textcolor{white}{GET}} /api/webgame/{gameId}} \\
+    Pobiera pełne dane gry na podstawie identyfikatora ID. 
+    \item \textbf{\colorbox{cyan!90}{\textcolor{white}{GET}} /api/webgame/{gameId}/player} \\
+    Pobiera dane gracza w danej grze. 
+    \item \textbf{\colorbox{cyan!90}{\textcolor{white}{GET}} /api/webgame/{gameId}/time} \\
+    Pobiera czas pozostały dla gracza w danej grze. 
+    \item \textbf{\colorbox{cyan!90}{\textcolor{white}{GET}} /api/webgame/{gameId}/opponent} \\
+    Pobiera dane przeciwnika z zakończonej gry. 
+    \item \textbf{\colorbox{cyan!90}{\textcolor{white}{GET}} /api/webgame/{gameId}/timing} \\
+    Pobiera konfigurację czasu gry (timing) dla danej gry. 
+    \item \textbf{\colorbox{cyan!90}{\textcolor{white}{GET}} /api/webgame/all-ongoing} \\
+    Pobiera wszystkie aktywne gry dla użytkownika. 
+    \item \textbf{\colorbox{cyan!90}{\textcolor{white}{GET}} /api/webgame/all-finished} \\
+    Pobiera wszystkie zakończone gry dla użytkownika. 
+    \item \textbf{\colorbox{cyan!90}{\textcolor{white}{GET}} /api/webgame/type-history} \\
+    Pobiera historię gier dla wybranego typu czasu gry. 
+    \item \textbf{\colorbox{cyan!90}{\textcolor{white}{GET}} /api/webgame/invitations} \\
+    Pobiera wszystkie zaproszenia do gier, które zostały jeszcze nieodebrane. 
+    \item \textbf{\colorbox{cyan!90}{\textcolor{white}{GET}} /api/webgame/{gameId}/messages} \\
+    Pobiera wszystkie wiadomości z danej gry. 
+    \item \textbf{\colorbox{cyan!90}{\textcolor{white}{GET}} /api/webgame/stats} \\
+    Pobiera statystyki wszystkich gier rozegranych przez użytkownika. 
+    \item \textbf{\colorbox{red!90}{\textcolor{white}{DELETE}} /api/webgame/abort} \\
+    Anuluje poszukiwanie gry online. 
+    \item \textbf{\colorbox{red!90}{\textcolor{white}{DELETE}} /api/webgame/{gameId}/cancel} \\
+    Anuluje prywatną grę. Usuwa graczy. 
+\end{itemize}
+
+\newpage
+
+\textbf{Endpointy kontrolera EngineGameController}
+\begin{itemize} 
+    \item \textbf{\colorbox{green!90}{\textcolor{white}{POST}} /api/enginegame/start}\\
+    Rozpoczyna nową grę z silnikiem szachowym. 
+    \item \textbf{\colorbox{green!90}{\textcolor{white}{POST}} /api/enginegame/{gameId}/make-move}\\
+    Wykonuje ruch w grze, wykonany przez gracza lub silnik.
+    \item \textbf{\colorbox{orange!90}{\textcolor{white}{PUT}} /api/enginegame/{gameId}/end-game}\\
+    Kończy grę z silnikiem szachowym. 
+    \item \textbf{\colorbox{orange!90}{\textcolor{white}{PUT}} /api/enginegame/{gameId}/change-engine}\\
+    Zmienia poziom trudności silnika szachowego. 
+    \item \textbf{\colorbox{orange!90}{\textcolor{white}{PUT}} /api/enginegame/{gameId}/undo-move}\\
+    Cofnięcie ostatniego wykonanego ruchu. 
+    \item \textbf{\colorbox{orange!90}{\textcolor{white}{PUT}} /api/enginegame/update-settings}\\
+    Aktualizuje ustawienia związane z grami z silnikiem szachowym. 
+    \item \textbf{\colorbox{cyan!90}{\textcolor{white}{GET}} /api/enginegame/{gameId}}\\
+    Pobiera wszystkie dane dotyczące gry z silnikiem szachowym.
+    \item \textbf{\colorbox{cyan!90}{\textcolor{white}{GET}} /api/enginegame/{gameId}/winner}\\
+    Pobiera zwycięzcę gry z silnikiem szachowym. 
+    \item \textbf{\colorbox{cyan!90}{\textcolor{white}{GET}} /api/enginegame/{gameId}/engine-move}\\
+    Pobiera ruch wykonany przez silnik w grze. 
+    \item \textbf{\colorbox{cyan!90}{\textcolor{white}{GET}} /api/enginegame/{gameId}/all-messages}\\
+    Pobiera wszystkie wiadomości związane z aktualną grą z silnikiem. 
+    \item \textbf{\colorbox{cyan!90}{\textcolor{white}{GET}} /api/enginegame/all-games}\\
+    Pobiera wszystkie gry z silnikiem szachowym. 
+\end{itemize}
+
+\newpage
+\textbf{Dokumentowanie API przy użyciu Swaggera}\\
+Aby lepiej zilustrować strukturę i funkcjonalność REST API, poniżej przedstawiono przykład endpointów wygenerowanych automatycznie za pomocą biblioteki Swagger. Swagger umożliwia dokumentowanie API w sposób przejrzysty i interaktywny, co znacznie ułatwia zarówno tworzenie, jak i korzystanie z interfejsów API przez programistów.
+
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=1\textwidth]{images/swagger_api.png}
+    \caption{Przykład endpointów wygenerowanych za pomocą biblioteki Swagger.}
+\end{figure}
+
+\newpage
+
+\subsubsection{SignalR}
+SignalR to biblioteka opracowana przez Microsoft, która umożliwia dodanie funkcji komunikacji w czasie rzeczywistym do aplikacji. Jest szczególnie przydatna w scenariuszach wymagających natychmiastowego przesyłania danych między serwerem a klientem, takich jak czaty, powiadomienia, aktualizacje w czasie rzeczywistym w aplikacjach finansowych, gier czy dashboardach.
+\\\\
+Główną zaletą SignalR jest ukrycie złożoności związanej z obsługą komunikacji w czasie rzeczywistym. Biblioteka automatycznie wybiera najlepszy dostępny mechanizm komunikacji w zależności od środowiska aplikacji, w tym:
+
+\begin{itemize}
+    \item \textbf{WebSockets} – preferowana metoda, jeśli jest obsługiwana przez przeglądarkę i serwer, zapewnia pełny duplex komunikacji.
+    \item \textbf{Server-Sent Events} – alternatywa dla WebSockets, jednokierunkowa komunikacja serwera z klientem.
+    \item \textbf{Long Polling} – metoda zastępcza, w której klient wysyła powtarzające się zapytania do serwera, oczekując odpowiedzi.
+\end{itemize}
+
+SignalR opiera się na modelu hubów, które służą jako centralny punkt komunikacji. Klient i serwer mogą wysyłać wiadomości do huba, który z kolei przesyła je do odpowiednich odbiorców. 
+\\\\
+Podstawowe kroki działania SignalR to:
+
+\begin{itemize}
+    \item Klient nawiązuje połączenie z serwerem za pomocą huba.
+    \item Hub zarządza komunikacją, przekazując wiadomości między serwerem a klientami.
+    \item Klienci mogą nasłuchiwać na określone metody w hubie i reagować na otrzymane dane.
+    \item Serwer może w dowolnym momencie wysyłać wiadomości do połączonych klientów.
+\end{itemize}
+
+SignalR zapewnia wysoki poziom abstrakcji, dzięki czemu programista nie musi martwić się o szczegóły implementacyjne różnych protokołów komunikacji, co czyni go bardzo elastycznym i wydajnym rozwiązaniem.
+\\\\
+W aplikacji utworzono jedną klasę huba, która odpowiada za obsługę gier online. Klasa ta centralizuje komunikację między klientami a serwerem, umożliwiając natychmiastowe przesyłanie danych, takich jak ruchy w grze czy informacje o stanie gry.
+\\\\
+Dodatkowo stworzono interfejs, który definiuje metody wywoływane przez odpowiednich klientów. Interfejs ten pełni rolę kontraktu, gwarantując, że klienci będą mieli dostęp do spójnych metod obsługi gier online. Dzięki temu różne typy klientów mogą w prosty sposób integrować się z hubem i korzystać z jego funkcji, takich jak wysyłanie ruchu, odbieranie powiadomień czy synchronizacja danych w czasie rzeczywistym.
+\\\\
+Na następnej stronie przedstawiono szczegółowy opis metod dostępnych w ramach interfejsu SignalR, z podziałem na typy zapytań.
+
+\newpage
+
+\begin{itemize}
+    \setlength\itemsep{0.1cm}
+    \item \textbf{\colorbox{green!90}{\textcolor{white}{POST}} /game-hub/add-self-notification}\\
+    Dodaje użytkownika do grupy powiadomień, umożliwiając odbieranie powiadomień.
+    \item \textbf{\colorbox{green!90}{\textcolor{white}{POST}} /game-hub/add-player}\\
+    Dodaje użytkownika do grupy gry i wysyła żądanie weryfikacji dostępu.
+    \item \textbf{\colorbox{green!90}{\textcolor{white}{POST}} /game-hub/player-joined}\\
+    Dodaje użytkownika do kolejki gry / rozpoczyna gry online.
+    \item \textbf{\colorbox{green!90}{\textcolor{white}{POST}} /game-hub/rematch}\\
+    Tworzy nową grę dla dwóch tych samych graczy, którzy już rozegrali jedną partię.
+    \item \textbf{\colorbox{green!90}{\textcolor{white}{POST}} /game-hub/make-move}\\
+    Wykonuje ruch w grze i aktualizuje jej stan.
+    \item \textbf{\colorbox{green!90}{\textcolor{white}{POST}} /game-hub/send-player-message}\\
+    Wysyła wiadomość graczowi w ramach bieżącej gry.
+    \item \textbf{\colorbox{green!90}{\textcolor{white}{POST}} /game-hub/send-game-message}\\
+    Wysyła wiadomość w grze dla wszystkich graczy.
+    \item \textbf{\colorbox{green!90}{\textcolor{white}{POST}} /game-hub/send-draw-message}\\
+    Wysyła propozycję remisu.
+    \item \textbf{\colorbox{orange!90}{\textcolor{white}{PUT}} /game-hub/end-game}\\
+    Kończy grę i aktualizuje jej parametry końcowe.
+    \item \textbf{\colorbox{orange!90}{\textcolor{white}{PUT}} /game-hub/accept-rematch}\\
+    Akceptuje propozycję rewanżu, powiadamia obu graczy i rozpoczyna grę.
+    \item \textbf{\colorbox{orange!90}{\textcolor{white}{PUT}} /game-hub/accept-invitation}\\
+    Akceptuje zaproszenie do gry, powiadamia graczy i rozpoczyna grę.
+    \item \textbf{\colorbox{orange!90}{\textcolor{white}{PUT}} /game-hub/update-private-game}\\
+    Aktualizuje prywatną grę utworzoną przez link.
+    \item \textbf{\colorbox{orange!90}{\textcolor{white}{PUT}} /game-hub/typing-status}\\
+    Aktualizuje status pisania użytkownika.
+    \item \textbf{\colorbox{cyan!90}{\textcolor{white}{GET}} /game-hub/get-winner}\\
+    Pobiera dane zwycięzcy gry.
+    \item \textbf{\colorbox{cyan!90}{\textcolor{white}{GET}} /game-hub/notify-user}\\
+    Dostarcza dane niezbędne zaproszonemu użytkownikowi do zaakceptowania gry.
+    \item \textbf{\colorbox{red!90}{\textcolor{white}{DELETE}} /game-hub/player-leaved}\\
+    Usuwa gracza z kolejki gry.
+    \item \textbf{\colorbox{red!90}{\textcolor{white}{DELETE}} /game-hub/leave-game}\\
+    Usuwa użytkownika z połączenia z grą.
+    \item \textbf{\colorbox{red!90}{\textcolor{white}{DELETE}} /game-hub/decline-invitation}\\
+    Odrzuca zaproszenie do gry i powiadamia zapraszającego.
+    \item \textbf{\colorbox{red!90}{\textcolor{white}{DELETE}} /game-hub/remove-draw}\\
+    Odrzuca propozycję remisu.
+    \item \textbf{\colorbox{red!90}{\textcolor{white}{DELETE}} /game-hub/cancel-rematch}\\
+    Anuluje ofertę rewanżu w grze.
+\end{itemize}
+
+\newpage
+
+\textbf{Metody po stronie klienta}
+Interfejs \textcolor{teal}{\textbf{IGameHub}} definiuje zestaw metod, które są dostępne do wywołania przez klienta, po otrzymaniu powiadomienia z serwera. Poniżej wypisano metody zadeklarowane w interfejsie:
+
+\begin{itemize}
+    \item \textbf{GamesChanged} \\
+    Metoda ta służy do powiadamiania grupy w kolejce o utworzonych grach. Zwykle wywoływana, gdy nowe gry zostały stworzone, aby powiadomić użytkowników oczekujących w kolejce.
+    \item \textbf{GameUpdated} \\
+    Ta metoda informuje wszystkich użytkowników w grupie gry, że wykonano ruch w grze. Powiadomienie jest wysyłane do wszystkich osób biorących udział w danej grze.
+    \item \textbf{GameEnded} \\
+    Metoda służy do powiadamiania użytkowników o zakończeniu gry. Używana po zakończeniu gry, aby powiadomić uczestników, że gra dobiegła końca.
+    \item \textbf{InvitedToGame} \\
+    Metoda umożliwia wysłanie zaproszenia do gry. Powiadamia zaproszoną osobę o grze, która została dla niej utworzona. Parametr \texttt{dto} zawiera szczegóły dotyczące zaproszenia.
+    \item \textbf{GameAccepted} \\
+    Ta metoda informuje użytkowników, że zaproszenie do gry zostało zaakceptowane. Obie strony są powiadamiane o rozpoczęciu gry.
+    \item \textbf{MessagesUpdated} \\
+    Metoda ta powiadamia użytkowników o nowych wiadomościach wysłanych w grze. Jest wywoływana, gdy jeden z uczestników gry wyśle nową wiadomość do drugiego gracza.
+    \item \textbf{InvitationDeclined} \\
+    Metoda używana do powiadamiania o odrzuceniu zaproszenia do gry. Powiadamia osobę, która wysłała zaproszenie, że zaproszona osoba je odrzuciła.
+    \item \textbf{TypingStatus} \\
+    Metoda umożliwia powiadomienie o stanie pisania w grze. Parametr \texttt{IsTyping} określa, czy użytkownik aktualnie pisze wiadomość, co służy do pokazania animacji pisania w interfejsie użytkownika.
+    \item \textbf{RematchRequested} \\
+    Metoda ta służy do powiadamiania graczy o ofercie rewanżu. Powiadamia użytkowników, że druga osoba zaproponowała rematch (powtórkę gry). Zwraca one dane dotyczące rematchu.
+    \item \textbf{RematchCanceled} \\
+    Ta metoda informuje użytkowników, że oferta rewanżu została anulowana. Jest używana, gdy jedna ze stron postanowi wycofać swoją ofertę rematchu.
+    \item \textbf{GetWinner} \\
+    Metoda do uzyskania informacji o zwycięzcy zakończonej gry. Parametr \texttt{dto} zawiera dane dotyczące wyniku gry, w tym informacje o wygranej stronie.
+\end{itemize}
+
+
+\newpage
+
+\subsubsection{Komunikacja z silnikiem}
+Komunikacja z silnikiem szachowym jest kluczowym elementem w budowie aplikacji, która ma na celu interakcję z popularnymi silnikami szachowymi, takimi jak Stockfish. W przedstawionym przykładzie wykorzystano klasę \textcolor{teal}{\textbf{EngineService}}, która zapewnia funkcjonalność umożliwiającą komunikację z procesem silnika.
+
+Klasa ta implementuje interfejs \textcolor{teal}{\textbf{IEngineService}}, co zapewnia jednolitość i ułatwia integrację z innymi komponentami aplikacji. W konstruktorze tej klasy tworzony jest obiekt typu \textcolor{teal}{\textbf{Process}}, który uruchamia silnik szachowy. Proces jest konfigurowany tak, aby nie tworzył okna i umożliwiał przesyłanie danych zarówno do silnika - poprzez standardowe wejście, jak i z silnika - poprzez standardowe wyjście.
 
 \begin{itemize} 
-    \item \textbf{Startowanie procesu silnika:} W konstruktorze klasy, obiekt typu Process jest konfigurowany za pomocą klasy ProcessStartInfo. Ustawienia te zapewniają, że silnik będzie działał w tle bez interakcji z interfejsem użytkownika, a komunikacja będzie odbywała się za pomocą strumieni wejścia i wyjścia. 
-    \item \textbf{Wysyłanie komend do silnika:} Metoda SendCommand pozwala na wysyłanie komend do silnika. Komendy są przesyłane do standardowego wejścia silnika, a następnie natychmiastowo zapisywane do strumienia wyjściowego. 
-    \item \textbf{Odczytywanie wyników:} Metoda ReadOutput służy do odczytywania danych wyjściowych z silnika. Wykorzystuje ona strumień wyjściowy, by zbierać linie tekstu, które są następnie przechowywane w liście. Proces odczytu jest ograniczony czasowo, co zapobiega zablokowaniu aplikacji w przypadku długotrwałych odpowiedzi silnika. 
-    \item \textbf{Zamykanie procesu:} Metoda Close wysyła do silnika komendę quit, a następnie zamyka proces, kończąc w ten sposób interakcję z silnikiem. 
+    \item \textbf{Startowanie procesu silnika:} W konstruktorze klasy, obiekt typu \textcolor{teal}{\textbf{Process}} jest konfigurowany za pomocą klasy \textcolor{teal}{\textbf{ProcessStartInfo}}. Ustawienia te zapewniają, że silnik będzie działał w tle bez interakcji z interfejsem użytkownika, a komunikacja będzie odbywała się za pomocą strumieni wejścia i wyjścia. 
+    \item \textbf{Wysyłanie komend do silnika:} Metoda \textcolor{orange}{\textbf{SendCommand}} pozwala na wysyłanie komend do silnika. Komendy są przesyłane do standardowego wejścia silnika, a następnie natychmiastowo zapisywane do strumienia wyjściowego. 
+    \item \textbf{Odczytywanie wyników:} Metoda \textcolor{orange}{\textbf{ReadOutput}} służy do odczytywania danych wyjściowych z silnika. Wykorzystuje ona strumień wyjściowy, by zbierać linie tekstu, które są następnie przechowywane w liście. Proces odczytu jest ograniczony czasowo, co zapobiega zablokowaniu aplikacji w przypadku długotrwałych odpowiedzi silnika. 
+    \item \textbf{Zamykanie procesu:} Metoda \textcolor{orange}{\textbf{Close}} wysyła do silnika komendę "quit", a następnie zamyka proces, kończąc w ten sposób interakcję z silnikiem. 
 \end{itemize}
 
-Dzięki takiej implementacji, aplikacja może komunikować się z silnikiem szachowym w sposób asynchroniczny i kontrolować przebieg gry w czasie rzeczywistym, co jest fundamentem wielu aplikacji szachowych.
+Dzięki takiej implementacji, aplikacja może komunikować się z silnikiem szachowym w sposób asynchroniczny i kontrolować przebieg gry w czasie rzeczywistym, co jest fundamentalne dla prawidłowego funkcjonowania aplikacji.
+\\\\
+
+\textbf{Wykorzystanie serwisu}\\
+Serwis \textcolor{teal}{\textbf{IEngineService}} jest wykorzystywany w jednym z handlerów, służącym do zarządzania interakcją z silnikiem szachowym, który oblicza najlepszy ruch w grze na podstawie aktualnej pozycji. Handler ten pełni rolę pośrednika pomiędzy aplikacją a silnikiem, umożliwiając pobieranie ruchów zaproponowanych przez silnik. Poniżej opisano, jak serwis jest wykorzystywany w tym kontekście.
+
+\begin{enumerate}
+    \item \textbf{Inicjalizacja serwisu}\\
+    W konstruktorze handlera przyjmowane są zależności. Dzięki temu handler ma dostęp do metod serwisu, takich jak SendCommand i ReadOutput, które są kluczowe do interakcji z silnikiem.
+
+    \item \textbf{Przygotowanie do obliczeń}\\
+    Po pobraniu gry na podstawie identyfikatora (ID) i walidacji dostępu użytkownika, handler tworzy pełną wersję pozycji szachowej w formacie FEN. Jest standardowy format, który reprezentuje aktualną pozycję na szachownicy. Ten pełny zapis pozycji jest następnie przesyłany do silnika szachowego za pomocą metody \textcolor{orange}{\textbf{SendCommand}}.
+
+    \item \textbf{Wykonanie obliczeń przez silnik}\\
+    Kiedy silnik otrzyma polecenie z pełnym zapisem FEN, handler wysyła kolejną komendę do silnika za pomocą SendCommand, prosząc o wykonanie ruchu na określoną głębokość analizy na podstawie poziomu trudności ustawionego w grze.
+
+    \begin{figure}[h!]
+        \centering
+        \includegraphics[width=0.8\textwidth]{images/ex_send_command.png}
+        \caption{Fragment kodu - przesył zapytania do silnika.}
+    \end{figure}
+
+    Serwis \textcolor{teal}{\textbf{IEngineService}} przesyła tę komendę do silnika, który następnie analizuje pozycję i oblicza najlepszy możliwy ruch.
+
+    \item \textbf{Odczyt odpowiedzi od silnika}\\
+    Po wysłaniu komendy, handler oczekuje na odpowiedź od silnika. Metoda \textcolor{orange}{\textbf{ReadOutput}} serwisu jest używana do odczytywania odpowiedzi, która zawiera najlepszy ruch (komenda bestmove). Odpowiedź ta jest przetwarzana w pętli, aż silnik zwróci ruch lub upłynie czas oczekiwania.
+    
+    \begin{figure}[h!]
+        \centering
+        \includegraphics[width=0.8\textwidth]{images/ex_read_output.png}
+        \caption{Fragment kodu - wczytywanie odpowiedzi o najlepszym ruchu.}
+    \end{figure}
+
+    W przypadku, gdy ruch jest dostępny, jest on wyodrębniany z odpowiedzi i zapisywany.
+
+    \item \textbf{Przetwarzanie najlepszego ruchu}\\
+    Po uzyskaniu najlepszego ruchu z silnika, handler konstruuje nową wersję FEN, która reprezentuje pozycję po wykonaniu ruchu. Następnie wysyła kolejne komendy do silnika, aby zaktualizować pozycję w silniku i zwrócić nowe dane, w tym zapis pozycji po ruchu.
+
+    \item \textbf{Zakończenie interakcji}\\
+    o zakończeniu obliczeń i uzyskaniu wyników, serwis jest zamykany za pomocą metody \textcolor{orange}{\textbf{Close}}. To zapewnia, że proces silnika jest zakończony, a wszystkie zasoby systemowe są odpowiednio zwolnione.
+\end{enumerate}
 
 \newpage
-\subsubsection{Mechanizmy gry i zarządzanie stanem}
+\subsubsection{Kluczowe mechanizmy gry}
 
 \textbf{Tworzenie i dołączanie do gier}\\
-Proces tworzenia i dołączania do gier w aplikacji można podzielić na trzy główne typy: gry online z losowym graczem, prywatne gry online oraz gry z komputerem (silnikiem). Każdy z tych typów ma swoją specyficzną logikę, która determinuje sposób, w jaki gracze dołączają do gier oraz jak te gry są inicjowane.
+Proces tworzenia i dołączania do gier w aplikacji można podzielić na trzy główne typy: gry online z losowym graczem, prywatne gry online oraz gry z komputerem. Każdy z tych typów ma swoją specyficzną logikę, która determinuje sposób, w jaki gracze dołączają do gier oraz jak te są one inicjowane.
 
 \begin{itemize}
     \item \textbf{Gry online z losowym graczem}\\
-    W przypadku gier online z losowym graczem, użytkownik rozpoczyna proces poszukiwania gry, co skutkuje utworzeniem tzw. "gracza". Gracz ten trafia do kolejki oczekujących, gdzie oczekuje na innych graczy. Każde dołączenie nowego gracza do tej samej kolejki wywołuje mechanizm, który zbiera wszystkich oczekujących graczy i sprawdza, czy warunki do rozpoczęcia gry zostały spełnione.
+    W przypadku gier online z losowym graczem, użytkownik rozpoczyna proces poszukiwania gry, co skutkuje utworzeniem rekordu gracza. Gracz ten "trafia" do kolejki oczekujących, gdzie oczekuje na innych graczy. Każde dołączenie nowego gracza do kolejki wywołuje mechanizm, który zbiera wszystkich oczekujących graczy i sprawdza, czy warunki do rozpoczęcia gry zostały spełnione.
     \\
-    Sprawdzanie, czy można rozpocząć grę, odbywa się w sposób sekwencyjny, zaczynając od graczy, którzy oczekują najdłużej. Jeżeli warunki (np. odpowiednia liczba graczy, odpowiednia punktacja lub poziom doświadczenia) zostaną spełnione, gra zostaje utworzona. Wówczas gracz i jego przeciwnik, wybrany na podstawie zbliżonej punktacji, są automatycznie dodawani do gry, rozpoczynając wspólną rozgrywkę.
+    Sprawdzanie, czy można rozpocząć grę, odbywa się w sposób sekwencyjny, zaczynając od graczy, którzy oczekują najdłużej. Jeżeli warunki zostaną spełnione tj. znaleziono graczowi przeciwnika o zbliżonej punktacji, gra zostaje utworzona. Wówczas gracz i jego przeciwnik, są automatycznie dodawani do gry, rozpoczynając wspólną rozgrywkę.
     
     \item \textbf{Prywatne gry online}\\
-    Prywatne gry online różnią się od gier losowych tym, że są one tworzone automatycznie przez graczy, którzy posiadają zaproszenie do wspólnej gry. W tym przypadku gra jest tworzona z góry, a gracze zostają od razu przypisani do tej gry, nie oczekując w kolejce.
+    Prywatne gry online różnią się od gier losowych tym, że są one tworzone automatycznie przez jednego z użytkowników, drugi natomiast posiada zaproszenie do wspólnej gry. W tym przypadku gra jest tworzona z góry, a gracze zostają od razu przypisani do tej gry, nie oczekując w kolejce.
     \\
-    Prywatne gry mają specyficzną cechę — gracze biorący udział w takich grach są oznaczani jako "prywatni". Tacy gracze nie są uwzględniani w systemie wyszukiwania gier online, co oznacza, że nie mogą brać udziału w losowych dobieraniach graczy (zgodnie z opisanym wcześniej mechanizmem dla gier online). W związku z tym, prywatne gry odbywają się wyłącznie pomiędzy zaproszonymi graczami.
+    Prywatne gry mają specyficzną cechę — gracze biorący udział w takich grach są oznaczani jako "prywatni". Tacy gracze nie są uwzględniani w systemie wyszukiwania gier online, co oznacza, że nie będą brać udziału w losowych dobieraniach graczy (zgodnie z opisanym wcześniej mechanizmem dla gier online). W związku z tym, prywatne gry odbywają się wyłącznie pomiędzy zaproszonymi graczami.
 
     \item \textbf{Gry z komputerem}\\
     W przypadku gier z komputerem, proces jest najbardziej zautomatyzowany. Gra z komputerem jest tworzona automatycznie, a użytkownik jest jedynym graczem w grze. Gra nie wymaga oczekiwania na innych graczy, ponieważ przeciwnikiem użytkownika jest komputer. W tym przypadku tworzony jest tylko jeden gracz reprezentujący użytkownika, który bierze udział w grze przeciwko sztucznej inteligencji (silnikowi).
 \end{itemize}
 
 \textbf{Powiadomienia o zmianach stanu kolejki}\\
-Aby zapewnić synchronizację pomiędzy graczami i ich reakcję na zmiany stanu kolejki, aplikacja wykorzystuje technologię SignalR. Jest to narzędzie, które pozwala na natychmiastową synchronizację stanu gry pomiędzy graczami, zapewniając, że każdy gracz jest na bieżąco informowany o tym, czy został dołączony do gry, lub czy otrzymał zaproszenie do prywatnej gry. Dzięki SignalR gracze mogą otrzymywać powiadomienia w czasie rzeczywistym, co umożliwia im płynne przejście do etapu gry bez opóźnień.
+Aby zapewnić synchronizację pomiędzy graczami i ich reakcję na zmiany stanu kolejki, aplikacja wykorzystuje technologię SignalR. To narzędzie, które pozwala na natychmiastową synchronizację stanu gry pomiędzy graczami, zapewniając, że każdy gracz jest na bieżąco informowany o tym, czy został dołączony do gry, lub czy otrzymał zaproszenie do prywatnej gry. Dzięki tej bibliotece gracze mogą otrzymywać powiadomienia w czasie rzeczywistym, co umożliwia im płynne przejście do etapu gry bez opóźnień.
 
 \newpage
 \textbf{Punktacja ELO}\\
-Punktacja ELO to system oceny umiejętności graczy stosowany w aplikacji do określania ich relatywnej siły gry. Mechanizm ten jest dynamiczny, co oznacza, że po każdej zakończonej grze punkty ELO obu graczy są aktualizowane w zależności od wyniku rozgrywki. Wartość zmiany w punktacji jest obliczana na podstawie różnicy punktów między graczami oraz wyniku gry. System ELO uwzględnia pięć kategorii czasowych rozgrywek: bullet, blitz, rapid, classic oraz daily, z których każda ma osobną punktację. Do obliczenie punktacji rozróżnia się trzy główne przypadki:
+Punktacja ELO to system oceny umiejętności graczy stosowany w aplikacji do określania ich relatywnej siły gry. Mechanizm ten jest dynamiczny, co oznacza, że po każdej zakończonej grze punkty ELO obu graczy są aktualizowane w zależności od wyniku rozgrywki. Wartość zmiany w punktacji jest obliczana na podstawie różnicy punktów między graczami oraz wyniku gry. System uwzględnia pięć kategorii czasowych rozgrywek: bullet, blitz, rapid, classic oraz daily, z których każda ma osobną punktację. Do obliczenie punktacji rozróżnia się trzy główne przypadki:
 
 \begin{itemize}
     \item \textbf{Wygrana lepszego gracza}\\
@@ -976,7 +1165,7 @@ Poniższy wykres ilustruje zależność zmiany punktacji ELO, gdzie $ \text{y} =
 
 \begin{figure}[h!]
     \centering
-    \includegraphics[width=1\textwidth]{zdj/elo_calc.png}
+    \includegraphics[width=1\textwidth]{images/graf_elo_calc.png}
     \caption{Zmiana punktacji ELO w zależności od różnicy poziomu graczy - wykresy utworzone za pomocą strony www.desmos.com}
 \end{figure}
 
@@ -1013,7 +1202,7 @@ Aplikacja posiada także zaimplementowane zadanie cykliczne, które jest urucham
 
 \begin{figure}[h!]
     \centering
-    \includegraphics[width=1\textwidth]{zdj/update_times.png}
+    \includegraphics[width=1\textwidth]{images/ex_update_times.png}
     \caption{Fragment kodu przedstawiający aktualizacje czasu graczy.}
 \end{figure}
 
@@ -1021,9 +1210,11 @@ Aplikacja posiada także zaimplementowane zadanie cykliczne, które jest urucham
 \subsubsection{Pozostałe kluczowe aspekty}
 
 \textbf{Przetwarzanie zapytań}\\
-W systemie przetwarzania zapytań wykorzystywana jest biblioteka MediatR, która umożliwia zarządzanie zapytaniami w sposób przejrzysty i modularny. MediatR opiera się na wzorcu projektowym Mediator, co pozwala na oddzielenie logiki przetwarzania zapytań od innych komponentów aplikacji.
+W systemie przetwarzania zapytań wykorzystywana jest biblioteka \textbf{MediatR}, która umożliwia zarządzanie zapytaniami w sposób przejrzysty i modularny. MediatR opiera się na wzorcu projektowym Mediatora, co pozwala na oddzielenie logiki przetwarzania zapytań od innych komponentów aplikacji.
 \\\\
-W tym systemie każde zapytanie, na przykład żądanie wykonania jakiejś operacji, pobrania danych lub zapisania ich, jest reprezentowane przez obiekt, który dziedziczy po interfejsie IRequest<T>, gdzie T oznacza typ odpowiedzi, którą zapytanie zwróci. Zapytania te są przekazywane do mediatorów, którzy następnie kierują je do odpowiednich handlerów, czyli klas odpowiedzialnych za wykonanie logiki związanej z zapytaniem.
+W tym systemie każde zapytanie, pobrania danych lub zapisania ich, jest reprezentowane przez obiekt, który dziedziczy po interfejsie 
+\textcolor{teal}{\textbf{IRequest}}<\textcolor{cyan}{\textbf{T}}>, 
+gdzie \textcolor{cyan}{\textbf{T}} oznacza typ odpowiedzi, którą zapytanie zwróci. Zapytania te są przekazywane do mediatorów, którzy następnie kierują je do odpowiednich handlerów, czyli klas odpowiedzialnych za wykonanie logiki związanej z zapytaniem.
 \\\\
 
 \textbf{Przebieg przetwarzania zapytania}
@@ -1046,6 +1237,21 @@ W systemie, który obsługuje zapytania, każde zapytanie jest reprezentowane pr
 \end{itemize}
 
 \newpage
+
+Proces przetwarzania zapytania w systemie został szczegółowo przedstawiony na poniższym diagramie. Ukazuje on pełny przepływ danych, rozpoczynając od wysłania żądania HTTP przez klienta. Następnie żądanie jest odbierane przez odpowiedni punkt końcowy API lub metodę Huba SignalR, który przetwarza przesłany model danych. Model ten jest mapowany na obiekt zapytania (Request), który definiuje szczegóły operacji do wykonania.
+\\\\
+Zapytanie trafia do handlera, który obsługuje żądanie i wykonuje określoną logikę biznesową. W przypadku konieczności dostępu do danych, handler korzysta z repozytorium, które odpowiada za interakcję z bazą danych. Dane pobrane w formie encji są następnie mapowane na obiekt DTO (Data Transfer Object), który stanowi zwracany wynik. 
+\\\\
+Finalnie odpowiedź w postaci DTO jest zwracana przez punkt końcowy API do klienta, który otrzymuje wynik operacji w formacie zgodnym z jego wymaganiami. Diagram ten ilustruje całość procesu, uwzględniając jego modularność i spójność.
+
+\vspace{1cm}
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=1\textwidth]{images/diagram_back.png}
+    \caption{Proces przetwarzania zapytania na serwerze.}
+\end{figure}
+
+\newpage
 \textbf{Rezultaty zapytań i paginacja}\\
 W systemie, zwracane są także odpowiedzi, które mogą zawierać dane w różnych formach. W przypadku wielu zapytań, szczególnie tych związanych z wyszukiwaniem lub pobieraniem dużej ilości danych, wykorzystuje się specjalne klasy, które umożliwiają mapowanie wyników na odpowiednie modele. Część zapytań zwraca dane w postaci DTO (Data Transfer Object), które są prostymi obiektami przechowującymi dane. Te obiekty są mapowane z encji bazy danych, co pozwala na łatwiejsze i bardziej kontrolowane przekazywanie danych pomiędzy warstwami aplikacji.
 \\\\
@@ -1059,9 +1265,56 @@ Aby wspierać paginację, w systemie zostały zaimplementowane dwie klasy:
 
 \begin{figure}[h!]
     \centering
-    \includegraphics[width=0.7\textwidth]{zdj/pagination.png}
+    \includegraphics[width=0.7\textwidth]{images/ex_pagination.png}
     \caption{Klasa rezultatu paginacji.}
 \end{figure}
+
+\newpage
+
+Poniższe ilustracje przedstawiają strukturę modelu używanego w systemie. Po lewej stronie znajduje się definicja modelu w TypeScript, wykorzystywana po stronie klienta, natomiast po prawej widoczny jest odpowiednik tego modelu w kodzie zaplecza, który reprezentuje dane w aplikacji po stronie serwera.
+
+\vspace{1cm}
+\begin{minipage}[t]{0.45\textwidth} 
+    \vspace{0pt} 
+    \centering 
+    \includegraphics[width=\linewidth]{images/ex_model_front.png} 
+    Przykład modelu danych klienta (TS)
+\end{minipage} 
+\hfill 
+\begin{minipage}[t]{0.45\textwidth} 
+    \vspace{0pt} 
+    \centering 
+    \includegraphics[width=\linewidth]{images/ex_model_back.png} 
+    Przykład modelu danych serwera (C\#)
+\end{minipage} 
+\vspace{1cm}
+
+Rysunek poniżej przedstawia strukturę obiektu żądania. Obiekt ten przenosi dane wejściowe od punktu końcowego API do handlera, który wykonuje logikę biznesową.
+
+\vspace{1cm}
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=1\textwidth]{images/ex_request_back.png}
+    \caption{Struktura obiektu żądania (Request)}
+\end{figure}
+\vspace{1cm}
+
+Kolejne diagramy ilustrują przykładowe obiekty DTO. Po lewej stronie widoczny jest obiekt używany w warstwie zaplecza, który mapuje dane encji pobrane z bazy. Po prawej znajduje się odpowiedni typ w TypeScript, który reprezentuje te dane po stronie klienta.
+
+\vspace{1cm}
+\begin{minipage}[t]{0.45\textwidth} 
+    \vspace{0pt} 
+    \centering 
+    \includegraphics[width=\linewidth]{images/ex_dto_back.png} 
+    DTO w warstwie serwerowej (C\#)
+\end{minipage} 
+\hfill 
+\begin{minipage}[t]{0.45\textwidth} 
+    \vspace{0pt} 
+    \centering 
+    \includegraphics[width=\linewidth]{images/ex_dto_front.png} 
+    DTO w warstwie klienta (TS)
+\end{minipage}
 
 \newpage
 \textbf{Serwis SMTP}\\
@@ -1103,8 +1356,8 @@ W projekcie zastosowano szereg bibliotek, które wspierają rozwój i funkcjonal
 \end{itemize}
 
 \newpage
-\subsection{Frontend}
-\subsubsection{Architektura}
+\subsection{Warstwa Kliencka (Frontend)}
+\subsubsection{Architektura i struktura}
 
 Struktura frontendu w tym projekcie jest zorganizowana w sposób umożliwiający łatwe zarządzanie kodem, dzięki zastosowaniu odpowiednich folderów i podfolderów, które odpowiadają za różne aspekty aplikacji. W głównym folderze src znajdują się trzy foldery: index, main oraz shared. Każdy z nich ma swoją specyficzną rolę w organizacji kodu.
 \\\\
@@ -1112,12 +1365,11 @@ Folder index zawiera router odpowiedzialny za strony ogólnodostępne, takie jak
 
 \begin{figure}[h!]
     \centering
-    \includegraphics[width=0.5\textwidth]{zdj/struktura_front.png}
-    \caption{Struktura projektu.}
+    \includegraphics[width=0.5\textwidth]{images/struktura_front.png}
+    \caption{Struktura projektu warstwy klienckiej.}
 \end{figure}
 
-
-Taka organizacja pozwala na modularność i łatwiejsze utrzymanie aplikacji. Każda z sekcji ma wyraźnie określoną rolę i zakres odpowiedzialności, co sprzyja porządkowi w projekcie i ułatwia pracę.
+Taka organizacja pozwala na modularność i łatwiejsze utrzymanie aplikacji. Każda z sekcji ma wyraźnie określoną rolę i zakres odpowiedzialności, co sprzyja porządkowi w projekcie i ułatwia dalsze rozwijanie projektu.
 
 \newpage
 Folder shared w projekcie jest zaprojektowany w sposób, który sprzyja ponownemu wykorzystaniu kodu i organizacji wspólnych zasobów używanych w całej aplikacji. Zawiera on różnorodne podfoldery, które grupują funkcje, komponenty i style, w zależności od ich roli w projekcie.
@@ -1147,14 +1399,14 @@ Routing w aplikacji oparty na bibliotece react-router-dom jest kluczowym element
 IndexRouter odpowiada za strony ogólnodostępne, które mogą być odwiedzane przez każdego użytkownika, bez konieczności logowania lub weryfikacji. Są to strony takie jak strona główna, rejestracja czy informacje o aplikacji. Użytkownicy mogą swobodnie przeglądać te zasoby, bez jakichkolwiek ograniczeń dostępu.
 \begin{figure}[h!]
     \centering
-    \includegraphics[width=0.7\textwidth]{zdj/index_router.png}
+    \includegraphics[width=0.7\textwidth]{images/ex_index_router.png}
     \caption{Schemat routingu dla ogólnodostępnych stron w aplikacji.}
 \end{figure}
 
 MainRouter natomiast obsługuje zasoby, które są dostępne tylko dla zarejestrowanych i zweryfikowanych użytkowników. W tej części aplikacji przed uzyskaniem dostępu do stron, takich jak profil użytkownika, ranking czy gra online, aplikacja przeprowadza weryfikację, czy użytkownik jest odpowiednio zalogowany i posiada uprawnienia do korzystania z tych zasobów. Jeśli użytkownik nie spełnia wymogów autentykacji, zostaje przekierowany do odpowiednich stron, takich jak strona logowania czy rejestracji.
 \begin{figure}[h!]
     \centering
-    \includegraphics[width=0.7\textwidth]{zdj/main_router.png}
+    \includegraphics[width=0.7\textwidth]{images/ex_main_router.png}
     \caption{Schemat routingu dla zasobów dostępnych tylko dla zalogowanych i zweryfikowanych użytkowników.}
 \end{figure}
 
@@ -1163,9 +1415,10 @@ MainRouter natomiast obsługuje zasoby, które są dostępne tylko dla zarejestr
 \textbf{Autoryzacja}\\
 Autoryzacja w MainRouterze polega na weryfikacji tokena użytkownika oraz stanu jego konta. Przy każdym wejściu na zasoby chronione, aplikacja najpierw sprawdza, czy w localStorage znajduje się token. Jeśli go brak, użytkownik jest przekierowywany do strony rejestracji. Następnie, jeśli token jest obecny, aplikacja sprawdza, czy adres e-mail użytkownika został zweryfikowany. W przypadku braku weryfikacji, użytkownik zostaje przekierowany do strony rejestracji z komunikatem o konieczności weryfikacji konta. Po pomyślnym zweryfikowaniu konta, aplikacja pobiera dane użytkownika, zapisuje je w localStorage i nawiązuje połączenie z serwisem gier. W przypadku jakichkolwiek problemów z autoryzacją, użytkownik jest również kierowany do strony rejestracji z odpowiednim komunikatem o błędzie.
 
+\vspace{1cm}
 \begin{figure}[h!]
     \centering
-    \includegraphics[width=1\textwidth]{zdj/mrouter_authorization.png}
+    \includegraphics[width=1\textwidth]{images/ex_router_authorization.png}
     \caption{Fragment kodu pokazujący proces autoryzacji użytkownika.}
 \end{figure}
 
@@ -1224,10 +1477,10 @@ Aplikacja zawiera również strony ładowania, które są wyświetlane w sytuacj
 Zarządzanie stanem aplikacji w projekcie opiera się na elastycznym wykorzystaniu kilku mechanizmów w zależności od charakteru stanu i jego zastosowania. Dzięki temu aplikacja jest w stanie skutecznie zarządzać zarówno lokalnym stanem komponentów, jak i bardziej złożonymi danymi związanymi z rozgrywką, zapewniając płynność i responsywność działania aplikacji w grze w szachy.
 
 \begin{itemize}
-    \item \textbf{Zarządzanie stanem lokalnym:} Do zarządzania stanem lokalnym, który jest związany z pojedynczymi komponentami, wykorzystywane jest useState. Tego typu stan przechowuje dane dotyczące interakcji użytkownika z interfejsem, na przykład wybór gry, filtrowanie wyników czy przechowywanie tymczasowych danych. Stan ten jest zmieniany w odpowiedzi na działania użytkownika lub pobieranie danych z serwera.
-    \item \textbf{Zarządzanie bardziej złożonym stanem:} W przypadku bardziej skomplikowanego stanu, takiego jak stan gry, używa się useReducer. Ta technika pozwala na lepsze zarządzanie złożonymi i dynamicznymi danymi, takimi jak aktualny stan rozgrywki, ruchy graczy, status gry czy zmiany na planszy. Dzięki zastosowaniu reducerów możliwe jest łatwe śledzenie zmian stanu oraz utrzymywanie porządku w logice aplikacji, szczególnie w sytuacjach, gdy wiele akcji może wpływać na jeden obiekt stanu.
-    \item \textbf{Globalny stan aplikacji:} Aby zarządzać danymi, które muszą być dostępne w wielu częściach aplikacji, wykorzystywany jest globalny stan oparty na useContext i createContext. Dzięki temu możliwe jest centralne przechowywanie i udostępnianie informacji, które są wykorzystywane w różnych miejscach aplikacji.
-    \item \textbf{Przechowywanie danych w localStorage:} Aplikacja wykorzystuje także localStorage do przechowywania niektórych danych, takich jak informacje o użytkowniku czy tokeny logowania. Dzięki temu dane te pozostają dostępne pomiędzy sesjami użytkownika, nawet po odświeżeniu strony lub zamknięciu aplikacji. localStorage zapewnia trwałość przechowywanych danych, co zwiększa komfort użytkownika, umożliwiając m.in. automatyczne logowanie się lub kontynuowanie gry bez potrzeby ponownego logowania.
+    \item \textbf{Zarządzanie stanem lokalnym:} Do zarządzania stanem lokalnym, który jest związany z pojedynczymi komponentami, wykorzystywane jest \textcolor{orange}{useState}. Tego typu stan przechowuje dane dotyczące interakcji użytkownika z interfejsem, na przykład wybór gry, filtrowanie wyników czy przechowywanie tymczasowych danych. Stan ten jest zmieniany w odpowiedzi na działania użytkownika lub pobieranie danych z serwera.
+    \item \textbf{Zarządzanie bardziej złożonym stanem:} W przypadku bardziej skomplikowanego stanu, takiego jak stan gry, używa się \textcolor{orange}{useReducer}. Ta technika pozwala na lepsze zarządzanie złożonymi i dynamicznymi danymi, takimi jak aktualny stan rozgrywki, ruchy graczy, status gry czy zmiany na planszy. Dzięki zastosowaniu reducerów możliwe jest łatwe śledzenie zmian stanu oraz utrzymywanie porządku w logice aplikacji, szczególnie w sytuacjach, gdy wiele akcji może wpływać na jeden obiekt stanu.
+    \item \textbf{Globalny stan aplikacji:} Aby zarządzać danymi, które muszą być dostępne w wielu częściach aplikacji, wykorzystywany jest globalny stan oparty na \textcolor{orange}{useContext} i \textcolor{orange}{createContext}. Dzięki temu możliwe jest centralne przechowywanie i udostępnianie informacji, które są wykorzystywane w różnych miejscach aplikacji.
+    \item \textbf{Przechowywanie danych w localStorage:} Aplikacja wykorzystuje także \textcolor{orange}{localStorage} do przechowywania niektórych danych, takich jak informacje o użytkowniku czy tokeny logowania. Dzięki temu dane te pozostają dostępne pomiędzy sesjami użytkownika, nawet po odświeżeniu strony lub zamknięciu aplikacji. Ten sposób zapewnia trwałość przechowywanych danych, co zwiększa komfort użytkownika, umożliwiając m.in. automatyczne logowanie się lub kontynuowanie gry bez potrzeby ponownego logowania.
     \item \textbf{Komunikacja w czasie rzeczywistym z użyciem SignalR:}
     W aplikacji szachowej, gdzie interakcja dwóch graczy musi odbywać się w czasie rzeczywistym, wykorzystano SignalR do synchronizacji stanu gry między graczami. Po wykonaniu ruchu przez jednego gracza, aplikacja natychmiastowo informuje drugiego gracza o zmianach, co pozwala na płynne i bieżące aktualizowanie stanu gry w czasie rzeczywistym. Dzięki SignalR, obaj gracze widzą zmiany na planszy bez opóźnień i mogą natychmiastowo reagować na ruchy przeciwnika.
 \end{itemize}
@@ -1239,43 +1492,52 @@ Proces zarządzania przebiegiem gry w szachy w aplikacji opiera się na dynamicz
 
 \textbf{Pobranie stanu gry}\\
 Pierwszym krokiem jest pobranie aktualnego stanu gry z bazy danych, co pozwala na załadowanie pozycji wszystkich figur na planszy w chwili, gdy użytkownik wchodzi na stronę gry. Stan gry obejmuje pozycję wszystkich figur, informacje o graczach oraz inne dane związane z przebiegiem partii (np. liczba wykonanych ruchów, stan szachowy). Te dane są następnie zapisywane w bieżącym stanie aplikacji, co umożliwia dalsze operacje na szachownicy.
-\\
+\\\\
+
 \textbf{Mapowanie pozycji na macierz szachownicy}\\
 Po załadowaniu stanu gry, aplikacja przekształca dane dotyczące pozycji figur w odpowiednią macierz, która reprezentuje szachownicę. Dzięki temu można łatwo manipulować danymi i aktualizować widok planszy. Każda figura jest przypisana do konkretnych współrzędnych na planszy, co umożliwia jej wyświetlenie w odpowiednim miejscu. Mapowanie pozycji do macierzy pozwala również na łatwiejsze śledzenie możliwych ruchów dla każdej figury.
-\\
+\\\\
+
 \textbf{Kontrolowanie pól}\\
 Aplikacja następnie tworzy listy kontrolowanych pól dla obu graczy. Każde pole, na którym może spaść bicie, jest uwzględniane w tych listach. Ponadto, ważnym elementem jest zapewnienie, że król nie może wejść na pole, które jest zagrożone przez przeciwnika (czyli nie może stanąć na polu, które może zostać zaatakowane przez przeciwnika w kolejnej turze). Lista kontrolowanych pól jest dynamicznie aktualizowana po każdym ruchu, aby zapewnić prawidłową grę.
-\\
+\\\\
+
 \textbf{Sprawdzanie szacha}\\
 Kolejnym istotnym etapem jest sprawdzenie, czy w danej chwili istnieje szach. Szach to sytuacja, w której król jednego z graczy znajduje się pod bezpośrednim atakiem przeciwnika, co oznacza, że gracz musi podjąć działania w celu ochrony swojego króla. Jeśli występuje szach, aplikacja identyfikuje wszystkie pola, które biorą udział w szachu, co pozwala na zmuszenie gracza do podjęcia odpowiednich działań. Oznacza to, że gracz nie może swobodnie poruszać innymi figurami, a ruchy, które mogłyby zwiększyć zagrożenie, są blokowane.
-\\
+\\\\
+
 \textbf{Wyczyszczenie wcześniejszych wyborów}\\
 Po wykonaniu każdego ruchu lub interakcji z użytkownikiem, aplikacja wyczyści wszelkie wcześniejsze wybory dokonywane przez gracza. Na przykład, jeśli użytkownik wybrał figurę, a następnie nie wybrał jej nowej lokalizacji, poprzedni wybór zostaje anulowany. Zapewnia to, że nie pozostają żadne błędne lub nieaktualne dane, które mogłyby wpłynąć na dalszą grę.
 \\
 Zanim gracz będzie mógł dokonać wyboru figury, aplikacja sprawdza, czy istnieje jakikolwiek możliwy ruch, który można wykonać. Jeśli żaden ruch nie jest możliwy (np. w przypadku "matu" lub "patu"), gra zostaje zakończona. W przypadku matu (zamatowanie króla) jedna ze stron wygrywa, natomiast w przypadku pata (niemożliwość wykonania ruchu, ale król nie jest w szachu) gra kończy się remisem. Aplikacja automatycznie wykrywa te sytuacje i odpowiednio kończy grę.
-\\
+\\\\
+
 \textbf{Wybór figury i koordynat}\\
 Po sprawdzeniu dostępnych ruchów, gracz może wybrać figurę, którą chce ruszyć. Po dokonaniu wyboru, aplikacja zapisuje wybraną figurę oraz jej koordynaty na planszy. Następnie, użytkownik wybiera pole, na które chce wykonać ruch. W tym momencie aplikacja uruchamia procedurę obliczania wszystkich możliwych ruchów, jakie figura może wykonać na podstawie aktualnych zasad gry (np. ruchy dla pionka, wieży, gońca, itp.).
-\\
+\\\\
+
 \textbf{Podświetlanie dostępnych pól}\\
 Po obliczeniu dostępnych ruchów, aplikacja aktualizuje widok planszy, podświetlając odpowiednie pola, na które wybrana figura może się poruszyć. Dzięki temu użytkownik ma pełną widoczność swoich opcji i może łatwiej podjąć decyzję. Podświetlone są tylko te pola, które są zgodne z zasadami ruchów danej figury, co eliminuje możliwość wykonania błędnego ruchu.
-\\
+\\\\
+
 \textbf{Wykonanie ruchu}\\
 Po dokonaniu wyboru pola przez użytkownika, aplikacja sprawdza, czy ruch jest dozwolony. Jeśli tak, wykonuje ruch, przenosząc figurę na nowe pole. Jeżeli ruch jest nielegalny (np. figura nie może poruszyć się na to pole zgodnie z zasadami gry), aplikacja anuluje wybór i pozwala graczowi ponownie wybrać figurę i cel ruchu.
-\\
+\\\\
+
 \textbf{Aktualizacja stanu gry}\\
 Po wykonaniu ruchu aplikacja zapisuje nowy stan gry w bazie danych, co pozwala na kontynuowanie gry od tego punktu w przyszłości. Zmiany w stanie gry obejmują aktualizację pozycji figur, liczbę wykonanych ruchów oraz ewentualne zmiany w statusie gry (np. wprowadzenie szacha, matu lub pata). Dzięki temu stan gry jest synchronizowany i zabezpieczony na wypadek przerwania gry lub ponownego załadowania strony.
-\\
+\\\\
+
 \textbf{Powiadomienie drugiego gracza}\\
 Na końcu, po zapisaniu zmian w bazie, aplikacja powiadamia drugiego gracza o wykonanym ruchu, aby umożliwić mu podjęcie swojej tury. Powiadomienie jest realizowane za pomocą technologii SignalR, która zapewnia natychmiastową synchronizację stanu gry pomiędzy graczami. To kluczowy element umożliwiający grę online w czasie rzeczywistym, gdzie każdy ruch jednego gracza jest natychmiastowo widoczny dla drugiego gracza.
-\\\\
-Poniżej przedstawiony został diagram blokowy ilustrujący proces działania mechanizmu gry w szachy. Diagram prezentuje kolejne etapy, począwszy od inicjalizacji stanu gry, przez interakcje użytkownika, aż po synchronizację stanu gry pomiędzy graczami. Każdy etap jest odzwierciedleniem opisanego wcześniej przebiegu logiki gry, uwzględniając kluczowe decyzje i akcje, takie jak obliczanie możliwych ruchów, weryfikacja poprawności ruchu czy zakończenie gry.
 
 \newpage
 
+Poniżej przedstawiony został diagram blokowy ilustrujący proces działania mechanizmu gry w szachy. Diagram prezentuje kolejne etapy, począwszy od inicjalizacji stanu gry, przez interakcje użytkownika, aż po synchronizację stanu gry pomiędzy graczami. Każdy etap jest odzwierciedleniem opisanego wcześniej przebiegu logiki gry, uwzględniając kluczowe decyzje i akcje, takie jak obliczanie możliwych ruchów, weryfikacja poprawności ruchu czy zakończenie gry.
+
 \begin{figure}[h!]
     \centering
-    \includegraphics[width=1\textwidth]{zdj/diagram_gry.png}
+    \includegraphics[width=1\textwidth]{images/diagram_gry.png}
     \caption{Diagram blokowy mechanizmu gry w szachy.}
 \end{figure}
 
@@ -1305,7 +1567,7 @@ W pierwszej części zapisu pozycji FEN znajdują się informacje o rozmieszczen
 
 \begin{figure}[h!]
     \centering
-    \includegraphics[width=0.7\textwidth]{zdj/matrix.png}
+    \includegraphics[width=0.7\textwidth]{images/ex_matrix.png}
     \caption{Przykładowa macierz pozycji gry.}
 \end{figure}
 
@@ -1330,14 +1592,14 @@ Druga para to listy pól biorących udział w szachu. Obejmują one pole zajmowa
 \begin{minipage}[t]{0.45\textwidth} 
     \vspace{0pt} 
     \centering 
-    \includegraphics[width=\linewidth]{zdj/check_areas.png} 
+    \includegraphics[width=\linewidth]{images/imp_front_check_areas.png} 
     Wizualizacja pól szachu.
 \end{minipage} 
 \hfill 
 \begin{minipage}[t]{0.45\textwidth} 
     \vspace{0pt} 
     \centering 
-    \includegraphics[width=\linewidth]{zdj/controlled_areas.png} 
+    \includegraphics[width=\linewidth]{images/imp_front_controlled_areas.png} 
     Wizualizacja kontrolowanych pól.
 \end{minipage}
 
@@ -1351,7 +1613,7 @@ Jeśli po sprawdzeniu okazuje się, że gracz nie ma żadnych możliwych ruchów
 
 \begin{figure}[h!]
     \centering
-    \includegraphics[width=0.7\textwidth]{zdj/checkmate.png}
+    \includegraphics[width=0.7\textwidth]{images/imp_front_checkmate.png}
     \caption{Przykładu zakończenia gry matem.}
 \end{figure}
 
@@ -1369,14 +1631,14 @@ Mechanizm pina może być zastosowany wyłącznie przez figury poruszające się
 \begin{minipage}[t]{0.45\textwidth} 
     \vspace{0pt} 
     \centering 
-    \includegraphics[width=\linewidth]{zdj/linear.png} 
+    \includegraphics[width=\linewidth]{images/imp_front_linear.png} 
     Wizualizacja ruchów liniowych na przykładzie ruchów hetmana.
 \end{minipage} 
 \hfill 
 \begin{minipage}[t]{0.45\textwidth} 
     \vspace{0pt} 
     \centering 
-    \includegraphics[width=\linewidth]{zdj/pin.png} 
+    \includegraphics[width=\linewidth]{images/imp_front_pin.png} 
     Wizualizacja przykładowego pinu na hetmanie.
 \end{minipage}
 \vspace{1cm}
@@ -1398,13 +1660,13 @@ Ruchy specjalne w szachach, są przetwarzane za pomocą zapisanych specjalnych s
 \begin{minipage}[t]{0.3\textwidth} 
     \vspace{0pt} 
     \centering 
-    \includegraphics[width=\linewidth]{zdj/castling.png} 
+    \includegraphics[width=\linewidth]{images/imp_front_castling.png} 
 \end{minipage}
 \vspace{1cm}
 \begin{minipage}[t]{0.3\textwidth} 
     \vspace{0pt} 
     \centering 
-    \includegraphics[width=\linewidth]{zdj/enpassant.png} 
+    \includegraphics[width=\linewidth]{images/imp_front_enpassant.png} 
 \end{minipage} 
 \hfill 
 \begin{minipage}[t]{0.6\textwidth} 
@@ -1424,7 +1686,7 @@ Ruchy specjalne w szachach, są przetwarzane za pomocą zapisanych specjalnych s
 \begin{minipage}[t]{0.3\textwidth} 
     \vspace{0pt} 
     \centering 
-    \includegraphics[width=\linewidth]{zdj/promotion.png} 
+    \includegraphics[width=\linewidth]{images/imp_front_promotion.png} 
 \end{minipage}
 
 \newpage
@@ -1475,7 +1737,7 @@ Całość zaprojektowano w sposób przejrzysty i estetyczny, aby zapewnić pozyt
 
 \begin{figure}[h!]
     \centering
-    \includegraphics[width=1\textwidth]{zdj/ins_hero.png}
+    \includegraphics[width=1\textwidth]{images/ins_hero.png}
     \caption{Widok strony startowej.}
 \end{figure}
 
@@ -1489,7 +1751,7 @@ W przypadku zapomnianego hasła, strona oferuje funkcję jego odzyskania. Po pod
 
 \begin{figure}[h!]
     \centering
-    \includegraphics[width=1\textwidth]{zdj/ins_reg.png}
+    \includegraphics[width=1\textwidth]{images/ins_reg.png}
     \caption{Widok strony startowej.}
 \end{figure}
 
@@ -1507,13 +1769,13 @@ Strona rejestracji jest zaprojektowana z myślą o czytelności i łatwości obs
 \begin{minipage}[t]{0.45\textwidth} 
     \vspace{0pt} 
     \centering 
-    \includegraphics[width=\linewidth]{zdj/ins_min_ver.png} 
+    \includegraphics[width=\linewidth]{images/ins_min_ver.png} 
 \end{minipage}
 \vspace{1cm}
 \begin{minipage}[t]{0.45\textwidth} 
     \vspace{0pt} 
     \centering 
-    \includegraphics[width=\linewidth]{zdj/ins_min_mail.png} 
+    \includegraphics[width=\linewidth]{images/ins_min_mail.png} 
 \end{minipage} 
 \hfill 
 \begin{minipage}[t]{0.45\textwidth} 
@@ -1544,7 +1806,7 @@ Pozostałą przestrzeń zajmują okna szybkiego dostępu, takie jak podgląd kon
 
 \begin{figure}[h!]
     \centering
-    \includegraphics[width=1\textwidth]{zdj/ins_main.png}
+    \includegraphics[width=1\textwidth]{images/ins_main.png}
     \caption{Widok strony głównej.}
 \end{figure}
 
@@ -1558,7 +1820,7 @@ Po dokonaniu wyboru jednego z powyższych trybów, ekran zmienia się na widok w
 
 \begin{figure}[h!]
     \centering
-    \includegraphics[width=1\textwidth]{zdj/ins_min_pvp.png}
+    \includegraphics[width=1\textwidth]{images/ins_min_pvp.png}
     \caption{Widok wyboru gry online.}
 \end{figure}
 
@@ -1572,7 +1834,7 @@ Dodatkowo, podczas gry z komputerem istnieje opcja oszukiwania, czyli możliwoś
 
 \begin{figure}[h!]
     \centering
-    \includegraphics[width=1\textwidth]{zdj/ins_min_pvc.png}
+    \includegraphics[width=1\textwidth]{images/ins_min_pvc.png}
     \caption{Widok wyboru gry offline.}
 \end{figure}
 
@@ -1583,7 +1845,7 @@ Po kliknięciu na przycisk „Gra ze znajomymi”, użytkownik zostaje przeniesi
 
 \begin{figure}[h!]
     \centering
-    \includegraphics[width=1\textwidth]{zdj/ins_min_pvf.png}
+    \includegraphics[width=1\textwidth]{images/ins_min_pvf.png}
     \caption{Widok wyboru gry ze znajomym.}
 \end{figure}
 
@@ -1594,7 +1856,7 @@ Trzecia opcja, „Gra za pomocą wygenerowanego linka”, pozwala na zaproszenie
 
 \begin{figure}[h!]
     \centering
-    \includegraphics[width=1\textwidth]{zdj/ins_min_link.png}
+    \includegraphics[width=1\textwidth]{images/ins_min_link.png}
     \caption{Widok rozpoczynania gry przez link.}
 \end{figure}
 
@@ -1606,7 +1868,7 @@ Dodatkowo, we wszystkich tych sekcjach istnieją filtry, które umożliwiają ł
 
 \begin{figure}[h!]
     \centering
-    \includegraphics[width=1\textwidth]{zdj/ins_min_games.png}
+    \includegraphics[width=1\textwidth]{images/ins_min_games.png}
     \caption{Widok gier użytkownika.}
 \end{figure}
 
@@ -1616,7 +1878,7 @@ Ostatnia sekcja na głównej stronie to zaproszenia, gdzie użytkownik ma wgląd
 
 \begin{figure}[h!]
     \centering
-    \includegraphics[width=1\textwidth]{zdj/ins_min_inv_card.png}
+    \includegraphics[width=1\textwidth]{images/ins_min_inv_card.png}
     \caption{Widok zaproszeń do gry.}
 \end{figure}
 
@@ -1624,7 +1886,7 @@ Dodatkowo, w przypadku gdy użytkownik jest aktywny na stronie, pojawia się spe
 
 \begin{figure}[h!]
     \centering
-    \includegraphics[width=0.7\textwidth]{zdj/ins_min_inv_popup.png}
+    \includegraphics[width=0.7\textwidth]{images/ins_min_inv_popup.png}
     \caption{Wyskakujące okienko otrzymanego zaproszenia.}
 \end{figure}
 
@@ -1634,13 +1896,13 @@ Na stronie gry, w centralnej części, znajduje się szachownica, która stanowi
 
 \begin{figure}[h!]
     \centering
-    \includegraphics[width=0.9\textwidth]{zdj/ins_webgame.png}
+    \includegraphics[width=0.9\textwidth]{images/ins_webgame.png}
     \caption{Strona gry online.}
 \end{figure}
 
 \begin{figure}[h!]
     \centering
-    \includegraphics[width=0.9\textwidth]{zdj/ins_simpgame.png}
+    \includegraphics[width=0.9\textwidth]{images/ins_simpgame.png}
     \caption{Uproszony widok gry.}
 \end{figure}
 
@@ -1650,7 +1912,7 @@ W centralnej części ekranu znajduje się szachownica, której wygląd może by
 
 \begin{figure}[h!]
     \centering
-    \includegraphics[width=0.9\textwidth]{zdj/ins_min_board.png}
+    \includegraphics[width=0.9\textwidth]{images/ins_min_board.png}
     \caption{Szachownica}
 \end{figure}
 
@@ -1665,13 +1927,13 @@ W centralnej części ekranu znajduje się szachownica, której wygląd może by
 \begin{minipage}[t]{0.45\textwidth} 
     \vspace{0pt} 
     \centering 
-    \includegraphics[width=\linewidth]{zdj/ins_min_players.png} 
+    \includegraphics[width=\linewidth]{images/ins_min_players.png} 
 \end{minipage}
 \vspace{1cm}
 \begin{minipage}[t]{0.45\textwidth} 
     \vspace{0pt} 
     \centering 
-    \includegraphics[width=\linewidth]{zdj/ins_min_moves.png} 
+    \includegraphics[width=\linewidth]{images/ins_min_moves.png} 
 \end{minipage} 
 \hfill 
 \begin{minipage}[t]{0.45\textwidth} 
@@ -1689,7 +1951,7 @@ W centralnej części ekranu znajduje się szachownica, której wygląd może by
 \begin{minipage}[t]{0.45\textwidth} 
     \vspace{0pt} 
     \centering 
-    \includegraphics[width=\linewidth]{zdj/ins_min_mess.png} 
+    \includegraphics[width=\linewidth]{images/ins_min_mess.png} 
 \end{minipage}
 
 \newpage
@@ -1697,7 +1959,7 @@ W centralnej części ekranu znajduje się szachownica, której wygląd może by
 \begin{minipage}[t]{0.2\textwidth} 
     \vspace{0pt} 
     \centering 
-    \includegraphics[width=\linewidth]{zdj/ins_min_wopt.png} 
+    \includegraphics[width=\linewidth]{images/ins_min_wopt.png} 
 \end{minipage} 
 \hfill 
 \begin{minipage}[t]{0.7\textwidth} 
@@ -1715,13 +1977,13 @@ W centralnej części ekranu znajduje się szachownica, której wygląd może by
 \begin{minipage}[t]{0.2\textwidth} 
     \vspace{0pt} 
     \centering 
-    \includegraphics[width=\linewidth]{zdj/ins_min_eopt.png} 
+    \includegraphics[width=\linewidth]{images/ins_min_eopt.png} 
 \end{minipage}
 \vspace{1cm}
 \begin{minipage}[t]{0.2\textwidth} 
     \vspace{0pt} 
     \centering 
-    \includegraphics[width=\linewidth]{zdj/ins_min_capt.png} 
+    \includegraphics[width=\linewidth]{images/ins_min_capt.png} 
 \end{minipage} 
 \hfill 
 \begin{minipage}[t]{0.7\textwidth} 
@@ -1743,13 +2005,13 @@ Dodatkowo na planszy szachowej pojawiają się wyskakujące okna, które aktywuj
 \begin{minipage}[t]{0.45\textwidth} 
     \vspace{0pt} 
     \centering 
-    \includegraphics[width=\linewidth]{zdj/ins_min_prom.png} 
+    \includegraphics[width=\linewidth]{images/ins_min_prom.png} 
 \end{minipage}
 \vspace{1cm}
 \begin{minipage}[t]{0.45\textwidth} 
     \vspace{0pt} 
     \centering 
-    \includegraphics[width=\linewidth]{zdj/ins_min_prev.png} 
+    \includegraphics[width=\linewidth]{images/ins_min_prev.png} 
 \end{minipage} 
 \hfill 
 \begin{minipage}[t]{0.45\textwidth} 
@@ -1769,7 +2031,7 @@ Dodatkowo na planszy szachowej pojawiają się wyskakujące okna, które aktywuj
 \begin{minipage}[t]{0.45\textwidth} 
     \vspace{0pt} 
     \centering 
-    \includegraphics[width=\linewidth]{zdj/ins_min_win.png} 
+    \includegraphics[width=\linewidth]{images/ins_min_win.png} 
 \end{minipage}
 
 \newpage
@@ -1780,7 +2042,7 @@ Dodatkowo, użytkownik ma możliwość edytowania ustawień konta, w tym zmiany 
 
 \begin{figure}[h!]
     \centering
-    \includegraphics[width=1\textwidth]{zdj/ins_account.png}
+    \includegraphics[width=1\textwidth]{images/ins_account.png}
     \caption{Strona profilu użytkownika.}
 \end{figure}
 
@@ -1799,7 +2061,7 @@ Cała strona umożliwia łatwe zarządzanie znajomymi, zaproszeniami i relacjami
 
 \begin{figure}[h!]
     \centering
-    \includegraphics[width=1\textwidth]{zdj/ins_users.png}
+    \includegraphics[width=1\textwidth]{images/ins_users.png}
     \caption{Strona zarządzania znajomymi.}
 \end{figure}
 
@@ -1814,7 +2076,7 @@ Strona rankingu jest kluczowym elementem aplikacji, wspierającym rywalizację i
 
 \begin{figure}[h!]
     \centering
-    \includegraphics[width=1\textwidth]{zdj/ins_rank.png}
+    \includegraphics[width=1\textwidth]{images/ins_rank.png}
     \caption{Strona zarządzania znajomymi.}
 \end{figure}
 

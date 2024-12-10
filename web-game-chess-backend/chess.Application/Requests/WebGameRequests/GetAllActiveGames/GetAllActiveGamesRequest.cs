@@ -15,3 +15,5 @@ public class GetAllActiveGamesRequest : PagedRequest, IRequest<PagedResult<GetAl
     /// </summary>
     public List<TimingTypes>? TimingTypeFilters { get; set; }
 }
+
+
