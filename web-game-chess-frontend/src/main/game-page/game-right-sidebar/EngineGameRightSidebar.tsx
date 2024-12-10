@@ -286,9 +286,9 @@ function EngineGameRightSidebar({
             ? renderPlayer(gameData.player, classes["white-player"], classes["white-player-img"])
             : renderPlayer(gameData.player, classes["black-player"], classes["black-player-img"])}
 
-          <p className={classes.vs}>
+          <div className={classes.vs}>
             <VsIcon iconClass={classes["vs-icon"]} />
-          </p>
+          </div>
 
           {gameData.player.color === PieceColor.black
             ? renderPlayer(null, classes["white-player"], classes["white-player-img"])

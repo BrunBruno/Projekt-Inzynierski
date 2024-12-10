@@ -151,6 +151,17 @@
             filter: drop-shadow(0 0 0.5rem $danger-color-m);
           }
         }
+
+        // en passant capture
+        &.en-capture {
+          background-image: radial-gradient(
+            circle at 50% 50%,
+            rgba(#000, 0.5) 20%,
+            rgba($danger-color-d, 0.5) 30%,
+            rgba($danger-color-l, 0.5) 40%,
+            #0000 45%
+          );
+        }
       }
 
       &.selected {

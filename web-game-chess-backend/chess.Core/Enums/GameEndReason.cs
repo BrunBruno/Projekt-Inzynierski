@@ -2,7 +2,7 @@
 namespace chess.Core.Enums;
 
 /// <summary>
-/// Reasons types why game has ended
+/// Reasons why game has ended
 /// </summary>
 public enum GameEndReason {
     // wins / loses causes

@@ -281,9 +281,9 @@ function WebGameRightSidebar({
             ? renderPlayer(gameData.whitePlayer, classes["white-player"], classes["white-player-img"])
             : renderPlayer(gameData.blackPlayer, classes["black-player"], classes["black-player-img"])}
 
-          <p className={classes.vs}>
+          <div className={classes.vs}>
             <VsIcon iconClass={classes["vs-icon"]} />
-          </p>
+          </div>
 
           {gameData.whitePlayer.name == playerData.name
             ? renderPlayer(gameData.blackPlayer, classes["black-player"], classes["black-player-img"])

@@ -141,6 +141,13 @@ function WebGameBoard({
     const isNewField = areCoorEqual(coordinates, newCoordinates);
     const showCapture = wasCapture && isNewField;
 
+    let isEnPassCoor: boolean = false;
+    if (gameData.enPassant) {
+      const [enX, enY] = gameData.enPassant.split(",");
+      const [eXCoor, eYCoor] = [parseInt(enX), parseInt(enY)];
+      isEnPassCoor = areCoorEqual(toCoor([eXCoor, eYCoor]), coordinates);
+    }
+
     // add field
     outerFields.push(
       <div
@@ -149,6 +156,7 @@ function WebGameBoard({
         className={`
           ${classes.field}
           ${isInTipFields ? classes.tip : ""}
+          ${isEnPassCoor ? classes["en-capture"] : ""}
           ${sameCoor ? classes.selected : ""}
         `}
         onMouseDown={(event) => {
