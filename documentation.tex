@@ -82,7 +82,7 @@ Gliwice, 2025
 \section{Wstęp}
 \subsection{Opis projektu}
 
-Projekt BRNChess to aplikacja webowa, zaprojektowana z myślą o miłośnikach szachów, składająca się z dwóch głównych komponentów: aplikacji internetowej (frontend) oraz aplikacji serwerowej (backend). Strona kliencka została stworzona w oparciu o nowoczesne technologie React oraz Vite, a kod jest pisany w języku TypeScript, co zapewnia wysoką wydajność, czytelność i skalowalność projektu. Backend natomiast opiera się na potężnej platformie .NET Framework, co umożliwia szybkie i niezawodne przetwarzanie logiki serwera oraz integrację z różnymi usługami.
+Projekt \textbf{BRNChess} to aplikacja webowa, zaprojektowana z myślą o miłośnikach szachów, składająca się z dwóch głównych komponentów: aplikacji internetowej (frontend) oraz aplikacji serwerowej (backend). Strona kliencka została stworzona w oparciu o nowoczesne technologie React oraz Vite, a kod jest pisany w języku TypeScript, co zapewnia wysoką wydajność, czytelność i skalowalność projektu. Backend natomiast opiera się na potężnej platformie .NET Framework, co umożliwia szybkie i niezawodne przetwarzanie logiki serwera oraz integrację z różnymi usługami.
 \\\\
 Aplikacja BRNChess ma na celu zapewnienie użytkownikom możliwości rozgrywki w jedną z najstarszych i najpopularniejszych gier PvP na świecie — szachy. Jest to strategiczna gra planszowa dla dwóch graczy, w której każdy kontroluje zestaw figur szachowych, dążąc do zaszachowania króla przeciwnika, czyli postawienia go w sytuacji nieuchronnego schwytania. Zasady współczesnych szachów zostały ukształtowane w Europie pod koniec XV wieku, a ich pełna standaryzacja miała miejsce w XIX wieku.
 \\\\
@@ -91,6 +91,10 @@ Aplikacja BRNChess pozwala graczom na wybór pomiędzy rozgrywką online z innym
 Projekt BRNChess wyróżnia się również rozbudowanym systemem znajomości, który umożliwia użytkownikom zarządzanie swoimi kontaktami i kontrolowanie, z kim chcą rozgrywać partie szachowe. System ten pozwala na wysyłanie i akceptowanie zaproszeń do znajomych, dzięki czemu gracze mogą tworzyć sieć swoich ulubionych przeciwników oraz współzawodniczyć w bardziej personalizowany sposób. Dzięki tej funkcjonalności aplikacja BRNChess nie tylko oferuje doskonałe doświadczenie gry, ale także staje się platformą społecznościową, umożliwiającą rozwijanie pasji w gronie znajomych.
 \\\\
 Projekt kładzie nacisk na wysoką jakość doświadczenia użytkownika, dlatego interfejs aplikacji jest intuicyjny, responsywny i estetyczny. Rozgrywki online są płynne, a dzięki wsparciu czasu rzeczywistego użytkownicy mogą cieszyć się emocjonującymi partiami bez opóźnień. Mechanizmy kontroli czasowej nie tylko zwiększają atrakcyjność rozgrywek, ale również zachęcają graczy do częstego powracania na platformę.
+
+\newpage
+
+\subsection{Współczesna gra w szachy}
 
 
 \newpage
@@ -118,60 +122,88 @@ Projekt kładzie nacisk na wysoką jakość doświadczenia użytkownika, dlatego
 
 \section{Stos technologiczny}
 \subsection{Aplikacja internetowa (frontend)}
-\subsubsection{Javascript}
-JavaScript jest używany najczęściej przy tworzeniu stron www, zapewniając ich interaktywność oraz obsługę zdarzeń, walidację formularzy czy budowanie elementów nawigacyjnych. Ale w tym języku można także pisać pełnoprawne aplikacje (korzystając z frameworków do budowania aplikacji jak np. Angular, React czy Vue – o nich za chwilę). Javascript może też być wykorzystywany do tworzenia gier w przeglądarkach, a jednym z popularnych frameworków do tego celu jest Phaser. JS-a można używać również po stronie serwera (backend) dzięki frameworkowi Node.
 
-\subsubsection{Typescript}
-TypeScript to język programowania stworzony przez Microsoft w 2012 roku. Jego twórcą jest Anders Hejlsberg, znany również jako ojciec języka C\#. TypeScript jest nadzbiorem JavaScriptu, co oznacza, że każdy poprawny kod JS jest równocześnie poprawnym kodem TS. W praktyce TypeScript rozszerza możliwości JavaScriptu o opcjonalne statyczne typowanie, nowe struktury danych, takie jak Enumy i Klasy, oraz inne funkcje wymienione w dalszej części artykułu. TS posiada też aktywną społeczność programistów tworzących biblioteki, które ułatwiają pracę programistom poprzez dodawanie typowania do już istniejących projektów JS. Dzięki temu są one przystosowane do pracy z TypeScriptem.
+\noindent \textbf{Javascript oraz Typescript}\\
+JavaScript to język programowania, używany najczęściej przy tworzeniu stron www, zapewniając ich interaktywność oraz obsługę zdarzeń, walidację formularzy czy budowanie elementów nawigacyjnych. Jednak można także pisać w nim pełnoprawne aplikacje (korzystając z frameworków do budowania aplikacji jak np. React). Javascript może też być wykorzystywany do tworzenia gier w przeglądarkach, a jednym z popularnych frameworków do tego celu jest Phaser. JS-a można używać również po stronie serwera dzięki frameworkowi Node.
+\\\\
+TypeScript to język programowania stworzony przez Microsoft w 2012 roku. Jego twórcą jest Anders Hejlsberg, znany również jako ojciec języka C\#. TypeScript jest nadzbiorem JavaScriptu, co oznacza, że każdy poprawny kod JS jest równocześnie poprawnym kodem TS. W praktyce TypeScript rozszerza możliwości JavaScriptu o opcjonalne statyczne typowanie oraz nowe struktury danych. TS posiada też aktywną społeczność programistów tworzących biblioteki, które ułatwiają pracę programistom poprzez dodawanie typowania do już istniejących projektów, dzięki temu są one przystosowane do pracy z TypeScriptem.
 \\\\
 Głównym celem powstania TypeScriptu było wprowadzenie silniejszego systemu typów do JavaScriptu, które pozwalają na odgórne ustalanie rodzajów zdefiniowanych przez dewelopera zmiennych, aby ułatwić tworzenie dużych, skalowalnych aplikacji. Język ten stał się popularny wśród deweloperów dzięki swojej elastyczności, możliwościom oferowanym przez statyczne typowanie oraz łatwości integracji z istniejącymi projektami JS.
 \\\\
-TypeScript różni się od JavaScriptu głównie wspomnianym systemem typów, który pozwala na lepsze zarządzanie i kontrolowanie kodu. Dodatkowo TypeScript wprowadza takie elementy jak interfejsy, klasy abstrakcyjne czy dekoratory, co sprawia, że kod staje się bardziej przejrzysty i łatwiejszy w utrzymaniu.
-
-\subsubsection{React}
-React to biblioteka JavaScript służąca do renderowania interfejsów użytkownika (UI). Interfejs użytkownika składa się z małych jednostek, takich jak przyciski, tekst i obrazy. React pozwala łączyć je w komponenty wielokrotnego użytku, które można zagnieżdżać. Od stron internetowych po aplikacje na telefony, wszystko na ekranie można podzielić na komponenty. Każdy komponent Reacta jest funkcją JavaScript, która może zawierać pewne znaczniki renderowane przez Reacta w przeglądarce. Komponenty Reacta używają rozszerzenia składni o nazwie JSX do reprezentowania tych znaczników. JSX wygląda bardzo podobnie do HTML, ale jest nieco bardziej rygorystyczny i może wyświetlać dynamiczne informacje. 
-
-\subsubsection{Vite}
-Vite to narzędzie do budowania, które ma na celu zapewnienie szybszego i bardziej oszczędnego doświadczenia programistycznego dla nowoczesnych projektów internetowych.
+JavaScript został wybrany jako baza projektu ze względu na znajomość tego języka oraz jego powszechność w budowie aplikacji webowych. Jego wszechstronność i bogaty ekosystem narzędzi oraz bibliotek, takich jak React, czynią go naturalnym wyborem dla projektów tego typu.
 \\\\
-Vite.js to nowoczesne i wydajne środowisko do budowania aplikacji front-end, stworzone przez twórcę Vue.js - Evana You. Jest on znany ze swojej niewiarygodnej szybkości, dzięki wykorzystaniu natywnych modułów ES dla przyspieszonego hot module replacement (HMR) oraz kompilacji w przeglądarce. Vite.js przełamuje tradycyjne bariery w budowie aplikacji, eliminując konieczność korzystania z bundlerów takich jak Webpack czy Rollup. Jego modularna architektura oraz wsparcie dla wielu ramkowych, w tym Vue, React czy Preact, czynią go uniwersalnym i elastycznym narzędziem dla dowolnego developera front-end.
+TypeScript został wybrany przede wszystkim w celu uzyskania lepszej kontroli nad kodem. Dzięki wprowadzeniu statycznego typowania i bardziej rygorystycznej strukturze, TypeScript pozwala na wcześniejsze wykrywanie błędów, co przekłada się na większą stabilność i łatwiejsze utrzymanie aplikacji.
+\\\\
+Połączenie JavaScriptu i TypeScriptu pozwala skorzystać z najlepszych cech obu technologii – elastyczności i popularności JS oraz dodatkowego bezpieczeństwa i przewidywalności oferowanego przez TS.
 
-\subsubsection{Sass / SCSS}
+\noindent \textbf{React oraz Vite}\\
+React to biblioteka JavaScript służąca do renderowania interfejsów użytkownika (UI). Interfejs użytkownika składa się z małych jednostek, takich jak przyciski, tekst i obrazy. React pozwala łączyć je w komponenty wielokrotnego użytku, które można zagnieżdżać. Od stron internetowych po aplikacje na telefony, wszystko na ekranie można podzielić na komponenty. Każdy komponent Reacta jest funkcją JavaScript, która może zawierać pewne znaczniki renderowane w przeglądarce. Komponenty Reacta używają rozszerzenia składni o nazwie JSX do reprezentowania tych znaczników. JSX wygląda bardzo podobnie do HTML, jednak jest nieco bardziej rygorystyczny oraz może wyświetlać dynamiczne informacje. 
+\\\\
+Vite to nowoczesne i wydajne  narzędzie do budowania aplikacji frontend, które ma na celu zapewnienie szybszego i bardziej oszczędnego doświadczenia programistycznego dla nowoczesnych projektów internetowych, stworzone przez twórcę Vue.js - Evana You. Jest on znany ze swojej niewiarygodnej szybkości, dzięki wykorzystaniu natywnych modułów ES dla przyspieszonego hot module replacement (HMR) oraz kompilacji w przeglądarce. Vite.js przełamuje tradycyjne bariery w budowie aplikacji, eliminując konieczność korzystania z bundlerów takich jak Webpack czy Rollup. Jego modularna architektura oraz wsparcie dla wielu ramkowych, w tym Vue czy React, czynią go uniwersalnym i elastycznym narzędziem.
+\\\\
+React został wybrany ze względu na znajomość tej technologii oraz jej szerokie zastosowanie w tworzeniu aplikacji webowych. Intuicyjność pisania kodu w React, oparta na komponentach wielokrotnego użytku i JSX, sprawia, że praca z tą biblioteką jest wygodna i efektywna. Dodatkowo React oferuje szerokie wsparcie społeczności oraz dostęp do bogatego ekosystemu bibliotek, co ułatwia rozwijanie i utrzymanie projektu.
+\\\\
+Vite natomiast został wybrany głównie ze względu na swoją szybkość, zarówno podczas początkowego uruchamiania projektu, jak i w trakcie jego developmentu. Wykorzystanie funkcji hot module replacement znacznie przyspiesza pracę, a minimalistyczna konfiguracja upraszcza proces tworzenia aplikacji. Dodatkowym atutem Vite jest jego elastyczność oraz możliwość łatwego integracji z Reactem, co czyni go idealnym wyborem dla nowoczesnych projektów frontendowych.
+
+\noindent \textbf{Sass / SCSS}\\
 Sass to preprocessor CSS, który umożliwia programowanie styli w znacznie bardziej efektywny i zorganizowany sposób niż zwykły CSS. Pozwala na definiowanie stałych, zagnieżdżanie reguł CSS, używanie zmiennych, funkcji, operatorów i wiele więcej. Dzięki temu, można wykorzystać Sass do szybszego i łatwiejszego tworzenia stylów strony, a także czytać i zarządzać istniejącym kodem znacznie lepiej. Jest to szczególnie przydatne w przypadku dużych projektów, gdzie style są rozbudowane i trudne do zarządzania.
+\\\\
+Sass i SCSS zostały wybrane do projektu ze względu na funkcjonalności, które znacznie rozszerzają możliwości standardowego CSS. Sass pozwala na stosowanie zmiennych, zagnieżdżania reguł, funkcji czy operatorów, co czyni pracę nad stylami bardziej efektywną i zorganizowaną. Dzięki temu stylowanie dużych projektów jest prostsze i bardziej przejrzyste, a zarządzanie kodem staje się łatwiejsze.
+\\\\
+W projekcie wykorzystywane są pliki .module.scss, które umożliwiają stosowanie lokalnie zdefiniowanych klas CSS. Mechanizm ten działa w ten sposób, że klasy zadeklarowane w tych plikach są mapowane na unikalne nazwy, co zapobiega ich kolizjom i zapewnia lepszą organizację stylów.
+\\\\
+SCSS został wybrany zamiast gotowych komponentów CSS, aby zapewnić pełną kontrolę nad stylizacją elementów. Pozwala to dostosowywać wygląd aplikacji dokładnie do jej potrzeb, bez ograniczeń narzuconych przez gotowe rozwiązania. Dzięki SCSS możliwe jest tworzenie rozbudowanych, ale zarazem dobrze utrzymywanych arkuszy stylów, które doskonale wspierają rozwój projektu.
 
 \subsection{Aplikacja serwerowa (backend)}
-\subsubsection{C\#}
+
+\noindent \textbf{C\#}\\
 C\# jest nowoczesnym, obiektowym językiem wysokiego poziomu, który został opracowany na zlecenie Microsoft już w latach 1998 - 2001. Pod względem składni porównuje się go często do języków takich, jak Object Pascal, C++ i Java. W środowisku programistycznym uznawany jest za prosty, przyjazny i przejrzysty. C\# jest ściśle związany z platformą .NET, która stanowi dla niego framework i środowisko uruchomieniowe zarazem. Przez długi czas ta zależność wskazywana była jako największa wada języka, bowiem ograniczała jego zastosowanie jedynie do systemów Windows. Microsoft rozprawił się z tym problemem w 2016 roku, publikując .NET Core - kompatybilny również z innymi systemami operacyjnymi. Od tego czasu C\# służy do budowy programów i aplikacji na wszystkie systemy operacyjne.
+\\\\
+C\# został wybrany do części serwerowej projektu ze względu na jego ścisłą integrację z platformą .NET, która jest niezbędna do realizacji tego projektu. Język ten zapewnia wydajność, elastyczność i bogaty zestaw narzędzi wspierających tworzenie nowoczesnych aplikacji backendowych.
+\\\\
+Dodatkowo, C\# jest językiem obiektowym i nowoczesnym, co ułatwia projektowanie skalowalnych, dobrze zorganizowanych aplikacji. Jego przyjazna składnia i przejrzystość sprawiają, że tworzenie kodu jest bardziej efektywne, a utrzymanie projektu staje się łatwiejsze. C\# oferuje także wsparcie dla zaawansowanych funkcji, takich jak zarządzanie pamięcią, asynchroniczność czy bogate możliwości integracji z bazami danych i systemami zewnętrznymi.
+\\\\
+Platforma .NET, na której opiera się C\#, pozwala na uruchamianie aplikacji na różnych systemach operacyjnych, co zwiększa jej uniwersalność. Dzięki temu C\# nie tylko spełnia wymagania techniczne projektu, ale także umożliwia łatwe rozszerzanie i adaptację aplikacji w przyszłości.
+\\\\
 
-\subsubsection{.NET Framework}
+\noindent \textbf{.NET Framework}\\
 .NET Framework to środowisko wykonywania w czasie wykonywania, które zarządza aplikacjami docelowymi .NET Framework. Składa się ze środowiska uruchomieniowego języka wspólnego, które zapewnia zarządzanie pamięcią i inne usługi systemowe, oraz rozbudowanej biblioteki klas, która umożliwia programistom korzystanie z niezawodnego kodu dla wszystkich głównych obszarów opracowywania aplikacji.
+\\\\
+.NET zostało wybrane do budowy backendu projektu ze względu na jego wszechstronność, wydajność oraz rozbudowane narzędzia, które wspierają tworzenie aplikacji serwerowych. Kluczowym powodem wyboru .NET jest jego solidne wsparcie dla tworzenia aplikacji REST API, co umożliwia łatwą i efektywną komunikację między frontendem a backendem. Dodatkowo, .NET oferuje Entity Framework Core, który stanowi doskonałe narzędzie do pracy z bazą danych. Dzięki EF Core możliwe jest łatwe mapowanie obiektów na rekordy w bazie, co upraszcza operacje na danych oraz zapewnia wysoką wydajność w interakcjach z bazą danych.
+\\\\
+Kolejnym powodem wyboru .NET jest integracja z SignalR, technologią umożliwiającą dwukierunkową komunikację w czasie rzeczywistym. SignalR pozwala na szybką wymianę danych między klientem a serwerem, co jest kluczowe w przypadku aplikacji wymagających dynamicznych aktualizacji, takich jak powiadomienia, aktualizacje danych na żywo czy chaty. Dzięki tym technologiom .NET umożliwia tworzenie nowoczesnych, skalowalnych aplikacji webowych, które są szybkie, niezawodne i łatwe w utrzymaniu.
+\\\\
 
-\subsubsection{PostgreSQL}
+\noindent \textbf{PostgreSQL i PgAdmin}\\
 PostgreSQL to system lub silnik baz danych kompatybilny z usługami OVHcloud i większością popularnych narzędzi. Obsługuje różne modele danych w celu tworzenia wydajnych i skalowalnych aplikacji zorientowanych obiektowo. Umożliwia pracę ze złożonymi zbiorami danych, bez spowolnień. Ułatwia przechowywanie, odczyt i zapis danych. Oferujemy możliwość korzystania z PostgreSQL za pośrednictwem usług cloud i naszych rozwiązań hostingowych.
+\\\\
+PgAdmin to narzędzie do zarządzania PostgreSQL i pochodnymi relacyjnymi bazami danych, takimi jak EDB Advanced Server firmy EnterpriseDB. Może być uruchamiany jako aplikacja internetowa lub desktopowa. Więcej informacji na temat oferowanych funkcji można znaleźć na stronach Funkcje i Zrzuty ekranu.
+\\\\
+PostgreSQL został wybrany jako system bazodanowy z kilku kluczowych powodów. Przede wszystkim jest to wydajny, skalowalny i elastyczny system, który doskonale sprawdza się w pracy z dużymi zbiorami danych. Jego zaawansowane funkcje, takie jak obsługa różnych modeli danych oraz wsparcie dla danych obiektowych, umożliwiają łatwe zarządzanie bardziej złożonymi strukturami danych, co jest istotne w przypadku aplikacji wymagających dużej elastyczności.
+\\\\
+PgAdmin zostało wybrane jako narzędzie do zarządzania bazą danych PostgreSQL, ponieważ oferuje szeroką gamę funkcji umożliwiających łatwą administrację i kontrolę nad bazą. Umożliwia wykonywanie zapytań, zarządzanie tabelami, sprawdzanie i edytowanie danych, a także analizowanie struktury bazy. Dzięki intuicyjnemu interfejsowi, PgAdmin upraszcza proces zarządzania bazą danych, co pozwala na szybkie reagowanie na potrzeby projektu i skuteczną kontrolę nad danymi w systemie. Jest to wygodne narzędzie zarówno dla administratorów, jak i dla deweloperów, którzy potrzebują efektywnego środowiska do pracy z PostgreSQL.
 
 \subsection{Narzędzia pomocnicze}
 
-\subsubsection{GIT}
+\noindent \textbf{GIT i Github}\\
 Git to rozproszony system kontroli wersji, co oznacza, że lokalny klon projektu jest kompletnym repozytorium kontroli wersji. Te w pełni funkcjonalne repozytoria lokalne ułatwiają pracę w trybie offline lub zdalnie. Deweloperzy zatwierdzają swoją pracę lokalnie, a następnie synchronizują kopię repozytorium z kopią na serwerze. Ten paradygmat różni się od scentralizowanej kontroli wersji, w której klienci muszą synchronizować kod z serwerem przed utworzeniem nowych wersji kodu.
 \\\\
-Elastyczność i popularność usługi Git sprawiają, że jest to doskonały wybór dla dowolnego zespołu. Wielu deweloperów i absolwentów uczelni już wie, jak korzystać z usługi Git. Społeczność użytkowników usługi Git utworzyła zasoby do szkolenia deweloperów i popularności usługi Git, aby ułatwić uzyskanie pomocy w razie potrzeby. Prawie każde środowisko programistyczne ma obsługę usługi Git i narzędzia wiersza polecenia Git zaimplementowane w każdym głównym systemie operacyjnym.
-
-\subsubsection{Github}
-GitHub jest serwisem, który służy do współpracy przy tworzeniu kodu. Jest jednym z najpopularniejszych serwisów internetowych hostujących repozytoria Git w chmurze. Obsługiwane obszary serwisu obejmują nie tylko przechowywanie kodu, ale również zbieranie informacji o błędach, zarządzanie projektem oraz wszystkie niezbędne procesy automatycznego budowania i testowania aplikacji. Właśnie dlatego GitHub stał się centrum skupiającym programistów i środowisko otwartego oprogramowania.
+GitHub jest serwisem, który służy do współpracy przy tworzeniu kodu. Jest jednym z najpopularniejszych serwisów internetowych hostujących repozytoria Git w chmurze. Obsługiwane obszary serwisu obejmują nie tylko przechowywanie kodu, ale również zbieranie informacji o błędach, zarządzanie projektem oraz wszystkie niezbędne procesy automatycznego budowania i testowania aplikacji. Właśnie dlatego GitHub stał się centrum skupiającym programistów i środowisko otwartego oprogramowania. Serwisy typu GitHub stanowią stopień pośredni pomiędzy wykorzystaniem serwisu Git w tradycyjny sposób a systemami scentralizowanymi.
 \\\\
-Serwisy typu GitHub stanowią stopień pośredni pomiędzy wykorzystaniem serwisu Git w tradycyjny sposób a systemami scentralizowanymi.
+Wybór Git i GitHub do zarządzania kodem wynikał przede wszystkim z ich popularności oraz dobrze znanej funkcjonalności, które są standardem w branży. Git to rozproszony system kontroli wersji, co oznacza, że każdy deweloper posiada pełną kopię repozytorium na swoim komputerze, umożliwiając pracę w trybie offline. Taki system zwiększa elastyczność i komfort pracy, umożliwiając zatwierdzanie zmian lokalnie i synchronizowanie ich z centralnym repozytorium na serwerze. W porównaniu do scentralizowanych systemów kontroli wersji, Git daje większą niezależność i sprawia, że praca w zespole jest bardziej efektywna.
+\\\\
+GitHub został wybrany jako platforma do hostingu repozytoriów, ponieważ jest jednym z najpopularniejszych serwisów wspierających Git. Oferuje szeroką gamę funkcji, takich jak zarządzanie projektami, śledzenie błędów, automatyczne testowanie oraz integrację z innymi narzędziami, co ułatwia współpracę zespołową. GitHub stał się centrum dla deweloperów, umożliwiając łatwą wymianę kodu, dokumentację oraz korzystanie z otwartego oprogramowania. Dzięki temu, Git i GitHub stanowią doskonałą kombinację do efektywnego zarządzania projektem i współpracy w zespole.
+\\\\
 
-\subsubsection{Sourcetree}
+\noindent \textbf{Sourcetree}\\
 Sourcetree to graficzny klient umożliwiający dostęp do repozytoriów Git i Mercurial z systemów Windows oraz MacOS, który pomaga wizualizować rozwój bez konieczności korzystania z wiersza polecenia.
-
-\subsubsection{Postman}
-Postman to narzędzie, które ułatwi nam pracę z API poprzez przejrzysty graficzny interfejs. Oferuje wiele funkcjonalności, dzięki którym poza prostym wywołaniem endpointu, który jest pojedynczym adresem odpowiedzialnym za daną usługę, jesteśmy w stanie zrobić o wiele więcej, o czym wspomnimy w dalszej części tego artykułu. Postman jest używany przez ponad 500 tysięcy firm na całym świecie, a dzięki swojej popularności, oferuje stałe wsparcie i rozwija swoje usługi.
 \\\\
-Podstawowy plan korzystania z tego narzędzia jest bezpłatny, a w jego ramach dostępne są wszystkie podstawowe funkcjonalności. Kolejne plany oparte są na miesięcznej subskrypcji i dają możliwość pracy przy bardziej zaawansowanych projektach, do których zaangażowana jest większa liczba osób.
+SourceTree został wybrany ze względu na wygodę korzystania z jego graficznego interfejsu, który umożliwia łatwą obsługę repozytoriów Git bez potrzeby korzystania z wiersza poleceń. Dzięki temu narzędziu, możliwe jest wizualne śledzenie rozwoju projektu oraz zarządzanie wersjami w sposób bardziej intuicyjny. SourceTree oferuje przejrzysty interfejs, który pozwala na łatwe przeglądanie historii commitów, zarządzanie gałęziami, rozwiązywanie konfliktów oraz wykonywanie operacji Git za pomocą prostych kliknięć, co znacznie ułatwia pracę, zwłaszcza w większych projektach
+\\\\
 
-\subsubsection{Figma}
+\noindent \textbf{Figma}\\
 Figma to jedno z nowocześniejszych i cieszących się dużą popularnością narzędzi do projektowania i prototypownia stron internetowych i aplikacji mobilnych. Umożliwia tworzenie interaktywnych widoków w przeciwieństwie do statycznych makiet. Posiada bardzo uproszczony interfejs, a przy tym jest bardzo funkcjonalne. Figma zawiera jedynie niezbędne pakiety i narzędzia najczęściej wykorzystywane w pracy Web Designera, co przedkłada się na stosunkową małą wagę całego programu. Jego podstawową zaletą jest szybkość działania mimo otwartych kilkunastu widoków jednocześnie. Dodatkowo za pomocą Figmy można łatwo edytować dowolne pliki wektorowe w tym SVG, co znacznie przyspiesza pracę nad projektem.
-
+\\\\
 Figma jako zewnętrzny program zalazła zastosowanie w projekcie głownie do projektowania własnych ikon, nieistniejących bądź niedostępnych bezpłatnie na internecie. Zastosowanie prostego, ale bardzo efektywnego narzędzia ma duże znaczenie dla rozwoju aplikacji gry mobilnej, w szczegolnosci nakierowanej na przyjemny dla uzytkownika interface. Dodatkowo Figma posłużyła do zaprojektowania i utworzenie modeli bierek do gry w szachy.  
 
 \newpage
@@ -736,7 +768,7 @@ Moduł .Infrastructure implementuje interfejsy zdefiniowane w .Application, dost
 \begin{figure}[h!]
     \centering
     \includegraphics[width=1\textwidth]{images/diagram_dependencies.png}
-    \caption{Graf zależności między projektami}
+    \caption{Diagram zależności między projektami}
 \end{figure}
 
 \newpage
@@ -834,7 +866,7 @@ Główne moduły projektu, są zintegrowane w aplikacji za pomocą specjalnych k
 \begin{figure}[h!]
     \centering
     \includegraphics[width=0.7\textwidth]{images/ex_add_services.png}
-    \caption{Przykład rejestracji serwisów w klasie Program.}
+    \caption{Fragment kodu: Przykład rejestracji serwisów w klasie Program.}
 \end{figure}
 \vspace{0.5cm}
 
@@ -1163,17 +1195,48 @@ Interfejs \textcolor{teal}{\textbf{IGameHub}} definiuje zestaw metod, które są
 \newpage
 
 \subsubsection{Komunikacja z silnikiem}
-Komunikacja z silnikiem szachowym jest kluczowym elementem w budowie aplikacji, która ma na celu interakcję z popularnymi silnikami szachowymi, takimi jak Stockfish. W przedstawionym przykładzie wykorzystano klasę \textcolor{teal}{\textbf{EngineService}}, która zapewnia funkcjonalność umożliwiającą komunikację z procesem silnika.
+
+\begin{minipage}[t]{0.2\textwidth} 
+    \vspace{0pt} 
+    \centering
+    \includegraphics[width=\linewidth]{images/stockfish_logo.png} 
+\end{minipage} 
+\hfill 
+\begin{minipage}[t]{0.7\textwidth} 
+    \vspace{0pt} 
+    \raggedright 
+    Silnik szachowy Stockfish jest jednym z najpotężniejszych i najczęściej używanych silników szachowych na świecie. Jest to oprogramowanie typu open-source, które zostało stworzone, aby oferować najwyższą możliwą siłę obliczeniową w grach szachowych. Stockfish jest napisany w języku C++ i jest dostępny na wiele platform, w tym na systemy Windows, Linux, macOS, a także urządzenia mobilne.
+\end{minipage} 
+\vspace{1cm}
+
+Stockfish jest oparty na algorytmie minimax, który jest popularnym podejściem w sztucznej inteligencji do podejmowania decyzji w grach dwuosobowych, takich jak szachy. Algorytm ten stara się ocenić każde możliwe posunięcie, wybierając to, które zapewnia najlepszy wynik, bazując na analizie możliwych przyszłych ruchów. Używa on także heurystyk oraz analizy pozycyjnej, aby ocenić siłę danej pozycji na szachownicy. Co więcej, Stockfish jest w stanie analizować partie z dużą prędkością, co czyni go idealnym narzędziem do analizy gier na różnych poziomach zaawansowania.
+\\\\
+Jednym z kluczowych aspektów Stockfish jest jego zdolność do pracy w ramach protokołu UCI (Universal Chess Interface). UCI jest standardem, który umożliwia komunikację między silnikiem szachowym a różnymi interfejsami graficznymi (GUI), pozwalając na łatwą integrację z aplikacjami szachowymi. Dzięki temu użytkownicy mogą korzystać z graficznych interfejsów, takich jak Arena, Fritz czy lichess, aby bezpośrednio połączyć się z silnikiem Stockfish, wybierając odpowiednią wersję i parametry.
+\\\\
+Silnik Stockfish jest również wykorzystywany do tworzenia testów i analiz w wielu aplikacjach szachowych, zarówno komercyjnych, jak i akademickich. Dzięki swojej mocy obliczeniowej, dokładności i dostępności, Stockfish stał się nieocenionym narzędziem w wielu dziedzinach związanych z szachami, od profesjonalnych gier po badania naukowe.
+\\\\
+W kontekście komunikacji z silnikiem Stockfish, aplikacja korzysta z interfejsu UCI, wysyłając zapytania w postaci komend tekstowych do silnika, który następnie odpowiada, udzielając wskazówek dotyczących najlepszych posunięć, oceniając pozycje lub generując pełną analizę partii. UCI zapewnia, że aplikacja może zarządzać różnymi funkcjami silnika, jak generowanie ruchów, ustawienie poziomu trudności czy analiza pozycji na szachownicy.
+\\\\
+Aby uzyskać szczegółowe informacje na temat silnika Stockfish, jego funkcji oraz dokumentacji, można zapoznać się z jego repozytorium na GitHubie: 
+
+\begin{center}
+    \textbf{\href{https://github.com/official-stockfish/Stockfish}{https://github.com/official-stockfish/Stockfish}}
+\end{center}
+
+\newpage
+
+\noindent
+Komunikacja z silnikiem szachowym jest kluczowym elementem w budowie aplikacji, która ma na celu interakcję z popularnymi silnikami szachowymi, takimi jak Stockfish. W przedstawionym przykładzie wykorzystano klasę \textbf{EngineService}, która zapewnia funkcjonalność umożliwiającą komunikację z procesem silnika.
 \\\\
 Sam silnik działa jako aplikacja uruchamiana w tle na serwerze, co pozwala na obsługę wielu równoczesnych zapytań i zapewnia wydajną współpracę z innymi komponentami aplikacji.
 \\\\
-Klasa ta implementuje interfejs \textcolor{teal}{\textbf{IEngineService}}, co zapewnia jednolitość i ułatwia integrację z innymi komponentami aplikacji. W konstruktorze tej klasy tworzony jest obiekt typu \textcolor{teal}{\textbf{Process}}, który uruchamia silnik szachowy. Proces jest konfigurowany tak, aby nie tworzył okna i umożliwiał przesyłanie danych zarówno do silnika - poprzez standardowe wejście, jak i z silnika - poprzez standardowe wyjście.
+Klasa ta implementuje interfejs \texttt{IEngineService}, co zapewnia jednolitość i ułatwia integrację z innymi komponentami aplikacji. W konstruktorze tej klasy tworzony jest obiekt typu \textbf{Process}, który uruchamia silnik szachowy. Proces jest konfigurowany tak, aby nie tworzył okna i umożliwiał przesyłanie danych zarówno do silnika - poprzez standardowe wejście, jak i z silnika - poprzez standardowe wyjście.
 
 \begin{itemize} 
-    \item \textbf{Startowanie procesu silnika:} W konstruktorze klasy, obiekt typu \textcolor{teal}{\textbf{Process}} jest konfigurowany za pomocą klasy \textcolor{teal}{\textbf{ProcessStartInfo}}. Ustawienia te zapewniają, że silnik będzie działał w tle bez interakcji z interfejsem użytkownika, a komunikacja będzie odbywała się za pomocą strumieni wejścia i wyjścia. 
-    \item \textbf{Wysyłanie komend do silnika:} Metoda \textcolor{orange}{\textbf{SendCommand}} pozwala na wysyłanie komend do silnika. Komendy są przesyłane do standardowego wejścia silnika, a następnie natychmiastowo zapisywane do strumienia wyjściowego. 
-    \item \textbf{Odczytywanie wyników:} Metoda \textcolor{orange}{\textbf{ReadOutput}} służy do odczytywania danych wyjściowych z silnika. Wykorzystuje ona strumień wyjściowy, by zbierać linie tekstu, które są następnie przechowywane w liście. Proces odczytu jest ograniczony czasowo, co zapobiega zablokowaniu aplikacji w przypadku długotrwałych odpowiedzi silnika. 
-    \item \textbf{Zamykanie procesu:} Metoda \textcolor{orange}{\textbf{Close}} wysyła do silnika komendę "quit", a następnie zamyka proces, kończąc w ten sposób interakcję z silnikiem. 
+    \item \textbf{Startowanie procesu silnika:} W konstruktorze klasy, obiekt typu \textbf{Process} jest konfigurowany za pomocą klasy \textbf{ProcessStartInfo}. Ustawienia te zapewniają, że silnik będzie działał w tle bez interakcji z interfejsem użytkownika, a komunikacja będzie odbywała się za pomocą strumieni wejścia i wyjścia. 
+    \item \textbf{Wysyłanie komend do silnika:} Metoda \textbf{SendCommand} pozwala na wysyłanie komend do silnika. Komendy są przesyłane do standardowego wejścia silnika, a następnie natychmiastowo zapisywane do strumienia wyjściowego. 
+    \item \textbf{Odczytywanie wyników:} Metoda \textbf{ReadOutput} służy do odczytywania danych wyjściowych z silnika. Wykorzystuje ona strumień wyjściowy, by zbierać linie tekstu, które są następnie przechowywane w liście. Proces odczytu jest ograniczony czasowo, co zapobiega zablokowaniu aplikacji w przypadku długotrwałych odpowiedzi silnika. 
+    \item \textbf{Zamykanie procesu:} Metoda \textbf{Close} wysyła do silnika komendę "quit", a następnie zamyka proces, kończąc w ten sposób interakcję z silnikiem. 
 \end{itemize}
 
 \noindent
@@ -1181,7 +1244,7 @@ Dzięki takiej implementacji, aplikacja może komunikować się z silnikiem szac
 \\\\
 
 \noindent \textbf{Wykorzystanie serwisu}\\
-Implementacja interesu serwisu \textcolor{teal}{\textbf{IEngineService}} jest wykorzystywany w jednym z handlerów, służącym do zarządzania interakcją z silnikiem szachowym, który oblicza najlepszy ruch w grze na podstawie aktualnej pozycji. Handler ten pełni rolę pośrednika pomiędzy aplikacją a silnikiem, umożliwiając pobieranie ruchów zaproponowanych przez silnik.
+Implementacja interesu serwisu \texttt{IEngineService} jest wykorzystywany w jednym z handlerów, służącym do zarządzania interakcją z silnikiem szachowym, który oblicza najlepszy ruch w grze na podstawie aktualnej pozycji. Handler ten pełni rolę pośrednika pomiędzy aplikacją a silnikiem, umożliwiając pobieranie ruchów zaproponowanych przez silnik.
 \\\\
 Na następnej stronie zamieszczono enumerację, która ilustruje krok po kroku, jak działa wspomniany handler i w jaki sposób korzysta on z serwisu.
 
@@ -1192,7 +1255,7 @@ Na następnej stronie zamieszczono enumerację, która ilustruje krok po kroku, 
     W konstruktorze handlera przyjmowane są zależności. Dzięki temu handler ma dostęp do metod serwisu, takich jak SendCommand i ReadOutput, które są kluczowe do interakcji z silnikiem.
 
     \item \textbf{Przygotowanie do obliczeń}\\
-    Po pobraniu gry na podstawie identyfikatora (ID) i walidacji dostępu użytkownika, handler tworzy pełną wersję pozycji szachowej w formacie FEN. Jest standardowy format, który reprezentuje aktualną pozycję na szachownicy. Ten pełny zapis pozycji jest następnie przesyłany do silnika szachowego za pomocą metody \textcolor{orange}{\textbf{SendCommand}}.
+    Po pobraniu gry na podstawie identyfikatora (ID) i walidacji dostępu użytkownika, handler tworzy pełną wersję pozycji szachowej w formacie FEN. Jest standardowy format, który reprezentuje aktualną pozycję na szachownicy. Ten pełny zapis pozycji jest następnie przesyłany do silnika szachowego za pomocą metody \texttt{\textbf{SendCommand}}.
 
     \item \textbf{Wykonanie obliczeń przez silnik}\\
     Kiedy silnik otrzyma polecenie z pełnym zapisem FEN, handler wysyła kolejną komendę do silnika za pomocą SendCommand, prosząc o wykonanie ruchu na określoną głębokość analizy na podstawie poziomu trudności ustawionego w grze.
@@ -1203,10 +1266,10 @@ Na następnej stronie zamieszczono enumerację, która ilustruje krok po kroku, 
         \caption{Fragment kodu - przesył zapytania do silnika.}
     \end{figure}
 
-    Serwis \textcolor{teal}{\textbf{IEngineService}} przesyła tę komendę do silnika, który następnie analizuje pozycję i oblicza najlepszy możliwy ruch.
+    Serwis \texttt{IEngineService} przesyła tę komendę do silnika, który następnie analizuje pozycję i oblicza najlepszy możliwy ruch.
 
     \item \textbf{Odczyt odpowiedzi od silnika}\\
-    Po wysłaniu komendy, handler oczekuje na odpowiedź od silnika. Metoda \textcolor{orange}{\textbf{ReadOutput}} serwisu jest używana do odczytywania odpowiedzi, która zawiera najlepszy ruch (komenda bestmove). Odpowiedź ta jest przetwarzana w pętli, aż silnik zwróci ruch lub upłynie czas oczekiwania.
+    Po wysłaniu komendy, handler oczekuje na odpowiedź od silnika. Metoda \texttt{\textbf{ReadOutput}} serwisu jest używana do odczytywania odpowiedzi, która zawiera najlepszy ruch (komenda bestmove). Odpowiedź ta jest przetwarzana w pętli, aż silnik zwróci ruch lub upłynie czas oczekiwania.
     
     \begin{figure}[h!]
         \centering
@@ -1220,7 +1283,7 @@ Na następnej stronie zamieszczono enumerację, która ilustruje krok po kroku, 
     Po uzyskaniu najlepszego ruchu z silnika, handler konstruuje nową wersję FEN, która reprezentuje pozycję po wykonaniu ruchu. Następnie wysyła kolejne komendy do silnika, aby zaktualizować pozycję w silniku i zwrócić nowe dane, w tym zapis pozycji po ruchu.
 
     \item \textbf{Zakończenie interakcji}\\
-    o zakończeniu obliczeń i uzyskaniu wyników, serwis jest zamykany za pomocą metody \textcolor{orange}{\textbf{Close}}. To zapewnia, że proces silnika jest zakończony, a wszystkie zasoby systemowe są odpowiednio zwolnione.
+    o zakończeniu obliczeń i uzyskaniu wyników, serwis jest zamykany za pomocą metody \texttt{\textbf{Close}}. To zapewnia, że proces silnika jest zakończony, a wszystkie zasoby systemowe są odpowiednio zwolnione.
 \end{enumerate}
 
 \newpage
@@ -1284,7 +1347,7 @@ Poniższy wykres ilustruje zależność zmiany punktacji ELO, gdzie $ \text{y} =
 \begin{figure}[h!]
     \centering
     \includegraphics[width=1\textwidth]{images/graf_elo_calc.png}
-    \caption{Zmiana punktacji ELO w zależności od różnicy poziomu graczy - wykresy utworzone za pomocą strony www.desmos.com}
+    \caption{Wykres przedstawia zmiane punktacji ELO w zależności od różnicy poziomu graczy - wykresy utworzone za pomocą strony www.desmos.com}
 \end{figure}
 \vspace{1cm}
 
@@ -1315,7 +1378,7 @@ Poniżej przedstawiona jest tabela pokazująca różne kategorie kontroli czasow
         \textbf{Classic} & 60 - 1440 min. & 0 - 60 sek. & Dużą ilością czasu. \\ \hline
         \textbf{Daily} & $\geq$ 1440 min. & 0 - 60 sek. & Bardzo długi czas gry. \\ \hline
     \end{tabular}
-    \caption{Rodzaje czasów gry w szachach}
+    \caption{Rodzaje kontroli czasowej gry.}
 \end{table}
 \vspace{0.5cm}
 
@@ -1326,7 +1389,7 @@ Podczas pierwszego pobrania gry przez graczy ustalany jest czas rozpoczęcia par
 \begin{figure}[h!]
     \centering
     \includegraphics[width=0.7\textwidth]{images/ex_update_times.png}
-    \caption{Fragment kodu przedstawiający aktualizacje czasu graczy.}
+    \caption{Fragment kodu: Aktualizacje czasu graczy.}
 \end{figure}
 \vspace{0.5cm}
 
@@ -1339,9 +1402,7 @@ Aplikacja posiada także zaimplementowane zadanie cykliczne, które jest urucham
 \noindent \textbf{Przetwarzanie zapytań}\\
 W systemie przetwarzania zapytań wykorzystywana jest biblioteka \textbf{MediatR}, która umożliwia zarządzanie zapytaniami w sposób przejrzysty i modularny. MediatR opiera się na wzorcu projektowym Mediatora, co pozwala na oddzielenie logiki przetwarzania zapytań od innych komponentów aplikacji.
 \\\\
-W tym systemie każde zapytanie, pobrania danych lub zapisania ich, jest reprezentowane przez obiekt, który dziedziczy po interfejsie 
-\textcolor{teal}{\textbf{IRequest}}<\textcolor{cyan}{\textbf{T}}>, 
-gdzie \textcolor{cyan}{\textbf{T}} oznacza typ odpowiedzi, którą zapytanie zwróci. Zapytania te są przekazywane do mediatorów, którzy następnie kierują je do odpowiednich handlerów, czyli klas odpowiedzialnych za wykonanie logiki związanej z zapytaniem.
+W tym systemie każde zapytanie, pobrania danych lub zapisania ich, jest reprezentowane przez obiekt, który dziedziczy po interfejsie \texttt{IRequest<T>}, gdzie \texttt{T} oznacza typ odpowiedzi, którą zapytanie zwróci. Zapytania te są przekazywane do mediatorów, którzy następnie kierują je do odpowiednich handlerów, czyli klas odpowiedzialnych za wykonanie logiki związanej z zapytaniem.
 \\\\
 
 \textbf{Przebieg przetwarzania zapytania}
@@ -1377,7 +1438,7 @@ Finalnie odpowiedź w postaci DTO jest zwracana przez punkt końcowy API do klie
 \begin{figure}[h!]
     \centering
     \includegraphics[width=1\textwidth]{images/diagram_back.png}
-    \caption{Proces przetwarzania zapytania na serwerze.}
+    \caption{Diagram przedstawiający proces przetwarzania zapytania na serwerze.}
 \end{figure}
 
 \newpage
@@ -1409,14 +1470,14 @@ Poniższe ilustracje przedstawiają strukturę modelu używanego w systemie. Po 
     \vspace{0pt} 
     \centering 
     \includegraphics[width=\linewidth]{images/ex_model_front.png} 
-    Przykład modelu danych klienta (TS)
+    Fragment kodu: Przykład modelu danych klienta (TypeScript)
 \end{minipage} 
 \hfill 
 \begin{minipage}[t]{0.45\textwidth} 
     \vspace{0pt} 
     \centering 
     \includegraphics[width=\linewidth]{images/ex_model_back.png} 
-    Przykład modelu danych serwera (C\#)
+    Fragment kodu: Przykład modelu danych serwera (C\#)
 \end{minipage} 
 \vspace{1cm}
 
@@ -1427,7 +1488,7 @@ Rysunek poniżej przedstawia strukturę obiektu żądania. Obiekt ten przenosi d
 \begin{figure}[h!]
     \centering
     \includegraphics[width=1\textwidth]{images/ex_request_back.png}
-    \caption{Struktura obiektu żądania (Request)}
+    \caption{Fragment kodu: Struktura obiektu żądania (Request)}
 \end{figure}
 \vspace{1cm}
 
@@ -1439,14 +1500,14 @@ Kolejne diagramy ilustrują przykładowe obiekty DTO. Po lewej stronie widoczny 
     \vspace{0pt} 
     \centering 
     \includegraphics[width=\linewidth]{images/ex_dto_back.png} 
-    DTO w warstwie serwerowej (C\#)
+    Fragment kodu: DTO w warstwie serwerowej (C\#)
 \end{minipage} 
 \hfill 
 \begin{minipage}[t]{0.45\textwidth} 
     \vspace{0pt} 
     \centering 
     \includegraphics[width=\linewidth]{images/ex_dto_front.png} 
-    DTO w warstwie klienta (TS)
+    Fragment kodu: DTO w warstwie klienta (TypeScript)
 \end{minipage}
 
 \newpage
@@ -1542,7 +1603,7 @@ Routing w aplikacji oparty na bibliotece react-router-dom jest kluczowym element
 \begin{figure}[h!]
     \centering
     \includegraphics[width=0.7\textwidth]{images/ex_index_router.png}
-    \caption{Schemat routingu dla ogólnodostępnych stron w aplikacji.}
+    \caption{Fragment kodu: Schemat routingu dla ogólnodostępnych stron w aplikacji.}
 \end{figure}
 
 \noindent
@@ -1552,7 +1613,7 @@ Routing w aplikacji oparty na bibliotece react-router-dom jest kluczowym element
 \begin{figure}[h!]
     \centering
     \includegraphics[width=0.7\textwidth]{images/ex_main_router.png}
-    \caption{Schemat routingu dla zasobów dostępnych tylko dla zalogowanych i zweryfikowanych użytkowników.}
+    \caption{Fragment kodu: Schemat routingu dla zasobów dostępnych tylko dla zalogowanych i zweryfikowanych użytkowników.}
 \end{figure}
 
 \newpage
@@ -1566,7 +1627,7 @@ Poniżej przedstawiono fragment kodu z komponentu \texttt{MainRouter}, odpowiada
 \begin{figure}[h!]
     \centering
     \includegraphics[width=1\textwidth]{images/ex_router_authorization.png}
-    \caption{Fragment kodu pokazujący proces autoryzacji użytkownika.}
+    \caption{Fragment kodu: Proces autoryzacji użytkownika.}
 \end{figure}
 
 \newpage
@@ -1627,15 +1688,21 @@ Zarządzanie stanem aplikacji w projekcie opiera się na elastycznym wykorzystan
 Poniżej przedstawiono szczere metod zastosowanych do zarządzania stanem aplikacji:
 
 \begin{itemize}
-    \item \textbf{Zarządzanie stanem lokalnym:} Do zarządzania stanem lokalnym, który jest związany z pojedynczymi komponentami, wykorzystywane jest \textcolor{orange}{useState}. Tego typu stan przechowuje dane dotyczące interakcji użytkownika z interfejsem, na przykład wybór gry, filtrowanie wyników czy przechowywanie tymczasowych danych. Stan ten jest zmieniany w odpowiedzi na działania użytkownika lub pobieranie danych z serwera.
-    \item \textbf{Zarządzanie bardziej złożonym stanem:} W przypadku bardziej skomplikowanego stanu, takiego jak stan gry, używa się \textcolor{orange}{useReducer}. Ta technika pozwala na lepsze zarządzanie złożonymi i dynamicznymi danymi, takimi jak aktualny stan rozgrywki, ruchy graczy, status gry czy zmiany na planszy. Dzięki zastosowaniu reducerów możliwe jest łatwe śledzenie zmian stanu oraz utrzymywanie porządku w logice aplikacji, szczególnie w sytuacjach, gdy wiele akcji może wpływać na jeden obiekt stanu.
-    \item \textbf{Globalny stan aplikacji:} Aby zarządzać danymi, które muszą być dostępne w wielu częściach aplikacji, wykorzystywany jest globalny stan oparty na \textcolor{orange}{useContext} i \textcolor{orange}{createContext}. Dzięki temu możliwe jest centralne przechowywanie i udostępnianie informacji, które są wykorzystywane w różnych miejscach aplikacji.
-    \item \textbf{Przechowywanie danych w localStorage:} Aplikacja wykorzystuje także \textcolor{orange}{localStorage} do przechowywania niektórych danych, takich jak informacje o użytkowniku czy tokeny logowania. Dzięki temu dane te pozostają dostępne pomiędzy sesjami użytkownika, nawet po odświeżeniu strony lub zamknięciu aplikacji. Ten sposób zapewnia trwałość przechowywanych danych, co zwiększa komfort użytkownika, umożliwiając m.in. automatyczne logowanie się lub kontynuowanie gry bez potrzeby ponownego logowania.
+    \item \textbf{Zarządzanie stanem lokalnym:} Do zarządzania stanem lokalnym, który jest związany z pojedynczymi komponentami, wykorzystywane jest \texttt{useState}. Tego typu stan przechowuje dane dotyczące interakcji użytkownika z interfejsem, na przykład wybór gry, filtrowanie wyników czy przechowywanie tymczasowych danych. Stan ten jest zmieniany w odpowiedzi na działania użytkownika lub pobieranie danych z serwera.
+
+    \item \textbf{Zarządzanie bardziej złożonym stanem:} W przypadku bardziej skomplikowanego stanu, takiego jak stan gry, używa się \texttt{useReducer}. Ta technika pozwala na lepsze zarządzanie złożonymi i dynamicznymi danymi, takimi jak aktualny stan rozgrywki, ruchy graczy, status gry czy zmiany na planszy. Dzięki zastosowaniu reducerów możliwe jest łatwe śledzenie zmian stanu oraz utrzymywanie porządku w logice aplikacji, szczególnie w sytuacjach, gdy wiele akcji może wpływać na jeden obiekt stanu.
+
+    \item \textbf{Globalny stan aplikacji:} Aby zarządzać danymi, które muszą być dostępne w wielu częściach aplikacji, wykorzystywany jest globalny stan oparty na \texttt{useContext} i \texttt{createContext}. Dzięki temu możliwe jest centralne przechowywanie i udostępnianie informacji, które są wykorzystywane w różnych miejscach aplikacji.
+
+    \item \textbf{Przechowywanie danych w localStorage:} Aplikacja wykorzystuje także \texttt{localStorage} do przechowywania niektórych danych, takich jak informacje o użytkowniku czy tokeny logowania. Dzięki temu dane te pozostają dostępne pomiędzy sesjami użytkownika, nawet po odświeżeniu strony lub zamknięciu aplikacji. Ten sposób zapewnia trwałość przechowywanych danych, co zwiększa komfort użytkownika, umożliwiając m.in. automatyczne logowanie się lub kontynuowanie gry bez potrzeby ponownego logowania.
+
     \item \textbf{Komunikacja w czasie rzeczywistym z użyciem SignalR:}
     W aplikacji szachowej, gdzie interakcja dwóch graczy musi odbywać się w czasie rzeczywistym, wykorzystano SignalR do synchronizacji stanu gry między graczami. Po wykonaniu ruchu przez jednego gracza, aplikacja natychmiastowo informuje drugiego gracza o zmianach, co pozwala na płynne i bieżące aktualizowanie stanu gry w czasie rzeczywistym. Dzięki SignalR, obaj gracze widzą zmiany na planszy bez opóźnień i mogą natychmiastowo reagować na ruchy przeciwnika.
+
 \end{itemize}
 
 \newpage
+
 \subsubsection{Mechanizm gry w szachy}
 Na następnych stronach zostały przedstawione diagramy prezentujące mechanizmy gier sieciowych oraz z siankiem szachowym. Poniżej przedstawiono legendę, określającą znaczenie kolorów bloków na schematach.
 \\\\
@@ -1696,7 +1763,7 @@ W przypadku gier z silnikiem szachowym mechanizmy rozgrywki są niemal identyczn
 \begin{figure}[h!]
     \centering
     \includegraphics[width=1\textwidth]{images/ex_engine_move_sim.png}
-    \caption{Fragment kodu przestawiający symulacje ruchu zaproponowanego przez silnik.}
+    \caption{Fragment kodu: Symulacja ruchu zaproponowanego przez silnik.}
 \end{figure}
 
 \noindent
@@ -1892,6 +1959,11 @@ W szachach istnieje kilka innych zasad, które mogą prowadzić do zakończenia 
 W przypadku gry z czasem, aplikacja śledzi czas pozostały dla obu graczy i przechowuje te informacje w bazie danych. Czas jest odliczany dla każdego gracza indywidualnie, a po wykonaniu ruchu przez jednego z graczy, zegar zostaje zaktualizowany. Czas jest inkrementowany na podstawie zadanego interwału, który może być ustalony na początku gry. Kiedy jeden gracz wykonuje ruch, czas zostaje zaktualizowany o odpowiedni inkrement, a zegar drugiego gracza zaczyna odliczać swój czas. Cały proces jest realizowany poprzez zapisywanie stanu czasu w bazie danych oraz bieżące odliczanie dla aktywnego gracza. Jeśli czas któregokolwiek z graczy dobiegnie końca, gra automatycznie kończy się, a przegrany zostaje ogłoszony przegranym z powodu przekroczenia czasu. Tego typu funkcjonalność jest szczególnie przydatna w trybach szybkich gier, gdzie gracze mają określoną ilość czasu na wykonanie swoich ruchów.
 
 \newpage
+
+\subsubsection{Stylizacja komponetów}
+
+\newpage
+
 \subsubsection{Wykorzystane biblioteki}
 
 \begin{itemize} 
@@ -1980,8 +2052,6 @@ Strona rejestracji jest zaprojektowana z myślą o czytelności i łatwości obs
 
 \noindent
 Cały proces został opracowany z myślą o wygodzie użytkownika. Okno weryfikacyjne w aplikacji jest intuicyjne, zawiera czytelne instrukcje oraz widoczne przyciski umożliwiające wprowadzenie kodu. Dodatkowo w przypadku problemów, takich jak brak dostarczenia wiadomości e-mail, aplikacja oferuje możliwość ponownego wysłania kodu weryfikacyjnego za pomocą jednego kliknięcia.
-\\\\
-Weryfikacja konta to proces szybki i bezproblemowy, a dzięki jasnym instrukcjom użytkownicy mogą sprawnie zakończyć konfigurację swojego konta i skupić się na odkrywaniu możliwości aplikacji.
 
 \newpage
 
@@ -2324,6 +2394,7 @@ Strona rankingu jest kluczowym elementem aplikacji, wspierającym rywalizację i
 
 \subsection{Frontend}
 \subsubsection{Testy automatyczne}
+\subsubsection{Wykonywanie testów automatycznych}
 \subsubsection{Testy maunalne}
 
 \newpage
@@ -2331,19 +2402,130 @@ Strona rankingu jest kluczowym elementem aplikacji, wspierającym rywalizację i
 \subsection{Backend}
 
 \subsubsection{Testy jednostkowe}
-Test jednostkowy to kod wykonujący inny kod w kontrolowanych warunkach w ramach jednego procesu w pamięci, w celu weryfikacji (bez ingerencji programisty), że testowana logika działa w ściśle określony sposób.
+Test jednostkowy to rodzaj testu, który sprawdza pojedynczą jednostkę kodu, najczęściej funkcję lub metodę, w ściśle kontrolowanych warunkach. Testy jednostkowe mają na celu weryfikację, czy testowana logika działa zgodnie z oczekiwaniami w różnych scenariuszach, bez potrzeby angażowania zewnętrznych zależności, jak bazy danych, usługi sieciowe czy systemy plików. Dzięki temu, testy jednostkowe mogą być uruchamiane bardzo szybko i zapewniają wysoką precyzję testowania, gdyż wykonują kod w ramach jednego procesu w pamięci. Co istotne, podczas testowania programiści nie muszą ingerować w proces, ponieważ testy te są zaprojektowane tak, by działały samodzielnie w pełni automatycznie, weryfikując prawidłowość działania kodu w różnych, wcześniej zdefiniowanych warunkach.
 \\\\
-W niniejszym projekcie testy jednostkowe zostały wykorzystane w celu automatycznej kontroli poprawności działania klas obsługującym otrzymane zapytania (RequestHandler). Do każdego przypadku obsługi został utworzony test, sprawdzający zarówno poprawną realizację procedury oraz kazdy z możliwych i zaimplementowanych opcji niepoprawnego zapytania.
+W kontekście niniejszego projektu, testy jednostkowe zostały zastosowane w celu automatycznej kontroli poprawności działania klas odpowiedzialnych za obsługę zapytań. Każdy przypadek obsługi zapytania, który mógł wystąpić w aplikacji, został przetestowany w ramach osobnego testu jednostkowego. Testy te weryfikują nie tylko prawidłowe działanie procedury, ale również różne scenariusze błędów. Zostały stworzone testy dla każdego możliwego błędu, jaki może pojawić się przy obsłudze zapytania. Dzięki temu, aplikacja jest testowana w pełni automatycznie w różnych kontekstach i zapewnia, że każda część logiki działa zgodnie z założeniami.
 \\\\
-
-\subsubsection{Testy integracyjne}
-Testy integracyjne to etap w procesie tworzenia oprogramowania, który polega na łączeniu i sprawdzaniu, jak ze sobą współpracują różne części systemu. Mają na celu identyfikację potencjalnych błędów i niezgodności, które mogą pojawić się podczas interakcji między różnymi modułami. Zaczynając, należy pamiętać, że osiągniecie powodzenia w testach integracyjnych wymaga zrozumienia całej struktury systemu, jak również umiejętności identyfikacji kluczowych punktów interakcji. Jest to proces wymagający, ale dający wartościowe informacje powiązane z ogólnym działaniem aplikacji.
+Zakres testów jednostkowych w projekcie obejmuje jeden konkretny \texttt{RequestHandler} i jego wewnętrzną logikę. W odróżnieniu od testów integracyjnych, które sprawdzają współdziałanie różnych komponentów systemu, testy jednostkowe skupiają się na indywidualnych metodach i funkcjach w obrębie jednego handlera. Każdy test jest zaprojektowany w taki sposób, aby sprawdzać pojedynczy przypadek użycia, co pozwala na szybkie zidentyfikowanie ewentualnych błędów w jednej, konkretnej logice.
 \\\\
+Testy te, mimo że niezwykle istotne, bywają dość monotonne i powtarzalne. Często weryfikują one ten sam zestaw działań, na przykład sprawdzając, czy odpowiednie repozytorium zwróciło poprawną encję lub, w przypadku błędu, czy prawidłowo zgłoszono wyjątek. W wielu testach weryfikowane są te same operacje w kontekście różnych danych wejściowych, co sprawia, że schemat testów jest jednorodny.
+\\\\
+Logika tworzenia testów jednostkowych w tym projekcie polega na tym, że dla każdego potencjalnego błędu, który może wystąpić w ramach danego handlera, tworzony jest osobny przypadek testowy. Na przykład, jeśli handler może rzucić różne wyjątki w zależności od sytuacji, dla każdego z tych wyjątków tworzony jest dedykowany test, który sprawdza, czy błąd jest odpowiednio obsługiwany. Dzięki temu testy są wysoce precyzyjne, a ich struktura pozwala na dokładne śledzenie działania aplikacji w różnych, potencjalnie problematycznych scenariuszach.
 
 \newpage
+
+\noindent
+Testy jednostkowe w tym projekcie zostały zaprojektowane w sposób, który umożliwia dokładne sprawdzenie poprawności logiki biznesowej w różnych scenariuszach. Testy te zostały stworzone w sposób umożliwiający symulowanie interakcji z różnymi zależnościami, takimi jak repozytoria, serwisy zewnętrzne i funkcje pomocnicze. Każdy test jest dedykowany do konkretnego przypadku, a jego głównym celem jest weryfikacja, czy odpowiednia metoda reaguje zgodnie z oczekiwaniami w różnych sytuacjach.
+\\\\
+Ogólny proces tworzenia testów jednostkowych wygląda następująco:
+
+\begin{enumerate}
+    \item \textbf{Przygotowanie obiektów:} W każdym teście tworzone są obiekty typu \texttt{Mock} dla zależności, takich jak repozytoria czy serwisy, które pozwalają na kontrolowanie ich zachowania w trakcie testów. Dzięki tym obiektom można zasymulować różne scenariusze, takie jak dostęp do bazy danych czy specyficzne funkcjonaliści serwisów, bez rzeczywistego ich wywoływania.
+
+    \item \textbf{Utworzenie testowych obiektów:} W każdym z testów na początku utworzone zostały przykładowe dane, które symulowane metody mogą zwrócić, w celu odwzorowania rzeczywistych scenariuszy. Obiekty te są tworzone w sposób kontrolowany, aby odpowiadały wymaganym warunkom testowym. Mogą zostać stworzone zarówno poprawne obiekty, jak i niepoprawne obiekty, co umożliwia dokładne sprawdzenie, jak system reaguje na różne przypadki.
+
+    \item \textbf{Symulowanie zachowania zależności:} Za pomocą metody \texttt{Setup} ustawia się, jak dane zależności mają się zachować w czasie wykonywania testu. Na przykład, w przypadku repozytorium użytkowników, można ustawić, by konkretna metoda zwracała wcześniej zadeklarowanego obiekt encji, co umożliwia sprawdzenie, jak system reaguje, gdy obiekty o określonych własnościach już istnieją.
+
+    \item \textbf{Przygotowanie żądania (request):} Następnie wywoływana jest metoda testowanego handlera, która wykonuje logikę biznesową na podstawie testowych danych wejściowych.
+
+    \item \textbf{Weryfikacja wyników:} Po wykonaniu metody, weryfikowane są różne aspekty:
+    \begin{itemize}
+        \item \textbf{Oczekiwane wyjątki:} Sprawdzanie, czy odpowiedni wyjątek, został rzucony w przypadku błędnych danych wejściowych.
+        \item \textbf{Zwracane dane:} W przypadku jeśli określonych handler ma za zadanie zwrócić jakieś dane, sprawdzana jest również ich poprawność z oczekiwanymi wartościami.
+        \item \textbf{Interakcje z zależnościami:} Sprawdzanie, czy odpowiednie metody w mockowanych zależnościach zostały wywołane odpowiednią liczbę razy.
+        \item \textbf{Brak interakcji w przypadku błędów} Jeżeli test sprawdza sytuację błędnego żądania, wówczas testuje się, czy nie zostały wywołane inne metody, które normalnie byłyby uruchomione w przypadku sukcesu.
+    \end{itemize}
+
+\end{enumerate}
+
+\newpage
+
+\noindent
+Przykład testu jednostkowego dla warstwy .Core przedstawia sposób, w jaki testy są tworzone w projekcie. Każdy test ma na celu weryfikację poprawności działania funkcji lub metody w różnych scenariuszach. Poniżej znajduje się fragment kodu, który ilustruje przykład takiego testu.
+
+\vspace{0.5cm}
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=1\textwidth]{images/ex_core_test.png}
+    \caption{Fragment kodu: Przykład testu jednostkowego warstwy .Core.Tests.}
+\end{figure}
+\vspace{0.5cm}
+
+W projekcie utworzono 238 przypadków testowych, które obejmują wszystkie istotne scenariusze dla każdego handlera. Testy te zostały zaprojektowane w taki sposób, aby sprawdzać nie tylko poprawną realizację procesów, ale także różne sytuacje błędne. Każdy test ma na celu upewnienie się, że aplikacja reaguje w odpowiedni sposób w przypadku nieprawidłowych danych wejściowych lub błędów. Dzięki temu projekt jest bardziej odporny na błędy, a jego stabilność oraz niezawodność zostały zwiększone poprzez sprawdzenie różnych ścieżek, które mogą wystąpić w rzeczywistych warunkach użytkowania aplikacji. Testy jednostkowe stanowią więc kluczowy element w zapewnieniu wysokiej jakości aplikacji, umożliwiając automatyczną weryfikację działania całego systemu.
+
+\newpage
+
+\subsubsection{Testy integracyjne}
+Testy integracyjne to kluczowy etap w procesie tworzenia oprogramowania, który polega na weryfikacji współdziałania różnych komponentów systemu. Ich celem jest sprawdzenie, jak różne części aplikacji, które zostały wcześniej testowane jednostkowo, integrują się ze sobą i jak współpracują w rzeczywistych warunkach. W przeciwieństwie do testów jednostkowych, które skupiają się na testowaniu pojedynczych funkcji lub metod, testy integracyjne obejmują cały proces komunikacji między modułami systemu, w tym bazę danych, usługi zewnętrzne, interfejsy API czy inne komponenty systemowe.
+\\\\
+Podczas testów integracyjnych, główną uwagą jest sprawdzenie, czy dane przechodzą przez cały cykl operacyjny, od momentu ich wprowadzenia, aż do finalnego przetworzenia lub zapisu. Oznacza to, że testy te pomagają wykrywać błędy, które mogą wystąpić w trakcie interakcji między różnymi modułami, takie jak niezgodności w formacie danych, błędy w komunikacji między komponentami lub problemy z dostępem do zewnętrznych usług.
+\\\\
+W celu przeprowadzenia testów integracyjnych, konieczne jest pełne zrozumienie struktury systemu oraz umiejętność identyfikacji kluczowych punktów interakcji pomiędzy jego elementami. Testowanie takich interakcji wymaga wiedzy o tym, jak system funkcjonuje w całości oraz o tym, jak poszczególne komponenty wzajemnie się wspierają. Ze względu na złożoność takich testów, przeprowadzenie ich może być czasochłonne i wymagające odpowiednich zasobów. Mimo to, testy integracyjne dostarczają bardzo cennych informacji, które pomagają upewnić się, że cały system działa zgodnie z oczekiwaniami i spełnia wymagania użytkownika.
+\\\\
+W projekcie testy integracyjne są zaprojektowane w taki sposób, aby weryfikowały pełny przepływ danych pomiędzy warstwą aplikacji (taką jak kontrolery, serwisy) a bazą danych, a także interakcje z zewnętrznymi zasobami (np. usługami). Są one bardziej złożone i czasochłonne niż testy jednostkowe, ponieważ obejmują całą aplikację, a nie pojedyncze komponenty, ale zapewniają pełniejszy obraz poprawności działania systemu w rzeczywistych warunkach.
+\\\\
+Aby przeprowadzić testy integracyjne, najpierw tworzone jest środowisko testowe. W tym projekcie używana jest klasa \texttt{TestWebApplicationFactory<Program>}, która odpowiada za stworzenie odpowiedniego kontekstu aplikacji testowej, w tym uruchomienie aplikacji oraz jej zależności. Dzięki temu możliwe jest przeprowadzenie testów w warunkach możliwie najbardziej zbliżonych do rzeczywistego środowiska produkcyjnego. Istotnym elementem jest również wykorzystanie \texttt{HttpClient}, który pozwala na symulowanie zapytań HTTP oraz kontekstu bazy danych, co umożliwia interakcję z danymi i weryfikację zapisów.
+\\\\
+Po utworzeniu odpowiedniego środowiska testowego, jak opisano wcześniej, każdy folder testów, podzielony według kontrolerów API, zawiera definicję klasy DbFilters. Klasa ta pełni rolę pomocniczą, dostarczając metod, które pozwalają na inicjalizację bazy danych przed rozpoczęciem testów integracyjnych. Zawiera ona metody umożliwiające dodanie danych testowych do bazy. Dzięki tym funkcjom możliwe jest stworzenie realistycznego środowiska testowego, które odzwierciedla rzeczywisty stan bazy danych, a testy mogą sprawdzać pełny przepływ danych, w tym interakcję z bazą. Każdy z tych kroków pozwala na dokładniejsze i bardziej wiarygodne przeprowadzenie testów integracyjnych, sprawdzając działanie aplikacji w kontekście interakcji z bazą danych oraz innymi komponentami systemu.
+
+\newpage
+
+\noindent
+Testy integracyjne w tym projekcie zostały zaprojektowane w celu sprawdzenia, jak różne części aplikacji współdziałają ze sobą, obejmując pełny przepływ danych, od momentu wysłania zapytania HTTP do finalnego zapisania danych w bazie danych. Główne kroki tworzenia takich testów są następujące:
+
+\begin{enumerate}
+    \item \textbf{Konfiguracja środowiska testowego:} Testy integracyjne wymagają pełnego uruchomienia aplikacji w kontrolowanych warunkach. W tym przypadku używa się specjalnej klasy \texttt{TestWebApplicationFactory}, która odpowiada za stworzenie środowiska testowego, w tym uruchomienie aplikacji oraz jej zależności. Dodatkowo, do testów wykorzystywane są komponenty takie jak \texttt{HttpClient}, który pozwala na symulowanie wysyłania zapytań HTTP, oraz kontekst bazy danych, który umożliwia interakcję z bazą.
+
+    \item \textbf{Utworzenie testowych obiektów:} W testach integracyjnych tworzone są testowe obiekty, które symulują rzeczywiste dane, które będą przesyłane w zapytaniach. Obiekt modeli są tworzone z danymi, które będą wysyłane jako konkretne żądanie. Obiekty te są następnie konwertowane do formatu JSON za pomocą oraz zamieniane na \texttt{StringContent}, który jest przesyłany w ciele żądania HTTP.
+
+    \item \textbf{Wysyłanie zapytania HTTP:} Kluczową częścią testu integracyjnego jest wysłanie zapytania HTTP do odpowiedniego punktu końcowego aplikacji. Dzięki wykorzystaniu \texttt{HttpClient}, test symuluje działanie rzeczywistego użytkownika, który wysyła zapytanie do aplikacji.
+
+    \item \textbf{Sprawdzanie odpowiedzi (asercje):} Po wysłaniu zapytania, w testach integracyjnych sprawdzana jest odpowiedź z serwera. W przypadku pozytywnego przebiegu rejestracji, status odpowiedzi powinien mieć Status 200. Dodatkowo, testy służące do tworzenia wpisów w tablicach sprawdzają czy obiekty rzeczywiście zostały zapisane.
+
+    \item \textbf{Testowanie niepoprawnych scenariuszy:} Testy integracyjne obejmują również przypadki nieprawidłowych zapytań. Jeśli użytkownik próbuje wykonać niedowolną operację, aplikacja powinna zwrócić odpowiedź z kodem konkretnego błędu. W takim przypadku test również weryfikuje, czy odpowiedź HTTP ma oczekiwany status oraz czy system prawidłowo reaguje na błędne dane.
+
+\end{enumerate}
+
+\newpage
+
+\noindent 
+Przykład testu integracyjnego dla warstwy .Api.Tests przedstawia sposób, w jaki testy są tworzone w projekcie, aby zweryfikować poprawność działania całej aplikacji, w tym interakcji z bazą danych, API oraz innymi zewnętrznymi komponentami. Każdy test integracyjny ma na celu weryfikację, czy różne elementy systemu współdziałają ze sobą zgodnie z oczekiwaniami w kontekście rzeczywistego działania aplikacji. Poniżej znajduje się fragment kodu, który ilustruje przykład takiego testu.
+
+\vspace{0.5cm}
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=1\textwidth]{images/ex_api_test.png}
+    \caption{Fragment kodu: Przykład testu integracyjnego warstwy .Api.Tests.}
+\end{figure}
+\vspace{0.5cm}
+
+W projekcie utworzono 134 przypadków testowych, które obejmują pełny przepływ danych i interakcje między komponentami aplikacji, takimi jak kontrolery API, bazy danych i usługi zewnętrzne. Testy te zostały zaprojektowane w taki sposób, aby sprawdzać nie tylko poprawność realizacji procesów, ale także różne sytuacje błędne, które mogą wystąpić podczas interakcji między komponentami systemu. Każdy test sprawdza, czy aplikacja reaguje odpowiednio na poprawne i błędne dane wejściowe, weryfikując odpowiedzi HTTP, zapis do bazy danych i inne krytyczne operacje. Dzięki temu projekt jest bardziej odporny na błędy, a jego stabilność oraz niezawodność zostały zwiększone poprzez symulowanie rzeczywistych warunków użytkowania aplikacji. Testy integracyjne stanowią więc kluczowy element w zapewnieniu wysokiej jakości aplikacji, umożliwiając weryfikację poprawności działania całego systemu w złożonych, rzeczywistych scenariuszach.
+
+\newpage
+
+\subsubsection{Wykonywanie testów}
+
+\noindent
+Wykonywanie testów w projekcie odbywa się za pomocą środowiska Visual Studio, które oferuje wbudowane narzędzia do uruchamiania i zarządzania testami. Dzieki czemu można w prosty sposób uruchomić i sprawdzić działanie wszystkich utworzonych testów.
+\\\\
+W Visual Studio dostępne jest także okno Test Explorer, które umożliwia zarządzanie testami. Po otwarciu tego okna, wyświetlają się wszystkie dostępne testy oraz ich statusy. Dzięki tej funkcjonalności można także uruchamiać pojedyncze testy lub zestawy testów.
+
+\vspace{0.5cm}
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=1\textwidth]{images/vs_tests.png}
+    \caption{Widok okna realizacji testów w programie Visual Studio.}
+\end{figure}
+\vspace{0.5cm}
+
+Po wykonaniu testów, w oknie Test Explorer zostaną pokazane wyniki. Testy, które zakończą się sukcesem, będą oznaczone na zielono, a te, które zakończą się niepowodzeniem, na czerwono. Klikając na test, który nie przeszedł, można uzyskać szczegóły błędu, co pozwala szybko zlokalizować problem w kodzie. Visual Studio generuje również raporty, które zawierają informacje o czasie wykonania testów, liczbie zaliczonych i niezaliczonych testów oraz ewentualnych błędach. Dzięki tym funkcjom, Visual Studio jest wygodnym narzędziem do przeprowadzania testów, monitorowania wyników i analizy przebiegu testowania.
+
+\newpage
+
 \section{Podsumowanie}
 
 \newpage
+
 \section{Literatura}
 
 \begin{itemize}
@@ -2365,6 +2547,7 @@ Testy integracyjne to etap w procesie tworzenia oprogramowania, który polega na
     \item https://polontech.com/pl/sourcetree/
     \item https://www.droptica.pl/blog/co-jest-postman-do-czego-sluzy-i-jakie-sa-jego-funkcjonalnosci/
     \item https://www.ovhcloud.com/pl/learn/what-is-rest-api/
+    \item https://www.pgadmin.org/faq/
 \end{itemize}
 
 \end{document}
