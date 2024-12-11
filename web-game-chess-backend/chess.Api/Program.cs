@@ -43,9 +43,7 @@ app.UseCors("FrontEndClient");
 
 // app.UseHttpsRedirection();
 
-
 app.UseShared();
-
 
 app.UseAuthorization();
 

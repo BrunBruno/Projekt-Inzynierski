@@ -1,4 +1,5 @@
 \documentclass[12pt,a4paper]{article}
+\usepackage[dvipsnames]{xcolor}
 \usepackage[polish]{babel}
 \usepackage{graphicx}
 \usepackage[margin=2cm]{geometry}
@@ -12,25 +13,15 @@
 \usepackage[utf8]{inputenc}
 \usepackage{lmodern}
 \usepackage{minted}
-\usepackage{lipsum}
 \usepackage{array}
 \usepackage{longtable}
 \usepackage{amsmath} 
-\usepackage{xcolor}
-\usepackage{tcolorbox}
+\usepackage{colortbl}
+
+
 
 \usetikzlibrary{positioning}
 \selectlanguage{polish}
-
-\tcbset{
-    highlightstyle/.style={
-        colback=black!90,
-        coltext=white,
-        boxrule=0pt,
-        enhanced jigsaw,
-        sharp corners,
-    }
-}
 
 \begin{document}
 \clearpage
@@ -89,30 +80,44 @@ Gliwice, 2025
 \newpage
 
 \section{Wstęp}
-\subsection{Opis projektu - streszczenie}
-    
+\subsection{Opis projektu}
 
-Projekt BRNChess to aplikacja webowa, składająca się z dwóch głównych elementów - aplikacji internetowej (frontend), stworzonej w oparciu o technologie React + Vite, pisana w języku typescript oraz aplikacji serwerowej (backend), zbudowanej na platformie .NET Framework. 
-\\
+Projekt BRNChess to aplikacja webowa, zaprojektowana z myślą o miłośnikach szachów, składająca się z dwóch głównych komponentów: aplikacji internetowej (frontend) oraz aplikacji serwerowej (backend). Strona kliencka została stworzona w oparciu o nowoczesne technologie React oraz Vite, a kod jest pisany w języku TypeScript, co zapewnia wysoką wydajność, czytelność i skalowalność projektu. Backend natomiast opiera się na potężnej platformie .NET Framework, co umożliwia szybkie i niezawodne przetwarzanie logiki serwera oraz integrację z różnymi usługami.
+\\\\
+Aplikacja BRNChess ma na celu zapewnienie użytkownikom możliwości rozgrywki w jedną z najstarszych i najpopularniejszych gier PvP na świecie — szachy. Jest to strategiczna gra planszowa dla dwóch graczy, w której każdy kontroluje zestaw figur szachowych, dążąc do zaszachowania króla przeciwnika, czyli postawienia go w sytuacji nieuchronnego schwytania. Zasady współczesnych szachów zostały ukształtowane w Europie pod koniec XV wieku, a ich pełna standaryzacja miała miejsce w XIX wieku.
+\\\\
+Aplikacja BRNChess pozwala graczom na wybór pomiędzy rozgrywką online z innymi użytkownikami z całego świata lub na stoczenie pojedynku z zaawansowanym silnikiem szachowym Stockfish. Funkcjonalności te są wspierane przez SignalR, narzędzie z biblioteki .NET, które umożliwia komunikację w czasie rzeczywistym. Dzięki temu użytkownicy mogą korzystać z różnych trybów kontroli czasowej, takich jak Bullet, Blitz, czy Classic, co dodaje dynamiki i różnorodności do rozgrywki.
+\\\\
+Projekt BRNChess wyróżnia się również rozbudowanym systemem znajomości, który umożliwia użytkownikom zarządzanie swoimi kontaktami i kontrolowanie, z kim chcą rozgrywać partie szachowe. System ten pozwala na wysyłanie i akceptowanie zaproszeń do znajomych, dzięki czemu gracze mogą tworzyć sieć swoich ulubionych przeciwników oraz współzawodniczyć w bardziej personalizowany sposób. Dzięki tej funkcjonalności aplikacja BRNChess nie tylko oferuje doskonałe doświadczenie gry, ale także staje się platformą społecznościową, umożliwiającą rozwijanie pasji w gronie znajomych.
+\\\\
+Projekt kładzie nacisk na wysoką jakość doświadczenia użytkownika, dlatego interfejs aplikacji jest intuicyjny, responsywny i estetyczny. Rozgrywki online są płynne, a dzięki wsparciu czasu rzeczywistego użytkownicy mogą cieszyć się emocjonującymi partiami bez opóźnień. Mechanizmy kontroli czasowej nie tylko zwiększają atrakcyjność rozgrywek, ale również zachęcają graczy do częstego powracania na platformę.
 
-Aplikacja ta ma na celu umożliwienie użytkownikom rozgrywkę w jedną z najpopularniejszych gier pvp na świecie, jaką są szachy. Szachy to gra planszowa dla dwóch graczy, z których każdy kontroluje zestaw figur szachowych, a celem jest zaszachowanie króla przeciwnika, tj. zagrożenie mu nieuchronnym schwytaniem. Zasady gry w szachy, które są znane dzisiaj, pojawiły się w Europie pod koniec XV wieku, a ich standaryzacja i powszechna akceptacja nastąpiła pod koniec XIX wieku. Aplikacja umożliwia na rozegranie partii online wraz z innymi użytkownikami z całego świata jak na rozegranie meczu przeciwko silnikowi szachowemu. Dzięki dotnetowej paczce SignalR gra może toczyć się w czasie rzeczywistym przez co możliwe jest wykorzystanie kontroli czasowej podczas przebiegu partii, co wspiera częstsze odwiedziny strony internetowej.
+
+\newpage
 
 \subsection{Główne założenia i cele projektu}
 
 \begin{itemize}
-    \item \textbf{Gra online:} Stworzenie aplikacji do gry w szachy online, jest głównym założeniem projektu. Gracze zostają dobierani w sposób losowy, w oparciu o ich obecną punktację.
-    \item \textbf{Gra offline:} Integracja z opensourceowym projektem silnika szachowego "Stockfish", w celu umożliwienia użytkownikom gry z komputerem.
-    \item \textbf{Gra ze znajomymi} Utworzenie systemu relacji pomiędzy użytkownikami, aby użytkowcy mogli rozgrywać partie ze swoimi znajomymi oraz w celu umożliwiania tworzenia własnych gier, niebędących przypadkowym wyborem.
-    \item \textbf{Interfejs} Bardzo ważnym elementem współczesnych aplikacji jest interfejs użytkownika. Cały UI powinien być intuicyjny oraz przyjemny dla oka. Dobrane odpowiedniej stylistyki strony jak i jej poszczególnych elementów jest kluczowe, aby użytkowcy chętnie wybierali odwiedzali platforme.
-    \item \textbf{Konto użytkownika} Zaprojektowanie kąt użytkowników, na których przechowywane będą wszystkie i dane, aktywności jak i osiągnięcia zdobywane podczas użytkowania aplikacji.
-    \item \textbf{Bezpieczeństwo danych} Dane przekazywane przez użytkowników, powinny być przechowywane w sposób bezpieczny, w szczelności dane wrażliwe.
-    \item \textbf{Hosting}
-    \item \textbf{Dodatkowe funkcjonalności} Do dodatkowych funkcjonalności można zaliczyć między innymi: globalny ranking graczy jak i wśród znajomych, przegląd gier użytkownika, czy personalizacje konta i ustawień gry.
+    \item \textbf{Gra online:}\\
+    Głównym celem aplikacji jest stworzenie platformy do gry w szachy online, w której gracze będą dobierani na podstawie ich punktacji rankingowej. Dzięki temu rozgrywki będą bardziej sprawiedliwe i odpowiednie dla różnych poziomów zaawansowania. System powinien umożliwić grę z trybami czasowymi, które zwiększają dynamikę rozgrywki i sprawiają, że platforma jest bardziej angażująca. Gracze będą mogli rywalizować w czasie rzeczywistym, co podnosi emocje i sprawia, że rozgrywka jest jeszcze bardziej ekscytująca.
+    \item \textbf{Gra offline:}\\
+    Projekt będzie integrował silnik szachowy Stockfish, który umożliwi użytkownikom grę z komputerem, co jest idealnym rozwiązaniem dla graczy, chcących ćwiczyć swoje umiejętności bez konieczności szukania przeciwnika. Silnik ten powinien zostać skonfigurowany w taki sposób, aby dostosować poziom trudności, co sprawia, że aplikacja jest odpowiednia zarówno dla początkujących, jak i bardziej zaawansowanych graczy. Umożliwia to rozgrywki offline z wysokiej jakości przeciwnikiem, który będzie dostarczał wyzwań na każdym etapie gry.
+    \item \textbf{Gra ze znajomymi}\\
+    Ważnym elementem jest wdrożenie do aplikacji systemu relacji między użytkownikami, który umożliwi tworzenie listy znajomych. Dzięki temu gracze będą mogli grać tylko ze swoimi przyjaciółmi, co eliminuje przypadkowy dobór przeciwnika i pozwala na rozgrywki w bardziej kontrolowanym środowisku. System znajomości powinien wspierać organizowanie gier na zaproszenie. Umożliwi to również budowanie społeczności wewnątrz aplikacji.
+    \item \textbf{Interfejs użytkownika}\\
+    Interfejs użytkownika jest kluczowym elementem aplikacji. Zostanie zaprojektowany z myślą o prostocie, intuicyjności i estetyce. Dbałość o szczegóły w projekcie graficznym zapewnia przyjemne wrażenia wizualne, a także ułatwia poruszanie się po platformie. Użytkownicy powinni szybko odnaleźć wszystkie niezbędne funkcje, dzięki czemu aplikacja staje się bardziej użyteczna i przyjazna. Dobrze zaprojektowany interfejs wpływa także na częstotliwość odwiedzin i zaangażowanie użytkowników.
+    \item \textbf{Konto użytkownika}\\
+    Każdy użytkownik powinien mieć osobne konto, na którym przechowywane są jego dane, historia gier oraz osiągnięcia zdobyte w trakcie użytkowania aplikacji. System kont powinien pozwalać na personalizację ustawień użytkownika.
+    \item \textbf{Bezpieczeństwo danych}\\
+    Projekt powinien zapewnić odpowiednie zabezpieczenia danych użytkowników, aby chronić ich prywatność i bezpieczeństwo. Wszystkie dane, szczególnie te wrażliwe, takie jak dane osobowe czy informacje o grach, będą przechowywane w sposób bezpieczny, z wykorzystaniem odpowiednich technologii szyfrowania.
+    \item \textbf{Dodatkowe funkcjonalności}\\
+    Projekt będzie oferował szereg dodatkowych funkcjonalności, które wzbogacają doświadczenia graczy. Należą do nich między innymi globalny ranking, który pozwala na porównywanie wyników z graczami oraz ranking wśród znajomych. Dodatkowo, użytkownicy powinni móc przeglądać historię swoich gier, analizować wykonane ruchy oraz dostosowywać swoje konto i ustawienia gry, aby jak najlepiej odpowiadały ich preferencjom.
 \end{itemize}
 
 \newpage
+
 \section{Stos technologiczny}
-\subsection{Aplikacja internetowa - frontend}
+\subsection{Aplikacja internetowa (frontend)}
 \subsubsection{Javascript}
 JavaScript jest używany najczęściej przy tworzeniu stron www, zapewniając ich interaktywność oraz obsługę zdarzeń, walidację formularzy czy budowanie elementów nawigacyjnych. Ale w tym języku można także pisać pełnoprawne aplikacje (korzystając z frameworków do budowania aplikacji jak np. Angular, React czy Vue – o nich za chwilę). Javascript może też być wykorzystywany do tworzenia gier w przeglądarkach, a jednym z popularnych frameworków do tego celu jest Phaser. JS-a można używać również po stronie serwera (backend) dzięki frameworkowi Node.
 
@@ -134,7 +139,7 @@ Vite.js to nowoczesne i wydajne środowisko do budowania aplikacji front-end, st
 \subsubsection{Sass / SCSS}
 Sass to preprocessor CSS, który umożliwia programowanie styli w znacznie bardziej efektywny i zorganizowany sposób niż zwykły CSS. Pozwala na definiowanie stałych, zagnieżdżanie reguł CSS, używanie zmiennych, funkcji, operatorów i wiele więcej. Dzięki temu, można wykorzystać Sass do szybszego i łatwiejszego tworzenia stylów strony, a także czytać i zarządzać istniejącym kodem znacznie lepiej. Jest to szczególnie przydatne w przypadku dużych projektów, gdzie style są rozbudowane i trudne do zarządzania.
 
-\subsection{Aplikacja serwerowa - backend}
+\subsection{Aplikacja serwerowa (backend)}
 \subsubsection{C\#}
 C\# jest nowoczesnym, obiektowym językiem wysokiego poziomu, który został opracowany na zlecenie Microsoft już w latach 1998 - 2001. Pod względem składni porównuje się go często do języków takich, jak Object Pascal, C++ i Java. W środowisku programistycznym uznawany jest za prosty, przyjazny i przejrzysty. C\# jest ściśle związany z platformą .NET, która stanowi dla niego framework i środowisko uruchomieniowe zarazem. Przez długi czas ta zależność wskazywana była jako największa wada języka, bowiem ograniczała jego zastosowanie jedynie do systemów Windows. Microsoft rozprawił się z tym problemem w 2016 roku, publikując .NET Core - kompatybilny również z innymi systemami operacyjnymi. Od tego czasu C\# służy do budowy programów i aplikacji na wszystkie systemy operacyjne.
 
@@ -143,8 +148,6 @@ C\# jest nowoczesnym, obiektowym językiem wysokiego poziomu, który został opr
 
 \subsubsection{PostgreSQL}
 PostgreSQL to system lub silnik baz danych kompatybilny z usługami OVHcloud i większością popularnych narzędzi. Obsługuje różne modele danych w celu tworzenia wydajnych i skalowalnych aplikacji zorientowanych obiektowo. Umożliwia pracę ze złożonymi zbiorami danych, bez spowolnień. Ułatwia przechowywanie, odczyt i zapis danych. Oferujemy możliwość korzystania z PostgreSQL za pośrednictwem usług cloud i naszych rozwiązań hostingowych.
-
-
 
 \subsection{Narzędzia pomocnicze}
 
@@ -172,6 +175,7 @@ Figma to jedno z nowocześniejszych i cieszących się dużą popularnością na
 Figma jako zewnętrzny program zalazła zastosowanie w projekcie głownie do projektowania własnych ikon, nieistniejących bądź niedostępnych bezpłatnie na internecie. Zastosowanie prostego, ale bardzo efektywnego narzędzia ma duże znaczenie dla rozwoju aplikacji gry mobilnej, w szczegolnosci nakierowanej na przyjemny dla uzytkownika interface. Dodatkowo Figma posłużyła do zaprojektowania i utworzenie modeli bierek do gry w szachy.  
 
 \newpage
+
 \section{Opis implementacji}
 \subsection{System kontroli wersji}
 
@@ -189,7 +193,8 @@ Adres repozytorium projektu: \href{https://github.com/BrunBruno/Projekt-Inzynier
 \end{figure}
 \vspace{1cm}
 
-Do wygodniejszej pracy z Git na lokalnym użądleniu wykorzystany został program  \textbf{SourceTree}, czyli narzędzia desktopowego, które stanowi graficzny interfejs użytkownika do systemu Git. SourceTree pozwala na wygodne wywoływanie poleceń Git, takich jak commit, push, pull, czy merge w sposób bardziej intuicyjny i przystępny niż używanie terminala. Dzięki SourceTree zarządzanie gałęziami i wersjami jest bardzo proste i intuicyjne, a procesy takie jak przeglądanie historii commitów czy rozwiązywanie konfliktów w plikach są bardziej zorganizowane i mniej czasochłonne.
+\noindent 
+Do wygodniejszej pracy z Git wykorzystany został program  \textbf{SourceTree}, czyli narzędzia desktopowego, które stanowi graficzny interfejs użytkownika do systemu Git. SourceTree pozwala na wygodne wywoływanie poleceń Git, takich jak commit, push, pull, czy merge w sposób bardziej intuicyjny i przystępny niż używanie terminala. Dzięki SourceTree zarządzanie gałęziami i wersjami jest bardzo proste i intuicyjne, a procesy takie jak przeglądanie historii commitów czy rozwiązywanie konfliktów w plikach są bardziej zorganizowane i mniej czasochłonne.
 
 \newpage
 
@@ -212,7 +217,7 @@ Poniżej zaprezentowane zostały diagramy \textbf{ERD (Entity-Relationship Diagr
 
 \subsubsection{Schemat bazy danych}
 
-\noindent \textbf{Relacje użytkownika} \\
+\noindent \textbf{Relacje użytkownika}\\
 Segment relacji z użytkownikami obejmuje kilka encji i ich relacji, które zarządzają danymi użytkownika. Encja \textbf{\texttt{User}} jest rdzeniem tego segmentu i jest powiązany z wieloma innymi jednostkami. Każdy użytkownik jest powiązany z rolą, która definiuje uprawnienia użytkownika w systemie, a relacja między nimi jest ustanawiana za pomocą klucza obcego na \texttt{RoleId}. Ponadto każdy użytkownik jest powiązany z kodem weryfikacyjnym do celów weryfikacji w relacji ta jest jeden do jednego. Encje reprezentujące obrazy przechowują dane związane z zdjęciami, tworząc relacje jeden-do-jednego z podmiotem User. Jednostki odpowiadające za śledzenie ranking i statystyki użytkownika i są również powiązane z jednostką \texttt{User} poprzez relacje jeden-do-jednego. Sama jednostka \texttt{User} jest powiązana także z kilkoma innymi encjami łącząc pozostałem segment w jedną całość.
 
 \vspace{1cm}
@@ -224,7 +229,7 @@ Segment relacji z użytkownikami obejmuje kilka encji i ich relacji, które zarz
 
 \newpage
 
-\noindent \textbf{Relacje znajomości} \\
+\noindent \textbf{Relacje znajomości}\\
 Segment relacji przyjaźni jest zarządzany przez jednostkę przyjaźni, która reprezentuje połączenia społeczne między użytkownikami. Każda Encja \textbf{\texttt{Friendship}} ma dwóch kluczowych uczestników: \texttt{Requestor} (przyjmujacy) i \texttt{Receiver} (odbierający). Są to obaj użytkownicy, a relacje między tymi podmiotami są modelowane za pomocą kluczy obcych: \texttt{RequestorId} i \texttt{ReceiverId}. Ta relacja jest wiele-do-jednego, co oznacza, że użytkownik może mieć wiele przyjaźni zarówno jako żądający, jak i odbiorca. Dodatkowo, istnieje jednostka statystyk przyjaźni śledząca statystyki związane z każdą przyjaźnią, tworząc relację jeden-do-jednego z encją \texttt{Friendship}. Same znajomości są grupowane na podstawie pola \texttt{Status}, który jest wartością wyliczeniową, określającą rodzaj znajomości - są to relacje zaakceptowane, oczekujące i zablokowane.
 
 \vspace{1cm}
@@ -236,7 +241,7 @@ Segment relacji przyjaźni jest zarządzany przez jednostkę przyjaźni, która 
 
 \newpage
 
-\noindent \textbf{Relacje w grach sieciowych} \\
+\noindent \textbf{Relacje w grach sieciowych}\\
 Segment relacji gier online obsługuje strukturę internetowej gry w szachy, z kilkoma jednostkami, które śledzą różne aspekty gry. Jednostka \textbf{\texttt{WebGame}} jest główną w tym segmencie i reprezentuje samą grę, łącząc dwóch graczy poprzez relacje jeden-do-jednego. Stan i czas gry są kontrolowane przez osobne encje, które są połączone za pomocą kluczy obcych. Jednostka \texttt{WebGamePlayer} służy do zapisywania informacji specyficznych dla gracza i odwołuje się do jednostki \texttt{User} - użytkownik posiada wielu graczy. Ruchy wykonane w grze są przechowywane w osobnej tabli, która ma relację wiele do jednego z główną encję gry. Dodatkowo, wiadomości wymieniane podczas gry są obsługiwane przez encje dwa osobne obiekty, tworzące relacje wiele-do-jednego odpowiednio z encjami samej gry jak i gracza.
 
 \vspace{1cm}
@@ -248,7 +253,7 @@ Segment relacji gier online obsługuje strukturę internetowej gry w szachy, z k
 
 \newpage
 
-\noindent \textbf{Relacje w grach z silnikiem} \\
+\noindent \textbf{Relacje w grach z silnikiem}\\
 Segment ten skupia się na aspekcie gry opartym na silniku, gdzie każda gra jest zarządzana przez encję \textbf{\texttt{EngineGame}}. Encja ta jest powiązana z encją gracza, reprezentującą użytkownika, który gra w grę opartą na silniku, a relacja jeden-do-jednego jest ustanawiana poprzez parametr \texttt{PlayerId}. Każdy ruch w grze jest przechwytywany w tabeli ruchów, która jest powiązana z główną encją poprzez klucz obcy. Encja stanu gry przechowuje aktualny stan gry opartej na silniku i jest powiązana z \texttt{EngineGame} poprzez relację jeden-do-jednego. Dodatkowo, wiadomości specyficzne dla gier silnikowych są przechowywane w osobnej liscie obiektów, która jest powiązana z \texttt{EngineGame} poprzez klucz obcy.
 
 \vspace{1cm}
@@ -277,25 +282,16 @@ Poniżej zaprezentowano encje abstrakcyjne oraz te, które mają swoje odzwierci
 \textbf{Abstrakcyjne jednostki}\\
 
 \begin{itemize}
-    \item \textbf{Image}\\
-    Abstrakcyjna klasa reprezentująca pliki graficzne.
-    \begin{longtable}{|m{4cm}|m{2cm}|m{8cm}|}
-        \hline
-        \textbf{Właściwość} & \textbf{Typ} & \textbf{Opis} \\ \hline
-        \endhead
-        \hline
-        Data & byte[] & Dane obrazu w postaci bajtów \\ \hline
-        ContentType & string & Typ zawartości obrazu (np. "image/png", "image/jpeg") \\ \hline
-    \end{longtable}
-
     \item \textbf{Game}\\
-    Klasa dziedziczona przez podmioty reprezentujące gry.
+    Klasa dziedziczona przez podmioty reprezentujące gry Deklaruje podstawowe właściwości jakie powinna posiadać każda gra.
+    \renewcommand{\arraystretch}{1.5}
     \begin{longtable}{|m{4cm}|m{2cm}|m{8cm}|}
         \hline
+        \rowcolor{lightgray}
         \textbf{Właściwość} & \textbf{Typ} & \textbf{Opis} \\ \hline
         \endhead
         \hline
-        Position & string & Aktualna pozycja na szachownicy \\ \hline
+        Position & string & Aktualna pozycja na szachownicy w formacie FEN \\ \hline
         HasEnded & bool & Flaga, czy gra się zakończyła \\ \hline
         CreatedAt & DateTime & Data utworzenia gry \\ \hline
         StartedAt & DateTime? & Data rozpoczęcia gry \\ \hline
@@ -305,39 +301,42 @@ Poniżej zaprezentowano encje abstrakcyjne oraz te, które mają swoje odzwierci
         WinnerColor & enum? & Kolor zwycięzcy (null oznacza remis) \\ \hline
     \end{longtable}
 
-    \item \textbf{GameState}\\
-    Abstrakcyjna encja reprezentująca stan gry, zawierająca szczegółowe informacje, ktorych nie ma sposobu pozyskać w inny wypadku, niż poprzez zapisanie wystąpienia zdarzenia.
+    \item \textbf{Player}\\
+    Generalna klasa przechowują podstawowe dane reprezentujące gracza.
+    \renewcommand{\arraystretch}{1.5}
     \begin{longtable}{|m{4cm}|m{2cm}|m{8cm}|}
         \hline
+        \rowcolor{lightgray}
         \textbf{Właściwość} & \textbf{Typ} & \textbf{Opis} \\ \hline
         \endhead
         \hline
-        EnPassant & string? & Koordynaty dla ruchu en passant w formacie x,y \\ \hline
-        CWKing & bool & Czy biały król może jeszcze wykonać roszadę \\ \hline
-        CWShort & bool & Czy biały król może wykonać krótką roszadę \\ \hline
-        CWLong & bool & Czy biały król może wykonać długą roszadę \\ \hline
-        CBKing & bool & Czy czarny król może jeszcze wykonać roszadę \\ \hline
-        CBShort & bool & Czy czarny król może wykonać krótką roszadę \\ \hline
-        CBLong & bool & Czy czarny król może wykonać długą roszadę \\ \hline
+        Name & string & Nazwa gracza (nazwa użytkownika) \\ \hline
+        Color & enum? & Kolor gracza (czarny lub biały), null jeśli gracz szuka jeszcze gry \\ \hline
+        CreatedAt & DateTime & Data utworzenia gracza \\ \hline
+    \end{longtable}
+
+    \item \textbf{GameState}\\
+    Abstrakcyjna encja reprezentująca stan gry, zawierająca szczegółowe informacje, ktorych nie ma sposobu pozyskać w inny wypadku, niż poprzez zapisanie wystąpienia zdarzenia. Dotyczy głównie ruchów specjalnych, charakteryzujących się wieloma zasadami.
+    \renewcommand{\arraystretch}{1.5}
+    \begin{longtable}{|m{4cm}|m{2cm}|m{8cm}|}
+        \hline
+        \rowcolor{lightgray}
+        \textbf{Właściwość} & \textbf{Typ} & \textbf{Opis} \\ \hline
+        \endhead
+        \hline
+        EnPassant & string? & Koordynaty dla specjalnego bicia en passant w formacie "x,y" \\ \hline
+        (Can castle) & bool & Pola określające, czy gracze mogą wykonać roszadę \\ \hline
         HalfMove & int & Liczba ruchów nie będących ruchem pionkiem (dla zasady 50 ruchów) \\ \hline
     \end{longtable}
 
-    \item \textbf{Message}\\
-    Generalna encja reprezentująca wiadomości tworzone podczas gry (automatycznie i poprzez użytkowników).
-    \begin{longtable}{|m{4cm}|m{2cm}|m{8cm}|}
-        \hline
-        \textbf{Właściwość} & \textbf{Typ} & \textbf{Opis} \\ \hline
-        \endhead
-        \hline
-        Content & string & Treść wiadomości \\ \hline
-        SentAt & DateTime & Data i godzina wysłania wiadomości \\ \hline
-        Type & enum & Typ wiadomości (automatyczna / wysłana) \\ \hline
-    \end{longtable}
+\newpage
 
     \item \textbf{Move}\\
-    Abstrakcyjna encja przedstawiająca ruch wykonany podczas rozgrywki.
+    Abstrakcyjna encja przedstawiająca ruch wykonany podczas rozgrywki. Jednoznacznie identyfikuje informacje o stanie gry po wykonaniu ruchu podczas gry.
+    \renewcommand{\arraystretch}{1.5}
     \begin{longtable}{|m{4cm}|m{2cm}|m{8cm}|}
         \hline
+        \rowcolor{lightgray}
         \textbf{Właściwość} & \textbf{Typ} & \textbf{Opis} \\ \hline
         \endhead
         \hline
@@ -351,18 +350,32 @@ Poniżej zaprezentowano encje abstrakcyjne oraz te, które mają swoje odzwierci
         DoneAt & DateTime & Data i godzina wykonania ruchu \\ \hline
     \end{longtable}
 
-    \item \textbf{Player}\\
-    Generalna klasa przechowują podstawowe dane reprezentujące gracza.
+    \item \textbf{Message}\\
+    Generalna encja reprezentująca wiadomości tworzone podczas gry (automatycznie i poprzez użytkowników).
+    \renewcommand{\arraystretch}{1.5}
     \begin{longtable}{|m{4cm}|m{2cm}|m{8cm}|}
         \hline
+        \rowcolor{lightgray}
         \textbf{Właściwość} & \textbf{Typ} & \textbf{Opis} \\ \hline
         \endhead
         \hline
-        Name & string & Nazwa gracza (nazwa użytkownika) \\ \hline
-        Color & enum? & Kolor gracza (czarny lub biały), null jeśli gracz szuka jeszcze gry \\ \hline
-        CreatedAt & DateTime & Data utworzenia gracza \\ \hline
+        Content & string & Treść wiadomości \\ \hline
+        SentAt & DateTime & Data i godzina wysłania wiadomości \\ \hline
+        Type & enum & Typ wiadomości (automatyczna / wysłana) \\ \hline
     \end{longtable}
 
+    \item \textbf{Image}\\
+    Abstrakcyjna klasa reprezentująca pliki graficzne.
+    \renewcommand{\arraystretch}{1.5}
+    \begin{longtable}{|m{4cm}|m{2cm}|m{8cm}|}
+        \hline
+        \rowcolor{lightgray}
+        \textbf{Właściwość} & \textbf{Typ} & \textbf{Opis} \\ \hline
+        \endhead
+        \hline
+        Data & byte[] & Dane obrazu w postaci bajtów \\ \hline
+        ContentType & string & Typ zawartości obrazu (np. "image/png", "image/jpeg") \\ \hline
+    \end{longtable}
 \end{itemize}
 
 \newpage
@@ -378,8 +391,10 @@ Poniżej zaprezentowano encje abstrakcyjne oraz te, które mają swoje odzwierci
 
     \item \textbf{Users}\\
     Główna encja reprezentująca użytkownika.
+    \renewcommand{\arraystretch}{1.5}
     \begin{longtable}{|m{4cm}|m{2cm}|m{8cm}|}
         \hline
+        \rowcolor{lightgray}
         \textbf{Właściwość} & \textbf{Typ} & \textbf{Opis} \\ \hline
         \endhead
         \hline
@@ -396,49 +411,12 @@ Poniżej zaprezentowano encje abstrakcyjne oraz te, które mają swoje odzwierci
         RoleId & int & Identyfikator roli użytkownika\\ \hline
     \end{longtable}
 
-    \item \textbf{UserProfileImage i UserBackgroundImages}\\
-    zdjęcia użytkownika. Powiązane w relacja jeden-do-jeden z użytkownikiem. Dziedziczą po klasie abstrakcyjnej \texttt{Image}, reprezentującą zdjęcia zapisane w bazie.
-         
-    \item \textbf{UserElos}\\
-    Punktacja użytkownika dla poszczególnych trybów czasowych gry.
-    \begin{longtable}{|m{4cm}|m{2cm}|m{8cm}|}
-        \hline
-        \textbf{Właściwość} & \textbf{Typ} & \textbf{Opis} \\ \hline
-        \endhead
-        \hline
-        Id & Guid & Identyfikator ELO (PK) \\ \hline
-        (Kategorii kontroli) & int & Punkty ELO dla konkretnego trybu kontroli czasowej \\ \hline
-        UserId & Guid & Identyfikator użytkownika, do którego należy punktacja \\ \hline
-    \end{longtable}
-
-    \item \textbf{UserStats}\\
-    Tablica statystyki użytkownika.
-    \begin{longtable}{|m{4cm}|m{2cm}|m{8cm}|}
-        \hline
-        \textbf{Właściwość} & \textbf{Typ} & \textbf{Opis} \\ \hline
-        \endhead
-        \hline
-        Id & Guid & Identyfikator statystyk użytkownika (PK) \\ \hline
-        (Statystyki gier) & int & Zawiera różnorodne dane liczbowe dotyczące gier użytkownika, takie jak wygrane, przegrane, remisy, liczba rozegranych gier w różnych trybach oraz inne wskaźniki wyników \\ \hline
-        UserId & Guid & Identyfikator użytkownika, do którego należą statystyki \\ \hline
-    \end{longtable}
-        
-    \item \textbf{UserSettings}\\
-    Globalne ustawienia konta oraz gier.
-    \begin{longtable}{|m{4cm}|m{2cm}|m{8cm}|}
-        \hline
-        \textbf{Właściwość} & \textbf{Typ} & \textbf{Opis} \\ \hline
-        \endhead
-        \hline
-        Id & Guid & Identyfikator ustawień użytkownika (PK) \\ \hline
-        (Ustawienia gry) & enum, bool & Określa ustawienia dotyczące gry z silnikiem oraz spersonalizowane ustawienia wyglądu strony \\ \hline
-        UserId & Guid & Identyfikator użytkownika, do którego należą ustawienia \\ \hline
-    \end{longtable}
-
     \item \textbf{UserVerificationCodes}\\
     Tablica kodów weryfikacyjnych. Kody dzielą się na dwa typy, ze względu na rodzaj przeznaczenia - dotyczące weryfikacji kota oraz odzyskiwania hasła.
+    \renewcommand{\arraystretch}{1.5}
     \begin{longtable}{|m{4cm}|m{2cm}|m{8cm}|}
         \hline
+        \rowcolor{lightgray}
         \textbf{Właściwość} & \textbf{Typ} & \textbf{Opis} \\ \hline
         \endhead
         \hline
@@ -449,10 +427,71 @@ Poniżej zaprezentowano encje abstrakcyjne oraz te, które mają swoje odzwierci
         UserId & Guid & Identyfikator użytkownika, do którego należy kod weryfikacyjny \\ \hline
     \end{longtable}
 
-    \item \textbf{Friendships}\\
-    Tablica relacji pomiędzy użytkownikami.
+\newpage
+
+    \item \textbf{UserElos}\\
+    Punktacja użytkownika dla poszczególnych trybów czasowych gry.
+    \renewcommand{\arraystretch}{1.5}
     \begin{longtable}{|m{4cm}|m{2cm}|m{8cm}|}
         \hline
+        \rowcolor{lightgray}
+        \textbf{Właściwość} & \textbf{Typ} & \textbf{Opis} \\ \hline
+        \endhead
+        \hline
+        Id & Guid & Identyfikator ELO (PK) \\ \hline
+        (Kategorii kontroli) & int & Punkty ELO dla konkretnego trybu kontroli czasowej \\ \hline
+        UserId & Guid & Identyfikator użytkownika, do którego należy punktacja \\ \hline
+    \end{longtable}
+
+    \item \textbf{UserStats}\\
+    Tablica statystyki użytkownika.
+    \renewcommand{\arraystretch}{1.5}
+    \begin{longtable}{|m{4cm}|m{2cm}|m{8cm}|}
+        \hline
+        \rowcolor{lightgray}
+        \textbf{Właściwość} & \textbf{Typ} & \textbf{Opis} \\ \hline
+        \endhead
+        \hline
+        Id & Guid & Identyfikator statystyk użytkownika (PK) \\ \hline
+        (Statystyki gier) & int & Zawiera różnorodne dane liczbowe dotyczące gier użytkownika, takie jak wygrane, przegrane, remisy, liczba rozegranych gier w różnych trybach oraz inne wskaźniki wyników \\ \hline
+        UserId & Guid & Identyfikator użytkownika, do którego należą statystyki \\ \hline
+    \end{longtable}
+        
+    \item \textbf{UserSettings}\\
+    Globalne ustawienia konta oraz gier.
+    \renewcommand{\arraystretch}{1.5}
+    \begin{longtable}{|m{4cm}|m{2cm}|m{8cm}|}
+        \hline
+        \rowcolor{lightgray}
+        \textbf{Właściwość} & \textbf{Typ} & \textbf{Opis} \\ \hline
+        \endhead
+        \hline
+        Id & Guid & Identyfikator ustawień użytkownika (PK) \\ \hline
+        (Ustawienia gry) & enum, bool & Określa ustawienia dotyczące gry z silnikiem oraz spersonalizowane ustawienia wyglądu strony \\ \hline
+        UserId & Guid & Identyfikator użytkownika, do którego należą ustawienia \\ \hline
+    \end{longtable}
+
+    \item \textbf{UserProfileImage oraz UserBackgroundImages}\\
+    zdjęcia użytkownika. Powiązane w relacja jeden-do-jeden z użytkownikiem. Dziedziczą po klasie abstrakcyjnej \texttt{Image}, reprezentującą zdjęcia zapisane w bazie.
+    \renewcommand{\arraystretch}{1.5}
+    \begin{longtable}{|m{4cm}|m{2cm}|m{8cm}|}
+        \hline
+        \rowcolor{lightgray}
+        \textbf{Właściwość} & \textbf{Typ} & \textbf{Opis} \\ \hline
+        \endhead
+        \hline
+        Id & Guid & Identyfikator obrazu (PK) \\ \hline
+        UserId & Guid & Identyfikator użytkownika, do którego należy zdjęcie \\ \hline
+    \end{longtable}
+
+\newpage
+
+    \item \textbf{Friendships}\\
+    Tablica relacji pomiędzy użytkownikami.
+    \renewcommand{\arraystretch}{1.5}
+    \begin{longtable}{|m{4cm}|m{2cm}|m{8cm}|}
+        \hline
+        \rowcolor{lightgray}
         \textbf{Właściwość} & \textbf{Typ} & \textbf{Opis} \\ \hline
         \endhead
         \hline
@@ -463,23 +502,33 @@ Poniżej zaprezentowano encje abstrakcyjne oraz te, które mają swoje odzwierci
         RequestorId & Guid & Identyfikator użytkownika, który wysłał prośbę o przyjaźń \\ \hline
         ReceiverId & Guid & Identyfikator użytkownika, który otrzymał prośbę o przyjaźń \\ \hline
     \end{longtable}
-  
+
     \item \textbf{FriendshipStats}\\
     Statystki dotyczące relacji uzytkownikow.
+    \renewcommand{\arraystretch}{1.5}
     \begin{longtable}{|m{4cm}|m{2cm}|m{8cm}|}
         \hline
+        \rowcolor{lightgray}
         \textbf{Właściwość} & \textbf{Typ} & \textbf{Opis} \\ \hline
         \endhead
         \hline
         Id & Guid & Identyfikator statystyk przyjaźni (PK) \\ \hline
-        (Statystyki gier) & int & Pole zawierają dane liczbowa dotyczące statystyk gier przeprowadzonych pomiędzy użytkownikami w relacji \\ \hline
+        RequestorWins & int & Liczba wygranych gier użytkownika inicjującego relację \\ \hline
+        RequestorLoses & int & Liczba przegranych gier użytkownika inicjującego relację \\ \hline
+        RequestorDraws & int & Liczba remisów gier użytkownika inicjującego relację \\ \hline
+        GamesPlayed & int & Całkowita liczba gier rozegranych w relacji (suma wygranych, przegranych i remisów) \\ \hline
         FriendshipId & Guid & Identyfikator relacji przyjaźni, do której należą statystyki \\ \hline
+        Friendship & Friendship & Obiekt reprezentujący szczegóły relacji przyjaźni \\ \hline
     \end{longtable}
-        
+  
+\newpage
+    
     \item \textbf{WebGames}\\
     Gry online między użytkownikami. Każda gra zawiera powiązanie do dwóch gracz - oznaczonego jako białego i czarnego w zależności od strony jaką przyjmują. WebGame dziedziczy po abstrakcyjnej klasie gry.
+    \renewcommand{\arraystretch}{1.5}
     \begin{longtable}{|m{4cm}|m{2cm}|m{8cm}|}
         \hline
+        \rowcolor{lightgray}
         \textbf{Właściwość} & \textbf{Typ} & \textbf{Opis} \\ \hline
         \endhead
         \hline
@@ -493,11 +542,36 @@ Poniżej zaprezentowano encje abstrakcyjne oraz te, które mają swoje odzwierci
         BlackPlayerId & Guid & Identyfikator gracza grającego czarnymi \\ \hline
         GameTimingId & Guid & Identyfikator ustawień czasu gry \\ \hline
     \end{longtable}
- 
-    \item \textbf{GameTimings}\\
-    Kontrole czasowe dla gier z ograniczeniem czasu. Kontrola czasowa jest powiązana w grami w relacji jeden do wielu, co oznacza, że jeden rodzaj kontroli jest wykorzystywany w wielu grach.
+
+    \item \textbf{WebGamePlayers}\\
+    Tablica graczy gry online, reprezentujące użytkownika jako gracza należącego do gry. Dziedziczy po klasie Player oraz zawiera dodatkowe elementy, ze względu an czasowy charakter gry.
+    \renewcommand{\arraystretch}{1.5}
     \begin{longtable}{|m{4cm}|m{2cm}|m{8cm}|}
         \hline
+        \rowcolor{lightgray}
+        \textbf{Właściwość} & \textbf{Typ} & \textbf{Opis} \\ \hline
+        \endhead
+        \hline
+        Id & Guid & Identyfikator gracza (PK) \\ \hline
+        IsPrivate & bool & Określa, czy gracz może być używany w globalnym wyszukiwaniu, czy jest tylko dla prywatnej gry \\ \hline
+        IsPlaying & bool & Flaga, czy gracz wciąż szuka gry \\ \hline
+        IsTemp & bool & Flaga, czy gracz jest tymczasowy \\ \hline
+        FinishedGame & bool & Flaga, czy gra dla gracza została zakończona \\ \hline
+        Elo & int & Punkty Elo dla konkretnego typu czasu \\ \hline
+        TimeLeft & double & Czas pozostały na wykonanie ruchów zgodnie z czasem gry \\ \hline
+        TimingId & Guid & Id typu czasu, określający czas trwania i przyrost czasu dla wszystkich ruchów \\ \hline
+        UserId & Guid & Id użytkownika, któremu gracz należy \\ \hline
+        GameId & Guid & Id gry, w której gracz bierze udział \\ \hline
+    \end{longtable}
+ 
+\newpage
+
+    \item \textbf{GameTimings}\\
+    Kontrole czasowe dla gier z ograniczeniem czasu. Kontrola czasowa jest powiązana w grami w relacji jeden do wielu, co oznacza, że jeden rodzaj kontroli jest wykorzystywany w wielu grach.
+    \renewcommand{\arraystretch}{1.5}
+    \begin{longtable}{|m{4cm}|m{2cm}|m{8cm}|}
+        \hline
+        \rowcolor{lightgray}
         \textbf{Właściwość} & \textbf{Typ} & \textbf{Opis} \\ \hline
         \endhead
         \hline
@@ -512,29 +586,32 @@ Poniżej zaprezentowano encje abstrakcyjne oraz te, które mają swoje odzwierci
     
     \item \textbf{WebGameInvitations}\\
     Opcjonalne zaproszenia do gry. Generowane tylko do gier prywatach i służące do mechanizmów związanych z zapraszaniem do gry i odpowiedziami na zaproszenia.
+    \renewcommand{\arraystretch}{1.5}
     \begin{longtable}{|m{4cm}|m{2cm}|m{8cm}|}
         \hline
+        \rowcolor{lightgray}
         \textbf{Właściwość} & \textbf{Typ} & \textbf{Opis} \\ \hline
         \endhead
         \hline
         Id & Guid & Identyfikator zaproszenia (PK) \\ \hline
         InviterId & Guid & Identyfikator użytkownika zapraszającego \\ \hline
-        InviterName & string & Nazwa użytkownika zapraszającego \\ \hline
         InviteeId & Guid & Identyfikator użytkownika zapraszanego \\ \hline
-        InviteeName & string & Nazwa użytkownika zapraszanego \\ \hline
+        InviterName & string & Nazwa użytkownika zapraszającego do relacji \\ \hline
+        InviteeName & string & Nazwa użytkownika zaproszonego do relacji \\ \hline
         CreatedAt & DateTime & Data utworzenia zaproszenia \\ \hline
-        Type & enum & Typ czasu gry, do którego odnosi się zaproszenie \\ \hline
+        Type & enum & Typ kontroli czasowej \\ \hline
         IsAccepted & bool & Flaga, która wskazuje, czy zaproszenie zostało zaakceptowane \\ \hline
-        GameId & Guid & Identyfikator gry, do której zaproszenie należy \\ \hline
+        GameId & Guid & Id gry, do której należy zaproszenie \\ \hline
     \end{longtable}
 
-    \item \textbf{WebGameMessages}\\
-    Wiadomości systemowe dotyczące gry online. Otrzymują własności po generalnej klasnie reprezentującą wiadomości. 
+\newpage
 
     \item \textbf{WebGameMove}\\
     Ruchy wykonane podczas gry online. Dziedziczy po klasie Move, a dodatkowo ze względu na kontrole czasową występującą w grach między użytkownikami zawiera pola związane z czasem.
+    \renewcommand{\arraystretch}{1.5}
     \begin{longtable}{|m{4cm}|m{2cm}|m{8cm}|}
         \hline
+        \rowcolor{lightgray}
         \textbf{Właściwość} & \textbf{Typ} & \textbf{Opis} \\ \hline
         \endhead
         \hline
@@ -545,33 +622,40 @@ Poniżej zaprezentowano encje abstrakcyjne oraz te, które mają swoje odzwierci
         GameId & Guid & Identyfikator gry, do której ruch należy \\ \hline
     \end{longtable}
         
-    \item \textbf{WebGamePlayers}\\
-    Tablica graczy gry online, reprezentujące użytkownika jako gracza należącego do gry. Dziedziczy po klasie Player oraz zawiera dodatkowe elementy, ze względu an czasowy charakter gry.
-
+    \item \textbf{WebGameMessages}\\
+    Wiadomości systemowe dotyczące gry online. Otrzymują własności po generalnej klasnie reprezentującą wiadomości. 
+    \renewcommand{\arraystretch}{1.5}
     \begin{longtable}{|m{4cm}|m{2cm}|m{8cm}|}
         \hline
+        \rowcolor{lightgray}
         \textbf{Właściwość} & \textbf{Typ} & \textbf{Opis} \\ \hline
         \endhead
         \hline
-        Id & Guid & Identyfikator gracza (PK) \\ \hline
-        IsPrivate & bool & Określa, czy gracz może być używany w globalnym wyszukiwaniu, czy jest tylko dla prywatnej gry \\ \hline
-        IsPlaying & bool & Flaga, czy gracz wciąż szuka gry \\ \hline
-        IsTemp & bool & Flaga, czy gracz jest tymczasowy \\ \hline
-        FinishedGame & bool & Flaga, czy gra dla gracza została zakończona \\ \hline
-        Elo & int & Punkty Elo dla konkretnego typu czasu \\ \hline
-        TimeLeft & double & Czas pozostały na wykonanie ruchów zgodnie z czasem gry \\ \hline
-        TimingId & Guid & Identyfikator typu czasu, określający czas trwania i przyrost czasu dla wszystkich ruchów \\ \hline
-        UserId & Guid & Identyfikator użytkownika, któremu gracz należy \\ \hline
-        GameId & Guid & Identyfikator gry, w której gracz bierze udział \\ \hline
+        Id & Guid & Identyfikator ruchu (PK) \\ \hline
+        GameId & Guid & Identyfikator gry, do której wiadomość należy \\ \hline
     \end{longtable}
 
     \item \textbf{WebGamePlayerMessages}\\
     Wiadomości wysłane przez graczy podczas gry online. Dziedziczą wartości po abstrakcyjnej klasie Message.
-        
-    \item \textbf{EngineGames}\\
-    Tablica gier offline z silnikiem szachowym. Dziedziczy także podobnie jak w przypadku gier online po abstrakcyjnej klasie Game.  
+    \renewcommand{\arraystretch}{1.5}
     \begin{longtable}{|m{4cm}|m{2cm}|m{8cm}|}
         \hline
+        \rowcolor{lightgray}
+        \textbf{Właściwość} & \textbf{Typ} & \textbf{Opis} \\ \hline
+        \endhead
+        \hline
+        Id & Guid & Identyfikator ruchu (PK) \\ \hline
+        PlayerId & Guid & Identyfikator gracza, do którego wiadomość należy \\ \hline
+    \end{longtable}
+        
+\newpage
+
+    \item \textbf{EngineGames}\\
+    Tablica gier offline z silnikiem szachowym. Dziedziczy także podobnie jak w przypadku gier online po abstrakcyjnej klasie Game.  
+    \renewcommand{\arraystretch}{1.5}
+    \begin{longtable}{|m{4cm}|m{2cm}|m{8cm}|}
+        \hline
+        \rowcolor{lightgray}
         \textbf{Właściwość} & \textbf{Typ} & \textbf{Opis} \\ \hline
         \endhead
         \hline
@@ -586,8 +670,10 @@ Poniżej zaprezentowano encje abstrakcyjne oraz te, które mają swoje odzwierci
 
     \item \textbf{EngineGamePlayers}\\
     Gracze gier offline, reprezentujące użytkownika jako gracza w grze z silnikiem szachowym. Dziedziczy podstawowe dane po klasie Player.
+    \renewcommand{\arraystretch}{1.5}
     \begin{longtable}{|m{4cm}|m{2cm}|m{8cm}|}
         \hline
+        \rowcolor{lightgray}
         \textbf{Właściwość} & \textbf{Typ} & \textbf{Opis} \\ \hline
         \endhead
         \hline
@@ -599,6 +685,16 @@ Poniżej zaprezentowano encje abstrakcyjne oraz te, które mają swoje odzwierci
     
     \item \textbf{EngineGameMoves}\\
     Ruchy wykonane podczas gry offline. Dziedziczą po abstrakcyjnej klasie ruchu oraz nie implementują żadnych własnych właściwości.
+    \renewcommand{\arraystretch}{1.5}
+    \begin{longtable}{|m{4cm}|m{2cm}|m{8cm}|}
+        \hline
+        \rowcolor{lightgray}
+        \textbf{Właściwość} & \textbf{Typ} & \textbf{Opis} \\ \hline
+        \endhead
+        \hline
+        Id & Guid & Identyfikator ruchu (PK) \\ \hline
+        GameId & Guid & Identyfikator gry, do której ruch należy \\ \hline
+    \end{longtable}
     
     \item \textbf{EngineGameMessages}\\
     Automatyczne wiadomości dotyczące gry offline. Zaprojektowane identycznie jak w przypadku wiadomości aromatycznych gie online.
@@ -609,8 +705,7 @@ Poniżej zaprezentowano encje abstrakcyjne oraz te, które mają swoje odzwierci
 
 \subsection{Warstwa Serwerowa (Backend)} 
 \subsubsection{Architektura i struktura} 
-Architektura backendu została zaprojektowana w oparciu o podejście Onion Architecture, które promuje modularność, odwrócenie zależności oraz izolację logiki biznesowej od infrastruktury. Główne założenia tej architektury koncentrują się na umożliwieniu rozwoju aplikacji w sposób niezależny od technologii, co sprzyja łatwemu utrzymaniu oraz skalowaniu systemu. Struktura projektu jest podzielona na kilka warstw, które komunikują się ze sobą poprzez jasno zdefiniowane kontrakty i interfejsy. Kluczowym celem tego podejścia jest ochrona rdzenia aplikacji przed zmianami w zewnętrznych technologiach i zależnościach, co pozwala na łatwiejsze dostosowywanie aplikacji do nowych wymagań i technologii.
-
+Architektura backendu została zaprojektowana w oparciu o podejście \textbf{Onion Architecture}, które promuje modularność, odwrócenie zależności oraz izolację logiki biznesowej od infrastruktury. Główne założenia tej architektury koncentrują się na umożliwieniu rozwoju aplikacji w sposób niezależny od technologii, co sprzyja łatwemu utrzymaniu oraz skalowaniu systemu. Struktura projektu jest podzielona na kilka warstw, które komunikują się ze sobą poprzez jasno zdefiniowane kontrakty i interfejsy. Kluczowym celem tego podejścia jest ochrona rdzenia aplikacji przed zmianami w zewnętrznych technologiach i zależnościach, co pozwala na łatwiejsze dostosowywanie aplikacji do nowych wymagań i technologii.
 
 \begin{figure}[h!] 
     \centering 
@@ -618,7 +713,7 @@ Architektura backendu została zaprojektowana w oparciu o podejście Onion Archi
     \caption{Struktura projektów solucji warstwy serwerowej.} 
 \end{figure}
 
-Zalety Onion Architecture to:
+\noindent \textbf{Zalety Onion Architecture:}
 \begin{itemize}
     \item \textbf{Izolacja logiki biznesowej:} pozwala na pełną separację logiki biznesowej od zewnętrznych zależności, co umożliwia łatwe testowanie i modyfikowanie samej logiki bez wpływu na resztę systemu.
     \item \textbf{Skalowalność i elastyczność:} modularność struktury pozwala na łatwą rozbudowę systemu, poprzez dodawanie nowych warstw lub rozszerzanie istniejących komponentów bez ryzyka wprowadzenia chaosu w kodzie.
@@ -626,10 +721,12 @@ Zalety Onion Architecture to:
     \item \textbf{Odwrócenie zależności:} warstwa zewnętrzna może korzystać z funkcjonalności warstw wewnętrznych, ale nie odwrotnie. To oznacza, że zmiany w bazach danych czy frameworkach nie wpływają na kluczową logikę biznesową aplikacji.
 \end{itemize}
 
+\noindent
 Podejście to pozwala na przejrzystość w organizacji kodu, ułatwiając zarządzanie projektem i współpracę zespołową. Dzięki jasnemu podziałowi na warstwy, każdy członek zespołu może skupić się na odpowiednim obszarze aplikacji, bez konieczności przyswajania całościowej struktury systemu. Dodatkowo, umożliwia łatwe przeprowadzanie migracji technologicznych w obrębie poszczególnych warstw, minimalizując ryzyko wprowadzenia błędów w działającej aplikacji.
 
 \newpage
 
+\noindent
 Zależności między poszczególnymi modułami zaprezentowane zostały za pomocą grafu, co pozwala na wizualizację i lepsze zrozumienie interakcji między warstwami. Graf ten odzwierciedla zasady Onion Architecture, w której zależności zawsze kierują się do wewnątrz, tj. od warstw zewnętrznych do bardziej wewnętrznych.
 \\\\
 Moduł .Api zależy wyłącznie od warstwy .Application, co oznacza, że obsługuje żądania i deleguje ich przetwarzanie do przypadków użycia w Application. Z kolei .Application komunikuje się z modułem .Core, który definiuje kluczowe modele domenowe. Warstwa .Core pozostaje całkowicie niezależna od innych modułów, co jest zgodne z zasadami odwrócenia zależności.
@@ -644,8 +741,8 @@ Moduł .Infrastructure implementuje interfejsy zdefiniowane w .Application, dost
 
 \newpage
 
-\textbf{Warstwa prezentacji}\\
-Moduł .Api pełni funkcję warstwy zewnętrznej, odpowiedzialnej za obsługę żądań HTTP oraz przekazywanie ich do odpowiednich komponentów logiki aplikacji. Jest to punkt wejściowy dla użytkowników lub zewnętrznych integracji. Warstwa ta korzysta z usług dostarczanych przez moduł Application, pozostając przy tym niezależna od szczegółów implementacyjnych niższych warstw.
+\noindent \textbf{Warstwa prezentacji}\\
+Moduł \textbf{.Api} pełni funkcję warstwy zewnętrznej, odpowiedzialnej za obsługę żądań HTTP oraz przekazywanie ich do odpowiednich komponentów logiki aplikacji. Jest to punkt wejściowy dla użytkowników lub zewnętrznych integracji. Warstwa ta korzysta z usług dostarczanych przez moduł Application, pozostając przy tym niezależna od szczegółów implementacyjnych niższych warstw.
 
 \vspace{0.5cm}
 \begin{minipage}[t]{0.45\textwidth}
@@ -661,8 +758,8 @@ Moduł .Api pełni funkcję warstwy zewnętrznej, odpowiedzialnej za obsługę �
 \end{minipage}
 \vspace{0.5cm}
 
-\textbf{Warstwa aplikacji}\\
-Moduł .Application zawiera logikę aplikacyjną, w tym definicje przypadków użycia (use cases), które realizują wymagania systemowe. Jest on pośrednikiem między warstwą interfejsu (Api) a rdzeniem systemu, reprezentowanym przez moduł .Core. Dzięki temu logika biznesowa jest chroniona przed szczegółami technicznymi, takimi jak sposób przetwarzania żądań czy dostęp do danych.
+\noindent \textbf{Warstwa aplikacji}\\
+Moduł \textbf{.Application} zawiera logikę aplikacyjną, w tym definicje przypadków użycia, które realizują wymagania systemowe. Jest on pośrednikiem między warstwą interfejsu (Api) a rdzeniem systemu, reprezentowanym przez moduł Core. Dzięki temu logika biznesowa jest chroniona przed szczegółami technicznymi, takimi jak sposób przetwarzania żądań czy dostęp do danych.
 
 \vspace{0.5cm}
 \begin{minipage}[t]{0.45\textwidth}
@@ -676,10 +773,11 @@ Moduł .Application zawiera logikę aplikacyjną, w tym definicje przypadków u�
     \raggedright
     Warstwa aplikacji łączy warstwy zewnętrzne z rdzeniem systemu. Zawiera interfejsy dla hubów SignalR (Hubs), repozytoriów (Repositories) i usług (Services), definiujące kluczowe kontrakty. W Requests znajdują się żądania obsługiwane przez MediatR, wspierające wzorzec CQRS. Moduł Pagination dostarcza abstrakcje do paginacji wyników, istotne przy operacjach na dużych zbiorach danych.
 \end{minipage}
-\vspace{0.5cm}
 
-\textbf{Warstwa dostępu do danych}\\
-Moduł .Infrastructure obsługuje szczegóły techniczne, takie jak dostęp do bazy danych, integracje z zewnętrznymi usługami czy komunikacja z innymi systemami. Implementuje on interfejsy zdefiniowane w .Core, zapewniając zgodność z wymogami logiki biznesowej. Dzięki temu warstwa infrastrukturalna może być łatwo modyfikowana lub wymieniana bez wpływu na działanie innych części aplikacji.
+\newpage
+
+\noindent \textbf{Warstwa dostępu do danych}\\
+Moduł \textbf{.Infrastructure} obsługuje szczegóły techniczne, takie jak dostęp do bazy danych, integracje z zewnętrznymi usługami czy komunikacja z innymi systemami. Implementuje on interfejsy zdefiniowane w Core, zapewniając zgodność z wymogami logiki biznesowej. Dzięki temu warstwa infrastrukturalna może być łatwo modyfikowana lub wymieniana bez wpływu na działanie innych części aplikacji.
 
 \vspace{0.5cm}
 \begin{minipage}[t]{0.45\textwidth}
@@ -695,8 +793,8 @@ Moduł .Infrastructure obsługuje szczegóły techniczne, takie jak dostęp do b
 \end{minipage}
 \vspace{0.5cm}
 
-\textbf{Warstwa logiki biznesowej}\\
-Moduł .Core stanowi serce aplikacji i zawiera jej logikę biznesową oraz kluczowe modele domenowe. Jest to najbardziej niezależna warstwa, która nie zna szczegółów implementacyjnych zewnętrznych warstw. Wszystkie zależności są odwrócone – moduł .Core definiuje interfejsy, które są implementowane przez warstwę infrastrukturalną, co pozwala na łatwą wymianę technologii bez wpływu na rdzeń aplikacji.
+\noindent \textbf{Warstwa logiki biznesowej}\\
+Moduł \textbf{.Core} stanowi serce aplikacji i zawiera jej logikę biznesową oraz kluczowe modele domenowe. Jest to najbardziej niezależna warstwa, która nie zna szczegółów implementacyjnych zewnętrznych warstw. Wszystkie zależności są odwrócone – moduł Core definiuje interfejsy, które są implementowane przez warstwę infrastrukturalną, co pozwala na łatwą wymianę technologii bez wpływu na rdzeń aplikacji.
 
 \vspace{0.5cm}
 \begin{minipage}[t]{0.45\textwidth}
@@ -708,17 +806,18 @@ Moduł .Core stanowi serce aplikacji i zawiera jej logikę biznesową oraz klucz
 \begin{minipage}[t]{0.45\textwidth}
     \vspace{0pt}
     \raggedright
-    Warstwa domenowa stanowi fundament aplikacji, zawierając kluczowe definicje i logikę biznesową. W folderze Entities znajdują się główne encje, które odpowiadają za przechowywanie danych w systemie. Enums zawiera wyliczenia, które definiują stałe wartości. W Abstractions znajdują się abstrakcyjne klasy, które są dziedziczone przez podobne encje. Dtos zawiera obiekty transferu danych zwracane przez zapytania, w tym często wykorzystywane DTO, które są dzielone pomiędzy różnymi zapytaniami. Models przechowuje wspólne modele używane przez różne procesy. W Maps znajduje się logika mapowania danych w postaci słownika, który definiuje operacje pobierania, ustawiania i aktualizowania wartości w encjach..
+    Warstwa domenowa stanowi fundament aplikacji, zawierając kluczowe definicje i logikę biznesową. W folderze Entities znajdują się główne encje, odpowiadające za przechowywanie danych. Enums zawiera wyliczenia, które definiują stałe wartości. W Abstractions znajdują się abstrakcyjne klasy, które są dziedziczone przez podobne encje. Dtos zawiera obiekty transferu danych zwracane przez zapytania, które są dzielone pomiędzy różnymi zapytaniami. Models przechowuje wspólne modele używane przez różne procesy. W Maps znajduje się logika mapowania danych w postaci słowników, który definiuje operacje pobierania i aktualizowania wartości w encjach.
 \end{minipage}
-\vspace{0.5cm}
 
-\textbf{Warstwa wspólna }\\
-Moduł .Shared zawiera wspólne komponenty i funkcjonalności, które są wykorzystywane przez inne warstwy aplikacji. Celem tej warstwy jest centralizacja użytecznych elementów, które nie są specyficzne dla jednej warstwy, a są wykorzystywane przez różne części systemu. Dzięki temu wspólne elementy, takie jak wyjątki, middleware oraz konfiguracje, są łatwo dostępne, a zarządzanie nimi jest uproszczone. Warstwa ta pełni rolę wspierającą, zapewniając rozwiązania, które mogą być współdzielone przez inne warstwy aplikacji, co zwiększa spójność i ułatwia konserwację systemu.
+\newpage
+
+\noindent \textbf{Warstwa wspólna}\\
+Moduł \textbf{.Shared} zawiera wspólne komponenty i funkcjonalności, które są wykorzystywane przez inne warstwy aplikacji. Celem tej warstwy jest centralizacja użytecznych elementów, które nie są specyficzne dla jednej warstwy, a są wykorzystywane przez różne części systemu. Dzięki temu wspólne elementy, takie jak wyjątki, middleware oraz konfiguracje, są łatwo dostępne, a zarządzanie nimi jest uproszczone. Warstwa ta pełni rolę wspierającą, zapewniając rozwiązania, które mogą być współdzielone przez inne warstwy aplikacji, co zwiększa spójność i ułatwia konserwację systemu.
 
 \begin{minipage}[t]{0.45\textwidth}
     \vspace{0pt}
     \raggedright
-    Warstwa wspólna .Shared zawiera wspólne komponenty, które są wykorzystywane przez inne warstwy aplikacji. Folder Exceptions przechowuje wyjątki, które pozwalają na precyzyjne zarządzanie błędami w systemie. Middleware zawiera komponenty pośredniczące, które przechwytują i obsługują błędy HTTP, zapewniając odpowiednie kody statusu oraz komunikaty w odpowiedzi. W folderze Options znajdują się rozszerzenia umożliwiające łatwe pobieranie konfiguracji z pliku appsettings, co zapewnia centralne zarządzanie ustawieniami aplikacji.
+    Warstwa wspólna Shared zawiera wspólne komponenty, które są wykorzystywane przez inne warstwy aplikacji. Folder Exceptions przechowuje wyjątki, które pozwalają na precyzyjne zarządzanie błędami w systemie. Middleware zawiera komponenty pośredniczące, które przechwytują i obsługują błędy HTTP, zapewniając odpowiednie kody statusu oraz komunikaty w odpowiedzi. W folderze Options znajdują się rozszerzenia umożliwiające łatwe pobieranie konfiguracji z pliku appsettings, co zapewnia centralne zarządzanie ustawieniami aplikacji.
 \end{minipage}
 \hfill
 \begin{minipage}[t]{0.45\textwidth}
@@ -728,8 +827,24 @@ Moduł .Shared zawiera wspólne komponenty i funkcjonalności, które są wykorz
 \end{minipage}
 \vspace{0.5cm}
 
-\textbf{Warstwa testów integracyjnych}\\
-Moduł .Api.Tests zawiera testy integracyjne dla kontrolerów API, zapewniając weryfikację poprawności działania interfejsu API w kontekście integracji z innymi komponentami systemu, takimi jak baza danych czy logika aplikacyjna. Testy te sprawdzają, czy odpowiedzi API są zgodne z oczekiwaniami, weryfikując m.in. poprawność danych wejściowych i wyjściowych oraz obsługę błędów. Każdy folder w tym module odpowiada pojedynczemu kontrolerowi API, umożliwiając modularne testowanie poszczególnych elementów aplikacji. Dzięki testom integracyjnym możliwe jest sprawdzenie, czy aplikacja poprawnie reaguje na różnorodne scenariusze i przypadki brzegowe.
+\noindent
+Główne moduły projektu, są zintegrowane w aplikacji za pomocą specjalnych klas rozszerzeń (\textbf{Extensions}). Te metody rozszerzeń zapewniają wstrzyknięcie zależności oraz konfigurację wymaganych usług w projekcie, co pozwala na spójne i centralne zarządzanie konfiguracją każdego modułu. Każda z metod, wstrzykuje zależności specyficzne dla danej warstwy, po czym w głównej klasie \textbf{Program} następuje ich rejestracja. Plik ten odpowiada również za rejestracje niestandardowych komponentów, odpowiadają za dodanie specyficznych funkcji.
+
+\vspace{0.5cm}
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.7\textwidth]{images/ex_add_services.png}
+    \caption{Przykład rejestracji serwisów w klasie Program.}
+\end{figure}
+\vspace{0.5cm}
+
+\noindent 
+Oprócz głównych modułów projekt zawiera także dwa dodatkowe moduły wspierające procesy testowania aplikacji. Moduły te są integralną częścią projektu, pomagając zapewnić jakość i niezawodność kodu. Poniżej przedstawiono szczegółowy opis oraz strukture solucji testowych.
+
+\newpage
+
+\noindent \textbf{Warstwa testów integracyjnych}\\
+Moduł \textbf{.Api.Tests} zawiera testy integracyjne dla kontrolerów API, zapewniając weryfikację poprawności działania interfejsu API w kontekście integracji z innymi komponentami systemu, takimi jak baza danych czy logika aplikacyjna. Testy te sprawdzają, czy odpowiedzi API są zgodne z oczekiwaniami, weryfikując m.in. poprawność danych wejściowych i wyjściowych oraz obsługę błędów. Każdy folder w tym module odpowiada pojedynczemu kontrolerowi API, umożliwiając modularne testowanie poszczególnych elementów aplikacji. Dzięki testom integracyjnym możliwe jest sprawdzenie, czy aplikacja poprawnie reaguje na różnorodne scenariusze i przypadki brzegowe.
 
 \vspace{0.5cm}
 \begin{minipage}[t]{0.45\textwidth}
@@ -741,18 +856,18 @@ Moduł .Api.Tests zawiera testy integracyjne dla kontrolerów API, zapewniając 
 \begin{minipage}[t]{0.45\textwidth}
     \vspace{0pt}
     \raggedright
-    Warstwa .Api.Tests zawiera testy integracyjne dla kontrolerów API. Każdy folder w tej warstwie odpowiada jednemu kontrolerowi API, umożliwiając modularne testowanie różnych części aplikacji. Testy wykorzystują narzędzia takie jak FluentAssertions i XUnit do tworzenia środowiska testowego. Testy te sprawdzają integrację kontrolera API z bazą danych oraz logiką aplikacyjną, testując poprawne działanie czy obsługę błędów w przypadku niepoprawnych danych wejściowych.
+    Warstwa ten zawiera testy integracyjne dla kontrolerów API. Każdy folder w tej warstwie odpowiada jednemu kontrolerowi API, umożliwiając modularne testowanie różnych części aplikacji. Testy wykorzystują narzędzia takie jak FluentAssertions i XUnit do tworzenia środowiska testowego. Testy te sprawdzają integrację kontrolera API z bazą danych oraz logiką aplikacyjną, testując poprawne działanie czy obsługę błędów w przypadku niepoprawnych danych wejściowych.
 \end{minipage}
 \vspace{0.5cm}
 
-\textbf{Warstwa testów logiki biznesowej}\\
-Moduł .Core.Tests zawiera testy jednostkowe dla logiki biznesowej aplikacji. Testy te weryfikują poprawność działania poszczególnych komponentów wewnętrznych systemu, takich jak handled żądań, serwisy, repozytoria oraz inne elementy logiki biznesowej. Dzięki tym testom możliwe jest zapewnienie, że logika aplikacji działa zgodnie z wymaganiami, niezależnie od zewnętrznych zależności. Testy jednostkowe pozwalają na szybsze i łatwiejsze identyfikowanie błędów w samej logice aplikacji, zanim zmiany wpłyną na inne warstwy systemu.
+\noindent \textbf{Warstwa testów logiki biznesowej}\\
+Moduł \textbf{.Core.Tests} zawiera testy jednostkowe dla logiki biznesowej aplikacji. Testy te weryfikują poprawność działania poszczególnych komponentów wewnętrznych systemu, takich jak handled żądań, serwisy, repozytoria oraz inne elementy logiki biznesowej. Dzięki tym testom możliwe jest zapewnienie, że logika aplikacji działa zgodnie z wymaganiami, niezależnie od zewnętrznych zależności. Testy jednostkowe pozwalają na szybsze i łatwiejsze identyfikowanie błędów w samej logice aplikacji, zanim zmiany wpłyną na inne warstwy systemu.
 
 \vspace{0.5cm}
 \begin{minipage}[t]{0.45\textwidth}
     \vspace{0pt}
     \raggedright
-    Warstwa .Core.Tests zawiera testy jednostkowe dla logiki biznesowej aplikacji. Testy są podzielone na foldery odpowiadające poszczególnym kontrolerom. Celem tych testów jest weryfikacja poprawności działania komponentów aplikacji, takich jak handlerów żądań, serwisów, czy repozytoriów. Testy skupiają się na sprawdzeniu logiki biznesowej, walidacji danych, oraz obsługi wyjątków, wykorzystując narzędzia takie jak mocki, aby izolować testowane jednostki od zewnętrznych zależności. Dzięki temu możliwe jest testowanie samej logiki aplikacji bez potrzeby uruchamiania pełnej infrastruktury.
+    Warstwa testów zawiera testy jednostkowe dla logiki biznesowej aplikacji. Testy są podzielone na foldery odpowiadające poszczególnym kontrolerom. Celem tych testów jest weryfikacja poprawności działania komponentów aplikacji, takich jak handlerów żądań, serwisów, czy repozytoriów. Testy skupiają się na sprawdzeniu logiki biznesowej, walidacji danych, oraz obsługi wyjątków, wykorzystując narzędzia takie jak mocki, aby izolować testowane jednostki od zewnętrznych zależności.
 \end{minipage}
 \hfill
 \begin{minipage}[t]{0.45\textwidth}
@@ -760,11 +875,9 @@ Moduł .Core.Tests zawiera testy jednostkowe dla logiki biznesowej aplikacji. Te
     \centering
     \includegraphics[width=\linewidth]{images/struktura_back_core_tests.png} 
 \end{minipage}
-\vspace{0.5cm}
-
-
 
 \newpage
+
 \subsubsection{REST API}
 
 Interfejsy API są najpopularniejszym sposobem interakcji programów i urządzeń w nowoczesnych technologiach obliczeniowych. API to zestaw reguł opisujących, jak jeden program może się łączyć oraz komunikować z innym. Jak sama nazwa wskazuje, API REST przekazuje na każde żądanie stan każdej transakcji, co daje korzyści związane z opracowaniem, wydajnością i zasobami w porównaniu do innych metod. REST rozwija się w ciągu ponad dwóch dekad i jest bardzo powszechnym podejściem do architektur opartych na usługach i architektur rozproszonych.
@@ -774,7 +887,7 @@ Zasób jest podstawowym pojęciem dla API REST. Zasób jest obiektem, który ma 
 W nowoczesnej informatyce wspólnym modelem - również podstawowym dla API REST - jest klient-serwer, gdzie klient, który potrzebuje zasobu, identyfikuje się i komunikuje z serwerem, który może go dostarczyć. W ten sposób zarządzany jest praktycznie cały ruch w chmurze, gdyż oferuje maksymalną elastyczność licznym klientom i pozwala na dostęp do licznych serwerów. Zasada ta sprawdza się również w przypadku tzw. architektur „bezserwerowych", w których miejsce serwera znanego klientowi zajmuje broker usług.
 \\\\
 
-\textbf{Kontrolery API} \\
+\noindent \textbf{Kontrolery API} \\
 W systemie REST API zdefiniowane zostały cztery główne kontrolery, które odpowiadają za obsługę zapytań związanych z różnymi zasobami w aplikacji:
 
 \begin{itemize}
@@ -784,6 +897,7 @@ W systemie REST API zdefiniowane zostały cztery główne kontrolery, które odp
     \item \textbf{EngineGameController} - Odpowiada za zapytania związane z grami offline, które są rozgrywane z wykorzystaniem silnika szachowego, w tym rozpoczęcie gry, wykonywanie ruchów czy zmiana poziomu trudności.
 \end{itemize}
 
+\noindent
 Na następnej stronie opisano szczegółowo poszczególne endpointy dostępne w ramach każdego z kontrolerów.
 
 \newpage
@@ -925,9 +1039,9 @@ Na następnej stronie opisano szczegółowo poszczególne endpointy dostępne w 
 \end{itemize}
 
 \newpage
-\textbf{Dokumentowanie API przy użyciu Swaggera}\\
-Aby lepiej zilustrować strukturę i funkcjonalność REST API, poniżej przedstawiono przykład endpointów wygenerowanych automatycznie za pomocą biblioteki Swagger. Swagger umożliwia dokumentowanie API w sposób przejrzysty i interaktywny, co znacznie ułatwia zarówno tworzenie, jak i korzystanie z interfejsów API przez programistów.
 
+\noindent \textbf{Dokumentowanie API przy użyciu Swaggera}\\
+Aby lepiej zilustrować strukturę i funkcjonalność REST API, poniżej przedstawiono przykład endpointów wygenerowanych automatycznie za pomocą biblioteki Swagger. Swagger umożliwia dokumentowanie API w sposób przejrzysty i interaktywny, co znacznie ułatwia zarówno tworzenie, jak i korzystanie z interfejsów API przez programistów.
 
 \begin{figure}[h!]
     \centering
@@ -948,6 +1062,7 @@ Główną zaletą SignalR jest ukrycie złożoności związanej z obsługą komu
     \item \textbf{Long Polling} – metoda zastępcza, w której klient wysyła powtarzające się zapytania do serwera, oczekując odpowiedzi.
 \end{itemize}
 
+\noindent
 SignalR opiera się na modelu hubów, które służą jako centralny punkt komunikacji. Klient i serwer mogą wysyłać wiadomości do huba, który z kolei przesyła je do odpowiednich odbiorców. 
 \\\\
 Podstawowe kroki działania SignalR to:
@@ -959,6 +1074,7 @@ Podstawowe kroki działania SignalR to:
     \item Serwer może w dowolnym momencie wysyłać wiadomości do połączonych klientów.
 \end{itemize}
 
+\noindent
 SignalR zapewnia wysoki poziom abstrakcji, dzięki czemu programista nie musi martwić się o szczegóły implementacyjne różnych protokołów komunikacji, co czyni go bardzo elastycznym i wydajnym rozwiązaniem.
 \\\\
 W aplikacji utworzono jedną klasę huba, która odpowiada za obsługę gier online. Klasa ta centralizuje komunikację między klientami a serwerem, umożliwiając natychmiastowe przesyłanie danych, takich jak ruchy w grze czy informacje o stanie gry.
@@ -1015,7 +1131,7 @@ Na następnej stronie przedstawiono szczegółowy opis metod dostępnych w ramac
 
 \newpage
 
-\textbf{Metody po stronie klienta}
+\noindent \textbf{Metody po stronie klienta}
 Interfejs \textcolor{teal}{\textbf{IGameHub}} definiuje zestaw metod, które są dostępne do wywołania przez klienta, po otrzymaniu powiadomienia z serwera. Poniżej wypisano metody zadeklarowane w interfejsie:
 
 \begin{itemize}
@@ -1048,7 +1164,9 @@ Interfejs \textcolor{teal}{\textbf{IGameHub}} definiuje zestaw metod, które są
 
 \subsubsection{Komunikacja z silnikiem}
 Komunikacja z silnikiem szachowym jest kluczowym elementem w budowie aplikacji, która ma na celu interakcję z popularnymi silnikami szachowymi, takimi jak Stockfish. W przedstawionym przykładzie wykorzystano klasę \textcolor{teal}{\textbf{EngineService}}, która zapewnia funkcjonalność umożliwiającą komunikację z procesem silnika.
-
+\\\\
+Sam silnik działa jako aplikacja uruchamiana w tle na serwerze, co pozwala na obsługę wielu równoczesnych zapytań i zapewnia wydajną współpracę z innymi komponentami aplikacji.
+\\\\
 Klasa ta implementuje interfejs \textcolor{teal}{\textbf{IEngineService}}, co zapewnia jednolitość i ułatwia integrację z innymi komponentami aplikacji. W konstruktorze tej klasy tworzony jest obiekt typu \textcolor{teal}{\textbf{Process}}, który uruchamia silnik szachowy. Proces jest konfigurowany tak, aby nie tworzył okna i umożliwiał przesyłanie danych zarówno do silnika - poprzez standardowe wejście, jak i z silnika - poprzez standardowe wyjście.
 
 \begin{itemize} 
@@ -1058,11 +1176,16 @@ Klasa ta implementuje interfejs \textcolor{teal}{\textbf{IEngineService}}, co za
     \item \textbf{Zamykanie procesu:} Metoda \textcolor{orange}{\textbf{Close}} wysyła do silnika komendę "quit", a następnie zamyka proces, kończąc w ten sposób interakcję z silnikiem. 
 \end{itemize}
 
+\noindent
 Dzięki takiej implementacji, aplikacja może komunikować się z silnikiem szachowym w sposób asynchroniczny i kontrolować przebieg gry w czasie rzeczywistym, co jest fundamentalne dla prawidłowego funkcjonowania aplikacji.
 \\\\
 
-\textbf{Wykorzystanie serwisu}\\
-Serwis \textcolor{teal}{\textbf{IEngineService}} jest wykorzystywany w jednym z handlerów, służącym do zarządzania interakcją z silnikiem szachowym, który oblicza najlepszy ruch w grze na podstawie aktualnej pozycji. Handler ten pełni rolę pośrednika pomiędzy aplikacją a silnikiem, umożliwiając pobieranie ruchów zaproponowanych przez silnik. Poniżej opisano, jak serwis jest wykorzystywany w tym kontekście.
+\noindent \textbf{Wykorzystanie serwisu}\\
+Implementacja interesu serwisu \textcolor{teal}{\textbf{IEngineService}} jest wykorzystywany w jednym z handlerów, służącym do zarządzania interakcją z silnikiem szachowym, który oblicza najlepszy ruch w grze na podstawie aktualnej pozycji. Handler ten pełni rolę pośrednika pomiędzy aplikacją a silnikiem, umożliwiając pobieranie ruchów zaproponowanych przez silnik.
+\\\\
+Na następnej stronie zamieszczono enumerację, która ilustruje krok po kroku, jak działa wspomniany handler i w jaki sposób korzysta on z serwisu.
+
+\newpage
 
 \begin{enumerate}
     \item \textbf{Inicjalizacja serwisu}\\
@@ -1103,7 +1226,7 @@ Serwis \textcolor{teal}{\textbf{IEngineService}} jest wykorzystywany w jednym z 
 \newpage
 \subsubsection{Kluczowe mechanizmy gry}
 
-\textbf{Tworzenie i dołączanie do gier}\\
+\noindent \textbf{Tworzenie i dołączanie do gier}\\
 Proces tworzenia i dołączania do gier w aplikacji można podzielić na trzy główne typy: gry online z losowym graczem, prywatne gry online oraz gry z komputerem. Każdy z tych typów ma swoją specyficzną logikę, która determinuje sposób, w jaki gracze dołączają do gier oraz jak te są one inicjowane.
 
 \begin{itemize}
@@ -1121,11 +1244,12 @@ Proces tworzenia i dołączania do gier w aplikacji można podzielić na trzy g�
     W przypadku gier z komputerem, proces jest najbardziej zautomatyzowany. Gra z komputerem jest tworzona automatycznie, a użytkownik jest jedynym graczem w grze. Gra nie wymaga oczekiwania na innych graczy, ponieważ przeciwnikiem użytkownika jest komputer. W tym przypadku tworzony jest tylko jeden gracz reprezentujący użytkownika, który bierze udział w grze przeciwko sztucznej inteligencji (silnikowi).
 \end{itemize}
 
-\textbf{Powiadomienia o zmianach stanu kolejki}\\
+\noindent \textbf{Powiadomienia o zmianach stanu kolejki}\\
 Aby zapewnić synchronizację pomiędzy graczami i ich reakcję na zmiany stanu kolejki, aplikacja wykorzystuje technologię SignalR. To narzędzie, które pozwala na natychmiastową synchronizację stanu gry pomiędzy graczami, zapewniając, że każdy gracz jest na bieżąco informowany o tym, czy został dołączony do gry, lub czy otrzymał zaproszenie do prywatnej gry. Dzięki tej bibliotece gracze mogą otrzymywać powiadomienia w czasie rzeczywistym, co umożliwia im płynne przejście do etapu gry bez opóźnień.
 
 \newpage
-\textbf{Punktacja ELO}\\
+
+\noindent \textbf{Punktacja ELO}\\
 Punktacja ELO to system oceny umiejętności graczy stosowany w aplikacji do określania ich relatywnej siły gry. Mechanizm ten jest dynamiczny, co oznacza, że po każdej zakończonej grze punkty ELO obu graczy są aktualizowane w zależności od wyniku rozgrywki. Wartość zmiany w punktacji jest obliczana na podstawie różnicy punktów między graczami oraz wyniku gry. System uwzględnia pięć kategorii czasowych rozgrywek: bullet, blitz, rapid, classic oraz daily, z których każda ma osobną punktację. Do obliczenie punktacji rozróżnia się trzy główne przypadki:
 
 \begin{itemize}
@@ -1134,82 +1258,85 @@ Punktacja ELO to system oceny umiejętności graczy stosowany w aplikacji do okr
 
     \[ \text{elo}_{\pm} = \lceil \frac{100}{0.1 \cdot \Delta \text{elo} + 10} \rceil \]
 
-    Gdzie $ \text{elo}_{\pm} $ oznacza punkty dodane / odjęte graczom a $ \Delta \text{elo} $ oznacza różnice w punktacji pomiędzy graczami przez rozpoczęciem gry.\\
-
-    Im większa różnica w punktacji ELO między graczami, tym mniejsza zmiana punktów dla zwycięzcy, co odzwierciedla mniejsze znaczenie wygranej dla wyżej punktowanego gracza.
+    Gdzie $ \text{elo}_{\pm} $ oznacza punkty dodane / odjęte graczom a $ \Delta \text{elo} $ oznacza różnice w punktacji pomiędzy graczami przez rozpoczęciem gry. Im większa różnica w punktacji ELO między graczami, tym mniejsza zmiana punktów dla zwycięzcy, co odzwierciedla mniejsze znaczenie wygranej dla wyżej punktowanego gracza.
     \item \textbf{Wygrana słabszego gracza}\\
     Jeśli zwycięzcą gry jest gracz z niższą punktacją ELO niż jego przeciwnik, wynik jest bardziej zaskakujący, co prowadzi do większych zmian punktacji. W takim przypadku stosuje się wzór:
 
     \[ \text{elo}_{\pm} = \lceil 0.1 \cdot \Delta \text{elo} + 10 \rceil \]
 
-    Gdzie $ \text{elo}_{\pm} $ oznacza punkty dodane / odjęte graczom a $ \Delta \text{elo} $ oznacza różnice w punktacji pomiędzy graczami przez rozpoczęciem gry.\\
-
-    W tym przypadku, większa różnica punktów ELO działa na korzyść zwycięzcy, co skutkuje znaczącym wzrostem jego punktacji. Analogicznie, przegrany, który był wyżej punktowany, traci więcej punktów, co odzwierciedla większą wagę niespodziewanego wyniku.
+    Gdzie $ \text{elo}_{\pm} $ oznacza punkty dodane / odjęte graczom a $ \Delta \text{elo} $ oznacza różnice w punktacji pomiędzy graczami przez rozpoczęciem gry. W tym przypadku, większa różnica punktów ELO działa na korzyść zwycięzcy, co skutkuje znaczącym wzrostem jego punktacji. Analogicznie, przegrany, który był wyżej punktowany, traci więcej punktów, co odzwierciedla większą wagę niespodziewanego wyniku.
 
     \item \textbf{Przypadek remisu}\\
     Remis jest traktowany jako sytuacja, w której obaj gracze osiągają równy wynik, co skutkuje mniejszą zmianą punktacji niż w przypadku zwycięstwa jednego z graczy. Zmiana punktacji w przypadku remisu zależy również od różnicy punktów między graczami. Stosowany jest wzór:
 
     \[ \text{elo}_{\pm} = \lceil 0.05 \cdot \Delta \text{elo} \rceil \]
 
-    Gdzie $ \text{elo}_{\pm} $ oznacza punkty dodane / odjęte graczom a $ \Delta \text{elo} $ oznacza różnice w punktacji pomiędzy graczami przez rozpoczęciem gry.\\
-
-    \newpage
-    W tym przypadku:
-    \begin{itemize}
-        \item Gracz z wyższą punktacją ELO traci punkty, ponieważ wynik jest mniej korzystny dla jego reputacji jako silniejszego gracza.
-        \item Gracz z niższą punktacją ELO zyskuje punkty, ponieważ remis z bardziej doświadczonym przeciwnikiem jest dla niego korzystnym rezultatem.
-    \end{itemize}
+    Gdzie $ \text{elo}_{\pm} $ oznacza punkty dodane / odjęte graczom a $ \Delta \text{elo} $ oznacza różnice w punktacji pomiędzy graczami przez rozpoczęciem gry.     W tym przypadku gracz z wyższą punktacją traci punkty, natomiast gracz z niższą zyskuje je, ponieważ remis z bardziej doświadczonym przeciwnikiem jest przegranego korzystnym rezultatem.
 \end{itemize}
 
+\newpage
+
+
+\noindent
 Poniższy wykres ilustruje zależność zmiany punktacji ELO, gdzie $ \text{y} = \text{elo}_{\pm} $ od różnicy punktacji między graczami $ \text{x} = \Delta \text{elo} $  w trzech wyżej wymienionych scenariuszach. Każda z tych sytuacji jest modelowana za pomocą odpowiedniej funkcji, co pozwala zobaczyć, jak zmieniają się wartości punktów dodawanych lub odejmowanych w zależności od poziomu graczy.
 
+\vspace{1cm}
 \begin{figure}[h!]
     \centering
     \includegraphics[width=1\textwidth]{images/graf_elo_calc.png}
     \caption{Zmiana punktacji ELO w zależności od różnicy poziomu graczy - wykresy utworzone za pomocą strony www.desmos.com}
 \end{figure}
+\vspace{1cm}
 
+\noindent
 System ELO w aplikacji jest zoptymalizowany, aby sprawiedliwie odzwierciedlać wyniki rozgrywek. Wzory uwzględniają różnicę umiejętności między graczami, nagradzając trudniejsze zwycięstwa i minimalizując znaczenie wyników oczekiwanych. Dzięki tym zasadom system punktacji motywuje graczy do rozwoju i rywalizacji, zachowując jednocześnie równowagę w ocenie ich umiejętności.
 \\\\
 
-\textbf{Punktacja gry z silnikiem}\\
+\noindent \textbf{Punktacja gry z silnikiem}\\
 Punktacja ELO w przypadku gier z silnikiem różni się od tej stosowanej w grach między graczami. Ma ona charakter symboliczny i informacyjny, a jej celem jest głównie odzwierciedlenie wyniku starcia z komputerowym przeciwnikiem. Wyniki z gier z silnikiem nie są uwzględniane w oficjalnych rankingach aplikacji. Mechanizm ten działa w następujący sposób: w zależności od poziomu silnika (od 1 do 20), punktacja jest modyfikowana odpowiednio do wyniku gry. Jeśli gracz przegra z silnikiem, od jego ELO jest odejmowany poziom silnika, natomiast jeśli gracz wygra, do jego ELO jest dodawany poziom silnika. Dzięki temu użytkownicy mogą w przybliżeniu ocenić swoje umiejętności względem różnych poziomów trudności silnika, co może stanowić dla nich dodatkową motywację i wskaźnik postępu.
 
 \newpage
-\textbf{Zarządzanie czasem gry}\\
+
+\noindent \textbf{Zarządzanie czasem gry}\\
 W szachach istnieje kilka różnych typów ustawienia czasu, które mają wpływ na dynamikę gry. W zależności od wybranego typu, gracze mają różne limity czasowe na wykonanie swoich ruchów. Każdy z tych typów jest dostosowany do innego tempa rozgrywki, co pozwala na dopasowanie doświadczenia gry do preferencji graczy. Czas gry w szachach może obejmować różne długości, poczynając od błyskawicznych partii typu "Bullet", po długoterminowe gry "Daily", gdzie gracze wykonują ruchy w ciągu wielu dni.
 \\\\
-Poniżej przedstawiona jest tabela pokazująca różne typy czasów gry w szachach:
+Poniżej przedstawiona jest tabela pokazująca różne kategorie kontroli czasowych:
 
+\renewcommand{\arraystretch}{1.5}
 \begin{table}[h!]
     \centering
     \begin{tabular}{|l|m{3cm}|m{3cm}|m{5cm}|}
         \hline
+        \rowcolor{lightgray}
         \textbf{Typ Czasu} & \textbf{Zakres Czasu} & \textbf{Inkrement} & \textbf{Charakterystyka} \\ \hline
-        \textbf{Bullet} & 1 - 3 minut & 0 - 60 sek. & Bardzo szybka gra. \\ \hline
-        \textbf{Blitz} & 3 - 10 minut & 0 - 60 sek. & Gra o szybkim tempie. \\ \hline
-        \textbf{Rapid} & 10 - 60 minut & 0 - 60 sek. & Gra o średnim tempie. \\ \hline
-        \textbf{Classic} & 60 - 1440 minut & 0 - 60 sek. & Dużą ilością czasu. \\ \hline
-        \textbf{Daily} & $\geq$ 1440 minut & 0 - 60 sek. & Bardzo długi czas gry. \\ \hline
+        \textbf{Bullet} & 1 - 3 min. & 0 - 60 sek. & Bardzo szybka gra. \\ \hline
+        \textbf{Blitz} & 3 - 10 min. & 0 - 60 sek. & Gra o szybkim tempie. \\ \hline
+        \textbf{Rapid} & 10 - 60 min. & 0 - 60 sek. & Gra o średnim tempie. \\ \hline
+        \textbf{Classic} & 60 - 1440 min. & 0 - 60 sek. & Dużą ilością czasu. \\ \hline
+        \textbf{Daily} & $\geq$ 1440 min. & 0 - 60 sek. & Bardzo długi czas gry. \\ \hline
     \end{tabular}
     \caption{Rodzaje czasów gry w szachach}
 \end{table}
+\vspace{0.5cm}
 
+\noindent
+Podczas pierwszego pobrania gry przez graczy ustalany jest czas rozpoczęcia partii. Następnie, przy każdym wykonanym ruchu, system oblicza, ile czasu minęło od ostatniego zarejestrowanego momentu (czy to od rozpoczęcia gry, czy od ostatniego ruchu). Na podstawie tej różnicy czasu, system aktualizuje pozostały czas dla gracza, odejmując upływający czas od jego pozostałego limitu. Dodatkowo, po każdym ruchu do czasu pozostałego dla gracza dodawany jest inkrement. Czas jest aktualizowany osobno dla każdego z graczy, w zależności od tego, która tura jest aktualnie wykonywana.
 
-Podczas pierwszego pobrania gry przez graczy ustalany jest czas rozpoczęcia partii. Następnie, przy każdym wykonanym ruchu, system oblicza, ile czasu minęło od ostatniego zarejestrowanego momentu (czy to od rozpoczęcia gry, czy od ostatniego ruchu). Na podstawie tej różnicy czasu, system aktualizuje pozostały czas dla gracza, odejmując upływający czas od jego pozostałego limitu. Dodatkowo, po każdym ruchu do czasu pozostałego dla gracza dodawany jest inkrement (czas przyznawany za wykonanie ruchu). Czas jest aktualizowany osobno dla każdego z graczy, w zależności od tego, która tura jest aktualnie wykonywana.
-\\\\
-Aplikacja posiada także zaimplementowane zadanie cykliczne, które jest uruchamiane co minutę, aby monitorować postęp czasu w długoterminowych trybach gry, takich jak "Classic" i "Daily", ale także do pozostałych trybów (np: w przypadkach opuszczenia strony przez użytkownika). Zadanie to sprawdza, czy któremuś z graczy nie skończył się czas, co mogłoby skutkować zakończeniem gry. System analizuje, kiedy ostatni ruch został zarejestrowany i oblicza różnicę między tym czasem a bieżącym czasem. Na tej podstawie, dla każdego gracza obliczany jest pozostały czas, a jeżeli czas gracza którego jest tura upłynie, system uznaje go za przegranego. Jeśli jeden z graczy przekroczy swój limit czasowy, gra jest automatycznie kończona.
-
+\vspace{0.5cm}
 \begin{figure}[h!]
     \centering
-    \includegraphics[width=1\textwidth]{images/ex_update_times.png}
+    \includegraphics[width=0.7\textwidth]{images/ex_update_times.png}
     \caption{Fragment kodu przedstawiający aktualizacje czasu graczy.}
 \end{figure}
+\vspace{0.5cm}
+
+Aplikacja posiada także zaimplementowane zadanie cykliczne, które jest uruchamiane co minutę, aby monitorować postęp czasu w długoterminowych trybach gry, takich jak "Classic" i "Daily", ale także do pozostałych trybów. Zadanie to sprawdza, czy któremuś z graczy nie skończył się czas, co powinno skutkować zakończeniem gry. System analizuje, kiedy ostatni ruch został zarejestrowany i oblicza różnicę między tym czasem a bieżącym czasem. Na tej podstawie, dla każdego gracza obliczany jest pozostały czas, a jeżeli czas gracza którego jest tura upłynie, system kończy grę.
 
 \newpage
+
 \subsubsection{Pozostałe kluczowe aspekty}
 
-\textbf{Przetwarzanie zapytań}\\
+\noindent \textbf{Przetwarzanie zapytań}\\
 W systemie przetwarzania zapytań wykorzystywana jest biblioteka \textbf{MediatR}, która umożliwia zarządzanie zapytaniami w sposób przejrzysty i modularny. MediatR opiera się na wzorcu projektowym Mediatora, co pozwala na oddzielenie logiki przetwarzania zapytań od innych komponentów aplikacji.
 \\\\
 W tym systemie każde zapytanie, pobrania danych lub zapisania ich, jest reprezentowane przez obiekt, który dziedziczy po interfejsie 
@@ -1225,6 +1352,7 @@ gdzie \textcolor{cyan}{\textbf{T}} oznacza typ odpowiedzi, którą zapytanie zwr
     \item \textbf{Zwrócenie odpowiedzi:} Po wykonaniu akcji, handler zwraca odpowiedź (np. dane w formie obiektu, kod statusu, wynik operacji). MediatR przekazuje tę odpowiedź z powrotem do klienta.
 \end{enumerate}
 
+\noindent
 W systemie, który obsługuje zapytania, każde zapytanie jest reprezentowane przez osobny obiekt zapytania, który jest mapowany na Request. Każdy Request posiada przypisany handler, który odpowiedzialny jest za realizację zapytania.
 \\\\
 
@@ -1238,6 +1366,7 @@ W systemie, który obsługuje zapytania, każde zapytanie jest reprezentowane pr
 
 \newpage
 
+\noindent
 Proces przetwarzania zapytania w systemie został szczegółowo przedstawiony na poniższym diagramie. Ukazuje on pełny przepływ danych, rozpoczynając od wysłania żądania HTTP przez klienta. Następnie żądanie jest odbierane przez odpowiedni punkt końcowy API lub metodę Huba SignalR, który przetwarza przesłany model danych. Model ten jest mapowany na obiekt zapytania (Request), który definiuje szczegóły operacji do wykonania.
 \\\\
 Zapytanie trafia do handlera, który obsługuje żądanie i wykonuje określoną logikę biznesową. W przypadku konieczności dostępu do danych, handler korzysta z repozytorium, które odpowiada za interakcję z bazą danych. Dane pobrane w formie encji są następnie mapowane na obiekt DTO (Data Transfer Object), który stanowi zwracany wynik. 
@@ -1252,7 +1381,8 @@ Finalnie odpowiedź w postaci DTO jest zwracana przez punkt końcowy API do klie
 \end{figure}
 
 \newpage
-\textbf{Rezultaty zapytań i paginacja}\\
+
+\noindent \textbf{Rezultaty zapytań i paginacja}\\
 W systemie, zwracane są także odpowiedzi, które mogą zawierać dane w różnych formach. W przypadku wielu zapytań, szczególnie tych związanych z wyszukiwaniem lub pobieraniem dużej ilości danych, wykorzystuje się specjalne klasy, które umożliwiają mapowanie wyników na odpowiednie modele. Część zapytań zwraca dane w postaci DTO (Data Transfer Object), które są prostymi obiektami przechowującymi dane. Te obiekty są mapowane z encji bazy danych, co pozwala na łatwiejsze i bardziej kontrolowane przekazywanie danych pomiędzy warstwami aplikacji.
 \\\\
 W przypadku, gdy zapytanie dotyczy wielu elementów (np. listy gier), zastosowana jest paginacja – technika, która pozwala na dzielenie dużych zbiorów danych na mniejsze części (strony), co znacznie poprawia wydajność i doświadczenie użytkownika, ograniczając ilość danych przesyłanych w jednym żądaniu. Dzięki paginacji zamiast zwracać wszystkie dane na raz, system zwraca tylko określoną liczbę elementów na stronie oraz informację o numerze strony. Dzięki temu, gdy liczba elementów jest duża, użytkownik może nawigować po wynikach w sposób bardziej wydajny, ładować tylko potrzebne dane i nie obciążać systemu nadmiernym przesyłaniem informacji.
@@ -1271,6 +1401,7 @@ Aby wspierać paginację, w systemie zostały zaimplementowane dwie klasy:
 
 \newpage
 
+\noindent
 Poniższe ilustracje przedstawiają strukturę modelu używanego w systemie. Po lewej stronie znajduje się definicja modelu w TypeScript, wykorzystywana po stronie klienta, natomiast po prawej widoczny jest odpowiednik tego modelu w kodzie zaplecza, który reprezentuje dane w aplikacji po stronie serwera.
 
 \vspace{1cm}
@@ -1289,6 +1420,7 @@ Poniższe ilustracje przedstawiają strukturę modelu używanego w systemie. Po 
 \end{minipage} 
 \vspace{1cm}
 
+\noindent
 Rysunek poniżej przedstawia strukturę obiektu żądania. Obiekt ten przenosi dane wejściowe od punktu końcowego API do handlera, który wykonuje logikę biznesową.
 
 \vspace{1cm}
@@ -1299,6 +1431,7 @@ Rysunek poniżej przedstawia strukturę obiektu żądania. Obiekt ten przenosi d
 \end{figure}
 \vspace{1cm}
 
+\noindent
 Kolejne diagramy ilustrują przykładowe obiekty DTO. Po lewej stronie widoczny jest obiekt używany w warstwie zaplecza, który mapuje dane encji pobrane z bazy. Po prawej znajduje się odpowiedni typ w TypeScript, który reprezentuje te dane po stronie klienta.
 
 \vspace{1cm}
@@ -1317,7 +1450,8 @@ Kolejne diagramy ilustrują przykładowe obiekty DTO. Po lewej stronie widoczny 
 \end{minipage}
 
 \newpage
-\textbf{Serwis SMTP}\\
+
+\noindent \textbf{Serwis SMTP}\\
 Serwis SMTP (Simple Mail Transfer Protocol) jest wykorzystywany w aplikacji do obsługi wysyłania wiadomości e-mail, co obejmuje zarówno proces weryfikacji e-maila użytkowników, jak i powiadamianie o zaproszeniach do gry. W aplikacji implementacja serwisu SMTP umożliwia automatyczne generowanie i wysyłanie e-maili w różnych scenariuszach, takich jak potwierdzenie rejestracji, resetowanie hasła, czy zaproszenia do gier.
 \\\\
 Serwis SMTP, za pomocą klasy SmtpService, korzysta z biblioteki .NET, która umożliwia konfigurację połączeń z serwerem pocztowym i wysyłanie e-maili. Serwis ten jest skonfigurowany przy użyciu opcji zawartych w appsettings.json, który przechowuje dane potrzebne do połączenia z serwerem SMTP (adres hosta, port, dane logowania, itp.).
@@ -1327,7 +1461,7 @@ Serwis implementuje kilka kluczowych metod umożliwiających wysyłkę maili, s�
 Wszystkie e-maile są wysyłane przez SmtpClient, który łączy się z odpowiednim serwerem SMTP (na podstawie danych konfiguracyjnych) i wysyła wiadomość do wskazanego odbiorcy. Dzięki asynchroniczności operacji, wysyłanie e-maili nie blokuje głównego wątku aplikacji, co zapewnia płynność działania systemu.
 \\\\
 
-\textbf{Serwis JWT}\\
+\noindent \textbf{Serwis JWT}\\
 Serwis JWT (JSON Web Token) w aplikacji służy do generowania tokenów autoryzacyjnych, które są wykorzystywane do uwierzytelniania użytkowników oraz zapewnienia dostępu do chronionych zasobów aplikacji. Tokeny JWT są powszechnie stosowane w aplikacjach webowych do obsługi logowania i autoryzacji, a ich głównym celem jest umożliwienie użytkownikowi dostępu do określonych zasobów, bez konieczności ponownego wprowadzania danych logowania przy każdym żądaniu.
 \\\\
 Implementacja serwisu JWT w aplikacji opiera się na klasie, która zawiera metodę GetJwtToken. Metoda ta przyjmuje obiekt User, który reprezentuje zalogowanego użytkownika, a na podstawie jego danych generuje unikalny token. Serwis ten generuje tokeny uwierzytelniające użytkowników. Na początku tworzy zestaw roszczeń, takich jak identyfikator, nazwa użytkownika, rola i status weryfikacji e-maila. Token jest podpisywany za pomocą klucza przechowywanego w ustawieniach aplikacji, używając algorytmu HMAC-SHA256. Określana jest również data wygaśnięcia tokenu, np. po 7 dniach. Następnie tworzony jest obiekt JwtSecurityToken, który zawiera claims, datę wygaśnięcia i podpisane dane. Token jest serializowany do formatu string i przesyłany w odpowiedzi do klienta.
@@ -1335,7 +1469,8 @@ Implementacja serwisu JWT w aplikacji opiera się na klasie, która zawiera meto
 Serwis JWT stanowi kluczowy element systemu autoryzacji w aplikacji, umożliwiając bezpieczne zarządzanie dostępem do chronionych zasobów w systemie. Użytkownicy, którzy zalogują się do aplikacji, otrzymują token JWT, który musi być dołączony do każdego żądania do API, aby potwierdzić tożsamość i autoryzację.
 
 \newpage
-\textbf{Entity Framework}\\
+
+\noindent \textbf{Entity Framework}\\
 
 \newpage
 \subsubsection{Wykorzystane pakiety i biblioteki}
@@ -1359,20 +1494,23 @@ W projekcie zastosowano szereg bibliotek, które wspierają rozwój i funkcjonal
 \subsection{Warstwa Kliencka (Frontend)}
 \subsubsection{Architektura i struktura}
 
-Struktura frontendu w tym projekcie jest zorganizowana w sposób umożliwiający łatwe zarządzanie kodem, dzięki zastosowaniu odpowiednich folderów i podfolderów, które odpowiadają za różne aspekty aplikacji. W głównym folderze src znajdują się trzy foldery: index, main oraz shared. Każdy z nich ma swoją specyficzną rolę w organizacji kodu.
+Struktura frontendu w tym projekcie jest zorganizowana w sposób umożliwiający łatwe zarządzanie kodem, dzięki zastosowaniu odpowiednich folderów i podfolderów, które odpowiadają za różne aspekty aplikacji. W głównym folderze \textbf{src} znajdują się trzy główne foldery oraz pliki aplikacji. Każdy z folderów ma swoją specyficzną rolę w organizacji kodu.
 \\\\
-Folder index zawiera router odpowiedzialny za strony ogólnodostępne, takie jak strona główna, rejestracja czy informacje o aplikacji. Folder main jest przeznaczony do zarządzania zasobami dostępnymi tylko dla zalogowanych i zweryfikowanych użytkowników. Dostęp do tych stron jest kontrolowany na podstawie stanu autoryzacji użytkownika, co zapewnia bezpieczeństwo aplikacji. Folder shared natomiast zawiera komponenty i funkcjonalności, które są współdzielone pomiędzy różnymi częściami aplikacji.
+Folder \textbf{index} zawiera router odpowiedzialny za strony ogólnodostępne, takie jak strona główna, rejestracja czy informacje o aplikacji. Folder \textbf{main} jest przeznaczony do zarządzania zasobami dostępnymi tylko dla zalogowanych i zweryfikowanych użytkowników. Dostęp do tych stron jest kontrolowany na podstawie stanu autoryzacji użytkownika, co zapewnia bezpieczeństwo aplikacji. Folder \textbf{shared} natomiast zawiera komponenty i funkcjonalności, które są współdzielone pomiędzy różnymi częściami aplikacji. Każda z sekcji ma wyraźnie określoną rolę i zakres odpowiedzialności, co sprzyja porządkowi w projekcie i ułatwia dalsze rozwijanie aplikacji.
 
+\vspace{0.5cm}
 \begin{figure}[h!]
     \centering
     \includegraphics[width=0.5\textwidth]{images/struktura_front.png}
     \caption{Struktura projektu warstwy klienckiej.}
 \end{figure}
 
-Taka organizacja pozwala na modularność i łatwiejsze utrzymanie aplikacji. Każda z sekcji ma wyraźnie określoną rolę i zakres odpowiedzialności, co sprzyja porządkowi w projekcie i ułatwia dalsze rozwijanie projektu.
-
 \newpage
-Folder shared w projekcie jest zaprojektowany w sposób, który sprzyja ponownemu wykorzystaniu kodu i organizacji wspólnych zasobów używanych w całej aplikacji. Zawiera on różnorodne podfoldery, które grupują funkcje, komponenty i style, w zależności od ich roli w projekcie.
+
+\noindent
+Ponadto na najniższym poziomie struktury projektu dodano lub automatycznie wygenerowano szereg plików odpowiedzialnych za konfigurację zarówno samego projektu, jak i środowiska deweloperskiego.
+\\\\
+Folder \textbf{shared} w projekcie jest zaprojektowany w sposób, który sprzyja ponownemu wykorzystaniu kodu i organizacji wspólnych zasobów używanych w całej aplikacji. Zawiera on różnorodne podfoldery, które grupują funkcje, komponenty i style, w zależności od ich roli w projekcie.
 
 \begin{itemize}
     \item \textbf{components:} przechowuje małe, wielokrotnie używane komponenty, które są wykorzystywane w różnych miejscach aplikacji. Mogą to być takie elementy jak  przyciski, okna ładowania czy inne fragmenty UI, które są stosowane w różnych częściach aplikacji.
@@ -1388,22 +1526,29 @@ Folder shared w projekcie jest zaprojektowany w sposób, który sprzyja ponownem
     \end{itemize}
 \end{itemize}
 
-Cała struktura shared jest zaprojektowana w sposób umożliwiający łatwe zarządzanie wspólnymi zasobami, co ułatwia utrzymanie aplikacji i jej rozwój. Zastosowanie takich podziałów pozwala na organizację kodu, który może być wielokrotnie wykorzystywany w różnych częściach projektu, co prowadzi do mniejszej duplikacji kodu oraz lepszej modularności.
+\noindent
+Cała struktura \texttt{shared} jest zaprojektowana w sposób umożliwiający łatwe zarządzanie wspólnymi zasobami, co ułatwia utrzymanie aplikacji i jej rozwój. Zastosowanie takich podziałów pozwala na organizację kodu, który może być wielokrotnie wykorzystywany w różnych częściach projektu, co prowadzi do mniejszej duplikacji kodu oraz lepszej modularności.
 
 
 \newpage
 \subsubsection{Routing aplikacji}
-Routing w aplikacji oparty na bibliotece react-router-dom jest kluczowym elementem zarządzania nawigacją oraz wyświetlaniem odpowiednich komponentów w zależności od adresu URL. Aplikacja jest podzielona na dwie główne sekcje routingu: ogólną i bardziej specyficzną, przeznaczoną dla głównych funkcji aplikacji. Routing w aplikacji jest podzielony na dwie główne sekcje: IndexRouter i MainRouter. Każda z tych sekcji zarządza dostępem do różnych zasobów w zależności od stanu uwierzytelnienia użytkownika.
+Routing w aplikacji oparty na bibliotece react-router-dom jest kluczowym elementem zarządzania nawigacją oraz wyświetlaniem odpowiednich komponentów w zależności od adresu URL. Aplikacja jest podzielona na dwie główne sekcje routingu: ogólną i bardziej specyficzną, przeznaczoną dla głównych funkcji aplikacji. Routing w aplikacji jest podzielony na dwie główne sekcje: \texttt{Index} i \texttt{Main}. Każda z tych sekcji zarządza dostępem do różnych zasobów w zależności od stanu uwierzytelnienia użytkownika.
 \\\\
 
-IndexRouter odpowiada za strony ogólnodostępne, które mogą być odwiedzane przez każdego użytkownika, bez konieczności logowania lub weryfikacji. Są to strony takie jak strona główna, rejestracja czy informacje o aplikacji. Użytkownicy mogą swobodnie przeglądać te zasoby, bez jakichkolwiek ograniczeń dostępu.
+\noindent
+\textbf{IndexRouter} odpowiada za strony ogólnodostępne, które mogą być odwiedzane przez każdego użytkownika, bez konieczności logowania lub weryfikacji. Są to strony takie jak strona główna, rejestracja czy informacje o aplikacji. Użytkownicy mogą swobodnie przeglądać te zasoby, bez jakichkolwiek ograniczeń dostępu.
+
+\vspace{0.5cm}
 \begin{figure}[h!]
     \centering
     \includegraphics[width=0.7\textwidth]{images/ex_index_router.png}
     \caption{Schemat routingu dla ogólnodostępnych stron w aplikacji.}
 \end{figure}
 
-MainRouter natomiast obsługuje zasoby, które są dostępne tylko dla zarejestrowanych i zweryfikowanych użytkowników. W tej części aplikacji przed uzyskaniem dostępu do stron, takich jak profil użytkownika, ranking czy gra online, aplikacja przeprowadza weryfikację, czy użytkownik jest odpowiednio zalogowany i posiada uprawnienia do korzystania z tych zasobów. Jeśli użytkownik nie spełnia wymogów autentykacji, zostaje przekierowany do odpowiednich stron, takich jak strona logowania czy rejestracji.
+\noindent
+\textbf{MainRouter} natomiast obsługuje zasoby, które są dostępne tylko dla zarejestrowanych i zweryfikowanych użytkowników. W tej części aplikacji przed uzyskaniem dostępu do stron, takich jak profil użytkownika, ranking czy gra online, aplikacja przeprowadza weryfikację, czy użytkownik jest odpowiednio zalogowany i posiada uprawnienia do korzystania z tych zasobów. Jeśli użytkownik nie spełnia wymogów autentykacji, zostaje przekierowany do odpowiednich stron, takich jak strona logowania czy rejestracji.
+
+\vspace{0.5cm}
 \begin{figure}[h!]
     \centering
     \includegraphics[width=0.7\textwidth]{images/ex_main_router.png}
@@ -1412,8 +1557,10 @@ MainRouter natomiast obsługuje zasoby, które są dostępne tylko dla zarejestr
 
 \newpage
 
-\textbf{Autoryzacja}\\
-Autoryzacja w MainRouterze polega na weryfikacji tokena użytkownika oraz stanu jego konta. Przy każdym wejściu na zasoby chronione, aplikacja najpierw sprawdza, czy w localStorage znajduje się token. Jeśli go brak, użytkownik jest przekierowywany do strony rejestracji. Następnie, jeśli token jest obecny, aplikacja sprawdza, czy adres e-mail użytkownika został zweryfikowany. W przypadku braku weryfikacji, użytkownik zostaje przekierowany do strony rejestracji z komunikatem o konieczności weryfikacji konta. Po pomyślnym zweryfikowaniu konta, aplikacja pobiera dane użytkownika, zapisuje je w localStorage i nawiązuje połączenie z serwisem gier. W przypadku jakichkolwiek problemów z autoryzacją, użytkownik jest również kierowany do strony rejestracji z odpowiednim komunikatem o błędzie.
+\noindent \textbf{Autoryzacja}\\
+Autoryzacja w routerze polega na weryfikacji tokena użytkownika oraz stanu jego konta. Przy każdym wejściu na zasoby chronione, aplikacja najpierw sprawdza, czy w \texttt{localStorage} znajduje się token. Jeśli go brak, użytkownik jest przekierowywany do strony rejestracji. Następnie, jeśli token jest obecny, aplikacja sprawdza, czy adres e-mail użytkownika został zweryfikowany. W przypadku braku weryfikacji, użytkownik zostaje przekierowany do strony rejestracji z komunikatem o konieczności weryfikacji konta. Po pomyślnym zweryfikowaniu konta, aplikacja pobiera dane użytkownika, zapisuje je w lokalnym schowku i nawiązuje połączenie z serwisem gier. W przypadku jakichkolwiek problemów z autoryzacją, użytkownik jest również kierowany do strony rejestracji z odpowiednim komunikatem o błędzie.
+\\\\
+Poniżej przedstawiono fragment kodu z komponentu \texttt{MainRouter}, odpowiadającego za weryfikacje użytkowników.
 
 \vspace{1cm}
 \begin{figure}[h!]
@@ -1423,58 +1570,61 @@ Autoryzacja w MainRouterze polega na weryfikacji tokena użytkownika oraz stanu 
 \end{figure}
 
 \newpage
+
 \subsubsection{Komponenty interfejsu użytkownika}
 
 Aplikacja korzysta z dwóch głównych routerów, z których pierwszy obsługuje strony dostępne publicznie, które stanowią wstęp do pełnej aplikacji i są dostępne bez konieczności logowania, zapewniając użytkownikom możliwość zapoznania się z funkcjami platformy przed założeniem konta. Drugi natomiast zarządza stronami, które są dostępne tylko po zalogowaniu się użytkownika i obejmują pełną funkcjonalność aplikacji. Strony te wymagają uwierzytelnienia, aby zapewnić bezpieczeństwo danych użytkowników oraz personalizację doświadczenia, co pozwala na pełne wykorzystanie możliwości aplikacji, takich jak interakcja z innymi graczami czy dostosowywanie ustawień profilu.
 \\\\
 
-\textbf{Strona tytułowa (Index)}\\
+\noindent \textbf{Strona tytułowa (Index)}\\
 Strona tytułowa stanowi pierwsze spotkanie użytkownika z aplikacją. Zawiera ona szereg sekcji, które mają na celu zaprezentowanie aplikacji w sposób przejrzysty i zachęcający do dalszej interakcji. Sekcje na tej stronie mogą obejmować ogólne wprowadzenie do gry w szachy, zasady gry, możliwość rozpoczęcia gry online lub offline, a także funkcje aplikacji, takie jak zarządzanie znajomymi, zaproszenia do gry, czy dostęp do rankingów. Celem tej strony jest zainteresowanie użytkownika, zrozumienie, czym jest aplikacja i zachęcenie go do rejestracji lub logowania.
 \\
 
-\textbf{Strona informacyjna (About)}\\
+\noindent \textbf{Strona informacyjna (About)}\\
 Strona informacyjna zawiera szczegółowe informacje na temat aplikacji, jej twórców, celu, zasad działania, jak również warunki korzystania z platformy i politykę prywatności. Jest to miejsce, gdzie użytkownicy mogą zapoznać się z pełnym opisem aplikacji, jej funkcji, zasadami bezpieczeństwa oraz wymaganiami. Dzięki tej stronie użytkownik zyskuje pełen obraz tego, czego może oczekiwać od aplikacji, a także jest informowany o zasadach korzystania z usługi.
 \\
 
-\textbf{Strona do rejestracji (Register)}\\
+\noindent \textbf{Strona do rejestracji (Register)}\\
 Strona rejestracji i logowania jest kluczowym komponentem, umożliwiającym użytkownikowi utworzenie konta, zalogowanie się lub przejście przez proces weryfikacji. Ta strona składa się z jednego okna, które zmienia się dynamicznie w zależności od podjętej akcji przez użytkownika. Może to obejmować różne stany, takie jak formularz rejestracji, formularz logowania lub okno informacyjne o konieczności weryfikacji konta po jego utworzeniu. Wszystkie te akcje są obsługiwane w ramach jednego komponentu, który dynamicznie przełącza widoki w zależności od wyboru użytkownika.
 \\
 
-\textbf{Strona główna (Main)}\\
+\noindent \textbf{Strony ładowania (Loading)}\\
+Aplikacja zawiera również strony ładowania, które są wyświetlane w sytuacjach, gdy użytkownik musi poczekać na załadowanie zasobów lub wykonanie operacji, takich jak pobieranie danych z serwera. Strony te pełnią rolę informacyjną i zapewniają użytkownikowi feedback na temat aktualnego stanu procesu, na przykład ładowania gry, oczekiwania na odpowiedź z serwera lub innych operacji wymagających czasu.
+\\
+
+\noindent \textbf{Strona główna (Main)}\\
 Strona główna, dostępna zaraz po zalogowaniu, stanowi centrum nawigacji aplikacji. Z jej poziomu użytkownik może rozpocząć grę, zapoznać się z historią swoich poprzednich gier, a także przejść do innych sekcji, takich jak konto użytkownika, znajomi, ranking czy ustawienia. Strona ta pełni rolę wprowadzenia do pełnej funkcjonalności aplikacji, umożliwiając użytkownikowi szybki dostęp do najistotniejszych opcji. Oprócz rozpoczęcia nowych gier i przeglądania starych, użytkownik może również zapraszać znajomych do gry lub przejrzeć dostępne tryby rozgrywki.
 \\
 
-\textbf{Strona gry online (WebGame)}\\
+\noindent \textbf{Strona gry online (WebGame)}\\
 Jest to komponent odpowiedzialny za rozgrywki online. Mechanizm gry w tym przypadku oparty jest na interakcji dwóch graczy, którzy mogą rywalizować ze sobą w czasie rzeczywistym. Gra jest synchronizowana na bieżąco za pomocą mechanizmów, takich jak SignalR, co pozwala na natychmiastowe przesyłanie danych o wykonanych ruchach i stanie gry między użytkownikami. Strona ta oferuje interfejs umożliwiający pełną interakcję z planszą szachową, a także daje możliwość korzystania z dodatkowych funkcji, takich jak czat czy podgląd statystyk. Wygląd strony jest zoptymalizowany pod kątem dynamicznej gry online, zapewniając użytkownikowi płynne doświadczenie.
 \\
 
-\textbf{Strona gry offline (EngineGame)}\\
+\noindent \textbf{Strona gry offline (EngineGame)}\\
 Ten komponent odpowiada za tryb gry z komputerem, czyli tryb offline. W tym przypadku użytkownik gra przeciwko sztucznej inteligencji (AI), a rozgrywka jest realizowana w trybie offline, bez potrzeby połączenia z innym graczem. Mechanizmy gry różnią się od tych w trybie online, gdyż cała interakcja odbywa się tylko po stronie użytkownika i aplikacji, bez wymiany danych z zewnętrznymi źródłami. Strona EngineGame jest pod względem wyglądu podobna do strony WebGame, jednak w tym przypadku użytkownik nie ma możliwości zaproszenia znajomych do gry, a interakcja opiera się wyłącznie na grze z komputerem.
 \\
 
-\textbf{Strona konta użytkownika (Account)}\\
+\noindent \textbf{Strona konta użytkownika (Account)}\\
 Strona konta użytkownika to miejsce, w którym użytkownik może przeglądać i edytować swój profil. Zawiera ona informacje na temat użytkownika, takie jak nazwa, e-mail, zdjęcie profilowe oraz inne szczegóły, które można zmieniać. Dodatkowo, użytkownik ma dostęp do ustawień konta, takich jak zmiana hasła czy preferencje dotyczące powiadomień. Strona ta zawiera również sekcję z podsumowaniem statystyk gracza – liczba wygranych gier, ranking, liczba rozegranych partii i inne osiągnięcia.
 \\
 
-\textbf{Strona zarządzania znajomymi (Users)}\\
+\noindent \textbf{Strona zarządzania znajomymi (Users)}\\
 Umożliwia ona użytkownikowi zarządzanie znajomymi i zapraszanie nowych osób do gry. Na tej stronie użytkownik może przeglądać swoich znajomych, wyszukiwać innych graczy, a także zapraszać ich do gry. Jest to także miejsce, gdzie można przeglądać historię zaproszeń i statusy graczy (czy są online, czy dostępni do gry). Użytkownik ma możliwość usuwania znajomych lub zatwierdzania nowych zaproszeń.
 \\
 
-\textbf{Strona profilu znajomego (Profile)}\\
+\noindent \textbf{Strona profilu znajomego (Profile)}\\
 Strona ta pozwala na podgląd profili innych użytkowników. Dzięki tej stronie użytkownik może zapoznać się z danymi innych graczy, ich statystykami, historią gier oraz osiągnięciami. Umożliwia to łatwiejsze nawiązanie kontaktu i zaproszenie do gry. Strona ta pełni funkcję informacyjną, pozwalając użytkownikowi lepiej poznać innych graczy i ich styl gry.
 \\
 
-\textbf{Strona rankingu (Ranking)}\\
+\noindent \textbf{Strona rankingu (Ranking)}\\
 Strona rankingu pokazuje aktualne rankingi graczy, zarówno na poziomie globalnym, jak i wśród znajomych. Użytkownik może przeglądać globalne rankingi, zobaczyć, jak plasuje się w porównaniu do innych graczy na całym świecie, jak również sprawdzić wyniki swoich znajomych. Ranking jest aktualizowany na bieżąco, odzwierciedlając wyniki wszystkich gier rozegranych w aplikacji. Dzięki temu użytkownicy mogą śledzić swoje postępy i starać się poprawić swoją pozycję w rankingu.
-\\
-
-\textbf{Strony ładowania (Loading)}\\
-Aplikacja zawiera również strony ładowania, które są wyświetlane w sytuacjach, gdy użytkownik musi poczekać na załadowanie zasobów lub wykonanie operacji, takich jak pobieranie danych z serwera. Strony te pełnią rolę informacyjną i zapewniają użytkownikowi feedback na temat aktualnego stanu procesu, na przykład ładowania gry, oczekiwania na odpowiedź z serwera lub innych operacji wymagających czasu.
-
 
 \newpage
+
 \subsubsection{Zarządzanie stanem aplikacji}
-Zarządzanie stanem aplikacji w projekcie opiera się na elastycznym wykorzystaniu kilku mechanizmów w zależności od charakteru stanu i jego zastosowania. Dzięki temu aplikacja jest w stanie skutecznie zarządzać zarówno lokalnym stanem komponentów, jak i bardziej złożonymi danymi związanymi z rozgrywką, zapewniając płynność i responsywność działania aplikacji w grze w szachy.
+Zarządzanie stanem aplikacji w projekcie opiera się na elastycznym wykorzystaniu kilku mechanizmów w zależności od charakteru stanu i jego zastosowania. Dzięki temu aplikacja jest w stanie skutecznie zarządzać zarówno lokalnym stanem komponentów, jak i bardziej złożonymi danymi związanymi z rozgrywką, zapewniając płynność i responsywność działania aplikacji.
+\\\\
+Poniżej przedstawiono szczere metod zastosowanych do zarządzania stanem aplikacji:
 
 \begin{itemize}
     \item \textbf{Zarządzanie stanem lokalnym:} Do zarządzania stanem lokalnym, który jest związany z pojedynczymi komponentami, wykorzystywane jest \textcolor{orange}{useState}. Tego typu stan przechowuje dane dotyczące interakcji użytkownika z interfejsem, na przykład wybór gry, filtrowanie wyników czy przechowywanie tymczasowych danych. Stan ten jest zmieniany w odpowiedzi na działania użytkownika lub pobieranie danych z serwera.
@@ -1487,54 +1637,48 @@ Zarządzanie stanem aplikacji w projekcie opiera się na elastycznym wykorzystan
 
 \newpage
 \subsubsection{Mechanizm gry w szachy}
+Na następnych stronach zostały przedstawione diagramy prezentujące mechanizmy gier sieciowych oraz z siankiem szachowym. Poniżej przedstawiono legendę, określającą znaczenie kolorów bloków na schematach.
+\\\\
+\textbf{\colorbox{ForestGreen!90}{\textcolor{ForestGreen}{-----}}} - zapytanie typu POST\\
+\textbf{\colorbox{Cerulean!90}{\textcolor{Cerulean}{-----}}} - zapytanie typu GET\\
+\textbf{\colorbox{Dandelion!90}{\textcolor{Dandelion}{-----}}} - aktualizacja stanu aplikacji klienckiej\\
+\textbf{\colorbox{LimeGreen!90}{\textcolor{LimeGreen}{-----}}} - aktualizacja widoku użytkownika\\
+\textbf{\colorbox{BlueViolet!90}{\textcolor{BlueViolet}{-----}}} - event aplikacji klienckiej\\
+\textbf{\colorbox{Plum!90}{\textcolor{Plum}{-----}}} - event zwiazany z SignalR\\
+\vspace{0.5cm}
+
+\noindent \textbf{Gra w trybie sieciowym}\\
 Proces zarządzania przebiegiem gry w szachy w aplikacji opiera się na dynamicznym śledzeniu i aktualizowaniu stanu gry w odpowiedzi na interakcje użytkownika. Cała procedura składa się z kilku etapów, które są ze sobą ściśle powiązane, aby zapewnić płynność rozgrywki i zgodność z zasadami szachów.
-\\\\
 
-\textbf{Pobranie stanu gry}\\
-Pierwszym krokiem jest pobranie aktualnego stanu gry z bazy danych, co pozwala na załadowanie pozycji wszystkich figur na planszy w chwili, gdy użytkownik wchodzi na stronę gry. Stan gry obejmuje pozycję wszystkich figur, informacje o graczach oraz inne dane związane z przebiegiem partii (np. liczba wykonanych ruchów, stan szachowy). Te dane są następnie zapisywane w bieżącym stanie aplikacji, co umożliwia dalsze operacje na szachownicy.
-\\\\
-
-\textbf{Mapowanie pozycji na macierz szachownicy}\\
-Po załadowaniu stanu gry, aplikacja przekształca dane dotyczące pozycji figur w odpowiednią macierz, która reprezentuje szachownicę. Dzięki temu można łatwo manipulować danymi i aktualizować widok planszy. Każda figura jest przypisana do konkretnych współrzędnych na planszy, co umożliwia jej wyświetlenie w odpowiednim miejscu. Mapowanie pozycji do macierzy pozwala również na łatwiejsze śledzenie możliwych ruchów dla każdej figury.
-\\\\
-
-\textbf{Kontrolowanie pól}\\
-Aplikacja następnie tworzy listy kontrolowanych pól dla obu graczy. Każde pole, na którym może spaść bicie, jest uwzględniane w tych listach. Ponadto, ważnym elementem jest zapewnienie, że król nie może wejść na pole, które jest zagrożone przez przeciwnika (czyli nie może stanąć na polu, które może zostać zaatakowane przez przeciwnika w kolejnej turze). Lista kontrolowanych pól jest dynamicznie aktualizowana po każdym ruchu, aby zapewnić prawidłową grę.
-\\\\
-
-\textbf{Sprawdzanie szacha}\\
-Kolejnym istotnym etapem jest sprawdzenie, czy w danej chwili istnieje szach. Szach to sytuacja, w której król jednego z graczy znajduje się pod bezpośrednim atakiem przeciwnika, co oznacza, że gracz musi podjąć działania w celu ochrony swojego króla. Jeśli występuje szach, aplikacja identyfikuje wszystkie pola, które biorą udział w szachu, co pozwala na zmuszenie gracza do podjęcia odpowiednich działań. Oznacza to, że gracz nie może swobodnie poruszać innymi figurami, a ruchy, które mogłyby zwiększyć zagrożenie, są blokowane.
-\\\\
-
-\textbf{Wyczyszczenie wcześniejszych wyborów}\\
-Po wykonaniu każdego ruchu lub interakcji z użytkownikiem, aplikacja wyczyści wszelkie wcześniejsze wybory dokonywane przez gracza. Na przykład, jeśli użytkownik wybrał figurę, a następnie nie wybrał jej nowej lokalizacji, poprzedni wybór zostaje anulowany. Zapewnia to, że nie pozostają żadne błędne lub nieaktualne dane, które mogłyby wpłynąć na dalszą grę.
-\\
-Zanim gracz będzie mógł dokonać wyboru figury, aplikacja sprawdza, czy istnieje jakikolwiek możliwy ruch, który można wykonać. Jeśli żaden ruch nie jest możliwy (np. w przypadku "matu" lub "patu"), gra zostaje zakończona. W przypadku matu (zamatowanie króla) jedna ze stron wygrywa, natomiast w przypadku pata (niemożliwość wykonania ruchu, ale król nie jest w szachu) gra kończy się remisem. Aplikacja automatycznie wykrywa te sytuacje i odpowiednio kończy grę.
-\\\\
-
-\textbf{Wybór figury i koordynat}\\
-Po sprawdzeniu dostępnych ruchów, gracz może wybrać figurę, którą chce ruszyć. Po dokonaniu wyboru, aplikacja zapisuje wybraną figurę oraz jej koordynaty na planszy. Następnie, użytkownik wybiera pole, na które chce wykonać ruch. W tym momencie aplikacja uruchamia procedurę obliczania wszystkich możliwych ruchów, jakie figura może wykonać na podstawie aktualnych zasad gry (np. ruchy dla pionka, wieży, gońca, itp.).
-\\\\
-
-\textbf{Podświetlanie dostępnych pól}\\
-Po obliczeniu dostępnych ruchów, aplikacja aktualizuje widok planszy, podświetlając odpowiednie pola, na które wybrana figura może się poruszyć. Dzięki temu użytkownik ma pełną widoczność swoich opcji i może łatwiej podjąć decyzję. Podświetlone są tylko te pola, które są zgodne z zasadami ruchów danej figury, co eliminuje możliwość wykonania błędnego ruchu.
-\\\\
-
-\textbf{Wykonanie ruchu}\\
-Po dokonaniu wyboru pola przez użytkownika, aplikacja sprawdza, czy ruch jest dozwolony. Jeśli tak, wykonuje ruch, przenosząc figurę na nowe pole. Jeżeli ruch jest nielegalny (np. figura nie może poruszyć się na to pole zgodnie z zasadami gry), aplikacja anuluje wybór i pozwala graczowi ponownie wybrać figurę i cel ruchu.
-\\\\
-
-\textbf{Aktualizacja stanu gry}\\
-Po wykonaniu ruchu aplikacja zapisuje nowy stan gry w bazie danych, co pozwala na kontynuowanie gry od tego punktu w przyszłości. Zmiany w stanie gry obejmują aktualizację pozycji figur, liczbę wykonanych ruchów oraz ewentualne zmiany w statusie gry (np. wprowadzenie szacha, matu lub pata). Dzięki temu stan gry jest synchronizowany i zabezpieczony na wypadek przerwania gry lub ponownego załadowania strony.
-\\\\
-
-\textbf{Powiadomienie drugiego gracza}\\
-Na końcu, po zapisaniu zmian w bazie, aplikacja powiadamia drugiego gracza o wykonanym ruchu, aby umożliwić mu podjęcie swojej tury. Powiadomienie jest realizowane za pomocą technologii SignalR, która zapewnia natychmiastową synchronizację stanu gry pomiędzy graczami. To kluczowy element umożliwiający grę online w czasie rzeczywistym, gdzie każdy ruch jednego gracza jest natychmiastowo widoczny dla drugiego gracza.
+\begin{enumerate}
+    \item \textbf{Pobranie stanu gry}\\
+    Pierwszym krokiem jest pobranie aktualnego stanu gry z bazy danych, co pozwala na załadowanie pozycji wszystkich figur na planszy w chwili, gdy użytkownik wchodzi na stronę gry. Stan gry obejmuje pozycję wszystkich figur, informacje o graczach oraz inne dane związane z przebiegiem partii. Te dane są następnie zapisywane w bieżącym stanie aplikacji, co umożliwia dalsze operacje na szachownicy.
+    \item \textbf{Mapowanie pozycji na macierz szachownicy}\\
+    Po załadowaniu stanu gry, aplikacja przekształca dane dotyczące pozycji figur w odpowiednią macierz (opisaną w następnej sekcji), która reprezentuje szachownicę. Dzięki temu można łatwo manipulować danymi i aktualizować widok planszy. Każda figura jest przypisana do konkretnych współrzędnych na planszy, co umożliwia jej wyświetlenie w odpowiednim miejscu. Mapowanie pozycji do macierzy pozwala również na łatwiejsze śledzenie możliwych ruchów dla każdej figury oraz przeprowadzać pozostałem operacje i obliczenia z wykorzystaniem intuicyjnego systemu koordynat.
+    \item \textbf{Kontrolowanie pól}\\
+    Aplikacja następnie tworzy listy kontrolowanych pól dla obu graczy. Każde pole, na którym może wystąpić bicie, jest uwzględniane w tych listach, podzielnych między dwóch graczy. Najważniejszym elementem tego mechanizmu jest zapewnienie, że król nie może wejść na pole, które jest zagrożone przez przeciwnika (czyli nie może stanąć na polu, które może zostać zaatakowane przez przeciwnika w kolejnej turze). Lista kontrolowanych pól jest dynamicznie aktualizowana po każdym ruchu, aby zapewnić prawidłową grę.
+    \item \textbf{Sprawdzanie szacha}\\
+    Kolejnym istotnym etapem jest sprawdzenie, czy w danej chwili istnieje szach, czyli w sytuacji w której król jednego z graczy znajduje się pod bezpośrednim atakiem przeciwnika, co oznacza, że gracz musi podjąć działania w celu ochrony swojego króla. Jeśli występuje szach, aplikacja identyfikuje wszystkie pola, które biorą udział w szachu, co pozwala na zmuszenie gracza do podjęcia odpowiednich działań. Oznacza to, że gracz nie może swobodnie poruszać innymi figurami, a ruchy, które nie przerywają zagrożenia, są blokowane.
+    \item \textbf{Wyczyszczenie wcześniejszych wyborów}\\
+    Po wykonaniu każdego ruchu lub interakcji z użytkownikiem, aplikacja wyczyści wszelkie wcześniejsze wybory dokonywane przez gracza. Na przykład, jeśli użytkownik wybrał figurę, a następnie nie wybrał jej nowej lokalizacji, poprzedni wybór zostaje anulowany. Zapewnia to, że nie pozostają żadne błędne lub nieaktualne dane, które mogłyby wpłynąć na dalszą grę. Zanim gracz będzie mógł dokonać wyboru figury, aplikacja sprawdza, czy istnieje jakikolwiek możliwy ruch, który można wykonać. Jeśli żaden ruch nie jest możliwy, gra zostaje zakończona. W przypadku matu jedna ze stron wygrywa, natomiast w przypadku pata gra kończy się remisem. Aplikacja automatycznie wykrywa te sytuacje i odpowiednio kończy grę.
+    \item \textbf{Wybór figury i koordynat}\\
+    Po sprawdzeniu dostępnych ruchów, gracz może wybrać figurę, którą chce ruszyć. Po dokonaniu wyboru, aplikacja zapisuje wybraną figurę oraz jej koordynaty na planszy. Następnie, użytkownik wybiera pole, na które chce wykonać ruch. W tym momencie aplikacja uruchamia procedurę obliczania wszystkich możliwych ruchów, jakie figura może wykonać na podstawie aktualnych zasad gry. W przypadku nietypowego stanu gry,  pola podpowiedzi ruchów są odpowiednio filtrowane i redukowane.
+    \item \textbf{Podświetlanie dostępnych pól}\\
+    Po obliczeniu dostępnych ruchów, aplikacja aktualizuje widok planszy, podświetlając odpowiednie pola, na które wybrana figura może się poruszyć. Dzięki temu użytkownik ma pełną widoczność swoich opcji i może łatwiej podjąć decyzję. Podświetlone są tylko te pola, które są zgodne z zasadami ruchów danej figury, co eliminuje możliwość wykonania błędnego ruchu.
+    \item \textbf{Wykonanie ruchu}\\
+    Po dokonaniu wyboru pola przez użytkownika, aplikacja sprawdza, czy ruch jest dozwolony. Jeśli tak, wykonuje ruch, przenosząc figurę na nowe pole. Jeżeli ruch jest nielegalny tj. figura nie może poruszyć się na to pole zgodnie z zasadami gry, aplikacja anuluje wybór i pozwala graczowi ponownie wybrać figurę i cel ruchu.
+    \item \textbf{Aktualizacja stanu gry}\\
+    Po wykonaniu ruchu aplikacja zapisuje nowy stan gry w bazie danych, co pozwala na kontynuowanie gry od tego punktu w przyszłości. Zmiany w stanie gry obejmują aktualizację pozycji figur, liczbę wykonanych ruchów oraz ewentualne zmiany w statusie gry. Dzięki temu stan gry jest synchronizowany i zabezpieczony na wypadek przerwania gry lub ponownego załadowania strony.
+    \item \textbf{Powiadomienie drugiego gracza}\\
+    Na końcu, po zapisaniu zmian w bazie, aplikacja powiadamia drugiego gracza o wykonanym ruchu, aby umożliwić mu podjęcie swojej tury. Powiadomienie jest realizowane za pomocą technologii SignalR, która zapewnia natychmiastową synchronizację stanu gry pomiędzy graczami. To kluczowy element umożliwiający grę online w czasie rzeczywistym, gdzie każdy ruch jednego gracza jest natychmiastowo widoczny dla drugiego gracza.
+\end{enumerate}
 
 \newpage
 
+\noindent
 Poniżej przedstawiony został diagram blokowy ilustrujący proces działania mechanizmu gry w szachy. Diagram prezentuje kolejne etapy, począwszy od inicjalizacji stanu gry, przez interakcje użytkownika, aż po synchronizację stanu gry pomiędzy graczami. Każdy etap jest odzwierciedleniem opisanego wcześniej przebiegu logiki gry, uwzględniając kluczowe decyzje i akcje, takie jak obliczanie możliwych ruchów, weryfikacja poprawności ruchu czy zakończenie gry.
 
+\vspace{1cm}
 \begin{figure}[h!]
     \centering
     \includegraphics[width=1\textwidth]{images/diagram_gry.png}
@@ -1542,8 +1686,39 @@ Poniżej przedstawiony został diagram blokowy ilustrujący proces działania me
 \end{figure}
 
 \newpage
+
+\noindent \textbf{Gra z silnikiem szachowym}\\
+W przypadku gier z silnikiem szachowym mechanizmy rozgrywki są niemal identyczne jak w grach online. Kluczową różnicą jest jednak brak wykorzystania technologii SignalR, ponieważ w tym scenariuszu nie ma potrzeby powiadamiania drugiego użytkownika o wykonanych ruchach. Rozgrywka przebiega sekwencyjnie od początku do końca: po wykonaniu ruchu przez gracza aplikacja wysyła zapytanie do serwera, aby pobrać ruch zaproponowany przez silnik, a następnie wykonuje ruch jako odpowiedź przeciwnika.
+\\\\
+Środowisko niejako „symuluje” przeciwnika użytkownika, tworząc tymczasowe stany gry uzupełniane danymi wygenerowanymi przez silnik. Po otrzymaniu propozycji ruchu silnika wykonywana jest pełna procedura ruchu, z pominięciem sprawdzania jego legalności, ponieważ ten aspekt jest kontrolowany przez sam silnik szachowy.
+
+\vspace{1cm}
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=1\textwidth]{images/ex_engine_move_sim.png}
+    \caption{Fragment kodu przestawiający symulacje ruchu zaproponowanego przez silnik.}
+\end{figure}
+
+\noindent
+Jak widać na załączonym przykładzie program tworzy identyczny obiekt jaki jest wykorzystywany do śledzenia wyborów uzytkownika, z pominięciem nieistotnych wartości na następnie korzystając z tych samych funkcji jak w przypadku gry online, program wykonuje ruch podany przez AI. Takie podejście umożliwia ponowne wykorzystanie istniejących funkcji, aby nie powielać podobnej implementacji.
+
+\newpage
+
+\noindent
+Poniżej przedstawiony został uproszony diagram blokowy przedstawiający działanie mechanizmu gry z przeciwnikiem komputerowym. Diagram zawiera tylko kluczowe zmiany, odnoszące się do komunikacji z silnikiem szachowym, natomiast pozostała funkcjonalność pozostaje identyczna, jak w przypadku mechanizmu gier online. pominięte zostały między innymi aspekty końca gry, czy rozdzielnia wyborów uzytkownika na opcje przed wybraniem figury i po wyborze, ponieważ są one identyczne w tym trybe gry offline.
+
+\vspace{1cm}
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=1\textwidth]{images/diagram_enggry.png}
+    \caption{Diagram blokowy mechanizmu gry z silnikiem.}
+\end{figure}
+
+\newpage
+
 \subsubsection{Kluczowe aspekty gry}
-\textbf{Pozycja FEN}\\
+
+\noindent \textbf{Pozycja FEN}\\
 Pozycja FEN (Forsyth-Edwards Notation) to sposób zapisywania aktualnej sytuacji na szachownicy, który pozwala na jednoznaczne odtworzenie pozycji w dowolnym momencie gry. Zawiera wszystkie istotne informacje o rozmieszczeniu figur, kolorze gracza, który ma wykonać ruch, stanie roszady, liczbie ruchów od ostatniego bicia lub ruchu pionkiem, oraz liczbie pełnych ruchów.
 \\\\
 W kontekście aplikacji, zapis FEN jest wykorzystywany do przechowywania stanu gry w bazie danych. Dzięki temu możliwe jest zapisanie aktualnej pozycji w dowolnym momencie, a następnie jej odczytanie i przywrócenie, co pozwala na wznowienie gry lub analizę wcześniejszych stanów.
@@ -1552,7 +1727,9 @@ W kontekście aplikacji, zapis FEN jest wykorzystywany do przechowywania stanu g
     \texttt{rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1}
 \end{center}
 
+\noindent
 Przedstawioną przykładową pozycje można podzielić kolejno na części oznaczające:
+
 \begin{itemize}
     \item Rozmieszczenie figur na szachownicy, z użyciem liter oraz liczb wskazujących puste pola.
     \item Kolor gracza, który ma wykonać ruch.
@@ -1562,7 +1739,7 @@ Przedstawioną przykładową pozycje można podzielić kolejno na części oznac
     \item Liczba pełnych ruchów.
 \end{itemize}
 
-\textbf{Macierz szachownicy}\\
+\noindent \textbf{Macierz szachownicy}\\
 W pierwszej części zapisu pozycji FEN znajdują się informacje o rozmieszczeniu figur na szachownicy. Program przetwarza ten zapis, mapując go na macierz 8x8, co umożliwia łatwiejsze operowanie na koordynatach. Dzięki tej mapie, każdy element (pole) szachownicy może być odwoływany za pomocą indeksów, co ułatwia implementację ruchów, sprawdzanie stanu gry, a także operacje na poszczególnych figurach. Na przykład, każdemu polu szachownicy przypisane są współrzędne (x, y), gdzie x to numer kolumny (od A do H), a y to numer wiersza (od 1 do 8). Taki sposób reprezentacji umożliwia wygodną manipulację i analizowanie stanu gry.
 
 \begin{figure}[h!]
@@ -1572,7 +1749,8 @@ W pierwszej części zapisu pozycji FEN znajdują się informacje o rozmieszczen
 \end{figure}
 
 \newpage
-\textbf{Szach}\\
+
+\noindent \textbf{Szach}\\
 Jest to sytuacja w grze w szachy, w której król jednego z graczy znajduje się pod atakiem przeciwnika, co oznacza, że przeciwnik mógłby zbić króla w swoim kolejnym ruchu, gdyby nie został on obroniony. W odpowiedzi na szach gracz musi podjąć ruch eliminujący zagrożenie dla króla. Istnieją trzy możliwe sposoby na uniknięcie szacha:
 
 \begin{itemize}
@@ -1581,6 +1759,7 @@ Jest to sytuacja w grze w szachy, w której król jednego z graczy znajduje się
     \item Zbicie atakującej figury, jeśli jest to możliwe.
 \end{itemize}
 
+\noindent
 Nieodpowiedzenie na szach jest niedozwolone, ponieważ król nigdy nie może pozostawać na szachowanym polu. Jeśli gracz nie ma możliwości zneutralizowania szacha, partia kończy się matem.
 \\\\
 W projekcie sytuacja szachu została rozwiązana poprzez tworzenie dwóch par list. Pierwsza z nich obejmuje pola kontrolowane, czyli te, na które figury przeciwnika mogą wykonać bicie. Pola te są wykorzystywane do zapewnienia, że król nie może wejść na pole, na którym byłby zagrożony zbiciem, a także do sprawdzania, czy aktualnie znajduje się w szachu, jeśli stoi na takim polu.
@@ -1588,7 +1767,6 @@ W projekcie sytuacja szachu została rozwiązana poprzez tworzenie dwóch par li
 Druga para to listy pól biorących udział w szachu. Obejmują one pole zajmowane przez figurę szachującą oraz wszystkie pola, przez które szach jest „przekazywany” (na przykład w przypadku szachów liniowych, takich jak atak wieży, gońca czy hetmana). Pola te są wykorzystywane do ograniczenia możliwych ruchów innych figur, tak aby uniemożliwić wykonanie ruchu niezapewniającego zakończenia szachu. Dzięki temu mechanizmowi tylko ruchy ratujące króla są dopuszczalne w trakcie szachu, co w pełni odwzorowuje zasady gry w szachy.
 
 \vspace{1cm}
-
 \begin{minipage}[t]{0.45\textwidth} 
     \vspace{0pt} 
     \centering 
@@ -1604,23 +1782,28 @@ Druga para to listy pól biorących udział w szachu. Obejmują one pole zajmowa
 \end{minipage}
 
 \newpage
-\textbf{Mat i Pat}\\
-W szachach mat i pat to dwie podstawowe sytuacje kończące grę. Mat oznacza, że król jednego z graczy jest w szachu i nie ma żadnych dostępnych ruchów, które mogłyby go uratować. Gra kończy się zwycięstwem przeciwnika. Pat, z kolei, ma miejsce wtedy, gdy gracz nie jest w szachu, ale nie ma żadnego legalnego ruchu, który mógłby wykonać. W takiej sytuacji gra kończy się remisem.
+
+\noindent \textbf{Mat i Pat}\\
+W szachach mat oraz pat to dwie podstawowe sytuacje kończące grę. Mat oznacza, że król jednego z graczy jest w szachu i nie ma żadnych dostępnych ruchów, które mogłyby go uratować. Gra kończy się zwycięstwem przeciwnika. Pat, z kolei, ma miejsce wtedy, gdy gracz nie jest w szachu, ale nie ma żadnego legalnego ruchu, który mógłby wykonać. W takiej sytuacji gra kończy się remisem.
 \\\\
 W implementacji gry, te dwa scenariusze są rozwiązywane poprzez sprawdzanie dostępnych ruchów dla gracza, który jest aktualnie w turze. Gdy gracz próbuje wykonać ruch, najpierw sprawdzane jest, czy istnieje jakikolwiek możliwy ruch. Jeśli gracz nie ma żadnego dostępnego ruchu, program przechodzi do dalszej analizy.
 \\\\
 Jeśli po sprawdzeniu okazuje się, że gracz nie ma żadnych możliwych ruchów, następnie sprawdzane jest, czy jego król znajduje się w szachu. Jeśli król jest w szachu, oznacza to, że gra kończy się matem, a zwycięzcą zostaje przeciwnik. W przeciwnym przypadku, jeżeli gracz nie ma ruchu, ale jego król nie jest w szachu, oznacza to, że mamy do czynienia z patem, a gra kończy się remisem.
 
+\vspace{0.5cm}
 \begin{figure}[h!]
     \centering
     \includegraphics[width=0.7\textwidth]{images/imp_front_checkmate.png}
     \caption{Przykładu zakończenia gry matem.}
 \end{figure}
+\vspace{0.5cm}
 
-Tego rodzaju mechanizm pozwala na prawidłowe rozpoznawanie zakończenia gry w sytuacjach, kiedy gracz nie ma już możliwości wykonania ruchu, a także zapewnia zgodność z zasadami gry.
+\noindent
+Tego rodzaju mechanizm pozwala na prawidłowe rozpoznawanie zakończenia gry w sytuacjach, kiedy gracz nie ma już możliwości wykonania ruchu, a także zapewnia zgodność z obowiązującymi zasadami gry.
 
 \newpage
-\textbf{Pin (Przypięcie)}\\
+
+\noindent \textbf{Pin (Przypięcie)}\\
 W szachach ruchy dzielą się na liniowe i nieliniowe. Liniowe obejmują ruchy prostoliniowe oraz diagonalne. Figury poruszające się liniowo to wieża, goniec i hetman. Nieliniowe ruchy charakteryzują się bardziej złożonymi trajektoriami, jak w przypadku skoczka.
 \\\\
 W implementacji gry mechanizm wykrywania pina opiera się na analizie linii prostych i diagonalnych między królem a wybraną figurą. Sprawdzane jest, czy w tej samej linii znajduje się figura przeciwnika, zdolna do wykonania ruchu liniowego (wieża, goniec lub hetman). Jeśli taka sytuacja występuje, to ruchy wybranej figury są ograniczone do kierunku pina – figura może się poruszać jedynie w linii między królem a figurą przeciwnika, o ile jej natura pozwala na ruch w tym kierunku.
@@ -1643,10 +1826,12 @@ Mechanizm pina może być zastosowany wyłącznie przez figury poruszające się
 \end{minipage}
 \vspace{1cm}
 
+\noindent
 Ponadto, w kontekście końca gry, piny odgrywają istotną rolę w decydowaniu, czy gra powinna się zakończyć. Mogą one ograniczać dostępne ruchy i zmuszać gracza do wykonania ruchu, który może prowadzić do matu lub patu. Gdy pionki, figury lub król zostają "przypięte", ich możliwości manewru są ograniczone, co znacząco wpływa na dalszy przebieg rozgrywki. Dodatkowo, jeśli przypięta figura nie może się poruszyć, może to prowadzić do sytuacji, w której gracz nie ma wystarczającej ilości ruchów do obrony, co przyczynia się do ostatecznego zwycięstwa.
 
 \newpage
-\textbf{Ruchy specjalne}\\
+
+\noindent \textbf{Ruchy specjalne}\\
 Ruchy specjalne w szachach, są przetwarzane za pomocą zapisanych specjalnych stanów w bazie danych. Na przykład, system przechowuje informacje o tym, czy roszada może zostać wykonana, bazując na wcześniejszych ruchach króla i wieży oraz innych warunkach, takich jak brak przeszkód na drodze. Ponadto, wykorzystywane są stałe wartości, takie jak pozycja pionka (tzw. ranga), które decydują o tym, kiedy dochodzi do promocji pionka, czy też kiedy pionek ma możliwość poruszenia się o dwa pola do przodu.
 
 \vspace{1cm}
@@ -1690,9 +1875,9 @@ Ruchy specjalne w szachach, są przetwarzane za pomocą zapisanych specjalnych s
 \end{minipage}
 
 \newpage
-\textbf{Pozostałe zasady końca gry}\\
-W szachach istnieje kilka innych zasad, które mogą prowadzić do zakończenia gry przed standardowym zwycięstwem lub remisem. Oprócz klasycznego szacha-mata, są to zasady, które umożliwiają ogłoszenie remisu, nawet jeśli nie ma bezpośredniego zagrożenia dla króla. System ten wymaga od aplikacji precyzyjnego śledzenia przebiegu gry oraz różnych warunków, które mogą prowadzić do remisu. Oto szczegóły niektórych z tych zasad:
 
+\noindent \textbf{Pozostałe zasady końca gry}\\
+W szachach istnieje kilka innych zasad, które mogą prowadzić do zakończenia gry przed standardowym zwycięstwem lub remisem. Oprócz klasycznego szacha-mata, są to zasady, które umożliwiają ogłoszenie remisu, nawet jeśli nie ma bezpośredniego zagrożenia dla króla. System ten wymaga od aplikacji precyzyjnego śledzenia przebiegu gry oraz różnych warunków, które mogą prowadzić do remisu. Oto szczegóły niektórych z tych zasad:
 
 \begin{itemize}
     \item \textbf{Zasada trzykrotnego powtórzenia pozycji}\\
@@ -1703,7 +1888,7 @@ W szachach istnieje kilka innych zasad, które mogą prowadzić do zakończenia 
     Jeśli na szachownicy nie ma wystarczającej ilości figur, aby móc wykonać mat, gra kończy się remisem. Na przykład, jeśli jeden z graczy ma tylko króla, a drugi gracz ma jedynie króla i jakąkolwiek inną figurę, nie będzie już możliwe zrealizowanie matu. W takim przypadku aplikacja analizuje całą planszę i sprawdza, czy występuje wystarczający materiał do wykonania matu. Jeżeli materiał jest niewystarczający, program ogłasza remis.
 \end{itemize}
 
-\textbf{Upłynięcie czasu}\\
+\noindent \textbf{Upłynięcie czasu}\\
 W przypadku gry z czasem, aplikacja śledzi czas pozostały dla obu graczy i przechowuje te informacje w bazie danych. Czas jest odliczany dla każdego gracza indywidualnie, a po wykonaniu ruchu przez jednego z graczy, zegar zostaje zaktualizowany. Czas jest inkrementowany na podstawie zadanego interwału, który może być ustalony na początku gry. Kiedy jeden gracz wykonuje ruch, czas zostaje zaktualizowany o odpowiedni inkrement, a zegar drugiego gracza zaczyna odliczać swój czas. Cały proces jest realizowany poprzez zapisywanie stanu czasu w bazie danych oraz bieżące odliczanie dla aktywnego gracza. Jeśli czas któregokolwiek z graczy dobiegnie końca, gra automatycznie kończy się, a przegrany zostaje ogłoszony przegranym z powodu przekroczenia czasu. Tego typu funkcjonalność jest szczególnie przydatna w trybach szybkich gier, gdzie gracze mają określoną ilość czasu na wykonanie swoich ruchów.
 
 \newpage
@@ -1735,10 +1920,11 @@ Na stronie znajduje się również sekcja umożliwiająca przejście do bardziej
 \\\\
 Całość zaprojektowano w sposób przejrzysty i estetyczny, aby zapewnić pozytywne pierwsze wrażenie oraz łatwość w poruszaniu się po stronie. Strona tytułowa pełni rolę wizytówki aplikacji, jednocześnie oferując dostęp do najważniejszych zasobów i funkcji.
 
+\vspace{0.5cm}
 \begin{figure}[h!]
     \centering
     \includegraphics[width=1\textwidth]{images/ins_hero.png}
-    \caption{Widok strony startowej.}
+    \caption{Instrukcja: Widok strony startowej.}
 \end{figure}
 
 \newpage
@@ -1749,15 +1935,19 @@ Proces rejestracji umożliwia szybkie i bezproblemowe utworzenie konta. Po podan
 \\\\
 W przypadku zapomnianego hasła, strona oferuje funkcję jego odzyskania. Po podaniu adresu e-mail użytkownik otrzymuje szczegółowe instrukcje dotyczące resetowania hasła, co pozwala w bezpieczny sposób odzyskać dostęp do konta. Proces jest prosty i zabezpieczony dodatkowymi krokami weryfikacyjnymi.
 
+\vspace{0.5cm}
 \begin{figure}[h!]
     \centering
     \includegraphics[width=1\textwidth]{images/ins_reg.png}
-    \caption{Widok strony startowej.}
+    \caption{Instrukcja: Widok strony rejestracji użytkowników.}
 \end{figure}
+\vspace{0.5cm}
 
+\noindent
 Strona rejestracji jest zaprojektowana z myślą o czytelności i łatwości obsługi, dzięki czemu użytkownicy mogą bez przeszkód korzystać z jej funkcji niezależnie od poziomu zaawansowania. Wszystkie kroki są jasno opisane, a interfejs dostosowano do potrzeb zarówno nowych, jak i stałych użytkowników aplikacji.
 
 \newpage
+
 \subsection{Weryfikacja konta}
 
 \begin{minipage}[t]{0.45\textwidth} 
@@ -1771,7 +1961,9 @@ Strona rejestracji jest zaprojektowana z myślą o czytelności i łatwości obs
     \centering 
     \includegraphics[width=\linewidth]{images/ins_min_ver.png} 
 \end{minipage}
+
 \vspace{1cm}
+
 \begin{minipage}[t]{0.45\textwidth} 
     \vspace{0pt} 
     \centering 
@@ -1783,17 +1975,21 @@ Strona rejestracji jest zaprojektowana z myślą o czytelności i łatwości obs
     \raggedright 
     Wiadomość e-mail, zatytułowana "Hello from BRN Chess", zawiera przyjazne powitanie, a także unikalny kod weryfikacyjny przypisany do konkretnego konta użytkownika. Treść e-maila została zaprojektowana tak, aby była czytelna i estetyczna, co pozwala na szybkie odnalezienie wymaganych informacji. Kod weryfikacyjny, przedstawiony w formie wyróżnionego tekstu, należy skopiować i wkleić w dedykowane pole tekstowe w oknie weryfikacji w aplikacji. Po wprowadzeniu kodu i jego zatwierdzeniu konto zostaje w pełni aktywowane, a użytkownik może rozpocząć korzystanie z platformy. 
 \end{minipage}
+
 \vspace{1cm}
 
+\noindent
 Cały proces został opracowany z myślą o wygodzie użytkownika. Okno weryfikacyjne w aplikacji jest intuicyjne, zawiera czytelne instrukcje oraz widoczne przyciski umożliwiające wprowadzenie kodu. Dodatkowo w przypadku problemów, takich jak brak dostarczenia wiadomości e-mail, aplikacja oferuje możliwość ponownego wysłania kodu weryfikacyjnego za pomocą jednego kliknięcia.
 \\\\
 Weryfikacja konta to proces szybki i bezproblemowy, a dzięki jasnym instrukcjom użytkownicy mogą sprawnie zakończyć konfigurację swojego konta i skupić się na odkrywaniu możliwości aplikacji.
 
 \newpage
+
 \subsection{Strona główna}
 Strona główna aplikacji szachowej została zaprojektowana z myślą o intuicyjnej nawigacji i szybkim dostępie do kluczowych funkcji, aby zapewnić użytkownikom wygodę i efektywność. Po prawej stronie ekranu znajduje się pasek nawigacji, który umożliwia łatwe przechodzenie między różnymi stronami aplikacji, zapewniając dostęp do wszystkich istotnych sekcji. Pasek został umieszczony w widocznym miejscu, dzięki czemu poruszanie się po aplikacji jest szybkie i płynne.
 \\\\
 Obok paska nawigacji umieszczono główne przyciski, które prowadzą do najważniejszych funkcji aplikacji. Każdy z nich odpowiada za inną czynność:
+
 \begin{itemize}
     \item \textbf{Gra online:} umożliwia rozpoczęcie partii z innym graczem przez internet.
     \item \textbf{Gra z komputerem:} pozwala zmierzyć się z silnikiem szachowym.
@@ -1802,15 +1998,18 @@ Obok paska nawigacji umieszczono główne przyciski, które prowadzą do najważ
     \item \textbf{Zaproszenia do gier:} wyświetla listę otrzymanych zaproszeń do rozgrywek.
 \end{itemize}
 
+\noindent
 Pozostałą przestrzeń zajmują okna szybkiego dostępu, takie jak podgląd konta użytkownika, szybka gra online z wyborem trzech trybów czasowych (1 min, 3 min, 10 min), a także widok trzech ostatnich zakończonych i trzech aktywnych gier. Całość jest intuicyjna, zapewniając wygodne korzystanie z aplikacji.
 
+\vspace{0.5cm}
 \begin{figure}[h!]
     \centering
     \includegraphics[width=1\textwidth]{images/ins_main.png}
-    \caption{Widok strony głównej.}
+    \caption{Instrukcja: Widok strony głównej.}
 \end{figure}
 
 \newpage
+
 \subsection{Gra online}
 Po kliknięciu na przycisk gry online, użytkownik zostaje przeniesiony do okna, które pozwala na wybór odpowiedniego trybu kontroli czasowej dla gry. W zależności od preferencji, dostępne są różne opcje czasowe, zgrupowane w kategorie, takie jak bullet, blitz, rapid, classic oraz daily.
 \\\\
@@ -1818,13 +2017,15 @@ W sekcji bullet użytkownik ma do wyboru bardzo szybkie tryby, takie jak 1 minut
 \\\\
 Po dokonaniu wyboru jednego z powyższych trybów, ekran zmienia się na widok wyszukiwania przeciwnika. W tym momencie system zaczyna szukać dostępnego gracza o podobnym czasie reakcji, aby rozpocząć rozgrywkę. Użytkownik może na bieżąco śledzić postęp tego procesu, a po znalezieniu przeciwnika następuje połączenie i rozpoczęcie gry.
 
+\vspace{0.5cm}
 \begin{figure}[h!]
     \centering
     \includegraphics[width=1\textwidth]{images/ins_min_pvp.png}
-    \caption{Widok wyboru gry online.}
+    \caption{Instrukcja: Widok wyboru gry online.}
 \end{figure}
 
 \newpage
+
 \subsection{Gra offline}
 Po kliknięciu na przycisk "Gra z komputerem", użytkownik zostaje poproszony o wybór poziomu trudności silnika. Istnieje 20 poziomów, które symbolicznie podzielono na cztery kategorie: standard, intermediate, advanced oraz master. Należy jednak podkreślić, że podział ten ma charakter jedynie orientacyjny i nie wpływa w żaden sposób na faktyczny sposób działania silnika. Jest to tylko sposób ułatwiający użytkownikowi poruszanie się po dostępnych opcjach, a wybór konkretnego poziomu zależy od indywidualnych preferencji gracza.
 \\\\
@@ -1832,88 +2033,107 @@ Po dokonaniu wyboru poziomu silnika gra uruchamia się natychmiastowo, a użytko
 \\\\
 Dodatkowo, podczas gry z komputerem istnieje opcja oszukiwania, czyli możliwość cofania ruchów lub zmiany poziomu silnika w trakcie rozgrywki. Ta funkcja daje graczowi elastyczność i pozwala na dostosowanie poziomu trudności w trakcie gry, jeśli uzna to za konieczne. Opcja ta jest jednak dostępna tylko w tej formie w grze z komputerem. Użytkownik może także zmienić preferencje dotyczące oszukiwania, a także inne ustawienia, na stronie swojego profilu, którą opisujemy w dalszej części instrukcji.
 
+\vspace{0.5cm}
 \begin{figure}[h!]
     \centering
     \includegraphics[width=1\textwidth]{images/ins_min_pvc.png}
-    \caption{Widok wyboru gry offline.}
+    \caption{Instrukcja: Widok wyboru gry offline.}
 \end{figure}
 
 \newpage
-\subsection{Gra ze znajomymi}
-Po kliknięciu na przycisk „Gra ze znajomymi”, użytkownik zostaje przeniesiony do okna, gdzie po lewej stronie znajduje się opcje zapraszania do gry, a po prawej widoczna jest lista wszystkich znajomych, którzy mają konto w aplikacji. Po kliknięciu na kartę znajomego użytkownik zostaje przekierowany do ekranu wyboru czasu gry, podobnie jak w przypadku gry online z losowym przeciwnikiem, gdzie wybiera się jedną z dostępnych opcji czasowych. Po dokonaniu wyboru czasu, gra natychmiast przechodzi do strony oczekiwania na dołączenie drugiego gracza, użytkownik będzie czekał, aż zaproszona osoba zaakceptuje zaproszenie i dołączy do gry.
-\\\\
 
+\subsection{Gra ze znajomymi}
+
+Po kliknięciu na przycisk „Gra ze znajomymi”, użytkownik zostaje przeniesiony do okna, gdzie po lewej stronie znajduje się opcje zapraszania do gry, a po prawej widoczna jest lista wszystkich znajomych, którzy mają konto w aplikacji. Po kliknięciu na kartę znajomego użytkownik zostaje przekierowany do ekranu wyboru czasu gry, podobnie jak w przypadku gry online z losowym przeciwnikiem, gdzie wybiera się jedną z dostępnych opcji czasowych. Po dokonaniu wyboru czasu, gra natychmiast przechodzi do strony oczekiwania na dołączenie drugiego gracza, użytkownik będzie czekał, aż zaproszona osoba zaakceptuje zaproszenie i dołączy do gry.
+
+\vspace{0.5cm}
 \begin{figure}[h!]
     \centering
     \includegraphics[width=1\textwidth]{images/ins_min_pvf.png}
-    \caption{Widok wyboru gry ze znajomym.}
+    \caption{Instrukcja: Widok wyboru gry ze znajomym.}
 \end{figure}
 
 \newpage
+
+\noindent
 Po prawej stronie ekranu znajdują się trzy główne opcje umożliwiające zapraszanie do gry. Pierwsza z nich pozwala na filtrowanie znajomych po nazwie użytkownika. Dzięki temu, w przypadku długiej listy znajomych, łatwiej można znaleźć konkretnego gracza. Druga opcja to bezpośrednie zaproszenie przez e-mail. Po podaniu prawidłowego adresu e-mail użytkownik zostaje przekierowany do wyboru czasu gry, tak jak ma to miejsce w przypadku zapraszania znajomego z listy. Jeśli jednak wprowadzony adres e-mail jest niepoprawny lub nie istnieje w systemie, aplikacja wyświetli komunikat informujący, że taki użytkownik nie istnieje. Dzięki tej funkcji użytkownicy mogą zapraszać do gry nie tylko swoich znajomych, ale także osoby spoza listy znajomych, wystarczy, że podadzą poprawny adres e-mail. Jeśli podany adres jest prawidłowy i istnieje w systemie, zaproszenie zostaje wysłane, a użytkownik zostaje przekierowany do wyboru czasu gry.
 \\\\
-Trzecia opcja, „Gra za pomocą wygenerowanego linka”, pozwala na zaproszenie do gry gracza, który nie jest bezpośrednio na liście znajomych. Po dokonaniu wyboru kontroli czasowej, wyświetla się zmodyfikowane okno oczekiwania, w którym pojawi się unikalny link. Link ten jest kluczowy dla całej procedury – to za jego pomocą zapraszający gracz będzie mógł zaprosić innego użytkownika do dołączenia do gry. W celu rozpoczęcia gry, zapraszający użytkownik musi skopiować wygenerowany link i wysłać go znajomemu za pomocą dowolnego komunikatora, na przykład e-maila, messengera lub innej aplikacji. Po kliknięciu w link przez zaproszonego gracza, następuje przekierowanie na specjalną stronę, która automatycznie dołączy tego gracza do gry. Kiedy obaj gracze wejdą na tę stronę, będą przekierowani do samej gry, gdzie rozgrywka się rozpocznie. Jeśli jednak zapraszający kliknie w link, aby dołączyć do gry, otrzyma komunikat o błędzie, ponieważ nie może dołączyć do własnej gry. System wyświetli informację, że musi to być inny gracz, który kliknie w link, aby rozpocząć rozgrywkę. Dzięki temu proces zapraszania i dołączania do gry jest prosty, a użytkownik zapraszający ma pełną kontrolę nad wysłaniem linku do odpowiedniej osoby.
+Trzecia opcja, „Gra za pomocą wygenerowanego linka”, pozwala na zaproszenie gracza, który nie jest bezpośrednio na liście znajomych. Po dokonaniu wyboru kontroli czasowej, wyświetla się zmodyfikowane okno oczekiwania, w którym pojawi się unikalny link. Za jego pomocą zapraszający gracz będzie mógł zaprosić innego użytkownika do dołączenia do gry. W celu rozpoczęcia gry, zapraszający użytkownik musi skopiować wygenerowany adres i wysłać go znajomemu za pomocą dowolnego komunikatora. Po kliknięciu w link przez zaproszonego gracza, następuje przekierowanie na specjalną stronę, która automatycznie dołączy tego gracza do gry. Kiedy obaj gracze wejdą na tę stronę, będą przekierowani do samej gry, gdzie rozgrywka się rozpocznie. Jeśli jednak zapraszający kliknie w link, aby dołączyć do gry, otrzyma komunikat o błędzie, ponieważ nie może dołączyć do własnej gry. System wyświetli informację, że musi to być inny gracz, który kliknie w link, aby rozpocząć rozgrywkę. Dzięki temu proces zapraszania i dołączania do gry jest prosty, a użytkownik zapraszający ma pełną kontrolę nad wysłaniem linku do odpowiedniej osoby.
 
+\vspace{0.5cm}
 \begin{figure}[h!]
     \centering
     \includegraphics[width=1\textwidth]{images/ins_min_link.png}
-    \caption{Widok rozpoczynania gry przez link.}
+    \caption{Instrukcja: Widok rozpoczynania gry przez link.}
 \end{figure}
 
 \newpage
+
 \subsection{Gry użytkownika}
 Po kliknięciu na przyciski wyświetlające gry, użytkownik zostaje przeniesiony do sekcji, w której pojawiają się karty gier. W zależności od wybranego przycisku, wyświetlane są gry w różnych stanach. W sekcji „Wciąż aktywne gry” znajdują się partie, które są w trakcie rozgrywki. Jest to szczególnie użyteczne przy długich czasach gry, gdyż gracze mogą wrócić do nierozgrywanych jeszcze partii, kontynuując je w dowolnym momencie. Sekcja „Zakończone gry” pozwala na przeglądanie gier, które już się zakończyły. Użytkownicy mogą sprawdzić, jak przebiegały rozgrywki, jakie strategie były stosowane i jakie były wyniki. Sekcja „Gry z komputerem” oferuje podobną funkcjonalność, umożliwiając przegląd zakończonych gier przeciwko komputerowemu przeciwnikowi. Dzięki temu gracze mogą łatwo wrócić do swoich partii, analizować je i śledzić postępy w grze. Aby powrocic do gry, użytkownik musi zwyczajnie kliknąć w wybraną kartę.
 \\\\
 Dodatkowo, we wszystkich tych sekcjach istnieją filtry, które umożliwiają łatwiejsze sortowanie gier. Gracze mogą filtrować partie po różnych kryteriach, takich jak rodzaj kontroli czasowej, co pozwala szybko znaleźć gry o określonym czasie, czy wynik gry, umożliwiając sortowanie na podstawie zwycięstw, porażek lub remisów. Filtry te ułatwiają przeglądanie dużej liczby gier, pomagając użytkownikom szybko odnaleźć interesujące ich rozgrywki i dostosować widok do swoich potrzeb.
 
+\vspace{0.5cm}
 \begin{figure}[h!]
     \centering
     \includegraphics[width=1\textwidth]{images/ins_min_games.png}
-    \caption{Widok gier użytkownika.}
+    \caption{Instrukcja: Widok gier użytkownika.}
 \end{figure}
 
 \newpage
+
 \subsection{Zaproszenia}
 Ostatnia sekcja na głównej stronie to zaproszenia, gdzie użytkownik ma wgląd we wszystkie aktywne zaproszenia do gry. Zaproszenia te mają określony czas ważności – wygasają po 15 minutach, po czym przestają być widoczne. Dzięki temu użytkownicy mają tylko ograniczony czas na przyjęcie zaproszenia, co wprowadza element dynamiki i pilności w interakcje z innymi graczami.
 
+\vspace{0.5cm}
 \begin{figure}[h!]
     \centering
     \includegraphics[width=1\textwidth]{images/ins_min_inv_card.png}
-    \caption{Widok zaproszeń do gry.}
+    \caption{Instrukcja: Widok zaproszeń do gry.}
 \end{figure}
+\vspace{0.5cm}
 
+\noindent
 Dodatkowo, w przypadku gdy użytkownik jest aktywny na stronie, pojawia się specjalnie dedykowane okno popup. Jeśli użytkownik otrzyma zaproszenie do gry, komunikat wyświetli się automatycznie, informując o tym fakcie. W popupie znajdują się również opcje akceptacji lub odrzucenia zaproszenia, co umożliwia szybkie podjęcie decyzji o dołączeniu do gry lub jej odrzuceniu. Dzięki tej funkcji użytkownicy są na bieżąco informowani o zaproszeniach, co ułatwia interakcję i organizowanie rozgrywek. Użytkownik także może użyć filtrów, aby wyświetli już nieaktywne zaproszenia.
 
+\vspace{0.5cm}
 \begin{figure}[h!]
     \centering
     \includegraphics[width=0.7\textwidth]{images/ins_min_inv_popup.png}
-    \caption{Wyskakujące okienko otrzymanego zaproszenia.}
+    \caption{Instrukcja: Wyskakujące okienko otrzymanego zaproszenia.}
 \end{figure}
+\vspace{0.5cm}
 
 \newpage
+
 \subsection{Strona gry}
+
 Na stronie gry, w centralnej części, znajduje się szachownica, która stanowi główny element interfejsu. To tutaj odbywa się sama rozgrywka, a użytkownicy wykonują swoje ruchy. Po obu stronach szachownicy znajdują się panele, które oferują dodatkowe opcje i funkcjonalności, zapewniając pełniejszą kontrolę nad grą i umożliwiając dostęp do różnych narzędzi pomocniczych.
 
+\vspace{1cm}
 \begin{figure}[h!]
     \centering
     \includegraphics[width=0.9\textwidth]{images/ins_webgame.png}
-    \caption{Strona gry online.}
+    \caption{Instrukcja: Widok strony gry online.}
 \end{figure}
 
 \begin{figure}[h!]
     \centering
     \includegraphics[width=0.9\textwidth]{images/ins_simpgame.png}
-    \caption{Uproszony widok gry.}
+    \caption{Instrukcja: Uproszony widok strony gry.}
 \end{figure}
 
 \newpage
 
+\noindent
 W centralnej części ekranu znajduje się szachownica, której wygląd może być spersonalizowany przez użytkownika w ustawieniach. Po bokach planszy wyświetlane są koordynaty pól (oznaczone literami i cyframi), które pomagają w orientacji na szachownicy. Gracze mogą wybierać i wykonywać ruchy zarówno poprzez kliknięcia, jak i metodę drag and drop, przeciągając figury na odpowiednie pola. Po wykonaniu ruchu przez przeciwnika, odpowiednie pole zostaje podświetlone, co ułatwia śledzenie zmian na planszy. W przypadku zbicia figury, na polu, na którym nastąpiło zbicie, pojawia się mała przekreślona ikona, sygnalizująca utratę figury. Gdy król znajduje się w szachu, jego figura zostaje podświetlona na czerwono, co wskazuje na zagrożenie i konieczność podjęcia działań w celu ochrony króla.
 
+\vspace{1cm}
 \begin{figure}[h!]
     \centering
     \includegraphics[width=0.9\textwidth]{images/ins_min_board.png}
-    \caption{Szachownica}
+    \caption{Instrukcja: Szachownica.}
 \end{figure}
 
 \newpage
@@ -1929,7 +2149,9 @@ W centralnej części ekranu znajduje się szachownica, której wygląd może by
     \centering 
     \includegraphics[width=\linewidth]{images/ins_min_players.png} 
 \end{minipage}
+
 \vspace{1cm}
+
 \begin{minipage}[t]{0.45\textwidth} 
     \vspace{0pt} 
     \centering 
@@ -1941,7 +2163,9 @@ W centralnej części ekranu znajduje się szachownica, której wygląd może by
     \raggedright 
     Kolejna funkcjonalność to menu ruchów, które zostały wykonane. Każdy ruch jest pokazany z ikoną figury, która została użyta, notacją FEN opisującą ruch oraz przybliżonym czasem wykonania ruchu. Na dole menu znajdują się strzałki umożliwiające przewijanie i cofanie, co pozwala na szybki podgląd poprzednich pozycji i śledzenie przebiegu partii. Dodatkowo, najeżdżając na konkretny ruch, wyświetla się wizualizacja pozycji po wykonaniu tego ruchu. Po zakończeniu partii pojawia się przycisk umożliwiający animację całej gry, pozwalając na jej odtworzenie od początku do końca.
 \end{minipage}
+
 \vspace{1cm}
+
 \begin{minipage}[t]{0.45\textwidth} 
     \vspace{0pt} 
     \raggedright 
@@ -1967,7 +2191,9 @@ W centralnej części ekranu znajduje się szachownica, której wygląd może by
     \raggedright 
     Na lewym panelu w przypadku gry online dostępne są opcje zarządzania rozgrywką. Pierwsza z nich to opcja opuszczenia gry, która działa różnie w zależności od długości partii. Dla gier krótkich oznacza to remis, jeśli gra dopiero się rozpoczęła, lub poddanie się, jeśli gra trwa już dłużej. W przypadku gier długich, opuszczenie gry oznacza po prostu wyjście z partii. Kolejna opcja to poddanie się, które kończy grę i uznaje przeciwnika za zwycięzcę. Można również zaproponować remis, co skutkuje wysłaniem oferty do drugiego gracza, który może ją zaakceptować lub odrzucić. Dodatkowo, istnieje opcja blokowania użytkownika, co uniemożliwia wysyłanie wiadomości oraz dodanie takiej osoby do znajomych. Istnieje również możliwość zgłoszenia podejrzenia oszukiwania, co daje użytkownikom narzędzie do zgłaszania nieuczciwych praktyk. Na koniec, dostępne jest ustawienie wyglądu strony gry, w tym zmiana wyglądu szachownicy oraz figur, co pozwala na dostosowanie interfejsu do własnych preferencji.
 \end{minipage}
+
 \vspace{1cm}
+
 \begin{minipage}[t]{0.7\textwidth} 
     \vspace{0pt} 
     \raggedright 
@@ -1979,7 +2205,9 @@ W centralnej części ekranu znajduje się szachownica, której wygląd może by
     \centering 
     \includegraphics[width=\linewidth]{images/ins_min_eopt.png} 
 \end{minipage}
+
 \vspace{1cm}
+
 \begin{minipage}[t]{0.2\textwidth} 
     \vspace{0pt} 
     \centering 
@@ -1994,11 +2222,14 @@ W centralnej części ekranu znajduje się szachownica, której wygląd może by
 
 \newpage
 
+\noindent
 Dodatkowo na planszy szachowej pojawiają się wyskakujące okna, które aktywują się po wybraniu odpowiednich opcji przez użytkownika. Takie okna zwykle służą do potwierdzenia wykonania konkretnej akcji, na przykład w przypadku chęci poddania się, opuszczenia gry czy zmiany ustawień. Wyskakujące okno zawiera pytanie, czy użytkownik na pewno chce wykonać daną czynność, a także opcje potwierdzenia lub anulowania decyzji. Dzięki temu gracze mają pewność, że nie dokonają niezamierzonych zmian czy działań.
+
+\vspace{1cm}
 
 \begin{minipage}[t]{0.45\textwidth} 
     \vspace{0pt} 
-    \centering 
+    \raggedright 
     Okno promocji pionka pojawia się, gdy pionek dotrze do ostatniej linii. Użytkownik wybiera jedną z czterech opcji: damę, wieżę, skoczka lub gońca, a pionek zostaje zamieniony na wybraną figurę.
 \end{minipage} 
 \hfill 
@@ -2007,7 +2238,9 @@ Dodatkowo na planszy szachowej pojawiają się wyskakujące okna, które aktywuj
     \centering 
     \includegraphics[width=\linewidth]{images/ins_min_prom.png} 
 \end{minipage}
+
 \vspace{1cm}
+
 \begin{minipage}[t]{0.45\textwidth} 
     \vspace{0pt} 
     \centering 
@@ -2015,8 +2248,8 @@ Dodatkowo na planszy szachowej pojawiają się wyskakujące okna, które aktywuj
 \end{minipage} 
 \hfill 
 \begin{minipage}[t]{0.45\textwidth} 
-    \vspace{40pt}
-    \centering 
+    \vspace{0pt}
+    \raggedright 
     Pokazywanie poprzednich ruchów odbywa się po najechaniu myszką na menu z poprzednimi ruchami. Po wybraniu ruchu, na szachownicy pojawia się pomniejsza, przyciemniona plansza, która pokazuje wcześniejszą pozycję. Ta zmiana jest tylko wizualna, nie można nic zrobić na tej pomniejszonej planszy, służy ona jedynie do pokazania poprzedniego stanu gry.
 \end{minipage}
 
@@ -2024,7 +2257,7 @@ Dodatkowo na planszy szachowej pojawiają się wyskakujące okna, które aktywuj
 
 \begin{minipage}[t]{0.45\textwidth} 
     \vspace{0pt} 
-    \centering 
+    \raggedright 
     Innym wyskakującym oknem jest okno, które pojawia się po zakończeniu gry, niezależnie od wyniku — wygranej, przegranej lub remisie. Na tym oknie wyświetlany jest rezultat gry, czyli informacja, kto wygrał, jaki był powód zakończenia gry oraz punkty zdobyte lub stracone przez graczy. Na dole okna znajdują się przyciski umożliwiające przejście do wyjścia z gry, rozpoczęcia nowej partii lub rozegrania rewanżu, przy czym będą one odbywać z dotychczasową kontrolą czasową. W przypadku gier z silnikiem dostępne są jedynie opcje restartu gry lub wyjścia z gry.
 \end{minipage} 
 \hfill 
@@ -2035,18 +2268,20 @@ Dodatkowo na planszy szachowej pojawiają się wyskakujące okna, które aktywuj
 \end{minipage}
 
 \newpage
-\subsection{Strona profilu}
+\subsection{Strona konta użytkownika}
 Strona profilu użytkownika zapewnia pełną kontrolę nad ustawieniami konta oraz personalizacją preferencji. Użytkownik ma możliwość edytowania swojego profilu, w tym zmiany danych osobowych, zdjęcia profilowego oraz innych informacji. Na stronie dostępne są szczegółowe statystyki gier, w tym wykresy punktacji dla różnych kategorii czasowych, które pozwalają na analizowanie postępów i wyników w różnych wariantach gier. Użytkownik może również przeglądać listę swoich znajomych, zapraszać ich do gry oraz oglądać ich profile.
 \\\\
 Dodatkowo, użytkownik ma możliwość edytowania ustawień konta, w tym zmiany hasła oraz zarządzania ustawieniami prywatności, takimi jak widoczność profilu. Można również dostosować wygląd strony gry, zmieniając szachownicę, pionki oraz inne elementy wizualne. Istnieje opcja włączenia funkcji oszukiwania podczas gry z silnikiem, co pozwala na cofanie ruchów lub zmianę poziomu trudności. Ponadto, użytkownik może zarządzać globalnymi ustawieniami aplikacji, takimi jak język czy powiadomienia. Strona profilu jest centralnym miejscem, w którym użytkownik może zarządzać wszystkimi aspektami swojego konta i dostosować aplikację do swoich potrzeb.
 
+\vspace{0.5cm}
 \begin{figure}[h!]
     \centering
     \includegraphics[width=1\textwidth]{images/ins_account.png}
-    \caption{Strona profilu użytkownika.}
+    \caption{Instrukcja: Widok strony profilu użytkownika.}
 \end{figure}
 
 \newpage
+
 \subsection{Strona zarządzania znajomymi}
 Strona użytkowników służy do zarządzania znajomymi i relacjami z innymi graczami w aplikacji. Jest podzielona na cztery główne sekcje, które pomagają w organizowaniu kontaktów.
 
@@ -2057,12 +2292,14 @@ Strona użytkowników służy do zarządzania znajomymi i relacjami z innymi gra
     \item \textbf{Odrzucone zaproszenia} – lista osób, które odrzuciły zaproszenia do znajomych. Użytkownicy mają możliwość ponownego wysłania zaproszenia do tych osób, jeżeli zechcą.
 \end{itemize}
 
+\noindent
 Cała strona umożliwia łatwe zarządzanie znajomymi, zaproszeniami i relacjami z innymi graczami, co pozwala na lepszą organizację kontaktów w aplikacji.
 
+\vspace{0.5cm}
 \begin{figure}[h!]
     \centering
     \includegraphics[width=1\textwidth]{images/ins_users.png}
-    \caption{Strona zarządzania znajomymi.}
+    \caption{Instrukcja: Widok strony zarządzania znajomymi.}
 \end{figure}
 
 \newpage
@@ -2074,20 +2311,25 @@ Dodatkowo rankingi są podzielone na pięć kategorii, zależnie od typu kontrol
 \\\\
 Strona rankingu jest kluczowym elementem aplikacji, wspierającym rywalizację i pozwalającym graczom śledzić ich postępy oraz porównywać swoje osiągnięcia z innymi użytkownikami.
 
+\vspace{0.5cm}
 \begin{figure}[h!]
     \centering
     \includegraphics[width=1\textwidth]{images/ins_rank.png}
-    \caption{Strona zarządzania znajomymi.}
+    \caption{Instrukcja: Widok strony zarządzania znajomymi.}
 \end{figure}
 
 \newpage
+
 \section{Testy}
+
 \subsection{Frontend}
 \subsubsection{Testy automatyczne}
 \subsubsection{Testy maunalne}
 
 \newpage
+
 \subsection{Backend}
+
 \subsubsection{Testy jednostkowe}
 Test jednostkowy to kod wykonujący inny kod w kontrolowanych warunkach w ramach jednego procesu w pamięci, w celu weryfikacji (bez ingerencji programisty), że testowana logika działa w ściśle określony sposób.
 \\\\

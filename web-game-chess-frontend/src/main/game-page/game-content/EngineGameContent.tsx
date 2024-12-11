@@ -45,23 +45,18 @@ type EngineGameContentProps = {
   // game data
   gameId: Guid;
   gameData: GetEngineGameDto;
-
   // for game refresh after done move
   getGame: () => Promise<void>;
   // for ending the game
   endGame: (loserColor: PieceColor | null) => Promise<void>;
-
   // obtained winner data
   winnerData: GetEngineGameWinnerDto | null;
-
   // for displaying last moves
   historyPositionState: StateProp<MoveDto | null>;
-
   // to display/hide confirm window
   showConfirmState: StateProp<GameActionInterface | null>;
   // to perform action on confirm
   confirmAction: () => void;
-
   // for displaying windows
   displayedWindowState: StateProp<GameWindowInterface>;
 };
