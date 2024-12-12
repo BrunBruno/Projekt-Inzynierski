@@ -134,6 +134,7 @@ JavaScript został wybrany jako baza projektu ze względu na znajomość tego j�
 TypeScript został wybrany przede wszystkim w celu uzyskania lepszej kontroli nad kodem. Dzięki wprowadzeniu statycznego typowania i bardziej rygorystycznej strukturze, TypeScript pozwala na wcześniejsze wykrywanie błędów, co przekłada się na większą stabilność i łatwiejsze utrzymanie aplikacji.
 \\\\
 Połączenie JavaScriptu i TypeScriptu pozwala skorzystać z najlepszych cech obu technologii – elastyczności i popularności JS oraz dodatkowego bezpieczeństwa i przewidywalności oferowanego przez TS.
+\\\\
 
 \noindent \textbf{React oraz Vite}\\
 React to biblioteka JavaScript służąca do renderowania interfejsów użytkownika (UI). Interfejs użytkownika składa się z małych jednostek, takich jak przyciski, tekst i obrazy. React pozwala łączyć je w komponenty wielokrotnego użytku, które można zagnieżdżać. Od stron internetowych po aplikacje na telefony, wszystko na ekranie można podzielić na komponenty. Każdy komponent Reacta jest funkcją JavaScript, która może zawierać pewne znaczniki renderowane w przeglądarce. Komponenty Reacta używają rozszerzenia składni o nazwie JSX do reprezentowania tych znaczników. JSX wygląda bardzo podobnie do HTML, jednak jest nieco bardziej rygorystyczny oraz może wyświetlać dynamiczne informacje. 
@@ -143,6 +144,7 @@ Vite to nowoczesne i wydajne  narzędzie do budowania aplikacji frontend, które
 React został wybrany ze względu na znajomość tej technologii oraz jej szerokie zastosowanie w tworzeniu aplikacji webowych. Intuicyjność pisania kodu w React, oparta na komponentach wielokrotnego użytku i JSX, sprawia, że praca z tą biblioteką jest wygodna i efektywna. Dodatkowo React oferuje szerokie wsparcie społeczności oraz dostęp do bogatego ekosystemu bibliotek, co ułatwia rozwijanie i utrzymanie projektu.
 \\\\
 Vite natomiast został wybrany głównie ze względu na swoją szybkość, zarówno podczas początkowego uruchamiania projektu, jak i w trakcie jego developmentu. Wykorzystanie funkcji hot module replacement znacznie przyspiesza pracę, a minimalistyczna konfiguracja upraszcza proces tworzenia aplikacji. Dodatkowym atutem Vite jest jego elastyczność oraz możliwość łatwego integracji z Reactem, co czyni go idealnym wyborem dla nowoczesnych projektów frontendowych.
+\\\\
 
 \noindent \textbf{Sass / SCSS}\\
 Sass to preprocessor CSS, który umożliwia programowanie styli w znacznie bardziej efektywny i zorganizowany sposób niż zwykły CSS. Pozwala na definiowanie stałych, zagnieżdżanie reguł CSS, używanie zmiennych, funkcji, operatorów i wiele więcej. Dzięki temu, można wykorzystać Sass do szybszego i łatwiejszego tworzenia stylów strony, a także czytać i zarządzać istniejącym kodem znacznie lepiej. Jest to szczególnie przydatne w przypadku dużych projektów, gdzie style są rozbudowane i trudne do zarządzania.
@@ -240,7 +242,7 @@ W tej aplikacji, każda encja (klasa reprezentująca dane) jest mapowana na odpo
 \\\\
 Przykładowo, przy użyciu Entity Framework, klasy encji, które zostały zaprezentowane w dalszej części rozdziału, automatycznie generują odpowiednie tabele w bazie PostgreSQL. Ułatwia to pracę z danymi, pozwalając na ich łatwe przetwarzanie i manipulowanie, a jednocześnie zapewnia integralność danych w bazie.
 \\\\
-Do obsługi bazy danych, zarządzania danymi oraz monitorowania stanu bazy zastosowano narzędzie \textbf{PgAdmin4}. Jest ono popularnym interfejsem graficznym dla PostgreSQL, który umożliwia łatwe zarządzanie bazą danych, tworzenie zapytań SQL, monitorowanie wydajności oraz przeprowadzanie operacji na danych, takich jak dodawanie, edytowanie czy usuwanie rekordów. Dzięki temu narzędziu możliwe jest szybkie i wygodne wykonywanie operacji administracyjnych oraz wgląd w strukturę bazy danych, co wspiera procesy rozwoju i utrzymania aplikacji.
+Do obsługi bazy danych, zarządzania danymi oraz monitorowania stanu bazy zastosowano narzędzie \textbf{PgAdmin}. Jest ono popularnym interfejsem graficznym dla PostgreSQL, który umożliwia łatwe zarządzanie bazą danych, tworzenie zapytań SQL, monitorowanie wydajności oraz przeprowadzanie operacji na danych, takich jak dodawanie, edytowanie czy usuwanie rekordów. Dzięki temu narzędziu możliwe jest szybkie i wygodne wykonywanie operacji administracyjnych oraz wgląd w strukturę bazy danych, co wspiera procesy rozwoju i utrzymania aplikacji.
 \\\\
 Poniżej zaprezentowane zostały diagramy \textbf{ERD (Entity-Relationship Diagram)}, które ilustrują strukturę bazy danych oraz relacje pomiędzy encjami. Każda z tych encji odpowiada za przechowywanie specyficznych danych, które są następnie wykorzystywane przez różne warstwy aplikacji w celu zapewnienia pełnej funkcjonalności systemu. Opis poszczególnych encji i ich zależności pozwala na lepsze zrozumienie, jak dane są przechowywane i powiązane w systemie.
 
@@ -255,7 +257,7 @@ Segment relacji z użytkownikami obejmuje kilka encji i ich relacji, które zarz
 \begin{figure}[h!]
     \centering
     \includegraphics[width=0.9\textwidth]{images/ERD_user.png}
-    \caption{Diagram relacji jednostka-relacja przedstawiający relacje użytkownika - wygenerowany za pomocą PgAdmin4}
+    \caption{Diagram relacji jednostka-relacja przedstawiający relacje użytkownika. \\ Wygenerowany za pomocą programu PgAdmin.}
 \end{figure}
 
 \newpage
@@ -267,7 +269,7 @@ Segment relacji przyjaźni jest zarządzany przez jednostkę przyjaźni, która 
 \begin{figure}[h!]
     \centering
     \includegraphics[width=0.9\textwidth]{images/ERD_friendship.png}
-    \caption{Diagram relacji między podmiotami przedstawiający relacje przyjaźni między użytkownikami - wygenerowany za pomocą PgAdmin4}
+    \caption{Diagram relacji między podmiotami przedstawiający relacje przyjaźni między użytkownikami. \\ Wygenerowany za pomocą programu PgAdmin.}
 \end{figure}
 
 \newpage
@@ -279,7 +281,7 @@ Segment relacji gier online obsługuje strukturę internetowej gry w szachy, z k
 \begin{figure}[h!]
     \centering
     \includegraphics[width=0.9\textwidth]{images/ERD_online.png}
-    \caption{Diagram relacji między podmiotami ilustrujący strukturę interakcji w grach sieciowych - wygenerowany za pomocą PgAdmin4}
+    \caption{Diagram relacji między podmiotami ilustrujący strukturę interakcji w grach sieciowych. \\ Wygenerowany za pomocą programu PgAdmin.}
 \end{figure}
 
 \newpage
@@ -291,7 +293,7 @@ Segment ten skupia się na aspekcie gry opartym na silniku, gdzie każda gra jes
 \begin{figure}[h!]
     \centering
     \includegraphics[width=0.9\textwidth]{images/ERD_offline.png}
-    \caption{Diagram zależności między jednostkami przedstawiający relacje między silnikiem a grą - wygenerowany za pomocą PgAdmin4}
+    \caption{Diagram zależności między jednostkami przedstawiający relacje między silnikiem a grą. \\ Wygenerowany za pomocą programu PgAdmin.}
 \end{figure}
 
 \newpage
@@ -767,7 +769,7 @@ Moduł .Infrastructure implementuje interfejsy zdefiniowane w .Application, dost
 \begin{figure}[h!]
     \centering
     \includegraphics[width=1\textwidth]{images/diagram_dependencies.png}
-    \caption{Diagram zależności między projektami}
+    \caption{Diagram zależności między projektami. \\ Opracowany za pomocą aplikacji Viso.}
 \end{figure}
 
 \newpage
@@ -1346,7 +1348,7 @@ Poniższy wykres ilustruje zależność zmiany punktacji ELO, gdzie $ \text{y} =
 \begin{figure}[h!]
     \centering
     \includegraphics[width=1\textwidth]{images/graf_elo_calc.png}
-    \caption{Wykres przedstawia zmiane punktacji ELO w zależności od różnicy poziomu graczy - wykresy utworzone za pomocą strony www.desmos.com}
+    \caption{Wykres przedstawia zmiane punktacji ELO w zależności od różnicy poziomu graczy. \\ Wykresy utworzone za pomocą strony www.desmos.com}
 \end{figure}
 \vspace{1cm}
 
@@ -1437,7 +1439,7 @@ Finalnie odpowiedź w postaci DTO jest zwracana przez punkt końcowy API do klie
 \begin{figure}[h!]
     \centering
     \includegraphics[width=1\textwidth]{images/diagram_back.png}
-    \caption{Diagram przedstawiający proces przetwarzania zapytania na serwerze.}
+    \caption{Diagram przedstawiający proces przetwarzania zapytania na serwerze. \\ Opracowany za pomocą aplikacji Viso.}
 \end{figure}
 
 \newpage
@@ -1531,8 +1533,50 @@ Serwis JWT stanowi kluczowy element systemu autoryzacji w aplikacji, umożliwiaj
 \newpage
 
 \noindent \textbf{Entity Framework}\\
+Entity Framework (EF) to nowoczesny framework ORM (Object-Relational Mapping) opracowany przez Microsoft, który umożliwia programistom łatwe mapowanie struktur danych obiektowych na tabele relacyjnej bazy danych. W aplikacji wykorzystuje się EF do zarządzania danymi oraz interakcji z bazą danych PostgreSQL w sposób obiektowy. Dzięki EF operacje na danych stają się prostsze i bardziej czytelne, eliminując potrzebę pisania ręcznych zapytań SQL.
+\\\\
+Podstawą działania EF jest klasa kontekstu, która w aplikacji została zaimplementowana jako \textbf{ChessAppDbContext : DbContext}. Kontekst bazy danych zarządza połączeniem z bazą danych oraz umożliwia wykonywanie operacji CRUD na encjach. W aplikacji konfiguracja każdej encji odbywa się za pomocą dedykowanej klasy \textbf{DbContextConfiguration } implementującej interfejs \textbf{IEntityTypeConfiguration<T>}. W tej konfiguracji definiowane są szczegóły dotyczące mapowania encji na tabele, takie jak nazwy kolumn, klucze główne czy relacje między tabelami.
+\\\\
+Dla każdej encji w aplikacji zostało utworzone dedykowane repozytorium, które jest odpowiedzialne za wykonywanie operacji na danych. Każde repozytorium posiada odpowiadający mu interfejs znajdujący się w warstwie .Application. Repozytoria pełnią rolę abstrakcyjnej warstwy dostępu do danych, umożliwiając wykonywanie operacji takich jak dodawanie, usuwanie, modyfikowanie i pobieranie danych z bazy. Repozytoria zwiększają przejrzystość kodu, separując logikę dostępu do danych od reszty aplikacji, a także ułatwiają testowanie dzięki możliwości wprowadzania mocków.
+\\\\
+Wszystkie elementy związane z EF i repozytoriami są rejestrowane w kontenerze IoC (Inversion of Control) za pomocą metody rozszerzającej AddPostgres. Poniżej znajduje się przykład implementacji rejestracji:
+
+\vspace{0.5cm}
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=1\textwidth]{images/ex_infra_extensions.png}
+    \caption{Fragment kodu: Rejestracja kontekstu oraz repozytoriów.}
+\end{figure}
+\vspace{0.5cm}
+
+Metoda ta umożliwia skonfigurowanie połączenia z bazą PostgreSQL oraz rejestrację wszystkich repozytoriów w kontenerze usług, dzięki czemu są one dostępne w całej aplikacji. Takie podejście wspiera modularność oraz ułatwia zarządzanie zależnościami.
 
 \newpage
+
+\noindent \textbf{Zadania cykliczne}\\
+Zadania cykliczne w projekcie to procesy działające w tle, które są wykonywane w określonych odstępach czasu bez konieczności interakcji użytkownika. W aplikacji takie zadania realizuje się za pomocą klasy, która dziedziczy po \textbf{BackgroundService}. Dzięki temu mechanizmowi zadania te są uruchamiane automatycznie podczas działania aplikacji i wykonują swoją logikę w nieskończonej pętli, z uwzględnieniem przerw między iteracjami.
+\\\\
+W projekcie zadanie cykliczne odpowiedzialne jest za monitorowanie i automatyczne kończenie gier sieciowych, które spełniają określone warunki. Do jego realizacji wykorzystano wstrzykiwanie zależności, umożliwiając dostęp do dedykowanego serwisu wykonującego kluczowe operacje. Takie podejście pozwala na regularne przetwarzanie danych w tle, co wpływa na płynność działania aplikacji i automatyzację procesów.
+\\\\
+W metodzie \textbf{ExecuteAsync} wykonywana jest nieskończona pętla, która co 60 sekund wywołuje metodę \textbf{FinishGames}. Metoda ta korzysta z serwisu \textbf{IWebGamesFinisherService} za pomocą mechanizmu dependency injection, aby zrealizować logikę kończenia gier. Sam serwis został zaimplementowany w celu automatycznego kończenia gier o długiej kontroli czasowej, aby zapobiegać pozostawianiu nierozstrzygniętych rozgrywek i utrzymywać porządek w systemie, ale także aby rozstrzygać gry krótkoterminowe, których zawodnik opuścił partię w nieprawidłowy sposób.
+\\\\
+
+\noindent \textbf{Obsługa błędów}\\
+Obsługa błędów w projekcie została zaprojektowana w sposób centralny, co ułatwia zarządzanie wyjątkami i poprawia doświadczenie użytkownika. Wykorzystuje się w tym celu middleware, który przechwytuje wszystkie wyjątki generowane podczas obsługi żądań i mapuje je na odpowiednie kody statusu HTTP.
+\\\\
+Dzięki temu podejściu różne typy wyjątków (np. błędy użytkownika, brak zasobu, brak autoryzacji) są konwertowane na czytelne i spójne odpowiedzi dla klienta. Centralizacja obsługi błędów zwiększa przejrzystość kodu i umożliwia szybsze rozwiązywanie problemów, ponieważ wszystkie wyjątki są przetwarzane w jednym miejscu.
+\\\\
+Obsługa błędów w projekcie została zaimplementowana za pomocą klasy \textbf{ExceptionMiddleware}, która pełni rolę middleware w aplikacji ASP.NET Core. Middleware przechwytuje wszystkie wyjątki, które mogą wystąpić podczas obsługi żądań HTTP, i mapuje je na odpowiednie kody statusu HTTP:
+
+\begin{itemize}
+    \item \textbf{400 (Bad Request):} dla wyjątków BadRequestException, gdy żądanie jest niepoprawne.
+    \item \textbf{404 (Not Found):} dla wyjątków NotFoundException, gdy żądany zasób nie istnieje.
+    \item \textbf{401 (Unauthorized):} dla wyjątków UnauthorizedException, gdy użytkownik nie jest autoryzowany.
+    \item \textbf{500 (Internal Server Error):} dla wszystkich pozostałych nieobsłużonych błędów.
+\end{itemize}
+
+\newpage
+
 \subsubsection{Wykorzystane pakiety i biblioteki}
 
 W projekcie zastosowano szereg bibliotek, które wspierają rozwój i funkcjonalność aplikacji. Każda z wymienionych bibliotek została dobrana w celu spełnienia konkretnych wymagań funkcjonalnych i architektonicznych projektu, co pozwala na jego rozwój zgodny z najlepszymi praktykami. Poniżej przedstawiono szczegółowy opis wybranych komponentów:
@@ -1681,6 +1725,20 @@ Strona rankingu pokazuje aktualne rankingi graczy, zarówno na poziomie globalny
 
 \newpage
 
+\noindent \textbf{Strona błędu (NotFoundPage)}\\
+Strona błędu wyświetla się, gdy użytkownik próbuje uzyskać dostęp do nieistniejącej lub niedostępnej ścieżki w aplikacji. Jest to komponent informujący użytkownika o błędnym adresie URL lub próbie dostępu do zasobu, który został usunięty lub zmieniony. Strona ta zawiera czytelny komunikat o błędzie, taki jak "404 - Strona nie znaleziona", a także odnośnik umożliwiający powrót do strony głównej lub innego zasobu aplikacji. Dzięki temu użytkownik ma możliwość szybkiego odzyskania kontroli i powrotu do korzystania z funkcjonalności aplikacji.
+\\\\
+Po opisaniu zasad działania routingu w aplikacji oraz przedstawieniu wszystkich głównych komponentów, warto przedstawić diagram ilustrujący strukturę nawigacji i przepływ między poszczególnymi sekcjami. Diagram ten pomoże zrozumieć zależności pomiędzy komponentami oraz sposób, w jaki routing obsługuje żądania użytkowników w zależności od ich stanu uwierzytelnienia i wymaganych uprawnień.
+
+\vspace{1cm}
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=1\textwidth]{images/diagram_routing.png}
+    \caption{Diagram blokowy przedstawiający schemat routingu aplikacji. \\ Opracowany za pomocą aplikacji Viso.}
+\end{figure}
+
+\newpage
+
 \subsubsection{Zarządzanie stanem aplikacji}
 Zarządzanie stanem aplikacji w projekcie opiera się na elastycznym wykorzystaniu kilku mechanizmów w zależności od charakteru stanu i jego zastosowania. Dzięki temu aplikacja jest w stanie skutecznie zarządzać zarówno lokalnym stanem komponentów, jak i bardziej złożonymi danymi związanymi z rozgrywką, zapewniając płynność i responsywność działania aplikacji.
 \\\\
@@ -1748,7 +1806,7 @@ Poniżej przedstawiony został diagram blokowy ilustrujący proces działania me
 \begin{figure}[h!]
     \centering
     \includegraphics[width=1\textwidth]{images/diagram_gry.png}
-    \caption{Diagram blokowy mechanizmu gry w szachy.}
+    \caption{Diagram blokowy mechanizmu gry w szachy. \\ Opracowany za pomocą aplikacji Viso.}
 \end{figure}
 
 \newpage
@@ -1777,7 +1835,7 @@ Poniżej przedstawiony został uproszony diagram blokowy przedstawiający dział
 \begin{figure}[h!]
     \centering
     \includegraphics[width=1\textwidth]{images/diagram_enggry.png}
-    \caption{Diagram blokowy mechanizmu gry z silnikiem.}
+    \caption{Diagram blokowy mechanizmu gry z silnikiem. \\ Opracowany za pomocą aplikacji Viso.}
 \end{figure}
 
 \newpage
@@ -2149,27 +2207,29 @@ Strona rejestracji jest zaprojektowana z myślą o czytelności i łatwości obs
 
 \subsection{Weryfikacja konta}
 
-\begin{minipage}[t]{0.45\textwidth} 
+\begin{minipage}[t]{0.55\textwidth} 
     \vspace{0pt} 
     \raggedright 
     Weryfikacja konta to jeden z kluczowych etapów rejestracji, mający na celu zapewnienie bezpieczeństwa danych użytkowników oraz ochronę przed nieuprawnionym dostępem. Po zakończeniu procesu rejestracji aplikacja automatycznie generuje wiadomość e-mail, która zawiera wszystkie informacje niezbędne do ukończenia weryfikacji. System weryfikacyjny nie tylko wspiera proces zakładania konta, ale również jest wykorzystywany przy odzyskiwaniu hasła, co zapewnia spójność działania i zwiększa bezpieczeństwo użytkowników. 
 \end{minipage} 
 \hfill 
-\begin{minipage}[t]{0.45\textwidth} 
+\begin{minipage}[t]{0.35\textwidth} 
     \vspace{0pt} 
     \centering 
     \includegraphics[width=\linewidth]{images/ins_min_ver.png} 
+    Okno weryfikacji adresu email.
 \end{minipage}
 
 \vspace{1cm}
 
-\begin{minipage}[t]{0.45\textwidth} 
+\begin{minipage}[t]{0.35\textwidth} 
     \vspace{0pt} 
     \centering 
     \includegraphics[width=\linewidth]{images/ins_min_mail.png} 
+    Otrzymany email z kodem weryfikacyjnym.
 \end{minipage} 
 \hfill 
-\begin{minipage}[t]{0.45\textwidth} 
+\begin{minipage}[t]{0.55\textwidth} 
     \vspace{0pt} 
     \raggedright 
     Wiadomość e-mail, zatytułowana "Hello from BRN Chess", zawiera przyjazne powitanie, a także unikalny kod weryfikacyjny przypisany do konkretnego konta użytkownika. Treść e-maila została zaprojektowana tak, aby była czytelna i estetyczna, co pozwala na szybkie odnalezienie wymaganych informacji. Kod weryfikacyjny, przedstawiony w formie wyróżnionego tekstu, należy skopiować i wkleić w dedykowane pole tekstowe w oknie weryfikacji w aplikacji. Po wprowadzeniu kodu i jego zatwierdzeniu konto zostaje w pełni aktywowane, a użytkownik może rozpocząć korzystanie z platformy. 
@@ -2281,7 +2341,7 @@ Dodatkowo, we wszystkich tych sekcjach istnieją filtry, które umożliwiają ł
 \newpage
 
 \subsection{Zaproszenia}
-Ostatnia sekcja na głównej stronie to zaproszenia, gdzie użytkownik ma wgląd we wszystkie aktywne zaproszenia do gry. Zaproszenia te mają określony czas ważności – wygasają po 15 minutach, po czym przestają być widoczne. Dzięki temu użytkownicy mają tylko ograniczony czas na przyjęcie zaproszenia, co wprowadza element dynamiki i pilności w interakcje z innymi graczami.
+Ostatnia sekcja na głównej stronie to zaproszenia, gdzie użytkownik ma wgląd we wszystkie aktywne oraz wygasłe zaproszenia do gry. Zaproszenia te mają określony czas ważności – wygasają po 15 minutach, dzięki temu użytkownicy mają tylko ograniczony czas na przyjęcie zaproszenia, co wprowadza element dynamiki i pilności w interakcje z innymi graczami.
 
 \vspace{0.5cm}
 \begin{figure}[h!]
@@ -2292,15 +2352,25 @@ Ostatnia sekcja na głównej stronie to zaproszenia, gdzie użytkownik ma wgląd
 \vspace{0.5cm}
 
 \noindent
-Dodatkowo, w przypadku gdy użytkownik jest aktywny na stronie, pojawia się specjalnie dedykowane okno popup. Jeśli użytkownik otrzyma zaproszenie do gry, komunikat wyświetli się automatycznie, informując o tym fakcie. W popupie znajdują się również opcje akceptacji lub odrzucenia zaproszenia, co umożliwia szybkie podjęcie decyzji o dołączeniu do gry lub jej odrzuceniu. Dzięki tej funkcji użytkownicy są na bieżąco informowani o zaproszeniach, co ułatwia interakcję i organizowanie rozgrywek. Użytkownik także może użyć filtrów, aby wyświetli już nieaktywne zaproszenia.
+Dodatkowo, w przypadku gdy użytkownik jest aktywny na stronie, pojawia się specjalnie dedykowane okno popup. Jeśli użytkownik otrzyma zaproszenie do gry, komunikat wyświetli się automatycznie, informując o tym fakcie. W popupie znajdują się również opcje akceptacji lub odrzucenia zaproszenia, co umożliwia szybkie podjęcie decyzji o dołączeniu do gry lub jej odrzuceniu.
 
 \vspace{0.5cm}
 \begin{figure}[h!]
     \centering
-    \includegraphics[width=0.7\textwidth]{images/ins_min_inv_popup.png}
+    \includegraphics[width=0.5\textwidth]{images/ins_min_inv_popup.png}
     \caption{Instrukcja: Wyskakujące okienko otrzymanego zaproszenia.}
 \end{figure}
 \vspace{0.5cm}
+
+\noindent
+Podobnie jak w przypadku sekcji gier uzytkownika, w sekcji zaproszeń dostępne są filtry w celu wyświetlania zaproszeń z wybranym statusem.
+
+\vspace{0.5cm}
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.5\textwidth]{images/ins_filters.png}
+    \caption{Instrukcja: Okno filtrów zaproszeń.}
+\end{figure}
 
 \newpage
 
@@ -2345,6 +2415,7 @@ W centralnej części ekranu znajduje się szachownica, której wygląd może by
     \vspace{0pt} 
     \centering 
     \includegraphics[width=\linewidth]{images/ins_min_players.png} 
+    Gracze i kontrola czasowa.
 \end{minipage}
 
 \vspace{1cm}
@@ -2353,12 +2424,13 @@ W centralnej części ekranu znajduje się szachownica, której wygląd może by
     \vspace{0pt} 
     \centering 
     \includegraphics[width=\linewidth]{images/ins_min_moves.png} 
+    Menu poprzednich ruchów.
 \end{minipage} 
 \hfill 
 \begin{minipage}[t]{0.45\textwidth} 
     \vspace{0pt} 
     \raggedright 
-    Kolejna funkcjonalność to menu ruchów, które zostały wykonane. Każdy ruch jest pokazany z ikoną figury, która została użyta, notacją FEN opisującą ruch oraz przybliżonym czasem wykonania ruchu. Na dole menu znajdują się strzałki umożliwiające przewijanie i cofanie, co pozwala na szybki podgląd poprzednich pozycji i śledzenie przebiegu partii. Dodatkowo, najeżdżając na konkretny ruch, wyświetla się wizualizacja pozycji po wykonaniu tego ruchu. Po zakończeniu partii pojawia się przycisk umożliwiający animację całej gry, pozwalając na jej odtworzenie od początku do końca.
+    Kolejna funkcjonalność to menu ruchów, które zostały wykonane. Każdy ruch jest pokazany z ikoną figury, która została użyta, notacją FEN opisującą ruch oraz przybliżonym czasem wykonania ruchu. Na dole menu znajdują się przyciski umożliwiające przewijanie i cofanie, co pozwala na szybki podgląd poprzednich pozycji i śledzenie przebiegu partii. Dodatkowo, najeżdżając na konkretny ruch, wyświetla się wizualizacja pozycji po wykonaniu tego ruchu. Po zakończeniu partii pojawia się przycisk umożliwiający animację całej gry, pozwalając na jej odtworzenie od początku do końca.
 \end{minipage}
 
 \vspace{1cm}
@@ -2373,6 +2445,7 @@ W centralnej części ekranu znajduje się szachownica, której wygląd może by
     \vspace{0pt} 
     \centering 
     \includegraphics[width=\linewidth]{images/ins_min_mess.png} 
+    Menu wiadomości.
 \end{minipage}
 
 \newpage
@@ -2381,6 +2454,7 @@ W centralnej części ekranu znajduje się szachownica, której wygląd może by
     \vspace{0pt} 
     \centering 
     \includegraphics[width=\linewidth]{images/ins_min_wopt.png} 
+    Menu akcji - gra online.
 \end{minipage} 
 \hfill 
 \begin{minipage}[t]{0.7\textwidth} 
@@ -2401,6 +2475,7 @@ W centralnej części ekranu znajduje się szachownica, której wygląd może by
     \vspace{0pt} 
     \centering 
     \includegraphics[width=\linewidth]{images/ins_min_eopt.png} 
+    Menu akcji - gra offline.
 \end{minipage}
 
 \vspace{1cm}
@@ -2409,6 +2484,7 @@ W centralnej części ekranu znajduje się szachownica, której wygląd może by
     \vspace{0pt} 
     \centering 
     \includegraphics[width=\linewidth]{images/ins_min_capt.png} 
+    Wizualizacja zbitych figur.
 \end{minipage} 
 \hfill 
 \begin{minipage}[t]{0.7\textwidth} 
@@ -2424,51 +2500,54 @@ Dodatkowo na planszy szachowej pojawiają się wyskakujące okna, które aktywuj
 
 \vspace{1cm}
 
-\begin{minipage}[t]{0.45\textwidth} 
+\begin{minipage}[t]{0.55\textwidth} 
     \vspace{0pt} 
     \raggedright 
     Okno promocji pionka pojawia się, gdy pionek dotrze do ostatniej linii. Użytkownik wybiera jedną z czterech opcji: damę, wieżę, skoczka lub gońca, a pionek zostaje zamieniony na wybraną figurę.
 \end{minipage} 
 \hfill 
-\begin{minipage}[t]{0.45\textwidth} 
+\begin{minipage}[t]{0.35\textwidth} 
     \vspace{0pt} 
     \centering 
     \includegraphics[width=\linewidth]{images/ins_min_prom.png} 
+    Okno promocji pinków.
 \end{minipage}
 
 \vspace{1cm}
 
-\begin{minipage}[t]{0.45\textwidth} 
+\begin{minipage}[t]{0.35\textwidth} 
     \vspace{0pt} 
     \centering 
     \includegraphics[width=\linewidth]{images/ins_min_prev.png} 
+    Okno poprzedniego ruchu.
 \end{minipage} 
 \hfill 
-\begin{minipage}[t]{0.45\textwidth} 
+\begin{minipage}[t]{0.55\textwidth} 
     \vspace{0pt}
     \raggedright 
-    Pokazywanie poprzednich ruchów odbywa się po najechaniu myszką na menu z poprzednimi ruchami. Po wybraniu ruchu, na szachownicy pojawia się pomniejsza, przyciemniona plansza, która pokazuje wcześniejszą pozycję. Ta zmiana jest tylko wizualna, nie można nic zrobić na tej pomniejszonej planszy, służy ona jedynie do pokazania poprzedniego stanu gry.
+    Pokazywanie poprzednich ruchów odbywa się po najechaniu myszką na menu z poprzednimi ruchami lub poprzez kontroli przewijania na dole menu. Po wybraniu ruchu, na szachownicy pojawia się pomniejsza, przyciemniona plansza, która pokazuje wcześniejszą pozycję. Ta zmiana jest tylko wizualna, służy ona jedynie do pokazania poprzedniego stanu gry, co oznacza, że nie istnieje możliwość interakcji z tym oknem.
 \end{minipage}
 
 \vspace{1cm}
 
-\begin{minipage}[t]{0.45\textwidth} 
+\begin{minipage}[t]{0.55\textwidth} 
     \vspace{0pt} 
     \raggedright 
     Innym wyskakującym oknem jest okno, które pojawia się po zakończeniu gry, niezależnie od wyniku — wygranej, przegranej lub remisie. Na tym oknie wyświetlany jest rezultat gry, czyli informacja, kto wygrał, jaki był powód zakończenia gry oraz punkty zdobyte lub stracone przez graczy. Na dole okna znajdują się przyciski umożliwiające przejście do wyjścia z gry, rozpoczęcia nowej partii lub rozegrania rewanżu, przy czym będą one odbywać z dotychczasową kontrolą czasową. W przypadku gier z silnikiem dostępne są jedynie opcje restartu gry lub wyjścia z gry.
 \end{minipage} 
 \hfill 
-\begin{minipage}[t]{0.45\textwidth} 
+\begin{minipage}[t]{0.35\textwidth} 
     \vspace{0pt} 
     \centering 
     \includegraphics[width=\linewidth]{images/ins_min_win.png} 
+    Okno końca gry.
 \end{minipage}
 
 \newpage
 \subsection{Strona konta użytkownika}
 Strona profilu użytkownika zapewnia pełną kontrolę nad ustawieniami konta oraz personalizacją preferencji. Użytkownik ma możliwość edytowania swojego profilu, w tym zmiany danych osobowych, zdjęcia profilowego oraz innych informacji. Na stronie dostępne są szczegółowe statystyki gier, w tym wykresy punktacji dla różnych kategorii czasowych, które pozwalają na analizowanie postępów i wyników w różnych wariantach gier. Użytkownik może również przeglądać listę swoich znajomych, zapraszać ich do gry oraz oglądać ich profile.
 \\\\
-Dodatkowo, użytkownik ma możliwość edytowania ustawień konta, w tym zmiany hasła oraz zarządzania ustawieniami prywatności, takimi jak widoczność profilu. Można również dostosować wygląd strony gry, zmieniając szachownicę, pionki oraz inne elementy wizualne. Istnieje opcja włączenia funkcji oszukiwania podczas gry z silnikiem, co pozwala na cofanie ruchów lub zmianę poziomu trudności. Ponadto, użytkownik może zarządzać globalnymi ustawieniami aplikacji, takimi jak język czy powiadomienia. Strona profilu jest centralnym miejscem, w którym użytkownik może zarządzać wszystkimi aspektami swojego konta i dostosować aplikację do swoich potrzeb.
+Dodatkowo, użytkownik ma możliwość edytowania ustawień konta, w tym zmiany hasła oraz zarządzania ustawieniami prywatności, takimi jak widoczność profilu. Można również dostosować wygląd strony gry, zmieniając szachownicę, pionki oraz inne elementy wizualne. Istnieje opcja włączenia funkcji oszukiwania podczas gry z silnikiem, co pozwala na cofanie ruchów lub zmianę poziomu trudności. Strona profilu jest centralnym miejscem, w którym użytkownik może zarządzać wszystkimi aspektami swojego konta i dostosować aplikację do swoich potrzeb.
 
 \vspace{0.5cm}
 \begin{figure}[h!]
@@ -2483,14 +2562,13 @@ Dodatkowo, użytkownik ma możliwość edytowania ustawień konta, w tym zmiany 
 Strona użytkowników służy do zarządzania znajomymi i relacjami z innymi graczami w aplikacji. Jest podzielona na cztery główne sekcje, które pomagają w organizowaniu kontaktów.
 
 \begin{itemize}
-    \item \textbf{Wszyscy użytkownicy} – zawiera listę wszystkich graczy dostępnych w aplikacji. Z tej sekcji użytkownicy mogą zapraszać innych do znajomych oraz podglądać ich mini profile.
-    \item \textbf{Twoi znajomi} – znajdują się tutaj osoby, które zostały już dodane do listy znajomych. Można stąd zapraszać znajomych do gry lub przejść do pełnego profilu danego użytkownika.
-    \item \textbf{Oczekujące zaproszenia} – sekcja zawiera zaproszenia, które zostały wysłane, ale jeszcze nie zostały zaakceptowane przez drugą stronę. Użytkownicy mogą tu zobaczyć zarówno wysłane zaproszenia, jak i te, które czekają na odpowiedź.
-    \item \textbf{Odrzucone zaproszenia} – lista osób, które odrzuciły zaproszenia do znajomych. Użytkownicy mają możliwość ponownego wysłania zaproszenia do tych osób, jeżeli zechcą.
+    \item \textbf{Wszyscy użytkownicy} – zawiera listę wszystkich graczy dostępnych w aplikacji. Z tej sekcji użytkownicy mogą zapraszać innych do znajomych oraz podglądać ich skrócone wersje profili.
+    \item \textbf{Twoi znajomi} – znajdują się tutaj osoby, które zostały już dodane do listy znajomych. Można stąd zapraszać znajomych do gry lub przejść do pełnego profilu danego użytkownika. Istnieje także opcja usunięcia uzytkownika z grona przyjaciół.
+    \item \textbf{Oczekujące zaproszenia} – sekcja zawiera zaproszenia, które zostały wysłane, ale jeszcze nie zostały zaakceptowane przez drugą stronę. Użytkownicy mogą tu zobaczyć zarówno wysłane zaproszenia, jak i te, które czekają na odpowiedź użytkownika.
+    \item \textbf{Odrzucone zaproszenia} – lista osób, które odrzuciły zaproszenia do znajomych lub które zabkowały użytkownika oraz zablokowani użytkownicy. W przypadku blokad zostaje wstrzymana możliwość interakcji użytkowników na platformie.
 \end{itemize}
 
-\noindent
-Cała strona umożliwia łatwe zarządzanie znajomymi, zaproszeniami i relacjami z innymi graczami, co pozwala na lepszą organizację kontaktów w aplikacji.
+
 
 \vspace{0.5cm}
 \begin{figure}[h!]
@@ -2498,15 +2576,17 @@ Cała strona umożliwia łatwe zarządzanie znajomymi, zaproszeniami i relacjami
     \includegraphics[width=1\textwidth]{images/ins_users.png}
     \caption{Instrukcja: Widok strony zarządzania znajomymi.}
 \end{figure}
+\vspace{0.5cm}
+
+\noindent
+Cała strona umożliwia łatwe zarządzanie znajomymi, zaproszeniami i relacjami z innymi graczami, co pozwala na lepszą organizację kontaktów w aplikacji.
 
 \newpage
 
 \subsection{Strona rankingu}
-Strona rankingu pozwala użytkownikom na sprawdzenie ich pozycji w hierarchii graczy aplikacji. Gracze mogą wybierać między dwoma głównymi opcjami: globalnym rankingiem, który obejmuje wszystkich zarejestrowanych użytkowników aplikacji, oraz rankingiem wśród znajomych, który ogranicza wyświetlane wyniki do osób dodanych do listy znajomych.
+Strona rankingu pozwala użytkownikom na sprawdzenie ich pozycji w hierarchii graczy aplikacji. Gracze mogą wybierać między dwoma głównymi opcjami: globalnym rankingiem, który obejmuje wszystkich zarejestrowanych użytkowników aplikacji, oraz rankingiem wśród znajomych, który ogranicza wyświetlane wyniki do osób z listy znajomych.
 \\\\
 Dodatkowo rankingi są podzielone na pięć kategorii, zależnie od typu kontroli czasowej: bullet, blitz, rapid, classic oraz daily. Dzięki temu gracze mają możliwość sprawdzenia swoich wyników i miejsca w rankingu w kontekście preferowanego rodzaju gry, zarówno na poziomie globalnym, jak i w gronie znajomych.
-\\\\
-Strona rankingu jest kluczowym elementem aplikacji, wspierającym rywalizację i pozwalającym graczom śledzić ich postępy oraz porównywać swoje osiągnięcia z innymi użytkownikami.
 
 \vspace{0.5cm}
 \begin{figure}[h!]
@@ -2514,6 +2594,10 @@ Strona rankingu jest kluczowym elementem aplikacji, wspierającym rywalizację i
     \includegraphics[width=1\textwidth]{images/ins_rank.png}
     \caption{Instrukcja: Widok strony zarządzania znajomymi.}
 \end{figure}
+\vspace{0.5cm}
+
+\noindent
+Strona rankingu jest kluczowym elementem aplikacji, wspierającym rywalizację i pozwalającym graczom śledzić ich postępy oraz porównywać swoje osiągnięcia z innymi użytkownikami, jak również śledzenie topowych graczy platformy.
 
 \newpage
 
@@ -2533,7 +2617,7 @@ Test jednostkowy to rodzaj testu, który sprawdza pojedynczą jednostkę kodu, n
 \\\\
 W kontekście niniejszego projektu, testy jednostkowe zostały zastosowane w celu automatycznej kontroli poprawności działania klas odpowiedzialnych za obsługę zapytań. Każdy przypadek obsługi zapytania, który mógł wystąpić w aplikacji, został przetestowany w ramach osobnego testu jednostkowego. Testy te weryfikują nie tylko prawidłowe działanie procedury, ale również różne scenariusze błędów. Zostały stworzone testy dla każdego możliwego błędu, jaki może pojawić się przy obsłudze zapytania. Dzięki temu, aplikacja jest testowana w pełni automatycznie w różnych kontekstach i zapewnia, że każda część logiki działa zgodnie z założeniami.
 \\\\
-Zakres testów jednostkowych w projekcie obejmuje jeden konkretny \texttt{RequestHandler} i jego wewnętrzną logikę. W odróżnieniu od testów integracyjnych, które sprawdzają współdziałanie różnych komponentów systemu, testy jednostkowe skupiają się na indywidualnych metodach i funkcjach w obrębie jednego handlera. Każdy test jest zaprojektowany w taki sposób, aby sprawdzać pojedynczy przypadek użycia, co pozwala na szybkie zidentyfikowanie ewentualnych błędów w jednej, konkretnej logice.
+Zakres testów jednostkowych w projekcie obejmuje jeden konkretny \textbf{RequestHandler} i jego wewnętrzną logikę. W odróżnieniu od testów integracyjnych, które sprawdzają współdziałanie różnych komponentów systemu, testy jednostkowe skupiają się na indywidualnych metodach i funkcjach w obrębie jednego handlera. Każdy test jest zaprojektowany w taki sposób, aby sprawdzać pojedynczy przypadek użycia, co pozwala na szybkie zidentyfikowanie ewentualnych błędów w jednej, konkretnej logice.
 \\\\
 Testy te, mimo że niezwykle istotne, bywają dość monotonne i powtarzalne. Często weryfikują one ten sam zestaw działań, na przykład sprawdzając, czy odpowiednie repozytorium zwróciło poprawną encję lub, w przypadku błędu, czy prawidłowo zgłoszono wyjątek. W wielu testach weryfikowane są te same operacje w kontekście różnych danych wejściowych, co sprawia, że schemat testów jest jednorodny.
 \\\\
@@ -2547,15 +2631,21 @@ Testy jednostkowe w tym projekcie zostały zaprojektowane w sposób, który umo�
 Ogólny proces tworzenia testów jednostkowych wygląda następująco:
 
 \begin{enumerate}
-    \item \textbf{Przygotowanie obiektów:} W każdym teście tworzone są obiekty typu \texttt{Mock} dla zależności, takich jak repozytoria czy serwisy, które pozwalają na kontrolowanie ich zachowania w trakcie testów. Dzięki tym obiektom można zasymulować różne scenariusze, takie jak dostęp do bazy danych czy specyficzne funkcjonaliści serwisów, bez rzeczywistego ich wywoływania.
+    \item \textbf{Przygotowanie obiektów:}\\
+    W każdym teście tworzone są obiekty typu \textbf{Mock} dla zależności, takich jak repozytoria czy serwisy, które pozwalają na kontrolowanie ich zachowania w trakcie testów. Dzięki tym obiektom można zasymulować różne scenariusze, takie jak dostęp do bazy danych czy specyficzne funkcjonaliści serwisów, bez rzeczywistego ich wywoływania.
 
-    \item \textbf{Utworzenie testowych obiektów:} W każdym z testów na początku utworzone zostały przykładowe dane, które symulowane metody mogą zwrócić, w celu odwzorowania rzeczywistych scenariuszy. Obiekty te są tworzone w sposób kontrolowany, aby odpowiadały wymaganym warunkom testowym. Mogą zostać stworzone zarówno poprawne obiekty, jak i niepoprawne obiekty, co umożliwia dokładne sprawdzenie, jak system reaguje na różne przypadki.
+    \item \textbf{Utworzenie testowych obiektów:}\\
+    W każdym z testów na początku utworzone zostały przykładowe dane, które symulowane metody mogą zwrócić, w celu odwzorowania rzeczywistych scenariuszy. Obiekty te są tworzone w sposób kontrolowany, aby odpowiadały wymaganym warunkom testowym. Mogą zostać stworzone zarówno poprawne obiekty, jak i niepoprawne obiekty, co umożliwia dokładne sprawdzenie, jak system reaguje na różne przypadki.
 
-    \item \textbf{Symulowanie zachowania zależności:} Za pomocą metody \texttt{Setup} ustawia się, jak dane zależności mają się zachować w czasie wykonywania testu. Na przykład, w przypadku repozytorium użytkowników, można ustawić, by konkretna metoda zwracała wcześniej zadeklarowanego obiekt encji, co umożliwia sprawdzenie, jak system reaguje, gdy obiekty o określonych własnościach już istnieją.
+    \item \textbf{Symulowanie zachowania zależności:}\\
+    Za pomocą metody \textbf{Setup} ustawia się, jak dane zależności mają się zachować w czasie wykonywania testu. Na przykład, w przypadku repozytorium użytkowników, można ustawić, by konkretna metoda zwracała wcześniej zadeklarowanego obiekt encji, co umożliwia sprawdzenie, jak system reaguje, gdy obiekty o określonych własnościach już istnieją.
 
-    \item \textbf{Przygotowanie żądania (request):} Następnie wywoływana jest metoda testowanego handlera, która wykonuje logikę biznesową na podstawie testowych danych wejściowych.
+    \item \textbf{Przygotowanie żądania (request):}\\
+    Następnie wywoływana jest metoda testowanego handlera, która wykonuje logikę biznesową na podstawie testowych danych wejściowych.
 
-    \item \textbf{Weryfikacja wyników:} Po wykonaniu metody, weryfikowane są różne aspekty:
+    \item \textbf{Weryfikacja wyników:} \\
+    Po wykonaniu metody, weryfikowane są różne aspekty:
+
     \begin{itemize}
         \item \textbf{Oczekiwane wyjątki:} Sprawdzanie, czy odpowiedni wyjątek, został rzucony w przypadku błędnych danych wejściowych.
         \item \textbf{Zwracane dane:} W przypadku jeśli określonych handler ma za zadanie zwrócić jakieś dane, sprawdzana jest również ich poprawność z oczekiwanymi wartościami.
@@ -2568,7 +2658,7 @@ Ogólny proces tworzenia testów jednostkowych wygląda następująco:
 \newpage
 
 \noindent
-Przykład testu jednostkowego dla warstwy .Core przedstawia sposób, w jaki testy są tworzone w projekcie. Każdy test ma na celu weryfikację poprawności działania funkcji lub metody w różnych scenariuszach. Poniżej znajduje się fragment kodu, który ilustruje przykład takiego testu.
+Przykład testu jednostkowego dla warstwy \texttt{.Core} przedstawia ogólny schemat, w jaki testy są tworzone w projekcie. Każdy test ma na celu weryfikację poprawności działania metody w różnych scenariuszach. Poniżej znajduje się fragment kodu, który ilustruje przykład takiego testu.
 
 \vspace{0.5cm}
 \begin{figure}[h!]
@@ -2589,11 +2679,11 @@ Podczas testów integracyjnych, główną uwagą jest sprawdzenie, czy dane prze
 \\\\
 W celu przeprowadzenia testów integracyjnych, konieczne jest pełne zrozumienie struktury systemu oraz umiejętność identyfikacji kluczowych punktów interakcji pomiędzy jego elementami. Testowanie takich interakcji wymaga wiedzy o tym, jak system funkcjonuje w całości oraz o tym, jak poszczególne komponenty wzajemnie się wspierają. Ze względu na złożoność takich testów, przeprowadzenie ich może być czasochłonne i wymagające odpowiednich zasobów. Mimo to, testy integracyjne dostarczają bardzo cennych informacji, które pomagają upewnić się, że cały system działa zgodnie z oczekiwaniami i spełnia wymagania użytkownika.
 \\\\
-W projekcie testy integracyjne są zaprojektowane w taki sposób, aby weryfikowały pełny przepływ danych pomiędzy warstwą aplikacji (taką jak kontrolery, serwisy) a bazą danych, a także interakcje z zewnętrznymi zasobami (np. usługami). Są one bardziej złożone i czasochłonne niż testy jednostkowe, ponieważ obejmują całą aplikację, a nie pojedyncze komponenty, ale zapewniają pełniejszy obraz poprawności działania systemu w rzeczywistych warunkach.
+W projekcie testy integracyjne są zaprojektowane w taki sposób, aby weryfikowały pełny przepływ danych pomiędzy warstwą aplikacji i bazą danych, a także interakcje z zewnętrznymi zasobami. Są one bardziej złożone i czasochłonne niż testy jednostkowe, ponieważ obejmują całą aplikację, a nie pojedyncze komponenty, ale zapewniają pełniejszy obraz poprawności działania systemu w rzeczywistych warunkach.
 \\\\
-Aby przeprowadzić testy integracyjne, najpierw tworzone jest środowisko testowe. W tym projekcie używana jest klasa \texttt{TestWebApplicationFactory<Program>}, która odpowiada za stworzenie odpowiedniego kontekstu aplikacji testowej, w tym uruchomienie aplikacji oraz jej zależności. Dzięki temu możliwe jest przeprowadzenie testów w warunkach możliwie najbardziej zbliżonych do rzeczywistego środowiska produkcyjnego. Istotnym elementem jest również wykorzystanie \texttt{HttpClient}, który pozwala na symulowanie zapytań HTTP oraz kontekstu bazy danych, co umożliwia interakcję z danymi i weryfikację zapisów.
+Aby przeprowadzić testy integracyjne, najpierw tworzone jest środowisko testowe. Do tego celu W projekcie używana jest klasa \textbf{TestWebApplicationFactory<Program>}, która odpowiada za stworzenie odpowiedniego kontekstu aplikacji testowej, w tym uruchomienie aplikacji oraz jej zależności. Dzięki temu możliwe jest przeprowadzenie testów w warunkach możliwie najbardziej zbliżonych do rzeczywistego środowiska produkcyjnego. Istotnym elementem jest również wykorzystanie \textbf{HttpClient}, który pozwala na symulowanie zapytań HTTP oraz kontekstu bazy danych, co umożliwia interakcję z danymi i weryfikację zapisów.
 \\\\
-Po utworzeniu odpowiedniego środowiska testowego, jak opisano wcześniej, każdy folder testów, podzielony według kontrolerów API, zawiera definicję klasy DbFilters. Klasa ta pełni rolę pomocniczą, dostarczając metod, które pozwalają na inicjalizację bazy danych przed rozpoczęciem testów integracyjnych. Zawiera ona metody umożliwiające dodanie danych testowych do bazy. Dzięki tym funkcjom możliwe jest stworzenie realistycznego środowiska testowego, które odzwierciedla rzeczywisty stan bazy danych, a testy mogą sprawdzać pełny przepływ danych, w tym interakcję z bazą. Każdy z tych kroków pozwala na dokładniejsze i bardziej wiarygodne przeprowadzenie testów integracyjnych, sprawdzając działanie aplikacji w kontekście interakcji z bazą danych oraz innymi komponentami systemu.
+Po utworzeniu odpowiedniego środowiska testowego, jak opisano wcześniej, każdy folder testów, podzielony według kontrolerów API, zawiera definicję klasy \textbf{DbFilters}. Klasa ta pełni rolę pomocniczą, dostarczając metod, które pozwalają na inicjalizację bazy danych przed rozpoczęciem testów integracyjnych. Zawiera ona metody umożliwiające dodanie danych testowych do bazy. Dzięki tym funkcjom możliwe jest stworzenie realistycznego środowiska testowego, które odzwierciedla rzeczywisty stan bazy danych, a testy mogą sprawdzać pełny przepływ danych, w tym interakcję z bazą. Każdy z tych kroków pozwala na dokładniejsze i bardziej wiarygodne przeprowadzenie testów integracyjnych, sprawdzając działanie aplikacji w kontekście interakcji z bazą danych oraz innymi komponentami systemu.
 
 \newpage
 
@@ -2601,22 +2691,27 @@ Po utworzeniu odpowiedniego środowiska testowego, jak opisano wcześniej, każd
 Testy integracyjne w tym projekcie zostały zaprojektowane w celu sprawdzenia, jak różne części aplikacji współdziałają ze sobą, obejmując pełny przepływ danych, od momentu wysłania zapytania HTTP do finalnego zapisania danych w bazie danych. Główne kroki tworzenia takich testów są następujące:
 
 \begin{enumerate}
-    \item \textbf{Konfiguracja środowiska testowego:} Testy integracyjne wymagają pełnego uruchomienia aplikacji w kontrolowanych warunkach. W tym przypadku używa się specjalnej klasy \texttt{TestWebApplicationFactory}, która odpowiada za stworzenie środowiska testowego, w tym uruchomienie aplikacji oraz jej zależności. Dodatkowo, do testów wykorzystywane są komponenty takie jak \texttt{HttpClient}, który pozwala na symulowanie wysyłania zapytań HTTP, oraz kontekst bazy danych, który umożliwia interakcję z bazą.
+    \item \textbf{Konfiguracja środowiska testowego:}\\
+    Testy integracyjne wymagają pełnego uruchomienia aplikacji w kontrolowanych warunkach. W tym przypadku używa się specjalnej klasy \texttt{TestWebApplicationFactory}, która odpowiada za stworzenie środowiska testowego, w tym uruchomienie aplikacji oraz jej zależności. Dodatkowo, do testów wykorzystywane są komponenty takie jak \texttt{HttpClient}, który pozwala na symulowanie wysyłania zapytań HTTP, oraz kontekst bazy danych, który umożliwia interakcję z bazą.
 
-    \item \textbf{Utworzenie testowych obiektów:} W testach integracyjnych tworzone są testowe obiekty, które symulują rzeczywiste dane, które będą przesyłane w zapytaniach. Obiekt modeli są tworzone z danymi, które będą wysyłane jako konkretne żądanie. Obiekty te są następnie konwertowane do formatu JSON za pomocą oraz zamieniane na \texttt{StringContent}, który jest przesyłany w ciele żądania HTTP.
+    \item \textbf{Utworzenie testowych obiektów:}\\
+    W testach integracyjnych tworzone są testowe obiekty, które symulują rzeczywiste dane, które będą przesyłane w zapytaniach. Obiekt modeli są tworzone z danymi, które będą wysyłane jako konkretne żądanie. Obiekty te są konwertowane do formatu JSON, a następnie na \texttt{StringContent}, który jest przesyłany w ciele żądania HTTP.
 
-    \item \textbf{Wysyłanie zapytania HTTP:} Kluczową częścią testu integracyjnego jest wysłanie zapytania HTTP do odpowiedniego punktu końcowego aplikacji. Dzięki wykorzystaniu \texttt{HttpClient}, test symuluje działanie rzeczywistego użytkownika, który wysyła zapytanie do aplikacji.
+    \item \textbf{Wysyłanie zapytania HTTP:}\\
+    Kluczową częścią testu integracyjnego jest wysłanie zapytania HTTP do odpowiedniego punktu końcowego aplikacji. Dzięki wykorzystaniu \texttt{HttpClient}, test symuluje działanie rzeczywistego użytkownika, który wysyła zapytanie do aplikacji.
 
-    \item \textbf{Sprawdzanie odpowiedzi (asercje):} Po wysłaniu zapytania, w testach integracyjnych sprawdzana jest odpowiedź z serwera. W przypadku pozytywnego przebiegu rejestracji, status odpowiedzi powinien mieć Status 200. Dodatkowo, testy służące do tworzenia wpisów w tablicach sprawdzają czy obiekty rzeczywiście zostały zapisane.
+    \item \textbf{Sprawdzanie odpowiedzi (asercje):}\\
+    Po wysłaniu zapytania, w testach integracyjnych sprawdzana jest odpowiedź z serwera. W przypadku pozytywnego przebiegu rejestracji, status odpowiedzi powinien mieć kod statusu 200. Dodatkowo, testy służące do tworzenia wpisów w tablicach sprawdzają czy obiekty rzeczywiście zostały zapisane.
 
-    \item \textbf{Testowanie niepoprawnych scenariuszy:} Testy integracyjne obejmują również przypadki nieprawidłowych zapytań. Jeśli użytkownik próbuje wykonać niedowolną operację, aplikacja powinna zwrócić odpowiedź z kodem konkretnego błędu. W takim przypadku test również weryfikuje, czy odpowiedź HTTP ma oczekiwany status oraz czy system prawidłowo reaguje na błędne dane.
+    \item \textbf{Testowanie niepoprawnych scenariuszy:}\\
+    Testy integracyjne obejmują również przypadki nieprawidłowych zapytań. Jeśli użytkownik próbuje wykonać niedowolną operację, aplikacja powinna zwrócić odpowiedź z kodem konkretnego błędu. W takim przypadku test również weryfikuje, czy odpowiedź HTTP ma oczekiwany status oraz czy system prawidłowo reaguje na błędne dane.
 
 \end{enumerate}
 
 \newpage
 
 \noindent 
-Przykład testu integracyjnego dla warstwy .Api.Tests przedstawia sposób, w jaki testy są tworzone w projekcie, aby zweryfikować poprawność działania całej aplikacji, w tym interakcji z bazą danych, API oraz innymi zewnętrznymi komponentami. Każdy test integracyjny ma na celu weryfikację, czy różne elementy systemu współdziałają ze sobą zgodnie z oczekiwaniami w kontekście rzeczywistego działania aplikacji. Poniżej znajduje się fragment kodu, który ilustruje przykład takiego testu.
+Przykład testu integracyjnego dla warstwy \texttt{.Api.Tests} przedstawia sposób, w jaki testy są tworzone w projekcie, aby zweryfikować poprawność działania całej aplikacji, w tym interakcji z bazą danych, API oraz innymi zewnętrznymi komponentami. Każdy test integracyjny ma na celu weryfikację, czy różne elementy systemu współdziałają ze sobą zgodnie z oczekiwaniami w kontekście rzeczywistego działania aplikacji. Poniżej znajduje się fragment kodu, który ilustruje przykład takiego testu.
 
 \vspace{0.5cm}
 \begin{figure}[h!]
@@ -2633,9 +2728,9 @@ W projekcie utworzono 134 przypadków testowych, które obejmują pełny przepł
 \subsubsection{Wykonywanie testów}
 
 \noindent
-Wykonywanie testów w projekcie odbywa się za pomocą środowiska Visual Studio, które oferuje wbudowane narzędzia do uruchamiania i zarządzania testami. Dzieki czemu można w prosty sposób uruchomić i sprawdzić działanie wszystkich utworzonych testów.
+Wykonywanie testów w projekcie odbywa się za pomocą środowiska \textbf{Visual Studio}, które oferuje wbudowane narzędzia do uruchamiania i zarządzania testami. Dzieki czemu można w prosty sposób uruchomić i sprawdzić działanie wszystkich utworzonych testów.
 \\\\
-W Visual Studio dostępne jest także okno Test Explorer, które umożliwia zarządzanie testami. Po otwarciu tego okna, wyświetlają się wszystkie dostępne testy oraz ich statusy. Dzięki tej funkcjonalności można także uruchamiać pojedyncze testy lub zestawy testów.
+W Visual Studio dostępne jest także okno \textbf{Test Explorer}, które umożliwia zarządzanie testami. Po otwarciu tego okna, wyświetlają się wszystkie dostępne testy oraz ich statusy. Dzięki tej funkcjonalności można także uruchamiać pojedyncze testy lub zestawy testów.
 
 \vspace{0.5cm}
 \begin{figure}[h!]
@@ -2656,26 +2751,27 @@ Po wykonaniu testów, w oknie Test Explorer zostaną pokazane wyniki. Testy, kt�
 \section{Literatura}
 
 \begin{itemize}
-    \item https://react.dev/learn/describing-the-ui
-    \item https://vitejs.dev/guide/
-    \item https://en.wikipedia.org/wiki/Chess
-    \item https://boringowl.io/blog/testy-integracyjne-plusy-i-minusy-ich-stosowania
-    \item https://devstyle.pl/2020/06/25/mega-pigula-wiedzy-o-testach-jednostkowych/
-    \item https://boringowl.io/tag/figma
-    \item https://justjoin.it/blog/wszystko-co-musicie-wiedziec-o-javascript-co-to-dla-kogo-i-ile-zarobimy
-    \item https://www.droptica.pl/blog/co-jest-typescript-i-dlaczego-sprawdzi-sie-w-twoich-projektach/
-    \item https://boringowl.io/blog/przeglad-vitejs-nowa-generacja-narzedzi-do-budowania-aplikacji-front-end
-    \item https://boringowl.io/blog/poznaj-sass-zyskaj-kontrole-nad-stylem-swojej-strony
-    \item https://blog.strefakursow.pl/jezyk-c-czym-jest-i-gdzie-sie-go-uzywa/
-    \item https://learn.microsoft.com/pl-pl/dotnet/framework/get-started/
-    \item https://www.ovhcloud.com/pl/learn/what-is-postgresql/
-    \item https://learn.microsoft.com/pl-pl/devops/develop/git/what-is-git
-    \item https://coderslab.pl/pl/blog/github-co-to-jest-i-do-czego-sluzy
-    \item https://polontech.com/pl/sourcetree/
-    \item https://www.droptica.pl/blog/co-jest-postman-do-czego-sluzy-i-jakie-sa-jego-funkcjonalnosci/
-    \item https://www.ovhcloud.com/pl/learn/what-is-rest-api/
-    \item https://www.pgadmin.org/faq/
+    \item \href{https://react.dev/learn/describing-the-ui}{https://react.dev/learn/describing-the-ui}
+    \item \href{https://vitejs.dev/guide/}{https://vitejs.dev/guide/}
+    \item \href{https://en.wikipedia.org/wiki/Chess}{https://en.wikipedia.org/wiki/Chess}
+    \item \href{https://boringowl.io/blog/testy-integracyjne-plusy-i-minusy-ich-stosowania}{https://boringowl.io/blog/testy-integracyjne-plusy-i-minusy-ich-stosowania}
+    \item \href{https://devstyle.pl/2020/06/25/mega-pigula-wiedzy-o-testach-jednostkowych/}{https://devstyle.pl/2020/06/25/mega-pigula-wiedzy-o-testach-jednostkowych/}
+    \item \href{https://boringowl.io/tag/figma}{https://boringowl.io/tag/figma}
+    \item \href{https://justjoin.it/blog/wszystko-co-musicie-wiedziec-o-javascript-co-to-dla-kogo-i-ile-zarobimy}{https://justjoin.it/blog/wszystko-co-musicie-wiedziec-o-javascript-co-to-dla-kogo-i-ile-zarobimy}
+    \item \href{https://www.droptica.pl/blog/co-jest-typescript-i-dlaczego-sprawdzi-sie-w-twoich-projektach/}{https://www.droptica.pl/blog/co-jest-typescript-i-dlaczego-sprawdzi-sie-w-twoich-projektach/}
+    \item \href{https://boringowl.io/blog/przeglad-vitejs-nowa-generacja-narzedzi-do-budowania-aplikacji-front-end}{https://boringowl.io/blog/przeglad-vitejs-nowa-generacja-narzedzi-do-budowania-aplikacji-front-end}
+    \item \href{https://boringowl.io/blog/poznaj-sass-zyskaj-kontrole-nad-stylem-swojej-strony}{https://boringowl.io/blog/poznaj-sass-zyskaj-kontrole-nad-stylem-swojej-strony}
+    \item \href{https://blog.strefakursow.pl/jezyk-c-czym-jest-i-gdzie-sie-go-uzywa/}{https://blog.strefakursow.pl/jezyk-c-czym-jest-i-gdzie-sie-go-uzywa/}
+    \item \href{https://learn.microsoft.com/pl-pl/dotnet/framework/get-started/}{https://learn.microsoft.com/pl-pl/dotnet/framework/get-started/}
+    \item \href{https://www.ovhcloud.com/pl/learn/what-is-postgresql/}{https://www.ovhcloud.com/pl/learn/what-is-postgresql/}
+    \item \href{https://learn.microsoft.com/pl-pl/devops/develop/git/what-is-git}{https://learn.microsoft.com/pl-pl/devops/develop/git/what-is-git}
+    \item \href{https://coderslab.pl/pl/blog/github-co-to-jest-i-do-czego-sluzy}{https://coderslab.pl/pl/blog/github-co-to-jest-i-do-czego-sluzy}
+    \item \href{https://polontech.com/pl/sourcetree/}{https://polontech.com/pl/sourcetree/}
+    \item \href{https://www.droptica.pl/blog/co-jest-postman-do-czego-sluzy-i-jakie-sa-jego-funkcjonalnosci/}{https://www.droptica.pl/blog/co-jest-postman-do-czego-sluzy-i-jakie-sa-jego-funkcjonalnosci/}
+    \item \href{https://www.ovhcloud.com/pl/learn/what-is-rest-api/}{https://www.ovhcloud.com/pl/learn/what-is-rest-api/}
+    \item \href{https://www.pgadmin.org/faq/}{https://www.pgadmin.org/faq/}
     \item \href{https://pl.wikipedia.org/wiki/Notacja-Forsytha-Edwardsa}{https://pl.wikipedia.org/wiki/Notacja-Forsytha-Edwardsa}
 \end{itemize}
+
 
 \end{document}

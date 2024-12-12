@@ -3,6 +3,7 @@ using chess.Core.Entities;
 using chess.Infrastructure.Configuration;
 using Microsoft.EntityFrameworkCore;
 
+#pragma warning disable CS8618
 namespace chess.Infrastructure.Contexts;
 
 /// <summary>
@@ -52,15 +53,11 @@ public class ChessAppDbContext : DbContext {
     public DbSet<UserDataConfiguration> DataConfigurations { get; set; }
 
 
-#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring as nullable.
     public ChessAppDbContext(DbContextOptions<ChessAppDbContext> options) : base(options) { }
-#pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring as nullable.
 
     protected override void OnModelCreating(ModelBuilder builder) {
         
         var configuration = new DbContextConfiguration();
-
-
 
         builder.ApplyConfiguration<User>(configuration);
         builder.ApplyConfiguration<Role>(configuration);
@@ -84,7 +81,6 @@ public class ChessAppDbContext : DbContext {
         builder.ApplyConfiguration<WebGameMove>(configuration);
         builder.ApplyConfiguration<WebGamePlayer>(configuration);
         builder.ApplyConfiguration<WebGamePlayerMessage>(configuration);
-
 
         builder.ApplyConfiguration<EngineGame>(configuration);
         builder.ApplyConfiguration<EngineGameState>(configuration);
