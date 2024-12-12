@@ -82,20 +82,19 @@ Gliwice, 2025
 \section{Wstęp}
 \subsection{Opis projektu}
 
-Projekt \textbf{BRNChess} to aplikacja webowa, zaprojektowana z myślą o miłośnikach szachów, składająca się z dwóch głównych komponentów: aplikacji internetowej (frontend) oraz aplikacji serwerowej (backend). Strona kliencka została stworzona w oparciu o nowoczesne technologie React oraz Vite, a kod jest pisany w języku TypeScript, co zapewnia wysoką wydajność, czytelność i skalowalność projektu. Backend natomiast opiera się na potężnej platformie .NET Framework, co umożliwia szybkie i niezawodne przetwarzanie logiki serwera oraz integrację z różnymi usługami.
+Projekt \textbf{BRNChess} to aplikacja webowa, zaprojektowana dla osób zainteresowanych szachami, składająca się z dwóch głównych komponentów: aplikacji internetowej (frontend) oraz aplikacji serwerowej (backend). Strona kliencka została stworzona w oparciu o nowoczesne technologie React oraz Vite, a kod jest pisany w języku TypeScript, co zapewnia wysoką wydajność, czytelność i skalowalność projektu. Backend natomiast opiera się na platformie .NET Framework, co umożliwia szybkie i niezawodne przetwarzanie logiki serwera oraz integrację z różnymi usługami.
 \\\\
-Aplikacja BRNChess ma na celu zapewnienie użytkownikom możliwości rozgrywki w jedną z najstarszych i najpopularniejszych gier PvP na świecie — szachy. Jest to strategiczna gra planszowa dla dwóch graczy, w której każdy kontroluje zestaw figur szachowych, dążąc do zaszachowania króla przeciwnika, czyli postawienia go w sytuacji nieuchronnego schwytania. Zasady współczesnych szachów zostały ukształtowane w Europie pod koniec XV wieku, a ich pełna standaryzacja miała miejsce w XIX wieku.
+Aplikacja ma na celu zapewnienie użytkownikom możliwości rozgrywki w jedną z najstarszych i najpopularniejszych gier PvP na świecie — szachy. Jest to strategiczna gra planszowa dla dwóch graczy, w której każdy kontroluje zestaw figur szachowych, dążąc do zaszachowania króla przeciwnika, czyli postawienia go w sytuacji nieuchronnego schwytania. Zasady współczesnych szachów zostały ukształtowane w Europie pod koniec XV wieku, a ich pełna standaryzacja miała miejsce w XIX wieku.
 \\\\
-Aplikacja BRNChess pozwala graczom na wybór pomiędzy rozgrywką online z innymi użytkownikami z całego świata lub na stoczenie pojedynku z zaawansowanym silnikiem szachowym Stockfish. Funkcjonalności te są wspierane przez SignalR, narzędzie z biblioteki .NET, które umożliwia komunikację w czasie rzeczywistym. Dzięki temu użytkownicy mogą korzystać z różnych trybów kontroli czasowej, takich jak Bullet, Blitz, czy Classic, co dodaje dynamiki i różnorodności do rozgrywki.
+Aplikacja \texttt{BRNChess} pozwala graczom na wybór pomiędzy rozgrywką online z innymi użytkownikami z całego świata lub na stoczenie pojedynku z zaawansowanym silnikiem szachowym Stockfish. Funkcjonalności te są wspierane przez SignalR, narzędzie z biblioteki .NET, które umożliwia komunikację w czasie rzeczywistym. Dzięki temu użytkownicy mogą korzystać z różnych trybów kontroli czasowej, co dodaje dynamiki i różnorodności do rozgrywki.
 \\\\
-Projekt BRNChess wyróżnia się również rozbudowanym systemem znajomości, który umożliwia użytkownikom zarządzanie swoimi kontaktami i kontrolowanie, z kim chcą rozgrywać partie szachowe. System ten pozwala na wysyłanie i akceptowanie zaproszeń do znajomych, dzięki czemu gracze mogą tworzyć sieć swoich ulubionych przeciwników oraz współzawodniczyć w bardziej personalizowany sposób. Dzięki tej funkcjonalności aplikacja BRNChess nie tylko oferuje doskonałe doświadczenie gry, ale także staje się platformą społecznościową, umożliwiającą rozwijanie pasji w gronie znajomych.
+Projekt \texttt{BRNChess} wyróżnia się również rozbudowanym systemem znajomości, który umożliwia użytkownikom zarządzanie swoimi kontaktami i kontrolowanie, z kim chcą rozgrywać partie szachowe. System ten pozwala na wysyłanie i akceptowanie zaproszeń do znajomych, dzięki czemu gracze mogą współzawodniczyć w bardziej spersonalizowany sposób. Dzięki tej funkcjonalności aplikacja \texttt{BRNChess} nie tylko oferuje doskonałe doświadczenie gry, ale także staje się platformą społecznościową, umożliwiającą rozwijanie pasji w gronie znajomych.
 \\\\
 Projekt kładzie nacisk na wysoką jakość doświadczenia użytkownika, dlatego interfejs aplikacji jest intuicyjny, responsywny i estetyczny. Rozgrywki online są płynne, a dzięki wsparciu czasu rzeczywistego użytkownicy mogą cieszyć się emocjonującymi partiami bez opóźnień. Mechanizmy kontroli czasowej nie tylko zwiększają atrakcyjność rozgrywek, ale również zachęcają graczy do częstego powracania na platformę.
 
 \newpage
 
 \subsection{Współczesna gra w szachy}
-
 
 \newpage
 
@@ -1785,17 +1784,68 @@ Poniżej przedstawiony został uproszony diagram blokowy przedstawiający dział
 
 \subsubsection{Kluczowe aspekty gry}
 
+\noindent \textbf{Podstawowe oznaczenia}\\
+Notacja Forsytha-Edwardsa (FEN) – zapis szachowy do określenia pozycji gry szachowej. Celem FEN jest podanie wszystkich niezbędnych informacji do ponownego rozpoczęcia gry od danej pozycji. FEN bazuje na systemie wymyślonym przez szkockiego dziennikarza Davida Forsytha. Jego system stał się popularny w XIX wieku; Steven J. Edwards rozwinął system by mógł działać z komputerami. FEN jest częścią Portable Game Notation dla szachów, dlatego że definiuje pozycje inne od początkowej.
+\\\\
+W formacie FEN figury szachowe są oznaczane literami, przy czym wielkie litery reprezentują figury białe, a małe litery figury czarne. Król oznaczany jest jako \textbf{K/k}, hetman jako \textbf{Q/q}, wieża jako \textbf{R/r}, goniec jako \textbf{B/b}, skoczek jako \textbf{N/n}, a pion jako \textbf{P/p}.
+\\\\
+Przy wszelkich obliczeniach związanych z ruchami figur oraz analizą innych aspektów gry szachowej wykorzystano system wektorów. Wektory te pozwalają precyzyjnie opisać ruchy każdej figury na szachownicy w formie zestawu współrzędnych. Poniżej przedstawiono dwa zestawy takowych wektorów.
+\\\\
+Wektory ruchów figur poruszających się liniowo i diagonalnie:
+
+\[
+\quad 
+\begin{bmatrix}
+    [0, 1] & [0, -1] & [1, 0] & [-1, 0] & [1, 1] & [1, -1] & [-1, 1] & [-1, -1]
+\end{bmatrix}
+\]
+
+\noindent
+Specyficzne wektory ruchów skoczka:
+
+\[
+\quad 
+\begin{bmatrix}
+    [1, 2] & [1, -2] & [-1, 2] & [-1, -2] & [2, 1] & [2, -1] & [-2, 1] & [-2, -1]
+\end{bmatrix}
+\]
+
+\vspace{0.5cm}
+
+\noindent \textbf{Oznaczenie ruchu}\\
+Ruchy figurami są zapisywane w sposób precyzyjny i zrozumiały, zawierając wszystkie istotne informacje o wykonanej akcji. Składa się z kilku elementów:
+\begin{itemize}
+    \item \textbf{Symbol figury:} jeśli ruch dotyczy pionka, jest on pomijany.
+    \item \textbf{Koordynaty pola początkowego:} współrzędne w formacie [A-H][1-8].
+    \item \textbf{Znak bicia:} oznaczany jako znak „x”.
+    \item \textbf{Koordynaty pola docelowego:} współrzędne w formacie [A-H][1-8].
+    \item \textbf{Promocja pionka:} W przypadku promocji, dodaje się oznaczenie „=(symbol figury)”.
+    \item \textbf{Szach lub mat:} oznaczone przez symbole: „+” szach oraz „\#”.
+    \item \textbf{Czas wykonania ruchu:} podawany w przypadku gry z czasem.
+\end{itemize}
+
+\vspace{0.5cm}
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.5\textwidth]{images/imp_moves.png}
+    \caption{Przykładowe ruchy wykonane podczas gry.}
+\end{figure}
+
+\newpage
+
 \noindent \textbf{Pozycja FEN}\\
 Pozycja FEN (Forsyth-Edwards Notation) to sposób zapisywania aktualnej sytuacji na szachownicy, który pozwala na jednoznaczne odtworzenie pozycji w dowolnym momencie gry. Zawiera wszystkie istotne informacje o rozmieszczeniu figur, kolorze gracza, który ma wykonać ruch, stanie roszady, liczbie ruchów od ostatniego bicia lub ruchu pionkiem, oraz liczbie pełnych ruchów.
 \\\\
 W kontekście aplikacji, zapis FEN jest wykorzystywany do przechowywania stanu gry w bazie danych. Dzięki temu możliwe jest zapisanie aktualnej pozycji w dowolnym momencie, a następnie jej odczytanie i przywrócenie, co pozwala na wznowienie gry lub analizę wcześniejszych stanów.
 
+
 \begin{center}
     \texttt{rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1}
 \end{center}
 
+
 \noindent
-Przedstawioną przykładową pozycje można podzielić kolejno na części oznaczające:
+Przedstawioną powyżej przykładową pozycje można podzielić kolejno na części oznaczające:
 
 \begin{itemize}
     \item Rozmieszczenie figur na szachownicy, z użyciem liter oraz liczb wskazujących puste pola.
@@ -1809,11 +1859,35 @@ Przedstawioną przykładową pozycje można podzielić kolejno na części oznac
 \noindent \textbf{Macierz szachownicy}\\
 W pierwszej części zapisu pozycji FEN znajdują się informacje o rozmieszczeniu figur na szachownicy. Program przetwarza ten zapis, mapując go na macierz 8x8, co umożliwia łatwiejsze operowanie na koordynatach. Dzięki tej mapie, każdy element (pole) szachownicy może być odwoływany za pomocą indeksów, co ułatwia implementację ruchów, sprawdzanie stanu gry, a także operacje na poszczególnych figurach. Na przykład, każdemu polu szachownicy przypisane są współrzędne (x, y), gdzie x to numer kolumny (od A do H), a y to numer wiersza (od 1 do 8). Taki sposób reprezentacji umożliwia wygodną manipulację i analizowanie stanu gry.
 
+\vspace{0.5cm}
 \begin{figure}[h!]
     \centering
     \includegraphics[width=0.7\textwidth]{images/ex_matrix.png}
     \caption{Przykładowa macierz pozycji gry.}
 \end{figure}
+
+\newpage
+
+\noindent \textbf{Ruchy figur}\\
+Proces wykonywania ruchów w programie opiera się na mechanizmie identyfikacji możliwych posunięć dla wybranej figury. Gdy użytkownik wybierze swoją figurę, uruchamiana jest metoda \textbf{find} z klasy \textbf{FindMoves}. Metoda ta analizuje aktualną pozycję na szachownicy i zwraca listę pól, na które dana figura może się legalnie przemieścić zgodnie z zasadami gry. Następnie, jeśli użytkownik wskaże jedno z pól podanych w tej liście, ruch zostaje wykonany, a szachownica zostaje zaktualizowana o nową pozycję figury. 
+\\\\
+Metoda \texttt{find} analizuje ruchy wybranej figury na podstawie jej symbolu i koordynat. Proces rozpoczyna się od sprawdzenia, czy figura znajduje się w sytuacji związania, co wpływa na ograniczenie jej możliwych ruchów. Następnie, w oparciu o mapę ruchów figur i identyfikację wybranego rodzaju figury, program generuje listę pól podpowiedzi. W przypadku wystąpienia związania, do funkcji generującej ruchy przekazywany jest dodatkowy parametr określający kierunek związania, co pozwala na zredukowanie możliwych ruchów. Na końcu, metoda weryfikuje, czy król gracza nie znajduje się w pozycji szacha. Jeśli tak, pola podpowiedzi zostają dodatkowo ograniczone.
+
+\vspace{0.5cm}
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.5\textwidth]{images/imp_move_tips.png}
+    \caption{Wizualizacja podpowiedzi ruchu.}
+\end{figure}
+\vspace{0.5cm}
+
+\noindent
+Po kliknięciu przez użytkownika na pole znajdujące się na liście pól podpowiedzi wywoływana jest funkcja \texttt{makeMove}. Funkcja ta tworzy oznaczenie ruchu w formacie FEN, które dokładnie opisuje wykonany ruch. Następnie aktualizowana jest zarówno bieżąca pozycja FEN, jak i macierz pozycji. Funkcja ta również aktualizuje stany gry, przechowujące dane niezbędne dla ruchów specjalnych. Po przeprowadzeniu tych aktualizacji następuje rozdzielenie logiki w zależności od trybu gry:
+
+\begin{itemize}
+    \item \textbf{Gra sieciowa:} Wywoływana jest metoda huba SignalR, w celu powiadomienia drugiego gracza o wykonanym ruchu.
+    \item \textbf{Gra z silnikiem:} Następuje wywołanie API kontrolera odpowiedzialnego za interakcję z silnikiem szachowym.
+\end{itemize}
 
 \newpage
 
@@ -1850,17 +1924,43 @@ Druga para to listy pól biorących udział w szachu. Obejmują one pole zajmowa
 
 \newpage
 
+\noindent
+Generowanie pól kontrolowanych i pól szachowych realizują funkcje: \texttt{generateControlledAreas} i \texttt{checkChecks}. Pierwsza iteruje przez macierz szachownicy, dodając do kontrolowanych pól wszystkie pozycje, na które figura może wykonać bicie, zgodnie z zasadami ruchu. Kontrolowane pola obejmują także zajęte przez figury, aby król nie mógł zbić bronionej figury. Funkcja \texttt{checkChecks} sprawdza, czy król jest w szachu, porównując jego pozycję z listą kontrolowanych pól przeciwnika. Dla figur szachujących dodaje do listy pola na linii szachu i pozycję szachującej figury.
+\\\\
+
+\noindent \textbf{Szach podwójny}\\
+Jest to sytuacja, w której dwie figury biorą udział w szachu, a kierunki wykonywania szachow zawsze muszą być inne. Szach podwójny występuje wyłącznie w sytuacji szachu z odsłony, gdy dwie różne figury jednocześnie atakują króla przeciwnika. W grze szachowej może wystąpić jedynie szach zwykły lub szach podwójny – nie jest możliwe, aby więcej niż dwie figury jednocześnie szachowały króla. W praktyce istnieją następujące sytuacje, które mogą spowodować szach podwójny:
+
+\begin{itemize}
+    \item Goniec odsłania figure atakującą w liniach prostych.
+    \item Wieża odsłania figure atakującą po diagonalach.
+    \item Skoczek odsłania jakąkolwiek figure poruszającą się liniowo.
+\end{itemize}
+
+W programie mechanizm obsługi szachu podwójnego został zaimplementowany poprzez sprawdzanie liczby figur znajdujących się na polach biorących udział w szachu. Jeśli zostaną wykryte dwie figury szachujące króla, a wybrana przez gracza figura nie jest królem, pola podpowiedzi ruchów zostają wyzerowane. Wynika to z faktu, że w przypadku szachu podwójnego jedynym dozwolonym ruchem jest przesunięcie króla na bezpieczne pole.
+
+\vspace{0.5cm}
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.5\textwidth]{images/imp_double_check.png}
+    \caption{Przykład szachu podwójnego.}
+\end{figure}
+
+\newpage
+
 \noindent \textbf{Mat i Pat}\\
 W szachach mat oraz pat to dwie podstawowe sytuacje kończące grę. Mat oznacza, że król jednego z graczy jest w szachu i nie ma żadnych dostępnych ruchów, które mogłyby go uratować. Gra kończy się zwycięstwem przeciwnika. Pat, z kolei, ma miejsce wtedy, gdy gracz nie jest w szachu, ale nie ma żadnego legalnego ruchu, który mógłby wykonać. W takiej sytuacji gra kończy się remisem.
 \\\\
 W implementacji gry, te dwa scenariusze są rozwiązywane poprzez sprawdzanie dostępnych ruchów dla gracza, który jest aktualnie w turze. Gdy gracz próbuje wykonać ruch, najpierw sprawdzane jest, czy istnieje jakikolwiek możliwy ruch. Jeśli gracz nie ma żadnego dostępnego ruchu, program przechodzi do dalszej analizy.
 \\\\
 Jeśli po sprawdzeniu okazuje się, że gracz nie ma żadnych możliwych ruchów, następnie sprawdzane jest, czy jego król znajduje się w szachu. Jeśli król jest w szachu, oznacza to, że gra kończy się matem, a zwycięzcą zostaje przeciwnik. W przeciwnym przypadku, jeżeli gracz nie ma ruchu, ale jego król nie jest w szachu, oznacza to, że mamy do czynienia z patem, a gra kończy się remisem.
+\\\\
+Za cały opisany mechanizm odpowiada specjalnie dedykowana funkcja \texttt{checkIfAnyMoveExists}. Używa ona macierzy pozycji, aby sprawdzić każde pole na szachownicy oraz korzysta z mechanizmu klasy do znajdywania podpowiedzi, aby okreslic czy figura moze wykonac ruch. W ten sposób nie ma konieczności tworzenia całej implantacji sprawdzania każdej figury, sama funkcja kończy swoje działanie po natrafieniu na pierwszego pionka, który może wykonać ruch.
 
 \vspace{0.5cm}
 \begin{figure}[h!]
     \centering
-    \includegraphics[width=0.7\textwidth]{images/imp_front_checkmate.png}
+    \includegraphics[width=0.5\textwidth]{images/imp_front_checkmate.png}
     \caption{Przykładu zakończenia gry matem.}
 \end{figure}
 \vspace{0.5cm}
@@ -1962,6 +2062,32 @@ W przypadku gry z czasem, aplikacja śledzi czas pozostały dla obu graczy i prz
 
 \subsubsection{Stylizacja komponetów}
 
+\noindent
+Każdy komponent w projekcie posiada własny folder, w którym znajduje się dedykowany plik stylów o nazwie \texttt{.module.scss}. Dzięki temu stylizacja jest zorganizowana i łatwa do zarządzania. W przypadkach, gdy kilka komponentów o identycznej strukturze i umiejscowieniu wymaga podobnej stylizacji, ale różni się funkcjonalnością, korzystają one ze wspólnego pliku \texttt{.module.scss}. W takim pliku definiowane są style dla każdego z tych komponentów.
+\\\\
+Mechanizm stylizacji polega na imporcie klas z pliku \texttt{.module.scss} do pliku komponentu. Klasy te są następnie wykorzystywane jako zmienne, co pozwala na dynamiczne ich przypisywanie w zależności od logiki działania komponentu.
+\\\\
+Dodatkowo w folderze \texttt{shared} znajduje się plik \texttt{shared.scss}, który pełni funkcję centralnego miejsca dla zmiennych i mixinów współdzielonych przez różne komponenty. Plik ten gromadzi zadeklarowane wartości wspólne dla stylów, takie jak kolory, rozmiary czy powtarzające się schematy. Każdy plik stylów komponentów importuje go za pomocą deklaracji:
+
+\begin{verbatim} @use "../shared/styles/shared.scss" as *; \end{verbatim}
+
+Dzięki temu wszystkie zmienne i mixiny są dostępne w stylach poszczególnych komponentów, co pozwala na spójność oraz łatwą aktualizację stylów w całym projekcie.
+\\\\
+Mixiny są jednym z najważniejszych narzędzi oferowanych przez SCSS, umożliwiającym tworzenie wielokrotnego użytku fragmentów kodu CSS. Dzięki nim można zdefiniować zestawy stylów z opcjonalnymi parametrami, które można stosować w różnych miejscach projektu. To podejście znacznie przyspiesza pracę, ponieważ eliminuje konieczność ręcznego powielania kodu i pozwala na łatwą modyfikację stylów w jednym miejscu. Szczególnie dobrze sprawdzają się przy definiowaniu powtarzalnych wzorców, takich jak style przycisków, cieni, animacji czy układów. Ich wykorzystanie zwiększa spójność projektu i ułatwia utrzymanie kodu, co jest kluczowe w przypadku dużych aplikacji z wieloma komponentami. Dzięki mixinom stylizacja staje się bardziej modułowa, elastyczna i łatwa do skalowania.
+\\\\
+Dodatkowo, jak przedstawiono na zdjęciu poniżej, SCSS umożliwia wykorzystanie konstrukcji sterujących , które pozwalają na dynamiczne generowanie stylów. Dzięki nim można w prosty sposób tworzyć bardziej elastyczne i zautomatyzowane reguły stylizacji, co znacząco usprawnia pracę nad projektem.
+
+\vspace{0.5cm}
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.7\textwidth]{images/ex_loop_scss.png}
+    \caption{Fragment kodu: Dynamiczne tworzenie stylów.}
+\end{figure}
+\vspace{0.5cm}
+
+Na zakończenie warto podkreślić, że niemal każdy plik stylizacji komponentu zawiera znaczniki odpowiadające za obsługę mniejszych urządzeń. Dzięki temu strona została zoptymalizowana pod kątem responsywności, co pozwala na jej wygodne użytkowanie na dowolnym rodzaju urządzenia.
+
+
 \newpage
 
 \subsubsection{Wykorzystane biblioteki}
@@ -1982,6 +2108,7 @@ W przypadku gry z czasem, aplikacja śledzi czas pozostały dla obu graczy i prz
 \end{itemize}
 
 \newpage
+
 \section{Instrukcja obsługi}
 \subsection{Strona startowa}
 Strona tytułowa aplikacji do gry w szachy została zaprojektowana jako intuicyjny i funkcjonalny punkt startowy dla użytkowników. Umieszczono na niej wszystkie kluczowe elementy, które pozwalają na łatwe rozpoczęcie korzystania z platformy. W górnej części strony znajdują się przyciski umożliwiające logowanie oraz rejestrację, co pozwala zarówno nowym użytkownikom, jak i tym posiadającym konto na szybki dostęp do zasobów aplikacji.
@@ -2548,6 +2675,7 @@ Po wykonaniu testów, w oknie Test Explorer zostaną pokazane wyniki. Testy, kt�
     \item https://www.droptica.pl/blog/co-jest-postman-do-czego-sluzy-i-jakie-sa-jego-funkcjonalnosci/
     \item https://www.ovhcloud.com/pl/learn/what-is-rest-api/
     \item https://www.pgadmin.org/faq/
+    \item \href{https://pl.wikipedia.org/wiki/Notacja-Forsytha-Edwardsa}{https://pl.wikipedia.org/wiki/Notacja-Forsytha-Edwardsa}
 \end{itemize}
 
 \end{document}
