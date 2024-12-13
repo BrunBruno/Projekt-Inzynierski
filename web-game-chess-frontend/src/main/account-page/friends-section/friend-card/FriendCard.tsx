@@ -48,6 +48,7 @@ function FriendCard({ friend, setSelectedFriend, clearSelection }: FriendCardPro
 
   return (
     <div
+      data-testid="account-page-friend-card"
       className={classes.friend}
       onMouseEnter={(event) => {
         setActive(event);

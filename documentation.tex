@@ -138,7 +138,10 @@ Połączenie JavaScriptu i TypeScriptu pozwala skorzystać z najlepszych cech ob
 
 \noindent \textbf{React oraz Vite}\\
 React to biblioteka JavaScript służąca do renderowania interfejsów użytkownika (UI). Interfejs użytkownika składa się z małych jednostek, takich jak przyciski, tekst i obrazy. React pozwala łączyć je w komponenty wielokrotnego użytku, które można zagnieżdżać. Od stron internetowych po aplikacje na telefony, wszystko na ekranie można podzielić na komponenty. Każdy komponent Reacta jest funkcją JavaScript, która może zawierać pewne znaczniki renderowane w przeglądarce. Komponenty Reacta używają rozszerzenia składni o nazwie JSX do reprezentowania tych znaczników. JSX wygląda bardzo podobnie do HTML, jednak jest nieco bardziej rygorystyczny oraz może wyświetlać dynamiczne informacje. 
-\\\\
+
+\newpage
+
+\noindent
 Vite to nowoczesne i wydajne  narzędzie do budowania aplikacji frontend, które ma na celu zapewnienie szybszego i bardziej oszczędnego doświadczenia programistycznego dla nowoczesnych projektów internetowych, stworzone przez twórcę Vue.js - Evana You. Jest on znany ze swojej niewiarygodnej szybkości, dzięki wykorzystaniu natywnych modułów ES dla przyspieszonego hot module replacement (HMR) oraz kompilacji w przeglądarce. Vite.js przełamuje tradycyjne bariery w budowie aplikacji, eliminując konieczność korzystania z bundlerów takich jak Webpack czy Rollup. Jego modularna architektura oraz wsparcie dla wielu ramkowych, w tym Vue czy React, czynią go uniwersalnym i elastycznym narzędziem.
 \\\\
 React został wybrany ze względu na znajomość tej technologii oraz jej szerokie zastosowanie w tworzeniu aplikacji webowych. Intuicyjność pisania kodu w React, oparta na komponentach wielokrotnego użytku i JSX, sprawia, że praca z tą biblioteką jest wygodna i efektywna. Dodatkowo React oferuje szerokie wsparcie społeczności oraz dostęp do bogatego ekosystemu bibliotek, co ułatwia rozwijanie i utrzymanie projektu.
@@ -155,8 +158,9 @@ W projekcie wykorzystywane są pliki .module.scss, które umożliwiają stosowan
 \\\\
 SCSS został wybrany zamiast gotowych komponentów CSS, aby zapewnić pełną kontrolę nad stylizacją elementów. Pozwala to dostosowywać wygląd aplikacji dokładnie do jej potrzeb, bez ograniczeń narzuconych przez gotowe rozwiązania. Dzięki SCSS możliwe jest tworzenie rozbudowanych, ale zarazem dobrze utrzymywanych arkuszy stylów, które doskonale wspierają rozwój projektu.
 
-\subsection{Aplikacja serwerowa (backend)}
+\newpage
 
+\subsection{Aplikacja serwerowa (backend)}
 \noindent \textbf{C\#}\\
 C\# jest nowoczesnym, obiektowym językiem wysokiego poziomu, który został opracowany na zlecenie Microsoft już w latach 1998 - 2001. Pod względem składni porównuje się go często do języków takich, jak Object Pascal, C++ i Java. W środowisku programistycznym uznawany jest za prosty, przyjazny i przejrzysty. C\# jest ściśle związany z platformą .NET, która stanowi dla niego framework i środowisko uruchomieniowe zarazem. Przez długi czas ta zależność wskazywana była jako największa wada języka, bowiem ograniczała jego zastosowanie jedynie do systemów Windows. Microsoft rozprawił się z tym problemem w 2016 roku, publikując .NET Core - kompatybilny również z innymi systemami operacyjnymi. Od tego czasu C\# służy do budowy programów i aplikacji na wszystkie systemy operacyjne.
 \\\\
@@ -184,8 +188,9 @@ PostgreSQL został wybrany jako system bazodanowy z kilku kluczowych powodów. P
 \\\\
 PgAdmin zostało wybrane jako narzędzie do zarządzania bazą danych PostgreSQL, ponieważ oferuje szeroką gamę funkcji umożliwiających łatwą administrację i kontrolę nad bazą. Umożliwia wykonywanie zapytań, zarządzanie tabelami, sprawdzanie i edytowanie danych, a także analizowanie struktury bazy. Dzięki intuicyjnemu interfejsowi, PgAdmin upraszcza proces zarządzania bazą danych, co pozwala na szybkie reagowanie na potrzeby projektu i skuteczną kontrolę nad danymi w systemie. Jest to wygodne narzędzie zarówno dla administratorów, jak i dla deweloperów, którzy potrzebują efektywnego środowiska do pracy z PostgreSQL.
 
-\subsection{Narzędzia pomocnicze}
+\newpage
 
+\subsection{Narzędzia pomocnicze}
 \noindent \textbf{GIT i Github}\\
 Git to rozproszony system kontroli wersji, co oznacza, że lokalny klon projektu jest kompletnym repozytorium kontroli wersji. Te w pełni funkcjonalne repozytoria lokalne ułatwiają pracę w trybie offline lub zdalnie. Deweloperzy zatwierdzają swoją pracę lokalnie, a następnie synchronizują kopię repozytorium z kopią na serwerze. Ten paradygmat różni się od scentralizowanej kontroli wersji, w której klienci muszą synchronizować kod z serwerem przed utworzeniem nowych wersji kodu.
 \\\\
@@ -257,7 +262,7 @@ Segment relacji z użytkownikami obejmuje kilka encji i ich relacji, które zarz
 \begin{figure}[h!]
     \centering
     \includegraphics[width=0.9\textwidth]{images/ERD_user.png}
-    \caption{Diagram relacji jednostka-relacja przedstawiający relacje użytkownika. \\ Wygenerowany za pomocą programu PgAdmin.}
+    \caption{Diagram relacji jednostka-relacja przedstawiający relacje użytkownika. Wygenerowany za pomocą programu PgAdmin.}
 \end{figure}
 
 \newpage
@@ -269,7 +274,7 @@ Segment relacji przyjaźni jest zarządzany przez jednostkę przyjaźni, która 
 \begin{figure}[h!]
     \centering
     \includegraphics[width=0.9\textwidth]{images/ERD_friendship.png}
-    \caption{Diagram relacji między podmiotami przedstawiający relacje przyjaźni między użytkownikami. \\ Wygenerowany za pomocą programu PgAdmin.}
+    \caption{Diagram relacji między podmiotami przedstawiający relacje przyjaźni między użytkownikami. Wygenerowany za pomocą programu PgAdmin.}
 \end{figure}
 
 \newpage
@@ -281,7 +286,7 @@ Segment relacji gier online obsługuje strukturę internetowej gry w szachy, z k
 \begin{figure}[h!]
     \centering
     \includegraphics[width=0.9\textwidth]{images/ERD_online.png}
-    \caption{Diagram relacji między podmiotami ilustrujący strukturę interakcji w grach sieciowych. \\ Wygenerowany za pomocą programu PgAdmin.}
+    \caption{Diagram relacji między podmiotami ilustrujący strukturę interakcji w grach sieciowych. Wygenerowany za pomocą programu PgAdmin.}
 \end{figure}
 
 \newpage
@@ -293,7 +298,7 @@ Segment ten skupia się na aspekcie gry opartym na silniku, gdzie każda gra jes
 \begin{figure}[h!]
     \centering
     \includegraphics[width=0.9\textwidth]{images/ERD_offline.png}
-    \caption{Diagram zależności między jednostkami przedstawiający relacje między silnikiem a grą. \\ Wygenerowany za pomocą programu PgAdmin.}
+    \caption{Diagram zależności między jednostkami przedstawiający relacje między silnikiem a grą. Wygenerowany za pomocą programu PgAdmin.}
 \end{figure}
 
 \newpage
@@ -769,7 +774,7 @@ Moduł .Infrastructure implementuje interfejsy zdefiniowane w .Application, dost
 \begin{figure}[h!]
     \centering
     \includegraphics[width=1\textwidth]{images/diagram_dependencies.png}
-    \caption{Diagram zależności między projektami. \\ Opracowany za pomocą aplikacji Viso.}
+    \caption{Diagram zależności między projektami. Opracowany za pomocą aplikacji Viso.}
 \end{figure}
 
 \newpage
@@ -1439,15 +1444,15 @@ Finalnie odpowiedź w postaci DTO jest zwracana przez punkt końcowy API do klie
 \begin{figure}[h!]
     \centering
     \includegraphics[width=1\textwidth]{images/diagram_back.png}
-    \caption{Diagram przedstawiający proces przetwarzania zapytania na serwerze. \\ Opracowany za pomocą aplikacji Viso.}
+    \caption{Diagram przedstawiający proces przetwarzania zapytania na serwerze. Opracowany za pomocą aplikacji Viso.}
 \end{figure}
 
 \newpage
 
 \noindent \textbf{Rezultaty zapytań i paginacja}\\
-W systemie, zwracane są także odpowiedzi, które mogą zawierać dane w różnych formach. W przypadku wielu zapytań, szczególnie tych związanych z wyszukiwaniem lub pobieraniem dużej ilości danych, wykorzystuje się specjalne klasy, które umożliwiają mapowanie wyników na odpowiednie modele. Część zapytań zwraca dane w postaci DTO (Data Transfer Object), które są prostymi obiektami przechowującymi dane. Te obiekty są mapowane z encji bazy danych, co pozwala na łatwiejsze i bardziej kontrolowane przekazywanie danych pomiędzy warstwami aplikacji.
+W systemie, zwracane są także odpowiedzi, które mogą zawierać dane w różnych formach. W przypadku wielu zapytań, szczególnie tych związanych z wyszukiwaniem lub pobieraniem dużej ilości danych, wykorzystuje się specjalne klasy, które umożliwiają mapowanie wyników na odpowiednie modele. Część zapytań zwraca dane w postaci \textbf{DTO (Data Transfer Object)}, które są prostymi obiektami przechowującymi dane. Te obiekty są mapowane z encji bazy danych, co pozwala na łatwiejsze i bardziej kontrolowane przekazywanie danych pomiędzy warstwami aplikacji.
 \\\\
-W przypadku, gdy zapytanie dotyczy wielu elementów (np. listy gier), zastosowana jest paginacja – technika, która pozwala na dzielenie dużych zbiorów danych na mniejsze części (strony), co znacznie poprawia wydajność i doświadczenie użytkownika, ograniczając ilość danych przesyłanych w jednym żądaniu. Dzięki paginacji zamiast zwracać wszystkie dane na raz, system zwraca tylko określoną liczbę elementów na stronie oraz informację o numerze strony. Dzięki temu, gdy liczba elementów jest duża, użytkownik może nawigować po wynikach w sposób bardziej wydajny, ładować tylko potrzebne dane i nie obciążać systemu nadmiernym przesyłaniem informacji.
+W przypadku, gdy zapytanie dotyczy wielu elementów (np. listy gier), zastosowana jest paginacja – technika, która pozwala na dzielenie dużych zbiorów danych na mniejsze części, co znacznie poprawia wydajność i doświadczenie użytkownika, ograniczając ilość danych przesyłanych w jednym żądaniu. Dzięki paginacji zamiast zwracać wszystkie dane na raz, system zwraca tylko określoną liczbę elementów na stronie oraz informację o numerze strony. Dzięki temu, gdy liczba elementów jest duża, użytkownik może nawigować po wynikach w sposób bardziej wydajny, ładować tylko potrzebne dane i nie obciążać systemu nadmiernym przesyłaniem informacji.
 \\\\
 Aby wspierać paginację, w systemie zostały zaimplementowane dwie klasy:
 \begin{itemize}
@@ -1734,7 +1739,7 @@ Po opisaniu zasad działania routingu w aplikacji oraz przedstawieniu wszystkich
 \begin{figure}[h!]
     \centering
     \includegraphics[width=1\textwidth]{images/diagram_routing.png}
-    \caption{Diagram blokowy przedstawiający schemat routingu aplikacji. \\ Opracowany za pomocą aplikacji Viso.}
+    \caption{Diagram blokowy przedstawiający schemat routingu aplikacji. Opracowany za pomocą aplikacji Viso.}
 \end{figure}
 
 \newpage
@@ -1806,7 +1811,7 @@ Poniżej przedstawiony został diagram blokowy ilustrujący proces działania me
 \begin{figure}[h!]
     \centering
     \includegraphics[width=1\textwidth]{images/diagram_gry.png}
-    \caption{Diagram blokowy mechanizmu gry w szachy. \\ Opracowany za pomocą aplikacji Viso.}
+    \caption{Diagram blokowy mechanizmu gry w szachy. Opracowany za pomocą aplikacji Viso.}
 \end{figure}
 
 \newpage
@@ -1835,7 +1840,7 @@ Poniżej przedstawiony został uproszony diagram blokowy przedstawiający dział
 \begin{figure}[h!]
     \centering
     \includegraphics[width=1\textwidth]{images/diagram_enggry.png}
-    \caption{Diagram blokowy mechanizmu gry z silnikiem. \\ Opracowany za pomocą aplikacji Viso.}
+    \caption{Diagram blokowy mechanizmu gry z silnikiem. Opracowany za pomocą aplikacji Viso.}
 \end{figure}
 
 \newpage
@@ -2171,10 +2176,6 @@ Na zakończenie warto podkreślić, że niemal każdy plik stylizacji komponentu
 \subsection{Strona startowa}
 Strona tytułowa aplikacji do gry w szachy została zaprojektowana jako intuicyjny i funkcjonalny punkt startowy dla użytkowników. Umieszczono na niej wszystkie kluczowe elementy, które pozwalają na łatwe rozpoczęcie korzystania z platformy. W górnej części strony znajdują się przyciski umożliwiające logowanie oraz rejestrację, co pozwala zarówno nowym użytkownikom, jak i tym posiadającym konto na szybki dostęp do zasobów aplikacji.
 \\\\
-Centralna część strony prezentuje krótki opis funkcjonalności aplikacji. Zwrócono uwagę na najważniejsze elementy, takie jak możliwość gry online z innymi użytkownikami, rozbudowane narzędzia treningowe, tryb rozwiązywania łamigłówek szachowych oraz funkcje organizowania i uczestnictwa w turniejach. Wszystko to ma na celu wprowadzenie użytkownika w możliwości, jakie oferuje aplikacja, oraz zachęcenie do eksplorowania dostępnych funkcji.
-\\\\
-Na stronie znajduje się również sekcja umożliwiająca przejście do bardziej szczegółowego opisu zawartości aplikacji. Dzięki niej można zapoznać się z opisem poszczególnych funkcji oraz dowiedzieć się więcej o opcjach gry i trybach nauki. Dodatkowo zamieszczono odnośnik do działu FAQ, w którym zebrano odpowiedzi na najczęściej zadawane pytania, ułatwiając użytkownikom szybkie rozwiązanie ewentualnych wątpliwości.
-\\\\
 Całość zaprojektowano w sposób przejrzysty i estetyczny, aby zapewnić pozytywne pierwsze wrażenie oraz łatwość w poruszaniu się po stronie. Strona tytułowa pełni rolę wizytówki aplikacji, jednocześnie oferując dostęp do najważniejszych zasobów i funkcji.
 
 \vspace{0.5cm}
@@ -2183,8 +2184,97 @@ Całość zaprojektowano w sposób przejrzysty i estetyczny, aby zapewnić pozyt
     \includegraphics[width=1\textwidth]{images/ins_hero.png}
     \caption{Instrukcja: Widok strony startowej.}
 \end{figure}
+\vspace{0.5cm}
+
+\noindent
+Stronę startową podzielono na kilka sekcji, mających na celu wprowadzenie użytkownika do platformy oraz prezentację kluczowych aspektów aplikacji. Każda z tych sekcji została zaprojektowana tak, aby użytkownik mógł łatwo zrozumieć funkcjonalności oferowane przez aplikację i szybko rozpocząć korzystanie z niej.
 
 \newpage
+
+\begin{minipage}[t]{0.3\textwidth} 
+    \vspace{0pt} 
+    \centering 
+    \includegraphics[width=\linewidth]{images/ins_home.png} 
+\end{minipage} 
+\hfill 
+\begin{minipage}[t]{0.6\textwidth} 
+    \vspace{0pt} 
+    \raggedright 
+    Pierwsza sekcja strony startowej zawiera krótki wstęp o aplikacji, który przedstawia jej główne założenia i funkcjonalności. Znajdują się tu również przyciski umożliwiające szybkie przejście do logowania lub rejestracji, ułatwiając rozpoczęcie korzystania z platformy.
+\end{minipage}
+
+\vspace{1cm}
+
+\begin{minipage}[t]{0.6\textwidth} 
+    \vspace{0pt} 
+    \raggedright 
+    Druga sekcja, umożliwia szybki dostęp do funkcji rozgrywki. Znajdują się tutaj przyciski pozwalające na szybkie wyszukiwanie gier online z innymi graczami oraz rozpoczęcie gry offline przeciwko komputerowi.
+\end{minipage}
+\hfill 
+\begin{minipage}[t]{0.3\textwidth} 
+    \vspace{0pt} 
+    \centering 
+    \includegraphics[width=\linewidth]{images/ins_play.png} 
+\end{minipage} 
+
+\vspace{1cm}
+
+\begin{minipage}[t]{0.3\textwidth} 
+    \vspace{0pt} 
+    \centering 
+    \includegraphics[width=\linewidth]{images/ins_learn.png} 
+\end{minipage} 
+\hfill 
+\begin{minipage}[t]{0.6\textwidth} 
+    \vspace{0pt} 
+    \raggedright 
+    Trzecia sekcja, zawiera opisy kluczowych aspektów aplikacji, takich jak jej funkcje edukacyjne i możliwości rozwoju w grze. Na końcu tej sekcji znajduje się przycisk powrotu na górę, który umożliwia użytkownikowi szybki powrót, aby ponownie przejść do logowania lub rejestracji.
+\end{minipage}
+
+\vspace{1cm}
+
+\begin{minipage}[t]{0.6\textwidth} 
+    \vspace{0pt} 
+    \raggedright 
+    Czwarta sekcja, FAQ (Najczęściej Zadawane Pytania), zawiera odpowiedzi na pytania dotyczące dwóch głównych obszarów: zakładania i zarządzania kontem użytkownika oraz zasad i funkcji związanych z rozgrywkami.
+\end{minipage}
+\hfill 
+\begin{minipage}[t]{0.3\textwidth} 
+    \vspace{0pt} 
+    \centering 
+    \includegraphics[width=\linewidth]{images/ins_faq.png} 
+\end{minipage} 
+
+\vspace{1cm}
+
+\begin{minipage}[t]{0.3\textwidth} 
+    \vspace{0pt} 
+    \centering 
+    \includegraphics[width=\linewidth]{images/ins_footer.png} 
+\end{minipage} 
+\hfill 
+\begin{minipage}[t]{0.6\textwidth} 
+    \vspace{0pt} 
+    \raggedright 
+    Ostatnia sekcja, Footer, zawiera informacje kontaktowe oraz odnośniki do mediów społecznościowych. Umożliwia użytkownikom łatwy dostęp do danych kontaktowych oraz śledzenia aplikacji na platformach społecznościowych.
+\end{minipage}
+
+\vspace{1cm}
+
+\begin{minipage}[t]{0.6\textwidth} 
+    \vspace{0pt} 
+    \raggedright 
+    Oprócz strony startowej, aplikacja zawiera również osobną stronę About, która poświęcona jest wyjaśnieniu podstawowych pojęć oraz dostarcza użytkownikom ważne informacje dotyczące korzystania z platformy. Strona ta zawiera szczegółowe zapisy dotyczące warunków korzystania z aplikacji oraz polityki prywatności, które użytkownicy powinni poznać przed rozpoczęciem korzystania z platformy.
+\end{minipage}
+\hfill 
+\begin{minipage}[t]{0.3\textwidth} 
+    \vspace{0pt} 
+    \centering 
+    \includegraphics[width=\linewidth]{images/ins_about.png} 
+\end{minipage} 
+
+\newpage
+
 \subsection{Strona rejestracji}
 Strona rejestracji w aplikacji łączy w sobie wszystkie kluczowe funkcje niezbędne do zarządzania kontem użytkownika. Pozwala na założenie nowego profilu, zalogowanie się na istniejące konto, odzyskanie dostępu w przypadku utraty hasła oraz potwierdzenie adresu e-mail jako element weryfikacji konta. Wszystkie te opcje zostały zaprojektowane w sposób intuicyjny i łatwy w obsłudze, aby zapewnić jak najlepsze doświadczenie użytkownika.
 \\\\

@@ -276,14 +276,7 @@ function MainPage() {
         break;
 
       case GameSearchInterface.vsPlayerSearching:
-        setInterfaceContent(
-          <SearchingPage
-            isPrivate={false}
-            onCancel={onCancelPublicSearch}
-            containerTestId="searching-page-vs-player-search"
-            cancelButtonTestId="searching-page-vs-player-cancel-button"
-          />
-        );
+        setInterfaceContent(<SearchingPage isPrivate={false} onCancel={onCancelPublicSearch} />);
         break;
 
       case GameSearchInterface.vsComputerOptions:
@@ -307,15 +300,7 @@ function MainPage() {
         break;
 
       case GameSearchInterface.vsFriendSearching:
-        setInterfaceContent(
-          <SearchingPage
-            isPrivate={true}
-            onCancel={onCancelPrivateGame}
-            gameUrl={gameUrl}
-            containerTestId="searching-page-vs-friend-search"
-            cancelButtonTestId="searching-page-vs-friend-cancel-button"
-          />
-        );
+        setInterfaceContent(<SearchingPage isPrivate={true} onCancel={onCancelPrivateGame} gameUrl={gameUrl} />);
         break;
 
       case GameSearchInterface.activeGames:

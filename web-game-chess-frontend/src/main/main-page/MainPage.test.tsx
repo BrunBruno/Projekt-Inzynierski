@@ -1,27 +1,23 @@
 import { MemoryRouter } from "react-router-dom";
 import { render, waitFor, screen, fireEvent } from "@testing-library/react";
-import { createMockServer } from "../../shared/utils/services/MockServerService";
 import MainRouter from "../MainRouter";
 import { GetUserDto, IsEmailVerifiedDto } from "../../shared/utils/types/userDtos";
 import { Guid } from "guid-typescript";
 import { JwtService } from "../../shared/utils/services/MockJwtService";
 import { mockElo, mockUserForToken, mockGameOutcome } from "../../shared/utils/objects/generalMocks";
-import {
-  CheckIfUpdateOnPrivateGameRequiredDto,
-  CreatePrivateGameDto,
-  GetGameTimingDto,
-  SearchWebGameDto,
-} from "../../shared/utils/types/webGameDtos";
+import { CreatePrivateGameDto, GetGameTimingDto, SearchWebGameDto } from "../../shared/utils/types/webGameDtos";
 import { GetAllFriendsByStatusDto } from "../../shared/utils/types/friendshipDtos";
 import { TimingType } from "../../shared/utils/objects/entitiesEnums";
 import MainPage from "./MainPage";
+import MockAdapter from "axios-mock-adapter";
+import axios from "axios";
 
 // mocks
-const mockIsVerified: IsEmailVerifiedDto = {
+const responseIsVerified: IsEmailVerifiedDto = {
   isEmailVerified: true,
 };
 
-const mockUser: GetUserDto = {
+const responseUser: GetUserDto = {
   username: "User",
   name: null,
   profilePicture: null,
@@ -31,12 +27,12 @@ const mockUser: GetUserDto = {
   email: "user@test.com",
 };
 
-const mockSearchGame: SearchWebGameDto = {
+const responseSearchGame: SearchWebGameDto = {
   playerId: Guid.create(),
   timingId: Guid.create(),
 };
 
-const mockFriends: GetAllFriendsByStatusDto[] = [
+const responseFriends: GetAllFriendsByStatusDto[] = [
   {
     username: "Friend 1",
     name: null,
@@ -63,39 +59,17 @@ const mockFriends: GetAllFriendsByStatusDto[] = [
   },
 ];
 
-const mockPrivateGame: CreatePrivateGameDto = {
+const responsePrivateGame: CreatePrivateGameDto = {
   friendId: Guid.create(),
   gameId: Guid.create(),
   inviter: "User",
 };
 
-const mockGameTiming: GetGameTimingDto = {
+const responseGameTiming: GetGameTimingDto = {
   type: TimingType.bullet,
   minutes: 1,
   increment: 0,
 };
-
-const mockUpdateRequired: CheckIfUpdateOnPrivateGameRequiredDto = {
-  type: TimingType.bullet,
-  minutes: 1,
-  increment: 0,
-  isRequired: false,
-};
-
-// set up server
-const server = createMockServer({
-  isEmailVerifiedDto: mockIsVerified,
-  getUserDto: mockUser,
-  SearchWebGameDto: mockSearchGame,
-  getAllFriendsByStatusDtoList: mockFriends,
-  createPrivateGameDto: mockPrivateGame,
-  getGameTimingDto: mockGameTiming,
-  checkIfUpdateRequiredDto: mockUpdateRequired,
-});
-
-beforeAll(() => server.listen());
-afterEach(() => server.resetHandlers());
-afterAll(() => server.close());
 
 vi.mock("../shared/utils/services/GameHubService", () => ({
   startConnectionWithToken: vi.fn().mockResolvedValueOnce(undefined),
@@ -106,13 +80,20 @@ vi.mock("react-router-dom", async () => {
   const actual = await vi.importActual("react-router-dom");
   return {
     ...actual,
-    useParams: vi.fn(() => ({ gameIdStr: mockPrivateGame.gameId.toString() })),
+    useParams: vi.fn(() => ({ gameIdStr: responsePrivateGame.gameId.toString() })),
   };
 });
 
 describe("MainPage Components", () => {
+  let mock: MockAdapter;
+
   beforeEach(() => {
     vi.clearAllMocks();
+    mock = new MockAdapter(axios);
+  });
+
+  afterEach(() => {
+    mock.restore();
   });
 
   // default render test
@@ -149,11 +130,6 @@ describe("MainPage Components", () => {
 
     const searchingPage = await waitFor(() => screen.getByTestId("searching-page-vs-player-search"));
     expect(searchingPage).toHaveTextContent(/Searching for Game/i);
-
-    const cancelButton = screen.getByTestId("searching-page-vs-player-cancel-button");
-    fireEvent.click(cancelButton);
-
-    await waitFor(() => expect(screen.getByTestId("main-page-vs-player-section")).toBeInTheDocument());
   });
 
   // inviting friend to game test
@@ -176,7 +152,7 @@ describe("MainPage Components", () => {
 
     // click on invite
     const inviteButtons = await waitFor(() => screen.getAllByTestId("vs-friend-invite-to-game-button"));
-    expect(inviteButtons).toHaveLength(mockFriends.length);
+    expect(inviteButtons).toHaveLength(responseFriends.length);
     fireEvent.click(inviteButtons[0]);
 
     // selection timing

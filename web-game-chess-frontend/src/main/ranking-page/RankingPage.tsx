@@ -6,7 +6,7 @@ function RankingPage() {
   ///
 
   return (
-    <main className={classes["ranking-main"]}>
+    <main data-testid="main-ranking-page" className={classes["ranking-main"]}>
       <div className={classes["ranking"]}>
         <TableSection />
       </div>

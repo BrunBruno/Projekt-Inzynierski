@@ -113,7 +113,6 @@ function WebGameContent({
 
     // set game matrix
     const matrix = setMatrix(gameData.position);
-    console.log(matrix);
     setGameStates({ type: "SET_MATRIX", payload: matrix });
 
     // set controlled areas

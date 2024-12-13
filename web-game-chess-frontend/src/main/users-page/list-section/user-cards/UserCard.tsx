@@ -126,7 +126,6 @@ function UserCard({ user, getAllUsers, setNonFriend }: UserCardProps) {
         </button>
 
         <button
-          data-testid="users-page-user-card-profile-button"
           className={classes["sec-button"]}
           onClick={() => {
             onBlockUser();

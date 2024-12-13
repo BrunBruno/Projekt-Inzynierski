@@ -109,6 +109,8 @@ function ProfileSection({ userProfile, friendProfile, closeProfile }: ProfileSec
     }
   };
 
+  if (!userProfile && !friendProfile) return <></>;
+
   return (
     <section
       data-testid="users-page-profile-section"

@@ -47,7 +47,7 @@ function FriendSection({ friendshipId }: FriendSectionProps) {
   }, []);
 
   return (
-    <section className={classes.user}>
+    <section data-testid="profile-page-friend-section" className={classes.user}>
       {/* user profile */}
       {!friend ? (
         <div className={classes.user__profile}>

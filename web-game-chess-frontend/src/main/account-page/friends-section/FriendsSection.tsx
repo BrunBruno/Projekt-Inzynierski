@@ -63,6 +63,8 @@ function FriendsSection({}: FriendsSectionProps) {
   // to get friend list
   useEffect(() => {
     const getFriends = async (): Promise<void> => {
+      if (pageNumber <= 0 || pageSize <= 0) return;
+
       try {
         const model: GetAllFriendsByStatusModel = {
           username: "",

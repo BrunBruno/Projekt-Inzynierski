@@ -1,5 +1,4 @@
 import classes from "./ProfilePage.module.scss";
-import UserSection from "./user-section/FriendSection";
 import MainNav from "../../shared/components/main-nav/MainNav";
 import MainPopUp from "../../shared/components/main-popup/MainPopUp";
 import GamesSection from "./games-section/GamesSection";
@@ -14,6 +13,7 @@ import { usePopup } from "../../shared/utils/hooks/usePopUp";
 import { getErrMessage } from "../../shared/utils/functions/errors";
 import axios from "axios";
 import { friendshipController, getAuthorization } from "../../shared/utils/services/ApiService";
+import FriendSection from "./user-section/FriendSection";
 
 function ProfilePage() {
   ///
@@ -69,12 +69,13 @@ function ProfilePage() {
   if (!friendshipId) return <></>;
 
   return (
-    <main className={classes["account-main"]}>
+    <main data-testid="main-profile-page" className={classes["account-main"]}>
       <MainNav />
 
-      <UserSection friendshipId={friendshipId} />
+      <FriendSection friendshipId={friendshipId} />
 
       <GamesSection games={games} />
+
       <MainPopUp />
     </main>
   );

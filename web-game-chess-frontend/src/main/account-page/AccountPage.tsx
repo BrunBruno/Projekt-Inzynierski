@@ -138,7 +138,7 @@ function AccountPage() {
   }, [user]);
 
   return (
-    <main className={classes["account-main"]}>
+    <main data-testid="main-account-page" className={classes["account-main"]}>
       <div className={classes["main-container"]}>
         <MainNav />
 

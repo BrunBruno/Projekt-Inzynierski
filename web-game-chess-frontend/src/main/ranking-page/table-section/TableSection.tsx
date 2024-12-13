@@ -196,6 +196,7 @@ function TableSection({}: TableSectionProps) {
 
             {usersRanking.items.map((user: GetUserRankingDto | GetFriendshipRankingDto, i: number) => (
               <div
+                data-testid="ranking-page-record"
                 key={`table-record-${i}-${user.username}`}
                 className={`${classes["table-record"]} ${user.isUser ? classes["active-record"] : ""}`}
               >

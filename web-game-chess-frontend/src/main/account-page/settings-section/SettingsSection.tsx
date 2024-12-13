@@ -20,7 +20,7 @@ function SettingsSection({ user }: SettingsSectionProps) {
   const navigate = useNavigate();
 
   return (
-    <section className={classes.settings}>
+    <section data-testid="account-page-settings-section" className={classes.settings}>
       <div className={classes.settings__category}>
         <h3 className={classes["category-header"]}>
           <IconCreator
