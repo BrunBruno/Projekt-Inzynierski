@@ -47,6 +47,8 @@ public class GetAllMessagesRequestHandler : IRequestHandler<GetAllMessagesReques
             throw new UnauthorizedException("This is not user game.");
 
 
+
+
         var gameMessages = await _gameMessageRepository.GetAll(request.GameId);
 
         var playerMessages = await _playerMessageRepository.GetAllByPlayers(game.WhitePlayerId, game.BlackPlayerId);
@@ -55,13 +57,14 @@ public class GetAllMessagesRequestHandler : IRequestHandler<GetAllMessagesReques
         var blackPlayerImage = await _userImageRepository.GetByUserId(game.BlackPlayer.UserId);
 
 
-        var playerMessagesDtos = playerMessages.Select(message => new GetAllMessagesDto() { 
+        var playerMessagesDtos = playerMessages.Select(message => new GetAllMessagesDto()
+        {
             Message = message.Content,
             SenderName = message.Player.Name,
             SentAt = message.SentAt,
             Type = message.Type,
 
-            SenderImage = whitePlayerImage != null && whitePlayerImage.UserId == message.Player.UserId ? new ImageDto() 
+            SenderImage = whitePlayerImage != null && whitePlayerImage.UserId == message.Player.UserId ? new ImageDto()
             {
                 Data = whitePlayerImage.Data,
                 ContentType = whitePlayerImage.ContentType,

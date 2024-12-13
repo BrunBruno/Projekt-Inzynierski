@@ -6,6 +6,10 @@ using MediatR;
 
 namespace chess.Application.Requests.EngineRequests.UpdateEngineSettings;
 
+/// <summary>
+/// Checks if user settings exists
+/// Updates user settings
+/// </summary>
 public class UpdateEngineSettingsRequestHandler : IRequestHandler<UpdateEngineSettingsRequest> {
 
     private readonly IUserContextService _userContextService;
@@ -23,8 +27,8 @@ public class UpdateEngineSettingsRequestHandler : IRequestHandler<UpdateEngineSe
 
         var userId = _userContextService.GetUserId();
 
-        var settings = await _userSettingsRepository.GetByUserId( userId ) 
-            ?? throw new NotFoundException("Settings not found.");
+        var settings = await _userSettingsRepository.GetByUserId(userId) 
+            ?? throw new NotFoundException("Settings not found");
 
 
         settings.EngineGameCheats = request.AllowCheats != null ? (bool)request.AllowCheats : settings.EngineGameCheats;

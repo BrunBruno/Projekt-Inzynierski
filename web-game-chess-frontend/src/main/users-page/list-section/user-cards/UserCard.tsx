@@ -61,6 +61,7 @@ function UserCard({ user, getAllUsers, setNonFriend }: UserCardProps) {
     const model: BlockUserModel = {
       userId: user.userId,
     };
+
     try {
       await axios.post(friendshipController.blockUser(), model, getAuthorization());
       showPopup("USER BLOCKED", "error");
@@ -125,7 +126,6 @@ function UserCard({ user, getAllUsers, setNonFriend }: UserCardProps) {
         </button>
 
         <button
-          data-testid="users-page-user-card-profile-button"
           className={classes["sec-button"]}
           onClick={() => {
             onBlockUser();

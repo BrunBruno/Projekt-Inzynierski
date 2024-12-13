@@ -16,7 +16,7 @@ using chess.Application.Requests.UserRequests.RegisterUser;
 using chess.Application.Requests.UserRequests.ResetPassword;
 using chess.Application.Requests.UserRequests.SendResetPasswordCode;
 using chess.Application.Requests.UserRequests.UpdateProfile;
-using chess.Application.Requests.UserRequests.UpdateUserData;
+using chess.Application.Requests.UserRequests.UpdateProfileVisibility;
 using chess.Application.Requests.UserRequests.UpdateUserSettings;
 using chess.Application.Requests.UserRequests.VerifyEmail;
 using MediatR;
@@ -56,7 +56,7 @@ public class UserController : ControllerBase {
 
 
     /// <summary>
-    /// Creates Jwt token
+    /// Creates and returns Jwt token
     /// </summary>
     /// <param name="model"></param>
     /// <returns></returns>
@@ -72,7 +72,7 @@ public class UserController : ControllerBase {
 
 
     /// <summary>
-    /// Removes old code and sends new one
+    /// Removes old verification code and sends new one
     /// </summary>
     /// <param name="model"></param>
     /// <returns></returns>
@@ -89,7 +89,7 @@ public class UserController : ControllerBase {
 
 
     /// <summary>
-    /// Verifies email address
+    /// Verifies email address by provided code
     /// </summary>
     /// <param name="model"></param>
     /// <returns></returns>
@@ -106,7 +106,7 @@ public class UserController : ControllerBase {
 
 
     /// <summary>
-    /// Sends reset password code
+    /// Sends verification code for password recovery
     /// </summary>
     /// <param name="model"></param>
     /// <returns></returns>
@@ -122,6 +122,7 @@ public class UserController : ControllerBase {
 
     /// <summary>
     /// Resets user password
+    /// Only when user is not signed in and verification code is needed
     /// </summary>
     /// <param name="model"></param>
     /// <returns></returns>
@@ -137,7 +138,8 @@ public class UserController : ControllerBase {
 
 
     /// <summary>
-    /// To update user password
+    /// Updates user password
+    /// Used when user is logged in
     /// </summary>
     /// <param name="model"></param>
     /// <returns></returns>
@@ -154,7 +156,7 @@ public class UserController : ControllerBase {
 
 
     /// <summary>
-    /// Updates updatable data for user
+    /// Updates profile related data
     /// </summary>
     /// <param name="model"></param>
     /// <returns></returns>
@@ -175,11 +177,11 @@ public class UserController : ControllerBase {
     /// </summary>
     /// <param name="model"></param>
     /// <returns></returns>
-    [HttpPut("data")]
+    [HttpPut("visibility")]
     [Authorize(Policy = "IsVerified")]
-    public async Task<IActionResult> UpdateUserData([FromBody] UpdateUserDataModel model) {
+    public async Task<IActionResult> UpdateProfileVisibility([FromBody] UpdateProfileVisibilityModel model) {
 
-        var request = _mapper.Map<UpdateUserDataRequest>(model);
+        var request = _mapper.Map<UpdateProfileVisibilityRequest>(model);
 
         await _mediator.Send(request);
 
@@ -221,7 +223,7 @@ public class UserController : ControllerBase {
 
 
     /// <summary>
-    /// Gets complete user info for account page
+    /// Gets complete user info
     /// </summary>
     /// <returns></returns>
     [HttpGet("full")]
@@ -237,7 +239,7 @@ public class UserController : ControllerBase {
 
 
     /// <summary>
-    /// Gets user info for other users
+    /// Gets unknown user info for other users
     /// </summary>
     /// <param name="userId"></param>
     /// <returns></returns>
@@ -274,7 +276,7 @@ public class UserController : ControllerBase {
 
     /// <summary>
     /// Checks if user email is verified
-    /// only for already existing accounts
+    /// Only for already existing accounts
     /// </summary>
     /// <returns></returns>
     [HttpGet("is-verified")]
@@ -290,7 +292,7 @@ public class UserController : ControllerBase {
 
 
     /// <summary>
-    /// Gets user data by email address
+    /// Gets user data by provided email address
     /// </summary>
     /// <param name="model"></param>
     /// <returns></returns>

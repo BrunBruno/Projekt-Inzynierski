@@ -23,6 +23,7 @@ using Microsoft.AspNetCore.SignalR;
 using SignalRSwaggerGen.Attributes;
 using SignalRSwaggerGen.Enums;
 using chess.Application.Requests.WebGameRequests.CancelWebGameRematch;
+using chess.Application.Requests.WebGameRequests.GetWebGameWinner;
 
 namespace chess.Api.Hubs;
 
@@ -207,9 +208,9 @@ public class GameHub : Hub<IGameHub> {
 
         var request = _mapper.Map<EndWebGameRequest>(model);
 
-        var endGameDto = await _mediator.Send(request);
+        await _mediator.Send(request);
 
-        await Clients.Groups($"game-{model.GameId}").GameEnded(endGameDto);
+        await Clients.Groups($"game-{model.GameId}").GameEnded();
     }
 
 
@@ -293,23 +294,23 @@ public class GameHub : Hub<IGameHub> {
 
 
     /// <summary>
-    /// To get already finsihed game
+    /// To get winner data
     /// </summary>
     /// <param name="gameId"></param>
     /// <returns></returns>
-    [HubMethodName("ended-game")]
+    [HubMethodName("get-winner")]
     [Authorize(Policy = "IsVerified")]
-    [SignalRMethod("GetEndedGame", Operation.Get)]
-    public async Task GetEndedGame(Guid gameId) {
+    [SignalRMethod("GetWinner", Operation.Get)]
+    public async Task GetWinner(Guid gameId) {
 
-        var request = new EndWebGameRequest()
+        var request = new GetWebGameWinnerRequest()
         {
             GameId = gameId,
         };
 
-        var endGameDto = await _mediator.Send(request);
+        var winner = await _mediator.Send(request);
 
-        await Clients.Groups($"game-{gameId}").GameEnded(endGameDto);
+        await Clients.Groups($"game-{gameId}").GetWinner(winner);
     }
 
 

@@ -21,7 +21,7 @@ public class EngineGameRepository : IEngineGameRepository {
                         .ThenInclude(egp => egp.User)
                             .ThenInclude(u => u.Image)
                     .Include(eg => eg.CurrentState)
-                    .Include(eg => eg.Moves)
+                    .Include(eg => eg.Moves.OrderBy(m => m.DoneAt))
                     .FirstOrDefaultAsync(x => x.Id == gameId);
 
     ///<inheritdoc/>

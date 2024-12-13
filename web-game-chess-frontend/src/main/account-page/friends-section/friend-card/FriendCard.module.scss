@@ -38,6 +38,7 @@
       @include flex;
 
       position: relative;
+      user-select: none;
 
       .avatar {
         @include circle(10rem);
@@ -110,7 +111,7 @@
     @include flex(column, center, center, 0.5rem);
 
     position: absolute;
-    top: 100%;
+    top: calc(100% - 0.2rem);
     background-color: $gc9;
     z-index: -1;
     transform: scaleY(0);
@@ -119,6 +120,8 @@
     transform-origin: 50% 0;
     border: solid 0.5rem #0000;
     border-top: none;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
 
     button.card-button {
       @include button(1.4rem);
@@ -134,9 +137,8 @@
   }
 
   &.active &__actions {
-    transform: scaleY(1) translateZ(-1rem);
-    border-top-left-radius: 0;
-    border-top-right-radius: 0;
+    transform: scaleY(1);
+
     border-color: $gc0;
   }
 }

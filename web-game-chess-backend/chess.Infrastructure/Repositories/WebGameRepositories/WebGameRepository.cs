@@ -22,7 +22,6 @@ public class WebGameRepository : IWebGameRepository {
     ///<inheritdoc/>
     public async Task<WebGame?> GetById(Guid id)
         => await _dbContext.WebGames
-                    .Include(g => g.Moves)
                     .Include(g => g.WhitePlayer)
                         .ThenInclude(p => p.User)
                             .ThenInclude(u => u.Image)
@@ -31,12 +30,37 @@ public class WebGameRepository : IWebGameRepository {
                             .ThenInclude(u => u.Image)
                     .Include(g => g.GameTiming)
                     .Include(g => g.CurrentState)
+                    .Include(wg => wg.Moves.OrderBy(m => m.DoneAt))
+                    .Include(wg => wg.Messages.OrderBy(m => m.SentAt))
                     .FirstOrDefaultAsync(g => g.Id == id);
 
     ///<inheritdoc/>
     public async Task<List<WebGame>> GetAllPlayedToday() 
         => await _dbContext.WebGames
                     .Where(wg => wg.CreatedAt.Date == DateTime.UtcNow.Date)
+                    .ToListAsync();
+
+    ///<inheritdoc/>
+    public async Task<List<WebGame>> GetAllForFriendship(Guid requestorId, Guid receiverId)
+        => await _dbContext.WebGames
+                    .Include(wg => wg.WhitePlayer)
+                        .ThenInclude(p => p.User)
+                            .ThenInclude(u => u.Image)
+                    .Include(wg => wg.BlackPlayer)
+                        .ThenInclude(p => p.User)
+                            .ThenInclude(u => u.Image)
+                    .Where(wg => wg.IsPrivate == true && wg.HasEnded == true &&
+                          ((wg.WhitePlayer.UserId == requestorId && wg.BlackPlayer.UserId == receiverId) ||
+                          (wg.WhitePlayer.UserId == receiverId && wg.BlackPlayer.UserId == requestorId)))
+                    .ToListAsync();
+
+    ///<inheritdoc/>
+    public async Task<List<WebGame>> GetAllOngoing() 
+        => await _dbContext.WebGames
+                    .Include(wg => wg.WhitePlayer)
+                    .Include(wg => wg.BlackPlayer)
+                    .Include(wg => wg.Moves)
+                    .Where(wg => wg.HasEnded == false)      
                     .ToListAsync();
 
     ///<inheritdoc/>

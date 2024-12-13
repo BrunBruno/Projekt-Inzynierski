@@ -2,7 +2,7 @@
 namespace chess.Application.Repositories.FriendshipRepositories;
 
 /// <summary>
-/// Freindship stats interface
+/// Friendship stats interface
 /// </summary>
 public interface IFriendshipStatsRepository {
 }

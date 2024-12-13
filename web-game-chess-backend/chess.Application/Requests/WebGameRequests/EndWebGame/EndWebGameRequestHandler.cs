@@ -3,6 +3,7 @@ using chess.Application.Repositories.FriendshipRepositories;
 using chess.Application.Repositories.UserRepositories;
 using chess.Application.Repositories.WebGameRepositories;
 using chess.Application.Services;
+using chess.Core.Entities;
 using chess.Core.Enums;
 using chess.Core.Maps.MapOfElo;
 using chess.Shared.Exceptions;
@@ -13,48 +14,35 @@ namespace chess.Application.Requests.WebGameRequests.EndWebGame;
 /// <summary>
 /// Checks if game with provided id exists
 /// Checks if current user was a participant of the game
-/// If game has been finished returns end game dto
 /// Gets both players
 /// Gets friendship if game is private
 /// Sets all parameters for users (stats and elo points) and games according to result of the game
-/// Returns end game dto
 /// </summary>
-public class EndWebGameRequestHandler : IRequestHandler<EndWebGameRequest, EndWebGameDto> {
+public class EndWebGameRequestHandler : IRequestHandler<EndWebGameRequest> {
 
     private readonly IWebGameRepository _webGameRepository;
     private readonly IUserContextService _userContextService;
     private readonly IUserRepository _userRepository;
     private readonly IFriendshipRepository _friendshipRepository;
+    private readonly IWebGameMessageRepository _webGameMessageRepository;
 
     public EndWebGameRequestHandler(
         IWebGameRepository webGameRepository,
         IUserContextService userContextService,
         IUserRepository userRepository,
-        IFriendshipRepository friendshipRepository
+        IFriendshipRepository friendshipRepository,
+        IWebGameMessageRepository webGameMessageRepository
     ) {
         _webGameRepository = webGameRepository;
         _userContextService = userContextService;
         _userRepository = userRepository;
         _friendshipRepository = friendshipRepository;
+        _webGameMessageRepository = webGameMessageRepository;
     }   
 
-    public async Task<EndWebGameDto> Handle(EndWebGameRequest request, CancellationToken cancellationToken) {
+    public async Task Handle(EndWebGameRequest request, CancellationToken cancellationToken) {
 
         var userId = _userContextService.GetUserId();
-
-        var game = await _webGameRepository.GetById(request.GameId)
-            ?? throw new NotFoundException("Game not found.");
-
-        // game already has ended
-        if (game.HasEnded == true) {
-            var prevDto = new EndWebGameDto()
-            {
-                WinnerColor = game.WinnerColor,
-                EloGain = game.EloGain,
-            };
-
-            return prevDto;
-        }
 
         if ((
             request.LoserColor == null && 
@@ -69,13 +57,21 @@ public class EndWebGameRequestHandler : IRequestHandler<EndWebGameRequest, EndWe
                 request.EndGameType == GameEndReason.FiftyMovesRule ||
                 request.EndGameType == GameEndReason.InsufficientMaterial)
             )){
-            throw new BadRequestException("Incorrect game result.");
+            throw new BadRequestException("Incorrect game result");
         }
 
 
+        var game = await _webGameRepository.GetById(request.GameId)
+            ?? throw new NotFoundException("Game not found");
 
         if (game.WhitePlayer.UserId != userId && game.BlackPlayer.UserId != userId)
-            throw new UnauthorizedException("Not user game.");
+            throw new UnauthorizedException("Not user game");
+
+        if (game.HasEnded)
+            throw new BadRequestException("Game is finished");
+      
+
+
 
 
         var whiteUser = await _userRepository.GetById(game.WhitePlayer.UserId) 
@@ -85,7 +81,7 @@ public class EndWebGameRequestHandler : IRequestHandler<EndWebGameRequest, EndWe
            ?? throw new NotFoundException("User not found");
 
 
-        var friendship = game.IsPrivate == true ? await _friendshipRepository.GetByUsersIds(whiteUser.Id, blackUser.Id) : null;
+        var friendship = await _friendshipRepository.GetByUsersIds(whiteUser.Id, blackUser.Id);
 
 
         game.HasEnded = true;
@@ -275,17 +271,72 @@ public class EndWebGameRequestHandler : IRequestHandler<EndWebGameRequest, EndWe
         game.EndedAt = DateTime.UtcNow;
 
 
+        if (request.EndGameType == GameEndReason.CheckMate && game.Moves != null && game.Moves.Count > 0) {
+            string lastMove = game.Moves[^1].FenMove;
+            game.Moves[^1].FenMove = lastMove[..^1] + "#";
+        }
+
+        var winner = request.LoserColor == PieceColor.White ? game.BlackPlayer.Name : game.WhitePlayer.Name;
+        var loser = request.LoserColor == PieceColor.White ? game.WhitePlayer.Name : game.BlackPlayer.Name;
+
+        var endMessages = new List<WebGameMessage>() { 
+            new WebGameMessage(){
+                Id = Guid.NewGuid(),
+                RequestorName = "BOT",
+                Content = $"Game over.",
+                Type = MessageType.Bot,
+                GameId = game.Id
+            },
+
+             new WebGameMessage(){
+                Id = Guid.NewGuid(),
+                RequestorName = "BOT",
+                Content = "",
+                Type = MessageType.Bot,
+                GameId = game.Id
+            },
+        };
+
+
+        switch (request.EndGameType) {
+
+            case GameEndReason.CheckMate:
+                endMessages[1].Content = $"Player {winner} wins by check mate.";
+                break;
+
+            case GameEndReason.Resignation:
+                endMessages[1].Content = $"Player {loser} resigned.";
+                break;
+
+            case GameEndReason.OutOfTime:
+                endMessages[1].Content = $"Player {loser} run out of time.";
+                break;
+
+            case GameEndReason.StaleMate:
+                endMessages[1].Content = $"Game drawn by stalemate.";
+                break;
+
+            case GameEndReason.Agreement:
+                endMessages[1].Content = $"Game drawn by agreement.";
+                break;
+
+            case GameEndReason.FiftyMovesRule:
+                endMessages[1].Content = $"Game drawn by 50 move rule.";
+                break;
+
+            case GameEndReason.Threefold:
+                endMessages[1].Content = $"Game drawn by repetition.";
+                break;
+
+            case GameEndReason.InsufficientMaterial:
+                endMessages[1].Content = $"Game drawn by insufficient material.";
+                break;
+        }
+
+
         await _webGameRepository.Update(game);
         await _userRepository.Update(whiteUser);
         await _userRepository.Update(blackUser);
-
-
-        var dto = new EndWebGameDto()
-        {
-            WinnerColor = game.WinnerColor,
-            EloGain = eloToUpdate,
-        };
-
-        return dto;
+        await _webGameMessageRepository.CreateMany(endMessages);
     }
 }

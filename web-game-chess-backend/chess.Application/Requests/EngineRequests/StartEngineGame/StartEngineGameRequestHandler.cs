@@ -42,7 +42,7 @@ public class StartEngineGameRequestHandler : IRequestHandler<StartEngineGameRequ
         var userId = _userContextService.GetUserId();
 
         var user = await _userRepository.GetById(userId)
-            ?? throw new NotFoundException("User not found.");
+            ?? throw new NotFoundException("User not found");
 
         var player = new EngineGamePlayer()
         {
@@ -69,7 +69,7 @@ public class StartEngineGameRequestHandler : IRequestHandler<StartEngineGameRequ
         var message = new EngineGameMessage()
         {
             Id = Guid.NewGuid(),
-            Content = "Game Started",
+            Content = "Game started.",
             RequestorName = "BOT",
             Type = MessageType.Bot,
             GameId = game.Id,

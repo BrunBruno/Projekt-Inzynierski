@@ -128,7 +128,6 @@ function VerifyEmailModal({ userPath, setModal }: VerifyEmailModalProps) {
         setCodeValue(code);
       }
     } catch (err) {
-      console.error(err);
       showPopup("ERROR PASTING CODE", "error");
     }
   };

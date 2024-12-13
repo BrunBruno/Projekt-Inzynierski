@@ -18,6 +18,7 @@ using chess.Application.Repositories.EngineGameRepositories;
 using chess.Infrastructure.Repositories.EngineGameRepositories;
 using chess.Infrastructure.Repositories.WebGameRepositories;
 using chess.Application.Repositories.WebGameRepositories;
+using chess.Infrastructure.Workers;
 
 
 namespace chess.Infrastructure;
@@ -47,6 +48,9 @@ public static class Extensions {
         services.AddScoped<ISmtpService, SmtpService>();
         services.AddScoped<IUserContextService, UserContextService>();
         services.AddScoped<IEngineService, EngineService>();
+        services.AddScoped<IWebGamesFinisherService, WebGameFinisherService>();
+
+        services.AddHostedService<WebGamesFinisherWorker>();
 
         return services;
     }

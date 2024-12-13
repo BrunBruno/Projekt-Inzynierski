@@ -5,7 +5,7 @@ import axios from "axios";
 import {
   CheckIfInWebGameDto,
   CreateWebGameRematchDto,
-  EndWebGameDto,
+  GetWebGameWinnerDto,
   FetchTimeDto,
   GetWebGameDto,
   GetGameTimingDto,
@@ -13,7 +13,6 @@ import {
   SearchWebGameDto,
 } from "../../shared/utils/types/webGameDtos";
 import { webGameController, getAuthorization } from "../../shared/utils/services/ApiService";
-import LoadingPage from "../../shared/components/loading-page/LoadingPage";
 import GameHubService from "../../shared/utils/services/GameHubService";
 import { CheckIfInWebGameModel, EndWebGameModel } from "../../shared/utils/types/webGameModels";
 import { usePopup } from "../../shared/utils/hooks/usePopUp";
@@ -27,6 +26,12 @@ import WebGameContent from "./game-content/WebGameContent";
 import WebGameRightSidebar from "./game-right-sidebar/WebGameRightSidebar";
 import { MoveDto } from "../../shared/utils/types/abstractDtosAndModels";
 import { GameEndReason } from "../../shared/utils/objects/entitiesEnums";
+import {
+  check50MoveRuleRepetition,
+  checkMaterialDraw,
+  checkThreefoldRepetition,
+} from "../../shared/utils/chess-game/checkDraws";
+import LoadingBoard from "../../shared/components/loading-board/BoardLoading";
 
 function WebGamePage() {
   ///
@@ -87,7 +92,7 @@ function WebGamePage() {
   // obtained current player data
   const [playerData, setPlayerData] = useState<GetWebGamePlayerDto | null>(null);
   // winner data
-  const [winner, setWinner] = useState<EndWebGameDto | null>(null);
+  const [winnerData, setWinnerData] = useState<GetWebGameWinnerDto | null>(null);
   // time left for both players
   const [playersTimes, setPlayersTimes] = useState<FetchTimeDto | null>(null);
 
@@ -136,18 +141,23 @@ function WebGamePage() {
   };
 
   // to finish the game and get winner data
-  const endGame = (endGameData: EndWebGameDto): void => {
-    setWinner(endGameData);
+  const onGameEnded = (): void => {
+    getGame();
+  };
+
+  const onWinnerGet = (endGameData: GetWebGameWinnerDto): void => {
+    setWinnerData(endGameData);
     setDisplayedWindow(GameWindowInterface.winner);
 
     GameHubService.connection?.off("GameUpdated", getGame);
   };
 
-  // to create and cancel rematches
+  // to create rematch
   const setRematch = (rematchData: CreateWebGameRematchDto): void => {
     setRematchData(rematchData);
   };
 
+  // to cancel rematch
   const cancelRematch = (): void => {
     setRematchData(null);
   };
@@ -175,8 +185,10 @@ function WebGamePage() {
     };
 
     addPlayerToGameGroup();
+
     GameHubService.connection?.on("GameUpdated", getGame);
-    GameHubService.connection?.on("GameEnded", endGame);
+    GameHubService.connection?.on("GameEnded", onGameEnded);
+    GameHubService.connection?.on("GetWinner", onWinnerGet);
     GameHubService.connection?.on("RematchRequested", setRematch);
     GameHubService.connection?.on("RematchCanceled", cancelRematch);
     GameHubService.connection?.on("GameAccepted", handleGameAccepted);
@@ -186,10 +198,14 @@ function WebGamePage() {
 
     return () => {
       GameHubService.connection?.off("GameUpdated", getGame);
-      GameHubService.connection?.off("GameEnded", endGame);
+      GameHubService.connection?.off("GameEnded", onGameEnded);
+      GameHubService.connection?.off("GetWinner", onWinnerGet);
       GameHubService.connection?.off("RematchRequested", setRematch);
       GameHubService.connection?.off("RematchCanceled", cancelRematch);
       GameHubService.connection?.off("GameAccepted", handleGameAccepted);
+
+      // remove from group
+      if (gameId) GameHubService.LeaveGame(gameId);
     };
   }, [gameId]);
 
@@ -208,26 +224,30 @@ function WebGamePage() {
 
   // to get winner if game has ended
   useEffect(() => {
-    if (!gameId || !gameData) return;
+    if (!gameId || !gameData || !playerData) return;
 
     // just for updated
-    const getWinner = async (): Promise<void> => {
-      await GameHubService.GetEndedGame(gameId);
+    const refreshWinner = async (): Promise<void> => {
+      await GameHubService.GetWinner(gameId);
     };
 
-    const drawBy50MoveRule = async (): Promise<void> => {
+    const forceDraw = async (endGameType: GameEndReason): Promise<void> => {
       const model: EndWebGameModel = {
         gameId: gameId,
         loserColor: null,
-        endGameType: GameEndReason.fiftyMovesRule,
+        endGameType: endGameType,
       };
 
       await GameHubService.EndGame(model);
     };
 
-    if (gameData.hasEnded) getWinner();
+    // just to get already ended game
+    if (gameData.hasEnded) refreshWinner();
 
-    if (gameData.halfmoveClock >= 100) drawBy50MoveRule();
+    // draws
+    if (check50MoveRuleRepetition(gameData.halfmoveClock)) forceDraw(GameEndReason.fiftyMovesRule);
+    if (checkThreefoldRepetition(gameData.moves)) forceDraw(GameEndReason.threefold);
+    if (checkMaterialDraw(gameData.moves)) forceDraw(GameEndReason.insufficientMaterial);
 
     fetchTime();
   }, [gameData]);
@@ -273,7 +293,7 @@ function WebGamePage() {
     };
   }, [newGameData]);
 
-  if (!gameId || !gameData || !playerData) return <LoadingPage />;
+  if (!gameId || !gameData || !playerData) return <LoadingBoard />;
 
   return (
     <main className={classes["game-main"]}>
@@ -281,6 +301,7 @@ function WebGamePage() {
         gameId={gameId}
         playerData={playerData}
         gameData={gameData}
+        winnerData={winnerData}
         setShowConfirm={setShowConfirm}
         setConfirmAction={setConfirmAction}
         displayedWindowState={{ get: displayedWindow, set: setDisplayedWindow }}
@@ -290,7 +311,7 @@ function WebGamePage() {
         gameId={gameId}
         gameData={gameData}
         playerData={playerData}
-        winner={winner}
+        winnerData={winnerData}
         selectedTiming={selectedTiming}
         historyPositionState={{ get: historyPosition, set: setHistoryPosition }}
         newGameDataState={{ get: newGameData, set: setNewGameData }}
@@ -304,8 +325,8 @@ function WebGamePage() {
         gameId={gameId}
         gameData={gameData}
         playerData={playerData}
+        winnerData={winnerData}
         playersTimes={playersTimes}
-        winner={winner}
         historyPositionState={{ get: historyPosition, set: setHistoryPosition }}
         displayedWindowState={{ get: displayedWindow, set: setDisplayedWindow }}
       />

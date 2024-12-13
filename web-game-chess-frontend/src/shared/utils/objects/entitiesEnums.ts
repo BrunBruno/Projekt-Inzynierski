@@ -48,7 +48,7 @@ export enum MessageType {
   bot = 2,
 }
 
-//
+// appearance of board settings
 export enum AppearanceOfBoard {
   Default,
   Rounded,
@@ -56,14 +56,16 @@ export enum AppearanceOfBoard {
   Grey,
 }
 
-//
+// appearance of game page settings
 export enum AppearanceOfGamePage {
   Simple,
   Full,
 }
 
-//
+// appearance of pieces settings
 export enum AppearanceOfPieces {
   Standard,
-  Simple,
+  VariantA,
+  VariantB,
+  VariantC,
 }

@@ -1,135 +1,178 @@
-// import { fireEvent, render, screen, waitFor } from "@testing-library/react";
-// import { MemoryRouter, Route, Routes } from "react-router-dom";
-// import IndexRouter from "../IndexRouter";
-// import RegisterPage from "./RegisterPage";
-// import { RegistrationInterface } from "../../shared/utils/objects/interfacesEnums";
-// import { GetUserDto, IsEmailVerifiedDto, LogInUserDto } from "../../shared/utils/types/userDtos";
-// import { JwtService } from "../../shared/utils/services/MockJwtService";
-// import { Guid } from "guid-typescript";
-// import MainRouter from "../../main/MainRouter";
-// import { createMockServer } from "../../shared/utils/services/MockServerService";
-// import { mockUserForToken } from "../../shared/utils/objects/generalMocks";
+import { fireEvent, render, screen, waitFor } from "@testing-library/react";
+import { MemoryRouter, Route, Routes } from "react-router-dom";
+import IndexRouter from "../IndexRouter";
+import RegisterPage from "./RegisterPage";
+import { RegistrationInterface } from "../../shared/utils/objects/interfacesEnums";
+import { GetRegisterConfDto, GetUserDto, IsEmailVerifiedDto, LogInUserDto } from "../../shared/utils/types/userDtos";
+import { JwtService } from "../../shared/utils/services/MockJwtService";
+import { Guid } from "guid-typescript";
+import MainRouter from "../../main/MainRouter";
+import { mockUserForToken } from "../../shared/utils/objects/generalMocks";
+import axios from "axios";
+import MockAdapter from "axios-mock-adapter";
+import { userController } from "../../shared/utils/services/ApiService";
+import { DataConfiguration } from "../../shared/utils/objects/entitiesEnums";
+import { GetRegisterConfModel } from "../../shared/utils/types/userModels";
 
-// // mocks
-// const jwtService = new JwtService();
+// models
 
-// const mockToken: LogInUserDto = {
-//   token: jwtService.getJwtToken(mockUserForToken),
-// };
+const getPasswordRegisterConfModel: GetRegisterConfModel = {
+  configurationId: DataConfiguration.userPassword,
+};
 
-// const mockIsVerified: IsEmailVerifiedDto = {
-//   isEmailVerified: true,
-// };
+const getUserRegisterConfModel: GetRegisterConfModel = {
+  configurationId: DataConfiguration.userName,
+};
 
-// const mockUser: GetUserDto = {
-//   username: "Username",
-//   name: "User",
-//   profilePicture: null,
-//   backgroundImage: null,
-//   country: "PL",
-//   userId: Guid.create(),
-//   email: "user@test.com",
-// };
+// responses
+const jwtService = new JwtService();
 
-// // set up server
-// const server = createMockServer({
-//   logInUserDto: mockToken,
-//   isEmailVerifiedDto: mockIsVerified,
-//   getUserDto: mockUser,
-// });
+const mockToken: LogInUserDto = {
+  token: jwtService.getJwtToken(mockUserForToken),
+};
 
-// beforeAll(() => server.listen());
-// afterEach(() => server.resetHandlers());
-// afterAll(() => server.close());
+const responseIsVerified: IsEmailVerifiedDto = {
+  isEmailVerified: true,
+};
 
-// vi.mock("../shared/utils/services/GameHubService", () => ({
-//   startConnectionWithToken: vi.fn().mockResolvedValueOnce(undefined),
-//   AddSelfNotification: vi.fn().mockResolvedValueOnce(undefined),
-// }));
+const responseIsNotVerified: IsEmailVerifiedDto = {
+  isEmailVerified: false,
+};
 
-// describe("RegisterPage Components", () => {
-//   beforeEach(() => {
-//     vi.clearAllMocks();
-//   });
+const responseUser: GetUserDto = {
+  username: "Username",
+  name: "User",
+  profilePicture: null,
+  backgroundImage: null,
+  country: "PL",
+  userId: Guid.create(),
+  email: "user@test.com",
+};
 
-//   // default render test
-//   it("should render without crashing and displays initial content", async () => {
-//     render(
-//       <MemoryRouter>
-//         <RegisterPage />
-//       </MemoryRouter>
-//     );
+const responseConfiguration: GetRegisterConfDto = {
+  minLength: null,
+  maxLength: null,
+  requireUppercase: false,
+  requireLowercase: false,
+  requireDigit: false,
+  requireSpecialChar: false,
+};
 
-//     expect(await waitFor(() => screen.getByTestId("sign-in-form-modal"))).toBeInTheDocument();
-//     expect(await waitFor(() => screen.getByText("Login Now"))).toBeInTheDocument();
-//   });
+vi.mock("../shared/utils/services/GameHubService", () => ({
+  startConnectionWithToken: vi.fn().mockResolvedValueOnce(undefined),
+  AddSelfNotification: vi.fn().mockResolvedValueOnce(undefined),
+}));
 
-//   // navigation to home page test
-//   it("should go to hame page on Home Page button click", async () => {
-//     render(
-//       <MemoryRouter initialEntries={["/registration"]}>
-//         <IndexRouter />
-//       </MemoryRouter>
-//     );
+describe("RegisterPage Components", () => {
+  let mock: MockAdapter;
 
-//     const homePageButtons = screen.getAllByText("Home Page");
-//     expect(homePageButtons).toHaveLength(2);
+  beforeEach(() => {
+    vi.clearAllMocks();
+    mock = new MockAdapter(axios);
+  });
 
-//     fireEvent.click(homePageButtons[0]);
+  afterEach(() => {
+    mock.restore();
+  });
 
-//     expect(await waitFor(() => screen.getByTestId("main-index-page"))).toBeInTheDocument();
-//   });
+  // default render test
+  it("should render without crashing and displays initial content", async () => {
+    mock.onGet(userController.getRegisterConf(getPasswordRegisterConfModel)).reply(200, responseConfiguration);
+    mock.onGet(userController.getRegisterConf(getUserRegisterConfModel)).reply(200, responseConfiguration);
 
-//   // sign in test
-//   it("should sign-in user and render main page", async () => {
-//     render(
-//       <MemoryRouter initialEntries={["/registration"]}>
-//         <Routes>
-//           <Route path="/*" element={<IndexRouter />} />
-//           <Route path="/main/*" element={<MainRouter />} />
-//         </Routes>
-//       </MemoryRouter>
-//     );
+    render(
+      <MemoryRouter>
+        <RegisterPage />
+      </MemoryRouter>
+    );
 
-//     await waitFor(() => {
-//       expect(screen.getByTestId("sign-in-form-modal")).toBeInTheDocument();
-//     });
+    expect(await waitFor(() => screen.getByTestId("sign-in-form-modal"))).toBeInTheDocument();
+    expect(await waitFor(() => screen.getByText("Login Now"))).toBeInTheDocument();
+  });
 
-//     await waitFor(() => {
-//       expect(screen.getByText(/Login Now/i)).toBeInTheDocument();
-//     });
+  // navigation to home page test
+  it("should go to hame page on Home Page button click", async () => {
+    mock.onGet(userController.getRegisterConf(getPasswordRegisterConfModel)).reply(200, responseConfiguration);
+    mock.onGet(userController.getRegisterConf(getUserRegisterConfModel)).reply(200, responseConfiguration);
 
-//     fireEvent.change(screen.getByPlaceholderText("E-mail"), { target: { value: "test@example.com" } });
-//     fireEvent.change(screen.getByPlaceholderText("Password"), { target: { value: "Password123" } });
+    render(
+      <MemoryRouter initialEntries={["/registration"]}>
+        <IndexRouter />
+      </MemoryRouter>
+    );
 
-//     fireEvent.submit(screen.getByTestId("sign-in-form-modal"));
+    const homePageButtons = screen.getAllByText("Home Page");
+    expect(homePageButtons).toHaveLength(2);
 
-//     await waitFor(() => {
-//       expect(screen.getByTestId("main-main-page")).toBeInTheDocument();
-//     });
-//   });
+    fireEvent.click(homePageButtons[0]);
 
-//   // sign up test
-//   it("should sign-up user and set modal to verify email modal", async () => {
-//     render(
-//       <MemoryRouter
-//         initialEntries={[{ pathname: "/registration", state: { regOption: RegistrationInterface.signUp } }]}
-//       >
-//         <RegisterPage />
-//       </MemoryRouter>
-//     );
+    expect(await waitFor(() => screen.getByTestId("main-index-page"))).toBeInTheDocument();
+  });
 
-//     await waitFor(() => expect(screen.getByTestId("sign-up-form-modal")).toBeInTheDocument());
-//     await waitFor(() => expect(screen.getByText(/Create Account/i)).toBeInTheDocument());
+  // sign in test
+  it("should sign-in user and render main page", async () => {
+    mock.onGet(userController.getRegisterConf(getPasswordRegisterConfModel)).reply(200, responseConfiguration);
+    mock.onGet(userController.getRegisterConf(getUserRegisterConfModel)).reply(200, responseConfiguration);
 
-//     fireEvent.change(screen.getByPlaceholderText("E-mail"), { target: { value: "test@example.com" } });
-//     fireEvent.change(screen.getByPlaceholderText("UserName"), { target: { value: "TestUser" } });
-//     fireEvent.change(screen.getByPlaceholderText("Password"), { target: { value: "Password123" } });
-//     fireEvent.change(screen.getByPlaceholderText("Confirm Password"), { target: { value: "Password123" } });
+    mock.onPost(userController.logInUser()).reply(200, mockToken);
+    mock.onGet(userController.isVerified()).reply(200, responseIsVerified);
+    mock.onGet(userController.getUser()).reply(200, responseUser);
 
-//     fireEvent.submit(screen.getByTestId("sign-up-form-modal"));
+    render(
+      <MemoryRouter initialEntries={["/registration"]}>
+        <Routes>
+          <Route path="/*" element={<IndexRouter />} />
+          <Route path="/main/*" element={<MainRouter />} />
+        </Routes>
+      </MemoryRouter>
+    );
 
-//     const verifyEmailModal = await waitFor(() => screen.getByTestId("verify-email-form-modal"));
-//     expect(verifyEmailModal).toBeInTheDocument();
-//   });
-// });
+    await waitFor(() => {
+      expect(screen.getByTestId("sign-in-form-modal")).toBeInTheDocument();
+    });
+
+    await waitFor(() => {
+      expect(screen.getByText(/Login Now/i)).toBeInTheDocument();
+    });
+
+    fireEvent.change(screen.getByPlaceholderText("E-mail / Username"), { target: { value: "test@example.com" } });
+    fireEvent.change(screen.getByPlaceholderText("Password"), { target: { value: "Password123" } });
+
+    fireEvent.submit(screen.getByTestId("sign-in-form-modal"));
+
+    await waitFor(() => {
+      expect(screen.getByTestId("main-main-page")).toBeInTheDocument();
+    });
+  });
+
+  // sign up test
+  it("should sign-up user and set modal to verify email modal", async () => {
+    mock.onGet(userController.getRegisterConf(getPasswordRegisterConfModel)).reply(200, responseConfiguration);
+    mock.onGet(userController.getRegisterConf(getUserRegisterConfModel)).reply(200, responseConfiguration);
+
+    mock.onPost(userController.registerUser()).reply(200);
+    mock.onPost(userController.logInUser()).reply(200, mockToken);
+    mock.onGet(userController.isVerified()).reply(200, responseIsNotVerified);
+
+    render(
+      <MemoryRouter
+        initialEntries={[{ pathname: "/registration", state: { regOption: RegistrationInterface.signUp } }]}
+      >
+        <RegisterPage />
+      </MemoryRouter>
+    );
+
+    await waitFor(() => expect(screen.getByTestId("sign-up-form-modal")).toBeInTheDocument());
+    await waitFor(() => expect(screen.getByText(/Create Account/i)).toBeInTheDocument());
+
+    fireEvent.change(screen.getByPlaceholderText("E-mail"), { target: { value: "test@example.com" } });
+    fireEvent.change(screen.getByPlaceholderText("UserName"), { target: { value: "TestUser" } });
+    fireEvent.change(screen.getByPlaceholderText("Password"), { target: { value: "Password123" } });
+    fireEvent.change(screen.getByPlaceholderText("Confirm Password"), { target: { value: "Password123" } });
+
+    fireEvent.submit(screen.getByTestId("sign-up-form-modal"));
+
+    const verifyEmailModal = await waitFor(() => screen.getByTestId("verify-email-form-modal"));
+    expect(verifyEmailModal).toBeInTheDocument();
+  });
+});

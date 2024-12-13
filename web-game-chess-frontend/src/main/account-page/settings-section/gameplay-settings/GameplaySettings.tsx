@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import IconCreator from "../../../../shared/components/icon-creator/IconCreator";
 import { defaultPiecesImages } from "../../../../shared/svgs/iconsMap/DefaultPieceImageSvgs";
-import { specialPiecesSvgs } from "../../../../shared/svgs/iconsMap/SpecialPiecesSvgs";
+import { piecesIconsVariantC } from "../../../../shared/svgs/iconsMap/PiecesIconsVariantC";
 import {
   AppearanceOfBoard,
   AppearanceOfGamePage,
@@ -15,6 +15,8 @@ import { getErrMessage } from "../../../../shared/utils/functions/errors";
 import axios from "axios";
 import { engineGameController, getAuthorization, userController } from "../../../../shared/utils/services/ApiService";
 import { UpdateEngineSettingsModel } from "../../../../shared/utils/types/engineGameModels";
+import { piecesIconsVariantA } from "../../../../shared/svgs/iconsMap/PiecesIconsVariantA";
+import { piecesIconsVariantB } from "../../../../shared/svgs/iconsMap/PiecesIconsVariantB";
 
 type GameplaySettingsProps = {
   // user data for settings updates
@@ -130,21 +132,78 @@ function GameplaySettings({ user }: GameplaySettingsProps) {
           <div
             className={classes["option"]}
             onClick={() => {
-              updateUserSettings({ appearanceOfPieces: AppearanceOfPieces.Simple });
+              updateUserSettings({ appearanceOfPieces: AppearanceOfPieces.VariantA });
             }}
           >
             <div className={classes["pieces-look"]}>
-              <IconCreator icons={specialPiecesSvgs} iconName={"p"} color={"white"} iconClass={classes["piece-icon"]} />
+              <IconCreator
+                icons={piecesIconsVariantA}
+                iconName={"p"}
+                color={"white"}
+                iconClass={classes["piece-icon"]}
+              />
             </div>
 
             <div className={classes["option-text"]}>
               <p
                 className={`
                   ${classes["ind"]} 
-                  ${appearance.appearanceOfPieces === AppearanceOfPieces.Simple ? classes.active : ""}
+                  ${appearance.appearanceOfPieces === AppearanceOfPieces.VariantA ? classes.active : ""}
                 `}
               />
-              <span>Icons</span>
+              <span>Variant A</span>
+            </div>
+          </div>
+
+          <div
+            className={classes["option"]}
+            onClick={() => {
+              updateUserSettings({ appearanceOfPieces: AppearanceOfPieces.VariantB });
+            }}
+          >
+            <div className={classes["pieces-look"]}>
+              <IconCreator
+                icons={piecesIconsVariantB}
+                iconName={"p"}
+                color={"white"}
+                iconClass={classes["piece-icon"]}
+              />
+            </div>
+
+            <div className={classes["option-text"]}>
+              <p
+                className={`
+                  ${classes["ind"]} 
+                  ${appearance.appearanceOfPieces === AppearanceOfPieces.VariantB ? classes.active : ""}
+                `}
+              />
+              <span>Variant B</span>
+            </div>
+          </div>
+
+          <div
+            className={classes["option"]}
+            onClick={() => {
+              updateUserSettings({ appearanceOfPieces: AppearanceOfPieces.VariantC });
+            }}
+          >
+            <div className={classes["pieces-look"]}>
+              <IconCreator
+                icons={piecesIconsVariantC}
+                iconName={"p"}
+                color={"white"}
+                iconClass={classes["piece-icon"]}
+              />
+            </div>
+
+            <div className={classes["option-text"]}>
+              <p
+                className={`
+                  ${classes["ind"]} 
+                  ${appearance.appearanceOfPieces === AppearanceOfPieces.VariantC ? classes.active : ""}
+                `}
+              />
+              <span>Variant C</span>
             </div>
           </div>
         </div>

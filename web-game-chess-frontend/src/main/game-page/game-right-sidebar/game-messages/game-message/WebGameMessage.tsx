@@ -38,16 +38,16 @@ function WebGameMessage({ gameId, playerData, message }: WebGameMessageProps) {
     }
   };
 
-  // accept/ decline draw offer
+  // accept / decline draw offer
   const onAcceptDraw = async (): Promise<void> => {
     try {
-      const loserPlayer: EndWebGameModel = {
+      const model: EndWebGameModel = {
         gameId: gameId,
         loserColor: null,
         endGameType: GameEndReason.agreement,
       };
 
-      await GameHubService.EndGame(loserPlayer);
+      await GameHubService.EndGame(model);
 
       await GameHubService.RemoveDrawMessage(gameId);
 

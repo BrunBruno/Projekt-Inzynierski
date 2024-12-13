@@ -1,11 +1,12 @@
 import IconCreator from "../../../../shared/components/icon-creator/IconCreator";
-import { specialPiecesSvgs } from "../../../../shared/svgs/iconsMap/SpecialPiecesSvgs";
 import { mainColor } from "../../../../shared/utils/objects/colorMaps";
 import { PieceTag } from "../../../../shared/utils/objects/constantLists";
 import { MoveDto } from "../../../../shared/utils/types/abstractDtosAndModels";
 import classes from "./GameMoveRecord.module.scss";
 import { GameWindowInterface } from "../../../../shared/utils/objects/interfacesEnums";
 import { StateProp } from "../../../../shared/utils/types/commonTypes";
+import { GetEngineGameDto } from "../../../../shared/utils/types/engineGameDtos";
+import { changePiecesByUserSettings } from "../../../../shared/utils/chess-game/boardVisualization";
 
 type EngineGameMoveRecordProps = {
   // turn number
@@ -16,6 +17,8 @@ type EngineGameMoveRecordProps = {
   historyPositionState?: StateProp<MoveDto | null>;
   // for showing history view
   displayedWindowState: StateProp<GameWindowInterface>;
+  //
+  gameData?: GetEngineGameDto;
 };
 
 function EngineGameMoveRecord({
@@ -23,6 +26,7 @@ function EngineGameMoveRecord({
   move,
   historyPositionState,
   displayedWindowState,
+  gameData,
 }: EngineGameMoveRecordProps) {
   ///
 
@@ -30,6 +34,7 @@ function EngineGameMoveRecord({
   const displayPreviousPositions = (): void => {
     if (
       displayedWindowState.get !== GameWindowInterface.none &&
+      displayedWindowState.get !== GameWindowInterface.winner &&
       displayedWindowState.get !== GameWindowInterface.history
     ) {
       return;
@@ -42,7 +47,7 @@ function EngineGameMoveRecord({
   };
 
   // case when game has not started yet
-  if (!move) {
+  if (!move || !gameData) {
     return (
       <div className={`${classes.record} ${classes.empty}`}>
         {recordNum % 2 === 0 ? (
@@ -81,11 +86,11 @@ function EngineGameMoveRecord({
         }}
       >
         <IconCreator
-          icons={specialPiecesSvgs}
+          icons={changePiecesByUserSettings(gameData.gameSettings.appearanceOfPieces)}
           iconName={move.move[0].toLowerCase() as PieceTag}
           color={recordNum % 2 === 0 ? mainColor.c0 : mainColor.c9}
+          iconClass={classes["piece-ind"]}
         />
-        {/* <span>{move.move.charAt(0).toUpperCase() + move.move.slice(1).toLowerCase()}</span> */}
         <span>{move.fenMove}</span>
       </p>
     </div>

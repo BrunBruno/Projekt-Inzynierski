@@ -29,7 +29,7 @@ export const userSectionIcons: IconMap<IconNames> = {
         strokeWidth="2"
         strokeLinecap="round"
         strokeLinejoin="round"
-      ></path>
+      />
       <path
         data-name="secondary"
         d="M12,15h0a5,5,0,0,0-5,5v1H17V20A5,5,0,0,0,12,15Zm5-6h4M19,7v4"
@@ -38,7 +38,7 @@ export const userSectionIcons: IconMap<IconNames> = {
         strokeWidth="2"
         strokeLinecap="round"
         strokeLinejoin="round"
-      ></path>
+      />
       <path
         id="primary"
         d="M21,15v5a1,1,0,0,1-1,1H4a1,1,0,0,1-1-1V4A1,1,0,0,1,4,3H19"
@@ -47,7 +47,7 @@ export const userSectionIcons: IconMap<IconNames> = {
         strokeWidth="2"
         strokeLinecap="round"
         strokeLinejoin="round"
-      ></path>
+      />
     </svg>
   ),
 
@@ -65,7 +65,7 @@ export const userSectionIcons: IconMap<IconNames> = {
         strokeWidth="2"
         strokeLinecap="round"
         strokeLinejoin="round"
-      ></path>
+      />
       <path
         d="M12,15h0a5,5,0,0,1,5,5v1a0,0,0,0,1,0,0H7a0,0,0,0,1,0,0V20a5,5,0,0,1,5-5Z"
         fill="none"
@@ -73,7 +73,7 @@ export const userSectionIcons: IconMap<IconNames> = {
         strokeWidth="2"
         strokeLinecap="round"
         strokeLinejoin="round"
-      ></path>
+      />
       <line
         x1="20.5"
         y1="10.5"
@@ -103,7 +103,7 @@ export const userSectionIcons: IconMap<IconNames> = {
         strokeWidth="2"
         strokeLinecap="round"
         strokeLinejoin="round"
-      ></path>
+      />
     </svg>
   ),
 

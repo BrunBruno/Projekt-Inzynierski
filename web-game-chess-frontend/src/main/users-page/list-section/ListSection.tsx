@@ -49,6 +49,8 @@ function ListSection({ selectedUsername, selectedList, setUserProfile, setFriend
   // get users, according to selection
   // get all friends and non friends for user based on choice
   const getAllUsers = async (): Promise<void> => {
+    if (pageNumber <= 0 || pageSize <= 0) return;
+
     try {
       // fetch for all other users
       if (selectedList === FriendshipStatus.all) {
@@ -100,7 +102,7 @@ function ListSection({ selectedUsername, selectedList, setUserProfile, setFriend
     const listElement = listRef.current;
     if (!listElement) return;
 
-    if (users.length === 0 && friends.length === 0) {
+    if (users && friends && users.length === 0 && friends.length === 0) {
       listElement.classList.add(classes["empty-list"]);
     } else {
       listElement.classList.remove(classes["empty-list"]);
@@ -208,7 +210,7 @@ function ListSection({ selectedUsername, selectedList, setUserProfile, setFriend
       </div>
 
       {/* users map */}
-      {users.length > 0 ? (
+      {users && users.length > 0 ? (
         <div ref={scrollRef} data-testid="users-page-all-user-list" className={classes.list__grid}>
           {users.map((user: GetAllNonFriendsDto, i: number) => (
             <UserCard
@@ -219,7 +221,7 @@ function ListSection({ selectedUsername, selectedList, setUserProfile, setFriend
             />
           ))}
         </div>
-      ) : friends.length > 0 ? (
+      ) : friends && friends.length > 0 ? (
         <div ref={scrollRef} data-testid="users-page-friends-list" className={classes.list__grid}>
           {friends.map((friend: GetAllFriendsByStatusDto, i: number) => (
             <FriendCard
@@ -245,12 +247,12 @@ function ListSection({ selectedUsername, selectedList, setUserProfile, setFriend
 
       {/* indicator */}
       <div className={classes.list__indicator}>
-        {users.length > 0 && (
+        {users && users.length > 0 && (
           <p>
             {users.length} / {totalItemsCount}
           </p>
         )}
-        {friends.length > 0 && (
+        {friends && friends.length > 0 && (
           <p>
             {friends.length} / {totalItemsCount}
           </p>

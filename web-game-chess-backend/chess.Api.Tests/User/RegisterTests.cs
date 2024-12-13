@@ -60,10 +60,6 @@ public class RegisterTests : IClassFixture<TestWebApplicationFactory<Program>> {
         user.Email.Should().Be("test@test.com");
     }
 
-    /// <summary>
-    /// Check with already existing email
-    /// </summary>
-    /// <returns></returns>
     [Fact]
     public async Task Register_Should_Return_BadRequest_On_Fail() {
 

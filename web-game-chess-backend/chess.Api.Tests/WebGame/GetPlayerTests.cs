@@ -61,10 +61,6 @@ public class GetWebGamePlayerTests : IClassFixture<TestWebApplicationFactory<Pro
         result.Color.Should().Be(PieceColor.Black);
     }
 
-    /// <summary>
-    /// Get player for not updated player
-    /// </summary>
-    /// <returns></returns>
     [Fact]
     public async Task GetWebGamePlayer_Should_Return_BadRequest_On_Fail() {
 
@@ -94,10 +90,6 @@ public class GetWebGamePlayerTests : IClassFixture<TestWebApplicationFactory<Pro
         response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
     }
 
-    /// <summary>
-    /// Get player from game that not belong to user
-    /// </summary>
-    /// <returns></returns>
     [Fact]
     public async Task GetWebGamePlayer_Should_Return_NotFound_On_Fail() {
 

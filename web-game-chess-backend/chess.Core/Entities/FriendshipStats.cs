@@ -34,6 +34,6 @@ public class FriendshipStats {
     /// <summary>
     /// Game statistic within friendship
     /// </summary>
-    public Guid FreindshipId { get; set; }
+    public Guid FriendshipId { get; set; }
     public Friendship Friendship { get; set; }
 }

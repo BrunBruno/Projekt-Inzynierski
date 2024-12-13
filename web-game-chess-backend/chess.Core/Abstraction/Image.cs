@@ -1,6 +1,9 @@
 ﻿
 namespace chess.Core.Abstraction;
 
+/// <summary>
+/// Abstract image entity
+/// </summary>
 public abstract class Image {
 
     /// <summary>

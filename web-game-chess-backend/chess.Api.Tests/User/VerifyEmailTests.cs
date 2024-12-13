@@ -58,10 +58,6 @@ public class VerifyEmailTests : IClassFixture<TestWebApplicationFactory<Program>
         user!.IsVerified.Should().BeTrue();
     }
 
-    /// <summary>
-    /// Verifying user without existing code.
-    /// </summary>
-    /// <returns></returns>
     [Fact]
     public async Task VerifyEmail_Should_Return_NotFound_On_Fail() {
 
@@ -84,10 +80,6 @@ public class VerifyEmailTests : IClassFixture<TestWebApplicationFactory<Program>
         response.StatusCode.Should().Be(HttpStatusCode.NotFound);
     }
 
-    /// <summary>
-    /// Verifying user with incorrect code.
-    /// </summary>
-    /// <returns></returns>
     [Fact]
     public async Task VerifyEmail_Should_Return_BadRequest_On_Fail() {
 

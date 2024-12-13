@@ -63,7 +63,9 @@ function FriendCard({ friend, setSelectedFriend }: FriendCardProps) {
         </div>
 
         <div className={classes["previous-games"]}>
-          <p className={classes["outcome-total"]}>You played {friend.outcomeTogether.total} games together </p>
+          <p className={classes["outcome-total"]}>
+            You and {friend.username} played {friend.outcomeTogether.total} games together.
+          </p>
           <span>{friend.outcomeTogether.wins}W</span>
           {" - "}
           <span>{friend.outcomeTogether.draws}D</span>

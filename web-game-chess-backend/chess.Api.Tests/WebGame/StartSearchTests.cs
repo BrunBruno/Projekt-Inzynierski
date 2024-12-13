@@ -66,10 +66,6 @@ public class StartSearchTests : IClassFixture<TestWebApplicationFactory<Program>
         gameTiming.Type.Should().Be(model.Type);
     }
 
-    /// <summary>
-    /// Search for non existing user
-    /// </summary>
-    /// <returns></returns>
     [Fact]
     public async Task StartSearch_Should_Return_NotFound_On_Fail() {
 

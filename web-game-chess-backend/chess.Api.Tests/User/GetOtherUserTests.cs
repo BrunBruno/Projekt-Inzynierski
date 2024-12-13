@@ -43,10 +43,6 @@ public class GetOtherUserTests : IClassFixture<TestWebApplicationFactory<Program
         result.Username.Should().NotBeEmpty();
     }
 
-    /// <summary>
-    /// Get not existing user.
-    /// </summary>
-    /// <returns></returns>
     [Fact]
     public async Task GetOtherUser_Returns_NotFound_On_Fail() {
 

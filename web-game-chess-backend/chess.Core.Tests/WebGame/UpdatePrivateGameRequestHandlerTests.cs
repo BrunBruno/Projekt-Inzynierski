@@ -7,6 +7,7 @@ using chess.Core.Entities;
 using chess.Shared.Exceptions;
 using FluentAssertions;
 using Moq;
+using chess.Core.Enums;
 
 namespace chess.Core.Tests.WebGame;
 
@@ -26,79 +27,14 @@ public class UpdatePrivateGameRequestHandlerTests {
     [Fact]
     public async Task Handle_Updates_Joiner_Player_On_Success() {
 
-        var userId = Guid.NewGuid();
-        var friendId = Guid.NewGuid();
+        var creatorId = Guid.NewGuid();
+        var joinerId = Guid.NewGuid();
         var gameId = Guid.NewGuid();
 
         var user = new Entities.User() { 
-            Id = userId,
-            Email = "user@test.com",
-            Username = "Username",
-
-            Elo = new UserElo() { },
-        };
-
-        var game = new Entities.WebGame()
-        {
-            Id = gameId,
-            IsPrivate = true,
-
-            WhitePlayer = new WebGamePlayer() 
-            { 
-                Id = Guid.NewGuid(),
-                Name = "FriendName",
-                IsPrivate = true,
-                UserId = friendId,
-            },
-
-            BlackPlayer = new WebGamePlayer()
-            {
-                Id = Guid.NewGuid(),
-                Name = "",
-                IsPrivate = true,
-                UserId = friendId, // placeholder set for friend as friend is requestor
-            },
-        };
-
-        var request = new UpdatePrivateGameRequest()
-        {
-            GameId = gameId,
-        };
-
-
-        _mockUserContextService.Setup(x => x.GetUserId()).Returns(userId);
-        _mockUserRepository.Setup(x => x.GetById(userId)).ReturnsAsync(user);
-        _mockGameRepository.Setup(x => x.GetById(gameId)).ReturnsAsync(game);
-
-
-        var handler = new UpdatePrivateGameRequestHandler(
-             _mockUserContextService.Object,
-             _mockUserRepository.Object,
-             _mockGameRepository.Object,
-             _mockPlayerRepository.Object
-         );
-
-
-        var result = await handler.Handle(request, CancellationToken.None);
-
-        _mockUserContextService.Verify(x => x.GetUserId(), Times.Once);
-        _mockUserRepository.Verify(x => x.GetById(userId), Times.Once);
-        _mockGameRepository.Verify(x => x.GetById(gameId), Times.Once);
-        _mockPlayerRepository.Verify(x => x.Update(game.BlackPlayer), Times.Once);
-    }
-
-    [Fact]
-    public async Task Handle_Updates_Creator_Player_On_Success() {
-
-        var userId = Guid.NewGuid();
-        var friendId = Guid.NewGuid();
-        var gameId = Guid.NewGuid();
-
-        var user = new Entities.User()
-        {
-            Id = userId,
-            Email = "user@test.com",
-            Username = "Username",
+            Id = joinerId,
+            Email = "test@test.com",
+            Username = "Creator",
 
             Elo = new UserElo(),
         };
@@ -107,28 +43,25 @@ public class UpdatePrivateGameRequestHandlerTests {
         {
             Id = gameId,
             IsPrivate = true,
+            TimingType = TimingTypes.Blitz,
 
-            WhitePlayer = new WebGamePlayer()
-            {
+            WhitePlayer = new WebGamePlayer() 
+            { 
                 Id = Guid.NewGuid(),
-                Name = "Username",
-                UserId = userId, 
+                Name = "Creator",
                 IsPrivate = true,
-
-                User = user,
+                IsTemp = false,
+                UserId = creatorId,
             },
+
+            // placeholder set for friend as friend is requestor
             BlackPlayer = new WebGamePlayer()
             {
                 Id = Guid.NewGuid(),
                 Name = "",
-                UserId = userId, // placeholder set for user as user is requestor
                 IsPrivate = true,
-
-                User = new Entities.User() { 
-                    Id = userId,
-                    Email = "freind@test.com",
-                    Username = "Friend",
-                }
+                IsTemp = true,
+                UserId = creatorId, 
             },
         };
 
@@ -138,8 +71,8 @@ public class UpdatePrivateGameRequestHandlerTests {
         };
 
 
-        _mockUserContextService.Setup(x => x.GetUserId()).Returns(userId);
-        _mockUserRepository.Setup(x => x.GetById(userId)).ReturnsAsync(user);
+        _mockUserContextService.Setup(x => x.GetUserId()).Returns(joinerId);
+        _mockUserRepository.Setup(x => x.GetById(joinerId)).ReturnsAsync(user);
         _mockGameRepository.Setup(x => x.GetById(gameId)).ReturnsAsync(game);
 
 
@@ -152,18 +85,25 @@ public class UpdatePrivateGameRequestHandlerTests {
 
 
         var result = await handler.Handle(request, CancellationToken.None);
+        result.WhitePlayerUserId.Should().Be(creatorId);
+        result.BlackPlayerUserId.Should().Be(joinerId);
+
 
         _mockUserContextService.Verify(x => x.GetUserId(), Times.Once);
-        _mockUserRepository.Verify(x => x.GetById(userId), Times.Once);
+        _mockUserRepository.Verify(x => x.GetById(joinerId), Times.Once);
         _mockGameRepository.Verify(x => x.GetById(gameId), Times.Once);
+        _mockGameRepository.Verify(x => x.Update(game), Times.Once);
         _mockPlayerRepository.Verify(x => x.Update(game.WhitePlayer), Times.Once);
+        _mockPlayerRepository.Verify(x => x.Update(game.BlackPlayer), Times.Once);
     }
 
     [Fact]
     public async Task Handle_Throws_NotFoundException_When_User_Does_Not_Exist() {
 
-        var userId = Guid.NewGuid();
+        var creatorId = Guid.NewGuid();
+        var joinerId = Guid.NewGuid();
         var gameId = Guid.NewGuid();
+
 
         var request = new UpdatePrivateGameRequest()
         {
@@ -171,7 +111,7 @@ public class UpdatePrivateGameRequestHandlerTests {
         };
 
 
-        _mockUserContextService.Setup(x => x.GetUserId()).Returns(userId);
+        _mockUserContextService.Setup(x => x.GetUserId()).Returns(joinerId);
         // user not returned
 
 
@@ -184,28 +124,31 @@ public class UpdatePrivateGameRequestHandlerTests {
 
 
         var act = () => handler.Handle(request, CancellationToken.None);
-
         await act.Should().ThrowAsync<NotFoundException>();
+
+
         _mockUserContextService.Verify(x => x.GetUserId(), Times.Once);
-        _mockUserRepository.Verify(x => x.GetById(userId), Times.Once);
-        _mockGameRepository.Verify(x => x.GetById(gameId), Times.Never);
+        _mockUserRepository.Verify(x => x.GetById(joinerId), Times.Once);
+        _mockGameRepository.Verify(x => x.GetById(It.IsAny<Guid>()), Times.Never);
+        _mockGameRepository.Verify(x => x.Update(It.IsAny<Entities.WebGame>()), Times.Never);
         _mockPlayerRepository.Verify(x => x.Update(It.IsAny<WebGamePlayer>()), Times.Never);
     }
 
     [Fact]
     public async Task Handle_Throws_NotFoundException_When_Game_Does_Not_Exist() {
 
-        var userId = Guid.NewGuid();
+        var creatorId = Guid.NewGuid();
+        var joinerId = Guid.NewGuid();
         var gameId = Guid.NewGuid();
 
         var user = new Entities.User()
         {
-            Id = userId,
-            Email = "user@test.com",
-            Username = "Username",
-            Elo = new UserElo() { },
-        };
+            Id = creatorId,
+            Email = "test@test.com",
+            Username = "Creator",
 
+            Elo = new UserElo(),
+        };
 
         var request = new UpdatePrivateGameRequest()
         {
@@ -213,8 +156,8 @@ public class UpdatePrivateGameRequestHandlerTests {
         };
 
 
-        _mockUserContextService.Setup(x => x.GetUserId()).Returns(userId);
-        _mockUserRepository.Setup(x => x.GetById(userId)).ReturnsAsync(user);
+        _mockUserContextService.Setup(x => x.GetUserId()).Returns(joinerId);
+        _mockUserRepository.Setup(x => x.GetById(joinerId)).ReturnsAsync(user);
         // game not returned
 
 
@@ -227,11 +170,85 @@ public class UpdatePrivateGameRequestHandlerTests {
 
 
         var act = () => handler.Handle(request, CancellationToken.None);
-
         await act.Should().ThrowAsync<NotFoundException>();
+
+
         _mockUserContextService.Verify(x => x.GetUserId(), Times.Once);
-        _mockUserRepository.Verify(x => x.GetById(userId), Times.Once);
+        _mockUserRepository.Verify(x => x.GetById(joinerId), Times.Once);
         _mockGameRepository.Verify(x => x.GetById(gameId), Times.Once);
+        _mockGameRepository.Verify(x => x.Update(It.IsAny<Entities.WebGame>()), Times.Never);
+        _mockPlayerRepository.Verify(x => x.Update(It.IsAny<WebGamePlayer>()), Times.Never);
+    }
+
+    [Fact]
+    public async Task Handle_Throws_BadRequestException_When_Creator_Try_To_Join_As_Second_Player() {
+
+        var creatorId = Guid.NewGuid();
+        var joinerId = Guid.NewGuid();
+        var gameId = Guid.NewGuid();
+
+        var user = new Entities.User()
+        {
+            Id = creatorId,
+            Email = "test@test.com",
+            Username = "Creator",
+
+            Elo = new UserElo(),
+        };
+
+        var game = new Entities.WebGame()
+        {
+            Id = gameId,
+            IsPrivate = true,
+            TimingType = TimingTypes.Blitz,
+
+            WhitePlayer = new WebGamePlayer()
+            {
+                Id = Guid.NewGuid(),
+                Name = "Creator",
+                IsPrivate = true,
+                IsTemp = false,
+                UserId = creatorId,
+            },
+
+            // placeholder set for friend as friend is requestor
+            BlackPlayer = new WebGamePlayer()
+            {
+                Id = Guid.NewGuid(),
+                Name = "",
+                IsPrivate = true,
+                IsTemp = true,
+                UserId = creatorId,
+            },
+        };
+
+        var request = new UpdatePrivateGameRequest()
+        {
+            GameId = gameId,
+        };
+
+
+        _mockUserContextService.Setup(x => x.GetUserId()).Returns(creatorId); // creator tries to update
+        _mockUserRepository.Setup(x => x.GetById(creatorId)).ReturnsAsync(user);
+        _mockGameRepository.Setup(x => x.GetById(gameId)).ReturnsAsync(game);
+
+
+        var handler = new UpdatePrivateGameRequestHandler(
+             _mockUserContextService.Object,
+             _mockUserRepository.Object,
+             _mockGameRepository.Object,
+             _mockPlayerRepository.Object
+         );
+
+
+        var act = () => handler.Handle(request, CancellationToken.None);
+        await act.Should().ThrowAsync<BadRequestException>();
+
+
+        _mockUserContextService.Verify(x => x.GetUserId(), Times.Once);
+        _mockUserRepository.Verify(x => x.GetById(creatorId), Times.Once);
+        _mockGameRepository.Verify(x => x.GetById(gameId), Times.Once);
+        _mockGameRepository.Verify(x => x.Update(It.IsAny<Entities.WebGame>()), Times.Never);
         _mockPlayerRepository.Verify(x => x.Update(It.IsAny<WebGamePlayer>()), Times.Never);
     }
 }

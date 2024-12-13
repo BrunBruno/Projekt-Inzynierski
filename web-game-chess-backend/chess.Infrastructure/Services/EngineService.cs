@@ -29,7 +29,7 @@ public class EngineService : IEngineService {
 
         } catch (Exception ex) {
             Console.WriteLine(ex.Message);
-            throw new ApplicationException("Failed to start Stockfish process.");
+            throw new ApplicationException("Fail");
         }
     }
 

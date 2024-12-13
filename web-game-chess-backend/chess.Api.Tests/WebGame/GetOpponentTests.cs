@@ -58,10 +58,6 @@ public class GetOpponentTests : IClassFixture<TestWebApplicationFactory<Program>
         result.OpponentId.Should().Be(friendId);
     }
 
-    /// <summary>
-    /// Gets opponent from not user game
-    /// </summary>
-    /// <returns></returns>
     [Fact]
     public async Task GetOpponent_Should_Return_Unauthorized_On_Fail() {
 
@@ -91,10 +87,6 @@ public class GetOpponentTests : IClassFixture<TestWebApplicationFactory<Program>
         response.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
     }
 
-    /// <summary>
-    /// Gets not existing game
-    /// </summary>
-    /// <returns></returns>
     [Fact]
     public async Task GetOpponent_Should_Return_NotFound_On_Fail() {
 

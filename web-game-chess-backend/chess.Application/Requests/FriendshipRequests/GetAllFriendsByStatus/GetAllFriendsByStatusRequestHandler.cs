@@ -98,7 +98,7 @@ public class GetAllFriendsByStatusRequestHandler : IRequestHandler<GetAllFriends
             }
         }
 
-        var sortedFriendsDtos = friendsDtos.OrderBy(f => f.OutcomeTogether.Total).ToList();
+        var sortedFriendsDtos = friendsDtos.OrderByDescending(f => f.OutcomeTogether.Total).ToList();
 
         var pagedResult = new PagedResult<GetAllFriendsByStatusDto>(sortedFriendsDtos, friendsDtos.Count, request.PageSize, request.PageNumber);
 

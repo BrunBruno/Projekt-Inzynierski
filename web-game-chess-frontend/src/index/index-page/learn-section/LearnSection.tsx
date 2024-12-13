@@ -7,7 +7,7 @@ import { mainColor } from "../../../shared/utils/objects/colorMaps";
 import { HandleOnScroll } from "../../../shared/utils/types/commonTypes";
 import { generateRandomColor } from "../../../shared/utils/functions/random";
 import IconCreator from "../../../shared/components/icon-creator/IconCreator";
-import { specialPiecesSvgs } from "../../../shared/svgs/iconsMap/SpecialPiecesSvgs";
+import { learnBlocksIcons } from "./learn-blocks/LearnBlocksIcons";
 
 type LearnSectionProps = {
   // section container ref
@@ -87,8 +87,8 @@ const LearnSection = forwardRef<HandleOnScroll, LearnSectionProps>(
           <div className={classes.section__join__content}>
             <h2 className={classes["join-header"]}>
               <IconCreator
-                icons={specialPiecesSvgs}
-                iconName={"n"}
+                icons={learnBlocksIcons}
+                iconName={"knight"}
                 color={mainColor.c7}
                 iconClass={classes["join-l-horse"]}
               />
@@ -96,8 +96,8 @@ const LearnSection = forwardRef<HandleOnScroll, LearnSectionProps>(
               <span>BRN CHESS</span>
 
               <IconCreator
-                icons={specialPiecesSvgs}
-                iconName={"n"}
+                icons={learnBlocksIcons}
+                iconName={"knight"}
                 color={mainColor.c7}
                 iconClass={classes["join-r-horse"]}
               />

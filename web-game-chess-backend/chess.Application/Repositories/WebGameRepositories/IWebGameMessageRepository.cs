@@ -30,6 +30,13 @@ public interface IWebGameMessageRepository {
     Task Create(WebGameMessage message);
 
     /// <summary>
+    /// Add range of messages
+    /// </summary>
+    /// <param name="messages"></param>
+    /// <returns></returns>
+    Task CreateMany(List<WebGameMessage> messages);  
+
+    /// <summary>
     /// Removes message
     /// </summary>
     /// <param name="message"></param>

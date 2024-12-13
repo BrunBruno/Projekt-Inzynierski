@@ -62,8 +62,6 @@ public class CancelPrivateGameRequestHandlerTests {
 
         _mockUserContextService.Setup(x => x.GetUserId()).Returns(userId);
         _mockGameRepository.Setup(x => x.GetById(gameId)).ReturnsAsync(exampleGame);
-        _mockPlayerRepository.Setup(x => x.GetById(exampleGame.WhitePlayerId)).ReturnsAsync(whitePlayer);
-        _mockPlayerRepository.Setup(x => x.GetById(exampleGame.BlackPlayerId)).ReturnsAsync(blackPlayer);
 
 
         var handler = new CancelPrivateGameRequestHandler(
@@ -78,8 +76,6 @@ public class CancelPrivateGameRequestHandlerTests {
         await act.Should().NotThrowAsync();
         _mockUserContextService.Verify(x => x.GetUserId(), Times.Once);
         _mockGameRepository.Verify(x => x.GetById(gameId), Times.Once);
-        _mockPlayerRepository.Verify(x => x.GetById(exampleGame.WhitePlayerId), Times.Once);
-        _mockPlayerRepository.Verify(x => x.GetById(exampleGame.BlackPlayerId), Times.Once);
         _mockGameRepository.Verify(x => x.Delete(exampleGame), Times.Once);
         _mockPlayerRepository.Verify(x => x.Delete(whitePlayer), Times.Once);
         _mockPlayerRepository.Verify(x => x.Delete(blackPlayer), Times.Once);
@@ -113,7 +109,6 @@ public class CancelPrivateGameRequestHandlerTests {
         await act.Should().ThrowAsync<NotFoundException>();
         _mockUserContextService.Verify(x => x.GetUserId(), Times.Once);
         _mockGameRepository.Verify(x => x.GetById(gameId), Times.Once);
-        _mockPlayerRepository.Verify(x => x.GetById(It.IsAny<Guid>()), Times.Never);
         _mockGameRepository.Verify(x => x.Delete(It.IsAny<Entities.WebGame>()), Times.Never);
         _mockPlayerRepository.Verify(x => x.Delete(It.IsAny<WebGamePlayer>()), Times.Never);
     }
@@ -173,7 +168,6 @@ public class CancelPrivateGameRequestHandlerTests {
         await act.Should().ThrowAsync<UnauthorizedException>();
         _mockUserContextService.Verify(x => x.GetUserId(), Times.Once);
         _mockGameRepository.Verify(x => x.GetById(gameId), Times.Once);
-        _mockPlayerRepository.Verify(x => x.GetById(It.IsAny<Guid>()), Times.Never);
         _mockGameRepository.Verify(x => x.Delete(It.IsAny<Entities.WebGame>()), Times.Never);
         _mockPlayerRepository.Verify(x => x.Delete(It.IsAny<WebGamePlayer>()), Times.Never);
     }
@@ -233,132 +227,6 @@ public class CancelPrivateGameRequestHandlerTests {
         await act.Should().ThrowAsync<BadRequestException>();
         _mockUserContextService.Verify(x => x.GetUserId(), Times.Once);
         _mockGameRepository.Verify(x => x.GetById(gameId), Times.Once);
-        _mockPlayerRepository.Verify(x => x.GetById(It.IsAny<Guid>()), Times.Never);
-        _mockGameRepository.Verify(x => x.Delete(It.IsAny<Entities.WebGame>()), Times.Never);
-        _mockPlayerRepository.Verify(x => x.Delete(It.IsAny<WebGamePlayer>()), Times.Never);
-    }
-
-    [Fact]
-    public async Task Handle_Throws_NotFoundException_When_WhitePlayer_Does_Not_Exist() {
-
-        var userId = Guid.NewGuid();
-        var gameId = Guid.NewGuid();
-
-        var whitePlayer = new WebGamePlayer()
-        {
-            Id = Guid.NewGuid(),
-            Name = "Username",
-            UserId = userId,
-        };
-        var blackPlayer = new WebGamePlayer()
-        {
-            Id = Guid.NewGuid(),
-            Name = "Opponent",
-            UserId = Guid.NewGuid(),
-        };
-
-
-        var exampleGame = new Entities.WebGame()
-        {
-            Id = gameId,
-            IsPrivate = true,
-
-            WhitePlayerId = whitePlayer.Id,
-            WhitePlayer = whitePlayer,
-            BlackPlayerId = blackPlayer.Id,
-            BlackPlayer = blackPlayer,
-
-
-            CurrentState = new WebGameState(),
-        };
-
-        var request = new CancelPrivateGameRequest()
-        {
-            GameId = gameId,
-        };
-
-
-        _mockUserContextService.Setup(x => x.GetUserId()).Returns(userId);
-        _mockGameRepository.Setup(x => x.GetById(gameId)).ReturnsAsync(exampleGame);
-        // white player not exists
-
-
-        var handler = new CancelPrivateGameRequestHandler(
-            _mockGameRepository.Object,
-            _mockUserContextService.Object,
-            _mockPlayerRepository.Object
-        );
-
-        var act = () => handler.Handle(request, CancellationToken.None);
-
-
-        await act.Should().ThrowAsync<NotFoundException>();
-        _mockUserContextService.Verify(x => x.GetUserId(), Times.Once);
-        _mockGameRepository.Verify(x => x.GetById(gameId), Times.Once);
-        _mockPlayerRepository.Verify(x => x.GetById(exampleGame.WhitePlayerId), Times.Once);
-        _mockPlayerRepository.Verify(x => x.GetById(exampleGame.BlackPlayerId), Times.Never);
-        _mockGameRepository.Verify(x => x.Delete(It.IsAny<Entities.WebGame>()), Times.Never);
-        _mockPlayerRepository.Verify(x => x.Delete(It.IsAny<WebGamePlayer>()), Times.Never);
-    }
-
-    [Fact]
-    public async Task Handle_Throws_NotFoundException_When_BlackPlayer_Does_Not_Exist() {
-
-        var userId = Guid.NewGuid();
-        var gameId = Guid.NewGuid();
-
-        var whitePlayer = new WebGamePlayer()
-        {
-            Id = Guid.NewGuid(),
-            Name = "Username",
-            UserId = userId,
-        };
-        var blackPlayer = new WebGamePlayer()
-        {
-            Id = Guid.NewGuid(),
-            Name = "Opponent",
-            UserId = Guid.NewGuid(),
-        };
-
-        var exampleGame = new Entities.WebGame()
-        {
-            Id = gameId,
-            IsPrivate = true,
-
-            WhitePlayerId = whitePlayer.Id,
-            WhitePlayer = whitePlayer,
-            BlackPlayerId = blackPlayer.Id,
-            BlackPlayer = blackPlayer,
-
-            CurrentState = new WebGameState(),
-        };
-
-        var request = new CancelPrivateGameRequest()
-        {
-            GameId = gameId,
-        };
-
-
-        _mockUserContextService.Setup(x => x.GetUserId()).Returns(userId);
-        _mockGameRepository.Setup(x => x.GetById(gameId)).ReturnsAsync(exampleGame);
-        _mockPlayerRepository.Setup(x => x.GetById(exampleGame.WhitePlayerId)).ReturnsAsync(whitePlayer);
-        // black player not exists
-
-
-        var handler = new CancelPrivateGameRequestHandler(
-            _mockGameRepository.Object,
-            _mockUserContextService.Object,
-            _mockPlayerRepository.Object
-        );
-
-        var act = () => handler.Handle(request, CancellationToken.None);
-
-
-        await act.Should().ThrowAsync<NotFoundException>();
-        _mockUserContextService.Verify(x => x.GetUserId(), Times.Once);
-        _mockGameRepository.Verify(x => x.GetById(gameId), Times.Once);
-        _mockPlayerRepository.Verify(x => x.GetById(exampleGame.WhitePlayerId), Times.Once);
-        _mockPlayerRepository.Verify(x => x.GetById(exampleGame.BlackPlayerId), Times.Once);
         _mockGameRepository.Verify(x => x.Delete(It.IsAny<Entities.WebGame>()), Times.Never);
         _mockPlayerRepository.Verify(x => x.Delete(It.IsAny<WebGamePlayer>()), Times.Never);
     }

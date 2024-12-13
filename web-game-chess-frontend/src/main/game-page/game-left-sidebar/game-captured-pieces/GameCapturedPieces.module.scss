@@ -1,18 +1,17 @@
 @use "../../../../shared/styles/shared.scss" as *;
 
 .captures {
+  @include flex(row, center, center, 1rem);
   height: 100%;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
   padding: 2rem 0;
   border-radius: 2rem;
+  user-select: none;
 
   &__col {
     @include flex(column, start, center, 0.5rem);
 
-    &:nth-child(1) {
-      border-right: solid 0.3rem $gc8;
-    }
+    position: relative;
+    width: fit-content;
 
     .piece {
       @include flex(row, center, center, 0);
@@ -20,7 +19,7 @@
       width: 100%;
 
       .side-piece-icon {
-        height: 3rem;
+        height: 2.2rem;
         filter: brightness(50%);
       }
 
@@ -29,9 +28,10 @@
       }
 
       span {
-        font-size: 1.8rem;
-        color: $gc7;
+        font-size: 1.6rem;
+        color: $gc6;
         font-weight: 600;
+        filter: brightness(90%);
       }
     }
   }

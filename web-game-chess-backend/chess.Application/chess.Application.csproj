@@ -16,9 +16,9 @@
 	<PackageReference Include="Microsoft.IdentityModel.Tokens" Version="6.15.1" />
   </ItemGroup>
 
-  <ItemGroup>
-	<ProjectReference Include="..\chess.Core\chess.Core.csproj" />
-	<ProjectReference Include="..\chess.Shared\chess.Shared.csproj" />
-  </ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\chess.Core\chess.Core.csproj" />
+		<ProjectReference Include="..\chess.Shared\chess.Shared.csproj" />
+	</ItemGroup>
 
 </Project>

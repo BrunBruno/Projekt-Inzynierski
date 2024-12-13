@@ -4,7 +4,7 @@
   @include wh100;
 
   display: grid;
-  grid-template-rows: auto 6rem;
+  grid-template-rows: auto 2rem;
   gap: 1rem;
   transition: height 0.3s;
 
@@ -13,11 +13,9 @@
   }
 
   &__list {
-    overflow-y: scroll;
+    @include mini-scrollbar;
 
-    &::-webkit-scrollbar {
-      display: none;
-    }
+    overflow-y: scroll;
 
     .typing {
       @include flex(row, start, center, 0.8rem);
@@ -64,19 +62,31 @@
 
     @include flex(row, start, center, 1rem);
 
+    position: absolute;
+    width: 100%;
+    left: 0;
+    bottom: 0;
+    padding: 0.5rem 1rem;
+
+    background-color: $gc8;
+
     textarea.message-input {
       @include c-input($input-size, $gc9, $gc5);
 
       width: 100% !important;
-      height: calc(3 * $input-size) !important;
+      height: calc(2.5 * $input-size) !important;
       resize: none;
-      border: solid 0.2rem $gc8;
       text-align: start;
-      border-radius: 1.6rem;
+      border-radius: 1rem;
       padding: 0.4rem 1.6rem;
 
       &:focus {
-        border-color: $gc7;
+        outline: solid 0.1rem $gc7;
+        border: none;
+
+        &::placeholder {
+          color: #0000;
+        }
       }
 
       &::-webkit-scrollbar {

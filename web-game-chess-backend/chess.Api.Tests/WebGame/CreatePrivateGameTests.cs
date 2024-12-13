@@ -74,10 +74,6 @@ public class CreatePrivateGameTests : IClassFixture<TestWebApplicationFactory<Pr
         result.Inviter.Should().Be("Requestor");
     }
 
-    /// <summary>
-    /// Create without friendship existing
-    /// </summary>
-    /// <returns></returns>
     [Fact]
     public async Task CreatePrivateGame_Should_Return_NotFound_On_Fail() {
 

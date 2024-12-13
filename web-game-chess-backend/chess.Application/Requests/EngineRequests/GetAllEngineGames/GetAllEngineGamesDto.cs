@@ -4,6 +4,9 @@ using chess.Core.Enums;
 
 namespace chess.Application.Requests.EngineRequests.GetAllEngineGames;
 
+/// <summary>
+/// Dto representing engine game
+/// </summary>
 public class GetAllEngineGamesDto {
 
     /// <summary>

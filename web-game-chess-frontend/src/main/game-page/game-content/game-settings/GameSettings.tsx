@@ -1,7 +1,7 @@
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import IconCreator from "../../../../shared/components/icon-creator/IconCreator";
 import { defaultPiecesImages } from "../../../../shared/svgs/iconsMap/DefaultPieceImageSvgs";
-import { specialPiecesSvgs } from "../../../../shared/svgs/iconsMap/SpecialPiecesSvgs";
+import { piecesIconsVariantC } from "../../../../shared/svgs/iconsMap/PiecesIconsVariantC";
 import {
   AppearanceOfBoard,
   AppearanceOfGamePage,
@@ -13,21 +13,24 @@ import { usePopup } from "../../../../shared/utils/hooks/usePopUp";
 import { getErrMessage } from "../../../../shared/utils/functions/errors";
 import axios from "axios";
 import { getAuthorization, userController } from "../../../../shared/utils/services/ApiService";
-import { GetEngineGameDto } from "../../../../shared/utils/types/engineGameDtos";
-import { GetWebGameDto } from "../../../../shared/utils/types/webGameDtos";
+import { GetEngineGameDto, GetEngineGameWinnerDto } from "../../../../shared/utils/types/engineGameDtos";
+import { GetWebGameDto, GetWebGameWinnerDto } from "../../../../shared/utils/types/webGameDtos";
 import { greyColor } from "../../../../shared/utils/objects/colorMaps";
 import { gameSettingsIcons } from "./GameSettingsIcons";
 import { GameWindowInterface } from "../../../../shared/utils/objects/interfacesEnums";
 import { gameResultIcons } from "../../../../shared/svgs/iconsMap/GameResultIcons";
+import { piecesIconsVariantB } from "../../../../shared/svgs/iconsMap/PiecesIconsVariantB";
+import { piecesIconsVariantA } from "../../../../shared/svgs/iconsMap/PiecesIconsVariantA";
 
 type GameSettingsProps = {
   // game data
   gameData: GetEngineGameDto | GetWebGameDto;
+  winnerData: GetWebGameWinnerDto | GetEngineGameWinnerDto | null;
   // for closing window
   setDisplayedWindow: Dispatch<SetStateAction<GameWindowInterface>>;
 };
 
-function GameSettings({ gameData, setDisplayedWindow }: GameSettingsProps) {
+function GameSettings({ gameData, winnerData, setDisplayedWindow }: GameSettingsProps) {
   ///
 
   const { showPopup } = usePopup();
@@ -90,7 +93,8 @@ function GameSettings({ gameData, setDisplayedWindow }: GameSettingsProps) {
   };
 
   const onCancelSettings = (): void => {
-    setDisplayedWindow(GameWindowInterface.none);
+    if (winnerData) setDisplayedWindow(GameWindowInterface.winner);
+    else setDisplayedWindow(GameWindowInterface.none);
   };
 
   if (!appearance) return <></>;
@@ -172,18 +176,73 @@ function GameSettings({ gameData, setDisplayedWindow }: GameSettingsProps) {
           <div
             className={classes["option"]}
             onClick={() => {
-              changePiecesAppearance(AppearanceOfPieces.Simple);
+              changePiecesAppearance(AppearanceOfPieces.VariantA);
             }}
           >
             <div className={classes["pieces-look"]}>
-              <IconCreator icons={specialPiecesSvgs} iconName={"p"} color={"white"} iconClass={classes["piece-icon"]} />
+              <IconCreator
+                icons={piecesIconsVariantA}
+                iconName={"p"}
+                color={"white"}
+                iconClass={classes["piece-icon"]}
+              />
             </div>
 
             <div className={classes["option-text"]}>
               <p
                 className={`
                   ${classes["ind"]} 
-                  ${appearance.appearanceOfPieces === AppearanceOfPieces.Simple ? classes.active : ""}
+                  ${appearance.appearanceOfPieces === AppearanceOfPieces.VariantA ? classes.active : ""}
+                `}
+              />
+            </div>
+          </div>
+
+          <div
+            className={classes["option"]}
+            onClick={() => {
+              changePiecesAppearance(AppearanceOfPieces.VariantB);
+            }}
+          >
+            <div className={classes["pieces-look"]}>
+              <IconCreator
+                icons={piecesIconsVariantB}
+                iconName={"p"}
+                color={"white"}
+                iconClass={classes["piece-icon"]}
+              />
+            </div>
+
+            <div className={classes["option-text"]}>
+              <p
+                className={`
+                  ${classes["ind"]} 
+                  ${appearance.appearanceOfPieces === AppearanceOfPieces.VariantB ? classes.active : ""}
+                `}
+              />
+            </div>
+          </div>
+
+          <div
+            className={classes["option"]}
+            onClick={() => {
+              changePiecesAppearance(AppearanceOfPieces.VariantC);
+            }}
+          >
+            <div className={classes["pieces-look"]}>
+              <IconCreator
+                icons={piecesIconsVariantC}
+                iconName={"p"}
+                color={"white"}
+                iconClass={classes["piece-icon"]}
+              />
+            </div>
+
+            <div className={classes["option-text"]}>
+              <p
+                className={`
+                  ${classes["ind"]} 
+                  ${appearance.appearanceOfPieces === AppearanceOfPieces.VariantC ? classes.active : ""}
                 `}
               />
             </div>

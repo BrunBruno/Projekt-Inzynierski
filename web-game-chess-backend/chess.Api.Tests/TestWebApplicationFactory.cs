@@ -28,7 +28,7 @@ public class TestWebApplicationFactory<TStartup> : WebApplicationFactory<TStartu
 
             services.Remove(dbContextOptions);
 
-            var dbName = $"ExchangeSimulator{Guid.NewGuid()}";
+            var dbName = $"ChessDb{Guid.NewGuid()}";
 
             services.AddDbContext<ChessAppDbContext>(a => a.UseInMemoryDatabase(databaseName: dbName));
         });

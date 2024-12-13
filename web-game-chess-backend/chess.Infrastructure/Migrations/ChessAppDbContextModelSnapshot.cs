@@ -59,9 +59,6 @@ namespace chess.Infrastructure.Migrations
                     b.Property<int>("Turn")
                         .HasColumnType("integer");
 
-                    b.Property<Guid?>("WebGameTimingId")
-                        .HasColumnType("uuid");
-
                     b.Property<int?>("WinnerColor")
                         .HasColumnType("integer");
 
@@ -69,8 +66,6 @@ namespace chess.Infrastructure.Migrations
 
                     b.HasIndex("PlayerId")
                         .IsUnique();
-
-                    b.HasIndex("WebGameTimingId");
 
                     b.ToTable("EngineGames");
                 });
@@ -172,9 +167,6 @@ namespace chess.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<double>("TimeLeft")
-                        .HasColumnType("double precision");
-
                     b.Property<Guid>("UserId")
                         .HasColumnType("uuid");
 
@@ -262,7 +254,7 @@ namespace chess.Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<Guid>("FreindshipId")
+                    b.Property<Guid>("FriendshipId")
                         .HasColumnType("uuid");
 
                     b.Property<int>("RequestorDraws")
@@ -276,7 +268,7 @@ namespace chess.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("FreindshipId")
+                    b.HasIndex("FriendshipId")
                         .IsUnique();
 
                     b.ToTable("FriendshipStats");
@@ -810,6 +802,9 @@ namespace chess.Infrastructure.Migrations
                     b.Property<Guid>("GameId")
                         .HasColumnType("uuid");
 
+                    b.Property<TimeSpan>("MoveDuration")
+                        .HasColumnType("interval");
+
                     b.Property<string>("NewCoordinates")
                         .IsRequired()
                         .HasColumnType("text");
@@ -980,10 +975,6 @@ namespace chess.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("chess.Core.Entities.WebGameTiming", null)
-                        .WithMany("EngineGames")
-                        .HasForeignKey("WebGameTimingId");
-
                     b.Navigation("Player");
                 });
 
@@ -1054,7 +1045,7 @@ namespace chess.Infrastructure.Migrations
                 {
                     b.HasOne("chess.Core.Entities.Friendship", "Friendship")
                         .WithOne("Stats")
-                        .HasForeignKey("chess.Core.Entities.FriendshipStats", "FreindshipId")
+                        .HasForeignKey("chess.Core.Entities.FriendshipStats", "FriendshipId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -1309,8 +1300,6 @@ namespace chess.Infrastructure.Migrations
 
             modelBuilder.Entity("chess.Core.Entities.WebGameTiming", b =>
                 {
-                    b.Navigation("EngineGames");
-
                     b.Navigation("WebGames");
                 });
 #pragma warning restore 612, 618

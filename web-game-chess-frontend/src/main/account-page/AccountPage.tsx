@@ -33,7 +33,8 @@ function AccountPage() {
 
   // set default page size
   useEffect(() => {
-    setDefPageSize(1000); //  tododo
+    // fetch always for last 1000 games
+    setDefPageSize(1000);
   }, [selectedHistory]);
 
   // all current user data
@@ -137,7 +138,7 @@ function AccountPage() {
   }, [user]);
 
   return (
-    <main className={classes["account-main"]}>
+    <main data-testid="main-account-page" className={classes["account-main"]}>
       <div className={classes["main-container"]}>
         <MainNav />
 

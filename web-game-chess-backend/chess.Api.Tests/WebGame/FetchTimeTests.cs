@@ -65,10 +65,6 @@ public class FetchTimeTests : IClassFixture<TestWebApplicationFactory<Program>> 
         result.WhiteTimeLeft.Should().BeApproximately(timingType.Minutes * 60, 1);
     }
 
-    /// <summary>
-    /// Fetch time for not started game
-    /// </summary>
-    /// <returns></returns>
     [Fact]
     public async Task FetchTime_Should_Return_BadRequest_On_Fail() {
 
@@ -95,10 +91,6 @@ public class FetchTimeTests : IClassFixture<TestWebApplicationFactory<Program>> 
         response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
     }
 
-    /// <summary>
-    /// Get time from not existing game
-    /// </summary>
-    /// <returns></returns>
     [Fact]
     public async Task FetchTime_Should_Return_NotFound_On_Fail() {
 

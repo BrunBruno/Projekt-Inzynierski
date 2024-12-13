@@ -72,10 +72,6 @@ public class CreatePrivateGameByEmailTests : IClassFixture<TestWebApplicationFac
         result.Inviter.Should().Be("TestUserName");
     }
 
-    /// <summary>
-    /// Create for user that not exists
-    /// </summary>
-    /// <returns></returns>
     [Fact]
     public async Task CreatePrivateGameByEmail_Should_Return_NotFound_On_Fail() {
 

@@ -42,6 +42,12 @@ public class WebGamePlayer : Player {
     public int Elo { get; set; }
 
     /// <summary>
+    /// Time left fro all moves according to game timing
+    /// </summary>
+    public double TimeLeft { get; set; }
+
+
+    /// <summary>
     /// Timing id, to get duration and increment for all moves
     /// </summary>
     public Guid TimingId { get; set; }

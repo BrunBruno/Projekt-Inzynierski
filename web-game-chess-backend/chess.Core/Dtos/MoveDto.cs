@@ -34,7 +34,12 @@ public class MoveDto {
     public string? CapturedPiece { get; set; }
 
     /// <summary>
-    /// Positio after done move
+    /// Position after done move
     /// </summary>
     public required string Position { get; set; }
+
+    /// <summary>
+    /// Duration of a move
+    /// </summary>
+    public TimeSpan? Duration { get; set; }
 }

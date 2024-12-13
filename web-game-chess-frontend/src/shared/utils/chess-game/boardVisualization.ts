@@ -5,8 +5,10 @@ import { AppearanceOfBoard, AppearanceOfPieces, PieceColor } from "../objects/en
 import { PlayerDto } from "../types/abstractDtosAndModels";
 import { ElementClass, IconMap } from "../types/commonTypes";
 import { defaultPiecesImages } from "../../svgs/iconsMap/DefaultPieceImageSvgs";
-import { specialPiecesSvgs } from "../../svgs/iconsMap/SpecialPiecesSvgs";
+import { piecesIconsVariantC } from "../../svgs/iconsMap/PiecesIconsVariantC";
 import { PieceTag } from "../objects/constantLists";
+import { piecesIconsVariantA } from "../../svgs/iconsMap/PiecesIconsVariantA";
+import { piecesIconsVariantB } from "../../svgs/iconsMap/PiecesIconsVariantB";
 
 // to highlighting selected file
 // for tip displaying
@@ -56,8 +58,24 @@ export const performMoveAnimation = (
     if (playerData.color === PieceColor.white) translateX = translateX * -1;
     if (playerData.color === PieceColor.black) translateY = translateY * -1;
 
-    selectedTarget.style.transform = `translateX(${translateX}px) translateY(${translateY}px)`;
+    if (selectedTarget.style.transform === "none")
+      selectedTarget.style.transform = `translateX(${translateX}px) translateY(${translateY}px)`;
   }
+};
+
+export const playMoveSound = (captureHappened: boolean, checkHappened: boolean): void => {
+  const sound: HTMLAudioElement = checkHappened
+    ? new Audio("/sounds/check.mp3")
+    : captureHappened
+    ? new Audio("/sounds/capture.mp3")
+    : new Audio("/sounds/move.mp3");
+
+  // tododo
+  // if (selectedTarget.style.transform === "none") {
+  sound.play().catch((error) => {
+    console.error(error);
+  });
+  // }
 };
 
 // for provided correct class by user settings
@@ -86,7 +104,16 @@ export const changePiecesByUserSettings = (appearance: AppearanceOfPieces): Icon
     case AppearanceOfPieces.Standard:
       return defaultPiecesImages;
 
-    case AppearanceOfPieces.Simple:
-      return specialPiecesSvgs;
+    case AppearanceOfPieces.VariantA:
+      return piecesIconsVariantA;
+
+    case AppearanceOfPieces.VariantB:
+      return piecesIconsVariantB;
+
+    case AppearanceOfPieces.VariantC:
+      return piecesIconsVariantC;
+
+    default:
+      return defaultPiecesImages;
   }
 };

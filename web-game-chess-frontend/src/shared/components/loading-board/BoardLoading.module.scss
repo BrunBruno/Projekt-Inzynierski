@@ -1,0 +1,77 @@
+@use "../../styles/shared.scss" as *;
+
+@keyframes board-animation {
+  0% {
+    transform: scale(1) rotateZ(0deg);
+  }
+  60% {
+    transform: scale(1) rotateZ(0deg);
+  }
+  80% {
+    transform: scale(0.6) rotateZ(90deg);
+  }
+  100% {
+    transform: scale(1) rotateZ(180deg);
+  }
+}
+
+.loading {
+  @include abs-center;
+  @include square(50rem);
+
+  opacity: 0.1;
+
+  .board {
+    @include wh100;
+    display: grid;
+    grid-template-rows: repeat(8, 1fr);
+    border-radius: 2rem;
+    overflow: hidden;
+    animation: board-animation 2.5s infinite;
+
+    .row {
+      display: grid;
+      grid-template-columns: repeat(8, 1fr);
+      // gap: 0.5rem;
+
+      .file {
+        // border-radius: 1rem;
+        border: solid 2rem #0000;
+        border-top: none;
+        border-left: none;
+        transition: background-color 0.3s;
+        transition: transform 0.2s;
+      }
+
+      &:nth-child(odd) {
+        .file {
+          &:nth-child(odd) {
+            background-color: $gc9;
+          }
+          &:nth-child(even) {
+            background-color: $gc0;
+          }
+
+          &.active {
+            transform: scale(0.5);
+          }
+        }
+      }
+
+      &:nth-child(even) {
+        .file {
+          &:nth-child(odd) {
+            background-color: $gc0;
+          }
+          &:nth-child(even) {
+            background-color: $gc9;
+          }
+
+          &.active {
+            transform: scale(0.5);
+          }
+        }
+      }
+    }
+  }
+}

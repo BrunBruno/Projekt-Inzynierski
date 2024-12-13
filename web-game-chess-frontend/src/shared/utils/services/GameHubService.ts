@@ -151,10 +151,10 @@ class GameHub {
     }
   }
 
-  //
-  public async GetEndedGame(gameId: Guid): Promise<void> {
+  // to get winner data
+  public async GetWinner(gameId: Guid): Promise<void> {
     try {
-      await this.connection?.invoke("ended-game", gameId);
+      await this.connection?.invoke("get-winner", gameId);
     } catch (err) {
       console.error(err);
     }

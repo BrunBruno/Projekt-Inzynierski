@@ -94,8 +94,11 @@
       }
 
       p.vs {
-        font-size: 2rem;
-        font-weight: bold;
+        padding: 0 1rem;
+
+        .vs-icon {
+          height: 3rem;
+        }
       }
     }
 
@@ -108,17 +111,74 @@
     .bar-block {
       @include GamePage.bar-block;
 
-      overflow-y: scroll;
-
-      &::-webkit-scrollbar {
-        display: none;
-      }
+      position: relative;
+      padding-bottom: 3.2rem;
+      overflow: hidden;
+      padding-right: 1rem;
 
       .bar-list {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        grid-template-rows: auto;
-        height: fit-content;
+        @include mini-scrollbar;
+
+        height: 100%;
+        overflow-y: scroll;
+        padding-right: 1rem;
+
+        &.empty {
+          overflow: hidden;
+        }
+
+        .records {
+          height: fit-content;
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          grid-template-rows: auto;
+        }
+
+        .records-buttons {
+          @include flex(row, space-between, center, 0);
+
+          position: absolute;
+          width: 100%;
+          height: 3rem;
+          left: 0;
+          bottom: 0;
+          background-color: $gc8;
+
+          .record-button {
+            @include flex;
+            @include wh100;
+
+            border-right: solid 0.3rem $gc9;
+            &:last-child {
+              border: none;
+            }
+
+            &:nth-child(1),
+            &:nth-child(2) {
+              .arrow {
+                transform: rotate(180deg);
+              }
+            }
+
+            .arrow {
+              height: 1rem;
+            }
+
+            .play {
+              height: 2rem;
+            }
+
+            &:hover {
+              cursor: pointer;
+              background-color: $gc9;
+
+              .arrow,
+              .play {
+                filter: drop-shadow(0 0 0.3rem $gc0);
+              }
+            }
+          }
+        }
       }
     }
 

@@ -73,6 +73,7 @@ export type MoveDto = {
   newCoor: string;
   capturedPiece: string;
   position: string;
+  duration: string | null;
 };
 
 // general image dto

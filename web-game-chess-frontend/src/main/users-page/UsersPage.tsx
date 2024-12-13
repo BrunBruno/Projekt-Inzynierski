@@ -28,7 +28,7 @@ function UsersPage() {
   };
 
   return (
-    <main className={classes["users-main"]}>
+    <main data-testid="main-users-page" className={classes["users-main"]}>
       <MainNav />
 
       <BarSection

@@ -63,10 +63,6 @@ public class GetAllMessagesTests : IClassFixture<TestWebApplicationFactory<Progr
         result.Count.Should().Be(20);
     }
 
-    /// <summary>
-    /// Game not exists
-    /// </summary>
-    /// <returns></returns>
     [Fact]
     public async Task GetAllMessages_Should_Return_NotFound_On_Fail() {
 
@@ -93,10 +89,6 @@ public class GetAllMessagesTests : IClassFixture<TestWebApplicationFactory<Progr
         response.StatusCode.Should().Be(HttpStatusCode.NotFound);
     }
 
-    /// <summary>
-    /// User does not belong to selected game
-    /// </summary>
-    /// <returns></returns>
     [Fact]
     public async Task GetAllMessages_Should_Return_Unauthorized_On_Fail() {
 

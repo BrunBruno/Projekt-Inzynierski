@@ -8,10 +8,11 @@ import { usePopup } from "../../../shared/utils/hooks/usePopUp";
 import { getErrMessage } from "../../../shared/utils/functions/errors";
 import AvatarImage from "../../../shared/components/avatar-image/AvatarImage";
 import IconCreator from "../../../shared/components/icon-creator/IconCreator";
-import { mainColor } from "../../../shared/utils/objects/colorMaps";
+import { greyColor, mainColor } from "../../../shared/utils/objects/colorMaps";
 import { timingTypeIcons } from "../../../shared/svgs/iconsMap/TimingTypeIcons";
 import { Guid } from "guid-typescript";
 import { GetFriendProfileDto } from "../../../shared/utils/types/friendshipDtos";
+import { friendSectionIcons } from "./FriendSectionIcons";
 
 type FriendSectionProps = {
   // friendship id
@@ -46,7 +47,7 @@ function FriendSection({ friendshipId }: FriendSectionProps) {
   }, []);
 
   return (
-    <section className={classes.user}>
+    <section data-testid="profile-page-friend-section" className={classes.user}>
       {/* user profile */}
       {!friend ? (
         <div className={classes.user__profile}>
@@ -54,6 +55,15 @@ function FriendSection({ friendshipId }: FriendSectionProps) {
         </div>
       ) : (
         <div className={classes.user__profile}>
+          <div
+            className={classes.user__profile__background}
+            style={{
+              backgroundImage: friend.backgroundImage
+                ? `url('data:${friend.backgroundImage.contentType};base64,${friend.backgroundImage.data}')`
+                : "url('/images/account-bg.jpg')",
+            }}
+          />
+
           <div className={classes.user__profile__avatar}>
             <AvatarImage
               username={friend.username}
@@ -81,39 +91,19 @@ function FriendSection({ friendshipId }: FriendSectionProps) {
 
       {/* user stats */}
       <div className={classes.user__data}>
-        {!friend ? (
-          <div className={classes.user__data__stats}>
-            {Array.from({ length: 10 }).map((_, i: number) => (
-              <p key={i} className={classes["loading-block"]} />
-            ))}
-          </div>
-        ) : (
-          <div className={classes.user__data__stats}>
-            <div className={classes.user__data__stats__header}>
-              Total games played: <span>{friend.outcomeTotal.total}</span>
-            </div>
-
-            <div className={classes.user__data__stats__row}>
-              <StatsRow type={"gamesTotal"} friend={friend} />
-            </div>
-
-            <div className={classes.user__data__stats__header}>
-              Games played together: <span>{friend.outcomeTogether.total}</span>
-            </div>
-
-            <div className={classes.user__data__stats__row}>
-              <StatsRow type={"gamesTogether"} friend={friend} />
-            </div>
-          </div>
-        )}
-
         {/* history view setter */}
         {!friend ? (
           <div className={classes.user__data__elo} />
         ) : (
           <div className={classes.user__data__elo}>
             <div className={classes.user__data__elo__header}>
-              <span>Users elo</span>
+              <IconCreator
+                icons={friendSectionIcons}
+                iconName={"history"}
+                iconClass={classes["history-icon"]}
+                color={greyColor.c4}
+              />
+              <span>Users Elo Points</span>
             </div>
 
             <div className={classes.user__data__elo__type}>
@@ -174,6 +164,34 @@ function FriendSection({ friendshipId }: FriendSectionProps) {
                 />
                 <span>{friend.elo.daily}</span>
               </div>
+            </div>
+          </div>
+        )}
+
+        {!friend ? (
+          <div className={classes.user__data__stats}>
+            {Array.from({ length: 10 }).map((_, i: number) => (
+              <p key={i} className={classes["loading-block"]} />
+            ))}
+          </div>
+        ) : (
+          <div className={classes.user__data__stats}>
+            <div className={classes.user__data__stats__header}>
+              <IconCreator
+                icons={friendSectionIcons}
+                iconName={"stats"}
+                iconClass={classes["header-icon"]}
+                color={greyColor.c4}
+              />
+              <span>Users Statistics</span>
+            </div>
+
+            <div className={classes.user__data__stats__row}>
+              <StatsRow type={"gamesTotal"} friend={friend} />
+            </div>
+
+            <div className={classes.user__data__stats__row}>
+              <StatsRow type={"gamesTogether"} friend={friend} />
             </div>
           </div>
         )}

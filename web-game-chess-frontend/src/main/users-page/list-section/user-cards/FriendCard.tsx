@@ -183,7 +183,7 @@ function FriendCard({ selectedList, friend, getAllUsers, setFriend }: FriendCard
       case FriendshipStatus.rejected:
         return (
           <>
-            {!friend.isRequestor ? (
+            {friend.isRequestor ? (
               <div className={classes.card__actions}>
                 <button
                   data-testid="users-page-friend-card-unblock-button"

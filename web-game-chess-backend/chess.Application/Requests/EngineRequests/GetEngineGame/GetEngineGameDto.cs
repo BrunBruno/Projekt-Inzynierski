@@ -1,6 +1,5 @@
 ﻿
 using chess.Core.Dtos;
-using chess.Core.Enums;
 
 namespace chess.Application.Requests.EngineRequests.GetEngineGame;
 

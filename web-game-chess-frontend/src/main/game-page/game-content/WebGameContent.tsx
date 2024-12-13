@@ -1,6 +1,6 @@
 import { useEffect, useReducer, useRef } from "react";
 import {
-  EndWebGameDto,
+  GetWebGameWinnerDto,
   GetWebGameDto,
   GetWebGamePlayerDto,
   SearchWebGameDto,
@@ -40,26 +40,19 @@ type WebGameContentProps = {
   gameData: GetWebGameDto;
   playerData: GetWebGamePlayerDto;
   // winner color if game is finished
-  winner: EndWebGameDto | null;
-
+  winnerData: GetWebGameWinnerDto | null;
   // timing of current game for new games and rematches
   selectedTiming: SearchWebGameModel | null;
-
-  //
+  // for display last done moves
   historyPositionState: StateProp<MoveDto | null>;
-
   // obtained ids for rematch game and setter
   newGameDataState: StateProp<SearchWebGameDto | null>;
-
   //rematch game data
   rematchData: CreateWebGameRematchDto | null;
-
   // to display/hide confirm window
   showConfirmState: StateProp<GameActionInterface | null>;
-
   // to perform action on confirm
   confirmAction: () => void;
-
   // selected window modal to show/hide
   displayedWindowState: StateProp<GameWindowInterface>;
 };
@@ -68,7 +61,7 @@ function WebGameContent({
   gameId,
   gameData,
   playerData,
-  winner,
+  winnerData,
   selectedTiming,
   historyPositionState,
   newGameDataState,
@@ -78,6 +71,10 @@ function WebGameContent({
   displayedWindowState,
 }: WebGameContentProps) {
   ///
+
+  // boards ref for resize purpose
+  const containerRef = useRef<HTMLDivElement>(null);
+  const boardRef = useRef<HTMLDivElement>(null);
 
   // states of game and selections
   const [gameStates, setGameStates] = useReducer(gameStatesReducer, gameInitialStates);
@@ -164,13 +161,13 @@ function WebGameContent({
   // to check if game should end
   useEffect(() => {
     const endGame = async (loserColor: PieceColor | null, gameEndReason: GameEndReason) => {
-      const loserPlayer: EndWebGameModel = {
+      const model: EndWebGameModel = {
         gameId: gameId,
         loserColor: loserColor,
         endGameType: gameEndReason,
       };
 
-      GameHubService.EndGame(loserPlayer);
+      GameHubService.EndGame(model);
     };
 
     // end game if it has not been ended yet
@@ -210,8 +207,7 @@ function WebGameContent({
     });
   }, [selectionStates.coordinates]);
 
-  const containerRef = useRef<HTMLDivElement>(null);
-  const boardRef = useRef<HTMLDivElement>(null);
+  // to resize board on small devices
   useEffect(() => {
     const handleResize = (): void => {
       const container = containerRef.current;
@@ -219,7 +215,6 @@ function WebGameContent({
       if (!board || !container) return;
 
       const sizes = container.getBoundingClientRect();
-      console.log(sizes);
 
       if (sizes.width >= sizes.height) {
         board.style.width = "";
@@ -283,12 +278,12 @@ function WebGameContent({
           )}
 
         {/* end game info*/}
-        {displayedWindowState.get === GameWindowInterface.winner && winner && (
+        {displayedWindowState.get === GameWindowInterface.winner && winnerData && (
           <WebGameWinner
             gameId={gameId}
             gameData={gameData}
             playerData={playerData}
-            winner={winner}
+            winnerData={winnerData}
             selectedTiming={selectedTiming}
             setNewGameData={newGameDataState.set}
             rematchData={rematchData}
@@ -308,7 +303,7 @@ function WebGameContent({
 
         {/* settings */}
         {displayedWindowState.get === GameWindowInterface.settings && (
-          <GameSettings gameData={gameData} setDisplayedWindow={displayedWindowState.set} />
+          <GameSettings gameData={gameData} winnerData={winnerData} setDisplayedWindow={displayedWindowState.set} />
         )}
 
         {/* searching */}

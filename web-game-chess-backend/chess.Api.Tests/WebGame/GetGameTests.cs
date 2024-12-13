@@ -63,10 +63,6 @@ public class GetGameTests : IClassFixture<TestWebApplicationFactory<Program>> {
         result.BlackPlayer.Name.Should().Be(friendUsername);
     }
 
-    /// <summary>
-    /// Get game that not exists
-    /// </summary>
-    /// <returns></returns>
     [Fact]
     public async Task GetGame_Should_Return_NotFound_On_Fail() {
 
@@ -92,10 +88,6 @@ public class GetGameTests : IClassFixture<TestWebApplicationFactory<Program>> {
         response.StatusCode.Should().Be(HttpStatusCode.NotFound);
     }
 
-    /// <summary>
-    /// Get game that is not owned
-    /// </summary>
-    /// <returns></returns>
     [Fact]
     public async Task GetGame_Should_Return_Unauthorized_On_Fail() {
 

@@ -30,7 +30,7 @@
     }
 
     &__row {
-      @include flex(row, space-between, center, 0);
+      @include flex(row, space-between, start, 0);
 
       position: relative;
       width: 100%;

@@ -40,6 +40,13 @@ function WebGameConfirm({ confirmAction, showConfirmState, setDisplayedWindow }:
       case GameActionInterface.draw:
         return <span>Send draw offer?</span>;
 
+      case GameActionInterface.block:
+        return (
+          <span>
+            The user will be blocked. <br /> Are you sure?
+          </span>
+        );
+
       default:
         return <span>Sure?</span>;
     }
@@ -78,7 +85,7 @@ function WebGameConfirm({ confirmAction, showConfirmState, setDisplayedWindow }:
               onYesClick();
             }}
           >
-            Yes
+            <span>Yes</span>
           </button>
           <button
             className={`
@@ -89,7 +96,7 @@ function WebGameConfirm({ confirmAction, showConfirmState, setDisplayedWindow }:
               onNoClick();
             }}
           >
-            No
+            <span>No</span>
           </button>
         </div>
       </div>

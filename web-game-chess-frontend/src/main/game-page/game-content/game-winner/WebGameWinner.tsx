@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import {
-  EndWebGameDto,
+  GetWebGameWinnerDto,
   GetWebGameDto,
   GetOpponentDto,
   SearchWebGameDto,
@@ -18,14 +18,19 @@ import GameHubService from "../../../../shared/utils/services/GameHubService";
 import { getErrMessage } from "../../../../shared/utils/functions/errors";
 import { usePopup } from "../../../../shared/utils/hooks/usePopUp";
 import AvatarImage from "../../../../shared/components/avatar-image/AvatarImage";
-import { PieceColor } from "../../../../shared/utils/objects/entitiesEnums";
+import { GameEndReason, PieceColor } from "../../../../shared/utils/objects/entitiesEnums";
 import { Dispatch, SetStateAction, useRef, MouseEvent } from "react";
 import { GameWindowInterface, StateOptions } from "../../../../shared/utils/objects/interfacesEnums";
 import { PlayerDto } from "../../../../shared/utils/types/abstractDtosAndModels";
 import { Guid } from "guid-typescript";
 import IconCreator from "../../../../shared/components/icon-creator/IconCreator";
 import { symbolIcons } from "../../../../shared/svgs/iconsMap/SymbolIcons";
-import { greyColor } from "../../../../shared/utils/objects/colorMaps";
+import { greyColor, mainColor } from "../../../../shared/utils/objects/colorMaps";
+import { gameWinnerIcons } from "./GameWinnerIcons";
+import { gameEndReasonIcons } from "../../../../shared/svgs/iconsMap/GameEndReasonIcons";
+import { getEnumKeyByEnumValue } from "../../../../shared/utils/functions/enums";
+import { GameEndReasonName } from "../../../../shared/utils/objects/constantLists";
+import VsIcon from "../../../../shared/components/vs-icon/VsIcon";
 
 type WebGameWinnerProps = {
   // game and player data
@@ -33,7 +38,7 @@ type WebGameWinnerProps = {
   gameData: GetWebGameDto;
   playerData: PlayerDto;
   // game result data
-  winner: EndWebGameDto | null;
+  winnerData: GetWebGameWinnerDto | null;
 
   // timing for new game or rematch
   selectedTiming: SearchWebGameModel | null;
@@ -50,7 +55,7 @@ function WebGameWinner({
   gameId,
   gameData,
   playerData,
-  winner,
+  winnerData,
   setNewGameData,
   selectedTiming,
   rematchData,
@@ -115,7 +120,7 @@ function WebGameWinner({
   };
 
   // to accept rematch
-  const onAcceptRematchRequest = async () => {
+  const onAcceptRematchRequest = async (): Promise<void> => {
     if (!rematchData) {
       returnOnFail();
       return;
@@ -157,11 +162,26 @@ function WebGameWinner({
 
   // generate players schema
   const generatePlayers = (): JSX.Element => {
-    if (!winner) return <></>;
+    if (!winnerData) return <></>;
 
-    const renderPlayer = (player: PlayerDto, colorClass: string, avatarClass: string): JSX.Element => {
+    const renderPlayer = (
+      player: PlayerDto,
+      colorClass: string,
+      avatarClass: string,
+      isWinner: boolean | null
+    ): JSX.Element => {
       return (
         <div className={`${classes.player} ${colorClass}`}>
+          {isWinner && (
+            <IconCreator
+              icons={gameWinnerIcons}
+              iconName={"crown"}
+              iconClass={classes["crown-icon"]}
+              color={mainColor.c7}
+              active={winnerData.winnerColor === PieceColor.white}
+            />
+          )}
+
           <AvatarImage
             username={player.name}
             profilePicture={player.profilePicture}
@@ -182,23 +202,28 @@ function WebGameWinner({
     const wasOpponentBetter =
       gameData.whitePlayer.elo === gameData.blackPlayer.elo
         ? null
-        : gameData.whitePlayer.elo < gameData.blackPlayer.elo;
+        : playerData.color === PieceColor.white
+        ? gameData.whitePlayer.elo < gameData.blackPlayer.elo
+        : gameData.whitePlayer.elo > gameData.blackPlayer.elo;
 
-    const isWinner = winner.winnerColor !== null ? (playerData.color === winner.winnerColor ? true : false) : null;
+    const isWinner =
+      winnerData.winnerColor !== null ? (playerData.color === winnerData.winnerColor ? true : false) : null;
+    const isEnemyWinner =
+      winnerData.winnerColor !== null ? (playerData.color === winnerData.winnerColor ? false : true) : null;
 
     const sign =
       isWinner === null ? (wasOpponentBetter === null ? "" : wasOpponentBetter ? "+" : "-") : isWinner ? "+" : "-";
 
-    const eloGained = Math.abs(winner.eloGain);
+    const eloGained = Math.abs(winnerData.eloGain);
 
     return (
       <div className={classes.winner__content__info__players}>
-        {gameData.whitePlayer.name == playerData.name
-          ? renderPlayer(gameData.whitePlayer, classes["white-player"], classes["white-player-img"])
-          : renderPlayer(gameData.blackPlayer, classes["black-player"], classes["black-player-img"])}
+        {gameData.whitePlayer.name === playerData.name
+          ? renderPlayer(gameData.whitePlayer, classes["white-player"], classes["white-player-img"], isWinner)
+          : renderPlayer(gameData.blackPlayer, classes["black-player"], classes["black-player-img"], isWinner)}
 
         <div className={classes.vs}>
-          <span>vs</span>
+          <VsIcon iconClass={classes["vs-icon"]} />
 
           <span>
             <span className={sign === "+" ? classes.p : classes.m}>{sign}</span>
@@ -206,9 +231,9 @@ function WebGameWinner({
           </span>
         </div>
 
-        {gameData.whitePlayer.name == playerData.name
-          ? renderPlayer(gameData.blackPlayer, classes["black-player"], classes["black-player-img"])
-          : renderPlayer(gameData.whitePlayer, classes["white-player"], classes["white-player-img"])}
+        {gameData.whitePlayer.name === playerData.name
+          ? renderPlayer(gameData.blackPlayer, classes["black-player"], classes["black-player-img"], isEnemyWinner)
+          : renderPlayer(gameData.whitePlayer, classes["white-player"], classes["white-player-img"], isEnemyWinner)}
       </div>
     );
   };
@@ -235,7 +260,13 @@ function WebGameWinner({
     }
   };
 
-  if (!winner) return <></>;
+  // return to main page / remove player from group
+  const returnToMainPage = async (): Promise<void> => {
+    await GameHubService.LeaveGame(gameId);
+    navigate("/main");
+  };
+
+  if (!winnerData) return <></>;
 
   return (
     <div
@@ -249,14 +280,35 @@ function WebGameWinner({
         <h2
           className={`
             ${classes.title}
-            ${winner.winnerColor === null ? classes["draw"] : ""}
-            ${winner.winnerColor === PieceColor.white ? classes["white-winner"] : ""}
-            ${winner.winnerColor === PieceColor.black ? classes["black-winner"] : ""}
+            ${winnerData.winnerColor === null ? classes["draw"] : ""}
+            ${winnerData.winnerColor === PieceColor.white ? classes["white-winner"] : ""}
+            ${winnerData.winnerColor === PieceColor.black ? classes["black-winner"] : ""}
           `}
         >
-          {winner.winnerColor === null && <span>Draw</span>}
-          {winner.winnerColor === PieceColor.white && <span>White Wins</span>}
-          {winner.winnerColor === PieceColor.black && <span>Black Wins</span>}
+          <div
+            className={classes["reason"]}
+            onClick={() => {
+              hideWinner();
+            }}
+          >
+            <IconCreator
+              icons={gameEndReasonIcons}
+              iconName={getEnumKeyByEnumValue(GameEndReason, winnerData.gameEndReason) as GameEndReasonName}
+              iconClass={classes["reason-icon"]}
+              color={
+                winnerData.winnerColor === null
+                  ? greyColor.c9
+                  : winnerData.winnerColor === PieceColor.white
+                  ? "#fff"
+                  : "#000"
+              }
+              active={true}
+            />
+          </div>
+
+          {winnerData.winnerColor === null && <span>Draw</span>}
+          {winnerData.winnerColor === PieceColor.white && <span>White Wins</span>}
+          {winnerData.winnerColor === PieceColor.black && <span>Black Wins</span>}
 
           <div
             className={classes["x"]}
@@ -264,7 +316,12 @@ function WebGameWinner({
               hideWinner();
             }}
           >
-            <IconCreator icons={symbolIcons} iconName={"x"} iconClass={classes["x-icon"]} color={greyColor.c9} />
+            <IconCreator
+              icons={symbolIcons}
+              iconName={"x"}
+              iconClass={classes["x-icon"]}
+              color={winnerData.winnerColor === PieceColor.black ? greyColor.c8 : greyColor.c5}
+            />
           </div>
         </h2>
 
@@ -312,7 +369,7 @@ function WebGameWinner({
               <button
                 className={classes["re-game"]}
                 onClick={() => {
-                  navigate("/main");
+                  returnToMainPage();
                 }}
               >
                 <span>Leave</span>
@@ -323,10 +380,16 @@ function WebGameWinner({
           <div className={classes.leave}>
             <button
               onClick={() => {
-                navigate("/main");
+                returnToMainPage();
               }}
             >
               <span>Leave</span>
+              <IconCreator
+                icons={gameWinnerIcons}
+                iconName={"leave"}
+                color={mainColor.c0}
+                iconClass={classes["leave-icon"]}
+              />
             </button>
           </div>
         </div>

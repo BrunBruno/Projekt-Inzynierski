@@ -4,11 +4,22 @@ import AvatarImage from "../../../../shared/components/avatar-image/AvatarImage"
 import { PieceColor } from "../../../../shared/utils/objects/entitiesEnums";
 import { PlayerDto } from "../../../../shared/utils/types/abstractDtosAndModels";
 import { Guid } from "guid-typescript";
-import { EndEngineGameDto, GetEngineGameDto } from "../../../../shared/utils/types/engineGameDtos";
+import {
+  GetEngineGameWinnerDto,
+  GetEngineGameDto,
+  StartEngineGameDto,
+} from "../../../../shared/utils/types/engineGameDtos";
 import { useRef, MouseEvent } from "react";
 import { symbolIcons } from "../../../../shared/svgs/iconsMap/SymbolIcons";
 import { greyColor } from "../../../../shared/utils/objects/colorMaps";
 import IconCreator from "../../../../shared/components/icon-creator/IconCreator";
+import { StartEngineGameModel } from "../../../../shared/utils/types/engineGameModels";
+import axios from "axios";
+import { engineGameController, getAuthorization } from "../../../../shared/utils/services/ApiService";
+import { StateOptions } from "../../../../shared/utils/objects/interfacesEnums";
+import { getErrMessage } from "../../../../shared/utils/functions/errors";
+import { usePopup } from "../../../../shared/utils/hooks/usePopUp";
+import VsIcon from "../../../../shared/components/vs-icon/VsIcon";
 
 type EngineGameWinnerProps = {
   // game id
@@ -16,19 +27,45 @@ type EngineGameWinnerProps = {
   // current game data
   gameData: GetEngineGameDto;
   // game result data data
-  winner: EndEngineGameDto | null;
+  winnerData: GetEngineGameWinnerDto | null;
 };
 
-function EngineGameWinner({ gameData, winner }: EngineGameWinnerProps) {
+function EngineGameWinner({ gameData, winnerData }: EngineGameWinnerProps) {
   ///
 
   const navigate = useNavigate();
+  const { showPopup } = usePopup();
 
   const containerRef = useRef<HTMLDivElement>(null);
 
+  // for game restart
+  const onStartNewGame = async (): Promise<void> => {
+    const model: StartEngineGameModel = {
+      engineLevel: gameData.engineLevel,
+    };
+
+    try {
+      const response = await axios.post<StartEngineGameDto>(
+        engineGameController.startEngineGame(),
+        model,
+        getAuthorization()
+      );
+
+      const state: StateOptions = {
+        popup: { text: "GAME STARTED", type: "info" },
+      };
+
+      navigate(`/main/engine-game/${response.data.gameId}`, { state: state });
+
+      window.location.reload(); //???
+    } catch (err) {
+      showPopup(getErrMessage(err), "warning");
+    }
+  };
+
   // generate players schema
   const generatePlayers = (): JSX.Element => {
-    if (!winner) return <></>;
+    if (!winnerData) return <></>;
 
     const renderPlayer = (playerDto: PlayerDto | null, colorClass: string, avatarClass: string): JSX.Element => {
       let isBot: boolean = false;
@@ -71,7 +108,7 @@ function EngineGameWinner({ gameData, winner }: EngineGameWinnerProps) {
           : renderPlayer(gameData.player, classes["black-player"], classes["black-player-img"])}
 
         <div className={classes.vs}>
-          <span>vs</span>
+          <VsIcon iconClass={classes["vs-icon"]} />
         </div>
 
         {gameData.player.color === PieceColor.black
@@ -82,7 +119,7 @@ function EngineGameWinner({ gameData, winner }: EngineGameWinnerProps) {
   };
 
   // to show winner window again
-  const showWinner = (event: MouseEvent<HTMLDivElement>) => {
+  const showWinner = (event: MouseEvent<HTMLDivElement>): void => {
     const target = event.target as HTMLDivElement;
 
     const container = containerRef.current;
@@ -103,7 +140,7 @@ function EngineGameWinner({ gameData, winner }: EngineGameWinnerProps) {
     }
   };
 
-  if (!winner) return <></>;
+  if (!winnerData) return <></>;
 
   return (
     <div
@@ -117,14 +154,14 @@ function EngineGameWinner({ gameData, winner }: EngineGameWinnerProps) {
         <h2
           className={`
             ${classes.title}
-            ${winner.winnerColor === null ? classes["draw"] : ""}
-            ${winner.winnerColor === PieceColor.white ? classes["white-winner"] : ""}
-            ${winner.winnerColor === PieceColor.black ? classes["black-winner"] : ""}
+            ${winnerData.winnerColor === null ? classes["draw"] : ""}
+            ${winnerData.winnerColor === PieceColor.white ? classes["white-winner"] : ""}
+            ${winnerData.winnerColor === PieceColor.black ? classes["black-winner"] : ""}
           `}
         >
-          {winner.winnerColor === null && <span>Draw</span>}
-          {winner.winnerColor === PieceColor.white && <span>White Wins</span>}
-          {winner.winnerColor === PieceColor.black && <span>Black Wins</span>}
+          {winnerData.winnerColor === null && <span>Draw</span>}
+          {winnerData.winnerColor === PieceColor.white && <span>White Wins</span>}
+          {winnerData.winnerColor === PieceColor.black && <span>Black Wins</span>}
 
           <div
             className={classes["x"]}
@@ -140,7 +177,12 @@ function EngineGameWinner({ gameData, winner }: EngineGameWinnerProps) {
           {generatePlayers()}
 
           <div className={classes.winner__content__info__buttons}>
-            <button className={classes["new-game"]} onClick={() => {}}>
+            <button
+              className={classes["new-game"]}
+              onClick={() => {
+                onStartNewGame();
+              }}
+            >
               <span>New Game</span>
             </button>
 

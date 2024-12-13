@@ -65,10 +65,6 @@ public class CancelPrivateGameTests : IClassFixture<TestWebApplicationFactory<Pr
         player.Should().Be(null);
     }
 
-    /// <summary>
-    /// Cancel not existing game
-    /// </summary>
-    /// <returns></returns>
     [Fact]
     public async Task CancelPrivateGame_Should_Return_NotFound_On_Fail() {
 
@@ -94,10 +90,6 @@ public class CancelPrivateGameTests : IClassFixture<TestWebApplicationFactory<Pr
         response.StatusCode.Should().Be(HttpStatusCode.NotFound);
     }
 
-    /// <summary>
-    /// Try to cancel game that is not private
-    /// </summary>
-    /// <returns></returns>
     [Fact]
     public async Task CancelPrivateGame_Should_Return_BadRequest_On_Fail() {
 
@@ -126,10 +118,6 @@ public class CancelPrivateGameTests : IClassFixture<TestWebApplicationFactory<Pr
         response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
     }
 
-    /// <summary>
-    /// Cancel not owned game
-    /// </summary>
-    /// <returns></returns>
     [Fact]
     public async Task CancelPrivateGame_Should_Return_Unauthorized_On_Fail() {
 

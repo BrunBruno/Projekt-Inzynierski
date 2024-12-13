@@ -62,10 +62,6 @@ public class GetGameTimingTests : IClassFixture<TestWebApplicationFactory<Progra
         result.Increment.Should().Be(timingType.Increment);
     }
 
-    /// <summary>
-    /// Gets timing from not existing game
-    /// </summary>
-    /// <returns></returns>
     [Fact]
     public async Task GetGameTiming_Should_Return_NotFound_On_Fail() {
 

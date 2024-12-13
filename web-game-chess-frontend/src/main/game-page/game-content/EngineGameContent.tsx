@@ -2,7 +2,11 @@ import { useEffect, useReducer, useRef } from "react";
 import classes from "./GameContent.module.scss";
 import { Guid } from "guid-typescript";
 import { SMatrix, StateProp } from "../../../shared/utils/types/commonTypes";
-import { EndEngineGameDto, GetEngineGameDto, GetEngineGameMoveDto } from "../../../shared/utils/types/engineGameDtos";
+import {
+  GetEngineGameWinnerDto,
+  GetEngineGameDto,
+  GetEngineGameMoveDto,
+} from "../../../shared/utils/types/engineGameDtos";
 import {
   gameInitialStates,
   gameStatesReducer,
@@ -41,23 +45,19 @@ type EngineGameContentProps = {
   // game data
   gameId: Guid;
   gameData: GetEngineGameDto;
-
-  //
+  // for game refresh after done move
   getGame: () => Promise<void>;
+  // for ending the game
   endGame: (loserColor: PieceColor | null) => Promise<void>;
-
-  //
-  winner: EndEngineGameDto | null;
-
-  //
+  // obtained winner data
+  winnerData: GetEngineGameWinnerDto | null;
+  // for displaying last moves
   historyPositionState: StateProp<MoveDto | null>;
-
   // to display/hide confirm window
   showConfirmState: StateProp<GameActionInterface | null>;
   // to perform action on confirm
   confirmAction: () => void;
-
-  //
+  // for displaying windows
   displayedWindowState: StateProp<GameWindowInterface>;
 };
 
@@ -66,7 +66,7 @@ function EngineGameContent({
   gameData,
   getGame,
   endGame,
-  winner,
+  winnerData,
   historyPositionState,
   showConfirmState,
   confirmAction,
@@ -290,7 +290,6 @@ function EngineGameContent({
       if (!board || !container) return;
 
       const sizes = container.getBoundingClientRect();
-      console.log(sizes);
 
       if (sizes.width >= sizes.height) {
         board.style.width = "";
@@ -353,8 +352,8 @@ function EngineGameContent({
         )}
 
         {/* end game info*/}
-        {displayedWindowState.get === GameWindowInterface.winner && winner && (
-          <EngineGameWinner gameId={gameId} gameData={gameData} winner={winner} />
+        {displayedWindowState.get === GameWindowInterface.winner && winnerData && (
+          <EngineGameWinner gameId={gameId} gameData={gameData} winnerData={winnerData} />
         )}
 
         {/* previous position show */}
@@ -369,7 +368,7 @@ function EngineGameContent({
 
         {/* settings */}
         {displayedWindowState.get === GameWindowInterface.settings && (
-          <GameSettings gameData={gameData} setDisplayedWindow={displayedWindowState.set} />
+          <GameSettings gameData={gameData} winnerData={winnerData} setDisplayedWindow={displayedWindowState.set} />
         )}
 
         {/* engine selection */}

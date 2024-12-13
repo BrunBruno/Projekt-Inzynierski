@@ -55,10 +55,6 @@ public class AbortWebGameSearchTests : IClassFixture<TestWebApplicationFactory<P
         player.Should().Be(null);
     }
 
-    /// <summary>
-    /// Try to remove other user player
-    /// </summary>
-    /// <returns></returns>
     [Fact]
     public async Task AbortWebGameSearch_Should_Return_BadRequest_On_Fail() {
 
@@ -79,10 +75,6 @@ public class AbortWebGameSearchTests : IClassFixture<TestWebApplicationFactory<P
         response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
     }
 
-    /// <summary>
-    /// Try to remove non existing player
-    /// </summary>
-    /// <returns></returns>
     [Fact]
     public async Task AbortWebGameSearch_Should_Return_NotFound_On_Fail() {
 

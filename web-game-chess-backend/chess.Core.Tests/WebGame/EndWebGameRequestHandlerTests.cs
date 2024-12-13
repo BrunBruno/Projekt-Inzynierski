@@ -18,12 +18,14 @@ public class EndWebGameRequestHandlerTests {
     private readonly Mock<IUserRepository> _mockUserRepository;
     private readonly Mock<IWebGameRepository> _mockGameRepository;
     private readonly Mock<IFriendshipRepository> _mockFriendshipRepository;
+    private readonly Mock<IWebGameMessageRepository> _mockWebGameMessageRepository;
 
     public EndWebGameRequestHandlerTests() {
         _mockUserContextService = new Mock<IUserContextService>();
         _mockUserRepository = new Mock<IUserRepository>();
         _mockGameRepository = new Mock<IWebGameRepository>();
         _mockFriendshipRepository = new Mock<IFriendshipRepository>();
+        _mockWebGameMessageRepository = new Mock<IWebGameMessageRepository>();
     }
 
     [Fact]
@@ -55,6 +57,7 @@ public class EndWebGameRequestHandlerTests {
         {
             Id = gameId,
             HasEnded = false,
+            TimingType = TimingTypes.Daily,
 
             WhitePlayer = new WebGamePlayer()
             {
@@ -90,24 +93,24 @@ public class EndWebGameRequestHandlerTests {
             _mockGameRepository.Object,
             _mockUserContextService.Object,
             _mockUserRepository.Object,
-            _mockFriendshipRepository.Object
+            _mockFriendshipRepository.Object,
+            _mockWebGameMessageRepository.Object
         );
 
 
-        var result = await handler.Handle(request, CancellationToken.None);
+        var act = () => handler.Handle(request, CancellationToken.None);
+        await act.Should().NotThrowAsync(); 
 
-
-        result.Should().NotBeNull();
-        result.WinnerColor.Should().Be(PieceColor.White);
 
         _mockUserContextService.Verify(x => x.GetUserId(), Times.Once);
         _mockGameRepository.Verify(x => x.GetById(gameId), Times.Once);
         _mockUserRepository.Verify(x => x.GetById(game.WhitePlayer.UserId), Times.Once);
         _mockUserRepository.Verify(x => x.GetById(game.BlackPlayer.UserId), Times.Once);
-        _mockFriendshipRepository.Verify(x => x.GetByUsersIds(userId, opponentId), Times.Never);
+        _mockFriendshipRepository.Verify(x => x.GetByUsersIds(userId, opponentId), Times.Once);
         _mockGameRepository.Verify(x => x.Update(game), Times.Once);
         _mockUserRepository.Verify(x => x.Update(user), Times.Once);
         _mockUserRepository.Verify(x => x.Update(opponent), Times.Once);
+        _mockWebGameMessageRepository.Verify(x => x.CreateMany(It.IsAny<List<WebGameMessage>>()), Times.Once);
     }
 
     [Fact]
@@ -140,7 +143,7 @@ public class EndWebGameRequestHandlerTests {
             Id = gameId,
             HasEnded = false,
             IsPrivate = true, // game private
-            TimingType =TimingTypes.Rapid,
+            TimingType = TimingTypes.Daily,
 
             WhitePlayer = new WebGamePlayer()
             {
@@ -162,6 +165,7 @@ public class EndWebGameRequestHandlerTests {
         {
             RequestorId = userId,
             ReceiverId = opponentId,
+            Stats = new FriendshipStats(),
         };
 
         var request = new EndWebGameRequest()
@@ -183,15 +187,13 @@ public class EndWebGameRequestHandlerTests {
             _mockGameRepository.Object,
             _mockUserContextService.Object,
             _mockUserRepository.Object,
-            _mockFriendshipRepository.Object
+            _mockFriendshipRepository.Object,
+            _mockWebGameMessageRepository.Object
         );
 
 
-        var result = await handler.Handle(request, CancellationToken.None);
-
-
-        result.Should().NotBeNull();
-        result.WinnerColor.Should().Be(PieceColor.White);
+        var act = () => handler.Handle(request, CancellationToken.None);
+        await act.Should().NotThrowAsync();
 
         _mockUserContextService.Verify(x => x.GetUserId(), Times.Once);
         _mockGameRepository.Verify(x => x.GetById(gameId), Times.Once);
@@ -201,89 +203,7 @@ public class EndWebGameRequestHandlerTests {
         _mockGameRepository.Verify(x => x.Update(game), Times.Once);
         _mockUserRepository.Verify(x => x.Update(user), Times.Once);
         _mockUserRepository.Verify(x => x.Update(opponent), Times.Once);
-    }
-
-    [Fact]
-    public async Task Handle_Returns_EndGameDto_When_Game_Is_Already_Finished_On_Success() {
-
-        var userId = Guid.NewGuid();
-        var opponentId = Guid.NewGuid();
-        var gameId = Guid.NewGuid();
-
-        var user = new Entities.User()
-        {
-            Id = userId,
-            Email = "user@test.com",
-            Username = "Username",
-            Elo = new UserElo(),
-            Stats = new UserStats(),
-        };
-        var opponent = new Entities.User()
-        {
-            Id = opponentId,
-            Email = "opponent@test.com",
-            Username = "Opponent",
-            Elo = new UserElo(),
-            Stats = new UserStats(),
-        };
-
-        var game = new Entities.WebGame()
-        {
-            Id = gameId,
-            HasEnded = true, // game is already ended
-            EloGain = 10, // properties set
-            WinnerColor = PieceColor.White, // properties set
-            TimingType = TimingTypes.Rapid,
-
-
-            WhitePlayer = new WebGamePlayer()
-            {
-                Id = Guid.NewGuid(),
-                Name = "Username",
-                UserId = userId,
-                Color = PieceColor.White,
-            },
-            BlackPlayer = new WebGamePlayer()
-            {
-                Id = Guid.NewGuid(),
-                Name = "Opponent",
-                UserId = opponentId,
-                Color = PieceColor.Black,
-            }
-        };
-
-        var request = new EndWebGameRequest()
-        {
-            GameId = gameId,
-            LoserColor = PieceColor.Black,
-            EndGameType = GameEndReason.CheckMate,
-        };
-
-
-        _mockUserContextService.Setup(x => x.GetUserId()).Returns(userId);
-        _mockGameRepository.Setup(x => x.GetById(gameId)).ReturnsAsync(game);
-
-
-        var handler = new EndWebGameRequestHandler(
-            _mockGameRepository.Object,
-            _mockUserContextService.Object,
-            _mockUserRepository.Object,
-            _mockFriendshipRepository.Object
-        );
-
-
-        var result = await handler.Handle(request, CancellationToken.None);
-
-
-        result.Should().NotBeNull();
-        result.WinnerColor.Should().Be(PieceColor.White);
-
-        _mockUserContextService.Verify(x => x.GetUserId(), Times.Once);
-        _mockGameRepository.Verify(x => x.GetById(gameId), Times.Once);
-        _mockUserRepository.Verify(x => x.GetById(It.IsAny<Guid>()), Times.Never);
-        _mockFriendshipRepository.Verify(x => x.GetByUsersIds(userId, opponentId), Times.Never);
-        _mockGameRepository.Verify(x => x.Update(It.IsAny<Entities.WebGame>()), Times.Never);
-        _mockUserRepository.Verify(x => x.Update(It.IsAny<Entities.User>()), Times.Never);
+        _mockWebGameMessageRepository.Verify(x => x.CreateMany(It.IsAny<List<WebGameMessage>>()), Times.Once);
     }
 
     [Fact]
@@ -308,19 +228,21 @@ public class EndWebGameRequestHandlerTests {
             _mockGameRepository.Object,
             _mockUserContextService.Object,
             _mockUserRepository.Object,
-            _mockFriendshipRepository.Object
+            _mockFriendshipRepository.Object,
+            _mockWebGameMessageRepository.Object
         );
 
         var act = () => handler.Handle(request, CancellationToken.None);
-
-
         await act.Should().ThrowAsync<BadRequestException>();
+
+
         _mockUserContextService.Verify(x => x.GetUserId(), Times.Once);
         _mockGameRepository.Verify(x => x.GetById(gameId), Times.Never);
         _mockUserRepository.Verify(x => x.GetById(It.IsAny<Guid>()), Times.Never);
         _mockFriendshipRepository.Verify(x => x.GetByUsersIds(It.IsAny<Guid>(), It.IsAny<Guid>()), Times.Never);
         _mockGameRepository.Verify(x => x.Update(It.IsAny<Entities.WebGame>()), Times.Never);
         _mockUserRepository.Verify(x => x.Update(It.IsAny<Entities.User>()), Times.Never);
+        _mockWebGameMessageRepository.Verify(x => x.CreateMany(It.IsAny<List<WebGameMessage>>()), Times.Never);
     }
 
     [Fact]
@@ -345,7 +267,8 @@ public class EndWebGameRequestHandlerTests {
             _mockGameRepository.Object,
             _mockUserContextService.Object,
             _mockUserRepository.Object,
-            _mockFriendshipRepository.Object
+            _mockFriendshipRepository.Object,
+            _mockWebGameMessageRepository.Object
         );
 
         var act = () => handler.Handle(request, CancellationToken.None);
@@ -358,6 +281,7 @@ public class EndWebGameRequestHandlerTests {
         _mockFriendshipRepository.Verify(x => x.GetByUsersIds(It.IsAny<Guid>(), It.IsAny<Guid>()), Times.Never);
         _mockGameRepository.Verify(x => x.Update(It.IsAny<Entities.WebGame>()), Times.Never);
         _mockUserRepository.Verify(x => x.Update(It.IsAny<Entities.User>()), Times.Never);
+        _mockWebGameMessageRepository.Verify(x => x.CreateMany(It.IsAny<List<WebGameMessage>>()), Times.Never);
     }
 
     [Fact]
@@ -370,7 +294,7 @@ public class EndWebGameRequestHandlerTests {
         {
             Id = gameId,
             HasEnded = false,
-            TimingType = TimingTypes.Rapid,
+            TimingType = TimingTypes.Daily,
 
             WhitePlayer = new WebGamePlayer()
             {
@@ -404,7 +328,8 @@ public class EndWebGameRequestHandlerTests {
             _mockGameRepository.Object,
             _mockUserContextService.Object,
             _mockUserRepository.Object,
-            _mockFriendshipRepository.Object
+            _mockFriendshipRepository.Object,
+            _mockWebGameMessageRepository.Object
         );
 
         var act = () => handler.Handle(request, CancellationToken.None);
@@ -417,6 +342,7 @@ public class EndWebGameRequestHandlerTests {
         _mockFriendshipRepository.Verify(x => x.GetByUsersIds(It.IsAny<Guid>(), It.IsAny<Guid>()), Times.Never);
         _mockGameRepository.Verify(x => x.Update(It.IsAny<Entities.WebGame>()), Times.Never);
         _mockUserRepository.Verify(x => x.Update(It.IsAny<Entities.User>()), Times.Never);
+        _mockWebGameMessageRepository.Verify(x => x.CreateMany(It.IsAny<List<WebGameMessage>>()), Times.Never);
     }
 
     [Fact]
@@ -429,7 +355,7 @@ public class EndWebGameRequestHandlerTests {
         {
             Id = gameId,
             HasEnded = false,
-            TimingType = TimingTypes.Rapid,
+            TimingType = TimingTypes.Daily,
 
             WhitePlayer = new WebGamePlayer()
             {
@@ -464,7 +390,8 @@ public class EndWebGameRequestHandlerTests {
             _mockGameRepository.Object,
             _mockUserContextService.Object,
             _mockUserRepository.Object,
-            _mockFriendshipRepository.Object
+            _mockFriendshipRepository.Object,
+            _mockWebGameMessageRepository.Object
         );
 
         var act = () => handler.Handle(request, CancellationToken.None);
@@ -478,6 +405,7 @@ public class EndWebGameRequestHandlerTests {
         _mockFriendshipRepository.Verify(x => x.GetByUsersIds(It.IsAny<Guid>(), It.IsAny<Guid>()), Times.Never);
         _mockGameRepository.Verify(x => x.Update(It.IsAny<Entities.WebGame>()), Times.Never);
         _mockUserRepository.Verify(x => x.Update(It.IsAny<Entities.User>()), Times.Never);
+        _mockWebGameMessageRepository.Verify(x => x.CreateMany(It.IsAny<List<WebGameMessage>>()), Times.Never);
     }
 
     [Fact]
@@ -500,7 +428,7 @@ public class EndWebGameRequestHandlerTests {
         {
             Id = gameId,
             HasEnded = false,
-            TimingType = TimingTypes.Rapid,
+            TimingType = TimingTypes.Daily,
 
             WhitePlayer = new WebGamePlayer()
             {
@@ -535,7 +463,8 @@ public class EndWebGameRequestHandlerTests {
             _mockGameRepository.Object,
             _mockUserContextService.Object,
             _mockUserRepository.Object,
-            _mockFriendshipRepository.Object
+            _mockFriendshipRepository.Object,
+            _mockWebGameMessageRepository.Object
         );
 
         var act = () => handler.Handle(request, CancellationToken.None);
@@ -549,5 +478,6 @@ public class EndWebGameRequestHandlerTests {
         _mockFriendshipRepository.Verify(x => x.GetByUsersIds(It.IsAny<Guid>(), It.IsAny<Guid>()), Times.Never);
         _mockGameRepository.Verify(x => x.Update(It.IsAny<Entities.WebGame>()), Times.Never);
         _mockUserRepository.Verify(x => x.Update(It.IsAny<Entities.User>()), Times.Never);
+        _mockWebGameMessageRepository.Verify(x => x.CreateMany(It.IsAny<List<WebGameMessage>>()), Times.Never);
     }
 }

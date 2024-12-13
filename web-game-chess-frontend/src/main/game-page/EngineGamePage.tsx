@@ -3,19 +3,24 @@ import classes from "./GamePage.module.scss";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { engineGameController, getAuthorization } from "../../shared/utils/services/ApiService";
-import LoadingPage from "../../shared/components/loading-page/LoadingPage";
 import { usePopup } from "../../shared/utils/hooks/usePopUp";
 import { getErrMessage } from "../../shared/utils/functions/errors";
 import MainPopUp from "../../shared/components/main-popup/MainPopUp";
 import { Guid } from "guid-typescript";
 import { GameActionInterface, GameWindowInterface, StateOptions } from "../../shared/utils/objects/interfacesEnums";
-import { EndEngineGameDto, GetEngineGameDto } from "../../shared/utils/types/engineGameDtos";
+import { GetEngineGameWinnerDto, GetEngineGameDto } from "../../shared/utils/types/engineGameDtos";
 import { EndEngineGameModel } from "../../shared/utils/types/engineGameModels";
 import { PieceColor } from "../../shared/utils/objects/entitiesEnums";
 import EngineGameLeftSidebar from "./game-left-sidebar/EngineGameLeftSidebar";
 import EngineGameContent from "./game-content/EngineGameContent";
 import EngineGameRightSidebar from "./game-right-sidebar/EngineGameRightSidebar";
 import { MoveDto } from "../../shared/utils/types/abstractDtosAndModels";
+import {
+  check50MoveRuleRepetition,
+  checkMaterialDraw,
+  checkThreefoldRepetition,
+} from "../../shared/utils/chess-game/checkDraws";
+import LoadingBoard from "../../shared/components/loading-board/BoardLoading";
 
 function EngineGamePage() {
   ///
@@ -45,7 +50,7 @@ function EngineGamePage() {
   // obtained game data
   const [gameData, setGameData] = useState<GetEngineGameDto | null>(null);
   // winner data
-  const [winner, setWinner] = useState<EndEngineGameDto | null>(null);
+  const [winnerData, setWinnerData] = useState<GetEngineGameWinnerDto | null>(null);
 
   //
   const [displayedWindow, setDisplayedWindow] = useState<GameWindowInterface>(GameWindowInterface.none);
@@ -88,21 +93,33 @@ function EngineGamePage() {
 
   // to finish the game and get winner data
   const endGame = async (loserColor: PieceColor | null): Promise<void> => {
-    if (!gameId) return;
+    if (!gameId || !gameData || gameData.hasEnded) return;
 
     try {
       const model: EndEngineGameModel = {
         gameId: gameId,
         loserColor: loserColor,
+        isCheckMate: loserColor !== null,
       };
 
-      const response = await axios.put<EndEngineGameDto>(
-        engineGameController.endEngineGame(gameId),
-        model,
+      await axios.put(engineGameController.endEngineGame(gameId), model, getAuthorization());
+
+      getGame();
+    } catch (err) {
+      showPopup(getErrMessage(err), "warning");
+    }
+  };
+
+  const getWinner = async (): Promise<void> => {
+    if (!gameId) return;
+
+    try {
+      const response = await axios.get<GetEngineGameWinnerDto>(
+        engineGameController.getWinner(gameId),
         getAuthorization()
       );
 
-      setWinner(response.data);
+      setWinnerData(response.data);
       setDisplayedWindow(GameWindowInterface.winner);
     } catch (err) {
       showPopup(getErrMessage(err), "warning");
@@ -113,20 +130,24 @@ function EngineGamePage() {
   useEffect(() => {
     if (!gameId || !gameData) return;
 
-    if (gameData.hasEnded) endGame(null);
-
-    if (gameData.halfmoveClock >= 100) {
-      endGame(null);
+    if (gameData.hasEnded) {
+      getWinner();
+      return;
     }
+
+    if (check50MoveRuleRepetition(gameData.halfmoveClock)) endGame(null);
+    if (checkThreefoldRepetition(gameData.moves)) endGame(null);
+    if (checkMaterialDraw(gameData.moves)) endGame(null);
   }, [gameData]);
 
-  if (!gameId || !gameData) return <LoadingPage />;
+  if (!gameId || !gameData) return <LoadingBoard />;
 
   return (
     <main className={classes["game-main"]}>
       <EngineGameLeftSidebar
         gameId={gameId}
         gameData={gameData}
+        winnerData={winnerData}
         getGame={getGame}
         endGame={endGame}
         setShowConfirm={setShowConfirm}
@@ -139,7 +160,7 @@ function EngineGamePage() {
         gameData={gameData}
         getGame={getGame}
         endGame={endGame}
-        winner={winner}
+        winnerData={winnerData}
         historyPositionState={{ get: historyPosition, set: setHistoryPosition }}
         showConfirmState={{ get: showConfirm, set: setShowConfirm }}
         confirmAction={confirmAction}
@@ -149,6 +170,7 @@ function EngineGamePage() {
       <EngineGameRightSidebar
         gameId={gameId}
         gameData={gameData}
+        winnerData={winnerData}
         historyPositionState={{ get: historyPosition, set: setHistoryPosition }}
         displayedWindowState={{ get: displayedWindow, set: setDisplayedWindow }}
       />

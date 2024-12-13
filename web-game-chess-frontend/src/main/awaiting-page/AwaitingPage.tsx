@@ -120,14 +120,7 @@ function AwaitingPage() {
 
   if (!gameId) return <></>;
 
-  return (
-    <SearchingPage
-      isPrivate={true}
-      onCancel={onCancelPrivateGame}
-      containerTestId="main-awaiting-page-searching"
-      cancelButtonTestId="main-awaiting-page-cancel-button"
-    />
-  );
+  return <SearchingPage isPrivate={true} onCancel={onCancelPrivateGame} />;
 }
 
 export default AwaitingPage;

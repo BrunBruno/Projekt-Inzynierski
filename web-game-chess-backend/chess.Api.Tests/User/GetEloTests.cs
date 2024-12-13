@@ -43,10 +43,6 @@ public class GetEloTests : IClassFixture<TestWebApplicationFactory<Program>> {
         result.Bullet.Should().Be(1000);
     }
 
-    /// <summary>
-    /// Gets elo for non existing user
-    /// </summary>
-    /// <returns></returns>
     [Fact]
     public async Task GetElo_Should_Return_NotFound_On_Fail() {
 

@@ -6,6 +6,7 @@ using chess.Application.Requests.FriendshipRequests.GetAllFriendsByStatus;
 using chess.Application.Requests.FriendshipRequests.GetAllNonFriends;
 using chess.Application.Requests.FriendshipRequests.GetFriendProfile;
 using chess.Application.Requests.FriendshipRequests.GetFriendshipRanking;
+using chess.Application.Requests.FriendshipRequests.GetGamesOfFriendship;
 using chess.Application.Requests.FriendshipRequests.InviteFriend;
 using chess.Application.Requests.FriendshipRequests.RemoveFriend;
 using chess.Application.Requests.FriendshipRequests.RespondToFriendRequest;
@@ -147,6 +148,23 @@ public class FriendshipController : ControllerBase {
         var friends = await _mediator.Send(request);
 
         return Ok(friends);
+    }
+
+
+    /// <summary>
+    /// To get games played in friendship
+    /// </summary>
+    /// <param name="model"></param>
+    /// <returns></returns>
+    [HttpGet("{friendshipId}/games")]
+    [Authorize(Policy = "IsVerified")]
+    public async Task<IActionResult> GetGamesOfFriendship([FromQuery] GetGamesOfFriendshipModel model) {
+
+        var request = _mapper.Map<GetGamesOfFriendshipRequest>(model);
+
+        var games = await _mediator.Send(request);
+
+        return Ok(games);
     }
 
 

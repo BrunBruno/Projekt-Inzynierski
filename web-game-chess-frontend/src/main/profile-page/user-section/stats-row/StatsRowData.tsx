@@ -5,6 +5,7 @@ import { gameResultIcons } from "../../../../shared/svgs/iconsMap/GameResultIcon
 import { ColorValue, dangerColor, greyColor, successColor } from "../../../../shared/utils/objects/colorMaps";
 import { ChartObject } from "../../../../shared/utils/types/commonTypes";
 import { GetFriendProfileDto } from "../../../../shared/utils/types/friendshipDtos";
+import { friendSectionIcons } from "../FriendSectionIcons";
 
 export type StatsConfig = {
   title: string;
@@ -18,7 +19,7 @@ export const getStatsConfig = (type: string, user: GetFriendProfileDto): StatsCo
   switch (type) {
     case "gamesTotal":
       return {
-        title: "All games:",
+        title: "Games total",
         data: [
           { id: 0, value: user.outcomeTotal.wins, label: "Win" },
           { id: 1, value: user.outcomeTotal.draws, label: "Draw" },
@@ -26,6 +27,12 @@ export const getStatsConfig = (type: string, user: GetFriendProfileDto): StatsCo
         ],
         colors: [successColor.mid, greyColor.c6, dangerColor.mid],
         stats: [
+          {
+            id: 0,
+            label: "Games",
+            value: user.outcomeTotal.total,
+            icon: <IconCreator icons={friendSectionIcons} iconName={"games"} />,
+          },
           {
             id: 0,
             label: "Wins",
@@ -49,7 +56,7 @@ export const getStatsConfig = (type: string, user: GetFriendProfileDto): StatsCo
 
     case "gamesTogether":
       return {
-        title: "Games with you",
+        title: "Games together",
         data: [
           { id: 0, value: user.outcomeTogether.wins, label: "Win" },
           { id: 1, value: user.outcomeTogether.draws, label: "Draw" },
@@ -57,6 +64,12 @@ export const getStatsConfig = (type: string, user: GetFriendProfileDto): StatsCo
         ],
         colors: [successColor.mid, greyColor.c6, dangerColor.mid],
         stats: [
+          {
+            id: 0,
+            label: "Games",
+            value: user.outcomeTogether.total,
+            icon: <IconCreator icons={friendSectionIcons} iconName={"games"} />,
+          },
           {
             id: 0,
             label: "Wins",

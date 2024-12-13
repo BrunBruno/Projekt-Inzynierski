@@ -3,6 +3,7 @@ using chess.Core.Entities;
 using chess.Infrastructure.Configuration;
 using Microsoft.EntityFrameworkCore;
 
+#pragma warning disable CS8618
 namespace chess.Infrastructure.Contexts;
 
 /// <summary>
@@ -58,8 +59,6 @@ public class ChessAppDbContext : DbContext {
         
         var configuration = new DbContextConfiguration();
 
-
-
         builder.ApplyConfiguration<User>(configuration);
         builder.ApplyConfiguration<Role>(configuration);
         builder.ApplyConfiguration<UserDataConfiguration>(configuration);
@@ -82,7 +81,6 @@ public class ChessAppDbContext : DbContext {
         builder.ApplyConfiguration<WebGameMove>(configuration);
         builder.ApplyConfiguration<WebGamePlayer>(configuration);
         builder.ApplyConfiguration<WebGamePlayerMessage>(configuration);
-
 
         builder.ApplyConfiguration<EngineGame>(configuration);
         builder.ApplyConfiguration<EngineGameState>(configuration);

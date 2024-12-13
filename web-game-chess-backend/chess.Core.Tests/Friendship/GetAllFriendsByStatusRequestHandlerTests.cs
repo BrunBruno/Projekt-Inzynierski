@@ -15,7 +15,6 @@ public class GetAllFriendsByStatusRequestHandlerTests {
     private readonly Mock<IUserContextService> _mockUserContextService;
     private readonly Mock<IUserRepository> _mockUserRepository;
     private readonly Mock<IFriendshipRepository> _mockFriendshipRepository;
-    private static readonly Random random = new();
 
     public GetAllFriendsByStatusRequestHandlerTests() {
         _mockUserContextService = new Mock<IUserContextService>();
@@ -82,6 +81,8 @@ public class GetAllFriendsByStatusRequestHandlerTests {
                 ReceiverId = Guid.NewGuid(),
                 RequestorId = userId,
                 Status = status,
+
+                Stats = new FriendshipStats(),
             });
         }
 
@@ -89,6 +90,7 @@ public class GetAllFriendsByStatusRequestHandlerTests {
     }
 
     private static string RandomString(int length) {
+        Random random = new();
         const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
         return new string(Enumerable.Repeat(chars, length)
             .Select(s => s[random.Next(s.Length)]).ToArray());

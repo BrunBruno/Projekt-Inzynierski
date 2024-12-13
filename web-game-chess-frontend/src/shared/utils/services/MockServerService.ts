@@ -1,5 +1,5 @@
 // import { setupServer } from "msw/node";
-// import { DefaultBodyType,  RequestHandler } from "msw";
+// import { http } from "msw";
 // import {
 //   CheckIfInWebGameDto,
 //   CheckIfUpdateOnPrivateGameRequiredDto,
@@ -72,21 +72,21 @@
 
 // // function to create a mock server
 // export const createMockServer = (mockResult: CreateMockServerParams) => {
-//   const externHandlers: RestHandler<MockedRequest<DefaultBodyType>>[] = [
-//     rest.get("https://ipinfo.io", (_, res, ctx) => {
+//   const externHandlers = [
+//     http.get("https://ipinfo.io", (req, res, ctx) => {
 //       return res(ctx.status(200), ctx.json({ data: { country: "PL" } }));
 //     }),
 //   ];
 
 //   // user controller handler
-//   const userControllerHandlers: RestHandler<MockedRequest<DefaultBodyType>>[] = [
+//   const userControllerHandlers = [
 //     // register user
-//     rest.post(userControllerPaths.registerUser, (_, res, ctx) => {
+//     http.post(userControllerPaths.registerUser, (_, res, ctx) => {
 //       return res(ctx.status(200));
 //     }),
 
 //     // login user
-//     rest.post(userControllerPaths.logInUser, (_, res, ctx) => {
+//     http.post(userControllerPaths.logInUser, (_, res, ctx) => {
 //       if (!mockResult.logInUserDto) {
 //         console.error("mock LogInUserDto not provided");
 //         return res(ctx.status(500), ctx.json(null));
@@ -96,22 +96,22 @@
 //     }),
 
 //     // regenerate code
-//     rest.post(userControllerPaths.regenerateCode, (_, res, ctx) => {
+//     http.post(userControllerPaths.regenerateCode, (_, res, ctx) => {
 //       return res(ctx.status(200));
 //     }),
 
 //     // verify email
-//     rest.put(userControllerPaths.verifyEmail, (_, res, ctx) => {
+//     http.put(userControllerPaths.verifyEmail, (_, res, ctx) => {
 //       return res(ctx.status(200));
 //     }),
 
 //     // update profile
-//     rest.put(userControllerPaths.updateProfile, (_, res, ctx) => {
+//     http.put(userControllerPaths.updateProfile, (_, res, ctx) => {
 //       return res(ctx.status(200));
 //     }),
 
 //     // get user
-//     rest.get(userControllerPaths.getUser, (_, res, ctx) => {
+//     http.get(userControllerPaths.getUser, (_, res, ctx) => {
 //       if (!mockResult.getUserDto) {
 //         console.error("mock GetUserDto not provided");
 //         return res(ctx.status(500), ctx.json(null));
@@ -121,7 +121,7 @@
 //     }),
 
 //     // get full user
-//     rest.get(userControllerPaths.getFullUser, (_, res, ctx) => {
+//     http.get(userControllerPaths.getFullUser, (_, res, ctx) => {
 //       if (!mockResult.getFullUserDto) {
 //         console.error("mock GetFullUserDto not provided");
 //         return res(ctx.status(500), ctx.json(null));
@@ -131,7 +131,7 @@
 //     }),
 
 //     // get other user
-//     rest.get(userControllerPaths.getOtherUser, (_, res, ctx) => {
+//     http.get(userControllerPaths.getOtherUser, (_, res, ctx) => {
 //       if (!mockResult.getOtherUserDto) {
 //         console.error("mock GetOtherUserDto not provided");
 //         return res(ctx.status(500), ctx.json(null));
@@ -141,7 +141,7 @@
 //     }),
 
 //     // get elo
-//     rest.get(userControllerPaths.getElo, (_, res, ctx) => {
+//     http.get(userControllerPaths.getElo, (_, res, ctx) => {
 //       if (!mockResult.getEloDto) {
 //         console.error("mock GetEloDto not provided");
 //         return res(ctx.status(500), ctx.json(null));
@@ -151,7 +151,7 @@
 //     }),
 
 //     // is verified
-//     rest.get(userControllerPaths.isVerified, (_, res, ctx) => {
+//     http.get(userControllerPaths.isVerified, (_, res, ctx) => {
 //       if (!mockResult.isEmailVerifiedDto) {
 //         console.error("mock IsEmailVerifiedDto not provided");
 //         return res(ctx.status(500), ctx.json(null));
@@ -161,7 +161,7 @@
 //     }),
 
 //     // get by email
-//     rest.get(userControllerPaths.getByEmail, (_, res, ctx) => {
+//     http.get(userControllerPaths.getByEmail, (_, res, ctx) => {
 //       if (!mockResult.getByEmailDto) {
 //         console.error("mock IsEmailVerifiedDto not provided");
 //         return res(ctx.status(500), ctx.json(null));
@@ -171,7 +171,7 @@
 //     }),
 
 //     // get register configuration
-//     rest.get(userControllerPaths.getRegisterConf, (req, res, ctx) => {
+//     http.get(userControllerPaths.getRegisterConf, (req, res, ctx) => {
 //       const configId = req.url.searchParams.get("configurationId");
 
 //       if (!configId) {
@@ -208,11 +208,11 @@
 //   ];
 
 //   // game controller handlers
-//   const webGameControllerHandlers: RestHandler<MockedRequest<DefaultBodyType>>[] = [
+//   const webGameControllerHandlers = [
 //     /** STATIC */
 
 //     // start search
-//     rest.post(webGameControllerPaths.startSearch, (_, res, ctx) => {
+//     http.post(webGameControllerPaths.startSearch, (_, res, ctx) => {
 //       if (!mockResult.SearchWebGameDto) {
 //         console.error("mock SearchWebGameDto not provided");
 //         return res(ctx.status(500), ctx.json(null));
@@ -222,7 +222,7 @@
 //     }),
 
 //     // create private game
-//     rest.post(webGameControllerPaths.createPrivateGame, (_, res, ctx) => {
+//     http.post(webGameControllerPaths.createPrivateGame, (_, res, ctx) => {
 //       if (!mockResult.createPrivateGameDto) {
 //         console.error("mock CreatePrivateGameDto not provided");
 //         return res(ctx.status(500), ctx.json(null));
@@ -232,7 +232,7 @@
 //     }),
 
 //     // create game by email
-//     rest.post(webGameControllerPaths.createGameByEmail, (_, res, ctx) => {
+//     http.post(webGameControllerPaths.createGameByEmail, (_, res, ctx) => {
 //       if (!mockResult.createGameByEmailDto) {
 //         console.error("mock CreatePrivateGameByEmailDto not provided");
 //         return res(ctx.status(500), ctx.json(null));
@@ -242,7 +242,7 @@
 //     }),
 
 //     // create game with link
-//     rest.post(webGameControllerPaths.createGameWithLink, (_, res, ctx) => {
+//     http.post(webGameControllerPaths.createGameWithLink, (_, res, ctx) => {
 //       if (!mockResult.CreatePrivateGameWithLinkDto) {
 //         console.error("mock CreateGameWithLinDto not provided");
 //         return res(ctx.status(500), ctx.json(null));
@@ -252,12 +252,12 @@
 //     }),
 
 //     // create rematch game
-//     // rest.post(webGameControllerPaths.createRematchGame, (_, res, ctx) => {
+//     //http.post(webGameControllerPaths.createRematchGame, (_, res, ctx) => {
 //     //   return res(ctx.status(200));
 //     // }),
 
 //     // check if in game
-//     rest.get(webGameControllerPaths.checkIfInGame, (_, res, ctx) => {
+//     http.get(webGameControllerPaths.checkIfInGame, (_, res, ctx) => {
 //       if (!mockResult.checkIfInGameDto) {
 //         console.error("mock CheckIfInWebGameDto not provided");
 //         return res(ctx.status(500), ctx.json(null));
@@ -267,7 +267,7 @@
 //     }),
 
 //     // get all finished games
-//     rest.get(webGameControllerPaths.getAllFinishedGames, (_, res, ctx) => {
+//     http.get(webGameControllerPaths.getAllFinishedGames, (_, res, ctx) => {
 //       if (!mockResult.getAllFinishedGamesDtoList) {
 //         console.error("mock GetAllFinishedGamesDto not provided");
 //         return res(ctx.status(500), ctx.json(null));
@@ -279,7 +279,7 @@
 //     }),
 
 //     // get type history
-//     rest.get(webGameControllerPaths.getTypeHistory, (_, res, ctx) => {
+//     http.get(webGameControllerPaths.getTypeHistory, (_, res, ctx) => {
 //       if (!mockResult.getTypeHistoryDtoList) {
 //         console.error("mock GetTypeHistoryDto not provided");
 //         return res(ctx.status(500), ctx.json(null));
@@ -291,7 +291,7 @@
 //     }),
 
 //     // get all invitations
-//     rest.get(webGameControllerPaths.getAllInvitations, (_, res, ctx) => {
+//     http.get(webGameControllerPaths.getAllInvitations, (_, res, ctx) => {
 //       if (!mockResult.getAllInvitationsDtoList) {
 //         console.error("mock GetAllInvitationsDto not provided");
 //         return res(ctx.status(500), ctx.json(null));
@@ -303,14 +303,14 @@
 //     }),
 
 //     // abort search
-//     rest.delete(webGameControllerPaths.abortSearch, (_, res, ctx) => {
+//     http.delete(webGameControllerPaths.abortSearch, (_, res, ctx) => {
 //       return res(ctx.status(200));
 //     }),
 
 //     /** DYNAMIC */
 
 //     // get game
-//     rest.get(webGameControllerPaths.getGame, (_, res, ctx) => {
+//     http.get(webGameControllerPaths.getGame, (_, res, ctx) => {
 //       if (!mockResult.GetWebGameDto) {
 //         console.error("mock GetWebGameDto not provided");
 //         return res(ctx.status(500), ctx.json(null));
@@ -320,7 +320,7 @@
 //     }),
 
 //     // get player
-//     rest.get(webGameControllerPaths.getPlayer, (_, res, ctx) => {
+//     http.get(webGameControllerPaths.getPlayer, (_, res, ctx) => {
 //       if (!mockResult.getPlayerDto) {
 //         console.error("mock GetWebGamePlayerDto not provided");
 //         return res(ctx.status(500), ctx.json(null));
@@ -330,7 +330,7 @@
 //     }),
 
 //     // fetch time
-//     rest.get(webGameControllerPaths.fetchTime, (_, res, ctx) => {
+//     http.get(webGameControllerPaths.fetchTime, (_, res, ctx) => {
 //       if (!mockResult.fetchTimeDto) {
 //         console.error("mock FetchTimeDto not provided");
 //         return res(ctx.status(500), ctx.json(null));
@@ -340,7 +340,7 @@
 //     }),
 
 //     // get opponent
-//     rest.get(webGameControllerPaths.getOpponent, (_, res, ctx) => {
+//     http.get(webGameControllerPaths.getOpponent, (_, res, ctx) => {
 //       if (!mockResult.getOpponentDto) {
 //         console.error("mock GetOpponentDto not provided");
 //         return res(ctx.status(500), ctx.json(null));
@@ -350,7 +350,7 @@
 //     }),
 
 //     // get game timing
-//     rest.get(webGameControllerPaths.getGameTiming, (_, res, ctx) => {
+//     http.get(webGameControllerPaths.getGameTiming, (_, res, ctx) => {
 //       if (!mockResult.getGameTimingDto) {
 //         console.error("mock GetGameTimingDto not provided");
 //         return res(ctx.status(500), ctx.json(null));
@@ -360,7 +360,7 @@
 //     }),
 
 //     // get all messages
-//     rest.get(webGameControllerPaths.getAllMessages, (_, res, ctx) => {
+//     http.get(webGameControllerPaths.getAllMessages, (_, res, ctx) => {
 //       if (!mockResult.getAllMessagesDtoList) {
 //         console.error("mock GetAllMessagesDto not provided");
 //         return res(ctx.status(500), ctx.json(null));
@@ -372,12 +372,12 @@
 //     }),
 
 //     // cancel private game
-//     rest.delete(webGameControllerPaths.cancelPrivateGame, (_, res, ctx) => {
+//     http.delete(webGameControllerPaths.cancelPrivateGame, (_, res, ctx) => {
 //       return res(ctx.status(200));
 //     }),
 
 //     // check if update required
-//     rest.get(webGameControllerPaths.checkIfUpdateRequired, (_, res, ctx) => {
+//     http.get(webGameControllerPaths.checkIfUpdateRequired, (_, res, ctx) => {
 //       if (!mockResult.checkIfUpdateRequiredDto) {
 //         console.error("mock CheckIfUpdateOnPrivateGameRequiredDto not provided");
 //         return res(ctx.status(500), ctx.json(null));
@@ -388,16 +388,16 @@
 //   ];
 
 //   // friendship controller handlers
-//   const friendshipControllerHandlers: RestHandler<MockedRequest<DefaultBodyType>>[] = [
+//   const friendshipControllerHandlers = [
 //     /** STATIC */
 
 //     // invite friend
-//     rest.post(friendshipControllerPaths.inviteFriend, (_, res, ctx) => {
+//     http.post(friendshipControllerPaths.inviteFriend, (_, res, ctx) => {
 //       return res(ctx.status(200));
 //     }),
 
 //     // get all friends by status
-//     rest.get(friendshipControllerPaths.getAllFriendsByStatus, (_, res, ctx) => {
+//     http.get(friendshipControllerPaths.getAllFriendsByStatus, (_, res, ctx) => {
 //       if (!mockResult.getAllFriendsByStatusDtoList) {
 //         console.error("mock GetAllFriendsByStatusDto not provided");
 //         return res(ctx.status(500), ctx.json(null));
@@ -411,7 +411,7 @@
 //     }),
 
 //     // get all friends by status
-//     rest.get(friendshipControllerPaths.getAllNonFriends, (_, res, ctx) => {
+//     http.get(friendshipControllerPaths.getAllNonFriends, (_, res, ctx) => {
 //       if (!mockResult.getAllNonFriendsDtoList) {
 //         console.error("mock GetAllNonFriendsDto not provided");
 //         return res(ctx.status(500), ctx.json(null));
@@ -425,12 +425,12 @@
 //     /** DYNAMIC */
 
 //     // respond to friend request
-//     rest.put(friendshipControllerPaths.respondToFriendRequest, (_, res, ctx) => {
+//     http.put(friendshipControllerPaths.respondToFriendRequest, (_, res, ctx) => {
 //       return res(ctx.status(200));
 //     }),
 
 //     // get game timing
-//     rest.get(friendshipControllerPaths.getFriendProfile, (_, res, ctx) => {
+//     http.get(friendshipControllerPaths.getFriendProfile, (_, res, ctx) => {
 //       if (!mockResult.getFriendProfileDto) {
 //         console.error("mock GetFriendProfileDto not provided");
 //         return res(ctx.status(500), ctx.json(null));
@@ -440,7 +440,7 @@
 //     }),
 
 //     // remove friend
-//     rest.delete(friendshipControllerPaths.removeFriend, (_, res, ctx) => {
+//     http.delete(friendshipControllerPaths.removeFriend, (_, res, ctx) => {
 //       return res(ctx.status(200));
 //     }),
 //   ];

@@ -45,10 +45,6 @@ public class GetFullUserTests : IClassFixture<TestWebApplicationFactory<Program>
         result.OnlineOutcomeTotal.Wins.Should().Be(0);
     }
 
-    /// <summary>
-    /// Get not existing user.
-    /// </summary>
-    /// <returns></returns>
     [Fact]
     public async Task GetFullUser_Returns_NotFound_On_Fail() {
 

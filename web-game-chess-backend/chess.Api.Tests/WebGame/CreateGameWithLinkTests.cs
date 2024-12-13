@@ -71,10 +71,6 @@ public class CreateGameWithLinkTests : IClassFixture<TestWebApplicationFactory<P
         result.GameId.Should().Be(game.Id);
     }
 
-    /// <summary>
-    /// Try to create game with link when user does not exists
-    /// </summary>
-    /// <returns></returns>
     [Fact]
     public async Task CreateGameWithLink_Should_Return_NotFound_On_Fail() {
 

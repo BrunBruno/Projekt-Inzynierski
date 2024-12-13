@@ -58,7 +58,7 @@ export type UpdateProfileModel = {
   backgroundFile: File | null;
 };
 
-export type UpdateUserDataModel = {
+export type UpdateProfileVisibilityModel = {
   profileIsPrivate?: boolean;
 };
 

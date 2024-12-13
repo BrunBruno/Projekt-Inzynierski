@@ -64,6 +64,7 @@
         width: 100%;
         padding: 1rem;
         border-bottom: solid 0.3rem $gc8;
+        user-select: none;
 
         &:last-child {
           border: none;
@@ -105,7 +106,7 @@
 
     &__captures {
       @include wh100;
-      @include GamePage.bar-block;
+      // @include GamePage.bar-block;
 
       padding: 1rem 0;
     }

@@ -13,18 +13,9 @@ type SearchingPageProps = {
   onCancel: () => Promise<void>;
   //
   gameUrl?: string;
-  // ids for tests
-  containerTestId?: string;
-  cancelButtonTestId?: string;
 };
 
-function SearchingPage({
-  isPrivate,
-  onCancel,
-  gameUrl,
-  containerTestId,
-  cancelButtonTestId,
-}: SearchingPageProps): JSX.Element {
+function SearchingPage({ isPrivate, onCancel, gameUrl }: SearchingPageProps): JSX.Element {
   ///
 
   const { showPopup } = usePopup();
@@ -111,7 +102,7 @@ function SearchingPage({
   };
 
   return (
-    <div data-testid={containerTestId} className={classes.searching}>
+    <div data-testid="searching-page" className={classes.searching}>
       <div className={classes.searching__content}>
         <div className={classes.searching__content__background}>
           <IconCreator icons={searchingPageIcons} iconName={"globe"} active={activeIndex !== 0} />
@@ -159,7 +150,7 @@ function SearchingPage({
         </div>
 
         <button
-          data-testid={cancelButtonTestId}
+          data-testid="searching-page-cancel-button"
           className={classes.cancel}
           onClick={() => {
             onCancel();

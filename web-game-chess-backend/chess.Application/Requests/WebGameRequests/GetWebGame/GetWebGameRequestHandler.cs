@@ -1,8 +1,10 @@
 ﻿
+using chess.Application.Repositories.FriendshipRepositories;
 using chess.Application.Repositories.UserRepositories;
 using chess.Application.Repositories.WebGameRepositories;
 using chess.Application.Services;
 using chess.Core.Dtos;
+using chess.Core.Entities;
 using chess.Core.Enums;
 using chess.Shared.Exceptions;
 using MediatR;
@@ -20,34 +22,71 @@ public class GetWebGameRequestHandler : IRequestHandler<GetWebGameRequest, GetWe
     private readonly IWebGameRepository _webGameRepository;
     private readonly IUserContextService _userContextService;
     private readonly IUserSettingsRepository _userSettingsRepository;
+    private readonly IWebGameMessageRepository _webGameMessageRepository;
+    private readonly IFriendshipRepository _friendshipRepository;
 
     public GetWebGameRequestHandler(
         IWebGameRepository gameRepository,
         IUserContextService userContextService,
-        IUserSettingsRepository userSettingsRepository
+        IUserSettingsRepository userSettingsRepository,
+        IWebGameMessageRepository webGameMessageRepository,
+        IFriendshipRepository friendshipRepository
     ) {
         _webGameRepository = gameRepository;
         _userContextService = userContextService;
         _userSettingsRepository = userSettingsRepository;
+        _webGameMessageRepository = webGameMessageRepository;
+        _friendshipRepository = friendshipRepository;
     }
 
     public async Task<GetWebGameDto> Handle(GetWebGameRequest request, CancellationToken cancellationToken) {
 
         var userId = _userContextService.GetUserId();
 
-        var settings = await _userSettingsRepository.GetByUserId( userId )
-            ?? throw new NotFoundException("Settings not found.");
+        var settings = await _userSettingsRepository.GetByUserId(userId)
+            ?? throw new NotFoundException("Settings not found");
 
         var game = await _webGameRepository.GetById(request.GameId) 
-            ?? throw new NotFoundException("Game not found.");
+            ?? throw new NotFoundException("Game not found");
 
         if (game.WhitePlayer.UserId != userId && game.BlackPlayer.UserId != userId)
-            throw new UnauthorizedException("This is not user game.");
+            throw new UnauthorizedException("This is not user game");
+
+
+        var friendship = await _friendshipRepository.GetByUsersIds(game.WhitePlayer.UserId, game.BlackPlayer.UserId);
+
 
         if(game.StartedAt is null) {
             game.StartedAt = DateTime.UtcNow;
 
             await _webGameRepository.Update(game);
+
+            // to send only one
+            if (userId == game.WhitePlayer.UserId) {
+                var startMessages = new List<WebGameMessage>() {
+                    new() {
+                        Id = Guid.NewGuid(),
+                        RequestorName = "BOT",
+                        Content = "Game started.",
+                        Type = MessageType.Bot,
+                        GameId = game.Id,
+                    },
+                };
+
+
+                if (friendship != null && friendship.Status == FriendshipStatus.Rejected) {
+                    startMessages.Add(new()
+                    {
+                        Id = Guid.NewGuid(),
+                        RequestorName = "BOT",
+                        Content = "Chat is off.",
+                        Type = MessageType.Bot,
+                        GameId = game.Id,
+                    });
+                }
+
+                await _webGameMessageRepository.CreateMany(startMessages);
+            }
         }
 
         var gameDto = new GetWebGameDto()
@@ -101,6 +140,7 @@ public class GetWebGameRequestHandler : IRequestHandler<GetWebGameRequest, GetWe
                 NewCoor = move.NewCoordinates,
                 CapturedPiece = move.CapturedPiece,
                 Position = move.Position,
+                Duration = move.MoveDuration,
             }).ToList(),
 
             GameSettings = new GameSettingsDto()

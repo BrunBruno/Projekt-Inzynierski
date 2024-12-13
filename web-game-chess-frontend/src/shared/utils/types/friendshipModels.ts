@@ -36,4 +36,8 @@ export type GetFriendshipRankingModel = PagedModel & {
   type: TimingType;
 };
 
+export type GetGamesOfFriendshipModel = PagedModel & {
+  friendshipId: Guid;
+};
+
 /** DELETE models */

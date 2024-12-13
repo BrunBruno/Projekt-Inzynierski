@@ -25,6 +25,11 @@ public class WebGameMove : Move {
     /// </summary>
     public double BlackTime {  get; set; }
 
+    /// <summary>
+    /// Time taken to make move
+    /// </summary>
+    public TimeSpan MoveDuration { get; set; }
+
 
     /// <summary>
     /// Game for which moves belong to

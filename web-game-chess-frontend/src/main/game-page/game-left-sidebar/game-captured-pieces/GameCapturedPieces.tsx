@@ -6,10 +6,11 @@ import classes from "./GameCapturedPieces.module.scss";
 import { GetEngineGameDto } from "../../../../shared/utils/types/engineGameDtos";
 import { BlackCapturedPiecesRecord, WhiteCapturedPiecesRecord } from "./GameCapturedPieceData";
 import { symbolIcons } from "../../../../shared/svgs/iconsMap/SymbolIcons";
-import { greyColor } from "../../../../shared/utils/objects/colorMaps";
-import { specialPiecesSvgs } from "../../../../shared/svgs/iconsMap/SpecialPiecesSvgs";
+import { greyColor, mainColor } from "../../../../shared/utils/objects/colorMaps";
+import { changePiecesByUserSettings } from "../../../../shared/utils/chess-game/boardVisualization";
 
 type GameCapturedPiecesProps = {
+  // game data
   gameData: GetWebGameDto | GetEngineGameDto;
 };
 
@@ -55,9 +56,9 @@ function GameCapturedPieces({ gameData }: GameCapturedPiecesProps) {
           return (
             <div key={`white-captures-${i}`} className={classes.piece}>
               <IconCreator
-                icons={specialPiecesSvgs}
+                icons={changePiecesByUserSettings(gameData.gameSettings.appearanceOfPieces)}
                 iconName={piece}
-                color={"white"}
+                color={mainColor.c0}
                 iconClass={classes["side-piece-icon"]}
               />
               <IconCreator icons={symbolIcons} iconName={"x"} iconClass={classes["x-icon"]} color={greyColor.c7} />
@@ -73,9 +74,9 @@ function GameCapturedPieces({ gameData }: GameCapturedPiecesProps) {
           return (
             <div key={`black-captures-${i}`} className={classes.piece}>
               <IconCreator
-                icons={specialPiecesSvgs}
+                icons={changePiecesByUserSettings(gameData.gameSettings.appearanceOfPieces)}
                 iconName={piece}
-                color={"black"}
+                color={mainColor.c9}
                 iconClass={classes["side-piece-icon"]}
               />
               <IconCreator icons={symbolIcons} iconName={"x"} iconClass={classes["x-icon"]} color={greyColor.c7} />

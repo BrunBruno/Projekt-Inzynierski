@@ -53,3 +53,19 @@
     }
   }
 }
+
+@mixin mini-scrollbar($color: color.$gc9) {
+  &::-webkit-scrollbar {
+    width: 1rem;
+
+    &-track {
+      background-color: #0000;
+    }
+
+    &-thumb {
+      background-color: $color;
+      background-clip: padding-box;
+      border-radius: 1rem;
+    }
+  }
+}

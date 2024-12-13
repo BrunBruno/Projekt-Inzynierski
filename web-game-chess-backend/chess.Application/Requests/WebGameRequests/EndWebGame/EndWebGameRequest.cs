@@ -7,7 +7,7 @@ namespace chess.Application.Requests.WebGameRequests.EndWebGame;
 /// <summary>
 /// Request for finishing the game, return winner color
 /// </summary>
-public class EndWebGameRequest : IRequest<EndWebGameDto> {
+public class EndWebGameRequest : IRequest {
 
     /// <summary>
     /// Game id to end

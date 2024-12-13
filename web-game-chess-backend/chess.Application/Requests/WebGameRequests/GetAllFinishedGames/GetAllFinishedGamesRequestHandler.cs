@@ -70,7 +70,7 @@ public class GetAllFinishedGamesRequestHandler : IRequestHandler<GetAllFinishedG
                     EloGained = game.EloGain,
                     CreatedAt = game.CreatedAt,
                     TimingType = game.TimingType,
-                    EndGameType = player.WhiteGame.EndGameType,
+                    EndGameType = game.EndGameType,
 
                     // current user player
                     WhitePlayer = new PlayerDto()

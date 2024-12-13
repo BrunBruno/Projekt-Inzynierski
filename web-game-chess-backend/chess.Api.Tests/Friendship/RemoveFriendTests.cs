@@ -51,10 +51,6 @@ public class RemoveFriendTests : IClassFixture<TestWebApplicationFactory<Program
         friendship.Should().Be(null);
     }
 
-    /// <summary>
-    /// Try to remove not existing friendship
-    /// </summary>
-    /// <returns></returns>
     [Fact]
     public async Task RemoveFriend_Should_Remove_NotFound_On_Fail() {
 
@@ -71,10 +67,6 @@ public class RemoveFriendTests : IClassFixture<TestWebApplicationFactory<Program
         response.StatusCode.Should().Be(HttpStatusCode.NotFound);
     }
 
-    /// <summary>
-    /// Try to remove not owned relationship
-    /// </summary>
-    /// <returns></returns>
     [Fact]
     public async Task RemoveFriend_Should_Remove_Unauthorized_On_Fail() {
 
