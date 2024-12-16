@@ -9,7 +9,7 @@
 //   FetchTimeDto,
 //   GetAllFinishedGamesDto,
 //   GetAllInvitationsDto,
-//   GetAllMessagesDto,
+//   GetAllWebGameMessagesDto,
 //   GetWebGameDto,
 //   GetGameTimingDto,
 //   GetOpponentDto,
@@ -57,7 +57,7 @@
 //   getAllFinishedGamesDtoList?: GetAllFinishedGamesDto[];
 //   getTypeHistoryDtoList?: GetTypeHistoryDto[];
 //   getAllInvitationsDtoList?: GetAllInvitationsDto[];
-//   getAllMessagesDtoList?: GetAllMessagesDto[];
+//   GetAllWebGameMessagesDtoList?: GetAllWebGameMessagesDto[];
 // };
 
 // type FriendshipControllerServerParams = {
@@ -361,14 +361,14 @@
 
 //     // get all messages
 //     http.get(webGameControllerPaths.getAllMessages, (_, res, ctx) => {
-//       if (!mockResult.getAllMessagesDtoList) {
-//         console.error("mock GetAllMessagesDto not provided");
+//       if (!mockResult.GetAllWebGameMessagesDtoList) {
+//         console.error("mock GetAllWebGameMessagesDto not provided");
 //         return res(ctx.status(500), ctx.json(null));
 //       }
 
-//       const response: PagedResult<GetAllMessagesDto> = createPagedResult(mockResult.getAllMessagesDtoList);
+//       const response: PagedResult<GetAllWebGameMessagesDto> = createPagedResult(mockResult.GetAllWebGameMessagesDtoList);
 
-//       return res(ctx.status(200), ctx.json<PagedResult<GetAllMessagesDto>>(response));
+//       return res(ctx.status(200), ctx.json<PagedResult<GetAllWebGameMessagesDto>>(response));
 //     }),
 
 //     // cancel private game

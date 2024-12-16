@@ -296,7 +296,7 @@ function WebGamePage() {
   if (!gameId || !gameData || !playerData) return <LoadingBoard />;
 
   return (
-    <main className={classes["game-main"]}>
+    <main data-testid="main-web-game-page" className={classes["game-main"]}>
       <WebGameLeftSidebar
         gameId={gameId}
         playerData={playerData}

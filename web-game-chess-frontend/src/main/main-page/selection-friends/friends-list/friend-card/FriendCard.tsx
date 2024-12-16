@@ -19,6 +19,7 @@ function FriendCard({ friend, setSelectedFriend }: FriendCardProps) {
 
   return (
     <div
+      data-testid="vs-friend-invite-to-game-card"
       key={friend.friendshipId.toString()}
       className={classes.card}
       onClick={() => {
@@ -75,7 +76,7 @@ function FriendCard({ friend, setSelectedFriend }: FriendCardProps) {
       </div>
 
       <div className={classes.invite}>
-        <button data-testid="vs-friend-invite-to-game-button" className={classes["invite-button"]}>
+        <button className={classes["invite-button"]}>
           {window.innerWidth > 1100 ? (
             <span>Invite</span>
           ) : (

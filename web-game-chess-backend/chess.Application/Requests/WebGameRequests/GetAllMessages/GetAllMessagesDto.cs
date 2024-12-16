@@ -7,7 +7,7 @@ namespace chess.Application.Requests.WebGameRequests.GetAllMessages;
 /// <summary>
 /// Dto representing game message
 /// </summary>
-public class GetAllMessagesDto {
+public class GetAllWebGameMessagesDto {
 
     /// <summary>
     /// Message content

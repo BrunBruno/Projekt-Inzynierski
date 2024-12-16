@@ -149,6 +149,7 @@
             @include wh100;
 
             border-right: solid 0.3rem $gc9;
+
             &:last-child {
               border: none;
             }

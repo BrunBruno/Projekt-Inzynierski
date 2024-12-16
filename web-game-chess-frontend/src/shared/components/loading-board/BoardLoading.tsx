@@ -40,7 +40,7 @@ function LoadingBoard(): JSX.Element {
   }, []);
 
   return (
-    <div className={classes.loading}>
+    <div data-testid="game-loading-page" className={classes.loading}>
       <div className={classes["board"]}>
         {Array.from({ length: size }).map((_, i) => (
           <div key={`row-${i}`} className={classes["row"]}>

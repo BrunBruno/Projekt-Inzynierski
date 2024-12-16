@@ -32,7 +32,7 @@ function BotSelection({ setOfflineGameOptions }: BotSelectionProps) {
   };
 
   return (
-    <div className={classes.search}>
+    <div data-testid="main-page-bot-selection-section" className={classes.search}>
       <div className={classes.search__content}>
         <div className={classes.search__content__level}>
           <div className={classes.search__content__level__header}>
@@ -70,6 +70,7 @@ function BotSelection({ setOfflineGameOptions }: BotSelectionProps) {
                   </div>
                 )}
                 <div
+                  data-testid={`main-page-engine-level-${level}`}
                   key={`engine-level-${level}`}
                   className={classes["engine-level"]}
                   onClick={() => {

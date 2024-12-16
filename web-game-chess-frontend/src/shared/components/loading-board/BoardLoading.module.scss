@@ -4,12 +4,15 @@
   0% {
     transform: scale(1) rotateZ(0deg);
   }
+
   60% {
     transform: scale(1) rotateZ(0deg);
   }
+
   80% {
     transform: scale(0.6) rotateZ(90deg);
   }
+
   100% {
     transform: scale(1) rotateZ(180deg);
   }
@@ -23,6 +26,7 @@
 
   .board {
     @include wh100;
+
     display: grid;
     grid-template-rows: repeat(8, 1fr);
     border-radius: 2rem;
@@ -32,6 +36,7 @@
     .row {
       display: grid;
       grid-template-columns: repeat(8, 1fr);
+
       // gap: 0.5rem;
 
       .file {
@@ -48,6 +53,7 @@
           &:nth-child(odd) {
             background-color: $gc9;
           }
+
           &:nth-child(even) {
             background-color: $gc0;
           }
@@ -63,6 +69,7 @@
           &:nth-child(odd) {
             background-color: $gc0;
           }
+
           &:nth-child(even) {
             background-color: $gc9;
           }

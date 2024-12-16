@@ -259,7 +259,7 @@ function TimeSelection({ setOnlineGameIds, privateGameOptions, setGameUrl, setPr
 
   return (
     <div
-      data-testid="main-page-vs-player-section"
+      data-testid="main-page-time-selection-section"
       className={`${classes.search} ${inactiveControls ? classes.inactive : ""}`}
     >
       <div className={classes.search__grid}>
@@ -283,7 +283,7 @@ function TimeSelection({ setOnlineGameIds, privateGameOptions, setGameUrl, setPr
             {control.tags.map((tag: string, i: number) => (
               <div
                 key={`time-control-${index}-${i}`}
-                data-testid={`main-page-vs-player-time-control-${index}-${i}`}
+                data-testid={`main-page-time-control-${index}-${i}`}
                 className={classes["time-control"]}
                 onClick={() => {
                   onControlSelected(control.header, control.values[i]);

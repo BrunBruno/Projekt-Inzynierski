@@ -1,7 +1,7 @@
 import { ChangeEvent, useEffect, useRef, useState, KeyboardEvent, FormEvent } from "react";
 import classes from "./GameMessages.module.scss";
 import {
-  GetAllMessagesDto,
+  GetAllWebGameMessagesDto,
   GetWebGamePlayerDto,
   GetWebGameWinnerDto,
 } from "../../../../shared/utils/types/webGameDtos";
@@ -40,7 +40,7 @@ function WebGameMessages({ gameId, playerData, winnerData }: WebGameMessagesProp
   // state for message input text
   const [newMessage, setNewMessage] = useState<string>("");
   // all messages created during game
-  const [messages, setMessages] = useState<GetAllMessagesDto[]>([]);
+  const [messages, setMessages] = useState<GetAllWebGameMessagesDto[]>([]);
   // typing dots display
   const [isOpponentTyping, setIsOpponentTyping] = useState<boolean>(false);
 
@@ -50,7 +50,7 @@ function WebGameMessages({ gameId, playerData, winnerData }: WebGameMessagesProp
   useEffect(() => {
     const getMessages = async (): Promise<void> => {
       try {
-        const response = await axios.get<GetAllMessagesDto[]>(
+        const response = await axios.get<GetAllWebGameMessagesDto[]>(
           webGameController.getAllMessages(gameId),
           getAuthorization()
         );

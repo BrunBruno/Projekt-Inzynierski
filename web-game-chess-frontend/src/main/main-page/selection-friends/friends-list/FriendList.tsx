@@ -37,6 +37,8 @@ function FriendList({ selectedUsername, setSelectedFriend }: FriendListProps) {
 
   useEffect(() => {
     const getFriends = async (): Promise<void> => {
+      if (pageSize <= 0 || pageNumber <= 0) return;
+
       const model: GetAllFriendsByStatusModel = {
         username: selectedUsername,
         status: FriendshipStatus.accepted,
@@ -97,7 +99,7 @@ function FriendList({ selectedUsername, setSelectedFriend }: FriendListProps) {
 
   return (
     <div ref={scrollRef} data-testid="main-page-vs-friend-section-friend-list" className={classes.list}>
-      {friends === null || friends.length === 0 ? (
+      {!friends || friends.length === 0 ? (
         // empty result
         <div className={classes.list__empty}>
           {Array.from({ length: pageSize }).map((_, i: number) => (

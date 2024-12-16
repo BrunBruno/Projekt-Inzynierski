@@ -56,7 +56,8 @@ describe("ProfilePage Component", () => {
     mock.restore();
   });
 
-  it("should renders users profile without crashing", async () => {
+  // default page render tests
+  it("should renders friends profile without crashing", async () => {
     mock.onGet(friendshipController.getFriendProfile(friendId)).reply(200, responseProfile);
     mock.onGet(friendshipController.getGamesOfFriendship(getGamesModel)).reply(200, responseGames);
 

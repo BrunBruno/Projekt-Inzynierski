@@ -68,9 +68,7 @@
 
 \vfill
 
-\begin{center}
-Gliwice, 2025
-\end{center}
+\begin{center} Gliwice, 2025 \end{center}
 
 \newpage
 
@@ -80,15 +78,16 @@ Gliwice, 2025
 \newpage
 
 \section{Wstęp}
+
 \subsection{Opis projektu}
 
 Projekt \textbf{BRNChess} to aplikacja webowa, zaprojektowana dla osób zainteresowanych szachami, składająca się z dwóch głównych komponentów: aplikacji internetowej (frontend) oraz aplikacji serwerowej (backend). Strona kliencka została stworzona w oparciu o nowoczesne technologie React oraz Vite, a kod jest pisany w języku TypeScript, co zapewnia wysoką wydajność, czytelność i skalowalność projektu. Backend natomiast opiera się na platformie .NET Framework, co umożliwia szybkie i niezawodne przetwarzanie logiki serwera oraz integrację z różnymi usługami.
 \\\\
 Aplikacja ma na celu zapewnienie użytkownikom możliwości rozgrywki w jedną z najstarszych i najpopularniejszych gier PvP na świecie — szachy. Jest to strategiczna gra planszowa dla dwóch graczy, w której każdy kontroluje zestaw figur szachowych, dążąc do zaszachowania króla przeciwnika, czyli postawienia go w sytuacji nieuchronnego schwytania. Zasady współczesnych szachów zostały ukształtowane w Europie pod koniec XV wieku, a ich pełna standaryzacja miała miejsce w XIX wieku.
 \\\\
-Aplikacja \texttt{BRNChess} pozwala graczom na wybór pomiędzy rozgrywką online z innymi użytkownikami z całego świata lub na stoczenie pojedynku z zaawansowanym silnikiem szachowym Stockfish. Funkcjonalności te są wspierane przez SignalR, narzędzie z biblioteki .NET, które umożliwia komunikację w czasie rzeczywistym. Dzięki temu użytkownicy mogą korzystać z różnych trybów kontroli czasowej, co dodaje dynamiki i różnorodności do rozgrywki.
+Aplikacja \texttt{BRNChess} pozwala graczom na wybór pomiędzy rozgrywką online z innymi użytkownikami lub na stoczenie pojedynku z zaawansowanym silnikiem szachowym Stockfish. Funkcjonalności te są wspierane przez SignalR, narzędzie z biblioteki .NET, które umożliwia komunikację w czasie rzeczywistym. Dzięki temu użytkownicy mogą korzystać z różnych trybów kontroli czasowej, co dodaje dynamiki i różnorodności do rozgrywki.
 \\\\
-Projekt \texttt{BRNChess} wyróżnia się również rozbudowanym systemem znajomości, który umożliwia użytkownikom zarządzanie swoimi kontaktami i kontrolowanie, z kim chcą rozgrywać partie szachowe. System ten pozwala na wysyłanie i akceptowanie zaproszeń do znajomych, dzięki czemu gracze mogą współzawodniczyć w bardziej spersonalizowany sposób. Dzięki tej funkcjonalności aplikacja \texttt{BRNChess} nie tylko oferuje doskonałe doświadczenie gry, ale także staje się platformą społecznościową, umożliwiającą rozwijanie pasji w gronie znajomych.
+Projekt wyróżnia się również rozbudowanym systemem znajomości, który umożliwia użytkownikom zarządzanie swoimi kontaktami i kontrolowanie, z kim chcą rozgrywać partie szachowe. System ten pozwala na wysyłanie i akceptowanie zaproszeń do znajomych, dzięki czemu gracze mogą współzawodniczyć w bardziej spersonalizowany sposób. Dzięki tej funkcjonalności aplikacja \texttt{BRNChess} nie tylko oferuje doskonałe doświadczenie gry, ale także staje się platformą społecznościową, umożliwiającą rozwijanie pasji w gronie znajomych.
 \\\\
 Projekt kładzie nacisk na wysoką jakość doświadczenia użytkownika, dlatego interfejs aplikacji jest intuicyjny, responsywny i estetyczny. Rozgrywki online są płynne, a dzięki wsparciu czasu rzeczywistego użytkownicy mogą cieszyć się emocjonującymi partiami bez opóźnień. Mechanizmy kontroli czasowej nie tylko zwiększają atrakcyjność rozgrywek, ale również zachęcają graczy do częstego powracania na platformę.
 
@@ -103,23 +102,31 @@ Projekt kładzie nacisk na wysoką jakość doświadczenia użytkownika, dlatego
 \begin{itemize}
     \item \textbf{Gra online:}\\
     Głównym celem aplikacji jest stworzenie platformy do gry w szachy online, w której gracze będą dobierani na podstawie ich punktacji rankingowej. Dzięki temu rozgrywki będą bardziej sprawiedliwe i odpowiednie dla różnych poziomów zaawansowania. System powinien umożliwić grę z trybami czasowymi, które zwiększają dynamikę rozgrywki i sprawiają, że platforma jest bardziej angażująca. Gracze będą mogli rywalizować w czasie rzeczywistym, co podnosi emocje i sprawia, że rozgrywka jest jeszcze bardziej ekscytująca.
+
     \item \textbf{Gra offline:}\\
-    Projekt będzie integrował silnik szachowy Stockfish, który umożliwi użytkownikom grę z komputerem, co jest idealnym rozwiązaniem dla graczy, chcących ćwiczyć swoje umiejętności bez konieczności szukania przeciwnika. Silnik ten powinien zostać skonfigurowany w taki sposób, aby dostosować poziom trudności, co sprawia, że aplikacja jest odpowiednia zarówno dla początkujących, jak i bardziej zaawansowanych graczy. Umożliwia to rozgrywki offline z wysokiej jakości przeciwnikiem, który będzie dostarczał wyzwań na każdym etapie gry.
+    Projekt będzie integrował silnik szachowy Stockfish, który umożliwi użytkownikom grę z komputerem, co jest idealnym rozwiązaniem dla graczy, chcących ćwiczyć swoje umiejętności bez konieczności szukania przeciwnika. Umożliwia to rozgrywki offline z wysokiej jakości przeciwnikiem, który będzie dostarczał wyzwań na każdym etapie gry.
+
     \item \textbf{Gra ze znajomymi}\\
     Ważnym elementem jest wdrożenie do aplikacji systemu relacji między użytkownikami, który umożliwi tworzenie listy znajomych. Dzięki temu gracze będą mogli grać tylko ze swoimi przyjaciółmi, co eliminuje przypadkowy dobór przeciwnika i pozwala na rozgrywki w bardziej kontrolowanym środowisku. System znajomości powinien wspierać organizowanie gier na zaproszenie. Umożliwi to również budowanie społeczności wewnątrz aplikacji.
+
     \item \textbf{Interfejs użytkownika}\\
     Interfejs użytkownika jest kluczowym elementem aplikacji. Zostanie zaprojektowany z myślą o prostocie, intuicyjności i estetyce. Dbałość o szczegóły w projekcie graficznym zapewnia przyjemne wrażenia wizualne, a także ułatwia poruszanie się po platformie. Użytkownicy powinni szybko odnaleźć wszystkie niezbędne funkcje, dzięki czemu aplikacja staje się bardziej użyteczna i przyjazna. Dobrze zaprojektowany interfejs wpływa także na częstotliwość odwiedzin i zaangażowanie użytkowników.
+
     \item \textbf{Konto użytkownika}\\
     Każdy użytkownik powinien mieć osobne konto, na którym przechowywane są jego dane, historia gier oraz osiągnięcia zdobyte w trakcie użytkowania aplikacji. System kont powinien pozwalać na personalizację ustawień użytkownika.
+
     \item \textbf{Bezpieczeństwo danych}\\
-    Projekt powinien zapewnić odpowiednie zabezpieczenia danych użytkowników, aby chronić ich prywatność i bezpieczeństwo. Wszystkie dane, szczególnie te wrażliwe, takie jak dane osobowe czy informacje o grach, będą przechowywane w sposób bezpieczny, z wykorzystaniem odpowiednich technologii szyfrowania.
+    Projekt powinien zapewnić odpowiednie zabezpieczenia danych użytkowników, aby chronić ich prywatność i bezpieczeństwo. Wszystkie dane, szczególnie te wrażliwe, takie jak dane osobowe, będą przechowywane w sposób bezpieczny, z wykorzystaniem odpowiednich technologii szyfrowania.
+
     \item \textbf{Dodatkowe funkcjonalności}\\
-    Projekt będzie oferował szereg dodatkowych funkcjonalności, które wzbogacają doświadczenia graczy. Należą do nich między innymi globalny ranking, który pozwala na porównywanie wyników z graczami oraz ranking wśród znajomych. Dodatkowo, użytkownicy powinni móc przeglądać historię swoich gier, analizować wykonane ruchy oraz dostosowywać swoje konto i ustawienia gry, aby jak najlepiej odpowiadały ich preferencjom.
+    Projekt będzie oferował szereg dodatkowych funkcjonalności, które wzbogacają doświadczenia graczy. Należą do nich między innymi globalny ranking, który pozwala na porównywanie wyników z graczami oraz ranking wśród znajomych. Dodatkowo, użytkownicy powinni móc przeglądać historię swoich gier, analizować wykonane ruchy oraz dostosowywać swoje ustawienia gry, aby jak najlepiej odpowiadały ich preferencjom.
+
 \end{itemize}
 
 \newpage
 
 \section{Stos technologiczny}
+
 \subsection{Aplikacja internetowa (frontend)}
 
 \noindent \textbf{Javascript oraz Typescript}\\
@@ -129,7 +136,7 @@ TypeScript to język programowania stworzony przez Microsoft w 2012 roku. Jego t
 \\\\
 Głównym celem powstania TypeScriptu było wprowadzenie silniejszego systemu typów do JavaScriptu, które pozwalają na odgórne ustalanie rodzajów zdefiniowanych przez dewelopera zmiennych, aby ułatwić tworzenie dużych, skalowalnych aplikacji. Język ten stał się popularny wśród deweloperów dzięki swojej elastyczności, możliwościom oferowanym przez statyczne typowanie oraz łatwości integracji z istniejącymi projektami JS.
 \\\\
-JavaScript został wybrany jako baza projektu ze względu na znajomość tego języka oraz jego powszechność w budowie aplikacji webowych. Jego wszechstronność i bogaty ekosystem narzędzi oraz bibliotek, takich jak React, czynią go naturalnym wyborem dla projektów tego typu.
+W niniejszym projekcie, JavaScript został wybrany jako baza projektu ze względu na znajomość tego języka oraz jego powszechność w budowie aplikacji webowych. Jego wszechstronność i bogaty ekosystem narzędzi oraz bibliotek, takich jak React, czynią go naturalnym wyborem dla projektów tego typu.
 \\\\
 TypeScript został wybrany przede wszystkim w celu uzyskania lepszej kontroli nad kodem. Dzięki wprowadzeniu statycznego typowania i bardziej rygorystycznej strukturze, TypeScript pozwala na wcześniejsze wykrywanie błędów, co przekłada się na większą stabilność i łatwiejsze utrzymanie aplikacji.
 \\\\
@@ -138,10 +145,7 @@ Połączenie JavaScriptu i TypeScriptu pozwala skorzystać z najlepszych cech ob
 
 \noindent \textbf{React oraz Vite}\\
 React to biblioteka JavaScript służąca do renderowania interfejsów użytkownika (UI). Interfejs użytkownika składa się z małych jednostek, takich jak przyciski, tekst i obrazy. React pozwala łączyć je w komponenty wielokrotnego użytku, które można zagnieżdżać. Od stron internetowych po aplikacje na telefony, wszystko na ekranie można podzielić na komponenty. Każdy komponent Reacta jest funkcją JavaScript, która może zawierać pewne znaczniki renderowane w przeglądarce. Komponenty Reacta używają rozszerzenia składni o nazwie JSX do reprezentowania tych znaczników. JSX wygląda bardzo podobnie do HTML, jednak jest nieco bardziej rygorystyczny oraz może wyświetlać dynamiczne informacje. 
-
-\newpage
-
-\noindent
+\\\\
 Vite to nowoczesne i wydajne  narzędzie do budowania aplikacji frontend, które ma na celu zapewnienie szybszego i bardziej oszczędnego doświadczenia programistycznego dla nowoczesnych projektów internetowych, stworzone przez twórcę Vue.js - Evana You. Jest on znany ze swojej niewiarygodnej szybkości, dzięki wykorzystaniu natywnych modułów ES dla przyspieszonego hot module replacement (HMR) oraz kompilacji w przeglądarce. Vite.js przełamuje tradycyjne bariery w budowie aplikacji, eliminując konieczność korzystania z bundlerów takich jak Webpack czy Rollup. Jego modularna architektura oraz wsparcie dla wielu ramkowych, w tym Vue czy React, czynią go uniwersalnym i elastycznym narzędziem.
 \\\\
 React został wybrany ze względu na znajomość tej technologii oraz jej szerokie zastosowanie w tworzeniu aplikacji webowych. Intuicyjność pisania kodu w React, oparta na komponentach wielokrotnego użytku i JSX, sprawia, że praca z tą biblioteką jest wygodna i efektywna. Dodatkowo React oferuje szerokie wsparcie społeczności oraz dostęp do bogatego ekosystemu bibliotek, co ułatwia rozwijanie i utrzymanie projektu.
@@ -150,7 +154,7 @@ Vite natomiast został wybrany głównie ze względu na swoją szybkość, zaró
 \\\\
 
 \noindent \textbf{Sass / SCSS}\\
-Sass to preprocessor CSS, który umożliwia programowanie styli w znacznie bardziej efektywny i zorganizowany sposób niż zwykły CSS. Pozwala na definiowanie stałych, zagnieżdżanie reguł CSS, używanie zmiennych, funkcji, operatorów i wiele więcej. Dzięki temu, można wykorzystać Sass do szybszego i łatwiejszego tworzenia stylów strony, a także czytać i zarządzać istniejącym kodem znacznie lepiej. Jest to szczególnie przydatne w przypadku dużych projektów, gdzie style są rozbudowane i trudne do zarządzania.
+Sass to preprocessor CSS, który umożliwia programowanie styli w znacznie bardziej efektywny i zorganizowany sposób niż zwykły CSS. Pozwala na definiowanie stałych, zagnieżdżanie reguł CSS, używanie zmiennych, funkcji czy operatorów. Dzięki temu, można wykorzystać Sass do szybszego i łatwiejszego tworzenia stylów strony, a także czytać i zarządzać istniejącym kodem znacznie lepiej. Jest to szczególnie przydatne w przypadku dużych projektów, gdzie style są rozbudowane i trudne do zarządzania.
 \\\\
 Sass i SCSS zostały wybrane do projektu ze względu na funkcjonalności, które znacznie rozszerzają możliwości standardowego CSS. Sass pozwala na stosowanie zmiennych, zagnieżdżania reguł, funkcji czy operatorów, co czyni pracę nad stylami bardziej efektywną i zorganizowaną. Dzięki temu stylowanie dużych projektów jest prostsze i bardziej przejrzyste, a zarządzanie kodem staje się łatwiejsze.
 \\\\
@@ -158,9 +162,8 @@ W projekcie wykorzystywane są pliki .module.scss, które umożliwiają stosowan
 \\\\
 SCSS został wybrany zamiast gotowych komponentów CSS, aby zapewnić pełną kontrolę nad stylizacją elementów. Pozwala to dostosowywać wygląd aplikacji dokładnie do jej potrzeb, bez ograniczeń narzuconych przez gotowe rozwiązania. Dzięki SCSS możliwe jest tworzenie rozbudowanych, ale zarazem dobrze utrzymywanych arkuszy stylów, które doskonale wspierają rozwój projektu.
 
-\newpage
-
 \subsection{Aplikacja serwerowa (backend)}
+
 \noindent \textbf{C\#}\\
 C\# jest nowoczesnym, obiektowym językiem wysokiego poziomu, który został opracowany na zlecenie Microsoft już w latach 1998 - 2001. Pod względem składni porównuje się go często do języków takich, jak Object Pascal, C++ i Java. W środowisku programistycznym uznawany jest za prosty, przyjazny i przejrzysty. C\# jest ściśle związany z platformą .NET, która stanowi dla niego framework i środowisko uruchomieniowe zarazem. Przez długi czas ta zależność wskazywana była jako największa wada języka, bowiem ograniczała jego zastosowanie jedynie do systemów Windows. Microsoft rozprawił się z tym problemem w 2016 roku, publikując .NET Core - kompatybilny również z innymi systemami operacyjnymi. Od tego czasu C\# służy do budowy programów i aplikacji na wszystkie systemy operacyjne.
 \\\\
@@ -172,7 +175,7 @@ Platforma .NET, na której opiera się C\#, pozwala na uruchamianie aplikacji na
 \\\\
 
 \noindent \textbf{.NET Framework}\\
-.NET Framework to środowisko wykonywania w czasie wykonywania, które zarządza aplikacjami docelowymi .NET Framework. Składa się ze środowiska uruchomieniowego języka wspólnego, które zapewnia zarządzanie pamięcią i inne usługi systemowe, oraz rozbudowanej biblioteki klas, która umożliwia programistom korzystanie z niezawodnego kodu dla wszystkich głównych obszarów opracowywania aplikacji.
+.NET Framework to środowisko wykonywania, które zarządza aplikacjami docelowymi .NET Framework. Składa się ze środowiska uruchomieniowego języka wspólnego, które zapewnia zarządzanie pamięcią i inne usługi systemowe, oraz rozbudowanej biblioteki klas, która umożliwia programistom korzystanie z niezawodnego kodu dla wszystkich głównych obszarów opracowywania aplikacji.
 \\\\
 .NET zostało wybrane do budowy backendu projektu ze względu na jego wszechstronność, wydajność oraz rozbudowane narzędzia, które wspierają tworzenie aplikacji serwerowych. Kluczowym powodem wyboru .NET jest jego solidne wsparcie dla tworzenia aplikacji REST API, co umożliwia łatwą i efektywną komunikację między frontendem a backendem. Dodatkowo, .NET oferuje Entity Framework Core, który stanowi doskonałe narzędzie do pracy z bazą danych. Dzięki EF Core możliwe jest łatwe mapowanie obiektów na rekordy w bazie, co upraszcza operacje na danych oraz zapewnia wysoką wydajność w interakcjach z bazą danych.
 \\\\
@@ -180,17 +183,16 @@ Kolejnym powodem wyboru .NET jest integracja z SignalR, technologią umożliwiaj
 \\\\
 
 \noindent \textbf{PostgreSQL i PgAdmin}\\
-PostgreSQL to system lub silnik baz danych kompatybilny z usługami OVHcloud i większością popularnych narzędzi. Obsługuje różne modele danych w celu tworzenia wydajnych i skalowalnych aplikacji zorientowanych obiektowo. Umożliwia pracę ze złożonymi zbiorami danych, bez spowolnień. Ułatwia przechowywanie, odczyt i zapis danych. Oferujemy możliwość korzystania z PostgreSQL za pośrednictwem usług cloud i naszych rozwiązań hostingowych.
+PostgreSQL to system lub silnik baz danych kompatybilny z większością popularnych narzędzi. Obsługuje różne modele danych w celu tworzenia wydajnych i skalowalnych aplikacji zorientowanych obiektowo. Umożliwia pracę ze złożonymi zbiorami danych, bez spowolnień. Ułatwia przechowywanie, odczyt i zapis danych.
 \\\\
-PgAdmin to narzędzie do zarządzania PostgreSQL i pochodnymi relacyjnymi bazami danych, takimi jak EDB Advanced Server firmy EnterpriseDB. Może być uruchamiany jako aplikacja internetowa lub desktopowa. Więcej informacji na temat oferowanych funkcji można znaleźć na stronach Funkcje i Zrzuty ekranu.
+PgAdmin to narzędzie do zarządzania PostgreSQL i pochodnymi relacyjnymi bazami danych, takimi jak EDB Advanced Server firmy EnterpriseDB. Może być uruchamiany jako aplikacja internetowa lub desktopowa.
 \\\\
 PostgreSQL został wybrany jako system bazodanowy z kilku kluczowych powodów. Przede wszystkim jest to wydajny, skalowalny i elastyczny system, który doskonale sprawdza się w pracy z dużymi zbiorami danych. Jego zaawansowane funkcje, takie jak obsługa różnych modeli danych oraz wsparcie dla danych obiektowych, umożliwiają łatwe zarządzanie bardziej złożonymi strukturami danych, co jest istotne w przypadku aplikacji wymagających dużej elastyczności.
 \\\\
-PgAdmin zostało wybrane jako narzędzie do zarządzania bazą danych PostgreSQL, ponieważ oferuje szeroką gamę funkcji umożliwiających łatwą administrację i kontrolę nad bazą. Umożliwia wykonywanie zapytań, zarządzanie tabelami, sprawdzanie i edytowanie danych, a także analizowanie struktury bazy. Dzięki intuicyjnemu interfejsowi, PgAdmin upraszcza proces zarządzania bazą danych, co pozwala na szybkie reagowanie na potrzeby projektu i skuteczną kontrolę nad danymi w systemie. Jest to wygodne narzędzie zarówno dla administratorów, jak i dla deweloperów, którzy potrzebują efektywnego środowiska do pracy z PostgreSQL.
-
-\newpage
+PgAdmin zostało wybrane jako narzędzie do zarządzania bazą danych PostgreSQL, ponieważ oferuje szeroką gamę funkcji umożliwiających łatwą administrację i kontrolę nad bazą. Umożliwia wykonywanie zapytań, zarządzanie tabelami, sprawdzanie i edytowanie danych, a także analizowanie struktury bazy. Dzięki przeczystemu interfejsowi, PgAdmin upraszcza proces zarządzania bazą danych, co pozwala na szybkie reagowanie na potrzeby projektu i skuteczną kontrolę nad danymi w systemie. Jest to wygodne narzędzie zarówno dla administratorów, jak i dla deweloperów, którzy potrzebują efektywnego środowiska do pracy z PostgreSQL.
 
 \subsection{Narzędzia pomocnicze}
+
 \noindent \textbf{GIT i Github}\\
 Git to rozproszony system kontroli wersji, co oznacza, że lokalny klon projektu jest kompletnym repozytorium kontroli wersji. Te w pełni funkcjonalne repozytoria lokalne ułatwiają pracę w trybie offline lub zdalnie. Deweloperzy zatwierdzają swoją pracę lokalnie, a następnie synchronizują kopię repozytorium z kopią na serwerze. Ten paradygmat różni się od scentralizowanej kontroli wersji, w której klienci muszą synchronizować kod z serwerem przed utworzeniem nowych wersji kodu.
 \\\\
@@ -198,38 +200,39 @@ GitHub jest serwisem, który służy do współpracy przy tworzeniu kodu. Jest j
 \\\\
 Wybór Git i GitHub do zarządzania kodem wynikał przede wszystkim z ich popularności oraz dobrze znanej funkcjonalności, które są standardem w branży. Git to rozproszony system kontroli wersji, co oznacza, że każdy deweloper posiada pełną kopię repozytorium na swoim komputerze, umożliwiając pracę w trybie offline. Taki system zwiększa elastyczność i komfort pracy, umożliwiając zatwierdzanie zmian lokalnie i synchronizowanie ich z centralnym repozytorium na serwerze. W porównaniu do scentralizowanych systemów kontroli wersji, Git daje większą niezależność i sprawia, że praca w zespole jest bardziej efektywna.
 \\\\
-GitHub został wybrany jako platforma do hostingu repozytoriów, ponieważ jest jednym z najpopularniejszych serwisów wspierających Git. Oferuje szeroką gamę funkcji, takich jak zarządzanie projektami, śledzenie błędów, automatyczne testowanie oraz integrację z innymi narzędziami, co ułatwia współpracę zespołową. GitHub stał się centrum dla deweloperów, umożliwiając łatwą wymianę kodu, dokumentację oraz korzystanie z otwartego oprogramowania. Dzięki temu, Git i GitHub stanowią doskonałą kombinację do efektywnego zarządzania projektem i współpracy w zespole.
+GitHub został wybrany jako platforma do hostingu repozytoriów, ponieważ jest jednym z najpopularniejszych serwisów wspierających Git. Oferuje szeroką gamę funkcji, takich jak zarządzanie projektami, śledzenie błędów, automatyczne testowanie oraz integrację z innymi narzędziami. GitHub stał się centrum dla deweloperów, umożliwiając łatwą wymianę kodu, dokumentację oraz korzystanie z otwartego oprogramowania. Dzięki temu, Git i GitHub stanowią doskonałą kombinację do efektywnego zarządzania projektem.
 \\\\
 
 \noindent \textbf{Sourcetree}\\
 Sourcetree to graficzny klient umożliwiający dostęp do repozytoriów Git i Mercurial z systemów Windows oraz MacOS, który pomaga wizualizować rozwój bez konieczności korzystania z wiersza polecenia.
 \\\\
-SourceTree został wybrany ze względu na wygodę korzystania z jego graficznego interfejsu, który umożliwia łatwą obsługę repozytoriów Git bez potrzeby korzystania z wiersza poleceń. Dzięki temu narzędziu, możliwe jest wizualne śledzenie rozwoju projektu oraz zarządzanie wersjami w sposób bardziej intuicyjny. SourceTree oferuje przejrzysty interfejs, który pozwala na łatwe przeglądanie historii commitów, zarządzanie gałęziami, rozwiązywanie konfliktów oraz wykonywanie operacji Git za pomocą prostych kliknięć, co znacznie ułatwia pracę, zwłaszcza w większych projektach
+SourceTree został wybrany ze względu na wygodę korzystania z jego graficznego interfejsu, który umożliwia łatwą obsługę repozytoriów Git bez potrzeby pisana komend wiersza poleceń. Dzięki temu narzędziu, możliwe jest wizualne śledzenie rozwoju projektu oraz zarządzanie wersjami w sposób bardziej intuicyjny. SourceTree oferuje przejrzysty interfejs, który pozwala na łatwe przeglądanie historii commitów, zarządzanie gałęziami, rozwiązywanie konfliktów oraz wykonywanie operacji Git za pomocą prostych kliknięć, co znacznie ułatwia pracę, zwłaszcza w większych projektach
 \\\\
 
 \noindent \textbf{Figma}\\
 Figma to jedno z nowocześniejszych i cieszących się dużą popularnością narzędzi do projektowania i prototypownia stron internetowych i aplikacji mobilnych. Umożliwia tworzenie interaktywnych widoków w przeciwieństwie do statycznych makiet. Posiada bardzo uproszczony interfejs, a przy tym jest bardzo funkcjonalne. Figma zawiera jedynie niezbędne pakiety i narzędzia najczęściej wykorzystywane w pracy Web Designera, co przedkłada się na stosunkową małą wagę całego programu. Jego podstawową zaletą jest szybkość działania mimo otwartych kilkunastu widoków jednocześnie. Dodatkowo za pomocą Figmy można łatwo edytować dowolne pliki wektorowe w tym SVG, co znacznie przyspiesza pracę nad projektem.
 \\\\
-Figma jako zewnętrzny program zalazła zastosowanie w projekcie głownie do projektowania własnych ikon, nieistniejących bądź niedostępnych bezpłatnie na internecie. Zastosowanie prostego, ale bardzo efektywnego narzędzia ma duże znaczenie dla rozwoju aplikacji gry mobilnej, w szczegolnosci nakierowanej na przyjemny dla uzytkownika interface. Dodatkowo Figma posłużyła do zaprojektowania i utworzenie modeli bierek do gry w szachy.  
+Figma jako zewnętrzny program zalazła zastosowanie w projekcie głownie do projektowania własnych ikon, nieistniejących bądź niedostępnych bezpłatnie na internecie. Zastosowanie prostego, ale bardzo efektywnego narzędzia ma duże znaczenie dla rozwoju aplikacji gry mobilnej, w szczegolnosci nakierowanej na przyjemny dla użytkownika interface. Dodatkowo Figma posłużyła do zaprojektowania i utworzenie modeli bierek do gry w szachy.  
 
 \newpage
 
 \section{Opis implementacji}
+
 \subsection{System kontroli wersji}
 
 W projekcie zastosowano system kontroli wersji \textbf{Git}, który umożliwia efektywne zarządzanie historią zmian w kodzie oraz współpracę w zespole deweloperskim. Git jest jednym z najpopularniejszych narzędzi do kontroli wersji, oferującym rozproszoną architekturę, która pozwala na pracę na lokalnych repozytoriach oraz synchronizację z centralnym repozytorium. Dzięki Git, możliwe jest śledzenie zmian w kodzie, zarządzanie różnymi wersjami aplikacji, a także przywracanie wcześniejszych wersji w przypadku wystąpienia problemów.
 \\\\
-Do przechowywania repozytorium projektu wykorzystano  \textbf{GitHub}, który jest jednym z najpopularniejszych serwisów oferujących hosting repozytoriów Git. GitHub umożliwia łatwą synchronizację kodu z repozytorium, zarządzanie gałęziami, a także udostępnianie projektu innym osobom. Ponadto, GitHub oferuje szereg narzędzi wspierających procesy takie jak przegląd kodu, zarządzanie zgłoszeniami błędów, a także automatyzację procesów wdrożeniowych.
+Do przechowywania repozytorium projektu wykorzystano  \textbf{GitHub}, który jest jednym z największych serwisów oferujących hosting repozytoriów Git. GitHub umożliwia łatwą synchronizację kodu z repozytorium, zarządzanie gałęziami, a także udostępnianie projektu innym osobom. Ponadto, GitHub oferuje szereg narzędzi wspierających procesy takie jak przegląd kodu, zarządzanie zgłoszeniami błędów, a także automatyzację procesów wdrożeniowych.
 \\\\
 Adres repozytorium projektu: \href{https://github.com/BrunBruno/Projekt-Inzynierski}{https://github.com/BrunBruno/Projekt-Inzynierski}.
 
-\vspace{1cm}
+\vspace{0.5cm}
 \begin{figure}[h!]
     \centering
     \includegraphics[width=1\textwidth]{images/gh_repo.png}
     \caption{Repozytorium na stronie github.com}
 \end{figure}
-\vspace{1cm}
+\vspace{0.5cm}
 
 \noindent 
 Do wygodniejszej pracy z Git wykorzystany został program  \textbf{SourceTree}, czyli narzędzia desktopowego, które stanowi graficzny interfejs użytkownika do systemu Git. SourceTree pozwala na wygodne wywoływanie poleceń Git, takich jak commit, push, pull, czy merge w sposób bardziej intuicyjny i przystępny niż używanie terminala. Dzięki SourceTree zarządzanie gałęziami i wersjami jest bardzo proste i intuicyjne, a procesy takie jak przeglądanie historii commitów czy rozwiązywanie konfliktów w plikach są bardziej zorganizowane i mniej czasochłonne.
@@ -237,17 +240,18 @@ Do wygodniejszej pracy z Git wykorzystany został program  \textbf{SourceTree}, 
 \newpage
 
 \subsection{Warstwa danych}
+
 \subsubsection{Opis architektury bazy danych}
 
 Warstwa danych w aplikacji jest odpowiedzialna za zarządzanie przechowywaniem i dostępem do informacji w bazie danych. W omawianym projekcie wykorzystano system zarządzania bazą danych \textbf{PostgreSQL}, który jest jednym z najpopularniejszych rozwiązań bazodanowych o otwartym kodzie źródłowym. PostgreSQL charakteryzuje się dużą wydajnością, niezawodnością oraz elastycznością, co czyni go idealnym wyborem do obsługi wymagających aplikacji serwerowych.
 \\\\
-Z kolei do zarządzania interakcją z bazą danych w aplikacji serwerowej zastosowano bibliotekę \textbf{Entity Framework (EF)}. Entity Framework to popularny ORM (Object-Relational Mapping) dla .NET, który pozwala na mapowanie klas C\# na tabele w bazie danych, a także automatycznie generuje zapytania SQL na podstawie operacji na tych klasach. Dzięki EF, proces pracy z bazą danych jest znacznie uproszczony, ponieważ umożliwia on programistom operowanie na obiektach w aplikacji, a nie bezpośrednio na tabelach bazy danych.
+Z kolei do zarządzania interakcją z bazą danych w aplikacji zastosowano bibliotekę \textbf{Entity Framework (EF)}, który jest popularny ORM dla platformy .NET. Pozwala on na mapowanie klas C\# na tabele w bazie danych, a także automatycznie generuje zapytania SQL na podstawie operacji na tych klasach. Dzięki EF, proces pracy z bazą danych jest znacznie uproszczony, ponieważ umożliwia on programistom operowanie na obiektach w aplikacji, a nie bezpośrednio na tabelach bazy danych.
 \\\\
 W tej aplikacji, każda encja (klasa reprezentująca dane) jest mapowana na odpowiednią tabelę w bazie danych, a właściwości tych klas odpowiadają kolumnom w tabelach. Dzięki temu, zapisane dane w postaci obiektów w aplikacji mogą być łatwo zapisywane i pobierane z bazy, co zapewnia spójność i łatwość w zarządzaniu danymi.
 \\\\
 Przykładowo, przy użyciu Entity Framework, klasy encji, które zostały zaprezentowane w dalszej części rozdziału, automatycznie generują odpowiednie tabele w bazie PostgreSQL. Ułatwia to pracę z danymi, pozwalając na ich łatwe przetwarzanie i manipulowanie, a jednocześnie zapewnia integralność danych w bazie.
 \\\\
-Do obsługi bazy danych, zarządzania danymi oraz monitorowania stanu bazy zastosowano narzędzie \textbf{PgAdmin}. Jest ono popularnym interfejsem graficznym dla PostgreSQL, który umożliwia łatwe zarządzanie bazą danych, tworzenie zapytań SQL, monitorowanie wydajności oraz przeprowadzanie operacji na danych, takich jak dodawanie, edytowanie czy usuwanie rekordów. Dzięki temu narzędziu możliwe jest szybkie i wygodne wykonywanie operacji administracyjnych oraz wgląd w strukturę bazy danych, co wspiera procesy rozwoju i utrzymania aplikacji.
+Do obsługi bazy danych, zarządzania danymi oraz monitorowania stanu bazy zastosowano narzędzie \textbf{PgAdmin}. Jest ono popularnym interfejsem graficznym dla PostgreSQL, który umożliwia łatwe zarządzanie bazą danych, tworzenie zapytań SQL, monitorowanie wydajności oraz przeprowadzanie operacji na danych, takich jak dodawanie, edytowanie czy usuwanie rekordów. Dzięki temu narzędziu możliwe jest szybkie i wygodne wykonywanie operacji administracyjnych oraz wgląd w strukturę bazy danych, co wspiera procesy utrzymania aplikacji.
 \\\\
 Poniżej zaprezentowane zostały diagramy \textbf{ERD (Entity-Relationship Diagram)}, które ilustrują strukturę bazy danych oraz relacje pomiędzy encjami. Każda z tych encji odpowiada za przechowywanie specyficznych danych, które są następnie wykorzystywane przez różne warstwy aplikacji w celu zapewnienia pełnej funkcjonalności systemu. Opis poszczególnych encji i ich zależności pozwala na lepsze zrozumienie, jak dane są przechowywane i powiązane w systemie.
 
@@ -258,7 +262,7 @@ Poniżej zaprezentowane zostały diagramy \textbf{ERD (Entity-Relationship Diagr
 \noindent \textbf{Relacje użytkownika}\\
 Segment relacji z użytkownikami obejmuje kilka encji i ich relacji, które zarządzają danymi użytkownika. Encja \textbf{\texttt{User}} jest rdzeniem tego segmentu i jest powiązany z wieloma innymi jednostkami. Każdy użytkownik jest powiązany z rolą, która definiuje uprawnienia użytkownika w systemie, a relacja między nimi jest ustanawiana za pomocą klucza obcego na \texttt{RoleId}. Ponadto każdy użytkownik jest powiązany z kodem weryfikacyjnym do celów weryfikacji w relacji ta jest jeden do jednego. Encje reprezentujące obrazy przechowują dane związane z zdjęciami, tworząc relacje jeden-do-jednego z podmiotem User. Jednostki odpowiadające za śledzenie ranking i statystyki użytkownika i są również powiązane z jednostką \texttt{User} poprzez relacje jeden-do-jednego. Sama jednostka \texttt{User} jest powiązana także z kilkoma innymi encjami łącząc pozostałem segment w jedną całość.
 
-\vspace{1cm}
+\vspace{0.5cm}
 \begin{figure}[h!]
     \centering
     \includegraphics[width=0.9\textwidth]{images/ERD_user.png}
@@ -270,7 +274,7 @@ Segment relacji z użytkownikami obejmuje kilka encji i ich relacji, które zarz
 \noindent \textbf{Relacje znajomości}\\
 Segment relacji przyjaźni jest zarządzany przez jednostkę przyjaźni, która reprezentuje połączenia społeczne między użytkownikami. Każda Encja \textbf{\texttt{Friendship}} ma dwóch kluczowych uczestników: \texttt{Requestor} (przyjmujacy) i \texttt{Receiver} (odbierający). Są to obaj użytkownicy, a relacje między tymi podmiotami są modelowane za pomocą kluczy obcych: \texttt{RequestorId} i \texttt{ReceiverId}. Ta relacja jest wiele-do-jednego, co oznacza, że użytkownik może mieć wiele przyjaźni zarówno jako żądający, jak i odbiorca. Dodatkowo, istnieje jednostka statystyk przyjaźni śledząca statystyki związane z każdą przyjaźnią, tworząc relację jeden-do-jednego z encją \texttt{Friendship}. Same znajomości są grupowane na podstawie pola \texttt{Status}, który jest wartością wyliczeniową, określającą rodzaj znajomości - są to relacje zaakceptowane, oczekujące i zablokowane.
 
-\vspace{1cm}
+\vspace{0.5cm}
 \begin{figure}[h!]
     \centering
     \includegraphics[width=0.9\textwidth]{images/ERD_friendship.png}
@@ -282,7 +286,7 @@ Segment relacji przyjaźni jest zarządzany przez jednostkę przyjaźni, która 
 \noindent \textbf{Relacje w grach sieciowych}\\
 Segment relacji gier online obsługuje strukturę internetowej gry w szachy, z kilkoma jednostkami, które śledzą różne aspekty gry. Jednostka \textbf{\texttt{WebGame}} jest główną w tym segmencie i reprezentuje samą grę, łącząc dwóch graczy poprzez relacje jeden-do-jednego. Stan i czas gry są kontrolowane przez osobne encje, które są połączone za pomocą kluczy obcych. Jednostka \texttt{WebGamePlayer} służy do zapisywania informacji specyficznych dla gracza i odwołuje się do jednostki \texttt{User} - użytkownik posiada wielu graczy. Ruchy wykonane w grze są przechowywane w osobnej tabli, która ma relację wiele do jednego z główną encję gry. Dodatkowo, wiadomości wymieniane podczas gry są obsługiwane przez encje dwa osobne obiekty, tworzące relacje wiele-do-jednego odpowiednio z encjami samej gry jak i gracza.
 
-\vspace{1cm}
+\vspace{0.5cm}
 \begin{figure}[h!]
     \centering
     \includegraphics[width=0.9\textwidth]{images/ERD_online.png}
@@ -294,7 +298,7 @@ Segment relacji gier online obsługuje strukturę internetowej gry w szachy, z k
 \noindent \textbf{Relacje w grach z silnikiem}\\
 Segment ten skupia się na aspekcie gry opartym na silniku, gdzie każda gra jest zarządzana przez encję \textbf{\texttt{EngineGame}}. Encja ta jest powiązana z encją gracza, reprezentującą użytkownika, który gra w grę opartą na silniku, a relacja jeden-do-jednego jest ustanawiana poprzez parametr \texttt{PlayerId}. Każdy ruch w grze jest przechwytywany w tabeli ruchów, która jest powiązana z główną encją poprzez klucz obcy. Encja stanu gry przechowuje aktualny stan gry opartej na silniku i jest powiązana z \texttt{EngineGame} poprzez relację jeden-do-jednego. Dodatkowo, wiadomości specyficzne dla gier silnikowych są przechowywane w osobnej liscie obiektów, która jest powiązana z \texttt{EngineGame} poprzez klucz obcy.
 
-\vspace{1cm}
+\vspace{0.5cm}
 \begin{figure}[h!]
     \centering
     \includegraphics[width=0.9\textwidth]{images/ERD_offline.png}
@@ -303,17 +307,17 @@ Segment ten skupia się na aspekcie gry opartym na silniku, gdzie każda gra jes
 
 \newpage
 
-
 \subsubsection{Opis encji}
+
 W ramach warstwy danych aplikacji, encje pełnią kluczową rolę w odwzorowywaniu struktury danych, które są przechowywane w bazie danych. W tym rozdziale przedstawione zostały wszystkie encje projektu, ich właściwości oraz powiązania między nimi. Każda z encji odpowiada za przechowywanie danych dotyczących określonych elementów systemu, takich jak użytkownicy, gry czy relacje, a ich odpowiedniki w bazie danych są realizowane za pomocą tabel.
 \\\\
-Ważnym aspektem w projekcie jest wykorzystanie klas abstrakcyjnych, które stanowią wspólne podstawy dla encji reprezentujących różne, ale podobne obiekty w systemie. Klasy abstrakcyjne nie mają swojego odwzorowania w bazie danych, jednak pełnią rolę pośredników, umożliwiając dziedziczenie i tworzenie bardziej specyficznych encji. Na przykład, encje reprezentujące gry online oraz gry z komputerem dziedziczą po klasach abstrakcyjnych, które definiują wspólne właściwości dla wszystkich gier. Jednak szczegóły, takie jak obecność kontroli czasu, różnią się w zależności od typu gry — gry online mogą mieć kontrolę czasu, podczas gdy gry offline nie.
+Ważnym aspektem w projekcie jest wykorzystanie klas abstrakcyjnych, które stanowią wspólne podstawy dla encji reprezentujących różne, ale podobne obiekty w systemie. Klasy abstrakcyjne nie mają swojego odwzorowania w bazie danych, jednak pełnią rolę pośredników, umożliwiając dziedziczenie i tworzenie bardziej specyficznych encji. Na przykład, encje reprezentujące gry sieciowe oraz gry z komputerem dziedziczą po klasach abstrakcyjnych, które definiują wspólne właściwości dla wszystkich gier. Jednak szczegóły, takie jak obecność kontroli czasu, różnią się w zależności od typu gry — gry online mogą mieć kontrolę czasu, podczas gdy gry offline nie.
 \\\\
 W samych encjach zdefiniowane są również powiązania z innymi encjami, które realizowane są przez klucze obce. Klucze obce są zapisane jako kolumny w tabelach, przyjmujące postać identyfikatorów powiązanych encji. Dzięki temu możliwe jest tworzenie odpowiednich relacji pomiędzy danymi w różnych tabelach. W przypadku relacji jeden do wielu, zastosowanie znajdują listy, które umożliwiają przypisanie wielu obiektów do jednej encji.
 \\\\
-Encje w projekcie zostały podzielone logicznie, zgodnie z rolą, jaką pełnią w systemie. Na przykład, encja użytkownika (User) jest powiązana z encją punktacji, jednak punktacja jest przechowywana w osobnej tabeli, ponieważ jest uzywana do konkretnych, innych funkcjonalności niż sam User. Dzięki takiemu podziałowi możliwe jest bardziej elastyczne zarządzanie danymi oraz lepsze odwzorowanie relacji pomiędzy różnymi elementami systemu.
+Encje w projekcie zostały podzielone logicznie, zgodnie z rolą, jaką pełnią w systemie. Na przykład, encja użytkownika jest powiązana z encją punktacji, jednak punktacja jest przechowywana w osobnej tabeli, ponieważ jest używana do konkretnych, innych funkcjonalności niż sam User. Dzięki takiemu podziałowi możliwe jest bardziej elastyczne zarządzanie danymi oraz lepsze odwzorowanie relacji pomiędzy różnymi elementami systemu.
 \\\\
-Poniżej zaprezentowano encje abstrakcyjne oraz te, które mają swoje odzwierciedlenie w bazie danych, z pominięciem abstrakcyjnych wartości. Dzięki temu możliwe jest zobrazowanie rzeczywistej struktury danych, które są przechowywane w systemie, oraz przedstawienie relacji między różnymi encjami, które są kluczowe dla prawidłowego funkcjonowania aplikacji.
+Poniżej zaprezentowano encje abstrakcyjne oraz te, które mają swoje odzwierciedlenie w bazie danych, z pominięciem abstrakcyjnych wartości. Dzięki temu możliwe jest zobrazowanie rzeczywistej struktury danych, które są przechowywane w systemie, oraz przedstawienie relacji między różnymi encjami, które są kluczowe dla prawidłowego funkcjonowania systemu.
 
 \newpage
 
@@ -542,7 +546,7 @@ Poniżej zaprezentowano encje abstrakcyjne oraz te, które mają swoje odzwierci
     \end{longtable}
 
     \item \textbf{FriendshipStats}\\
-    Statystki dotyczące relacji uzytkownikow.
+    Statystki dotyczące relacji użytkowników.
     \renewcommand{\arraystretch}{1.5}
     \begin{longtable}{|m{4cm}|m{2cm}|m{8cm}|}
         \hline
@@ -742,14 +746,18 @@ Poniżej zaprezentowano encje abstrakcyjne oraz te, które mają swoje odzwierci
 \newpage
 
 \subsection{Warstwa Serwerowa (Backend)} 
+
 \subsubsection{Architektura i struktura} 
+
 Architektura backendu została zaprojektowana w oparciu o podejście \textbf{Onion Architecture}, które promuje modularność, odwrócenie zależności oraz izolację logiki biznesowej od infrastruktury. Główne założenia tej architektury koncentrują się na umożliwieniu rozwoju aplikacji w sposób niezależny od technologii, co sprzyja łatwemu utrzymaniu oraz skalowaniu systemu. Struktura projektu jest podzielona na kilka warstw, które komunikują się ze sobą poprzez jasno zdefiniowane kontrakty i interfejsy. Kluczowym celem tego podejścia jest ochrona rdzenia aplikacji przed zmianami w zewnętrznych technologiach i zależnościach, co pozwala na łatwiejsze dostosowywanie aplikacji do nowych wymagań i technologii.
 
+\vspace{0.5cm}
 \begin{figure}[h!] 
     \centering 
     \includegraphics[width=0.7\textwidth]{images/struktura_back.png} 
     \caption{Struktura projektów solucji warstwy serwerowej.} 
 \end{figure}
+\vspace{0.5cm}
 
 \noindent \textbf{Zalety Onion Architecture:}
 \begin{itemize}
@@ -759,18 +767,15 @@ Architektura backendu została zaprojektowana w oparciu o podejście \textbf{Oni
     \item \textbf{Odwrócenie zależności:} warstwa zewnętrzna może korzystać z funkcjonalności warstw wewnętrznych, ale nie odwrotnie. To oznacza, że zmiany w bazach danych czy frameworkach nie wpływają na kluczową logikę biznesową aplikacji.
 \end{itemize}
 
-\noindent
-Podejście to pozwala na przejrzystość w organizacji kodu, ułatwiając zarządzanie projektem i współpracę zespołową. Dzięki jasnemu podziałowi na warstwy, każdy członek zespołu może skupić się na odpowiednim obszarze aplikacji, bez konieczności przyswajania całościowej struktury systemu. Dodatkowo, umożliwia łatwe przeprowadzanie migracji technologicznych w obrębie poszczególnych warstw, minimalizując ryzyko wprowadzenia błędów w działającej aplikacji.
 
 \newpage
 
 \noindent
 Zależności między poszczególnymi modułami zaprezentowane zostały za pomocą grafu, co pozwala na wizualizację i lepsze zrozumienie interakcji między warstwami. Graf ten odzwierciedla zasady Onion Architecture, w której zależności zawsze kierują się do wewnątrz, tj. od warstw zewnętrznych do bardziej wewnętrznych.
 \\\\
-Moduł .Api zależy wyłącznie od warstwy .Application, co oznacza, że obsługuje żądania i deleguje ich przetwarzanie do przypadków użycia w Application. Z kolei .Application komunikuje się z modułem .Core, który definiuje kluczowe modele domenowe. Warstwa .Core pozostaje całkowicie niezależna od innych modułów, co jest zgodne z zasadami odwrócenia zależności.
-\\
-Moduł .Infrastructure implementuje interfejsy zdefiniowane w .Application, dostarczając szczegóły techniczne, takie jak integracje czy dostęp do danych, ale nie wymusza zależności zwrotnej na rdzeniu. .Shared działa jako pomocniczy moduł, który może być używany przez dowolną warstwę, dostarczając wspólny kod i narzędzia.
+Moduł .Api zależy wyłącznie od warstwy .Application, co oznacza, że obsługuje żądania i deleguje ich przetwarzanie do przypadków użycia w .Application. Z kolei .Application komunikuje się z modułem .Core, który definiuje kluczowe modele domenowe. Warstwa .Core pozostaje całkowicie niezależna od innych modułów, co jest zgodne z zasadami odwrócenia zależności. Moduł .Infrastructure implementuje interfejsy zdefiniowane w .Application, dostarczając szczegóły techniczne, takie jak integracje czy dostęp do danych, ale nie wymusza zależności zwrotnej na rdzeniu. .Shared działa jako pomocniczy moduł, który może być używany przez dowolną warstwę, dostarczając wspólny kod i narzędzia.
 
+\vspace{0.5cm}
 \begin{figure}[h!]
     \centering
     \includegraphics[width=1\textwidth]{images/diagram_dependencies.png}
@@ -780,13 +785,13 @@ Moduł .Infrastructure implementuje interfejsy zdefiniowane w .Application, dost
 \newpage
 
 \noindent \textbf{Warstwa prezentacji}\\
-Moduł \textbf{.Api} pełni funkcję warstwy zewnętrznej, odpowiedzialnej za obsługę żądań HTTP oraz przekazywanie ich do odpowiednich komponentów logiki aplikacji. Jest to punkt wejściowy dla użytkowników lub zewnętrznych integracji. Warstwa ta korzysta z usług dostarczanych przez moduł Application, pozostając przy tym niezależna od szczegółów implementacyjnych niższych warstw.
+Moduł \textbf{chess.Api} pełni funkcję warstwy zewnętrznej, odpowiedzialnej za obsługę żądań HTTP oraz przekazywanie ich do odpowiednich komponentów logiki aplikacji. Jest to punkt wejściowy dla użytkowników lub zewnętrznych integracji. Warstwa ta korzysta z usług dostarczanych przez moduł Application, pozostając przy tym niezależna od szczegółów implementacyjnych niższych warstw.
 
 \vspace{0.5cm}
 \begin{minipage}[t]{0.45\textwidth}
     \vspace{0pt}
     \raggedright
-    Warstwa prezentacji odpowiada za obsługę komunikacji zewnętrznej aplikacji, interpretację żądań od użytkowników oraz ich przekazywanie do warstw logiki aplikacyjnej. Zawiera kontrolery realizujące logikę obsługi poszczególnych zasobów oraz huby, takie jak SignalR Hub, które obsługują komunikację w czasie rzeczywistym. Modele w tym module reprezentują dane odbierane z endpointów aplikacji. Mapy przekształcają te modele na żądania odpowiadające wymaganiom warstwy aplikacyjnej. Moduł zapewnia również mechanizmy autoryzacji, umożliwiające kontrolę dostępu do zasobów i operacji w systemie.
+    Warstwa prezentacji odpowiada za obsługę komunikacji zewnętrznej aplikacji, interpretację żądań od użytkowników oraz ich przekazywanie do warstw logiki aplikacyjnej. Zawiera kontrolery realizujące logikę obsługi poszczególnych zasobów oraz huby, takie jak Hub SignalR, które obsługują komunikację w czasie rzeczywistym. Modele w tym module reprezentują dane odbierane z endpointów aplikacji, a mapy przekształcają te modele na żądania odpowiadające wymaganiom warstwy aplikacyjnej. Moduł zapewnia również mechanizmy autoryzacji, umożliwiające kontrolę dostępu do zasobów i operacji w systemie.
 \end{minipage}
 \hfill
 \begin{minipage}[t]{0.45\textwidth}
@@ -797,7 +802,7 @@ Moduł \textbf{.Api} pełni funkcję warstwy zewnętrznej, odpowiedzialnej za ob
 \vspace{0.5cm}
 
 \noindent \textbf{Warstwa aplikacji}\\
-Moduł \textbf{.Application} zawiera logikę aplikacyjną, w tym definicje przypadków użycia, które realizują wymagania systemowe. Jest on pośrednikiem między warstwą interfejsu (Api) a rdzeniem systemu, reprezentowanym przez moduł Core. Dzięki temu logika biznesowa jest chroniona przed szczegółami technicznymi, takimi jak sposób przetwarzania żądań czy dostęp do danych.
+Moduł \textbf{chess.Application} zawiera logikę aplikacyjną, w tym definicje przypadków użycia, które realizują wymagania systemowe. Jest on pośrednikiem między warstwą interfejsu (Api) a rdzeniem systemu, reprezentowanym przez moduł Core. Dzięki temu logika biznesowa jest chroniona przed szczegółami technicznymi, takimi jak sposób przetwarzania żądań czy dostęp do danych.
 
 \vspace{0.5cm}
 \begin{minipage}[t]{0.45\textwidth}
@@ -815,13 +820,13 @@ Moduł \textbf{.Application} zawiera logikę aplikacyjną, w tym definicje przyp
 \newpage
 
 \noindent \textbf{Warstwa dostępu do danych}\\
-Moduł \textbf{.Infrastructure} obsługuje szczegóły techniczne, takie jak dostęp do bazy danych, integracje z zewnętrznymi usługami czy komunikacja z innymi systemami. Implementuje on interfejsy zdefiniowane w Core, zapewniając zgodność z wymogami logiki biznesowej. Dzięki temu warstwa infrastrukturalna może być łatwo modyfikowana lub wymieniana bez wpływu na działanie innych części aplikacji.
+Moduł \textbf{chess.Infrastructure} obsługuje szczegóły techniczne, takie jak dostęp do bazy danych, integracje z zewnętrznymi usługami czy komunikacja z innymi systemami. Implementuje on interfejsy zdefiniowane w Application, zapewniając zgodność z wymogami logiki biznesowej. Dzięki temu warstwa infrastrukturalna może być łatwo modyfikowana lub wymieniana bez wpływu na działanie innych części aplikacji.
 
 \vspace{0.5cm}
 \begin{minipage}[t]{0.45\textwidth}
     \vspace{0pt}
     \raggedright
-    Warstwa infrastruktury zawiera kluczowe elementy zarządzania danymi i konfiguracji aplikacji. W folderze Contexts znajduje się klasa kontekstu bazy danych, która mapuje encje aplikacji na tabele. W Configuration zapisane są relacje między encjami oraz konfiguracja ich mapowania. Foldery Services i Repositories zawierają implementacje interfejsów zdefiniowanych w warstwie aplikacji, które odpowiadają za dostęp do danych. Workers to klasy odpowiedzialne za zadania cykliczne działające w tle. Migrations natomiast zawiera skrypty migracji bazy danych, umożliwiające zarządzanie zmianami w schemacie bazy danych.
+    Warstwa infrastruktury zawiera kluczowe elementy zarządzania danymi i konfiguracji aplikacji. W folderze Contexts znajduje się klasa kontekstu bazy danych, która mapuje encje aplikacji na tabele, a konfigurowanie encji znajduje się w folderze Configuration. Foldery Services i Repositories zawierają implementacje interfejsów zdefiniowanych w warstwie aplikacji, które odpowiadają za dostęp do danych. Workers to klasy odpowiedzialne za zadania cykliczne działające w tle. Migrations natomiast zawiera skrypty migracji bazy danych, umożliwiające zarządzanie zmianami w schemacie bazy danych.
 \end{minipage}
 \hfill
 \begin{minipage}[t]{0.45\textwidth}
@@ -832,7 +837,7 @@ Moduł \textbf{.Infrastructure} obsługuje szczegóły techniczne, takie jak dos
 \vspace{0.5cm}
 
 \noindent \textbf{Warstwa logiki biznesowej}\\
-Moduł \textbf{.Core} stanowi serce aplikacji i zawiera jej logikę biznesową oraz kluczowe modele domenowe. Jest to najbardziej niezależna warstwa, która nie zna szczegółów implementacyjnych zewnętrznych warstw. Wszystkie zależności są odwrócone – moduł Core definiuje interfejsy, które są implementowane przez warstwę infrastrukturalną, co pozwala na łatwą wymianę technologii bez wpływu na rdzeń aplikacji.
+Moduł \textbf{chess.Core} stanowi serce aplikacji i zawiera jej logikę biznesową oraz kluczowe modele domenowe. Jest to najbardziej niezależna warstwa, która nie zna szczegółów implementacyjnych zewnętrznych warstw.
 
 \vspace{0.5cm}
 \begin{minipage}[t]{0.45\textwidth}
@@ -850,7 +855,7 @@ Moduł \textbf{.Core} stanowi serce aplikacji i zawiera jej logikę biznesową o
 \newpage
 
 \noindent \textbf{Warstwa wspólna}\\
-Moduł \textbf{.Shared} zawiera wspólne komponenty i funkcjonalności, które są wykorzystywane przez inne warstwy aplikacji. Celem tej warstwy jest centralizacja użytecznych elementów, które nie są specyficzne dla jednej warstwy, a są wykorzystywane przez różne części systemu. Dzięki temu wspólne elementy, takie jak wyjątki, middleware oraz konfiguracje, są łatwo dostępne, a zarządzanie nimi jest uproszczone. Warstwa ta pełni rolę wspierającą, zapewniając rozwiązania, które mogą być współdzielone przez inne warstwy aplikacji, co zwiększa spójność i ułatwia konserwację systemu.
+Moduł \textbf{chess.Shared} zawiera wspólne komponenty i funkcjonalności, które są wykorzystywane przez inne warstwy aplikacji. Celem tej warstwy jest centralizacja użytecznych elementów, które nie są specyficzne dla jednej warstwy, a są wykorzystywane przez różne części systemu. Dzięki temu wspólne elementy, takie jak wyjątki, middleware oraz konfiguracje, są łatwo dostępne. Warstwa ta pełni rolę wspierającą, zapewniając rozwiązania, które mogą być współdzielone przez inne warstwy aplikacji, co zwiększa spójność i ułatwia konserwację systemu.
 
 \begin{minipage}[t]{0.45\textwidth}
     \vspace{0pt}
@@ -882,7 +887,7 @@ Oprócz głównych modułów projekt zawiera także dwa dodatkowe moduły wspier
 \newpage
 
 \noindent \textbf{Warstwa testów integracyjnych}\\
-Moduł \textbf{.Api.Tests} zawiera testy integracyjne dla kontrolerów API, zapewniając weryfikację poprawności działania interfejsu API w kontekście integracji z innymi komponentami systemu, takimi jak baza danych czy logika aplikacyjna. Testy te sprawdzają, czy odpowiedzi API są zgodne z oczekiwaniami, weryfikując m.in. poprawność danych wejściowych i wyjściowych oraz obsługę błędów. Każdy folder w tym module odpowiada pojedynczemu kontrolerowi API, umożliwiając modularne testowanie poszczególnych elementów aplikacji. Dzięki testom integracyjnym możliwe jest sprawdzenie, czy aplikacja poprawnie reaguje na różnorodne scenariusze i przypadki brzegowe.
+Moduł \textbf{chess.Api.Tests} zawiera testy integracyjne dla kontrolerów API, zapewniając weryfikację poprawności działania interfejsu API w kontekście integracji z innymi komponentami systemu, takimi jak baza danych czy logika aplikacyjna. Testy te sprawdzają, czy odpowiedzi API są zgodne z oczekiwaniami, weryfikując m.in. poprawność danych wejściowych i wyjściowych oraz obsługę błędów. Każdy folder w tym module odpowiada pojedynczemu kontrolerowi API, umożliwiając modularne testowanie poszczególnych elementów aplikacji.
 
 \vspace{0.5cm}
 \begin{minipage}[t]{0.45\textwidth}
@@ -894,12 +899,12 @@ Moduł \textbf{.Api.Tests} zawiera testy integracyjne dla kontrolerów API, zape
 \begin{minipage}[t]{0.45\textwidth}
     \vspace{0pt}
     \raggedright
-    Warstwa ten zawiera testy integracyjne dla kontrolerów API. Każdy folder w tej warstwie odpowiada jednemu kontrolerowi API, umożliwiając modularne testowanie różnych części aplikacji. Testy wykorzystują narzędzia takie jak FluentAssertions i XUnit do tworzenia środowiska testowego. Testy te sprawdzają integrację kontrolera API z bazą danych oraz logiką aplikacyjną, testując poprawne działanie czy obsługę błędów w przypadku niepoprawnych danych wejściowych.
+    Warstwa ta zawiera testy integracyjne dla kontrolerów API. Każdy folder w tej warstwie odpowiada jednemu kontrolerowi API, umożliwiając modularne testowanie różnych części aplikacji. Testy wykorzystują narzędzia takie jak FluentAssertions i XUnit do tworzenia środowiska testowego. Testy te sprawdzają integrację kontrolera API z bazą danych oraz logiką aplikacyjną, testując poprawne działanie czy obsługę błędów w przypadku niepoprawnych danych wejściowych.
 \end{minipage}
 \vspace{0.5cm}
 
 \noindent \textbf{Warstwa testów logiki biznesowej}\\
-Moduł \textbf{.Core.Tests} zawiera testy jednostkowe dla logiki biznesowej aplikacji. Testy te weryfikują poprawność działania poszczególnych komponentów wewnętrznych systemu, takich jak handled żądań, serwisy, repozytoria oraz inne elementy logiki biznesowej. Dzięki tym testom możliwe jest zapewnienie, że logika aplikacji działa zgodnie z wymaganiami, niezależnie od zewnętrznych zależności. Testy jednostkowe pozwalają na szybsze i łatwiejsze identyfikowanie błędów w samej logice aplikacji, zanim zmiany wpłyną na inne warstwy systemu.
+Moduł \textbf{chess.Core.Tests} zawiera testy jednostkowe dla logiki biznesowej aplikacji. Testy te weryfikują poprawność działania poszczególnych komponentów wewnętrznych systemu, takich jak handlery żądań, serwisy, repozytoria oraz inne elementy logiki biznesowej. Dzięki tym testom możliwe jest zapewnienie, że logika aplikacji działa zgodnie z wymaganiami, niezależnie od zewnętrznych zależności.
 
 \vspace{0.5cm}
 \begin{minipage}[t]{0.45\textwidth}
@@ -929,10 +934,17 @@ W nowoczesnej informatyce wspólnym modelem - również podstawowym dla API REST
 W systemie REST API zdefiniowane zostały cztery główne kontrolery, które odpowiadają za obsługę zapytań związanych z różnymi zasobami w aplikacji:
 
 \begin{itemize}
-    \item \textbf{UserController} - Odpowiada za zapytania związane z użytkownikami, takie jak rejestracja, logowanie, aktualizacja danych czy zarządzanie profilem.
-    \item \textbf{FriendshipController} - Obsługuje zapytania dotyczące znajomości między użytkownikami, takie jak zapraszanie do znajomości, akceptowanie lub odrzucanie zaproszeń oraz zarządzanie relacjami.
-    \item \textbf{WebGameController} - Zajmuje się zapytaniami dotyczącymi gier online pomiędzy użytkownikami, pozwalając na tworzenie, aktualizowanie i zarządzanie grami.
-    \item \textbf{EngineGameController} - Odpowiada za zapytania związane z grami offline, które są rozgrywane z wykorzystaniem silnika szachowego, w tym rozpoczęcie gry, wykonywanie ruchów czy zmiana poziomu trudności.
+    \item \textbf{UserController:}\\
+    Odpowiada za zapytania związane z użytkownikami, takie jak rejestracja, logowanie, aktualizacja danych czy zarządzanie profilem.
+
+    \item \textbf{FriendshipController"}\\
+    Obsługuje zapytania dotyczące znajomości między użytkownikami, takie jak zapraszanie do znajomości, akceptowanie lub odrzucanie zaproszeń oraz zarządzanie relacjami.
+
+    \item \textbf{WebGameController:}\\
+    Zajmuje się zapytaniami dotyczącymi gier online pomiędzy użytkownikami, pozwalając na tworzenie, aktualizowanie i zarządzanie grami.
+
+    \item \textbf{EngineGameController:}\\
+    Odpowiada za zapytania związane z grami offline, które są rozgrywane z wykorzystaniem silnika szachowego, w tym rozpoczęcie gry, wykonywanie ruchów czy zmiana poziomu trudności.
 \end{itemize}
 
 \noindent
@@ -1081,6 +1093,7 @@ Na następnej stronie opisano szczegółowo poszczególne endpointy dostępne w 
 \noindent \textbf{Dokumentowanie API przy użyciu Swaggera}\\
 Aby lepiej zilustrować strukturę i funkcjonalność REST API, poniżej przedstawiono przykład endpointów wygenerowanych automatycznie za pomocą biblioteki Swagger. Swagger umożliwia dokumentowanie API w sposób przejrzysty i interaktywny, co znacznie ułatwia zarówno tworzenie, jak i korzystanie z interfejsów API przez programistów.
 
+\vspace{0.5cm}
 \begin{figure}[h!]
     \centering
     \includegraphics[width=1\textwidth]{images/swagger_api.png}
@@ -1090,6 +1103,7 @@ Aby lepiej zilustrować strukturę i funkcjonalność REST API, poniżej przedst
 \newpage
 
 \subsubsection{SignalR}
+
 SignalR to biblioteka opracowana przez Microsoft, która umożliwia dodanie funkcji komunikacji w czasie rzeczywistym do aplikacji. Jest szczególnie przydatna w scenariuszach wymagających natychmiastowego przesyłania danych między serwerem a klientem, takich jak czaty, powiadomienia, aktualizacje w czasie rzeczywistym w aplikacjach finansowych, gier czy dashboardach.
 \\\\
 Główną zaletą SignalR jest ukrycie złożoności związanej z obsługą komunikacji w czasie rzeczywistym. Biblioteka automatycznie wybiera najlepszy dostępny mechanizm komunikacji w zależności od środowiska aplikacji, w tym:
@@ -1117,7 +1131,7 @@ SignalR zapewnia wysoki poziom abstrakcji, dzięki czemu programista nie musi ma
 \\\\
 W aplikacji utworzono jedną klasę huba, która odpowiada za obsługę gier online. Klasa ta centralizuje komunikację między klientami a serwerem, umożliwiając natychmiastowe przesyłanie danych, takich jak ruchy w grze czy informacje o stanie gry.
 \\\\
-Dodatkowo stworzono interfejs, który definiuje metody wywoływane przez odpowiednich klientów. Interfejs ten pełni rolę kontraktu, gwarantując, że klienci będą mieli dostęp do spójnych metod obsługi gier online. Dzięki temu różne typy klientów mogą w prosty sposób integrować się z hubem i korzystać z jego funkcji, takich jak wysyłanie ruchu, odbieranie powiadomień czy synchronizacja danych w czasie rzeczywistym.
+Dodatkowo stworzono interfejs, który definiuje metody wywoływane przez odpowiednich klientów. Interfejs ten pełni rolę kontraktu, gwarantując, że klienci będą mieli dostęp do spójnych metod obsługi gier online. Dzięki temu różne typy klientów mogą w prosty sposób integrować się z hubem i korzystać z jego funkcji, takich jak wysyłanie ruchu, odbieranie powiadomień czy synchronizacja danych.
 \\\\
 Na następnej stronie przedstawiono szczegółowy opis metod dostępnych w ramach interfejsu SignalR, z podziałem na typy zapytań.
 
@@ -1170,33 +1184,44 @@ Na następnej stronie przedstawiono szczegółowy opis metod dostępnych w ramac
 \newpage
 
 \noindent \textbf{Metody po stronie klienta}
-Interfejs \textcolor{teal}{\textbf{IGameHub}} definiuje zestaw metod, które są dostępne do wywołania przez klienta, po otrzymaniu powiadomienia z serwera. Poniżej wypisano metody zadeklarowane w interfejsie:
+Interfejs \textbf{IGameHub} definiuje zestaw metod, które są dostępne do wywołania przez klienta, po otrzymaniu powiadomienia z serwera. Poniżej wypisano metody zadeklarowane w interfejsie:
 
 \begin{itemize}
     \item \textbf{GamesChanged} \\
     Metoda ta służy do powiadamiania grupy w kolejce o utworzonych grach. Zwykle wywoływana, gdy nowe gry zostały stworzone, aby powiadomić użytkowników oczekujących w kolejce.
+
     \item \textbf{GameUpdated} \\
     Ta metoda informuje wszystkich użytkowników w grupie gry, że wykonano ruch w grze. Powiadomienie jest wysyłane do wszystkich osób biorących udział w danej grze.
+
     \item \textbf{GameEnded} \\
     Metoda służy do powiadamiania użytkowników o zakończeniu gry. Używana po zakończeniu gry, aby powiadomić uczestników, że gra dobiegła końca.
+
     \item \textbf{InvitedToGame} \\
-    Metoda umożliwia wysłanie zaproszenia do gry. Powiadamia zaproszoną osobę o grze, która została dla niej utworzona. Parametr \texttt{dto} zawiera szczegóły dotyczące zaproszenia.
+    Metoda umożliwia wysłanie zaproszenia do gry. Powiadamia zaproszoną osobę o grze, która została dla niej utworzona. Parametr \texttt{dto} zawiera szczegóły 
+    dotyczące zaproszenia.
+
     \item \textbf{GameAccepted} \\
     Ta metoda informuje użytkowników, że zaproszenie do gry zostało zaakceptowane. Obie strony są powiadamiane o rozpoczęciu gry.
+
     \item \textbf{MessagesUpdated} \\
     Metoda ta powiadamia użytkowników o nowych wiadomościach wysłanych w grze. Jest wywoływana, gdy jeden z uczestników gry wyśle nową wiadomość do drugiego gracza.
+
     \item \textbf{InvitationDeclined} \\
     Metoda używana do powiadamiania o odrzuceniu zaproszenia do gry. Powiadamia osobę, która wysłała zaproszenie, że zaproszona osoba je odrzuciła.
+    
     \item \textbf{TypingStatus} \\
     Metoda umożliwia powiadomienie o stanie pisania w grze. Parametr \texttt{IsTyping} określa, czy użytkownik aktualnie pisze wiadomość, co służy do pokazania animacji pisania w interfejsie użytkownika.
+
     \item \textbf{RematchRequested} \\
     Metoda ta służy do powiadamiania graczy o ofercie rewanżu. Powiadamia użytkowników, że druga osoba zaproponowała rematch (powtórkę gry). Zwraca one dane dotyczące rematchu.
+
     \item \textbf{RematchCanceled} \\
     Ta metoda informuje użytkowników, że oferta rewanżu została anulowana. Jest używana, gdy jedna ze stron postanowi wycofać swoją ofertę rematchu.
+
     \item \textbf{GetWinner} \\
     Metoda do uzyskania informacji o zwycięzcy zakończonej gry. Parametr \texttt{dto} zawiera dane dotyczące wyniku gry, w tym informacje o wygranej stronie.
-\end{itemize}
 
+\end{itemize}
 
 \newpage
 
@@ -1211,13 +1236,14 @@ Interfejs \textcolor{teal}{\textbf{IGameHub}} definiuje zestaw metod, które są
 \begin{minipage}[t]{0.7\textwidth} 
     \vspace{0pt} 
     \raggedright 
-    Silnik szachowy Stockfish jest jednym z najpotężniejszych i najczęściej używanych silników szachowych na świecie. Jest to oprogramowanie typu open-source, które zostało stworzone, aby oferować najwyższą możliwą siłę obliczeniową w grach szachowych. Stockfish jest napisany w języku C++ i jest dostępny na wiele platform, w tym na systemy Windows, Linux, macOS, a także urządzenia mobilne.
+    Silnik szachowy \textbf{Stockfish} jest jednym z najpotężniejszych i najczęściej używanych silników szachowych na świecie. Jest to oprogramowanie typu open-source, które zostało stworzone, aby oferować najwyższą możliwą siłę obliczeniową w grach szachowych. Stockfish jest napisany w języku C++ i jest dostępny na wielu platformach, w tym na systemy Windows, Linux, macOS, a także urządzenia mobilne.
 \end{minipage} 
 \vspace{1cm}
 
+\noindent
 Stockfish jest oparty na algorytmie minimax, który jest popularnym podejściem w sztucznej inteligencji do podejmowania decyzji w grach dwuosobowych, takich jak szachy. Algorytm ten stara się ocenić każde możliwe posunięcie, wybierając to, które zapewnia najlepszy wynik, bazując na analizie możliwych przyszłych ruchów. Używa on także heurystyk oraz analizy pozycyjnej, aby ocenić siłę danej pozycji na szachownicy. Co więcej, Stockfish jest w stanie analizować partie z dużą prędkością, co czyni go idealnym narzędziem do analizy gier na różnych poziomach zaawansowania.
 \\\\
-Jednym z kluczowych aspektów Stockfish jest jego zdolność do pracy w ramach protokołu UCI (Universal Chess Interface). UCI jest standardem, który umożliwia komunikację między silnikiem szachowym a różnymi interfejsami graficznymi (GUI), pozwalając na łatwą integrację z aplikacjami szachowymi. Dzięki temu użytkownicy mogą korzystać z graficznych interfejsów, takich jak Arena, Fritz czy lichess, aby bezpośrednio połączyć się z silnikiem Stockfish, wybierając odpowiednią wersję i parametry.
+Jednym z kluczowych aspektów silnika Stockfish jest jego zdolność do pracy w ramach protokołu \textbf{UCI (Universal Chess Interface)}. UCI jest standardem, który umożliwia komunikację między silnikiem szachowym a różnymi interfejsami graficznymi (GUI), pozwalając na łatwą integrację z aplikacjami szachowymi. Dzięki temu użytkownicy mogą korzystać z graficznych interfejsów, takich jak Arena, Fritz czy lichess, aby bezpośrednio połączyć się z silnikiem Stockfish, wybierając odpowiednią wersję i parametry.
 \\\\
 Silnik Stockfish jest również wykorzystywany do tworzenia testów i analiz w wielu aplikacjach szachowych, zarówno komercyjnych, jak i akademickich. Dzięki swojej mocy obliczeniowej, dokładności i dostępności, Stockfish stał się nieocenionym narzędziem w wielu dziedzinach związanych z szachami, od profesjonalnych gier po badania naukowe.
 \\\\
@@ -1236,10 +1262,10 @@ Komunikacja z silnikiem szachowym jest kluczowym elementem w budowie aplikacji, 
 \\\\
 Sam silnik działa jako aplikacja uruchamiana w tle na serwerze, co pozwala na obsługę wielu równoczesnych zapytań i zapewnia wydajną współpracę z innymi komponentami aplikacji.
 \\\\
-Klasa ta implementuje interfejs \texttt{IEngineService}, co zapewnia jednolitość i ułatwia integrację z innymi komponentami aplikacji. W konstruktorze tej klasy tworzony jest obiekt typu \textbf{Process}, który uruchamia silnik szachowy. Proces jest konfigurowany tak, aby nie tworzył okna i umożliwiał przesyłanie danych zarówno do silnika - poprzez standardowe wejście, jak i z silnika - poprzez standardowe wyjście.
+Klasa ta implementuje interfejs \textbf{IEngineService}, co zapewnia jednolitość i ułatwia integrację z innymi komponentami aplikacji. W konstruktorze tej klasy tworzony jest obiekt typu \textbf{Process}, który uruchamia silnik szachowy. \texttt{Proces} jest konfigurowany tak, aby nie tworzył okna i umożliwiał przesyłanie danych zarówno do silnika - poprzez standardowe wejście, jak i z silnika - poprzez standardowe wyjście.
 
 \begin{itemize} 
-    \item \textbf{Startowanie procesu silnika:} W konstruktorze klasy, obiekt typu \textbf{Process} jest konfigurowany za pomocą klasy \textbf{ProcessStartInfo}. Ustawienia te zapewniają, że silnik będzie działał w tle bez interakcji z interfejsem użytkownika, a komunikacja będzie odbywała się za pomocą strumieni wejścia i wyjścia. 
+    \item \textbf{Startowanie procesu silnika:} W konstruktorze klasy, obiekt typu \texttt{Process} jest konfigurowany za pomocą klasy \textbf{ProcessStartInfo}. Ustawienia te zapewniają, że silnik będzie działał w tle bez interakcji z interfejsem użytkownika, a komunikacja będzie odbywała się za pomocą strumieni wejścia i wyjścia. 
     \item \textbf{Wysyłanie komend do silnika:} Metoda \textbf{SendCommand} pozwala na wysyłanie komend do silnika. Komendy są przesyłane do standardowego wejścia silnika, a następnie natychmiastowo zapisywane do strumienia wyjściowego. 
     \item \textbf{Odczytywanie wyników:} Metoda \textbf{ReadOutput} służy do odczytywania danych wyjściowych z silnika. Wykorzystuje ona strumień wyjściowy, by zbierać linie tekstu, które są następnie przechowywane w liście. Proces odczytu jest ograniczony czasowo, co zapobiega zablokowaniu aplikacji w przypadku długotrwałych odpowiedzi silnika. 
     \item \textbf{Zamykanie procesu:} Metoda \textbf{Close} wysyła do silnika komendę "quit", a następnie zamyka proces, kończąc w ten sposób interakcję z silnikiem. 
@@ -1293,6 +1319,7 @@ Na następnej stronie zamieszczono enumerację, która ilustruje krok po kroku, 
 \end{enumerate}
 
 \newpage
+
 \subsubsection{Kluczowe mechanizmy gry}
 
 \noindent \textbf{Tworzenie i dołączanie do gier}\\
@@ -1301,12 +1328,12 @@ Proces tworzenia i dołączania do gier w aplikacji można podzielić na trzy g�
 \begin{itemize}
     \item \textbf{Gry online z losowym graczem}\\
     W przypadku gier online z losowym graczem, użytkownik rozpoczyna proces poszukiwania gry, co skutkuje utworzeniem rekordu gracza. Gracz ten "trafia" do kolejki oczekujących, gdzie oczekuje na innych graczy. Każde dołączenie nowego gracza do kolejki wywołuje mechanizm, który zbiera wszystkich oczekujących graczy i sprawdza, czy warunki do rozpoczęcia gry zostały spełnione.
-    \\
+    \\\\
     Sprawdzanie, czy można rozpocząć grę, odbywa się w sposób sekwencyjny, zaczynając od graczy, którzy oczekują najdłużej. Jeżeli warunki zostaną spełnione tj. znaleziono graczowi przeciwnika o zbliżonej punktacji, gra zostaje utworzona. Wówczas gracz i jego przeciwnik, są automatycznie dodawani do gry, rozpoczynając wspólną rozgrywkę.
     
     \item \textbf{Prywatne gry online}\\
     Prywatne gry online różnią się od gier losowych tym, że są one tworzone automatycznie przez jednego z użytkowników, drugi natomiast posiada zaproszenie do wspólnej gry. W tym przypadku gra jest tworzona z góry, a gracze zostają od razu przypisani do tej gry, nie oczekując w kolejce.
-    \\
+    \\\\
     Prywatne gry mają specyficzną cechę — gracze biorący udział w takich grach są oznaczani jako "prywatni". Tacy gracze nie są uwzględniani w systemie wyszukiwania gier online, co oznacza, że nie będą brać udziału w losowych dobieraniach graczy (zgodnie z opisanym wcześniej mechanizmem dla gier online). W związku z tym, prywatne gry odbywają się wyłącznie pomiędzy zaproszonymi graczami.
 
     \item \textbf{Gry z komputerem}\\
@@ -1319,7 +1346,7 @@ Aby zapewnić synchronizację pomiędzy graczami i ich reakcję na zmiany stanu 
 \newpage
 
 \noindent \textbf{Punktacja ELO}\\
-Punktacja ELO to system oceny umiejętności graczy stosowany w aplikacji do określania ich relatywnej siły gry. Mechanizm ten jest dynamiczny, co oznacza, że po każdej zakończonej grze punkty ELO obu graczy są aktualizowane w zależności od wyniku rozgrywki. Wartość zmiany w punktacji jest obliczana na podstawie różnicy punktów między graczami oraz wyniku gry. System uwzględnia pięć kategorii czasowych rozgrywek: bullet, blitz, rapid, classic oraz daily, z których każda ma osobną punktację. Do obliczenie punktacji rozróżnia się trzy główne przypadki:
+Punktacja ELO to system oceny umiejętności graczy stosowany w aplikacji do określania ich relatywnej siły gry. Mechanizm ten jest dynamiczny, co oznacza, że po każdej zakończonej grze punkty ELO obu graczy są aktualizowane w zależności od wyniku rozgrywki. Wartość zmiany w punktacji jest obliczana na podstawie różnicy punktów między graczami oraz wyniku gry. System uwzględnia pięć kategorii czasowych rozgrywek, z których każda ma osobną punktację. Do obliczenie punktacji rozróżnia się trzy główne przypadki:
 
 \begin{itemize}
     \item \textbf{Wygrana lepszego gracza}\\
@@ -1341,6 +1368,7 @@ Punktacja ELO to system oceny umiejętności graczy stosowany w aplikacji do okr
     \[ \text{elo}_{\pm} = \lceil 0.05 \cdot \Delta \text{elo} \rceil \]
 
     Gdzie $ \text{elo}_{\pm} $ oznacza punkty dodane / odjęte graczom a $ \Delta \text{elo} $ oznacza różnice w punktacji pomiędzy graczami przez rozpoczęciem gry.     W tym przypadku gracz z wyższą punktacją traci punkty, natomiast gracz z niższą zyskuje je, ponieważ remis z bardziej doświadczonym przeciwnikiem jest przegranego korzystnym rezultatem.
+
 \end{itemize}
 
 \newpage
@@ -1349,13 +1377,13 @@ Punktacja ELO to system oceny umiejętności graczy stosowany w aplikacji do okr
 \noindent
 Poniższy wykres ilustruje zależność zmiany punktacji ELO, gdzie $ \text{y} = \text{elo}_{\pm} $ od różnicy punktacji między graczami $ \text{x} = \Delta \text{elo} $  w trzech wyżej wymienionych scenariuszach. Każda z tych sytuacji jest modelowana za pomocą odpowiedniej funkcji, co pozwala zobaczyć, jak zmieniają się wartości punktów dodawanych lub odejmowanych w zależności od poziomu graczy.
 
-\vspace{1cm}
+\vspace{0.5cm}
 \begin{figure}[h!]
     \centering
     \includegraphics[width=1\textwidth]{images/graf_elo_calc.png}
-    \caption{Wykres przedstawia zmiane punktacji ELO w zależności od różnicy poziomu graczy. \\ Wykresy utworzone za pomocą strony www.desmos.com}
+    \caption{Wykres przedstawia zmiane punktacji ELO w zależności od różnicy poziomu graczy. Wykresy utworzone za pomocą strony www.desmos.com}
 \end{figure}
-\vspace{1cm}
+\vspace{0.5cm}
 
 \noindent
 System ELO w aplikacji jest zoptymalizowany, aby sprawiedliwie odzwierciedlać wyniki rozgrywek. Wzory uwzględniają różnicę umiejętności między graczami, nagradzając trudniejsze zwycięstwa i minimalizując znaczenie wyników oczekiwanych. Dzięki tym zasadom system punktacji motywuje graczy do rozwoju i rywalizacji, zachowując jednocześnie równowagę w ocenie ich umiejętności.
@@ -1367,7 +1395,7 @@ Punktacja ELO w przypadku gier z silnikiem różni się od tej stosowanej w grac
 \newpage
 
 \noindent \textbf{Zarządzanie czasem gry}\\
-W szachach istnieje kilka różnych typów ustawienia czasu, które mają wpływ na dynamikę gry. W zależności od wybranego typu, gracze mają różne limity czasowe na wykonanie swoich ruchów. Każdy z tych typów jest dostosowany do innego tempa rozgrywki, co pozwala na dopasowanie doświadczenia gry do preferencji graczy. Czas gry w szachach może obejmować różne długości, poczynając od błyskawicznych partii typu "Bullet", po długoterminowe gry "Daily", gdzie gracze wykonują ruchy w ciągu wielu dni.
+W szachach istnieje kilka różnych typów ustawienia czasu, które mają wpływ na dynamikę gry. W zależności od wybranego typu, gracze mają różne limity czasowe na wykonanie swoich ruchów. Każdy z tych typów jest dostosowany do innego tempa rozgrywki, co pozwala na dopasowanie doświadczenia gry do preferencji graczy. Czas gry w szachach może obejmować różne długości, poczynając od błyskawicznych partii typu \texttt{Bullet}, po długoterminowe gry \texttt{Daily}.
 \\\\
 Poniżej przedstawiona jest tabela pokazująca różne kategorie kontroli czasowych:
 
@@ -1380,9 +1408,9 @@ Poniżej przedstawiona jest tabela pokazująca różne kategorie kontroli czasow
         \textbf{Typ Czasu} & \textbf{Zakres Czasu} & \textbf{Inkrement} & \textbf{Charakterystyka} \\ \hline
         \textbf{Bullet} & 1 - 3 min. & 0 - 60 sek. & Bardzo szybka gra. \\ \hline
         \textbf{Blitz} & 3 - 10 min. & 0 - 60 sek. & Gra o szybkim tempie. \\ \hline
-        \textbf{Rapid} & 10 - 60 min. & 0 - 60 sek. & Gra o średnim tempie. \\ \hline
-        \textbf{Classic} & 60 - 1440 min. & 0 - 60 sek. & Dużą ilością czasu. \\ \hline
-        \textbf{Daily} & $\geq$ 1440 min. & 0 - 60 sek. & Bardzo długi czas gry. \\ \hline
+        \textbf{Rapid} & 10 - 60 min. & 0 - 60 sek. & Standardowe tempo. \\ \hline
+        \textbf{Classic} & 60 - 1440 min. & brak & Gry dzienne. \\ \hline
+        \textbf{Daily} & $\geq$ 1440 min. & brak & Gry kilkudniowe. \\ \hline
     \end{tabular}
     \caption{Rodzaje kontroli czasowej gry.}
 \end{table}
@@ -1399,6 +1427,7 @@ Podczas pierwszego pobrania gry przez graczy ustalany jest czas rozpoczęcia par
 \end{figure}
 \vspace{0.5cm}
 
+\noindent
 Aplikacja posiada także zaimplementowane zadanie cykliczne, które jest uruchamiane co minutę, aby monitorować postęp czasu w długoterminowych trybach gry, takich jak "Classic" i "Daily", ale także do pozostałych trybów. Zadanie to sprawdza, czy któremuś z graczy nie skończył się czas, co powinno skutkować zakończeniem gry. System analizuje, kiedy ostatni ruch został zarejestrowany i oblicza różnicę między tym czasem a bieżącym czasem. Na tej podstawie, dla każdego gracza obliczany jest pozostały czas, a jeżeli czas gracza którego jest tura upłynie, system kończy grę.
 
 \newpage
@@ -1413,19 +1442,19 @@ W tym systemie każde zapytanie, pobrania danych lub zapisania ich, jest repreze
 
 \textbf{Przebieg przetwarzania zapytania}
 \begin{enumerate}
-    \item \textbf{Zgłoszenie zapytania:} Kiedy klient wyśle zapytanie do systemu przez API lub SignalR, zapytanie to jest mapowane na odpowiedni Request, który może zawierać dane wejściowe potrzebne do przetworzenia.
+    \item \textbf{Zgłoszenie zapytania:} Kiedy klient wyśle zapytanie do systemu przez API lub SignalR, zapytanie to jest mapowane na odpowiedni \texttt{Request}, który może zawierać dane wejściowe potrzebne do przetworzenia.
     \item \textbf{Przetwarzanie zapytania:} Zapytanie trafia do MediatR, który przekazuje je do odpowiedniego handlera. Handler jest odpowiedzialny za wykonanie logiki biznesowej.
     \item \textbf{Wykonanie akcji:} Handler wykonuje określoną akcję. Może to być np. zapis do bazy danych, obliczenie wyniku gry, aktualizacja punktacji ELO lub inne działania biznesowe.
     \item \textbf{Zwrócenie odpowiedzi:} Po wykonaniu akcji, handler zwraca odpowiedź (np. dane w formie obiektu, kod statusu, wynik operacji). MediatR przekazuje tę odpowiedź z powrotem do klienta.
 \end{enumerate}
 
 \noindent
-W systemie, który obsługuje zapytania, każde zapytanie jest reprezentowane przez osobny obiekt zapytania, który jest mapowany na Request. Każdy Request posiada przypisany handler, który odpowiedzialny jest za realizację zapytania.
+W systemie, który obsługuje zapytania, każde zapytanie jest reprezentowane przez osobny obiekt zapytania, który jest mapowany na żądanie. Każdy \texttt{Request} posiada przypisany handler, który odpowiedzialny jest za realizację zapytania.
 \\\\
 
 \textbf{Zalety wykorzystania MediatR:}
 \begin{itemize}
-    \item \textbf{Separation of Concerns:} MediatR pozwala na oddzielenie logiki przetwarzania zapytań od innych części aplikacji, takich jak kontrolery czy warstwa interfejsu użytkownika.
+    \item \textbf{Rozdzielenie obowiązków:} MediatR pozwala na oddzielenie logiki przetwarzania zapytań od innych części aplikacji, takich jak kontrolery czy warstwa interfejsu użytkownika.
     \item \textbf{Skalowalność i modularność:} Dzięki wykorzystaniu handlerów, system jest łatwiejszy do rozszerzania i utrzymania. Każda operacja jest odseparowana w osobnym komponencie, co ułatwia zarządzanie kodem.
     \item \textbf{Testowalność:} Każdy handler można testować niezależnie, co ułatwia implementację testów jednostkowych.
     \item \textbf{Centralizacja logiki:} Logika biznesowa jest centralizowana w handlerach, co zapewnia spójność i łatwość w zarządzaniu.
@@ -1438,9 +1467,9 @@ Proces przetwarzania zapytania w systemie został szczegółowo przedstawiony na
 \\\\
 Zapytanie trafia do handlera, który obsługuje żądanie i wykonuje określoną logikę biznesową. W przypadku konieczności dostępu do danych, handler korzysta z repozytorium, które odpowiada za interakcję z bazą danych. Dane pobrane w formie encji są następnie mapowane na obiekt DTO (Data Transfer Object), który stanowi zwracany wynik. 
 \\\\
-Finalnie odpowiedź w postaci DTO jest zwracana przez punkt końcowy API do klienta, który otrzymuje wynik operacji w formacie zgodnym z jego wymaganiami. Diagram ten ilustruje całość procesu, uwzględniając jego modularność i spójność.
+Finalnie odpowiedź w postaci DTO jest zwracana przez punkt końcowy API do klienta, który otrzymuje wynik operacji w formacie zgodnym z jego wymaganiami. Diagram ten ilustruje całość procesu, demonstrując jego spójność.
 
-\vspace{1cm}
+\vspace{0.5cm}
 \begin{figure}[h!]
     \centering
     \includegraphics[width=1\textwidth]{images/diagram_back.png}
@@ -1452,9 +1481,8 @@ Finalnie odpowiedź w postaci DTO jest zwracana przez punkt końcowy API do klie
 \noindent \textbf{Rezultaty zapytań i paginacja}\\
 W systemie, zwracane są także odpowiedzi, które mogą zawierać dane w różnych formach. W przypadku wielu zapytań, szczególnie tych związanych z wyszukiwaniem lub pobieraniem dużej ilości danych, wykorzystuje się specjalne klasy, które umożliwiają mapowanie wyników na odpowiednie modele. Część zapytań zwraca dane w postaci \textbf{DTO (Data Transfer Object)}, które są prostymi obiektami przechowującymi dane. Te obiekty są mapowane z encji bazy danych, co pozwala na łatwiejsze i bardziej kontrolowane przekazywanie danych pomiędzy warstwami aplikacji.
 \\\\
-W przypadku, gdy zapytanie dotyczy wielu elementów (np. listy gier), zastosowana jest paginacja – technika, która pozwala na dzielenie dużych zbiorów danych na mniejsze części, co znacznie poprawia wydajność i doświadczenie użytkownika, ograniczając ilość danych przesyłanych w jednym żądaniu. Dzięki paginacji zamiast zwracać wszystkie dane na raz, system zwraca tylko określoną liczbę elementów na stronie oraz informację o numerze strony. Dzięki temu, gdy liczba elementów jest duża, użytkownik może nawigować po wynikach w sposób bardziej wydajny, ładować tylko potrzebne dane i nie obciążać systemu nadmiernym przesyłaniem informacji.
-\\\\
-Aby wspierać paginację, w systemie zostały zaimplementowane dwie klasy:
+W przypadku, gdy zapytanie dotyczy wielu elementów (np. listy gier), zastosowana jest paginacja – technika, która pozwala na dzielenie dużych zbiorów danych na mniejsze części, co znacznie poprawia wydajność i doświadczenie użytkownika, ograniczając ilość danych przesyłanych w jednym żądaniu. Dzięki paginacji zamiast zwracać wszystkie dane na raz, system zwraca tylko określoną liczbę elementów na stronie oraz informację o numerze strony. Dzięki temu, gdy liczba elementów jest duża, użytkownik może nawigować po wynikach w sposób bardziej wydajny, ładować tylko potrzebne dane i nie obciążać systemu nadmiernym przesyłaniem informacji. Aby wspierać paginację, w systemie zostały zaimplementowane dwie klasy:
+
 \begin{itemize}
     \item \textbf{PagedRequest:} Ogólna klasa, z której dziedziczą modele i zapytania wymagające paginacji. Zawiera parametry określające numer strony oraz rozmiar strony, które są używane do obliczenia, które elementy mają zostać zwrócone.
     \item \textbf{PagedResult<T>:} Klasa, która jest używana do zwracania wyników zapytania z paginacją. Przyjmuje generyczny typ T, który odpowiada za dane zwracane w odpowiedzi, takie jak DTO. Klasa ta zawiera szczegóły dotyczące wyników: listę elementów, łączną liczbę stron, numerację wyników oraz całkowitą liczbę elementów.
@@ -1463,7 +1491,7 @@ Aby wspierać paginację, w systemie zostały zaimplementowane dwie klasy:
 \begin{figure}[h!]
     \centering
     \includegraphics[width=0.7\textwidth]{images/ex_pagination.png}
-    \caption{Klasa rezultatu paginacji.}
+    \caption{Fragment kodu: Klasa rezultatu paginacji.}
 \end{figure}
 
 \newpage
@@ -1531,7 +1559,7 @@ Wszystkie e-maile są wysyłane przez SmtpClient, który łączy się z odpowied
 \noindent \textbf{Serwis JWT}\\
 Serwis JWT (JSON Web Token) w aplikacji służy do generowania tokenów autoryzacyjnych, które są wykorzystywane do uwierzytelniania użytkowników oraz zapewnienia dostępu do chronionych zasobów aplikacji. Tokeny JWT są powszechnie stosowane w aplikacjach webowych do obsługi logowania i autoryzacji, a ich głównym celem jest umożliwienie użytkownikowi dostępu do określonych zasobów, bez konieczności ponownego wprowadzania danych logowania przy każdym żądaniu.
 \\\\
-Implementacja serwisu JWT w aplikacji opiera się na klasie, która zawiera metodę GetJwtToken. Metoda ta przyjmuje obiekt User, który reprezentuje zalogowanego użytkownika, a na podstawie jego danych generuje unikalny token. Serwis ten generuje tokeny uwierzytelniające użytkowników. Na początku tworzy zestaw roszczeń, takich jak identyfikator, nazwa użytkownika, rola i status weryfikacji e-maila. Token jest podpisywany za pomocą klucza przechowywanego w ustawieniach aplikacji, używając algorytmu HMAC-SHA256. Określana jest również data wygaśnięcia tokenu, np. po 7 dniach. Następnie tworzony jest obiekt JwtSecurityToken, który zawiera claims, datę wygaśnięcia i podpisane dane. Token jest serializowany do formatu string i przesyłany w odpowiedzi do klienta.
+Implementacja serwisu JWT w aplikacji opiera się na klasie, która zawiera jedną metodę - \texttt{GetJwtToken}. Metoda ta przyjmuje obiekt User, który reprezentuje zalogowanego użytkownika, a na podstawie jego danych generuje unikalny token. Serwis ten generuje tokeny uwierzytelniające użytkowników. Na początku tworzy zestaw roszczeń, takich jak identyfikator, nazwa użytkownika, rola i status weryfikacji e-maila. Token jest podpisywany za pomocą klucza przechowywanego w ustawieniach aplikacji, używając algorytmu HMAC-SHA256. Określana jest również data wygaśnięcia tokenu. Następnie tworzony jest obiekt \texttt{JwtSecurityToken}, który zawiera claims, datę wygaśnięcia i podpisane dane. Token jest serializowany do formatu string i przesyłany w odpowiedzi do klienta.
 \\\\
 Serwis JWT stanowi kluczowy element systemu autoryzacji w aplikacji, umożliwiając bezpieczne zarządzanie dostępem do chronionych zasobów w systemie. Użytkownicy, którzy zalogują się do aplikacji, otrzymują token JWT, który musi być dołączony do każdego żądania do API, aby potwierdzić tożsamość i autoryzację.
 
@@ -1554,6 +1582,7 @@ Wszystkie elementy związane z EF i repozytoriami są rejestrowane w kontenerze 
 \end{figure}
 \vspace{0.5cm}
 
+\noindent
 Metoda ta umożliwia skonfigurowanie połączenia z bazą PostgreSQL oraz rejestrację wszystkich repozytoriów w kontenerze usług, dzięki czemu są one dostępne w całej aplikacji. Takie podejście wspiera modularność oraz ułatwia zarządzanie zależnościami.
 
 \newpage
@@ -1571,7 +1600,7 @@ Obsługa błędów w projekcie została zaprojektowana w sposób centralny, co u
 \\\\
 Dzięki temu podejściu różne typy wyjątków (np. błędy użytkownika, brak zasobu, brak autoryzacji) są konwertowane na czytelne i spójne odpowiedzi dla klienta. Centralizacja obsługi błędów zwiększa przejrzystość kodu i umożliwia szybsze rozwiązywanie problemów, ponieważ wszystkie wyjątki są przetwarzane w jednym miejscu.
 \\\\
-Obsługa błędów w projekcie została zaimplementowana za pomocą klasy \textbf{ExceptionMiddleware}, która pełni rolę middleware w aplikacji ASP.NET Core. Middleware przechwytuje wszystkie wyjątki, które mogą wystąpić podczas obsługi żądań HTTP, i mapuje je na odpowiednie kody statusu HTTP:
+Obsługa błędów została zaimplementowana za pomocą klasy \textbf{ExceptionMiddleware}, która pełni rolę middleware w aplikacji ASP.NET Core. Middleware przechwytuje wszystkie wyjątki, które mogą wystąpić podczas obsługi żądań HTTP, i mapuje je na odpowiednie kody statusu HTTP:
 
 \begin{itemize}
     \item \textbf{400 (Bad Request):} dla wyjątków BadRequestException, gdy żądanie jest niepoprawne.
@@ -1585,6 +1614,7 @@ Obsługa błędów w projekcie została zaimplementowana za pomocą klasy \textb
 \subsubsection{Wykorzystane pakiety i biblioteki}
 
 W projekcie zastosowano szereg bibliotek, które wspierają rozwój i funkcjonalność aplikacji. Każda z wymienionych bibliotek została dobrana w celu spełnienia konkretnych wymagań funkcjonalnych i architektonicznych projektu, co pozwala na jego rozwój zgodny z najlepszymi praktykami. Poniżej przedstawiono szczegółowy opis wybranych komponentów:
+
 \begin{itemize} 
     \item \textbf{Swashbuckle.AspNetCore} i \textbf{SignalRSwaggerGen}: Obie biblioteki służą do generowania dokumentacji Swagger, co pozwala na dokumentowanie API REST i SignalR w jednej konfiguracji. 
     \item \textbf{AutoMapper}: Biblioteka umożliwiająca mapowanie obiektów między różnymi warstwami aplikacji, eliminując potrzebę ręcznego mapowania. 
@@ -1600,10 +1630,12 @@ W projekcie zastosowano szereg bibliotek, które wspierają rozwój i funkcjonal
 \end{itemize}
 
 \newpage
+
 \subsection{Warstwa Kliencka (Frontend)}
+
 \subsubsection{Architektura i struktura}
 
-Struktura frontendu w tym projekcie jest zorganizowana w sposób umożliwiający łatwe zarządzanie kodem, dzięki zastosowaniu odpowiednich folderów i podfolderów, które odpowiadają za różne aspekty aplikacji. W głównym folderze \textbf{src} znajdują się trzy główne foldery oraz pliki aplikacji. Każdy z folderów ma swoją specyficzną rolę w organizacji kodu.
+Struktura frontendu w tym projekcie jest zorganizowana w sposób umożliwiający łatwe zarządzanie kodem, dzięki zastosowaniu odpowiednich folderów i podfolderów, które odpowiadają za różne aspekty aplikacji. W głównym folderze \textbf{src} znajdują się trzy foldery oraz pliki aplikacji. Każdy z folderów ma swoją specyficzną rolę w organizacji kodu.
 \\\\
 Folder \textbf{index} zawiera router odpowiedzialny za strony ogólnodostępne, takie jak strona główna, rejestracja czy informacje o aplikacji. Folder \textbf{main} jest przeznaczony do zarządzania zasobami dostępnymi tylko dla zalogowanych i zweryfikowanych użytkowników. Dostęp do tych stron jest kontrolowany na podstawie stanu autoryzacji użytkownika, co zapewnia bezpieczeństwo aplikacji. Folder \textbf{shared} natomiast zawiera komponenty i funkcjonalności, które są współdzielone pomiędzy różnymi częściami aplikacji. Każda z sekcji ma wyraźnie określoną rolę i zakres odpowiedzialności, co sprzyja porządkowi w projekcie i ułatwia dalsze rozwijanie aplikacji.
 
@@ -1638,8 +1670,8 @@ Folder \textbf{shared} w projekcie jest zaprojektowany w sposób, który sprzyja
 \noindent
 Cała struktura \texttt{shared} jest zaprojektowana w sposób umożliwiający łatwe zarządzanie wspólnymi zasobami, co ułatwia utrzymanie aplikacji i jej rozwój. Zastosowanie takich podziałów pozwala na organizację kodu, który może być wielokrotnie wykorzystywany w różnych częściach projektu, co prowadzi do mniejszej duplikacji kodu oraz lepszej modularności.
 
-
 \newpage
+
 \subsubsection{Routing aplikacji}
 Routing w aplikacji oparty na bibliotece react-router-dom jest kluczowym elementem zarządzania nawigacją oraz wyświetlaniem odpowiednich komponentów w zależności od adresu URL. Aplikacja jest podzielona na dwie główne sekcje routingu: ogólną i bardziej specyficzną, przeznaczoną dla głównych funkcji aplikacji. Routing w aplikacji jest podzielony na dwie główne sekcje: \texttt{Index} i \texttt{Main}. Każda z tych sekcji zarządza dostępem do różnych zasobów w zależności od stanu uwierzytelnienia użytkownika.
 \\\\
@@ -1671,7 +1703,7 @@ Autoryzacja w routerze polega na weryfikacji tokena użytkownika oraz stanu jego
 \\\\
 Poniżej przedstawiono fragment kodu z komponentu \texttt{MainRouter}, odpowiadającego za weryfikacje użytkowników.
 
-\vspace{1cm}
+\vspace{0.5cm}
 \begin{figure}[h!]
     \centering
     \includegraphics[width=1\textwidth]{images/ex_router_authorization.png}
@@ -1686,7 +1718,7 @@ Aplikacja korzysta z dwóch głównych routerów, z których pierwszy obsługuje
 \\\\
 
 \noindent \textbf{Strona tytułowa (Index)}\\
-Strona tytułowa stanowi pierwsze spotkanie użytkownika z aplikacją. Zawiera ona szereg sekcji, które mają na celu zaprezentowanie aplikacji w sposób przejrzysty i zachęcający do dalszej interakcji. Sekcje na tej stronie mogą obejmować ogólne wprowadzenie do gry w szachy, zasady gry, możliwość rozpoczęcia gry online lub offline, a także funkcje aplikacji, takie jak zarządzanie znajomymi, zaproszenia do gry, czy dostęp do rankingów. Celem tej strony jest zainteresowanie użytkownika, zrozumienie, czym jest aplikacja i zachęcenie go do rejestracji lub logowania.
+Strona tytułowa stanowi pierwsze spotkanie użytkownika z aplikacją. Zawiera ona szereg sekcji, które mają na celu zaprezentowanie aplikacji w sposób przejrzysty i zachęcający do dalszej interakcji. Sekcje na tej stronie mogą obejmować ogólne wprowadzenie do gry w szachy, zasady gry czy możliwość szybkiego rozpoczęcia gry online lub offline (jeśli uzytkownik jest już zalogowany). Celem tej strony jest zainteresowanie użytkownika, zrozumienie, czym jest aplikacja i zachęcenie go do rejestracji lub logowania.
 \\
 
 \noindent \textbf{Strona informacyjna (About)}\\
@@ -1714,24 +1746,24 @@ Ten komponent odpowiada za tryb gry z komputerem, czyli tryb offline. W tym przy
 \\
 
 \noindent \textbf{Strona konta użytkownika (Account)}\\
-Strona konta użytkownika to miejsce, w którym użytkownik może przeglądać i edytować swój profil. Zawiera ona informacje na temat użytkownika, takie jak nazwa, e-mail, zdjęcie profilowe oraz inne szczegóły, które można zmieniać. Dodatkowo, użytkownik ma dostęp do ustawień konta, takich jak zmiana hasła czy preferencje dotyczące powiadomień. Strona ta zawiera również sekcję z podsumowaniem statystyk gracza – liczba wygranych gier, ranking, liczba rozegranych partii i inne osiągnięcia.
+Strona konta użytkownika to miejsce, w którym użytkownik może przeglądać i edytować swój profil. Zawiera ona informacje na temat użytkownika, takie jak nazwa, zdjęcie profilowe oraz inne szczegóły, które można zmieniać. Dodatkowo, użytkownik ma dostęp do ustawień konta, takich jak zmiana hasła czy wygląd gry. Strona ta zawiera również sekcję z podsumowaniem statystyk gracza – liczba wygranych gier, liczba rozegranych partii i inne osiągnięcia.
 \\
 
 \noindent \textbf{Strona zarządzania znajomymi (Users)}\\
-Umożliwia ona użytkownikowi zarządzanie znajomymi i zapraszanie nowych osób do gry. Na tej stronie użytkownik może przeglądać swoich znajomych, wyszukiwać innych graczy, a także zapraszać ich do gry. Jest to także miejsce, gdzie można przeglądać historię zaproszeń i statusy graczy (czy są online, czy dostępni do gry). Użytkownik ma możliwość usuwania znajomych lub zatwierdzania nowych zaproszeń.
+Umożliwia ona użytkownikowi zarządzanie znajomymi i zapraszanie nowych osób do gry. Na tej stronie użytkownik może przeglądać swoich znajomych bądź wyszukiwać innych graczy. Jest to także miejsce, gdzie można przeglądać historię zaproszeń i statusy wysłanych zaproszeń. Użytkownik ma możliwość usuwania znajomych lub zatwierdzania nowych zaproszeń.
 \\
 
 \noindent \textbf{Strona profilu znajomego (Profile)}\\
-Strona ta pozwala na podgląd profili innych użytkowników. Dzięki tej stronie użytkownik może zapoznać się z danymi innych graczy, ich statystykami, historią gier oraz osiągnięciami. Umożliwia to łatwiejsze nawiązanie kontaktu i zaproszenie do gry. Strona ta pełni funkcję informacyjną, pozwalając użytkownikowi lepiej poznać innych graczy i ich styl gry.
+Strona ta pozwala na podgląd profili innych użytkowników. Dzięki tej stronie użytkownik może zapoznać się z danymi innych graczy, ich statystykami oraz historią gier w relacji. Umożliwia to łatwiejsze nawiązanie kontaktu i zaproszenie do gry. Strona ta pełni funkcję informacyjną, pozwalając użytkownikowi lepiej poznać innych graczy oraz historie ich znajomości.
 \\
 
 \noindent \textbf{Strona rankingu (Ranking)}\\
-Strona rankingu pokazuje aktualne rankingi graczy, zarówno na poziomie globalnym, jak i wśród znajomych. Użytkownik może przeglądać globalne rankingi, zobaczyć, jak plasuje się w porównaniu do innych graczy na całym świecie, jak również sprawdzić wyniki swoich znajomych. Ranking jest aktualizowany na bieżąco, odzwierciedlając wyniki wszystkich gier rozegranych w aplikacji. Dzięki temu użytkownicy mogą śledzić swoje postępy i starać się poprawić swoją pozycję w rankingu.
+Strona rankingu pokazuje aktualne rankingi graczy, zarówno na poziomie globalnym, jak i wśród znajomych. Użytkownik może przeglądać globalne rankingi, zobaczyć, jak plasuje się w porównaniu do innych graczy, jak również sprawdzić wyniki swoich znajomych. Ranking jest aktualizowany na bieżąco, odzwierciedlając wyniki wszystkich gier rozegranych w aplikacji. Dzięki temu użytkownicy mogą śledzić swoje postępy i starać się poprawić swoją pozycję w rankingu.
 
 \newpage
 
 \noindent \textbf{Strona błędu (NotFoundPage)}\\
-Strona błędu wyświetla się, gdy użytkownik próbuje uzyskać dostęp do nieistniejącej lub niedostępnej ścieżki w aplikacji. Jest to komponent informujący użytkownika o błędnym adresie URL lub próbie dostępu do zasobu, który został usunięty lub zmieniony. Strona ta zawiera czytelny komunikat o błędzie, taki jak "404 - Strona nie znaleziona", a także odnośnik umożliwiający powrót do strony głównej lub innego zasobu aplikacji. Dzięki temu użytkownik ma możliwość szybkiego odzyskania kontroli i powrotu do korzystania z funkcjonalności aplikacji.
+Strona błędu wyświetla się, gdy użytkownik próbuje uzyskać dostęp do nieistniejącej lub niedostępnej ścieżki w aplikacji. Jest to komponent informujący użytkownika o błędnym adresie URL lub próbie dostępu do zasobu, który został usunięty lub zmieniony. Strona ta zawiera czytelny komunikat o błędzie, a także odnośnik umożliwiający powrót do strony głównej. Dzięki temu użytkownik ma możliwość szybkiego odzyskania kontroli i powrotu do korzystania z funkcjonalności aplikacji.
 \\\\
 Po opisaniu zasad działania routingu w aplikacji oraz przedstawieniu wszystkich głównych komponentów, warto przedstawić diagram ilustrujący strukturę nawigacji i przepływ między poszczególnymi sekcjami. Diagram ten pomoże zrozumieć zależności pomiędzy komponentami oraz sposób, w jaki routing obsługuje żądania użytkowników w zależności od ich stanu uwierzytelnienia i wymaganych uprawnień.
 
@@ -1782,24 +1814,34 @@ Proces zarządzania przebiegiem gry w szachy w aplikacji opiera się na dynamicz
 \begin{enumerate}
     \item \textbf{Pobranie stanu gry}\\
     Pierwszym krokiem jest pobranie aktualnego stanu gry z bazy danych, co pozwala na załadowanie pozycji wszystkich figur na planszy w chwili, gdy użytkownik wchodzi na stronę gry. Stan gry obejmuje pozycję wszystkich figur, informacje o graczach oraz inne dane związane z przebiegiem partii. Te dane są następnie zapisywane w bieżącym stanie aplikacji, co umożliwia dalsze operacje na szachownicy.
+
     \item \textbf{Mapowanie pozycji na macierz szachownicy}\\
-    Po załadowaniu stanu gry, aplikacja przekształca dane dotyczące pozycji figur w odpowiednią macierz (opisaną w następnej sekcji), która reprezentuje szachownicę. Dzięki temu można łatwo manipulować danymi i aktualizować widok planszy. Każda figura jest przypisana do konkretnych współrzędnych na planszy, co umożliwia jej wyświetlenie w odpowiednim miejscu. Mapowanie pozycji do macierzy pozwala również na łatwiejsze śledzenie możliwych ruchów dla każdej figury oraz przeprowadzać pozostałem operacje i obliczenia z wykorzystaniem intuicyjnego systemu koordynat.
+    Po załadowaniu stanu gry, aplikacja przekształca dane dotyczące pozycji figur w odpowiednią macierz, która reprezentuje szachownicę. Dzięki temu można łatwo manipulować danymi i aktualizować widok planszy. Każda figura jest przypisana do konkretnych współrzędnych na planszy, co umożliwia jej wyświetlenie w odpowiednim miejscu. Mapowanie pozycji do macierzy pozwala również na łatwiejsze śledzenie możliwych ruchów dla każdej figury oraz przeprowadzać pozostałem operacje i obliczenia z wykorzystaniem intuicyjnego systemu koordynat.
+
     \item \textbf{Kontrolowanie pól}\\
-    Aplikacja następnie tworzy listy kontrolowanych pól dla obu graczy. Każde pole, na którym może wystąpić bicie, jest uwzględniane w tych listach, podzielnych między dwóch graczy. Najważniejszym elementem tego mechanizmu jest zapewnienie, że król nie może wejść na pole, które jest zagrożone przez przeciwnika (czyli nie może stanąć na polu, które może zostać zaatakowane przez przeciwnika w kolejnej turze). Lista kontrolowanych pól jest dynamicznie aktualizowana po każdym ruchu, aby zapewnić prawidłową grę.
+    Aplikacja następnie tworzy listy kontrolowanych pól dla obu graczy. Każde pole, na którym może wystąpić bicie, jest uwzględniane w tych listach, podzielnych między dwóch graczy. Najważniejszym elementem tego mechanizmu jest zapewnienie, że król nie może wejść na pole, które jest zagrożone przez przeciwnika. Lista kontrolowanych pól jest dynamicznie aktualizowana po każdym ruchu, aby zapewnić prawidłową grę.
+
     \item \textbf{Sprawdzanie szacha}\\
     Kolejnym istotnym etapem jest sprawdzenie, czy w danej chwili istnieje szach, czyli w sytuacji w której król jednego z graczy znajduje się pod bezpośrednim atakiem przeciwnika, co oznacza, że gracz musi podjąć działania w celu ochrony swojego króla. Jeśli występuje szach, aplikacja identyfikuje wszystkie pola, które biorą udział w szachu, co pozwala na zmuszenie gracza do podjęcia odpowiednich działań. Oznacza to, że gracz nie może swobodnie poruszać innymi figurami, a ruchy, które nie przerywają zagrożenia, są blokowane.
+
     \item \textbf{Wyczyszczenie wcześniejszych wyborów}\\
-    Po wykonaniu każdego ruchu lub interakcji z użytkownikiem, aplikacja wyczyści wszelkie wcześniejsze wybory dokonywane przez gracza. Na przykład, jeśli użytkownik wybrał figurę, a następnie nie wybrał jej nowej lokalizacji, poprzedni wybór zostaje anulowany. Zapewnia to, że nie pozostają żadne błędne lub nieaktualne dane, które mogłyby wpłynąć na dalszą grę. Zanim gracz będzie mógł dokonać wyboru figury, aplikacja sprawdza, czy istnieje jakikolwiek możliwy ruch, który można wykonać. Jeśli żaden ruch nie jest możliwy, gra zostaje zakończona. W przypadku matu jedna ze stron wygrywa, natomiast w przypadku pata gra kończy się remisem. Aplikacja automatycznie wykrywa te sytuacje i odpowiednio kończy grę.
+    Po wykonaniu każdego ruchu lub interakcji z użytkownikiem, aplikacja wyczyści wszelkie wcześniejsze wybory dokonywane przez gracza. Na przykład, jeśli użytkownik wybrał figurę, a następnie nie wybrał jej nowej lokalizacji, poprzedni wybór zostaje anulowany. Zapewnia to, że nie pozostają żadne błędne lub nieaktualne dane, które mogłyby wpłynąć na dalszą grę. Zanim gracz będzie mógł dokonać wyboru figury, aplikacja sprawdza, czy istnieje jakikolwiek możliwy ruch, który można wykonać. Jeśli żaden ruch nie jest możliwy, gra zostaje zakończona. W przypadku matu jedna ze stron wygrywa, natomiast w przypadku patu gra kończy się remisem. Aplikacja automatycznie wykrywa te sytuacje i odpowiednio kończy grę.
+
     \item \textbf{Wybór figury i koordynat}\\
-    Po sprawdzeniu dostępnych ruchów, gracz może wybrać figurę, którą chce ruszyć. Po dokonaniu wyboru, aplikacja zapisuje wybraną figurę oraz jej koordynaty na planszy. Następnie, użytkownik wybiera pole, na które chce wykonać ruch. W tym momencie aplikacja uruchamia procedurę obliczania wszystkich możliwych ruchów, jakie figura może wykonać na podstawie aktualnych zasad gry. W przypadku nietypowego stanu gry,  pola podpowiedzi ruchów są odpowiednio filtrowane i redukowane.
+    Gracz może wybrać figurę, którą chce ruszyć. Po dokonaniu wyboru, aplikacja zapisuje wybraną figurę oraz jej koordynaty na planszy. Następnie, użytkownik wybiera pole, na które chce wykonać ruch. W tym momencie aplikacja uruchamia procedurę obliczania wszystkich możliwych ruchów, jakie figura może wykonać na podstawie aktualnych zasad gry. W przypadku nietypowego stanu gry,  pola podpowiedzi ruchów są odpowiednio filtrowane i redukowane.
+
     \item \textbf{Podświetlanie dostępnych pól}\\
     Po obliczeniu dostępnych ruchów, aplikacja aktualizuje widok planszy, podświetlając odpowiednie pola, na które wybrana figura może się poruszyć. Dzięki temu użytkownik ma pełną widoczność swoich opcji i może łatwiej podjąć decyzję. Podświetlone są tylko te pola, które są zgodne z zasadami ruchów danej figury, co eliminuje możliwość wykonania błędnego ruchu.
+
     \item \textbf{Wykonanie ruchu}\\
     Po dokonaniu wyboru pola przez użytkownika, aplikacja sprawdza, czy ruch jest dozwolony. Jeśli tak, wykonuje ruch, przenosząc figurę na nowe pole. Jeżeli ruch jest nielegalny tj. figura nie może poruszyć się na to pole zgodnie z zasadami gry, aplikacja anuluje wybór i pozwala graczowi ponownie wybrać figurę i cel ruchu.
+
     \item \textbf{Aktualizacja stanu gry}\\
     Po wykonaniu ruchu aplikacja zapisuje nowy stan gry w bazie danych, co pozwala na kontynuowanie gry od tego punktu w przyszłości. Zmiany w stanie gry obejmują aktualizację pozycji figur, liczbę wykonanych ruchów oraz ewentualne zmiany w statusie gry. Dzięki temu stan gry jest synchronizowany i zabezpieczony na wypadek przerwania gry lub ponownego załadowania strony.
+
     \item \textbf{Powiadomienie drugiego gracza}\\
     Na końcu, po zapisaniu zmian w bazie, aplikacja powiadamia drugiego gracza o wykonanym ruchu, aby umożliwić mu podjęcie swojej tury. Powiadomienie jest realizowane za pomocą technologii SignalR, która zapewnia natychmiastową synchronizację stanu gry pomiędzy graczami. To kluczowy element umożliwiający grę online w czasie rzeczywistym, gdzie każdy ruch jednego gracza jest natychmiastowo widoczny dla drugiego gracza.
+
 \end{enumerate}
 
 \newpage
@@ -1821,20 +1863,21 @@ W przypadku gier z silnikiem szachowym mechanizmy rozgrywki są niemal identyczn
 \\\\
 Środowisko niejako „symuluje” przeciwnika użytkownika, tworząc tymczasowe stany gry uzupełniane danymi wygenerowanymi przez silnik. Po otrzymaniu propozycji ruchu silnika wykonywana jest pełna procedura ruchu, z pominięciem sprawdzania jego legalności, ponieważ ten aspekt jest kontrolowany przez sam silnik szachowy.
 
-\vspace{1cm}
+\vspace{0.5cm}
 \begin{figure}[h!]
     \centering
     \includegraphics[width=1\textwidth]{images/ex_engine_move_sim.png}
     \caption{Fragment kodu: Symulacja ruchu zaproponowanego przez silnik.}
 \end{figure}
+\vspace{0.5cm}
 
 \noindent
-Jak widać na załączonym przykładzie program tworzy identyczny obiekt jaki jest wykorzystywany do śledzenia wyborów uzytkownika, z pominięciem nieistotnych wartości na następnie korzystając z tych samych funkcji jak w przypadku gry online, program wykonuje ruch podany przez AI. Takie podejście umożliwia ponowne wykorzystanie istniejących funkcji, aby nie powielać podobnej implementacji.
+Jak widać na załączonym przykładzie program tworzy identyczny obiekt jaki jest wykorzystywany do śledzenia wyborów użytkownika, z pominięciem nieistotnych wartości na następnie korzystając z tych samych funkcji jak w przypadku gry online, program wykonuje ruch podany przez AI. Takie podejście umożliwia ponowne wykorzystanie istniejących funkcji, aby nie powielać podobnej implementacji.
 
 \newpage
 
 \noindent
-Poniżej przedstawiony został uproszony diagram blokowy przedstawiający działanie mechanizmu gry z przeciwnikiem komputerowym. Diagram zawiera tylko kluczowe zmiany, odnoszące się do komunikacji z silnikiem szachowym, natomiast pozostała funkcjonalność pozostaje identyczna, jak w przypadku mechanizmu gier online. pominięte zostały między innymi aspekty końca gry, czy rozdzielnia wyborów uzytkownika na opcje przed wybraniem figury i po wyborze, ponieważ są one identyczne w tym trybe gry offline.
+Poniżej przedstawiony został uproszony diagram blokowy przedstawiający działanie mechanizmu gry z przeciwnikiem komputerowym. Diagram zawiera tylko kluczowe zmiany, odnoszące się do komunikacji z silnikiem szachowym, natomiast pozostała funkcjonalność pozostaje identyczna, jak w przypadku mechanizmu gier online. pominięte zostały między innymi aspekty końca gry, czy rozdzielnia wyborów użytkownika na opcje przed wybraniem figury i po wyborze, ponieważ są one identyczne w tym trybe gry offline.
 
 \vspace{1cm}
 \begin{figure}[h!]
@@ -2278,7 +2321,7 @@ Stronę startową podzielono na kilka sekcji, mających na celu wprowadzenie uż
 \subsection{Strona rejestracji}
 Strona rejestracji w aplikacji łączy w sobie wszystkie kluczowe funkcje niezbędne do zarządzania kontem użytkownika. Pozwala na założenie nowego profilu, zalogowanie się na istniejące konto, odzyskanie dostępu w przypadku utraty hasła oraz potwierdzenie adresu e-mail jako element weryfikacji konta. Wszystkie te opcje zostały zaprojektowane w sposób intuicyjny i łatwy w obsłudze, aby zapewnić jak najlepsze doświadczenie użytkownika.
 \\\\
-Proces rejestracji umożliwia szybkie i bezproblemowe utworzenie konta. Po podaniu podstawowych danych, takich jak adres e-mail, nawa użytkownika oraz hasło, użytkownik otrzymuje wiadomość e-mail z linkiem aktywacyjnym, który potwierdza poprawność podanych informacji i zabezpiecza konto przed nieautoryzowanym dostępem. Logowanie do istniejącego konta odbywa się poprzez wprowadzenie e-maila lub nazwy uzytkownika i hasła.
+Proces rejestracji umożliwia szybkie i bezproblemowe utworzenie konta. Po podaniu podstawowych danych, takich jak adres e-mail, nawa użytkownika oraz hasło, użytkownik otrzymuje wiadomość e-mail z linkiem aktywacyjnym, który potwierdza poprawność podanych informacji i zabezpiecza konto przed nieautoryzowanym dostępem. Logowanie do istniejącego konta odbywa się poprzez wprowadzenie e-maila lub nazwy użytkownika i hasła.
 \\\\
 W przypadku zapomnianego hasła, strona oferuje funkcję jego odzyskania. Po podaniu adresu e-mail użytkownik otrzymuje szczegółowe instrukcje dotyczące resetowania hasła, co pozwala w bezpieczny sposób odzyskać dostęp do konta. Proces jest prosty i zabezpieczony dodatkowymi krokami weryfikacyjnymi.
 
@@ -2453,7 +2496,7 @@ Dodatkowo, w przypadku gdy użytkownik jest aktywny na stronie, pojawia się spe
 \vspace{0.5cm}
 
 \noindent
-Podobnie jak w przypadku sekcji gier uzytkownika, w sekcji zaproszeń dostępne są filtry w celu wyświetlania zaproszeń z wybranym statusem.
+Podobnie jak w przypadku sekcji gier użytkownika, w sekcji zaproszeń dostępne są filtry w celu wyświetlania zaproszeń z wybranym statusem.
 
 \vspace{0.5cm}
 \begin{figure}[h!]
@@ -2653,7 +2696,7 @@ Strona użytkowników służy do zarządzania znajomymi i relacjami z innymi gra
 
 \begin{itemize}
     \item \textbf{Wszyscy użytkownicy} – zawiera listę wszystkich graczy dostępnych w aplikacji. Z tej sekcji użytkownicy mogą zapraszać innych do znajomych oraz podglądać ich skrócone wersje profili.
-    \item \textbf{Twoi znajomi} – znajdują się tutaj osoby, które zostały już dodane do listy znajomych. Można stąd zapraszać znajomych do gry lub przejść do pełnego profilu danego użytkownika. Istnieje także opcja usunięcia uzytkownika z grona przyjaciół.
+    \item \textbf{Twoi znajomi} – znajdują się tutaj osoby, które zostały już dodane do listy znajomych. Można stąd zapraszać znajomych do gry lub przejść do pełnego profilu danego użytkownika. Istnieje także opcja usunięcia użytkownika z grona przyjaciół.
     \item \textbf{Oczekujące zaproszenia} – sekcja zawiera zaproszenia, które zostały wysłane, ale jeszcze nie zostały zaakceptowane przez drugą stronę. Użytkownicy mogą tu zobaczyć zarówno wysłane zaproszenia, jak i te, które czekają na odpowiedź użytkownika.
     \item \textbf{Odrzucone zaproszenia} – lista osób, które odrzuciły zaproszenia do znajomych lub które zabkowały użytkownika oraz zablokowani użytkownicy. W przypadku blokad zostaje wstrzymana możliwość interakcji użytkowników na platformie.
 \end{itemize}
