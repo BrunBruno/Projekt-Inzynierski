@@ -2737,9 +2737,97 @@ Strona rankingu jest kluczowym elementem aplikacji, wspierającym rywalizację i
 \section{Testy}
 
 \subsection{Frontend}
+
 \subsubsection{Testy automatyczne}
+
+\noindent
+Testy automatyczne frontendu są istotnym elementem w procesie tworzenia nowoczesnych aplikacji internetowych. Ich głównym celem jest zapewnienie wysokiej jakości aplikacji poprzez wczesne wykrywanie błędów, zwiększenie stabilności kodu oraz ułatwienie jego utrzymania i rozwijania. Testowanie automatyczne pozwala również na wprowadzanie zmian w projekcie z mniejszym ryzykiem nieoczekiwanych problemów. Odpowiednio zaplanowane i przeprowadzone testy wspierają procesy ciągłej integracji (Continuous Integration) oraz ciągłego dostarczania oprogramowania (Continuous Delivery), co jest kluczowe w nowoczesnych metodykach zwinnych.
+\\\\
+Biblioteka @testing-library/react jest jednym z najczęściej wykorzystywanych narzędzi w testowaniu aplikacji zbudowanych w React. Jej projekt skupia się na zapewnieniu testów maksymalnie zbliżonych do rzeczywistego użytkowania aplikacji, co oznacza, że głównym przedmiotem testowania są widoczne rezultaty działania aplikacji oraz jej interakcje. W przeciwieństwie do tradycyjnych podejść, które mogą koncentrować się na szczegółach implementacyjnych, takich jak wewnętrzna struktura DOM czy konkretne klasy CSS, @testing-library/react promuje testowanie z perspektywy użytkownika końcowego.
+\\\\
+Jedną z głównych zalet tej biblioteki jest jej intuicyjność i czytelność. Dzięki funkcjom umożliwiającym selekcję elementów interfejsu użytkownika (np. poprzez ich widoczny tekst czy dane identyfikatory), pisanie i interpretacja testów są proste i zrozumiałe nawet dla osób mniej zaawansowanych technicznie. Testy te koncentrują się na działaniach użytkownika, takich jak wprowadzanie danych w formularzach, klikanie przycisków czy weryfikacja wyświetlania odpowiednich treści.
+\\\\
+Dodatkowo, @testing-library/react pozwala na tworzenie testów odpornych na zmiany w strukturze implementacyjnej komponentów. Dzięki temu testy są bardziej trwałe i mniej podatne na awarie spowodowane drobnymi zmianami w kodzie, co w efekcie przyspiesza proces ich utrzymania. Takie podejście wspiera budowanie aplikacji skoncentrowanej na użytkowniku, co ma kluczowe znaczenie w przypadku nowoczesnych, dynamicznych aplikacji webowych. Testy napisane w tym stylu dokładniej odzwierciedlają rzeczywiste scenariusze użytkowania, co przekłada się na lepszą ochronę aplikacji przed błędami oraz nieoczekiwanymi zachowaniami w produkcji.
+
+\newpage
+
+\noindent
+Tworzenie testów automatycznych w aplikacjach frontendowych wymaga precyzji, szczególnie gdy aplikacja komunikuje się z API. W projekcie każda strona aplikacji ma dedykowany folder (Page) i plik testowy, który zawiera przypadki testowe dla całego widoku oraz jego komponentów. Organizacja taka ułatwia utrzymanie testów i zwiększa ich czytelność.
+\\\\
+Testy są tworzone w symulowanym środowisku, wykorzystując mocki API za pomocą narzędzi takich jak axios-mock-adapter. Dzięki temu aplikacja jest testowana w izolacji od rzeczywistego serwera, co pozwala sprawdzić jej zachowanie w różnych scenariuszach. To podejście gwarantuje stabilność i niezawodność kodu, a jednocześnie wspiera rozwój aplikacji i szybkie wykrywanie błędów.
+
+\begin{enumerate}
+    \item \textbf{Przygotowanie środowiska testowego:}\\
+    Na początku definiowane są mocki, które symulują odpowiedzi serwera. W tym celu użyta została biblioteka axios-mock-adapter. Dzięki niej możliwe jest kontrolowanie żądań wysyłanych przez axios w testach. Dla różnych endpointów API można zdefiniować każdy rodzaj żądania (GET, POST, idt.), jak i ich odpowiedzi.
+
+    \item \textbf{Tworzenie obiektów symulujących odpowiedzi serwera:}\\
+    Przed rozpoczęciem testu przygotowane zostały obiekty, które będą reprezentować rzeczywiste odpowiedzi serwera, dzięki czemu testy lepiej odzwierciedlają rzeczywiste scenariusze.
+
+    \item \textbf{Konfiguracja środowiska testowego:}\\
+    Wykorzystując funkcję \texttt{render} z biblioteki @testing-library/react, następuje render testowanego komponentu w izolowanym środowisku testowym. Często używa się do tego narzędzi takich jak \texttt{MemoryRouter}, które symulują kontekst nawigacji w aplikacjach React opartych na routerze. Dodatkowo definiowane zostają początkowe ścieżki aplikacji oraz komponenty, które mają być testowane.
+
+    \item \textbf{Testowanie elementów początkowych aplikacji:}\\
+    Po wyrenderowaniu komponentu można za pomocą odpowiednich funkcji biblioteki sprawdzić, czy elementy interfejsu użytkownika są widoczne na ekranie. Podczas tego etapu następuje weryfikacja, że aplikacja początkowo renderuje się poprawnie.
+
+    \item \textbf{Symulowanie interakcji użytkownika:}\\
+    Kolejnym krokiem jest symulacja interakcji na wygenerowanym komponencie. Ponownie wykorzystana biblioteka udostępnia gotowe rozwiązania w tym celu, dzięki czemu można przetestować, czy aplikacja reaguje poprawnie na interakcje użytkownika.
+
+    \item \textbf{Sprawdzanie wyników testu:}\\
+    Po wykonaniu akcji użytkownika, przy pomocy funkcji takich jak \texttt{waitFor} sprawdzone zostaje, czy oczekiwane zmiany w interfejsie użytkownika faktycznie zaszły, takiej jak przekierowania na odpowiednie strony, czy render poszczególnych pomniejszych komponentów.
+
+\end{enumerate}
+
+\newpage
+
+
+\noindent
+Przykład testu integracyjnego dla aplikacji frontendowej przedstawia ogólny schemat, w jaki testy są tworzone w projekcie. Każdy test weryfikuje współdziałanie komponentów, interakcje użytkownika oraz reakcje aplikacji na symulowane odpowiedzi API. Dzięki zastosowaniu narzędzi takich jak axios-mock-adapter możliwe jest dokładne odwzorowanie rzeczywistego środowiska działania aplikacji. Poniżej znajduje się fragment kodu ilustrujący test logowania, który obejmuje symulację żądań serwera, obsługę formularza logowania oraz przejście do głównej strony aplikacji.
+
+\vspace{0.5cm}
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=1\textwidth]{images/ex_front_tests.png}
+    \caption{Fragment kodu: Przykład testu komponentu aplikacji klienckiej.}
+\end{figure}
+\vspace{0.5cm}
+
+\noindent
+Schemat testów frontendowych nie jest sztywno określony, a jedynie ogólnie przedstawia logikę, która kieruje tworzeniem przypadków testowych. Jest on znacznie bardziej elastyczny w porównaniu do testów aplikacji serwerowej, gdzie testy mają bardziej określony i powtarzalny szablon. Taka różnica wynika z natury części frontendowej projektu, gdzie testy muszą uwzględniać różnorodne interakcje użytkownika, które mogą przybierać wiele różnych form i scenariuszy. W przypadku frontendu, testowanie często skupia się na zachowaniach aplikacji w różnych sytuacjach, co sprawia, że przypadki testowe są mniej formalne, a ich struktura bardziej dostosowana do dynamicznego charakteru interfejsu użytkownika.
+
+\newpage
+
 \subsubsection{Wykonywanie testów automatycznych}
+
+\noindent
+W projekcie testy aplikacji frontendowej są uruchamiane za pomocą narzędzia Vitest, które oferuje szybkie i wydajne środowisko testowe. Testy mogą być uruchamiane w trybie interfejsu użytkownika, co pozwala na wygodne monitorowanie wyników testów i łatwe prześledzenie ich postępu. Aby uruchomić testy, używana jest komenda "npm run test:ui", która uruchamia interaktywny interfejs do wyświetlania wyników testów w czasie rzeczywistym. Dzięki temu programista ma pełną kontrolę nad przebiegiem testów oraz łatwy dostęp do szczegółowych informacji na temat ich wyników.
+
+\vspace{0.5cm}
+\begin{figure}[h!]
+\centering
+\includegraphics[width=1\textwidth]{images/tests_front.png}
+\caption{Widok interfejsu użytkownika do uruchamiania testów w Vitest.}
+\end{figure}
+\vspace{0.5cm}
+
+\noindent
+Po uruchomieniu testów w trybie UI, można na bieżąco śledzić postęp testów oraz analizować wyniki. Testy, które zakończą się sukcesem, są wyświetlane w odpowiedniej kolorystyce, a te, które zawiodą, są wyraźnie zaznaczone, co ułatwia lokalizowanie problemów. Interfejs użytkownika Vitest umożliwia również szybkie przejście do szczegółowych informacji o błędach, co przyspiesza debugowanie.
+
+\newpage
+
 \subsubsection{Testy maunalne}
+
+\noindent
+W projekcie frontendowym testy manualne odgrywają kluczową rolę w zapewnieniu wysokiej jakości aplikacji, szczególnie ze względu na fakt, że to interfejs użytkownika jest bezpośrednio odpowiedzialny za jego doświadczenie (user experience, UX). Choć testy automatyczne są niezbędne do weryfikacji funkcji aplikacji i jej komponentów, testy manualne stanowią fundament procesu testowania, ponieważ umożliwiają szczegółowe i subiektywne ocenienie aplikacji z perspektywy rzeczywistego użytkownika.
+\\\\
+Testowanie manualne jest szczególnie istotne w przypadku aplikacji frontendowych, ponieważ użytkownicy wchodzą w interakcje z interfejsem graficznym, który może wykazywać różne zachowania w zależności od urządzenia, przeglądarki, rozdzielczości ekranu czy środowiska. Manualne testy pozwalają na wychwycenie problemów, które mogą być trudne do zauważenia w testach automatycznych, takich jak błędy w układzie, nieczytelne elementy, nieintuicyjna nawigacja, a także problemy z responsywnością czy kompatybilnością między różnymi platformami.
+\\\\
+Ważnym aspektem testów manualnych jest możliwość pełnego odwzorowania rzeczywistych scenariuszy użytkowania. Istnieje możliwość przeprowadzania testów na rzeczywistych danych, co pozwala na lepsze zrozumienie, jak aplikacja będzie funkcjonować w praktyce. Testowanie interakcji z danymi pochodzącymi z serwera jest niezbędne, aby sprawdzić, czy wszystkie elementy aplikacji, reagują poprawnie na dane wejściowe użytkownika oraz na odpowiedzi serwera. Ponadto, testy manualne dają możliwość symulowania różnych scenariuszy użytkowania, co pozwala na zweryfikowanie, czy aplikacja działa zgodnie z oczekiwaniami w warunkach rzeczywistych.
+\\\\
+Dzięki testom manualnym możliwe jest również przeprowadzenie testów związanych z interakcjami pomiędzy różnymi komponentami aplikacji, co daje pełny obraz działania aplikacji w kontekście całościowej interakcji. Na przykład, można sprawdzić, czy różne sekcje aplikacji przełączają się poprawnie, czy animacje są płynne, czy aplikacja reaguje odpowiednio na działania użytkownika, takie jak kliknięcia, przeciąganie, wprowadzanie danych czy nawigacja między stronami.
+\\\\
+Kolejnym istotnym elementem testów manualnych jest możliwość przeprowadzenia testów w różnych środowiskach, na różnych urządzeniach i systemach operacyjnych. Ze względu na dużą różnorodność sprzętu i oprogramowania używanego przez użytkowników aplikacji webowych, istotne jest, aby testy manualne były przeprowadzane na różnych urządzeniach, takich jak komputery stacjonarne, laptopy, tablety czy telefony, w różnych przeglądarkach internetowych oraz na różnych systemach operacyjnych. Tylko w ten sposób można upewnić się, że aplikacja będzie działała prawidłowo w szerokim zakresie warunków, z jakimi użytkownicy mogą się spotkać na co dzień.
+\\\\
+W testach manualnych ważna jest także możliwość dokładnego ocenienia użyteczności aplikacji, co jest kluczowe z perspektywy użytkowników końcowych. Podczas testów można zwrócić uwagę na to, jak intuicyjny jest interfejs, jak łatwo jest przejść przez różne procesy oraz czy użytkownicy mogą w sposób naturalny i płynny korzystać z aplikacji. Dzięki manualnemu testowaniu możliwe jest przeprowadzenie testów użyteczności (usability testing), które pomagają wykryć potencjalne trudności, jakie mogą napotkać użytkownicy, oraz wprowadzenie poprawek, które poprawiają komfort korzystania z aplikacji.
 
 \newpage
 
@@ -2801,6 +2889,7 @@ Przykład testu jednostkowego dla warstwy \texttt{.Core} przedstawia ogólny sch
 \end{figure}
 \vspace{0.5cm}
 
+\noindent
 W projekcie utworzono 238 przypadków testowych, które obejmują wszystkie istotne scenariusze dla każdego handlera. Testy te zostały zaprojektowane w taki sposób, aby sprawdzać nie tylko poprawną realizację procesów, ale także różne sytuacje błędne. Każdy test ma na celu upewnienie się, że aplikacja reaguje w odpowiedni sposób w przypadku nieprawidłowych danych wejściowych lub błędów. Dzięki temu projekt jest bardziej odporny na błędy, a jego stabilność oraz niezawodność zostały zwiększone poprzez sprawdzenie różnych ścieżek, które mogą wystąpić w rzeczywistych warunkach użytkowania aplikacji. Testy jednostkowe stanowią więc kluczowy element w zapewnieniu wysokiej jakości aplikacji, umożliwiając automatyczną weryfikację działania całego systemu.
 
 \newpage
@@ -2854,6 +2943,7 @@ Przykład testu integracyjnego dla warstwy \texttt{.Api.Tests} przedstawia spos�
 \end{figure}
 \vspace{0.5cm}
 
+\noindent
 W projekcie utworzono 134 przypadków testowych, które obejmują pełny przepływ danych i interakcje między komponentami aplikacji, takimi jak kontrolery API, bazy danych i usługi zewnętrzne. Testy te zostały zaprojektowane w taki sposób, aby sprawdzać nie tylko poprawność realizacji procesów, ale także różne sytuacje błędne, które mogą wystąpić podczas interakcji między komponentami systemu. Każdy test sprawdza, czy aplikacja reaguje odpowiednio na poprawne i błędne dane wejściowe, weryfikując odpowiedzi HTTP, zapis do bazy danych i inne krytyczne operacje. Dzięki temu projekt jest bardziej odporny na błędy, a jego stabilność oraz niezawodność zostały zwiększone poprzez symulowanie rzeczywistych warunków użytkowania aplikacji. Testy integracyjne stanowią więc kluczowy element w zapewnieniu wysokiej jakości aplikacji, umożliwiając weryfikację poprawności działania całego systemu w złożonych, rzeczywistych scenariuszach.
 
 \newpage
@@ -2873,6 +2963,7 @@ W Visual Studio dostępne jest także okno \textbf{Test Explorer}, które umożl
 \end{figure}
 \vspace{0.5cm}
 
+\noindent
 Po wykonaniu testów, w oknie Test Explorer zostaną pokazane wyniki. Testy, które zakończą się sukcesem, będą oznaczone na zielono, a te, które zakończą się niepowodzeniem, na czerwono. Klikając na test, który nie przeszedł, można uzyskać szczegóły błędu, co pozwala szybko zlokalizować problem w kodzie. Visual Studio generuje również raporty, które zawierają informacje o czasie wykonania testów, liczbie zaliczonych i niezaliczonych testów oraz ewentualnych błędach. Dzięki tym funkcjom, Visual Studio jest wygodnym narzędziem do przeprowadzania testów, monitorowania wyników i analizy przebiegu testowania.
 
 \newpage
