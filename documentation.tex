@@ -18,7 +18,7 @@
 \usepackage{amsmath} 
 \usepackage{colortbl}
 \usepackage{ragged2e}
-\usepackage{fancyhdr}
+\usepackage{sectsty,fancyhdr}
 \usepackage{etoolbox} 
 
 \usetikzlibrary{positioning}
@@ -26,32 +26,24 @@
 
 \makeatletter
 \renewcommand{\sectionmark}[1]{\markboth{#1}{}}
-\renewcommand{\subsectionmark}[1]{\markright{#1}}
 \makeatother
 
 \pagestyle{fancy}
 \fancyhf{}
 
-\fancyfoot[L]{
-    \ifx \rightmark\@empty
-        \nouppercase{\leftmark}
-    \else
-        \nouppercase{\rightmark}
-    \fi
-}
-\fancyfoot[R]{\thepage} 
+\fancyfoot[L]{\nouppercase{\leftmark}}
+\fancyfoot[R]{Strona \thepage} 
 \renewcommand{\headrulewidth}{0pt} 
 \renewcommand{\footrulewidth}{0.4pt} 
 
 \pagenumbering{arabic}
 
-
 \begin{document}
 \clearpage
 
 \begin{figure}[h]
-\centering
-\includegraphics[width=0.4\textwidth]{images/ps-logo.png}
+    \centering
+    \includegraphics[width=0.4\textwidth]{images/ps-logo.png}
 \end{figure}
 
 \begin{center}
@@ -111,10 +103,6 @@ Aplikacja \texttt{BRNChess} pozwala graczom na wybór pomiędzy rozgrywką onlin
 Projekt wyróżnia się również rozbudowanym systemem znajomości, który umożliwia użytkownikom zarządzanie swoimi kontaktami i kontrolowanie, z kim chcą rozgrywać partie szachowe. System ten pozwala na wysyłanie i akceptowanie zaproszeń do znajomych, dzięki czemu gracze mogą współzawodniczyć w bardziej spersonalizowany sposób. Dzięki tej funkcjonalności aplikacja \texttt{BRNChess} nie tylko oferuje doskonałe doświadczenie gry, ale także staje się platformą społecznościową, umożliwiającą rozwijanie pasji w gronie znajomych.
 \\\\
 Projekt kładzie nacisk na wysoką jakość doświadczenia użytkownika, dlatego interfejs aplikacji jest intuicyjny, responsywny i estetyczny. Rozgrywki online są płynne, a dzięki wsparciu czasu rzeczywistego użytkownicy mogą cieszyć się emocjonującymi partiami bez opóźnień. Mechanizmy kontroli czasowej nie tylko zwiększają atrakcyjność rozgrywek, ale również zachęcają graczy do częstego powracania na platformę.
-
-\newpage
-
-\subsection{Współczesna gra w szachy}
 
 \newpage
 
