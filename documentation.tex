@@ -33,30 +33,36 @@
 %\rzymskaNumeracjaDodatkow  %%włączy numerację dodatków liczbami rzymskimi
 
 %% standardowe komendy \newtheorem  działają jak w oryginale
-\newtheorem{tw}{Twierdzenie}%[subsection]
-\newtheorem{twa}{Twierdzenie}%[section]
-\newtheorem{dd}{Definicja}%[subsection]
+% \newtheorem{tw}{Twierdzenie}%[subsection]
+% \newtheorem{twa}{Twierdzenie}%[section]
+% \newtheorem{dd}{Definicja}%[subsection]
 
 \drugaStrona
 
 \strDrNap{Streszczenie}
 
-Tu wpisz streszczenie po polsku
+\noindent
+Projekt to webowa aplikacja do gry w szachy, łącząca strone kliencką, utworzoną z pomocą biblioteki React, z serwerową opartą na .NET Framework. Oferuje rozgrywki online z graczami lub silnikiem szachowym Stockfish, dynamiczne tryby czasowe oraz funkcje społecznościowe, takie jak system znajomości i personalizacja. Aplikacja zapewnia intuicyjny interfejs, płynną rozgrywkę i wysoki komfort użytkowania.
 
 \strDrNap{Słowa kluczowe}
 
-Słowa kluczowe
+\noindent
+Szachy, Gry online, Strona internetowa
 
 \strDrNap{Thesis title}
-Tytuł po angielsku
+
+\noindent
+Web game in a web application environment - Chess
 
 \strDrNap{Abstract}
 
-Tu wpisz streszczenie po angielsku
+\noindent
+The project is a web-based chess application that combines a client side, created with the help of the React library, with a server side based on the .NET Framework. It offers online gameplay with players or the Stockfish chess engine, dynamic time modes and community features such as a friendship system and personalization. The application provides an intuitive interface, smooth gameplay and a high user experience.
 
 \strDrNap{Keywords}
 
-Słowa kluczowe po angielsku
+\noindent
+Chess, Online Games, Website
 
 \koniecDrugaStrona
 
@@ -1491,8 +1497,7 @@ Struktura frontendu w tym projekcie jest zorganizowana w sposób umożliwiający
     \includegraphics[width=\linewidth]{images/struktura_front.png}
     \captionof{figure}{Struktura projektu warstwy klienckiej.}
 \end{minipage}
-
-\newpage
+\vspace{0.5cm}
 
 \noindent
 Ponadto na najniższym poziomie struktury projektu dodano lub automatycznie wygenerowano szereg plików odpowiedzialnych za konfigurację zarówno samego projektu, jak i środowiska deweloperskiego.
@@ -1561,10 +1566,6 @@ Poniżej przedstawiono fragment kodu z komponentu \texttt{MainRouter}, odpowiada
 
 \subsubsection{Komponenty interfejsu użytkownika}
 
-\noindent
-Aplikacja korzysta z dwóch głównych routerów, z których pierwszy obsługuje strony dostępne publicznie, które stanowią wstęp do pełnej aplikacji i są dostępne bez konieczności logowania, zapewniając użytkownikom możliwość zapoznania się z funkcjami platformy przed założeniem konta. Drugi natomiast zarządza stronami, które są dostępne tylko po zalogowaniu się użytkownika i obejmują pełną funkcjonalność aplikacji. Strony te wymagają uwierzytelnienia, aby zapewnić bezpieczeństwo danych użytkowników oraz personalizację doświadczenia, co pozwala na pełne wykorzystanie możliwości aplikacji, takich jak interakcja z innymi graczami czy dostosowywanie ustawień profilu.
-\\\\
-
 \noindent \textbf{Strona tytułowa (Index)}\\
 Strona tytułowa stanowi pierwsze spotkanie użytkownika z aplikacją. Zawiera ona szereg sekcji, które mają na celu zaprezentowanie aplikacji w sposób przejrzysty i zachęcający do dalszej interakcji. Sekcje na tej stronie obejmują ogólne wprowadzenie do gry w szachy, zasady gry oraz możliwość szybkiego rozpoczęcia gry online lub offline. Celem tej strony jest zainteresowanie użytkownika, zrozumienie, czym jest aplikacja i zachęcenie go do rejestracji lub logowania.
 \\
@@ -1579,7 +1580,8 @@ Strona rejestracji i logowania jest komponentem, umożliwiającym użytkownikowi
 
 \noindent \textbf{Strony ładowania (Loading)}\\
 Aplikacja zawiera również strony ładowania, które są wyświetlane w sytuacjach, gdy użytkownik musi poczekać na załadowanie zasobów lub wykonanie operacji, takich jak pobieranie danych z serwera. Strony te pełnią rolę informacyjną i zapewniają użytkownikowi feedback na temat aktualnego stanu procesu, na przykład ładowania gry, oczekiwania na odpowiedź z serwera lub innych operacji wymagających czasu.
-\\
+
+\newpage
 
 \noindent \textbf{Strona główna (Main)}\\
 Strona główna, dostępna zaraz po zalogowaniu, stanowi centrum nawigacji aplikacji. Z jej poziomu użytkownik może rozpocząć grę, zapoznać się z historią swoich poprzednich gier, a także przejść do innych sekcji, takich jak konto użytkownika, znajomi, ranking czy ustawienia. Strona ta pełni rolę wprowadzenia do pełnej funkcjonalności aplikacji, umożliwiając użytkownikowi szybki dostęp do najistotniejszych opcji. Oprócz rozpoczęcia nowych gier i przeglądania starych, użytkownik może również zapraszać znajomych do gry lub przejrzeć dostępne tryby rozgrywki.
@@ -1595,7 +1597,8 @@ Ten komponent odpowiada za tryb gry z komputerem, czyli tryb offline. W tym przy
 
 \noindent \textbf{Strona konta użytkownika (Account)}\\
 Strona konta użytkownika to miejsce, w którym użytkownik może przeglądać i edytować swój profil. Zawiera ona informacje na temat użytkownika, takie jak nazwa, zdjęcie profilowe oraz inne szczegóły, które można zmieniać. Dodatkowo, użytkownik ma dostęp do ustawień konta, takich jak zmiana hasła czy wygląd gry. Strona ta zawiera również sekcję z podsumowaniem statystyk gracza – liczba wygranych gier, liczba rozegranych partii i inne osiągnięcia.
-\\
+
+\newpage
 
 \noindent \textbf{Strona zarządzania znajomymi (Users)}\\
 Umożliwia ona użytkownikowi zarządzanie znajomymi i zapraszanie nowych osób do gry. Na tej stronie użytkownik może przeglądać swoich znajomych bądź wyszukiwać innych graczy. Jest to także miejsce, gdzie można przeglądać historię zaproszeń i statusy wysłanych zaproszeń. Użytkownik ma możliwość usuwania znajomych lub zatwierdzania nowych zaproszeń.
@@ -1607,12 +1610,14 @@ Strona ta pozwala na podgląd profili innych użytkowników. Dzięki tej stronie
 
 \noindent \textbf{Strona rankingu (Ranking)}\\
 Strona rankingu pokazuje aktualne rankingi graczy, zarówno na poziomie globalnym, jak i wśród znajomych. Użytkownik może przeglądać globalne rankingi, zobaczyć, jak plasuje się w porównaniu do innych graczy, jak również sprawdzić wyniki swoich znajomych. Ranking jest aktualizowany na bieżąco, odzwierciedlając wyniki wszystkich gier rozegranych w aplikacji. Dzięki temu użytkownicy mogą śledzić swoje postępy i starać się poprawić swoją pozycję w rankingu.
-
-\newpage
+\\
 
 \noindent \textbf{Strona błędu (NotFoundPage)}\\
 Strona błędu wyświetla się, gdy użytkownik próbuje uzyskać dostęp do nieistniejącej lub niedostępnej ścieżki w aplikacji. Jest to komponent informujący użytkownika o błędnym adresie URL lub próbie dostępu do zasobu, który został usunięty lub zmieniony. Strona ta zawiera czytelny komunikat o błędzie, a także odnośnik umożliwiający powrót do strony głównej. Dzięki temu użytkownik ma możliwość szybkiego odzyskania kontroli i powrotu do korzystania z funkcjonalności aplikacji.
-\\\\
+
+\newpage
+
+\noindent
 Po opisaniu zasad działania routingu w aplikacji oraz przedstawieniu wszystkich głównych komponentów, warto przedstawić diagram ilustrujący strukturę nawigacji i przepływ między poszczególnymi sekcjami. Diagram ten pomoże zrozumieć zależności pomiędzy komponentami oraz sposób, w jaki routing obsługuje żądania użytkowników w zależności od ich stanu uwierzytelnienia i wymaganych uprawnień.
 
 \vspace{1cm}
@@ -2560,11 +2565,11 @@ Strona użytkowników służy do zarządzania znajomymi i relacjami z innymi gra
 \begin{itemize}
     \item \textbf{Wszyscy użytkownicy} – zawiera listę wszystkich graczy dostępnych w aplikacji. Z tej sekcji użytkownicy mogą zapraszać innych do znajomych oraz podglądać ich skrócone wersje profili.
 
-    \item \textbf{Twoi znajomi} – znajdują się tutaj osoby, które zostały już dodane do listy znajomych. Można stąd zapraszać znajomych do gry lub przejść do pełnego profilu danego użytkownika. Istnieje także opcja usunięcia użytkownika z grona przyjaciół.
+    \item \textbf{Twoi znajomi} – znajdują się tutaj osoby, które zostały już dodane do listy znajomych. Można stąd zapraszać znajomych do gry lub przejść do profilu danego użytkownika. Istnieje także opcja usunięcia użytkownika z grona przyjaciół.
 
-    \item \textbf{Oczekujące zaproszenia} – sekcja zawiera zaproszenia, które zostały wysłane, ale jeszcze nie zostały zaakceptowane przez drugą stronę. Użytkownicy mogą tu zobaczyć zarówno wysłane zaproszenia, jak i te, które czekają na odpowiedź użytkownika.
+    \item \textbf{Oczekujące zaproszenia} – sekcja zawiera zaproszenia, które zostały wysłane, ale nie zostały zaakceptowane przez drugą stronę. Użytkownicy mogą tu zobaczyć zarówno wysłane zaproszenia, jak i oczekujące na odpowiedź.
 
-    \item \textbf{Odrzucone zaproszenia} – lista osób, które odrzuciły zaproszenia do znajomych lub które zabkowały użytkownika oraz zablokowani użytkownicy. W przypadku blokad zostaje wstrzymana możliwość interakcji użytkowników na platformie.
+    \item \textbf{Odrzucone zaproszenia} – lista osób, które odrzuciły zaproszenia lub które zabkowały użytkownika oraz zablokowani użytkownicy. W przypadku blokad zostaje wstrzymana możliwość interakcji użytkowników na platformie.
 
 \end{itemize}
 
@@ -2574,10 +2579,6 @@ Strona użytkowników służy do zarządzania znajomymi i relacjami z innymi gra
     \includegraphics[width=1\textwidth]{images/ins_users.png}
     \caption{Instrukcja: Widok strony zarządzania znajomymi.}
 \end{figure}
-\vspace{0.5cm}
-
-\noindent
-Cała strona umożliwia łatwe zarządzanie znajomymi, zaproszeniami i relacjami z innymi graczami, co pozwala na lepszą organizację kontaktów w aplikacji.
 
 \newpage
 
@@ -2612,32 +2613,28 @@ Testy automatyczne frontendu są istotnym elementem w procesie tworzenia nowocze
 \\\\
 Biblioteka @testing-library/react jest jednym z najczęściej wykorzystywanych narzędzi w testowaniu aplikacji zbudowanych w React. Jej projekt skupia się na zapewnieniu testów maksymalnie zbliżonych do rzeczywistego użytkowania aplikacji, co oznacza, że głównym przedmiotem testowania są widoczne rezultaty działania aplikacji oraz jej interakcje. W przeciwieństwie do tradycyjnych podejść, które mogą koncentrować się na szczegółach implementacyjnych, takich jak wewnętrzna struktura DOM czy konkretne klasy CSS, @testing-library/react promuje testowanie z perspektywy użytkownika końcowego.
 \\\\
-Jedną z głównych zalet tej biblioteki jest jej intuicyjność i czytelność. Dzięki funkcjom umożliwiającym selekcję elementów interfejsu użytkownika (np. poprzez ich widoczny tekst czy dane identyfikatory), pisanie i interpretacja testów są proste i zrozumiałe nawet dla osób mniej zaawansowanych technicznie. Testy te koncentrują się na działaniach użytkownika, takich jak wprowadzanie danych w formularzach, klikanie przycisków czy weryfikacja wyświetlania odpowiednich treści.
-\\\\
 Dodatkowo, @testing-library/react pozwala na tworzenie testów odpornych na zmiany w strukturze implementacyjnej komponentów. Dzięki temu testy są bardziej trwałe i mniej podatne na awarie spowodowane drobnymi zmianami w kodzie, co w efekcie przyspiesza proces ich utrzymania. Takie podejście wspiera budowanie aplikacji skoncentrowanej na użytkowniku, co ma kluczowe znaczenie w przypadku nowoczesnych, dynamicznych aplikacji webowych. Testy napisane w tym stylu dokładniej odzwierciedlają rzeczywiste scenariusze użytkowania, co przekłada się na lepszą ochronę aplikacji przed błędami oraz nieoczekiwanymi zachowaniami w produkcji.
 
 \newpage
 
 \noindent
-Tworzenie testów automatycznych w aplikacjach frontendowych wymaga precyzji, szczególnie gdy aplikacja komunikuje się z API. W projekcie każda strona aplikacji ma dedykowany folder (Page) i plik testowy, który zawiera przypadki testowe dla całego widoku oraz jego komponentów. Organizacja taka ułatwia utrzymanie testów i zwiększa ich czytelność.
-\\\\
-Testy są tworzone w symulowanym środowisku, wykorzystując mocki API za pomocą narzędzi takich jak axios-mock-adapter. Dzięki temu aplikacja jest testowana w izolacji od rzeczywistego serwera, co pozwala sprawdzić jej zachowanie w różnych scenariuszach. To podejście gwarantuje stabilność i niezawodność kodu, a jednocześnie wspiera rozwój aplikacji i szybkie wykrywanie błędów.
+W projekcie każda strona aplikacji ma dedykowany folder (Page) i plik testowy, który zawiera przypadki testowe dla całego widoku oraz jego komponentów. Organizacja taka ułatwia utrzymanie testów i zwiększa ich czytelność. Testy są tworzone w symulowanym środowisku, wykorzystując mocki API za pomocą narzędzia axios-mock-adapter. Dzięki temu aplikacja jest testowana w izolacji od rzeczywistego serwera, co pozwala sprawdzić jej zachowanie w różnych scenariuszach.
 
 \begin{enumerate}
     \item \textbf{Przygotowanie środowiska testowego:}\\
-    Na początku definiowane są mocki, które symulują odpowiedzi serwera. W tym celu użyta została biblioteka axios-mock-adapter. Dzięki niej możliwe jest kontrolowanie żądań wysyłanych przez axios w testach. Dla różnych endpointów API można zdefiniować każdy rodzaj żądania (GET, POST, idt.), jak i ich odpowiedzi.
+    Na początku definiowane są mocki, które symulują odpowiedzi serwera. W tym celu użyta została biblioteka axios-mock-adapter. Dzięki niej możliwe jest kontrolowanie żądań wysyłanych przez axios w testach. Dla różnych endpointów API można zdefiniować każdy rodzaj żądania, jak i ich odpowiedzi.
 
     \item \textbf{Tworzenie obiektów symulujących odpowiedzi serwera:}\\
     Przed rozpoczęciem testu przygotowane zostały obiekty, które będą reprezentować rzeczywiste odpowiedzi serwera, dzięki czemu testy lepiej odzwierciedlają rzeczywiste scenariusze.
 
     \item \textbf{Konfiguracja środowiska testowego:}\\
-    Wykorzystując funkcję \texttt{render} z biblioteki @testing-library/react, następuje render testowanego komponentu w izolowanym środowisku testowym. Często używa się do tego narzędzi takich jak \texttt{MemoryRouter}, które symulują kontekst nawigacji w aplikacjach React opartych na routerze. Dodatkowo definiowane zostają początkowe ścieżki aplikacji oraz komponenty, które mają być testowane.
+    Wykorzystując funkcję \texttt{render} z biblioteki @testing-library/react, następuje render testowanego komponentu w izolowanym środowisku testowym. Często używane są do tego narzędzia takie jak \texttt{MemoryRouter}, które symulują kontekst nawigacji w aplikacjach React opartych na routerze. Dodatkowo definiowane zostają początkowe ścieżki aplikacji oraz komponenty, które mają być testowane.
 
     \item \textbf{Testowanie elementów początkowych aplikacji:}\\
-    Po wyrenderowaniu komponentu można za pomocą odpowiednich funkcji biblioteki sprawdzić, czy elementy interfejsu użytkownika są widoczne na ekranie. Podczas tego etapu następuje weryfikacja, że aplikacja początkowo renderuje się poprawnie.
+    Po wyrenderowaniu komponentu można sprawdzić, czy elementy interfejsu użytkownika są widoczne na ekranie. Podczas tego etapu następuje weryfikacja, że aplikacja początkowo renderuje się poprawnie.
 
     \item \textbf{Symulowanie interakcji użytkownika:}\\
-    Kolejnym krokiem jest symulacja interakcji na wygenerowanym komponencie. Ponownie wykorzystana biblioteka udostępnia gotowe rozwiązania w tym celu, dzięki czemu można przetestować, czy aplikacja reaguje poprawnie na interakcje użytkownika.
+    Kolejnym krokiem jest symulacja interakcji na wygenerowanym komponencie. Ponownie wykorzystana biblioteka udostępnia gotowe rozwiązania w tym celu.
 
     \item \textbf{Sprawdzanie wyników testu:}\\
     Po wykonaniu akcji użytkownika, przy pomocy funkcji takich jak \texttt{waitFor} sprawdzone zostaje, czy oczekiwane zmiany w interfejsie użytkownika faktycznie zaszły, takiej jak przekierowania na odpowiednie strony, czy render poszczególnych pomniejszych komponentów.
@@ -2647,7 +2644,7 @@ Testy są tworzone w symulowanym środowisku, wykorzystując mocki API za pomoc�
 \newpage
 
 \noindent
-Przykład testu integracyjnego dla aplikacji frontendowej przedstawia ogólny schemat, w jaki testy są tworzone w projekcie. Każdy test weryfikuje współdziałanie komponentów, interakcje użytkownika oraz reakcje aplikacji na symulowane odpowiedzi API. Dzięki zastosowaniu narzędzi takich jak axios-mock-adapter możliwe jest dokładne odwzorowanie rzeczywistego środowiska działania aplikacji. Poniżej znajduje się fragment kodu ilustrujący test logowania, który obejmuje symulację żądań serwera, obsługę formularza logowania oraz przejście do głównej strony aplikacji.
+Przykład testu integracyjnego dla aplikacji przedstawia ogólny schemat, w jaki testy są tworzone w projekcie. Każdy test weryfikuje współdziałanie komponentów, interakcje użytkownika oraz reakcje aplikacji na symulowane odpowiedzi API. Dzięki zastosowaniu narzędzi takich jak axios-mock-adapter możliwe jest dokładne odwzorowanie rzeczywistego środowiska działania aplikacji. Poniżej znajduje się fragment kodu ilustrujący test logowania, który obejmuje symulację żądań serwera, obsługę formularza logowania oraz przejście do głównej strony aplikacji.
 
 \vspace{0.5cm}
 \begin{figure}[h!]
@@ -2683,17 +2680,15 @@ Po uruchomieniu testów w trybie UI, można na bieżąco śledzić postęp test�
 \subsubsection{Testy maunalne}
 
 \noindent
-W projekcie frontendowym testy manualne odgrywają kluczową rolę w zapewnieniu wysokiej jakości aplikacji, szczególnie ze względu na fakt, że to interfejs użytkownika jest bezpośrednio odpowiedzialny za jego doświadczenie (user experience, UX). Choć testy automatyczne są niezbędne do weryfikacji funkcji aplikacji i jej komponentów, testy manualne stanowią fundament procesu testowania, ponieważ umożliwiają szczegółowe i subiektywne ocenienie aplikacji z perspektywy rzeczywistego użytkownika.
+W projekcie frontendowym testy manualne odgrywają kluczową rolę w zapewnieniu wysokiej jakości aplikacji, szczególnie ze względu na fakt, że to interfejs użytkownika jest bezpośrednio odpowiedzialny za jego doświadczenie (UX). Choć testy automatyczne są niezbędne do weryfikacji funkcji aplikacji i jej komponentów, testy manualne stanowią fundament procesu testowania, ponieważ umożliwiają szczegółowe i subiektywne ocenienie aplikacji z perspektywy rzeczywistego użytkownika.
 \\\\
 Testowanie manualne jest szczególnie istotne w przypadku aplikacji frontendowych, ponieważ użytkownicy wchodzą w interakcje z interfejsem graficznym, który może wykazywać różne zachowania w zależności od urządzenia, przeglądarki, rozdzielczości ekranu czy środowiska. Manualne testy pozwalają na wychwycenie problemów, które mogą być trudne do zauważenia w testach automatycznych, takich jak błędy w układzie, nieczytelne elementy, nieintuicyjna nawigacja, a także problemy z responsywnością czy kompatybilnością między różnymi platformami.
 \\\\
-Ważnym aspektem testów manualnych jest możliwość pełnego odwzorowania rzeczywistych scenariuszy użytkowania. Istnieje możliwość przeprowadzania testów na rzeczywistych danych, co pozwala na lepsze zrozumienie, jak aplikacja będzie funkcjonować w praktyce. Testowanie interakcji z danymi pochodzącymi z serwera jest niezbędne, aby sprawdzić, czy wszystkie elementy aplikacji, reagują poprawnie na dane wejściowe użytkownika oraz na odpowiedzi serwera. Ponadto, testy manualne dają możliwość symulowania różnych scenariuszy użytkowania, co pozwala na zweryfikowanie, czy aplikacja działa zgodnie z oczekiwaniami w warunkach rzeczywistych.
+Ważnym aspektem testów manualnych jest możliwość pełnego odwzorowania rzeczywistych scenariuszy użytkowania. Istnieje możliwość przeprowadzania testów na rzeczywistych danych, co pozwala na lepsze zrozumienie, jak aplikacja będzie funkcjonować w praktyce. Testowanie interakcji z danymi pochodzącymi z serwera jest niezbędne, aby sprawdzić, czy wszystkie elementy aplikacji, reagują poprawnie na dane wejściowe użytkownika oraz na odpowiedzi serwera.
 \\\\
-Dzięki testom manualnym możliwe jest również przeprowadzenie testów związanych z interakcjami pomiędzy różnymi komponentami aplikacji, co daje pełny obraz działania aplikacji w kontekście całościowej interakcji. Na przykład, można sprawdzić, czy różne sekcje aplikacji przełączają się poprawnie, czy animacje są płynne, czy aplikacja reaguje odpowiednio na działania użytkownika, takie jak kliknięcia, przeciąganie, wprowadzanie danych czy nawigacja między stronami.
+Dzięki testom manualnym możliwe jest również przeprowadzenie testów związanych z interakcjami pomiędzy różnymi komponentami aplikacji, co daje pełny obraz działania aplikacji w kontekście całościowej interakcji. Na przykład, można sprawdzić, czy różne sekcje aplikacji przełączają się poprawnie, czy animacje są płynne, czy aplikacja reaguje odpowiednio na działania użytkownika, takie jak kliknięcia, wprowadzanie danych czy nawigacja między stronami.
 \\\\
-Kolejnym istotnym elementem testów manualnych jest możliwość przeprowadzenia testów w różnych środowiskach, na różnych urządzeniach i systemach operacyjnych. Ze względu na dużą różnorodność sprzętu i oprogramowania używanego przez użytkowników aplikacji webowych, istotne jest, aby testy manualne były przeprowadzane na różnych urządzeniach, takich jak komputery stacjonarne, laptopy, tablety czy telefony, w różnych przeglądarkach internetowych oraz na różnych systemach operacyjnych. Tylko w ten sposób można upewnić się, że aplikacja będzie działała prawidłowo w szerokim zakresie warunków, z jakimi użytkownicy mogą się spotkać na co dzień.
-\\\\
-W testach manualnych ważna jest także możliwość dokładnego ocenienia użyteczności aplikacji, co jest kluczowe z perspektywy użytkowników końcowych. Podczas testów można zwrócić uwagę na to, jak intuicyjny jest interfejs, jak łatwo jest przejść przez różne procesy oraz czy użytkownicy mogą w sposób naturalny i płynny korzystać z aplikacji. Dzięki manualnemu testowaniu możliwe jest przeprowadzenie testów użyteczności (usability testing), które pomagają wykryć potencjalne trudności, jakie mogą napotkać użytkownicy, oraz wprowadzenie poprawek, które poprawiają komfort korzystania z aplikacji.
+W testach manualnych ważna jest także możliwość dokładnego ocenienia użyteczności aplikacji, co jest istotne z perspektywy użytkowników końcowych. Podczas testów można zwrócić uwagę na to, jak intuicyjny jest interfejs, jak łatwo jest przejść przez różne procesy oraz czy użytkownicy mogą w sposób płynny korzystać z aplikacji. Dzięki manualnemu testowaniu możliwe wprowadzenie poprawek, które poprawiają komfort korzystania z aplikacji.
 
 \newpage
 
@@ -2706,28 +2701,24 @@ Test jednostkowy to rodzaj testu, który sprawdza pojedynczą jednostkę kodu, n
 \\\\
 W kontekście niniejszego projektu, testy jednostkowe zostały zastosowane w celu automatycznej kontroli poprawności działania klas odpowiedzialnych za obsługę zapytań. Każdy przypadek obsługi zapytania, który mógł wystąpić w aplikacji, został przetestowany w ramach osobnego testu jednostkowego. Testy te weryfikują nie tylko prawidłowe działanie procedury, ale również różne scenariusze błędów. Zostały stworzone testy dla każdego możliwego błędu, jaki może pojawić się przy obsłudze zapytania. Dzięki temu, aplikacja jest testowana w pełni automatycznie w różnych kontekstach i zapewnia, że każda część logiki działa zgodnie z założeniami.
 \\\\
-Zakres testów jednostkowych w projekcie obejmuje jeden konkretny \textbf{RequestHandler} i jego wewnętrzną logikę. W odróżnieniu od testów integracyjnych, które sprawdzają współdziałanie różnych komponentów systemu, testy jednostkowe skupiają się na indywidualnych metodach i funkcjach w obrębie jednego handlera. Każdy test jest zaprojektowany w taki sposób, aby sprawdzać pojedynczy przypadek użycia, co pozwala na szybkie zidentyfikowanie ewentualnych błędów w jednej, konkretnej logice.
+Zakres testów jednostkowych w projekcie obejmuje jedną obsługę żądania i jego wewnętrzną logikę. Testy jednostkowe skupiają się na indywidualnych metodach i funkcjach w obrębie jednego handlera. Każdy test jest zaprojektowany w taki sposób, aby sprawdzać pojedynczy przypadek użycia, co pozwala na szybkie zidentyfikowanie ewentualnych błędów w jednej, konkretnej logice.
 \\\\
-Testy te, mimo że niezwykle istotne, bywają dość monotonne i powtarzalne. Często weryfikują one ten sam zestaw działań, na przykład sprawdzając, czy odpowiednie repozytorium zwróciło poprawną encję lub, w przypadku błędu, czy prawidłowo zgłoszono wyjątek. W wielu testach weryfikowane są te same operacje w kontekście różnych danych wejściowych, co sprawia, że schemat testów jest jednorodny.
-\\\\
-Logika tworzenia testów jednostkowych w tym projekcie polega na tym, że dla każdego potencjalnego błędu, który może wystąpić w ramach danego handlera, tworzony jest osobny przypadek testowy. Na przykład, jeśli handler może rzucić różne wyjątki w zależności od sytuacji, dla każdego z tych wyjątków tworzony jest dedykowany test, który sprawdza, czy błąd jest odpowiednio obsługiwany. Dzięki temu testy są wysoce precyzyjne, a ich struktura pozwala na dokładne śledzenie działania aplikacji w różnych, potencjalnie problematycznych scenariuszach.
+Logika tworzenia testów jednostkowych w tym projekcie polega na tym, że dla każdego potencjalnego błędu, który może wystąpić w ramach danego handlera, tworzony jest osobny przypadek testowy. Na przykład, jeśli handler może rzucić różne wyjątki w zależności od sytuacji, dla każdego z tych wyjątków tworzony jest dedykowany test, który sprawdza, czy błąd jest odpowiednio obsługiwany. Dzięki temu testy są wysoce precyzyjne, a ich struktura pozwala na dokładne śledzenie działania aplikacji w różnych, potencjalnie problematycznych scenariuszach. 
 
 \newpage
 
 \noindent
-Testy jednostkowe w tym projekcie zostały zaprojektowane w sposób, który umożliwia dokładne sprawdzenie poprawności logiki biznesowej w różnych scenariuszach. Testy te zostały stworzone w sposób umożliwiający symulowanie interakcji z różnymi zależnościami, takimi jak repozytoria, serwisy zewnętrzne i funkcje pomocnicze. Każdy test jest dedykowany do konkretnego przypadku, a jego głównym celem jest weryfikacja, czy odpowiednia metoda reaguje zgodnie z oczekiwaniami w różnych sytuacjach.
-\\\\
 Ogólny proces tworzenia testów jednostkowych wygląda następująco:
 
 \begin{enumerate}
     \item \textbf{Przygotowanie obiektów:}\\
-    W każdym teście tworzone są obiekty typu \textbf{Mock} dla zależności, takich jak repozytoria czy serwisy, które pozwalają na kontrolowanie ich zachowania w trakcie testów. Dzięki tym obiektom można zasymulować różne scenariusze, takie jak dostęp do bazy danych czy specyficzne funkcjonaliści serwisów, bez rzeczywistego ich wywoływania.
+    W każdym teście tworzone są obiekty typu \texttt{Mock} dla zależności, takich jak repozytoria czy serwisy, które pozwalają na kontrolowanie ich zachowania w trakcie testów. Dzięki nim można zasymulować różne scenariusze, bez rzeczywistego ich wywoływania.
 
     \item \textbf{Utworzenie testowych obiektów:}\\
     W każdym z testów na początku utworzone zostały przykładowe dane, które symulowane metody mogą zwrócić, w celu odwzorowania rzeczywistych scenariuszy. Obiekty te są tworzone w sposób kontrolowany, aby odpowiadały wymaganym warunkom testowym. Mogą zostać stworzone zarówno poprawne obiekty, jak i niepoprawne obiekty, co umożliwia dokładne sprawdzenie, jak system reaguje na różne przypadki.
 
     \item \textbf{Symulowanie zachowania zależności:}\\
-    Za pomocą metody \textbf{Setup} ustawia się, jak dane zależności mają się zachować w czasie wykonywania testu. Na przykład, w przypadku repozytorium użytkowników, można ustawić, by konkretna metoda zwracała wcześniej zadeklarowanego obiekt encji, co umożliwia sprawdzenie, jak system reaguje, gdy obiekty o określonych własnościach już istnieją.
+    Za pomocą metody \texttt{Setup} ustawia się, jak dane zależności mają się zachować w czasie wykonywania testu. Na przykład, w przypadku repozytorium użytkowników, można ustawić, by konkretna metoda zwracała wcześniej zadeklarowanego obiekt encji, co umożliwia sprawdzenie, jak system reaguje, gdy obiekty o określonych własnościach już istnieją.
 
     \item \textbf{Przygotowanie żądania (request):}\\
     Następnie wywoływana jest metoda testowanego handlera, która wykonuje logikę biznesową na podstawie testowych danych wejściowych.
@@ -2771,20 +2762,16 @@ Podczas testów integracyjnych, główną uwagą jest sprawdzenie, czy dane prze
 \\\\
 W celu przeprowadzenia testów integracyjnych, konieczne jest pełne zrozumienie struktury systemu oraz umiejętność identyfikacji kluczowych punktów interakcji pomiędzy jego elementami. Testowanie takich interakcji wymaga wiedzy o tym, jak system funkcjonuje w całości oraz o tym, jak poszczególne komponenty wzajemnie się wspierają. Ze względu na złożoność takich testów, przeprowadzenie ich może być czasochłonne i wymagające odpowiednich zasobów. Mimo to, testy integracyjne dostarczają bardzo cennych informacji, które pomagają upewnić się, że cały system działa zgodnie z oczekiwaniami i spełnia wymagania użytkownika.
 \\\\
-W projekcie testy integracyjne są zaprojektowane w taki sposób, aby weryfikowały pełny przepływ danych pomiędzy warstwą aplikacji i bazą danych, a także interakcje z zewnętrznymi zasobami. Są one bardziej złożone i czasochłonne niż testy jednostkowe, ponieważ obejmują całą aplikację, a nie pojedyncze komponenty, ale zapewniają pełniejszy obraz poprawności działania systemu w rzeczywistych warunkach.
-\\\\
-Aby przeprowadzić testy integracyjne, najpierw tworzone jest środowisko testowe. Do tego celu W projekcie używana jest klasa \textbf{TestWebApplicationFactory<Program>}, która odpowiada za stworzenie odpowiedniego kontekstu aplikacji testowej, w tym uruchomienie aplikacji oraz jej zależności. Dzięki temu możliwe jest przeprowadzenie testów w warunkach możliwie najbardziej zbliżonych do rzeczywistego środowiska produkcyjnego. Istotnym elementem jest również wykorzystanie \textbf{HttpClient}, który pozwala na symulowanie zapytań HTTP oraz kontekstu bazy danych, co umożliwia interakcję z danymi i weryfikację zapisów.
-\\\\
-Po utworzeniu odpowiedniego środowiska testowego, jak opisano wcześniej, każdy folder testów, podzielony według kontrolerów API, zawiera definicję klasy \textbf{DbFilters}. Klasa ta pełni rolę pomocniczą, dostarczając metod, które pozwalają na inicjalizację bazy danych przed rozpoczęciem testów integracyjnych. Zawiera ona metody umożliwiające dodanie danych testowych do bazy. Dzięki tym funkcjom możliwe jest stworzenie realistycznego środowiska testowego, które odzwierciedla rzeczywisty stan bazy danych, a testy mogą sprawdzać pełny przepływ danych, w tym interakcję z bazą. Każdy z tych kroków pozwala na dokładniejsze i bardziej wiarygodne przeprowadzenie testów integracyjnych, sprawdzając działanie aplikacji w kontekście interakcji z bazą danych oraz innymi komponentami systemu.
+W projekcie testy integracyjne są zaprojektowane w taki sposób, aby weryfikowały pełny przepływ danych pomiędzy warstwą aplikacji i bazą danych, a także interakcje z zewnętrznymi zasobami. Są one bardziej złożone i czasochłonne niż testy jednostkowe, ponieważ obejmują całą aplikację, a nie pojedyncze komponenty, ale zapewniają pełniejszy obraz poprawności działania systemu w rzeczywistych warunkach. 
 
 \newpage
 
 \noindent
-Testy integracyjne w tym projekcie zostały zaprojektowane w celu sprawdzenia, jak różne części aplikacji współdziałają ze sobą, obejmując pełny przepływ danych, od momentu wysłania zapytania HTTP do finalnego zapisania danych w bazie danych. Główne kroki tworzenia takich testów są następujące:
+Główne kroki tworzenia takich testów są następujące:
 
 \begin{enumerate}
     \item \textbf{Konfiguracja środowiska testowego:}\\
-    Testy integracyjne wymagają pełnego uruchomienia aplikacji w kontrolowanych warunkach. W tym przypadku używa się specjalnej klasy \texttt{TestWebApplicationFactory}, która odpowiada za stworzenie środowiska testowego, w tym uruchomienie aplikacji oraz jej zależności. Dodatkowo, do testów wykorzystywane są komponenty takie jak \texttt{HttpClient}, który pozwala na symulowanie wysyłania zapytań HTTP, oraz kontekst bazy danych, który umożliwia interakcję z bazą.
+    Testy integracyjne wymagają pełnego uruchomienia aplikacji w kontrolowanych warunkach. W tym przypadku używa się specjalnie dedykowanej klasy \texttt{TestWebApplicationFactory}, która odpowiada za stworzenie środowiska testowego, w tym uruchomienie aplikacji oraz jej zależności. Dodatkowo, do testów wykorzystywane są komponenty takie jak \texttt{HttpClient}, który pozwala na symulowanie wysyłania zapytań HTTP, oraz kontekst bazy danych, który umożliwia interakcję z bazą.
 
     \item \textbf{Utworzenie testowych obiektów:}\\
     W testach integracyjnych tworzone są testowe obiekty, które symulują rzeczywiste dane, które będą przesyłane w zapytaniach. Obiekt modeli są tworzone z danymi, które będą wysyłane jako konkretne żądanie. Obiekty te są konwertowane do formatu JSON, a następnie na \texttt{StringContent}, który jest przesyłany w ciele żądania HTTP.
@@ -2814,7 +2801,7 @@ Przykład testu integracyjnego dla warstwy \texttt{.Api.Tests} przedstawia spos�
 \vspace{0.5cm}
 
 \noindent
-W projekcie utworzono 134 przypadków testowych, które obejmują pełny przepływ danych i interakcje między komponentami aplikacji, takimi jak kontrolery API, bazy danych i usługi zewnętrzne. Testy te zostały zaprojektowane w taki sposób, aby sprawdzać nie tylko poprawność realizacji procesów, ale także różne sytuacje błędne, które mogą wystąpić podczas interakcji między komponentami systemu. Każdy test sprawdza, czy aplikacja reaguje odpowiednio na poprawne i błędne dane wejściowe, weryfikując odpowiedzi HTTP, zapis do bazy danych i inne krytyczne operacje. Dzięki temu projekt jest bardziej odporny na błędy, a jego stabilność oraz niezawodność zostały zwiększone poprzez symulowanie rzeczywistych warunków użytkowania aplikacji. Testy integracyjne stanowią więc kluczowy element w zapewnieniu wysokiej jakości aplikacji, umożliwiając weryfikację poprawności działania całego systemu w złożonych, rzeczywistych scenariuszach.
+W projekcie utworzono 134 przypadków testowych, które obejmują pełny przepływ danych i interakcje między komponentami aplikacji, takimi jak kontrolery API, baza danych i usługi. Testy te zostały zaprojektowane w taki sposób, aby sprawdzać nie tylko poprawność realizacji procesów, ale także różne sytuacje błędne, które mogą wystąpić podczas interakcji między komponentami systemu. Każdy test sprawdza, czy aplikacja reaguje odpowiednio na poprawne i błędne dane wejściowe, weryfikując odpowiedzi HTTP, zapis do bazy danych i inne krytyczne operacje. Dzięki temu projekt jest bardziej odporny na błędy, a jego stabilność oraz niezawodność zostały zwiększone poprzez symulowanie rzeczywistych warunków użytkowania aplikacji.
 
 \newpage
 
