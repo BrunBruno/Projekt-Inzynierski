@@ -162,7 +162,7 @@ function WebGameRightSidebar({
   // for players display
   const renderPlayer = (player: PlayerDto, colorClass: ElementClass, avatarClass: ElementClass): JSX.Element => {
     return (
-      <div className={`${classes.bar__content__header__player} ${colorClass}`}>
+      <div className={`${classes.content__header__player} ${colorClass}`}>
         <AvatarImage
           username={player.name}
           profilePicture={player.profilePicture}
@@ -271,12 +271,12 @@ function WebGameRightSidebar({
     >
       <div
         className={`
-          ${classes.bar__content} 
+          ${classes.content} 
           ${!gameData.timingType ? classes["null-timing"] : ""}
         `}
       >
         {/* players data */}
-        <div className={classes.bar__content__header}>
+        <div className={classes.content__header}>
           {gameData.whitePlayer.name == playerData.name
             ? renderPlayer(gameData.whitePlayer, classes["white-player"], classes["white-player-img"])
             : renderPlayer(gameData.blackPlayer, classes["black-player"], classes["black-player-img"])}

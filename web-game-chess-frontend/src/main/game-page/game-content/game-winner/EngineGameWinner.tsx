@@ -102,7 +102,7 @@ function EngineGameWinner({ gameData, winnerData }: EngineGameWinnerProps) {
     };
 
     return (
-      <div className={classes.winner__content__info__players}>
+      <div className={classes.window__info__players}>
         {gameData.player.color === PieceColor.white
           ? renderPlayer(gameData.player, classes["white-player"], classes["white-player-img"])
           : renderPlayer(gameData.player, classes["black-player"], classes["black-player-img"])}
@@ -150,7 +150,7 @@ function EngineGameWinner({ gameData, winnerData }: EngineGameWinnerProps) {
         showWinner(event);
       }}
     >
-      <div className={classes.winner__content}>
+      <div className={classes.window}>
         <h2
           className={`
             ${classes.title}
@@ -173,10 +173,10 @@ function EngineGameWinner({ gameData, winnerData }: EngineGameWinnerProps) {
           </div>
         </h2>
 
-        <div className={classes.winner__content__info}>
+        <div className={classes.window__info}>
           {generatePlayers()}
 
-          <div className={classes.winner__content__info__buttons}>
+          <div className={classes.window__info__buttons}>
             <button
               className={classes["new-game"]}
               onClick={() => {

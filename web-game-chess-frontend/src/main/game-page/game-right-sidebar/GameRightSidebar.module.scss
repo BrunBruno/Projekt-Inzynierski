@@ -22,7 +22,7 @@
   }
 
   // right side bar content
-  &__content {
+  .content {
     position: inherit;
     z-index: 2;
     height: 100%;
@@ -199,7 +199,7 @@
       display: none;
     }
 
-    .bar__content {
+    .content {
       border-bottom-left-radius: 4rem;
 
       &.null-timing {
@@ -219,7 +219,7 @@
       display: none;
     }
 
-    &__content {
+    .content {
       grid-template-rows: 100%;
       grid-template-columns: 1fr 1fr;
       padding: 0;

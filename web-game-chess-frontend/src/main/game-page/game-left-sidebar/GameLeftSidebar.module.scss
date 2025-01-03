@@ -21,7 +21,7 @@
     pointer-events: none;
   }
 
-  &__content {
+  .content {
     position: inherit;
     z-index: 2;
     height: 100%;
@@ -120,7 +120,7 @@
       display: none;
     }
 
-    .bar__content {
+    .content {
       &__logo {
         @include flex;
 
@@ -130,9 +130,7 @@
           display: none;
         }
       }
-    }
 
-    .bar__content {
       &__list {
         width: fit-content;
 
@@ -144,9 +142,7 @@
           }
         }
       }
-    }
 
-    .bar__content {
       &__captures {
         display: none;
       }
@@ -164,7 +160,7 @@
       display: none;
     }
 
-    &__content {
+    .content {
       grid-template-rows: 1fr;
       grid-template-columns: 6rem auto 24rem;
       padding: 0;

@@ -176,9 +176,9 @@ function EngineGameLeftSidebar({
         ${gameData.gameSettings.appearanceOfGamePage === AppearanceOfGamePage.Simple ? classes["simple-view"] : ""}
       `}
     >
-      <div className={classes.bar__content}>
+      <div className={classes.content}>
         <div
-          className={classes.bar__content__logo}
+          className={classes.content__logo}
           onClick={() => {
             location.reload();
           }}
@@ -188,9 +188,9 @@ function EngineGameLeftSidebar({
         </div>
 
         {/* game options */}
-        <ul className={classes.bar__content__list}>
+        <ul className={classes.content__list}>
           <li
-            className={classes.bar__content__list__element}
+            className={classes.content__list__element}
             onClick={() => {
               onLeaveGame();
             }}
@@ -201,7 +201,7 @@ function EngineGameLeftSidebar({
           </li>
 
           <li
-            className={classes.bar__content__list__element}
+            className={classes.content__list__element}
             onClick={() => {
               onSelectGameRestart();
             }}
@@ -211,7 +211,7 @@ function EngineGameLeftSidebar({
           </li>
 
           <li
-            className={classes.bar__content__list__element}
+            className={classes.content__list__element}
             onClick={() => {
               onSelectResign();
             }}
@@ -222,7 +222,7 @@ function EngineGameLeftSidebar({
 
           <li
             className={`
-              ${classes.bar__content__list__element} 
+              ${classes.content__list__element} 
               ${!gameData.allowCheats ? classes["un-active"] : ""}
             `}
             onClick={() => {
@@ -235,7 +235,7 @@ function EngineGameLeftSidebar({
 
           <li
             className={`
-              ${classes.bar__content__list__element} 
+              ${classes.content__list__element} 
               ${!gameData.allowCheats ? classes["un-active"] : ""}
             `}
             onClick={() => {
@@ -247,7 +247,7 @@ function EngineGameLeftSidebar({
           </li>
 
           <li
-            className={classes.bar__content__list__element}
+            className={classes.content__list__element}
             onClick={() => {
               onShowSettings();
             }}
@@ -257,7 +257,7 @@ function EngineGameLeftSidebar({
           </li>
         </ul>
 
-        <div className={classes.bar__content__captures}>
+        <div className={classes.content__captures}>
           <GameCapturedPieces gameData={gameData} />
         </div>
       </div>

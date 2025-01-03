@@ -220,9 +220,9 @@ function WebGameLeftSidebar({
       ${gameData.gameSettings.appearanceOfGamePage === AppearanceOfGamePage.Simple ? classes["simple-view"] : ""}
     `}
     >
-      <div className={classes.bar__content}>
+      <div className={classes.content}>
         <div
-          className={classes.bar__content__logo}
+          className={classes.content__logo}
           onClick={() => {
             location.reload();
           }}
@@ -232,9 +232,9 @@ function WebGameLeftSidebar({
         </div>
 
         {/* game options */}
-        <ul className={classes.bar__content__list}>
+        <ul className={classes.content__list}>
           <li
-            className={classes.bar__content__list__element}
+            className={classes.content__list__element}
             onClick={() => {
               setLeaveOption();
             }}
@@ -252,7 +252,7 @@ function WebGameLeftSidebar({
           </li>
 
           <li
-            className={classes.bar__content__list__element}
+            className={classes.content__list__element}
             onClick={() => {
               onSelectAction(GameActionInterface.resign);
             }}
@@ -262,7 +262,7 @@ function WebGameLeftSidebar({
           </li>
 
           <li
-            className={classes.bar__content__list__element}
+            className={classes.content__list__element}
             onClick={() => {
               onSelectAction(GameActionInterface.draw);
             }}
@@ -272,7 +272,7 @@ function WebGameLeftSidebar({
           </li>
 
           <li
-            className={classes.bar__content__list__element}
+            className={classes.content__list__element}
             onClick={() => {
               onSelectAction(GameActionInterface.block);
             }}
@@ -282,7 +282,7 @@ function WebGameLeftSidebar({
           </li>
 
           <li
-            className={classes.bar__content__list__element}
+            className={classes.content__list__element}
             onClick={() => {
               onSelectAction(GameActionInterface.report);
             }}
@@ -292,7 +292,7 @@ function WebGameLeftSidebar({
           </li>
 
           <li
-            className={classes.bar__content__list__element}
+            className={classes.content__list__element}
             onClick={() => {
               onShowSettings();
             }}
@@ -302,7 +302,7 @@ function WebGameLeftSidebar({
           </li>
         </ul>
 
-        <div className={classes.bar__content__captures}>
+        <div className={classes.content__captures}>
           <GameCapturedPieces gameData={gameData} />
         </div>
       </div>

@@ -10,7 +10,7 @@
   background-color: rgba(#000, 0.7);
   pointer-events: none;
 
-  &__content {
+  .window {
     @include emerge-ani;
 
     background-color: $gc9;
@@ -311,7 +311,7 @@
     pointer-events: all;
   }
 
-  &.close > .winner__content {
+  &.close > .window {
     display: none;
   }
 }
