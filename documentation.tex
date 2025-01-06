@@ -1,4 +1,4 @@
-\documentclass[oneside]{projektInzynierskiMS1}
+\documentclass[twoside]{projektInzynierskiMS1}
 \usepackage{polski}
 \usepackage[dvipsnames]{xcolor}
 \usepackage[utf8]{inputenc}
@@ -12,6 +12,50 @@
 \usepackage{etoolbox} 
 \usepackage{enumitem}
 \usepackage{caption}
+\usepackage{listings}
+
+\captionsetup{hypcap=false}
+\pdfstringdefDisableCommands{%
+  \def\kern{}%
+}
+
+% Custom language definitions and styles for C# and React
+\lstdefinelanguage{CSharp}{
+  keywords=[1]{abstract, as, base, bool, break, byte, case, catch, char, checked, class, const, continue, decimal, default, delegate, do, double, else, enum, event, explicit, extern, false, finally, fixed, float, for, foreach, goto, if, implicit, in, int, interface, internal, is, lock, long, namespace, new, null, object, operator, out, override, params, private, protected, public, readonly, ref, return, sbyte, sealed, short, sizeof, stackalloc, static, string, struct, switch, this, throw, true, try, typeof, uint, ulong, unchecked, unsafe, ushort, using, virtual, void, volatile, while},
+  keywords=[2]{var, dynamic, async, await, Task, ValueTask, yield},
+  sensitive=true,
+  comment=[l]{//},
+  morecomment=[s]{/*}{*/},
+  morestring=[b]",
+  morestring=[b]',
+}
+
+\lstdefinelanguage{JSX}{
+  keywords=[1]{const, let, var, function, return, if, else, for, while, do, break, continue, switch, case, default, true, false, null, import, from, export, class, extends, super, this, new, try, catch, finally, throw, async, await},
+  keywords=[2]{useState, useEffect, useRef, useContext, useReducer, React, Component, render, StrictMode},
+  keywords=[3]{div, span, h1, h2, h3, h4, h5, h6, p, ul, li, button, input, form},
+  sensitive=true,
+  comment=[l]{//},
+  morecomment=[s]{/*}{*/},
+  morestring=[b]", % Double quote strings
+  morestring=[b]', % Single quote strings
+  alsoletter={<>}, % Recognize <> as part of JSX
+}
+
+\lstset{
+  basicstyle=\ttfamily\small,
+  keywordstyle=[1]\color{blue},
+  keywordstyle=[2]\color{teal},
+  keywordstyle=[3]\color{purple},
+  commentstyle=\color{gray},
+  stringstyle=\color{red},
+  numbers=left,
+  numberstyle=\tiny\color{gray},
+  stepnumber=1,
+  backgroundcolor=\color{lightgray!10},
+  breaklines=true,
+  showstringspaces=false,
+}
 
 
 \title{Gra sieciowa w środowisku aplikacji webowej - Szachy}
@@ -23,16 +67,6 @@
 
 \autor{Bruno Masłoń}{303220}
 
-%%%%%%%% zestaw komend, które można włączyć, tam gdzie jest
-%\NumeryNaPoczatku
-%%% numeracja wzorów tu włączona typu (1.2.3), ta druga to typu (1.2), domyślnie typu (1)
-%\subsectionWzory
-% \sectionWzory  
-%\rozdzialy
-%\literowaNumeracjaDodatkow %% włączy numerację dodatków literami
-%\rzymskaNumeracjaDodatkow  %%włączy numerację dodatków liczbami rzymskimi
-
-%% standardowe komendy \newtheorem  działają jak w oryginale
 \newtheorem{tw}{Twierdzenie}%[subsection]
 \newtheorem{twa}{Twierdzenie}%[section]
 \newtheorem{dd}{Definicja}%[subsection]
@@ -64,22 +98,16 @@ The project is a web-based chess application that combines a client side, create
 \noindent
 Chess, Online Games, Website
 
-\newpage
-
 \koniecDrugaStrona
 
 \begin{document}
 
-\newpage
-
-\section{Wstęp}
-
-\subsection{Opis projektu}
+\subsection{\texorpdfstring{Opis projektu}{Opis projektu}}
 
 \noindent
-Projekt \texttt{BRNChess} to aplikacja webowa, zaprojektowana dla osób zainteresowanych szachami, składająca się z dwóch głównych komponentów: aplikacji internetowej (frontend) oraz aplikacji serwerowej (backend). Strona kliencka została stworzona w oparciu o technologie React oraz Vite, a kod jest pisany w języku TypeScript, co zapewnia wysoką wydajność, czytelność i skalowalność projektu. Backend natomiast opiera się na platformie .NET Framework, co umożliwia szybkie i niezawodne przetwarzanie logiki serwera oraz integrację z różnymi usługami.
+Projekt aplikacji szachowej, dalej nazywany \texttt{BRNChess} to aplikacja webowa, zaprojektowana dla osób zainteresowanych szachami, składająca się z dwóch głównych komponentów: aplikacji internetowej (frontend) oraz aplikacji serwerowej (backend). Strona kliencka została utworzona w oparciu o technologie React oraz Vite, a kod jest pisany w języku TypeScript, co zapewnia wysoką wydajność, czytelność i skalowalność projektu. Backend natomiast opiera się na platformie .NET Framework, co umożliwia szybkie i niezawodne przetwarzanie logiki serwera oraz integrację z różnymi usługami.
 \\\\
-Aplikacja ma na celu zapewnienie użytkownikom możliwości rozgrywki w jedną z najstarszych i najpopularniejszych gier PvP na świecie — szachy. Jest to strategiczna gra planszowa dla dwóch graczy, w której każdy kontroluje zestaw figur szachowych, dążąc do zaszachowania króla przeciwnika, czyli postawienia go w sytuacji nieuchronnego schwytania. Zasady współczesnych szachów zostały ukształtowane w Europie pod koniec XV wieku, a ich pełna standaryzacja miała miejsce w XIX wieku.
+Aplikacja ma na celu zapewnienie użytkownikom możliwości rozgrywki w jedną z najstarszych i najpopularniejszych gier PvP (ang. Player versus Player - gracz kontra gracz) na świecie, jaką są szachy. Jest to strategiczna gra planszowa dla dwóch graczy, w której każdy kontroluje zestaw figur szachowych, dążąc do zaszachowania króla przeciwnika, czyli postawienia go w sytuacji nieuchronnego schwytania. Zasady współczesnych szachów zostały ukształtowane w Europie pod koniec XV wieku, a ich pełna standaryzacja miała miejsce w XIX wieku. \cite{ChessWiki}
 \\\\
 Aplikacja \texttt{BRNChess} umożliwia rozgrywkę online z innymi graczami lub zaawansowanym silnikiem Stockfish, zapewniając dynamiczne tryby czasowe dzięki technologii SignalR. Posiada także system znajomości do zarządzania kontaktami i personalizacji gry, co czyni ją platformą społecznościową. Intuicyjny interfejs i płynne rozgrywki w czasie rzeczywistym podkreślają nacisk na wysoką jakość użytkowania, zachęcając graczy do częstego powrotu.
 
@@ -117,9 +145,9 @@ Aplikacja \texttt{BRNChess} umożliwia rozgrywkę online z innymi graczami lub z
 \subsection{Aplikacja internetowa (frontend)}
 
 \noindent \textbf{Javascript oraz Typescript}\\
-JavaScript to język programowania, używany najczęściej przy tworzeniu stron www, zapewniając ich interaktywność oraz obsługę zdarzeń, walidację formularzy czy budowanie elementów nawigacyjnych. Jednak można także pisać w nim pełnoprawne aplikacje (korzystając z frameworków do budowania aplikacji jak np. React). Javascript może też być wykorzystywany do tworzenia gier w przeglądarkach, a jednym z popularnych frameworków do tego celu jest Phaser. JS-a można używać również po stronie serwera dzięki frameworkowi Node.
+JavaScript to język programowania, używany najczęściej przy tworzeniu stron www, zapewniając ich interaktywność oraz obsługę zdarzeń, walidację formularzy czy budowanie elementów nawigacyjnych. Jednak można także pisać w nim pełnoprawne aplikacje (korzystając z frameworków do budowania aplikacji jak np. React). Javascript może też być wykorzystywany do tworzenia gier w przeglądarkach, a jednym z popularnych frameworków do tego celu jest Phaser. JS-a można używać również po stronie serwera dzięki frameworkowi Node. \cite{JustJoinJS}
 \\\\
-TypeScript to język programowania stworzony przez Microsoft w 2012 roku. Jego twórcą jest Anders Hejlsberg, znany również jako ojciec języka C\#. TypeScript jest nadzbiorem JavaScriptu, co oznacza, że każdy poprawny kod JS jest równocześnie poprawnym kodem TS. W praktyce TypeScript rozszerza możliwości JavaScriptu o opcjonalne statyczne typowanie oraz nowe struktury danych. TS posiada też aktywną społeczność programistów tworzących biblioteki, które ułatwiają pracę programistom poprzez dodawanie typowania do już istniejących projektów, dzięki temu są one przystosowane do pracy z TypeScriptem.
+TypeScript to język programowania utworzony przez Microsoft w 2012 roku. Jego twórcą jest Anders Hejlsberg, znany również jako ojciec języka C\# \cite{WikiAndersHejlsberg}. TypeScript jest nadzbiorem JavaScriptu, co oznacza, że każdy poprawny kod JS jest równocześnie poprawnym kodem TS. W praktyce TypeScript rozszerza możliwości JavaScriptu o opcjonalne statyczne typowanie oraz nowe struktury danych. TS posiada też aktywną społeczność programistów tworzących biblioteki, które ułatwiają pracę programistom poprzez dodawanie typowania do już istniejących projektów, dzięki temu są one przystosowane do pracy z TypeScriptem. \cite{DropticaTypeScript}
 \\\\
 Głównym celem powstania TypeScriptu było wprowadzenie silniejszego systemu typów do JavaScriptu, które pozwalają na odgórne ustalanie rodzajów zdefiniowanych przez dewelopera zmiennych, aby ułatwić tworzenie dużych, skalowalnych aplikacji. Język ten stał się popularny wśród deweloperów dzięki swojej elastyczności, możliwościom oferowanym przez statyczne typowanie oraz łatwości integracji z istniejącymi projektami JS.
 \\\\
@@ -131,17 +159,17 @@ Połączenie JavaScriptu i TypeScriptu pozwala skorzystać z najlepszych cech ob
 \\\\
 
 \noindent \textbf{React oraz Vite}\\
-React to biblioteka JavaScript służąca do renderowania interfejsów użytkownika (UI). Interfejs użytkownika składa się z małych jednostek, takich jak przyciski, tekst i obrazy. React pozwala łączyć je w komponenty wielokrotnego użytku, które można zagnieżdżać. Od stron internetowych po aplikacje na telefony, wszystko na ekranie można podzielić na komponenty. Każdy komponent Reacta jest funkcją JavaScript, która może zawierać pewne znaczniki renderowane w przeglądarce. Komponenty Reacta używają rozszerzenia składni o nazwie JSX do reprezentowania tych znaczników. JSX wygląda bardzo podobnie do HTML, jednak jest nieco bardziej rygorystyczny oraz może wyświetlać dynamiczne informacje. 
+React to biblioteka JavaScript służąca do renderowania interfejsów użytkownika (UI). Interfejs użytkownika składa się z małych jednostek, takich jak przyciski, tekst i obrazy. React pozwala łączyć je w komponenty wielokrotnego użytku, które można zagnieżdżać. Od stron internetowych po aplikacje na telefony, wszystko na ekranie można podzielić na komponenty. Każdy komponent Reacta jest funkcją JavaScript, która może zawierać pewne znaczniki renderowane w przeglądarce. Komponenty Reacta używają rozszerzenia składni o nazwie JSX do reprezentowania tych znaczników. JSX wygląda bardzo podobnie do HTML, jednak jest nieco bardziej rygorystyczny oraz może wyświetlać dynamiczne informacje. \cite{ReactUI}
 \\\\
-Vite to nowoczesne i wydajne  narzędzie do budowania aplikacji frontend, które ma na celu zapewnienie szybszego i bardziej oszczędnego doświadczenia programistycznego dla nowoczesnych projektów internetowych, stworzone przez twórcę Vue.js - Evana You. Jest on znany ze swojej niewiarygodnej szybkości, dzięki wykorzystaniu natywnych modułów ES dla przyspieszonego hot module replacement (HMR) oraz kompilacji w przeglądarce. Vite.js przełamuje tradycyjne bariery w budowie aplikacji, eliminując konieczność korzystania z bundlerów takich jak Webpack czy Rollup. Jego modularna architektura oraz wsparcie dla wielu ramkowych, w tym Vue czy React, czynią go uniwersalnym i elastycznym narzędziem.
+Vite to nowoczesne i wydajne  narzędzie do budowania aplikacji frontend, które ma na celu zapewnienie szybszego i bardziej oszczędnego doświadczenia programistycznego dla nowoczesnych projektów internetowych, utworzony przez twórcę Vue.js - Evana You. Jest on znany ze swojej niewiarygodnej szybkości, dzięki wykorzystaniu natywnych modułów ES dla przyspieszonego hot module replacement (HMR) oraz kompilacji w przeglądarce. Vite.js przełamuje tradycyjne bariery w budowie aplikacji, eliminując konieczność korzystania z bundlerów takich jak Webpack czy Rollup. Jego modularna architektura oraz wsparcie dla wielu ramkowych, w tym Vue czy React, czynią go uniwersalnym i elastycznym narzędziem. \cite{BoringOwlViteJS}
 \\\\
 React został wybrany ze względu na znajomość tej technologii oraz jej szerokie zastosowanie w tworzeniu aplikacji webowych. Intuicyjność pisania kodu w React, oparta na komponentach wielokrotnego użytku i JSX, sprawia, że praca z tą biblioteką jest wygodna i efektywna. Dodatkowo React oferuje szerokie wsparcie społeczności oraz dostęp do bogatego ekosystemu bibliotek, co ułatwia rozwijanie i utrzymanie projektu.
 \\\\
-Vite natomiast został wybrany głównie ze względu na swoją szybkość, zarówno podczas początkowego uruchamiania projektu, jak i w trakcie jego developmentu. Wykorzystanie funkcji hot module replacement znacznie przyspiesza pracę, a minimalistyczna konfiguracja upraszcza proces tworzenia aplikacji. Dodatkowym atutem Vite jest jego elastyczność oraz możliwość łatwego integracji z Reactem, co czyni go idealnym wyborem dla nowoczesnych projektów frontendowych.
+Vite natomiast został wybrany głównie ze względu na swoją szybkość, zarówno podczas początkowego uruchamiania projektu, jak i w trakcie jego rozwoju. Wykorzystanie funkcji hot module replacement znacznie przyspiesza pracę, a minimalistyczna konfiguracja upraszcza proces tworzenia aplikacji. Dodatkowym atutem Vite jest jego elastyczność oraz możliwość łatwego integracji z Reactem, co czyni go idealnym wyborem dla nowoczesnych projektów frontendowych.
 \\\\
 
 \noindent \textbf{Sass / SCSS}\\
-Sass to preprocessor CSS, który umożliwia programowanie styli w znacznie bardziej efektywny i zorganizowany sposób niż zwykły CSS. Pozwala na definiowanie stałych, zagnieżdżanie reguł CSS, używanie zmiennych, funkcji czy operatorów. Dzięki temu, można wykorzystać Sass do szybszego i łatwiejszego tworzenia stylów strony, a także czytać i zarządzać istniejącym kodem znacznie lepiej. Jest to szczególnie przydatne w przypadku dużych projektów, gdzie style są rozbudowane i trudne do zarządzania.
+Sass to preprocessor CSS, który umożliwia programowanie styli w znacznie bardziej efektywny i zorganizowany sposób niż zwykły CSS. Pozwala na definiowanie stałych, zagnieżdżanie reguł CSS, używanie zmiennych, funkcji czy operatorów. Dzięki temu, można wykorzystać Sass do szybszego i łatwiejszego tworzenia stylów strony, a także czytać i zarządzać istniejącym kodem znacznie lepiej. Jest to szczególnie przydatne w przypadku dużych projektów, gdzie style są rozbudowane i trudne do zarządzania. \cite{BoringOwlSass}
 \\\\
 Sass i SCSS zostały wybrane do projektu ze względu na funkcjonalności, które znacznie rozszerzają możliwości standardowego CSS. Sass pozwala na stosowanie zmiennych, zagnieżdżania reguł, funkcji czy operatorów, co czyni pracę nad stylami bardziej efektywną i zorganizowaną. Dzięki temu stylowanie dużych projektów jest prostsze i bardziej przejrzyste, a zarządzanie kodem staje się łatwiejsze.
 \\\\
@@ -154,17 +182,17 @@ SCSS został wybrany zamiast gotowych komponentów CSS, aby zapewnić pełną ko
 \subsection{Aplikacja serwerowa (backend)}
 
 \noindent \textbf{C\#}\\
-C\# jest nowoczesnym, obiektowym językiem wysokiego poziomu, który został opracowany na zlecenie Microsoft już w latach 1998 - 2001. Pod względem składni porównuje się go często do języków takich, jak Object Pascal, C++ i Java. W środowisku programistycznym uznawany jest za prosty, przyjazny i przejrzysty. C\# jest ściśle związany z platformą .NET, która stanowi dla niego framework i środowisko uruchomieniowe zarazem. Przez długi czas ta zależność wskazywana była jako największa wada języka, bowiem ograniczała jego zastosowanie jedynie do systemów Windows. Microsoft rozprawił się z tym problemem w 2016 roku, publikując .NET Core - kompatybilny również z innymi systemami operacyjnymi. Od tego czasu C\# służy do budowy programów i aplikacji na wszystkie systemy operacyjne.
+C\# jest nowoczesnym, obiektowym językiem wysokiego poziomu, który został opracowany na zlecenie Microsoft już w latach 1998 - 2001. Pod względem składni porównuje się go często do języków takich, jak Object Pascal, \texttt{C++} i Java. W środowisku programistycznym uznawany jest za prosty, przyjazny i przejrzysty. C\# jest ściśle związany z platformą .NET, która stanowi dla niego framework i środowisko uruchomieniowe zarazem. Przez długi czas ta zależność wskazywana była jako największa wada języka, bowiem ograniczała jego zastosowanie jedynie do systemów Windows. Microsoft rozwiązał ten problem w 2016 roku, publikując .NET Core - kompatybilny również z innymi systemami operacyjnymi. Od tego czasu C\# służy do budowy programów i aplikacji na wszystkie systemy operacyjne. \cite{CSharp}
 \\\\
 C\# został wybrany do części serwerowej projektu ze względu na jego ścisłą integrację z platformą .NET, która jest niezbędna do realizacji tego projektu. Język ten zapewnia wydajność, elastyczność i bogaty zestaw narzędzi wspierających tworzenie nowoczesnych aplikacji backendowych.
 \\\\
-Dodatkowo, C\# jest językiem obiektowym i nowoczesnym, co ułatwia projektowanie skalowalnych, dobrze zorganizowanych aplikacji. Jego przyjazna składnia i przejrzystość sprawiają, że tworzenie kodu jest bardziej efektywne, a utrzymanie projektu staje się łatwiejsze. C\# oferuje także wsparcie dla zaawansowanych funkcji, takich jak zarządzanie pamięcią, asynchroniczność czy bogate możliwości integracji z bazami danych i systemami zewnętrznymi.
+Dodatkowo, C\# jest językiem obiektowym i nowoczesnym, co ułatwia projektowanie skalowalnych, dobrze zorganizowanych aplikacji. Jego przyjazna składnia i przejrzystość sprawiają, że tworzenie kodu jest bardziej efektywne, a utrzymanie projektu łatwiejsze. Język ten oferuje także wsparcie dla zaawansowanych funkcji, takich jak zarządzanie pamięcią, asynchroniczność czy bogate możliwości integracji z bazami danych i systemami zewnętrznymi.
 \\\\
 Platforma .NET, na której opiera się C\#, pozwala na uruchamianie aplikacji na różnych systemach operacyjnych, co zwiększa jej uniwersalność. Dzięki temu C\# nie tylko spełnia wymagania techniczne projektu, ale także umożliwia łatwe rozszerzanie i adaptację aplikacji w przyszłości.
 \\\\
 
 \noindent \textbf{.NET Framework}\\
-.NET Framework to środowisko wykonywania, które zarządza aplikacjami docelowymi .NET Framework. Składa się ze środowiska uruchomieniowego języka wspólnego, które zapewnia zarządzanie pamięcią i inne usługi systemowe, oraz rozbudowanej biblioteki klas, która umożliwia programistom korzystanie z niezawodnego kodu dla wszystkich głównych obszarów opracowywania aplikacji.
+.NET Framework to środowisko wykonywania, które zarządza aplikacjami docelowymi .NET Framework. Składa się ze środowiska uruchomieniowego języka wspólnego, które zapewnia zarządzanie pamięcią i inne usługi systemowe, oraz rozbudowanej biblioteki klas, która umożliwia programistom korzystanie z niezawodnego kodu dla wszystkich głównych obszarów opracowywania aplikacji. \cite{DotNetStart}
 \\\\
 .NET zostało wybrane do budowy backendu projektu ze względu na jego wszechstronność, wydajność oraz rozbudowane narzędzia, które wspierają tworzenie aplikacji serwerowych. Kluczowym powodem wyboru .NET jest jego solidne wsparcie dla tworzenia aplikacji REST API, co umożliwia łatwą i efektywną komunikację między frontendem a backendem. Dodatkowo, .NET oferuje Entity Framework Core, który stanowi doskonałe narzędzie do pracy z bazą danych. Dzięki EF Core możliwe jest łatwe mapowanie obiektów na rekordy w bazie, co upraszcza operacje na danych oraz zapewnia wysoką wydajność w interakcjach z bazą danych.
 \\\\
@@ -172,9 +200,9 @@ Kolejnym powodem wyboru .NET jest integracja z SignalR, technologią umożliwiaj
 \\\\
 
 \noindent \textbf{PostgreSQL i PgAdmin}\\
-PostgreSQL to system lub silnik baz danych kompatybilny z większością popularnych narzędzi. Obsługuje różne modele danych w celu tworzenia wydajnych i skalowalnych aplikacji zorientowanych obiektowo. Umożliwia pracę ze złożonymi zbiorami danych, bez spowolnień. Ułatwia przechowywanie, odczyt i zapis danych.
+PostgreSQL to system lub silnik baz danych kompatybilny z większością popularnych narzędzi. Obsługuje różne modele danych w celu tworzenia wydajnych i skalowalnych aplikacji zorientowanych obiektowo. Umożliwia pracę ze złożonymi zbiorami danych, bez spowolnień. Ułatwia przechowywanie, odczyt i zapis danych. \cite{OVHPostgreSQL}
 \\\\
-PgAdmin to narzędzie do zarządzania PostgreSQL i pochodnymi relacyjnymi bazami danych, takimi jak EDB Advanced Server firmy EnterpriseDB. Może być uruchamiany jako aplikacja internetowa lub desktopowa.
+PgAdmin to narzędzie do zarządzania PostgreSQL i pochodnymi relacyjnymi bazami danych, takimi jak EDB Advanced Server firmy EnterpriseDB. Może być uruchamiany jako aplikacja internetowa lub desktopowa. \cite{PgAdminFAQ}
 \\\\
 PostgreSQL został wybrany jako system bazodanowy z kilku kluczowych powodów. Przede wszystkim jest to wydajny, skalowalny i elastyczny system, który doskonale sprawdza się w pracy z dużymi zbiorami danych. Jego zaawansowane funkcje, takie jak obsługa różnych modeli danych oraz wsparcie dla danych obiektowych, umożliwiają łatwe zarządzanie bardziej złożonymi strukturami danych, co jest istotne w przypadku aplikacji wymagających dużej elastyczności.
 \\\\
@@ -185,9 +213,9 @@ PgAdmin zostało wybrane jako narzędzie do zarządzania bazą danych PostgreSQL
 \subsection{Narzędzia pomocnicze}
 
 \noindent \textbf{GIT i Github}\\
-Git to rozproszony system kontroli wersji, co oznacza, że lokalny klon projektu jest kompletnym repozytorium kontroli wersji. Te w pełni funkcjonalne repozytoria lokalne ułatwiają pracę w trybie offline lub zdalnie. Deweloperzy zatwierdzają swoją pracę lokalnie, a następnie synchronizują kopię repozytorium z kopią na serwerze. Ten paradygmat różni się od scentralizowanej kontroli wersji, w której klienci muszą synchronizować kod z serwerem przed utworzeniem nowych wersji kodu.
+Git to rozproszony system kontroli wersji, co oznacza, że lokalny klon projektu jest kompletnym repozytorium kontroli wersji. Te w pełni funkcjonalne repozytoria lokalne ułatwiają pracę w trybie offline lub zdalnie. Deweloperzy zatwierdzają swoją pracę lokalnie, a następnie synchronizują kopię repozytorium z kopią na serwerze. Ten paradygmat różni się od scentralizowanej kontroli wersji, w której klienci muszą synchronizować kod z serwerem przed utworzeniem nowych wersji kodu. \cite{GitWhatIs}
 \\\\
-GitHub jest serwisem, który służy do współpracy przy tworzeniu kodu. Jest jednym z najpopularniejszych serwisów internetowych hostujących repozytoria Git w chmurze. Obsługiwane obszary serwisu obejmują nie tylko przechowywanie kodu, ale również zbieranie informacji o błędach, zarządzanie projektem oraz wszystkie niezbędne procesy automatycznego budowania i testowania aplikacji. Właśnie dlatego GitHub stał się centrum skupiającym programistów i środowisko otwartego oprogramowania. Serwisy typu GitHub stanowią stopień pośredni pomiędzy wykorzystaniem serwisu Git w tradycyjny sposób a systemami scentralizowanymi.
+GitHub jest serwisem, który służy do współpracy przy tworzeniu kodu. Jest jednym z najpopularniejszych serwisów internetowych hostujących repozytoria Git w chmurze. Obsługiwane obszary serwisu obejmują nie tylko przechowywanie kodu, ale również zbieranie informacji o błędach, zarządzanie projektem oraz wszystkie niezbędne procesy automatycznego budowania i testowania aplikacji. Właśnie dlatego GitHub stał się centrum skupiającym programistów i środowisko otwartego oprogramowania. Serwisy typu GitHub stanowią stopień pośredni pomiędzy wykorzystaniem serwisu Git w tradycyjny sposób a systemami scentralizowanymi. \cite{CodersLabGitHub}
 \\\\
 Wybór Git i GitHub do zarządzania kodem wynikał przede wszystkim z ich popularności oraz dobrze znanej funkcjonalności, które są standardem w branży. Git to rozproszony system kontroli wersji, co oznacza, że każdy deweloper posiada pełną kopię repozytorium na swoim komputerze, umożliwiając pracę w trybie offline. Taki system zwiększa elastyczność i komfort pracy, umożliwiając zatwierdzanie zmian lokalnie i synchronizowanie ich z centralnym repozytorium na serwerze.
 \\\\
@@ -195,15 +223,15 @@ GitHub został wybrany jako platforma do hostingu repozytoriów, ponieważ jest 
 \\\\
 
 \noindent \textbf{Sourcetree}\\
-Sourcetree to graficzny klient umożliwiający dostęp do repozytoriów Git i Mercurial z systemów Windows oraz MacOS, który pomaga wizualizować rozwój bez konieczności korzystania z wiersza polecenia.
+Sourcetree to graficzny klient umożliwiający dostęp do repozytoriów Git i Mercurial z systemów Windows oraz MacOS, który pomaga wizualizować rozwój bez konieczności korzystania z wiersza polecenia. \cite{PolonTechSourceTree}
 \\\\
 SourceTree został wybrany ze względu na wygodę korzystania z jego graficznego interfejsu, który umożliwia łatwą obsługę repozytoriów Git bez potrzeby pisana komend wiersza poleceń. Dzięki temu narzędziu, możliwe jest wizualne śledzenie rozwoju projektu oraz zarządzanie wersjami w sposób bardziej intuicyjny. SourceTree oferuje przejrzysty interfejs, który pozwala na łatwe przeglądanie historii commitów, zarządzanie gałęziami, rozwiązywanie konfliktów oraz wykonywanie operacji Git za pomocą prostych kliknięć, co znacznie ułatwia pracę, zwłaszcza w większych projektach
 \\\\
 
 \noindent \textbf{Figma}\\
-Figma to jedno z nowocześniejszych i cieszących się dużą popularnością narzędzi do projektowania i prototypownia stron internetowych i aplikacji mobilnych. Umożliwia tworzenie interaktywnych widoków w przeciwieństwie do statycznych makiet. Posiada bardzo uproszczony interfejs, a przy tym jest bardzo funkcjonalne. Figma zawiera jedynie niezbędne pakiety i narzędzia najczęściej wykorzystywane w pracy Web Designera, co przedkłada się na stosunkową małą wagę całego programu. Jego podstawową zaletą jest szybkość działania mimo otwartych kilkunastu widoków jednocześnie. Dodatkowo za pomocą Figmy można łatwo edytować dowolne pliki wektorowe w tym SVG, co znacznie przyspiesza pracę nad projektem.
+Figma to jedno z nowocześniejszych i cieszących się dużą popularnością narzędzi do projektowania i prototypownia stron internetowych i aplikacji mobilnych. Umożliwia tworzenie interaktywnych widoków w przeciwieństwie do statycznych makiet. Posiada bardzo uproszczony interfejs, a przy tym jest bardzo funkcjonalne. Figma zawiera jedynie niezbędne pakiety i narzędzia najczęściej wykorzystywane w pracy Web Designera, co przedkłada się na stosunkową małą wagę całego programu. Jego podstawową zaletą jest szybkość działania mimo otwartych kilkunastu widoków jednocześnie. Dodatkowo za pomocą Figmy można łatwo edytować dowolne pliki wektorowe w tym SVG, co znacznie przyspiesza pracę nad projektem. \cite{BoringOwlFigma}
 \\\\
-Figma jako zewnętrzny program zalazła zastosowanie w projekcie głownie do projektowania własnych ikon, nieistniejących bądź niedostępnych bezpłatnie na internecie. Zastosowanie prostego, ale bardzo efektywnego narzędzia ma duże znaczenie dla rozwoju aplikacji gry mobilnej, w szczegolnosci nakierowanej na przyjemny dla użytkownika interface. Dodatkowo Figma posłużyła do zaprojektowania i utworzenie modeli bierek do gry w szachy.  
+Figma jako zewnętrzny program zalazła zastosowanie w projekcie głownie do projektowania własnych ikon, nieistniejących bądź niedostępnych bezpłatnie na internecie. Zastosowanie prostego, ale bardzo efektywnego narzędzia ma duże znaczenie dla rozwoju aplikacji gry mobilnej, w szczegolnosci nakierowanej na przyjemny dla użytkownika interface. Dodatkowo Figma posłużyła do zaprojektowania i utworzenia modeli bierek do gry w szachy.  
 
 \newpage
 
@@ -865,11 +893,23 @@ Moduł \texttt{chess.Shared} zawiera wspólne komponenty i funkcjonalności, kt�
 Główne moduły projektu, są zintegrowane w aplikacji za pomocą klas rozszerzeń (Extensions). Te metody zapewniają wstrzyknięcie zależności oraz konfigurację wymaganych usług w projekcie, co pozwala na spójne i centralne zarządzanie konfiguracją każdego modułu. Każda z metod, wstrzykuje zależności specyficzne dla danej warstwy, po czym w głównej klasie Program następuje ich rejestracja. Plik ten odpowiada również za rejestracje niestandardowych komponentów, odpowiadają za dodanie specyficznych funkcji.
 
 \vspace{0.5cm}
-\begin{figure}[h!]
-    \centering
-    \includegraphics[width=0.7\textwidth]{images/ex_add_services.png}
-    \caption{Fragment kodu: Przykład rejestracji serwisów w klasie Program.}
-\end{figure}
+\begin{lstlisting}[language=CSharp]
+builder.Services.AddShared();
+builder.Services.AddApplication();
+builder.Services.AddInfrastructure(builder.Configuration);
+builder.Services.AddControllers();
+builder.Services.AddCustomAuthorization();
+builder.Services.AddCustomControllers();
+builder.Services.AddMappingProfiles();
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSignalR();
+\end{lstlisting}
+
+% \begin{figure}[h!]
+%     \centering
+%     \includegraphics[width=0.7\textwidth]{images/ex_add_services.png}
+%     \caption{Fragment kodu: Przykład rejestracji serwisów w klasie Program.}
+% \end{figure}
 
 \newpage
 
@@ -917,9 +957,9 @@ Moduł \texttt{chess.Core.Tests} zawiera testy jednostkowe dla logiki biznesowej
 \subsubsection{REST API}
 
 \noindent
-Interfejsy API są najpopularniejszym sposobem interakcji programów i urządzeń w nowoczesnych technologiach obliczeniowych. API to zestaw reguł opisujących, jak jeden program może się łączyć oraz komunikować z innym. Jak sama nazwa wskazuje, API REST przekazuje na każde żądanie stan każdej transakcji, co daje korzyści związane z opracowaniem, wydajnością i zasobami w porównaniu do innych metod. REST rozwija się w ciągu ponad dwóch dekad i jest bardzo powszechnym podejściem do architektur opartych na usługach i architektur rozproszonych.
+Interfejsy API są najpopularniejszym sposobem interakcji programów i urządzeń w nowoczesnych technologiach obliczeniowych. API to zestaw reguł opisujących, jak jeden program może się łączyć oraz komunikować z innym. Jak sama nazwa wskazuje, API REST przekazuje na każde żądanie stan każdej transakcji, co daje korzyści związane z opracowaniem, wydajnością i zasobami w porównaniu do innych metod. REST rozwija się w ciągu ponad dwóch dekad i jest bardzo powszechnym podejściem do architektur opartych na usługach i architektur rozproszonych. \cite{OVHRestAPI}
 \\\\
-Zasób jest podstawowym pojęciem dla API REST. Zasób jest obiektem, który ma typ, powiązane dane, relacje z innymi zasobami i zestaw metod, które na nim działają. Jest bardzo podobny do idei obiektów w programowaniu, chociaż zdefiniowanych jest tylko kilka standardowych metod, typowych dla HTTP \textbf{\colorbox{cyan!90}{\textcolor{white}{GET}}}, \textbf{\colorbox{green!90}{\textcolor{white}{POST}}}, \textbf{\colorbox{orange!90}{\textcolor{white}{PUT}}} i \textbf{\colorbox{red!90}{\textcolor{white}{DELETE}}}. Zasoby mogą istnieć same lub w zbiorach, które same są zasobami.
+Zasób jest podstawowym pojęciem dla API REST. Zasób jest obiektem, który ma typ, powiązane dane, relacje z innymi zasobami i zestaw metod, które na nim działają. Jest bardzo podobny do idei obiektów w programowaniu, chociaż zdefiniowanych jest tylko kilka standardowych metod, typowych dla HTTP \textbf{\colorbox{cyan!90}{\textcolor{white}{GET}}}, \textbf{\colorbox{green!90}{\textcolor{white}{POST}}}, \textbf{\colorbox{orange!90}{\textcolor{white}{PUT}}} i \textbf{\colorbox{red!90}{\textcolor{white}{DELETE}}}. Zasoby mogą istnieć same lub w zbiorach, które same są zasobami. 
 \\\\
 
 \noindent \textbf{Kontrolery API} \\
@@ -990,7 +1030,7 @@ W systemie REST API zdefiniowane zostały cztery główne kontrolery, które odp
     \item \textbf{\colorbox{green!90}{\textcolor{white}{POST}} /api/webgame/email} - Tworzy prywatną grę przez podanie adresu e-mail przeciwnika 
     \item \textbf{\colorbox{green!90}{\textcolor{white}{POST}} /api/webgame/link} - Tworzy prywatną grę z linkiem, który umożliwia dostęp do gry.
     \item \textbf{\colorbox{cyan!90}{\textcolor{white}{GET}} /api/webgame/is-in-game} - Sprawdza, czy gracz jest już w grze. 
-    \item \textbf{\colorbox{cyan!90}{\textcolor{white}{GET}} /api/webgame/{gameId}/update-required} - Sprawdza, czy wymagana jest aktualizacja stanu gry dla gry stworzonej za pomocą linku. 
+    \item \textbf{\colorbox{cyan!90}{\textcolor{white}{GET}} /api/webgame/{gameId}/update-required} - Sprawdza, czy wymagana jest aktualizacja stanu gry dla gry wygenerowanej za pomocą linku. 
     \item \textbf{\colorbox{cyan!90}{\textcolor{white}{GET}} /api/webgame/{gameId}} - Pobiera pełne dane gry. 
     \item \textbf{\colorbox{cyan!90}{\textcolor{white}{GET}} /api/webgame/{gameId}/player} - Pobiera dane gracza. 
     \item \textbf{\colorbox{cyan!90}{\textcolor{white}{GET}} /api/webgame/{gameId}/time} - Pobiera czas pozostały dla gracza w danej grze. 
@@ -1060,7 +1100,7 @@ SignalR opiera się na modelu hubów, które służą jako centralny punkt komun
 \end{itemize}
 
 \noindent
-W aplikacji utworzono jedną klasę huba, która odpowiada za obsługę gier online. Klasa ta centralizuje komunikację między klientami a serwerem, umożliwiając natychmiastowe przesyłanie danych, takich jak ruchy w grze czy informacje o stanie gry. Dodatkowo stworzono interfejs, który definiuje metody wywoływane przez odpowiednich klientów. Interfejs ten pełni rolę kontraktu, gwarantując, że klienci będą mieli dostęp do spójnych metod obsługi gier online. Dzięki temu różne typy klientów mogą w prosty sposób integrować się z hubem i korzystać z jego funkcji, takich jak wysyłanie ruchu, odbieranie powiadomień czy synchronizacja danych.
+W aplikacji utworzono jedną klasę huba, która odpowiada za obsługę gier online. Klasa ta centralizuje komunikację między klientami a serwerem, umożliwiając natychmiastowe przesyłanie danych, takich jak ruchy w grze czy informacje o stanie gry. Dodatkowo zaimplementowano interfejs, który definiuje metody wywoływane przez odpowiednich klientów. Interfejs ten pełni rolę kontraktu, gwarantując, że klienci będą mieli dostęp do spójnych metod obsługi gier online. Dzięki temu różne typy klientów mogą w prosty sposób integrować się z hubem i korzystać z jego funkcji, takich jak wysyłanie ruchu, odbieranie powiadomień czy synchronizacja danych.
 \\\\
 Na następnej stronie przedstawiono szczegółowy opis metod dostępnych w ramach interfejsu SignalR, z podziałem na typy zapytań.
 
@@ -1134,7 +1174,7 @@ Interfejs \texttt{IGameHub} definiuje zestaw metod, które są dostępne do wywo
     \vspace{0pt} 
     \justifying 
     \noindent 
-    Silnik szachowy \texttt{Stockfish} jest jednym z najpotężniejszych i najczęściej używanych silników szachowych na świecie. Jest to oprogramowanie typu open-source, które zostało stworzone, aby oferować najwyższą możliwą siłę obliczeniową w grach szachowych. Stockfish jest napisany w języku C++ i jest dostępny na wielu platformach.
+    Silnik szachowy \texttt{Stockfish} jest jednym z najpotężniejszych i najczęściej używanych silników szachowych na świecie. Jest to oprogramowanie typu open-source, które zostało utworzone, aby oferować najwyższą możliwą siłę obliczeniową w grach szachowych. Stockfish jest napisany w języku \texttt{C++} i jest dostępny na wielu platformach.
 \end{minipage} 
 \vspace{1cm}
 
@@ -1179,11 +1219,16 @@ Na następnej stronie przedstawiono wykorzystanie serwisu komunikacji z silnikie
     \item \textbf{Wykonanie obliczeń przez silnik}\\
     Kiedy silnik otrzyma polecenie z pełnym zapisem FEN, handler wysyła kolejną komendę do silnika za pomocą \texttt{SendCommand}, prosząc o wykonanie ruchu na określoną głębokość analizy na podstawie ustawionego poziomu trudności. Serwis przesyła tę komendę do silnika, który następnie analizuje pozycję i oblicza najlepszy możliwy ruch.
 
-    \begin{figure}[h!]
-        \centering
-        \includegraphics[width=0.7\textwidth]{images/ex_send_command.png}
-        \caption{Fragment kodu - przesył zapytania do silnika.}
-    \end{figure}
+    % \begin{figure}[h!]
+    %     \centering
+    %     \includegraphics[width=0.7\textwidth]{images/ex_send_command.png}
+    %     \caption{Fragment kodu - przesył zapytania do silnika.}
+    % \end{figure}
+
+\begin{lstlisting}[language=CSharp]
+_engineService.SendCommand($"position fen {fullFen}");
+_engineService.SendCommand($"go depth {game.Level}");
+\end{lstlisting}
 
     \item \textbf{Odczyt odpowiedzi od silnika}\\
     Po wysłaniu komendy, handler oczekuje na odpowiedź od silnika. Metoda \texttt{ReadOutput} serwisu jest używana do odczytywania odpowiedzi, która zawiera najlepszy ruch. Odpowiedź ta jest przetwarzana w pętli, aż silnik zwróci ruch lub upłynie czas oczekiwania.
@@ -1286,13 +1331,13 @@ Poniżej przedstawiona jest tabela pokazująca różne kategorie kontroli czasow
 \noindent
 Podczas pierwszego pobrania gry przez graczy ustalany jest czas rozpoczęcia partii. Następnie, przy każdym wykonanym ruchu, system oblicza, ile czasu minęło od ostatniego zarejestrowanego momentu (czy to od rozpoczęcia gry, czy od ostatniego ruchu). Na podstawie tej różnicy czasu, system aktualizuje pozostały czas dla gracza, odejmując upływający czas od jego pozostałego limitu. Dodatkowo, po każdym ruchu do czasu pozostałego dla gracza dodawany jest inkrement. Czas jest aktualizowany osobno dla każdego z graczy, w zależności od tego, która tura jest aktualnie wykonywana.
 
-\vspace{0.5cm}
-\begin{figure}[h!]
-    \centering
-    \includegraphics[width=0.7\textwidth]{images/ex_update_times.png}
-    \caption{Fragment kodu: Aktualizacje czasu graczy.}
-\end{figure}
-\vspace{0.5cm}
+% \vspace{0.5cm}
+% \begin{figure}[h!]
+%     \centering
+%     \includegraphics[width=0.7\textwidth]{images/ex_update_times.png}
+%     \caption{Fragment kodu: Aktualizacje czasu graczy.}
+% \end{figure}
+% \vspace{0.5cm}
 
 \newpage
 
@@ -1340,63 +1385,78 @@ W przypadku zapytań dotyczących wielu elementów stosowana jest paginacja, kt�
     \item \textbf{PagedResult:} Klasa, która jest używana do zwracania wyników zapytania z paginacją. Przyjmuje generyczny typ T, który odpowiada za dane zwracane w odpowiedzi. Zawiera szczegóły dotyczące wyników.
 \end{itemize}
 
-\begin{figure}[h!]
-    \centering
-    \includegraphics[width=0.7\textwidth]{images/ex_pagination.png}
-    \caption{Fragment kodu: Klasa rezultatu paginacji.}
-\end{figure}
+% \begin{figure}[h!]
+%     \centering
+%     \includegraphics[width=0.7\textwidth]{images/ex_pagination.png}
+%     \caption{Fragment kodu: Klasa rezultatu paginacji.}
+% \end{figure}
+
+\begin{lstlisting}[language=CSharp]
+public PagedResult(List<T> items, int totalCount, int pageSize, int pageNumber) {
+    Items = items
+        .Skip(pageSize * (pageNumber - 1))
+        .Take(pageSize)
+        .ToList();
+
+    TotalItemsCount = totalCount;
+    ItemsFrom = pageSize * (pageNumber - 1) + 1;
+    int itemsTo = pageSize * (pageNumber - 1) + pageSize;
+    ItemsTo = itemsTo > totalCount ? totalCount : itemsTo;
+    TotalPages = (int)Math.Ceiling(totalCount / (double)pageSize);
+}
+\end{lstlisting}
 
 \newpage
 
-\noindent
-Poniższe ilustracje przedstawiają strukturę modelu używanego w systemie. Po lewej stronie znajduje się definicja modelu w TypeScript, wykorzystywana po stronie klienta, natomiast po prawej widoczny jest odpowiednik tego modelu w kodzie zaplecza, który reprezentuje dane w aplikacji po stronie serwera.
+% \noindent
+% Poniższe ilustracje przedstawiają strukturę modelu używanego w systemie. Po lewej stronie znajduje się definicja modelu w TypeScript, wykorzystywana po stronie klienta, natomiast po prawej widoczny jest odpowiednik tego modelu w kodzie zaplecza, który reprezentuje dane w aplikacji po stronie serwera.
 
-\vspace{0.5cm}
-\begin{minipage}[t]{0.45\textwidth} 
-    \vspace{0pt} 
-    \centering 
-    \includegraphics[width=\linewidth]{images/ex_model_front.png} 
-    \captionof{figure}{Fragment kodu: Przykład modelu danych klienta}
-\end{minipage} 
-\hfill 
-\begin{minipage}[t]{0.45\textwidth} 
-    \vspace{0pt} 
-    \centering 
-    \includegraphics[width=\linewidth]{images/ex_model_back.png} 
-    \captionof{figure}{Fragment kodu: Przykład modelu danych serwera}
-\end{minipage} 
-\vspace{0.5cm}
+% \vspace{0.5cm}
+% \begin{minipage}[t]{0.45\textwidth} 
+%     \vspace{0pt} 
+%     \centering 
+%     \includegraphics[width=\linewidth]{images/ex_model_front.png} 
+%     \captionof{figure}{Fragment kodu: Przykład modelu danych klienta}
+% \end{minipage} 
+% \hfill 
+% \begin{minipage}[t]{0.45\textwidth} 
+%     \vspace{0pt} 
+%     \centering 
+%     \includegraphics[width=\linewidth]{images/ex_model_back.png} 
+%     \captionof{figure}{Fragment kodu: Przykład modelu danych serwera}
+% \end{minipage} 
+% \vspace{0.5cm}
 
-\noindent
-Rysunek poniżej przedstawia strukturę obiektu żądania. Obiekt ten przenosi dane wejściowe od punktu końcowego API do handlera, który wykonuje logikę biznesową.
+% \noindent
+% Rysunek poniżej przedstawia strukturę obiektu żądania. Obiekt ten przenosi dane wejściowe od punktu końcowego API do handlera, który wykonuje logikę biznesową.
 
-\vspace{0.5cm}
-\begin{figure}[h!]
-    \centering
-    \includegraphics[width=1\textwidth]{images/ex_request_back.png}
-    \caption{Fragment kodu: Struktura obiektu żądania (Request)}
-\end{figure}
-\vspace{0.5cm}
+% \vspace{0.5cm}
+% \begin{figure}[h!]
+%     \centering
+%     \includegraphics[width=1\textwidth]{images/ex_request_back.png}
+%     \caption{Fragment kodu: Struktura obiektu żądania (Request)}
+% \end{figure}
+% \vspace{0.5cm}
 
-\noindent
-Kolejne diagramy ilustrują przykładowe obiekty DTO. Po lewej stronie widoczny jest obiekt używany w warstwie zaplecza, który mapuje dane encji pobrane z bazy. Po prawej znajduje się odpowiedni typ w TypeScript, który reprezentuje te dane po stronie klienta.
+% \noindent
+% Kolejne diagramy ilustrują przykładowe obiekty DTO. Po lewej stronie widoczny jest obiekt używany w warstwie zaplecza, który mapuje dane encji pobrane z bazy. Po prawej znajduje się odpowiedni typ w TypeScript, który reprezentuje te dane po stronie klienta.
 
-\vspace{0.5cm}
-\begin{minipage}[t]{0.45\textwidth} 
-    \vspace{0pt} 
-    \centering 
-    \includegraphics[width=\linewidth]{images/ex_dto_back.png} 
-    \captionof{figure}{Fragment kodu: DTO w warstwie serwerowej}
-\end{minipage} 
-\hfill 
-\begin{minipage}[t]{0.45\textwidth} 
-    \vspace{0pt} 
-    \centering 
-    \includegraphics[width=\linewidth]{images/ex_dto_front.png} 
-    \captionof{figure}{Fragment kodu: DTO w warstwie klienta}
-\end{minipage}
+% \vspace{0.5cm}
+% \begin{minipage}[t]{0.45\textwidth} 
+%     \vspace{0pt} 
+%     \centering 
+%     \includegraphics[width=\linewidth]{images/ex_dto_back.png} 
+%     \captionof{figure}{Fragment kodu: DTO w warstwie serwerowej}
+% \end{minipage} 
+% \hfill 
+% \begin{minipage}[t]{0.45\textwidth} 
+%     \vspace{0pt} 
+%     \centering 
+%     \includegraphics[width=\linewidth]{images/ex_dto_front.png} 
+%     \captionof{figure}{Fragment kodu: DTO w warstwie klienta}
+% \end{minipage}
 
-\newpage
+% \newpage
 
 \noindent \textbf{Serwis SMTP}\\
 Serwis SMTP (Simple Mail Transfer Protocol) jest wykorzystywany w aplikacji do obsługi wysyłania wiadomości e-mail, co obejmuje zarówno proces weryfikacji e-maila użytkowników, jak i powiadomień dotyczących gier. W aplikacji implementacja serwisu SMTP umożliwia automatyczne generowanie i wysyłanie e-maili w różnych scenariuszach.
@@ -1425,16 +1485,23 @@ Dla każdej encji w aplikacji zostało utworzone dedykowane repozytorium, które
 \\\\
 Wszystkie elementy związane z EF i repozytoriami są rejestrowane w kontenerze IoC (Inversion of Control) za pomocą metody rozszerzającej AddPostgres. Metoda ta umożliwia skonfigurowanie połączenia z bazą PostgreSQL oraz rejestrację wszystkich repozytoriów w kontenerze usług, dzięki czemu są one dostępne w całej aplikacji. Takie podejście wspiera modularność oraz ułatwia zarządzanie zależnościami.
 
-\vspace{0.5cm}
-\begin{figure}[h!]
-    \centering
-    \includegraphics[width=1\textwidth]{images/ex_infra_extensions.png}
-    \caption{Fragment kodu: Rejestracja kontekstu oraz repozytoriów.}
-\end{figure}
-\vspace{0.5cm}
+% \vspace{0.5cm}
+% \begin{figure}[h!]
+%     \centering
+%     \includegraphics[width=1\textwidth]{images/ex_infra_extensions.png}
+%     \caption{Fragment kodu: Rejestracja kontekstu oraz repozytoriów.}
+% \end{figure}
 
-\noindent
-
+\vspace{0.5cm}
+\begin{lstlisting}[language=CSharp]
+private static IServiceCollection AddPostgres(this IServiceCollection services, IConfiguration configuration) {
+    var options = configuration.GetOptions<PostgresOptions>("Postgres");
+    services.AddDbContext<ChessAppDbContext>(ctx
+        => ctx.UseNpgsql(options.ConnectionString));
+    services.AddScoped<IUserRepository, UserRepository>();
+    return services;
+}
+\end{lstlisting}
 
 \newpage
 
@@ -1535,36 +1602,81 @@ Aplikacja jest podzielona na dwie główne sekcje routingu: ogólnodostępną i 
 \noindent
 \textbf{IndexRouter} odpowiada za strony ogólnodostępne, które mogą być odwiedzane przez każdego użytkownika, bez konieczności logowania. Użytkownicy mogą swobodnie przeglądać te zasoby, bez jakichkolwiek ograniczeń dostępu.
 
+% \vspace{0.5cm}
+% \begin{figure}[h!]
+%     \centering
+%     \includegraphics[width=0.7\textwidth]{images/ex_index_router.png}
+%     \caption{Fragment kodu: Schemat routingu ogólnodostępnych zasobów.}
+% \end{figure}
+
 \vspace{0.5cm}
-\begin{figure}[h!]
-    \centering
-    \includegraphics[width=0.7\textwidth]{images/ex_index_router.png}
-    \caption{Fragment kodu: Schemat routingu ogólnodostępnych zasobów.}
-\end{figure}
+\begin{lstlisting}[language=JSX]
+<Route path="/" element={<IndexPage />} />
+<Route path="/registration" element={<RegisterPage />} />
+<Route path="/about" element={<AboutPage />} />
+<Route path="/about/:contentName" element={<AboutPage />} />
+<Route path="*" element={<NotFoundPage path={"/"} />} />
+\end{lstlisting}
+\vspace{0.5cm}
 
 \noindent
 \textbf{MainRouter} natomiast obsługuje zasoby, które są dostępne tylko dla zarejestrowanych i zweryfikowanych użytkowników. W tej części aplikacji przed uzyskaniem dostępu do stron, przeprowadzana jest weryfikacja, czy użytkownik jest odpowiednio zalogowany i posiada uprawnienia do korzystania z zasobów. Jeśli użytkownik nie spełnia wymogów, zostaje przekierowany do strony rejestracji.
 
+% \vspace{0.5cm}
+% \begin{figure}[h!]
+%     \centering
+%     \includegraphics[width=0.7\textwidth]{images/ex_main_router.png}
+%     \caption{Fragment kodu: Schemat routingu zabezpieczonych zasobów.}
+% \end{figure}
+
 \vspace{0.5cm}
-\begin{figure}[h!]
-    \centering
-    \includegraphics[width=0.7\textwidth]{images/ex_main_router.png}
-    \caption{Fragment kodu: Schemat routingu zabezpieczonych zasobów.}
-\end{figure}
+\begin{lstlisting}[language=JSX]
+<Route path="/" element={<MainPage />} />
+<Route path="/users" element={<UsersPage />} />
+<Route path="/await/:gameIdStr" element={<AwaitingPage />} />
+<Route path="/game/:gameIdStr" element={<WebGamePage />} />
+<Route path="/engine-game/:gameIdStr" element={<EngineGamePage />} />
+<Route path="/account" element={<AccountPage />} />
+<Route path="/profile/:friendshipIdStr" element={<ProfilePage />} />
+<Route path="/ranking" element={<RankingPage />} />
+<Route path="*" element={<NotFoundPage path={"/main"} />} />
+\end{lstlisting}
 
 \newpage
 
 \noindent \textbf{Autoryzacja}\\
-Autoryzacja w routerze polega na weryfikacji tokena użytkownika oraz stanu jego konta. Przy każdym wejściu na zasoby chronione, aplikacja najpierw sprawdza, czy w \texttt{localStorage} znajduje się token. Jeśli go brak, użytkownik jest przekierowywany do strony rejestracji. Następnie, jeśli token jest obecny, aplikacja sprawdza, czy adres e-mail użytkownika został zweryfikowany. W przypadku braku weryfikacji, użytkownik zostaje przekierowany do strony rejestracji z komunikatem o konieczności weryfikacji konta. Po pomyślnym zweryfikowaniu konta, aplikacja pobiera dane użytkownika, zapisuje je w lokalnym schowku i nawiązuje połączenie z serwisem gier. W przypadku jakichkolwiek problemów z autoryzacją, użytkownik jest również kierowany do strony rejestracji z odpowiednim komunikatem o błędzie.
-\\\\
-Poniżej przedstawiono fragment kodu z komponentu \texttt{MainRouter}, odpowiadającego za weryfikacje użytkowników.
+Autoryzacja w routerze polega na weryfikacji tokena użytkownika oraz stanu jego konta. Przy każdym wejściu na zasoby chronione, aplikacja najpierw sprawdza, czy w \texttt{localStorage} znajduje się token. Jeśli go brak, użytkownik jest przekierowywany do strony rejestracji. Następnie, jeśli token jest obecny, aplikacja sprawdza, czy adres e-mail użytkownika został zweryfikowany. W przypadku braku weryfikacji, użytkownik zostaje przekierowany do strony rejestracji z komunikatem o konieczności weryfikacji konta. Po pomyślnym zweryfikowaniu konta, aplikacja pobiera dane użytkownika, zapisuje je w lokalnym schowku i nawiązuje połączenie z serwisem gier. W przypadku jakichkolwiek problemów z autoryzacją, użytkownik jest również kierowany do strony rejestracji z odpowiednim komunikatem o błędzie. Poniżej przedstawiono fragment kodu z komponentu \texttt{MainRouter}, odpowiadającego za weryfikacje użytkowników.
 
 \vspace{0.5cm}
-\begin{figure}[h!]
-    \centering
-    \includegraphics[width=1\textwidth]{images/ex_router_authorization.png}
-    \caption{Fragment kodu: Proces autoryzacji użytkownika.}
-\end{figure}
+\begin{lstlisting}[language=JSX]
+// sprawdzenie czy token istnieje
+const token = localStorage.getItem("token");
+if (!token) {
+    navigate("/registration");
+    return;
+} 
+
+// sprawdzenie czy email jest zweryfikowany
+const response = await axios.get<IsEmailVerifiedDto>(userController.isVerified(), getAuthorization());
+if (!response.data.isEmailVerified){
+    navigate("/registration");
+    return;
+} 
+
+// pobranie danych uzytkownika
+const userInfoResponse = await axios.get<GetUserDto>(userController.getUser(), getAuthorization());
+localStorage.setItem("userInfo", JSON.stringify(userInfoResponse.data));
+
+// autoryzacja
+setAuthorize(true);
+\end{lstlisting}
+
+% \vspace{0.5cm}
+% \begin{figure}[h!]
+%     \centering
+%     \includegraphics[width=1\textwidth]{images/ex_router_authorization.png}
+%     \caption{Fragment kodu: Proces autoryzacji użytkownika.}
+% \end{figure}
 
 \newpage
 
@@ -1721,20 +1833,43 @@ Poniżej przedstawiony został diagram blokowy ilustrujący proces działania me
 \newpage
 
 \noindent \textbf{Gra z silnikiem szachowym}\\
-W przypadku gier z silnikiem szachowym mechanizmy rozgrywki są niemal identyczne jak w grach online. Kluczową różnicą jest jednak brak wykorzystania technologii SignalR, ponieważ w tym scenariuszu nie ma potrzeby powiadamiania drugiego użytkownika o wykonanych ruchach. Rozgrywka przebiega sekwencyjnie od początku do końca: po wykonaniu ruchu przez gracza aplikacja wysyła zapytanie do serwera, aby pobrać ruch zaproponowany przez silnik, a następnie wykonuje ruch jako odpowiedź przeciwnika.
+W przypadku gier z silnikiem szachowym mechanizmy rozgrywki są niemal identyczne jak w grach online. Kluczową różnicą jest jednak brak wykorzystania technologii SignalR. Rozgrywka przebiega sekwencyjnie od początku do końca: po wykonaniu ruchu przez gracza aplikacja wysyła zapytanie do serwera, aby pobrać ruch zaproponowany przez silnik, a następnie wykonuje ruch jako odpowiedź przeciwnika.
 \\\\
-Środowisko niejako „symuluje” przeciwnika użytkownika, tworząc tymczasowe stany gry uzupełniane danymi wygenerowanymi przez silnik. Po otrzymaniu propozycji ruchu silnika wykonywana jest pełna procedura ruchu, z pominięciem sprawdzania jego legalności, ponieważ ten aspekt jest kontrolowany przez sam silnik szachowy.
+Środowisko niejako \textit{symuluje} przeciwnika użytkownika, tworząc tymczasowe stany gry uzupełniane danymi wygenerowanymi przez silnik. Po otrzymaniu propozycji ruchu silnika wykonywana jest pełna procedura ruchu, z pominięciem sprawdzania jego legalności, ponieważ ten aspekt jest kontrolowany przez sam silnik szachowy.
+
+% \vspace{0.5cm}
+% \begin{figure}[h!]
+%     \centering
+%     \includegraphics[width=1\textwidth]{images/ex_engine_move_sim.png}
+%     \caption{Fragment kodu: Symulacja ruchu zaproponowanego przez silnik.}
+% \end{figure}
+% \vspace{0.5cm}
 
 \vspace{0.5cm}
-\begin{figure}[h!]
-    \centering
-    \includegraphics[width=1\textwidth]{images/ex_engine_move_sim.png}
-    \caption{Fragment kodu: Symulacja ruchu zaproponowanego przez silnik.}
-\end{figure}
+\begin{lstlisting}[language=JSX]
+// symulacja stanu gry
+const tempEngineGameState: EngineGameStates = {...};
+
+// pobranie ruchu zaproponowanego przez silnik
+const response = await axios.get<GetEngineGameMoveDto>(engineGameController.getEngineGameMove(gameId), getAuthorization());
+
+// konczenie gry jesli powinna sie zakonczyc
+if (response.data.shouldEnd) {...}
+
+// symulacja wyboru silnika
+const [toX, toY] = response.data.newCoordinates.split(",");
+const [fromX, fromY] = response.data.oldCoordinates.split(",");
+const enginePiece = tempEngineGameState.matrix[parseInt(fromY) - 1][parseInt(fromX) - 1] as PieceOption;
+const tempEngineSelection: SelectionStates = {...};
+
+// wykonanie ruchu
+await makeMove(...);
+\end{lstlisting}
 \vspace{0.5cm}
+
 
 \noindent
-Jak widać na załączonym przykładzie program tworzy identyczny obiekt jaki jest wykorzystywany do śledzenia wyborów użytkownika, z pominięciem nieistotnych wartości na następnie korzystając z tych samych funkcji jak w przypadku gry online, program wykonuje ruch podany przez AI. Takie podejście umożliwia ponowne wykorzystanie istniejących funkcji, aby nie powielać podobnej implementacji.
+Jak widać na załączonym przykładzie program tworzy identyczny obiekt jaki jest wykorzystywany do śledzenia wyborów użytkownika, z pominięciem nieistotnych wartości a następnie korzystając z tych samych funkcji jak w przypadku gry online, program wykonuje ruch podany przez AI. 
 
 \newpage
 
@@ -1753,7 +1888,7 @@ Poniżej przedstawiony został uproszony diagram blokowy przedstawiający dział
 \subsubsection{Kluczowe aspekty gry}
 
 \noindent \textbf{Podstawowe oznaczenia}\\
-Notacja Forsytha-Edwardsa (FEN) – zapis szachowy do określenia pozycji gry szachowej. Celem FEN jest podanie wszystkich niezbędnych informacji do ponownego rozpoczęcia gry od danej pozycji. FEN bazuje na systemie wymyślonym przez szkockiego dziennikarza Davida Forsytha. Jego system stał się popularny w XIX wieku; Steven J. Edwards rozwinął system by mógł działać z komputerami. FEN jest częścią Portable Game Notation dla szachów, dlatego że definiuje pozycje inne od początkowej.
+Notacja Forsytha-Edwardsa (FEN) – zapis szachowy do określenia pozycji gry szachowej. Celem FEN jest podanie wszystkich niezbędnych informacji do ponownego rozpoczęcia gry od danej pozycji. FEN bazuje na systemie wymyślonym przez szkockiego dziennikarza Davida Forsytha. Jego system stał się popularny w XIX wieku; Steven J. Edwards rozwinął system by mógł działać z komputerami. FEN jest częścią Portable Game Notation dla szachów, dlatego że definiuje pozycje inne od początkowej. \cite{WikiNotacjaForsytha}
 \\\\
 W formacie FEN figury szachowe są oznaczane literami, przy czym wielkie litery reprezentują figury białe, a małe litery figury czarne. Król oznaczany jest jako \textbf{K/k}, hetman jako \textbf{Q/q}, wieża jako \textbf{R/r}, goniec jako \textbf{B/b}, skoczek jako \textbf{N/n}, a pion jako \textbf{P/p}.
 \\\\
@@ -2059,7 +2194,7 @@ Na zakończenie warto podkreślić, że niemal każdy plik stylizacji komponentu
     \item \textbf{guid-typescript}: Biblioteka umożliwiająca generowanie unikalnych identyfikatorów oraz prace z nimi.
     \item \textbf{vite} i \textbf{vitest}: Vite to bundler i serwer deweloperski, który wspiera nowoczesne technologie, a vitest to framework testowy zoptymalizowany pod kątem ekosystemu Vite, umożliwiający szybkie uruchamianie testów. 
     \item \textbf{@testing-library/dom} i \textbf{@testing-library/react}: Biblioteki do testowania DOM i komponentów React, umożliwiające tworzenie testów integracyjnych w aplikacjach frontendowych. 
-    \item \textbf{eslint} i \textbf{@eslint/js}: Narzędzia do statycznej analizy kodu w celu.
+    \item \textbf{eslint} i \textbf{@eslint/js}: Narzędzia do analizy kodu w celu wykrywania błędów i wymuszania standardów kodowania.
     \item \textbf{stylelint}: Narzędzie do analizy jakości CSS i SCSS. 
     \item \textbf{sass} i \textbf{scss}: Obie biblioteki to preprocesory CSS, gdzie SCSS jest bardziej zbliżoną do standardowego CSS wersją SASS. Używa się ich do organizowania i modularnego pisania stylów. 
 \end{itemize}
@@ -2650,16 +2785,37 @@ W projekcie każda strona aplikacji ma dedykowany folder (Page) i plik testowy, 
 \noindent
 Przykład testu integracyjnego dla aplikacji przedstawia ogólny schemat, w jaki testy są tworzone w projekcie. Każdy test weryfikuje współdziałanie komponentów, interakcje użytkownika oraz reakcje aplikacji na symulowane odpowiedzi API. Dzięki zastosowaniu narzędzi takich jak axios-mock-adapter możliwe jest dokładne odwzorowanie rzeczywistego środowiska działania aplikacji. Poniżej znajduje się fragment kodu ilustrujący test logowania, który obejmuje symulację żądań serwera, obsługę formularza logowania oraz przejście do głównej strony aplikacji.
 
+% \vspace{0.5cm}
+% \begin{figure}[h!]
+%     \centering
+%     \includegraphics[width=1\textwidth]{images/ex_front_tests.png}
+%     \caption{Fragment kodu: Przykład testu komponentu aplikacji klienckiej.}
+% \end{figure}
+% \vspace{0.5cm}
+
 \vspace{0.5cm}
-\begin{figure}[h!]
-    \centering
-    \includegraphics[width=1\textwidth]{images/ex_front_tests.png}
-    \caption{Fragment kodu: Przykład testu komponentu aplikacji klienckiej.}
-\end{figure}
+\begin{lstlisting}[language=JSX]
+it("should render without crashing and displays initial content", async () => {
+    // mocki zapytan api
+    mock.onGet(userController.getRegisterConf(getPasswordRegisterConfModel)).reply(200, responseConfiguration);
+    mock.onGet(userController.getRegisterConf(getUserRegisterConfModel)).reply(200, responseConfiguration);
+
+    // wygenerowanie strony
+    render(
+      <MemoryRouter>
+        <RegisterPage />
+      </MemoryRouter>
+    );
+
+    // sprawdzenie poprawnosci generowania
+    expect(await waitFor(() => screen.getByTestId("sign-in-form-modal"))).toBeInTheDocument();
+    expect(await waitFor(() => screen.getByText("Login Now"))).toBeInTheDocument();
+});
+\end{lstlisting}
 \vspace{0.5cm}
 
 \noindent
-Schemat testów frontendowych nie jest sztywno określony, a jedynie ogólnie przedstawia logikę, która kieruje tworzeniem przypadków testowych. Jest on znacznie bardziej elastyczny w porównaniu do testów aplikacji serwerowej, gdzie testy mają bardziej określony i powtarzalny szablon. Taka różnica wynika z natury części frontendowej projektu, gdzie testy muszą uwzględniać różnorodne interakcje użytkownika, które mogą przybierać wiele różnych form i scenariuszy. W przypadku frontendu, testowanie często skupia się na zachowaniach aplikacji w różnych sytuacjach, co sprawia, że przypadki testowe są mniej formalne, a ich struktura bardziej dostosowana do dynamicznego charakteru interfejsu użytkownika.
+Schemat testów frontendowych nie jest sztywno określony, a jedynie ogólnie przedstawia logikę, która kieruje tworzeniem przypadków testowych. Jest on znacznie bardziej elastyczny w porównaniu do testów aplikacji serwerowej, gdzie testy mają określony i powtarzalny szablon. Taka różnica wynika z natury części frontendowej projektu, gdzie testy muszą uwzględniać różnorodne interakcje użytkownika, które mogą przybierać wiele różnych form i scenariuszy.
 
 \newpage
 
@@ -2701,9 +2857,9 @@ W testach manualnych ważna jest także możliwość dokładnego ocenienia użyt
 \subsubsection{Testy jednostkowe}
 
 \noindent
-Test jednostkowy to rodzaj testu, który sprawdza pojedynczą jednostkę kodu, najczęściej funkcję lub metodę, w ściśle kontrolowanych warunkach. Testy jednostkowe mają na celu weryfikację, czy testowana logika działa zgodnie z oczekiwaniami w różnych scenariuszach, bez potrzeby angażowania zewnętrznych zależności, jak bazy danych, usługi sieciowe czy systemy plików. Dzięki temu, testy jednostkowe mogą być uruchamiane bardzo szybko i zapewniają wysoką precyzję testowania, gdyż wykonują kod w ramach jednego procesu w pamięci. Co istotne, podczas testowania programiści nie muszą ingerować w proces, ponieważ testy te są zaprojektowane tak, by działały samodzielnie w pełni automatycznie, weryfikując prawidłowość działania kodu w różnych, wcześniej zdefiniowanych warunkach.
+Test jednostkowy to rodzaj testu, który sprawdza pojedynczą jednostkę kodu, najczęściej funkcję lub metodę, w ściśle kontrolowanych warunkach. Testy jednostkowe mają na celu weryfikację, czy testowana logika działa zgodnie z oczekiwaniami w różnych scenariuszach, bez potrzeby angażowania zewnętrznych zależności, jak bazy danych, usługi sieciowe czy systemy plików. Dzięki temu, testy jednostkowe mogą być uruchamiane bardzo szybko i zapewniają wysoką precyzję testowania, gdyż wykonują kod w ramach jednego procesu w pamięci. Co istotne, podczas testowania programiści nie muszą ingerować w proces, ponieważ testy te są zaprojektowane tak, by działały samodzielnie w pełni automatycznie, weryfikując prawidłowość działania kodu w różnych, wcześniej zdefiniowanych warunkach. \cite{DevStyleTesty}
 \\\\
-W kontekście niniejszego projektu, testy jednostkowe zostały zastosowane w celu automatycznej kontroli poprawności działania klas odpowiedzialnych za obsługę zapytań. Każdy przypadek obsługi zapytania, który mógł wystąpić w aplikacji, został przetestowany w ramach osobnego testu jednostkowego. Testy te weryfikują nie tylko prawidłowe działanie procedury, ale również różne scenariusze błędów. Zostały stworzone testy dla każdego możliwego błędu, jaki może pojawić się przy obsłudze zapytania. Dzięki temu, aplikacja jest testowana w pełni automatycznie w różnych kontekstach i zapewnia, że każda część logiki działa zgodnie z założeniami.
+W kontekście niniejszego projektu, testy jednostkowe zostały zastosowane w celu automatycznej kontroli poprawności działania klas odpowiedzialnych za obsługę zapytań. Każdy przypadek obsługi zapytania, który mógł wystąpić w aplikacji, został przetestowany w ramach osobnego testu jednostkowego. Testy te weryfikują nie tylko prawidłowe działanie procedury, ale również różne scenariusze błędów. Zostały utworzone testy dla każdego możliwego błędu, jaki może pojawić się przy obsłudze zapytania. Dzięki temu, aplikacja jest testowana w pełni automatycznie w różnych kontekstach i zapewnia, że każda część logiki działa zgodnie z założeniami.
 \\\\
 Zakres testów jednostkowych w projekcie obejmuje jedną obsługę żądania i jego wewnętrzną logikę. Testy jednostkowe skupiają się na indywidualnych metodach i funkcjach w obrębie jednego handlera. Każdy test jest zaprojektowany w taki sposób, aby sprawdzać pojedynczy przypadek użycia, co pozwala na szybkie zidentyfikowanie ewentualnych błędów w jednej, konkretnej logice.
 \\\\
@@ -2719,7 +2875,7 @@ Ogólny proces tworzenia testów jednostkowych wygląda następująco:
     W każdym teście tworzone są obiekty typu \texttt{Mock} dla zależności, takich jak repozytoria czy serwisy, które pozwalają na kontrolowanie ich zachowania w trakcie testów. Dzięki nim można zasymulować różne scenariusze, bez rzeczywistego ich wywoływania.
 
     \item \textbf{Utworzenie testowych obiektów:}\\
-    W każdym z testów na początku utworzone zostały przykładowe dane, które symulowane metody mogą zwrócić, w celu odwzorowania rzeczywistych scenariuszy. Obiekty te są tworzone w sposób kontrolowany, aby odpowiadały wymaganym warunkom testowym. Mogą zostać stworzone zarówno poprawne obiekty, jak i niepoprawne obiekty, co umożliwia dokładne sprawdzenie, jak system reaguje na różne przypadki.
+    W każdym z testów na początku utworzone zostały przykładowe dane, które symulowane metody mogą zwrócić, w celu odwzorowania rzeczywistych scenariuszy. Obiekty te są tworzone w sposób kontrolowany, aby odpowiadały wymaganym warunkom testowym. Mogą zostać utworzone zarówno poprawne obiekty, jak i niepoprawne obiekty, co umożliwia dokładne sprawdzenie, jak system reaguje na różne przypadki.
 
     \item \textbf{Symulowanie zachowania zależności:}\\
     Za pomocą metody \texttt{Setup} ustawia się, jak dane zależności mają się zachować w czasie wykonywania testu. Na przykład, w przypadku repozytorium użytkowników, można ustawić, by konkretna metoda zwracała wcześniej zadeklarowanego obiekt encji, co umożliwia sprawdzenie, jak system reaguje, gdy obiekty o określonych własnościach już istnieją.
@@ -2745,22 +2901,44 @@ Ogólny proces tworzenia testów jednostkowych wygląda następująco:
 Przykład testu jednostkowego dla warstwy \texttt{.Core} przedstawia ogólny schemat, w jaki testy są tworzone w projekcie. Każdy test ma na celu weryfikację poprawności działania metody w różnych scenariuszach. Poniżej znajduje się fragment kodu, który ilustruje przykład takiego testu.
 
 \vspace{0.5cm}
-\begin{figure}[h!]
-    \centering
-    \includegraphics[width=1\textwidth]{images/ex_core_test.png}
-    \caption{Fragment kodu: Przykład testu jednostkowego warstwy .Core.Tests.}
-\end{figure}
+\begin{lstlisting}[language=CSharp]
+[Fact]
+public async Task Handle_Returns_User_On_Success() {
+    // przykladowe dane i zapytanie
+    var exampleUser = new Entities.User(){...};
+    var request = new GetOtherUserRequest() { UserId = exampleUser.Id,};
+
+    // ustawienie mockow
+    _mockUserRepository.Setup(x => x.GetById(request.UserId)).ReturnsAsync(exampleUser);
+
+    // stymulacja
+    var handler = new GetOtherUserRequestHandler(
+        _mockUserRepository.Object);
+    var result = await handler.Handle(request, CancellationToken.None);
+
+    // sprawdzenie wynikow
+    result.Username.Should().Be(exampleUser.Username);
+    _mockUserRepository.Verify(x => x.GetById(request.UserId), Times.Once);
+}
+\end{lstlisting}
 \vspace{0.5cm}
 
-\noindent
-W projekcie utworzono 238 przypadków testowych, które obejmują wszystkie istotne scenariusze dla każdego handlera. Testy te zostały zaprojektowane w taki sposób, aby sprawdzać nie tylko poprawną realizację procesów, ale także różne sytuacje błędne. Każdy test ma na celu upewnienie się, że aplikacja reaguje w odpowiedni sposób w przypadku nieprawidłowych danych wejściowych lub błędów. Dzięki temu projekt jest bardziej odporny na błędy, a jego stabilność oraz niezawodność zostały zwiększone poprzez sprawdzenie różnych ścieżek, które mogą wystąpić w rzeczywistych warunkach użytkowania aplikacji. Testy jednostkowe stanowią więc kluczowy element w zapewnieniu wysokiej jakości aplikacji, umożliwiając automatyczną weryfikację działania całego systemu.
+% \vspace{0.5cm}
+% \begin{figure}[h!]
+%     \centering
+%     \includegraphics[width=1\textwidth]{images/ex_core_test.png}
+%     \caption{Fragment kodu: Przykład testu jednostkowego warstwy .Core.Tests.}
+% \end{figure}
+% \vspace{0.5cm}
 
+\noindent
+W projekcie utworzono 238 przypadków testowych, które obejmują wszystkie istotne scenariusze dla każdego handlera. Testy te zostały zaprojektowane w taki sposób, aby sprawdzać nie tylko poprawną realizację procesów, ale także różne sytuacje błędne. Dzięki temu projekt jest bardziej odporny na błędy, a jego stabilność oraz niezawodność zostały zwiększone poprzez sprawdzenie różnych ścieżek, które mogą wystąpić w rzeczywistych warunkach użytkowania aplikacji.
 \newpage
 
 \subsubsection{Testy integracyjne}
 
 \noindent
-Testy integracyjne to kluczowy etap w procesie tworzenia oprogramowania, który polega na weryfikacji współdziałania różnych komponentów systemu. Ich celem jest sprawdzenie, jak różne części aplikacji, które zostały wcześniej testowane jednostkowo, integrują się ze sobą i jak współpracują w rzeczywistych warunkach. W przeciwieństwie do testów jednostkowych, które skupiają się na testowaniu pojedynczych funkcji lub metod, testy integracyjne obejmują cały proces komunikacji między modułami systemu, w tym bazę danych, usługi zewnętrzne, interfejsy API czy inne komponenty systemowe.
+Testy integracyjne to kluczowy etap w procesie tworzenia oprogramowania, który polega na weryfikacji współdziałania różnych komponentów systemu. Ich celem jest sprawdzenie, jak różne części aplikacji, które zostały wcześniej testowane jednostkowo, integrują się ze sobą i jak współpracują w rzeczywistych warunkach. W przeciwieństwie do testów jednostkowych, które skupiają się na testowaniu pojedynczych funkcji lub metod, testy integracyjne obejmują cały proces komunikacji między modułami systemu, w tym bazę danych, usługi zewnętrzne, interfejsy API czy inne komponenty systemowe. \cite{BoringOwlTesty}
 \\\\
 Podczas testów integracyjnych, główną uwagą jest sprawdzenie, czy dane przechodzą przez cały cykl operacyjny, od momentu ich wprowadzenia, aż do finalnego przetworzenia lub zapisu. Oznacza to, że testy te pomagają wykrywać błędy, które mogą wystąpić w trakcie interakcji między różnymi modułami, takie jak niezgodności w formacie danych, błędy w komunikacji między komponentami lub problemy z dostępem do zewnętrznych usług.
 \\\\
@@ -2775,7 +2953,7 @@ Główne kroki tworzenia takich testów są następujące:
 
 \begin{enumerate}
     \item \textbf{Konfiguracja środowiska testowego:}\\
-    Testy integracyjne wymagają pełnego uruchomienia aplikacji w kontrolowanych warunkach. W tym przypadku używa się specjalnie dedykowanej klasy \texttt{TestWebApplicationFactory}, która odpowiada za stworzenie środowiska testowego, w tym uruchomienie aplikacji oraz jej zależności. Dodatkowo, do testów wykorzystywane są komponenty takie jak \texttt{HttpClient}, który pozwala na symulowanie wysyłania zapytań HTTP, oraz kontekst bazy danych, który umożliwia interakcję z bazą.
+    Testy integracyjne wymagają pełnego uruchomienia aplikacji w kontrolowanych warunkach. W tym przypadku używa się specjalnie dedykowanej klasy \texttt{TestWebApplicationFactory}, która odpowiada za wykonanie środowiska testowego, w tym uruchomienie aplikacji oraz jej zależności. Dodatkowo, do testów wykorzystywane są komponenty takie jak \texttt{HttpClient}, który pozwala na symulowanie wysyłania zapytań HTTP, oraz kontekst bazy danych, który umożliwia interakcję z bazą.
 
     \item \textbf{Utworzenie testowych obiektów:}\\
     W testach integracyjnych tworzone są testowe obiekty, które symulują rzeczywiste dane, które będą przesyłane w zapytaniach. Obiekt modeli są tworzone z danymi, które będą wysyłane jako konkretne żądanie. Obiekty te są konwertowane do formatu JSON, a następnie na \texttt{StringContent}, który jest przesyłany w ciele żądania HTTP.
@@ -2797,12 +2975,35 @@ Główne kroki tworzenia takich testów są następujące:
 Przykład testu integracyjnego dla warstwy \texttt{.Api.Tests} przedstawia sposób, w jaki testy są tworzone w projekcie, aby zweryfikować poprawność działania całej aplikacji, w tym interakcji z bazą danych, API oraz innymi zewnętrznymi komponentami. Każdy test integracyjny ma na celu weryfikację, czy różne elementy systemu współdziałają ze sobą zgodnie z oczekiwaniami w kontekście rzeczywistego działania aplikacji. Poniżej znajduje się fragment kodu, który ilustruje przykład takiego testu.
 
 \vspace{0.5cm}
-\begin{figure}[h!]
-    \centering
-    \includegraphics[width=1\textwidth]{images/ex_api_test.png}
-    \caption{Fragment kodu: Przykład testu integracyjnego warstwy .Api.Tests.}
-\end{figure}
+\begin{lstlisting}[language=CSharp]
+[Fact]
+public async Task Register_Should_Create_User_On_Success() {
+    await _dbContext.Init();
+    // przykladowe parametry zapytania
+    var model = new RegisterUserModel() {...}; 
+    var json = JsonConvert.SerializeObject(model);
+    var httpContent = new StringContent(json, Encoding.UTF8, "application/json");
+
+    // symulacja
+    var response = await _client.PostAsync("api/user/sign-up", httpContent);
+    var assertDbContext = _factory.GetDbContextForAsserts();
+
+    // sprawdzenie wynikow
+    response.StatusCode.Should().Be(HttpStatusCode.OK);
+    var user = await assertDbContext.Users.FirstAsync();
+    user.Username.Should().Be("Test");
+    user.Email.Should().Be("test@test.com");
+}
+\end{lstlisting}
 \vspace{0.5cm}
+
+% \vspace{0.5cm}
+% \begin{figure}[h!]
+%     \centering
+%     \includegraphics[width=1\textwidth]{images/ex_api_test.png}
+%     \caption{Fragment kodu: Przykład testu integracyjnego warstwy .Api.Tests.}
+% \end{figure}
+% \vspace{0.5cm}
 
 \noindent
 W projekcie utworzono 134 przypadków testowych, które obejmują pełny przepływ danych i interakcje między komponentami aplikacji, takimi jak kontrolery API, baza danych i usługi. Testy te zostały zaprojektowane w taki sposób, aby sprawdzać nie tylko poprawność realizacji procesów, ale także różne sytuacje błędne, które mogą wystąpić podczas interakcji między komponentami systemu. Każdy test sprawdza, czy aplikacja reaguje odpowiednio na poprawne i błędne dane wejściowe, weryfikując odpowiedzi HTTP, zapis do bazy danych i inne krytyczne operacje. Dzięki temu projekt jest bardziej odporny na błędy, a jego stabilność oraz niezawodność zostały zwiększone poprzez symulowanie rzeczywistych warunków użytkowania aplikacji.
@@ -2832,45 +3033,196 @@ Po wykonaniu testów, w oknie Test Explorer zostaną pokazane wyniki. Testy, kt�
 \section{Podsumowanie}
 
 \noindent
-Projekt miał na celu stworzenie nowoczesnej platformy szachowej umożliwiającej grę w trybie online, offline, oraz zintegrowanie dodatkowych funkcjonalności wspierających rywalizację i zarządzanie relacjami między użytkownikami. Realizacja projektu pozwoliła osiągnąć większość zakładanych celów, co stanowi solidną podstawę dla dalszego rozwoju i optymalizacji platformy.
+Projekt miał na celu opracowanie nowoczesnej platformy szachowej umożliwiającej grę w trybie online, offline, oraz zintegrowanie dodatkowych funkcjonalności wspierających rywalizację i zarządzanie relacjami między użytkownikami. Realizacja projektu pozwoliła osiągnąć większość zakładanych celów, co stanowi solidną podstawę dla dalszego rozwoju i optymalizacji platformy.
 \\\\
-Do głównych osiągnięć projektu należy wdrożenie systemu gry online między użytkownikami, który działa stabilnie i spełnia założenia funkcjonalne. Dzięki wykorzystaniu biblioteki SignalR, system rozgrywek online okazał się nie tylko wydajny, ale również elastyczny, zapewniając płynną komunikację w czasie rzeczywistym. Gra offline z komputerem została zrealizowana przy użyciu silnika szachowego Stockfish, który zapewnił najwyższy poziom rozgrywek, jednocześnie będąc narzędziem łatwym do integracji z projektem. Mechanizm ten pozwolił na stworzenie zaawansowanego przeciwnika komputerowego, który dostosowuje swoje ruchy do poziomu umiejętności gracza, co wzbogaciło wrażenia użytkownika.
+Do głównych osiągnięć projektu należy wdrożenie systemu gry online między użytkownikami, który działa stabilnie i spełnia założenia funkcjonalne. Dzięki wykorzystaniu biblioteki SignalR, system rozgrywek online okazał się nie tylko wydajny, ale również elastyczny, zapewniając płynną komunikację w czasie rzeczywistym. Gra offline z komputerem została zrealizowana przy użyciu silnika szachowego Stockfish, który zapewnił najwyższy poziom rozgrywek, jednocześnie będąc narzędziem łatwym do integracji z projektem. Mechanizm ten pozwolił na utworzenie zaawansowanego przeciwnika komputerowego, który dostosowuje swoje ruchy do poziomu umiejętności gracza, co wzbogaciło wrażenia użytkownika.
 \\\\
 Platforma oferuje także możliwość gry ze znajomymi dzięki wbudowanemu systemowi relacji między użytkownikami. Intuicyjny interfejs użytkownika umożliwia płynne poruszanie się po aplikacji i korzystanie z jej funkcji, takich jak szczegółowe zarządzanie kontem użytkownika, bezpieczeństwo danych czy system rankingu i punktacji, które zwiększają atrakcyjność rywalizacji na platformie ChessBRN. Wprowadzenie kontroli czasowej w grach online stanowi dodatkowy element strategii, co czyni rozgrywkę bardziej emocjonującą i dynamiczną.
 \\\\
 Pomimo wielu osiągnięć, projekt nie został ukończony w pełnym zakresie ze względu na ograniczenia czasowe. Nie udało się wdrożyć systemu turniejowego, który miał na celu organizowanie bardziej złożonych rozgrywek między użytkownikami. Dodatkowo, rola administratora, która miała obejmować nadzór nad zasadami fair play oraz możliwość banowania oszustów, pozostała niewykorzystana. Pomimo tych braków, obecna wersja aplikacji stanowi solidne i funkcjonalne rozwiązanie, które spełnia potrzeby większości użytkowników.
 \\\\
-Projekt został zaprojektowany i zrealizowany w większości zgodnie z zasadami SOLID, co pozwoliło stworzyć przejrzysty, modularny i łatwy w utrzymaniu kod. Strukturę projektu wzbogacają liczne komentarze, które szczegółowo opisują implementację poszczególnych funkcji, co ułatwia zarówno zrozumienie kodu, jak i jego przyszły rozwój. Dzięki temu projekt jest nie tylko funkcjonalny, ale również dobrze udokumentowany.
+Projekt został zaprojektowany i zrealizowany w większości zgodnie z zasadami SOLID, co pozwoliło zaimplementować przejrzysty, modularny i łatwy w utrzymaniu kod. Strukturę projektu wzbogacają liczne komentarze, które szczegółowo opisują implementację poszczególnych funkcji, co ułatwia zarówno zrozumienie kodu, jak i jego przyszły rozwój. Dzięki temu projekt jest nie tylko funkcjonalny, ale również dobrze udokumentowany.
 \\\\
 Końcowy etap projektu obejmował testowanie aplikacji, które zostało przeprowadzone zarówno automatycznie, jak i manualnie. Automatyczne testy jednostkowe i integracyjne pozwoliły na weryfikację poprawności działania kluczowych funkcji zarówno po stronie frontendowej, jak i serwerowej. Manualne testy skupiły się na interfejsie użytkownika oraz interakcjach między poszczególnymi komponentami, co było szczególnie istotne w kontekście zapewnienia jak najlepszego doświadczenia użytkownika. Połączenie tych metod pozwoliło na minimalizację błędów oraz zapewnienie stabilności aplikacji, która, choć jeszcze nie w pełni zoptymalizowana, w pełni spełnia kluczowe założenia funkcjonalne projektu.
 \\\\
-Podsumowując, projekt zrealizował swoje główne cele, dostarczając użytkownikom intuicyjną i atrakcyjną platformę szachową, która łączy nowoczesne technologie z klasyczną grą w szachy. Platforma ChessBRN, choć wciąż posiada potencjał do dalszego rozwoju, jest już teraz funkcjonalnym narzędziem, które w pełni odzwierciedla zaangażowanie zespołu projektowego w stworzenie wysokiej jakości aplikacji webowej.
+Podsumowując, projekt zrealizował swoje główne cele, dostarczając użytkownikom intuicyjną i atrakcyjną platformę szachową, która łączy nowoczesne technologie z klasyczną grą w szachy. Platforma ChessBRN, choć wciąż posiada potencjał do dalszego rozwoju, jest już teraz funkcjonalnym narzędziem, które w pełni odzwierciedla zaangażowanie zespołu projektowego w opracowaniu wysokiej jakości aplikacji webowej.
 
 \newpage
+\begin{thebibliography}{99}
 
-\section{Literatura}
+    % szachy
+    \bibitem{ChessWiki} 
+    Wikipedia, "Chess". Adres url: \url{https://en.wikipedia.org/wiki/Chess}.
 
-\begin{itemize}
-    \item \href{https://react.dev/learn/describing-the-ui}{https://react.dev/learn/describing-the-ui}
-    \item \href{https://vitejs.dev/guide/}{https://vitejs.dev/guide/}
-    \item \href{https://en.wikipedia.org/wiki/Chess}{https://en.wikipedia.org/wiki/Chess}
-    \item \href{https://boringowl.io/blog/testy-integracyjne-plusy-i-minusy-ich-stosowania}{https://boringowl.io/blog/testy-integracyjne-plusy-i-minusy-ich-stosowania}
-    \item \href{https://devstyle.pl/2020/06/25/mega-pigula-wiedzy-o-testach-jednostkowych/}{https://devstyle.pl/2020/06/25/mega-pigula-wiedzy-o-testach-jednostkowych/}
-    \item \href{https://boringowl.io/tag/figma}{https://boringowl.io/tag/figma}
-    \item \href{https://justjoin.it/blog/wszystko-co-musicie-wiedziec-o-javascript-co-to-dla-kogo-i-ile-zarobimy}{https://justjoin.it/blog/wszystko-co-musicie-wiedziec-o-javascript-co-to-dla-kogo-i-ile-zarobimy}
-    \item \href{https://www.droptica.pl/blog/co-jest-typescript-i-dlaczego-sprawdzi-sie-w-twoich-projektach/}{https://www.droptica.pl/blog/co-jest-typescript-i-dlaczego-sprawdzi-sie-w-twoich-projektach/}
-    \item \href{https://boringowl.io/blog/przeglad-vitejs-nowa-generacja-narzedzi-do-budowania-aplikacji-front-end}{https://boringowl.io/blog/przeglad-vitejs-nowa-generacja-narzedzi-do-budowania-aplikacji-front-end}
-    \item \href{https://boringowl.io/blog/poznaj-sass-zyskaj-kontrole-nad-stylem-swojej-strony}{https://boringowl.io/blog/poznaj-sass-zyskaj-kontrole-nad-stylem-swojej-strony}
-    \item \href{https://blog.strefakursow.pl/jezyk-c-czym-jest-i-gdzie-sie-go-uzywa/}{https://blog.strefakursow.pl/jezyk-c-czym-jest-i-gdzie-sie-go-uzywa/}
-    \item \href{https://learn.microsoft.com/pl-pl/dotnet/framework/get-started/}{https://learn.microsoft.com/pl-pl/dotnet/framework/get-started/}
-    \item \href{https://www.ovhcloud.com/pl/learn/what-is-postgresql/}{https://www.ovhcloud.com/pl/learn/what-is-postgresql/}
-    \item \href{https://learn.microsoft.com/pl-pl/devops/develop/git/what-is-git}{https://learn.microsoft.com/pl-pl/devops/develop/git/what-is-git}
-    \item \href{https://coderslab.pl/pl/blog/github-co-to-jest-i-do-czego-sluzy}{https://coderslab.pl/pl/blog/github-co-to-jest-i-do-czego-sluzy}
-    \item \href{https://polontech.com/pl/sourcetree/}{https://polontech.com/pl/sourcetree/}
-    \item \href{https://www.droptica.pl/blog/co-jest-postman-do-czego-sluzy-i-jakie-sa-jego-funkcjonalnosci/}{https://www.droptica.pl/blog/co-jest-postman-do-czego-sluzy-i-jakie-sa-jego-funkcjonalnosci/}
-    \item \href{https://www.ovhcloud.com/pl/learn/what-is-rest-api/}{https://www.ovhcloud.com/pl/learn/what-is-rest-api/}
-    \item \href{https://www.pgadmin.org/faq/}{https://www.pgadmin.org/faq/}
-    \item \href{https://pl.wikipedia.org/wiki/Notacja-Forsytha-Edwardsa}{https://pl.wikipedia.org/wiki/Notacja-Forsytha-Edwardsa}
-\end{itemize}
+    \bibitem{WikiNotacjaForsytha} 
+    Wikipedia, "Notacja Forsytha-Edwardsa". Adres url: \url{https://pl.wikipedia.org/wiki/Notacja-Forsytha-Edwardsa}.
 
+    % frontend
+    
+    \bibitem{JustJoinJS} 
+    Just Join IT, "Wszystko co musicie wiedzieć o JavaScript – co to, dla kogo i ile zarobimy". Adres url: \url{https://justjoin.it/blog/wszystko-co-musicie-wiedziec-o-javascript-co-to-dla-kogo-i-ile-zarobimy}.
+    
+    \bibitem{DropticaTypeScript} 
+    Droptica, "Co jest TypeScript i dlaczego sprawdzi się w twoich projektach?". Adres url: \url{https://www.droptica.pl/blog/co-jest-typescript-i-dlaczego-sprawdzi-sie-w-twoich-projektach/}.
+
+    \bibitem{ReactUI} 
+    React Team, "Describing the UI". Adres url: \url{https://react.dev/learn/describing-the-ui}.
+
+    \bibitem{ViteGuide} 
+    Vite Team, "Vite Guide". Adres url: \url{https://vitejs.dev/guide/}.
+
+    \bibitem{BoringOwlViteJS} 
+    Boring Owl, "Przegląd Vite.js – nowa generacja narzędzi do budowania aplikacji front-end". Adres url: \url{https://boringowl.io/blog/przeglad-vitejs-nowa-generacja-narzedzi-do-budowania-aplikacji-front-end}.
+
+    \bibitem{BoringOwlSass} 
+    Boring Owl, "Poznaj Sass – zyskaj kontrolę nad stylem swojej strony". Adres url: \url{https://boringowl.io/blog/poznaj-sass-zyskaj-kontrole-nad-stylem-swojej-strony}.
+
+    \bibitem{FrontendArchitecture}
+    Microsoft. (2023). \textit{Organizing Your Application in ASP.NET Core}. Adres url:  \url{https://docs.microsoft.com/en-us/aspnet/core/fundamentals/architectural-guidelines?view=aspnetcore-5.0}
+    
+    % backend
+
+    \bibitem{CSharp}
+    Microsoft. \textit{Przewodnik języka C\#}. Adres url:  \url{https://learn.microsoft.com/pl-pl/dotnet/csharp/}
+
+    \bibitem{DotNetStart} 
+    Microsoft, \textit{Wprowadzenie do .NET Framework}. Adres url: \url{https://learn.microsoft.com/pl-pl/dotnet/framework/get-started/}.
+
+    \bibitem{EFCoreRelationships} 
+    Microsoft. \textit{Relacje, właściwości nawigacji i klucze obce}. Adres url:  \url{https://learn.microsoft.com/pl-pl/ef/ef6/fundamentals/relationships}
+
+    \bibitem{OVHRestAPI} 
+    OVHcloud, \textit{Co to jest Rest API}. Adres url: \url{https://www.ovhcloud.com/pl/learn/what-is-rest-api/}.
+    
+
+    
+    \bibitem{OnionArchitecture} 
+    Clarity Ventures. (n.d.). \textit{Onion-based Software Architecture}. Adres url:  \url{https://www.clarity-ventures.com/articles/onion-based-software-architecture}
+    
+    \bibitem{OnionAdvantages} 
+    Medium. (2019, October 21). \textit{Onion Architecture}. Adres url:  \url{https://medium.com/expedia-group-tech/onion-architecture-deed8a554423}
+    
+    \bibitem{ScalabilityOnion} 
+    Anar Solutions. (n.d.). \textit{Onion Architecture: Advantages, Components, and Implementation}. Adres url:  \url{https://anarsolutions.com/onion-architecture}
+    
+    \bibitem{RestApiOverview}
+    OVHcloud. (n.d.). \textit{What is a REST API?}. Adres url:  \url{https://www.ovhcloud.com/pl/learn/what-is-rest-api/}
+    
+    \bibitem{RestApiMethods}
+    Contrive. (n.d.). \textit{HTTP Methods - GET, POST, PUT, DELETE}. Adres url:  \url{https://www.contrive.mobi/aviorapi/HTTPMETHODS.html}
+
+    \bibitem{SwaggerDocumentation}
+    Lenkowski, P. (n.d.). \textit{Swagger – czyli jak pisać dokumentację API?}. Adres url:  \url{https://lenkowski.net/swagger-czyli-jak-pisac-dokumentacje-api/}
+
+    \bibitem{SignalR}
+    Microsoft. (n.d.). \textit{Use hubs in ASP.NET Core SignalR}. Adres url:  \url{https://learn.microsoft.com/en-us/aspnet/core/signalr/hubs?view=aspnetcore-9.0}
+    
+    \bibitem{SignalRIntro}
+    Medium. (2021, June 15). \textit{Understanding SignalR: Concepts, Features, and Usages}. Adres url:  \url{https://medium.com/%40IntelliSoft/understanding-signalr-concepts-features-and-usages-ed6bf9c17fc7}
+    
+    \bibitem{SignalRHub}
+    Stack Overflow. (2012, March 19). \textit{What do Hub represents in SignalR?}. Adres url:  \url{https://stackoverflow.com/questions/8929519/what-do-hub-represents-in-signalr}
+
+    \bibitem{MediatR}
+    Jasper. (2023). \textit{MediatR - Simple, unambiguous mediator for .NET}. Adres url:  \url{https://github.com/justeat/JustSaying}
+    
+    \bibitem{MediatorPattern}
+    Wikipedia. (2023, December 19). \textit{Mediator pattern}. Adres url:  \url{https://en.wikipedia.org/wiki/Mediator_pattern}
+    
+    \bibitem{HandlerPattern}
+    Microsoft. (2023, December 1). \textit{Request and Response Handlers with MediatR}. Adres url:  \url{https://docs.microsoft.com/en-us/aspnet/core/fundamentals/dependency-injection?view=aspnetcore-5.0}
+
+    \bibitem{DTO}
+    Martin Fowler. (2003). \textit{Patterns of Enterprise Application Architecture}. Addison-Wesley Professional. ISBN 0321127420.
+    
+    \bibitem{Pagination}
+    Microsoft. (2023). \textit{How to implement pagination in ASP.NET Core}. Adres url:  \url{https://docs.microsoft.com/en-us/aspnet/core/web-api/pagination?view=aspnetcore-5.0}
+    
+    \bibitem{DataTransferObjects}
+    Wikipedia. (2023, December 8). \textit{Data transfer object}. Adres url:  \url{https://en.wikipedia.org/wiki/Data_transfer_object}
+
+    \bibitem{SMTP}
+    Microsoft. (2023). \textit{Sending Email with SMTP in ASP.NET Core}. Adres url:  \url{https://docs.microsoft.com/en-us/aspnet/core/architecture/advanced-topics/smtp-email?view=aspnetcore-5.0}
+    
+    \bibitem{JWT}
+    JWT.io. (2023). \textit{Introduction to JSON Web Tokens}. Adres url:  \url{https://jwt.io/introduction/}
+    
+    \bibitem{EntityFramework}
+    Microsoft. \textit{Entity Framework Core Documentation}. Adres url:  \url{https://learn.microsoft.com/en-us/ef/core/}
+    
+    \bibitem{PostgresEF}
+    Npgsql. (2023). \textit{Entity Framework Core and PostgreSQL}. Adres url:  \url{https://www.npgsql.org/efcore/}
+    
+    \bibitem{IoC}
+    Microsoft. (2023). \textit{Dependency Injection in ASP.NET Core}. Adres url:  \url{https://docs.microsoft.com/en-us/aspnet/core/fundamentals/dependency-injection?view=aspnetcore-5.0}
+
+    \bibitem{BackgroundService}
+    Microsoft. (2023). \textit{Background Services in ASP.NET Core}. Adres url:  \url{https://docs.microsoft.com/en-us/aspnet/core/fundamentals/hosted-services?view=aspnetcore-5.0}
+    
+    \bibitem{DependencyInjection}
+    Microsoft. (2023). \textit{Dependency Injection in ASP.NET Core}. Adres url:  \url{https://docs.microsoft.com/en-us/aspnet/core/fundamentals/dependency-injection?view=aspnetcore-5.0}
+    
+    \bibitem{Middleware}
+    Microsoft. (2023). \textit{Exception Handling in ASP.NET Core}. Adres url:  \url{https://docs.microsoft.com/en-us/aspnet/core/fundamentals/middleware/exception-handling?view=aspnetcore-5.0}
+    
+    \bibitem{BoringOwlTesty} 
+    Boring Owl, "Testy integracyjne – plusy i minusy ich stosowania". Adres url: \url{https://boringowl.io/blog/testy-integracyjne-plusy-i-minusy-ich-stosowania}.
+    
+    \bibitem{DevStyleTesty} 
+    DevStyle, "Mega piguła wiedzy o testach jednostkowych". Adres url: \url{https://devstyle.pl/2020/06/25/mega-pigula-wiedzy-o-testach-jednostkowych/}.
+
+    \bibitem{OVHPostgreSQL} 
+    OVHcloud, "What is PostgreSQL?". Adres url: \url{https://www.ovhcloud.com/pl/learn/what-is-postgresql/}.
+
+    \bibitem{PostgreSQL} 
+    PostgreSQL Global Development Group. (n.d.). \textit{PostgreSQL: The world's most advanced open source database}. Adres url:  \url{https://www.postgresql.org/}
+
+    \bibitem{EFPostgreSQL} 
+    GeeksforGeeks. (2021, October 5). \textit{How to Access PostgreSQL Data Using Entity Framework}. Adres url:  \url{https://www.geeksforgeeks.org/how-to-access-postgresql-data-using-entity-framework/}
+
+    \bibitem{PgAdmin} 
+    pgAdmin Development Team. (n.d.). \textit{pgAdmin 4 Documentation}. Adres url:  \url{https://www.pgadmin.org/docs/pgadmin4/latest/}
+
+    \bibitem{PgAdminFAQ} 
+    pgAdmin, "FAQ". Adres url: \url{https://www.pgadmin.org/faq/}.
+
+    \bibitem{ERDTool} 
+    pgAdmin Development Team. (n.d.). \textit{ERD Tool — pgAdmin 4 8.14 documentation}. Adres url:  \url{https://www.pgadmin.org/docs/pgadmin4/latest/erd_tool.html}
+
+
+    % silnik
+
+    \bibitem{Stockfish}
+    Stockfish. (n.d.). \textit{Stockfish - Open Source Chess Engine}. Adres url:  \url{https://stockfishchess.org/}
+    
+    \bibitem{StockfishUCI}
+    Wikipedia. (2023, December 15). \textit{Stockfish (chess engine)}. Adres url:  \url{https://en.wikipedia.org/wiki/Stockfish_(chess_engine)}
+    
+    \bibitem{UCI}
+    Wikipedia. (2023, December 12). \textit{Universal Chess Interface}. Adres url:  \url{https://en.wikipedia.org/wiki/Universal_Chess_Interface}
+    
+    \bibitem{Minimax}
+    Wikipedia. (2023, November 21). \textit{Minimax}. Adres url:  \url{https://en.wikipedia.org/wiki/Minimax}
+
+    % narzedzia
+    \bibitem{GitWhatIs} 
+    Microsoft, "What is Git?". Adres url: \url{https://learn.microsoft.com/pl-pl/devops/develop/git/what-is-git}.
+
+    \bibitem{CodersLabGitHub} 
+    Coders Lab, "GitHub – co to jest i do czego służy?". Adres url: \url{https://coderslab.pl/pl/blog/github-co-to-jest-i-do-czego-sluzy}.
+
+    \bibitem{PolonTechSourceTree} 
+    PolonTech, "SourceTree – jak korzystać z Git w GUI?". Adres url: \url{https://polontech.com/pl/sourcetree/}.
+
+    \bibitem{BoringOwlFigma} 
+    Boring Owl, "Figma". Adres url: \url{https://boringowl.io/tag/figma}.
+
+
+    % dodatkowe
+
+    \bibitem{WikiAndersHejlsberg} Wikipedia, "Anders Hejlsberg". Adres url: \url{https://pl.wikipedia.org/wiki/Anders_Hejlsberg}.
+
+
+\end{thebibliography}
+    
 \end{document}

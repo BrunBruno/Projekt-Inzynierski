@@ -154,7 +154,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % \ExecuteOptions{letterpaper,10pt,oneside,onecolumn,final}
 %
-\ExecuteOptions{a4paper,12pt,oneside,onecolumn,final}
+\ExecuteOptions{a4paper,12pt,twoside,onecolumn,final}
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
@@ -746,19 +746,19 @@
       \endlist}
 
 
-% %%% do testów \twocolumn
-% \def \twocolumn {%
-%   \clearpage
-%   \global\columnwidth\textwidth
-%   \global\advance\columnwidth-\columnsep
-%   \global\divide\columnwidth\tw@
-%   \global\hsize\columnwidth
-%   \global\linewidth\columnwidth
-%   \global\@twocolumntrue
-%   \global\@firstcolumntrue
-%   \col@number \tw@
-%   \@ifnextchar [\@topnewpage\@floatplacement
-% }
+%%% do testów \twocolumn
+\def \twocolumn {%
+  \clearpage
+  \global\columnwidth\textwidth
+  \global\advance\columnwidth-\columnsep
+  \global\divide\columnwidth\tw@
+  \global\hsize\columnwidth
+  \global\linewidth\columnwidth
+  \global\@twocolumntrue
+  \global\@firstcolumntrue
+  \col@number \tw@
+  \@ifnextchar [\@topnewpage\@floatplacement
+}
 
 
 
@@ -833,9 +833,8 @@
 %                                                  %%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\def\newoddpage{\ifodd\c@page \else\hbox{} \thispagestyle{empty} \fi}
 
-% \def\newoddpage{\newpage\ifodd\c@page \else\hbox{} \thispagestyle{empty} \newpage\fi}
+\def\newoddpage{\newpage\ifodd\c@page \else\hbox{} \thispagestyle{empty} \newpage\fi}
 
 
 \newcommand{\fontnag}{\Large}
@@ -1016,7 +1015,7 @@
 \spistresc
 
 \global\let\numberline\savenumberline
-% \wstep
+\wstep
 }
 
 \def\stronaDruga{

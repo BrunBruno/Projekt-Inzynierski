@@ -1,0 +1,47 @@
+Nie, nie powinien Pan poprawiać. Szablon jest przygotowany dla druku DWUSTRONNEGO, stąd zmieniające się marginesy i puste strony, które gwarantują, ze rozdział zawsze zacznie się na stronie nieparzystej.
+Nie ma więc czego poprawiać, wszystko jest dobrze.
+
+Żeby nie komplikować Panu sprawy będę podawać poniżej nry stron z ostatniej wersji tej "poprawionej":
+
+OK 
+1. Str. 5 - temat pracy jest inny, jeżeli chce Pan używać nazwy kodowej, nalezy ją wprowadzić, np. "Projekt aplikacji szachowej, dalej nazywany BRNChess ..." czy coś w tym rodzaju
+
+OK 
+2. unikamy słowa "stwarzać": "projektujemy", "implementujemy", "opracowujemy", "wykonujemy", w ostateczności "tworzymy", ale nie stwarzamy - po polsku stwarza się coś z niczego, będąc Bogiem (to jest kalka z ang!)
+
+3. PvP - skrót trzeba zawsze najpierw wprowadzić w pełnym brzmieniu (dotyczy wszystkich innych - do sprawdzenia)
+
+4. Anders Hejlsberg jest znany (str. 7) również jako projektant kompilatorów jezyka Pascal i Delphi, facet ma 64 lata, musiał coś robić w zeszłym tysiącleciu ;) a robił rzeczy wielkie.
+
+5. str 8: "Jest on znany ze swojej niewiarygodnej szybkości" a królewna Śnieżka jest znana z niewiarygodnej urody - gdzie źródło?
+
+OK 
+6. developmentu. str 9 nie podoba mi się, łatwo zastąpić PL słowem
+
+OK 
+7. str 10 "Microsoft *rozprawił się* z tym problemem" kolokwializm
+
+8. generalnie brakuje źródel opinii przedstawionych w 2.1 i 2.2
+
+OK 
+9. Figma posłużyła do zaprojektowania i utworzeniA
+
+10. 3.1 str 15 czy tej wody o gicie juz nie bylo w poprzednim punkcie? ;)
+
+11. rys 2 str 17 powiekszyc i usunac kratki z tla, napisy nie moga byc nieczytelne, rys powinien byc w wiekszej rozdzielczosci (dotyczy WSZYSTKICH pozostalych rys,)
+
+12. 3.3.4 str 46 źródło do silnika, strona www, książka - cokolwiek, Autorzy silnika (jeśli wielu to info), silnik jest równie ważny jak TS czy C#
+
+13. str 53 kod nie powinien byc na rys, tylko jako otoczenie listing i osobno numerowany (poprawić wszedzie)
+
+OK 
+14. str 87: "Narzędzia do statycznej analizy kodu w celu." niezrozumiałe
+
+15. Rysunki na str. 89 nieczytelne, powinny miec szerokość min. 1/2 strony
+
+16. str. 121 brakuje pozycji literatury ktore nie sa netografia (min. 3 pozycje)
+
+Proszę poprawić w/w elementy i można wrzucać pracę na APD, nawet nie wysyłając mi jej ponownie.
+
+Pozdrawiam
+ZS
