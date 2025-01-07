@@ -107,7 +107,7 @@ Chess, Online Games, Website
 \noindent
 Projekt aplikacji szachowej, dalej nazywany \texttt{BRNChess} to aplikacja webowa, zaprojektowana dla osób zainteresowanych szachami, składająca się z dwóch głównych komponentów: aplikacji internetowej (frontend) oraz aplikacji serwerowej (backend). Strona kliencka została utworzona w oparciu o technologie React oraz Vite, a kod jest pisany w języku TypeScript, co zapewnia wysoką wydajność, czytelność i skalowalność projektu. Backend natomiast opiera się na platformie .NET Framework, co umożliwia szybkie i niezawodne przetwarzanie logiki serwera oraz integrację z różnymi usługami.
 \\\\
-Aplikacja ma na celu zapewnienie użytkownikom możliwości rozgrywki w jedną z najstarszych i najpopularniejszych gier PvP (ang. Player versus Player - gracz kontra gracz) na świecie, jaką są szachy. Jest to strategiczna gra planszowa dla dwóch graczy, w której każdy kontroluje zestaw figur szachowych, dążąc do zaszachowania króla przeciwnika, czyli postawienia go w sytuacji nieuchronnego schwytania. Zasady współczesnych szachów zostały ukształtowane w Europie pod koniec XV wieku, a ich pełna standaryzacja miała miejsce w XIX wieku. \cite{ChessWiki}
+Aplikacja ma na celu zapewnienie użytkownikom możliwości rozgrywki w jedną z najstarszych i najpopularniejszych gier PvP (ang. Player versus Player - gracz kontra gracz) na świecie, jaką są szachy. Jest to strategiczna gra planszowa dla dwóch graczy, w której każdy kontroluje zestaw figur szachowych, dążąc do zaszachowania króla przeciwnika, czyli postawienia go w sytuacji nieuchronnego schwytania. Zasady współczesnych szachów zostały ukształtowane w Europie pod koniec XV wieku, a ich pełna standaryzacja miała miejsce w XIX wieku. \cite{ChessWiki} % źródło
 \\\\
 Aplikacja \texttt{BRNChess} umożliwia rozgrywkę online z innymi graczami lub zaawansowanym silnikiem Stockfish, zapewniając dynamiczne tryby czasowe dzięki technologii SignalR. Posiada także system znajomości do zarządzania kontaktami i personalizacji gry, co czyni ją platformą społecznościową. Intuicyjny interfejs i płynne rozgrywki w czasie rzeczywistym podkreślają nacisk na wysoką jakość użytkowania, zachęcając graczy do częstego powrotu.
 
@@ -145,23 +145,26 @@ Aplikacja \texttt{BRNChess} umożliwia rozgrywkę online z innymi graczami lub z
 \subsection{Aplikacja internetowa (frontend)}
 
 \noindent \textbf{Javascript oraz Typescript}\\
-JavaScript to język programowania, używany najczęściej przy tworzeniu stron www, zapewniając ich interaktywność oraz obsługę zdarzeń, walidację formularzy czy budowanie elementów nawigacyjnych. Jednak można także pisać w nim pełnoprawne aplikacje (korzystając z frameworków do budowania aplikacji jak np. React). Javascript może też być wykorzystywany do tworzenia gier w przeglądarkach, a jednym z popularnych frameworków do tego celu jest Phaser. JS-a można używać również po stronie serwera dzięki frameworkowi Node. \cite{JustJoinJS}
+JavaScript to język programowania, używany najczęściej przy tworzeniu stron www, zapewniając ich interaktywność oraz obsługę zdarzeń, walidację formularzy czy budowanie elementów nawigacyjnych. Jednak można także pisać w nim pełnoprawne aplikacje (korzystając z frameworków do budowania aplikacji jak np. React). Javascript może też być wykorzystywany do tworzenia gier w przeglądarkach, a jednym z popularnych frameworków do tego celu jest Phaser. JS-a można używać również po stronie serwera dzięki frameworkowi Node. \cite{JustJoinJS}  % źródło
 \\\\
-TypeScript to język programowania utworzony przez Microsoft w 2012 roku. Jego twórcą jest Anders Hejlsberg, znany również jako ojciec języka C\# \cite{WikiAndersHejlsberg}. TypeScript jest nadzbiorem JavaScriptu, co oznacza, że każdy poprawny kod JS jest równocześnie poprawnym kodem TS. W praktyce TypeScript rozszerza możliwości JavaScriptu o opcjonalne statyczne typowanie oraz nowe struktury danych. TS posiada też aktywną społeczność programistów tworzących biblioteki, które ułatwiają pracę programistom poprzez dodawanie typowania do już istniejących projektów, dzięki temu są one przystosowane do pracy z TypeScriptem. \cite{DropticaTypeScript}
+TypeScript to język programowania utworzony przez Microsoft w 2012 roku. Jego twórcą jest Anders Hejlsberg, znany również jako ojciec języka C\# \cite{WikiAndersHejlsberg}. TypeScript jest nadzbiorem JavaScriptu, co oznacza, że każdy poprawny kod JS jest równocześnie poprawnym kodem TS. W praktyce TypeScript rozszerza możliwości JavaScriptu o opcjonalne statyczne typowanie oraz nowe struktury danych. TS posiada też aktywną społeczność programistów tworzących biblioteki, które ułatwiają pracę programistom poprzez dodawanie typowania do już istniejących projektów, dzięki temu są one przystosowane do pracy z TypeScriptem. \cite{DropticaTypeScript}  % źródło
 \\\\
-Głównym celem powstania TypeScriptu było wprowadzenie silniejszego systemu typów do JavaScriptu, które pozwalają na odgórne ustalanie rodzajów zdefiniowanych przez dewelopera zmiennych, aby ułatwić tworzenie dużych, skalowalnych aplikacji. Język ten stał się popularny wśród deweloperów dzięki swojej elastyczności, możliwościom oferowanym przez statyczne typowanie oraz łatwości integracji z istniejącymi projektami JS.
+Głównym celem powstania TypeScriptu było wprowadzenie silniejszego systemu typów do JavaScriptu, które pozwalają na odgórne ustalanie rodzajów zdefiniowanych przez dewelopera zmiennych, aby ułatwić tworzenie dużych, skalowalnych aplikacji. Język ten stał się popularny wśród deweloperów dzięki swojej elastyczności, możliwościom oferowanym przez statyczne typowanie oraz łatwości integracji z istniejącymi projektami JS.  % źródło
 \\\\
 W niniejszym projekcie, JavaScript został wybrany jako baza projektu ze względu na znajomość tego języka oraz jego powszechność w budowie aplikacji webowych. Jego wszechstronność i bogaty ekosystem narzędzi oraz bibliotek, takich jak React, czynią go naturalnym wyborem dla projektów tego typu.
-\\\\
+
+\newpage
+
+\noindent
 TypeScript został wybrany przede wszystkim w celu uzyskania lepszej kontroli nad kodem. Dzięki wprowadzeniu statycznego typowania i bardziej rygorystycznej strukturze, TypeScript pozwala na wcześniejsze wykrywanie błędów, co przekłada się na większą stabilność i łatwiejsze utrzymanie aplikacji.
 \\\\
 Połączenie JavaScriptu i TypeScriptu pozwala skorzystać z najlepszych cech obu technologii – elastyczności i popularności JS oraz dodatkowego bezpieczeństwa i przewidywalności oferowanego przez TS.
 \\\\
 
 \noindent \textbf{React oraz Vite}\\
-React to biblioteka JavaScript służąca do renderowania interfejsów użytkownika (UI). Interfejs użytkownika składa się z małych jednostek, takich jak przyciski, tekst i obrazy. React pozwala łączyć je w komponenty wielokrotnego użytku, które można zagnieżdżać. Od stron internetowych po aplikacje na telefony, wszystko na ekranie można podzielić na komponenty. Każdy komponent Reacta jest funkcją JavaScript, która może zawierać pewne znaczniki renderowane w przeglądarce. Komponenty Reacta używają rozszerzenia składni o nazwie JSX do reprezentowania tych znaczników. JSX wygląda bardzo podobnie do HTML, jednak jest nieco bardziej rygorystyczny oraz może wyświetlać dynamiczne informacje. \cite{ReactUI}
+React to biblioteka JavaScript służąca do renderowania interfejsów użytkownika (UI). Interfejs użytkownika składa się z małych jednostek, takich jak przyciski, tekst i obrazy. React pozwala łączyć je w komponenty wielokrotnego użytku, które można zagnieżdżać. Od stron internetowych po aplikacje na telefony, wszystko na ekranie można podzielić na komponenty. Każdy komponent Reacta jest funkcją JavaScript, która może zawierać pewne znaczniki renderowane w przeglądarce. Komponenty Reacta używają rozszerzenia składni o nazwie JSX do reprezentowania tych znaczników. JSX wygląda bardzo podobnie do HTML, jednak jest nieco bardziej rygorystyczny oraz może wyświetlać dynamiczne informacje. \cite{ReactUI}  % źródło
 \\\\
-Vite to nowoczesne i wydajne  narzędzie do budowania aplikacji frontend, które ma na celu zapewnienie szybszego i bardziej oszczędnego doświadczenia programistycznego dla nowoczesnych projektów internetowych, utworzony przez twórcę Vue.js - Evana You. Jest on znany ze swojej niewiarygodnej szybkości, dzięki wykorzystaniu natywnych modułów ES dla przyspieszonego hot module replacement (HMR) oraz kompilacji w przeglądarce. Vite.js przełamuje tradycyjne bariery w budowie aplikacji, eliminując konieczność korzystania z bundlerów takich jak Webpack czy Rollup. Jego modularna architektura oraz wsparcie dla wielu ramkowych, w tym Vue czy React, czynią go uniwersalnym i elastycznym narzędziem. \cite{BoringOwlViteJS}
+Vite to nowoczesne i wydajne  narzędzie do budowania aplikacji frontend, które ma na celu zapewnienie szybszego i bardziej oszczędnego doświadczenia programistycznego dla nowoczesnych projektów internetowych, utworzony przez twórcę Vue.js - Evana You. Jest on znany ze swojej niewiarygodnej szybkości, dzięki wykorzystaniu natywnych modułów ES dla przyspieszonego hot module replacement (HMR) oraz kompilacji w przeglądarce. Vite.js przełamuje tradycyjne bariery w budowie aplikacji, eliminując konieczność korzystania z bundlerów takich jak Webpack czy Rollup. Jego modularna architektura oraz wsparcie dla wielu ramkowych, w tym Vue czy React, czynią go uniwersalnym i elastycznym narzędziem. \cite{BoringOwlViteJS}  % źródło
 \\\\
 React został wybrany ze względu na znajomość tej technologii oraz jej szerokie zastosowanie w tworzeniu aplikacji webowych. Intuicyjność pisania kodu w React, oparta na komponentach wielokrotnego użytku i JSX, sprawia, że praca z tą biblioteką jest wygodna i efektywna. Dodatkowo React oferuje szerokie wsparcie społeczności oraz dostęp do bogatego ekosystemu bibliotek, co ułatwia rozwijanie i utrzymanie projektu.
 \\\\
@@ -169,20 +172,20 @@ Vite natomiast został wybrany głównie ze względu na swoją szybkość, zaró
 \\\\
 
 \noindent \textbf{Sass / SCSS}\\
-Sass to preprocessor CSS, który umożliwia programowanie styli w znacznie bardziej efektywny i zorganizowany sposób niż zwykły CSS. Pozwala na definiowanie stałych, zagnieżdżanie reguł CSS, używanie zmiennych, funkcji czy operatorów. Dzięki temu, można wykorzystać Sass do szybszego i łatwiejszego tworzenia stylów strony, a także czytać i zarządzać istniejącym kodem znacznie lepiej. Jest to szczególnie przydatne w przypadku dużych projektów, gdzie style są rozbudowane i trudne do zarządzania. \cite{BoringOwlSass}
+Sass to preprocessor CSS, który umożliwia programowanie styli w znacznie bardziej efektywny i zorganizowany sposób niż zwykły CSS. Pozwala na definiowanie stałych, zagnieżdżanie reguł CSS, używanie zmiennych, funkcji czy operatorów. Dzięki temu, można wykorzystać Sass do szybszego i łatwiejszego tworzenia stylów strony, a także czytać i zarządzać istniejącym kodem znacznie lepiej. Jest to szczególnie przydatne w przypadku dużych projektów, gdzie style są rozbudowane i trudne do zarządzania. \cite{BoringOwlSass}  % źródło
 \\\\
 Sass i SCSS zostały wybrane do projektu ze względu na funkcjonalności, które znacznie rozszerzają możliwości standardowego CSS. Sass pozwala na stosowanie zmiennych, zagnieżdżania reguł, funkcji czy operatorów, co czyni pracę nad stylami bardziej efektywną i zorganizowaną. Dzięki temu stylowanie dużych projektów jest prostsze i bardziej przejrzyste, a zarządzanie kodem staje się łatwiejsze.
 \\\\
 W projekcie wykorzystywane są pliki .module.scss, które umożliwiają stosowanie lokalnie zdefiniowanych klas CSS. Mechanizm ten działa w ten sposób, że klasy zadeklarowane w tych plikach są mapowane na unikalne nazwy, co zapobiega ich kolizjom i zapewnia lepszą organizację stylów.
 \\\\
-SCSS został wybrany zamiast gotowych komponentów CSS, aby zapewnić pełną kontrolę nad stylizacją elementów. Pozwala to dostosowywać wygląd aplikacji dokładnie do jej potrzeb, bez ograniczeń narzuconych przez gotowe rozwiązania. Dzięki SCSS możliwe jest tworzenie rozbudowanych, ale zarazem dobrze utrzymywanych arkuszy stylów, które doskonale wspierają rozwój projektu.
+Dodatkowo SCSS został wybrany zamiast gotowych komponentów CSS, aby zapewnić pełną kontrolę nad stylizacją elementów. Pozwala to dostosowywać wygląd aplikacji dokładnie do jej potrzeb, bez ograniczeń narzuconych przez gotowe rozwiązania. Dzięki SCSS możliwe jest tworzenie rozbudowanych, ale zarazem dobrze utrzymywanych arkuszy stylów, które doskonale wspierają rozwój projektu.
 
 \newpage
 
 \subsection{Aplikacja serwerowa (backend)}
 
 \noindent \textbf{C\#}\\
-C\# jest nowoczesnym, obiektowym językiem wysokiego poziomu, który został opracowany na zlecenie Microsoft już w latach 1998 - 2001. Pod względem składni porównuje się go często do języków takich, jak Object Pascal, \texttt{C++} i Java. W środowisku programistycznym uznawany jest za prosty, przyjazny i przejrzysty. C\# jest ściśle związany z platformą .NET, która stanowi dla niego framework i środowisko uruchomieniowe zarazem. Przez długi czas ta zależność wskazywana była jako największa wada języka, bowiem ograniczała jego zastosowanie jedynie do systemów Windows. Microsoft rozwiązał ten problem w 2016 roku, publikując .NET Core - kompatybilny również z innymi systemami operacyjnymi. Od tego czasu C\# służy do budowy programów i aplikacji na wszystkie systemy operacyjne. \cite{CSharp}
+C\# jest nowoczesnym, obiektowym językiem wysokiego poziomu, który został opracowany na zlecenie Microsoft już w latach 1998 - 2001. Pod względem składni porównuje się go często do języków takich, jak Object Pascal, \texttt{C++} i Java. W środowisku programistycznym uznawany jest za prosty, przyjazny i przejrzysty. C\# jest ściśle związany z platformą .NET, która stanowi dla niego framework i środowisko uruchomieniowe zarazem. Przez długi czas ta zależność wskazywana była jako największa wada języka, bowiem ograniczała jego zastosowanie jedynie do systemów Windows. Microsoft rozwiązał ten problem w 2016 roku, publikując .NET Core - kompatybilny również z innymi systemami operacyjnymi. Od tego czasu C\# służy do budowy programów i aplikacji na wszystkie systemy operacyjne. \cite{CSharp}  % źródło
 \\\\
 C\# został wybrany do części serwerowej projektu ze względu na jego ścisłą integrację z platformą .NET, która jest niezbędna do realizacji tego projektu. Język ten zapewnia wydajność, elastyczność i bogaty zestaw narzędzi wspierających tworzenie nowoczesnych aplikacji backendowych.
 \\\\
@@ -192,7 +195,7 @@ Platforma .NET, na której opiera się C\#, pozwala na uruchamianie aplikacji na
 \\\\
 
 \noindent \textbf{.NET Framework}\\
-.NET Framework to środowisko wykonywania, które zarządza aplikacjami docelowymi .NET Framework. Składa się ze środowiska uruchomieniowego języka wspólnego, które zapewnia zarządzanie pamięcią i inne usługi systemowe, oraz rozbudowanej biblioteki klas, która umożliwia programistom korzystanie z niezawodnego kodu dla wszystkich głównych obszarów opracowywania aplikacji. \cite{DotNetStart}
+.NET Framework to środowisko wykonywania, które zarządza aplikacjami docelowymi .NET Framework. Składa się ze środowiska uruchomieniowego języka wspólnego, które zapewnia zarządzanie pamięcią i inne usługi systemowe, oraz rozbudowanej biblioteki klas, która umożliwia programistom korzystanie z niezawodnego kodu dla wszystkich głównych obszarów opracowywania aplikacji. \cite{DotNetStart}  % źródło
 \\\\
 .NET zostało wybrane do budowy backendu projektu ze względu na jego wszechstronność, wydajność oraz rozbudowane narzędzia, które wspierają tworzenie aplikacji serwerowych. Kluczowym powodem wyboru .NET jest jego solidne wsparcie dla tworzenia aplikacji REST API, co umożliwia łatwą i efektywną komunikację między frontendem a backendem. Dodatkowo, .NET oferuje Entity Framework Core, który stanowi doskonałe narzędzie do pracy z bazą danych. Dzięki EF Core możliwe jest łatwe mapowanie obiektów na rekordy w bazie, co upraszcza operacje na danych oraz zapewnia wysoką wydajność w interakcjach z bazą danych.
 \\\\
@@ -200,13 +203,19 @@ Kolejnym powodem wyboru .NET jest integracja z SignalR, technologią umożliwiaj
 \\\\
 
 \noindent \textbf{PostgreSQL i PgAdmin}\\
-PostgreSQL to system lub silnik baz danych kompatybilny z większością popularnych narzędzi. Obsługuje różne modele danych w celu tworzenia wydajnych i skalowalnych aplikacji zorientowanych obiektowo. Umożliwia pracę ze złożonymi zbiorami danych, bez spowolnień. Ułatwia przechowywanie, odczyt i zapis danych. \cite{OVHPostgreSQL}
+PostgreSQL to system lub silnik baz danych kompatybilny z większością popularnych narzędzi. Obsługuje różne modele danych w celu tworzenia wydajnych i skalowalnych aplikacji zorientowanych obiektowo. Umożliwia pracę ze złożonymi zbiorami danych, bez spowolnień. Ułatwia przechowywanie, odczyt i zapis danych. \cite{OVHPostgreSQL}  % źródło
 \\\\
-PgAdmin to narzędzie do zarządzania PostgreSQL i pochodnymi relacyjnymi bazami danych, takimi jak EDB Advanced Server firmy EnterpriseDB. Może być uruchamiany jako aplikacja internetowa lub desktopowa. \cite{PgAdminFAQ}
+PgAdmin to narzędzie do zarządzania PostgreSQL i pochodnymi relacyjnymi bazami danych, takimi jak EDB Advanced Server firmy EnterpriseDB. Może być uruchamiany jako aplikacja internetowa lub desktopowa. \cite{PgAdminFAQ}  % źródło
 \\\\
 PostgreSQL został wybrany jako system bazodanowy z kilku kluczowych powodów. Przede wszystkim jest to wydajny, skalowalny i elastyczny system, który doskonale sprawdza się w pracy z dużymi zbiorami danych. Jego zaawansowane funkcje, takie jak obsługa różnych modeli danych oraz wsparcie dla danych obiektowych, umożliwiają łatwe zarządzanie bardziej złożonymi strukturami danych, co jest istotne w przypadku aplikacji wymagających dużej elastyczności.
 \\\\
 PgAdmin zostało wybrane jako narzędzie do zarządzania bazą danych PostgreSQL, ponieważ oferuje szeroką gamę funkcji umożliwiających łatwą administrację i kontrolę nad bazą. Umożliwia wykonywanie zapytań, zarządzanie tabelami, sprawdzanie i edytowanie danych, a także analizowanie struktury bazy. Dzięki przeczystemu interfejsowi, PgAdmin upraszcza proces zarządzania bazą danych, co pozwala na szybkie reagowanie na potrzeby projektu i skuteczną kontrolę nad danymi w systemie. Jest to wygodne narzędzie zarówno dla administratorów, jak i dla deweloperów, którzy potrzebują efektywnego środowiska do pracy z PostgreSQL.
+\\\\
+
+\noindent \textbf{Stockfish}\\
+Stockfish to jeden z najbardziej zaawansowanych i wydajnych silników szachowych na świecie, wykorzystywany zarówno przez profesjonalistów, jak i amatorów. Jego algorytmy umożliwiają niezwykle precyzyjną analizę pozycji szachowych i obliczanie najlepszych ruchów w krótkim czasie. Silnik jest rozwijany jako projekt open-source, co pozwala społeczności na jego ciągłe udoskonalanie i adaptację do różnych potrzeb.  % źródło 
+\\\\
+Stockfish został wybrany do projektu, ponieważ jest otwartoźródłowy, co daje możliwość integracji z różnymi systemami i aplikacjami. Otwarty kod źródłowy zapewnia elastyczność w dostosowywaniu silnika do specyficznych wymagań projektu oraz umożliwia swobodne korzystanie z zaawansowanych funkcji bez dodatkowych opłat licencyjnych. Dodatkowo, wysoka wydajność Stockfisha i jego popularność w środowisku szachowym czyni go idealnym narzędziem do realizacji zaawansowanych analiz i symulacji.
 
 \newpage
 
@@ -215,21 +224,22 @@ PgAdmin zostało wybrane jako narzędzie do zarządzania bazą danych PostgreSQL
 \noindent \textbf{GIT i Github}\\
 Git to rozproszony system kontroli wersji, co oznacza, że lokalny klon projektu jest kompletnym repozytorium kontroli wersji. Te w pełni funkcjonalne repozytoria lokalne ułatwiają pracę w trybie offline lub zdalnie. Deweloperzy zatwierdzają swoją pracę lokalnie, a następnie synchronizują kopię repozytorium z kopią na serwerze. Ten paradygmat różni się od scentralizowanej kontroli wersji, w której klienci muszą synchronizować kod z serwerem przed utworzeniem nowych wersji kodu. \cite{GitWhatIs}
 \\\\
-GitHub jest serwisem, który służy do współpracy przy tworzeniu kodu. Jest jednym z najpopularniejszych serwisów internetowych hostujących repozytoria Git w chmurze. Obsługiwane obszary serwisu obejmują nie tylko przechowywanie kodu, ale również zbieranie informacji o błędach, zarządzanie projektem oraz wszystkie niezbędne procesy automatycznego budowania i testowania aplikacji. Właśnie dlatego GitHub stał się centrum skupiającym programistów i środowisko otwartego oprogramowania. Serwisy typu GitHub stanowią stopień pośredni pomiędzy wykorzystaniem serwisu Git w tradycyjny sposób a systemami scentralizowanymi. \cite{CodersLabGitHub}
+GitHub jest serwisem, który służy do współpracy przy tworzeniu kodu. Jest jednym z najpopularniejszych serwisów internetowych hostujących repozytoria Git w chmurze. Obsługiwane obszary serwisu obejmują nie tylko przechowywanie kodu, ale również zbieranie informacji o błędach, zarządzanie projektem oraz wszystkie niezbędne procesy automatycznego budowania i testowania aplikacji. Właśnie dlatego GitHub stał się centrum skupiającym programistów i środowisko otwartego oprogramowania. Serwisy typu GitHub stanowią stopień pośredni pomiędzy wykorzystaniem serwisu Git w tradycyjny sposób a systemami scentralizowanymi. \cite{CodersLabGitHub}  % źródło
 \\\\
 Wybór Git i GitHub do zarządzania kodem wynikał przede wszystkim z ich popularności oraz dobrze znanej funkcjonalności, które są standardem w branży. Git to rozproszony system kontroli wersji, co oznacza, że każdy deweloper posiada pełną kopię repozytorium na swoim komputerze, umożliwiając pracę w trybie offline. Taki system zwiększa elastyczność i komfort pracy, umożliwiając zatwierdzanie zmian lokalnie i synchronizowanie ich z centralnym repozytorium na serwerze.
 \\\\
 GitHub został wybrany jako platforma do hostingu repozytoriów, ponieważ jest jednym z najpopularniejszych serwisów wspierających Git. Oferuje szeroką gamę funkcji, takich jak zarządzanie projektami, śledzenie błędów, automatyczne testowanie oraz integrację z innymi narzędziami. GitHub stał się centrum dla deweloperów, umożliwiając łatwą wymianę kodu, dokumentację oraz korzystanie z otwartego oprogramowania. Dzięki temu, Git i GitHub stanowią doskonałą kombinację do efektywnego zarządzania projektem.
-\\\\
+
+\newpage
 
 \noindent \textbf{Sourcetree}\\
-Sourcetree to graficzny klient umożliwiający dostęp do repozytoriów Git i Mercurial z systemów Windows oraz MacOS, który pomaga wizualizować rozwój bez konieczności korzystania z wiersza polecenia. \cite{PolonTechSourceTree}
+Sourcetree to graficzny klient umożliwiający dostęp do repozytoriów Git i Mercurial z systemów Windows oraz MacOS, który pomaga wizualizować rozwój bez konieczności korzystania z wiersza polecenia. \cite{PolonTechSourceTree}  % źródło
 \\\\
 SourceTree został wybrany ze względu na wygodę korzystania z jego graficznego interfejsu, który umożliwia łatwą obsługę repozytoriów Git bez potrzeby pisana komend wiersza poleceń. Dzięki temu narzędziu, możliwe jest wizualne śledzenie rozwoju projektu oraz zarządzanie wersjami w sposób bardziej intuicyjny. SourceTree oferuje przejrzysty interfejs, który pozwala na łatwe przeglądanie historii commitów, zarządzanie gałęziami, rozwiązywanie konfliktów oraz wykonywanie operacji Git za pomocą prostych kliknięć, co znacznie ułatwia pracę, zwłaszcza w większych projektach
 \\\\
 
 \noindent \textbf{Figma}\\
-Figma to jedno z nowocześniejszych i cieszących się dużą popularnością narzędzi do projektowania i prototypownia stron internetowych i aplikacji mobilnych. Umożliwia tworzenie interaktywnych widoków w przeciwieństwie do statycznych makiet. Posiada bardzo uproszczony interfejs, a przy tym jest bardzo funkcjonalne. Figma zawiera jedynie niezbędne pakiety i narzędzia najczęściej wykorzystywane w pracy Web Designera, co przedkłada się na stosunkową małą wagę całego programu. Jego podstawową zaletą jest szybkość działania mimo otwartych kilkunastu widoków jednocześnie. Dodatkowo za pomocą Figmy można łatwo edytować dowolne pliki wektorowe w tym SVG, co znacznie przyspiesza pracę nad projektem. \cite{BoringOwlFigma}
+Figma to jedno z nowocześniejszych i cieszących się dużą popularnością narzędzi do projektowania i prototypownia stron internetowych i aplikacji mobilnych. Umożliwia tworzenie interaktywnych widoków w przeciwieństwie do statycznych makiet. Posiada bardzo uproszczony interfejs, a przy tym jest bardzo funkcjonalne. Figma zawiera jedynie niezbędne pakiety i narzędzia najczęściej wykorzystywane w pracy Web Designera, co przedkłada się na stosunkową małą wagę całego programu. Jego podstawową zaletą jest szybkość działania mimo otwartych kilkunastu widoków jednocześnie. Dodatkowo za pomocą Figmy można łatwo edytować dowolne pliki wektorowe w tym SVG (ang. Scalable Vector Graphics), co znacznie przyspiesza pracę nad projektem. \cite{BoringOwlFigma}  % źródło
 \\\\
 Figma jako zewnętrzny program zalazła zastosowanie w projekcie głownie do projektowania własnych ikon, nieistniejących bądź niedostępnych bezpłatnie na internecie. Zastosowanie prostego, ale bardzo efektywnego narzędzia ma duże znaczenie dla rozwoju aplikacji gry mobilnej, w szczegolnosci nakierowanej na przyjemny dla użytkownika interface. Dodatkowo Figma posłużyła do zaprojektowania i utworzenia modeli bierek do gry w szachy.  
 
@@ -237,25 +247,6 @@ Figma jako zewnętrzny program zalazła zastosowanie w projekcie głownie do pro
 
 \section{Opis implementacji}
 
-\subsection{System kontroli wersji}
-
-\noindent
-W projekcie wykorzystano system kontroli wersji Git, który pozwala na zarządzanie historią zmian w kodzie i efektywną współpracę w zespole. Git umożliwia pracę na lokalnych repozytoriach i synchronizację z centralnym repozytorium, co ułatwia śledzenie zmian, zarządzanie wersjami i przywracanie wcześniejszych stanów kodu w razie potrzeby.
-\\\\
-Do przechowywania repozytorium użyto GitHub, który umożliwia synchronizację kodu, zarządzanie gałęziami i udostępnianie projektu. Platforma oferuje narzędzia wspierające przegląd kodu, zgłaszanie błędów i automatyzację wdrożeń.
-
-\vspace{0.5cm}
-\begin{figure}[h!]
-\centering
-\includegraphics[width=1\textwidth]{images/gh_repo.png}
-\caption{Repozytorium na stronie github.com}
-\end{figure}
-\vspace{0.5cm}
-
-\noindent
-W pracy z Git użyto także SourceTree, narzędzia z graficznym interfejsem, które upraszcza wykonywanie operacji takich jak commit, push czy merge. SourceTree ułatwia zarządzanie gałęziami, przeglądanie historii commitów oraz rozwiązywanie konfliktów, czyniąc te procesy bardziej intuicyjnymi i mniej czasochłonnymi.
-
-\newpage
 
 \subsection{Warstwa danych}
 
@@ -264,11 +255,9 @@ W pracy z Git użyto także SourceTree, narzędzia z graficznym interfejsem, kt�
 \noindent
 Warstwa danych w aplikacji jest odpowiedzialna za zarządzanie przechowywaniem i dostępem do informacji w bazie danych. W omawianym projekcie wykorzystano system zarządzania bazą danych PostgreSQL, który jest jednym z najpopularniejszych rozwiązań bazodanowych o otwartym kodzie źródłowym.
 \\\\
-Z kolei do zarządzania interakcją z bazą danych w aplikacji zastosowano bibliotekę Entity Framework (EF), który jest popularny ORM dla platformy .NET. Pozwala on na mapowanie klas C\# na tabele w bazie danych, a także automatycznie generuje zapytania SQL na podstawie operacji na tych klasach. Dzięki EF, proces pracy z bazą danych jest znacznie uproszczony, ponieważ umożliwia on operowanie na obiektach w aplikacji, a nie bezpośrednio na tabelach bazy danych.
+Z kolei do zarządzania interakcją z bazą danych w aplikacji zastosowano bibliotekę Entity Framework (EF), który jest popularny ORM (ang. Object-Relational Mapping)  dla platformy .NET. Pozwala on na mapowanie klas C\# na tabele w bazie danych, a także automatycznie generuje zapytania SQL (ang. Structured Query Language) na podstawie operacji na tych klasach. Dzięki EF, proces pracy z bazą danych jest znacznie uproszczony, ponieważ umożliwia on operowanie na obiektach w aplikacji, a nie bezpośrednio na tabelach bazy danych.  % źródło
 \\\\
-W tej aplikacji, każda encja (klasa reprezentująca dane) jest mapowana na odpowiednią tabelę w bazie danych, a właściwości tych klas odpowiadają kolumnom w tabelach. Dzięki temu, zapisane dane w postaci obiektów w aplikacji mogą być łatwo zapisywane i pobierane z bazy, co zapewnia spójność i łatwość w zarządzaniu danymi.
-\\\\
-Do obsługi bazy danych, zarządzania danymi oraz monitorowania stanu bazy zastosowano narzędzie PgAdmin. Jest ono popularnym interfejsem graficznym dla PostgreSQL, który umożliwia łatwe zarządzanie bazą danych, tworzenie zapytań SQL, monitorowanie wydajności oraz przeprowadzanie operacji na danych, takich jak dodawanie, edytowanie czy usuwanie rekordów. Dzięki temu narzędziu możliwe jest szybkie i wygodne wykonywanie operacji administracyjnych oraz wgląd w strukturę bazy danych, co wspiera procesy utrzymania aplikacji.
+Do obsługi bazy danych, zarządzania danymi oraz monitorowania stanu bazy zastosowano narzędzie PgAdmin. Jest ono popularnym interfejsem graficznym dla PostgreSQL, który umożliwia łatwe zarządzanie bazą danych, tworzenie zapytań SQL, monitorowanie wydajności oraz przeprowadzanie operacji na danych, takich jak dodawanie, edytowanie czy usuwanie rekordów. Dzięki temu narzędziu możliwe jest szybkie i wygodne wykonywanie operacji administracyjnych oraz wgląd w strukturę bazy danych, co wspiera procesy utrzymania aplikacji.  % źródło
 \\\\
 Poniżej zaprezentowane zostały diagramy ERD (Entity-Relationship Diagram), które ilustrują strukturę bazy danych oraz relacje pomiędzy encjami. Każda z tych encji odpowiada za przechowywanie specyficznych danych, które są następnie wykorzystywane przez różne warstwy aplikacji w celu zapewnienia pełnej funkcjonalności systemu. Opis poszczególnych encji i ich zależności pozwala na lepsze zrozumienie, jak dane są przechowywane i powiązane w systemie.
 
@@ -282,8 +271,8 @@ Segment relacji z użytkownikami obejmuje kilka encji i ich relacji, które zarz
 \vspace{0.5cm}
 \begin{figure}[h!]
     \centering
-    \includegraphics[width=0.8\textwidth]{images/ERD_user.png}
-    \caption{Diagram relacji jednostka-relacja przedstawiający relacje użytkownika. Wygenerowany za pomocą programu PgAdmin.}
+    \includegraphics[width=1\textwidth]{images/ERDUser.png}
+    \caption{Diagram relacji jednostka-relacja przedstawiający relacje użytkownika. Wygenerowany za pomocą programu dbdiagram.io.}
 \end{figure}
 
 \newpage
@@ -294,8 +283,8 @@ Segment relacji przyjaźni jest zarządzany przez jednostkę przyjaźni, która 
 \vspace{0.5cm}
 \begin{figure}[h!]
     \centering
-    \includegraphics[width=0.8\textwidth]{images/ERD_friendship.png}
-    \caption{Diagram relacji między podmiotami przedstawiający relacje przyjaźni między użytkownikami. Wygenerowany za pomocą programu PgAdmin.}
+    \includegraphics[width=1\textwidth]{images/ERDFriendship.png}
+    \caption{Diagram relacji między podmiotami przedstawiający relacje przyjaźni między użytkownikami. Wygenerowany za pomocą programu dbdiagram.io.}
 \end{figure}
 
 \newpage
@@ -306,8 +295,8 @@ Segment relacji gier online obsługuje strukturę internetowej gry w szachy, z k
 \vspace{0.5cm}
 \begin{figure}[h!]
     \centering
-    \includegraphics[width=0.8\textwidth]{images/ERD_online.png}
-    \caption{Diagram relacji między podmiotami ilustrujący strukturę interakcji w grach sieciowych. Wygenerowany za pomocą programu PgAdmin.}
+    \includegraphics[width=1\textwidth]{images/ERDWeb.png}
+    \caption{Diagram relacji między podmiotami ilustrujący strukturę relacji w grach sieciowych. Wygenerowany za pomocą programu dbdiagram.io.}
 \end{figure}
 
 \newpage
@@ -318,8 +307,8 @@ Segment ten skupia się na aspekcie gry opartym na silniku, gdzie każda gra jes
 \vspace{0.5cm}
 \begin{figure}[h!]
     \centering
-    \includegraphics[width=0.8\textwidth]{images/ERD_offline.png}
-    \caption{Diagram zależności między jednostkami przedstawiający relacje między silnikiem a grą. Wygenerowany za pomocą programu PgAdmin.}
+    \includegraphics[width=1\textwidth]{images/ERDEngine.png}
+    \caption{Diagram zależności między jednostkami przedstawiający relacje gier z silnikiem. Wygenerowany za pomocą programu dbdiagram.io.}
 \end{figure}
 
 \newpage
@@ -754,7 +743,7 @@ Encje w projekcie zostały podzielone logicznie, zgodnie z rolą, jaką pełnią
 \subsubsection{Architektura i struktura} 
 
 \noindent
-Architektura backendu oparta jest na Onion Architecture, która zapewnia modularność, izolację logiki biznesowej oraz odwrócenie zależności. Dzięki temu aplikacja może być rozwijana niezależnie od technologii. Struktura składa się z warstw komunikujących się przez jasno zdefiniowane interfejsy, chroniąc rdzeń aplikacji przed zmianami w zewnętrznych zależnościach i technologiach.
+Architektura backendu oparta jest na Onion Architecture, która zapewnia modularność, izolację logiki biznesowej oraz odwrócenie zależności. Dzięki temu aplikacja może być rozwijana niezależnie od technologii. Struktura składa się z warstw komunikujących się przez jasno zdefiniowane interfejsy, chroniąc rdzeń aplikacji przed zmianami w zewnętrznych zależnościach i technologiach.  % źródło
 
 \vspace{0.5cm}
 \begin{figure}[h!] 
@@ -764,7 +753,7 @@ Architektura backendu oparta jest na Onion Architecture, która zapewnia modular
 \end{figure}
 \vspace{0.5cm}
 
-\noindent \textbf{Zalety Onion Architecture:}
+\noindent \textbf{Zalety Onion Architecture:}  % źródło
 \begin{itemize}
     \item \textbf{Izolacja logiki biznesowej:} pozwala na pełną separację logiki biznesowej od zewnętrznych zależności, co umożliwia łatwe testowanie i modyfikowanie samej logiki bez wpływu na resztę systemu.
     \item \textbf{Skalowalność i elastyczność:} modularność struktury pozwala na łatwą rozbudowę systemu, poprzez dodawanie nowych warstw lub rozszerzanie istniejących komponentów bez ryzyka wprowadzenia chaosu w kodzie.
@@ -957,9 +946,9 @@ Moduł \texttt{chess.Core.Tests} zawiera testy jednostkowe dla logiki biznesowej
 \subsubsection{REST API}
 
 \noindent
-Interfejsy API są najpopularniejszym sposobem interakcji programów i urządzeń w nowoczesnych technologiach obliczeniowych. API to zestaw reguł opisujących, jak jeden program może się łączyć oraz komunikować z innym. Jak sama nazwa wskazuje, API REST przekazuje na każde żądanie stan każdej transakcji, co daje korzyści związane z opracowaniem, wydajnością i zasobami w porównaniu do innych metod. REST rozwija się w ciągu ponad dwóch dekad i jest bardzo powszechnym podejściem do architektur opartych na usługach i architektur rozproszonych. \cite{OVHRestAPI}
+Interfejsy API (ang. Application Programming Interface) są najpopularniejszym sposobem interakcji programów i urządzeń w nowoczesnych technologiach obliczeniowych. API to zestaw reguł opisujących, jak jeden program może się łączyć oraz komunikować z innym. Jak sama nazwa wskazuje, API REST (Representational State Transfer) przekazuje na każde żądanie stan każdej transakcji, co daje korzyści związane z opracowaniem, wydajnością i zasobami w porównaniu do innych metod. REST rozwija się w ciągu ponad dwóch dekad i jest bardzo powszechnym podejściem do architektur opartych na usługach i architektur rozproszonych. \cite{OVHRestAPI}  % źródło
 \\\\
-Zasób jest podstawowym pojęciem dla API REST. Zasób jest obiektem, który ma typ, powiązane dane, relacje z innymi zasobami i zestaw metod, które na nim działają. Jest bardzo podobny do idei obiektów w programowaniu, chociaż zdefiniowanych jest tylko kilka standardowych metod, typowych dla HTTP \textbf{\colorbox{cyan!90}{\textcolor{white}{GET}}}, \textbf{\colorbox{green!90}{\textcolor{white}{POST}}}, \textbf{\colorbox{orange!90}{\textcolor{white}{PUT}}} i \textbf{\colorbox{red!90}{\textcolor{white}{DELETE}}}. Zasoby mogą istnieć same lub w zbiorach, które same są zasobami. 
+Zasób jest podstawowym pojęciem dla API REST. Zasób jest obiektem, który ma typ, powiązane dane, relacje z innymi zasobami i zestaw metod, które na nim działają. Jest bardzo podobny do idei obiektów w programowaniu, chociaż zdefiniowanych jest tylko kilka standardowych metod, typowych dla HTTP \textbf{\colorbox{cyan!90}{\textcolor{white}{GET}}}, \textbf{\colorbox{green!90}{\textcolor{white}{POST}}}, \textbf{\colorbox{orange!90}{\textcolor{white}{PUT}}} i \textbf{\colorbox{red!90}{\textcolor{white}{DELETE}}}. Zasoby mogą istnieć same lub w zbiorach, które same są zasobami.  % źródło
 \\\\
 
 \noindent \textbf{Kontrolery API} \\
@@ -1081,7 +1070,7 @@ Aby lepiej zilustrować strukturę i funkcjonalność REST API, poniżej przedst
 \subsubsection{SignalR}
 
 \noindent
-SignalR to biblioteka opracowana przez Microsoft, która umożliwia dodanie funkcji komunikacji w czasie rzeczywistym do aplikacji. Jest szczególnie przydatna w scenariuszach wymagających natychmiastowego przesyłania danych między serwerem a klientem, takich jak czaty, powiadomienia, aktualizacje w czasie rzeczywistym w aplikacjach finansowych, gier czy dashboardach. Główną zaletą SignalR jest ukrycie złożoności związanej z obsługą komunikacji w czasie rzeczywistym. Biblioteka automatycznie wybiera najlepszy dostępny mechanizm komunikacji w zależności od środowiska aplikacji, w tym:
+SignalR to biblioteka opracowana przez Microsoft, która umożliwia dodanie funkcji komunikacji w czasie rzeczywistym do aplikacji. Jest szczególnie przydatna w scenariuszach wymagających natychmiastowego przesyłania danych między serwerem a klientem, takich jak czaty, powiadomienia, aktualizacje w czasie rzeczywistym w aplikacjach finansowych, gier czy dashboardach. Główną zaletą SignalR jest ukrycie złożoności związanej z obsługą komunikacji w czasie rzeczywistym. Biblioteka automatycznie wybiera najlepszy dostępny mechanizm komunikacji w zależności od środowiska aplikacji, w tym:  % źródło
 
 \begin{itemize}
     \item \textbf{WebSockets} – preferowana metoda, jeśli jest obsługiwana przez przeglądarkę i serwer, zapewnia pełny duplex komunikacji.
@@ -1090,7 +1079,7 @@ SignalR to biblioteka opracowana przez Microsoft, która umożliwia dodanie funk
 \end{itemize}
 
 \noindent
-SignalR opiera się na modelu hubów, które służą jako centralny punkt komunikacji. Klient i serwer mogą wysyłać wiadomości do huba, który z kolei przesyła je do odpowiednich odbiorców. Podstawowe kroki działania SignalR to:
+SignalR opiera się na modelu hubów, które służą jako centralny punkt komunikacji. Klient i serwer mogą wysyłać wiadomości do huba, który z kolei przesyła je do odpowiednich odbiorców. Podstawowe kroki działania SignalR to:  % źródło
 
 \begin{itemize}
     \item Klient nawiązuje połączenie z serwerem za pomocą huba.
@@ -1174,16 +1163,16 @@ Interfejs \texttt{IGameHub} definiuje zestaw metod, które są dostępne do wywo
     \vspace{0pt} 
     \justifying 
     \noindent 
-    Silnik szachowy \texttt{Stockfish} jest jednym z najpotężniejszych i najczęściej używanych silników szachowych na świecie. Jest to oprogramowanie typu open-source, które zostało utworzone, aby oferować najwyższą możliwą siłę obliczeniową w grach szachowych. Stockfish jest napisany w języku \texttt{C++} i jest dostępny na wielu platformach.
+    Silnik szachowy \texttt{Stockfish} jest jednym z najpotężniejszych i najczęściej używanych silników szachowych na świecie. Jest to oprogramowanie typu open-source, które zostało utworzone, aby oferować najwyższą możliwą siłę obliczeniową w grach szachowych. Stockfish jest napisany w języku \texttt{C++} i jest dostępny na wielu platformach. % źródło
 \end{minipage} 
 \vspace{1cm}
 
 \noindent
-Stockfish jest oparty na algorytmie minimax, który jest popularnym podejściem w sztucznej inteligencji do podejmowania decyzji w grach dwuosobowych, takich jak szachy. Algorytm ten stara się ocenić każde możliwe posunięcie, wybierając to, które zapewnia najlepszy wynik, bazując na analizie możliwych przyszłych ruchów. Używa on także heurystyk oraz analizy pozycyjnej, aby ocenić siłę danej pozycji na szachownicy. Co więcej, Stockfish jest w stanie analizować partie z dużą prędkością, co czyni go idealnym narzędziem do analizy gier na różnych poziomach zaawansowania.
+Stockfish jest oparty na algorytmie minimax, który jest popularnym podejściem w sztucznej inteligencji do podejmowania decyzji w grach dwuosobowych, takich jak szachy. Algorytm ten stara się ocenić każde możliwe posunięcie, wybierając to, które zapewnia najlepszy wynik, bazując na analizie możliwych przyszłych ruchów. Używa on także heurystyk oraz analizy pozycyjnej, aby ocenić siłę danej pozycji na szachownicy. Co więcej, Stockfish jest w stanie analizować partie z dużą prędkością, co czyni go idealnym narzędziem do analizy gier na różnych poziomach zaawansowania. % źródło
 \\\\
-Jednym z kluczowych aspektów silnika Stockfish jest jego zdolność do pracy w ramach protokołu UCI (Universal Chess Interface). UCI jest standardem, który umożliwia komunikację między silnikiem szachowym a różnymi interfejsami graficznymi (GUI), pozwalając na łatwą integrację z aplikacjami szachowymi. Dzięki temu użytkownicy mogą korzystać z graficznych interfejsów, takich jak Arena, Fritz czy lichess, aby bezpośrednio połączyć się z silnikiem Stockfish, wybierając odpowiednią wersję i parametry.
+Jednym z kluczowych aspektów silnika Stockfish jest jego zdolność do pracy w ramach protokołu UCI (Universal Chess Interface). UCI jest standardem, który umożliwia komunikację między silnikiem szachowym a różnymi interfejsami graficznymi (GUI), pozwalając na łatwą integrację z aplikacjami szachowymi. Dzięki temu użytkownicy mogą korzystać z graficznych interfejsów, takich jak Arena, Fritz czy lichess, aby bezpośrednio połączyć się z silnikiem Stockfish, wybierając odpowiednią wersję i parametry.  % źródło
 \\\\
-Silnik Stockfish jest również wykorzystywany do tworzenia testów i analiz w wielu aplikacjach szachowych, zarówno komercyjnych, jak i akademickich. Dzięki swojej mocy obliczeniowej, dokładności i dostępności, Stockfish stał się nieocenionym narzędziem w wielu dziedzinach związanych z szachami, od profesjonalnych gier po badania naukowe.
+Silnik Stockfish jest również wykorzystywany do tworzenia testów i analiz w wielu aplikacjach szachowych, zarówno komercyjnych, jak i akademickich. Dzięki swojej mocy obliczeniowej, dokładności i dostępności, Stockfish stał się nieocenionym narzędziem w wielu dziedzinach związanych z szachami, od profesjonalnych gier po badania naukowe. % źródło
 \\\\
 W kontekście komunikacji z silnikiem Stockfish, aplikacja korzysta z interfejsu UCI, wysyłając zapytania w postaci komend tekstowych do silnika, który następnie odpowiada, udzielając wskazówek dotyczących najlepszych posunięć, oceniając pozycje lub generując pełną analizę partii. UCI zapewnia, że aplikacja może zarządzać różnymi funkcjami silnika, jak generowanie ruchów, ustawienie poziomu trudności czy analiza pozycji na szachownicy.
 
@@ -1214,7 +1203,7 @@ Na następnej stronie przedstawiono wykorzystanie serwisu komunikacji z silnikie
     W konstruktorze handlera przyjmowane są zależności. Dzięki temu handler ma dostęp do metod serwisu, które są kluczowe do interakcji z silnikiem.
 
     \item \textbf{Przygotowanie do obliczeń}\\
-    Po pobraniu gry na podstawie identyfikatora (ID) i walidacji dostępu użytkownika, handler tworzy pełną wersję pozycji szachowej w formacie FEN. Zapis pozycji jest następnie przesyłany do silnika szachowego za pomocą metody \texttt{SendCommand}.
+    Po pobraniu gry na podstawie identyfikatora (ID) i walidacji dostępu użytkownika, handler tworzy pełną wersję pozycji szachowej w formacie  (Forsyth–Edwards Notation). Zapis pozycji jest następnie przesyłany do silnika szachowego za pomocą metody \texttt{SendCommand}.
 
     \item \textbf{Wykonanie obliczeń przez silnik}\\
     Kiedy silnik otrzyma polecenie z pełnym zapisem FEN, handler wysyła kolejną komendę do silnika za pomocą \texttt{SendCommand}, prosząc o wykonanie ruchu na określoną głębokość analizy na podstawie ustawionego poziomu trudności. Serwis przesyła tę komendę do silnika, który następnie analizuje pozycję i oblicza najlepszy możliwy ruch.
@@ -1260,7 +1249,7 @@ Proces tworzenia i dołączania do gier w aplikacji można podzielić na trzy g�
 \end{itemize}
 
 \noindent \textbf{Powiadomienia o zmianach stanu kolejki}\\
-Aby zapewnić synchronizację pomiędzy graczami i ich reakcję na zmiany stanu kolejki, aplikacja wykorzystuje technologię SignalR. To narzędzie, które pozwala na natychmiastową synchronizację stanu gry pomiędzy graczami, zapewniając, że każdy gracz jest na bieżąco informowany o tym, czy został dołączony do gry, lub czy otrzymał zaproszenie do prywatnej gry. Dzięki tej bibliotece gracze mogą otrzymywać powiadomienia w czasie rzeczywistym, co umożliwia im płynne przejście do etapu gry bez opóźnień.
+Aby zapewnić synchronizację pomiędzy graczami i ich reakcję na zmiany stanu kolejki, aplikacja wykorzystuje technologię SignalR, która pozwala na natychmiastową synchronizację stanu gry pomiędzy graczami, zapewniając, że każdy gracz jest na bieżąco informowany o tym, czy został dołączony do gry, lub czy otrzymał zaproszenie do prywatnej gry. Dzięki tej bibliotece gracze mogą otrzymywać powiadomienia w czasie rzeczywistym, co umożliwia im płynne przejście do etapu gry bez opóźnień.
 
 \newpage
 
@@ -1344,12 +1333,12 @@ Podczas pierwszego pobrania gry przez graczy ustalany jest czas rozpoczęcia par
 \subsubsection{Pozostałe kluczowe aspekty}
 
 \noindent \textbf{Przetwarzanie zapytań}\\
-W systemie przetwarzania zapytań wykorzystywana jest biblioteka MediatR, która umożliwia zarządzanie zapytaniami w sposób przejrzysty i modularny. MediatR opiera się na wzorcu projektowym Mediatora, co pozwala na oddzielenie logiki przetwarzania zapytań od innych komponentów aplikacji.
+W systemie przetwarzania zapytań wykorzystywana jest biblioteka MediatR, która umożliwia zarządzanie zapytaniami w sposób przejrzysty i modularny. MediatR opiera się na wzorcu projektowym Mediatora, co pozwala na oddzielenie logiki przetwarzania zapytań od innych komponentów aplikacji.  % źródło
 \\\\
-W tym systemie każde zapytanie, pobrania danych lub zapisania ich, jest reprezentowane przez obiekt, który dziedziczy po interfejsie \texttt{IRequest<T>}, gdzie \texttt{T} oznacza typ odpowiedzi, którą zapytanie zwróci. Zapytania te są przekazywane do mediatorów, którzy następnie kierują je do odpowiednich handlerów, czyli klas odpowiedzialnych za wykonanie logiki związanej z zapytaniem.
+W tym systemie każde zapytanie, pobrania danych lub zapisania ich, jest reprezentowane przez obiekt, który dziedziczy po interfejsie \texttt{IRequest<T>}, gdzie \texttt{T} oznacza typ odpowiedzi, którą zapytanie zwróci. Zapytania te są przekazywane do mediatorów, którzy następnie kierują je do odpowiednich handlerów, czyli klas odpowiedzialnych za wykonanie logiki związanej z zapytaniem.  % źródło
 \\\\
 
-\noindent \textbf{Przebieg przetwarzania zapytania}
+\noindent \textbf{Przebieg przetwarzania zapytania}  % źródło
 \begin{enumerate}
     \item \textbf{Zgłoszenie zapytania:} Kiedy klient wyśle zapytanie do systemu przez API lub SignalR, zapytanie to jest mapowane na odpowiedni \texttt{Request}, który może zawierać dane wejściowe potrzebne do przetworzenia.
     \item \textbf{Przetwarzanie zapytania:} Zapytanie trafia do MediatR, który przekazuje je do odpowiedniego handlera. Handler jest odpowiedzialny za wykonanie logiki biznesowej.
@@ -1358,12 +1347,12 @@ W tym systemie każde zapytanie, pobrania danych lub zapisania ich, jest repreze
 \end{enumerate}
 
 \noindent
-W systemie, który obsługuje zapytania, każde zapytanie jest reprezentowane przez osobny obiekt zapytania, który jest mapowany na żądanie. Każdy \texttt{Request} posiada przypisany handler, który odpowiedzialny jest za realizację zapytania.
+W systemie, który obsługuje zapytania, każde zapytanie jest reprezentowane przez osobny obiekt zapytania, który jest mapowany na żądanie. Każdy \texttt{Request} posiada przypisany handler, który odpowiedzialny jest za realizację zapytania.  % źródło
 
 \newpage
 
 \noindent
-Proces przetwarzania zapytania w systemie został szczegółowo przedstawiony na poniższym diagramie. Ukazuje on pełny przepływ danych, rozpoczynając od wysłania żądania HTTP przez klienta. Następnie żądanie jest odbierane przez odpowiedni punkt końcowy API lub metodę Huba SignalR, który przetwarza przesłany model danych. Model ten jest mapowany na obiekt zapytania (Request), który definiuje szczegóły operacji do wykonania. Zapytanie trafia do handlera, który obsługuje żądanie i wykonuje określoną logikę biznesową. W przypadku konieczności dostępu do danych, handler korzysta z repozytorium, które odpowiada za interakcję z bazą danych. Dane pobrane w formie encji są następnie mapowane na obiekt DTO (Data Transfer Object), który stanowi zwracany wynik. Finalnie odpowiedź w postaci DTO jest zwracana przez punkt końcowy API do klienta, który otrzymuje wynik operacji w formacie zgodnym z jego wymaganiami. Diagram ten ilustruje całość procesu, demonstrując jego spójność.
+Proces przetwarzania zapytania w systemie został przedstawiony na poniższym diagramie. Ukazuje on pełny przepływ danych, rozpoczynając od wysłania żądania HTTP przez klienta. Następnie żądanie jest odbierane przez odpowiedni punkt końcowy API lub metodę Huba SignalR, który przetwarza przesłany model danych. Model ten jest mapowany na obiekt zapytania (Request), który definiuje szczegóły operacji do wykonania. Zapytanie trafia do handlera, który obsługuje żądanie i wykonuje określoną logikę biznesową. W przypadku konieczności dostępu do danych, handler korzysta z repozytorium, które odpowiada za interakcję z bazą danych. Dane pobrane w formie encji są następnie mapowane na obiekt DTO (Data Transfer Object), który stanowi zwracany wynik. Finalnie odpowiedź w postaci DTO jest zwracana przez punkt końcowy API do klienta, który otrzymuje wynik operacji w formacie zgodnym z jego wymaganiami. Diagram ten ilustruje całość procesu, demonstrując jego spójność.
 
 \vspace{0.5cm}
 \begin{figure}[h!]
@@ -1376,9 +1365,9 @@ Proces przetwarzania zapytania w systemie został szczegółowo przedstawiony na
 
 \noindent \textbf{Rezultaty zapytań i paginacja}\\
 
-W systemie zwracane są odpowiedzi zawierające dane w różnych formach. W przypadku zapytań związanych z wyszukiwaniem lub dużymi zbiorami danych, używa się specjalnych klas do mapowania wyników na modele. Część zapytań zwraca dane w postaci DTO (Data Transfer Object), które są prostymi obiektami przechowującymi dane, mapowanymi z encji bazy danych, co ułatwia przekazywanie danych między warstwami aplikacji.
+W systemie zwracane są odpowiedzi zawierające dane w różnych formach. W przypadku zapytań związanych z wyszukiwaniem lub dużymi zbiorami danych, używa się specjalnych klas do mapowania wyników na modele. Część zapytań zwraca dane w postaci DTO (Data Transfer Object), które są prostymi obiektami przechowującymi dane, mapowanymi z encji bazy danych, co ułatwia przekazywanie danych między warstwami aplikacji.  % źródło
 \\\\
-W przypadku zapytań dotyczących wielu elementów stosowana jest paginacja, która dzieli dane na mniejsze części, poprawiając wydajność i doświadczenie użytkownika. Zamiast przesyłać wszystkie dane naraz, system zwraca tylko określoną liczbę elementów na stronie oraz numer strony. Dzięki temu użytkownik może efektywnie nawigować po wynikach, ładować tylko potrzebne dane i nie obciążać systemu. W systemie zaimplementowane są dwie klasy wspierające paginację:
+W przypadku zapytań dotyczących wielu elementów stosowana jest paginacja, która dzieli dane na mniejsze części, poprawiając wydajność i doświadczenie użytkownika. Zamiast przesyłać wszystkie dane naraz, system zwraca tylko określoną liczbę elementów na stronie oraz numer strony. Dzięki temu użytkownik może efektywnie nawigować po wynikach, ładować tylko potrzebne dane i nie obciążać systemu. W systemie zaimplementowane są dwie klasy wspierające paginację:  % źródło
 
 \begin{itemize}
     \item \textbf{PagedRequest:} Ogólna klasa, z której dziedziczą modele i zapytania wymagające paginacji.
@@ -1467,23 +1456,25 @@ Serwis implementuje kilka kluczowych metod umożliwiających wysyłkę maili, s�
 \\\\
 Wszystkie e-maile są wysyłane przez SmtpClient, który łączy się z odpowiednim serwerem SMTP i wysyła wiadomość do wskazanego odbiorcy. Dzięki asynchroniczności operacji, wysyłanie e-maili nie blokuje głównego wątku aplikacji, co zapewnia płynność działania systemu.
 \\\\
+ % źródło
 
 \noindent \textbf{Serwis JWT}\\
 Serwis JWT (JSON Web Token) w aplikacji służy do generowania tokenów autoryzacyjnych, które są wykorzystywane do uwierzytelniania użytkowników oraz zapewnienia dostępu do chronionych zasobów aplikacji. Tokeny JWT są powszechnie stosowane w aplikacjach webowych do obsługi logowania i autoryzacji, a ich głównym celem jest umożliwienie użytkownikowi dostępu do określonych zasobów, bez konieczności ponownego wprowadzania danych logowania przy każdym żądaniu.
 \\\\
 Implementacja serwisu JWT w aplikacji opiera się na klasie, która zawiera jedną metodę - \texttt{GetJwtToken}. Metoda ta przyjmuje obiekt \texttt{User}, który reprezentuje zalogowanego użytkownika, a na podstawie jego danych generuje unikalny token. Serwis ten generuje tokeny uwierzytelniające użytkowników. Token jest serializowany do formatu string i przesyłany w odpowiedzi do klienta.
+ % źródło
 
 
 \newpage
 
 \noindent \textbf{Entity Framework}\\
-Entity Framework (EF) to nowoczesny framework ORM (Object-Relational Mapping) opracowany przez Microsoft, który umożliwia programistom łatwe mapowanie struktur danych obiektowych na tabele relacyjnej bazy danych. W aplikacji wykorzystuje się EF do zarządzania danymi oraz interakcji z bazą danych PostgreSQL w sposób obiektowy. Dzięki EF operacje na danych stają się prostsze i bardziej czytelne, eliminując potrzebę pisania ręcznych zapytań SQL.
+Entity Framework (EF) to nowoczesny framework ORM (Object-Relational Mapping) opracowany przez Microsoft, który umożliwia programistom łatwe mapowanie struktur danych obiektowych na tabele relacyjnej bazy danych. W aplikacji wykorzystuje się EF do zarządzania danymi oraz interakcji z bazą danych PostgreSQL w sposób obiektowy. Dzięki EF operacje na danych stają się prostsze i bardziej czytelne, eliminując potrzebę pisania ręcznych zapytań SQL.  % źródło
 \\\\
 Podstawą działania EF jest klasa kontekstu, która w aplikacji została zaimplementowana jako \texttt{ChessAppDbContext : DbContext}. Kontekst bazy danych zarządza połączeniem z bazą danych oraz umożliwia wykonywanie operacji CRUD na encjach. W aplikacji konfiguracja każdej encji odbywa się za pomocą dedykowanej klasy \texttt{DbContextConfiguration } implementującej interfejs \texttt{IEntityTypeConfiguration<T>}. W tej konfiguracji definiowane są szczegóły dotyczące mapowania encji na tabele.
 \\\\
 Dla każdej encji w aplikacji zostało utworzone dedykowane repozytorium, które jest odpowiedzialne za wykonywanie operacji na danych. Każde repozytorium posiada odpowiadający mu interfejs znajdujący się w warstwie aplikacji. Repozytoria pełnią rolę abstrakcyjnej warstwy dostępu do danych, umożliwiając wykonywanie operacji na danych z bazy.
 \\\\
-Wszystkie elementy związane z EF i repozytoriami są rejestrowane w kontenerze IoC (Inversion of Control) za pomocą metody rozszerzającej AddPostgres. Metoda ta umożliwia skonfigurowanie połączenia z bazą PostgreSQL oraz rejestrację wszystkich repozytoriów w kontenerze usług, dzięki czemu są one dostępne w całej aplikacji. Takie podejście wspiera modularność oraz ułatwia zarządzanie zależnościami.
+Wszystkie elementy związane z EF i repozytoriami są rejestrowane w kontenerze IoC (Inversion of Control) za pomocą metody rozszerzającej AddPostgres. Metoda ta umożliwia skonfigurowanie połączenia z bazą PostgreSQL oraz rejestrację wszystkich repozytoriów w kontenerze usług, dzięki czemu są one dostępne w całej aplikacji. Takie podejście wspiera modularność oraz ułatwia zarządzanie zależnościami.  % źródło
 
 % \vspace{0.5cm}
 % \begin{figure}[h!]
@@ -1551,7 +1542,7 @@ W projekcie zastosowano szereg bibliotek, które wspierają rozwój i funkcjonal
 \subsubsection{Architektura i struktura}
 
 \noindent
-Struktura frontendu w tym projekcie jest zorganizowana w sposób umożliwiający łatwe zarządzanie kodem, dzięki zastosowaniu odpowiednich folderów i podfolderów, które odpowiadają za różne aspekty aplikacji. W głównym folderze \texttt{src} znajdują się trzy foldery oraz pliki aplikacji. Każdy z folderów ma swoją specyficzną rolę w organizacji kodu.
+Struktura frontendu w tym projekcie jest zorganizowana w sposób umożliwiający łatwe zarządzanie kodem, dzięki zastosowaniu odpowiednich folderów i podfolderów, które odpowiadają za różne aspekty aplikacji. W głównym folderze \texttt{src} znajdują się trzy foldery oraz pliki aplikacji. Każdy z folderów ma swoją specyficzną rolę w organizacji kodu.  % źródło
 
 \vspace{0.5cm}
 \noindent
@@ -1763,6 +1754,8 @@ Zarządzanie stanem aplikacji w projekcie opiera się na elastycznym wykorzystan
 
 \end{itemize}
 
+ % źródło?
+
 \newpage
 
 \subsubsection{Mechanizm gry w szachy}
@@ -1823,7 +1816,7 @@ Proces zarządzania przebiegiem gry w szachy w aplikacji opiera się na dynamicz
 \noindent
 Poniżej przedstawiony został diagram blokowy ilustrujący proces działania mechanizmu gry w szachy. Diagram prezentuje kolejne etapy, począwszy od inicjalizacji stanu gry, przez interakcje użytkownika, aż po synchronizację stanu gry pomiędzy graczami. Każdy etap jest odzwierciedleniem opisanego wcześniej przebiegu logiki gry, uwzględniając kluczowe decyzje i akcje, takie jak obliczanie możliwych ruchów, weryfikacja poprawności ruchu czy zakończenie gry.
 
-\vspace{1cm}
+\vspace{0.5cm}
 \begin{figure}[h!]
     \centering
     \includegraphics[width=1\textwidth]{images/diagram_gry.png}
@@ -1876,7 +1869,7 @@ Jak widać na załączonym przykładzie program tworzy identyczny obiekt jaki je
 \noindent
 Poniżej przedstawiony został uproszony diagram blokowy przedstawiający działanie mechanizmu gry z przeciwnikiem komputerowym. Diagram zawiera tylko kluczowe zmiany, odnoszące się do komunikacji z silnikiem szachowym, natomiast pozostała funkcjonalność pozostaje identyczna, jak w przypadku mechanizmu gier online. pominięte zostały między innymi aspekty końca gry, czy rozdzielnia wyborów użytkownika na opcje przed wybraniem figury i po wyborze, ponieważ są one identyczne w tym trybe gry offline.
 
-\vspace{1cm}
+\vspace{0.5cm}
 \begin{figure}[h!]
     \centering
     \includegraphics[width=1\textwidth]{images/diagram_enggry.png}
@@ -1888,7 +1881,7 @@ Poniżej przedstawiony został uproszony diagram blokowy przedstawiający dział
 \subsubsection{Kluczowe aspekty gry}
 
 \noindent \textbf{Podstawowe oznaczenia}\\
-Notacja Forsytha-Edwardsa (FEN) – zapis szachowy do określenia pozycji gry szachowej. Celem FEN jest podanie wszystkich niezbędnych informacji do ponownego rozpoczęcia gry od danej pozycji. FEN bazuje na systemie wymyślonym przez szkockiego dziennikarza Davida Forsytha. Jego system stał się popularny w XIX wieku; Steven J. Edwards rozwinął system by mógł działać z komputerami. FEN jest częścią Portable Game Notation dla szachów, dlatego że definiuje pozycje inne od początkowej. \cite{WikiNotacjaForsytha}
+Notacja Forsytha-Edwardsa (FEN) – zapis szachowy do określenia pozycji gry szachowej. Celem FEN jest podanie wszystkich niezbędnych informacji do ponownego rozpoczęcia gry od danej pozycji. FEN bazuje na systemie wymyślonym przez szkockiego dziennikarza Davida Forsytha. Jego system stał się popularny w XIX wieku; Steven J. Edwards rozwinął system by mógł działać z komputerami. FEN jest częścią Portable Game Notation dla szachów, dlatego że definiuje pozycje inne od początkowej. \cite{WikiNotacjaForsytha}  % źródło
 \\\\
 W formacie FEN figury szachowe są oznaczane literami, przy czym wielkie litery reprezentują figury białe, a małe litery figury czarne. Król oznaczany jest jako \textbf{K/k}, hetman jako \textbf{Q/q}, wieża jako \textbf{R/r}, goniec jako \textbf{B/b}, skoczek jako \textbf{N/n}, a pion jako \textbf{P/p}.
 \\\\
@@ -1918,11 +1911,11 @@ Ruchy figurami są zapisywane w sposób precyzyjny i zrozumiały, zawierając ws
 
 \begin{itemize}
     \item \textbf{Symbol figury:} jeśli ruch dotyczy pionka, jest on pomijany.
-    \item \textbf{Koordynaty pola początkowego:} współrzędne w formacie [A-H][1-8].
-    \item \textbf{Znak bicia:} oznaczany jako znak „x”.
-    \item \textbf{Koordynaty pola docelowego:} współrzędne w formacie [A-H][1-8].
-    \item \textbf{Promocja pionka:} W przypadku promocji, dodaje się oznaczenie „=(symbol figury)”.
-    \item \textbf{Szach lub mat:} oznaczone przez symbole: „+” szach oraz „\#”.
+    \item \textbf{Koordynaty pola początkowego:} współrzędne w formacie \texttt{[A-H][1-8]}.
+    \item \textbf{Znak bicia:} oznaczany jako znak \texttt{x}.
+    \item \textbf{Koordynaty pola docelowego:} współrzędne w formacie \texttt{[A-H][1-8]}.
+    \item \textbf{Promocja pionka:} W przypadku promocji, dodaje się oznaczenie \texttt{=(symbol figury)}.
+    \item \textbf{Szach lub mat:} oznaczone przez symbole: \texttt{+} szach oraz \texttt{\#}.
     \item \textbf{Czas wykonania ruchu:} podawany w przypadku gry z czasem.
 \end{itemize}
 
@@ -1935,7 +1928,7 @@ Ruchy figurami są zapisywane w sposób precyzyjny i zrozumiały, zawierając ws
 \vspace{0.5cm}
 
 \noindent \textbf{Pozycja FEN}\\
-Pozycja FEN (Forsyth-Edwards Notation) to sposób zapisywania aktualnej sytuacji na szachownicy, który pozwala na jednoznaczne odtworzenie pozycji w dowolnym momencie gry. Zawiera wszystkie istotne informacje o rozmieszczeniu figur, kolorze gracza, który ma wykonać ruch, stanie roszady, liczbie ruchów od ostatniego bicia lub ruchu pionkiem, oraz liczbie pełnych ruchów.
+Pozycja FEN (Forsyth-Edwards Notation) to sposób zapisywania aktualnej sytuacji na szachownicy, który pozwala na jednoznaczne odtworzenie pozycji w dowolnym momencie gry. Zawiera wszystkie istotne informacje o rozmieszczeniu figur, kolorze gracza, który ma wykonać ruch, stanie roszady, liczbie ruchów od ostatniego bicia lub ruchu pionkiem, oraz liczbie pełnych ruchów.  % źródło?
 \\\\
 W kontekście aplikacji, zapis FEN jest wykorzystywany do przechowywania stanu gry w bazie danych. Dzięki temu możliwe jest zapisanie aktualnej pozycji w dowolnym momencie, a następnie jej odczytanie i przywrócenie, co pozwala na wznowienie gry lub analizę wcześniejszych stanów.
 
@@ -1958,7 +1951,7 @@ Przedstawioną przykładową pozycje można podzielić kolejno na części oznac
 \end{itemize}
 
 \noindent \textbf{Macierz szachownicy}\\
-W pierwszej części zapisu pozycji FEN znajdują się informacje o rozmieszczeniu figur na szachownicy. Program przetwarza ten zapis, mapując go na macierz 8x8, co umożliwia łatwiejsze operowanie na koordynatach. Dzięki tej mapie, każdy element (pole) szachownicy może być odwoływany za pomocą indeksów, co ułatwia implementację ruchów, sprawdzanie stanu gry, a także operacje na poszczególnych figurach. Na przykład, każdemu polu szachownicy przypisane są współrzędne (x, y), gdzie x to numer kolumny (od A do H), a y to numer wiersza (od 1 do 8). Taki sposób reprezentacji umożliwia wygodną manipulację i analizowanie stanu gry.
+W pierwszej części zapisu pozycji FEN znajdują się informacje o rozmieszczeniu figur na szachownicy. Program przetwarza ten zapis, mapując go na macierz 8x8, co umożliwia łatwiejsze operowanie na koordynatach. Dzięki tej mapie, każdy element (pole) szachownicy może być odwoływany za pomocą indeksów, co ułatwia implementację ruchów, sprawdzanie stanu gry, a także operacje na poszczególnych figurach. Na przykład, każdemu polu szachownicy przypisane są współrzędne (x, y), gdzie x to numer kolumny (od A do H), a y to numer wiersza (od 1 do 8). Taki sposób reprezentacji umożliwia wygodną manipulację i analizowanie stanu gry.  % źródło?
 
 \vspace{0.5cm}
 \begin{figure}[h!]
@@ -2002,7 +1995,7 @@ Jest to sytuacja, w której król jednego z graczy znajduje się pod atakiem prz
 \noindent
 W projekcie sytuacja szachu została rozwiązana poprzez tworzenie dwóch par list. Pierwsza z nich obejmuje pola kontrolowane, czyli te, na które figury przeciwnika mogą wykonać bicie. Pola te są wykorzystywane do zapewnienia, że król nie może wejść na pole, na którym byłby zagrożony zbiciem, a także do sprawdzania, czy aktualnie znajduje się w szachu, jeśli stoi na takim polu.
 \\\\
-Druga para to listy pól biorących udział w szachu. Obejmują one pole zajmowane przez figurę szachującą oraz wszystkie pola, przez które szach jest „przekazywany”. Pola te są wykorzystywane do ograniczenia możliwych ruchów innych figur, tak aby uniemożliwić wykonanie ruchu niezapewniającego zakończenia szachu. Dzięki temu mechanizmowi tylko ruchy ratujące króla są dopuszczalne w trakcie szachu.
+Druga para to listy pól biorących udział w szachu. Obejmują one pole zajmowane przez figurę szachującą oraz wszystkie pola, przez które szach jest "przekazywany". Pola te są wykorzystywane do ograniczenia możliwych ruchów innych figur, tak aby uniemożliwić wykonanie ruchu niezapewniającego zakończenia szachu. Dzięki temu mechanizmowi tylko ruchy ratujące króla są dopuszczalne w trakcie szachu.
 
 \vspace{1cm}
 \noindent
@@ -2176,7 +2169,7 @@ Dodatkowo w folderze \texttt{shared} znajduje się plik \texttt{shared.scss}, kt
 \noindent
 Dzięki temu wszystkie zmienne i mixiny są dostępne w stylach poszczególnych komponentów, co pozwala na spójność oraz łatwą aktualizację stylów w całym projekcie.
 \\\\
-Mixiny są jednym z najważniejszych narzędzi oferowanych przez SCSS, umożliwiającym tworzenie wielokrotnego użytku fragmentów kodu CSS. Dzięki nim można zdefiniować zestawy stylów z opcjonalnymi parametrami, które można stosować w różnych miejscach projektu. To podejście znacznie przyspiesza pracę, ponieważ eliminuje konieczność ręcznego powielania kodu i pozwala na łatwą modyfikację stylów w jednym miejscu. Szczególnie dobrze sprawdzają się przy definiowaniu powtarzalnych wzorców, takich jak style przycisków, cieni, animacji czy układów. Ich wykorzystanie zwiększa spójność projektu i ułatwia utrzymanie kodu, co jest kluczowe w przypadku dużych aplikacji z wieloma komponentami. Dzięki mixinom stylizacja staje się bardziej modułowa, elastyczna i łatwa do skalowania.
+Mixiny są jednym z najważniejszych narzędzi oferowanych przez SCSS, umożliwiającym tworzenie wielokrotnego użytku fragmentów kodu CSS. Dzięki nim można zdefiniować zestawy stylów z opcjonalnymi parametrami, które można stosować w różnych miejscach projektu. To podejście znacznie przyspiesza pracę, ponieważ eliminuje konieczność ręcznego powielania kodu i pozwala na łatwą modyfikację stylów w jednym miejscu. Szczególnie dobrze sprawdzają się przy definiowaniu powtarzalnych wzorców, takich jak style przycisków, cieni, animacji czy układów. Ich wykorzystanie zwiększa spójność projektu i ułatwia utrzymanie kodu, co jest kluczowe w przypadku dużych aplikacji z wieloma komponentami. Dzięki mixinom stylizacja staje się bardziej modułowa, elastyczna i łatwa do skalowania.  % źródło
 \\\\
 Na zakończenie warto podkreślić, że niemal każdy plik stylizacji komponentu zawiera znaczniki odpowiadające za obsługę mniejszych urządzeń. Dzięki temu strona została zoptymalizowana pod kątem responsywności, co pozwala na jej wygodne użytkowanie na dowolnym rodzaju urządzenia.
 
@@ -2190,7 +2183,6 @@ Na zakończenie warto podkreślić, że niemal każdy plik stylizacji komponentu
     \item \textbf{@microsoft/signalr}: Biblioteka umożliwiająca komunikację w czasie rzeczywistym między aplikacjami frontendowymi a serwerem. Jest kluczowa do implementacji funkcji czatu, powiadomień lub innych aplikacji wymagających bieżącej wymiany danych w czasie rzeczywistym.
     \item \textbf{axios}: Służy do tworzenia klient HTTP, w celu wysyłania zapytań do API. 
     \item \textbf{history} i \textbf{react-router-dom}: History umożliwia zarządzanie historią przeglądarki, a react-router-dom korzysta z tej biblioteki do obsługi routingu i nawigacji w aplikacjach. 
-    \item \textbf{jsonwebtoken} i \textbf{jwt-decode}: Biblioteki związane z uwierzytelnianiem. \texttt{jsonwebtoken} służy do tworzenia i weryfikacji tokenów JWT, które są używane do autoryzacji użytkowników, a \texttt{jwt-decode} umożliwia dekodowanie tych tokenów, pozwalając na ekstrakcję danych.
     \item \textbf{guid-typescript}: Biblioteka umożliwiająca generowanie unikalnych identyfikatorów oraz prace z nimi.
     \item \textbf{vite} i \textbf{vitest}: Vite to bundler i serwer deweloperski, który wspiera nowoczesne technologie, a vitest to framework testowy zoptymalizowany pod kątem ekosystemu Vite, umożliwiający szybkie uruchamianie testów. 
     \item \textbf{@testing-library/dom} i \textbf{@testing-library/react}: Biblioteki do testowania DOM i komponentów React, umożliwiające tworzenie testów integracyjnych w aplikacjach frontendowych. 
@@ -2198,6 +2190,26 @@ Na zakończenie warto podkreślić, że niemal każdy plik stylizacji komponentu
     \item \textbf{stylelint}: Narzędzie do analizy jakości CSS i SCSS. 
     \item \textbf{sass} i \textbf{scss}: Obie biblioteki to preprocesory CSS, gdzie SCSS jest bardziej zbliżoną do standardowego CSS wersją SASS. Używa się ich do organizowania i modularnego pisania stylów. 
 \end{itemize}
+
+\newpage
+
+\subsection{System kontroli wersji}
+
+\noindent
+W projekcie wykorzystano system kontroli wersji Git, który pozwala na zarządzanie historią zmian w kodzie i efektywną współpracę w zespole. Git umożliwia pracę na lokalnych repozytoriach i synchronizację z centralnym repozytorium, co ułatwia śledzenie zmian, zarządzanie wersjami i przywracanie wcześniejszych stanów kodu w razie potrzeby.
+\\\\
+Do przechowywania repozytorium użyto GitHub, który umożliwia synchronizację kodu, zarządzanie gałęziami i udostępnianie projektu. Platforma oferuje narzędzia wspierające przegląd kodu, zgłaszanie błędów i automatyzację wdrożeń.
+
+\vspace{0.5cm}
+\begin{figure}[h!]
+\centering
+\includegraphics[width=1\textwidth]{images/gh_repo.png}
+\caption{Repozytorium na stronie github.com}
+\end{figure}
+\vspace{0.5cm}
+
+\noindent
+W pracy z Git użyto także SourceTree, narzędzia z graficznym interfejsem, które upraszcza wykonywanie operacji takich jak \texttt{commit}, \texttt{push} czy \texttt{merge}. SourceTree ułatwia zarządzanie gałęziami, przeglądanie historii commitów oraz rozwiązywanie konfliktów, czyniąc te procesy bardziej intuicyjnymi i mniej czasochłonnymi.
 
 \newpage
 
@@ -2220,85 +2232,85 @@ Całość zaprojektowano w sposób przejrzysty i estetyczny, aby zapewnić pozyt
 
 \newpage
 
-\noindent
-\begin{minipage}[t]{0.3\textwidth} 
-    \vspace{0pt} 
-    \centering 
-    \includegraphics[width=\linewidth]{images/ins_home.png} 
-\end{minipage} 
-\hfill 
-\begin{minipage}[t]{0.6\textwidth} 
-    \vspace{0pt} 
-    \justifying 
-    \noindent 
-    Pierwsza sekcja strony startowej zawiera krótki wstęp o aplikacji, który przedstawia jej główne założenia i funkcjonalności. Znajdują się tu również przyciski umożliwiające szybkie przejście do logowania lub rejestracji, ułatwiając rozpoczęcie korzystania z platformy.
-\end{minipage}
+% \noindent
+% \begin{minipage}[t]{0.3\textwidth} 
+%     \vspace{0pt} 
+%     \centering 
+%     \includegraphics[width=\linewidth]{images/ins_home.png} 
+% \end{minipage} 
+% \hfill 
+% \begin{minipage}[t]{0.6\textwidth} 
+%     \vspace{0pt} 
+%     \justifying 
+%     \noindent 
+%     Pierwsza sekcja strony startowej zawiera krótki wstęp o aplikacji, który przedstawia jej główne założenia i funkcjonalności. Znajdują się tu również przyciski umożliwiające szybkie przejście do logowania lub rejestracji, ułatwiając rozpoczęcie korzystania z platformy.
+% \end{minipage}
 
-\vspace{1cm}
+% \vspace{1cm}
 
-\noindent
-\begin{minipage}[t]{0.6\textwidth} 
-    \vspace{0pt} 
-    \justifying 
-    \noindent 
-    Druga sekcja, umożliwia szybki dostęp do funkcji rozgrywki. Znajdują się tutaj przyciski pozwalające na szybkie wyszukiwanie gier online z innymi graczami oraz rozpoczęcie gry offline przeciwko komputerowi.
-\end{minipage}
-\hfill 
-\begin{minipage}[t]{0.3\textwidth} 
-    \vspace{0pt} 
-    \centering 
-    \includegraphics[width=\linewidth]{images/ins_play.png} 
-\end{minipage} 
+% \noindent
+% \begin{minipage}[t]{0.6\textwidth} 
+%     \vspace{0pt} 
+%     \justifying 
+%     \noindent 
+%     Druga sekcja, umożliwia szybki dostęp do funkcji rozgrywki. Znajdują się tutaj przyciski pozwalające na szybkie wyszukiwanie gier online z innymi graczami oraz rozpoczęcie gry offline przeciwko komputerowi.
+% \end{minipage}
+% \hfill 
+% \begin{minipage}[t]{0.3\textwidth} 
+%     \vspace{0pt} 
+%     \centering 
+%     \includegraphics[width=\linewidth]{images/ins_play.png} 
+% \end{minipage} 
 
-\vspace{1cm}
+% \vspace{1cm}
 
-\noindent
-\begin{minipage}[t]{0.3\textwidth} 
-    \vspace{0pt} 
-    \centering 
-    \includegraphics[width=\linewidth]{images/ins_learn.png} 
-\end{minipage} 
-\hfill 
-\begin{minipage}[t]{0.6\textwidth} 
-    \vspace{0pt} 
-    \justifying 
-    \noindent 
-    Trzecia sekcja, zawiera opisy kluczowych aspektów aplikacji, takich jak jej funkcje edukacyjne i możliwości rozwoju w grze. Na końcu tej sekcji znajduje się przycisk powrotu na górę, który umożliwia użytkownikowi szybki powrót, aby ponownie przejść do logowania lub rejestracji.
-\end{minipage}
+% \noindent
+% \begin{minipage}[t]{0.3\textwidth} 
+%     \vspace{0pt} 
+%     \centering 
+%     \includegraphics[width=\linewidth]{images/ins_learn.png} 
+% \end{minipage} 
+% \hfill 
+% \begin{minipage}[t]{0.6\textwidth} 
+%     \vspace{0pt} 
+%     \justifying 
+%     \noindent 
+%     Trzecia sekcja, zawiera opisy kluczowych aspektów aplikacji, takich jak jej funkcje edukacyjne i możliwości rozwoju w grze. Na końcu tej sekcji znajduje się przycisk powrotu na górę, który umożliwia użytkownikowi szybki powrót, aby ponownie przejść do logowania lub rejestracji.
+% \end{minipage}
 
-\vspace{1cm}
+% \vspace{1cm}
 
-\noindent
-\begin{minipage}[t]{0.6\textwidth} 
-    \vspace{0pt} 
-    \justifying 
-    \noindent 
-    Czwarta sekcja, FAQ (Najczęściej Zadawane Pytania), zawiera odpowiedzi na pytania dotyczące dwóch głównych obszarów: zakładania i zarządzania kontem użytkownika oraz zasad i funkcji związanych z rozgrywkami.
-\end{minipage}
-\hfill 
-\begin{minipage}[t]{0.3\textwidth} 
-    \vspace{0pt} 
-    \centering 
-    \includegraphics[width=\linewidth]{images/ins_faq.png} 
-\end{minipage} 
+% \noindent
+% \begin{minipage}[t]{0.6\textwidth} 
+%     \vspace{0pt} 
+%     \justifying 
+%     \noindent 
+%     Czwarta sekcja, FAQ (Najczęściej Zadawane Pytania), zawiera odpowiedzi na pytania dotyczące dwóch głównych obszarów: zakładania i zarządzania kontem użytkownika oraz zasad i funkcji związanych z rozgrywkami.
+% \end{minipage}
+% \hfill 
+% \begin{minipage}[t]{0.3\textwidth} 
+%     \vspace{0pt} 
+%     \centering 
+%     \includegraphics[width=\linewidth]{images/ins_faq.png} 
+% \end{minipage} 
 
-\vspace{1cm}
+% \vspace{1cm}
 
-\noindent
-\begin{minipage}[t]{0.3\textwidth} 
-    \vspace{0pt} 
-    \centering 
-    \includegraphics[width=\linewidth]{images/ins_footer.png} 
-\end{minipage} 
-\hfill 
-\begin{minipage}[t]{0.6\textwidth} 
-    \vspace{0pt} 
-    \justifying 
-    \noindent 
-    Ostatnia sekcja, Footer, zawiera informacje kontaktowe oraz odnośniki do mediów społecznościowych. Umożliwia użytkownikom łatwy dostęp do danych kontaktowych oraz śledzenia aplikacji na platformach społecznościowych.
-\end{minipage}
+% \noindent
+% \begin{minipage}[t]{0.3\textwidth} 
+%     \vspace{0pt} 
+%     \centering 
+%     \includegraphics[width=\linewidth]{images/ins_footer.png} 
+% \end{minipage} 
+% \hfill 
+% \begin{minipage}[t]{0.6\textwidth} 
+%     \vspace{0pt} 
+%     \justifying 
+%     \noindent 
+%     Ostatnia sekcja, Footer, zawiera informacje kontaktowe oraz odnośniki do mediów społecznościowych. Umożliwia użytkownikom łatwy dostęp do danych kontaktowych oraz śledzenia aplikacji na platformach społecznościowych.
+% \end{minipage}
 
-\newpage
+% \newpage
 
 \subsection{Strona rejestracji}
 
@@ -2419,7 +2431,7 @@ Po dokonaniu wyboru poziomu silnika gra uruchamia się natychmiastowo, a użytko
 \subsection{Gra ze znajomymi}
 
 \noindent
-Po kliknięciu na przycisk „Gra ze znajomymi”, użytkownik zostaje przeniesiony do okna, gdzie po lewej stronie znajduje się opcje zapraszania do gry, a po prawej widoczna jest lista wszystkich znajomych, którzy mają konto w aplikacji. Po kliknięciu na kartę znajomego użytkownik zostaje przekierowany do ekranu wyboru czasu gry, podobnie jak w przypadku gry online z losowym przeciwnikiem, gdzie wybiera się jedną z dostępnych opcji czasowych. Po dokonaniu wyboru czasu, gra natychmiast przechodzi do strony oczekiwania na dołączenie drugiego gracza, użytkownik będzie czekał, aż zaproszona osoba zaakceptuje zaproszenie i dołączy do gry.
+Po kliknięciu na przycisk gry ze znajomymi, użytkownik zostaje przeniesiony do okna, gdzie po lewej stronie znajduje się opcje zapraszania do gry, a po prawej widoczna jest lista wszystkich znajomych, którzy mają konto w aplikacji. Po kliknięciu na kartę znajomego użytkownik zostaje przekierowany do ekranu wyboru czasu gry, podobnie jak w przypadku gry online z losowym przeciwnikiem, gdzie wybiera się jedną z dostępnych opcji czasowych. Po dokonaniu wyboru czasu, gra natychmiast przechodzi do strony oczekiwania na dołączenie drugiego gracza, użytkownik będzie czekał, aż zaproszona osoba zaakceptuje zaproszenie i dołączy do gry.
 
 \vspace{0.5cm}
 \begin{figure}[h!]
@@ -2433,7 +2445,7 @@ Po kliknięciu na przycisk „Gra ze znajomymi”, użytkownik zostaje przeniesi
 \noindent
 Po prawej stronie ekranu znajdują się trzy główne opcje umożliwiające zapraszanie do gry. Pierwsza z nich pozwala na filtrowanie znajomych po nazwie użytkownika. Dzięki temu, w przypadku długiej listy znajomych, łatwiej można znaleźć konkretnego gracza. Druga opcja to bezpośrednie zaproszenie przez e-mail. Po podaniu prawidłowego adresu e-mail użytkownik zostaje przekierowany do wyboru czasu gry, tak jak ma to miejsce w przypadku zapraszania znajomego z listy. Dzięki tej funkcji użytkownicy mogą zapraszać do gry nie tylko swoich znajomych, ale także osoby spoza listy znajomych, wystarczy, że podadzą poprawny adres e-mail.
 \\\\
-Trzecia opcja, „Gra za pomocą wygenerowanego linka”, pozwala na zaproszenie gracza, który nie jest bezpośrednio na liście znajomych. Po dokonaniu wyboru kontroli czasowej, wyświetla się zmodyfikowane okno oczekiwania, w którym pojawi się unikalny link. Za jego pomocą zapraszający gracz będzie mógł zaprosić innego użytkownika do dołączenia do gry. W celu rozpoczęcia gry, zapraszający użytkownik musi skopiować wygenerowany adres i wysłać go znajomemu za pomocą dowolnego komunikatora. Po kliknięciu w link przez zaproszonego gracza, następuje przekierowanie na specjalną stronę, która automatycznie dołączy graczy do gry.
+Trzecia opcja (Gra za pomocą wygenerowanego linka), pozwala na zaproszenie gracza, który nie jest bezpośrednio na liście znajomych. Po dokonaniu wyboru kontroli czasowej, wyświetla się zmodyfikowane okno oczekiwania, w którym pojawi się unikalny link. Za jego pomocą zapraszający gracz będzie mógł zaprosić innego użytkownika do dołączenia do gry. W celu rozpoczęcia gry, zapraszający użytkownik musi skopiować wygenerowany adres i wysłać go znajomemu za pomocą dowolnego komunikatora. Po kliknięciu w link przez zaproszonego gracza, następuje przekierowanie na specjalną stronę, która automatycznie dołączy graczy do gry.
 
 \vspace{0.5cm}
 \begin{figure}[h!]
@@ -2447,7 +2459,7 @@ Trzecia opcja, „Gra za pomocą wygenerowanego linka”, pozwala na zaproszenie
 \subsection{Gry użytkownika}
 
 \noindent
-Po kliknięciu na przyciski wyświetlające gry, użytkownik zostaje przeniesiony do sekcji, w której pojawiają się karty gier. W zależności od wybranego przycisku, wyświetlane są gry w różnych stanach. W sekcji „Wciąż aktywne gry” znajdują się partie, które są w trakcie rozgrywki. Jest to szczególnie użyteczne przy długich czasach gry, gdyż gracze mogą wrócić do nierozgrywanych jeszcze partii, kontynuując je w dowolnym momencie. Sekcja „Zakończone gry” pozwala na przeglądanie gier, które już się zakończyły. Użytkownicy mogą sprawdzić, jak przebiegały rozgrywki, jakie strategie były stosowane i jakie były wyniki. Sekcja „Gry z komputerem” oferuje podobną funkcjonalność, umożliwiając przegląd zakończonych gier przeciwko komputerowemu przeciwnikowi. Dzięki temu gracze mogą łatwo wrócić do swoich partii, analizować je i śledzić postępy w grze. Aby powrocic do gry, użytkownik musi zwyczajnie kliknąć w wybraną kartę.
+Po kliknięciu na przyciski wyświetlające gry, użytkownik zostaje przeniesiony do sekcji, w której pojawiają się karty gier. W zależności od wybranego przycisku, wyświetlane są gry w różnych stanach. W sekcji aktywnych gier znajdują się partie, które są w trakcie rozgrywki. Jest to szczególnie użyteczne przy długich czasach gry, gdyż gracze mogą wrócić do nierozgrywanych jeszcze partii, kontynuując je w dowolnym momencie. Sekcja zakończonych gier pozwala na przeglądanie gier, które już się zakończyły. Użytkownicy mogą sprawdzić, jak przebiegały rozgrywki, jakie strategie były stosowane i jakie były wyniki. Sekcja gier z komputerem oferuje podobną funkcjonalność, umożliwiając przegląd zakończonych gier przeciwko komputerowemu przeciwnikowi. Dzięki temu gracze mogą łatwo wrócić do swoich partii, analizować je i śledzić postępy w grze. Aby powrocic do gry, użytkownik musi zwyczajnie kliknąć w wybraną kartę.
 \\\\
 Dodatkowo, we wszystkich tych sekcjach istnieją filtry, które umożliwiają łatwiejsze sortowanie gier. Gracze mogą filtrować partie po różnych kryteriach, takich jak rodzaj kontroli czasowej, co pozwala szybko znaleźć gry o określonym czasie, czy wynik gry, umożliwiając sortowanie na podstawie zwycięstw, porażek lub remisów. Filtry te ułatwiają przeglądanie dużej liczby gier, pomagając użytkownikom szybko odnaleźć interesujące ich rozgrywki i dostosować widok do swoich potrzeb.
 
@@ -2748,11 +2760,11 @@ Strona rankingu jest kluczowym elementem aplikacji, wspierającym rywalizację i
 \subsubsection{Testy automatyczne}
 
 \noindent
-Testy automatyczne frontendu są istotnym elementem w procesie tworzenia nowoczesnych aplikacji internetowych. Ich głównym celem jest zapewnienie wysokiej jakości aplikacji poprzez wczesne wykrywanie błędów, zwiększenie stabilności kodu oraz ułatwienie jego utrzymania i rozwijania. Testowanie automatyczne pozwala również na wprowadzanie zmian w projekcie z mniejszym ryzykiem nieoczekiwanych problemów. Odpowiednio zaplanowane i przeprowadzone testy wspierają procesy ciągłej integracji (Continuous Integration) oraz ciągłego dostarczania oprogramowania (Continuous Delivery), co jest kluczowe w nowoczesnych metodykach zwinnych.
+Testy automatyczne frontendu są istotnym elementem w procesie tworzenia nowoczesnych aplikacji internetowych. Ich głównym celem jest zapewnienie wysokiej jakości aplikacji poprzez wczesne wykrywanie błędów, zwiększenie stabilności kodu oraz ułatwienie jego utrzymania i rozwijania. Testowanie automatyczne pozwala również na wprowadzanie zmian w projekcie z mniejszym ryzykiem nieoczekiwanych problemów. Odpowiednio zaplanowane i przeprowadzone testy wspierają procesy ciągłej integracji (Continuous Integration) oraz ciągłego dostarczania oprogramowania (Continuous Delivery), co jest kluczowe w nowoczesnych metodykach zwinnych.  % źródło
 \\\\
-Biblioteka @testing-library/react jest jednym z najczęściej wykorzystywanych narzędzi w testowaniu aplikacji zbudowanych w React. Jej projekt skupia się na zapewnieniu testów maksymalnie zbliżonych do rzeczywistego użytkowania aplikacji, co oznacza, że głównym przedmiotem testowania są widoczne rezultaty działania aplikacji oraz jej interakcje. W przeciwieństwie do tradycyjnych podejść, które mogą koncentrować się na szczegółach implementacyjnych, takich jak wewnętrzna struktura DOM czy konkretne klasy CSS, @testing-library/react promuje testowanie z perspektywy użytkownika końcowego.
+Biblioteka @testing-library/react jest jednym z najczęściej wykorzystywanych narzędzi w testowaniu aplikacji zbudowanych w React. Jej projekt skupia się na zapewnieniu testów maksymalnie zbliżonych do rzeczywistego użytkowania aplikacji, co oznacza, że głównym przedmiotem testowania są widoczne rezultaty działania aplikacji oraz jej interakcje. W przeciwieństwie do tradycyjnych podejść, które mogą koncentrować się na szczegółach implementacyjnych, takich jak wewnętrzna struktura DOM czy konkretne klasy CSS, @testing-library/react promuje testowanie z perspektywy użytkownika końcowego.  % źródło
 \\\\
-Dodatkowo, @testing-library/react pozwala na tworzenie testów odpornych na zmiany w strukturze implementacyjnej komponentów. Dzięki temu testy są bardziej trwałe i mniej podatne na awarie spowodowane drobnymi zmianami w kodzie, co w efekcie przyspiesza proces ich utrzymania. Takie podejście wspiera budowanie aplikacji skoncentrowanej na użytkowniku, co ma kluczowe znaczenie w przypadku nowoczesnych, dynamicznych aplikacji webowych. Testy napisane w tym stylu dokładniej odzwierciedlają rzeczywiste scenariusze użytkowania, co przekłada się na lepszą ochronę aplikacji przed błędami oraz nieoczekiwanymi zachowaniami w produkcji.
+Dodatkowo, @testing-library/react pozwala na tworzenie testów odpornych na zmiany w strukturze implementacyjnej komponentów. Dzięki temu testy są bardziej trwałe i mniej podatne na awarie spowodowane drobnymi zmianami w kodzie, co w efekcie przyspiesza proces ich utrzymania. Takie podejście wspiera budowanie aplikacji skoncentrowanej na użytkowniku, co ma kluczowe znaczenie w przypadku nowoczesnych, dynamicznych aplikacji webowych. Testy napisane w tym stylu dokładniej odzwierciedlają rzeczywiste scenariusze użytkowania, co przekłada się na lepszą ochronę aplikacji przed błędami oraz nieoczekiwanymi zachowaniami w produkcji.  % źródło
 
 \newpage
 
@@ -2849,6 +2861,7 @@ Ważnym aspektem testów manualnych jest możliwość pełnego odwzorowania rzec
 Dzięki testom manualnym możliwe jest również przeprowadzenie testów związanych z interakcjami pomiędzy różnymi komponentami aplikacji, co daje pełny obraz działania aplikacji w kontekście całościowej interakcji. Na przykład, można sprawdzić, czy różne sekcje aplikacji przełączają się poprawnie, czy animacje są płynne, czy aplikacja reaguje odpowiednio na działania użytkownika, takie jak kliknięcia, wprowadzanie danych czy nawigacja między stronami.
 \\\\
 W testach manualnych ważna jest także możliwość dokładnego ocenienia użyteczności aplikacji, co jest istotne z perspektywy użytkowników końcowych. Podczas testów można zwrócić uwagę na to, jak intuicyjny jest interfejs, jak łatwo jest przejść przez różne procesy oraz czy użytkownicy mogą w sposób płynny korzystać z aplikacji. Dzięki manualnemu testowaniu możliwe wprowadzenie poprawek, które poprawiają komfort korzystania z aplikacji.
+ % źródło?
 
 \newpage
 
@@ -2857,7 +2870,7 @@ W testach manualnych ważna jest także możliwość dokładnego ocenienia użyt
 \subsubsection{Testy jednostkowe}
 
 \noindent
-Test jednostkowy to rodzaj testu, który sprawdza pojedynczą jednostkę kodu, najczęściej funkcję lub metodę, w ściśle kontrolowanych warunkach. Testy jednostkowe mają na celu weryfikację, czy testowana logika działa zgodnie z oczekiwaniami w różnych scenariuszach, bez potrzeby angażowania zewnętrznych zależności, jak bazy danych, usługi sieciowe czy systemy plików. Dzięki temu, testy jednostkowe mogą być uruchamiane bardzo szybko i zapewniają wysoką precyzję testowania, gdyż wykonują kod w ramach jednego procesu w pamięci. Co istotne, podczas testowania programiści nie muszą ingerować w proces, ponieważ testy te są zaprojektowane tak, by działały samodzielnie w pełni automatycznie, weryfikując prawidłowość działania kodu w różnych, wcześniej zdefiniowanych warunkach. \cite{DevStyleTesty}
+Test jednostkowy to rodzaj testu, który sprawdza pojedynczą jednostkę kodu, najczęściej funkcję lub metodę, w ściśle kontrolowanych warunkach. Testy jednostkowe mają na celu weryfikację, czy testowana logika działa zgodnie z oczekiwaniami w różnych scenariuszach, bez potrzeby angażowania zewnętrznych zależności, jak bazy danych, usługi sieciowe czy systemy plików. Dzięki temu, testy jednostkowe mogą być uruchamiane bardzo szybko i zapewniają wysoką precyzję testowania, gdyż wykonują kod w ramach jednego procesu w pamięci. Co istotne, podczas testowania programiści nie muszą ingerować w proces, ponieważ testy te są zaprojektowane tak, by działały samodzielnie w pełni automatycznie, weryfikując prawidłowość działania kodu w różnych, wcześniej zdefiniowanych warunkach. \cite{DevStyleTesty}  % źródło
 \\\\
 W kontekście niniejszego projektu, testy jednostkowe zostały zastosowane w celu automatycznej kontroli poprawności działania klas odpowiedzialnych za obsługę zapytań. Każdy przypadek obsługi zapytania, który mógł wystąpić w aplikacji, został przetestowany w ramach osobnego testu jednostkowego. Testy te weryfikują nie tylko prawidłowe działanie procedury, ale również różne scenariusze błędów. Zostały utworzone testy dla każdego możliwego błędu, jaki może pojawić się przy obsłudze zapytania. Dzięki temu, aplikacja jest testowana w pełni automatycznie w różnych kontekstach i zapewnia, że każda część logiki działa zgodnie z założeniami.
 \\\\
@@ -2938,7 +2951,7 @@ W projekcie utworzono 238 przypadków testowych, które obejmują wszystkie isto
 \subsubsection{Testy integracyjne}
 
 \noindent
-Testy integracyjne to kluczowy etap w procesie tworzenia oprogramowania, który polega na weryfikacji współdziałania różnych komponentów systemu. Ich celem jest sprawdzenie, jak różne części aplikacji, które zostały wcześniej testowane jednostkowo, integrują się ze sobą i jak współpracują w rzeczywistych warunkach. W przeciwieństwie do testów jednostkowych, które skupiają się na testowaniu pojedynczych funkcji lub metod, testy integracyjne obejmują cały proces komunikacji między modułami systemu, w tym bazę danych, usługi zewnętrzne, interfejsy API czy inne komponenty systemowe. \cite{BoringOwlTesty}
+Testy integracyjne to kluczowy etap w procesie tworzenia oprogramowania, który polega na weryfikacji współdziałania różnych komponentów systemu. Ich celem jest sprawdzenie, jak różne części aplikacji, które zostały wcześniej testowane jednostkowo, integrują się ze sobą i jak współpracują w rzeczywistych warunkach. W przeciwieństwie do testów jednostkowych, które skupiają się na testowaniu pojedynczych funkcji lub metod, testy integracyjne obejmują cały proces komunikacji między modułami systemu, w tym bazę danych, usługi zewnętrzne, interfejsy API czy inne komponenty systemowe. \cite{BoringOwlTesty}  % źródło
 \\\\
 Podczas testów integracyjnych, główną uwagą jest sprawdzenie, czy dane przechodzą przez cały cykl operacyjny, od momentu ich wprowadzenia, aż do finalnego przetworzenia lub zapisu. Oznacza to, że testy te pomagają wykrywać błędy, które mogą wystąpić w trakcie interakcji między różnymi modułami, takie jak niezgodności w formacie danych, błędy w komunikacji między komponentami lub problemy z dostępem do zewnętrznych usług.
 \\\\
@@ -3015,7 +3028,7 @@ W projekcie utworzono 134 przypadków testowych, które obejmują pełny przepł
 \noindent
 Wykonywanie testów w projekcie odbywa się za pomocą środowiska \textbf{Visual Studio}, które oferuje wbudowane narzędzia do uruchamiania i zarządzania testami. Dzieki czemu można w prosty sposób uruchomić i sprawdzić działanie wszystkich utworzonych testów.
 \\\\
-W Visual Studio dostępne jest także okno \textbf{Test Explorer}, które umożliwia zarządzanie testami. Po otwarciu tego okna, wyświetlają się wszystkie dostępne testy oraz ich statusy. Dzięki tej funkcjonalności można także uruchamiać pojedyncze testy lub zestawy testów.
+W Visual Studio dostępne jest także okno \textbf{Test Explorer}, które umożliwia zarządzanie testami. Po otwarciu tego okna, wyświetlają się wszystkie dostępne testy oraz ich statusy. Dzięki tej funkcjonalności można także uruchamiać pojedyncze testy lub zestawy testów.  % źródło?
 
 \vspace{0.5cm}
 \begin{figure}[h!]
@@ -3040,7 +3053,9 @@ Do głównych osiągnięć projektu należy wdrożenie systemu gry online międz
 Platforma oferuje także możliwość gry ze znajomymi dzięki wbudowanemu systemowi relacji między użytkownikami. Intuicyjny interfejs użytkownika umożliwia płynne poruszanie się po aplikacji i korzystanie z jej funkcji, takich jak szczegółowe zarządzanie kontem użytkownika, bezpieczeństwo danych czy system rankingu i punktacji, które zwiększają atrakcyjność rywalizacji na platformie ChessBRN. Wprowadzenie kontroli czasowej w grach online stanowi dodatkowy element strategii, co czyni rozgrywkę bardziej emocjonującą i dynamiczną.
 \\\\
 Pomimo wielu osiągnięć, projekt nie został ukończony w pełnym zakresie ze względu na ograniczenia czasowe. Nie udało się wdrożyć systemu turniejowego, który miał na celu organizowanie bardziej złożonych rozgrywek między użytkownikami. Dodatkowo, rola administratora, która miała obejmować nadzór nad zasadami fair play oraz możliwość banowania oszustów, pozostała niewykorzystana. Pomimo tych braków, obecna wersja aplikacji stanowi solidne i funkcjonalne rozwiązanie, które spełnia potrzeby większości użytkowników.
-\\\\
+
+\newpage
+
 Projekt został zaprojektowany i zrealizowany w większości zgodnie z zasadami SOLID, co pozwoliło zaimplementować przejrzysty, modularny i łatwy w utrzymaniu kod. Strukturę projektu wzbogacają liczne komentarze, które szczegółowo opisują implementację poszczególnych funkcji, co ułatwia zarówno zrozumienie kodu, jak i jego przyszły rozwój. Dzięki temu projekt jest nie tylko funkcjonalny, ale również dobrze udokumentowany.
 \\\\
 Końcowy etap projektu obejmował testowanie aplikacji, które zostało przeprowadzone zarówno automatycznie, jak i manualnie. Automatyczne testy jednostkowe i integracyjne pozwoliły na weryfikację poprawności działania kluczowych funkcji zarówno po stronie frontendowej, jak i serwerowej. Manualne testy skupiły się na interfejsie użytkownika oraz interakcjach między poszczególnymi komponentami, co było szczególnie istotne w kontekście zapewnienia jak najlepszego doświadczenia użytkownika. Połączenie tych metod pozwoliło na minimalizację błędów oraz zapewnienie stabilności aplikacji, która, choć jeszcze nie w pełni zoptymalizowana, w pełni spełnia kluczowe założenia funkcjonalne projektu.
@@ -3222,6 +3237,55 @@ Podsumowując, projekt zrealizował swoje główne cele, dostarczając użytkown
 
     \bibitem{WikiAndersHejlsberg} Wikipedia, "Anders Hejlsberg". Adres url: \url{https://pl.wikipedia.org/wiki/Anders_Hejlsberg}.
 
+    % 1. Szachy ogolnie
+
+    % 2. ogolnie JS
+    % 3. ogolnie TS
+    % 4. ogolnie react
+    % 5. ogolnie vite
+    % 6. ogolnie sass
+    % 7. ogolnie c#
+    % 8. ogolnie .net
+    % 9. ogolnie postgres
+    % 10. ogolnie pgadmin
+    % 11. ogolnie stockfish
+    % 12. ogolnie git
+    % 13. ogolnie gh
+    % 14. ogolnie sourceteree
+    % 15. ogolnie figma
+
+    % 16. .net i ef
+    % 17. pgadmin (moze z ogolnie)
+    
+    % 18. arch back (moze ksiazka)
+    % 19. Zalety arch back (moze to samo ^)
+    % 20. API REST
+    % 21. SignalR ogolnie
+    % 22. SignalR Dzialnie
+    % 23. Stockfih dokumentacja (moze tez ogolnie)
+    % 24. Opinia o silniku
+    % 25. UCI I Stockfish
+    % 26. MediatR ogolnie
+    % 27. MediatR Dzialanie
+    % 28. DTO ogonie
+    % 29. Paginacja
+    % 30. SMTP
+    % 31. JWT
+    % 32. EF, AddPostgres -> moze to co wczesniej
+
+    % 33. Struktura Front (moze ksiazka)
+    % 34. Zarzadzanie stanem w aplikacji (moze ksiazka)
+    % 35. FEN i Pozycja FEN
+    % 36. Mixiny w sass
+
+    % 37. Testy automatyczne
+    % 38. @testing-library/react
+    % 39. Opnie o testach
+    % 40. Testy manualne frontendu
+
+    % 41. Testy jednostkowe
+    % 42. Testy integracyjne
+    % 43. Przeprowadzanie testow w VS
 
 \end{thebibliography}
     

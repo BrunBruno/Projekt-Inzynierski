@@ -11,6 +11,7 @@ OK
 
 3. PvP - skrót trzeba zawsze najpierw wprowadzić w pełnym brzmieniu (dotyczy wszystkich innych - do sprawdzenia)
 
+???
 4. Anders Hejlsberg jest znany (str. 7) również jako projektant kompilatorów jezyka Pascal i Delphi, facet ma 64 lata, musiał coś robić w zeszłym tysiącleciu ;) a robił rzeczy wielkie.
 
 5. str 8: "Jest on znany ze swojej niewiarygodnej szybkości" a królewna Śnieżka jest znana z niewiarygodnej urody - gdzie źródło?
@@ -26,17 +27,22 @@ OK
 OK 
 9. Figma posłużyła do zaprojektowania i utworzeniA
 
+???
 10. 3.1 str 15 czy tej wody o gicie juz nie bylo w poprzednim punkcie? ;)
 
+OK
 11. rys 2 str 17 powiekszyc i usunac kratki z tla, napisy nie moga byc nieczytelne, rys powinien byc w wiekszej rozdzielczosci (dotyczy WSZYSTKICH pozostalych rys,)
+
 
 12. 3.3.4 str 46 źródło do silnika, strona www, książka - cokolwiek, Autorzy silnika (jeśli wielu to info), silnik jest równie ważny jak TS czy C#
 
+OK
 13. str 53 kod nie powinien byc na rys, tylko jako otoczenie listing i osobno numerowany (poprawić wszedzie)
 
 OK 
 14. str 87: "Narzędzia do statycznej analizy kodu w celu." niezrozumiałe
 
+OK
 15. Rysunki na str. 89 nieczytelne, powinny miec szerokość min. 1/2 strony
 
 16. str. 121 brakuje pozycji literatury ktore nie sa netografia (min. 3 pozycje)
