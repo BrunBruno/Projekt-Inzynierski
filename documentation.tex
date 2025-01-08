@@ -740,7 +740,7 @@ Encje w projekcie zostały podzielone logicznie, zgodnie z rolą, jaką pełnią
 \subsubsection{Architektura i struktura} 
 
 \noindent
-Architektura backendu oparta jest na Onion Architecture, która zapewnia modularność, izolację logiki biznesowej oraz odwrócenie zależności. Dzięki temu aplikacja może być rozwijana niezależnie od technologii. Struktura składa się z warstw komunikujących się przez jasno zdefiniowane interfejsy, chroniąc rdzeń aplikacji przed zmianami w zewnętrznych zależnościach i technologiach.  % źródło
+Architektura backendu oparta jest na podejściu Czystej Architektury (ang. Clean Architecture). Spopularyzowana przez Roberta Martina,  stanowi jedną z odmian architektury bazujących na zasadach Domain-Driven Design (DDD). Czysta Architektura jest szczególnie przydatna w złożonych systemach, gdzie wymagane jest ścisłe oddzielenie logiki biznesowej od aspektów technicznych. \cite{DotNetKsiazka} % źródło
 
 \vspace{0.5cm}
 \begin{figure}[h!] 
@@ -750,7 +750,7 @@ Architektura backendu oparta jest na Onion Architecture, która zapewnia modular
 \end{figure}
 \vspace{0.5cm}
 
-\noindent \textbf{Zalety Onion Architecture:} 
+\noindent \textbf{Zalety Clean Architecture:} 
 \begin{itemize}
     \item \textbf{Izolacja logiki biznesowej:} pozwala na pełną separację logiki biznesowej od zewnętrznych zależności, co umożliwia łatwe testowanie i modyfikowanie samej logiki bez wpływu na resztę systemu.
     \item \textbf{Skalowalność i elastyczność:} modularność struktury pozwala na łatwą rozbudowę systemu, poprzez dodawanie nowych warstw lub rozszerzanie istniejących komponentów bez ryzyka wprowadzenia chaosu w kodzie.
@@ -761,7 +761,7 @@ Architektura backendu oparta jest na Onion Architecture, która zapewnia modular
 \newpage
 
 \noindent
-Zależności między poszczególnymi modułami zaprezentowane zostały za pomocą grafu, co pozwala na wizualizację i lepsze zrozumienie interakcji między warstwami. Graf ten odzwierciedla zasady Onion Architecture, w której zależności zawsze kierują się do wewnątrz, tj. od warstw zewnętrznych do bardziej wewnętrznych.
+Zależności między poszczególnymi modułami zaprezentowane zostały za pomocą grafu, co pozwala na wizualizację i lepsze zrozumienie interakcji między warstwami. Graf ten odzwierciedla zasady Clean Architecture, w której zależności zawsze kierują się do wewnątrz, tj. od warstw zewnętrznych do bardziej wewnętrznych.
 \\\\
 Moduł .Api zależy wyłącznie od warstwy .Application, co oznacza, że obsługuje żądania i deleguje ich przetwarzanie do przypadków użycia w .Application. Z kolei .Application komunikuje się z modułem .Core, który definiuje kluczowe modele domenowe. Warstwa .Core pozostaje całkowicie niezależna od innych modułów, co jest zgodne z zasadami odwrócenia zależności. Moduł .Infrastructure implementuje interfejsy zdefiniowane w .Application, dostarczając szczegóły techniczne, takie jak integracje czy dostęp do danych, ale nie wymusza zależności zwrotnej na rdzeniu. .Shared działa jako pomocniczy moduł, który może być używany przez dowolną warstwę, dostarczając wspólny kod i narzędzia.
 
@@ -1450,7 +1450,7 @@ W projekcie zastosowano szereg bibliotek, które wspierają rozwój i funkcjonal
 \subsubsection{Architektura i struktura}
 
 \noindent
-Struktura frontendu w tym projekcie jest zorganizowana w sposób umożliwiający łatwe zarządzanie kodem, dzięki zastosowaniu odpowiednich folderów i podfolderów, które odpowiadają za różne aspekty aplikacji. W głównym folderze \texttt{src} znajdują się trzy foldery oraz pliki aplikacji. Każdy z folderów ma swoją specyficzną rolę w organizacji kodu.  % źródło
+Struktura frontendu w tym projekcie jest zorganizowana w sposób umożliwiający łatwe zarządzanie kodem, dzięki zastosowaniu odpowiednich folderów i podfolderów, które odpowiadają za różne aspekty aplikacji. W głównym folderze \texttt{src} znajdują się trzy foldery oraz pliki aplikacji. Każdy z folderów ma swoją specyficzną rolę w organizacji kodu.
 
 \vspace{0.5cm}
 \noindent
@@ -1614,7 +1614,7 @@ Strona błędu wyświetla się, gdy użytkownik próbuje uzyskać dostęp do nie
 \subsubsection{Zarządzanie stanem aplikacji}
 
 \noindent
-Zarządzanie stanem aplikacji w projekcie opiera się na elastycznym wykorzystaniu kilku mechanizmów w zależności od charakteru stanu i jego zastosowania. Dzięki temu aplikacja jest w stanie skutecznie zarządzać zarówno lokalnym stanem komponentów, jak i bardziej złożonymi danymi związanymi z rozgrywką, zapewniając płynność i responsywność działania aplikacji. Poniżej przedstawiono szczere metod zastosowanych do zarządzania stanem aplikacji:
+Zarządzanie stanem aplikacji w projekcie opiera się na elastycznym wykorzystaniu kilku mechanizmów w zależności od charakteru stanu i jego zastosowania. Dzięki temu aplikacja jest w stanie skutecznie zarządzać zarówno lokalnym stanem komponentów, jak i bardziej złożonymi danymi związanymi z rozgrywką, zapewniając płynność i responsywność działania aplikacji. Poniżej przedstawiono szczere metod zastosowanych do zarządzania stanem aplikacji: \cite{ReactKsiazka}
 
 \begin{itemize}
     \item \textbf{Zarządzanie stanem lokalnym:} Do zarządzania stanem lokalnym, który jest związany z pojedynczymi komponentami, wykorzystywane jest \texttt{useState}. Tego typu stan przechowuje dane dotyczące interakcji użytkownika z interfejsem. Stan ten jest zmieniany w odpowiedzi na działania użytkownika lub pobieranie danych z serwera.
@@ -2803,11 +2803,17 @@ Podsumowując, projekt zrealizował swoje główne cele, dostarczając użytkown
 \newpage
 \begin{thebibliography}{99}
 
+    \bibitem{ReactKsiazka}
+    Maximilian Schwarzmüler, \textit{React Key Concepts}, Pack Publishing 2022. Tłumaczenie Tomasz Walczak, \textit{React Kluczowe Koncepcje}, Helion S.A. 2023
+
+    \bibitem{DotNetKsiazka}
+    Dino Esposito \textit{Clean Architecture with .NET}, 2024. Przekład marek Włodarz, \textit{Czysta Architektura w .NET}, APN PROMISE S.A. 2024.
+
     \bibitem{ChessWiki} 
-    Wikipedia, "Chess". Adres url: \url{https://en.wikipedia.org/wiki/Chess}.
+    Wikipedia, \textit{Chess}. Adres url: \url{https://en.wikipedia.org/wiki/Chess}.
 
     \bibitem{JS} 
-    Joanna Pasterczyk,26 sierpnia 2021. Adres url: \url{https://justjoin.it/blog/wszystko-co-musicie-wiedziec-o-javascript-co-to-dla-kogo-i-ile-zarobimy}
+    Joanna Pasterczyk, 26 sierpnia 2021. Adres url: \url{https://justjoin.it/blog/wszystko-co-musicie-wiedziec-o-javascript-co-to-dla-kogo-i-ile-zarobimy}
 
     \bibitem{CoToTS} 
     Mikołaj Mendys, \textit{Co to jest TypeScript i dlaczego sprawdzi się w Twoich projektach?} 28.04.2023. Adres url: \url{https://www.droptica.pl/blog/co-jest-typescript-i-dlaczego-sprawdzi-sie-w-twoich-projektach/}
@@ -2853,10 +2859,6 @@ Podsumowując, projekt zrealizował swoje główne cele, dostarczając użytkown
     
     \bibitem{PgAdmin} 
     Host.pl, 14 lipiec 2024. \textit{Wprowadzenie do obsługi systemu zarządzania bazą danych PostgreSQL}. Adres url:  \url{https://iqhost.pl/blog/wprowadzenie-do-obslugi-systemu-zarzadzania-baza-danych-postgresql}
-    
-    % Arch back 
-    % Zalety arch back
-
 
     \bibitem{RestApiOverview}
     OVHcloud. \textit{Co to jest API REST?}. Adres url:  \url{https://www.ovhcloud.com/pl/learn/what-is-rest-api/}
@@ -2884,9 +2886,6 @@ Podsumowując, projekt zrealizował swoje główne cele, dostarczając użytkown
 
     \bibitem{PostgresEF}
     The Npgsql Development Team. \textit{Npgsql Entity Framework Core Provider}. Adres url:  \url{https://www.npgsql.org/efcore/}
-
-    % Struktura Front (moze ksiazka)
-    % Zarzadzanie stanem w aplikacji (moze ksiazka)
 
     \bibitem{WikiNotacjaForsytha} 
     Wikipedia, \textit{Notacja Forsytha-Edwardsa}. Adres url: \url{https://pl.wikipedia.org/wiki/Notacja-Forsytha-Edwardsa}.
