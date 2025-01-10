@@ -166,12 +166,13 @@ function EngineGameBoard({
       >
         {char && shouldDisplay ? (
           <div
+            data-testid={`engine-game-board-field-${coordinates[0]}-${coordinates[1]}`}
+            draggable={checkIfOwnPiece(char, gameData.player)}
+            style={{ transform: "none" }} // clear
             className={`
               ${classes.piece}
               ${checkIfOwnPiece(char, gameData.player) ? classes.own : ""}
             `}
-            draggable={checkIfOwnPiece(char, gameData.player)}
-            style={{ transform: "none" }} // clear
             onClick={(event) => {
               const target = event.target as HTMLDivElement;
               if (target) setSelectionStates({ type: "SET_TARGET", payload: target });
@@ -219,6 +220,7 @@ function EngineGameBoard({
           </div>
         ) : (
           <div
+            data-testid={`engine-game-board-field-${coordinates[0]}-${coordinates[1]}`}
             className={classes.empty}
             onClick={() => {
               onSelectField(char, coordinates, isInTipFields, sameCoor);
@@ -306,6 +308,7 @@ function EngineGameBoard({
   useEffect(() => {
     // update board when user selected different piece
     const [oBoard, iBoard] = mapFromGamePosition(gameData.position);
+
     setBoard(oBoard);
     setInnerBoard(iBoard);
   }, [selectionStates.availableFields, selectionStates.isDragging]);
@@ -318,6 +321,8 @@ function EngineGameBoard({
     samePiece: boolean
   ): void => {
     if (!coordinates) return;
+
+    console.log(selectionStates.availableFields);
 
     // unselect piece when clicked on same piece
     if (samePiece) {

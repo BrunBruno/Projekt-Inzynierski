@@ -217,7 +217,7 @@ function WebGameWinner({
     const eloGained = Math.abs(winnerData.eloGain);
 
     return (
-      <div className={classes.winner__content__info__players}>
+      <div className={classes.window__info__players}>
         {gameData.whitePlayer.name === playerData.name
           ? renderPlayer(gameData.whitePlayer, classes["white-player"], classes["white-player-img"], isWinner)
           : renderPlayer(gameData.blackPlayer, classes["black-player"], classes["black-player-img"], isWinner)}
@@ -276,7 +276,7 @@ function WebGameWinner({
         showWinner(event);
       }}
     >
-      <div className={classes.winner__content}>
+      <div className={classes.window}>
         <h2
           className={`
             ${classes.title}
@@ -325,10 +325,10 @@ function WebGameWinner({
           </div>
         </h2>
 
-        <div className={classes.winner__content__info}>
+        <div className={classes.window__info}>
           {generatePlayers()}
 
-          <div className={classes.winner__content__info__buttons}>
+          <div className={classes.window__info__buttons}>
             <button
               className={classes["new-game"]}
               onClick={() => {

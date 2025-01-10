@@ -13,9 +13,9 @@ import axios from "axios";
 import { friendshipController, userController } from "../../shared/utils/services/ApiService";
 
 // models
+
 const getAllUsersModel: GetAllNonFriendsModel = {
   username: "",
-
   pageNumber: 1,
   pageSize: 10,
 };

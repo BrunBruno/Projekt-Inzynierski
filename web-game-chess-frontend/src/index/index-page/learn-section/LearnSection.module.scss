@@ -100,9 +100,8 @@
         $join-header-size: 4rem;
 
         @include flex($gap: 1rem);
+        @include sec-font($join-header-size);
 
-        font-size: $join-header-size;
-        font-family: Knewave;
         user-select: none;
         text-align: center;
         color: $mc7;

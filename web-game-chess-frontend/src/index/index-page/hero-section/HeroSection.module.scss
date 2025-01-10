@@ -14,7 +14,7 @@ $line-width: 0.2rem;
     @include wh100;
 
     position: relative;
-    background-image: linear-gradient(to bottom, rgba(#000, 0.6) 0%, rgba(#000, 0.6) 100%), url("images/hero-bg.jpg");
+    background-image: linear-gradient(to bottom, rgba(#000, 0.6) 0%, rgba(#000, 0.6) 100%), url("/images/hero-bg.jpg");
     background-size: cover;
     background-position: center;
     background-color: #000;

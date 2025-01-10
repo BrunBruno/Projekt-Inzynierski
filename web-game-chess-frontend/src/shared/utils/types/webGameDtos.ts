@@ -116,7 +116,7 @@ export type GetAllInvitationsDto = {
   type: TimingType;
 };
 
-export type GetAllMessagesDto = {
+export type GetAllWebGameMessagesDto = {
   message: string;
   senderName: string;
   senderImage: UserImage | null;

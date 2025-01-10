@@ -23,7 +23,12 @@ import GameHubService from "../../shared/utils/services/GameHubService";
 import { HubConnectionState } from "@microsoft/signalr";
 import { Guid } from "guid-typescript";
 import { getErrMessage } from "../../shared/utils/functions/errors";
-import { engineGameController, getAuthorization, webGameController } from "../../shared/utils/services/ApiService";
+import {
+  engineGameController,
+  getAuthorization,
+  webGameController,
+  getIdValue,
+} from "../../shared/utils/services/ApiService";
 import axios from "axios";
 import { AbortWebGameSearchModel, CheckIfInWebGameModel } from "../../shared/utils/types/webGameModels";
 import { StartEngineGameDto } from "../../shared/utils/types/engineGameDtos";
@@ -106,7 +111,7 @@ function MainPage() {
         popup: { text: "GAME STARTED", type: "info" },
       };
 
-      navigate(`/main/game/${response.data.gameId}`, { state: state });
+      navigate(`game/${response.data.gameId}`, { state: state });
     } catch (err) {
       showPopup(getErrMessage(err), "warning");
     }
@@ -161,7 +166,7 @@ function MainPage() {
       popup: { text: "GAME STARTED", type: "info" },
     };
 
-    navigate(`/main/game/${gameId}`, { state: state });
+    navigate(`game/${gameId}`, { state: state });
   };
 
   // show popup on invitation declined
@@ -252,7 +257,7 @@ function MainPage() {
       popup: { text: "GAME STARTED", type: "info" },
     };
 
-    navigate(`/main/engine-game/${offlineGameIds.gameId}`, { state: state });
+    navigate(`engine-game/${getIdValue(offlineGameIds.gameId)}`, { state: state });
   }, [offlineGameIds]);
 
   // go to timing selection for offline game

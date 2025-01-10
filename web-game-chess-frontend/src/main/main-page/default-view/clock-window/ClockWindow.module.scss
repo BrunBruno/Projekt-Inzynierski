@@ -10,7 +10,7 @@
   }
 
   &::after {
-    @include sub-class();
+    @include sub-class;
     @include square(2rem);
 
     content: "+";

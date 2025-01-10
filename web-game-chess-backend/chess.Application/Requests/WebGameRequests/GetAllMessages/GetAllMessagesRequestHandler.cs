@@ -14,7 +14,7 @@ namespace chess.Application.Requests.WebGameRequests.GetAllMessages;
 /// Gets all messages for player of current user
 /// Returns messages list
 /// </summary>
-public class GetAllMessagesRequestHandler : IRequestHandler<GetAllMessagesRequest, List<GetAllMessagesDto>> {
+public class GetAllMessagesRequestHandler : IRequestHandler<GetAllMessagesRequest, List<GetAllWebGameMessagesDto>> {
 
     private readonly IWebGameRepository _webGameRepository;
     private readonly IWebGamePlayerMessageRepository _playerMessageRepository;
@@ -36,7 +36,7 @@ public class GetAllMessagesRequestHandler : IRequestHandler<GetAllMessagesReques
         _gameMessageRepository = gameMessageRepository;
     }
 
-    public async Task<List<GetAllMessagesDto>> Handle(GetAllMessagesRequest request, CancellationToken cancellationToken) {
+    public async Task<List<GetAllWebGameMessagesDto>> Handle(GetAllMessagesRequest request, CancellationToken cancellationToken) {
 
         var userId = _userContextService.GetUserId();
 
@@ -57,7 +57,7 @@ public class GetAllMessagesRequestHandler : IRequestHandler<GetAllMessagesReques
         var blackPlayerImage = await _userImageRepository.GetByUserId(game.BlackPlayer.UserId);
 
 
-        var playerMessagesDtos = playerMessages.Select(message => new GetAllMessagesDto()
+        var playerMessagesDtos = playerMessages.Select(message => new GetAllWebGameMessagesDto()
         {
             Message = message.Content,
             SenderName = message.Player.Name,
@@ -76,7 +76,7 @@ public class GetAllMessagesRequestHandler : IRequestHandler<GetAllMessagesReques
         }).ToList();
 
 
-        var gameMessagesDtos = gameMessages.Select(message => new GetAllMessagesDto() { 
+        var gameMessagesDtos = gameMessages.Select(message => new GetAllWebGameMessagesDto() { 
             Message = message.Content,
             SenderName = "Chess BRN",
             SentAt = message.SentAt,

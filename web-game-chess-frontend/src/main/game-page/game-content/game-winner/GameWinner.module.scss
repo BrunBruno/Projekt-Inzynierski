@@ -10,7 +10,7 @@
   background-color: rgba(#000, 0.7);
   pointer-events: none;
 
-  &__content {
+  .window {
     @include emerge-ani;
 
     background-color: $gc9;
@@ -21,6 +21,7 @@
 
     .title {
       position: relative;
+
       // z-index: 9;
       font-size: 3rem;
       color: $mc5;
@@ -228,7 +229,6 @@
           .crown-icon {
             position: absolute;
             top: -1.5rem;
-
             height: 3rem;
           }
         }
@@ -311,7 +311,7 @@
     pointer-events: all;
   }
 
-  &.close > .winner__content {
+  &.close > .window {
     display: none;
   }
 }

@@ -24,7 +24,6 @@
     padding: 0 4rem;
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-
     overflow: hidden scroll;
 
     &::-webkit-scrollbar {
@@ -35,7 +34,6 @@
       height: fit-content;
       height: 20rem;
       margin-bottom: 2rem;
-
       overflow: hidden;
 
       .mini-grid {

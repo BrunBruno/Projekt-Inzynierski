@@ -164,7 +164,7 @@ function EngineGameRightSidebar({
     }
 
     return (
-      <div className={`${classes.bar__content__header__player} ${colorClass}`}>
+      <div className={`${classes.content__header__player} ${colorClass}`}>
         <AvatarImage
           username={player.name}
           profilePicture={player.profilePicture}
@@ -276,12 +276,12 @@ function EngineGameRightSidebar({
     >
       <div
         className={`
-          ${classes.bar__content} 
+          ${classes.content} 
           ${classes["null-timing"]}
         `}
       >
         {/* players data */}
-        <div className={classes.bar__content__header}>
+        <div className={classes.content__header}>
           {gameData.player.color === PieceColor.white
             ? renderPlayer(gameData.player, classes["white-player"], classes["white-player-img"])
             : renderPlayer(gameData.player, classes["black-player"], classes["black-player-img"])}

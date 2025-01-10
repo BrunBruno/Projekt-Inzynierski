@@ -321,7 +321,7 @@ const stringifyModel = (model: object) => {
 };
 
 // to get id in any case
-const getIdValue = (id: any): string => {
+export const getIdValue = (id: any): string => {
   if (typeof id === "object" && "value" in id) return id.value ?? (id as string);
   return id as string;
 };

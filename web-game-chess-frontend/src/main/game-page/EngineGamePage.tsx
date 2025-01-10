@@ -143,7 +143,7 @@ function EngineGamePage() {
   if (!gameId || !gameData) return <LoadingBoard />;
 
   return (
-    <main className={classes["game-main"]}>
+    <main data-testid="main-engine-game-page" className={classes["game-main"]}>
       <EngineGameLeftSidebar
         gameId={gameId}
         gameData={gameData}

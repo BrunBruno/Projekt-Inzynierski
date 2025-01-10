@@ -18,34 +18,6 @@ export const mainColor = {
   c9: "#5f3dc4",
 } as const;
 
-// GRAPE
-// export const mainColor = {
-//   c0: "#f8f0fc",
-//   c1: "#f3d9fa",
-//   c2: "#eebefa",
-//   c3: "#e599f7",
-//   c4: "#da77f2",
-//   c5: "#cc5de8",
-//   c6: "#be4bdb",
-//   c7: "#ae3ec9",
-//   c8: "#9c36b5",
-//   c9: "#862e9c",
-// } as const;
-
-// CYAN
-// export const mainColor = {
-//   c0: "#e3fafc",
-//   c1: "#c5f6fa",
-//   c2: "#99e9f2",
-//   c3: "#66d9e8",
-//   c4: "#3bc9db",
-//   c5: "#22b8cf",
-//   c6: "#15aabf",
-//   c7: "#1098ad",
-//   c8: "#0c8599",
-//   c9: "#0b7285",
-// } as const;
-
 type MainColorValue = (typeof mainColor)[keyof typeof mainColor];
 
 // grey color list

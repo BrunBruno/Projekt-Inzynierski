@@ -270,6 +270,7 @@ function TableSection({}: TableSectionProps) {
           <div className={classes["table-option"]}>
             <div className={classes["user-options"]}>
               <div
+                data-testid="ranking-page-global-table-button"
                 className={`${classes["option"]}  ${isGlobalList ? classes["active-option"] : ""}`}
                 onClick={() => {
                   onSetSelectedList(true);
@@ -285,6 +286,7 @@ function TableSection({}: TableSectionProps) {
               </div>
 
               <div
+                data-testid="ranking-page-friends-table-button"
                 className={`${classes["option"]}  ${!isGlobalList ? classes["active-option"] : ""}`}
                 onClick={() => {
                   onSetSelectedList(false);

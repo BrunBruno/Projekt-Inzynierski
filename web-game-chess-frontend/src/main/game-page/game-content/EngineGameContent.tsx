@@ -153,7 +153,7 @@ function EngineGameContent({
       payload: gameData,
     });
 
-    setTimeout(async () => {
+    setTimeout(() => {
       updateStates();
     }, 100);
   }, [gameData]);

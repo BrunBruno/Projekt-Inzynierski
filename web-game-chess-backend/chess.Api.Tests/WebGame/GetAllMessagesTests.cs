@@ -58,7 +58,7 @@ public class GetAllMessagesTests : IClassFixture<TestWebApplicationFactory<Progr
 
 
         response.StatusCode.Should().Be(HttpStatusCode.OK);
-        var result = JsonConvert.DeserializeObject<List<GetAllMessagesDto>>(await response.Content.ReadAsStringAsync());
+        var result = JsonConvert.DeserializeObject<List<GetAllWebGameMessagesDto>>(await response.Content.ReadAsStringAsync());
 
         result.Count.Should().Be(20);
     }

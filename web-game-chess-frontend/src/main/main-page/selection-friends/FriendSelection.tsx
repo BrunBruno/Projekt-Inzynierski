@@ -55,7 +55,7 @@ function FriendSelection({ privateGameOptionsProp }: FriendSelectionProps) {
   }, [selectedFriend, selectedUser, selectedByUrl]);
 
   return (
-    <div data-testid="main-page-vs-friend-section" className={classes.search}>
+    <div data-testid="main-page-friend-selection-section" className={classes.search}>
       <div className={classes.search__split}>
         {/* left side bar */}
         <div className={classes.search__split__bar}>
