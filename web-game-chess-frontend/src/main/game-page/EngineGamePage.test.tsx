@@ -100,8 +100,6 @@ describe("EngineGame Components", () => {
       await taskDelay(1000);
     });
 
-    console.log("after render");
-
     // selection piece
     const piece = await waitFor(() => screen.getByTestId("engine-game-board-field-6-2"));
     fireEvent.click(piece);
@@ -109,8 +107,6 @@ describe("EngineGame Components", () => {
     await act(async () => {
       await taskDelay(1000);
     });
-
-    console.log("after piece select");
 
     // await taskDelay(100);
 
@@ -121,7 +117,5 @@ describe("EngineGame Components", () => {
     await act(async () => {
       await taskDelay(1000);
     });
-
-    console.log("after field select");
   });
 });

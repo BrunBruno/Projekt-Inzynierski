@@ -322,7 +322,6 @@ function EngineGameBoard({
   ): void => {
     if (!coordinates) return;
 
-    console.log(selectionStates.availableFields);
 
     // unselect piece when clicked on same piece
     if (samePiece) {
