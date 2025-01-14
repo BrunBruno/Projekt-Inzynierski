@@ -15,6 +15,9 @@ FROM mcr.microsoft.com/dotnet/aspnet:7.0 AS runtime
 WORKDIR /app
 
 COPY --from=build /app/out .
+COPY chess.Api/ceng.exe .
+
+RUN chmod +x /app/ceng.exe
 
 EXPOSE 80
 
