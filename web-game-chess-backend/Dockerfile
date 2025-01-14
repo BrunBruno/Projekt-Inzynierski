@@ -11,7 +11,7 @@ WORKDIR /app
 
 COPY --from=build /app/out . 
 
-COPY chess.Api/Resources/stockfish /app/stockfish
+COPY chess.Api/stockfish /app/stockfish
 
 RUN chmod +x /app/stockfish
 
