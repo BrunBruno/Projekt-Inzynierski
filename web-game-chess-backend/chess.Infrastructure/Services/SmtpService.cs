@@ -98,18 +98,28 @@ public class SmtpService : ISmtpService {
 
     private static AlternateView GetWelcomeMailBody(string imagePath, string code) {
 
-        var imageResource = new LinkedResource(imagePath)
-        {
-            ContentId = Guid.NewGuid().ToString()
-        };
+        LinkedResource? imageResource = null;
+        string imageHtml = string.Empty;
+
+         try{
+            if (!string.IsNullOrEmpty(imagePath) && File.Exists(imagePath)) {
+                imageResource = new LinkedResource(imagePath)
+                {
+                    ContentId = Guid.NewGuid().ToString()
+                };
+
+                imageHtml = $"<img width='100px' style='display: inline-block; margin-left: 30px;' src='cid:{imageResource.ContentId}'/>";
+            }
+        } catch (Exception ex){
+            Console.WriteLine(ex.Message);
+        }
 
         string htmlBody = $@"
             <html>
             <body style='color: #000;'>
                 
                 <h2 style='display: inline-block; font-size: 32px; color: #000;'>Hello from <br/> BRN Chess</h2>
-                <img width='100px' style='display: inline-block; margin-left: 30px;' src='cid:{imageResource.ContentId}'/>
-                
+                {imageHtml}
                 <br/>
                 <b>Dear user,</b>
                 <p>Thank you for joining in our platform. We're excited to have you on board!</p>
@@ -121,7 +131,9 @@ public class SmtpService : ISmtpService {
 
         var alternateView = AlternateView.CreateAlternateViewFromString(htmlBody, null, MediaTypeNames.Text.Html);
 
-        alternateView.LinkedResources.Add(imageResource);
+        if (imageResource != null) {
+            alternateView.LinkedResources.Add(imageResource);
+        }
 
         return alternateView;
     }
