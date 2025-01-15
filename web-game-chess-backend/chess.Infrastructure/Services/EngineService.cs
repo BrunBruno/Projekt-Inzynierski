@@ -6,8 +6,6 @@ namespace chess.Infrastructure.Services;
 
 public class EngineService : IEngineService {
 
-
-    // private static readonly string executablePath = "ceng.exe";
     private static readonly string executablePath = "/app/stockfish";  
     private readonly Process _stockfishProcess;
 

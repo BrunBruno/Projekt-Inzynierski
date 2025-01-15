@@ -16,10 +16,8 @@ import {
   GetAllActiveGamesModel,
 } from "../types/webGameModels";
 import { GetByEmailModel, GetRegisterConfModel, GetUsersRankingModel } from "../types/userModels";
-// import { host } from "../../../../globals";
 import { GetAllEngineGamesModel } from "../types/engineGameModels";
 
-// const baseUrl: string = `http://${host}:5125/api`;
 const baseUrl: string = `https://projekt-inzynierski.onrender.com/api`;
 
 // user controller

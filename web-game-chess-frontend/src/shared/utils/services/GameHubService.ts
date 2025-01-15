@@ -14,11 +14,9 @@ import {
 } from "../types/webGameModels";
 import { Guid } from "guid-typescript";
 import { HttpTransportType, HubConnection, HubConnectionBuilder, LogLevel } from "@microsoft/signalr";
-// import { host } from "../../../../globals";
 
 class GameHub {
   // hub url
-  // private gameHubUrl: string = `http://${host}:5125/game-hub`;
   private gameHubUrl: string = `https://projekt-inzynierski.onrender.com/game-hub`;
 
   // verification token
