@@ -35,6 +35,9 @@ public class GetEngineGameMoveRequestHandler : IRequestHandler<GetEngineGameMove
 
     public async Task<GetEngineGameMoveDto> Handle(GetEngineGameMoveRequest request, CancellationToken cancellationToken) {
 
+        Console.WriteLine("Getting Engine Move");
+
+
         var userId = _userContextService.GetUserId();
 
         var game = await _engineGameRepository.GetById(request.GameId)
@@ -47,6 +50,7 @@ public class GetEngineGameMoveRequestHandler : IRequestHandler<GetEngineGameMove
         var fullFen = MakeFen(game);
 
         // make engine move
+
 
         _engineService.SendCommand($"position fen {fullFen}");
         _engineService.SendCommand($"go depth {game.EngineLevel}");
@@ -88,6 +92,8 @@ public class GetEngineGameMoveRequestHandler : IRequestHandler<GetEngineGameMove
 
             return endDto;
         }
+
+        Console.WriteLine($"Best move: {bestMove}");
 
 
         _engineService.SendCommand($"position fen {fullFen} moves {bestMove}");
